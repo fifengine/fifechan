@@ -221,7 +221,7 @@ namespace gcn
 				}
 				else if (i == mFocusedWidget)
 				{
-					focusNone();
+					mFocusedWidget = -1;
 				}
 
 				mWidgets.erase(iter);
