@@ -119,6 +119,8 @@ namespace gcn
     
     glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
+		glDisable(GL_LIGHTNING)
+			
     glEnable(GL_SCISSOR_TEST);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
