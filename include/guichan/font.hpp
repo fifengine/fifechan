@@ -73,15 +73,7 @@ namespace gcn
     /**
      * Destructor.
      */
-    virtual ~Font(){}
-
-    /**
-     * Gets a width of a glyph.
-     *
-     * @param glyph the glyph which width will be returned
-     * @return the width of a glyph 
-     */
-    virtual int getWidth(unsigned char glyph) const = 0;
+    virtual ~Font(){ }
 
     /**
      * Gets the width of a string. The width of a string is not necesserily
@@ -90,7 +82,7 @@ namespace gcn
      * @param text the string of which width will be returned
      * @return the width of a string 
      */
-    virtual int getWidth(const std::string& text) const;
+    virtual int getWidth(const std::string& text) const = 0;
 
     /**
      * Gets the height of the glyphs.
@@ -109,22 +101,7 @@ namespace gcn
      * @return the string index at coordinate x.
      */
     virtual int getStringIndexAt(const std::string& text, int x);
-    
-    /**
-     * Draws a glyph.
-     *
-     * NOTE: You normally won't use this function to draw text since
-     *       the Graphics class contains better functions for drawing
-     *       text.
-     *
-     * @param graphics a graphics object to be used for drawing
-     * @param glyph a glyph to draw
-     * @param x the x coordinate where to draw the glyph
-     * @param y the y coordinate where to draw the glyph
-     * @see Graphics
-     */
-    virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y) = 0;
-    
+        
     /**
      * Draws a string.
      * 
@@ -138,7 +115,7 @@ namespace gcn
      * @param y the y coordinate where to draw the string
      * @see Graphics
      */
-    virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);    
+    virtual void drawString(Graphics* graphics, const std::string& text, int x, int y) = 0;    
 
   }; // end Font
   
