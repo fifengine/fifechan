@@ -16,11 +16,7 @@ namespace gcn
     /**
      * 
      */
-    Key(unsigned char ascii);
-    /**
-     * 
-     */
-    Key(int scancode);
+    Key(unsigned char ascii, int scancode);
 
     /**
      * 

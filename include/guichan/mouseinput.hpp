@@ -17,7 +17,7 @@ namespace gcn
     /**
      * 
      */
-    MouseInput(int type, int button);
+    MouseInput(int button, int type);
 
     /**
      * 
