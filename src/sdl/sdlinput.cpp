@@ -63,7 +63,7 @@ namespace gcn
 {
 	SDLInput::SDLInput()
 	{
-		mWindowHasMouse = true;
+		mMouseInWindow = true;
 	}
 	
   bool SDLInput::isKeyQueueEmpty()
