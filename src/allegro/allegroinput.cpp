@@ -463,10 +463,15 @@ namespace gcn
 		k.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
 		k.setAltPressed(key_shifts & KB_ALT_FLAG);
 		k.setControlPressed(key_shifts & KB_CTRL_FLAG);
-		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG ||
-																	KB_LWIN_FLAG ||
+#ifdef KB_COMMAND_FLAG
+		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
+																	KB_LWIN_FLAG |
 																	KB_RWIN_FLAG));
-
+#else
+		k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
+																	KB_RWIN_FLAG));
+#endif
+		
 		return k;
 
 		//Now, THAT was fun to code! =D =D =D
