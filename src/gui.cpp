@@ -60,15 +60,6 @@
 #include "guichan/focushandler.hpp"
 #include "guichan/gui.hpp"
 #include "guichan/key.hpp"
-#include "config.hpp"
-
-extern "C"
-{
-  char* gcnGuichanVersion()
-  {
-    return PACKAGE_VERSION;
-  }
-}
 
 namespace gcn
 {
