@@ -255,8 +255,16 @@ namespace gcn
 
 	void AllegroGraphics::setColor(const Color& color)
 	{
-		Graphics::setColor(color);
-
 		mAlColor = makecol(color.r, color.g, color.b);
+
+		if (color.a != 255)
+		{
+			set_trans_blender(255, 255, 255, color.a);
+			drawing_mode(DRAW_MODE_TRANS, NULL, 0, 0);
+		}
+		else
+		{
+			solid_mode();
+		}
 	}
 } // end gcn
