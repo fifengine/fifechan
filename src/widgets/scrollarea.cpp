@@ -554,7 +554,7 @@ namespace gcn
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
     graphics->setColor(shadowColor);
-    graphics->drawLine(0, 0, dim.width, 1);
+    graphics->drawLine(0, 0, dim.width, 0);
 
     graphics->popClipArea();
 	
@@ -576,7 +576,7 @@ namespace gcn
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
     
     graphics->setColor(shadowColor);
-    graphics->drawLine(0, 0, 1, dim.height);
+    graphics->drawLine(0, 0, 0, dim.height);
 		
     graphics->popClipArea();
 
