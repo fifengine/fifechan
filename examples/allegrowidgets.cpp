@@ -118,13 +118,13 @@ void initWidgets()
 	slider = new gcn::Slider(0, 10);
 	slider->setSize(100, 10);
 
-  window = new gcn::Window("I am a window  Drag me");
-  window->setBaseColor(gcn::Color(255, 150, 200, 190));
+	window = new gcn::Window("I am a window  Drag me");
+	window->setBaseColor(gcn::Color(255, 150, 200, 190));
   
-  darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
-  darkbitsIcon = new gcn::Icon(darkbitsImage);
-  window->setContent(darkbitsIcon);
-  window->resizeToContent();
+	darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
+	darkbitsIcon = new gcn::Icon(darkbitsImage);
+	window->setContent(darkbitsIcon);
+	window->resizeToContent();
 
 	/*
 	 * Add them to the top container
@@ -142,7 +142,7 @@ void initWidgets()
 	top->add(radioButton2, 500, 220);
 	top->add(radioButton3, 500, 240);	
 	top->add(slider, 500, 300);
-  top->add(window, 100, 350);
+	top->add(window, 100, 350);
 }
 
 /**
@@ -251,8 +251,8 @@ void halt()
 	delete radioButton2;
 	delete radioButton3;
 	delete slider;
-  delete window;
-  delete darkbitsIcon;
+	delete window;
+	delete darkbitsIcon;
 	delete darkbitsImage;
 	
 	/*
