@@ -15,7 +15,9 @@ libguichaninclude_HEADERS =	\
 	imagemousetype.hpp	\
 	input.hpp		\
 	key.hpp			\
+	keyinput.hpp		\
 	keylistener.hpp		\
+	mouseinput.hpp		\
 	mouselistener.hpp	\
 	mousetype.hpp		\
 	rectangle.hpp		\
