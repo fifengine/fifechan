@@ -144,7 +144,7 @@ namespace gcn
         break;
       }
     }
-
+    
     ///@todo fix the alpha scheisse! Verdamt noch mal!
     
 //     for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
@@ -158,10 +158,10 @@ namespace gcn
 //     }
     
     SDL_Surface* temp = SDL_DisplayFormat(mCurrentImage);
-     SDL_FreeSurface(mCurrentImage);
-     mCurrentImage = NULL;
-    
-     return temp;
+    SDL_FreeSurface(mCurrentImage);
+    mCurrentImage = NULL;
+   
+    return temp;
     
   } // end finalize
   

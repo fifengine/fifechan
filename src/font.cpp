@@ -71,7 +71,7 @@ namespace gcn
     {
       size += getWidth(text.at(i));
     }
-
+    
     return size;
     
   } // end getWidth    
@@ -84,21 +84,21 @@ namespace gcn
     for (i = 0; i < text.size(); ++i)
     {
       size += getWidth(text.at(i));
-
+      
       if (size > x)
       {
         return i;
       }
     }
-
+    
     return text.size();
     
   } // end getStringIndexAt
-  
+
   void Font::drawString(Graphics* graphics, const std::string& text, int x, int y)
   {
     unsigned int i;
-
+    
     for (i = 0; i< text.size(); ++i)
     {
       drawGlyph(graphics, text.at(i), x, y);
@@ -108,4 +108,3 @@ namespace gcn
   } // end drawText
 
 } // end gcn
-

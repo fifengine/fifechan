@@ -172,6 +172,7 @@ namespace gcn
         {
           int xOffset, yOffset;
           mFocusHandler->getFocused()->getAbsolutePosition(xOffset, yOffset);
+
           MouseInput mio = mi;
           mio.x -= xOffset;
           mio.y -= yOffset;

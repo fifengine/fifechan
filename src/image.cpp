@@ -60,6 +60,7 @@
 
 #include "guichan/image.hpp"
 #include "guichan/exception.hpp"
+#include <iostream>
 
 namespace gcn
 {
@@ -82,11 +83,11 @@ namespace gcn
       throw GCN_EXCEPTION("Image::Image. I have no ImageLoader!");
     }
 
-    mImageLoader->prepare(filename);
+    mImageLoader->prepare(filename);    
     mWidth = mImageLoader->getWidth();
     mHeight = mImageLoader->getHeight();
     mData = mImageLoader->finalize();
-    
+
     mFilename = filename;
 
   } // end Image
