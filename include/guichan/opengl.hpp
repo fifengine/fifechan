@@ -67,4 +67,4 @@ extern "C"
   extern void gcnOpenGL();
 }
 
-#endif GCN_OPENGL_HPP 
+#endif // end GCN_OPENGL_HPP 
