@@ -1,18 +1,18 @@
 [Project]
 FileName=guichan_sdl.dev
 Name=guichan_sdl
-UnitCount=8
+UnitCount=9
 Type=3
 Ver=1
 ObjFiles=
-Includes=include
+Includes=include;C:\Dev-Cpp\include\SDL
 Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=-DGUICHAN_EXTENSION_BUILD=1_@@_
 CppCompiler=-DGUICHAN_EXTENSION_BUILD=1_@@_
-Linker=--no-export-all-symbols --add-stdcall-alias_@@_-Wl,--enable-runtime-pseudo-reloc --enable-auto-import_@@_lib/libguichan.a_@@_-lmingw32 -lSDLmain -lSDL -mwindows_@@_C:/Dev-Cpp/lib/SDL_image.lib_@@_
+Linker=--no-export-all-symbols --add-stdcall-alias_@@_-Wl,--enable-runtime-pseudo-reloc --enable-auto-import_@@_lib/libguichan.a_@@_-lmingw32 -lSDL_image -lSDLmain -lSDL -mwindows_@@__@@_
 IsCpp=1
 Icon=
 ExeOutput=lib
@@ -126,4 +126,14 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit9]
+FileName=src\sdl\sdl.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
