@@ -259,14 +259,18 @@ namespace gcn
 	
 	 	// Check for released keys
 		std::map<int, Key>::iterator iter;
-		for (iter = mPressedKeys.begin(); iter != mPressedKeys.end();  iter++)
+		for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
  		{
 			if (!key[iter->first])
 			{
 		 		mKeyQueue.push(
 					KeyInput(iter->second, KeyInput::RELEASE));
 				
-				mPressedKeys.erase(iter);
+				iter = mPressedKeys.erase(iter);
+			}
+			else
+			{
+				iter++;
 			}
 		}
 	}
@@ -465,11 +469,11 @@ namespace gcn
 		k.setControlPressed(key_shifts & KB_CTRL_FLAG);
 #ifdef KB_COMMAND_FLAG
 		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
-																	KB_LWIN_FLAG |
-																	KB_RWIN_FLAG));
+																	 KB_LWIN_FLAG |
+																	 KB_RWIN_FLAG));
 #else
 		k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
-																	KB_RWIN_FLAG));
+																	 KB_RWIN_FLAG));
 #endif
 		
 		return k;

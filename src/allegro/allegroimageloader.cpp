@@ -97,7 +97,7 @@ namespace gcn
 		set_color_conversion(COLORCONV_NONE);
 
 		PALETTE pal;
-		BITMAP *bmp = load_bitmap(filename.c_str(), pal);
+		BITMAP *bmp = load_bitmap(filename.c_str(), pal);		
 		
 		if (bmp == NULL)
 		{
@@ -110,11 +110,11 @@ namespace gcn
 		{
 			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Not enough memory to load: ") + filename);
 		}
-
+		
 		set_palette(pal);
 		blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
 		destroy_bitmap(bmp);
-
+		
 #if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
 		set_color_conversion(COLORCONV_TOTAL);
 #else
@@ -131,26 +131,16 @@ namespace gcn
 	
 	void* AllegroImageLoader::getRawData()
 	{
+		// @todo do it!
+		throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
+
+		
 		if (mBmp == NULL)
 		{
-			GCN_EXCEPTION("AllegroImageLoader::getRawData. No image seems to be loaded");
-		}		
-
-		if (mRawData == NULL)
-		{
-			int y, x;
-			mRawData = new unsigned int[mBmp->w * mBmp->h];
-
-			for (y = 0; y < mBmp->h; y++)
-			{
-				for (x = 0; x < mBmp->w; x++)
-				{
-					mRawData[x + y * mBmp->w] = ((unsigned int*)mBmp->line[y])[x];
-				}
-			}
+			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
 		}
 		
-		return (void *)mRawData;
+		return 0;
 	}
 	
 	void* AllegroImageLoader::finalize()
