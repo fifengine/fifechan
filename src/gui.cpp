@@ -184,11 +184,14 @@ namespace gcn
       while (!mInput->isKeyQueueEmpty())        
       {
         KeyInput ki = mInput->dequeueKeyInput();
-        
+
+        // Focus another widget only if the widget allows it with
+        // tabable.
         if (mFocusHandler->getFocused())
         {
-          if (ki.getKey().getValue() == Key::TAB
-                 && ki.getType() == KeyInput::PRESS
+          if (mFocusHandler->getFocused()->isTabable()
+              && ki.getKey().getValue() == Key::TAB
+              && ki.getType() == KeyInput::PRESS
               && ki.getKey().isShiftPressed())
           {
             mFocusHandler->focusPrevious();
