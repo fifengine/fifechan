@@ -78,9 +78,8 @@ namespace gcn
     setFocusable(true);
     adjustSize();
     
-    x = 0;
-    y = 0;
-    mMove = false;
+    mMouseDown = false;
+    mKeyDown = false;
 
     addMouseListener(this);
     addKeyListener(this);
@@ -96,49 +95,47 @@ namespace gcn
   void Button::draw(Graphics* graphics)
   {
     graphics->setFont(getFont());
-    if (hasFocus())
-    {
-      Color c = getBackgroundColor() + 0x202020;
-      graphics->setColor(c);
-      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
 
-      graphics->setColor(c+0x303030);
-      graphics->drawLine(0, 0, getDimension().width-1, 0);
-      graphics->drawLine(0, 1, 0, getDimension().height-1);
-      
-      graphics->setColor(c*0.3);      
-      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
-      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
-    }
-    else if (hasMouse())
-    {
-      Color c = getBackgroundColor() + 0xff2090;
-      graphics->setColor(c);
-      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
+    Color faceColor = getBackgroundColor();
+    Color highlightColor, shadowColor;
 
-      graphics->setColor(c+0x303030);
-      graphics->drawLine(0, 0, getDimension().width-1, 0);
-      graphics->drawLine(0, 1, 0, getDimension().height-1);
-      
-      graphics->setColor(c*0.3);      
-      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
-      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
+    if ((hasMouse() && mMouseDown) || mKeyDown)
+    {
+      faceColor = getBackgroundColor() - 0x303030;
+      highlightColor = faceColor - 0x303030;
+      shadowColor = faceColor + 0x303030;      
     }
     else
     {
-      graphics->setColor(getBackgroundColor());
-      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
-
-      graphics->setColor(getBackgroundColor()+0x303030);
-      graphics->drawLine(0, 0, getDimension().width-1, 0);
-      graphics->drawLine(0, 1, 0, getDimension().height-1);
-      
-      graphics->setColor(getBackgroundColor()*0.3);      
-      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
-      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
+      highlightColor = faceColor + 0x303030;
+      shadowColor = faceColor - 0x303030;      
     }
-        
-    graphics->drawText(mText, 4, 4);
+
+    graphics->setColor(faceColor);
+    graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
+    
+    graphics->setColor(highlightColor);
+    graphics->drawLine(0, 0, getDimension().width-1, 0);
+    graphics->drawLine(0, 1, 0, getDimension().height-1);
+    
+    graphics->setColor(shadowColor);
+    graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
+    graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
+
+    if ((hasMouse() && mMouseDown) || mKeyDown)
+    {
+      graphics->drawText(mText, 5, 5);
+    }
+    else
+    {
+      graphics->drawText(mText, 4, 4);
+
+      if (hasFocus())
+      {
+        graphics->setColor(getForegroundColor());
+        graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4, getDimension().height - 4));
+      }      
+    }
     
   } // end draw
   
@@ -151,61 +148,55 @@ namespace gcn
 
   void Button::mouseClick(int x, int y, int button, int count)
   {
-    generateAction();
-    if( button == MouseInput::LEFT && count == 2)
+    if (button == MouseInput::LEFT)
     {
-      mText = "Per died";    
-    }
-    else if( button == MouseInput::WHEEL_UP )
-    {
-      mText = "Kill Per";    
+      generateAction();
     }
 
-    adjustSize();
-
-  } 
+  } // end mouseClick
 
   void Button::mousePress(int x, int y, int button)
   {
-    mMove = true;
-    this->x = x;
-    this->y = y;
-  }
+    if (button == MouseInput::LEFT)
+    {      
+      mMouseDown = true;
+    }
+
+  } // end mousePress
 
   void Button::mouseRelease(int x, int y, int button)
   {
-    mMove = false;
-    this->x = 0;
-    this->y = 0;
-  }
-  
-  void Button::mouseMotion(int x, int y)
-  {
-    int moveX = x - this->x;
-    int moveY = y - this->y;
-   
-    if (mMove)
-    {
-      setPosition(getDimension().x + moveX, getDimension().y + moveY);
+    if (button == MouseInput::LEFT)
+    {      
+      mMouseDown = false;
     }
-    
-  }
+
+  } // end mouseRelease
+  
+  void Button::keyPress(const Key& key)
+  {
+    if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+    {
+      mKeyDown = true;
+   }
+
+  } // end keyPress
+
+  void Button::keyRelease(const Key& key)
+  {
+    if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE) && mKeyDown)
+    {
+      mKeyDown = false;
+      generateAction();
+    }
+
+  } // end keyRelease
 
   void Button::lostFocus()
   {
-    mMove = false;
-    this->x = 0;
-    this->y = 0;
-  }
+    mMouseDown = false;
+    mKeyDown = false;
 
-  void Button::keyPress(const Key& key)
-  {
-    if (key.getValue() == Key::ENTER)
-    {
-      generateAction();
-      mText = "Pushed";
-      adjustSize();
-    }
-  }
+  } // end lostFocus
   
 } // end gcn
