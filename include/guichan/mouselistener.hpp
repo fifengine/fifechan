@@ -173,6 +173,15 @@ namespace gcn
      */
     virtual void mouseMotion(int x, int y) { }
 
+	protected:
+		/**
+		 * Constructor.
+		 *
+		 * You should not be able to make an instance of MouseListener,
+		 * therefore its constructor is protected.
+		 */			
+		MouseListener() { }
+		
   }; // end MouseListener
 
 } // end gcn
