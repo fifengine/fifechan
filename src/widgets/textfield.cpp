@@ -73,8 +73,7 @@ namespace gcn
     addKeyListener(this);
     adjustHeight();
 		setBorderSize(1);    
-
-  } // end TextField
+  }
   
   TextField::TextField(const std::string& text)
   {
@@ -88,9 +87,8 @@ namespace gcn
     setFocusable(true);    
   
     addMouseListener(this);
-    addKeyListener(this);
-    
-  } // end TextField
+    addKeyListener(this);    
+  }
 
   void TextField::setText(const std::string& text)
   {
@@ -99,9 +97,8 @@ namespace gcn
       mCaretPosition = text.size();
     }
     
-    mText = text;
-    
-  } // end setText
+    mText = text;    
+  }
   
   void TextField::draw(Graphics* graphics)
   {
@@ -116,9 +113,8 @@ namespace gcn
     
     graphics->setColor(getForegroundColor());
     graphics->setFont(getFont());
-    graphics->drawText(mText, 1 - mXScroll, 1);
-    
-  } // end draw
+    graphics->drawText(mText, 1 - mXScroll, 1);    
+  }
 
 	void TextField::drawBorder(Graphics* graphics)
 	{
@@ -147,9 +143,8 @@ namespace gcn
   void TextField::drawCaret(Graphics* graphics, int x)
   {
     graphics->setColor(getForegroundColor());
-    graphics->drawLine(x, getHeight() - 2, x, 1);
-    
-  } // end drawCaret
+    graphics->drawLine(x, getHeight() - 2, x, 1);    
+  }
   
   void TextField::mousePress(int x, int y, int button)
   {
@@ -157,9 +152,8 @@ namespace gcn
     {
       mCaretPosition = getFont()->getStringIndexAt(mText, x + mXScroll);
       fixScroll();
-    }
-      
-  } // end mousePress
+    }      
+  }
   
   void TextField::keyPress(const Key& key)
   {
@@ -209,30 +203,18 @@ namespace gcn
     
   } // end keyPress
 
-  void TextField::keyRelease(const Key& key)
-  {
-
-  } // end keyRelease
-
-  void TextField::lostFocus()
-  {
-
-  } // end lostFocus
-
   void TextField::adjustSize()
   {
     setWidth(getFont()->getWidth(mText) + 4);
     adjustHeight();
 
-    fixScroll();
-    
-  } // end adjustSize
+    fixScroll();    
+  }
   
   void TextField::adjustHeight()
   {
-    setHeight(getFont()->getHeight() + 2);
-    
-  } // end adjustHeight
+    setHeight(getFont()->getHeight() + 2);    
+  }
 
   void TextField::fixScroll()
   {
@@ -254,8 +236,7 @@ namespace gcn
         }
       }
     }
-
-  } // end fixScroll
+  }
 
   void TextField::setCaretPosition(unsigned int position)
   {
@@ -268,26 +249,22 @@ namespace gcn
       mCaretPosition = position;
     }
 
-    fixScroll();
-    
-  } // end setCaretPosition
+    fixScroll();    
+  }
 
   unsigned int TextField::getCaretPosition() const
   {
-    return mCaretPosition;
-    
-  } // end getCaretPosition
+    return mCaretPosition;    
+  }
 
   const std::string& TextField::getText() const
   {
-    return mText;
-    
-  } // end getText
+    return mText;    
+  }
   
   void TextField::fontChanged()
   {
     fixScroll();
-
-  } // end fontChanged
+  }
 
 } // end gcn
