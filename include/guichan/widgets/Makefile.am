@@ -1,4 +1,6 @@
 libguichanincludedir = $(includedir)/guichan/widgets/
 
 libguichaninclude_HEADERS =	\
-	icon.hpp
+	button.hpp		\
+	icon.hpp		\
+	label.hpp
