@@ -106,7 +106,7 @@ namespace gcn
 		 *
 		 * @return the scale start.
 		 */
-		virtual double getScaleStart();
+		virtual double getScaleStart() const;
 
 		/**
 		 * Sets the scale start.
@@ -120,7 +120,7 @@ namespace gcn
 		 *
 		 * @return the scale end.
 		 */
-		virtual double getScaleEnd();
+		virtual double getScaleEnd() const;
 
 		/**
 		 * Sets the scale end.
@@ -134,7 +134,7 @@ namespace gcn
 		 *
 		 * @return the current value.
 		 */
-		virtual double getValue();
+		virtual double getValue() const;
 
 		/**
 		 * Sets the current value.
@@ -151,20 +151,51 @@ namespace gcn
 		virtual void drawMarker(gcn::Graphics* graphics);
 		
 		/**
-		 * Sets the with of the marker.
+		 * Sets the length of the marker.
 		 *
-		 * @param width new width for the marker.
+		 * @param length new length for the marker.
 		 */
-		virtual void setMarkerWidth(int width);
+		virtual void setMarkerLength(int length);
 		
 		/**
-		 * Gets the with of the marker.
+		 * Gets the length of the marker.
 		 *
-		 * @return the width of the marker.
+		 * @return the length of the marker.
 		 */
-		virtual int getMarkerWidth();
+		virtual int getMarkerLength() const;
 
-		
+    /**
+     * Set the orientation of the slider. A slider can be drawn
+     * verticaly or horizontaly. For orientation, see the
+     * enum in this class.
+     *
+     * @param orientation the orientation.
+     */
+    virtual void setOrientation(unsigned int orientation);
+
+    /**
+     * Get the orientation of the slider.
+     *
+     * @return the orientation of the slider.     
+     */
+    virtual unsigned int getOrientation() const;
+
+    /**
+     * Set the step length of the slider. Step length is used when
+     * the keys left and right are pressed.
+     *
+     * @param length the step length.
+     */
+    virtual void setStepLength(double length);
+
+    /**
+     * Get the step length of the slider.
+     *
+     * @return the step length.
+     */
+    virtual double getStepLength() const;
+
+    
 		// Inherited from Widget
 		
 		virtual void draw(gcn::Graphics* graphics);
@@ -187,14 +218,27 @@ namespace gcn
 
 		virtual void keyPress(const Key& key);
 
+    /**
+     * Draw orientation for the slider. It can be drawn verticaly
+     * or horizontaly.
+     */
+    enum
+    {
+      HORIZONTAL = 0,
+      VERTICAL
+    };
+        
 	protected:
-		virtual void setMarkerPosition(int x);
-		
+		virtual double calculateValue(int v);
+    virtual int getMarkerPosition();
+    
 		bool mMouseDrag;
-		int mMarkerPosition;
-		int mMarkerWidth;
+    double mValue;
+    double mStepLength;
+		int mMarkerLength;
 		double mScaleStart;
 		double mScaleEnd;
+    unsigned int mOrientation;
 		
 	}; // end Slider
 	
