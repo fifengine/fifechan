@@ -141,7 +141,19 @@ namespace gcn
      * Focuses nothing.
      */
     void focusNone();
-    
+
+		/**
+		 * Focus the next Widget which allows tab in unless current focused
+		 * Widget disallows tab out.
+		 */
+    void tabNext();
+
+		/**
+		 * Focus the previous Widget which allows tab in unless current focused
+		 * Widget disallows tab out.
+		 */
+		void tabPrevious();
+		
   protected:
     typedef std::vector<Widget*> WidgetVector;
     typedef WidgetVector::iterator WidgetIterator;

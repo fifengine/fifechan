@@ -112,16 +112,28 @@ namespace gcn
 	void FocusHandler::focusNext()
 	{
 		int focused = mFocusedWidget;
-    
+		int i;
+		
 		if (mWidgets.size() == 0)
 		{
 			mFocusedWidget = -1;
 			return;
 		}    
-    
+
+		// i is a counter that ensures that the following loop
+		// won't get stuck in an infinite loop
+		i = (int)mWidgets.size();
 		do
 		{
 			++mFocusedWidget;
+			
+			if (i==0)
+			{
+				mFocusedWidget = -1;
+				break;
+			}
+			
+			--i;
 
 			if (mFocusedWidget >= (int)mWidgets.size())
 			{
@@ -131,7 +143,7 @@ namespace gcn
 			if (mFocusedWidget == focused)
 			{
 				return;
-			}
+			}			
 		}
 		while (!mWidgets.at(mFocusedWidget)->isFocusable());
 
@@ -150,17 +162,29 @@ namespace gcn
 	void FocusHandler::focusPrevious()
 	{
 		int focused = mFocusedWidget;
-    
+		int i;
+		
 		if (mWidgets.size() == 0)
 		{
 			mFocusedWidget = -1;
 			return;
 		}    
-    
+
+		// i is a counter that ensures that the following loop
+		// won't get stuck in an infinite loop
+		i = (int)mWidgets.size();
 		do
 		{
 			--mFocusedWidget;
 
+			if (i==0)
+			{
+				mFocusedWidget = -1;
+				break;
+			}
+
+			--i;
+			
 			if (mFocusedWidget <= 0)
 			{
 				mFocusedWidget = mWidgets.size() - 1;      
@@ -240,5 +264,120 @@ namespace gcn
 		mFocusedWidget = -1;
     
 	} // end focusNone
-  
+
+	void FocusHandler::tabNext()
+	{
+		if (mFocusedWidget >= 0)
+		{
+			if (!mWidgets.at(mFocusedWidget)->isTabOutEnabled())
+			{
+				return;
+			}
+		}
+
+		int focused = mFocusedWidget;
+		int i;
+		
+		if (mWidgets.size() == 0)
+		{
+			mFocusedWidget = -1;
+			return;
+		}    
+
+		// i is a counter that ensures that the following loop
+		// won't get stuck in an infinite loop
+		i = (int)mWidgets.size();
+		do
+		{
+			++mFocusedWidget;
+			
+			if (i==0)
+			{
+				mFocusedWidget = -1;
+				break;
+			}
+			
+			--i;
+
+			if (mFocusedWidget >= (int)mWidgets.size())
+			{
+				mFocusedWidget = 0;      
+			}
+
+			if (mFocusedWidget == focused)
+			{
+				return;
+			}			
+		}
+		while (!mWidgets.at(mFocusedWidget)->isFocusable() ||
+					 !mWidgets.at(mFocusedWidget)->isTabInEnabled());
+
+		if (focused >= 0)
+		{
+			mWidgets.at(focused)->lostFocus();
+		}
+    
+		if (mFocusedWidget >= 0)
+		{
+			mWidgets.at(mFocusedWidget)->gotFocus();
+		}
+	} // end tabNext
+
+	void FocusHandler::tabPrevious()
+	{
+		if (mFocusedWidget >= 0)
+		{
+			if (!mWidgets.at(mFocusedWidget)->isTabOutEnabled())
+			{
+				return;
+			}
+		}
+		
+		int focused = mFocusedWidget;
+		int i;
+		
+		if (mWidgets.size() == 0)
+		{
+			mFocusedWidget = -1;
+			return;
+		}    
+
+		// i is a counter that ensures that the following loop
+		// won't get stuck in an infinite loop
+		i = (int)mWidgets.size();
+		do
+		{
+			--mFocusedWidget;
+
+			if (i==0)
+			{
+				mFocusedWidget = -1;
+				break;
+			}
+
+			--i;
+			
+			if (mFocusedWidget <= 0)
+			{
+				mFocusedWidget = mWidgets.size() - 1;      
+			}
+
+			if (mFocusedWidget == focused)
+			{
+				return;
+			}
+		}
+		while (!mWidgets.at(mFocusedWidget)->isFocusable());
+
+		if (focused >= 0)
+		{
+			mWidgets.at(focused)->lostFocus();
+		}
+    
+		if (mFocusedWidget >= 0)
+		{
+			mWidgets.at(mFocusedWidget)->gotFocus();
+		}    
+	} // end tabPrevious
+	
 } // end gcn
