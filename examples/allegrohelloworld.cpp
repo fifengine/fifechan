@@ -70,8 +70,8 @@ void init()
 	 * Ok, we have Allegro set up, now its time to add the glue
 	 * between Allegro and Guichan
 	 */
-	gcn::ImageLoader* imageLoader = new gcn::AllegroImageLoader();
-  // The ImageLoader in use is static and must be set to be
+	imageLoader = new gcn::AllegroImageLoader();
+	// The ImageLoader in use is static and must be set to be
 	// able to load images	
 	gcn::Image::setImageLoader(imageLoader);
 	
@@ -146,7 +146,7 @@ void run()
 		// Let the gui perform it's logic (like handle input)
 		gui->logic();
 				
-    // Draw the gui
+		// Draw the gui
 		gui->draw();
 
 		// We draw the mouse pointer manually, as Allegro's mouse
@@ -178,16 +178,16 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-	  std::cout << "Std exception: " << e.what() << std::endl;  
-  }
+		std::cout << "Std exception: " << e.what() << std::endl;  
+	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
-  catch (...)
-  {
-	  std::cout << "Unknown exception" << std::endl;
-  }
+	catch (...)
+	{
+		std::cout << "Unknown exception" << std::endl;
+	}
 
-  return 0;
+	return 0;
 }
 END_OF_MAIN()
