@@ -99,7 +99,7 @@ void init()
 	/*
 	 * Now it's time for Guichan SDL stuff
 	 */
-	gcn::ImageLoader* imageLoader = new gcn::SDLImageLoader();
+	imageLoader = new gcn::SDLImageLoader();
   // The ImageLoader in use is static and must be set to be
 	// able to load images	
 	gcn::Image::setImageLoader(imageLoader); 
