@@ -289,25 +289,7 @@ namespace gcn
 		 * @see Color
 		 */
 		virtual const Color& getBackgroundColor() const;    
-    
-		/**
-		 * This function sets the mouseType to be used as a mouse
-		 * pointer when the mouse is over this widget.
-		 *
-		 * @param mouseType the mouseType to be used.
-		 * @see MouseType
-		 */
-		virtual void setMouseType(const std::string& mouseType);
-
-		/**
-		 * This function returns the mouseType currently being used
-		 * as the mouse pointer when the mouse is over this widget.
-		 *
-		 * @return the mouseType currently used. 
-		 * @see MouseType
-		 */
-		virtual const std::string& getMouseType() const;
-        
+            
 		/**
 		 * This function is used internally be the gui to handle all
 		 * mouse messages. Don't call or overload it unless you know
@@ -571,7 +553,6 @@ namespace gcn
 		Color mForegroundColor;
 		Color mBackgroundColor;
 		Color mBaseColor;
-		std::string mMouseType;
 		FocusHandler* mFocusHandler;
 		BasicContainer* mParent;
 		Rectangle mDimension;

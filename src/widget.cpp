@@ -305,18 +305,6 @@ namespace gcn
 
 	} // end getBackgroundColor
 
-	const std::string& Widget::getMouseType() const
-	{
-		return mMouseType;
-
-	} // end getMouseType
-
-	void Widget::setMouseType(const std::string &mouseType)
-	{
-		mMouseType = mouseType;
-
-	} // end setMouseType
-
 	void Widget::_setFocusHandler(FocusHandler* focusHandler)
 	{
 		if (mFocusHandler)
