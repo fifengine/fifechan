@@ -88,7 +88,7 @@ namespace gcn
     /**
      *
      */    
-    virtual ~ScrollArea() { };
+	  virtual ~ScrollArea();
 
     /**
      *
@@ -213,6 +213,8 @@ namespace gcn
     virtual void moveToTop(Widget* widget);
 
     virtual void moveToBottom(Widget* widget);
+
+	  virtual void _announceDeath(Widget *widget);
 
     virtual void getDrawSize(int& width, int& height, Widget* widget);
 

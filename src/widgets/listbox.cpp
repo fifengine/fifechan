@@ -178,13 +178,10 @@ namespace gcn
       {
         setSelected(0);
       }
-
-      generateAction();
     }
     else if (key.getValue() == Key::DOWN)
     {
       setSelected(mSelected + 1);
-      generateAction();
     }
 
   } // end keyPress

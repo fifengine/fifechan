@@ -146,6 +146,12 @@ namespace gcn
     
   } // end ScrollArea
 
+	ScrollArea::~ScrollArea()
+	{
+		setContent(NULL);
+		
+	} // end ~ScrollArea
+	
   void ScrollArea::setContent(Widget* widget)
   {
     if (mContent)
@@ -155,9 +161,13 @@ namespace gcn
     }
     
     mContent = widget;
-    mContent->_setFocusHandler(_getFocusHandler());
-    mContent->_setParent(this);
-      
+
+	if (mContent != NULL)
+	{
+		mContent->_setFocusHandler(_getFocusHandler());
+		mContent->_setParent(this);
+	}
+	
   } // end setContent
   
   Widget* ScrollArea::getContent()
@@ -332,7 +342,7 @@ namespace gcn
     
     if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
     {
-      if (mContent)
+      if (mContent != NULL)
       {
         if (!mContent->hasMouse())
         {
@@ -861,6 +871,19 @@ namespace gcn
       throw GCN_EXCEPTION("ScrollArea::moveToBottom. only a ScrollArea's content may be moved to bottom");
     }
   }
+
+	void ScrollArea::_announceDeath(Widget *widget)
+	{
+		if (widget == mContent)
+		{
+			mContent = NULL;
+			checkPolicies();
+		}
+		else
+		{
+			throw GCN_EXCEPTION("ScrollArea::_announceDeath. called by not-child");
+		}
+	}
 
   void ScrollArea::getDrawSize(int& width, int& height, Widget* widget)
   {

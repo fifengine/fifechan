@@ -55,370 +55,515 @@
  */
 
 #include "guichan/widgets/dropdown.hpp"
+#include "guichan/exception.hpp"
 
 #include <iostream>
 
 namespace gcn
-{
-  
-  DropDown::DropDown()
-  {
-    mDroppedDown = false;
-    mPushed = false;
+{  
+	DropDown::DropDown()
+	{
+		mDroppedDown = false;
+		mPushed = false;
     
-    setWidth(100);
-    setFocusable(true);
+		setWidth(100);
+		setFocusable(true);
 
-    mDefaultScrollArea = new ScrollArea();
-    mDefaultScrollArea->setHorizontalScrollPolicy(ScrollArea::SHOW_NEVER);
-    mDefaultListBox = new ListBox();
+		mDefaultScrollArea = new ScrollArea();
+		mDefaultScrollArea->setHorizontalScrollPolicy(ScrollArea::SHOW_NEVER);
+		mDefaultListBox = new ListBox();
 
-    mScrollArea = mDefaultScrollArea;
-    mScrollArea->_setFocusHandler(&mFocusHandler);
-
-    mListBox = mDefaultListBox;    
-    mScrollArea->setContent(mListBox);
+		mScrollArea = mDefaultScrollArea;
+		mScrollArea->_setFocusHandler(&mFocusHandler);
+		mScrollArea->_setParent(this);
+		
+		mListBox = mDefaultListBox;    
+		mListBox->addActionListener(this);
+		mScrollArea->setContent(mListBox);
         
-    addMouseListener(this);
-    addKeyListener(this);
-    adjustHeight();    
-  }
+		addMouseListener(this);
+		addKeyListener(this);
+		adjustHeight();    
+	}
     
-  DropDown::DropDown(ListModel *listModel)
-  {
-    setWidth(100);
-    setFocusable(true);
-    mDroppedDown = false;
-    mPushed = false;    
+	DropDown::DropDown(ListModel *listModel)
+	{
+		setWidth(100);
+		setFocusable(true);
+		mDroppedDown = false;
+		mPushed = false;    
     
-    mDefaultScrollArea = new ScrollArea();
-    mDefaultScrollArea->setHorizontalScrollPolicy(ScrollArea::SHOW_NEVER);
-    mDefaultListBox = new ListBox();
+		mDefaultScrollArea = new ScrollArea();
+		mDefaultScrollArea->setHorizontalScrollPolicy(ScrollArea::SHOW_NEVER);
+		mDefaultListBox = new ListBox();
 
-    mScrollArea = mDefaultScrollArea;
-    mListBox = mDefaultListBox;
+		mScrollArea = mDefaultScrollArea;
+		mScrollArea->_setParent(this);
+		mListBox = mDefaultListBox;
+		mListBox->addActionListener(this);
+			
+		mScrollArea->setContent(mListBox);
+		mScrollArea->_setFocusHandler(&mFocusHandler);
+		mScrollArea->_setParent(this);
+			
+		setListModel(listModel);
     
-    mScrollArea->setContent(mListBox);
-    mScrollArea->_setFocusHandler(&mFocusHandler);
-    
-    setListModel(listModel);
-    
-    if (mListBox->getSelected() < 0)
-    {
-      mListBox->setSelected(0);
-    }
+		if (mListBox->getSelected() < 0)
+		{
+			mListBox->setSelected(0);
+		}
 
-    addMouseListener(this);
-    addKeyListener(this);
-    adjustHeight();
-  }
+		addMouseListener(this);
+		addKeyListener(this);
+		adjustHeight();
+	}
   
-  DropDown::DropDown(ListModel *listModel,
-                     ScrollArea *scrollArea,
-                     ListBox *listBox)
-  {
-    setWidth(100);
-    setFocusable(true);
-    mDroppedDown = false;
-    mPushed = false;
+	DropDown::DropDown(ListModel *listModel,
+					   ScrollArea *scrollArea,
+					   ListBox *listBox)
+	{
+		setWidth(100);
+		setFocusable(true);
+		mDroppedDown = false;
+		mPushed = false;
     
-    mDefaultScrollArea = NULL;
-    mDefaultListBox = NULL;
+		mDefaultScrollArea = NULL;
+		mDefaultListBox = NULL;
 
-    mScrollArea = scrollArea;
-    mScrollArea->_setFocusHandler(&mFocusHandler);
+		mScrollArea = scrollArea;
+		mScrollArea->_setFocusHandler(&mFocusHandler);
 
-    mListBox = listBox;    
-    mScrollArea->setContent(mListBox);
-    
-    setListModel(listModel);
+		mListBox = listBox;    
+		mListBox->addActionListener(this);
+		mScrollArea->setContent(mListBox);
+		mScrollArea->_setParent(this);
+			
+		setListModel(listModel);
 
-    if (mListBox->getSelected() < 0)
-    {
-      mListBox->setSelected(0);
-    }
+		if (mListBox->getSelected() < 0)
+		{
+			mListBox->setSelected(0);
+		}
 
-    addMouseListener(this);
-    addKeyListener(this);
-    adjustHeight();    
-  }
+		addMouseListener(this);
+		addKeyListener(this);
+		adjustHeight();    
+	}
 
-  DropDown::~DropDown()
-  {
-//    mScrollArea->_setFocusHandler(NULL);    
+	DropDown::~DropDown()
+	{	  
+		if (mScrollArea != NULL)
+		{
+			mScrollArea->_setFocusHandler(NULL);
+		}
 
-    if (!mDefaultScrollArea)
-    {
-      delete mDefaultScrollArea;
-    }
+		if (mDefaultScrollArea != NULL)
+		{
+			delete mDefaultScrollArea;
+		}
 
-    if (!mDefaultListBox)
-    {
-      delete mDefaultListBox;
-    }
-  }
+		if (mDefaultListBox != NULL)
+		{
+			delete mDefaultListBox;
+		}
+
+		if (widgetExists(mListBox))
+		{
+			mListBox->removeActionListener(this);
+		}
+
+	}
   
-  void DropDown::logic()
-  {
-    mScrollArea->logic();    
-  }
+	void DropDown::logic()
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::logic. ScrollArea or ListBox is NULL");
+		}
+	  
+		mScrollArea->logic();    
+	}
     
-  void DropDown::draw(Graphics* graphics)
-  {
-    int h;
+	void DropDown::draw(Graphics* graphics)
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::draw. ScrollArea or ListBox is NULL");
+		}
+	  
 
-    if (mDroppedDown)
-    {
-      h = mOldH;
-    }
-    else
-    {
-      h = getHeight();
-    }
+		int h;
+
+		if (mDroppedDown)
+		{
+			h = mOldH;
+		}
+		else
+		{
+			h = getHeight();
+		}
     
-    Color faceColor = getBaseColor();
-    Color highlightColor = faceColor + 0x303030;
-    Color shadowColor = faceColor - 0x303030;      
+		Color faceColor = getBaseColor();
+		Color highlightColor = faceColor + 0x303030;
+		Color shadowColor = faceColor - 0x303030;      
     
-    graphics->setColor(getBackgroundColor());
-    graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h + 4));
+		graphics->setColor(getBackgroundColor());
+		graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h + 4));
    
-    graphics->setColor(highlightColor);           
-    graphics->drawLine(1, h-1, getWidth()-1, h-1);
-    graphics->drawLine(getWidth()-1, 1, getWidth()-1, h - 1);
+		graphics->setColor(highlightColor);           
+		graphics->drawLine(1, h-1, getWidth()-1, h-1);
+		graphics->drawLine(getWidth()-1, 1, getWidth()-1, h - 1);
 
-    graphics->setColor(shadowColor);
-    graphics->drawLine(0, 0, 0, h);
-    graphics->drawLine(0, 0, getWidth()-1, 0);
+		graphics->setColor(shadowColor);
+		graphics->drawLine(0, 0, 0, h);
+		graphics->drawLine(0, 0, getWidth()-1, 0);
 
-    graphics->setColor(getForegroundColor());
-    graphics->setFont(getFont());
+		graphics->setColor(getForegroundColor());
+		graphics->setFont(getFont());
     
-    if (mListBox->getListModel() && mListBox->getSelected() >= 0)
-    {
-      graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 2, 2);
-    }
+		if (mListBox->getListModel() && mListBox->getSelected() >= 0)
+		{
+			graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 2, 2);
+		}
 
-    drawButton(graphics);
+		if (hasFocus())
+		{
+			graphics->drawRectangle(Rectangle(1, 1, getWidth() - 1, h - 1));
+		}
+		
+		drawButton(graphics);
             
-    if (mDroppedDown)
-    {
-      graphics->pushClipArea(mScrollArea->getDimension());
-      mScrollArea->draw(graphics);
-      graphics->popClipArea();
-    }
-  }
+		if (mDroppedDown)
+		{
+			graphics->pushClipArea(mScrollArea->getDimension());
+			mScrollArea->draw(graphics);
+			graphics->popClipArea();
+		}
+	}
 
-  void DropDown::drawButton(Graphics *graphics)
-  {
-    Color faceColor, highlightColor, shadowColor;
-    int offset;
+	void DropDown::drawButton(Graphics *graphics)
+	{
+		Color faceColor, highlightColor, shadowColor;
+		int offset;
 
-    if (mPushed)
-    {
-      faceColor = getBaseColor() - 0x303030;
-      highlightColor = faceColor - 0x303030;
-      shadowColor = faceColor + 0x303030;
-      offset = 1;
-    }
-    else
-    {
-      faceColor = getBaseColor();
-      highlightColor = faceColor + 0x303030;
-      shadowColor = faceColor - 0x303030;
-      offset = 0;
-    }
+		if (mPushed)
+		{
+			faceColor = getBaseColor() - 0x303030;
+			highlightColor = faceColor - 0x303030;
+			shadowColor = faceColor + 0x303030;
+			offset = 1;
+		}
+		else
+		{
+			faceColor = getBaseColor();
+			highlightColor = faceColor + 0x303030;
+			shadowColor = faceColor - 0x303030;
+			offset = 0;
+		}
 
-    int h;
-    if (mDroppedDown)
-    {
-      h = mOldH - 2;
-    }
-    else
-    {
-      h = getHeight() - 2;
-    }
-    int x = getWidth() - h - 1;
-    int y = 1;    
+		int h;
+		if (mDroppedDown)
+		{
+			h = mOldH - 2;
+		}
+		else
+		{
+			h = getHeight() - 2;
+		}
+		int x = getWidth() - h - 1;
+		int y = 1;    
 
-    graphics->setColor(faceColor);
-    graphics->fillRectangle(Rectangle(x+1, y+1, h-2, h-2));
+		graphics->setColor(faceColor);
+		graphics->fillRectangle(Rectangle(x+1, y+1, h-2, h-2));
 
-    graphics->setColor(highlightColor);
-    graphics->drawLine(x, y, x+h-1, y);
-    graphics->drawLine(x, y+1, x, y+h-1);
+		graphics->setColor(highlightColor);
+		graphics->drawLine(x, y, x+h-1, y);
+		graphics->drawLine(x, y+1, x, y+h-1);
 
-    graphics->setColor(shadowColor);
-    graphics->drawLine(x+h-1, y+1, x+h-1, y+h-1);
-    graphics->drawLine(x+1, y+h-1, x+h-2, y+h-1);
+		graphics->setColor(shadowColor);
+		graphics->drawLine(x+h-1, y+1, x+h-1, y+h-1);
+		graphics->drawLine(x+1, y+h-1, x+h-2, y+h-1);
 
-    graphics->setColor(getForegroundColor());
+		graphics->setColor(getForegroundColor());
     
-    int i;
-    int hh = h / 3;
-    int hx = x + h / 2;
-    int hy = y + (h * 2) / 3;
-    for (i=0; i<hh; i++)
-    {
-      graphics->drawLine(hx - i + offset,
-                         hy - i + offset,
-                         hx + i + offset,
-                         hy - i + offset);
-    }     
-  }
+		int i;
+		int hh = h / 3;
+		int hx = x + h / 2;
+		int hy = y + (h * 2) / 3;
+		for (i=0; i<hh; i++)
+		{
+			graphics->drawLine(hx - i + offset,
+							   hy - i + offset,
+							   hx + i + offset,
+							   hy - i + offset);
+		}     
+	}
     
-  int DropDown::getSelected()
-  {
-    return mListBox->getSelected();
-  }
-    
-  void DropDown::setSelected(int selected)
-  {
-    if (selected >= 0)
-    {
-      mListBox->setSelected(selected);
-    }
-  }
+	int DropDown::getSelected()
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::getSelected. ScrollArea or ListBox is NULL");
+		}
 
-  void DropDown::keyPress(const Key& key)
-  {
+		return mListBox->getSelected();
+	}
     
-  }
+	void DropDown::setSelected(int selected)
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::setSelected. ScrollArea or ListBox is NULL");
+		}
+
+		if (selected >= 0)
+		{
+			mListBox->setSelected(selected);
+		}
+	}
+	
+	void DropDown::keyPress(const Key& key)
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::keyPress. ScrollArea or ListBox is NULL");
+		}
+
+		if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+			&& !mDroppedDown)
+		{
+			dropDown();
+			mFocusHandler.requestFocus(mScrollArea->getContent());
+		}
+	}
   
-  void DropDown::mousePress(int x, int y, int button)
-  {
-    if (button == MouseInput::LEFT && hasMouse() && !mDroppedDown)
-    {      
-      mPushed = true;
-      dropDown();
-    }    
-  }
+	void DropDown::mousePress(int x, int y, int button)
+	{
+		if (button == MouseInput::LEFT && hasMouse() && !mDroppedDown)
+		{
+			mPushed = true;
+			dropDown();
+		}
+		// Fold up the listbox if the upper part is clicked after fold down
+		else if (button == MouseInput::LEFT && hasMouse() && mDroppedDown
+				 && y < mOldH)
+		{
+			foldUp();
+		}
+		else if (!hasMouse())
+		{
+			foldUp();
+		}		
+	}
 
-  void DropDown::mouseRelease(int x, int y, int button)
-  {
-    if (button == MouseInput::LEFT)
-    {      
-      mPushed = false;
-    }
+	void DropDown::mouseRelease(int x, int y, int button)
+	{
+		if (button == MouseInput::LEFT)
+		{      
+			mPushed = false;
+		}
 
-  } // end mouseRelease
+	} // end mouseRelease
   
-  void DropDown::setListModel(ListModel *listModel)
-  {
-    mListBox->setListModel(listModel);
+	void DropDown::setListModel(ListModel *listModel)
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::setListModel. ScrollArea or ListBox is NULL");
+		}
+
+		mListBox->setListModel(listModel);
     
-    if (mListBox->getSelected() < 0)
-    {
-      mListBox->setSelected(0);
-    }
+		if (mListBox->getSelected() < 0)
+		{
+			mListBox->setSelected(0);
+		}
     
-    adjustHeight();
-  }
+		adjustHeight();
+	}
   
-  ListModel *DropDown::getListModel()
-  {
-    return mListBox->getListModel();
-  }
+	ListModel *DropDown::getListModel()
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::getListModel. ScrollArea or ListBox is NULL");
+		}
+	  
+		return mListBox->getListModel();
+	}
 
-  void DropDown::setScrollArea(ScrollArea *scrollArea)
-  {
-    mScrollArea->_setFocusHandler(NULL);
-    mScrollArea = scrollArea;
-    mScrollArea->_setFocusHandler(&mFocusHandler);
-    mScrollArea->setContent(mListBox);
-    adjustHeight();
-  }
+	void DropDown::setScrollArea(ScrollArea *scrollArea)
+	{
+		mScrollArea->_setFocusHandler(NULL);
+		mScrollArea->_setParent(NULL);
+		mScrollArea = scrollArea;
+		mScrollArea->_setFocusHandler(&mFocusHandler);
+		mScrollArea->setContent(mListBox);
+		mScrollArea->_setParent(this);
+		adjustHeight();
+	}
 
-  ScrollArea *DropDown::getScrollArea()
-  {
-    return mScrollArea;
-  }
+	ScrollArea *DropDown::getScrollArea()
+	{
+		return mScrollArea;
+	}
   
-  void DropDown::setListBox(ListBox *listBox)
-  {
-    listBox->setSelected(mListBox->getSelected());
-    listBox->setListModel(mListBox->getListModel());
-    mListBox = listBox;
-    
-    mScrollArea->setContent(mListBox);
-    
-    if (mListBox->getSelected() < 0)
-    {
-      mListBox->setSelected(0);
-    }
-  }
+	void DropDown::setListBox(ListBox *listBox)
+	{
+		listBox->setSelected(mListBox->getSelected());
+		listBox->setListModel(mListBox->getListModel());
+		listBox->addActionListener(this);
 
-  ListBox *DropDown::getListBox()
-  {
-    return mListBox;
-  }
+		if (mScrollArea->getContent() != NULL)
+		{
+			mListBox->removeActionListener(this);
+		}
+		
+		mListBox = listBox;
+    
+		mScrollArea->setContent(mListBox);
+    
+		if (mListBox->getSelected() < 0)
+		{
+			mListBox->setSelected(0);
+		}
+	}
+
+	ListBox *DropDown::getListBox()
+	{
+		return mListBox;
+	}
   
-  void DropDown::adjustHeight()
-  {
-    int listBoxHeight = mListBox->getHeight();
-    int h2 = getFont()->getHeight() + 2;
+	void DropDown::adjustHeight()
+	{
+		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+		{
+			throw GCN_EXCEPTION("DropDown::adjustHeight. ScrollArea or ListBox is NULL");
+		}
 
-    setHeight(h2);
+		int listBoxHeight = mListBox->getHeight();
+		int h2 = getFont()->getHeight() + 2;
+
+		setHeight(h2);
     
-    if (mDroppedDown && getParent())
-    {
-      int h = getParent()->getHeight() - getY();
+		if (mDroppedDown && getParent())
+		{
+			int h = getParent()->getHeight() - getY();
       
-      if (listBoxHeight + 2 > h - h2)
-      {
-        mScrollArea->setHeight(h - h2);
-        setHeight(h);
-      }
-      else
-      {
-        setHeight(listBoxHeight + h2 + 2);
-        mScrollArea->setHeight(listBoxHeight + 2);
-      }
-    }
+			if (listBoxHeight + 2 > h - h2)
+			{
+				mScrollArea->setHeight(h - h2);
+				setHeight(h);
+			}
+			else
+			{
+				setHeight(listBoxHeight + h2 + 2);
+				mScrollArea->setHeight(listBoxHeight + 2);
+			}
+		}
 
-    mScrollArea->setWidth(getWidth());
-    mScrollArea->setPosition(0, h2);
-  }
+		mScrollArea->setWidth(getWidth());
+		mScrollArea->setPosition(0, h2);
+	}
 
-  void DropDown::dropDown()
-  {
-    if (!mDroppedDown)
-    {
-      mDroppedDown = true;
-      mOldH = getHeight();
-      adjustHeight();
-    }
-  }
+	void DropDown::dropDown()
+	{
+		if (!mDroppedDown)
+		{
+			mDroppedDown = true;
+			mOldH = getHeight();
+			adjustHeight();
+		}
+	}
 
-  void DropDown::foldUp()
-  {
-    if (mDroppedDown)
-    {
-      mDroppedDown = false;
-      mFocusHandler.focusNone();
-      adjustHeight();
-    }
-  }
+	void DropDown::foldUp()
+	{		
+		if (mDroppedDown)
+		{
+			mDroppedDown = false;
+			mFocusHandler.focusNone();
+			adjustHeight();
+		}
+	}
 
-  void DropDown::_mouseInputMessage(const MouseInput &mouseInput)
-  {
-    BasicContainer::_mouseInputMessage(mouseInput);
-    
-    if (mDroppedDown)
-    {
-      if (mouseInput.y >= mOldH)
-      {
-        MouseInput mi = mouseInput;
-        mi.y -= mScrollArea->getY();        
-        mScrollArea->_mouseInputMessage(mi);
-      }
-    }
-  }
+	void DropDown::_keyInputMessage(const KeyInput& keyInput)
+	{		
+		if (mDroppedDown)
+		{
+			if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+			{
+				throw GCN_EXCEPTION("DropDown::_keyInputMessage. ScrollArea or ListBox is NULL");
+			}
 
-  void DropDown::lostFocus()
-  {
-    foldUp();
-  }
-  
+			if (mFocusHandler.getFocused() != NULL)
+			{
+				mFocusHandler.getFocused()->_keyInputMessage(keyInput);
+			}
+		}
+		else
+		{
+			BasicContainer::_keyInputMessage(keyInput);
+		}
+	}
+	
+	void DropDown::_mouseInputMessage(const MouseInput &mouseInput)
+	{	  	  
+		BasicContainer::_mouseInputMessage(mouseInput);
+
+		if (mDroppedDown)
+		{
+			if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
+			{
+				throw GCN_EXCEPTION("DropDown::_mouseInputMessage. ScrollArea or ListBox is NULL");
+			}
+		  		  
+			if (mouseInput.y >= mOldH)
+			{
+				MouseInput mi = mouseInput;
+				mi.y -= mScrollArea->getY();        
+				mScrollArea->_mouseInputMessage(mi);
+			}
+		}
+	}
+
+	void DropDown::lostFocus()
+	{
+		foldUp();
+	}
+
+	void DropDown::moveToTop(Widget* widget)
+	{
+		if (getParent())
+		{
+			getParent()->moveToTop(this);
+		}
+	}
+
+    void DropDown::moveToBottom(Widget* widget)
+	{
+		if (getParent())
+		{
+			getParent()->moveToBottom(this);
+		}		
+	}
+
+	void DropDown::_announceDeath(Widget* widget)
+	{		
+		if (widget == mScrollArea)
+		{			
+			mScrollArea = NULL;
+		}
+		else
+		{
+			throw GCN_EXCEPTION("DropDown::_announceDeath. Death announced for unknown widget.");
+		}		
+	}
+
+	void DropDown::action(const std::string& eventId)
+	{
+		foldUp();
+		generateAction();
+	}
+	
 } // end gcn
 

@@ -67,75 +67,82 @@
 
 namespace gcn
 {
-  class DropDown :
-    public BasicContainer,
-    public MouseListener,
-    public KeyListener
-  {
-  public:
-    DropDown();
+	class DropDown :
+		public BasicContainer,
+		public MouseListener,
+		public KeyListener,
+		public ActionListener
+	{
+	public:
+		DropDown();
     
-    DropDown(ListModel *listModel);
+		DropDown(ListModel *listModel);
 
-    DropDown(ListModel *listModel,
-             ScrollArea *scrollArea,
-             ListBox *listBox);
+		DropDown(ListModel *listModel,
+				 ScrollArea *scrollArea,
+				 ListBox *listBox);
     
-    virtual ~DropDown();
+		virtual ~DropDown();
     
-    virtual void logic();
+		virtual void logic();
     
-    virtual void draw(Graphics* graphics);   
+		virtual void draw(Graphics* graphics);   
     
-    virtual int getSelected();
+		virtual int getSelected();
     
-    virtual void setSelected(int selected);
+		virtual void setSelected(int selected);
 
-    virtual void keyPress(const Key& key);
+		virtual void keyPress(const Key& key);
 
-    virtual void mousePress(int x, int y, int button);
+		virtual void mousePress(int x, int y, int button);
     
-    virtual void mouseRelease(int x, int y, int button);    
+		virtual void mouseRelease(int x, int y, int button);    
 
-    virtual void setListModel(ListModel *listModel);
+		virtual void setListModel(ListModel *listModel);
 
-    virtual ListModel *getListModel();
+		virtual ListModel *getListModel();
 
-    virtual void setScrollArea(ScrollArea* scrollArea);
+		virtual void setScrollArea(ScrollArea* scrollArea);
 
-    virtual ScrollArea *getScrollArea();
+		virtual ScrollArea *getScrollArea();
 
-    virtual void setListBox(ListBox* listBox);
+		virtual void setListBox(ListBox* listBox);
 
-    virtual ListBox *getListBox();
+		virtual ListBox *getListBox();
     
-    virtual void adjustHeight();
+		virtual void adjustHeight();
 
-    virtual void _mouseInputMessage(const MouseInput &mouseInput);
+		virtual void _mouseInputMessage(const MouseInput &mouseInput);
 
-    virtual void moveToTop(Widget* widget) { }
+		virtual void _keyInputMessage(const KeyInput& keyInput);
+	  
+		virtual void moveToTop(Widget* widget);
 
-    virtual void moveToBottom(Widget* widget) { }
+		virtual void moveToBottom(Widget* widget);
 
-    virtual void getDrawSize(int& width, int& height, Widget* widget) { }
+		virtual void _announceDeath(Widget* widget);
 
-    virtual void lostFocus();
+		virtual void getDrawSize(int& width, int& height, Widget* widget) { }
+
+		virtual void lostFocus();
+
+		virtual void action(const std::string& eventId);
+		
+	protected:
+		virtual void drawButton(Graphics *graphics);
+		virtual void dropDown();
+		virtual void foldUp();
     
-  protected:
-    virtual void drawButton(Graphics *graphics);
-    virtual void dropDown();
-    virtual void foldUp();
+		bool mDroppedDown;
+		bool mPushed;
+		int mOldH;
+		ScrollArea* mScrollArea;
+		ListBox* mListBox;
+		ScrollArea* mDefaultScrollArea;
+		ListBox* mDefaultListBox;
+		FocusHandler mFocusHandler;
     
-    bool mDroppedDown;
-    bool mPushed;
-    int mOldH;
-    ScrollArea* mScrollArea;
-    ListBox* mListBox;
-    ScrollArea* mDefaultScrollArea;
-    ListBox* mDefaultListBox;
-    FocusHandler mFocusHandler;
-    
-  }; // end DropDown
+	}; // end DropDown
   
 } // end gcn
 
