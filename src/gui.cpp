@@ -78,6 +78,8 @@ namespace gcn
 
   Gui::~Gui()
   {
+		setTop(NULL);
+		
     delete mFocusHandler;
 
   } // end ~Gui
@@ -136,6 +138,8 @@ namespace gcn
 
     if(mInput)
     {
+			mInput->_pollInput();
+			
       while (!mInput->isMouseQueueEmpty())
       {
         MouseInput mi = mInput->dequeueMouseInput();
