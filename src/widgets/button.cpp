@@ -96,12 +96,12 @@ namespace gcn
   {
     graphics->setFont(getFont());
 
-    Color faceColor = getBackgroundColor();
+    Color faceColor = getBaseColor();
     Color highlightColor, shadowColor;
 
     if ((hasMouse() && mMouseDown) || mKeyDown)
     {
-      faceColor = getBackgroundColor() - 0x303030;
+      faceColor = faceColor - 0x303030;
       highlightColor = faceColor - 0x303030;
       shadowColor = faceColor + 0x303030;      
     }
@@ -112,16 +112,17 @@ namespace gcn
     }
 
     graphics->setColor(faceColor);
-    graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
+    graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getHeight() - 1));
     
     graphics->setColor(highlightColor);
-    graphics->drawLine(0, 0, getDimension().width-1, 0);
-    graphics->drawLine(0, 1, 0, getDimension().height-1);
+    graphics->drawLine(0, 0, getWidth() - 1, 0);
+    graphics->drawLine(0, 1, 0, getHeight() - 1);
     
     graphics->setColor(shadowColor);
-    graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
-    graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
+    graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
+    graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
 
+    graphics->setColor(getForegroundColor());
     if ((hasMouse() && mMouseDown) || mKeyDown)
     {
       graphics->drawText(mText, 5, 5);
@@ -132,7 +133,6 @@ namespace gcn
 
       if (hasFocus())
       {
-        graphics->setColor(getForegroundColor());
         graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4, getDimension().height - 4));
       }      
     }
