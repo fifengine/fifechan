@@ -3,6 +3,7 @@ libguichanincludedir = $(includedir)/guichan/widgets/
 libguichaninclude_HEADERS =	\
 	button.hpp		\
 	checkbox.hpp		\
+	container.hpp		\
 	dropdown.hpp		\
 	icon.hpp		\
 	label.hpp		\

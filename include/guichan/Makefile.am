@@ -8,7 +8,6 @@ libguichaninclude_HEADERS =	\
 	basiccontainer.hpp	\
 	cliprectangle.hpp	\
 	color.hpp		\
-	container.hpp		\
 	defaultfont.hpp		\
 	exception.hpp		\
 	focushandler.hpp	\
@@ -18,7 +17,6 @@ libguichaninclude_HEADERS =	\
 	image.hpp		\
 	imagefont.hpp		\
 	imageloader.hpp		\
-	imagemousetype.hpp	\
 	input.hpp		\
 	key.hpp			\
 	keyinput.hpp		\
@@ -26,7 +24,6 @@ libguichaninclude_HEADERS =	\
 	listmodel.hpp		\
 	mouseinput.hpp		\
 	mouselistener.hpp	\
-	mousetype.hpp		\
 	opengl.hpp		\
 	platform.hpp		\
 	rectangle.hpp		\

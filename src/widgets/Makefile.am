@@ -4,6 +4,7 @@ noinst_LTLIBRARIES = libguichan_widgets.la
 libguichan_widgets_la_SOURCES = \
 	button.cpp		\
 	checkbox.cpp		\
+	container.cpp		\
 	dropdown.cpp		\
 	icon.cpp		\
 	label.cpp		\

@@ -60,7 +60,6 @@
 #include <guichan/actionlistener.hpp>
 #include <guichan/graphics.hpp>
 #include <guichan/color.hpp>
-#include <guichan/container.hpp>
 #include <guichan/exception.hpp>
 // #include "guichan/focushandler.hpp"
 #include <guichan/font.hpp>
@@ -85,6 +84,7 @@
 
 #include <guichan/widgets/button.hpp>
 #include <guichan/widgets/checkbox.hpp>
+#include <guichan/widgets/container.hpp>
 #include <guichan/widgets/dropdown.hpp>
 #include <guichan/widgets/icon.hpp>
 #include <guichan/widgets/label.hpp>

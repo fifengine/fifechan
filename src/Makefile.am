@@ -11,7 +11,6 @@ libguichan_la_DEPENDENCIES = \
 libguichan_la_SOURCES = 	\
 	cliprectangle.cpp	\
 	color.cpp		\
-	container.cpp		\
 	defaultfont.cpp		\
 	exception.cpp		\
 	focushandler.cpp	\
@@ -20,11 +19,9 @@ libguichan_la_SOURCES = 	\
 	gui.cpp			\
 	image.cpp		\
 	imagefont.cpp		\
-	imagemousetype.cpp	\
 	input.cpp		\
 	key.cpp			\
 	keyinput.cpp		\
 	mouseinput.cpp		\
-	mousetype.cpp		\
 	rectangle.cpp		\
 	widget.cpp
