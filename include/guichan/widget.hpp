@@ -219,12 +219,12 @@ namespace gcn
     bool hasFocus();
 
     /**
-     *
+     * Called if the widget looses focus.
      */
     virtual void lostFocus() { };
     
     /**
-     *
+     * Called if the widget recieves focus.       
      */
     virtual void gotFocus() { };
     
@@ -232,7 +232,6 @@ namespace gcn
      * @return true if the widget currently has the mouse.
      */
     virtual bool hasMouse();
-
     
     /**
      * @param visible indicates whether the widget is visible or

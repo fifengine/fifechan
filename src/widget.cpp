@@ -68,7 +68,7 @@ namespace gcn
   Widget::Widget()
   {
     mParent = NULL;
-    mForegroundColor = Color(0xffffff);
+    mForegroundColor = Color(0x000000);
     mBackgroundColor = Color(0xb0c0d0);
     mFocusHandler = NULL;
     mFocusable = false;
