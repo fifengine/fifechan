@@ -111,7 +111,7 @@ namespace gcn
      * @param widget the widget to add.
      * @see remove
      */
-    void add(Widget* widget);
+    virtual void add(Widget* widget);
 
     /**
      * Adds a widget to the container and also specifices its
@@ -122,7 +122,7 @@ namespace gcn
      * @param y the y coordinat for the widget in the container
      * @see remove
      */
-    void add(Widget* widget, int x, int y);
+    virtual void add(Widget* widget, int x, int y);
     
     /**
      * Removes a widgets.
@@ -131,14 +131,14 @@ namespace gcn
      * @throws Exception when the widget is not in the container
      * @see add, clear
      */
-    void remove(Widget* widget);
+    virtual void remove(Widget* widget);
 
     /**
      * Clears the container of all widgets.
      *
      * @see add, remove
      */
-    void clear();
+    virtual void clear();
 
 
 		// Inherited from Widget
@@ -175,14 +175,14 @@ namespace gcn
      *
      * @param graphics the Graphics object to use for drawing.
      */
-    void drawChildren(Graphics* graphics);
+    virtual void drawChildren(Graphics* graphics);
     
     /**
      * This function calls the logic function for all children of
      * container. The widgets logic function will be called in the
      * order the widgets were added.
      */
-    void logicChildren();
+    virtual void logicChildren();
 	  
     Widget* mWidgetWithMouse;
     typedef std::list<Widget*> WidgetList;
