@@ -1,3 +1,13 @@
+
+* Added ability to disable widgets.
+* Changed slightly how focus works. Focus is now applied after the
+  input is processed. This resolved some problems when widgets
+  fight over focus.
+* Changed the behaviour of the mouse hanling. Widgets will get
+  mouse input if the mouse is dragged outside of the widget,
+  even if they don't have focus.
+* Many small fixes.
+
 Version 0.2.0
 =============
 * Added isPressed() method to the Button.
