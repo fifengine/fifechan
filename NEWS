@@ -1,3 +1,15 @@
+2004-12-17 Third Beta release!
+
+Here comes a new version of Guichan! This could be seen as
+a "half release" of sorts, there were some things we would have
+liked to put in this release, but didn't. We felt it was more
+important to get a new version out before christmas, as a lot of
+bugs had been fixed. See the ChangeLog for further details.
+
+Big thanks goes to Thorbjørn Lindeijer and the rest of 
+"The Mana World"-team for helping in finding bugs, and suggesting
+API improvements (that you probably will see implemented in 0.3.0)
+
 2004-09-24 Second Beta release!
 
 Ten days after the first Beta comes the second which contains
