@@ -1,6 +1,6 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichan, 0.1.0, jansem@darkbits.org, Guichan)
+AC_INIT(guichan, 0.2.0, jansem@darkbits.org, Guichan)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
@@ -12,7 +12,7 @@ SDLIMAGE="disabled"
 X="disabled"
 
 GUICHAN_MAJOR_VERSION=0
-GUICHAN_MINOR_VERSION=1
+GUICHAN_MINOR_VERSION=2
 GUICHAN_MICRO_VERSION=0
 GUICHAN_INTERFACE_AGE=0
 GUICHAN_BINARY_AGE=0
@@ -261,5 +261,4 @@ echo "* Allegro   = "$ALLEGRO
 echo "* OpenGL    = "$OPENGL
 echo "* SDL       = "$SDL
 echo "* SDL Image = "$SDLIMAGE
-echo "* X         = "$X
 echo "--------------------------------"
