@@ -185,7 +185,7 @@ namespace gcn
 			throw GCN_EXCEPTION("DropDown::logic. ScrollArea or ListBox is NULL");
 		}
 	  
-		mScrollArea->logic();    
+		mScrollArea->logic();
 	}
     
 	void DropDown::draw(Graphics* graphics)
