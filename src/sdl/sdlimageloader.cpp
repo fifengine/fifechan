@@ -98,7 +98,7 @@ namespace gcn
     amask = 0xff000000;
 #endif
     
-    mCurrentImage = SDL_CreateRGBSurface(SDL_SWSURFACE, tmp->w, tmp->h, 32,
+    mCurrentImage = SDL_CreateRGBSurface(SDL_SWSURFACE, 0, 0, 32,
                                          rmask, gmask, bmask, amask);
     
     if (mCurrentImage == NULL)
@@ -111,10 +111,13 @@ namespace gcn
     rect.y = 0;
     rect.w = tmp->w;
     rect.h = tmp->h;
-    
-    SDL_BlitSurface(tmp, &rect, mCurrentImage, &rect);
-    
-    SDL_FreeSurface(tmp);
+
+    SDL_Surface* tmp2 = SDL_ConvertSurface(tmp, mCurrentImage->format, SDL_SWSURFACE);
+		SDL_FreeSurface(tmp);
+		SDL_FreeSurface(mCurrentImage);
+
+		mCurrentImage = tmp2;
+		//	SDL_BlitSurface(tmp, &rect, mCurrentImage, &rect);   
     
   } // end prepare
 
