@@ -112,7 +112,7 @@ namespace gcn
 		 *
 		 * @return alignment of caption.
 		 */
-		virtual unsigned int getAlignment();
+		virtual unsigned int getAlignment() const;
 		
 		/**
 		 * Adjusts the buttons size to fit the content.     

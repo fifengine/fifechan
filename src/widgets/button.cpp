@@ -101,7 +101,7 @@ namespace gcn
 		mAlignment = alignment;
 	}
 
-	unsigned int Button::getAlignment()
+	unsigned int Button::getAlignment() const
 	{
 		return mAlignment;
 	}
