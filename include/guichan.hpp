@@ -1,7 +1,7 @@
 #ifndef GCN_GUICHAN_HPP
 #define GCN_GUICHAN_HPP
 
-// #include "guichan/actionlistener.hpp"
+#include <guichan/actionlistener.hpp>
 #include <guichan/graphics.hpp>
 #include <guichan/color.hpp>
 #include <guichan/container.hpp>
@@ -16,9 +16,9 @@
 #include <guichan/input.hpp>
 #include <guichan/key.hpp>
 #include <guichan/keyinput.hpp>
-// #include "guichan/keylistener.hpp"
+#include <guichan/keylistener.hpp>
 #include <guichan/mouseinput.hpp>
-// #include "guichan/mouselistener.hpp"
+#include <guichan/mouselistener.hpp>
 // #include "guichan/mousetype.hpp"
 #include <guichan/rectangle.hpp>
 #include <guichan/cliprectangle.hpp>
