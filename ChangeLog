@@ -1,2 +1,4 @@
+* Fixed container problem. Nonvisible widgets no longer
+        recieves mouse input.
 * Fixed mouse out problem with SDLInput
 * Fixed alpha problem with the SDLImageLoader
