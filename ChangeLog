@@ -1,3 +1,6 @@
+* Added a C function, gcnGuichanVersion, in gui.hpp which can
+  be used to check for the Guichan library with autotools
+  (no C++ name mangling).
 * Fixed alpha problem with images loaded and displayed with SDL.
 * Added a new widget, the window widget.
 * SDL.h is now included the proper way meaning you can install
