@@ -84,10 +84,13 @@
 #include <guichan/widget.hpp>
 
 #include <guichan/widgets/button.hpp>
+#include <guichan/widgets/checkbox.hpp>
+#include <guichan/widgets/dropdown.hpp>
 #include <guichan/widgets/icon.hpp>
 #include <guichan/widgets/label.hpp>
 #include <guichan/widgets/listbox.hpp>
 #include <guichan/widgets/scrollarea.hpp>
+#include <guichan/widgets/radiobutton.hpp>
 #include <guichan/widgets/textbox.hpp>
 #include <guichan/widgets/textfield.hpp>
 
