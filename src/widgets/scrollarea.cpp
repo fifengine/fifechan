@@ -87,8 +87,8 @@ namespace gcn
     mHorizontalMarkerPressed = false;
     mHorizontalMarkerMousePosition = 0;
 
-    setFocusable(true);
-    setTabable(false);
+    setFocusable(false);
+    setTabable(true);
     addMouseListener(this);
 
   } // end ScrollArea
@@ -115,8 +115,8 @@ namespace gcn
     mHorizontalMarkerMousePosition = 0;
 
     setContent(content);
-    setFocusable(true);
-    setTabable(false);
+    setFocusable(false);
+    setTabable(true);
     checkPolicies();
     addMouseListener(this);
 
@@ -141,8 +141,8 @@ namespace gcn
     mHorizontalMarkerPressed = false;
     mHorizontalMarkerMousePosition = 0;
 
-    setFocusable(true);
-    setTabable(false);
+    setFocusable(false);
+    setTabable(true);
     checkPolicies();
     addMouseListener(this);
     

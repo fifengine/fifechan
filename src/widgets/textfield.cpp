@@ -71,7 +71,7 @@ namespace gcn
     mXScroll = 0;
 
     setFocusable(true);
-    
+
     addMouseListener(this);
     addKeyListener(this);
     adjustHeight();
