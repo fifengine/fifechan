@@ -82,11 +82,11 @@ namespace gcn
 		mVisible = true;
 		mTabIn = true;
 		mTabOut = true;
+		mEnabled = true;
 		
 		mCurrentFont = NULL;
-		mWidgets.push_back(this);
-    
-	} // end Widget
+		mWidgets.push_back(this); 
+	}
 
 	Widget::~Widget()
 	{
@@ -98,81 +98,68 @@ namespace gcn
 		_setFocusHandler(NULL);
 	
 		mWidgets.remove(this);
-	
-	} // end ~Widget
+	}
 
 	void Widget::_setParent(BasicContainer* parent)
 	{
 		mParent = parent;
-
-	} // end _setParent
+	}
 
 	BasicContainer* Widget::getParent() const
 	{
-		return mParent;
-    
-	} // end getParent
+		return mParent;    
+	}
 
 	void Widget::setWidth(int width)
 	{
 		mDimension.width = width;
-
-	} // end setWidth
+	}
 
 	int Widget::getWidth()
 	{
 		return mDimension.width;
-
-	} // end getWidth
+	}
 
 	void Widget::setHeight(int height)
 	{
 		mDimension.height = height;
-
-	} // end getHeight
+	}
 
 	int Widget::getHeight()
 	{
 		return mDimension.height;
-
-	} // end getHeight
+	}
 
 	void Widget::setX(int x)
 	{
 		mDimension.x = x;
-
-	} // end setX
+	}
 
 	int Widget::getX()
 	{
 		return mDimension.x;
-
-	} // end getX
+	}
 
 	void Widget::setY(int y)
 	{
 		mDimension.y = y;
-
-	} // end setY
+	}
 
 	int Widget::getY()
 	{
 		return mDimension.y;
-
-	} // end getY
+	}
   
 	void Widget::setPosition(int x, int y)
 	{
 		mDimension.x = x;
 		mDimension.y = y;
-
-	} // end setPosition
+	}
 
 	void Widget::setDimension(const Rectangle& dimension)
 	{
 		mDimension = dimension;
-
-	} // end setDimension
+	}
 
 	void Widget::setBorderSize(unsigned int borderSize)
 	{
@@ -187,20 +174,17 @@ namespace gcn
 	const Rectangle& Widget::getDimension() const
 	{
 		return mDimension;
-
-	} // end getDimension
+	}
   
 	const std::string& Widget::getEventId() const
 	{
 		return mEventId;
-
-	} // end getEventId
+	}
 
 	void Widget::setEventId(const std::string& eventId)
 	{
 		mEventId = eventId;
-
-	} // end setEventId
+	}
   
 	bool Widget::hasFocus() const
 	{
@@ -210,14 +194,12 @@ namespace gcn
 		}
 
 		return (mFocusHandler->hasFocus(this));
-   
-	} // end hasFocus
+	}
 
 	bool Widget::hasMouse() const
 	{
 		return mHasMouse;
-
-	} // end hasMouse
+	}
 
 	void Widget::setFocusable(bool focusable)
 	{
@@ -227,14 +209,12 @@ namespace gcn
 		}
     
 		mFocusable = focusable;
-
-	} // end setFocusable
+	}
 
 	bool Widget::isFocusable() const
 	{
-		return mFocusable && isVisible();
-		
-	} // end isFocusable
+		return mFocusable && isVisible() && isEnabled();		
+	}
   
 	void Widget::requestFocus()
 	{
@@ -247,8 +227,7 @@ namespace gcn
 		{
 			mFocusHandler->requestFocus(this);
 		}
-
-	} // end requestFocus
+	}
 
 	void Widget::requestMoveToTop()
 	{
@@ -256,17 +235,15 @@ namespace gcn
 		{
 			mParent->moveToTop(this);
 		}
-
-	} // end requestMoveToTop
+	}
 
 	void Widget::requestMoveToBottom()
 	{
 		if (mParent)
 		{
 			mParent->moveToBottom(this);
-		}
-    
-	} // end requestMoveToBottom
+		}    
+	}
 
 	void Widget::setVisible(bool visible)
 	{
@@ -275,8 +252,7 @@ namespace gcn
 			mFocusHandler->focusNone();
 		}    
 		mVisible = visible;
-
-	} // end setVisible
+	}
   
 	bool Widget::isVisible() const
 	{
@@ -287,45 +263,38 @@ namespace gcn
 		else
 		{
 			return mVisible && getParent()->isVisible();
-		}
-			
-	} // end isVisible
+		}			
+	}
 
 	void Widget::setBaseColor(const Color& color)
 	{
 		mBaseColor = color;
-
-	} // end setBaseColor
+	}
 
 	const Color& Widget::getBaseColor() const
 	{
 		return mBaseColor;
-
-	} // end getBaseColor
+	}
 
 	void Widget::setForegroundColor(const Color& color)
 	{
 		mForegroundColor = color;
-
-	} // end setForegroundColor
+	}
 
 	const Color& Widget::getForegroundColor() const
 	{
 		return mForegroundColor;
-
-	} // end getForegroundColor
+	}
   
 	void Widget::setBackgroundColor(const Color& color)
 	{
 		mBackgroundColor = color;
-
-	} // setBackgroundColor
+	}
 
 	const Color& Widget::getBackgroundColor() const
 	{
 		return mBackgroundColor;
-
-	} // end getBackgroundColor
+	}
 
 	void Widget::_setFocusHandler(FocusHandler* focusHandler)
 	{
@@ -340,49 +309,42 @@ namespace gcn
 		}
     
 		mFocusHandler = focusHandler;
-
-	} // end _setFocusHandler
+	}
 
 	FocusHandler* Widget::_getFocusHandler()
 	{
 		return mFocusHandler;
-	} // end _setFocusHandler
+	}
 
 	void Widget::addActionListener(ActionListener* actionListener)
 	{
-		mActionListeners.push_back(actionListener);
-    
-	} // end addActionListener
+		mActionListeners.push_back(actionListener);    
+	}
   
 	void Widget::removeActionListener(ActionListener* actionListener)
 	{
-		mActionListeners.remove(actionListener);
-    
-	} // end removeActionListener
+		mActionListeners.remove(actionListener);    
+	}
   
 	void Widget::addKeyListener(KeyListener* keyListener)
 	{
-		mKeyListeners.push_back(keyListener);
-    
-	} // end addKeyListener
+		mKeyListeners.push_back(keyListener);    
+	}
   
 	void Widget::removeKeyListener(KeyListener* keyListener)
 	{
-		mKeyListeners.remove(keyListener);
-    
-	} // end removeKeyListener
+		mKeyListeners.remove(keyListener);    
+	}
   
 	void Widget::addMouseListener(MouseListener* mouseListener)
 	{
-		mMouseListeners.push_back(mouseListener);
-    
-	} // end addMouseListener
+		mMouseListeners.push_back(mouseListener);    
+	}
   
 	void Widget::removeMouseListener(MouseListener* mouseListener)
 	{
-		mMouseListeners.remove(mouseListener);
-    
-	} // end removeMouseListener
+		mMouseListeners.remove(mouseListener);    
+	}
   
 	void Widget::_mouseInputMessage(const MouseInput& mouseInput)
 	{
@@ -403,10 +365,15 @@ namespace gcn
 			  break;
         
 		  case MouseInput::PRESS:
-			  requestFocus();
-        
+				if (hasMouse())
+				{
+					requestFocus();
+					mFocusHandler->requestDrag(this);
+        }
+				
 			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
 			  {
+					
 				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
 				  {
 					  (*iter)->mousePress(x, y, b);
@@ -447,6 +414,11 @@ namespace gcn
 			  break;
 
 		  case MouseInput::RELEASE:
+				if (isDragged())
+				{
+					mFocusHandler->dragNone();
+				}
+				
 			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
 			  {
 				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
@@ -482,6 +454,11 @@ namespace gcn
 
 	void Widget::_keyInputMessage(const KeyInput& keyInput)
 	{
+		if (!mEnabled)
+		{
+			return;
+		}
+
 		KeyListenerIterator iter;
     
 		switch(keyInput.getType())
@@ -499,12 +476,16 @@ namespace gcn
 				  (*iter)->keyRelease(keyInput.getKey());
 			  }        
 			  break;
-		}
-    
-	} // end _keyInputMessage
+		}    
+	}
 
 	void Widget::_mouseInMessage()
 	{
+		if (!mEnabled)
+		{
+			return;
+		}
+
 		mHasMouse = true;
 
 		MouseListenerIterator iter;
@@ -512,8 +493,7 @@ namespace gcn
 		{
 			(*iter)->mouseIn();
 		}    
-
-	} // end _mouseInMessage
+	}
 
 	void Widget::_mouseOutMessage()
 	{
@@ -524,8 +504,7 @@ namespace gcn
 		{
 			(*iter)->mouseOut();
 		}    
-
-	} // end _mouseOutMessage
+	}
 
 	void Widget::getAbsolutePosition(int& x, int& y)
 	{
@@ -542,8 +521,7 @@ namespace gcn
 		getParent()->getAbsolutePosition(parentX, parentY);
 
 		x = parentX + mDimension.x;
-		y = parentY + mDimension.y;
-    
+		y = parentY + mDimension.y;    
 	}
 	
 	void Widget::generateAction()
@@ -552,9 +530,8 @@ namespace gcn
 		for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
 		{
 			(*iter)->action(mEventId);
-		}    
-    
-	} // end generateAction
+		}        
+	}
     
 	Font* Widget::getFont() const
 	{
@@ -569,8 +546,7 @@ namespace gcn
 		}    
     
 		return mCurrentFont;
-
-	} // end getFont
+	}
   
 	void Widget::setGlobalFont(Font* font)
 	{
@@ -583,16 +559,14 @@ namespace gcn
 			{
 				(*iter)->fontChanged();
 			}
-		}
-    
-	} // end setGlobalFont
+		}    
+	}
   
 	void Widget::setFont(Font* font)
 	{
 		mCurrentFont = font;
-		fontChanged();
-    
-	} // end setFont
+		fontChanged();    
+	} 
 
 	bool Widget::widgetExists(const Widget* widget)
 	{
@@ -608,8 +582,7 @@ namespace gcn
 		}
 
 		return result;
-
-	} // end widgetExists
+	}
 
 	bool Widget::isTabInEnabled() const
 	{
@@ -636,5 +609,20 @@ namespace gcn
 		setWidth(width);
 		setHeight(height);
 	}
-	
+
+	void Widget::setEnabled(bool enabled)
+	{
+		mEnabled = enabled;
+	}
+
+	bool Widget::isEnabled() const
+	{
+		return mEnabled && isVisible();
+	}
+
+	bool Widget::isDragged() const
+	{
+		return mFocusHandler->isDragged(this);
+	}	
+ 
 } // end gcn

@@ -243,18 +243,34 @@ namespace gcn
 		 * @param focusable indicates whether the widget is focusable
 		 *                  or not.
 		 */
-		void setFocusable(bool focusable);
+		virtual void setFocusable(bool focusable);
 
 		/**
 		 * @return true if the widget is focusable.
 		 */
-		bool isFocusable() const;
-
+		virtual bool isFocusable() const;
+		
 		/**
 		 * @return true if the widget currently has focus.
 		 */
-		bool hasFocus() const;
+		virtual bool hasFocus() const;
 
+		/**
+		 * Sets the widget to be disabled or enabled. A disabled
+		 * widget will never recieve mouse or key input.
+		 *
+		 * @param disabled indicates whether the widget is disabled
+		 *                 or not
+		 */
+		virtual void setEnabled(bool disabled);
+
+		/**
+		 * Checks if a widget is disabled or not.
+		 *
+		 * @return true if the widget is disabled, false otherwise
+		 */
+		virtual bool isEnabled() const; 
+		
 		/**
 		 * Called if the widget looses focus.
 		 */
@@ -274,12 +290,12 @@ namespace gcn
 		 * @param visible indicates whether the widget is visible or
 		 *                not.
 		 */
-		void setVisible(bool visible);
+		virtual void setVisible(bool visible);
 
 		/**
 		 * @return true if the widget is visible.
 		 */
-		bool isVisible() const;
+		virtual bool isVisible() const;
 
 		/**
 		 * Sets the widget's base color. (the background
@@ -363,19 +379,19 @@ namespace gcn
 		 * is focusable it will get focus. Otherwise, this function
 		 * does nothing.
 		 */
-		void requestFocus();
+		virtual void requestFocus();
 
 		/**
 		 * This function requests the container the widgets in to
 		 * move the widget to the top.
 		 */
-		void requestMoveToTop();
+		virtual void requestMoveToTop();
 
 		/**
 		 * This function requests the container the widgets in to
 		 * move the widget to the bottom.
 		 */
-		void requestMoveToBottom();
+		virtual void requestMoveToBottom();
 
 		/**
 		 * This function sets the focus handler to be used by this
@@ -406,7 +422,7 @@ namespace gcn
 		 * @param actionListener the action listener to add.
 		 * @see ActionListener
 		 */
-		void addActionListener(ActionListener* actionListener);
+		virtual void addActionListener(ActionListener* actionListener);
     
 		/**
 		 * This function removes an action listener from the widget.
@@ -414,7 +430,7 @@ namespace gcn
 		 * @param actionListener the action listener to remove.
 		 * @see ActionListener
 		 */
-		void removeActionListener(ActionListener* actionListener);
+		virtual	void removeActionListener(ActionListener* actionListener);
 
 		/**
 		 * This function adds a mouse listener to the widget.
@@ -424,15 +440,15 @@ namespace gcn
 		 * @param mouseListener the mouse listener to add.
 		 * @see MouseListener
 		 */
-		void addMouseListener(MouseListener* mouseListener);
+		virtual	void addMouseListener(MouseListener* mouseListener);
     
 		/**
 		 * This function removes a mouse listener from the widget.
 		 *
 		 * @param mouseListener the mouse listener to remove.
 		 * @see MouseListener
-		 */
-		void removeMouseListener(MouseListener* mouseListener);
+		 */	
+		virtual	void removeMouseListener(MouseListener* mouseListener);
 
 		/**
 		 * This function adds a key listener to the widget.
@@ -441,16 +457,16 @@ namespace gcn
 		 *
 		 * @param keyListener the key listener to add.
 		 * @see KeyListener
-		 */
-		void addKeyListener(KeyListener* keyListener);
+		 */	
+		virtual	void addKeyListener(KeyListener* keyListener);
 
 		/**
 		 * This function removes a key listener to the widget.
 		 *
 		 * @param keyListener the key listener to remove.
 		 * @see KeyListener
-		 */
-		void removeKeyListener(KeyListener* keyListener);
+		 */	
+		virtual	void removeKeyListener(KeyListener* keyListener);
 
 		/**
 		 * This function sets the widgets event identifier. An event
@@ -465,9 +481,9 @@ namespace gcn
 		 * identifer.
 		 * 
 		 * @param eventId the event identifier
-		 * @see ActionListener, getEventId, sendActionEvent
-		 */
-		void setEventId(const std::string& eventId);
+		 * @see ActionListener, getEventId, generateAction
+		 */	
+		virtual	void setEventId(const std::string& eventId);
 
 		/**
 		 * This function returns the widgets event identifier. An
@@ -487,24 +503,24 @@ namespace gcn
 		 * box.
 		 *
 		 * @see setEventId, getEventId, ActionListener
-		 */
-		void sendActionEvent();
+		 */	
+//		virtual	void sendActionEvent();
 
 		/**
 		 * Gets the absolute position on the screen for the widget,
 		 *
 		 * @param x absolute x coordinate will be stored in this parameter
 		 * @param y absolute y coordinate will be stored in this parameter
-		 */
-		void getAbsolutePosition(int& x, int& y);
+		 */	
+		virtual	void getAbsolutePosition(int& x, int& y);
     
 		/**
 		 * This function sets the widgets parent. It should not be
 		 * called unless you know what you are doing.
 		 *
 		 * @param widget the parent widget. 
-		 */
-		void _setParent(BasicContainer* parent);
+		 */	
+		virtual	void _setParent(BasicContainer* parent);
 
 		/**
 		 * This function returns the font used by this widget. If no 
@@ -586,13 +602,21 @@ namespace gcn
 		 */
 		virtual void setTabOutEnabled(bool enabled);
 
+		/**
+		 * Checks if the widget is dragged, meaning if the mouse button
+		 * has been pressed down over the widget and the mouse has been
+		 * moved.
+		 *
+		 * @return true if the widget is dragged.
+		 */
+		virtual bool isDragged() const;
+		
 	protected:
 		/**
 		 * This function generates an action to the widgets action listeners.
 		 */
 		void generateAction();
-      
-    
+		
 		typedef std::list<MouseListener*> MouseListenerList;
 		MouseListenerList mMouseListeners;
 		typedef MouseListenerList::iterator MouseListenerIterator;
@@ -601,11 +625,11 @@ namespace gcn
 		KeyListenerList mKeyListeners;
 		typedef KeyListenerList::iterator KeyListenerIterator;
         
-	private:
+	private:		
 		typedef std::list<ActionListener*> ActionListenerList;
 		ActionListenerList mActionListeners;
 		typedef ActionListenerList::iterator ActionListenerIterator;
-
+		
 		Color mForegroundColor;
 		Color mBackgroundColor;
 		Color mBaseColor;
@@ -622,12 +646,12 @@ namespace gcn
 		bool mVisible;
 		bool mTabIn;
 		bool mTabOut;
+		bool mEnabled;
 		
 		Font* mCurrentFont;
 		static DefaultFont mDefaultFont;
 		static Font* mGlobalFont;
 		static std::list<Widget*> mWidgets;
-
 	}; // end Widget
   
 } // end gcn
