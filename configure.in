@@ -1,0 +1,157 @@
+AC_PREREQ(2.57)
+
+AC_INIT(guichan, 0.0.1, jansem@darkbits.org, Gui-chan)
+
+AC_CANONICAL_SYSTEM
+AC_SUBST(target)
+
+ALLEGRO="no"
+OPENGL="no"
+SDL="no"
+SDLIMAGE="no"
+
+GUICHAN_MAJOR_VERSION=0
+GUICHAN_MINOR_VERSION=0
+GUICHAN_MICRO_VERSION=1
+GUICHAN_INTERFACE_AGE=1
+GUICHAN_BINARY_AGE=1
+GUICHAN_VERSION=$GUICHAN_MAJOR_VERSION.$GUICHAN_MINOR_VERSION.$GUICHAN_MICRO_VERSION
+
+AC_SUBST(GUICHAN_MAJOR_VERSION)
+AC_SUBST(GUICHAN_MINOR_VERSION)
+AC_SUBST(GUICHAN_MICRO_VERSION)
+AC_SUBST(GUICHAN_VERSION)
+AC_SUBST(GUICHAN_INTERFACE_AGE)
+AC_SUBST(GUICHAN_BINARY_AGE)
+AC_SUBST(GUICHAN_VERSION)
+
+LT_RELEASE=$GUICHAN_MAJOR_VERSION.$GUICHAN_MINOR_VERSION
+LT_CURRENT=`expr $GUICHAN_MICRO_VERSION - $GUICHAN_INTERFACE_AGE`
+LT_REVISION=$GUICHAN_INTERFACE_AGE
+LT_AGE=`expr $GUICHAN_BINARY_AGE - $GUICHAN_INTERFACE_AGE`
+
+AC_SUBST(LT_RELEASE)
+AC_SUBST(LT_CURRENT)
+AC_SUBST(LT_REVISION)
+AC_SUBST(LT_AGE)
+
+AM_INIT_AUTOMAKE(Gui-chan, $GUICHAN_VERSION)
+AM_CONFIG_HEADER([include/config.hpp])
+
+
+dnl AC_CONFIG_SRCDIR([src/])
+
+AC_PROG_CXX
+AC_PROG_CC
+
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+AC_PROG_MAKE_SET
+AC_LANG_CPLUSPLUS
+AC_PROG_INSTALL
+AC_HEADER_STDC
+
+NoOpenGL()
+{
+  AC_MSG_WARN(OpenGL support skipped when OpenGL not found.)
+  OPENGL="no"
+}
+
+HaveOpenGL()
+{
+  OPENGL="yes"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS opengl"
+  OPENGL_LIBS="$OPENGL_LIBS -lGL"
+ dnl GUICHAN_EXTRALIBS="$GUICHAN_EXTRALIBS opengl/libopengl.la"	
+}
+
+AC_ARG_ENABLE(opengl,	     
+[  --enable-opengl	Enable OpenGL support [default=yes]], 
+               , enable_opengl=yes)
+if test x$enable_opengl = xyes; then
+  AC_CHECK_HEADERS(GL/gl.h)
+  AC_CHECK_LIB([GL], [glBegin], HaveOpenGL, NoOpenGL)
+fi
+
+NoSDLImage()
+{
+  AC_MSG_WARN(SDL_image support skipped when SDL_image not found.)
+  SDLIMAGE="no"
+}
+
+HaveSDLImage()
+{
+ SDLIMAGE="yes"
+ SDL_LIBS="$SDL_LIBS -lSDL_image"
+}
+
+AC_ARG_ENABLE(sdlimage,	     
+[  --enable-sdlimage	Enable SDL_image support [default=yes]], 
+              , enable_sdlimage=yes)
+if test x$enable_sdlimage = xyes; then
+  AC_CHECK_HEADERS([SDL/SDL_image.h])
+  AC_CHECK_LIB([SDL_image], [IMG_Load], HaveSDLImage, NoSDLImage)
+else
+  NoSDLImage
+fi
+
+AC_ARG_ENABLE(allegro,	  
+[  --enable-allegro	  Enable Allegro support [default=yes]],
+              , enable_allegro=yes)
+if test x$enable_allegro = xyes; then
+
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
+  AC_CHECK_HEADERS([allegro.h])
+  AC_CHECK_PROG(HAVE_ALLEGRO, allegro-config, yes)
+  if test "x$HAVE_ALLEGRO" != "xyes"; then
+    AC_MSG_WARN(Allegro support skipped when Allegro not found.)
+  else
+    ALLEGRO="yes"
+  fi
+fi
+
+AC_ARG_ENABLE(sdl,	  
+[  --enable-sdl	  Enable SDL support [default=yes]],
+             , enable_sdl=yes)
+if test x$enable_sdl = xyes; then
+
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS sdl"
+  GUICHAN_EXTRALIBS="$GUICHAN_EXTRALIBS sdl/libsdl.la"	
+  AC_CHECK_HEADERS(SDL/SDL.h)
+  AC_CHECK_PROG(HAVE_SDL, sdl-config, yes)
+  if test "x$HAVE_SDL" != "xyes"; then
+    AC_MSG_WARN(SDL support skipped when SDL not found.)
+  else
+   SDL="yes"
+  fi
+fi
+
+AC_SUBST([OPENGL_LIBS])
+AC_SUBST([SDL_LIBS])
+AC_SUBST([GUICHAN_EXTRADIRS])
+AC_SUBST([GUICHAN_EXTRALIBS])
+
+AC_OUTPUT([
+Makefile
+examples/Makefile
+include/Makefile
+include/guichan/Makefile
+include/guichan/allegro/Makefile
+include/guichan/opengl/Makefile
+include/guichan/sdl/Makefile
+src/Makefile
+src/allegro/Makefile
+src/opengl/Makefile
+src/sdl/Makefile
+src/widgets/Makefile
+guichan-config
+], [chmod +x guichan-config])
+
+echo "-------------------------------"
+echo "Gui-chan ready for compilation!" 
+echo "-------------------------------"
+echo "* Allegro   = "$ALLEGRO
+echo "* OpenGL    = "$OPENGL
+echo "* SDL       = "$SDL
+echo "* SDL_Image = "$SDLIMAGE
+echo "--------------------------------"
