@@ -127,6 +127,7 @@ namespace gcn
     }
     
     graphics->setColor(getForegroundColor());
+    graphics->setFont(getFont());
     graphics->drawText(mText, 2 - mXScroll, 2);
     
   } // end draw
