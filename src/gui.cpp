@@ -168,9 +168,7 @@ namespace gcn
             mTop->_mouseOutMessage();
             mTopHasMouse = false;
           }
-        }
-        
-        
+        }                
 
         if (mFocusHandler->getFocused() && focused == mFocusHandler->getFocused())
         {
@@ -189,42 +187,69 @@ namespace gcn
       {
         KeyInput ki = mInput->dequeueKeyInput();
 
+				if (mTabbing
+						&& ki.getKey().getValue() == Key::TAB
+						&& ki.getType() == KeyInput::PRESS)
+				{
+					if (ki.getKey().isShiftPressed())
+					{
+						mFocusHandler->tabPrevious();
+					}
+					else
+					{
+						mFocusHandler->tabNext();
+					}
+				}
+				else
+				{
+					// Send key inputs to the focused widgets
+					if (mFocusHandler->getFocused())						
+					{
+						if (mFocusHandler->getFocused()->isFocusable())
+						{
+							mFocusHandler->getFocused()->_keyInputMessage(ki);
+						}
+						else
+						{
+							mFocusHandler->focusNone();
+						}
+					}
+				}
+										
         // Focus another widget only if the widget allows it with
         // tabable.
 				
-		if (mFocusHandler->getFocused())
-		{
-		  if (mTabbing && mFocusHandler->getFocused()->isTabable()
-					&& ki.getKey().getValue() == Key::TAB
-					&& ki.getType() == KeyInput::PRESS
-					&& ki.getKey().isShiftPressed())
-		  {
-				mFocusHandler->focusPrevious();
-		  }                  
-		  else if (mTabbing && mFocusHandler->getFocused()->isTabable()
-							 && ki.getKey().getValue() == Key::TAB
-							 && ki.getType() == KeyInput::PRESS)
-		  {
-				mFocusHandler->focusNext();
-		  }
-		  else
-		  {
-			  // Send key inputs to the focused widgets
-				mFocusHandler->getFocused()->_keyInputMessage(ki);
-		  }
-		}
-		else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
-						 ki.getType() == KeyInput::PRESS &&
-						 ki.getKey().isShiftPressed())
-		{
-		  mFocusHandler->focusPrevious();
-		}        
-		else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
-						 ki.getType() == KeyInput::PRESS)
-		{
-		  mFocusHandler->focusNext();
-		}
-		
+// 				if (mFocusHandler->getFocused())
+// 				{
+// 					if (mTabbing && mFocusHandler->getFocused()->isTabable()
+// 							&& ki.getKey().getValue() == Key::TAB
+// 							&& ki.getType() == KeyInput::PRESS
+// 							&& ki.getKey().isShiftPressed())
+// 					{
+// 						mFocusHandler->focusPrevious();
+// 					}                  
+// 					else if (mTabbing && mFocusHandler->getFocused()->isTabable()
+// 									 && ki.getKey().getValue() == Key::TAB
+// 									 && ki.getType() == KeyInput::PRESS)
+// 					{
+// 						mFocusHandler->focusNext();
+// 					}
+// 					else
+// 					{
+// 				
+// 					}
+// 				}
+// 				else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
+// 								 ki.getType() == KeyInput::PRESS &&
+// 								 ki.getKey().isShiftPressed())
+// 				{
+// 					mFocusHandler->focusPrevious();
+// 				}        
+// 				else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
+// 								 ki.getType() == KeyInput::PRESS)
+// 				{
+// 					mFocusHandler->focusNext();
+// 				}		
       }
       
     } // end if

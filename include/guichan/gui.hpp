@@ -166,8 +166,8 @@ namespace gcn
 			
   protected:
     bool mTopHasMouse;
-	bool mTabbing;
-
+		bool mTabbing;
+		
     Widget* mTop;
     Graphics* mGraphics;
     Input* mInput;
