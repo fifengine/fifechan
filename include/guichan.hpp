@@ -29,5 +29,6 @@
 #include <guichan/widgets/button.hpp>
 #include <guichan/widgets/icon.hpp>
 #include <guichan/widgets/label.hpp>
+#include <guichan/widgets/textfield.hpp>
 
 #endif // end GCN_GUICHAN_HPP
