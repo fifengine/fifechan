@@ -64,18 +64,25 @@
 
 namespace gcn
 {
+  Button::Button()
+  {
+    addMouseListener(this);
+
+    adjustSize();
+    
+  } // end Button
+  
   Button::Button(const std::string& text)
   {
-    //FontWidget();
     mText = text;
-    
-    setWidth(getFont()->getWidth(text) + 4);
-    setHeight(getFont()->getHeight() + 4);
     setFocusable(true);
-
+    adjustSize();
+    
     x = 0;
     y = 0;
     mMove = false;
+
+    addMouseListener(this);
     
   } // end Button
 
@@ -142,7 +149,7 @@ namespace gcn
 
   } // end adjustSize
 
-  void Button::mouseClickMessage(int x, int y, int button, int count)
+  void Button::mouseClick(int x, int y, int button, int count)
   {
     if( button == MouseInput::LEFT && count == 2)
     {
@@ -153,9 +160,10 @@ namespace gcn
       mText = "Kill Per";    
     }
     adjustSize();
-  }
 
-  void Button::mousePressMessage(int x, int y, int button)
+  } 
+
+  void Button::mousePress(int x, int y, int button)
   {
 //    std::cout << "KUPO! PRESS" << std::endl;
     mMove = true;
@@ -163,7 +171,7 @@ namespace gcn
     this->y = y;
   }
 
-  void Button::mouseReleaseMessage(int x, int y, int button)
+  void Button::mouseRelease(int x, int y, int button)
   {
 //    std::cout << "KUPO! RELEASE" << std::endl;
     mMove = false;
@@ -171,7 +179,7 @@ namespace gcn
     this->y = 0;
   }
   
-  void Button::mouseMotionMessage(int x, int y)
+  void Button::mouseMotion(int x, int y)
   {
 //    std::cout << "KUPO! MOTION" << x << " " << y << std::endl;
 

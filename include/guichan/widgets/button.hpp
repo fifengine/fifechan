@@ -64,12 +64,10 @@
 namespace gcn
 {
 
-  class Button: public FontWidget
+  class Button: public FontWidget, public MouseListener
   {
   public:
-    Button()
-    {
-    };
+    Button();
 
     Button(const std::string& text);
 
@@ -79,13 +77,13 @@ namespace gcn
     
     virtual void adjustSize();
 
-    virtual void mouseClickMessage(int x, int y, int button, int count);
+    virtual void mouseClick(int x, int y, int button, int count);
 
-    virtual void mousePressMessage(int x, int y, int button);
+    virtual void mousePress(int x, int y, int button);
 
-    virtual void mouseReleaseMessage(int x, int y, int button);
+    virtual void mouseRelease(int x, int y, int button);
 
-    virtual void mouseMotionMessage(int x, int y);
+    virtual void mouseMotion(int x, int y);
 
     virtual void lostFocus();
     
