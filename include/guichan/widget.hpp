@@ -230,14 +230,14 @@ namespace gcn
 		 * @return the size of the border
 		 * @see drawBorder		 
 		 */
-		virtual unsigned int getBorderSize();
+		virtual unsigned int getBorderSize() const;
 		
 		/**
 		 * @return the widgets dimension relative to its
 		 *         container.
 		 * @see Rectangle
 		 */
-		virtual const Rectangle& getDimension();
+		virtual const Rectangle& getDimension() const;
 
 		/**
 		 * @param focusable indicates whether the widget is focusable
@@ -248,12 +248,12 @@ namespace gcn
 		/**
 		 * @return true if the widget is focusable.
 		 */
-		bool isFocusable();
+		bool isFocusable() const;
 
 		/**
 		 * @return true if the widget currently has focus.
 		 */
-		bool hasFocus();
+		bool hasFocus() const;
 
 		/**
 		 * Called if the widget looses focus.
@@ -268,7 +268,7 @@ namespace gcn
 		/**
 		 * @return true if the widget currently has the mouse.
 		 */
-		virtual bool hasMouse();
+		virtual bool hasMouse() const;
     
 		/**
 		 * @param visible indicates whether the widget is visible or
@@ -279,7 +279,7 @@ namespace gcn
 		/**
 		 * @return true if the widget is visible.
 		 */
-		bool isVisible();
+		bool isVisible() const;
 
 		/**
 		 * Sets the widget's base color. (the background

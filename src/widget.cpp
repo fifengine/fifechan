@@ -179,12 +179,12 @@ namespace gcn
 		mBorderSize = borderSize;
 	}
 
-	unsigned int Widget::getBorderSize()
+	unsigned int Widget::getBorderSize() const
 	{
 		return mBorderSize;
 	}
 	
-	const Rectangle& Widget::getDimension()
+	const Rectangle& Widget::getDimension() const
 	{
 		return mDimension;
 
@@ -202,7 +202,7 @@ namespace gcn
 
 	} // end setEventId
   
-	bool Widget::hasFocus()
+	bool Widget::hasFocus() const
 	{
 		if (!mFocusHandler)
 		{
@@ -213,7 +213,7 @@ namespace gcn
    
 	} // end hasFocus
 
-	bool Widget::hasMouse()
+	bool Widget::hasMouse() const
 	{
 		return mHasMouse;
 
@@ -230,10 +230,10 @@ namespace gcn
 
 	} // end setFocusable
 
-	bool Widget::isFocusable()
+	bool Widget::isFocusable() const
 	{
 		return mFocusable && isVisible();
-
+		
 	} // end isFocusable
   
 	void Widget::requestFocus()
@@ -278,7 +278,7 @@ namespace gcn
 
 	} // end setVisible
   
-	bool Widget::isVisible()
+	bool Widget::isVisible() const
 	{
 		if (getParent() == NULL)
 		{			

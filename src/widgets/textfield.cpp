@@ -247,6 +247,7 @@ namespace gcn
       else if (caretX - mXScroll < getFont()->getWidth(" "))
       {
         mXScroll = caretX - getFont()->getWidth(" ");
+		
         if (mXScroll < 0)
         {
           mXScroll = 0;

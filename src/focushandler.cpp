@@ -98,7 +98,7 @@ namespace gcn
     
 	} // end requestFocus
     
-	Widget* FocusHandler::getFocused()
+	Widget* FocusHandler::getFocused() const
 	{
 		if (mFocusedWidget == -1)
 		{
@@ -209,7 +209,7 @@ namespace gcn
     
 	} // end focusPrevious
 
-	bool FocusHandler::hasFocus(Widget* widget)
+	bool FocusHandler::hasFocus(const Widget* widget) const
 	{
 		if (mFocusedWidget == -1)
 		{

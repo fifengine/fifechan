@@ -62,91 +62,91 @@
 
 namespace gcn
 {
-  class Widget;
+	class Widget;
   
-  /**
-   * The FocusHandler is used internally in the library to keep
-   * track of widget focus. You will not have to use the FocusHandler
-   * directly to handle focus, use the functions handling focus in
-   * the Widget class instead.
-   *
-   * @see Widget::hasFocus
-   * @see Widget::requestFocus
-   * @see Widget::setFocusable
-   * @see Widget::isFocusable
-   * @see Widget::gotFocus
-   * @see Widget::lostFocus
-   */
-  class GCN_CORE_DECLSPEC FocusHandler
-  {
-  public:
+	/**
+	 * The FocusHandler is used internally in the library to keep
+	 * track of widget focus. You will not have to use the FocusHandler
+	 * directly to handle focus, use the functions handling focus in
+	 * the Widget class instead.
+	 *
+	 * @see Widget::hasFocus
+	 * @see Widget::requestFocus
+	 * @see Widget::setFocusable
+	 * @see Widget::isFocusable
+	 * @see Widget::gotFocus
+	 * @see Widget::lostFocus
+	 */
+	class GCN_CORE_DECLSPEC FocusHandler
+	{
+	public:
 
-    /**
-     * Constructor.
-     */
-    FocusHandler();
+		/**
+		 * Constructor.
+		 */
+		FocusHandler();
     
-    /**
-     * Sets the focus to a certain widget. Widget::lostFocus and
-     * Widget::gotFocus will be called as necessary.
-     *
-     * @param widget the widget to be focused.
-     */
-    void requestFocus(Widget* widget);
+		/**
+		 * Sets the focus to a certain widget. Widget::lostFocus and
+		 * Widget::gotFocus will be called as necessary.
+		 *
+		 * @param widget the widget to be focused.
+		 */
+		void requestFocus(Widget* widget);
     
-    /**
-     * Gets the focused widget.
-     *
-     * @return a pointer to the focused widget.
-     */
-    Widget* getFocused();
+		/**
+		 * Gets the focused widget.
+		 *
+		 * @return a pointer to the focused widget.
+		 */
+		Widget* getFocused() const;
     
-    /**
-     * Focuses the next widget. If no widget has focus the first
-     * widget is focused. The order that the widgets are focused
-     * depends on the order that you add them to the GUI.
-     */
-    void focusNext();
+		/**
+		 * Focuses the next widget. If no widget has focus the first
+		 * widget is focused. The order that the widgets are focused
+		 * depends on the order that you add them to the GUI.
+		 */
+		void focusNext();
     
-    /**
-     * Focuses the previous widget. If no widget has focus the first
-     * widget is focused. The order that the widgets are focused
-     * depends on the order that you add them to the GUI.     
-     */
-    void focusPrevious();
+		/**
+		 * Focuses the previous widget. If no widget has focus the first
+		 * widget is focused. The order that the widgets are focused
+		 * depends on the order that you add them to the GUI.     
+		 */
+		void focusPrevious();
 
-    /**
-     * Checks if a widget currently has focus.
-     *
-     * @param widget a pointer to the widget to check.
-     * @return true if the widget has focus.
-     */
-    bool hasFocus(Widget* widget);
+		/**
+		 * Checks if a widget currently has focus.
+		 *
+		 * @param widget a pointer to the widget to check.
+		 * @return true if the widget has focus.
+		 */
+		bool hasFocus(const Widget* widget) const;
     
-    /**
-     * Adds a widget to the FocusHandler.
-     *
-     * @param widget a pointer to the widget to add.
-     */
-    void add(Widget* widget);
+		/**
+		 * Adds a widget to the FocusHandler.
+		 *
+		 * @param widget a pointer to the widget to add.
+		 */
+		void add(Widget* widget);
     
-    /**
-     * Removes a widget from the FocusHandler.
-     *
-     * @param widget a pointer to the widget to remove.     
-     */
-    void remove(Widget* widget);
+		/**
+		 * Removes a widget from the FocusHandler.
+		 *
+		 * @param widget a pointer to the widget to remove.     
+		 */
+		void remove(Widget* widget);
 
-    /**
-     * Focuses nothing.
-     */
-    void focusNone();
+		/**
+		 * Focuses nothing.
+		 */
+		void focusNone();
 
 		/**
 		 * Focus the next Widget which allows tab in unless current focused
 		 * Widget disallows tab out.
 		 */
-    void tabNext();
+		void tabNext();
 
 		/**
 		 * Focus the previous Widget which allows tab in unless current focused
@@ -154,14 +154,14 @@ namespace gcn
 		 */
 		void tabPrevious();
 		
-  protected:
-    typedef std::vector<Widget*> WidgetVector;
-    typedef WidgetVector::iterator WidgetIterator;
-    WidgetVector mWidgets;
+	protected:
+		typedef std::vector<Widget*> WidgetVector;
+		typedef WidgetVector::iterator WidgetIterator;
+		WidgetVector mWidgets;
     
-    int mFocusedWidget;
+		int mFocusedWidget;
     
-  }; // FocusHandler
+	}; // FocusHandler
   
 } // end gcn
 
