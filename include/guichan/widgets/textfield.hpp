@@ -65,25 +65,40 @@ namespace gcn
 {
   /**
    * This is a TextField
+   *
+   * @todo Caret width and color, background color, comments.
    */
   class TextField: public FontWidget, public MouseListener, public KeyListener
   {
   public:
+    /**
+     *
+     */
     TextField();
 
+    /**
+     *
+     */
     TextField(const std::string& text);
 
+    /**
+     *
+     */
     virtual void setText(const std::string& text);
 
-    virtual std::string getText() const;
+    /**
+     *
+     */
+    virtual const std::string& getText() const;
     
-    virtual void draw(Graphics* graphics);    
+    virtual void draw(Graphics* graphics);
 
-//    virtual void mouseClick(int x, int y, int button, int count);
+    /**
+     *
+     */
+    virtual void drawCaret(Graphics* graphics, int x);    
 
     virtual void mousePress(int x, int y, int button);
-
-    virtual void mouseRelease(int x, int y, int button);
 
     virtual void keyPress(const Key& key);
     
@@ -91,15 +106,32 @@ namespace gcn
 
     virtual void lostFocus();
 
+    /**
+     *
+     */
     virtual void adjustSize();
 
+    /**
+     *
+     */
     virtual void adjustHeight();
 
+    /**
+     *
+     */
     virtual void setCaretPosition(unsigned int position);
 
+    /**
+     *
+     */
     virtual unsigned int getCaretPosition() const;
+
+    virtual void fontChanged();
     
   protected:
+    /**
+     *
+     */
     void fixScroll();
     
     std::string mText;
