@@ -1,8 +1,7 @@
-* TextBox doesn't draw its caret if its not editable.
-
-	
 Version 0.1.0
 =============	
+* Guichan_allegro MSVC 6 compatibility fix.
+* TextBox doesn't draw its caret if its not editable.
 * Better exception with more information in ImageFont,
   added row spacing and glyph spacing functions.
 * Fixed problem in ImageFont when loading a corrupt file.
