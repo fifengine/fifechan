@@ -65,7 +65,8 @@ namespace gcn
 {
 	/**
 	 * This is a text field. It holds exactly one line of text that can
-	 * be edited.
+	 * be edited. If the enter key is pressed when the textfield has focus
+	 * it will fire an action to any connected ActionListeners.
 	 */
 	class DECLSPEC TextField:
 		public Widget,
