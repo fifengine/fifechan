@@ -87,7 +87,7 @@ namespace gcn
      * @param filename the filename of the image.
      * @param glyphs the glyphs found in the image.
      * @throws Exception when glyph list is incorrect or the font file is
-     *                   corrupt.
+     *                   corrupt or if no ImageLoader exists.
      */
     ImageFont(const std::string& filename, const std::string& glyphs);
 
@@ -103,7 +103,7 @@ namespace gcn
      * @param glyphsTo the ASCII value of the last glyph found in the
      *                 image.     
      * @throws Exception when glyph bondaries are incorrect or the font
-     *                   file is corrupt.
+     *                   file is corrupt or if no ImageLoader exists.
      */
     ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
 

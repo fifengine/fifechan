@@ -60,11 +60,18 @@
 #include "guichan/exception.hpp"
 #include "guichan/image.hpp"
 
+#include <iostream>
+
 namespace gcn
 {
   ImageFont::ImageFont(const std::string& filename, const std::string& glyphs)
   {
-    unsigned int i,x=0;
+		if (Image::_getImageLoader() == NULL)
+		{
+			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+		}
+		
+		unsigned int i,x=0;
 
     for (i=0; i<256; i++)
     {
@@ -80,11 +87,6 @@ namespace gcn
     {
       k = glyphs.at(i);
       x = addGlyph(k, x, separator);
-
-      if (x < 0)
-      {
-        throw GCN_EXCEPTION(std::string("ImageFont::ImageFont. Glyph list incorrect or font file corrupt, ")+filename);
-      }
     }
     
     int w = Image::_getImageLoader()->getWidth();
@@ -98,6 +100,11 @@ namespace gcn
 
   ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, unsigned char glyphsTo)
   {
+		if (Image::_getImageLoader() == NULL)
+		{
+			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+		}
+
     int i,x=0;
 
     for (i=0; i<256; i++)
@@ -111,12 +118,6 @@ namespace gcn
     for (i=glyphsFrom; i<glyphsTo+1; i++)
     {
       x = addGlyph(i, x, separator); 
-
-      if (x < 0)
-      {
-        throw GCN_EXCEPTION(std::string("ImageFont::ImageFont. Bondaries incorrect or font file corrupt, ")+filename);
-      }
-
     }
 
     int w = Image::_getImageLoader()->getWidth();
@@ -130,8 +131,9 @@ namespace gcn
 
   ImageFont::~ImageFont()
   {
+		Image::_getImageLoader()->free(mImage);
     delete mImage;
-
+		
   } // end ~ImageFont
   
   int ImageFont::getWidth(unsigned char glyph) const
@@ -168,34 +170,43 @@ namespace gcn
   
   int ImageFont::addGlyph(unsigned char c, int x, const Color& separator)
   {
-    try
-    {
-      ImageLoader* il = Image::_getImageLoader();
+		ImageLoader* il = Image::_getImageLoader();
+		
+		Color color;
+		do
+		{
+			++x;
 
-      Color color;
-      do
-      {
-        color = il->getPixel(++x, 0);
-      } while (color == separator);
-      
-      mGlyphX[c] = x;
-      
-      int w = 0;
-      
-      do
-      {
-        color = il->getPixel(x + ++w, 0);
-      } while (color != separator);
-      
-      mGlyphW[c] = w;
-      
-      return w+x;
-    }
-    catch(Exception e)
-    {
-      return -1;
-    }
+			if (x >= il->getWidth())
+			{
+				throw GCN_EXCEPTION("ImageFont::addGlyph. Image with font is corrupt.");
+			}			
 
+			color = il->getPixel(x, 0);
+
+		} while (color == separator);
+		
+		mGlyphX[c] = x;
+		
+		int w = 0;
+		
+		do
+		{
+			++w;
+
+			if (x+w >= il->getWidth())
+			{
+				throw GCN_EXCEPTION("ImageFont::addGlyph. Image with font is corrupt.");
+			}			
+			
+			color = il->getPixel(x + w, 0);
+			
+		} while (color != separator);
+		
+		mGlyphW[c] = w;
+		
+		return w+x;
+		
   } // end addGlyph
 
 } // end gcn
