@@ -89,5 +89,6 @@
 #include <guichan/widgets/radiobutton.hpp>
 #include <guichan/widgets/textbox.hpp>
 #include <guichan/widgets/textfield.hpp>
+#include <guichan/widgets/window.hpp>
 
 #endif // end GCN_GUICHAN_HPP

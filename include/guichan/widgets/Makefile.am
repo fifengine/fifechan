@@ -12,4 +12,5 @@ libguichaninclude_HEADERS =	\
 	slider.hpp		\
 	radiobutton.hpp		\
 	textbox.hpp		\
-	textfield.hpp		
+	textfield.hpp		\
+	window.hpp
