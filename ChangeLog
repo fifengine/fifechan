@@ -1,3 +1,5 @@
+* Fixed OpenGL graphics to disable GL_LIGHTNING before
+	draw
 * Fixed container problem. Nonvisible widgets no longer
         recieves mouse input.
 * Fixed mouse out problem with SDLInput
