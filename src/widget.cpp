@@ -65,529 +65,553 @@
 
 namespace gcn
 {
-  Font* Widget::mGlobalFont = NULL;
-  DefaultFont Widget::mDefaultFont;
-  std::list<Widget*> Widget::mWidgets;
+	Font* Widget::mGlobalFont = NULL;
+	DefaultFont Widget::mDefaultFont;
+	std::list<Widget*> Widget::mWidgets;
 
-  Widget::Widget()
-  {
-    mParent = NULL;
-    mForegroundColor = Color(0x000000);
-    mBackgroundColor = Color(0xffffff);
-    mBaseColor = Color(0x808090);
-    mFocusHandler = NULL;
-    mFocusable = false;
-    mClickTimeStamp = 0;
-    mClickCount = 0;
-    mHasMouse = false;
-    mVisible = true;
-    mTabable = true;
+	Widget::Widget()
+	{
+		mParent = NULL;
+		mForegroundColor = Color(0x000000);
+		mBackgroundColor = Color(0xffffff);
+		mBaseColor = Color(0x808090);
+		mFocusHandler = NULL;
+		mFocusable = false;
+		mClickTimeStamp = 0;
+		mClickCount = 0;
+		mHasMouse = false;
+		mVisible = true;
+		mTabable = true;
 
-    mCurrentFont = NULL;
-    mWidgets.push_back(this);
+		mCurrentFont = NULL;
+		mWidgets.push_back(this);
     
-  } // end Widget
+	} // end Widget
 
-  Widget::~Widget()
-  {
-    mWidgets.remove(this);
+	Widget::~Widget()
+	{
+		if (getParent())
+		{
+			getParent()->_announceDeath(this);
+		}
+	
+		_setFocusHandler(NULL);
+	
+		mWidgets.remove(this);
+	
+	} // end ~Widget
+
+	void Widget::_setParent(BasicContainer* parent)
+	{
+		mParent = parent;
+
+	} // end _setParent
+
+	BasicContainer* Widget::getParent() const
+	{
+		return mParent;
     
-  } // end ~Widget
+	} // end getParent
 
-  void Widget::_setParent(BasicContainer* parent)
-  {
-    mParent = parent;
+	void Widget::setWidth(int width)
+	{
+		mDimension.width = width;
 
-  } // end _setParent
+	} // end setWidth
 
-  BasicContainer* Widget::getParent() const
-  {
-    return mParent;
-    
-  } // end getParent
+	int Widget::getWidth()
+	{
+		return mDimension.width;
 
-  void Widget::setWidth(int width)
-  {
-    mDimension.width = width;
+	} // end getWidth
 
-  } // end setWidth
+	void Widget::setHeight(int height)
+	{
+		mDimension.height = height;
 
-  int Widget::getWidth()
-  {
-    return mDimension.width;
+	} // end getHeight
 
-  } // end getWidth
+	int Widget::getHeight()
+	{
+		return mDimension.height;
 
-  void Widget::setHeight(int height)
-  {
-    mDimension.height = height;
+	} // end getHeight
 
-  } // end getHeight
+	void Widget::setX(int x)
+	{
+		mDimension.x = x;
 
-  int Widget::getHeight()
-  {
-    return mDimension.height;
+	} // end setX
 
-  } // end getHeight
+	int Widget::getX()
+	{
+		return mDimension.x;
 
-  void Widget::setX(int x)
-  {
-    mDimension.x = x;
+	} // end getX
 
-  } // end setX
+	void Widget::setY(int y)
+	{
+		mDimension.y = y;
 
-  int Widget::getX()
-  {
-    return mDimension.x;
+	} // end setY
 
-  } // end getX
+	int Widget::getY()
+	{
+		return mDimension.y;
 
-  void Widget::setY(int y)
-  {
-    mDimension.y = y;
-
-  } // end setY
-
-  int Widget::getY()
-  {
-    return mDimension.y;
-
-  } // end getY
+	} // end getY
   
-  void Widget::setPosition(int x, int y)
-  {
-    mDimension.x = x;
-    mDimension.y = y;
+	void Widget::setPosition(int x, int y)
+	{
+		mDimension.x = x;
+		mDimension.y = y;
 
-  } // end setPosition
+	} // end setPosition
 
-  void Widget::setDimension(const Rectangle& dimension)
-  {
-    mDimension = dimension;
+	void Widget::setDimension(const Rectangle& dimension)
+	{
+		mDimension = dimension;
 
-  } // end setDimension
+	} // end setDimension
 
-  const Rectangle& Widget::getDimension()
-  {
-    return mDimension;
+	const Rectangle& Widget::getDimension()
+	{
+		return mDimension;
 
-  } // end getDimension
+	} // end getDimension
   
-  const std::string& Widget::getEventId() const
-  {
-    return mEventId;
+	const std::string& Widget::getEventId() const
+	{
+		return mEventId;
 
-  } // end getEventId
+	} // end getEventId
 
-  void Widget::setEventId(const std::string& eventId)
-  {
-    mEventId = eventId;
+	void Widget::setEventId(const std::string& eventId)
+	{
+		mEventId = eventId;
 
-  } // end setEventId
+	} // end setEventId
   
-  bool Widget::hasFocus()
-  {
-    if (!mFocusHandler)
-    {
-      return false;
-    }
+	bool Widget::hasFocus()
+	{
+		if (!mFocusHandler)
+		{
+			return false;
+		}
 
-    return (mFocusHandler->hasFocus(this));
+		return (mFocusHandler->hasFocus(this));
    
-  } // end hasFocus
+	} // end hasFocus
 
-  bool Widget::hasMouse()
-  {
-    return mHasMouse;
+	bool Widget::hasMouse()
+	{
+		return mHasMouse;
 
-  } // end hasMouse
+	} // end hasMouse
 
-  void Widget::setFocusable(bool focusable)
-  {
-    if (!focusable && hasFocus())
-    {
-      mFocusHandler->focusNone();
-    }
+	void Widget::setFocusable(bool focusable)
+	{
+		if (!focusable && hasFocus())
+		{
+			mFocusHandler->focusNone();
+		}
     
-    mFocusable = focusable;
+		mFocusable = focusable;
 
-  } // end setFocusable
+	} // end setFocusable
 
-  bool Widget::isFocusable()
-  {
-    return mFocusable && mVisible;
+	bool Widget::isFocusable()
+	{
+		return mFocusable && mVisible;
 
-  } // end isFocusable
+	} // end isFocusable
   
-  void Widget::requestFocus()
-  {
-    if (isFocusable())
-    {
-      mFocusHandler->requestFocus(this);
-    }
+	void Widget::requestFocus()
+	{
+		if (isFocusable())
+		{
+			mFocusHandler->requestFocus(this);
+		}
 
-  } // end requestFocus
+	} // end requestFocus
 
-  void Widget::requestMoveToTop()
-  {
-    if (mParent)
-    {
-      mParent->moveToTop(this);
-    }
+	void Widget::requestMoveToTop()
+	{
+		if (mParent)
+		{
+			mParent->moveToTop(this);
+		}
 
-  } // end requestMoveToTop
+	} // end requestMoveToTop
 
-  void Widget::requestMoveToBottom()
-  {
-    if (mParent)
-    {
-      mParent->moveToBottom(this);
-    }
+	void Widget::requestMoveToBottom()
+	{
+		if (mParent)
+		{
+			mParent->moveToBottom(this);
+		}
     
-  } // end requestMoveToBottom
+	} // end requestMoveToBottom
 
-  void Widget::setVisible(bool visible)
-  {
-    if (!visible && hasFocus())
-    {
-      mFocusHandler->focusNone();
-    }    
-    mVisible = visible;
+	void Widget::setVisible(bool visible)
+	{
+		if (!visible && hasFocus())
+		{
+			mFocusHandler->focusNone();
+		}    
+		mVisible = visible;
 
-  } // end setVisible
+	} // end setVisible
   
-  bool Widget::isVisible()
-  {
-    return mVisible;
+	bool Widget::isVisible()
+	{
+		return mVisible;
 
-  } // end isVisible
+	} // end isVisible
 
-  void Widget::setBaseColor(const Color& color)
-  {
-    mBaseColor = color;
+	void Widget::setBaseColor(const Color& color)
+	{
+		mBaseColor = color;
 
-  } // end setBaseColor
+	} // end setBaseColor
 
-  const Color& Widget::getBaseColor() const
-  {
-    return mBaseColor;
+	const Color& Widget::getBaseColor() const
+	{
+		return mBaseColor;
 
-  } // end getBaseColor
+	} // end getBaseColor
 
-  void Widget::setForegroundColor(const Color& color)
-  {
-    mForegroundColor = color;
+	void Widget::setForegroundColor(const Color& color)
+	{
+		mForegroundColor = color;
 
-  } // end setForegroundColor
+	} // end setForegroundColor
 
-  const Color& Widget::getForegroundColor() const
-  {
-    return mForegroundColor;
+	const Color& Widget::getForegroundColor() const
+	{
+		return mForegroundColor;
 
-  } // end getForegroundColor
+	} // end getForegroundColor
   
-  void Widget::setBackgroundColor(const Color& color)
-  {
-    mBackgroundColor = color;
+	void Widget::setBackgroundColor(const Color& color)
+	{
+		mBackgroundColor = color;
 
-  } // setBackgroundColor
+	} // setBackgroundColor
 
-  const Color& Widget::getBackgroundColor() const
-  {
-    return mBackgroundColor;
+	const Color& Widget::getBackgroundColor() const
+	{
+		return mBackgroundColor;
 
-  } // end getBackgroundColor
+	} // end getBackgroundColor
 
-  const std::string& Widget::getMouseType() const
-  {
-    return mMouseType;
+	const std::string& Widget::getMouseType() const
+	{
+		return mMouseType;
 
-  } // end getMouseType
+	} // end getMouseType
 
-  void Widget::setMouseType(const std::string &mouseType)
-  {
-    mMouseType = mouseType;
+	void Widget::setMouseType(const std::string &mouseType)
+	{
+		mMouseType = mouseType;
 
-  } // end setMouseType
+	} // end setMouseType
 
-  void Widget::_setFocusHandler(FocusHandler* focusHandler)
-  {
-    if (mFocusHandler)
-    {
-      mFocusHandler->remove(this);
-    }
+	void Widget::_setFocusHandler(FocusHandler* focusHandler)
+	{
+		if (mFocusHandler)
+		{
+			mFocusHandler->remove(this);
+		}
     
-    if (focusHandler)
-    {
-      focusHandler->add(this);
-    }
+		if (focusHandler)
+		{
+			focusHandler->add(this);
+		}
     
-    mFocusHandler = focusHandler;
+		mFocusHandler = focusHandler;
 
-  } // end _setFocusHandler
+	} // end _setFocusHandler
 
-  FocusHandler* Widget::_getFocusHandler()
-  {
-    return mFocusHandler;
-  } // end _setFocusHandler
+	FocusHandler* Widget::_getFocusHandler()
+	{
+		return mFocusHandler;
+	} // end _setFocusHandler
 
-  void Widget::addActionListener(ActionListener* actionListener)
-  {
-    mActionListeners.push_back(actionListener);
+	void Widget::addActionListener(ActionListener* actionListener)
+	{
+		mActionListeners.push_back(actionListener);
     
-  } // end addActionListener
+	} // end addActionListener
   
-  void Widget::removeActionListener(ActionListener* actionListener)
-  {
-    mActionListeners.remove(actionListener);
+	void Widget::removeActionListener(ActionListener* actionListener)
+	{
+		mActionListeners.remove(actionListener);
     
-  } // end removeActionListener
+	} // end removeActionListener
   
-  void Widget::addKeyListener(KeyListener* keyListener)
-  {
-    mKeyListeners.push_back(keyListener);
+	void Widget::addKeyListener(KeyListener* keyListener)
+	{
+		mKeyListeners.push_back(keyListener);
     
-  } // end addKeyListener
+	} // end addKeyListener
   
-  void Widget::removeKeyListener(KeyListener* keyListener)
-  {
-    mKeyListeners.remove(keyListener);
+	void Widget::removeKeyListener(KeyListener* keyListener)
+	{
+		mKeyListeners.remove(keyListener);
     
-  } // end removeKeyListener
+	} // end removeKeyListener
   
-  void Widget::addMouseListener(MouseListener* mouseListener)
-  {
-    mMouseListeners.push_back(mouseListener);
+	void Widget::addMouseListener(MouseListener* mouseListener)
+	{
+		mMouseListeners.push_back(mouseListener);
     
-  } // end addMouseListener
+	} // end addMouseListener
   
-  void Widget::removeMouseListener(MouseListener* mouseListener)
-  {
-    mMouseListeners.remove(mouseListener);
+	void Widget::removeMouseListener(MouseListener* mouseListener)
+	{
+		mMouseListeners.remove(mouseListener);
     
-  } // end removeMouseListener
+	} // end removeMouseListener
   
-  void Widget::_mouseInputMessage(const MouseInput& mouseInput)
-  {
-    int x = mouseInput.x;
-    int y = mouseInput.y;
-    int b = mouseInput.getButton();
-    int ts = mouseInput.getTimeStamp();
+	void Widget::_mouseInputMessage(const MouseInput& mouseInput)
+	{
+		int x = mouseInput.x;
+		int y = mouseInput.y;
+		int b = mouseInput.getButton();
+		int ts = mouseInput.getTimeStamp();
 
-    MouseListenerIterator iter;
+		MouseListenerIterator iter;
     
-    switch(mouseInput.getType())
-    {
-      case MouseInput::MOTION:
-        for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-        {
-          (*iter)->mouseMotion(x, y);
-        }
-        break;
+		switch(mouseInput.getType())
+		{
+		  case MouseInput::MOTION:
+			  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+			  {
+				  (*iter)->mouseMotion(x, y);
+			  }
+			  break;
         
-      case MouseInput::PRESS:
-        requestFocus();
+		  case MouseInput::PRESS:
+			  requestFocus();
         
-        if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
-        {
-          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-          {
-            (*iter)->mousePress(x, y, b);
-          }
+			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
+			  {
+				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+				  {
+					  (*iter)->mousePress(x, y, b);
+				  }
 
-          if (hasMouse())
-          {
-            /// @todo Tune the time stamp
-            if (ts - mClickTimeStamp < 100 && mClickButton == b)
-            {
-              mClickCount++;
-            }
-            else
-            {
-              mClickCount = 0;
-            }
-            mClickButton = b;
-            mClickTimeStamp = ts;
-          }
-          else
-          {
-            mClickButton = 0;
-          }
-        }
-        else if (b == MouseInput::WHEEL_UP)
-        {
-          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-          {
-            (*iter)->mouseWheelUp(x, y);
-          }
-        }
-        else
-        {
-          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-          {
-            (*iter)->mouseWheelDown(x, y);
-          }
-        }
-        break;
+				  if (hasMouse())
+				  {
+					  /// @todo Tune the time stamp
+					  if (ts - mClickTimeStamp < 100 && mClickButton == b)
+					  {
+						  mClickCount++;
+					  }
+					  else
+					  {
+						  mClickCount = 0;
+					  }
+					  mClickButton = b;
+					  mClickTimeStamp = ts;
+				  }
+				  else
+				  {
+					  mClickButton = 0;
+				  }
+			  }
+			  else if (b == MouseInput::WHEEL_UP)
+			  {
+				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+				  {
+					  (*iter)->mouseWheelUp(x, y);
+				  }
+			  }
+			  else
+			  {
+				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+				  {
+					  (*iter)->mouseWheelDown(x, y);
+				  }
+			  }
+			  break;
 
-      case MouseInput::RELEASE:
-        if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
-        {
-          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-          {
-            (*iter)->mouseRelease(x, y, b);
-          }
-        }
+		  case MouseInput::RELEASE:
+			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
+			  {
+				  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+				  {
+					  (*iter)->mouseRelease(x, y, b);
+				  }
+			  }
 
-        if (mHasMouse)
-        {
-          if (b == mClickButton)
-          {
-            for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-            {
-              (*iter)->mouseClick(x, y, b, mClickCount + 1);
-            }
-          }
-          else
-          {
-            mClickButton = 0;
-            mClickCount = 0;            
-          }
-        }
-        else
-        {
-          mClickCount = 0;
-          mClickTimeStamp = 0;
-        }
-        break;
-    }
+			  if (mHasMouse)
+			  {
+				  if (b == mClickButton)
+				  {
+					  for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+					  {
+						  (*iter)->mouseClick(x, y, b, mClickCount + 1);
+					  }
+				  }
+				  else
+				  {
+					  mClickButton = 0;
+					  mClickCount = 0;            
+				  }
+			  }
+			  else
+			  {
+				  mClickCount = 0;
+				  mClickTimeStamp = 0;
+			  }
+			  break;
+		}
     
-  } // end _mouseInputMessage
+	} // end _mouseInputMessage
 
-  void Widget::_keyInputMessage(const KeyInput& keyInput)
-  {
-    KeyListenerIterator iter;
+	void Widget::_keyInputMessage(const KeyInput& keyInput)
+	{
+		KeyListenerIterator iter;
     
-    switch(keyInput.getType())
-    {
-      case KeyInput::PRESS:
-        for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
-        {
-          (*iter)->keyPress(keyInput.getKey());
-        }        
-        break;
+		switch(keyInput.getType())
+		{
+		  case KeyInput::PRESS:
+			  for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
+			  {
+				  (*iter)->keyPress(keyInput.getKey());
+			  }        
+			  break;
         
-      case KeyInput::RELEASE:
-        for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
-        {
-          (*iter)->keyRelease(keyInput.getKey());
-        }        
-        break;
-    }
+		  case KeyInput::RELEASE:
+			  for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
+			  {
+				  (*iter)->keyRelease(keyInput.getKey());
+			  }        
+			  break;
+		}
     
-  } // end _keyInputMessage
+	} // end _keyInputMessage
 
-  void Widget::_mouseInMessage()
-  {
-    mHasMouse = true;
+	void Widget::_mouseInMessage()
+	{
+		mHasMouse = true;
 
-    MouseListenerIterator iter;
-    for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-    {
-      (*iter)->mouseIn();
-    }    
+		MouseListenerIterator iter;
+		for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+		{
+			(*iter)->mouseIn();
+		}    
 
-  } // end _mouseInMessage
+	} // end _mouseInMessage
 
-  void Widget::_mouseOutMessage()
-  {
-    mHasMouse = false;
+	void Widget::_mouseOutMessage()
+	{
+		mHasMouse = false;
 
-    MouseListenerIterator iter;
-    for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-    {
-      (*iter)->mouseOut();
-    }    
+		MouseListenerIterator iter;
+		for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+		{
+			(*iter)->mouseOut();
+		}    
 
-  } // end _mouseOutMessage
+	} // end _mouseOutMessage
 
-  void Widget::getAbsolutePosition(int& x, int& y)
-  {
-    if (getParent() == NULL)
-    {
-      x = mDimension.x;
-      y = mDimension.y;
-      return;
-    }
+	void Widget::getAbsolutePosition(int& x, int& y)
+	{
+		if (getParent() == NULL)
+		{
+			x = mDimension.x;
+			y = mDimension.y;
+			return;
+		}
 
-    int parentX;
-    int parentY;
+		int parentX;
+		int parentY;
 
-    getParent()->getAbsolutePosition(parentX, parentY);
+		getParent()->getAbsolutePosition(parentX, parentY);
 
-    x = parentX + mDimension.x;
-    y = parentY + mDimension.y;
+		x = parentX + mDimension.x;
+		y = parentY + mDimension.y;
     
-  } // end getAbsolutDimension
+	} // end getAbsolutDimension
 
-  bool Widget::isTabable() const
-  {
-    return mTabable;
+	bool Widget::isTabable() const
+	{
+		return mTabable;
     
-  } // end isTabable
+	} // end isTabable
 
-  void Widget::setTabable(bool tabable)
-  {
-    mTabable = tabable;
+	void Widget::setTabable(bool tabable)
+	{
+		mTabable = tabable;
     
-  } // end setTabable
+	} // end setTabable
 
-  void Widget::generateAction()
-  {
-    ActionListenerIterator iter;
-    for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
-    {
-      (*iter)->action(mEventId);
-    }    
+	void Widget::generateAction()
+	{
+		ActionListenerIterator iter;
+		for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
+		{
+			(*iter)->action(mEventId);
+		}    
     
-  } // end generateAction
+	} // end generateAction
     
-  Font* Widget::getFont() const
-  {
-    if (mCurrentFont == NULL)
-    {
-      if (mGlobalFont == NULL)
-      {
-        return &mDefaultFont;
-      }
+	Font* Widget::getFont() const
+	{
+		if (mCurrentFont == NULL)
+		{
+			if (mGlobalFont == NULL)
+			{
+				return &mDefaultFont;
+			}
 
-      return mGlobalFont;
-    }    
+			return mGlobalFont;
+		}    
     
-    return mCurrentFont;
+		return mCurrentFont;
 
-  } // end getFont
+	} // end getFont
   
-  void Widget::setGlobalFont(Font* font)
-  {
-    mGlobalFont = font;
+	void Widget::setGlobalFont(Font* font)
+	{
+		mGlobalFont = font;
         
-    std::list<Widget*>::iterator iter;
-    for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
-    {
-      if ((*iter)->mCurrentFont == NULL)
-      {
-        (*iter)->fontChanged();
-      }
-    }
+		std::list<Widget*>::iterator iter;
+		for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+		{
+			if ((*iter)->mCurrentFont == NULL)
+			{
+				(*iter)->fontChanged();
+			}
+		}
     
-  } // end setGlobalFont
+	} // end setGlobalFont
   
-  void Widget::setFont(Font* font)
-  {
-    mCurrentFont = font;
-    fontChanged();
+	void Widget::setFont(Font* font)
+	{
+		mCurrentFont = font;
+		fontChanged();
     
-  } // end setFont
+	} // end setFont
+
+	bool Widget::widgetExists(const Widget* widget)
+	{
+		bool result = false;
+		
+		std::list<Widget*>::iterator iter;
+		for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+		{
+			if (*iter == widget)
+			{
+				return true;
+			}
+		}
+
+		return result;
+
+	} // end widgetExists
 
 } // end gcn
