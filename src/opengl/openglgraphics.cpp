@@ -149,7 +149,7 @@ namespace gcn
     bool result = Graphics::pushClipArea(area);
     
     glScissor(mClipStack.top().x,
-              mClipStack.top().y,
+              mHeight - mClipStack.top().y - mClipStack.top().height,
               mClipStack.top().width,
               mClipStack.top().height);
     
@@ -166,8 +166,8 @@ namespace gcn
       return;
     }
     
-    glScissor(mClipStack.top().x, 
-              mClipStack.top().y,
+    glScissor(mClipStack.top().x,
+              mHeight - mClipStack.top().y - mClipStack.top().height,
               mClipStack.top().width,
               mClipStack.top().height);
 
