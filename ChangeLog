@@ -1,3 +1,12 @@
+* Added a new widget called Slider, and it is a... slider!
+* Removed getWidth for glyphs in Font.
+* Removed function drawGlyph in Font and in addon SDLTrueTypeFont. 
+  Added drawGlyph function in ImageFont and DefaultFont.
+  drawGlyph in Font is easy to missunderstand and could lead to 
+  strange implementations of Font.
+* Added getCurrentClipArea function in Graphics.
+* All functions in container are now virtual (thanks to Garo pointing this out).
+* Added function setSize in Widget.
 * Added an "addons" directory in the distrobution. It will contain
   usefull classes with Guichan that are not compiled into the library.
   They are not compiled because they need dependencies other then 
