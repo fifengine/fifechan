@@ -54,92 +54,57 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROGRAPHICS_HPP
-#define GCN_ALLEGROGRAPHICS_HPP
+#ifndef GCN_ALLEGROIMAGELOADER_HPP
+#define GCN_ALLEGROIMAGELOADER_HPP
+
+#include <string>
 
 #include "guichan/platform.hpp"
-#include "guichan/graphics.hpp"
-
-#include <allegro.h>
-#include <stack>
-#include <string>
+#include "guichan/color.hpp"
+#include "guichan/imageloader.hpp"
 
 namespace gcn
 {
-  class Font;
+  class Image;
 
-  class DECLSPEC AllegroGraphics : public Graphics
+	/**
+	 * For loading images to use with AllegroGraphics.
+	 * Able to load BMP, LBM, PCX, and TGA files, plus
+	 * any formats you have added with Allegro's
+	 * register_bitmap_file_type.
+	 *
+	 * @see AllegroGraphics, Image
+	 */
+  class DECLSPEC AllegroImageLoader : public ImageLoader
   {
   public:
-		/**
-		 * Default constructor
-		 */
-    AllegroGraphics();
-
-		/**
-		 * Contsructor, sets the drawing target
-		 *
-		 * @param target the target
-		 * @see setTarget
-		 */
-		AllegroGraphics(BITMAP *target);
-
-		/**
-		 * Destructor
-		 */
-    virtual ~AllegroGraphics();
-
-		/**
-		 * Sets the Allegro BITMAP to draw to. It can be any bitmap
-		 * with the same bit-depth as the screen,
-		 * but if you pass the screen bitmap you will probably get
-		 * flicker. Use a double buffer!
-		 *
-		 * @target the bitmap to draw the GUI to.
-		 */
-		virtual void setTarget(BITMAP *target);
-
-		/**
-		 * Gets the target bitmap.
-		 *
-		 * @return the target bitmap.
-		 * @see setTarget
-		 */
-		virtual BITMAP *getTarget();
-
+		AllegroImageLoader();
 		
-		// Inherited from Graphics
-		
-    virtual void _beginDraw();
+    virtual ~AllegroImageLoader();
 
-    virtual void _endDraw();
+    virtual void prepare(const std::string& filename);
 
-    virtual bool pushClipArea(Rectangle area);
+    virtual void free(Image* image);
 
-    virtual void popClipArea();
+    virtual void* getRawData();
 
-    virtual void drawImage(const Image* image, int srcX, int srcY,
-                           int dstX, int dstY, int width,
-                           int height);    
+    virtual void* finalize();
 
-    virtual void drawPoint(int x, int y);
+    virtual void discard();
 
-    virtual void drawLine(int x1, int y1, int x2, int y2);
-    
-    virtual void drawRectangle(const Rectangle& rectangle);
+    virtual int getHeight() const;
 
-    virtual void fillRectangle(const Rectangle& rectangle);
+    virtual int getWidth() const;
 
-    virtual void setColor(const Color& color);		
-		
-  protected:
-		BITMAP *mTarget;
-		bool mClipNull;
-		int mAlColor;
-    
-  }; // end AllegroGraphics
+    virtual Color getPixel(int x, int y);
+
+    virtual void putPixel(int x, int y, const Color& color);
+
+	protected:
+		BITMAP *mBmp;
+		int *mRawData;
+  }; // end AllegroImageLoader
   
 } // end gcn
 
-#endif // end GCN_ALLEGROGRAPHICS_HPP
- 
+#endif // end GCN_ALLEGROIMAGELOADER_HPP

@@ -54,92 +54,159 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROGRAPHICS_HPP
-#define GCN_ALLEGROGRAPHICS_HPP
-
-#include "guichan/platform.hpp"
-#include "guichan/graphics.hpp"
+/*
+ * For comments regarding functions please see the header file. 
+ */
 
 #include <allegro.h>
-#include <stack>
-#include <string>
+
+#include "guichan/allegro/allegroimageloader.hpp"
+#include "guichan/exception.hpp"
+#include "guichan/image.hpp"
 
 namespace gcn
 {
-  class Font;
+	AllegroImageLoader::AllegroImageLoader()
+	{
+		mBmp = NULL;
+		mRawData = NULL;
+	}
+	
+	AllegroImageLoader::~AllegroImageLoader()
+	{
+		if (mBmp != NULL)
+		{
+			destroy_bitmap(mBmp);
+		}
 
-  class DECLSPEC AllegroGraphics : public Graphics
-  {
-  public:
-		/**
-		 * Default constructor
-		 */
-    AllegroGraphics();
+		if (mRawData != NULL)
+		{
+			delete[] mRawData;
+		}
+	}
+	
+	void AllegroImageLoader::prepare(const std::string& filename)
+	{
+		if (mBmp != NULL)
+		{
+			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
+		}
+		
+		int colconv = get_color_conversion();
+		set_color_conversion(COLORCONV_NONE);
 
-		/**
-		 * Contsructor, sets the drawing target
-		 *
-		 * @param target the target
-		 * @see setTarget
-		 */
-		AllegroGraphics(BITMAP *target);
+		PALETTE pal;
+		BITMAP *bmp = load_bitmap(filename.c_str(), pal);		
+		
+		if (bmp == NULL)
+		{
+			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Unable to load: ") + filename);
+		}
 
-		/**
-		 * Destructor
-		 */
-    virtual ~AllegroGraphics();
+		mBmp = create_bitmap_ex(32, bmp->w, bmp->h);
 
-		/**
-		 * Sets the Allegro BITMAP to draw to. It can be any bitmap
-		 * with the same bit-depth as the screen,
-		 * but if you pass the screen bitmap you will probably get
-		 * flicker. Use a double buffer!
-		 *
-		 * @target the bitmap to draw the GUI to.
-		 */
-		virtual void setTarget(BITMAP *target);
+		if (mBmp == NULL)
+		{
+			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Not enough memory to load: ") + filename);
+		}
 
-		/**
-		 * Gets the target bitmap.
-		 *
-		 * @return the target bitmap.
-		 * @see setTarget
-		 */
-		virtual BITMAP *getTarget();
+		set_palette(pal);
+		blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
+		destroy_bitmap(bmp);
+
+		set_color_conversion(colconv);
+	}
+	
+	void AllegroImageLoader::free(Image* image)
+	{
+		BITMAP *bmp = (BITMAP *)image->_getData();
+		destroy_bitmap(bmp);
+	}
+	
+	void* AllegroImageLoader::getRawData()
+	{
+		// @todo do it!
+		throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
 
 		
-		// Inherited from Graphics
+		if (mBmp == NULL)
+		{
+			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+		}
 		
-    virtual void _beginDraw();
-
-    virtual void _endDraw();
-
-    virtual bool pushClipArea(Rectangle area);
-
-    virtual void popClipArea();
-
-    virtual void drawImage(const Image* image, int srcX, int srcY,
-                           int dstX, int dstY, int width,
-                           int height);    
-
-    virtual void drawPoint(int x, int y);
-
-    virtual void drawLine(int x1, int y1, int x2, int y2);
-    
-    virtual void drawRectangle(const Rectangle& rectangle);
-
-    virtual void fillRectangle(const Rectangle& rectangle);
-
-    virtual void setColor(const Color& color);		
+		return 0;
+	}
+	
+	void* AllegroImageLoader::finalize()
+	{
+		if (mBmp == NULL)
+		{
+			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+		}		
 		
-  protected:
-		BITMAP *mTarget;
-		bool mClipNull;
-		int mAlColor;
-    
-  }; // end AllegroGraphics
-  
+		BITMAP *bmp = create_bitmap(mBmp->w, mBmp->h);
+
+		blit(mBmp, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
+
+		mBmp = NULL;
+
+		if (mRawData != NULL)
+		{
+			delete[] mRawData;
+			mRawData = NULL;			
+		}
+				
+		return bmp;
+	}
+	
+	void AllegroImageLoader::discard()
+	{
+		if (mBmp == NULL)
+		{
+			GCN_EXCEPTION("AllegroImageLoader::discard. No image seems to be loaded");
+		}				
+		
+		destroy_bitmap(mBmp);
+		
+		if (mRawData != NULL)
+		{
+			delete[] mRawData;
+			mRawData = NULL;
+		}
+	}	
+	
+	int AllegroImageLoader::getHeight() const
+	{
+		if (mBmp == NULL)
+		{
+			GCN_EXCEPTION("AllegroImageLoader::getHeight. No image seems to be loaded");
+		}						
+		
+		return mBmp->h;
+	}
+	
+	int AllegroImageLoader::getWidth() const
+	{
+		if (mBmp == NULL)
+		{
+			GCN_EXCEPTION("AllegroImageLoader::getWidth. No image seems to be loaded");
+		}				
+		
+		return mBmp->w;
+	}
+	
+	Color AllegroImageLoader::getPixel(int x, int y)
+	{
+		int c = getpixel(mBmp, x, y);
+
+		return Color(getr32(c), getg32(c), getb32(c), geta(32));
+	}
+	
+	void AllegroImageLoader::putPixel(int x, int y, const Color& color)
+	{
+		int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
+
+		putpixel(mBmp, x, y, c);
+	}
+	
 } // end gcn
-
-#endif // end GCN_ALLEGROGRAPHICS_HPP
- 
