@@ -87,10 +87,10 @@ namespace gcn
     ClipRectangle top = mClipStack.top();
     ClipRectangle carea;
     carea = area;
-    carea.xOffset = top.x + carea.x;
-    carea.yOffset = top.y + carea.y;
-    carea.x += top.x;
-    carea.y += top.y;
+    carea.xOffset = top.xOffset + carea.x;
+    carea.yOffset = top.yOffset + carea.y;
+    carea.x += top.xOffset;
+    carea.y += top.yOffset;
 
     bool result = carea.intersect(top);
 
