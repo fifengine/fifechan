@@ -1,3 +1,4 @@
+* Added verical spacing in ImageFont
 * Fixed problem in ImageFont when loading a corrupt file.
   It will now throw an exception (thanks Terin!).
 * Implemented _getRawData() in AllegroImageLoader.
