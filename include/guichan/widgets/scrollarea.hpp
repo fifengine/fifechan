@@ -174,6 +174,14 @@ namespace gcn
     
     virtual void draw(Graphics *graphics);
 
+    virtual void drawUpButton(Graphics *graphics);
+
+    virtual void drawDownButton(Graphics *graphics);
+
+    virtual void drawLeftButton(Graphics *graphics);
+
+    virtual void drawRightButton(Graphics *graphics);
+
     virtual void logic();
 
     virtual void moveToTop(Widget* widget);
@@ -199,16 +207,12 @@ namespace gcn
     /**
      *
      */
-    virtual void drawVBar(Graphics* graphics,
-                  Rectangle position,
-                  Rectangle markerPosition);
+    virtual void drawVBar(Graphics* graphics);
 
     /**
      *
      */
-    virtual void drawHBar(Graphics* graphics,
-                  Rectangle position,
-                  Rectangle markerPosition);
+    virtual void drawHBar(Graphics* graphics);
 
     virtual void checkPolicies();
     
@@ -221,6 +225,10 @@ namespace gcn
     bool mouseOverContent;
     bool mVBarVisible;
     bool mHBarVisible;
+    bool mUpButtonPressed;
+    bool mDownButtonPressed;
+    bool mLeftButtonPressed;
+    bool mRightButtonPressed;
     
   }; // end ScrollArea
 
