@@ -59,4 +59,13 @@
 #include <guichan/allegro/allegroimageloader.hpp>
 #include <guichan/allegro/allegroinput.hpp>
 
+extern "C"
+{
+  /**
+   * This is a C function which exists to make life easier when
+   * checking for the Guichan Allegro library with autotools.
+   */    
+  extern void gcnAllegro();
+}
+
 #endif // end GCN_ALLEGRO_HPP

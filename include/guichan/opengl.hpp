@@ -58,4 +58,13 @@
 #include "guichan/opengl/openglgraphics.hpp"
 #include "guichan/opengl/openglimageloader.hpp"
 
+extern "C"
+{
+  /**
+   * This is a C function which exists to make life easier when
+   * checking for the Guichan OpenGL library with autotools.
+   */    
+  extern void gcnOpenGL();
+}
+
 #endif GCN_OPENGL_HPP 
