@@ -334,7 +334,15 @@ namespace gcn
 
 	void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
 	{
-		BasicContainer::_mouseInputMessage(mouseInput);
+		bool miSent = false;
+		
+		if (mouseInput.getType() != MouseInput::PRESS ||
+			mouseInput.getButton() == MouseInput::WHEEL_UP ||
+			mouseInput.getButton() == MouseInput::WHEEL_DOWN)
+		{
+			BasicContainer::_mouseInputMessage(mouseInput);
+			miSent = true;
+		}
     
 		if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
 		{
@@ -373,7 +381,12 @@ namespace gcn
 			if (mContent && mContent->hasMouse())
 			{
 				mContent->_mouseOutMessage();
-			}     
+			}
+
+			if (!miSent)
+			{
+				BasicContainer::_mouseInputMessage(mouseInput);
+			}
 		}
 
 	} // end _mouseInputMessage
