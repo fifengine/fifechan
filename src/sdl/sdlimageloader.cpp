@@ -63,6 +63,8 @@
 #include "guichan/sdl/sdlpixel.hpp"
 #include <SDL/SDL_image.h>
 
+#include <iostream>
+
 namespace gcn
 {
 
@@ -138,17 +140,29 @@ namespace gcn
       if (((unsigned int*)mCurrentImage->pixels)[i] == SDL_MapRGB(mCurrentImage->format,255,0,255))
       {
         SDL_SetColorKey(mCurrentImage,SDL_SRCCOLORKEY,
-                        SDL_MapRGB(mCurrentImage->format,255,0,255));        
+                        SDL_MapRGB(mCurrentImage->format,255,0,255));
         break;
       }
-    }    
+    }
+
+    ///@todo fix the alpha scheisse! Verdamt noch mal!
+    
+//     for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
+//     {
+//       std::cout << std::hex << ((unsigned int*)mCurrentImage->pixels)[i] << std::endl;
+//       if ((((unsigned int*)mCurrentImage->pixels)[i] >> 24) != 0xff)
+//       {        
+//         SDL_SetAlpha(mCurrentImage, SDL_SRCALPHA, 128);
+//         break;
+//       }
+//     }
     
     SDL_Surface* temp = SDL_DisplayFormat(mCurrentImage);
-    SDL_FreeSurface(mCurrentImage);
-    mCurrentImage = NULL;
+     SDL_FreeSurface(mCurrentImage);
+     mCurrentImage = NULL;
     
-    return temp;
-
+     return temp;
+    
   } // end finalize
   
   void SDLImageLoader::discard()
