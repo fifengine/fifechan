@@ -65,13 +65,22 @@ namespace gcn
   Key::Key()
   {
     mValue = 0;
-
+    mShiftPressed = false;
+    mControlPressed = false;
+    mAltPressed = false;  
+    mMetaPressed = false;
+    mNumericPad = false;
+    
   } // end Key
   
   Key::Key(int value)
   {
     mValue = value;
     mShiftPressed = false;
+    mControlPressed = false;
+    mAltPressed = false;
+    mMetaPressed = false;
+    mNumericPad = false;
     
   } // end Key
 
@@ -109,6 +118,54 @@ namespace gcn
     mShiftPressed = pressed;
 
   } // end setShiftPressed
+
+  bool Key::isControlPressed() const
+  {
+    return mControlPressed;
+
+  } // end isControlPressed
+  
+  void Key::setControlPressed(bool pressed)
+  {
+    mControlPressed = pressed;
+
+  } // end setControlPressed
+
+  bool Key::isAltPressed() const
+  {
+    return mAltPressed;
+
+  } // end isAltPressed
+  
+  void Key::setAltPressed(bool pressed)
+  {
+    mAltPressed = pressed;
+
+  } // end setAltPressed
+
+  bool Key::isMetaPressed() const
+  {
+    return mMetaPressed;
+
+  } // end isMetaPressed
+  
+  void Key::setMetaPressed(bool pressed)
+  {
+    mMetaPressed = pressed;
+
+  } // end setMetaPressed
+
+  bool Key::isNumericPad() const
+  {
+    return mNumericPad;
+
+  } // end isNumericPad
+  
+  void Key::setNumericPad(bool numpad)
+  {
+    mNumericPad = numpad;
+
+  } // end setNumericPad
 
   void Key::setValue(int value)
   {

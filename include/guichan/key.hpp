@@ -62,67 +62,172 @@
 namespace gcn
 {
   /**
-   * 
+   * This represents a key or a character.
    */
   class Key
   {
   public:
+    /**
+     * Constructor.
+     */
     Key();
     
     /**
-     * 
+     * Constructor.
+     *
+     * @param value the ascii or enum value for the key.
      */
     Key(int value);
-
+    
     /**
-     * 
+     * @return true if the key is a letter, number or whitespace.
      */
     bool isCharacter() const;
 
     /**
-     *
+     * @return true if the key is a number (0-9).
      */
     bool isNumber() const;
     
     /**
-     *
+     * @return true if the key is a letter (a-z,A-Z). 
      */
     bool isLetter() const;
 
     /**
-     *
+     * @return true if shift was pressed at the same time as the key.
      */
     bool isShiftPressed() const;
-
+    
     /**
+     * Sets the shift pressed flag.
      *
+     * @param pressed the shift flag value.
      */
     void setShiftPressed(bool pressed);
 
     /**
+     * @return true if control was pressed at the same time as the key.
+     */    
+    bool isControlPressed() const;
+    
+    /**
+     * Sets the control pressed flag.
      *
+     * @param pressed the control flag value.
+     */
+    void setControlPressed(bool pressed);
+
+    /**
+     * @return true if alt was pressed at the same time as the key.
+     */
+    bool isAltPressed() const;
+
+    /**
+     * Sets the alt pressed flag.
+     *
+     * @param pressed the alt flag value.
+     */
+    void setAltPressed(bool pressed);
+
+    /**
+     * @return true if meta was pressed at the same time as the key.
+     */
+    bool isMetaPressed() const;
+
+    /**
+     * Sets the meta pressed flag.
+     *
+     * @param pressed the meta flag value.
+     */
+    void setMetaPressed(bool pressed);
+    
+    /**
+     * @return true if key pressed at the numeric pad.
+     */
+    bool isNumericPad() const;
+
+    /**
+     * Sets the numeric pad flag.
+     *
+     * @param numpad the numeric pad flag value.
+     */
+    void setNumericPad(bool numpad);
+    
+    /**
+     * @return the value of the key, an ascii value if exists
+     *         otherwise an enum value will be returned.
      */
     int getValue() const;
 
     /**
+     * Sets the value of the key. An ascii value or an enum value.
      *
+     * @param value the key value.
      */
     void setValue(int value);
 
-    static const int TAB                = '\t';
-    static const int ENTER              = '\n';
-    static const int LEFT_ALT           = 1000;
-    static const int RIGHT_ALT          = 1001;
-    static const int LEFT_SHIFT         = 1002;
-    static const int RIGHT_SHIFT        = 1003;
-    static const int LEFT_CONTROL       = 1004;
-    static const int RIGHT_CONTROL      = 1005;
     /**
-     * @todo Add more keys.
+     * An enum with key values.
      */
+    enum
+    {
+      SPACE              = ' ',
+      TAB                = '\t', 
+      ENTER              = '\n',   
+      LEFT_ALT           = 1000,
+      RIGHT_ALT,
+      LEFT_SHIFT,
+      RIGHT_SHIFT,
+      LEFT_CONTROL,
+      RIGHT_CONTROL,
+      LEFT_META,
+      RIGHT_META,
+      LEFT_SUPER,
+      RIGHT_SUPER,
+      INSERT,
+      HOME,
+      PAGE_UP,
+      DELETE,
+      END,
+      PAGE_DOWN,
+      ESCAPE,
+      CAPS_LOCK,
+      BACKSPACE,
+      F1,
+      F2,
+      F3,
+      F4,
+      F5,
+      F6,
+      F7,
+      F8,
+      F9,
+      F10,
+      F11,
+      F12,
+      F13,
+      F14,
+      F15,
+      PRINT_SCREEN,
+      SCROLL_LOCK,
+      PAUSE,
+      NUM_LOCK,
+      ALT_GR,
+      LEFT,
+      RIGHT,
+      UP,
+      DOWN
+      
+    };
+    
   protected:
     int mValue;
     bool mShiftPressed;
+    bool mControlPressed;
+    bool mAltPressed;
+    bool mMetaPressed;
+    bool mNumericPad;
     
   }; // end Key
 
