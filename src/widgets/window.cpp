@@ -315,6 +315,11 @@ namespace gcn
 
   void Window::mousePress(int x, int y, int button)
   {    
+    if (getParent() != NULL)
+    {
+      getParent()->moveToTop(this);
+    }
+    
     if (isMovable() && hasMouse() && y < (int)(mTitleBarHeight + mPadding) && button == 1)
     {
       mMouseDrag = true;
