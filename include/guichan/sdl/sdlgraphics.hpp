@@ -56,7 +56,7 @@
 #define GCN_SDLGRAPHICS_HPP
 
 #include <map>
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include <string>
 
 #include "guichan/graphics.hpp"

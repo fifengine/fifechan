@@ -55,7 +55,7 @@
 #ifndef GCN_SDLPIXEL_HPP
 #define GCN_SDLPIXEL_HPP
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "guichan/color.hpp"
 

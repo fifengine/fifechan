@@ -55,7 +55,7 @@
 #ifndef GCN_SDLINPUT_HPP
 #define GCN_SDLINPUT_HPP
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include <queue>
 
 #include "guichan/input.hpp"
