@@ -145,9 +145,8 @@ namespace gcn
 
 	ScrollArea::~ScrollArea()
 	{
-		setContent(NULL);
-		
-	} // end ~ScrollArea
+		setContent(NULL);		
+	}
 	
 	void ScrollArea::setContent(Widget* widget)
 	{
@@ -163,49 +162,42 @@ namespace gcn
 		{
 			mContent->_setFocusHandler(_getFocusHandler());
 			mContent->_setParent(this);
-		}
-	
-	} // end setContent
+		}	
+	}
   
 	Widget* ScrollArea::getContent()
 	{
 		return mContent;
-
-	} // end getContent
+	}
 
 	void ScrollArea::setHorizontalScrollPolicy(unsigned int hPolicy)
 	{
 		mHPolicy = hPolicy;
 		checkPolicies();
-
-	} // end setHorizontalScrollPolicy
+	}
 
 	unsigned int ScrollArea::getHorizontalScrollPolicy()
 	{
 		return mHPolicy;
-
-	} // end getHorizontalScrollPolicy
+	}
 
 	void ScrollArea::setVerticalScrollPolicy(unsigned int vPolicy)
 	{
 		mVPolicy = vPolicy;
 		checkPolicies();
-
-	} // end setVerticalScrollPolicy
+	}
 
 	unsigned int ScrollArea::getVerticalScrollPolicy()
 	{
 		return mVPolicy;
-
-	} // end getVerticalScrollPolicy
+	}
 
 	void ScrollArea::setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy)
 	{
 		mHPolicy = hPolicy;
 		mVPolicy = vPolicy;
 		checkPolicies();
-
-	} // end setScrollPolicy
+	}
 
 	void ScrollArea::setVerticalScrollAmount(int vScroll)
 	{
@@ -222,14 +214,12 @@ namespace gcn
 		{
 			mVScroll = 0;
 		}
-
-	} // end setVerticalScrollAmount
+	}
 
 	int ScrollArea::getVerticalScrollAmount()
 	{
 		return mVScroll;
-
-	} // end getVerticalScrollAmount
+	}
 
 	void ScrollArea::setHorizontalScrollAmount(int hScroll)
 	{
@@ -245,21 +235,18 @@ namespace gcn
 		{
 			mHScroll = 0;
 		}
-
-	} // end setHorizontalScrollAmount
+	}
 
 	int ScrollArea::getHorizontalScrollAmount()
 	{
 		return mHScroll;
-
-	} // end getHorizontalScrollAmount
+	}
 
 	void ScrollArea::setScrollAmount(int hScroll, int vScroll)
 	{
 		setHorizontalScrollAmount(hScroll);
 		setVerticalScrollAmount(vScroll);
-
-	} // end setScrollAmount
+	}
 
 	int ScrollArea::getHorizontalMaxScroll()
 	{
@@ -278,8 +265,7 @@ namespace gcn
 		}
 
 		return value;
-
-	} // end getHorizontalMaxScroll
+	} 
 
 	int ScrollArea::getVerticalMaxScroll()
 	{
@@ -300,8 +286,7 @@ namespace gcn
 		}
 
 		return value;
-
-	} // getVerticalMaxScroll
+	} 
 
 	void ScrollArea::setScrollbarWidth(int width)
 	{
@@ -313,14 +298,12 @@ namespace gcn
 		{
 			throw GCN_EXCEPTION("ScrollArea::setScrollbarWidth. width should be greater then 0");
 		}
-
-	} // end setScrollbarWidth
+	}
 
 	int ScrollArea::getScrollbarWidth()
 	{
 		return mScrollbarWidth;
-
-	} // end getScrollbarWidth
+	}
 
 	void ScrollArea::_setFocusHandler(FocusHandler* focusHandler)
 	{
@@ -330,8 +313,7 @@ namespace gcn
 		{
 			mContent->_setFocusHandler(focusHandler);
 		}
-
-	} // end _setFocusHandler
+	}
 
 	void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
 	{
@@ -400,7 +382,6 @@ namespace gcn
 		}
 	
 		BasicContainer::_mouseOutMessage();
-
 	}
   
 	void ScrollArea::mousePress(int x, int y, int button)
@@ -450,8 +431,7 @@ namespace gcn
 		if (button == MouseInput::LEFT && hasFocus() && mContent)
 		{
 			mContent->requestFocus();
-		}
-      
+		}      
 	}
 
 	void ScrollArea::mouseMotion(int x, int y)
@@ -490,7 +470,6 @@ namespace gcn
 				setHorizontalScrollAmount(0);
 			}	 
 		}
-
 	}
 
 	void ScrollArea::draw(Graphics *graphics)
@@ -595,9 +574,8 @@ namespace gcn
 		graphics->setColor(shadowColor);
 		graphics->drawLine(0, 0, dim.width, 0);
 
-		graphics->popClipArea();
-	
-	} // end drawHBar  
+		graphics->popClipArea();	
+	}
   
 	void ScrollArea::drawVBar(Graphics* graphics)
 	{
@@ -618,8 +596,7 @@ namespace gcn
 		graphics->drawLine(0, 0, 0, dim.height);
 		
 		graphics->popClipArea();
-
-	} // end drawVBar
+	}
   
 	void ScrollArea::drawUpButton(Graphics* graphics)
 	{
@@ -939,9 +916,8 @@ namespace gcn
 								  -mVScroll + getContentDimension().y + mContent->getBorderSize());
 
 			mContent->logic();
-		}
-    
-	} // end logic
+		}    
+	}
 
 	void ScrollArea::moveToTop(Widget* widget)
 	{
@@ -996,9 +972,8 @@ namespace gcn
 		else
 		{
 			throw GCN_EXCEPTION("ScrollArea::getDrawSize. Widget not in scrollarea");
-		}
-    
-	} // end getDrawSize
+		}    
+	}
   
 	void ScrollArea::drawContent(Graphics* graphics)
 	{
@@ -1114,8 +1089,7 @@ namespace gcn
 						 0,
 						 mScrollbarWidth,
 						 mScrollbarWidth);
-
-	} // end getUpButtonDimension
+	}
 
 	Rectangle ScrollArea::getDownButtonDimension()
 	{
@@ -1149,9 +1123,8 @@ namespace gcn
 		return Rectangle(0,
 						 getHeight() - mScrollbarWidth,
 						 mScrollbarWidth,
-						 mScrollbarWidth);
-	
-	} // end getLeftButtonDimension
+						 mScrollbarWidth);	
+	}
 
 	Rectangle ScrollArea::getRightButtonDimension()
 	{
@@ -1171,9 +1144,8 @@ namespace gcn
 		return Rectangle(getWidth() - mScrollbarWidth,
 						 getHeight() - mScrollbarWidth,
 						 mScrollbarWidth,
-						 mScrollbarWidth);
-		  
-	} // end getRightButtonDimension
+						 mScrollbarWidth);		  
+	}
 
 	Rectangle ScrollArea::getContentDimension()
 	{
@@ -1194,8 +1166,7 @@ namespace gcn
 		}
 	
 		return Rectangle(0, 0, getWidth(), getHeight());
-
-	} // end getContentDimension
+	}
 
 	Rectangle ScrollArea::getVerticalBarDimension()
 	{
@@ -1221,8 +1192,7 @@ namespace gcn
 						 getHeight() 
 						 - getUpButtonDimension().height
 						 - getDownButtonDimension().height);
-
-	} // end getVerticalBarDimension
+	} 
 
 	Rectangle ScrollArea::getHorizontalBarDimension()
 	{
@@ -1248,8 +1218,7 @@ namespace gcn
 						 - getLeftButtonDimension().width
 						 - getRightButtonDimension().width,
 						 mScrollbarWidth);
-
-	} // end getHorizontalBarDimension
+	}
 
 	Rectangle ScrollArea::getVerticalMarkerDimension()
 	{
@@ -1372,21 +1341,19 @@ namespace gcn
 		if (hasMouse())
 		{
 			setVerticalScrollAmount(getVerticalScrollAmount() - getContentDimension().height / 8);
-		}
-    
-	} // end mouseWheelUp
+		}    
+	}
 
 	void ScrollArea::mouseWheelDown(int x, int y)
 	{    
 		if (hasMouse())
 		{
 			setVerticalScrollAmount(getVerticalScrollAmount() + getContentDimension().height / 8);
-		}
-    
-	} // end mouseWheelDown
+		}    
+	}
 
 } // end gcn
 
 /*
- * Wow! This is a looooong source file. 1392 lines!
+ * Wow! This is a looooong source file. 1359 lines!
  */

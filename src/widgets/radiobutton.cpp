@@ -101,7 +101,7 @@ namespace gcn
     
 		int h = getHeight() + getHeight() / 2;
 		
-		graphics->drawText(mCaption, h - 2, 0);
+		graphics->drawText(getCaption(), h - 2, 0);
 		
 		if (hasFocus())
 		{		
@@ -186,7 +186,7 @@ namespace gcn
 		graphics->setColor(getForegroundColor());
 
 		int hhh = hh - 3;
-		if (mMarked)
+		if (isMarked())
 		{
 			for (i = 0; i < hhh; ++i)
 			{         
@@ -294,7 +294,7 @@ namespace gcn
 		int height = getFont()->getHeight();
 
 		setHeight(height);
-		setWidth(getFont()->getWidth(mCaption) + height + height/2);
+		setWidth(getFont()->getWidth(getCaption()) + height + height/2);
 	}
       
 } // end gcn

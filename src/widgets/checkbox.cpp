@@ -91,7 +91,7 @@ namespace gcn
 
 		int h = getHeight() + getHeight() / 2;
 
-		graphics->drawText(mCaption, h - 2, 0);
+		graphics->drawText(getCaption(), h - 2, 0);
 
 		if (hasFocus())
 		{		

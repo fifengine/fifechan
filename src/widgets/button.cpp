@@ -112,7 +112,7 @@ namespace gcn
 		Color highlightColor, shadowColor;
 		int alpha = getBaseColor().a;
 		
-		if ((hasMouse() && mMouseDown) || mKeyDown)
+		if (isPressed())
 		{
 			faceColor = faceColor - 0x303030;
 			faceColor.a = alpha;
@@ -145,7 +145,7 @@ namespace gcn
 		int textX;
 		int textY = getHeight() / 2 - getFont()->getHeight() / 2;
 		
-		switch (mAlignment)
+		switch (getAlignment())
 		{
 			case Graphics::LEFT:
 				textX = 4;
@@ -162,18 +162,18 @@ namespace gcn
 
 		graphics->setFont(getFont());
 		
-		if ((hasMouse() && mMouseDown) || mKeyDown)
+		if (isPressed())
 		{
-			graphics->drawText(mCaption, textX + 1, textY + 1, mAlignment);
+			graphics->drawText(getCaption(), textX + 1, textY + 1, getAlignment());
 		}
 		else
 		{
-			graphics->drawText(mCaption, textX, textY, mAlignment);
-
+			graphics->drawText(getCaption(), textX, textY, getAlignment());
+			
 			if (hasFocus())
 			{
-				graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4,
-																					getDimension().height - 4));
+				graphics->drawRectangle(Rectangle(2, 2, getWidth() - 4,
+																					getHeight() - 4));
 			}      
 		}    
 	}
@@ -210,7 +210,7 @@ namespace gcn
 
 	bool Button::isPressed() const
 	{
-		return ((hasMouse() && mMouseDown) || mKeyDown);
+		return (hasMouse() && mMouseDown) || mKeyDown;
 	}
 	
 	void Button::mouseClick(int x, int y, int button, int count)

@@ -59,39 +59,34 @@
 #include "guichan/exception.hpp"
 #include "guichan/widgets/container.hpp"
 
-
 namespace gcn
 {
 
 	Container::Container()
 	{
 		mWidgetWithMouse = NULL;
-		mOpaque = true;
-		
-	} // end Container
+		mOpaque = true;		
+	}
 
 	Container::~Container()
 	{
-		clear();
-		
-	} // end ~Container
+		clear();		
+	}
 	
 	void Container::logic()
 	{
 		logicChildren();
-
-	} // end logic
+	}
    
 	void Container::draw(Graphics* graphics)
 	{
-		if (mOpaque)
+		if (isOpaque())
 		{
 			graphics->setColor(getBaseColor());
-			graphics->fillRectangle(Rectangle(0, 0, getDimension().width, getDimension().height));
+			graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 		}
     
 		drawChildren(graphics);
-
 	}
 
 	void Container::drawBorder(Graphics* graphics)
@@ -125,8 +120,7 @@ namespace gcn
 		{
 			(*iter)->logic();
 		}
-
-	} // end logicChildren
+	}
   
 	void Container::drawChildren(Graphics* graphics)
 	{
@@ -154,20 +148,17 @@ namespace gcn
 				graphics->popClipArea();
 			}
 		}
-
-	} // end drawChildren
+	}
 
 	void Container::setOpaque(bool opaque)
 	{
 		mOpaque = opaque;
-
-	} // end setOpaque
+	}
 
 	bool Container::isOpaque() const
 	{
 		return mOpaque;
-
-	} // end isOpaque
+	}
 
 	void Container::moveToTop(Widget* widget)
 	{
@@ -183,8 +174,7 @@ namespace gcn
 		}
 
 		throw GCN_EXCEPTION("Container::moveToTop. There is no such widget in this container");
-
-	} // end moveToTop
+	}
 
 	void Container::moveToBottom(Widget* widget)
 	{
@@ -200,8 +190,7 @@ namespace gcn
 		}
 
 		throw GCN_EXCEPTION("Container::moveToBottom. There is no such widget in this container");
-
-	} // end moveToBottom
+	}
 
 	void Container::_announceDeath(Widget *widget)
 	{
@@ -220,9 +209,8 @@ namespace gcn
 			}
 		}
 
-		throw GCN_EXCEPTION("Container::_announceDeath. There is no such widget in this container");
-		  
-	} // end _announceDeath
+		throw GCN_EXCEPTION("Container::_announceDeath. There is no such widget in this container");		  
+	}
 	
 	void Container::getDrawSize(int& width, int& height, Widget* widget)
 	{
@@ -279,8 +267,7 @@ namespace gcn
 		else
 		{
 			throw GCN_EXCEPTION("Container::getDrawSize. Widget not in container");
-		}
-    
+		}    
 	} // end getDrawSize
   
 	void Container::add(Widget* widget)
@@ -288,16 +275,13 @@ namespace gcn
 		mWidgets.push_back(widget);
 		widget->_setFocusHandler(_getFocusHandler());
 		widget->_setParent(this);
-		// TODO: Give it the mousetypehandler too!
-
-	} // add
+	}
 
 	void Container::add(Widget* widget, int x, int y)
 	{
 		widget->setPosition(x, y);
 		add(widget);
-
-	} // end add
+	}
 
 	void Container::remove(Widget* widget)
 	{
@@ -319,8 +303,7 @@ namespace gcn
 		}
 
 		throw GCN_EXCEPTION("Container::remove. There is no such widget in this container");
-
-	} // end remove
+	}
 
 	void Container::clear()
 	{ 
@@ -335,8 +318,7 @@ namespace gcn
 		}
     
 		mWidgets.clear();
-
-	} // end clear
+	}
 
 	void Container::_setFocusHandler(FocusHandler* focusHandler)
 	{
@@ -347,8 +329,7 @@ namespace gcn
 		{
 			(*iter)->_setFocusHandler(focusHandler);
 		}   
-
-	} // end _setFocusHandler
+	}
   
 	void Container::_mouseInputMessage(const MouseInput &mouseInput)
 	{
@@ -391,8 +372,7 @@ namespace gcn
 		{
 			Widget::_mouseInputMessage(mouseInput);
 		}
-
-	} //end _mouseInputMessage
+	} // end _mouseInputMessage
 
 	void Container::_mouseOutMessage()
 	{
@@ -403,7 +383,6 @@ namespace gcn
 		}
 
 		Widget::_mouseOutMessage();
-
-	} // end _mouseOutMessage
+	}
   
 } // end gcn

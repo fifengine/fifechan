@@ -147,15 +147,13 @@ namespace gcn
 	
 	void ListBox::logic()
 	{
-		adjustSize();
-    
-	} // end logic
+		adjustSize();    
+	}
 
 	int ListBox::getSelected()
 	{
 		return mSelected;
-
-	} // end getSelected
+	}
 
 	void ListBox::setSelected(int selected)
 	{
@@ -193,8 +191,7 @@ namespace gcn
 				scrollArea->scrollToRectangle(scroll);
 			}
 		}
-
-	} // end setSelected
+	}
 
 	void ListBox::keyPress(const Key& key)
 	{    
@@ -215,8 +212,7 @@ namespace gcn
 		{
 			setSelected(mSelected + 1);
 		}
-
-	} // end keyPress
+	}
 
 	void ListBox::mousePress(int x, int y, int button)
 	{
@@ -225,29 +221,26 @@ namespace gcn
 			setSelected(y / getFont()->getHeight());
 			generateAction();
 		}
-	} // end mousePress
+	}
 
 	void ListBox::setListModel(ListModel *listModel)
 	{
 		mSelected = -1;
 		mListModel = listModel;
-		adjustSize();
-    
-	} // end setListModel
+		adjustSize();    
+	}
   
 	ListModel* ListBox::getListModel()
 	{
-		return mListModel;
-    
-	} // end getListModel
+		return mListModel;    
+	}
 
 	void ListBox::adjustSize()
 	{
 		if (mListModel != NULL)
 		{      
 			setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
-		}
-    
-	} // end adjustSize
+		}    
+	}
   
 } // end gcn

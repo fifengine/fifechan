@@ -100,7 +100,7 @@ namespace gcn
 		int textX;
 		int textY = getHeight() / 2 - getFont()->getHeight() / 2;
 		
-		switch (mAlignment)
+		switch (getAlignment())
 		{
 			case Graphics::LEFT:
 				textX = 0;
@@ -117,7 +117,7 @@ namespace gcn
 
 		graphics->setFont(getFont());
 		graphics->setColor(getForegroundColor());
-		graphics->drawText(mCaption, textX, textY, mAlignment);
+		graphics->drawText(getCaption(), textX, textY, getAlignment());
 	}
 	
 	void Label::drawBorder(Graphics* graphics)
@@ -146,7 +146,7 @@ namespace gcn
 	
 	void Label::adjustSize()
 	{
-		setWidth(getFont()->getWidth(mCaption));
+		setWidth(getFont()->getWidth(getCaption()));
 		setHeight(getFont()->getHeight());
 	}
   
