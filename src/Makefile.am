@@ -17,7 +17,9 @@ libguichan_la_SOURCES = 	\
 	imagemousetype.cpp	\
 	input.cpp		\
 	key.cpp			\
+	keyinput.cpp		\
 	keylistener.cpp		\
+	mouseinput.cpp		\
 	mouselistener.cpp	\
 	mousetype.cpp		\
 	rectangle.cpp		\
