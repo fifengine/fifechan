@@ -108,8 +108,18 @@ namespace gcn
 
     mClipStack.pop();
     
-  } // end popClipArea
+  }
 
+	const ClipRectangle& Graphics::getCurrentClipArea()
+	{
+		if (mClipStack.empty())
+		{
+			throw GCN_EXCEPTION("Graphics::getCurrentClipArea. The clip area stack is empty.");
+		}
+		
+		return mClipStack.top();
+	}
+	
   void Graphics::drawImage(const Image* image, int dstX, int dstY)
   {
     drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());

@@ -145,7 +145,15 @@ namespace gcn
      * @throws Exception if the stack is empty when calling this function.
      */
     virtual void popClipArea();
-    
+
+		/**
+		 * Get the current clip area used in graphics. Usefull if you want
+		 * to do drawing without the Graphics object.
+		 *
+		 * @return a ClipRectangle
+		 */
+		virtual const ClipRectangle& getCurrentClipArea();
+		
     /**
      * Draws a part of an image. Note that the width and height
      * arguments will not scale the image, but specifies the size
