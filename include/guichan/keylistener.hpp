@@ -3,6 +3,7 @@
 
 #include <string>
 #include "guichan/platform.hpp"
+#include "guichan/key.hpp"
 
 namespace gcn
 {
