@@ -1,3 +1,6 @@
+* TextBox doesn't draw its caret if its not editable.
+
+	
 Version 0.1.0
 =============	
 * Better exception with more information in ImageFont,
