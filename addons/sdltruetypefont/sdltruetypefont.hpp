@@ -142,13 +142,9 @@ namespace gcn
 		
 		// Inherited from Font
 
-    virtual int getWidth (unsigned char glyph) const;
-
 		virtual int getWidth(const std::string& text) const;
 		
-    virtual int getHeight() const;
-		
-    virtual int drawGlyph (Graphics* graphics, unsigned char glyph, int x, int y);
+    virtual int getHeight() const;		
 
 		virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
 		

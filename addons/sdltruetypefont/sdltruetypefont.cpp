@@ -86,18 +86,6 @@ namespace gcn
     TTF_CloseFont(mFont);
   }
   
-  int SDLTrueTypeFont::getWidth(unsigned char glyph) const
-  {
-	  char buff[2] = { 0 };
-	  buff[0] = glyph;
-
-	  int h, w;
-
-	  TTF_SizeText(mFont, buff, &w, &h);
-
-		return w;
-  }
-
 	int SDLTrueTypeFont::getWidth(const std::string& text) const
   {
 		int w, h;
@@ -110,54 +98,6 @@ namespace gcn
   {
 		return TTF_FontHeight(mFont) + mRowSpacing;
   }
-
-  int SDLTrueTypeFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
-  {
-		SDLGraphics *sdlGraphics = dynamic_cast<SDLGraphics *>(graphics);
-
-		if (sdlGraphics == NULL)
-		{
-			throw GCN_EXCEPTION("SDLTrueTypeFont::drawGlyph. Graphics object not an SDL graphics object!");
-			return 0;
-		}
-		
-		// This is needed for drawing the Glyph in the middle if we have spacing
-		int yoffset = getRowSpacing() / 2;
-		
-		char buff[2] = { glyph, '\0' };
-//		buff[0] = glyph;
-		
-		Color col = sdlGraphics->getColor();
-
-		SDL_Color sdlCol;
-		sdlCol.b = col.b;
-		sdlCol.r = col.r;
-		sdlCol.g = col.g;
-
-		SDL_Surface *textSurface;
-		if (mAntiAlias)
-		{
-			textSurface = TTF_RenderText_Blended(mFont, buff, sdlCol);
-		}
-		else
-		{
-			textSurface = TTF_RenderText_Solid(mFont, buff, sdlCol);
-		}				
-
-		SDL_Rect dst, src;
-		dst.x = x;
-		dst.y = y + yoffset;
-		src.w = textSurface->w;		
-		src.h = textSurface->h;
-		src.x = 0;
-		src.y = 0;
-		
-		sdlGraphics->drawSDLSurface(textSurface, src, dst);
-		SDL_FreeSurface(textSurface);
-    
-    return src.w;
-
-  } // end drawGlyph
 	
 	void SDLTrueTypeFont::drawString(Graphics* graphics, const std::string& text, const int x, const int y)
 	{
