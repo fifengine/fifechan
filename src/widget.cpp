@@ -382,17 +382,24 @@ namespace gcn
             (*iter)->mousePress(x, y, b);
           }
 
-          /// @todo Tune the time stamp
-          if (ts - mClickTimeStamp < 100 && mClickButton == b)
+          if (hasMouse())
           {
-            mClickCount++;
+            /// @todo Tune the time stamp
+            if (ts - mClickTimeStamp < 100 && mClickButton == b)
+            {
+              mClickCount++;
+            }
+            else
+            {
+              mClickCount = 0;
+            }
+            mClickButton = b;
+            mClickTimeStamp = ts;
           }
           else
           {
-            mClickCount = 0;
+            mClickButton = 0;
           }
-          mClickButton = b;
-          mClickTimeStamp = ts;
         }
         else if (b == MouseInput::WHEEL_UP)
         {
@@ -430,11 +437,7 @@ namespace gcn
           }
           else
           {
-            for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
-            {
-              (*iter)->mouseClick(x, y, b, 1);
-            }
-            
+            mClickButton = 0;
             mClickCount = 0;            
           }
         }
@@ -451,7 +454,7 @@ namespace gcn
   void Widget::_keyInputMessage(const KeyInput& keyInput)
   {
     KeyListenerIterator iter;
-
+    
     switch(keyInput.getType())
     {
       case KeyInput::PRESS:
