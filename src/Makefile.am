@@ -16,7 +16,6 @@ libguichan_la_SOURCES = 	\
 	exception.cpp		\
 	focushandler.cpp	\
 	font.cpp		\
-	fontwidget.cpp		\
 	graphics.cpp		\
 	gui.cpp			\
 	image.cpp		\

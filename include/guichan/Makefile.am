@@ -13,7 +13,6 @@ libguichaninclude_HEADERS =	\
 	exception.hpp		\
 	focushandler.hpp	\
 	font.hpp		\
-	fontwidget.hpp		\
 	graphics.hpp		\
 	gui.hpp			\
 	image.hpp		\
