@@ -98,7 +98,7 @@ namespace gcn
     /**
      * Constructor.
      */
-    virtual Gui();
+    Gui();
 
     /**
      * Destructor.
