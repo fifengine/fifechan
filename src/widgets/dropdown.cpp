@@ -484,6 +484,11 @@ namespace gcn
 			mDroppedDown = true;
 			mOldH = getHeight();
 			adjustHeight();
+
+			if (getParent())
+			{
+				getParent()->moveToTop(this);
+			}
 		}
 		
 	} // end dropDown
