@@ -102,7 +102,16 @@ namespace gcn
      * @see Key
      */
     virtual void keyRelease(const Key& key) { }
-    
+
+	protected:
+		/**
+		 * Constructor.
+		 *
+		 * You should not be able to make an instance of KeyListener,
+		 * therefore its constructor is protected.
+		 */			
+		KeyListener() { }
+		
   }; // end KeyListener
 
 } // end gcn
