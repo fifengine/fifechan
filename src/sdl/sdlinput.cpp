@@ -2,14 +2,6 @@
 
 namespace gcn
 {
-  /**
-   *
-   */
-  SDLInput::SDLInput()
-  {
-    mConsumeQueue = true;
-  }
-
   void SDLInput::init()
   {
     SDL_EnableUNICODE(1);
@@ -98,6 +90,11 @@ namespace gcn
     y = mMouseY;
   }
 
+  void SDLInput::pollInput()
+  {
+    mMouseMotion = false;
+  }
+  
   /**
    * 
    */
@@ -106,65 +103,44 @@ namespace gcn
     return mMouseMotion;
   }
 
-  /**
-   *
-   */
-  void SDLInput::pollInput()
+  void SDLInput::pushInput(SDL_Event event)
   {
-    SDL_Event event;
     Key key;
     KeyInput keyInput;
     MouseInput mouseInput;
-
-    mMouseMotion = false;
     
-    while (SDL_PollEvent(&event))
+    switch (event.type)
     {
-      switch (event.type)
-      {
-        case SDL_KEYDOWN:
-          key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
-          keyInput.setKey(key);
-          keyInput.setType(KeyInput::PRESS);        
-          mKeyInputQueue.push(keyInput);
-          break;
-        case SDL_KEYUP:
-          key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
-          keyInput.setKey(key);
-          keyInput.setType(KeyInput::RELEASE);
-          mKeyInputQueue.push(keyInput);
-          break;
-        case SDL_MOUSEBUTTONDOWN:
-          mouseInput.setButton(convertMouseButton(event.button.button));
-          mouseInput.setType(MouseInput::PRESS);
-          mMouseInputQueue.push(mouseInput);
-          break;
-        case SDL_MOUSEBUTTONUP:
-          mouseInput.setButton(convertMouseButton(event.button.button));
-          mouseInput.setType(MouseInput::RELEASE);
-          mMouseInputQueue.push(mouseInput);
-          break;
-        case SDL_MOUSEMOTION:
-          mMouseX = event.button.x;
-          mMouseY = event.button.y;
-          mMouseMotion = true;
-          break;
-      } // end switch
-      
-      if (!mConsumeQueue)
-      {
-        mEventQueue.push(event);
-      }
-    } // end while
-
-    while (!mConsumeQueue && !mEventQueue.empty())
-    {
-      event = mEventQueue.front();  
-      mEventQueue.pop();
-      SDL_PushEvent(&event);
-    }
-  } // end pollInput
-
+      case SDL_KEYDOWN:
+        key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
+        keyInput.setKey(key);
+        keyInput.setType(KeyInput::PRESS);        
+        mKeyInputQueue.push(keyInput);
+        break;
+      case SDL_KEYUP:
+        key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
+        keyInput.setKey(key);
+        keyInput.setType(KeyInput::RELEASE);
+        mKeyInputQueue.push(keyInput);
+        break;
+      case SDL_MOUSEBUTTONDOWN:
+        mouseInput.setButton(convertMouseButton(event.button.button));
+        mouseInput.setType(MouseInput::PRESS);
+        mMouseInputQueue.push(mouseInput);
+        break;
+      case SDL_MOUSEBUTTONUP:
+        mouseInput.setButton(convertMouseButton(event.button.button));
+        mouseInput.setType(MouseInput::RELEASE);
+        mMouseInputQueue.push(mouseInput);
+        break;
+      case SDL_MOUSEMOTION:
+        mMouseX = event.button.x;
+        mMouseY = event.button.y;
+        mMouseMotion = true;
+        break;
+    } // end switch
+  }
+  
   int SDLInput::convertMouseButton(int button)
   {
     switch (button)
@@ -199,9 +175,4 @@ namespace gcn
     }    
   }
 
-  void SDLInput::setConsumeSDLEventQueue(bool consume)
-  {
-    mConsumeQueue = consume;
-  }
-  
 } // end gcn

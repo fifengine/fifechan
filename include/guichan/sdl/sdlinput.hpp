@@ -1,7 +1,6 @@
 #ifndef GCN_SDLINPUT_HPP
 #define GCN_SDLINPUT_HPP
 
-#include <stack>
 #include <queue>
 #include <SDL/SDL.h>
 
@@ -22,9 +21,13 @@ namespace gcn
     /**
      *
      */
-    SDLInput();
+    SDLInput(){}
 
+    /**
+     *
+     */
     virtual void init();
+
     /**
      * 
      */
@@ -64,6 +67,11 @@ namespace gcn
     /**
      *
      */
+    virtual void pushInput(SDL_Event event);
+    
+    /**
+     *
+     */
     virtual void pollInput();
 
     /**
@@ -71,20 +79,13 @@ namespace gcn
      */
     virtual bool isMouseMoved();
 
-    /**
-     * 
-     */
-    virtual void setConsumeSDLEventQueue(bool consume);
-
   protected:
     int convertMouseButton(int button);
     unsigned char convertKeyCharacter(unsigned int unicode);
     std::queue<KeyInput> mKeyInputQueue;
     std::queue<MouseInput> mMouseInputQueue;
-    std::queue<SDL_Event> mEventQueue;
     int mMouseX;
     int mMouseY;
-    bool mConsumeQueue;
     bool mMouseMotion;
     
   }; // end Input
