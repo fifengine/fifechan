@@ -60,6 +60,7 @@
 #include "guichan/font.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/image.hpp"
+#include "guichan/platform.hpp"
 
 #include <string>
 #include <map>
@@ -76,7 +77,7 @@ namespace gcn
    *
    * @todo Explain the font image format.
    */
-  class ImageFont: public Font
+  class DECLSPEC ImageFont: public Font
   {
   public:
 

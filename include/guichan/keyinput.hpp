@@ -58,6 +58,7 @@
 #define GCN_KEYINPUT_HPP
 
 #include "guichan/key.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -66,7 +67,7 @@ namespace gcn
    * This is an internal class used in Guichan to grab keyboard input.
    * Generally you won't have to bother using this class.
    */
-  class KeyInput
+  class DECLSPEC KeyInput
   {
   public:
 
@@ -107,9 +108,16 @@ namespace gcn
      */
     const Key& getKey() const;
 
-    const static int EMPTY = 0;
-    const static int PRESS = 1;
-    const static int RELEASE = 2;
+//    const static int EMPTY = 0;
+//    const static int PRESS = 1;
+//    const static int RELEASE = 2;
+
+	enum
+	{
+		EMPTY = 0,
+		PRESS,
+		RELEASE
+	};
     
   protected:
     Key mKey;

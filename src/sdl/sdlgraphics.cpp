@@ -64,7 +64,11 @@
 #include "guichan/sdl/sdlpixel.hpp"
 #include "config.hpp"
 
-#include <cmath>
+//#include <cmath>
+
+#ifndef ABS
+#define ABS(x) ((x)<0?-(x):(x))
+#endif
 
 namespace gcn
 {
@@ -409,8 +413,8 @@ namespace gcn
     
     int shortLen = y2 - y1;
     int longLen = x2 - x1;
-
-    if (std::abs(shortLen) > std::abs(longLen))
+	
+    if (ABS(shortLen) > ABS(longLen))
     {
       int swap = shortLen;
       shortLen = longLen;

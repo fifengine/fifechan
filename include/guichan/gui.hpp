@@ -60,8 +60,9 @@
 #include <string>
 #include "guichan/container.hpp"
 #include "guichan/input.hpp"
-#include "guichan/mousetype.hpp"
+//#include "guichan/mousetype.hpp"
 #include "guichan/widget.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -71,7 +72,7 @@ namespace gcn
    *
    * @todo Fix this comment, please.
    */
-  class Gui
+  class DECLSPEC Gui
   {
   public:
 

@@ -64,6 +64,7 @@
 #include "guichan/key.hpp"
 #include "guichan/keyinput.hpp"
 #include "guichan/mouseinput.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -72,7 +73,7 @@ namespace gcn
    *
    * @see Input
    */
-  class SDLInput : public Input
+  class DECLSPEC SDLInput : public Input
   {
   public:
 

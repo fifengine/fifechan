@@ -58,6 +58,7 @@
 #define GCN_SDLPIXEL_HPP
 
 #include "guichan/color.hpp"
+#include "guichan/platform.hpp"
 #include <SDL/SDL.h>
 
 namespace gcn

@@ -2,6 +2,7 @@
 #define GCN_MOUSELISTENER_HPP
 
 #include <string>
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -18,7 +19,7 @@ namespace gcn
    *
    * @see Widget::addMouseListener
    */
-  class MouseListener
+  class DECLSPEC MouseListener
   {
   public:
 

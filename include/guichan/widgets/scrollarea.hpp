@@ -57,324 +57,350 @@
 #ifndef GCN_SCROLLAREA_HPP
 #define GCN_SCROLLAREA_HPP
 
+#include <string>
+
 #include "guichan/basiccontainer.hpp"
 #include "guichan/mouselistener.hpp"
-
-#include <string>
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
-  /**
-   * This is a scroll area
-   */
-  class ScrollArea: public BasicContainer, public MouseListener
-  {
-  public:
+	/**
+	 * This is a ScrollArea. A ScrollArea can contain another Widget, i.e a
+	 * TextBox or a ListBox, and lets the user scroll the containing widget
+	 * so all of the containing widget can be visible dispite lack of space.
+	 *
+	 * NOTE: A TextBox or a ListBox looks really ugly unless they exist in a
+	 *       ScrollArea.
+	 *
+	 * @todo Make the ScrollArea handle key input.
+	 */
+	class DECLSPEC ScrollArea:
+		public BasicContainer,
+		public MouseListener
+	{
+	public:
 
-    /**
-     * Constructor.
-     */
-    ScrollArea();
+		/**
+		 * Constructor.
+		 */
+		ScrollArea();
 
-    /**
-     * Constructor.
+		/**
+		 * Constructor.
 		 *
 		 * @param content the content of the ScrollArea.
-     */    
-    ScrollArea(Widget *content);
+		 */    
+		ScrollArea(Widget *content);
 
-    /**
-     * Constructor.
+		/**
+		 * Constructor.
 		 *
 		 * @param content the content of the ScrollArea.
 		 * @param hPolicy the policy for the horizontal scrollbar. See enum with policies.
 		 * @param vPolicy the policy for the vertical scrollbar. See enum with policies.
 		 */    
-    ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy);
+		ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy);
 		
-    /**
-     * Destructor.
-     */    
-	  virtual ~ScrollArea();
+		/**
+		 * Destructor.
+		 */    
+		virtual ~ScrollArea();
 
-    /**
-     * Sets the content of the ScrollArea
+		/**
+		 * Sets the content of the ScrollArea
 		 *
 		 * @param content the content of the ScrollArea.
 		 */    
-    virtual void setContent(Widget* widget);
+		virtual void setContent(Widget* widget);
 
-    /**
-     * @return the content of the ScrollArea.
-     */    
-    virtual Widget* getContent();
+		/**
+		 * @return the content of the ScrollArea.
+		 */    
+		virtual Widget* getContent();
 
-    /**
-     * Sets the horizontal scrollbar policy. See enum with policies.
+		/**
+		 * Sets the horizontal scrollbar policy. See enum with policies.
 		 *
 		 * @param hPolicy the policy for the horizontal scrollbar. See enum with policies.
 		 */    
-    virtual void setHorizontalScrollPolicy(unsigned int hPolicy);
+		virtual void setHorizontalScrollPolicy(unsigned int hPolicy);
 
-    /**
-     * @return the policy for the horizontal scrollbar policy. See enum with policies.
-     */    
-    virtual unsigned int getHorizontalScrollPolicy();
+		/**
+		 * @return the policy for the horizontal scrollbar policy. See enum with policies.
+		 */    
+		virtual unsigned int getHorizontalScrollPolicy();
 
-    /**
-     * Sets the vertical scrollbar policy. See enum with policies.
+		/**
+		 * Sets the vertical scrollbar policy. See enum with policies.
 		 *
 		 * @param vPolicy the policy for the vertical scrollbar. See enum with policies.
 		 */    
-    virtual void setVerticalScrollPolicy(unsigned int vPolicy);
+		virtual void setVerticalScrollPolicy(unsigned int vPolicy);
 
-    /**
-     * @return the policy for the vertical scrollbar. See enum with policies.
-     */    
-    virtual unsigned int getVerticalScrollPolicy();
+		/**
+		 * @return the policy for the vertical scrollbar. See enum with policies.
+		 */    
+		virtual unsigned int getVerticalScrollPolicy();
 
-    /**
-     * Sets the horizontal and vertical scrollbar policy. See enum with policies.
+		/**
+		 * Sets the horizontal and vertical scrollbar policy. See enum with policies.
 		 *
 		 * @param hPolicy the policy for the horizontal scrollbar. See enum with policies.
 		 * @param vPolicy the policy for the vertical scrollbar. See enum with policies.
 		 */    
-    virtual void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
+		virtual void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
 
-    /**
-     * Set the amount to scroll verticaly.
+		/**
+		 * Set the amount to scroll verticaly.
 		 *
 		 * @param vScroll the amount to scroll.
-     */    
-    virtual void setVerticalScrollAmount(int vScroll);
+		 */    
+		virtual void setVerticalScrollAmount(int vScroll);
 
-    /**
-     * @return the scroll amount on vertical scroll.
-     */    
-    virtual int getVerticalScrollAmount();
+		/**
+		 * @return the scroll amount on vertical scroll.
+		 */    
+		virtual int getVerticalScrollAmount();
 
-    /**
-     * Set the amount to scroll horizontaly.
+		/**
+		 * Set the amount to scroll horizontaly.
 		 *
 		 * @param hScroll the amount to scroll.
-     */    
-    virtual void setHorizontalScrollAmount(int hScroll);
+		 */    
+		virtual void setHorizontalScrollAmount(int hScroll);
 
-    /**
+		/**
 		 * @return the scroll amount on horizontal scroll.
-     */    
-    virtual int getHorizontalScrollAmount();
+		 */    
+		virtual int getHorizontalScrollAmount();
 
-    /**
-     * Sets the amount to scroll horizontaly and verticaly.
+		/**
+		 * Sets the amount to scroll horizontaly and verticaly.
 		 *
 		 * @param hScroll the amount to scroll on horizontal scroll.
 		 * @param vScroll the amount to scroll on vertical scroll.
 		 */    
-    virtual void setScrollAmount(int hScroll, int vScroll);
+		virtual void setScrollAmount(int hScroll, int vScroll);
 
-    /**
-     * @return the horizontal max scroll.
-     */    
-    virtual int getHorizontalMaxScroll();
+		/**
+		 * @return the horizontal max scroll.
+		 */    
+		virtual int getHorizontalMaxScroll();
 
-    /**
+		/**
 		 * @return the vertical max scroll.
-     */    
-    virtual int getVerticalMaxScroll();
+		 */    
+		virtual int getVerticalMaxScroll();
 
-    /**
-     * Sets the width of the scrollbar.
+		/**
+		 * Sets the width of the scrollbar.
 		 *
 		 * @param width the width.
-     */
-    virtual void setScrollbarWidth(int width);
+		 */
+		virtual void setScrollbarWidth(int width);
 
-    /**
-     * @return the width of the scrollbar.
-     */
-    virtual int getScrollbarWidth();
+		/**
+		 * @return the width of the scrollbar.
+		 */
+		virtual int getScrollbarWidth();
 
-    virtual void _setFocusHandler(FocusHandler* focusHandler);
+		/**
+		 * Tries to scroll to a specific rectangle. If the rectangle is to
+		 * large to be visible as much as possibly, begining in the
+		 * rectangles upper corner, will be visible.
+		 *
+		 * @param rectangle the rectangle to scroll to.
+		 */
+		virtual void scrollToRectangle(const Rectangle& rectangle);
 
-    virtual void _mouseInputMessage(const MouseInput &mouseInput);
 
-    virtual void _mouseOutMessage();
+		// Inherited from Widget
+		
+		virtual void draw(Graphics *graphics);
 
-    virtual void mousePress(int x, int y, int button);
+		virtual void logic();
+		
+		virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+		virtual void _mouseOutMessage();
+		
+		virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+
+		// Inherited from BasicContainer
+
+		virtual void _announceDeath(Widget *widget);
+
+		virtual void getDrawSize(int& width, int& height, Widget* widget);
+		
+		virtual void moveToBottom(Widget* widget);
+		
+		virtual void moveToTop(Widget* widget);	   		
+
+
+		// Inherited from MouseListener
+
+		virtual void mousePress(int x, int y, int button);
     
-    virtual void mouseRelease(int x, int y, int button);
+		virtual void mouseRelease(int x, int y, int button);
     
-    virtual void mouseMotion(int x, int y);
+		virtual void mouseMotion(int x, int y);
 
-    virtual void mouseWheelUp(int x, int y);
+		virtual void mouseWheelUp(int x, int y);
 
-    virtual void mouseWheelDown(int x, int y);
-    
-    virtual void draw(Graphics *graphics);
+		virtual void mouseWheelDown(int x, int y);   
 
-    /**
-     * Draws the up button.
+
+		/**
+		 * Scrollpolicies for the horizontal and vertical scrollbar.
+		 * The policies are:
+		 *
+		 * SHOW_ALWAYS - Always show the scrollbars no matter what.
+		 * SHOW_NEVER  - Never show the scrollbars no matter waht.
+		 * SHOW_AUTO   - Show the scrollbars only when needed. That is if the
+		 *               content grows larger then the ScrollArea.
+		 */
+		enum 
+		{
+			SHOW_ALWAYS,
+			SHOW_NEVER,
+			SHOW_AUTO
+		};
+		
+	protected:
+		/**
+		 * Draws the up button.
 		 *
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawUpButton(Graphics *graphics);
+		 */
+		virtual void drawUpButton(Graphics *graphics);
     
-    /**
-     * Draws the down button.
+		/**
+		 * Draws the down button.
 		 *
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawDownButton(Graphics *graphics);
+		 */
+		virtual void drawDownButton(Graphics *graphics);
 
-    /**
-     * Draws the left button.
+		/**
+		 * Draws the left button.
 		 *
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawLeftButton(Graphics *graphics);
+		 */
+		virtual void drawLeftButton(Graphics *graphics);
     	 
 		/**
 		 * Draws the right button.
 		 *
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawRightButton(Graphics *graphics);
+		 */
+		virtual void drawRightButton(Graphics *graphics);
 
-    virtual void logic();
-
-    virtual void moveToTop(Widget* widget);
-
-    virtual void moveToBottom(Widget* widget);
-
-	  virtual void _announceDeath(Widget *widget);
-
-    virtual void getDrawSize(int& width, int& height, Widget* widget);
-
-    /**
-     * Tries to scroll to a specific rectangle. If the rectangle is to
-		 * large to be visible as much as possibly, begining in the
-		 * rectangles upper corner, will be visible.
-		 *
-		 * @param rectangle the rectangle to scroll to.
-     */
-    virtual void scrollToRectangle(const Rectangle& rectangle);
-
-    /**
-     * Scrollpolicies for the horizontal and vertical scrollbar. 
-     */
-    enum 
-    {
-      SHOW_ALWAYS,
-      SHOW_NEVER,
-      SHOW_AUTO
-    };
-    
-  protected:
-    /**
-     * Draws the content in the ScrollArea.
+		/**
+		 * Draws the content in the ScrollArea.
 		 *
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawContent(Graphics* graphics);
+		 */
+		virtual void drawContent(Graphics* graphics);
 
-    /**
-     * Draws the vertical scrollbar.
+		/**
+		 * Draws the vertical scrollbar.
 		 * 
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawVBar(Graphics* graphics);
+		 */
+		virtual void drawVBar(Graphics* graphics);
 
-    /**
-     * Draws the horizontal scrollbar.
+		/**
+		 * Draws the horizontal scrollbar.
 		 * 
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawHBar(Graphics* graphics);
+		 */
+		virtual void drawHBar(Graphics* graphics);
 
-    /**
-     * Draws the vertical marker.
+		/**
+		 * Draws the vertical marker.
 		 * 
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawVMarker(Graphics* graphics);
+		 */
+		virtual void drawVMarker(Graphics* graphics);
 
-    /**
-     * Draws the horizontal marker.
+		/**
+		 * Draws the horizontal marker.
 		 * 
 		 * @param graphics a Graphics object		 
-     */
-    virtual void drawHMarker(Graphics* graphics);
+		 */
+		virtual void drawHMarker(Graphics* graphics);
 
-    /**
-     * Checks the policies for the scrollbars.
-     */
-    virtual void checkPolicies();
+		/**
+		 * Checks the policies for the scrollbars.
+		 */
+		virtual void checkPolicies();
 
-    /**
-     * @return the dimension of the up button.
-     */
-    virtual Rectangle getUpButtonDimension();
+		/**
+		 * @return the dimension of the up button.
+		 */
+		virtual Rectangle getUpButtonDimension();
 
-    /**
-     * @return the dimension of the down button.
-     */
-    virtual Rectangle getDownButtonDimension();
+		/**
+		 * @return the dimension of the down button.
+		 */
+		virtual Rectangle getDownButtonDimension();
 
-    /**
-     * @return the dimension of the left button.
-     */
-    virtual Rectangle getLeftButtonDimension();
+		/**
+		 * @return the dimension of the left button.
+		 */
+		virtual Rectangle getLeftButtonDimension();
 
-    /**
-     * @return the dimension of the right button.
-     */
-    virtual Rectangle getRightButtonDimension();
+		/**
+		 * @return the dimension of the right button.
+		 */
+		virtual Rectangle getRightButtonDimension();
 
-    /**
-     * @return the dimension of the content button.
-     */
-    virtual Rectangle getContentDimension();
+		/**
+		 * @return the dimension of the content button.
+		 */
+		virtual Rectangle getContentDimension();
 
-    /**
-     * @return the dimension of the vertical scrollbar.
-     */
-    virtual Rectangle getVerticalBarDimension();
+		/**
+		 * @return the dimension of the vertical scrollbar.
+		 */
+		virtual Rectangle getVerticalBarDimension();
 
-    /**
-     * @return the dimension of the horizontal scrollbar.
-     */
-    virtual Rectangle getHorizontalBarDimension();
+		/**
+		 * @return the dimension of the horizontal scrollbar.
+		 */
+		virtual Rectangle getHorizontalBarDimension();
 
-    /**
-     * @return the dimension of the vertical marker.
-     */
-    virtual Rectangle getVerticalMarkerDimension();
+		/**
+		 * @return the dimension of the vertical marker.
+		 */
+		virtual Rectangle getVerticalMarkerDimension();
     
-    /**
-     * @return the dimension of the horizontal marker.
-     */
-    virtual Rectangle getHorizontalMarkerDimension();
+		/**
+		 * @return the dimension of the horizontal marker.
+		 */
+		virtual Rectangle getHorizontalMarkerDimension();
         
-    Widget *mContent;
-    int mVScroll;
-    int mHScroll;
-    int mScrollbarWidth;
-    unsigned int mHPolicy;
-    unsigned int mVPolicy;
-    bool mouseOverContent;
-    bool mVBarVisible;
-    bool mHBarVisible;
-    bool mUpButtonPressed;
-    bool mDownButtonPressed;
-    bool mLeftButtonPressed;
-    bool mRightButtonPressed;
-    bool mVerticalMarkerPressed;
-    int mVerticalMarkerMousePosition;
-    bool mHorizontalMarkerPressed;
-    int mHorizontalMarkerMousePosition;
+		Widget *mContent;
+		int mVScroll;
+		int mHScroll;
+		int mScrollbarWidth;
+		unsigned int mHPolicy;
+		unsigned int mVPolicy;
+		bool mouseOverContent;
+		bool mVBarVisible;
+		bool mHBarVisible;
+		bool mUpButtonPressed;
+		bool mDownButtonPressed;
+		bool mLeftButtonPressed;
+		bool mRightButtonPressed;
+		bool mVerticalMarkerPressed;
+		int mVerticalMarkerMousePosition;
+		bool mHorizontalMarkerPressed;
+		int mHorizontalMarkerMousePosition;
 
-  }; // end ScrollArea
+	}; // end ScrollArea
 
 } // end gcn
 

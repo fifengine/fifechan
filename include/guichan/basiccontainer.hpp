@@ -58,6 +58,7 @@
 #define GCN_BASICCONTAINER_HPP
 
 #include <list>
+#include "guichan/platform.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/widget.hpp"
 
@@ -69,7 +70,7 @@ namespace gcn
    *
    * @see Container
    */
-  class BasicContainer: public Widget
+  class DECLSPEC BasicContainer: public Widget
   {
   public:
 

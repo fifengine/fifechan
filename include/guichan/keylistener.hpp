@@ -2,6 +2,7 @@
 #define GCN_KEYLISTENER_HPP
 
 #include <string>
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -16,7 +17,7 @@ namespace gcn
    *
    * @see Widget::addKeyListener
    */
-  class KeyListener
+  class DECLSPEC KeyListener
   {
   public:
 

@@ -59,15 +59,26 @@
 
 #include "guichan/basiccontainer.hpp"
 #include "guichan/focushandler.hpp"
-#include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/listmodel.hpp"
+#include "guichan/mouselistener.hpp"
+#include "guichan/platform.hpp"
 #include "guichan/widgets/listbox.hpp"
 #include "guichan/widgets/scrollarea.hpp"
 
 namespace gcn
 {
-	class DropDown :
+	/**
+	 * This is a drop down box (you know, the ones you can drop down and
+	 * select between different values, like a list box). It is one of the
+	 * most complicated widgets you will find in gui-chan. For drawing the
+	 * dropped down box it uses one ScrollArea and one ListBox. It also
+	 * uses an internal FocusHandler to handle the focus of the internal
+	 * ScollArea and ListBox.
+	 *	 
+	 * It uses a ListModel to look up it's values, just like the ListBox.
+	 */
+	class DECLSPEC DropDown :
 		public BasicContainer,
 		public MouseListener,
 		public KeyListener,
@@ -104,10 +115,6 @@ namespace gcn
 		 */
 		virtual ~DropDown();
     
-		virtual void logic();
-    
-		virtual void draw(Graphics* graphics);   
-
 		/**
 		 * @return the selected element.
 		 */
@@ -119,12 +126,6 @@ namespace gcn
 		 * @param selected the number of the element to be selected.
 		 */
 		virtual void setSelected(int selected);
-
-		virtual void keyPress(const Key& key);
-
-		virtual void mousePress(int x, int y, int button);
-    
-		virtual void mouseRelease(int x, int y, int button);    
 
 		/**
 		 * Sets the ListModel to be used.
@@ -174,25 +175,66 @@ namespace gcn
 		 */
 		virtual void adjustHeight();
 
-		virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+		// Inherited from Widget
+		
+		virtual void draw(Graphics* graphics);   
 
 		virtual void _keyInputMessage(const KeyInput& keyInput);
-	  
+		
+		virtual void logic();
+		
+		virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+		virtual void lostFocus();
+
+		
+		// Inherited from BasicContainer
+
 		virtual void moveToTop(Widget* widget);
 
 		virtual void moveToBottom(Widget* widget);
 
 		virtual void _announceDeath(Widget* widget);
 
-		virtual void getDrawSize(int& width, int& height, Widget* widget) { }
+		virtual void getDrawSize(int& width, int& height, Widget* widget);
 
-		virtual void lostFocus();
 
+		// Inherited from ActionListener
+		
 		virtual void action(const std::string& eventId);
+
+
+		// Inherited from KeyListener
+		
+		virtual void keyPress(const Key& key);
+
+
+		// Inherited from MouseListener
+		
+		virtual void mousePress(int x, int y, int button);
+    
+		virtual void mouseRelease(int x, int y, int button);    
+
 		
 	protected:
+		/**
+		 * Draws the button with the little down arrow.
+		 *
+		 *
+		 * @param graphics a Graphics object.
+		 * @todo fix clip rectangle before this function is called.
+		 */
 		virtual void drawButton(Graphics *graphics);
+
+		/**
+		 * Sets the DropDown widget to dropped-down mode.
+		 */
 		virtual void dropDown();
+
+		/**
+		 * Sets the DropDown widget to folded-up mode.
+		 */
 		virtual void foldUp();
     
 		bool mDroppedDown;

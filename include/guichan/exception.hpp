@@ -58,6 +58,7 @@
 #define GCN_EXCEPTION_HPP
 
 #include <string>
+#include "guichan/platform.hpp"
 
 /*
  * This is a macro to be used when throwing exceptions.
@@ -85,7 +86,7 @@ namespace gcn
    * throw GCN_EXCEPTION("my error message");
    * @endcode
    */
-  class Exception
+  class DECLSPEC Exception
   {
   public:
 

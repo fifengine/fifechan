@@ -63,6 +63,7 @@
 #include "guichan/graphics.hpp"
 #include "guichan/image.hpp"
 #include "guichan/rectangle.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -74,7 +75,7 @@ namespace gcn
    * @see Graphics
    * @todo Alpha channel support.
    */
-  class SDLGraphics : public Graphics
+  class DECLSPEC SDLGraphics : public Graphics
   {
   public:
 

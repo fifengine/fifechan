@@ -57,29 +57,32 @@
 #ifndef GCN_RADIOBUTTON_HPP
 #define GCN_RADIOBUTTON_HPP
 
-#include <string>
 #include <map>
+#include <string>
 
-#include "guichan/widget.hpp"
-#include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
+#include "guichan/mouselistener.hpp"
+#include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
 	/**
-	 * This is a simple RadioButton.
+	 * This is a simple RadioButton. A RadioButton can belong to a group.
+	 * If a RadioButton belongs to a group, only one RadioButton in the group
+	 * can be selected.
 	 */
-  class RadioButton :
-    public Widget,
-    public MouseListener,
-    public KeyListener
-  {
-  public:
+	class DECLSPEC RadioButton :
+		public Widget,
+		public MouseListener,
+		public KeyListener
+	{
+	public:
 
 		/**
 		 * Constructor.
 		 */
-    RadioButton();
+		RadioButton();
 
 		/**
 		 * Constructor.
@@ -88,83 +91,91 @@ namespace gcn
 		 * @param group the group the RadioButton belongs to.
 		 * @param marked true if the RadioButton should be marked.
 		 */
-    RadioButton(const std::string &caption,
-                const std::string &group,                
-                bool marked=false);
+		RadioButton(const std::string &caption,
+					const std::string &group,                
+					bool marked=false);
 
 		/**
 		 * Destructor.
 		 */
-    virtual ~RadioButton();
+		virtual ~RadioButton();
     
-    virtual void logic();
-    
-    virtual void draw(Graphics* graphics);
-
 		/**
 		 * Draws the box i.a not the caption.
 		 *
 		 * @param graphics a Graphics object.
 		 */
-    virtual void drawBox(Graphics *graphics);
+		virtual void drawBox(Graphics *graphics);
 
-    /**
-     * @return true if the RadioButton is marked.
-     */      
-    virtual bool isMarked() const;
+		/**
+		 * @return true if the RadioButton is marked.
+		 */      
+		virtual bool isMarked() const;
     
-    /**
-     * Set the RadioButton marked.
-     *
-     * @param marked true if the RadioButton should be marked.
-     */
-    virtual void setMarked(bool marked);
+		/**
+		 * Set the RadioButton marked.
+		 *
+		 * @param marked true if the RadioButton should be marked.
+		 */
+		virtual void setMarked(bool marked);
 
-    /**
-     * @return the caption of the RadioButton.
-     */
-    virtual const std::string &getCaption() const;
+		/**
+		 * @return the caption of the RadioButton.
+		 */
+		virtual const std::string &getCaption() const;
 
-    /**
-     * Sets the caption of the RadioButton.
-     *
-     * @param caption the RadioButton caption.
-     */
-    virtual void setCaption(const std::string caption);
-
-    virtual void keyPress(const Key& key);
-
-    virtual void mouseClick(int x, int y, int button, int count);
+		/**
+		 * Sets the caption of the RadioButton.
+		 *
+		 * @param caption the RadioButton caption.
+		 */
+		virtual void setCaption(const std::string caption);
 
 		/**
 		 * Set the group the RadioButton should belong to.
 		 *
 		 * @param group the name of the group.
 		 */
-    virtual void setGroup(const std::string &group);
+		virtual void setGroup(const std::string &group);
 
 		/**
 		 * @return the group the RadioButton belongs to.
 		 */
-    virtual const std::string &getGroup() const;
+		virtual const std::string &getGroup() const;
 
 		/**
 		 * Adjusts the RadioButtons size to fit the font size.
 		 */
-    virtual void adjustSize();
-    
-  protected:
-    
-    bool mMarked;
-    std::string mCaption;
-    std::string mGroup;
+		virtual void adjustSize();
 
-    typedef std::multimap<std::string, RadioButton *> GroupMap;
-    typedef GroupMap::iterator GroupIterator;
+
+		// Inherited from Widget
+
+		virtual void draw(Graphics* graphics);
+		
+		virtual void logic();
+
+
+		// Inherited from KeyListener
+
+		virtual void keyPress(const Key& key);
+
+
+		// Inherited from MouseListener
+
+		virtual void mouseClick(int x, int y, int button, int count);
+				
+	protected:    
+		bool mMarked;
+		std::string mCaption;
+		std::string mGroup;
+
+		typedef std::multimap<std::string, RadioButton *> GroupMap;
+		typedef GroupMap::iterator GroupIterator;
     
-    static GroupMap mGroupMap;
+		static GroupMap mGroupMap;
     
-  }; // end RadioButton
+	}; // end RadioButton
   
 } // end gcn
 

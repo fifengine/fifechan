@@ -2,6 +2,7 @@
 #define GCN_CLIPRECTANGLE_HPP
 
 #include "guichan/rectangle.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -10,7 +11,7 @@ namespace gcn
    * object. It is a regular Rectangle, extended with
    * variables xOffset and yOffset.
    */
-  class ClipRectangle : public Rectangle
+  class DECLSPEC ClipRectangle : public Rectangle
   {
   public:
     

@@ -79,7 +79,7 @@ namespace gcn
 
   } // end ClipRectangle
   
-  const ClipRectangle& ClipRectangle::ClipRectangle::operator=(const Rectangle& other)
+  const ClipRectangle& ClipRectangle::operator=(const Rectangle& other)
   {
     x = other.x;
     y = other.y;

@@ -58,13 +58,14 @@
 #define GCN_KEY_HPP
 
 #include <string>
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
   /**
    * This represents a key or a character.
    */
-  class Key
+  class DECLSPEC Key
   {
   public:
     /**
@@ -217,8 +218,7 @@ namespace gcn
       LEFT,
       RIGHT,
       UP,
-      DOWN
-      
+      DOWN      
     };
     
   protected:

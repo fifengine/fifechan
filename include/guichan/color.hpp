@@ -57,12 +57,14 @@
 #ifndef GCN_COLOR_HPP
 #define GCN_COLOR_HPP
 
+#include "guichan/platform.hpp"
+
 namespace gcn
 {
   /**
    * Class that represents a color.
    */
-  class Color
+  class DECLSPEC Color
   {    
   public:
     /**

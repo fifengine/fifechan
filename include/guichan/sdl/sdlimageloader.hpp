@@ -59,6 +59,7 @@
 
 #include "guichan/image.hpp"
 #include "guichan/imageloader.hpp"
+#include "guichan/platform.hpp"
 #include <SDL/SDL.h>
 #include <map>
 
@@ -68,7 +69,7 @@ namespace gcn
    * This is an SDL implementation of the ImageLoader
    * @see ImageLoader
    */
-  class SDLImageLoader : public ImageLoader
+  class DECLSPEC SDLImageLoader : public ImageLoader
   {
   public:
 

@@ -57,14 +57,24 @@
 #ifndef GCN_LISTBOX_HPP
 #define GCN_LISTBOX_HPP
 
-#include "guichan/widget.hpp"
-#include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/listmodel.hpp"
+#include "guichan/mouselistener.hpp"
+#include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
-	class ListBox :
+	/**
+	 * This is a ListBox. It is a box with objects that can be selected. Only
+	 * one object can be selected.
+	 * ListBox uses a ListModel to handle the list. To be able to use ListBox
+	 * you must give ListModel an implemented ListModel which represents your
+	 * list.
+	 *	 
+	 * @see ListModel
+	 */
+	class DECLSPEC ListBox :
 		public Widget,
 		public MouseListener,
 		public KeyListener
@@ -88,10 +98,6 @@ namespace gcn
 		 */
 		virtual ~ListBox() { }
 				
-		virtual void logic();
-				
-		virtual void draw(Graphics* graphics);
-
 		/**
 		 * @return the selected element.
 		 */
@@ -103,10 +109,6 @@ namespace gcn
 		 * @param selected the number of the element to be selected.
 		 */
 		virtual void setSelected(int selected);
-
-		virtual void keyPress(const Key& key);
-
-		virtual void mousePress(int x, int y, int button);
 
 		/**
 		 * Sets the ListModel to be used.
@@ -126,7 +128,24 @@ namespace gcn
 		 * Adjusts the size of the listbox to fit the font used.
 		 */
 		virtual void adjustSize();
-    
+
+
+		// Inherited from Widget
+
+		virtual void draw(Graphics* graphics);
+		
+		virtual void logic();
+
+
+		// Inherited from KeyListener
+
+		virtual void keyPress(const Key& key);
+
+
+		// Inherited from MouseListener
+
+		virtual void mousePress(int x, int y, int button);
+
 	protected:
 		ListModel *mListModel;
 		int mSelected;

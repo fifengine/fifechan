@@ -60,6 +60,7 @@
 #include "guichan/cliprectangle.hpp"
 #include "guichan/color.hpp"
 #include "guichan/image.hpp"
+#include "guichan/platform.hpp"
 
 #include <stack>
 #include <string>
@@ -97,7 +98,7 @@ namespace gcn
    * @see AllegroGraphics, OpenGLGraphics, SDLGraphics, Image
    * @todo Move color into implemented graphicsobjects.
    */  
-  class Graphics
+  class DECLSPEC Graphics
   {
   public:
     Graphics();

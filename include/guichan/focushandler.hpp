@@ -59,6 +59,7 @@
 
 #include <vector>
 #include "guichan/widget.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -77,7 +78,7 @@ namespace gcn
    * @see Widget::gotFocus
    * @see Widget::lostFocus
    */
-  class FocusHandler
+  class DECLSPEC FocusHandler
   {
   public:
 

@@ -57,6 +57,7 @@
 #ifndef GCN_IMAGE_HPP
 #define GCN_IMAGE_HPP
 
+#include "guichan/platform.hpp"
 #include "guichan/imageloader.hpp"
 #include <string>
 
@@ -69,7 +70,7 @@ namespace gcn
    * information about an image without knowing which graphics
    * driver is being used.
    */
-  class Image
+  class DECLSPEC Image
   {
   public:
 

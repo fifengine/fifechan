@@ -57,56 +57,83 @@
 #ifndef GCN_BUTTON_HPP
 #define GCN_BUTTON_HPP
 
-#include "guichan/widget.hpp"
-
 #include <string>
+
+#include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
-  /**
-   * This is a button
-   */
-  class Button: public Widget, public MouseListener, public KeyListener
-  {
-    /**
-     * @todo Make a button able to not only display text but also images.
-     */
-  public:
-    Button();
+	/**
+	 * This is a regular button. Add an ActionListener to it to know when it
+	 * has been clicked.
+	 *
+	 * NOTE: You can only have text (a caption) on the button. If you want it
+	 *       to handle, for instance images, you can implement an ImageButton
+	 *       of your own and overload member functions from Button.
+	 */
+	class DECLSPEC Button : public Widget,
+					        public MouseListener,
+						    public KeyListener
+	{
+	public:
+		/**
+		 * Constructor.
+		 */
+		Button();
 
-    Button(const std::string& text);
+		/**
+		 * Constructor.
+		 *
+		 * @param caption the caption of the button.
+		 */
+		Button(const std::string& caption);
+	  
+		/**
+		 * Set the caption of a button.
+		 *
+		 * @param caption the caption of the button.
+		 */
+		virtual void setCaption(const std::string& caption);
+		
+		/**
+		 * @return the caption of the button.		 
+		 */
+		virtual const std::string& getCaption();
+		
+		/**
+		 * Adjusts the buttons size to fit the content.     
+		 */
+		virtual void adjustSize();
 
-    /**
-     * Set the text of a button.
-     *
-     * @param text the buttons text.
-     */
-    virtual void setText(const std::string& text);
+		
+		//Inherited from Widget
+		
+		virtual void draw(Graphics* graphics);
 
-    /**
-     * Adjusts the buttons size to fit the content.     
-     */
-    virtual void adjustSize();
+		virtual void lostFocus();
+		
+
+		// Inherited from MouseListener
+		
+		virtual void mouseClick(int x, int y, int button, int count);
+
+		virtual void mousePress(int x, int y, int button);
+
+		virtual void mouseRelease(int x, int y, int button);
+
+
+		// Inherited from KeyListener
+
+		virtual void keyPress(const Key& key);
     
-    virtual void draw(Graphics* graphics);
-
-    virtual void mouseClick(int x, int y, int button, int count);
-
-    virtual void mousePress(int x, int y, int button);
-
-    virtual void mouseRelease(int x, int y, int button);
-
-    virtual void keyPress(const Key& key);
+		virtual void keyRelease(const Key& key);
     
-    virtual void keyRelease(const Key& key);
-
-    virtual void lostFocus();
-    
-  private:
-    std::string mText;
-    bool mMouseDown, mKeyDown;
+	private:
+		std::string mCaption;
+		bool mMouseDown, mKeyDown;
         
-  }; // end Button
+	}; // end Button
   
 } // end gcn
 

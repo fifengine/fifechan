@@ -57,91 +57,120 @@
 #ifndef GCN_TEXTFIELD_HPP
 #define GCN_TEXTFIELD_HPP
 
+#include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
 #include <string>
 
 namespace gcn
 {
-  /**
-   * This is a TextField
-   *
-   * @todo Caret width and color, background color, comments.
-   */
-  class TextField:
-    public Widget,
-    public MouseListener,
-    public KeyListener
-  {
-  public:
-    /**
-     *
-     */
-    TextField();
+	/**
+	 * This is a text field. It holds exactly one line of text that can
+	 * be edited.
+	 */
+	class DECLSPEC TextField:
+		public Widget,
+		public MouseListener,
+		public KeyListener
+	{
+	public:
+		/**
+		 * Default constructor.
+		 */
+		TextField();
 
-    /**
-     *
-     */
-    TextField(const std::string& text);
+		/**
+		 * Constructor, initializes the textfield with a given string.
+		 *
+		 * @param text the initial content of the text field
+		 */
+		TextField(const std::string& text);
 
-    /**
-     *
-     */
-    virtual void setText(const std::string& text);
+		/**
+		 * Sets the text of the text field.
+		 *
+		 * @param text the new content
+		 */
+		virtual void setText(const std::string& text);
 
-    /**
-     *
-     */
-    virtual const std::string& getText() const;
+		/**
+		 * Gets the content of the text field.
+		 *
+		 * @return the content of the text field
+		 */
+		virtual const std::string& getText() const;
     
-    virtual void draw(Graphics* graphics);
+		/**
+		 * Draws the caret (the little marker in the text that shows
+		 * where the letters you type will appear). Easily overloaded
+		 * if you want to change the style of the caret.
+		 *
+		 * @param graphics the graphics object
+		 * @param x the caret's x-position
+		 */
+		virtual void drawCaret(Graphics* graphics, int x);    
 
-    /**
-     *
-     */
-    virtual void drawCaret(Graphics* graphics, int x);    
+		/**
+		 * Adjusts the size (width and height) of the text field, so that the
+		 * text fits precisely. The constructor taking a string uses this
+		 * function to initialize the size of the text field.
+		 */
+		virtual void adjustSize();
 
-    virtual void mousePress(int x, int y, int button);
+		/**
+		 * Adjusts the height of the text field, so that the text fits precisely.
+		 * the height of the text field is initialized with this function by the
+		 * constructors.
+		 */
+		virtual void adjustHeight();
 
-    virtual void keyPress(const Key& key);
+		/**
+		 * Sets the position of the caret.
+		 *
+		 * @position the new position
+		 */
+		virtual void setCaretPosition(unsigned int position);
+
+		/**
+		 * Gets the position of the caret.
+		 *
+		 * @return the position of the caret.
+		 */
+		virtual unsigned int getCaretPosition() const;
+
+
+		// Inherited from Widget
+		
+		virtual void fontChanged();
+		
+		virtual void draw(Graphics* graphics);
+
+
+		// Inherited from MouseListener
+		
+		virtual void mousePress(int x, int y, int button);
+
+
+		// Inherited from KeyListener
+		
+		virtual void keyPress(const Key& key);
     
-    virtual void keyRelease(const Key& key);
+		virtual void keyRelease(const Key& key);
 
-    virtual void lostFocus();
-
-    /**
-     *
-     */
-    virtual void adjustSize();
-
-    /**
-     *
-     */
-    virtual void adjustHeight();
-
-    /**
-     *
-     */
-    virtual void setCaretPosition(unsigned int position);
-
-    /**
-     *
-     */
-    virtual unsigned int getCaretPosition() const;
-
-    virtual void fontChanged();
+		virtual void lostFocus();
+		
+	protected:
+		/**
+		 * Scrolls the text horizontally so that the caret shows.
+		 * (if needed)
+		 */
+		void fixScroll();
     
-  protected:
-    /**
-     *
-     */
-    void fixScroll();
+		std::string mText;
+		unsigned int mCaretPosition;
+		int mXScroll;
     
-    std::string mText;
-    unsigned int mCaretPosition;
-    int mXScroll;
-    
-  }; // end TextField
+	}; // end TextField
   
 } // end gcn
 

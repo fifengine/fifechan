@@ -58,10 +58,17 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/opengl/openglgraphics.hpp"
-#include "guichan/exception.hpp"
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include <string>
+
+#include "guichan/opengl/openglgraphics.hpp"
+#include "guichan/exception.hpp"
+
 
 namespace gcn
 {

@@ -58,13 +58,14 @@
 #define GCN_OPENGLGRAPHICS_HPP
 
 #include "guichan/graphics.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
   /**
    * @todo Fix drawing of last pixel.
    */
-  class OpenGLGraphics: public Graphics
+  class DECLSPEC OpenGLGraphics: public Graphics
   {
   public:
     /**

@@ -58,6 +58,7 @@
 #define GCN_FONT_HPP
 
 #include "guichan/graphics.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -67,7 +68,7 @@ namespace gcn
    *
    * @see ImageFont
    */
-  class Font
+  class DECLSPEC Font
   {
   public:
 

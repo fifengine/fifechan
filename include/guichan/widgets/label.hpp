@@ -57,30 +57,57 @@
 #ifndef GCN_LABEL_HPP
 #define GCN_LABEL_HPP
 
-#include "guichan/widget.hpp"
-
 #include <string>
+
+#include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
+	/**
+	 * This is a simple labe for displaying a short text message.
+	 */
+	class DECLSPEC Label: public Widget
+	{
+	public:
+		/**
+		 * Constructor.
+		 */
+		Label() { };
 
-  class Label: public Widget
-  {
-  public:
-    Label() { };
+		/**
+		 * Constructor.
+		 *
+		 * @param caption the caption of the label.
+		 */
+		Label(const std::string& caption);
 
-    Label(const std::string& text);
+		/**
+		 * @return the caption of the Label.
+		 */
+		virtual const std::string &getCaption() const;
 
-    virtual void setText(const std::string& text);
+		/**
+		 * Sets the caption of the label.
+		 *
+		 * @param caption the caption of the Label.
+		 */
+		virtual void setCaption(const std::string& caption);
     
-    virtual void draw(Graphics* graphics);
+		/**
+		 * Adjusts the Label size to fit the font size.
+		 */
+		virtual void adjustSize();
+		
+		
+		// Inherited from Widget
+
+		virtual void draw(Graphics* graphics);
     
-    virtual void adjustSize();
+	private:
+		std::string mCaption;
     
-  private:
-    std::string mText;
-    
-  }; // end Label
+	}; // end Label
   
 } // end gcn
 

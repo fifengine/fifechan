@@ -57,12 +57,14 @@
 #ifndef GCN_RECTANGLE_HPP
 #define GCN_RECTANGLE_HPP
 
+#include "guichan/platform.hpp"
+
 namespace gcn
 {
   /**
    * This class is a basic rectangle class.
    */
-  class Rectangle
+  class DECLSPEC Rectangle
   {
   public:
 

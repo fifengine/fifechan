@@ -57,13 +57,15 @@
 #ifndef GCN_MOUSEINPUT_HPP
 #define GCN_MOUSEINPUT_HPP
 
+#include "guichan/platform.hpp"
+
 namespace gcn
 {
   /**
    * This is an intenral class used in Guichan to grab mouse input.
    * Generally you won't have to bother using this class.
    */
-  class MouseInput
+  class DECLSPEC MouseInput
   {
   public:
 
@@ -124,7 +126,7 @@ namespace gcn
      */
     // TODO
     // Remove EMPTY
-    const static int EMPTY = 0;
+/*    const static int EMPTY = 0;
     const static int LEFT = 1;
     const static int RIGHT = 2;
     const static int MIDDLE = 3;
@@ -133,6 +135,19 @@ namespace gcn
     const static int PRESS = 6;
     const static int RELEASE = 7;
     const static int MOTION = 8;
+*/
+	enum
+	{
+		EMPTY = 0,
+		LEFT,
+		RIGHT,
+		MIDDLE,
+		WHEEL_UP,
+		WHEEL_DOWN,
+		PRESS,
+		RELEASE,
+		MOTION
+	};
     
     int x, y;
 

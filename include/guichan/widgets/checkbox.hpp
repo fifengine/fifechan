@@ -59,91 +59,105 @@
 
 #include <string>
 
-#include "guichan/widget.hpp"
-#include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
+#include "guichan/mouselistener.hpp"
+#include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
-  class CheckBox :
-    public Widget,
-    public MouseListener,
-    public KeyListener
-  {
-  public:
+	/**
+	 * This is a normal CheckBox. It can be checked and unchecked, and that is
+	 * basicly it.
+	 */
+	class DECLSPEC CheckBox :
+		public Widget,
+		public MouseListener,
+		public KeyListener
+	{
+	public:
 
-    /**
-     * Contructor.
-     */
-    CheckBox();
+		/**
+		 * Contructor.
+		 */
+		CheckBox();
 
-    /**
-     * Constructor.
-     *
-     * @param caption the caption of the CheckBox.
-     * @param marked true if the CheckBox should be marked.
-     */
-    CheckBox(const std::string &caption, bool marked=false);
+		/**
+		 * Constructor.
+		 *
+		 * @param caption the caption of the CheckBox.
+		 * @param marked true if the CheckBox should be marked.
+		 */
+		CheckBox(const std::string &caption, bool marked=false);
 
-    /**
-     * Destructor.
-     */
-    virtual ~CheckBox() { }
-    
-    virtual void logic();
-    
-    virtual void draw(Graphics* graphics);
-
-    /**
-     * Draws the box i.a not the caption.
-     *
-     * @param graphics a graphics object.
-     */
-    virtual void drawBox(Graphics *graphics);
-
-    /**
-     * @return true if the CheckBox is marked.
-     */      
-    virtual bool isMarked() const;
+		/**
+		 * Destructor.
+		 */
+		virtual ~CheckBox() { }
 		
-    /**
-     * Set the CheckBox marked.
-     *
-     * @param marked true if the CheckBox should be marked.
-     */
-    virtual void setMarked(bool marked);
+		/**
+		 * Draws the box i.a not the caption.
+		 *
+		 * @param graphics a graphics object.
+		 */
+		virtual void drawBox(Graphics *graphics);
+
+		/**
+		 * @return true if the CheckBox is marked.
+		 */      
+		virtual bool isMarked() const;
 		
-    /**
-     * @return the caption of the CheckBox.
-     */
-    virtual const std::string &getCaption() const;
+		/**
+		 * Set the CheckBox marked.
+		 *
+		 * @param marked true if the CheckBox should be marked.
+		 */
+		virtual void setMarked(bool marked);
 		
-    /**
-     * Sets the caption of the CheckBox.
-     *
-     * @param caption the CheckBox caption.
-     */
+		/**
+		 * @return the caption of the CheckBox.
+		 */
+		virtual const std::string &getCaption() const;
+		
+		/**
+		 * Sets the caption of the CheckBox.
+		 *
+		 * @param caption the CheckBox caption.
+		 */
 		virtual void setCaption(const std::string caption);
 		
-    virtual void keyPress(const Key& key);
-    
-    virtual void mouseClick(int x, int y, int button, int count);
+		/**
+		 * Adjusts the CheckBox size to fit the font size.
+		 */
+		virtual void adjustSize();
+		
 
-    /**
-     * Adjusts the CheckBox size to fit the font size.
-     */
-    virtual void adjustSize();
+		// Inherited from Widget
+		
+		virtual void draw(Graphics* graphics);
+
+		virtual void logic();
+	  
+
+		// Inherited from KeyListener
+
+		virtual void keyPress(const Key& key);
+
+
+		// Inherited from MouseListener
+		virtual void mouseClick(int x, int y, int button, int count);
+
+
+	protected:
+		/**
+		 * Toggle between marked and unmarked.
+		 */
+		virtual void toggle();
     
-  protected:
-    /**
-     * Toggle between marked and unmarked.
-     */
-    virtual void toggle();
+		bool mMarked;
+		std::string mCaption;
     
-    bool mMarked;
-    std::string mCaption;
-    
-  }; // end CheckBox
+	}; // end CheckBox
   
 } // end gcn
 

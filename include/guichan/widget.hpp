@@ -70,6 +70,7 @@
 #include "guichan/mouseinput.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/rectangle.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -95,7 +96,7 @@ namespace gcn
 	 * NOTE: Functions begining with underscore "_" should not
 	 * be overloaded unless you know what you are doing.
 	 */
-	class Widget
+	class DECLSPEC Widget
 	{
 	public:
 		/**

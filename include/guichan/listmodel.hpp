@@ -58,13 +58,14 @@
 #define GCN_LISTMODEL_HPP
 
 #include <string>
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
   /**
    *
    */
-  class ListModel
+  class DECLSPEC ListModel
   {
 
   public:

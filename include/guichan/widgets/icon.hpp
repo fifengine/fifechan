@@ -58,6 +58,7 @@
 #define GCN_ICON_HPP
 
 #include "guichan/image.hpp"
+#include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
 namespace gcn
@@ -65,10 +66,18 @@ namespace gcn
 	/**
 	 * This is a simple Icon widget for displaying icons (images).
 	 */	
-	class Icon: public Widget
+	class DECLSPEC Icon: public Widget
 	{
 	public:
+		/**
+		 * Constructor.
+		 *
+		 * @param image an Image to be displayed.
+		 */
 		Icon(Image* image);
+		
+		
+		// Inherited from Widget
 		
 		virtual void draw(Graphics* graphics);
 		

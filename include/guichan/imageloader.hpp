@@ -57,6 +57,7 @@
 #ifndef GCN_IMAGELOADER_HPP
 #define GCN_IMAGELOADER_HPP
 
+#include "guichan/platform.hpp"
 #include "guichan/color.hpp"
 #include <string>
 
@@ -67,7 +68,7 @@ namespace gcn
   /**
    * This is an abstract class used to load images in guichan.
    */
-  class ImageLoader
+  class DECLSPEC ImageLoader
   {
   public:
     
