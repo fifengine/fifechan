@@ -51,7 +51,7 @@ AC_LANG_CPLUSPLUS
 AC_PROG_INSTALL
 AC_HEADER_STDC
 
-CXXFLAGS="$CXXFLAGS -pedantic -Wall -Werror -Wno-unused -DGUICHAN_BUILD"
+CXXFLAGS="$CXXFLAGS -Wall -Werror -Wno-unused -DGUICHAN_BUILD"
 
 NoX()
 {
@@ -98,6 +98,7 @@ HaveSDLImage()
 {
   SDLIMAGE="yes"
   SDL_LIBS="$SDL_LIBS -lSDL_image"
+  CPPFLAGS="$CPPFLAGS `sdl-config --cflags`"
 }
 
 NoSDL()
