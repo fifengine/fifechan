@@ -135,6 +135,7 @@ namespace gcn
         mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::PRESS);
+		mouseInput.setTimeStamp(SDL_GetTicks());
         mMouseInputQueue.push(mouseInput);
         break;
 
@@ -144,6 +145,7 @@ namespace gcn
         mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::RELEASE);
+		mouseInput.setTimeStamp(SDL_GetTicks());
         mMouseInputQueue.push(mouseInput);
 
         if (!mMouseInWindow)
@@ -152,6 +154,7 @@ namespace gcn
           mouseInput.y = -1;
           mouseInput.setButton(MouseInput::EMPTY);
           mouseInput.setType(MouseInput::MOTION);
+		  mouseInput.setTimeStamp(SDL_GetTicks());
           mMouseInputQueue.push(mouseInput);        
         }        
         break;
@@ -161,6 +164,7 @@ namespace gcn
         mouseInput.y = event.button.y;
         mouseInput.setButton(MouseInput::EMPTY);
         mouseInput.setType(MouseInput::MOTION);
+		mouseInput.setTimeStamp(SDL_GetTicks());
         mMouseInputQueue.push(mouseInput);
         break;
         
