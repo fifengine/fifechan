@@ -110,9 +110,9 @@ namespace gcn
 
     ~ImageFont();
     
-    virtual int getWidth(unsigned char glyph);
+    virtual int getWidth(unsigned char glyph) const;
 
-    virtual int getHeight();
+    virtual int getHeight() const;
 
     virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
