@@ -67,7 +67,10 @@ namespace gcn
   /**
    * This is a TextBox.
    */
-  class TextBox: public FontWidget, public MouseListener, public KeyListener
+  class TextBox:
+    public FontWidget,
+    public MouseListener,
+    public KeyListener
   {
   public:
     /**
@@ -159,6 +162,21 @@ namespace gcn
      *
      */
     virtual void scrollToCaret();
+
+    /**
+     *
+     */
+    virtual void setEditable(bool editable);
+
+    /**
+     *
+     */     
+    virtual bool isEditable() const;
+
+    /**
+     *
+     */
+    virtual void addRow(const std::string row);
     
   protected:
     /**
@@ -169,6 +187,7 @@ namespace gcn
     std::vector<std::string> mTextRows;
     int mCaretColumn;
     int mCaretRow;
+    bool mEditable;
     
   }; // end TextBox
   

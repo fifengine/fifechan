@@ -72,8 +72,10 @@ namespace gcn
   {
     mCaretColumn = 0;
     mCaretRow = 0;
+    mEditable = true;
     
     setFocusable(true);    
+    setTabable(true);
     
     addMouseListener(this);
     addKeyListener(this);
@@ -85,11 +87,13 @@ namespace gcn
   {
     mCaretColumn = 0;
     mCaretRow = 0;
+    mEditable = true;
     
     setText(text);
     
     setFocusable(true);    
-  
+    setTabable(true);
+    
     addMouseListener(this);
     addKeyListener(this);
     adjustSize();
@@ -174,6 +178,7 @@ namespace gcn
   
   void TextBox::keyPress(const Key& key)
   {
+    
     if (key.getValue() == Key::LEFT)
     {
       --mCaretColumn;
@@ -192,6 +197,7 @@ namespace gcn
         }
       }
     }
+
     else if (key.getValue() == Key::RIGHT)
     {
       ++mCaretColumn;
@@ -215,25 +221,28 @@ namespace gcn
         }
       }
     }
+
     else if (key.getValue() == Key::DOWN)
     {
       setCaretRow(mCaretRow + 1);
     }
+
     else if (key.getValue() == Key::UP)
     {
       setCaretRow(mCaretRow - 1);
     }
+
     else if (key.getValue() == Key::HOME)
-//             || key.getValue() == 1)
     {
       mCaretColumn = 0;
     }    
+
     else if (key.getValue() == Key::END)
-//             || key.getValue() == 5)
     {
       mCaretColumn = mTextRows[mCaretRow].size();
     }    
-    else if (key.getValue() == Key::ENTER)
+
+    else if (key.getValue() == Key::ENTER && mEditable)
     {
       mTextRows.insert(mTextRows.begin() + mCaretRow + 1,
                        mTextRows[mCaretRow].substr(mCaretColumn, mTextRows[mCaretRow].size() - mCaretColumn));
@@ -241,33 +250,42 @@ namespace gcn
       ++mCaretRow;
       mCaretColumn = 0;
     }
+
     else if (key.getValue() == Key::BACKSPACE
-             && mCaretColumn != 0)
+             && mCaretColumn != 0
+             && mEditable)
     {
       mTextRows[mCaretRow].erase(mCaretColumn - 1, 1);
       --mCaretColumn;
     }
+
     else if (key.getValue() == Key::BACKSPACE
              && mCaretColumn == 0
-             && mCaretRow != 0)
+             && mCaretRow != 0
+             && mEditable)
     {
       mCaretColumn = mTextRows[mCaretRow - 1].size();
       mTextRows[mCaretRow - 1] += mTextRows[mCaretRow];
       mTextRows.erase(mTextRows.begin() + mCaretRow);
       --mCaretRow;
     }
+
     else if (key.getValue() == Key::DELETE
-             && mCaretColumn < (int)mTextRows[mCaretRow].size())
+             && mCaretColumn < (int)mTextRows[mCaretRow].size()
+             && mEditable)
     {
       mTextRows[mCaretRow].erase(mCaretColumn, 1);
     }
+
     else if (key.getValue() == Key::DELETE
              && mCaretColumn == (int)mTextRows[mCaretRow].size()
-             && mCaretRow < ((int)mTextRows.size() - 1)) 
+             && mCaretRow < ((int)mTextRows.size() - 1)
+             && mEditable)
     {
       mTextRows[mCaretRow] += mTextRows[mCaretRow + 1];
       mTextRows.erase(mTextRows.begin() + mCaretRow + 1);
     }
+
     else if(key.getValue() == Key::PAGE_UP)
     {
       int w, h, rowsPerPage;
@@ -280,6 +298,7 @@ namespace gcn
         mCaretRow = 0;
       }
     }
+
     else if(key.getValue() == Key::PAGE_DOWN)
     {
       int w, h, rowsPerPage;
@@ -292,7 +311,16 @@ namespace gcn
         mCaretRow = mTextRows.size() - 1;
       }
     }
-    else if (key.isCharacter())
+
+    else if(key.getValue() == Key::TAB
+            && mEditable)
+    {
+      mTextRows[mCaretRow].insert(mCaretColumn,std::string("    "));
+      mCaretColumn += 4;      
+    }
+
+    else if (key.isCharacter()
+             && mEditable)
     {
       mTextRows[mCaretRow].insert(mCaretColumn,std::string(1,(char)key.getValue()));
       ++mCaretColumn;
@@ -328,23 +356,38 @@ namespace gcn
   
   void TextBox::setCaretPosition(unsigned int position)
   {
-    /*
-    if (position > mText.size())
+    int row;
+
+    for (row = 0; row < (int)mTextRows.size(); row++)
     {
-      mCaretPosition = mText.size();
-    }
-    else
-    {    
-      mCaretPosition = position;
+      if (position <= mTextRows[row].size())
+      {
+        mCaretRow = row;
+        mCaretColumn = position;
+        return; // we are done
+      }
+      else
+      {
+        position--;        
+      }
     }
 
-    fixScroll();
-    */
+    // position beyond end of text
+    mCaretRow = mTextRows.size() - 1;
+    mCaretColumn = mTextRows[mCaretRow].size();
+    
   } // end setCaretPosition
 
   unsigned int TextBox::getCaretPosition() const
   {
-    return 0;
+    int pos = 0, row;
+
+    for (row = 0; row < mCaretRow; row++)
+    {
+      pos += mTextRows[row].size();
+    }
+
+    return pos + mCaretColumn;
     
   } // end getCaretPosition
 
@@ -416,6 +459,7 @@ namespace gcn
       setCaretColumn(mCaretColumn);
     }
 
+    adjustSize();
   } // end setTextRow
 
   unsigned int TextBox::getNumberOfRows() const
@@ -465,5 +509,20 @@ namespace gcn
     }
     
   } // end scrollToCaret
-  
+
+  void TextBox::setEditable(bool editable)
+  {
+    mEditable = editable;
+  }
+
+  bool TextBox::isEditable() const
+  {
+    return mEditable;
+  }
+
+  void TextBox::addRow(const std::string row)
+  {
+    mTextRows.push_back(row);
+    adjustSize();
+  }
 } // end gcn
