@@ -57,7 +57,8 @@
 #ifndef GCN_DROPDOWN_HPP
 #define GCN_DROPDOWN_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/basiccontainer.hpp"
+#include "guichan/focushandler.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/listmodel.hpp"
@@ -67,7 +68,7 @@
 namespace gcn
 {
   class DropDown :
-    public FontWidget,
+    public BasicContainer,
     public MouseListener,
     public KeyListener
   {
@@ -84,7 +85,7 @@ namespace gcn
     
     virtual void logic();
     
-    virtual void draw(Graphics* graphics);
+    virtual void draw(Graphics* graphics);   
     
     virtual int getSelected();
     
@@ -93,6 +94,8 @@ namespace gcn
     virtual void keyPress(const Key& key);
 
     virtual void mousePress(int x, int y, int button);
+    
+    virtual void mouseRelease(int x, int y, int button);    
 
     virtual void setListModel(ListModel *listModel);
 
@@ -106,18 +109,31 @@ namespace gcn
 
     virtual ListBox *getListBox();
     
-    virtual void adjustSize();
+    virtual void adjustHeight();
+
+    virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+    virtual void moveToTop(Widget* widget) { }
+
+    virtual void moveToBottom(Widget* widget) { }
+
+    virtual void getDrawSize(int& width, int& height, Widget* widget) { }
+
+    virtual void lostFocus();
     
   protected:
-    ListModel *mListModel;
-    int mSelected;
-    int mMarked;
+    virtual void drawButton(Graphics *graphics);
+    virtual void dropDown();
+    virtual void foldUp();
+    
     bool mDroppedDown;
-    int mOldX, mOldY, mOldH;
+    bool mPushed;
+    int mOldH;
     ScrollArea* mScrollArea;
     ListBox* mListBox;
     ScrollArea* mDefaultScrollArea;
     ListBox* mDefaultListBox;
+    FocusHandler mFocusHandler;
     
   }; // end DropDown
   
