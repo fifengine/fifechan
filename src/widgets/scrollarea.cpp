@@ -81,14 +81,15 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-	mContentHasMouse = false;
-	mVerticalMarkerPressed = false;
-	mVerticalMarkerMousePosition = 0;
-	mHorizontalMarkerPressed = false;
-	mHorizontalMarkerMousePosition = 0;
+    mContentHasMouse = false;
+    mVerticalMarkerPressed = false;
+    mVerticalMarkerMousePosition = 0;
+    mHorizontalMarkerPressed = false;
+    mHorizontalMarkerMousePosition = 0;
 
-	setFocusable(true);
-	addMouseListener(this);
+    setFocusable(true);
+    setTabable(false);
+    addMouseListener(this);
 
   } // end ScrollArea
 
@@ -102,20 +103,22 @@ namespace gcn
     mVBarVisible = true;
     mHBarVisible = true;
     mScrollbarWidth = 12;
-    mContent = content;
+    mContent = NULL;
     mUpButtonPressed = false;
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-	mContentHasMouse = false;    
-	mVerticalMarkerPressed = false;
-	mVerticalMarkerMousePosition = 0;
-	mHorizontalMarkerPressed = false;
-	mHorizontalMarkerMousePosition = 0;
+    mContentHasMouse = false;    
+    mVerticalMarkerPressed = false;
+    mVerticalMarkerMousePosition = 0;
+    mHorizontalMarkerPressed = false;
+    mHorizontalMarkerMousePosition = 0;
 
-	setFocusable(true);
+    setContent(content);
+    setFocusable(true);
+    setTabable(false);
     checkPolicies();
-	addMouseListener(this);
+    addMouseListener(this);
 
   } // end ScrollArea
 
@@ -132,29 +135,33 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-	mContentHasMouse = false;
-	mVerticalMarkerPressed = false;
-	mVerticalMarkerMousePosition = 0;
-	mHorizontalMarkerPressed = false;
-	mHorizontalMarkerMousePosition = 0;
+    mContentHasMouse = false;
+    mVerticalMarkerPressed = false;
+    mVerticalMarkerMousePosition = 0;
+    mHorizontalMarkerPressed = false;
+    mHorizontalMarkerMousePosition = 0;
 
-	setFocusable(true);
+    setFocusable(true);
+    setTabable(false);
     checkPolicies();
-	addMouseListener(this);
+    addMouseListener(this);
     
   } // end ScrollArea
 
-  ScrollArea::~ScrollArea()
-  {
-
-  } // end ~ScrollArea
-
   void ScrollArea::setContent(Widget* widget)
   {
+    if (mContent)
+    {
+      mContent->_setFocusHandler(NULL);
+      mContent->_setParent(NULL);
+    }
+    
     mContent = widget;
-
+    mContent->_setFocusHandler(_getFocusHandler());
+    mContent->_setParent(this);
+      
   } // end setContent
-
+  
   Widget* ScrollArea::getContent()
   {
     return mContent;
@@ -199,14 +206,14 @@ namespace gcn
   {
     int max = getVerticalMaxScroll();
 
-	mVScroll = vScroll;
+    mVScroll = vScroll;
     
     if (vScroll > max)
     {
       mVScroll = max;
     }
     
-	if (vScroll < 0)
+    if (vScroll < 0)
     {
       mVScroll = 0;
     }
@@ -223,7 +230,7 @@ namespace gcn
   {
     int max = getHorizontalMaxScroll();
     
-	mHScroll = hScroll;
+    mHScroll = hScroll;
 	
     if (hScroll > max)
     {
@@ -280,7 +287,7 @@ namespace gcn
 
     int value;
     
-	value = mContent->getHeight() - getContentDimension().height;
+    value = mContent->getHeight() - getContentDimension().height;
     
     if (value < 0)
     {
@@ -322,37 +329,60 @@ namespace gcn
   } // end _setFocusHandler
 
   void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
-  {    
-	if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
-	{
-	  if (mContent)
-	  {
-		MouseInput mi = mouseInput;
-		mi.x += getHorizontalScrollAmount() - getContentDimension().x;
-		mi.y += getVerticalScrollAmount() - getContentDimension().y;
-		mContent->_mouseInputMessage(mi);
-		mContentHasMouse = true;
-	  }
+  {
+    BasicContainer::_mouseInputMessage(mouseInput);
+    
+    if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
+    {
+      if (mContent)
+      {
+        if (!mContentHasMouse)
+        {
+          mContent->_mouseInMessage();          
+        }
+        
+        // Only send mousemessages to the content if it is not focused
+        // (focused widgets always receive mousemessages)
+        if (!mContent->hasFocus())
+        {          
+          MouseInput mi = mouseInput;
+          
+          mi.x -= mContent->getX();
+          mi.y -= mContent->getY();
 
-	  if (hasFocus())
-	  {
-		BasicContainer::_mouseInputMessage(mouseInput);
-	  }
-	  
-	}
-	else
-	{
-	  BasicContainer::_mouseInputMessage(mouseInput); 
-	}
+          if (mi.x >= mContent->getWidth())
+          {
+            mi.x = mContent->getWidth() - 1;
+          }
+
+          if (mi.y >= mContent->getHeight())
+          {
+            mi.y = mContent->getHeight() - 1;
+          }          
+          
+          mContentHasMouse = true;        
+          mContent->_mouseInputMessage(mi);
+        }
+      }      
+    }
+    else
+    {
+      if (mContentHasMouse)
+      {
+        mContent->_mouseOutMessage();
+        mContentHasMouse = false;
+      }     
+    }
 
   } // end _mouseInputMessage
 
   void ScrollArea::_mouseOutMessage()
   {
-	if (mContentHasMouse && mContent)
-	{
-	  mContent->_mouseOutMessage();
-	}
+    if (mContentHasMouse && mContent)
+    {
+      mContent->_mouseOutMessage();
+      mContentHasMouse = false;
+    }
 	
     BasicContainer::_mouseOutMessage();
 
@@ -360,37 +390,37 @@ namespace gcn
   
   void ScrollArea::mousePress(int x, int y, int button)
   {
-	if (getUpButtonDimension().isPointInRect(x, y))
-	{
-	  setVerticalScrollAmount(getVerticalScrollAmount() - 10);
-	  mUpButtonPressed = true;
-	}
-	else if (getDownButtonDimension().isPointInRect(x, y))
-	{
-	  setVerticalScrollAmount(getVerticalScrollAmount() + 10);
-	  mDownButtonPressed = true;
-	}
-	else if (getLeftButtonDimension().isPointInRect(x, y))
-	{
-	  setHorizontalScrollAmount(getHorizontalScrollAmount() - 10);
-	  mLeftButtonPressed = true;
-	}
-	else if (getRightButtonDimension().isPointInRect(x, y))
-	{
-	  setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
-	  mRightButtonPressed = true;
-	}		
-	else if (getVerticalMarkerDimension().isPointInRect(x, y))
-	{
-	  mVerticalMarkerPressed = true;
-	  mVerticalMarkerMousePosition = y - getVerticalMarkerDimension().y;
-	}
-	else if (getHorizontalMarkerDimension().isPointInRect(x, y))
-	{
-	  mHorizontalMarkerPressed = true;
-	  mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
-	}
-
+    if (getUpButtonDimension().isPointInRect(x, y))
+    {
+      setVerticalScrollAmount(getVerticalScrollAmount() - 10);
+      mUpButtonPressed = true;
+    }
+    else if (getDownButtonDimension().isPointInRect(x, y))
+    {
+      setVerticalScrollAmount(getVerticalScrollAmount() + 10);
+      mDownButtonPressed = true;
+    }
+    else if (getLeftButtonDimension().isPointInRect(x, y))
+    {
+      setHorizontalScrollAmount(getHorizontalScrollAmount() - 10);
+      mLeftButtonPressed = true;
+    }
+    else if (getRightButtonDimension().isPointInRect(x, y))
+    {
+      setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
+      mRightButtonPressed = true;
+    }		
+    else if (getVerticalMarkerDimension().isPointInRect(x, y))
+    {
+      mVerticalMarkerPressed = true;
+      mVerticalMarkerMousePosition = y - getVerticalMarkerDimension().y;
+    }
+    else if (getHorizontalMarkerDimension().isPointInRect(x, y))
+    {
+      mHorizontalMarkerPressed = true;
+      mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
+    }
+    
   } // end mousePress
 
   void ScrollArea::mouseRelease(int x, int y, int button)
@@ -399,47 +429,52 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-	mVerticalMarkerPressed = false;
-	mHorizontalMarkerPressed = false;
-	
+    mVerticalMarkerPressed = false;
+    mHorizontalMarkerPressed = false;
+
+    if (button == MouseInput::LEFT && hasFocus() && mContent)
+    {
+      mContent->requestFocus();
+    }
+      
   } // end mouseRelease
 
   void ScrollArea::mouseMotion(int x, int y)
   {
-	if (mVerticalMarkerPressed)
-	{
-	  int pos = y - getVerticalBarDimension().y  - mVerticalMarkerMousePosition;
-	  int length = getVerticalMarkerDimension().height;
+    if (mVerticalMarkerPressed)
+    {
+      int pos = y - getVerticalBarDimension().y  - mVerticalMarkerMousePosition;
+      int length = getVerticalMarkerDimension().height;
 
-	  Rectangle barDim = getVerticalBarDimension();
+      Rectangle barDim = getVerticalBarDimension();
 	  
-	  if ((barDim.height - length) > 0)
-	  {
-		setVerticalScrollAmount((getVerticalMaxScroll() * pos)
-								/ (barDim.height - length));
-	  }
-	  else
-	  {
-		setVerticalScrollAmount(0);
-	  }	 
-	}
-	if (mHorizontalMarkerPressed)
-	{
-	  int pos = x - getHorizontalBarDimension().x  - mHorizontalMarkerMousePosition;
-	  int length = getHorizontalMarkerDimension().width;
+      if ((barDim.height - length) > 0)
+      {
+        setVerticalScrollAmount((getVerticalMaxScroll() * pos)
+                                / (barDim.height - length));
+      }
+      else
+      {
+        setVerticalScrollAmount(0);
+      }	 
+    }
+    if (mHorizontalMarkerPressed)
+    {
+      int pos = x - getHorizontalBarDimension().x  - mHorizontalMarkerMousePosition;
+      int length = getHorizontalMarkerDimension().width;
 
-	  Rectangle barDim = getHorizontalBarDimension();
+      Rectangle barDim = getHorizontalBarDimension();
 	  
-	  if ((barDim.width - length) > 0)
-	  {
-		setHorizontalScrollAmount((getHorizontalMaxScroll() * pos)
-								  / (barDim.width - length));
-	  }
-	  else
-	  {
-		setHorizontalScrollAmount(0);
-	  }	 
-	}
+      if ((barDim.width - length) > 0)
+      {
+        setHorizontalScrollAmount((getHorizontalMaxScroll() * pos)
+                                  / (barDim.width - length));
+      }
+      else
+      {
+        setHorizontalScrollAmount(0);
+      }	 
+    }
 
   }
 
@@ -461,75 +496,80 @@ namespace gcn
     
     if (mVBarVisible)
     {
-	  drawUpButton(graphics);
-	  drawDownButton(graphics);
-	  drawVBar(graphics);
-	  drawVMarker(graphics);
+      drawUpButton(graphics);
+      drawDownButton(graphics);
+      drawVBar(graphics);
+      drawVMarker(graphics);
     }
     
     if (mHBarVisible)
     {
-	  drawLeftButton(graphics);
-	  drawRightButton(graphics);
-	  drawHBar(graphics);
-	  drawHMarker(graphics);
+      drawLeftButton(graphics);
+      drawRightButton(graphics);
+      drawHBar(graphics);
+      drawHMarker(graphics);
     }
     
-	if (mHBarVisible && mVBarVisible)
-	{
-	  graphics->setColor(getBaseColor());
-	  graphics->fillRectangle(Rectangle(getWidth() - mScrollbarWidth - 1,
-										getHeight() - mScrollbarWidth - 1,
-										mScrollbarWidth,
-										mScrollbarWidth));
-	}
+    if (mHBarVisible && mVBarVisible)
+    {
+      graphics->setColor(getBaseColor());
+      graphics->fillRectangle(Rectangle(getWidth() - mScrollbarWidth - 1,
+                                        getHeight() - mScrollbarWidth - 1,
+                                        mScrollbarWidth,
+                                        mScrollbarWidth));
+    }
 
-	if (mContent)
-	{
-	  graphics->pushClipArea(getContentDimension());
-	  graphics->pushClipArea(mContent->getDimension());
-	  mContent->draw(graphics);
-	  graphics->popClipArea();
-	  graphics->popClipArea();
-	}
+    if (mContent)
+    {
+      // We adjust x and y to account for the border
+      Rectangle contdim = mContent->getDimension();
+      contdim.x -= getContentDimension().x;
+      contdim.y -= getContentDimension().y;
+        
+      graphics->pushClipArea(getContentDimension());
+      graphics->pushClipArea(contdim);
+      mContent->draw(graphics);
+      graphics->popClipArea();
+      graphics->popClipArea();
+    }
   } // end draw
 
   void ScrollArea::drawHBar(Graphics* graphics)
   {
-	Rectangle dim = getHorizontalBarDimension();
+    Rectangle dim = getHorizontalBarDimension();
 
-	graphics->pushClipArea(dim);
+    graphics->pushClipArea(dim);
 
     graphics->setColor(getBaseColor() - 0x101010);
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-	graphics->setColor(getBaseColor() - 0x303030);
-	graphics->drawLine(0, 0, dim.width, 1);
+    graphics->setColor(getBaseColor() - 0x303030);
+    graphics->drawLine(0, 0, dim.width, 1);
 
-	graphics->popClipArea();
+    graphics->popClipArea();
 	
   } // end drawHBar  
   
   void ScrollArea::drawVBar(Graphics* graphics)
   {
-	Rectangle dim = getVerticalBarDimension();
+    Rectangle dim = getVerticalBarDimension();
 
-	graphics->pushClipArea(dim);
+    graphics->pushClipArea(dim);
 
     graphics->setColor(getBaseColor() - 0x101010);
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
     
-	graphics->setColor(getBaseColor() - 0x303030);
-	graphics->drawLine(0, 0, 1, dim.height);
+    graphics->setColor(getBaseColor() - 0x303030);
+    graphics->drawLine(0, 0, 1, dim.height);
 		
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawVBar
   
   void ScrollArea::drawUpButton(Graphics* graphics)
   {
-	Rectangle dim = getUpButtonDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getUpButtonDimension();
+    graphics->pushClipArea(dim);
 	
     Color lightColor;
     Color shadowColor;
@@ -575,14 +615,14 @@ namespace gcn
                          i + h + offset);
     }
     
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawUpButton
 
   void ScrollArea::drawDownButton(Graphics* graphics)
   {    
-	Rectangle dim = getDownButtonDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getDownButtonDimension();
+    graphics->pushClipArea(dim);
 
     Color lightColor;
     Color shadowColor;
@@ -628,14 +668,14 @@ namespace gcn
                          -i + h + offset);      
     }
     
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawDownButton
 
   void ScrollArea::drawLeftButton(Graphics* graphics)
   {
-	Rectangle dim = getLeftButtonDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getLeftButtonDimension();
+    graphics->pushClipArea(dim);
 
     Color lightColor;
     Color shadowColor;
@@ -681,14 +721,14 @@ namespace gcn
                          w + i + offset);      
     }
     
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawLeftButton
 
   void ScrollArea::drawRightButton(Graphics* graphics)
   {
-	Rectangle dim = getRightButtonDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getRightButtonDimension();
+    graphics->pushClipArea(dim);
 
     Color lightColor;
     Color shadowColor;
@@ -734,50 +774,50 @@ namespace gcn
                          w + i + offset);      
     }
 
-	graphics->popClipArea();
+    graphics->popClipArea();
     
   } // end drawRightButton
 
 
   void ScrollArea::drawVMarker(Graphics* graphics)
   {
-	Rectangle dim = getVerticalMarkerDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getVerticalMarkerDimension();
+    graphics->pushClipArea(dim);
 	
     graphics->setColor(getBaseColor());      
 
     graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
 	
-	graphics->setColor(getBaseColor() + 0x303030);
-	graphics->drawLine(0, 0, dim.width - 1, 0);
-	graphics->drawLine(0, 1, 0, dim.height - 1);
+    graphics->setColor(getBaseColor() + 0x303030);
+    graphics->drawLine(0, 0, dim.width - 1, 0);
+    graphics->drawLine(0, 1, 0, dim.height - 1);
 	
     graphics->setColor(getBaseColor() - 0x303030);	
-	graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-	graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
+    graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
+    graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawVMarker
 
   void ScrollArea::drawHMarker(Graphics* graphics)
   {
-	Rectangle dim = getHorizontalMarkerDimension();
-	graphics->pushClipArea(dim);
+    Rectangle dim = getHorizontalMarkerDimension();
+    graphics->pushClipArea(dim);
 	
     graphics->setColor(getBaseColor());      
 
     graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
 	
-	graphics->setColor(getBaseColor() + 0x303030);
-	graphics->drawLine(0, 0, dim.width - 1, 0);
-	graphics->drawLine(0, 1, 0, dim.height - 1);
+    graphics->setColor(getBaseColor() + 0x303030);
+    graphics->drawLine(0, 0, dim.width - 1, 0);
+    graphics->drawLine(0, 1, 0, dim.height - 1);
 	
     graphics->setColor(getBaseColor() - 0x303030);	
-	graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-	graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
+    graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
+    graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
-	graphics->popClipArea();
+    graphics->popClipArea();
 
   } // end drawVMarker
   
@@ -785,13 +825,14 @@ namespace gcn
   {
     checkPolicies();
 
-	setVerticalScrollAmount(getVerticalScrollAmount());
-	setHorizontalScrollAmount(getHorizontalScrollAmount());
+    setVerticalScrollAmount(getVerticalScrollAmount());
+    setHorizontalScrollAmount(getHorizontalScrollAmount());
 
-	if (mContent)
-	{
-	  mContent->setPosition(-mHScroll, -mVScroll); 
-	}
+    if (mContent)
+    {
+      mContent->setPosition(-mHScroll + getContentDimension().x,
+                            -mVScroll + getContentDimension().y);
+    }
 
   } // end logic
 
@@ -824,6 +865,20 @@ namespace gcn
       throw GCN_EXCEPTION("ScrollArea::moveToBottom. only a ScrollArea's content may be moved to bottom");
     }
   }
+
+  void ScrollArea::getDrawSize(int& width, int& height, Widget* widget)
+  {
+    if (mContent == widget)
+    {
+      width = getContentDimension().width;
+      height = getContentDimension().height;
+    }
+    else
+    {
+      throw GCN_EXCEPTION("ScrollArea::getDrawSize. Widget not in scrollarea");
+    }
+    
+  } // end getDrawSize
   
   void ScrollArea::drawContent(Graphics* graphics)
   {
@@ -926,242 +981,288 @@ namespace gcn
 
   Rectangle ScrollArea::getUpButtonDimension()
   {
-	if (!mVBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mVBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 	
-	return Rectangle(getWidth() - mScrollbarWidth - 1,
-					 1,
-					 mScrollbarWidth,
-					 mScrollbarWidth);
+    return Rectangle(getWidth() - mScrollbarWidth - 1,
+                     1,
+                     mScrollbarWidth,
+                     mScrollbarWidth);
 
   } // end getUpButtonDimension
 
   Rectangle ScrollArea::getDownButtonDimension()
   {
-	if (!mVBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mVBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 
-	if (mVBarVisible && mHBarVisible)
+    if (mVBarVisible && mHBarVisible)
     {
       return Rectangle(getWidth() - mScrollbarWidth - 1,
-					   getHeight() - mScrollbarWidth*2 - 1,
-					   mScrollbarWidth,
-					   mScrollbarWidth);
+                       getHeight() - mScrollbarWidth*2 - 1,
+                       mScrollbarWidth,
+                       mScrollbarWidth);
     }
 	
-	return Rectangle(getWidth() - mScrollbarWidth - 1,
-					 getHeight() - mScrollbarWidth - 1,
-					 mScrollbarWidth,
-					 mScrollbarWidth);      
+    return Rectangle(getWidth() - mScrollbarWidth - 1,
+                     getHeight() - mScrollbarWidth - 1,
+                     mScrollbarWidth,
+                     mScrollbarWidth);      
 	
   } // end getDownButtonDimension
 
 
   Rectangle ScrollArea::getLeftButtonDimension()
   {
-	if (!mHBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mHBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 	
     return Rectangle(1,
-					 getHeight() - mScrollbarWidth - 1,
-					 mScrollbarWidth,
-					 mScrollbarWidth);
+                     getHeight() - mScrollbarWidth - 1,
+                     mScrollbarWidth,
+                     mScrollbarWidth);
 	
   } // end getLeftButtonDimension
 
   Rectangle ScrollArea::getRightButtonDimension()
   {
-	if (!mHBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
-
-	if (mVBarVisible && mHBarVisible)
+    if (!mHBarVisible)
     {
-      return Rectangle(getWidth() - mScrollbarWidth*2 - 1,
-					   getHeight() - mScrollbarWidth - 1,
-					   mScrollbarWidth,
-					   mScrollbarWidth);
+      return Rectangle(0, 0, 0, 0);
     }
 
-	return Rectangle(getWidth() - mScrollbarWidth - 1,
-					 getHeight() - mScrollbarWidth - 1,
-					 mScrollbarWidth,
-					 mScrollbarWidth);
+    if (mVBarVisible && mHBarVisible)
+    {
+      return Rectangle(getWidth() - mScrollbarWidth*2 - 1,
+                       getHeight() - mScrollbarWidth - 1,
+                       mScrollbarWidth,
+                       mScrollbarWidth);
+    }
+
+    return Rectangle(getWidth() - mScrollbarWidth - 1,
+                     getHeight() - mScrollbarWidth - 1,
+                     mScrollbarWidth,
+                     mScrollbarWidth);
 		  
   } // end getRightButtonDimension
 
   Rectangle ScrollArea::getContentDimension()
   {
-	if (mVBarVisible && mHBarVisible)
-	{
-	  return Rectangle(1, 1, getWidth() - mScrollbarWidth - 2, 
-					   getHeight() - mScrollbarWidth - 2);
-	}
+    if (mVBarVisible && mHBarVisible)
+    {
+      return Rectangle(1, 1, getWidth() - mScrollbarWidth - 2, 
+                       getHeight() - mScrollbarWidth - 2);
+    }
 
-	if (mVBarVisible)
-	{
-	  return Rectangle(1, 1, getWidth() - mScrollbarWidth - 2, getHeight() - 2);
-	}
+    if (mVBarVisible)
+    {
+      return Rectangle(1, 1, getWidth() - mScrollbarWidth - 2, getHeight() - 2);
+    }
 
-	if (mHBarVisible)
-	{
-	  return Rectangle(1, 1, getWidth() - 2, getHeight() - mScrollbarWidth - 2);
-	}
+    if (mHBarVisible)
+    {
+      return Rectangle(1, 1, getWidth() - 2, getHeight() - mScrollbarWidth - 2);
+    }
 	
-	return Rectangle(1, 1, getWidth() - 2, getHeight() - 2);
+    return Rectangle(1, 1, getWidth() - 2, getHeight() - 2);
 
   } // end getContentDimension
 
   Rectangle ScrollArea::getVerticalBarDimension()
   {
-	if (!mVBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mVBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 
-	if (mHBarVisible)
-	{
-	  return Rectangle(getWidth() - mScrollbarWidth - 1,
-					   getUpButtonDimension().height + 1,
-					   mScrollbarWidth,
-					   getHeight() 
-					   - getUpButtonDimension().height
-					   - getDownButtonDimension().height
-					   - mScrollbarWidth - 2);
-	}
+    if (mHBarVisible)
+    {
+      return Rectangle(getWidth() - mScrollbarWidth - 1,
+                       getUpButtonDimension().height + 1,
+                       mScrollbarWidth,
+                       getHeight() 
+                       - getUpButtonDimension().height
+                       - getDownButtonDimension().height
+                       - mScrollbarWidth - 2);
+    }
 	
-	return Rectangle(getWidth() - mScrollbarWidth - 1,
-					 getUpButtonDimension().height + 1,
-					 mScrollbarWidth,
-					 getHeight() 
-					 - getUpButtonDimension().height
-					 - getDownButtonDimension().height
-					 - 2);
+    return Rectangle(getWidth() - mScrollbarWidth - 1,
+                     getUpButtonDimension().height + 1,
+                     mScrollbarWidth,
+                     getHeight() 
+                     - getUpButtonDimension().height
+                     - getDownButtonDimension().height
+                     - 2);
 
   } // end getVerticalBarDimension
 
   Rectangle ScrollArea::getHorizontalBarDimension()
   {
-	if (!mHBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mHBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 
-	if (mVBarVisible)
-	{
-	  return Rectangle(getLeftButtonDimension().width + 1,
-					   getHeight() - mScrollbarWidth - 1,
-					   getWidth() 
-					   - getLeftButtonDimension().width
-					   - getRightButtonDimension().width
-					   - mScrollbarWidth
-					   - 2, 
-					   mScrollbarWidth);
-	}
+    if (mVBarVisible)
+    {
+      return Rectangle(getLeftButtonDimension().width + 1,
+                       getHeight() - mScrollbarWidth - 1,
+                       getWidth() 
+                       - getLeftButtonDimension().width
+                       - getRightButtonDimension().width
+                       - mScrollbarWidth
+                       - 2, 
+                       mScrollbarWidth);
+    }
 
-	return Rectangle(getLeftButtonDimension().width + 1,
-					 getHeight() - mScrollbarWidth - 1,
-					 getWidth() 
-					 - getLeftButtonDimension().width
-					 - getRightButtonDimension().width
-					 - 2,
-					 mScrollbarWidth);
+    return Rectangle(getLeftButtonDimension().width + 1,
+                     getHeight() - mScrollbarWidth - 1,
+                     getWidth() 
+                     - getLeftButtonDimension().width
+                     - getRightButtonDimension().width
+                     - 2,
+                     mScrollbarWidth);
 
   } // end getHorizontalBarDimension
 
   Rectangle ScrollArea::getVerticalMarkerDimension()
   {
-	if (!mVBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mVBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 
-	int length, pos;
-	Rectangle barDim = getVerticalBarDimension();
+    int length, pos;
+    Rectangle barDim = getVerticalBarDimension();
 
-	if (mContent && mContent->getHeight() != 0)
-	{	  
-	  length = (barDim.height * getContentDimension().height) 
-		/ mContent->getHeight();
-	}
-	else
-	{
-	  length = barDim.height;
-	}
+    if (mContent && mContent->getHeight() != 0)
+    {	  
+      length = (barDim.height * getContentDimension().height) 
+        / mContent->getHeight();
+    }
+    else
+    {
+      length = barDim.height;
+    }
 
-	if (length < mScrollbarWidth)
-	{
-	  length = mScrollbarWidth;
-	}
+    if (length < mScrollbarWidth)
+    {
+      length = mScrollbarWidth;
+    }
 
-	if (length > barDim.height)
-	{
-	  length = barDim.height;
-	}
+    if (length > barDim.height)
+    {
+      length = barDim.height;
+    }
 
-	if (getVerticalMaxScroll() != 0)
-	{
-	  pos = ((barDim.height - length) * getVerticalScrollAmount())
-		/ getVerticalMaxScroll();
-	}
-	else
-	{
-	  pos = 0;
-	}
+    if (getVerticalMaxScroll() != 0)
+    {
+      pos = ((barDim.height - length) * getVerticalScrollAmount())
+        / getVerticalMaxScroll();
+    }
+    else
+    {
+      pos = 0;
+    }
 	
-	return Rectangle(barDim.x, barDim.y + pos, mScrollbarWidth, length);
+    return Rectangle(barDim.x, barDim.y + pos, mScrollbarWidth, length);
 
   } // end getVerticalMarkerDimension
 
   Rectangle ScrollArea::getHorizontalMarkerDimension()
   {
-	if (!mHBarVisible)
-	{
-	  return Rectangle(0, 0, 0, 0);
-	}
+    if (!mHBarVisible)
+    {
+      return Rectangle(0, 0, 0, 0);
+    }
 
-	int length, pos;
-	Rectangle barDim = getHorizontalBarDimension();
+    int length, pos;
+    Rectangle barDim = getHorizontalBarDimension();
 
-	if (mContent && mContent->getWidth() != 0)
-	{	  
-	  length = (barDim.width * getContentDimension().width) 
-		/ mContent->getWidth();
-	}
-	else
-	{
-	  length = barDim.width;
-	}
+    if (mContent && mContent->getWidth() != 0)
+    {	  
+      length = (barDim.width * getContentDimension().width) 
+        / mContent->getWidth();
+    }
+    else
+    {
+      length = barDim.width;
+    }
 
-	if (length < mScrollbarWidth)
-	{
-	  length = mScrollbarWidth;
-	}
+    if (length < mScrollbarWidth)
+    {
+      length = mScrollbarWidth;
+    }
 
-	if (length > barDim.width)
-	{
-	  length = barDim.width;
-	}
+    if (length > barDim.width)
+    {
+      length = barDim.width;
+    }
 	
-	if (getHorizontalMaxScroll() != 0)
-	{
-	  pos = ((barDim.width - length) * getHorizontalScrollAmount())
-		/ getHorizontalMaxScroll();
-	}
-	else
-	{
-	  pos = 0;
-	}
+    if (getHorizontalMaxScroll() != 0)
+    {
+      pos = ((barDim.width - length) * getHorizontalScrollAmount())
+        / getHorizontalMaxScroll();
+    }
+    else
+    {
+      pos = 0;
+    }
 
-	return Rectangle(barDim.x + pos, barDim.y, length, mScrollbarWidth);
+    return Rectangle(barDim.x + pos, barDim.y, length, mScrollbarWidth);
 
   } // end getHorizontalMarkerDimension
+
+  void ScrollArea::scrollToRectangle(const Rectangle& rectangle)
+  {
+    Rectangle contentDim = getContentDimension();
+    
+    if (rectangle.x + rectangle.width
+        > getHorizontalScrollAmount() + contentDim.width)
+    {
+      setHorizontalScrollAmount(rectangle.x + rectangle.width - contentDim.width);
+    }
+
+    if (rectangle.y + rectangle.height
+        > getVerticalScrollAmount() + contentDim.height)
+    {
+      setVerticalScrollAmount(rectangle.y + rectangle.height - contentDim.height);
+    }
+
+    if (rectangle.x < getHorizontalScrollAmount())
+    {
+      setHorizontalScrollAmount(rectangle.x);
+    }
+
+    if (rectangle.y < getVerticalScrollAmount())
+    {
+      setVerticalScrollAmount(rectangle.y);
+    }
+
+  } // end scrollToRectangle
+
+  void ScrollArea::mouseWheelUp(int x, int y)
+  {    
+    if (hasMouse())
+    {
+      setVerticalScrollAmount(getVerticalScrollAmount() - getContentDimension().height / 8);
+    }
+    
+  } // end mouseWheelUp
+
+  void ScrollArea::mouseWheelDown(int x, int y)
+  {    
+    if (hasMouse())
+    {
+      setVerticalScrollAmount(getVerticalScrollAmount() + getContentDimension().height / 8);
+    }
+    
+  } // end mouseWheelDown
 
 } // end gcn

@@ -88,7 +88,7 @@ namespace gcn
     /**
      *
      */    
-    virtual ~ScrollArea();
+    virtual ~ScrollArea() { };
 
     /**
      *
@@ -165,9 +165,9 @@ namespace gcn
      */
     virtual void setScrollbarWidth(int width);
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     virtual int getScrollbarWidth();
 
     virtual void _setFocusHandler(FocusHandler* focusHandler);
@@ -176,32 +176,36 @@ namespace gcn
 
     virtual void _mouseOutMessage();
 
-	void mousePress(int x, int y, int button);
+    virtual void mousePress(int x, int y, int button);
+    
+    virtual void mouseRelease(int x, int y, int button);
+    
+    virtual void mouseMotion(int x, int y);
 
-	void mouseRelease(int x, int y, int button);
-	
-	void mouseMotion(int x, int y);
+    virtual void mouseWheelUp(int x, int y);
 
+    virtual void mouseWheelDown(int x, int y);
+    
     virtual void draw(Graphics *graphics);
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     virtual void drawUpButton(Graphics *graphics);
-
-	/**
-	 *
-	 */
+    
+    /**
+     *
+     */
     virtual void drawDownButton(Graphics *graphics);
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     virtual void drawLeftButton(Graphics *graphics);
-
-	/**
-	 *
-	 */
+    
+    /**
+     *
+     */
     virtual void drawRightButton(Graphics *graphics);
 
     virtual void logic();
@@ -209,6 +213,13 @@ namespace gcn
     virtual void moveToTop(Widget* widget);
 
     virtual void moveToBottom(Widget* widget);
+
+    virtual void getDrawSize(int& width, int& height, Widget* widget);
+
+    /**
+     *
+     */
+    virtual void scrollToRectangle(const Rectangle& rectangle);
 
     /**
      *
@@ -236,61 +247,61 @@ namespace gcn
      */
     virtual void drawHBar(Graphics* graphics);
 
-	virtual void drawVMarker(Graphics* graphics);
+    virtual void drawVMarker(Graphics* graphics);
 
-	virtual void drawHMarker(Graphics* graphics);
+    virtual void drawHMarker(Graphics* graphics);
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     virtual void checkPolicies();
 
     /**
-	 *
-	 */
-	virtual Rectangle getUpButtonDimension();
+     *
+     */
+    virtual Rectangle getUpButtonDimension();
 
     /**
-	 *
-	 */
-	virtual Rectangle getDownButtonDimension();
+     *
+     */
+    virtual Rectangle getDownButtonDimension();
 
     /**
-	 *
-	 */
-	virtual Rectangle getLeftButtonDimension();
+     *
+     */
+    virtual Rectangle getLeftButtonDimension();
 
     /**
-	 *
-	 */
-	virtual Rectangle getRightButtonDimension();
+     *
+     */
+    virtual Rectangle getRightButtonDimension();
 
     /**
-	 *
-	 */
-	virtual Rectangle getContentDimension();
+     *
+     */
+    virtual Rectangle getContentDimension();
 
-	/**
-	 *
-	 */
-	virtual Rectangle getVerticalBarDimension();
+    /**
+     *
+     */
+    virtual Rectangle getVerticalBarDimension();
 
-	/**
-	 *
-	 */
-	virtual Rectangle getHorizontalBarDimension();
+    /**
+     *
+     */
+    virtual Rectangle getHorizontalBarDimension();
 
-	/**
-	 *
-	 */
-	virtual Rectangle getVerticalMarkerDimension();
-
-	/**
-	 *
-	 */
-	virtual Rectangle getHorizontalMarkerDimension();
-
-
+    /**
+     *
+     */
+    virtual Rectangle getVerticalMarkerDimension();
+    
+    /**
+     *
+     */
+    virtual Rectangle getHorizontalMarkerDimension();
+    
+    
     Widget *mContent;
     int mVScroll;
     int mHScroll;
@@ -304,10 +315,10 @@ namespace gcn
     bool mDownButtonPressed;
     bool mLeftButtonPressed;
     bool mRightButtonPressed;
-	bool mVerticalMarkerPressed;
-	int mVerticalMarkerMousePosition;
-	bool mHorizontalMarkerPressed;
-	int mHorizontalMarkerMousePosition;
+    bool mVerticalMarkerPressed;
+    int mVerticalMarkerMousePosition;
+    bool mHorizontalMarkerPressed;
+    int mHorizontalMarkerMousePosition;
 
     bool mContentHasMouse;
 
