@@ -63,9 +63,7 @@ namespace gcn
   /**
    * This is an OpenGL implementation of the Graphics object. For more
    * information about the Graphics object please see the Graphics
-   * header.
-   *
-   * @todo Alpha channel support.
+   * header.   
    */
   class DECLSPEC OpenGLGraphics: public Graphics
   {
