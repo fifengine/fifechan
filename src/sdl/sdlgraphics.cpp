@@ -77,12 +77,12 @@ namespace gcn
 	
 	void SDLGraphics::_beginDraw()
 	{
-    Rectangle area;
-    area.x = 0;
-    area.y = 0;
-    area.width = mTarget->w;
-    area.height = mTarget->h;
-    pushClipArea(area);		
+		Rectangle area;
+		area.x = 0;
+		area.y = 0;
+		area.width = mTarget->w;
+		area.height = mTarget->h;
+		pushClipArea(area);		
 	}
 
 	void SDLGraphics::_endDraw()
@@ -90,89 +90,89 @@ namespace gcn
 		popClipArea();
 	}
 	
-  void SDLGraphics::setTarget(SDL_Surface* target)
-  {
-    mTarget = target;
+	void SDLGraphics::setTarget(SDL_Surface* target)
+	{
+		mTarget = target;
 		
-  } // end setTarget
+	} // end setTarget
 
-  bool SDLGraphics::pushClipArea(Rectangle area)
-  {
-    SDL_Rect rect;
-    bool result = Graphics::pushClipArea(area);
+	bool SDLGraphics::pushClipArea(Rectangle area)
+	{
+		SDL_Rect rect;
+		bool result = Graphics::pushClipArea(area);
 		
-    ClipRectangle carea = mClipStack.top();
-    rect.x = carea.x;
-    rect.y = carea.y;
-    rect.w = carea.width;
-    rect.h = carea.height;
+		ClipRectangle carea = mClipStack.top();
+		rect.x = carea.x;
+		rect.y = carea.y;
+		rect.w = carea.width;
+		rect.h = carea.height;
     
-    SDL_SetClipRect(mTarget, &rect);
+		SDL_SetClipRect(mTarget, &rect);
 
-    return result;
+		return result;
     
-  } // end pushClipArea
+	} // end pushClipArea
 
-  void SDLGraphics::popClipArea()
-  {
-    SDL_Rect rect;
-    Graphics::popClipArea();
+	void SDLGraphics::popClipArea()
+	{
+		SDL_Rect rect;
+		Graphics::popClipArea();
 
 		if (mClipStack.empty())
 		{
 			return;
 		}
 		
-    ClipRectangle carea = mClipStack.top();
-    rect.x = carea.x;
-    rect.y = carea.y;
-    rect.w = carea.width;
-    rect.h = carea.height;
+		ClipRectangle carea = mClipStack.top();
+		rect.x = carea.x;
+		rect.y = carea.y;
+		rect.w = carea.width;
+		rect.h = carea.height;
     
-    SDL_SetClipRect(mTarget, &rect);    
+		SDL_SetClipRect(mTarget, &rect);    
 
-  } // end popClipArea
+	} // end popClipArea
   
-  SDL_Surface* SDLGraphics::getTarget() const
-  {
-    return mTarget;
+	SDL_Surface* SDLGraphics::getTarget() const
+	{
+		return mTarget;
 
-  } // end getTarget 
+	} // end getTarget 
   
-  void SDLGraphics::drawImage(const Image* image, int srcX,
-                              int srcY, int dstX, int dstY,
-                              int width, int height)
-  {
-    ClipRectangle top = mClipStack.top();
-    SDL_Rect src;
-    SDL_Rect dst;
-    src.x = srcX;
-    src.y = srcY;
-    src.w = width;
-    src.h = height;
-    dst.x = dstX + top.xOffset;
-    dst.y = dstY + top.yOffset;
+	void SDLGraphics::drawImage(const Image* image, int srcX,
+								int srcY, int dstX, int dstY,
+								int width, int height)
+	{
+		ClipRectangle top = mClipStack.top();
+		SDL_Rect src;
+		SDL_Rect dst;
+		src.x = srcX;
+		src.y = srcY;
+		src.w = width;
+		src.h = height;
+		dst.x = dstX + top.xOffset;
+		dst.y = dstY + top.yOffset;
 
-    SDL_Surface* srcImage = (SDL_Surface*)image->_getData();
+		SDL_Surface* srcImage = (SDL_Surface*)image->_getData();
     
-    SDL_BlitSurface(srcImage, &src, mTarget, &dst);
+		SDL_BlitSurface(srcImage, &src, mTarget, &dst);
     
-  } // end drawImage
+	} // end drawImage
 
-  void SDLGraphics::fillRectangle(const Rectangle& rectangle)
-  {    
-    Rectangle area = rectangle;
-    ClipRectangle top = mClipStack.top(); 
+	void SDLGraphics::fillRectangle(const Rectangle& rectangle)
+	{    
+		Rectangle area = rectangle;
+		ClipRectangle top = mClipStack.top(); 
 
 		area.x += top.xOffset;
 		area.y += top.yOffset;
 
-    if(!area.intersect(top))
-    {
-      return;
-    }
+		if(!area.intersect(top))
+		{
+			return;
+		}
 
-    if (mAlpha)
+		if (mAlpha)
 		{
 			int x;
 			int y;
@@ -196,16 +196,16 @@ namespace gcn
 			SDL_FillRect(mTarget, &rect, color);
 		}
 		
-  } // end fillRectangle
+	} // end fillRectangle
 
-  void SDLGraphics::drawPoint(int x, int y)
-  {
-    ClipRectangle top = mClipStack.top();
-    x += top.xOffset;
-    y += top.yOffset;
+	void SDLGraphics::drawPoint(int x, int y)
+	{
+		ClipRectangle top = mClipStack.top();
+		x += top.xOffset;
+		y += top.yOffset;
 
-    if(!top.isPointInRect(x,y))
-      return;
+		if(!top.isPointInRect(x,y))
+			return;
 
 		if (mAlpha)
 		{
@@ -216,331 +216,427 @@ namespace gcn
 			SDLputPixel(mTarget, x, y, mColor);
 		}
     
-  } // end drawPoint
+	} // end drawPoint
 
-  void SDLGraphics::drawHLine(int x1, int y, int x2)
-  {
-    ClipRectangle top = mClipStack.top();
-    x1 += top.xOffset;
-    y += top.yOffset;
-    x2 += top.xOffset;
+	void SDLGraphics::drawHLine(int x1, int y, int x2)
+	{
+		ClipRectangle top = mClipStack.top();
+		x1 += top.xOffset;
+		y += top.yOffset;
+		x2 += top.xOffset;
 
-    if (y < top.y || y >= top.y + top.height)
-      return;
+		if (y < top.y || y >= top.y + top.height)
+			return;
     
-    if (x1 > x2)
-    {
-      x1 ^= x2;
-      x2 ^= x1;
-      x1 ^= x2;
-    }
+		if (x1 > x2)
+		{
+			x1 ^= x2;
+			x2 ^= x1;
+			x1 ^= x2;
+		}
 
-    if (top.x > x1)
-    {
-      if (top.x > x2)
-      {
-        return;
-      }
-      x1 = top.x;
-    }
+		if (top.x > x1)
+		{
+			if (top.x > x2)
+			{
+				return;
+			}
+			x1 = top.x;
+		}
 
-    if (top.x + top.width <= x2)
-    {
-      if (top.x + top.width <= x1)
-      {
-        return;
-      }      
-      x2 = top.x + top.width -1;
-    }
+		if (top.x + top.width <= x2)
+		{
+			if (top.x + top.width <= x1)
+			{
+				return;
+			}      
+			x2 = top.x + top.width -1;
+		}
     
-    int bpp = mTarget->format->BytesPerPixel;
+		int bpp = mTarget->format->BytesPerPixel;
     
-    SDL_LockSurface(mTarget);
+		SDL_LockSurface(mTarget);
+
+		Uint8 *p = (Uint8 *)mTarget->pixels + y * mTarget->pitch + x1 * bpp;
     
-    Uint8 *p = (Uint8 *)mTarget->pixels + y * mTarget->pitch + x1 * bpp;
+		Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
     
-    Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
-    
-    switch(bpp) {
-      case 1:
-      {
-        for (;x1 <= x2; ++x1)
-        { 
-          *(p++) = pixel;
-        }
-      } break;
+		switch(bpp) {
+		  case 1:
+		  {
+			  for (;x1 <= x2; ++x1)
+			  { 
+				  *(p++) = pixel;
+			  }
+		  } break;
       
-      case 2:
-      {
-        Uint16* q = (Uint16*)p;
-        for (;x1 <= x2; ++x1)
-        {
-          *(q++) = pixel;
-        }
-      } break;
+		  case 2:
+		  {
+			  Uint16* q = (Uint16*)p;
+			  for (;x1 <= x2; ++x1)
+			  {
+				  *(q++) = pixel;
+			  }
+		  } break;
         
-      case 3:  
-      {
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-          for (;x1 <= x2; ++x1)
-          {
-            p[0] = (pixel >> 16) & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = pixel & 0xff;
-            p += 3;
-          }
-        }
-        else
-        {
-          for (;x1 <= x2; ++x1)
-          {
-            p[0] = pixel & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = (pixel >> 16) & 0xff;
-            p += 3;
-          }
-        } 
-      } break;
+		  case 3:  
+		  {
+			  if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+				  for (;x1 <= x2; ++x1)
+				  {
+					  p[0] = (pixel >> 16) & 0xff;
+					  p[1] = (pixel >> 8) & 0xff;
+					  p[2] = pixel & 0xff;
+					  p += 3;
+				  }
+			  }
+			  else
+			  {
+				  for (;x1 <= x2; ++x1)
+				  {
+					  p[0] = pixel & 0xff;
+					  p[1] = (pixel >> 8) & 0xff;
+					  p[2] = (pixel >> 16) & 0xff;
+					  p += 3;
+				  }
+			  } 
+		  } break;
   
-      case 4:
-      {
-        Uint32* q = (Uint32*)p;
-        for (;x1 <= x2; ++x1)
-        {
-					if (mAlpha)
-					{
-						*q = SDLAlpha32(pixel,*q,mColor.a);
-						q++;
-					}
-					else
-					{
-						*(q++) = pixel;
-					}
-        }
-      } break;
+		  case 4:
+		  {
+			  Uint32* q = (Uint32*)p;
+			  for (;x1 <= x2; ++x1)
+			  {
+				  if (mAlpha)
+				  {
+					  *q = SDLAlpha32(pixel,*q,mColor.a);
+					  q++;
+				  }
+				  else
+				  {
+					  *(q++) = pixel;
+				  }
+			  }
+		  } break;
 
-    } // end switch
+		} // end switch
     
-    SDL_UnlockSurface(mTarget);
+		SDL_UnlockSurface(mTarget);
     
-  } // end drawHLine
+	} // end drawHLine
 
-  void SDLGraphics::drawVLine(int x, int y1, int y2)
-  {
-    ClipRectangle top = mClipStack.top();
-    x += top.xOffset;
-    y1 += top.yOffset;
-    y2 += top.yOffset;
+	void SDLGraphics::drawVLine(int x, int y1, int y2)
+	{
+		ClipRectangle top = mClipStack.top();
+		x += top.xOffset;
+		y1 += top.yOffset;
+		y2 += top.yOffset;
 
-    if (x < top.x || x >= top.x + top.width)
-      return;
+		if (x < top.x || x >= top.x + top.width)
+			return;
     
-    if (y1 > y2)
-    {
-      y1 ^= y2;
-      y2 ^= y1;
-      y1 ^= y2;
-    }
+		if (y1 > y2)
+		{
+			y1 ^= y2;
+			y2 ^= y1;
+			y1 ^= y2;
+		}
 
-    if (top.y > y1)
-    {
-      if (top.y > y2)
-      {
-        return;
-      }
-      y1 = top.y;
-    }
+		if (top.y > y1)
+		{
+			if (top.y > y2)
+			{
+				return;
+			}
+			y1 = top.y;
+		}
 
-    if (top.y + top.height <= y2)
-    {
-      if (top.y + top.height <= y1)
-      {
-        return;
-      }      
-      y2 = top.y + top.height - 1;
-    }
+		if (top.y + top.height <= y2)
+		{
+			if (top.y + top.height <= y1)
+			{
+				return;
+			}      
+			y2 = top.y + top.height - 1;
+		}
     
-    int bpp = mTarget->format->BytesPerPixel;
+		int bpp = mTarget->format->BytesPerPixel;
     
-    SDL_LockSurface(mTarget);
+		SDL_LockSurface(mTarget);
     
-    Uint8 *p = (Uint8 *)mTarget->pixels + y1 * mTarget->pitch + x * bpp;
+		Uint8 *p = (Uint8 *)mTarget->pixels + y1 * mTarget->pitch + x * bpp;
     
-    Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
+		Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
     
-    switch(bpp) {
-      case 1:
-      {
-        for (;y1 <= y2; ++y1)
-        { 
-          *p = pixel;
-          p += mTarget->pitch;
-        }
-      } break;
+		switch(bpp) {
+		  case 1:
+		  {
+			  for (;y1 <= y2; ++y1)
+			  { 
+				  *p = pixel;
+				  p += mTarget->pitch;
+			  }
+		  } break;
       
-      case 2:
-      {
-        for (;y1 <= y2; ++y1)
-        {
-          *(Uint16*)p = pixel;
-          p += mTarget->pitch;
-        }
-      } break;
+		  case 2:
+		  {
+			  for (;y1 <= y2; ++y1)
+			  {
+				  *(Uint16*)p = pixel;
+				  p += mTarget->pitch;
+			  }
+		  } break;
         
-      case 3:  
-      {
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-          for (;y1 <= y2; ++y1)
-          {
-            p[0] = (pixel >> 16) & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = pixel & 0xff;
-            p += mTarget->pitch;
-          }
-        }
-        else
-        {
-          for (;y1 <= y2; ++y1)
-          {
-            p[0] = pixel & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = (pixel >> 16) & 0xff;
-            p += mTarget->pitch;
-          }
-        } 
-      } break;
+		  case 3:  
+		  {
+			  if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+				  for (;y1 <= y2; ++y1)
+				  {
+					  p[0] = (pixel >> 16) & 0xff;
+					  p[1] = (pixel >> 8) & 0xff;
+					  p[2] = pixel & 0xff;
+					  p += mTarget->pitch;
+				  }
+			  }
+			  else
+			  {
+				  for (;y1 <= y2; ++y1)
+				  {
+					  p[0] = pixel & 0xff;
+					  p[1] = (pixel >> 8) & 0xff;
+					  p[2] = (pixel >> 16) & 0xff;
+					  p += mTarget->pitch;
+				  }
+			  } 
+		  } break;
   
-      case 4:
-      {
-        for (;y1 <= y2; ++y1)
-        {
-					if (mAlpha)
+		  case 4:
+		  {
+			  for (;y1 <= y2; ++y1)
+			  {
+				  if (mAlpha)
+				  {
+					  *(Uint32*)p = SDLAlpha32(pixel,*(Uint32*)p,mColor.a);
+				  }
+				  else
+				  {
+					  *(Uint32*)p = pixel;
+				  }
+				  p += mTarget->pitch;
+			  }
+		  } break;
+		} // end switch
+    
+		SDL_UnlockSurface(mTarget);
+
+	} // end drawVLine
+
+	void SDLGraphics::drawRectangle(const Rectangle& rectangle)
+	{
+		int x1 = rectangle.x;
+		int x2 = rectangle.x + rectangle.width - 1;
+		int y1 = rectangle.y;
+		int y2 = rectangle.y + rectangle.height - 1;
+
+		drawHLine(x1, y1, x2);
+		drawHLine(x1, y2, x2);
+
+		drawVLine(x1, y1, y2);
+		drawVLine(x2, y1, y2);
+    
+	} // end drawRectangle
+
+	void SDLGraphics::drawLine(int x1, int y1, int x2, int y2)
+	{
+		if (x1 == x2)
+		{
+			drawVLine(x1, y1, y2);
+			return;
+		}
+		if (y1 == y2)
+		{
+			drawHLine(x1, y1, x2);
+			return;
+		}
+
+		ClipRectangle top = mClipStack.top();
+		x1 += top.xOffset;
+		y1 += top.yOffset;
+		x2 += top.xOffset;
+		y2 += top.yOffset;
+
+		// Draw a line with Bresenham
+		
+		int dx = ABS(x2 - x1);
+		int dy = ABS(y2 - y1);
+
+		if (dx > dy)
+		{
+			if (x1 > x2)
+			{
+				// swap x1, x2
+				x1 ^= x2;
+				x2 ^= x1;
+				x1 ^= x2;
+
+				// swap y1, y2
+				y1 ^= y2;
+				y2 ^= y1;
+				y1 ^= y2;   
+			}
+
+			if (y1 < y2)
+			{
+				int y = y1;
+				int p = 0;
+			
+				for (int x = x1; x <= x2; x++)
+				{			
+					if (top.isPointInRect(x, y))
 					{
-						*(Uint32*)p = SDLAlpha32(pixel,*(Uint32*)p,mColor.a);
+						if (mAlpha)
+						{
+							SDLputPixelAlpha(mTarget, x, y, mColor);
+						}
+						else
+						{			
+							SDLputPixel(mTarget, x, y, mColor);
+						}
 					}
-					else
+				
+					p += dy;
+				
+					if (p * 2 >= dx)
 					{
-						*(Uint32*)p = pixel;
+						y++;
+						p -= dx;
 					}
-          p += mTarget->pitch;
-        }
-      } break;
-    } // end switch
-    
-    SDL_UnlockSurface(mTarget);
+				}
+			}
+			else
+			{
+				int y = y1;
+				int p = 0;
+			
+				for (int x = x1; x <= x2; x++)
+				{			
+					if (top.isPointInRect(x, y))
+					{
+						if (mAlpha)
+						{
+							SDLputPixelAlpha(mTarget, x, y, mColor);
+						}
+						else
+						{			
+							SDLputPixel(mTarget, x, y, mColor);
+						}
+					}
+				
+					p += dy;
+				
+					if (p * 2 >= dx)
+					{
+						y--;
+						p -= dx;
+					}
+				}			
+			}
+		}
+		else
+		{
+			if (y1 > y2)
+			{
+				// swap y1, y2
+				y1 ^= y2;
+				y2 ^= y1;
+				y1 ^= y2;
 
-  } // end drawVLine
+				// swap x1, x2
+				x1 ^= x2;
+				x2 ^= x1;
+				x1 ^= x2;   
+			}
 
-  void SDLGraphics::drawRectangle(const Rectangle& rectangle)
-  {
-    int x1 = rectangle.x;
-    int x2 = rectangle.x + rectangle.width - 1;
-    int y1 = rectangle.y;
-    int y2 = rectangle.y + rectangle.height - 1;
-
-    drawHLine(x1, y1, x2);
-    drawHLine(x1, y2, x2);
-
-    drawVLine(x1, y1, y2);
-    drawVLine(x2, y1, y2);
-    
-  } // end drawRectangle
-
-  void SDLGraphics::drawLine(int x1, int y1, int x2, int y2)
-  {
-    int i;
-    
-    if (x1 == x2)
-    {
-      drawVLine(x1, y1, y2);
-      return;
-    }
-    if (y1 == y2)
-    {
-      drawHLine(x1, y1, x2);
-      return;
-    }
-    
-    bool yLonger = false;
-    int incrementVal;
-    int endVal;
-    
-    int shortLen = y2 - y1;
-    int longLen = x2 - x1;
+			if (x1 < x2)
+			{
+				int x = x1;
+				int p = 0;
+			
+				for (int y = y1; y <= y2; y++)
+				{			
+					if (top.isPointInRect(x, y))
+					{
+						if (mAlpha)
+						{
+							SDLputPixelAlpha(mTarget, x, y, mColor);
+						}
+						else
+						{			
+							SDLputPixel(mTarget, x, y, mColor);
+						}
+					}
+				
+					p += dx;
+				
+					if (p * 2 >= dy)
+					{
+						x++;
+						p -= dy;
+					}
+				}
+			}
+			else
+			{
+				int x = x1;
+				int p = 0;
+			
+				for (int y = y1; y <= y2; y++)
+				{			
+					if (top.isPointInRect(x, y))
+					{
+						if (mAlpha)
+						{
+							SDLputPixelAlpha(mTarget, x, y, mColor);
+						}
+						else
+						{			
+							SDLputPixel(mTarget, x, y, mColor);
+						}
+					}
+				
+					p += dx;
+				
+					if (p * 2 >= dy)
+					{
+						x--;
+						p -= dy;
+					}
+				}			
+			}
+		}
 	
-    if (ABS(shortLen) > ABS(longLen))
-    {
-      int swap = shortLen;
-      shortLen = longLen;
-      longLen = swap;
-      yLonger = true;
-    }
+	} // end drawLine
 	
-    endVal = longLen;
-
-    if (longLen< 0)
-    {
-      incrementVal = -1;
-      longLen = - longLen;
-    }
-    else
-    {
-      incrementVal = 1;
-    }
-    
-    double decInc;
-
-    if (longLen == 0)
-    {
-      decInc = (double)shortLen;
-    }
-    else
-    {
-      decInc = (double)shortLen / (double)longLen;
-    }
-    
-    double j = 0.0;
-
-    if (yLonger)
-    {
-      for (i = 0; i != endVal; i += incrementVal)
-      {
-        drawPoint(x1 + (int)j, y1 + i);
-        j += decInc;
-      }
-      drawPoint(x1 + (int)j, y1 + i);
-    }
-    else
-    {
-      for (i = 0; i != endVal; i += incrementVal)
-      {
-        drawPoint(x1 + i, y1 + (int)j);
-        j += decInc;
-      }
-      drawPoint(x1 + i, y1 + (int)j);
-    } 
-  } // end drawLine
-
 	void SDLGraphics::setColor(const Color& color)
-  {
-    mColor = color;    
+	{
+		mColor = color;    
 
 		mAlpha = color.a != 255;		
-  }
+	}
 
 	const Color& SDLGraphics::getColor()
-  {
-    return mColor;    
-  }
+	{
+		return mColor;    
+	}
 
 	void SDLGraphics::drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
-																	 SDL_Rect destination)
+									 SDL_Rect destination)
 	{
-    ClipRectangle top = mClipStack.top();
-    destination.x += top.xOffset;
-    destination.y += top.yOffset;
+		ClipRectangle top = mClipStack.top();
+		destination.x += top.xOffset;
+		destination.y += top.yOffset;
     
-    SDL_BlitSurface(surface, &source, mTarget, &destination);		
+		SDL_BlitSurface(surface, &source, mTarget, &destination);		
 	}
 	
 } // end gcn
