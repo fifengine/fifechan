@@ -73,8 +73,7 @@ namespace gcn
 		mEditable = true;
     mOpaque = true;
 		
-		setFocusable(true);    
-		setTabable(true);
+		setFocusable(true);
     
 		addMouseListener(this);
 		addKeyListener(this);
@@ -92,7 +91,6 @@ namespace gcn
 		setText(text);
     
 		setFocusable(true);    
-		setTabable(true);
     
 		addMouseListener(this);
 		addKeyListener(this);

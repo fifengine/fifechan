@@ -103,10 +103,13 @@ namespace gcn
   
   void TextField::draw(Graphics* graphics)
   {
+		int alpha = getBaseColor().a;
     Color faceColor = getBackgroundColor();
     Color shadowColor = getBaseColor() - 0x303030;
+		shadowColor.a = alpha;
     Color highlightColor = getBaseColor() + 0x303030;
-
+		highlightColor.a = alpha;
+		
     graphics->setColor(faceColor);
     graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, getHeight() - 2));
     

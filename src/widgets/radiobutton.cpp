@@ -123,11 +123,15 @@ namespace gcn
 		{
 			h = getHeight() - 1;
 		}
-    
+
+		int alpha = getBaseColor().a;
 		Color faceColor = getBaseColor();
+		faceColor.a = alpha;    
 		Color highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;    
 		Color shadowColor = faceColor - 0x303030;      
-    
+		shadowColor.a = alpha;    
+
 		graphics->setColor(getBackgroundColor());
 
 		int i;

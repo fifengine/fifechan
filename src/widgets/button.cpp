@@ -101,17 +101,23 @@ namespace gcn
 
 		Color faceColor = getBaseColor();
 		Color highlightColor, shadowColor;
-
+		int alpha = getBaseColor().a;
+		
 		if ((hasMouse() && mMouseDown) || mKeyDown)
 		{
 			faceColor = faceColor - 0x303030;
+			faceColor.a = alpha;
 			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
 			shadowColor = faceColor + 0x303030;      
+		  shadowColor.a = alpha;
 		}
 		else
 		{
 			highlightColor = faceColor + 0x303030;
-			shadowColor = faceColor - 0x303030;      
+			highlightColor.a = alpha;
+			shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
 		}
 
 		graphics->setColor(faceColor);

@@ -134,6 +134,7 @@ namespace gcn
     
   protected:    
     int mWidth, mHeight;
+		bool mAlpha;
     
   }; // end OpenGLGraphics
   

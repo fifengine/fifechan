@@ -67,7 +67,7 @@ namespace gcn
 	{
 		mWidgetWithMouse = NULL;
 		mOpaque = true;
-
+		
 	} // end Container
 
 	Container::~Container()

@@ -186,6 +186,11 @@ namespace gcn
 
 		virtual void lostFocus();
 
+		virtual void setBaseColor(const Color& color);
+
+		virtual void setBackgroundColor(const Color& color);
+
+		virtual void setForegroundColor(const Color& color);
 		
 		// Inherited from BasicContainer
 

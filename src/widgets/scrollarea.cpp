@@ -84,7 +84,7 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setFocusable(true);
-		setTabable(true);
+		setTabInEnabled(false);
 		addMouseListener(this);
 
 	} // end ScrollArea
@@ -111,7 +111,7 @@ namespace gcn
 
 		setContent(content);
 		setFocusable(true);
-		setTabable(true);
+		setTabInEnabled(false);		
 		checkPolicies();
 		addMouseListener(this);
 
@@ -136,7 +136,7 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setFocusable(true);
-		setTabable(true);
+		setTabInEnabled(false);				
 		checkPolicies();
 		addMouseListener(this);
     
@@ -483,15 +483,18 @@ namespace gcn
   {
     graphics->setColor(getBackgroundColor());
 		graphics->fillRectangle(getContentDimension());
-    
-    Color lightColor = getBaseColor() + 0x303030;
+
+		int alpha = getBaseColor().a;
+    Color highlightColor = getBaseColor() + 0x303030;
+		highlightColor.a = alpha;    
     Color shadowColor = getBaseColor() - 0x303030;      
-    
+		shadowColor.a = alpha;
+		
     graphics->setColor(shadowColor);
     graphics->drawLine(0, 0, getWidth() - 1, 0);
     graphics->drawLine(0, 1, 0, getHeight() - 1);
     
-    graphics->setColor(lightColor);
+    graphics->setColor(highlightColor);
     graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
     graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
     
@@ -541,10 +544,16 @@ namespace gcn
 
     graphics->pushClipArea(dim);
 
-    graphics->setColor(getBaseColor() - 0x101010);
+		int alpha = getBaseColor().a;
+		Color trackColor = getBaseColor() - 0x101010;
+		trackColor.a = alpha;
+		Color shadowColor = getBaseColor() - 0x303030;
+		shadowColor.a = alpha;
+		
+    graphics->setColor(trackColor);
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-    graphics->setColor(getBaseColor() - 0x303030);
+    graphics->setColor(shadowColor);
     graphics->drawLine(0, 0, dim.width, 1);
 
     graphics->popClipArea();
@@ -557,10 +566,16 @@ namespace gcn
 
     graphics->pushClipArea(dim);
 
-    graphics->setColor(getBaseColor() - 0x101010);
+		int alpha = getBaseColor().a;
+		Color trackColor = getBaseColor() - 0x101010;
+		trackColor.a = alpha;
+		Color shadowColor = getBaseColor() - 0x303030;
+		shadowColor.a = alpha;
+
+    graphics->setColor(trackColor);
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
     
-    graphics->setColor(getBaseColor() - 0x303030);
+    graphics->setColor(shadowColor);
     graphics->drawLine(0, 0, 1, dim.height);
 		
     graphics->popClipArea();
@@ -572,30 +587,39 @@ namespace gcn
     Rectangle dim = getUpButtonDimension();
     graphics->pushClipArea(dim);
 	
-    Color lightColor;
+    Color highlightColor;
     Color shadowColor;
     Color faceColor;
     int offset;
-    
+    int alpha = getBaseColor().a;
+		
     if (mUpButtonPressed)
     {
       faceColor = getBaseColor() - 0x303030;      
-      lightColor = getBaseColor() - 0x606060;
+			faceColor.a = alpha;
+			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
       shadowColor = getBaseColor();
+			shadowColor.a = alpha;
+
       offset = 1;
     }
     else
     {
-      lightColor = getBaseColor() + 0x303030;
-      shadowColor = getBaseColor() - 0x303030;
       faceColor = getBaseColor();
+			faceColor.a = alpha;
+      highlightColor = faceColor + 0x303030;
+			highlightColor.a = alpha;
+      shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
+
       offset = 0;
     }
 
     graphics->setColor(faceColor);      
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-    graphics->setColor(lightColor);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
     
@@ -625,30 +649,39 @@ namespace gcn
     Rectangle dim = getDownButtonDimension();
     graphics->pushClipArea(dim);
 
-    Color lightColor;
+    Color highlightColor;
     Color shadowColor;
     Color faceColor;
     int offset;
-    
+    int alpha = getBaseColor().a;
+		
     if (mDownButtonPressed)
     {
       faceColor = getBaseColor() - 0x303030;      
-      lightColor = getBaseColor() - 0x606060;
+			faceColor.a = alpha;
+			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
       shadowColor = getBaseColor();
+			shadowColor.a = alpha;
+
       offset = 1;
     }
     else
     {
-      lightColor = getBaseColor() + 0x303030;
-      shadowColor = getBaseColor() - 0x303030;
       faceColor = getBaseColor();
+			faceColor.a = alpha;
+      highlightColor = faceColor + 0x303030;
+			highlightColor.a = alpha;
+      shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
+
       offset = 0;
     }
-    
+        
     graphics->setColor(faceColor);      
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-    graphics->setColor(lightColor);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
     
@@ -678,30 +711,39 @@ namespace gcn
     Rectangle dim = getLeftButtonDimension();
     graphics->pushClipArea(dim);
 
-    Color lightColor;
+    Color highlightColor;
     Color shadowColor;
     Color faceColor;
     int offset;
-    
+    int alpha = getBaseColor().a;
+		
     if (mLeftButtonPressed)
     {
       faceColor = getBaseColor() - 0x303030;      
-      lightColor = getBaseColor() - 0x606060;
+			faceColor.a = alpha;
+			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
       shadowColor = getBaseColor();
+			shadowColor.a = alpha;
+
       offset = 1;
     }
     else
     {
-      lightColor = getBaseColor() + 0x303030;
-      shadowColor = getBaseColor() - 0x303030;
       faceColor = getBaseColor();
+			faceColor.a = alpha;
+      highlightColor = faceColor + 0x303030;
+			highlightColor.a = alpha;
+      shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
+
       offset = 0;
     }
     
     graphics->setColor(faceColor);      
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-    graphics->setColor(lightColor);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
     
@@ -731,30 +773,39 @@ namespace gcn
     Rectangle dim = getRightButtonDimension();
     graphics->pushClipArea(dim);
 
-    Color lightColor;
+    Color highlightColor;
     Color shadowColor;
     Color faceColor;
     int offset;
-    
+    int alpha = getBaseColor().a;
+		
     if (mRightButtonPressed)
     {
       faceColor = getBaseColor() - 0x303030;      
-      lightColor = getBaseColor() - 0x606060;
+			faceColor.a = alpha;
+			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
       shadowColor = getBaseColor();
+			shadowColor.a = alpha;
+
       offset = 1;
     }
     else
     {
-      lightColor = getBaseColor() + 0x303030;
-      shadowColor = getBaseColor() - 0x303030;
       faceColor = getBaseColor();
+			faceColor.a = alpha;
+      highlightColor = faceColor + 0x303030;
+			highlightColor.a = alpha;
+      shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
+
       offset = 0;
     }
     
     graphics->setColor(faceColor);      
     graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
-    graphics->setColor(lightColor);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
     
@@ -784,16 +835,23 @@ namespace gcn
   {
     Rectangle dim = getVerticalMarkerDimension();
     graphics->pushClipArea(dim);
-	
-    graphics->setColor(getBaseColor());      
 
+		int alpha = getBaseColor().a;
+		Color faceColor = getBaseColor();
+		faceColor.a = alpha;
+		Color highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
+		Color shadowColor = faceColor - 0x303030;
+		shadowColor.a = alpha;
+		
+    graphics->setColor(faceColor);
     graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
 	
-    graphics->setColor(getBaseColor() + 0x303030);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
 	
-    graphics->setColor(getBaseColor() - 0x303030);	
+    graphics->setColor(shadowColor);	
     graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
     graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
@@ -805,16 +863,23 @@ namespace gcn
   {
     Rectangle dim = getHorizontalMarkerDimension();
     graphics->pushClipArea(dim);
-	
-    graphics->setColor(getBaseColor());      
+		
+		int alpha = getBaseColor().a;
+		Color faceColor = getBaseColor();
+		faceColor.a = alpha;
+		Color highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
+		Color shadowColor = faceColor - 0x303030;
+		shadowColor.a = alpha;
 
+    graphics->setColor(faceColor);      
     graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
 	
-    graphics->setColor(getBaseColor() + 0x303030);
+    graphics->setColor(highlightColor);
     graphics->drawLine(0, 0, dim.width - 1, 0);
     graphics->drawLine(0, 1, 0, dim.height - 1);
 	
-    graphics->setColor(getBaseColor() - 0x303030);	
+    graphics->setColor(shadowColor);	
     graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
     graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
@@ -1287,5 +1352,5 @@ namespace gcn
 } // end gcn
 
 /*
- * Wow! This is a looooong source file. 1295 lines!
+ * Wow! This is a looooong source file. 1356 lines!
  */

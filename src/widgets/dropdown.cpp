@@ -201,9 +201,13 @@ namespace gcn
 			h = getHeight();
 		}
     
+		char alpha = getBaseColor().a;
 		Color faceColor = getBaseColor();
+		faceColor.a = alpha;
 		Color highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
 		Color shadowColor = faceColor - 0x303030;      
+		shadowColor.a = alpha;
     
 		graphics->setColor(getBackgroundColor());
 		graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h + 4));
@@ -244,19 +248,26 @@ namespace gcn
 	{
 		Color faceColor, highlightColor, shadowColor;
 		int offset;
-
+		int alpha = getBaseColor().a;
+		
 		if (mPushed)
 		{
 			faceColor = getBaseColor() - 0x303030;
+			faceColor.a = alpha;
 			highlightColor = faceColor - 0x303030;
+			highlightColor.a = alpha;
 			shadowColor = faceColor + 0x303030;
+			shadowColor.a = alpha;
 			offset = 1;
 		}
 		else
 		{
 			faceColor = getBaseColor();
+			faceColor.a = alpha;
 			highlightColor = faceColor + 0x303030;
+			highlightColor.a = alpha;
 			shadowColor = faceColor - 0x303030;
+			shadowColor.a = alpha;
 			offset = 0;
 		}
 
@@ -610,6 +621,51 @@ namespace gcn
 		}
 		
 	} // end getDrawSize
+
+	void DropDown::setBaseColor(const Color& color)
+	{
+		if (mDefaultScrollArea == mScrollArea && mScrollArea != NULL)
+		{
+			mScrollArea->setBaseColor(color);
+		}
+
+		if (mDefaultListBox == mListBox && mListBox != NULL)
+		{
+			mListBox->setBaseColor(color);
+		}
+				
+		Widget::setBaseColor(color);
+	}
+
+	void DropDown::setBackgroundColor(const Color& color)
+	{
+		if (mDefaultScrollArea == mScrollArea && mScrollArea != NULL)
+		{
+			mScrollArea->setBackgroundColor(color);
+		}
+
+		if (mDefaultListBox == mListBox && mListBox != NULL)
+		{
+			mListBox->setBackgroundColor(color);
+		}
+				
+		Widget::setBackgroundColor(color);
+	}
+
+	void DropDown::setForegroundColor(const Color& color)
+	{
+		if (mDefaultScrollArea == mScrollArea && mScrollArea != NULL)
+		{
+			mScrollArea->setForegroundColor(color);
+		}
+
+		if (mDefaultListBox == mListBox && mListBox != NULL)
+		{
+			mListBox->setForegroundColor(color);
+		}
+				
+		Widget::setForegroundColor(color);
+	} 
 	
 } // end gcn
 

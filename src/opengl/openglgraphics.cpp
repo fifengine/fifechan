@@ -73,7 +73,8 @@ namespace gcn
   OpenGLGraphics::OpenGLGraphics()
   {
     setTargetPlane(640, 480);
-
+		mAlpha = false;
+		
   } // end OpenGLGraphics
   
   OpenGLGraphics::OpenGLGraphics(int width, int height)
@@ -122,7 +123,9 @@ namespace gcn
 		glDisable(GL_LIGHTING);
 			
     glEnable(GL_SCISSOR_TEST);
-    
+
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -219,9 +222,12 @@ namespace gcn
 
     glEnable(GL_TEXTURE_2D);
 
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
+		// Check if blending already is enabled
+		if (!mAlpha)
+		{
+			glEnable(GL_BLEND);
+    }
+		
     // Draw a textured quad -- the image
     glBegin(GL_QUADS);
     glTexCoord2f(texX1, texY1);
@@ -238,7 +244,12 @@ namespace gcn
     glEnd();
     
     glDisable(GL_TEXTURE_2D);      
-    glDisable(GL_BLEND);
+
+		// Don't disable blending if the color has alpha
+		if (!mAlpha)
+		{
+			glDisable(GL_BLEND);
+		}
     
   } // drawImage
   
@@ -308,6 +319,13 @@ namespace gcn
               color.b/255.0,
               color.a/255.0);
 
+		mAlpha = color.a != 255;
+
+		if (mAlpha)
+		{
+			glEnable(GL_BLEND);
+		}
+		
   } // end setColor
   
 //     void setHorizontalGradient(const Color& color1, const Color& color2){}

@@ -104,9 +104,13 @@ namespace gcn
 	{
 		int h = getHeight() - 1;
 
+		int alpha = getBaseColor().a;
 		Color faceColor = getBaseColor();
+		faceColor.a = alpha;
 		Color highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
 		Color shadowColor = faceColor - 0x303030;      
+		shadowColor.a = alpha;
 
 		graphics->setColor(shadowColor);
 		graphics->drawLine(0, 0, h, 0);
