@@ -7,7 +7,7 @@ echo "This may take a while ..."
 directory=`dirname $0`
 
 touch $directory/*
-touch $directory/example/*
+touch $directory/examples/*
 touch $directory/include/*
 touch $directory/include/guichan/*
 touch $directory/include/guichan/allegro/*
