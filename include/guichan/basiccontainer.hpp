@@ -93,6 +93,20 @@ namespace gcn
      */
     virtual void moveToBottom(Widget* widget) = 0;
 
+    /**
+     * Used to check how much space a widget gets to draw itself which is
+     * not necessarily the same as the widgets width and height.
+     *
+     * NOTE: This function does not check the size recursively all the way
+     *       back to the top widget. If the container itself is clipped,
+     *       the size may be inaccurate.
+     * 
+     * @param width the width the widget draw space has
+     * @param height the height the widget draw space has
+     * @param widget a pointer to the widget calling the function
+     */
+    virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
+    
   }; // end BasicContainer
   
 } // end gcn
