@@ -236,7 +236,7 @@ namespace gcn
     /**
      * 
      */
-    virtual void drawText(const std::string& text, const int x, const int y);
+    virtual void drawText(const std::string& text, int x, int y);
     
 //     /**
 //      * 
