@@ -3,4 +3,5 @@ lib_LTLIBRARIES = libguichan_allegro.la
 
 libguichan_allegro_la_SOURCES =		\
 		allegrographics.cpp	\
-		allegroinput.cpp
+		allegroimageloader.cpp 
+
