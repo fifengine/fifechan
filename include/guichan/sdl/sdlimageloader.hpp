@@ -68,7 +68,7 @@ namespace gcn
    * This is an SDL implementation of the ImageLoader
    * @see ImageLoader
    */
-  class DECLSPEC SDLImageLoader : public ImageLoader
+  class GCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
   {
   public:
 
