@@ -56,12 +56,10 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "config.hpp"
-
 extern "C"
 {
   char* gcnGuichanVersion()
   {
-    return PACKAGE_VERSION;
+    return "0.3.0";
   }
 }
