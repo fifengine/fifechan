@@ -56,6 +56,8 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include <sstream>
+
 #include "guichan/exception.hpp"
 #include "guichan/imagefont.hpp"
 #include "guichan/image.hpp"
@@ -68,6 +70,8 @@ namespace gcn
 		{
 			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
 		}
+
+		mFilename = filename;
 		
 		unsigned int i,x=0;
 
@@ -105,6 +109,8 @@ namespace gcn
 			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
 		}
 
+		mFilename = filename;
+		
     int i,x=0;
 
     for (i=0; i<256; i++)
@@ -204,7 +210,14 @@ namespace gcn
 
 			if (x >= il->getWidth())
 			{
-				throw GCN_EXCEPTION("ImageFont::addGlyph. Image with font is corrupt.");
+				std::string str;
+				std::ostringstream os(str);
+				os << "ImageFont::addGlyph. Image ";
+				os << mFilename;
+				os << " with font is corrupt near character '";
+				os << c;
+				os << "'";
+				throw GCN_EXCEPTION(os.str());
 			}			
 
 			color = il->getPixel(x, 0);
@@ -221,7 +234,14 @@ namespace gcn
 
 			if (x+w >= il->getWidth())
 			{
-				throw GCN_EXCEPTION("ImageFont::addGlyph. Image with font is corrupt.");
+				std::string str;
+				std::ostringstream os(str);
+				os << "ImageFont::addGlyph. Image ";
+				os << mFilename;
+				os << " with font is corrupt near character '";
+				os << c;
+				os << "'";
+				throw GCN_EXCEPTION(os.str());
 			}			
 			
 			color = il->getPixel(x + w, 0);

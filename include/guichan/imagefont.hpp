@@ -160,7 +160,8 @@ namespace gcn
 		int mGlyphSpacing;
 		int mRowSpacing;
     Image* mImage;
-    
+    std::string mFilename;
+		
   }; // end ImageFont
   
 } // end gcn
