@@ -136,13 +136,13 @@ namespace gcn
 
   } // end ~ImageFont
   
-  int ImageFont::getWidth(unsigned char glyph)
+  int ImageFont::getWidth(unsigned char glyph) const
   {
     return mGlyphW[glyph];
 
   } // end getWidth
 
-  int ImageFont::getHeight()
+  int ImageFont::getHeight() const
   {
     return mHeight;
 
