@@ -138,6 +138,11 @@ namespace gcn
   
   int ImageFont::getWidth(unsigned char glyph) const
   {
+    if (mGlyphW[glyph] == 0)
+    {         
+      return mGlyphW[(int)(' ')];
+    }
+    
     return mGlyphW[glyph];
 
   } // end getWidth
@@ -152,7 +157,9 @@ namespace gcn
   {    
     if (mGlyphW[glyph] == 0)
     {
-      return 0;
+      graphics->drawRectangle(Rectangle(x, y + 1, mGlyphW[(int)(' ')] - 1, mHeight - 2));
+      
+      return mGlyphW[(int)(' ')];
     }
     
     graphics->drawImage(mImage, mGlyphX[glyph], 0, x, y, mGlyphW[glyph], mHeight);
