@@ -320,8 +320,6 @@ namespace gcn
     bool mHorizontalMarkerPressed;
     int mHorizontalMarkerMousePosition;
 
-    bool mContentHasMouse;
-
   }; // end ScrollArea
 
 } // end gcn

@@ -81,13 +81,13 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-    mContentHasMouse = false;
+
     mVerticalMarkerPressed = false;
     mVerticalMarkerMousePosition = 0;
     mHorizontalMarkerPressed = false;
     mHorizontalMarkerMousePosition = 0;
 
-    setFocusable(false);
+    setFocusable(true);
     setTabable(true);
     addMouseListener(this);
 
@@ -108,14 +108,13 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-    mContentHasMouse = false;    
     mVerticalMarkerPressed = false;
     mVerticalMarkerMousePosition = 0;
     mHorizontalMarkerPressed = false;
     mHorizontalMarkerMousePosition = 0;
 
     setContent(content);
-    setFocusable(false);
+    setFocusable(true);
     setTabable(true);
     checkPolicies();
     addMouseListener(this);
@@ -135,13 +134,12 @@ namespace gcn
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
     mRightButtonPressed = false;
-    mContentHasMouse = false;
     mVerticalMarkerPressed = false;
     mVerticalMarkerMousePosition = 0;
     mHorizontalMarkerPressed = false;
     mHorizontalMarkerMousePosition = 0;
 
-    setFocusable(false);
+    setFocusable(true);
     setTabable(true);
     checkPolicies();
     addMouseListener(this);
@@ -264,7 +262,7 @@ namespace gcn
     {
       return 0;
     }
-
+        
     int value = mContent->getWidth() - getContentDimension().width;
 
     if (value < 0)
@@ -336,7 +334,7 @@ namespace gcn
     {
       if (mContent)
       {
-        if (!mContentHasMouse)
+        if (!mContent->hasMouse())
         {
           mContent->_mouseInMessage();          
         }
@@ -360,17 +358,15 @@ namespace gcn
             mi.y = mContent->getHeight() - 1;
           }          
           
-          mContentHasMouse = true;        
           mContent->_mouseInputMessage(mi);
         }
       }      
     }
     else
     {
-      if (mContentHasMouse)
+      if (mContent && mContent->hasMouse())
       {
         mContent->_mouseOutMessage();
-        mContentHasMouse = false;
       }     
     }
 
@@ -378,10 +374,9 @@ namespace gcn
 
   void ScrollArea::_mouseOutMessage()
   {
-    if (mContentHasMouse && mContent)
+    if (mContent && mContent->hasMouse())
     {
       mContent->_mouseOutMessage();
-      mContentHasMouse = false;
     }
 	
     BasicContainer::_mouseOutMessage();
@@ -832,8 +827,9 @@ namespace gcn
     {
       mContent->setPosition(-mHScroll + getContentDimension().x,
                             -mVScroll + getContentDimension().y);
+      mContent->logic();
     }
-
+    
   } // end logic
 
   void ScrollArea::moveToTop(Widget* widget)
@@ -884,44 +880,48 @@ namespace gcn
   {
     if (mContent)
     {
-      // todo: fix clip
       mContent->draw(graphics);
     }
   }
   
   void ScrollArea::checkPolicies()
   {
+    int w = getWidth() - 2;
+    int h = getHeight() - 2;
+    
     mHBarVisible = false;
     mVBarVisible = false;
+    
     
     if (!mContent)
     {
       mHBarVisible = (mHPolicy == SHOW_ALWAYS);
       mVBarVisible = (mVPolicy == SHOW_ALWAYS);
+      return;
     }
     
     if (mHPolicy == SHOW_AUTO &&
         mVPolicy == SHOW_AUTO)
     {
-      if (mContent->getWidth() <= getWidth()
-          && mContent->getHeight() <= getHeight())
+      if (mContent->getWidth() <= w
+          && mContent->getHeight() <= h)
       {
         mHBarVisible = false;
         mVBarVisible = false;
       }
 
-      if (mContent->getWidth() > getWidth())
+      if (mContent->getWidth() > w)
       {
         mHBarVisible = true;
       }
 
-      if ((mContent->getHeight() > getHeight())
-          || (mHBarVisible && mContent->getHeight() > getHeight() - mScrollbarWidth))
+      if ((mContent->getHeight() > h)
+          || (mHBarVisible && mContent->getHeight() > h - mScrollbarWidth))
       {
         mVBarVisible = true;
       }
 
-      if (mVBarVisible && mContent->getWidth() > getWidth() - mScrollbarWidth)
+      if (mVBarVisible && mContent->getWidth() > w - mScrollbarWidth)
       {
         mHBarVisible = true;
       }
@@ -942,11 +942,11 @@ namespace gcn
       case SHOW_AUTO:
         if (mVPolicy == SHOW_NEVER)
         {
-          mHPolicy = mContent->getWidth() > getWidth();
+          mHBarVisible = mContent->getWidth() > w;
         }
         else // (mVPolicy == SHOW_ALWAYS)
         {
-          mHPolicy = mContent->getWidth() > getWidth() - mScrollbarWidth;
+          mHBarVisible = mContent->getWidth() > w - mScrollbarWidth;
         }
         break;
 
@@ -967,13 +967,13 @@ namespace gcn
       case SHOW_AUTO:
         if (mHPolicy == SHOW_NEVER)
         {
-          mVPolicy = mContent->getHeight() > getHeight();
+          mVBarVisible = mContent->getHeight() > h;
         }
         else // (mHPolicy == SHOW_ALWAYS)
         {
-          mVPolicy = mContent->getHeight() > getHeight() - mScrollbarWidth;
+          mVBarVisible = mContent->getHeight() > h - mScrollbarWidth;
         }
-
+        break;
       default:
         throw GCN_EXCEPTION("ScrollArea::checkPolicies. Vertical scroll policy invalid");
     }
@@ -1228,7 +1228,7 @@ namespace gcn
     {
       setHorizontalScrollAmount(rectangle.x + rectangle.width - contentDim.width);
     }
-
+    
     if (rectangle.y + rectangle.height
         > getVerticalScrollAmount() + contentDim.height)
     {
@@ -1239,12 +1239,12 @@ namespace gcn
     {
       setHorizontalScrollAmount(rectangle.x);
     }
-
+    
     if (rectangle.y < getVerticalScrollAmount())
     {
       setVerticalScrollAmount(rectangle.y);
     }
-
+    
   } // end scrollToRectangle
 
   void ScrollArea::mouseWheelUp(int x, int y)
