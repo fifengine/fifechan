@@ -7,7 +7,18 @@ echo "This may take a while ..."
 directory=`dirname $0`
 
 #touch $directory/configure.in
-touch $directory/configure.in
+touch $directory/*
+touch $directory/example/*
+touch $directory/include/*
+touch $directory/include/guichan/*
+touch $directory/include/guichan/allegro/*
+touch $directory/include/guichan/opengl/*
+touch $directory/include/guichan/sdl/*
+touch $directory/src/*
+touch $directory/src/allegro/*
+touch $directory/src/opengl/*
+touch $directory/src/sdl/*
+touch $directory/src/widgets/*
 
 # Regenerate configuration files
 aclocal
