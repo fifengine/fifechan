@@ -70,8 +70,6 @@ namespace gcn
 {
   /**
    * This is an SDL implementation of the Input class.
-   *
-   * @see Input
    */
   class DECLSPEC SDLInput : public Input
   {
