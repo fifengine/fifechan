@@ -17,6 +17,7 @@ libguichan_la_SOURCES = 	\
 	font.cpp		\
 	graphics.cpp		\
 	gui.cpp			\
+	guichan.cpp		\
 	image.cpp		\
 	imagefont.cpp		\
 	key.cpp			\
