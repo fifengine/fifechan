@@ -119,7 +119,7 @@ namespace gcn
     
     glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
-		glDisable(GL_LIGHTNING)
+		glDisable(GL_LIGHTING);
 			
     glEnable(GL_SCISSOR_TEST);
     
