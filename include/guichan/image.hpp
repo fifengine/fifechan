@@ -67,7 +67,7 @@ namespace gcn
 	 * this class you must first set the ImageLoader in Image by
 	 * calling Image::setImageLoader(myImageLoader)
 	 * (it is static). If this is not done, the constructor taking
-	 * a filename will through an exception.
+	 * a filename will throw an exception.
 	 * The ImageLoader you use must be compatible with your Graphis
 	 * obejct.
 	 * Ex: If you use SDLGraphics you should use SDLImageLoader
