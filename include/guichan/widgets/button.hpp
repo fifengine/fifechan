@@ -98,6 +98,21 @@ namespace gcn
 		 * @return the caption of the button.		 
 		 */
 		virtual const std::string& getCaption();
+
+		/**
+		 * Set the alignment for the caption.
+		 *
+		 * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
+		 * @see Graphics
+		 */
+		virtual void setAlignment(unsigned int alignment);
+
+		/**
+		 * Get the alignment for the caption.
+		 *
+		 * @return alignment of caption.
+		 */
+		virtual unsigned int getAlignment();
 		
 		/**
 		 * Adjusts the buttons size to fit the content.     
@@ -132,7 +147,8 @@ namespace gcn
 	private:
 		std::string mCaption;
 		bool mMouseDown, mKeyDown;
-        
+		unsigned int mAlignment;
+		
 	}; // end Button
   
 } // end gcn

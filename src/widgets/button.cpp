@@ -57,12 +57,14 @@
  */
 
 #include "guichan/widgets/button.hpp"
+#include "guichan/exception.hpp"
 #include "guichan/mouseinput.hpp"
 
 namespace gcn
 {
 	Button::Button()
 	{
+		mAlignment = Graphics::CENTER;
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustSize();
@@ -73,6 +75,7 @@ namespace gcn
 	Button::Button(const std::string& caption)
 	{
 		mCaption = caption;
+		mAlignment = Graphics::CENTER;
 		setFocusable(true);
 		adjustSize();
 		setBorderSize(1);
@@ -96,11 +99,19 @@ namespace gcn
 		return mCaption;
 		
 	} // end getCaption
-  
+
+	void Button::setAlignment(unsigned int alignment)
+	{
+		mAlignment = alignment;
+	}
+
+	unsigned int Button::getAlignment()
+	{
+		return mAlignment;
+	}
+	
 	void Button::draw(Graphics* graphics)
 	{
-		graphics->setFont(getFont());
-
 		Color faceColor = getBaseColor();
 		Color highlightColor, shadowColor;
 		int alpha = getBaseColor().a;
@@ -134,13 +145,34 @@ namespace gcn
 		graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
 
 		graphics->setColor(getForegroundColor());
+
+		int textX;
+		int textY = getHeight() / 2 - getFont()->getHeight() / 2;
+		
+		switch (mAlignment)
+		{
+			case Graphics::LEFT:
+				textX = 4;
+				break;
+			case Graphics::CENTER:
+				textX = getWidth() / 2;
+				break;
+			case Graphics::RIGHT:
+				textX = getWidth() - 4;
+				break;
+			default:
+				throw GCN_EXCEPTION("Button::draw. Uknown alignment.");
+		}
+
+		graphics->setFont(getFont());
+		
 		if ((hasMouse() && mMouseDown) || mKeyDown)
 		{
-			graphics->drawText(mCaption, 5, 5);
+			graphics->drawText(mCaption, textX + 1, textY + 1, mAlignment);
 		}
 		else
 		{
-			graphics->drawText(mCaption, 4, 4);
+			graphics->drawText(mCaption, textX, textY, mAlignment);
 
 			if (hasFocus())
 			{

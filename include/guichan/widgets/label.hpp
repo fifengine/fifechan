@@ -91,7 +91,22 @@ namespace gcn
 		 * @param caption the caption of the Label.
 		 */
 		virtual void setCaption(const std::string& caption);
-    
+
+		/**
+		 * Set the alignment for the caption.
+		 *
+		 * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
+		 * @see Graphics
+		 */
+		virtual void setAlignment(unsigned int alignment);
+
+		/**
+		 * Get the alignment for the caption.
+		 *
+		 * @return alignment of caption.
+		 */
+		virtual unsigned int getAlignment();
+		
 		/**
 		 * Adjusts the Label size to fit the font size.
 		 */
@@ -106,7 +121,8 @@ namespace gcn
 		
 	private:
 		std::string mCaption;
-    
+    unsigned int mAlignment;
+		
 	}; // end Label
   
 } // end gcn

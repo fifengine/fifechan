@@ -57,16 +57,17 @@
  */
 
 #include "guichan/widgets/label.hpp"
+#include "guichan/exception.hpp"
 
 namespace gcn
 {
 	Label::Label(const std::string& caption)
 	{
 		mCaption = caption;
-    
-		setWidth(getFont()->getWidth(caption));
-		setHeight(getFont()->getHeight());
+		mAlignment = Graphics::LEFT;
 		
+		setWidth(getFont()->getWidth(caption));
+		setHeight(getFont()->getHeight());		
 	}
 
 	const std::string &Label::getCaption() const
@@ -77,14 +78,41 @@ namespace gcn
 	void Label::setCaption(const std::string& caption)
 	{
 		mCaption = caption;
+	}
 
+	void Label::setAlignment(unsigned int alignment)
+	{
+		mAlignment = alignment;
+	}
+
+	unsigned int Label::getAlignment()
+	{
+		return mAlignment;
 	}
     
 	void Label::draw(Graphics* graphics)
 	{
-		graphics->setFont(getFont());
-		graphics->drawText(mCaption, 0, 0);
+		int textX;
+		int textY = getHeight() / 2 - getFont()->getHeight() / 2;
+		
+		switch (mAlignment)
+		{
+			case Graphics::LEFT:
+				textX = 0;
+				break;
+			case Graphics::CENTER:
+				textX = getWidth() / 2;
+				break;
+			case Graphics::RIGHT:
+				textX = getWidth();
+				break;
+			default:
+				throw GCN_EXCEPTION("Label::draw. Uknown alignment.");
+		}
 
+		graphics->setFont(getFont());
+		graphics->setColor(getForegroundColor());
+		graphics->drawText(mCaption, textX, textY, mAlignment);
 	}
 	
 	void Label::drawBorder(Graphics* graphics)
@@ -115,7 +143,6 @@ namespace gcn
 	{
 		setWidth(getFont()->getWidth(mCaption));
 		setHeight(getFont()->getHeight());
-
 	}
   
 } // end gcn
