@@ -55,6 +55,7 @@
 #ifndef GCN_TEXTBOX_HPP
 #define GCN_TEXTBOX_HPP
 
+#include <ctime>
 #include <string>
 #include <vector>
 
@@ -204,13 +205,11 @@ namespace gcn
 		// Inherited from Widget
 		
 		virtual void draw(Graphics* graphics);
-
+		
 		virtual void drawBorder(Graphics* graphics);
 		
 		virtual void fontChanged();
 		
-		virtual void lostFocus();
-
 
 		// Inherited from KeyListener
 
@@ -242,7 +241,7 @@ namespace gcn
 		int mCaretRow;
 		bool mEditable;
     bool mOpaque;
-		
+
 	}; // end TextBox
   
 } // end gcn
