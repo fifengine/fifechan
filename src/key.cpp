@@ -6,16 +6,9 @@ namespace gcn
   /**
    * 
    */
-  Key::Key(unsigned char ascii)
+  Key::Key(unsigned char ascii, int scancode)
   {
     mAscii = ascii;
-  }
-
-  /**
-   * 
-   */
-  Key::Key(int scancode)
-  {
     mScancode = scancode;
   }
 

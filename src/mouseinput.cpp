@@ -5,7 +5,7 @@ namespace gcn
   /**
    * 
    */
-  MouseInput::MouseInput(int type, int button)
+  MouseInput::MouseInput(int button, int type)
   {
     mType = type;
     mButton = button;

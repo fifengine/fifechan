@@ -101,6 +101,7 @@ AC_ARG_ENABLE(allegro,
 if test x$enable_allegro = xyes; then
 
   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
+ # GUICHAN_EXTRALIBS="$GUICHAN_EXTRALIBS allegro/liballegro.la"	
   AC_CHECK_HEADERS([allegro.h])
   AC_CHECK_PROG(HAVE_ALLEGRO, allegro-config, yes)
   if test "x$HAVE_ALLEGRO" != "xyes"; then
@@ -116,7 +117,7 @@ AC_ARG_ENABLE(sdl,
 if test x$enable_sdl = xyes; then
 
   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS sdl"
-  GUICHAN_EXTRALIBS="$GUICHAN_EXTRALIBS sdl/libsdl.la"	
+#  GUICHAN_EXTRALIBS="$GUICHAN_EXTRALIBS sdl/libsdl.la"	
   AC_CHECK_HEADERS(SDL/SDL.h)
   AC_CHECK_PROG(HAVE_SDL, sdl-config, yes)
   if test "x$HAVE_SDL" != "xyes"; then

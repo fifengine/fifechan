@@ -4,6 +4,7 @@ libguichanincludedir = $(includedir)/guichan
 
 libguichaninclude_HEADERS =	\
 	actionlistener.hpp	\
+	allegro.hpp		\
 	cliprectangle.hpp	\
 	color.hpp		\
 	container.hpp		\
@@ -21,4 +22,5 @@ libguichaninclude_HEADERS =	\
 	mouselistener.hpp	\
 	mousetype.hpp		\
 	rectangle.hpp		\
+	sdl.hpp			\
 	widget.hpp		
