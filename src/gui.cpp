@@ -158,8 +158,11 @@ namespace gcn
           MouseInput mio = mi;
           mio.x -= mTop->getX();
           mio.y -= mTop->getY();        
-          
-          mTop->_mouseInputMessage(mio);
+
+					if (!mTop->hasFocus())
+					{
+						mTop->_mouseInputMessage(mio);
+					}
         }
         else
         {
