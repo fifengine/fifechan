@@ -58,7 +58,6 @@
 
 #include "guichan/widgets/button.hpp"
 #include "guichan/mouseinput.hpp"
-#include <iostream>
 
 namespace gcn
 {
