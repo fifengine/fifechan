@@ -93,14 +93,28 @@ namespace gcn
 		 * @param widget the widget to be focused.
 		 */
 		void requestFocus(Widget* widget);
-    
+
+		/**
+		 * Sets a widget to be dragged.
+		 *
+		 * @param widget the widget to be dragged.
+		 */
+		void requestDrag(Widget* widget);
+
 		/**
 		 * Gets the focused widget.
 		 *
 		 * @return a pointer to the focused widget.
 		 */
 		Widget* getFocused() const;
-    
+		
+		/**
+		 * Gets the widget that is dragged.
+		 *
+		 * @return a pointer to the dragged widget.
+		 */
+		Widget* getDragged() const;
+
 		/**
 		 * Focuses the next widget. If no widget has focus the first
 		 * widget is focused. The order that the widgets are focused
@@ -122,7 +136,15 @@ namespace gcn
 		 * @return true if the widget has focus.
 		 */
 		bool hasFocus(const Widget* widget) const;
-    
+
+		/**
+		 * Checks if a widget is dragged
+		 *
+		 * @param widget a pointer to the widget to check.
+		 * @return true if the widget is dragged.
+		 */
+		bool isDragged(const Widget* widget) const;
+		
 		/**
 		 * Adds a widget to the FocusHandler.
 		 *
@@ -153,6 +175,16 @@ namespace gcn
 		 * Widget disallows tab out.
 		 */
 		void tabPrevious();
+
+		/**
+		 * Applies the changes.
+		 */
+		void applyChanges();
+
+		/**
+		 * Drag nothing.
+		 */
+		void dragNone();
 		
 	protected:
 		typedef std::vector<Widget*> WidgetVector;
@@ -160,7 +192,10 @@ namespace gcn
 		WidgetVector mWidgets;
     
 		int mFocusedWidget;
-    
+    int mDraggedWidget;
+		int mToBeFocused;
+		int mToBeDragged;
+
 	}; // FocusHandler
   
 } // end gcn
