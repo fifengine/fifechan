@@ -1,3 +1,8 @@
+* Slider now stores only the current selected value and calculates
+  everything from that value. It should take care of some resizing
+  problems. Also, slider has now an orientation, which means you can
+  create a slider which has a vertical or horizontal orientation.
+  The previous slider had only a horizontal orientation.
 * Added a C function, gcnGuichanVersion, in gui.hpp which can
   be used to check for the Guichan library with autotools
   (no C++ name mangling).
