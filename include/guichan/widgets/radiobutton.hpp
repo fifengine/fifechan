@@ -153,8 +153,6 @@ namespace gcn
 
 		virtual void drawBorder(Graphics* graphics);
 		
-		virtual void logic();
-
 
 		// Inherited from KeyListener
 

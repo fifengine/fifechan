@@ -69,11 +69,10 @@ namespace gcn
 		setFocusable(true);
 		addMouseListener(this);
 		addKeyListener(this);        
-
-	} // end RadioButton
+	}
     
 	RadioButton::RadioButton(const std::string &caption,
-							 const std::string &group,                           
+							 const std::string &group,
 							 bool marked)
 	{
 		setCaption(caption);
@@ -85,19 +84,12 @@ namespace gcn
 		addKeyListener(this);
 
 		adjustSize();
-
-	} // end RadioButton
+	}
       
 	RadioButton::~RadioButton()
 	{
-		// remove us from the group list
+		// Remove us from the group list
 		setGroup("");
-
-	} // end ~RadioButton
-    
-	void RadioButton::logic()
-	{
-    
 	}
 	
 	void RadioButton::draw(Graphics* graphics)
@@ -107,8 +99,14 @@ namespace gcn
 		graphics->setFont(getFont());
 		graphics->setColor(getForegroundColor());
     
-		graphics->drawText(mCaption, getHeight() + getHeight() / 2, 0);      
-
+		int h = getHeight() + getHeight() / 2;
+		
+		graphics->drawText(mCaption, h - 2, 0);
+		
+		if (hasFocus())
+		{		
+			graphics->drawRectangle(Rectangle(h - 4, 0, getWidth() - h + 3, getHeight()));
+		}	 
 	}
 	
 	void RadioButton::drawBorder(Graphics* graphics)
@@ -200,22 +198,12 @@ namespace gcn
 			}
 
 		}
-
-		if (hasFocus())
-		{
-			graphics->drawLine(hh , 2, 2, hh);
-			graphics->drawLine(2 , hh, hh, h - 2);
-			graphics->drawLine(hh , h - 2, h - 2, hh);
-			graphics->drawLine(h - 2 , hh, hh, 2);
-		}  
-
 	} // end drawBox
     
 	bool RadioButton::isMarked() const
 	{
 		return mMarked;
-
-	} // end isMarked
+	}
     
 	void RadioButton::setMarked(bool marked)
 	{
@@ -236,20 +224,17 @@ namespace gcn
 		}
 
 		mMarked = marked;
-
-	} // end setMarked
+	}
 
 	const std::string &RadioButton::getCaption() const
 	{
 		return mCaption;
-
-	} // end getCaption
+	}
 
 	void RadioButton::setCaption(const std::string caption)
 	{
 		mCaption = caption;
-
-	} // end setCaption
+	}
 
 	void RadioButton::keyPress(const Key& key)
 	{
@@ -259,8 +244,7 @@ namespace gcn
 			setMarked(true);
 			generateAction();
 		}    
-
-	} // end keyPress  
+	}
 
 	void RadioButton::mouseClick(int x, int y, int button, int count)
 	{
@@ -269,8 +253,7 @@ namespace gcn
 			setMarked(true);
 			generateAction();
 		}  
-
-	} // end mouseClick
+	}
 
 	void RadioButton::setGroup(const std::string &group)
 	{
@@ -304,16 +287,14 @@ namespace gcn
 	const std::string &RadioButton::getGroup() const
 	{
 		return mGroup;
-
-	} // end getGroup
+	}
 
 	void RadioButton::adjustSize()
 	{
 		int height = getFont()->getHeight();
 
 		setHeight(height);
-		setWidth(getFont()->getWidth(mCaption) + height + height/2);    
-
-	} // end adjustSize
+		setWidth(getFont()->getWidth(mCaption) + height + height/2);
+	}
       
 } // end gcn
