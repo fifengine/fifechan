@@ -90,14 +90,14 @@ namespace gcn
 			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
 		}
 		
-		#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
 		int colconv = get_color_conversion();
-		#endif
+#endif
 
 		set_color_conversion(COLORCONV_NONE);
 
 		PALETTE pal;
-		BITMAP *bmp = load_bitmap(filename.c_str(), pal);		
+		BITMAP *bmp = load_bitmap(filename.c_str(), pal);
 		
 		if (bmp == NULL)
 		{
@@ -115,11 +115,11 @@ namespace gcn
 		blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
 		destroy_bitmap(bmp);
 
-		#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
 		set_color_conversion(COLORCONV_TOTAL);
-		#else
+#else
 		set_color_conversion(colconv);		
-		#endif
+#endif
 		
 	}
 	
@@ -131,16 +131,26 @@ namespace gcn
 	
 	void* AllegroImageLoader::getRawData()
 	{
-		// @todo do it!
-		throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
-
-		
 		if (mBmp == NULL)
 		{
-			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+			GCN_EXCEPTION("AllegroImageLoader::getRawData. No image seems to be loaded");
+		}		
+
+		if (mRawData == NULL)
+		{
+			int y, x;
+			mRawData = new unsigned int[mBmp->w * mBmp->h];
+
+			for (y = 0; y < mBmp->h; y++)
+			{
+				for (x = 0; x < mBmp->w; x++)
+				{
+					mRawData[x + y * mBmp->w] = ((unsigned int*)mBmp->line[y])[x];
+				}
+			}
 		}
 		
-		return 0;
+		return (void *)mRawData;
 	}
 	
 	void* AllegroImageLoader::finalize()
