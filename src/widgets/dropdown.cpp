@@ -55,6 +55,8 @@
 #include "guichan/exception.hpp"
 #include "guichan/widgets/dropdown.hpp"
 
+#include <iostream>
+
 namespace gcn
 {  
 	DropDown::DropDown()
@@ -183,12 +185,11 @@ namespace gcn
 	}
     
 	void DropDown::draw(Graphics* graphics)
-	{
+	{	 
 		if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
 		{
 			throw GCN_EXCEPTION("DropDown::draw. ScrollArea or ListBox is NULL");
 		}
-	  
 
 		int h;
 
@@ -201,46 +202,48 @@ namespace gcn
 			h = getHeight();
 		}
     
-		char alpha = getBaseColor().a;
+		unsigned char alpha = getBaseColor().a;
 		Color faceColor = getBaseColor();
 		faceColor.a = alpha;
 		Color highlightColor = faceColor + 0x303030;
 		highlightColor.a = alpha;
 		Color shadowColor = faceColor - 0x303030;      
-		shadowColor.a = alpha;
-    
-		graphics->setColor(getBackgroundColor());
-		graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h + 4));
-   
-		graphics->setColor(highlightColor);           
-		graphics->drawLine(1, h-1, getWidth()-1, h-1);
-		graphics->drawLine(getWidth()-1, 1, getWidth()-1, h - 1);
+		shadowColor.a = alpha;    
+		
 
-		graphics->setColor(shadowColor);
-		graphics->drawLine(0, 0, 0, h);
-		graphics->drawLine(0, 0, getWidth()-1, 0);
+		graphics->setColor(getBackgroundColor());
+		graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h - 2));
+   
+ 		graphics->setColor(shadowColor);
+ 		graphics->drawLine(0, 0, 0, h);
+ 		graphics->drawLine(0, 0, getWidth()-1, 0);
+
+ 		graphics->setColor(highlightColor);           
+ 		graphics->drawLine(1, h - 1, getWidth() - 2, h - 1);
+ 		graphics->drawLine(getWidth()-1, 1, getWidth()-1, h - 1);
+
 
 		graphics->setColor(getForegroundColor());
 		graphics->setFont(getFont());
     
 		if (mListBox->getListModel() && mListBox->getSelected() >= 0)
 		{
-			graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 2, 2);
+			graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 2, 1);
 		}
 
 		if (hasFocus())
 		{
-			graphics->drawRectangle(Rectangle(1, 1, getWidth() - 1, h - 1));
+			graphics->drawRectangle(Rectangle(1, 1, getWidth() - 1, h - 2));
 		}
 		
 		drawButton(graphics);
             
-		if (mDroppedDown)
-		{
-			graphics->pushClipArea(mScrollArea->getDimension());
-			mScrollArea->draw(graphics);
-			graphics->popClipArea();
-		}
+ 		if (mDroppedDown)
+ 		{
+ 			graphics->pushClipArea(mScrollArea->getDimension());
+ 			mScrollArea->draw(graphics);
+ 			graphics->popClipArea();
+ 		}
 		
 	} // end draw
 
@@ -280,7 +283,7 @@ namespace gcn
 		{
 			h = getHeight() - 2;
 		}
-		int x = getWidth() - h - 1;
+		int x = getWidth() - h;
 		int y = 1;    
 
 		graphics->setColor(faceColor);
