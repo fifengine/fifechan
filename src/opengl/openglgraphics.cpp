@@ -314,6 +314,7 @@ namespace gcn
   
   void OpenGLGraphics::setColor(const Color& color)
   {
+		mColor = color;
     glColor4f(color.r/255.0,
               color.g/255.0,
               color.b/255.0,
@@ -324,12 +325,12 @@ namespace gcn
 		if (mAlpha)
 		{
 			glEnable(GL_BLEND);
-		}
-		
-  } // end setColor
-  
-//     void setHorizontalGradient(const Color& color1, const Color& color2){}
-  
-//     void setVerticalGradient(const Color& color1, const Color& color2){}  
+		}		
+  }
+
+	const Color& OpenGLGraphics::getColor()
+	{		
+    return mColor;    
+  }	
 
 } // end gcn

@@ -255,6 +255,7 @@ namespace gcn
 
 	void AllegroGraphics::setColor(const Color& color)
 	{
+		mColor = color;
 		mAlColor = makecol(color.r, color.g, color.b);
 
 		if (color.a != 255)
@@ -267,4 +268,10 @@ namespace gcn
 			solid_mode();
 		}
 	}
+
+	const Color& AllegroGraphics::getColor()
+	{		
+    return mColor;    
+  }
+	
 } // end gcn

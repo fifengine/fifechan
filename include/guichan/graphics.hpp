@@ -68,7 +68,7 @@ namespace gcn
   class Font;
   
   /**
-   * This is the graphics object used for drawing in the Gui-chan library.
+   * This is the graphics object used for drawing in the Guichan library.
    * It contains all vital member functions for drawing. The class is abstract
    * and should be overloaded, to create graphic drivers to specific platforms.
    * We have included graphic drivers for some common platforms, like the SDL
@@ -91,7 +91,7 @@ namespace gcn
    * of your application.
    *   
    * If you implement a new graphics driver for a platform we don't support,
-   * we would be very pleased to add it to Gui-chan.
+   * we would be very pleased to add it to Guichan.
    *
    * @see AllegroGraphics, OpenGLGraphics, SDLGraphics, Image
    */  
@@ -220,14 +220,12 @@ namespace gcn
      */
     virtual void setColor(const Color& color) = 0;
 
-//     /**
-//      * 
-//      */
-//     void setHorizontalGradient(const Color& color1, const Color& color2){}
-//     /**
-//      * 
-//      */
-//     void setVerticalGradient(const Color& color1, const Color& color2){}
+    /**
+		 * Get the color used when drawing primitives.
+		 *
+     * @return a Color.
+     */
+		virtual const Color& getColor() = 0;
 
     /**
      * Set the font to be used.
@@ -243,7 +241,7 @@ namespace gcn
 		 * @param x the x coordinate where to draw the text.
 		 * @param y the y coordinate where to draw the text.		 
      */
-    virtual void drawText(const std::string& text, int x, int y);
+    //virtual void drawText(const std::string& text, int x, int y);
     
     /**
      * Draw text centered.
@@ -253,7 +251,7 @@ namespace gcn
 		 * @param y the y coordinate where to draw the text.		 
 		 * @trhows Exception when no font is set.
 		 */
-		virtual void drawTextCenter(const std::string& text, int x, int y);
+		//	virtual void drawTextCenter(const std::string& text, int x, int y);
 
 		/**
      * Draw text to the right.
@@ -263,13 +261,29 @@ namespace gcn
 		 * @param y the y coordinate where to draw the text.		 
 		 * @trhows Exception when no font is set.
 		 */
-		virtual void drawTextRight(const std::string& text, int x, int y);
-		
-//     /**
-//      * 
-//      */
-//     void setBlender(const std::string blenderMode){}
+//		virtual void drawTextRight(const std::string& text, int x, int y);
 
+		/**
+     * Draw text.
+		 *
+		 * @param text the text to be drawn.
+		 * @param x the x coordinate where to draw the text.
+		 * @param y the y coordinate where to draw the text.		 
+		 * @param alignment Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
+		 * @throws Exception when no font is set.
+		 */
+		virtual void drawText(const std::string& text, int x, int y,
+													unsigned int alignment = LEFT);
+		/**
+		 * Alignments for drawing text.
+		 */
+		enum
+		{
+			LEFT = 0,
+			CENTER,
+			RIGHT
+		};
+		
   protected:
     std::stack<ClipRectangle> mClipStack;
     Font* mFont;

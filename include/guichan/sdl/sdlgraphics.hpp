@@ -99,6 +99,15 @@ namespace gcn
      */
     virtual SDL_Surface* getTarget() const;
 
+		/**
+		 * Draws an SDL_Surface on the target surface. Normaly you'll
+		 * use drawImage, but if you want to write SDL specific code
+		 * this function might come in handy.
+		 *
+		 * NOTE: The clip area will be taken into account.
+		 */
+		virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
+																SDL_Rect destination);
 
 		// Inherited from Graphics
 
@@ -123,6 +132,8 @@ namespace gcn
     virtual void fillRectangle(const Rectangle& rectangle);
 
 		virtual void setColor(const Color& color);
+
+		virtual const Color& getColor();
 		
   protected:
     /**

@@ -124,16 +124,13 @@ namespace gcn
 
     virtual void setColor(const Color& color);
 
-//     void setHorizontalGradient(const Color& color1, const Color& color2){}
-
-//     void setVerticalGradient(const Color& color1, const Color& color2){}
-
-//     void setBlender(const std::string blenderMode){}
-    
+		virtual const Color& getColor();
+		    
   protected:    
     int mWidth, mHeight;
 		bool mAlpha;
-    
+    Color mColor;
+
   }; // end OpenGLGraphics
   
 } // end gcn

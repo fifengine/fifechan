@@ -137,12 +137,15 @@ namespace gcn
     virtual void fillRectangle(const Rectangle& rectangle);
 
     virtual void setColor(const Color& color);		
+
+		virtual const Color& getColor();
 		
   protected:
 		BITMAP *mTarget;
 		bool mClipNull;
 		int mAlColor;
-    
+    Color mColor;
+		
   }; // end AllegroGraphics
   
 } // end gcn
