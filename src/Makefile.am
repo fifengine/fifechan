@@ -19,7 +19,6 @@ libguichan_la_SOURCES = 	\
 	gui.cpp			\
 	image.cpp		\
 	imagefont.cpp		\
-	input.cpp		\
 	key.cpp			\
 	keyinput.cpp		\
 	mouseinput.cpp		\
