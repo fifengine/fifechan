@@ -79,8 +79,9 @@ namespace gcn
 		mClickCount = 0;
 		mHasMouse = false;
 		mVisible = true;
-		mTabable = true;
-
+		mTabIn = true;
+		mTabOut = true;
+		
 		mCurrentFont = NULL;
 		mWidgets.push_back(this);
     
@@ -220,7 +221,7 @@ namespace gcn
 
 	bool Widget::isFocusable()
 	{
-		return mFocusable && mVisible;
+		return mFocusable && isVisible();
 
 	} // end isFocusable
   
@@ -268,8 +269,15 @@ namespace gcn
   
 	bool Widget::isVisible()
 	{
-		return mVisible;
-
+		if (getParent() == NULL)
+		{			
+			return mVisible;
+		}
+		else
+		{
+			return mVisible && getParent()->isVisible();
+		}
+			
 	} // end isVisible
 
 	void Widget::setBaseColor(const Color& color)
@@ -526,20 +534,8 @@ namespace gcn
 		x = parentX + mDimension.x;
 		y = parentY + mDimension.y;
     
-	} // end getAbsolutDimension
-
-	bool Widget::isTabable() const
-	{
-		return mTabable;
-    
-	} // end isTabable
-
-	void Widget::setTabable(bool tabable)
-	{
-		mTabable = tabable;
-    
-	} // end setTabable
-
+	}
+	
 	void Widget::generateAction()
 	{
 		ActionListenerIterator iter;
@@ -604,5 +600,25 @@ namespace gcn
 		return result;
 
 	} // end widgetExists
+
+	bool Widget::isTabInEnabled() const
+	{
+		return mTabIn;
+	}
+		
+	void Widget::setTabInEnabled(bool enabled)
+	{
+		mTabIn = enabled;
+	}
+
+	bool Widget::isTabOutEnabled() const
+	{
+		return mTabOut;
+	}
+		
+	void Widget::setTabOutEnabled(bool enabled)
+	{
+		mTabOut = enabled;
+	}
 
 } // end gcn

@@ -474,7 +474,7 @@ namespace gcn
 		 * @return true if the widget is tabable.
 		 * @see setTabable
 		 */
-		bool isTabable() const;
+//		bool isTabable() const;
     
 		/**
 		 * Set the widget to be tabable. Tabable means that the tab
@@ -484,7 +484,7 @@ namespace gcn
 		 * @param tabable true if the widget is tabable.
 		 * @see isTabable
 		 */
-		void setTabable(bool tabable);
+//		void setTabable(bool tabable);
 
 		/**
 		 * This function returns the font used by this widget. If no 
@@ -529,7 +529,43 @@ namespace gcn
 		 *  @param widget the widget to check
 		 */
 		static bool widgetExists(const Widget* widget);
+
+		/**
+		 * Tab in means that you can set focus to this widget by pressing
+		 * the tab button. If tab in is disabled then the FocusHandler will
+		 * skip this widget and focus the next in its focus order.
+		 *
+		 * @return true if tab is enabled for the widget.
+		 */
+		virtual bool isTabInEnabled() const;
 		
+		/**
+		 * Tab in means that you can set focus to this widget by pressing
+		 * the tab button. If tab in is disabled then the FocusHandler will
+		 * skip this widget and focus the next in its focus order.
+		 *
+		 * @param enabled true if tab in should be enabled.
+		 */
+		virtual void setTabInEnabled(bool enabled);
+
+		/**
+		 * Tab out means that you can lose focus to this widget by pressing
+		 * the tab button. If tab out is disabled then the FocusHandler ignores
+		 * tabbing and focus will stay with this widget,
+		 *
+		 * @return true if tab out is enabled for the widget.
+		 */
+		virtual bool isTabOutEnabled() const;
+		
+		/**
+		 * Tab out means that you can lose focus to this widget by pressing
+		 * the tab button. If tab out is disabled then the FocusHandler ignores
+		 * tabbing and focus will stay with this widget,
+		 *
+		 * @param enabled true if tab out should be enabled.
+		 */
+		virtual void setTabOutEnabled(bool enabled);
+
 	protected:
 		/**
 		 * This function generates an action to the widgets action listeners.
@@ -563,8 +599,10 @@ namespace gcn
 		bool mHasMouse;
 		bool mFocusable;
 		bool mVisible;
-		bool mTabable;
-
+//		bool mTabable;
+		bool mTabIn;
+		bool mTabOut;
+		
 		Font* mCurrentFont;
 		static DefaultFont mDefaultFont;
 		static Font* mGlobalFont;
