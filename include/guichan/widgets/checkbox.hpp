@@ -59,14 +59,14 @@
 
 #include <string>
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
 
 namespace gcn
 {
   class CheckBox :
-    public FontWidget,
+    public Widget,
     public MouseListener,
     public KeyListener
   {

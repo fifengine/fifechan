@@ -57,7 +57,7 @@
 #ifndef GCN_BUTTON_HPP
 #define GCN_BUTTON_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 
 #include <string>
 
@@ -66,7 +66,7 @@ namespace gcn
   /**
    * This is a button
    */
-  class Button: public FontWidget, public MouseListener, public KeyListener
+  class Button: public Widget, public MouseListener, public KeyListener
   {
   public:
     Button();

@@ -57,7 +57,7 @@
 #ifndef GCN_TEXTFIELD_HPP
 #define GCN_TEXTFIELD_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 
 #include <string>
 
@@ -68,7 +68,10 @@ namespace gcn
    *
    * @todo Caret width and color, background color, comments.
    */
-  class TextField: public FontWidget, public MouseListener, public KeyListener
+  class TextField:
+    public Widget,
+    public MouseListener,
+    public KeyListener
   {
   public:
     /**

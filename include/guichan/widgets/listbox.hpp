@@ -57,7 +57,7 @@
 #ifndef GCN_LISTBOX_HPP
 #define GCN_LISTBOX_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/listmodel.hpp"
@@ -65,7 +65,7 @@
 namespace gcn
 {
   class ListBox :
-    public FontWidget,
+    public Widget,
     public MouseListener,
     public KeyListener
   {

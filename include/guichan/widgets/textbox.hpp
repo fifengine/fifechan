@@ -57,7 +57,7 @@
 #ifndef GCN_TEXTBOX_HPP
 #define GCN_TEXTBOX_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 
 #include <string>
 #include <vector>
@@ -68,7 +68,7 @@ namespace gcn
    * This is a TextBox.
    */
   class TextBox:
-    public FontWidget,
+    public Widget,
     public MouseListener,
     public KeyListener
   {

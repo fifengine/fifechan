@@ -57,14 +57,14 @@
 #ifndef GCN_LABEL_HPP
 #define GCN_LABEL_HPP
 
-#include "guichan/fontwidget.hpp"
+#include "guichan/widget.hpp"
 
 #include <string>
 
 namespace gcn
 {
 
-  class Label: public FontWidget
+  class Label: public Widget
   {
   public:
     Label() { };
