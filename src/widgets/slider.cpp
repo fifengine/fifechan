@@ -224,8 +224,8 @@ namespace gcn
 	{
 		int w = getWidth() - mMarkerWidth;
 			
-		int m = (int)(((mScaleStart - value) * w)
-			/ (mScaleStart + mScaleEnd));
+		int m = (int)(((value - mScaleStart) * w)
+			/ (mScaleEnd - mScaleStart));
 
 		setMarkerPosition(m);
 	}
