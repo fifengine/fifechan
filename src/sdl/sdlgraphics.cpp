@@ -525,8 +525,22 @@ namespace gcn
   {
     mColor = color;    
 
-		mAlpha = color.a != 255;
-		
-  } // end setColor
+		mAlpha = color.a != 255;		
+  }
 
+	const Color& SDLGraphics::getColor()
+  {
+    return mColor;    
+  }
+
+	void SDLGraphics::drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
+																	 SDL_Rect destination)
+	{
+    ClipRectangle top = mClipStack.top();
+    destination.x += top.xOffset;
+    destination.y += top.yOffset;
+    
+    SDL_BlitSurface(surface, &source, mTarget, &destination);		
+	}
+	
 } // end gcn
