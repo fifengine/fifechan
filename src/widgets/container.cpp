@@ -105,11 +105,11 @@ namespace gcn
 		for (i = 0; i < getBorderSize(); ++i)
 		{
 			graphics->setColor(shadowColor);
-			graphics->drawLine(i,i, width - i, i); 
-			graphics->drawLine(i,i, i, height - i); 
+			graphics->drawLine(i,i, width - i, i);
+			graphics->drawLine(i,i + 1, i, height - i - 1);
 			graphics->setColor(highlightColor);
-			graphics->drawLine(width - i,i, width - i, height - i); 
-			graphics->drawLine(i,height - i, width - i, height - i); 
+			graphics->drawLine(width - i,i + 1, width - i, height - i); 
+			graphics->drawLine(i,height - i, width - i - 1, height - i); 
 		}
 	}
 	
