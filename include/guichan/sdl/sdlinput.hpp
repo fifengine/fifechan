@@ -162,7 +162,7 @@ namespace gcn
 
   protected:
     int convertMouseButton(int button);
-    unsigned char convertKeyCharacter(unsigned int unicode);
+    int convertKeyCharacter(SDL_keysym key);
     std::queue<KeyInput> mKeyInputQueue;
     std::queue<MouseInput> mMouseInputQueue;
     int mMouseX;

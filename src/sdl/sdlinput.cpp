@@ -60,6 +60,8 @@
 
 #include "guichan/sdl/sdlinput.hpp"
 
+#include <iostream>
+
 namespace gcn
 {
   void SDLInput::init()
@@ -159,13 +161,14 @@ namespace gcn
     switch (event.type)
     {
       case SDL_KEYDOWN:
-        key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
+        key.setValue(convertKeyCharacter(event.key.keysym));
+        key.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
         keyInput.setKey(key);
         keyInput.setType(KeyInput::PRESS);        
         mKeyInputQueue.push(keyInput);
         break;
       case SDL_KEYUP:
-        key.setAscii(convertKeyCharacter(event.key.keysym.unicode));
+        key.setValue(convertKeyCharacter(event.key.keysym));
         keyInput.setKey(key);
         keyInput.setType(KeyInput::RELEASE);
         mKeyInputQueue.push(keyInput);
@@ -225,17 +228,44 @@ namespace gcn
 
   } // end convertMouseButton
 
-  unsigned char SDLInput::convertKeyCharacter(unsigned int unicode)
+  int SDLInput::convertKeyCharacter(SDL_keysym keysym)
   {
-    if (unicode > 255)
+    int value = 0; 
+    
+    if (keysym.unicode < 255)
     {
-      return 0;
+      value = (int)keysym.unicode;
     }
-    else
-    {
-      return (unsigned char)unicode;
-    }    
 
+    switch (keysym.sym)
+    {
+      case SDLK_TAB:
+        value = Key::TAB;
+        break;
+      case SDLK_LALT:
+        value = Key::LEFT_ALT;
+        break;
+      case SDLK_RALT:
+        value = Key::RIGHT_ALT;
+        break;
+      case SDLK_LSHIFT:
+        value = Key::LEFT_SHIFT;
+        break;
+      case SDLK_RSHIFT:
+        value = Key::RIGHT_SHIFT;
+        break;
+      case SDLK_LCTRL:
+        value = Key::LEFT_CONTROL;
+        break;
+      case SDLK_RCTRL:
+        value = Key::RIGHT_CONTROL;
+        break;
+      default:
+        break;
+    }
+
+    return value;
+    
   } // end convertKeyCharacter
 
 } // end gcn
