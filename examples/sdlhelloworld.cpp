@@ -29,7 +29,7 @@ gcn::SDLGraphics* graphics;     // Graphics driver
  * Gui-chan stuff we need
  */
 gcn::ImageLoader* imageLoader;  // For loading images  
-gcn::Gui* gui;                  // A Gui object
+gcn::Gui* gui;                  // A Gui object - binds it all together
 gcn::Container* top;            // A top container
 gcn::ImageFont* font;           // A font
 gcn::Label* label;              // And a label for the Hello World text
