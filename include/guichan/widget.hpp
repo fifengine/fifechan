@@ -587,4 +587,5 @@ namespace gcn
  * finalman - "That's not a very funny quote. But i believe
  *             pointless quotes are funny in their own pointless
  *             way."
+ * yakslem  - "...eh...ok..."
  */
