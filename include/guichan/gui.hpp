@@ -1,12 +1,10 @@
-/*
- *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
- *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
- * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
- * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
- * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
- * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
- *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
- *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+/*      _______   __   __   __   ______   __   __   _______   __   __                 
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
  *
  * Copyright (c) 2004 darkbits                              Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -29,7 +27,7 @@
  *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
  *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
  *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
- * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ * 3. Neither the name of Guichan nor the      :$we` _! + _/ .        j?
  *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
  *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
  *    from this software without specific        (js, \[QQW$QWW#?!V"".
@@ -61,17 +59,18 @@
 
 #include "guichan/container.hpp"
 #include "guichan/input.hpp"
-//#include "guichan/mousetype.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
 namespace gcn
 {
   /**
-   * This is the main class for Gui-chan. 
-   *
-   * @todo Fix this comment, please.
-   */
+   * This is the main class for Guichan. It is the core of the a gui.
+	 * It holds a special widget called the top widget. For more then
+	 * one widget in your Gui, top widget should be a container of some sort.
+	 * For the Gui to function properly you need to set one Graphics object
+	 * and one Input object.
+	 */
   class DECLSPEC Gui
   {
   public:
@@ -145,9 +144,31 @@ namespace gcn
 		 * Gui hierarchy.
      */
     void draw();
-    
+
+	/**
+	 * Focus none of the Widgets in the Gui.
+	 */
+    void focusNone();
+
+	/**
+	 * Toggle the use of the tab key to focus widgets.
+	 * By default, tabbing is enabled.
+	 *
+	 * @param tabbing set to false if you want to disable tabbing
+	 */
+	void setTabbingEnabled(bool tabbing);
+
+	/**
+	 * Checks if tabbing is enabled.
+	 *
+	 * @return true if tabbing is enabled
+	 */
+	bool isTabbingEnabled();
+			
   protected:
     bool mTopHasMouse;
+	bool mTabbing;
+
     Widget* mTop;
     Graphics* mGraphics;
     Input* mInput;

@@ -1,12 +1,10 @@
-/*
- *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
- *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
- * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
- * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
- * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
- * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
- *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
- *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+/*      _______   __   __   __   ______   __   __   _______   __   __                 
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
  *
  * Copyright (c) 2004 darkbits                              Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -29,7 +27,7 @@
  *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
  *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
  *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
- * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ * 3. Neither the name of Guichan nor the      :$we` _! + _/ .        j?
  *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
  *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
  *    from this software without specific        (js, \[QQW$QWW#?!V"".
@@ -75,6 +73,7 @@ namespace gcn
     mGraphics = NULL;
     mFocusHandler = new FocusHandler();
     mTopHasMouse = false;
+		mTabbing = true;
   } // end Gui
 
   Gui::~Gui()
@@ -187,45 +186,48 @@ namespace gcn
 
         // Focus another widget only if the widget allows it with
         // tabable.
-        if (mFocusHandler->getFocused())
-        {
-          if (mFocusHandler->getFocused()->isTabable()
-              && ki.getKey().getValue() == Key::TAB
-              && ki.getType() == KeyInput::PRESS
-              && ki.getKey().isShiftPressed())
-          {
-            mFocusHandler->focusPrevious();
-          }                  
-          else if (mFocusHandler->getFocused()->isTabable()
-                   && ki.getKey().getValue() == Key::TAB
-                   && ki.getType() == KeyInput::PRESS)
-          {
-            mFocusHandler->focusNext();
-          }
-          else
-          {
-            mFocusHandler->getFocused()->_keyInputMessage(ki);
-          }
-        }
-        else if (ki.getKey().getValue() == Key::TAB
-                 && ki.getType() == KeyInput::PRESS
-                 && ki.getKey().isShiftPressed())
-        {
-          mFocusHandler->focusPrevious();
-        }        
-        else if (ki.getKey().getValue() == Key::TAB
-                 && ki.getType() == KeyInput::PRESS)
-        {
-          mFocusHandler->focusNext();
-        }
+				
+		if (mFocusHandler->getFocused())
+		{
+		  if (mTabbing && mFocusHandler->getFocused()->isTabable()
+					&& ki.getKey().getValue() == Key::TAB
+					&& ki.getType() == KeyInput::PRESS
+					&& ki.getKey().isShiftPressed())
+		  {
+				mFocusHandler->focusPrevious();
+		  }                  
+		  else if (mTabbing && mFocusHandler->getFocused()->isTabable()
+							 && ki.getKey().getValue() == Key::TAB
+							 && ki.getType() == KeyInput::PRESS)
+		  {
+				mFocusHandler->focusNext();
+		  }
+		  else
+		  {
+			  // Send key inputs to the focused widgets
+				mFocusHandler->getFocused()->_keyInputMessage(ki);
+		  }
+		}
+		else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
+						 ki.getType() == KeyInput::PRESS &&
+						 ki.getKey().isShiftPressed())
+		{
+		  mFocusHandler->focusPrevious();
+		}        
+		else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
+						 ki.getType() == KeyInput::PRESS)
+		{
+		  mFocusHandler->focusNext();
+		}
+		
       }
       
     } // end if
     
     mTop->logic();
-
+		
   } // end logic
-
+	
   void Gui::draw()
   {
     if (!mTop)
@@ -245,9 +247,19 @@ namespace gcn
     
   } // end draw
 
-  void Gui::focusNone()
+	void Gui::focusNone()
 	{
 		mFocusHandler->focusNone();
+	}
+
+	void Gui::setTabbingEnabled(bool tabbing)
+	{
+		mTabbing = tabbing;
+	}
+	
+	bool Gui::isTabbingEnabled()
+	{
+		return mTabbing;
 	}
 	
 } // end gcn

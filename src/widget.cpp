@@ -1,12 +1,10 @@
-/*
- *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
- *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
- * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
- * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
- * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
- * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
- *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
- *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+/*      _______   __   __   __   ______   __   __   _______   __   __                 
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
  *
  * Copyright (c) 2004 darkbits                              Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -29,7 +27,7 @@
  *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
  *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
  *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
- * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ * 3. Neither the name of Guichan nor the      :$we` _! + _/ .        j?
  *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
  *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
  *    from this software without specific        (js, \[QQW$QWW#?!V"".
@@ -58,10 +56,10 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/widget.hpp"
-#include "guichan/focushandler.hpp"
 #include "guichan/basiccontainer.hpp"
-#include <iostream>
+#include "guichan/exception.hpp"
+#include "guichan/focushandler.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
@@ -228,6 +226,11 @@ namespace gcn
   
 	void Widget::requestFocus()
 	{
+		if (mFocusHandler == NULL)
+		{
+			throw GCN_EXCEPTION("Widget::requestFocus. No focushandler set (did you add the widget to the gui?)");
+		}
+		
 		if (isFocusable())
 		{
 			mFocusHandler->requestFocus(this);

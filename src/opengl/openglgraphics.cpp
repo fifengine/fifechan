@@ -1,12 +1,10 @@
-/*
- *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
- *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
- * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
- * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
- * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
- * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
- *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
- *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+/*      _______   __   __   __   ______   __   __   _______   __   __                 
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
  *
  * Copyright (c) 2004 darkbits                              Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -29,7 +27,7 @@
  *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
  *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
  *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
- * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ * 3. Neither the name of Guichan nor the      :$we` _! + _/ .        j?
  *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
  *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
  *    from this software without specific        (js, \[QQW$QWW#?!V"".
@@ -273,10 +271,14 @@ namespace gcn
   void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
   {    
     glBegin(GL_LINE_LOOP);
-    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f, rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
-    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
-    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
-    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f, rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
+							 rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
+							 rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
+							 rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
+							 rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
     glEnd();
 
   } // end drawRectangle
@@ -284,10 +286,14 @@ namespace gcn
   void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
   {
     glBegin(GL_QUADS);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+    glVertex3i(rectangle.x + mClipStack.top().xOffset,
+							 rectangle.y + mClipStack.top().yOffset, 0);
+    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
+							 rectangle.y + mClipStack.top().yOffset, 0);
+    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
+							 rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+    glVertex3i(rectangle.x + mClipStack.top().xOffset,
+							 rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
     glEnd();
 
   } // end fillRectangle
