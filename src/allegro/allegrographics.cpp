@@ -126,7 +126,11 @@ namespace gcn
 		else
 		{
 			mClipNull = false;
+#if ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0
+			set_clip(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+#else
 			set_clip_rect(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+#endif
 		}
 
 		return result;
