@@ -5,6 +5,7 @@ libguichanincludedir = $(includedir)/guichan
 libguichaninclude_HEADERS =	\
 	actionlistener.hpp	\
 	allegro.hpp		\
+	basiccontainer.hpp	\
 	cliprectangle.hpp	\
 	color.hpp		\
 	container.hpp		\
