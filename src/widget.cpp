@@ -69,7 +69,8 @@ namespace gcn
   {
     mParent = NULL;
     mForegroundColor = Color(0x000000);
-    mBackgroundColor = Color(0xb0c0d0);
+    mBackgroundColor = Color(0xffffff);
+    mBaseColor = Color(0xc0c0c0);
     mFocusHandler = NULL;
     mFocusable = false;
     mClickTimeStamp = 0;
@@ -247,6 +248,18 @@ namespace gcn
     return mVisible;
 
   } // end isVisible
+
+  void Widget::setBaseColor(const Color& color)
+  {
+    mBaseColor = color;
+
+  } // end setBaseColor
+
+  const Color& Widget::getBaseColor() const
+  {
+    return mBaseColor;
+
+  } // end getBaseColor
 
   void Widget::setForegroundColor(const Color& color)
   {

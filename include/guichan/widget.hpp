@@ -245,6 +245,23 @@ namespace gcn
     bool isVisible();
 
     /**
+     * Sets the widget's base color. (the background
+     * colors for buttons and containers).
+     *
+     * @param color the foreground color.
+     * @see Color
+     */
+    virtual void setBaseColor(const Color& color);
+
+    /**
+     * @return the widgets foreground color.
+     * @see Color
+     */
+    virtual const Color& getBaseColor() const;
+    
+    /**
+     * Sets the widget's foreground color.
+     *
      * @param color the foreground color.
      * @see Color
      */
@@ -257,6 +274,8 @@ namespace gcn
     virtual const Color& getForegroundColor() const;
     
     /**
+     * Sets the widget's background color.
+     *
      * @param color the background color.
      * @see Color
      */
@@ -504,6 +523,7 @@ namespace gcn
 
     Color mForegroundColor;
     Color mBackgroundColor;
+    Color mBaseColor;
     std::string mMouseType;
     FocusHandler* mFocusHandler;
     BasicContainer* mParent;
