@@ -56,11 +56,9 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/imagefont.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/imagefont.hpp"
 #include "guichan/image.hpp"
-
-#include <iostream>
 
 namespace gcn
 {
@@ -95,7 +93,8 @@ namespace gcn
     
     mImage = new Image(data, w, h);
     mHeight = h;
-		mSpacing = 0;
+		mRowSpacing = 0;
+		mGlyphSpacing = 0;
 		
   } // end ImageFont
 
@@ -127,7 +126,8 @@ namespace gcn
     
     mImage = new Image(data, w, h);
     mHeight = h;
-		mSpacing = 0;
+		mRowSpacing = 0;
+		mGlyphSpacing = 0;
 		
   } // end ImageFont
 
@@ -142,42 +142,55 @@ namespace gcn
   {
     if (mGlyphW[glyph] == 0)
     {         
-      return mGlyphW[(int)(' ')] + mSpacing;
+      return mGlyphW[(int)(' ')] + mGlyphSpacing;
     }
     
-    return mGlyphW[glyph] + mSpacing;
+    return mGlyphW[glyph] + mGlyphSpacing;
 
   } // end getWidth
 
   int ImageFont::getHeight() const
   {
-    return mHeight;
+    return mHeight + mRowSpacing;
 
   } // end getHeight
 
   int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
-  {    
+  {
+		// This is needed for drawing the Glyph in the middle if we have spacing
+		int yoffset = getRowSpacing() >> 1;
+		
     if (mGlyphW[glyph] == 0)
     {
-      graphics->drawRectangle(Rectangle(x, y + 1, mGlyphW[(int)(' ')] - 1, mHeight - 2));
+      graphics->drawRectangle(Rectangle(x, y + 1 + yoffset, mGlyphW[(int)(' ')] - 1, getHeight() - 2));
       
-      return mGlyphW[(int)(' ')] + mSpacing;
+      return mGlyphW[(int)(' ')] + mGlyphSpacing;
     }
     
-    graphics->drawImage(mImage, mGlyphX[glyph], 0, x, y, mGlyphW[glyph], mHeight);
+    graphics->drawImage(mImage, mGlyphX[glyph], 0, x, y + yoffset, mGlyphW[glyph], getHeight());
 
-    return mGlyphW[glyph] + mSpacing;
+    return mGlyphW[glyph] + mGlyphSpacing;
 
   } // end drawGlyph
 
-	void ImageFont::setSpacing(int spacing)
+	void ImageFont::setRowSpacing(int spacing)
 	{
-		mSpacing = spacing;
+		mRowSpacing = spacing;
 	}
 
-	int ImageFont::getSpacing()
+	int ImageFont::getRowSpacing()
 	{
-		return mSpacing;
+		return mRowSpacing;
+	}
+	
+	void ImageFont::setGlyphSpacing(int spacing)
+	{
+		mGlyphSpacing = spacing;
+	}
+	
+	int ImageFont::getGlyphSpacing()
+	{
+		return mGlyphSpacing;
 	}
 	
   int ImageFont::addGlyph(unsigned char c, int x, const Color& separator)
