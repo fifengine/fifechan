@@ -1,5 +1,5 @@
 /**
- * \example allegrohelloworld.cpp Allegro Hello World example for Guichan.
+ * Allegro Hello World example for Guichan.
  */
 
 // Include all necessary headers.
@@ -171,21 +171,24 @@ int main(int argc, char **argv)
 	 */
 	catch (gcn::Exception e)
 	{
-		std::cout << e.getMessage() << std::endl;
+		std::cerr << e.getMessage() << std::endl;
+		return 1;
 	}
 	/*
 	 * Catch all Std exceptions
 	 */
 	catch (std::exception e)
 	{
-		std::cout << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;  
+		return 1;
 	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
 	catch (...)
 	{
-		std::cout << "Unknown exception" << std::endl;
+		std::cerr << "Unknown exception" << std::endl;
+		return 1;
 	}
 
 	return 0;

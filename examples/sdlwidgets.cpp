@@ -1,5 +1,5 @@
 /**
- * \example sdlwidgets.cpp SDL widgets example for Guichan.
+ * SDL widgets example for Guichan.
  */
 
 // Include all necessary headers.
@@ -49,7 +49,7 @@ gcn::CheckBox* checkBox2;
 gcn::RadioButton* radioButton1;      // Three radio buttons
 gcn::RadioButton* radioButton2;
 gcn::RadioButton* radioButton3;
-
+gcn::Slider* slider;                 // A slider
 gcn::Image *image;                   // An image for the icon
 
 /*
@@ -118,6 +118,9 @@ void initWidgets()
 	radioButton2 = new gcn::RadioButton("RadioButton 2", "radiogroup");
 	radioButton3 = new gcn::RadioButton("RadioButton 3", "radiogroup");
 
+	slider = new gcn::Slider(0, 10);
+	slider->setSize(100, 10);
+
 	/*
 	 * Add them to the top container
 	 */
@@ -133,6 +136,7 @@ void initWidgets()
 	top->add(radioButton1, 500, 200);
 	top->add(radioButton2, 500, 220);
 	top->add(radioButton3, 500, 240);	
+	top->add(slider, 500, 300);
 }
 
 /**
@@ -214,6 +218,7 @@ void halt()
 	delete radioButton1;
 	delete radioButton2;
 	delete radioButton3;
+	delete slider;
 	
 	/*
 	 * Destroy Guichan SDL stuff
@@ -298,21 +303,24 @@ int main(int argc, char **argv)
 	 */
 	catch (gcn::Exception e)
 	{
-		std::cout << e.getMessage() << std::endl;
+		std::cerr << e.getMessage() << std::endl;
+		return 1;
 	}
 	/*
 	 * Catch all Std exceptions
 	 */
 	catch (std::exception e)
 	{
-		std::cout << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;  
+		return 1;
 	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
 	catch (...)
 	{
-		std::cout << "Unknown exception" << std::endl;
+		std::cerr << "Unknown exception" << std::endl;
+		return 1;
 	}
 
 	return 0;
