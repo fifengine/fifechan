@@ -58,6 +58,7 @@
 #define GCN_SCROLLAREA_HPP
 
 #include "guichan/basiccontainer.hpp"
+#include "guichan/mouselistener.hpp"
 
 #include <string>
 
@@ -66,7 +67,7 @@ namespace gcn
   /**
    * This is a scroll area
    */
-  class ScrollArea: public BasicContainer
+  class ScrollArea: public BasicContainer, public MouseListener
   {
   public:
     /**
@@ -164,6 +165,9 @@ namespace gcn
      */
     virtual void setScrollbarWidth(int width);
 
+	/**
+	 *
+	 */
     virtual int getScrollbarWidth();
 
     virtual void _setFocusHandler(FocusHandler* focusHandler);
@@ -171,15 +175,33 @@ namespace gcn
     virtual void _mouseInputMessage(const MouseInput &mouseInput);
 
     virtual void _mouseOutMessage();
-    
+
+	void mousePress(int x, int y, int button);
+
+	void mouseRelease(int x, int y, int button);
+	
+	void mouseMotion(int x, int y);
+
     virtual void draw(Graphics *graphics);
 
+	/**
+	 *
+	 */
     virtual void drawUpButton(Graphics *graphics);
 
+	/**
+	 *
+	 */
     virtual void drawDownButton(Graphics *graphics);
 
+	/**
+	 *
+	 */
     virtual void drawLeftButton(Graphics *graphics);
 
+	/**
+	 *
+	 */
     virtual void drawRightButton(Graphics *graphics);
 
     virtual void logic();
@@ -214,12 +236,65 @@ namespace gcn
      */
     virtual void drawHBar(Graphics* graphics);
 
+	virtual void drawVMarker(Graphics* graphics);
+
+	virtual void drawHMarker(Graphics* graphics);
+
+	/**
+	 *
+	 */
     virtual void checkPolicies();
-    
+
+    /**
+	 *
+	 */
+	virtual Rectangle getUpButtonDimension();
+
+    /**
+	 *
+	 */
+	virtual Rectangle getDownButtonDimension();
+
+    /**
+	 *
+	 */
+	virtual Rectangle getLeftButtonDimension();
+
+    /**
+	 *
+	 */
+	virtual Rectangle getRightButtonDimension();
+
+    /**
+	 *
+	 */
+	virtual Rectangle getContentDimension();
+
+	/**
+	 *
+	 */
+	virtual Rectangle getVerticalBarDimension();
+
+	/**
+	 *
+	 */
+	virtual Rectangle getHorizontalBarDimension();
+
+	/**
+	 *
+	 */
+	virtual Rectangle getVerticalMarkerDimension();
+
+	/**
+	 *
+	 */
+	virtual Rectangle getHorizontalMarkerDimension();
+
+
     Widget *mContent;
     int mVScroll;
     int mHScroll;
-    int mScrollBarWidth;
+    int mScrollbarWidth;
     unsigned int mHPolicy;
     unsigned int mVPolicy;
     bool mouseOverContent;
@@ -229,7 +304,13 @@ namespace gcn
     bool mDownButtonPressed;
     bool mLeftButtonPressed;
     bool mRightButtonPressed;
-    
+	bool mVerticalMarkerPressed;
+	int mVerticalMarkerMousePosition;
+	bool mHorizontalMarkerPressed;
+	int mHorizontalMarkerMousePosition;
+
+    bool mContentHasMouse;
+
   }; // end ScrollArea
 
 } // end gcn
