@@ -95,8 +95,8 @@ namespace gcn
    * we would be very pleased to add it to Gui-chan.
    *
    * @see AllegroGraphics, OpenGLGraphics, SDLGraphics, Image
-   */
-  
+   * @todo Move color into implemented graphicsobjects.
+   */  
   class Graphics
   {
   public:
