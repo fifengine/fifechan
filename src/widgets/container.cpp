@@ -58,10 +58,8 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/container.hpp"
 #include "guichan/exception.hpp"
-
-#include <iostream>
+#include "guichan/widgets/container.hpp"
 
 namespace gcn
 {
