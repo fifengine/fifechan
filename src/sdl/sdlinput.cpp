@@ -217,9 +217,6 @@ namespace gcn
 
   } // end convertMouseButton
 
-  /**
-   * @todo suck on the ENTER vs new line feed bonbon.
-   */
   Key SDLInput::convertKeyCharacter(SDL_keysym keysym)
   {
     int value = 0; 

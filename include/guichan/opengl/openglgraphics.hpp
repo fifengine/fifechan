@@ -61,7 +61,11 @@
 namespace gcn
 {
   /**
-   * @todo Fix drawing of last pixel.
+   * This is an OpenGL implementation of the Graphics object. For more
+   * information about the Graphics object please see the Graphics
+   * header.
+   *
+   * @todo Alpha channel support.
    */
   class DECLSPEC OpenGLGraphics: public Graphics
   {

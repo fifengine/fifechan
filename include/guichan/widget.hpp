@@ -455,8 +455,10 @@ namespace gcn
 		void sendActionEvent();
 
 		/**
+		 * Gets the absolute position on the screen for the widget,
 		 *
-		 * @todo Make a class point?
+		 * @param x absolute x coordinate will be stored in this parameter
+		 * @param y absolute y coordinate will be stored in this parameter
 		 */
 		void getAbsolutePosition(int& x, int& y);
     

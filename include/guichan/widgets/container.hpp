@@ -120,7 +120,6 @@ namespace gcn
      * @param widget the widget to add.
      * @param x the x coordinat for the widget in the container
      * @param y the y coordinat for the widget in the container
-     * @todo Fix mouse type
      * @see remove
      */
     void add(Widget* widget, int x, int y);

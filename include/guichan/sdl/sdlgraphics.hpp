@@ -71,7 +71,6 @@ namespace gcn
    * information about the Graphics object please see the Graphics
    * header.
    *
-   * @see Graphics
    * @todo Alpha channel support.
    */
   class DECLSPEC SDLGraphics : public Graphics

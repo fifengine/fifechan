@@ -221,7 +221,6 @@ namespace gcn
 		 *
 		 *
 		 * @param graphics a Graphics object.
-		 * @todo fix clip rectangle before this function is called.
 		 */
 		virtual void drawButton(Graphics *graphics);
 
