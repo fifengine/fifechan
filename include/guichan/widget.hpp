@@ -166,6 +166,14 @@ namespace gcn
 		virtual int getHeight();
 
 		/**
+		 * Sets the size of the widget.
+		 *
+		 * @param width the width
+		 * @param height the height
+		 */
+		virtual void setSize(int width, int height);
+		
+		/**
 		 * @param x the widgets x coordinate relative to its
 		 *          container.
 		 */

@@ -632,4 +632,10 @@ namespace gcn
 		mTabOut = enabled;
 	}
 
+	void Widget::setSize(int width, int height)
+	{
+		setWidth(width);
+		setHeight(height);
+	}
+	
 } // end gcn
