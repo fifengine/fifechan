@@ -1,5 +1,5 @@
-/*
- * SDL Hello World example for Guichan 
+/**
+ * \example sdlhelloworld.cpp SDL Hello World example for Guichan.
  */
 
 // Include all necessary headers.

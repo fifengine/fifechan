@@ -1,5 +1,5 @@
-/*
- * OpenGL/SDL Hello World example for Gui-chan 
+/**
+ * \example openglhelloworld.cpp OpenGL/SDL Hello World example for Guichan.
  */
 
 // Include all necessary headers.

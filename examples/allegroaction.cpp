@@ -1,5 +1,5 @@
-/*
- * Allegro ActionListener example for Guichan 
+/**
+ * \example allegroaction.cpp Allegro ActionListener example for Guichan.
  */
 
 // Include all necessary headers.

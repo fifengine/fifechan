@@ -1,5 +1,5 @@
-/*
- * SDL ActionListener example for Guichan 
+/**
+ * \example sdlaction.cpp SDL ActionListner example for Guichan.
  */
 
 // Include all necessary headers.

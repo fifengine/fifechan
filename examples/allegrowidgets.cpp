@@ -1,5 +1,5 @@
-/*
- * Allegro widgets demo for Guichan
+/**
+ * \example allegrowidgets.cpp Allegro widgets example for Guichan.
  */
 
 // Include all necessary headers.

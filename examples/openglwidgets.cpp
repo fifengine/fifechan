@@ -1,5 +1,5 @@
-/*
- * OpenGL widgets demo for Guichan
+/**
+ * \example openglwidgets.cpp OpenGL/SDL widgets example for Guichan.
  */
 
 // Include all necessary headers.

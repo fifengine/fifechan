@@ -1,5 +1,5 @@
-/*
- * Allegro Hello World example for Guichan 
+/**
+ * \example allegrohelloworld.cpp Allegro Hello World example for Guichan.
  */
 
 // Include all necessary headers.
