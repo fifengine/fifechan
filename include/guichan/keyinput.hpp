@@ -64,7 +64,7 @@ namespace gcn
    * This is an internal class used in Guichan to grab keyboard input.
    * Generally you won't have to bother using this class.
    */
-  class DECLSPEC KeyInput
+  class GCN_CORE_DECLSPEC KeyInput
   {
   public:
 

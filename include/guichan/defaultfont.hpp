@@ -64,7 +64,7 @@ namespace gcn
    * This is the ugly default font used by widgets by default.
    *
    */
-  class DECLSPEC DefaultFont : public Font
+  class GCN_CORE_DECLSPEC DefaultFont : public Font
   {
   public:
 

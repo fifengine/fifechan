@@ -66,7 +66,7 @@ namespace gcn
    *
    * @see ImageFont
    */
-  class DECLSPEC Font
+  class GCN_CORE_DECLSPEC Font
   {
   public:
 

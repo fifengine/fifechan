@@ -73,7 +73,7 @@ namespace gcn
    *
    * @see Widget::addKeyListener
    */
-  class DECLSPEC KeyListener
+  class GCN_CORE_DECLSPEC KeyListener
   {
   public:
 

@@ -75,7 +75,7 @@ namespace gcn
    *
    * @todo Explain the font image format.
    */
-  class DECLSPEC ImageFont: public Font
+  class GCN_CORE_DECLSPEC ImageFont: public Font
   {
   public:
 

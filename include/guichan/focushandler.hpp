@@ -77,7 +77,7 @@ namespace gcn
    * @see Widget::gotFocus
    * @see Widget::lostFocus
    */
-  class DECLSPEC FocusHandler
+  class GCN_CORE_DECLSPEC FocusHandler
   {
   public:
 

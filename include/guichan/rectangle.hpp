@@ -62,7 +62,7 @@ namespace gcn
   /**
    * This class is a basic rectangle class.
    */
-  class DECLSPEC Rectangle
+  class GCN_CORE_DECLSPEC Rectangle
   {
   public:
 

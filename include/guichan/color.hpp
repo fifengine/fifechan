@@ -62,7 +62,7 @@ namespace gcn
   /**
    * Class that represents a color.
    */
-  class DECLSPEC Color
+  class GCN_CORE_DECLSPEC Color
   {    
   public:
     /**

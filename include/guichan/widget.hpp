@@ -94,7 +94,7 @@ namespace gcn
 	 * NOTE: Functions begining with underscore "_" should not
 	 * be overloaded unless you know what you are doing.
 	 */
-	class DECLSPEC Widget
+	class GCN_CORE_DECLSPEC Widget
 	{
 	public:
 		/**

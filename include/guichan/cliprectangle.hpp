@@ -65,7 +65,7 @@ namespace gcn
    * object. It is a regular Rectangle, extended with
    * variables xOffset and yOffset.
    */
-  class DECLSPEC ClipRectangle : public Rectangle
+  class GCN_CORE_DECLSPEC ClipRectangle : public Rectangle
   {
   public:
     

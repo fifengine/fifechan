@@ -64,7 +64,7 @@ namespace gcn
   /**
    * This represents a key or a character.
    */
-  class DECLSPEC Key
+  class GCN_CORE_DECLSPEC Key
   {
   public:
     /**

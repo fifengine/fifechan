@@ -63,7 +63,7 @@ namespace gcn
    * This is an intenral class used in Guichan to grab mouse input.
    * Generally you won't have to bother using this class.
    */
-  class DECLSPEC MouseInput
+  class GCN_CORE_DECLSPEC MouseInput
   {
   public:
 

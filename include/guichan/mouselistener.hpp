@@ -74,7 +74,7 @@ namespace gcn
    *
    * @see Widget::addMouseListener
    */
-  class DECLSPEC MouseListener
+  class GCN_CORE_DECLSPEC MouseListener
   {
   public:
 

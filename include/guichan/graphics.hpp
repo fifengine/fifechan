@@ -95,7 +95,7 @@ namespace gcn
    *
    * @see AllegroGraphics, OpenGLGraphics, SDLGraphics, Image
    */  
-  class DECLSPEC Graphics
+  class GCN_CORE_DECLSPEC Graphics
   {
   public:
     Graphics();

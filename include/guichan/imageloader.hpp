@@ -67,7 +67,7 @@ namespace gcn
   /**
    * This is an abstract class used to load images in guichan.
    */
-  class DECLSPEC ImageLoader
+  class GCN_CORE_DECLSPEC ImageLoader
   {
   public:
     

@@ -85,7 +85,7 @@ namespace gcn
    * throw GCN_EXCEPTION("my error message");
    * @endcode
    */
-  class DECLSPEC Exception
+  class GCN_CORE_DECLSPEC Exception
   {
   public:
 

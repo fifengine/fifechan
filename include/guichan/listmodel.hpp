@@ -67,7 +67,7 @@ namespace gcn
 	 * to use widgets like ListBox you should implement your own
 	 * version of a ListModel since this is an abstract class.
    */
-  class DECLSPEC ListModel
+  class GCN_CORE_DECLSPEC ListModel
   {
 
   public:

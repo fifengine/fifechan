@@ -67,7 +67,7 @@ namespace gcn
    *
    * @see SDLInput, AllegroInput
    */
-  class DECLSPEC Input
+  class GCN_CORE_DECLSPEC Input
   {
   public:
 

@@ -70,7 +70,7 @@ namespace gcn
 	 * For the Gui to function properly you need to set one Graphics object
 	 * and one Input object.
 	 */
-  class DECLSPEC Gui
+  class GCN_CORE_DECLSPEC Gui
   {
   public:
 

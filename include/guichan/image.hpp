@@ -73,7 +73,7 @@ namespace gcn
 	 * Ex: If you use SDLGraphics you should use SDLImageLoader
 	 *     otherwise your program will crash in a most bizarre way.
 	 */
-  class DECLSPEC Image
+  class GCN_CORE_DECLSPEC Image
   {
   public:
 
