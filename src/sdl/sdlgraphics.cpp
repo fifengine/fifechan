@@ -376,9 +376,9 @@ namespace gcn
   void SDLGraphics::drawRectangle(const Rectangle& rectangle)
   {
     int x1 = rectangle.x;
-    int x2 = rectangle.x + rectangle.width;
+    int x2 = rectangle.x + rectangle.width - 1;
     int y1 = rectangle.y;
-    int y2 = rectangle.y + rectangle.height;
+    int y2 = rectangle.y + rectangle.height - 1;
 
     drawHLine(x1, y1, x2);
     drawHLine(x1, y2, x2);
