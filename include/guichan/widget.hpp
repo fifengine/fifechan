@@ -516,6 +516,12 @@ namespace gcn
      * @see setEventId, getEventId, ActionListener
      */
     void sendActionEvent();
+
+    /**
+     *
+     * @todo Make a class point?
+     */
+    void getAbsolutePosition(int& x, int& y);
     
   protected:
     /**

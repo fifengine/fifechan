@@ -67,7 +67,7 @@ namespace gcn
   {
     mParent = NULL;
     mForegroundColor = Color(255,255,255);
-    mBackgroundColor = Color(0,0,0);
+    mBackgroundColor = Color(128,128,128);
     mFocusHandler = NULL;
     mMouseListener = NULL;
     mKeyListener = NULL;
@@ -76,7 +76,8 @@ namespace gcn
     mClickTimeStamp = 0;
     mClickCount = 0;
     mHasMouse = false;
-
+    mVisible = true;
+    
   } // end Widget
 
   void Widget::_setParent(Widget* parent)
@@ -172,9 +173,8 @@ namespace gcn
   
   bool Widget::hasFocus()
   {
-    return false;
-    //TODO: return (mFocusHandler->getFocusedWidget() == this)
-
+    return (mFocusHandler->hasFocus(this));
+   
   } // end hasFocus
 
   bool Widget::hasMouse()
@@ -187,8 +187,9 @@ namespace gcn
   {
     if (!focusable && hasFocus())
     {
-      // TODO: release the focus
+      mFocusHandler->focusNone();
     }
+    
     mFocusable = focusable;
 
   } // end setFocusable
@@ -203,7 +204,7 @@ namespace gcn
   {
     if (isFocusable())
     {
-      //TODO: mFocusHandler->requestFocus(this);
+      mFocusHandler->requestFocus(this);
     }
 
   } // end requestFocus
@@ -212,7 +213,7 @@ namespace gcn
   {
     if (!visible && hasFocus())
     {
-      // TODO: release the focus
+      mFocusHandler->focusNone();
     }    
     mVisible = visible;
 
@@ -306,6 +307,8 @@ namespace gcn
         break;
         
       case MouseInput::PRESS:
+        requestFocus();
+        
         if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
         {
           mousePressMessage(x, y, b);
@@ -420,5 +423,24 @@ namespace gcn
     mouseOutMessage();
 
   } // end _mouseOutMessage
+
+  void Widget::getAbsolutePosition(int& x, int& y)
+  {
+    if (getParent() == NULL)
+    {
+      x = mDimension.x;
+      y = mDimension.y;
+      return;
+    }
+
+    int parentX;
+    int parentY;
+
+    getParent()->getAbsolutePosition(parentX, parentY);
+
+    x = parentX + mDimension.x;
+    y = parentY + mDimension.y;
+    
+  } // end getAbsolutDimension
   
 } // end gcn
