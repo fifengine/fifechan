@@ -65,54 +65,80 @@ namespace gcn
   class Widget;
   
   /**
-   * 
+   * The FocusHandler is used internally in the library to keep
+   * track of widget focus. You will not have to use the FocusHandler
+   * directly to handle focus, use the functions handling focus in
+   * the Widget class instead.
+   *
+   * @see Widget::hasFocus
+   * @see Widget::requestFocus
+   * @see Widget::setFocusable
+   * @see Widget::isFocusable
+   * @see Widget::gotFocus
+   * @see Widget::lostFocus
    */
   class FocusHandler
   {
   public:
 
     /**
-     *
+     * Constructor.
      */
     FocusHandler();
     
     /**
-     * 
+     * Sets the focus to a certain widget. Widget::lostFocus and
+     * Widget::gotFocus will be called a necessary.
+     *
+     * @param widget the widget to be focused.
      */
     void requestFocus(Widget* widget);
     
     /**
-     * 
+     * Gets the focused widget.
+     *
+     * @return a pointer to the focused widget.
      */
     Widget* getFocused();
     
     /**
-     * 
+     * Focuses the next widget. If no widget has focus the first
+     * widget is focused. The order that the widgets are focused
+     * depends on the order that you add them to the GUI.
      */
     void focusNext();
     
     /**
-     * 
+     * Focuses the previous widget. If no widget has focus the first
+     * widget is focused. The order that the widgets are focused
+     * depends on the order that you add them to the GUI.     
      */
     void focusPrevious();
 
     /**
-     * 
+     * Checks if a widget currently has focus.
+     *
+     * @param widget a pointer to the widget to check.
+     * @return true if the widget has focus.
      */
     bool hasFocus(Widget* widget);
     
     /**
-     * 
+     * Adds a widget to the FocusHandler.
+     *
+     * @param widget a pointer to the widget to add.
      */
     void add(Widget* widget);
     
     /**
-     * 
+     * Removes a widget from the FocusHandler.
+     *
+     * @param widget a pointer to the widget to remove.     
      */
     void remove(Widget* widget);
 
     /**
-     *
+     * Focuses nothing.
      */
     void focusNone();
     

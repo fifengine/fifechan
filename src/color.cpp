@@ -7,12 +7,12 @@ namespace gcn
     r = 0;
     g = 0;
     b = 0;
-    a = 0;
+    a = 255;
   }
 
   Color::Color(int color)
   {
-    a = 0;
+    a = 255;
     r = (color >> 16) & 0xFF;
     g = (color >> 8) & 0xFF;
     b = color & 0xFF;    
@@ -32,12 +32,11 @@ namespace gcn
     result.r = r + color.r;
     result.g = g + color.g;
     result.b = b + color.b;
-    result.a = a + color.a;
+    result.a = 255;
 
     result.r = (result.r>255?255:(result.r<0?0:result.r));
     result.g = (result.g>255?255:(result.g<0?0:result.g));
     result.b = (result.b>255?255:(result.b<0?0:result.b));
-    result.a = (result.a>255?255:(result.a<0?0:result.a));
 
     return result;
   }
@@ -48,28 +47,26 @@ namespace gcn
     result.r = r - color.r;
     result.g = g - color.g;
     result.b = b - color.b;
-    result.a = a - color.a;
+    result.a = 255;
 
     result.r = (result.r>255?255:(result.r<0?0:result.r));
     result.g = (result.g>255?255:(result.g<0?0:result.g));
     result.b = (result.b>255?255:(result.b<0?0:result.b));
-    result.a = (result.a>255?255:(result.a<0?0:result.a));
 
     return result;
   }
 
-  Color Color::operator*(float amount) const
+  Color Color::operator*(float value) const
   {
     Color result;
-    result.r = (int)(r * amount);
-    result.g = (int)(g * amount);
-    result.b = (int)(b * amount);
-    result.a = (int)(a * amount);
+    result.r = (int)(r * value);
+    result.g = (int)(g * value);
+    result.b = (int)(b * value);
+    result.a = a;
 
     result.r = (result.r>255?255:(result.r<0?0:result.r));
     result.g = (result.g>255?255:(result.g<0?0:result.g));
     result.b = (result.b>255?255:(result.b<0?0:result.b));
-    result.a = (result.a>255?255:(result.a<0?0:result.a));
 
     return result;    
   }
