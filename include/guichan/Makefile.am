@@ -28,6 +28,7 @@ libguichaninclude_HEADERS =	\
 	mouselistener.hpp	\
 	mousetype.hpp		\
 	opengl.hpp		\
+	platform.hpp		\
 	rectangle.hpp		\
 	sdl.hpp			\
 	widget.hpp		\
