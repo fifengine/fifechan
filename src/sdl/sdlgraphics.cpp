@@ -390,7 +390,8 @@ namespace gcn
 
   void SDLGraphics::drawLine(int x1, int y1, int x2, int y2)
   {
-
+    int i;
+    
     if (x1 == x2)
     {
       drawVLine(x1, y1, y2);
@@ -444,19 +445,21 @@ namespace gcn
 
     if (yLonger)
     {
-      for (int i = 0; i != endVal; i += incrementVal)
+      for (i = 0; i != endVal; i += incrementVal)
       {
         drawPoint(x1 + (int)j, y1 + i);
         j += decInc;
       }
+      drawPoint(x1 + (int)j, y1 + i);
     }
     else
     {
-      for (int i = 0; i != endVal; i += incrementVal)
+      for (i = 0; i != endVal; i += incrementVal)
       {
         drawPoint(x1 + i, y1 + (int)j);
         j += decInc;
       }
+      drawPoint(x1 + i, y1 + (int)j);
     } 
   } // end drawLine
   
