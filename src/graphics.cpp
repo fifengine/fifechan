@@ -140,5 +140,29 @@ namespace gcn
     mFont->drawString(this, text, x, y);
     
   } // end drawText
-  
+
+	void Grahpics::drawTextCenter(const std::string& text, int x, int y)
+	{
+		if (mFont == NULL)
+		{
+      throw GCN_EXCEPTION("Graphics::drawTextCenter. No font set.");
+		}
+
+		int width = mFont->getWidth(text);
+
+		mFont->drawString(this, text, x - width / 2, y);
+	} 
+
+	void Grahpics::drawTextRight(const std::string& text, int x, int y)
+	{
+		if (mFont == NULL)
+		{
+      throw GCN_EXCEPTION("Graphics::drawTextRight. No font set.");
+		}
+
+		int width = mFont->getWidth(text);
+		
+		mFont->drawString(this, text, x - width, y);
+	} 
+
 } // end gcn

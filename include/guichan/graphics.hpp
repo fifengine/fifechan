@@ -230,20 +230,41 @@ namespace gcn
 //     void setVerticalGradient(const Color& color1, const Color& color2){}
 
     /**
-     *
+     * Set the font to be used.
+		 *
+		 * @param font the font to be used.
      */
     virtual void setFont(Font* font);
-
+		
     /**
-     * 
+     * Draw text.
+		 *
+		 * @param text the text to be drawn.
+		 * @param x the x coordinate where to draw the text.
+		 * @param y the y coordinate where to draw the text.		 
      */
     virtual void drawText(const std::string& text, int x, int y);
     
-//     /**
-//      * 
-//      */
-//     virtual void drawTextCenter(const std::string& text, const int x, const int y) = 0;
-    
+    /**
+     * Draw text centered.
+		 *
+		 * @param text the text to be drawn.
+		 * @param x the x coordinate where to draw the text.
+		 * @param y the y coordinate where to draw the text.		 
+		 * @trhows Exception when no font is set.
+		 */
+		virtual void drawTextCenter(const std::string& text, int x, int y);
+
+		/**
+     * Draw text to the right.
+		 *
+		 * @param text the text to be drawn.
+		 * @param x the x coordinate where to draw the text.
+		 * @param y the y coordinate where to draw the text.		 
+		 * @trhows Exception when no font is set.
+		 */
+		virtual void drawTexRight(const std::string& text, int x, int y);
+
 //     /**
 //      * 
 //      */
