@@ -105,24 +105,10 @@ namespace gcn
   
   void TextField::draw(Graphics* graphics)
   {
-//		int alpha = getBaseColor().a;
     Color faceColor = getBackgroundColor();
-//    Color shadowColor = getBaseColor() - 0x303030;
-//		shadowColor.a = alpha;
-		//   Color highlightColor = getBaseColor() + 0x303030;
-		//highlightColor.a = alpha;
-		
     graphics->setColor(faceColor);
     graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
     
-//     graphics->setColor(shadowColor);
-//     graphics->drawLine(0, 0, getWidth() - 1, 0);
-//     graphics->drawLine(0, 1, 0, getHeight() - 1);
-    
-//     graphics->setColor(highlightColor);
-//     graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
-//     graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
-
     if (hasFocus())
     {      
       drawCaret(graphics, getFont()->getWidth(mText.substr(0, mCaretPosition)) - mXScroll);
@@ -258,9 +244,9 @@ namespace gcn
       {
         mXScroll = caretX - getWidth() + 4;
       }
-      else if (caretX - mXScroll < getFont()->getWidth(' '))
+      else if (caretX - mXScroll < getFont()->getWidth(" "))
       {
-        mXScroll = caretX - getFont()->getWidth(' ');
+        mXScroll = caretX - getFont()->getWidth(" ");
         if (mXScroll < 0)
         {
           mXScroll = 0;
