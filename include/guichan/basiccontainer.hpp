@@ -106,6 +106,14 @@ namespace gcn
      * @param widget a pointer to the widget calling the function
      */
     virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
+
+	  /**
+	   * This function is automatically called by the containers children
+	   * when they get destroyed.
+	   *
+	   * @param widget the destroyed widget
+	   */
+	  virtual void _announceDeath(Widget *widget) = 0;
     
   }; // end BasicContainer
   
