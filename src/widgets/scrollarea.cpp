@@ -72,10 +72,15 @@ namespace gcn
     mVPolicy = SHOW_ALWAYS;
     mouseOverContent = false;
     mVBarVisible = true;
-    mVBarVisible = true;
+    mHBarVisible = true;
     mScrollBarWidth = 12;
     mContent = NULL;
-  }
+    mUpButtonPressed = false;
+    mDownButtonPressed = false;
+    mLeftButtonPressed = false;
+    mRightButtonPressed = false;
+
+  } // end ScrollArea
 
   ScrollArea::ScrollArea(Widget *content)
   {
@@ -85,10 +90,15 @@ namespace gcn
     mVPolicy = SHOW_ALWAYS;
     mouseOverContent = false;
     mVBarVisible = true;
-    mVBarVisible = true;
+    mHBarVisible = true;
     mScrollBarWidth = 12;
     mContent = content;
-  }
+    mUpButtonPressed = false;
+    mDownButtonPressed = false;
+    mLeftButtonPressed = false;
+    mRightButtonPressed = false;
+    
+  } // end ScrollArea
 
   ScrollArea::ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy)
   {
@@ -99,18 +109,25 @@ namespace gcn
     mouseOverContent = false;
     mScrollBarWidth = 12;
     mContent = content;
+    mUpButtonPressed = false;
+    mDownButtonPressed = false;
+    mLeftButtonPressed = false;
+    mRightButtonPressed = false;
+
     checkPolicies();
-  }
+    
+  } // end ScrollArea
 
   ScrollArea::~ScrollArea()
   {
 
-  }
+  } // end ~ScrollArea
 
   void ScrollArea::setContent(Widget* widget)
   {
     mContent = widget;
-  }
+
+  } // end setContent
 
   Widget* ScrollArea::getContent()
   {
@@ -283,6 +300,73 @@ namespace gcn
 
   void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
   {
+    Rectangle upButton = Rectangle(getWidth() - mScrollBarWidth - 1,
+                                   1,
+                                   mScrollBarWidth,
+                                   mScrollBarWidth);
+    Rectangle leftButton = Rectangle(1,
+                                     getHeight() - mScrollBarWidth - 1,
+                                     mScrollBarWidth,
+                                     mScrollBarWidth);
+    Rectangle downButton;
+    Rectangle rightButton;
+    
+    if (mVBarVisible && mHBarVisible)
+    {
+      downButton = Rectangle(getWidth() - mScrollBarWidth - 1,
+                             getHeight() - mScrollBarWidth*2 - 1,
+                             mScrollBarWidth,
+                             mScrollBarWidth);
+      rightButton = Rectangle(getWidth() - mScrollBarWidth*2,
+                             getHeight() - mScrollBarWidth - 1,
+                             mScrollBarWidth,
+                             mScrollBarWidth);
+    }
+    else
+    {
+      downButton = Rectangle(getWidth() - mScrollBarWidth - 1,
+                             getHeight() - mScrollBarWidth - 1,
+                             mScrollBarWidth,
+                             mScrollBarWidth);      
+      rightButton = Rectangle(getWidth() - mScrollBarWidth - 1,
+                              getHeight() - mScrollBarWidth - 1,
+                              mScrollBarWidth,
+                              mScrollBarWidth);
+    }
+    
+    if (upButton.isPointInRect(mouseInput.x, mouseInput.y)
+        && (mouseInput.getType() == MouseInput::PRESS)
+        && mVBarVisible)
+    {
+      mUpButtonPressed = true;
+    }
+    else if (downButton.isPointInRect(mouseInput.x, mouseInput.y)
+             && (mouseInput.getType() == MouseInput::PRESS)
+             && mVBarVisible) 
+    {
+      mDownButtonPressed = true;
+    }
+    else if (leftButton.isPointInRect(mouseInput.x, mouseInput.y)
+             && (mouseInput.getType() == MouseInput::PRESS)
+             && mHBarVisible)
+    {
+      mLeftButtonPressed = true;
+    }
+    else if (rightButton.isPointInRect(mouseInput.x, mouseInput.y)
+             && (mouseInput.getType() == MouseInput::PRESS)
+             && mHBarVisible)
+    {
+      mRightButtonPressed = true;
+    }
+
+    else
+    {
+      mUpButtonPressed = false;
+      mDownButtonPressed = false;
+      mLeftButtonPressed = false;
+      mRightButtonPressed = false;
+    }
+    
     BasicContainer::_mouseInputMessage(mouseInput);
 
     // todo: fix
@@ -299,10 +383,10 @@ namespace gcn
   {
     graphics->setColor(getBackgroundColor());
     graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
-
+    
     Color lightColor = getBaseColor() + 0x303030;
     Color shadowColor = getBaseColor() - 0x303030;      
-
+    
     graphics->setColor(shadowColor);
     graphics->drawLine(0, 0, getWidth() - 1, 0);
     graphics->drawLine(0, 1, 0, getHeight() - 1);
@@ -311,94 +395,297 @@ namespace gcn
     graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
     graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
     
-    if (mVBarVisible && mHBarVisible)
-    {
-      drawVBar(graphics,
-               Rectangle(getWidth() - mScrollBarWidth - 1, 1,
-                         mScrollBarWidth, getHeight() - 2 - mScrollBarWidth),
-               Rectangle(getWidth() - mScrollBarWidth - 1, mScrollBarWidth,
-                         mScrollBarWidth, (getHeight() - 2 - mScrollBarWidth*3) / 2));      
-      drawHBar(graphics,
-               Rectangle(1, getHeight() - mScrollBarWidth - 1,
-                         getWidth() - 2 - mScrollBarWidth, mScrollBarWidth), 
-               Rectangle(mScrollBarWidth, getHeight() - mScrollBarWidth - 1,
-                         (getWidth() - 2 - mScrollBarWidth*3) / 2 , mScrollBarWidth));      
-    }
-    else if (mVBarVisible && !mHBarVisible)
-    {
-      drawVBar(graphics,
-               Rectangle(getWidth() - mScrollBarWidth - 1, 1,
-                         mScrollBarWidth, getHeight() - 2),
-               Rectangle(getWidth() - mScrollBarWidth - 1, 1,
-                         mScrollBarWidth , (getHeight() - 2) / 2));
-    }
-    else if (mHBarVisible && !mVBarVisible)
-    {
-      drawHBar(graphics,
-               Rectangle(1, getHeight() - mScrollBarWidth - 1,
-                         getWidth() - 2, mScrollBarWidth), 
-               Rectangle(1, getHeight() - mScrollBarWidth - 1,
-                         (getWidth() - 2 ) / 2, mScrollBarWidth));
-    }
-
-
     if (mVBarVisible)
     {
-      graphics->setColor(lightColor);
-      graphics->drawLine(getWidth() - mScrollBarWidth - 1, 1,
-                         getWidth(), 1);
-      graphics->drawLine(getWidth() - mScrollBarWidth - 1, 1,
-                         getWidth() - mScrollBarWidth, mScrollBarWidth);
-      
-      graphics->setColor(shadowColor);
-      graphics->drawLine(getWidth() - 2, 1,
-                         getWidth() - 1, mScrollBarWidth);
-      graphics->drawLine(getWidth() - mScrollBarWidth, mScrollBarWidth - 1,
-                         getWidth() - 2, mScrollBarWidth - 1);
-      
-      graphics->setColor(getForegroundColor());
-      
-      int i;
-      int w = mScrollBarWidth / 2;
-      int h = w / 2 + 2;
-      for (i = 0; i < w / 2; ++i)
-      {
-        graphics->drawLine(getWidth() - w - i - 1,
-                           i + h,
-                           getWidth() - w + i - 1,
-                           i + h);
-      }
-
-      graphics->setColor(lightColor);
-      graphics->drawLine(getWidth() - mScrollBarWidth - 1, getHeight() - mScrollBarWidth*2,
-                         getWidth(), getHeight() - mScrollBarWidth*2);
-//       graphics->drawLine(getWidth() - mScrollBarWidth - 1, getHeight() - mScrollBarWidth,
-//                          getWidth() - mScrollBarWidth, getHeight());
-      
-//       graphics->setColor(shadowColor);
-//       graphics->drawLine(getWidth() - 2, getHeight() - mScrollBarWidth*2,
-//                          getWidth() - 1, getHeight() - mScrollBarWidth);
-//       graphics->drawLine(getWidth() - mScrollBarWidth, getHeight() - 1 - mScrollBarWidth,
-//                          getWidth() - 2, getHeight() - 1 - mScrollBarWidth);
-
-      graphics->setColor(getForegroundColor());
-      
-      h = w / 2 + 2;
-      for (i = 0; i < w / 2; ++i)
-      {
-        graphics->drawLine(getWidth() - w - i - 1,
-                           getHeight() -i + h - mScrollBarWidth*2,
-                           getWidth() - w + i - 1,
-                           getHeight() -i + h - mScrollBarWidth*2);
-      }
-      
-      
+      graphics->pushClipArea(Rectangle(getWidth() - mScrollBarWidth - 1,
+                                       1,
+                                       mScrollBarWidth,
+                                       getHeight() - 2));     
+      drawVBar(graphics);    
+      graphics->popClipArea();
     }
-  }
+    
+    if (mHBarVisible)
+    {
+      graphics->pushClipArea(Rectangle(1,
+                                       getHeight() - mScrollBarWidth - 1,
+                                       getWidth() - 2,
+                                       getHeight() - 2));     
+      drawHBar(graphics);    
+      graphics->popClipArea();
+    }
+    
+  } // end draw
 
+  void ScrollArea::drawHBar(Graphics* graphics)
+  {
+    graphics->setColor(getBaseColor() - 0x101010);
+    graphics->fillRectangle(Rectangle(mScrollBarWidth, 0, getWidth(), mScrollBarWidth));
+
+    graphics->pushClipArea(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+    drawLeftButton(graphics);
+    graphics->popClipArea();
+    
+    if (mVBarVisible && mHBarVisible)
+    {
+      graphics->setColor(getBaseColor() - 0x303030);
+      graphics->drawLine(mScrollBarWidth, 0, getWidth() - mScrollBarWidth*2 - 1, 0);
+
+      graphics->pushClipArea(Rectangle(getWidth() - mScrollBarWidth*2 - 2,
+                                       0,
+                                       mScrollBarWidth,
+                                       getHeight() - mScrollBarWidth - 2));
+      drawRightButton(graphics);
+      graphics->popClipArea();    
+    
+    }
+    else
+    {
+      graphics->setColor(getBaseColor() - 0x303030);
+      graphics->drawLine(mScrollBarWidth, 0, getWidth() -mScrollBarWidth - 1, 0);
+
+      graphics->pushClipArea(Rectangle(getWidth() - mScrollBarWidth - 2,
+                                       0,
+                                       mScrollBarWidth,
+                                       getHeight() - 2));
+      drawRightButton(graphics);
+      graphics->popClipArea();
+    }
+    
+
+  } // end drawHBar  
+  
+  void ScrollArea::drawVBar(Graphics* graphics)
+  {
+    graphics->setColor(getBaseColor() - 0x101010);
+    graphics->fillRectangle(Rectangle(0, mScrollBarWidth, mScrollBarWidth, getHeight()));
+
+    graphics->pushClipArea(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+    drawUpButton(graphics);
+    graphics->popClipArea();
+    
+    if (mVBarVisible && mHBarVisible)
+    {
+      graphics->setColor(getBaseColor() - 0x303030);
+      graphics->drawLine(0, mScrollBarWidth, 0, getHeight() - mScrollBarWidth - 1);
+
+      graphics->pushClipArea(Rectangle(0,
+                                       getHeight() - mScrollBarWidth*2 - 2,
+                                       mScrollBarWidth,
+                                       getHeight() - mScrollBarWidth - 2));
+      drawDownButton(graphics);
+      graphics->popClipArea();      
+    }
+    else
+    {
+      graphics->setColor(getBaseColor() - 0x303030);
+      graphics->drawLine(0, mScrollBarWidth, 0, getHeight() - 1);
+      
+      graphics->pushClipArea(Rectangle(0,
+                                       getHeight() - mScrollBarWidth - 2,
+                                       mScrollBarWidth,
+                                       getHeight() - 2));
+      drawDownButton(graphics);
+      graphics->popClipArea();
+    }
+
+
+  } // end drawVBar
+  
+  void ScrollArea::drawUpButton(Graphics* graphics)
+  {
+    Color lightColor;
+    Color shadowColor;
+    Color faceColor;
+    int offset;
+    
+    if (mUpButtonPressed)
+    {
+      faceColor = getBaseColor() - 0x303030;      
+      lightColor = getBaseColor() - 0x606060;
+      shadowColor = getBaseColor();
+      offset = 1;
+    }
+    else
+    {
+      lightColor = getBaseColor() + 0x303030;
+      shadowColor = getBaseColor() - 0x303030;
+      faceColor = getBaseColor();
+      offset = 0;
+    }
+
+    graphics->setColor(faceColor);      
+    graphics->fillRectangle(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+
+    graphics->setColor(lightColor);
+    graphics->drawLine(0, 0, mScrollBarWidth - 1, 0);
+    graphics->drawLine(0, 1, 0, mScrollBarWidth - 1);
+    
+    graphics->setColor(shadowColor);
+    graphics->drawLine(mScrollBarWidth - 1, 0, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    graphics->drawLine(1, mScrollBarWidth - 1, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    
+    graphics->setColor(getForegroundColor());
+    
+    int i;
+    int w = mScrollBarWidth / 2;
+    int h = w / 2 + 2;
+    for (i = 0; i < w / 2; ++i)
+    {
+      graphics->drawLine(w - i + offset,
+                         i + h + offset,
+                         w + i + offset,
+                         i + h + offset);
+    }
+    
+  } // end drawUpButton
+
+  void ScrollArea::drawDownButton(Graphics* graphics)
+  {    
+    Color lightColor;
+    Color shadowColor;
+    Color faceColor;
+    int offset;
+    
+    if (mDownButtonPressed)
+    {
+      faceColor = getBaseColor() - 0x303030;      
+      lightColor = getBaseColor() - 0x606060;
+      shadowColor = getBaseColor();
+      offset = 1;
+    }
+    else
+    {
+      lightColor = getBaseColor() + 0x303030;
+      shadowColor = getBaseColor() - 0x303030;
+      faceColor = getBaseColor();
+      offset = 0;
+    }
+    
+    graphics->setColor(faceColor);      
+    graphics->fillRectangle(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+
+    graphics->setColor(lightColor);
+    graphics->drawLine(0, 0, mScrollBarWidth - 1, 0);
+    graphics->drawLine(0, 1, 0, mScrollBarWidth - 1);
+    
+    graphics->setColor(shadowColor);
+    graphics->drawLine(mScrollBarWidth - 1, 0, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    graphics->drawLine(1, mScrollBarWidth - 1, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    
+    graphics->setColor(getForegroundColor());
+    
+    int i;
+    int w = mScrollBarWidth / 2;
+    int h = w + 1;
+    for (i = 0; i < w / 2; ++i)
+    {
+      graphics->drawLine(w - i + offset,
+                         -i + h + offset,
+                         w + i + offset,
+                         -i + h + offset);      
+    }
+    
+  } // end drawDownButton
+
+  void ScrollArea::drawLeftButton(Graphics* graphics)
+  {
+    Color lightColor;
+    Color shadowColor;
+    Color faceColor;
+    int offset;
+    
+    if (mLeftButtonPressed)
+    {
+      faceColor = getBaseColor() - 0x303030;      
+      lightColor = getBaseColor() - 0x606060;
+      shadowColor = getBaseColor();
+      offset = 1;
+    }
+    else
+    {
+      lightColor = getBaseColor() + 0x303030;
+      shadowColor = getBaseColor() - 0x303030;
+      faceColor = getBaseColor();
+      offset = 0;
+    }
+    
+    graphics->setColor(faceColor);      
+    graphics->fillRectangle(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+
+    graphics->setColor(lightColor);
+    graphics->drawLine(0, 0, mScrollBarWidth - 1, 0);
+    graphics->drawLine(0, 1, 0, mScrollBarWidth - 1);
+    
+    graphics->setColor(shadowColor);
+    graphics->drawLine(mScrollBarWidth - 1, 0, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    graphics->drawLine(1, mScrollBarWidth - 1, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    
+    graphics->setColor(getForegroundColor());
+
+    int i;
+    int w = mScrollBarWidth / 2;
+    int h = w - 2;
+    for (i = 0; i < w / 2; ++i)
+    {
+      graphics->drawLine(i + h + offset,
+                         w - i + offset,
+                         i + h + offset,
+                         w + i + offset);      
+    }
+    
+  } // end drawLeftButton
+
+  void ScrollArea::drawRightButton(Graphics* graphics)
+  {
+    Color lightColor;
+    Color shadowColor;
+    Color faceColor;
+    int offset;
+    
+    if (mRightButtonPressed)
+    {
+      faceColor = getBaseColor() - 0x303030;      
+      lightColor = getBaseColor() - 0x606060;
+      shadowColor = getBaseColor();
+      offset = 1;
+    }
+    else
+    {
+      lightColor = getBaseColor() + 0x303030;
+      shadowColor = getBaseColor() - 0x303030;
+      faceColor = getBaseColor();
+      offset = 0;
+    }
+    
+    graphics->setColor(faceColor);      
+    graphics->fillRectangle(Rectangle(0, 0, mScrollBarWidth, mScrollBarWidth));
+
+    graphics->setColor(lightColor);
+    graphics->drawLine(0, 0, mScrollBarWidth - 1, 0);
+    graphics->drawLine(0, 1, 0, mScrollBarWidth - 1);
+    
+    graphics->setColor(shadowColor);
+    graphics->drawLine(mScrollBarWidth - 1, 0, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    graphics->drawLine(1, mScrollBarWidth - 1, mScrollBarWidth - 1, mScrollBarWidth - 1);
+    
+    graphics->setColor(getForegroundColor());
+    
+    int i;
+    int w = mScrollBarWidth / 2;
+    int h = w + 1;
+    for (i = 0; i < w / 2; ++i)
+    {
+      graphics->drawLine(-i + h + offset,
+                         w - i + offset,
+                         -i + h + offset,
+                         w + i + offset);      
+    }
+    
+  } // end drawRightButton
+  
   void ScrollArea::logic()
   {
-    // todo?
   }
 
   void ScrollArea::moveToTop(Widget* widget)
@@ -439,27 +726,7 @@ namespace gcn
       mContent->draw(graphics);
     }
   }
-
-  void ScrollArea::drawVBar(Graphics* graphics,
-                            Rectangle position,
-                            Rectangle markerPosition)
-  {
-    graphics->setColor(getBaseColor());
-    graphics->fillRectangle(position);
-    graphics->setColor(getForegroundColor());
-    graphics->fillRectangle(markerPosition);
-  }
-
-  void ScrollArea::drawHBar(Graphics* graphics,
-                            Rectangle position,
-                            Rectangle markerPosition)
-  {
-    graphics->setColor(getBaseColor());
-    graphics->fillRectangle(position);
-    graphics->setColor(getForegroundColor());
-    graphics->fillRectangle(markerPosition);
-  }
-
+  
   void ScrollArea::checkPolicies()
   {
     mHBarVisible = false;
