@@ -244,5 +244,10 @@ namespace gcn
     mGraphics->_endDraw();
     
   } // end draw
-  
+
+  void Gui::focusNone()
+	{
+		mFocusHandler->focusNone();
+	}
+	
 } // end gcn
