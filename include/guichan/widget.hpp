@@ -99,7 +99,7 @@ namespace gcn
     /**
      * Default destructor.
      */
-    virtual ~Widget(){}
+    virtual ~Widget() { }
 
     /**
      * This function should draw the widget (No kidding!).
@@ -119,7 +119,7 @@ namespace gcn
      *
      * @see Gui
      */
-    virtual void logic(){};
+    virtual void logic() { }
     
     /**
      * @return a pointer to the widgets parent container. Returns
@@ -211,6 +211,16 @@ namespace gcn
     bool hasFocus();
 
     /**
+     *
+     */
+    virtual void lostFocus() { };
+    
+    /**
+     *
+     */
+    virtual void gotFocus() { };
+    
+    /**
      * @return true if the widget currently has the mouse.
      */
     virtual bool hasMouse();
@@ -262,7 +272,7 @@ namespace gcn
      * @param key the key pressed
      * @see Key
      */
-    virtual void keyPressMessage(const Key& key){}
+    virtual void keyPressMessage(const Key& key) { }
 
     /**
      * This function is called if a key is released when
@@ -272,7 +282,7 @@ namespace gcn
      * @param key the key released
      * @see Key
      */
-    virtual void keyReleaseMessage(const Key& key){}
+    virtual void keyReleaseMessage(const Key& key) { }
     
     /**
      * This function is called when the mouse enters into the
@@ -280,7 +290,7 @@ namespace gcn
      * the function hasMouse with which you can check if the
      * widget currently has the mouse.
      */
-    virtual void mouseInMessage(){}
+    virtual void mouseInMessage() { }
 
     /**
      * This function is called when the mouse leaves the
@@ -288,7 +298,7 @@ namespace gcn
      * the function hasMouse with which you can check if the
      * widget currently has the mouse.
      */
-    virtual void mouseOutMessage(){}
+    virtual void mouseOutMessage() { }
     
     /**
      * This function is called when a mouse button is pressed
@@ -305,7 +315,7 @@ namespace gcn
      * @param button the button pressed
      * @see mouseClickMessage
      */
-    virtual void mousePressMessage(int x, int y, int button){}
+    virtual void mousePressMessage(int x, int y, int button) { }
     
     /**
      * This function is called when a mouse button is released
@@ -318,7 +328,7 @@ namespace gcn
      *          widget itself.
      * @param button the button released
      */
-    virtual void mouseReleaseMessage(int x, int y, int button){}
+    virtual void mouseReleaseMessage(int x, int y, int button) { }
     
     /**
      * This function is called when a mouse button is pressed
@@ -332,7 +342,7 @@ namespace gcn
      * @param button the button clicked
      * @param count the number of clicks
      */
-    virtual void mouseClickMessage(int x, int y, int button, int count){}
+    virtual void mouseClickMessage(int x, int y, int button, int count) { }
     
     /**
      * This function is called on a mouse wheel up when the mouse
@@ -343,7 +353,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseWheelUpMessage(int x, int y){}
+    virtual void mouseWheelUpMessage(int x, int y) { }
 
     /**
      * This function is called on a mouse wheel down when the
@@ -354,7 +364,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseWheelDownMessage(int x, int y){}
+    virtual void mouseWheelDownMessage(int x, int y) { }
 
     /**
      * This function is called when the mouse moves and the
@@ -365,7 +375,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseMotionMessage(int x, int y){}
+    virtual void mouseMotionMessage(int x, int y) { }
 
     /**
      * This function sets the mouseType to be used as a mouse
@@ -421,14 +431,14 @@ namespace gcn
      * mouse in messages. Don't call this function unless you
      * know what you are doing.
      */
-    void _mouseInMessage();
+    virtual void _mouseInMessage();
 
     /**
      * This function is used internally be the gui to handle
      * mouse out messages. Don't call this function unless you
      * know what you are doing.
      */
-    void _mouseOutMessage();
+    virtual void _mouseOutMessage();
     
     /**
      * This function requests focus for the widget. If the widget
@@ -523,7 +533,6 @@ namespace gcn
      */
     void getAbsolutePosition(int& x, int& y);
     
-  protected:
     /**
      * This function sets the widgets parent. It should not be
      * called unless you know what you are doing.
@@ -532,6 +541,23 @@ namespace gcn
      */
     void _setParent(Widget* parent);
 
+    /**
+     * @return true if the widget is tabable.
+     * @see setTabable
+     */
+    bool isTabable() const;
+    
+    /**
+     * Set the widget to be tabable. Tabable means that the tab
+     * button kan be used to switch focus from the widget to
+     * another widget.
+     *
+     * @param tabable true if the widget is tabable.
+     * @see isTabable
+     */
+    void setTabable(bool tabable);
+    
+  protected:
     Rectangle mDimension;
     Widget* mParent;
     Color mForegroundColor;
@@ -550,6 +576,7 @@ namespace gcn
     bool mHasMouse;
     bool mFocusable;
     bool mVisible;
+    bool mTabable;
     
   }; // end Widget
   

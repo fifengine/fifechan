@@ -60,6 +60,7 @@
 
 #include "guichan/widget.hpp"
 #include "guichan/focushandler.hpp"
+#include <iostream>
 
 namespace gcn
 {
@@ -77,6 +78,7 @@ namespace gcn
     mClickCount = 0;
     mHasMouse = false;
     mVisible = true;
+    mTabable = true;
     
   } // end Widget
 
@@ -442,5 +444,17 @@ namespace gcn
     y = parentY + mDimension.y;
     
   } // end getAbsolutDimension
+
+  bool Widget::isTabable() const
+  {
+    return mTabable;
+    
+  } // end isTabable
+
+  void Widget::setTabable(bool tabable)
+  {
+    mTabable = tabable;
+    
+  } // end setTabable
   
 } // end gcn
