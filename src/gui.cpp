@@ -61,6 +61,7 @@
 #include "guichan/gui.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/key.hpp"
 
 #include <iostream>
 
@@ -138,23 +139,66 @@ namespace gcn
     {
       while (!mInput->isMouseQueueEmpty())
       {
-        //TODO: adjust x and y depending on top position
         MouseInput mi = mInput->dequeueMouseInput();
-        //TODO: adjust x and y depending on widget position
-        if (mFocusHandler->getFocused())
+
+        Widget* focused = mFocusHandler->getFocused();
+        
+        MouseInput mio = mi;
+        mio.x -= mTop->getX();
+        mio.y -= mTop->getY();        
+        
+        mTop->_mouseInputMessage(mio);
+
+        if (mFocusHandler->getFocused() && focused == mFocusHandler->getFocused())
         {
           int xOffset, yOffset;
           mFocusHandler->getFocused()->getAbsolutePosition(xOffset, yOffset);
-          MouseInput mio = mi;
+          mio = mi;
           mio.x -= xOffset;
           mio.y -= yOffset;
           mFocusHandler->getFocused()->_mouseInputMessage(mio);
-        }
-        
-        mTop->_mouseInputMessage(mi);
+        }       
 
+      } // end while
+
+      while (!mInput->isKeyQueueEmpty())        
+      {
+        KeyInput ki = mInput->dequeueKeyInput();
+        
+        if (mFocusHandler->getFocused())
+        {
+          if (ki.getKey().getValue() == Key::TAB
+                 && ki.getType() == KeyInput::PRESS
+              && ki.getKey().isShiftPressed())
+          {
+            mFocusHandler->focusPrevious();
+          }                  
+          else if (mFocusHandler->getFocused()->isTabable()
+                   && ki.getKey().getValue() == Key::TAB
+                   && ki.getType() == KeyInput::PRESS)
+          {
+            mFocusHandler->focusNext();
+          }
+          else
+          {
+            mFocusHandler->getFocused()->_keyInputMessage(ki);
+          }
+        }
+        else if (ki.getKey().getValue() == Key::TAB
+                 && ki.getType() == KeyInput::PRESS
+                 && ki.getKey().isShiftPressed())
+        {
+          mFocusHandler->focusPrevious();
+        }        
+        else if (ki.getKey().getValue() == Key::TAB
+                 && ki.getType() == KeyInput::PRESS)
+        {
+          mFocusHandler->focusNext();
+        }
       }
-    }
+      
+    } // end if
+    
     mTop->logic();
 
   } // end logic
