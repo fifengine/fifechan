@@ -1,11 +1,14 @@
+* Every Guichan library now contains a C function which can be 
+  used with autotools check, for instance the Guichan SDL library
+  contains the function gcnSDL wich can be used when struggling
+  with autoconf. Other functions are gcnAllegro in Guichan Allegro, 
+  gcnOpenGL in Guichan OpenGL and gcnGuichanVersion in the Guichan 
+  core.
 * Slider now stores only the current selected value and calculates
   everything from that value. It should take care of some resizing
   problems. Also, slider has now an orientation, which means you can
   create a slider which has a vertical or horizontal orientation.
   The previous slider had only a horizontal orientation.
-* Added a C function, gcnGuichanVersion, in gui.hpp which can
-  be used to check for the Guichan library with autotools
-  (no C++ name mangling).
 * Fixed alpha problem with images loaded and displayed with SDL.
 * Added a new widget, the window widget.
 * SDL.h is now included the proper way meaning you can install
