@@ -254,8 +254,11 @@ namespace gcn
     y2 += mClipStack.top().yOffset;
     
     glBegin(GL_LINES);
-    glVertex3i(x1, y1, 0);
-    glVertex3i(x2, y2, 0);
+    glVertex3f(x1+0.5f, y1+0.5f, 0);
+    glVertex3f(x2+0.5f, y2+0.5f, 0);
+
+    glVertex3f(x2+0.5f, y2+0.5f, 0);
+    glVertex3f(x1+0.5f, y1+0.5f, 0);    
     glEnd();
 
   } // end drawLine
@@ -263,10 +266,10 @@ namespace gcn
   void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
   {    
     glBegin(GL_LINE_LOOP);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f, rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset, rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset, rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f, rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
     glEnd();
 
   } // end drawRectangle

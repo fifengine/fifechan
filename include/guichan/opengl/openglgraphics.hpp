@@ -61,6 +61,9 @@
 
 namespace gcn
 {
+  /**
+   * @todo Fix drawing of last pixel.
+   */
   class OpenGLGraphics: public Graphics
   {
   public:
