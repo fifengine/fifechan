@@ -65,33 +65,39 @@ namespace gcn
   Exception::Exception()
   {
     mLine = 0;
-  }
+
+  } // end Excpetion
 
   Exception::Exception(const std::string& message)
   {
     mMessage = message;
-  }
+
+  } // end Excpetion
 
   Exception::Exception(const std::string& message, const std::string& filename, int line)
   {
     mMessage = message;
     mFilename = filename;
     mLine = line;
-  }
+
+  } // end Exception
 
   const std::string& Exception::getMessage() const
   {
     return mMessage;
-  }
+
+  } // end getMessage
   
   const std::string& Exception::getFilename() const
   {
     return mFilename;
-  }
+
+  } // end getFilename
 
   int Exception::getLine() const
   {
     return mLine;
-  }
+
+  } // end getLine
   
 } // end gcn
