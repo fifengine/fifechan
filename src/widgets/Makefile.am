@@ -13,5 +13,6 @@ libguichan_widgets_la_SOURCES = \
 	scrollarea.cpp		\
 	slider.cpp		\
 	textbox.cpp		\
-	textfield.cpp
+	textfield.cpp		\
+	window.cpp
 
