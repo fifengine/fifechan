@@ -57,11 +57,12 @@
 #ifndef GCN_SDLIMAGELOADER_HPP
 #define GCN_SDLIMAGELOADER_HPP
 
+#include <map>
+#include <SDL/SDL.h>
+
 #include "guichan/image.hpp"
 #include "guichan/imageloader.hpp"
 #include "guichan/platform.hpp"
-#include <SDL/SDL.h>
-#include <map>
 
 namespace gcn
 {
@@ -73,8 +74,14 @@ namespace gcn
   {
   public:
 
+		/**
+		 * Constructor.
+		 */
     SDLImageLoader();
-    
+
+
+		// Inherited from ImageLoader
+		
     virtual void prepare(const std::string& filename);
 
     virtual void free(Image* image);

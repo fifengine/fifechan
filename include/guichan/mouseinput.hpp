@@ -121,33 +121,18 @@ namespace gcn
      */
     int getTimeStamp() const;
 
-    /**
-     * 
-     */
-    // TODO
-    // Remove EMPTY
-/*    const static int EMPTY = 0;
-    const static int LEFT = 1;
-    const static int RIGHT = 2;
-    const static int MIDDLE = 3;
-    const static int WHEEL_UP = 4;
-    const static int WHEEL_DOWN = 5;
-    const static int PRESS = 6;
-    const static int RELEASE = 7;
-    const static int MOTION = 8;
-*/
-	enum
-	{
-		EMPTY = 0,
-		LEFT,
-		RIGHT,
-		MIDDLE,
-		WHEEL_UP,
-		WHEEL_DOWN,
-		PRESS,
-		RELEASE,
-		MOTION
-	};
+		enum
+		{
+			EMPTY = 0,
+			LEFT,
+			RIGHT,
+			MIDDLE,
+			WHEEL_UP,
+			WHEEL_DOWN,
+			PRESS,
+			RELEASE,
+			MOTION
+		};
     
     int x, y;
 

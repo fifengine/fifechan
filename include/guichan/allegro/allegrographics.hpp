@@ -68,6 +68,14 @@ namespace gcn
 {
   class Font;
 
+  /**
+   * This is an Allegro implementation of the Graphics object. For more
+   * information about the Graphics object please see the Graphics
+   * header.
+   *
+   * @see Graphics
+   * @todo Alpha channel support.
+   */
   class DECLSPEC AllegroGraphics : public Graphics
   {
   public:

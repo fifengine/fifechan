@@ -13,60 +13,9 @@ namespace gcn
   /**
    * 
    */
-  class AllegroInput
+  class AllegroInput : public Input
   {
   public:
-
-    /**
-     *
-     */
-    AllegroInput();
-
-    /**
-     * 
-     */
-    virtual int getMouseX();
-
-    /**
-     * 
-     */
-
-    virtual int getMouseY();
-    /**
-     * 
-     */
-
-    virtual void getMousePosition(int& x, int& y);
-
-    /**
-     * 
-     */
-    virtual bool isKeyQueueEmpty();
-
-    /**
-     * 
-     */
-    virtual KeyInput dequeueKeyInput();
-
-    /**
-     * 
-     */
-    virtual bool isMouseQueueEmpty();
-
-    /**
-     * 
-     */
-    virtual MouseInput dequeueMouseInput();
-
-     /**
-     *
-     */
-    virtual void pollInput();
-
-    /**
-     * 
-     */
-    virtual bool isMouseMoved();
 
   protected:
     unsigned char convertKeyCharacter(unsigned int unicode);

@@ -57,13 +57,13 @@
 #ifndef GCN_IMAGEFONT_HPP
 #define GCN_IMAGEFONT_HPP
 
+#include <map>
+#include <string>
+
 #include "guichan/font.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/image.hpp"
 #include "guichan/platform.hpp"
-
-#include <string>
-#include <map>
 
 namespace gcn
 {
@@ -109,12 +109,18 @@ namespace gcn
      */
     ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
 
-    ~ImageFont();
-    
+		/**
+		 * Destructor.
+		 */
+    virtual ~ImageFont();
+
+
+		// Inherited from Font
+
     virtual int getWidth(unsigned char glyph) const;
-
+		
     virtual int getHeight() const;
-
+		
     virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
   protected:

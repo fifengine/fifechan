@@ -57,13 +57,22 @@
 #ifndef GCN_SDLPIXEL_HPP
 #define GCN_SDLPIXEL_HPP
 
+#include <SDL/SDL.h>
+
 #include "guichan/color.hpp"
 #include "guichan/platform.hpp"
-#include <SDL/SDL.h>
 
 namespace gcn
 {
 
+	/**
+	 * Checks a pixels color of an SDL_Surface.
+	 *
+	 * @param surface an SDL_Surface where to check for a pixel color.
+	 * @param x the x coordinate on the surface.
+	 * @param y the y coordinate on the surface.
+	 * @return a color of a pixel.
+	 */
   inline const Color SDLgetPixel(SDL_Surface* surface, int x, int y)
   {
     int bpp = surface->format->BytesPerPixel;
@@ -110,6 +119,13 @@ namespace gcn
 
   } // end SDLgetPixel
 
+	/**
+	 * Puts a pixel on an SDL_Surface
+	 *
+	 * @param x the x coordinate on the surface.
+	 * @param y the y coordinate on the surface.
+	 * @param color the color the pixel should be in.
+	 */
   inline void SDLputPixel(SDL_Surface* surface, int x, int y, const Color& color)
   {
     int bpp = surface->format->BytesPerPixel;

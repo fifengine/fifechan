@@ -57,13 +57,13 @@
 #ifndef GCN_GRAPHICS_HPP
 #define GCN_GRAPHICS_HPP
 
+#include <stack>
+#include <string>
+
 #include "guichan/cliprectangle.hpp"
 #include "guichan/color.hpp"
 #include "guichan/image.hpp"
 #include "guichan/platform.hpp"
-
-#include <stack>
-#include <string>
 
 namespace gcn
 {

@@ -62,7 +62,6 @@
 
 namespace gcn
 {
-
   /**
    * This is an internal class used in Guichan to grab keyboard input.
    * Generally you won't have to bother using this class.
@@ -108,16 +107,13 @@ namespace gcn
      */
     const Key& getKey() const;
 
-//    const static int EMPTY = 0;
-//    const static int PRESS = 1;
-//    const static int RELEASE = 2;
-
-	enum
-	{
-		EMPTY = 0,
-		PRESS,
-		RELEASE
-	};
+		
+		enum
+		{
+			EMPTY = 0,
+			PRESS,
+			RELEASE
+		};
     
   protected:
     Key mKey;

@@ -68,18 +68,40 @@ namespace gcn
   class DECLSPEC OpenGLGraphics: public Graphics
   {
   public:
+
     /**
-     *
+     * Constructor.
      */
     OpenGLGraphics();
 
     /**
-     *
-     */
+     * Constructor.
+		 *
+		 * @param width the width of the logical drawing surface.
+		 *              Should be the same as the screen resolution.
+		 * @param height the height ot the logical drawing surface.
+		 *              Should be the same as the screen resolution.
+		 */
     OpenGLGraphics(int width, int height);
-    
-    virtual ~OpenGLGraphics();
 
+		/**
+		 * Destructor.
+		 */
+    virtual ~OpenGLGraphics();
+    
+    /**
+     * Sets the target plane on where to draw.
+		 *
+		 * @param width the width of the logical drawing surface.
+		 *              Should be the same as the screen resolution.
+		 * @param height the height ot the logical drawing surface.
+		 *              Should be the same as the screen resolution.
+     */
+    virtual void setTargetPlane(int width, int height);
+
+		
+		// Inherited from Graphics
+		
     virtual void _beginDraw();
     
     virtual void _endDraw();
@@ -87,12 +109,7 @@ namespace gcn
     virtual bool pushClipArea(Rectangle area);
 
     virtual void popClipArea();
-    
-    /**
-     *
-     */
-    virtual void setTargetPlane(int width, int height);
-    
+
     virtual void drawImage(const Image* image, int srcX, int srcY,
                            int dstX, int dstY, int width,
                            int height);

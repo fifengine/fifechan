@@ -57,13 +57,14 @@
 #ifndef GCN_SDLGRAPHICS_HPP
 #define GCN_SDLGRAPHICS_HPP
 
-#include <string>
 #include <map>
 #include <SDL/SDL.h>
+#include <string>
+
 #include "guichan/graphics.hpp"
 #include "guichan/image.hpp"
-#include "guichan/rectangle.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/rectangle.hpp"
 
 namespace gcn
 {
@@ -96,19 +97,20 @@ namespace gcn
      */
     virtual SDL_Surface* getTarget() const;
 
+
+		// Inherited from Graphics
+
+		virtual void _beginDraw();
+
+		virtual void _endDraw();
+		
     virtual bool pushClipArea(Rectangle area);
     
     virtual void popClipArea();
     
     virtual void drawImage(const Image* image, int srcX, int srcY,
                            int dstX, int dstY, int width,
-                           int height);
-
-    //virtual void drawImage(const Image* image, int dstX, int dstY)
-    // {
-    //  Graphics::drawImage(image, dstX, dstY);
-    // }
-    
+                           int height);    
     
     virtual void drawPoint(int x, int y);
     

@@ -57,9 +57,10 @@
 #ifndef GCN_IMAGE_HPP
 #define GCN_IMAGE_HPP
 
-#include "guichan/platform.hpp"
-#include "guichan/imageloader.hpp"
 #include <string>
+
+#include "guichan/imageloader.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -108,11 +109,31 @@ namespace gcn
      */
     int getHeight() const;
 
+		/**
+		 * @return a void pointer to some image data. Image data can
+		 *         be different things depending on what ImageLoader
+		 *         you use. If you for instance use the SDLImageLoader
+		 *         then an SDL_Surface will be returned.
+		 * @see SDLImageLoader, AllegroImageLoader
+		 */
     void* _getData() const;
 
+		/**
+		 * @return a pointer to the currently used ImageLoader
+		 * @see SDLImageLoader, AllegroImageLoader
+		 */
+		static ImageLoader* _getImageLoader();
+		
+		/**
+		 * Sets the ImageLoader to be used be the Image class.
+		 *
+		 * IMPORTANT: The ImageLoader is static and MUST be set before
+		 *            loading images!
+		 *
+		 * @param imageLoader the ImageLoader to be used.
+		 * @see SDLImageLoader, AllegroImageLoader
+		 */
     static void setImageLoader(ImageLoader* imageLoader);
-
-    static ImageLoader* _getImageLoader();
     
   private:
     void* mData;

@@ -58,15 +58,15 @@
 #define GCN_GUI_HPP
 
 #include <string>
+
 #include "guichan/container.hpp"
 #include "guichan/input.hpp"
 //#include "guichan/mousetype.hpp"
-#include "guichan/widget.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
-
   /**
    * This is the main class for Gui-chan. 
    *
@@ -131,12 +131,18 @@ namespace gcn
     Input* getInput() const;
     
     /**
-     *  
+     * Performs the Gui:s logic by calling all logic functions
+		 * down in the Gui heirarchy. Logic can be just about anything
+		 * like adjusting a Widgets size or doing some calculations.
+		 *
+		 * NOTE: Logic also deals with user input (Mouse and Keyboard)
+		 *       for Widgets.
      */
     void logic();
 
     /**
-     *  
+     * Draws the whole Gui by calling draw functions down in the
+		 * Gui hierarchy.
      */
     void draw();
     

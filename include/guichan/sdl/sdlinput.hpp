@@ -57,8 +57,8 @@
 #ifndef GCN_SDLINPUT_HPP
 #define GCN_SDLINPUT_HPP
 
-#include <queue>
 #include <SDL/SDL.h>
+#include <queue>
 
 #include "guichan/input.hpp"
 #include "guichan/key.hpp"
@@ -82,15 +82,7 @@ namespace gcn
      */
     SDLInput() { }
 
-    virtual bool isKeyQueueEmpty();
-
-    virtual KeyInput dequeueKeyInput();
-
-    virtual bool isMouseQueueEmpty();
-
-    virtual MouseInput dequeueMouseInput();
-
-    /**
+		/**
      * This function pushes an SDL event. It should be called
      * at least once per frame to update input with user input.
      *
@@ -105,6 +97,17 @@ namespace gcn
      * do anything.
      */
     virtual void _pollInput() { }
+
+
+		// Inherited from Input
+		
+    virtual bool isKeyQueueEmpty();
+
+    virtual KeyInput dequeueKeyInput();
+
+    virtual bool isMouseQueueEmpty();
+
+    virtual MouseInput dequeueMouseInput();
 
   protected:
     /**
