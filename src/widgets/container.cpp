@@ -59,6 +59,7 @@
 #include "guichan/exception.hpp"
 #include "guichan/widgets/container.hpp"
 
+
 namespace gcn
 {
 
@@ -318,7 +319,8 @@ namespace gcn
 		WidgetIterator iter;    
 		for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
 		{
-			if ((*iter)->getDimension().isPointInRect(mouseInput.x, mouseInput.y))
+			if ((*iter)->getDimension().isPointInRect(mouseInput.x, mouseInput.y)
+					&& (*iter)->isVisible())
 			{
 				tempWidgetWithMouse = (*iter);
 			}
