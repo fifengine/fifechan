@@ -157,7 +157,7 @@ namespace gcn
 				textX = getWidth() - 4;
 				break;
 			default:
-				throw GCN_EXCEPTION("Button::draw. Uknown alignment.");
+				throw GCN_EXCEPTION("Button::draw. Unknown alignment.");
 		}
 
 		graphics->setFont(getFont());
