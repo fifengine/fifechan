@@ -43,7 +43,6 @@ gcn::TextField* textField;           // One-line text field
 gcn::TextBox* textBox;               // Multi-line text box
 gcn::ScrollArea* textBoxScrollArea;  // Scroll area for the text box
 gcn::ListBox* listBox;               // A list box
-gcn::ScrollArea* listBoxScrollArea;  // Scroll area for the list box
 gcn::DropDown* dropDown;             // Drop down
 gcn::CheckBox* checkBox1;            // Two checkboxes
 gcn::CheckBox* checkBox2;
@@ -93,29 +92,28 @@ void initWidgets()
 	 * Create all the widgets
 	 */
 	label = new gcn::Label("Label");
-
+	
 	image = new gcn::Image("gui-chan.bmp");
 	icon = new gcn::Icon(image);
-
+	
 	button = new gcn::Button("Button");
-
+	
 	textField = new gcn::TextField("Text field");
-
+	
 	textBox = new gcn::TextBox("Multiline\nText box");
 	textBoxScrollArea = new gcn::ScrollArea(textBox);
 	textBoxScrollArea->setWidth(200);
 	textBoxScrollArea->setHeight(100);
+	textBoxScrollArea->setBorderSize(1);
 	
 	listBox = new gcn::ListBox(&demoListModel);
-	listBoxScrollArea = new gcn::ScrollArea(listBox);
-	listBoxScrollArea->setWidth(120);
-	listBoxScrollArea->setHeight(100);
-
+	listBox->setBorderSize(1);
+	
 	dropDown = new gcn::DropDown(&demoListModel);
 
 	checkBox1 = new gcn::CheckBox("Checkbox 1");
 	checkBox2 = new gcn::CheckBox("Checkbox 2");
-
+	
 	radioButton1 = new gcn::RadioButton("RadioButton 1", "radiogroup", true);
 	radioButton2 = new gcn::RadioButton("RadioButton 2", "radiogroup");
 	radioButton3 = new gcn::RadioButton("RadioButton 3", "radiogroup");
@@ -128,7 +126,7 @@ void initWidgets()
 	top->add(button, 200, 10);
 	top->add(textField, 250, 10);
 	top->add(textBoxScrollArea, 200, 50);
-	top->add(listBoxScrollArea, 200, 200);
+	top->add(listBox, 200, 200);
 	top->add(dropDown, 500, 10);
 	top->add(checkBox1, 500, 130);
 	top->add(checkBox2, 500, 150);
@@ -210,7 +208,6 @@ void halt()
 	delete textBox;
 	delete textBoxScrollArea;
 	delete listBox;
-	delete listBoxScrollArea;
 	delete dropDown;
 	delete checkBox1;
 	delete checkBox2;
