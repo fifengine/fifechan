@@ -414,8 +414,7 @@ namespace gcn
 
 				  if (hasMouse())
 				  {
-					  /// @todo Tune the time stamp
-					  if (ts - mClickTimeStamp < 100 && mClickButton == b)
+					  if (ts - mClickTimeStamp < 300 && mClickButton == b)
 					  {
 						  mClickCount++;
 					  }
