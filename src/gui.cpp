@@ -140,52 +140,65 @@ namespace gcn
     if(mInput)
     {
 			mInput->_pollInput();
-			
-      while (!mInput->isMouseQueueEmpty())
-      {
-        MouseInput mi = mInput->dequeueMouseInput();
 
-        Widget* focused = mFocusHandler->getFocused();
+			while (!mInput->isMouseQueueEmpty())
+			{
+				MouseInput mi = mInput->dequeueMouseInput();
 
-        if (mi.x > 0 && mi.y > 0 && mTop->getDimension().isPointInRect(mi.x, mi.y))
-        {
-          if (!mTopHasMouse)
-          {
-            mTop->_mouseInMessage();
-            mTopHasMouse = true;
-          }
-          
-          MouseInput mio = mi;
-          mio.x -= mTop->getX();
-          mio.y -= mTop->getY();        
-
-					if (!mTop->hasFocus())
+				// Send mouse input to every widget that has the mouse.
+				if (mi.x > 0 && mi.y > 0
+						&& mTop->getDimension().isPointInRect(mi.x, mi.y))
+				{
+					if (!mTop->hasMouse())
 					{
-						mTop->_mouseInputMessage(mio);
+						mTop->_mouseInMessage();
 					}
-        }
-        else
-        {
-          if (mTopHasMouse)
-          {
-            mTop->_mouseOutMessage();
-            mTopHasMouse = false;
-          }
-        }                
 
-        if (mFocusHandler->getFocused() && focused == mFocusHandler->getFocused())
-        {
-          int xOffset, yOffset;
-          mFocusHandler->getFocused()->getAbsolutePosition(xOffset, yOffset);
+					MouseInput mio = mi;
+					mio.x -= mTop->getX();
+					mio.y -= mTop->getY();
+					mTop->_mouseInputMessage(mio);
+				}
+				else if (mTop->hasMouse())
+				{
+					mTop->_mouseOutMessage();
+				}				
 
-          MouseInput mio = mi;
-          mio.x -= xOffset;
-          mio.y -= yOffset;
-          mFocusHandler->getFocused()->_mouseInputMessage(mio);
-        }       
+				Widget* f = mFocusHandler->getFocused();
+				Widget* d = mFocusHandler->getDragged();
 
-      } // end while
+				// If the focused widget doesn't have the mouse,
+				// send the mouse input to the focused widget.
+				if (f != NULL && !f->hasMouse())
+				{
+					int xOffset, yOffset;
+					f->getAbsolutePosition(xOffset, yOffset);
+					
+					MouseInput mio = mi;
+					mio.x -= xOffset;
+					mio.y -= yOffset;
+					
+					f->_mouseInputMessage(mio);
+				}
 
+				// If the dragged widget is different from the focused
+				// widget, send the mouse input to the dragged widget.
+				if (d != NULL && d != f && !d->hasMouse())
+				{
+					int xOffset, yOffset;
+					d->getAbsolutePosition(xOffset, yOffset);
+					
+					MouseInput mio = mi;
+					mio.x -= xOffset;
+					mio.y -= yOffset;
+					
+					d->_mouseInputMessage(mio);					
+				}
+				
+				mFocusHandler->applyChanges();
+				
+			} // end while
+			
       while (!mInput->isKeyQueueEmpty())        
       {
         KeyInput ki = mInput->dequeueKeyInput();
@@ -217,13 +230,17 @@ namespace gcn
 							mFocusHandler->focusNone();
 						}
 					}
-				}										
-      }      
+				}
+				
+				mFocusHandler->applyChanges();
+
+      } // end while
+			
     } // end if
     
     mTop->logic();
 		
-  } // end logic
+	} // end logic
 	
   void Gui::draw()
   {

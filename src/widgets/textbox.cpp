@@ -485,8 +485,7 @@ namespace gcn
 		text = text + mTextRows[i];
 
 		return text;
-
-	} // end getText
+	}
 
 	void TextBox::fontChanged()
 	{
@@ -508,11 +507,10 @@ namespace gcn
 			scroll.x = getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn));
 			scroll.y = getFont()->getHeight() * mCaretRow;
 			scroll.width = 6;
-			scroll.height = getFont()->getHeight();
+			scroll.height = getFont()->getHeight() + 2; // add 2 for some extra space
 			scrollArea->scrollToRectangle(scroll);
 		}
-
-	} // end scrollToCaret
+	}
 
 	void TextBox::setEditable(bool editable)
 	{

@@ -58,7 +58,6 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-#include <ctime>
 #include <string>
 
 namespace gcn

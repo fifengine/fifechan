@@ -388,7 +388,6 @@ namespace gcn
 		int mScrollbarWidth;
 		unsigned int mHPolicy;
 		unsigned int mVPolicy;
-		bool mouseOverContent;
 		bool mVBarVisible;
 		bool mHBarVisible;
 		bool mUpButtonPressed;

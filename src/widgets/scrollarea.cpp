@@ -61,14 +61,12 @@
 
 namespace gcn
 {
-	
 	ScrollArea::ScrollArea()
 	{
 		mVScroll = 0;
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mouseOverContent = false;
 		mVBarVisible = true;
 		mHBarVisible = true;
 		mScrollbarWidth = 12;
@@ -83,11 +81,8 @@ namespace gcn
 		mHorizontalMarkerPressed = false;
 		mHorizontalMarkerMousePosition = 0;
 
-		setFocusable(true);
-		setTabInEnabled(false);
 		addMouseListener(this);
-
-	} // end ScrollArea
+	}
 
 	ScrollArea::ScrollArea(Widget *content)
 	{
@@ -95,7 +90,6 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mouseOverContent = false;
 		mVBarVisible = true;
 		mHBarVisible = true;
 		mScrollbarWidth = 12;
@@ -110,12 +104,9 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setContent(content);
-		setFocusable(true);
-		setTabInEnabled(false);		
 		checkPolicies();
 		addMouseListener(this);
-
-	} // end ScrollArea
+	}
 
 	ScrollArea::ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy)
 	{
@@ -123,7 +114,6 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = hPolicy;
 		mVPolicy = vPolicy;
-		mouseOverContent = false;
 		mScrollbarWidth = 12;
 		mContent = NULL;
 		mUpButtonPressed = false;
@@ -136,12 +126,9 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setContent(content);
-		setFocusable(true);
-		setTabInEnabled(false);				
 		checkPolicies();
-		addMouseListener(this);
-    
-	} // end ScrollArea
+		addMouseListener(this); 
+	}
 
 	ScrollArea::~ScrollArea()
 	{
@@ -317,15 +304,7 @@ namespace gcn
 
 	void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
 	{
-		bool miSent = false;
-		
-		if (mouseInput.getType() != MouseInput::PRESS ||
-			mouseInput.getButton() == MouseInput::WHEEL_UP ||
-			mouseInput.getButton() == MouseInput::WHEEL_DOWN)
-		{
-			BasicContainer::_mouseInputMessage(mouseInput);
-			miSent = true;
-		}
+		BasicContainer::_mouseInputMessage(mouseInput);		
     
 		if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
 		{
@@ -336,43 +315,19 @@ namespace gcn
 					mContent->_mouseInMessage();          
 				}
         
-				// Only send mousemessages to the content if it is not focused
-				// (focused widgets always receive mousemessages)
-				if (!mContent->hasFocus())
-				{          
-					MouseInput mi = mouseInput;
-          
-					mi.x -= mContent->getX();
-					mi.y -= mContent->getY();
-
-					if (mi.x >= mContent->getWidth())
-					{
-						mi.x = mContent->getWidth() - 1;
-					}
-
-					if (mi.y >= mContent->getHeight())
-					{
-						mi.y = mContent->getHeight() - 1;
-					}          
-          
-					mContent->_mouseInputMessage(mi);
-				}
+				MouseInput mi = mouseInput;
+				
+				mi.x -= mContent->getX();
+				mi.y -= mContent->getY();
+								
+				mContent->_mouseInputMessage(mi);
 			}      
 		}
-		else
+		else if (mContent && mContent->hasMouse())
 		{
-			if (mContent && mContent->hasMouse())
-			{
-				mContent->_mouseOutMessage();
-			}
-
-			if (!miSent)
-			{
-				BasicContainer::_mouseInputMessage(mouseInput);
-			}
+			mContent->_mouseOutMessage();
 		}
-
-	} // end _mouseInputMessage
+	}
 
 	void ScrollArea::_mouseOutMessage()
 	{
@@ -415,9 +370,8 @@ namespace gcn
 		{
 			mHorizontalMarkerPressed = true;
 			mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
-		}
-    
-	} // end mousePress
+		} 
+	}
 
 	void ScrollArea::mouseRelease(int x, int y, int button)
 	{
@@ -427,11 +381,6 @@ namespace gcn
 		mRightButtonPressed = false;
 		mVerticalMarkerPressed = false;
 		mHorizontalMarkerPressed = false;
-
-		if (button == MouseInput::LEFT && hasFocus() && mContent)
-		{
-			mContent->requestFocus();
-		}      
 	}
 
 	void ScrollArea::mouseMotion(int x, int y)
@@ -842,10 +791,9 @@ namespace gcn
 							   w + i + offset);      
 		}
 
-		graphics->popClipArea();
-    
-	} // end drawRightButton
+		graphics->popClipArea(); 
 
+	} // end drawRightButton
 
 	void ScrollArea::drawVMarker(Graphics* graphics)
 	{
@@ -872,8 +820,7 @@ namespace gcn
 		graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
 		graphics->popClipArea();
-
-	} // end drawVMarker
+	}
 
 	void ScrollArea::drawHMarker(Graphics* graphics)
 	{
@@ -900,8 +847,7 @@ namespace gcn
 		graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
 		graphics->popClipArea();
-
-	} // end drawVMarker
+	}
   
 	void ScrollArea::logic()
 	{
@@ -1109,9 +1055,8 @@ namespace gcn
 		return Rectangle(getWidth() - mScrollbarWidth,
 						 getHeight() - mScrollbarWidth,
 						 mScrollbarWidth,
-						 mScrollbarWidth);      
-	
-	} // end getDownButtonDimension
+						 mScrollbarWidth);      	
+	}
 
 	Rectangle ScrollArea::getLeftButtonDimension()
 	{
@@ -1261,8 +1206,7 @@ namespace gcn
 		}
 	
 		return Rectangle(barDim.x, barDim.y + pos, mScrollbarWidth, length);
-
-	} // end getVerticalMarkerDimension
+	}
 
 	Rectangle ScrollArea::getHorizontalMarkerDimension()
 	{
@@ -1305,8 +1249,7 @@ namespace gcn
 		}
 
 		return Rectangle(barDim.x + pos, barDim.y, length, mScrollbarWidth);
-
-	} // end getHorizontalMarkerDimension
+	}
 
 	void ScrollArea::scrollToRectangle(const Rectangle& rectangle)
 	{
@@ -1333,8 +1276,7 @@ namespace gcn
 		{
 			setVerticalScrollAmount(rectangle.y);
 		}
-    
-	} // end scrollToRectangle
+	}
 
 	void ScrollArea::mouseWheelUp(int x, int y)
 	{    
@@ -1355,5 +1297,5 @@ namespace gcn
 } // end gcn
 
 /*
- * Wow! This is a looooong source file. 1359 lines!
+ * Wow! This is a looooong source file. 1339 lines!
  */
