@@ -1,24 +1,11 @@
 #ifndef GCN_INPUT_HPP
 #define GCN_INPUT_HPP
 
+#include "guichan/keyinput.hpp"
+#include "guichan/mouseinput.hpp"
+
 namespace gcn
 {
-  /**
-   * 
-   */
-  enum InputType
-  {
-    EMPTY,
-    KEY_DOWN,
-    KEY_TYPE,
-    KEY_RELEASE,
-    MOUSE_DOWN,
-    MOUSE_RELEASE,
-    MOUSE_WHEEL_UP,
-    MOUSE_WHEEL_DOWN
-
-  }; // end InputType
-  
   /**
    * 
    */
@@ -41,14 +28,36 @@ namespace gcn
      * 
      */
     virtual void getMousePosition(int& x, int& y) = 0;
+
     /**
      * 
      */
-    virtual const InputType& pollKeyInput(Key& key) = 0;
+    virtual bool isKeyQueueEmpty() = 0;
+
     /**
      * 
      */
-    virtual const InputType& pollMouseInput(int& x, int& y, int& button) = 0;
+    virtual KeyInput dequeueKeyInput() = 0;
+
+    /**
+     * 
+     */
+    virtual bool isMouseQueueEmpty() = 0;
+
+    /**
+     * 
+     */
+    virtual MouseInput dequeueMouseInput() = 0;
+
+    /**
+     * 
+     */
+    virtual bool isMouseMoved() = 0;
+
+    /**
+     * 
+     */
+    virtual void pollInput() = 0;
     
   }; // end Input
   
