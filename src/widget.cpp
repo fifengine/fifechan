@@ -65,12 +65,16 @@
 
 namespace gcn
 {
+  Font* Widget::mGlobalFont = NULL;
+  DefaultFont Widget::mDefaultFont;
+  std::list<Widget*> Widget::mWidgets;
+
   Widget::Widget()
   {
     mParent = NULL;
     mForegroundColor = Color(0x000000);
     mBackgroundColor = Color(0xffffff);
-    mBaseColor = Color(0xc0c0c0);
+    mBaseColor = Color(0x808090);
     mFocusHandler = NULL;
     mFocusable = false;
     mClickTimeStamp = 0;
@@ -78,8 +82,17 @@ namespace gcn
     mHasMouse = false;
     mVisible = true;
     mTabable = true;
+
+    mCurrentFont = NULL;
+    mWidgets.push_back(this);
     
   } // end Widget
+
+  Widget::~Widget()
+  {
+    mWidgets.remove(this);
+    
+  } // end ~Widget
 
   void Widget::_setParent(BasicContainer* parent)
   {
@@ -538,5 +551,43 @@ namespace gcn
     }    
     
   } // end generateAction
-     
+    
+  Font* Widget::getFont() const
+  {
+    if (mCurrentFont == NULL)
+    {
+      if (mGlobalFont == NULL)
+      {
+        return &mDefaultFont;
+      }
+
+      return mGlobalFont;
+    }    
+    
+    return mCurrentFont;
+
+  } // end getFont
+  
+  void Widget::setGlobalFont(Font* font)
+  {
+    mGlobalFont = font;
+        
+    std::list<Widget*>::iterator iter;
+    for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+    {
+      if ((*iter)->mCurrentFont == NULL)
+      {
+        (*iter)->fontChanged();
+      }
+    }
+    
+  } // end setGlobalFont
+  
+  void Widget::setFont(Font* font)
+  {
+    mCurrentFont = font;
+    fontChanged();
+    
+  } // end setFont
+
 } // end gcn
