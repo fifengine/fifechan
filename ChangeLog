@@ -1,3 +1,8 @@
+* Changed the look when CheckBox is marked.  
+* Changed the look when CheckBox and RadioButton is focused.
+  They now draw a rectangle around their captions (common behaivour in Guis).
+* Removed unaccesary logic functions (which didn't do anything) in
+  widget RadioButton and CheckBox. 
 * Added a new widget called Slider, and it is a... slider!
 * Removed getWidth for glyphs in Font.
 * Removed function drawGlyph in Font and in addon SDLTrueTypeFont. 
