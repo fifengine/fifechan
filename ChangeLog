@@ -2,7 +2,6 @@ Version 0.1.0
 =============	
 * Better exception with more information in ImageFont,
   added row spacing and glyph spacing functions.
-* Added verical spacing in ImageFont
 * Fixed problem in ImageFont when loading a corrupt file.
   It will now throw an exception (thanks Terin!).
 * Implemented _getRawData() in AllegroImageLoader.
@@ -23,7 +22,7 @@ Version 0.1.0
 * Added experimental alpha channel support in SDLGraphics
   for 32 bpp
 * Added full alpha channel support in OpenGLGraphics
-* Fixed OpenGL graphics to disable GL_LIGHTNING before draw
+* Fixed OpenGL graphics to disable GL_LIGHTING before draw
 * Fixed container problem. Nonvisible widgets no longer
   recieves mouse input.
 * Fixed mouse out problem with SDLInput
