@@ -74,6 +74,7 @@ namespace gcn
 		setBorderSize(1);
 		
 		addMouseListener(this);
+		addKeyListener(this);
 	}
 
 	Slider::Slider(double scaleStart, double scaleEnd)
@@ -89,6 +90,7 @@ namespace gcn
 		setBorderSize(1);
 		
 		addMouseListener(this);
+		addKeyListener(this);
 	}
 
 	void Slider::setScale(double scaleStart, double scaleEnd)
@@ -175,12 +177,19 @@ namespace gcn
  		graphics->setColor(shadowColor);
  		graphics->drawLine(x + mMarkerWidth - 1, 1, x + mMarkerWidth - 1, getHeight() - 1);
  		graphics->drawLine(x + 1, getHeight() - 1, x + mMarkerWidth - 1, getHeight() - 1);
+
+		if (hasFocus())
+		{
+			graphics->setColor(getForegroundColor());
+			graphics->drawRectangle(Rectangle(x + 2, 2, mMarkerWidth - 4, getHeight() - 4));
+		}
 	}
 	
 	void Slider::mousePress(int x, int y, int button)
 	{
 		if (button == gcn::MouseInput::LEFT
-				&& x >= 0 && x <= getWidth())
+				&& x >= 0 && x <= getWidth()
+				&& y >= 0 && y <= getHeight())
 		{
 			setMarkerPosition(x - mMarkerWidth / 2);			
 			mMouseDrag = true;
@@ -256,6 +265,20 @@ namespace gcn
 	{
 		mMarkerWidth = width;
 		setValue(getValue());
+	}
+
+	void Slider::keyPress(const Key& key)
+	{
+		if (key.getValue() == Key::RIGHT)
+		{
+			setMarkerPosition(mMarkerPosition + 1);
+			generateAction();
+		}
+		else if (key.getValue() == Key::LEFT)
+		{
+			setMarkerPosition(mMarkerPosition - 1);
+			generateAction();
+		}
 	}
 	
 } // end gcn

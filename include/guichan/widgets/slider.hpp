@@ -66,7 +66,10 @@ namespace gcn
 	 * You can set the scale of the slider yourself so that it
 	 * ranges between, for example -1.0 and 2.0.
 	 */
-	class DECLSPEC Slider : public Widget, public MouseListener
+	class DECLSPEC Slider :
+		public Widget,
+		public MouseListener,
+		public KeyListener
 	{
 	public:	
 
@@ -178,7 +181,12 @@ namespace gcn
 		virtual void mouseRelease(int x, int y, int button);
 
 		virtual void mouseMotion(int x, int y);
-		
+
+
+		// Inherited from KeyListener
+
+		virtual void keyPress(const Key& key);
+
 	protected:
 		virtual void setMarkerPosition(int x);
 		
