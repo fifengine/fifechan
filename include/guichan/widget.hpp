@@ -62,6 +62,8 @@
 
 #include "guichan/actionlistener.hpp"
 #include "guichan/color.hpp"
+#include "guichan/defaultfont.hpp"
+#include "guichan/font.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/keyinput.hpp"
 #include "guichan/keylistener.hpp"
@@ -107,7 +109,7 @@ namespace gcn
     /**
      * Default destructor.
      */
-    virtual ~Widget() { }
+    virtual ~Widget();
 
     /**
      * This function should draw the widget (No kidding!).
@@ -500,7 +502,43 @@ namespace gcn
      * @see isTabable
      */
     void setTabable(bool tabable);
+
+    /**
+     * This function returns the font used by this widget. If no 
+     * font has been set, the global font will be returned instead.
+     * If no global font has been set either, it will fall back on an
+     * ugly default.
+     *
+     * @return the currently used font.
+     * @see Font, DefaultFont
+     */
+    Font *getFont() const;
     
+    /**
+     * Sets the global font to be used by default for all widgets.
+     *
+     * @param font the global font
+     * @see Font
+    */
+    static void setGlobalFont(Font* font);
+    
+    /**
+     * Sets the font for this widget. Pass NULL to this function
+     * to use the global font.
+     *
+     * @param font the font. If NULL, the global font will be used.
+     * @see setGlobalFont
+     */
+    virtual void setFont(Font* font);
+
+    /**
+     * Use this function to trap font changes. It is called
+     * whenever a widgets font is chanegd. 
+     * If the change is global, this function will only be called
+     * if the widget don't have a font of its own.
+     */
+    virtual void fontChanged() { }
+
   protected:
     /**
      * This function generates an action to the widgets action listeners.
@@ -536,7 +574,12 @@ namespace gcn
     bool mFocusable;
     bool mVisible;
     bool mTabable;
-    
+
+    Font* mCurrentFont;
+    static DefaultFont mDefaultFont;
+    static Font* mGlobalFont;
+    static std::list<Widget*> mWidgets;
+
   }; // end Widget
   
 } // end gcn
