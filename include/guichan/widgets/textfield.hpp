@@ -58,6 +58,7 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
+#include <ctime>
 #include <string>
 
 namespace gcn
@@ -144,7 +145,8 @@ namespace gcn
 		virtual void draw(Graphics* graphics);
 
 		virtual void drawBorder(Graphics* graphics);
-			
+
+		
 		// Inherited from MouseListener
 		
 		virtual void mousePress(int x, int y, int button);
@@ -168,7 +170,7 @@ namespace gcn
 		std::string mText;
 		unsigned int mCaretPosition;
 		int mXScroll;
-    
+		
 	}; // end TextField
   
 } // end gcn
