@@ -68,8 +68,7 @@ namespace gcn
 		setFocusable(true);
 		addMouseListener(this);
 		addKeyListener(this);
-
-	} // end CheckBox
+	}
     
 	CheckBox::CheckBox(const std::string &caption, bool marked)
 	{
@@ -81,14 +80,8 @@ namespace gcn
 		addKeyListener(this);
 
 		adjustSize();
-
-	} // end CheckBox
-  
-	void CheckBox::logic()
-	{
-
-	} // end logic
-  
+	}
+    
 	void CheckBox::draw(Graphics* graphics)
 	{
 		drawBox(graphics);
@@ -96,9 +89,15 @@ namespace gcn
 		graphics->setFont(getFont());
 		graphics->setColor(getForegroundColor());
 
-		graphics->drawText(mCaption, getHeight() + getHeight() / 2, 0);
-		
-	} // end draw
+		int h = getHeight() + getHeight() / 2;
+
+		graphics->drawText(mCaption, h - 2, 0);
+
+		if (hasFocus())
+		{		
+			graphics->drawRectangle(Rectangle(h - 4, 0, getWidth() - h + 3, getHeight()));
+		}		
+	}
 
 	void CheckBox::drawBorder(Graphics* graphics)
 	{
@@ -151,45 +150,34 @@ namespace gcn
     
 		if (mMarked)
 		{
-			graphics->drawLine(2, 2, h - 2, h - 2);
-			graphics->drawLine(3, 2, h - 2, h - 3);
-			graphics->drawLine(2, 3, h - 3, h - 2);
-      
-			graphics->drawLine(2, h - 2, h - 2, 2);
-			graphics->drawLine(2, h - 3, h - 3, 2);
-			graphics->drawLine(3, h - 2, h - 2, 3);      
-		}
-
-		if (hasFocus())
-		{
-			graphics->drawRectangle(Rectangle(2, 2, h - 3, h - 3));
+			graphics->drawLine(3, 5, 3, h - 3);
+			graphics->drawLine(4, 5, 4, h - 3);
+			
+ 			graphics->drawLine(5, h - 4, h - 2, 3);
+ 			graphics->drawLine(5, h - 5, h - 4, 4);      
 		}
 		
 	} // end drawBox
   
 	bool CheckBox::isMarked() const
 	{
-		return mMarked;
-		
-	} // end isMarked
+		return mMarked;		
+	} 
 	
 	void CheckBox::setMarked(bool marked)
 	{
 		mMarked = marked;
-
-	} // end setMarked
+	}
 
 	const std::string &CheckBox::getCaption() const
 	{
 		return mCaption;
-
-	} // end getCaption
+	}
 
 	void CheckBox::setCaption(const std::string caption)
 	{
 		mCaption = caption;
-
-	} // end setCaption
+	}
   
 	void CheckBox::keyPress(const Key& key)
 	{
@@ -198,8 +186,7 @@ namespace gcn
 		{
 			toggle();
 		}
-
-	} // end keyPress
+	}
   
 	void CheckBox::mouseClick(int x, int y, int button, int count)
 	{
@@ -207,24 +194,21 @@ namespace gcn
 		{
 			toggle();
 		}
-
-	} // end mouseClick
+	}
   
 	void CheckBox::adjustSize()
 	{
 		int height = getFont()->getHeight();
 
 		setHeight(height);
-		setWidth(getFont()->getWidth(mCaption) + height + height/2);
-
-	} // end adjustSize
+		setWidth(getFont()->getWidth(mCaption) + height + height / 2);
+	}
 
 	void CheckBox::toggle()
 	{
 		mMarked = !mMarked;
 		generateAction();
-
-	} // end toggle
+	}
   
 } // end gcn
 
