@@ -36,7 +36,7 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-AM_INIT_AUTOMAKE(Gui-chan, $GUICHAN_VERSION)
+AM_INIT_AUTOMAKE(Guichan, $GUICHAN_VERSION)
 AM_CONFIG_HEADER([include/config.hpp])
 
 dnl AC_CONFIG_SRCDIR([src/])
@@ -67,6 +67,82 @@ HaveX()
   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS x"
 }
 
+NoOpenGL()
+{
+  AC_MSG_WARN(OpenGL support skipped when OpenGL not found.)
+  OPENGL="no"
+}
+
+HaveOpenGL()
+{
+  OPENGL="yes"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS opengl"
+  OPENGL_LIBS="$OPENGL_LIBS -lGL"
+}
+
+ForceOpenGL()
+{
+  AC_MSG_WARN(OpenGL support forced.)
+  OPENGL="forced"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS opengl"
+  OPENGL_LIBS="$OPENGL_LIBS -lGL"
+}
+
+NoSDLImage()
+{
+  AC_MSG_WARN(SDL_image support skipped when SDL_image not found.)
+  SDLIMAGE="no"
+}
+
+HaveSDLImage()
+{
+  SDLIMAGE="yes"
+  SDL_LIBS="$SDL_LIBS -lSDL_image"
+}
+
+NoSDL()
+{
+  AC_MSG_WARN(SDL support skipped when SDL not found.)
+}
+
+ForceSDLImage()
+{
+  AC_MSG_WARN(SDL Image support forced.)
+  SDLIMAGE="forced"
+  SDL_LIBS="$SDL_LIBS -lSDL_image"
+}
+
+HaveSDL()
+{
+  SDL="yes"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS sdl"
+}
+
+ForceSDL()
+{
+  AC_MSG_WARN(SDL support forced.)
+  SDL="forced"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS sdl"
+}
+
+NoAllegro()
+{
+  AC_MSG_WARN(Allegro support skipped when Allegro not found.)    
+}
+
+HaveAllegro()
+{
+  ALLEGRO="yes"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
+}
+
+ForceAllegro()
+{
+  AC_MSG_WARN(Allegro support forced.)
+  ALLEGRO="forced"
+  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
+}
+
 AC_ARG_ENABLE(x,	     
 [  --enable-x	Enable Xlib support [default=no]], 
                , enable_x=no)
@@ -81,76 +157,73 @@ if test x$enable_x = xyes; then
   fi
 fi
 
-NoOpenGL()
-{
-  AC_MSG_WARN(OpenGL support skipped when OpenGL not found.)
-  OPENGL="no"
-}
-
-HaveOpenGL()
-{
-  OPENGL="yes"
-  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS opengl"
-  OPENGL_LIBS="$OPENGL_LIBS -lGL"
-}
-
 AC_ARG_ENABLE(opengl,	     
 [  --enable-opengl	Enable OpenGL support [default=yes]], 
                , enable_opengl=yes)
+AC_ARG_ENABLE(force_opengl,	  
+[  --enable-force-opengl     Force OpenGL support (skip checks for OpenGL) [default=no]],
+              , enable_force_opengl=no)
 if test x$enable_opengl = xyes; then
-  AC_CHECK_HEADERS(GL/gl.h)
-  AC_CHECK_LIB([GL], [glBegin], HaveOpenGL, NoOpenGL)
+  if test x$enable_force_opengl = xno; then
+    AC_CHECK_HEADERS(GL/gl.h)
+    AC_CHECK_LIB([GL], [glBegin], HaveOpenGL, NoOpenGL)
+  else
+    ForceOpenGL
+  fi
 fi
-
-NoSDLImage()
-{
-  AC_MSG_WARN(SDL_image support skipped when SDL_image not found.)
-  SDLIMAGE="no"
-}
-
-HaveSDLImage()
-{
- SDLIMAGE="yes"
- SDL_LIBS="$SDL_LIBS -lSDL_image"
-}
 
 AC_ARG_ENABLE(sdlimage,	     
 [  --enable-sdlimage	Enable SDL_image support [default=yes]], 
               , enable_sdlimage=yes)
+AC_ARG_ENABLE(force_sdlimage,	  
+[  --enable-force-sdlimage     Force SDL Image support (skip checks for SDL Image) [default=no]],
+              , enable_force_sdlimage=no)
 if test x$enable_sdlimage = xyes; then
-  AC_CHECK_HEADERS([SDL/SDL_image.h])
-  AC_CHECK_LIB([SDL_image], [IMG_Load], HaveSDLImage, NoSDLImage)
-else
-  NoSDLImage
+  if test x$enable_force_sdlimage = xno; then
+    AC_CHECK_HEADERS([SDL/SDL_image.h])
+    AC_CHECK_LIB([SDL_image], [IMG_Load], HaveSDLImage, NoSDLImage)
+  else
+    ForceSDLImage
+  fi
 fi
 
 AC_ARG_ENABLE(allegro,	  
 [  --enable-allegro	  Enable Allegro support [default=yes]],
               , enable_allegro=yes)
+AC_ARG_ENABLE(force_allegro,	  
+[  --enable-force-allegro     Force Allegro support (skip checks for Allegro) [default=no]],
+              , enable_force_allegro=no)
 if test x$enable_allegro = xyes; then
-
-  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
-  AC_CHECK_HEADERS([allegro.h])
-  AC_CHECK_PROG(HAVE_ALLEGRO, allegro-config, yes)
-  if test "x$HAVE_ALLEGRO" != "xyes"; then
-    AC_MSG_WARN(Allegro support skipped when Allegro not found.)
+  if test x$enable_force_allegro = xno; then
+    AC_CHECK_HEADERS([allegro.h])
+    AC_CHECK_PROG(HAVE_ALLEGRO, allegro-config, yes)
+    if test "x$HAVE_ALLEGRO" != "xyes"; then
+      NoAllegro  
+    else
+      HaveAllegro
+    fi
   else
-    ALLEGRO="yes"
+    ForceAllegro
   fi
 fi
 
 AC_ARG_ENABLE(sdl,	  
 [  --enable-sdl	  Enable SDL support [default=yes]],
              , enable_sdl=yes)
+AC_ARG_ENABLE(force_sdl,	  
+[  --enable-force-sdl     Force SDL support (skip checks for SDL) [default=no]],
+              , enable_force_sdl=no)
 if test x$enable_sdl = xyes; then
-
-  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS sdl"
-  AC_CHECK_HEADERS(SDL/SDL.h)
-  AC_CHECK_PROG(HAVE_SDL, sdl-config, yes)
-  if test "x$HAVE_SDL" != "xyes"; then
-    AC_MSG_WARN(SDL support skipped when SDL not found.)
+  if test x$enable_force_sdl = xno; then
+    AC_CHECK_HEADERS(SDL/SDL.h)
+    AC_CHECK_PROG(HAVE_SDL, sdl-config, yes)
+    if test "x$HAVE_SDL" != "xyes"; then
+      NoSDL
+    else
+      HaveSDL
+    fi
   else
-   SDL="yes"
+    ForceSDL
   fi
 fi
 
@@ -187,6 +260,6 @@ echo "-------------------------------"
 echo "* Allegro   = "$ALLEGRO
 echo "* OpenGL    = "$OPENGL
 echo "* SDL       = "$SDL
-echo "* SDL_Image = "$SDLIMAGE
+echo "* SDL Image = "$SDLIMAGE
 echo "* X         = "$X
 echo "--------------------------------"
