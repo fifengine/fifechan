@@ -1,3 +1,18 @@
+* Added an "addons" directory in the distrobution. It will contain
+  usefull classes with Guichan that are not compiled into the library.
+  They are not compiled because they need dependencies other then 
+  Guichans or are to specific. For now, "addons" only contain one
+  class, SDLTrueTypeFont giving True Type Font abilities to Guichan
+  through the SDL_ttf library and hence will only work with SDLGraphics.
+  SDLTrueTypeFont was contributed by Walluce Pinkham (and edited by us).
+  Thank you Walluce!
+* Added getColor function in Graphics. Implemented in SDLGraphics, 
+  AllegroGraphics and OpenGLGraphics.
+* Fixed a problem with the DropDown widget. When the widget was focused
+  with a mouse press, you couldn't select elements with up and down keys.
+* Merged drawText, drawTextCenter and drawTextRight into one function
+  drawText which takes an alignment parameter (thanks Ted!).
+  Widgets taking advantage of this are Button and Label.
 * As a result of the added border support, almost every widget have 
   been changed for the better, e.g removal of offsets.
 * Added support for borders. This is a major API change introducing
