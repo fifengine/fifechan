@@ -1,4 +1,6 @@
-
+* SDL.h is now included the proper way meaning you can install
+  SDL anywhere and Guichan will include the right headers as long
+  as sdl-config knows where the headers are.
 * Added ability to disable widgets.
 * Changed slightly how focus works. Focus is now applied after the
   input is processed. This resolved some problems when widgets
