@@ -117,7 +117,6 @@ namespace gcn
 		SDL_FreeSurface(mCurrentImage);
 
 		mCurrentImage = tmp2;
-		//	SDL_BlitSurface(tmp, &rect, mCurrentImage, &rect);   
     
   } // end prepare
 
@@ -135,20 +134,57 @@ namespace gcn
     }
 
     int i;
+    bool hasPink = false;
+    bool hasAlpha = false;
+    
     for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
     {
       if (((unsigned int*)mCurrentImage->pixels)[i] == SDL_MapRGB(mCurrentImage->format,255,0,255))
       {
-        SDL_SetColorKey(mCurrentImage,SDL_SRCCOLORKEY,
-                        SDL_MapRGB(mCurrentImage->format,255,0,255));
+        hasPink = true;
         break;
       }
     }
-        
-    SDL_Surface* temp = SDL_DisplayFormat(mCurrentImage);
-    SDL_FreeSurface(mCurrentImage);
-    mCurrentImage = NULL;
-   
+    
+    for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
+    {
+      Uint8 r, g, b, a;
+      
+      SDL_GetRGBA(((unsigned int*)mCurrentImage->pixels)[i], mCurrentImage->format,
+                  &r, &g, &b, &a);
+
+      if (a != 255)
+      {
+        hasAlpha = true;
+        break;
+      }      
+    }
+
+    // Don't convert 32bpp images with alpha, it will destroy the
+    // alpha channel.
+    SDL_Surface *temp;
+    if (hasAlpha)
+    {
+      temp = mCurrentImage;
+      mCurrentImage = NULL;
+    }
+    else
+    {
+      temp = SDL_DisplayFormat(mCurrentImage);
+      SDL_FreeSurface(mCurrentImage);
+      mCurrentImage = NULL;
+    }
+    
+    if (hasPink)
+    {
+      SDL_SetColorKey(temp, SDL_SRCCOLORKEY,
+                      SDL_MapRGB(temp->format,255,0,255));
+    }
+    if (hasAlpha)
+    {
+      SDL_SetAlpha(temp, SDL_SRCALPHA, 255);
+    }
+    
     return temp;
     
   } // end finalize
