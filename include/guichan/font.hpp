@@ -138,7 +138,7 @@ namespace gcn
      * @param y the y coordinate where to draw the string
      * @see Graphics
      */
-    virtual void drawString(Graphics* graphics, const std::string& text, const int x, const int y);    
+    virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);    
 
   }; // end Font
   
