@@ -63,8 +63,10 @@
 
 namespace gcn
 {
-
-  class Button: public FontWidget, public MouseListener
+  /**
+   * This is a button
+   */
+  class Button: public FontWidget, public MouseListener, public KeyListener
   {
   public:
     Button();
@@ -86,6 +88,8 @@ namespace gcn
     virtual void mouseMotion(int x, int y);
 
     virtual void lostFocus();
+
+    void keyPress(const Key& key);
     
   private:
     std::string mText;

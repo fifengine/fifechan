@@ -67,7 +67,7 @@ namespace gcn
   Button::Button()
   {
     addMouseListener(this);
-
+    addKeyListener(this);
     adjustSize();
     
   } // end Button
@@ -83,13 +83,14 @@ namespace gcn
     mMove = false;
 
     addMouseListener(this);
+    addKeyListener(this);
     
   } // end Button
 
   void Button::setText(const std::string& text)
   {
     mText = text;
-
+    
   } // end setText
   
   void Button::draw(Graphics* graphics)
@@ -97,60 +98,60 @@ namespace gcn
     graphics->setFont(getFont());
     if (hasFocus())
     {
-      Color c = mBackgroundColor + 0x202020;
+      Color c = getBackgroundColor() + 0x202020;
       graphics->setColor(c);
-      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
+      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
 
       graphics->setColor(c+0x303030);
-      graphics->drawLine(0, 0, mDimension.width-1, 0);
-      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      graphics->drawLine(0, 0, getDimension().width-1, 0);
+      graphics->drawLine(0, 1, 0, getDimension().height-1);
       
       graphics->setColor(c*0.3);      
-      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
-      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
+      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
+      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
     }
     else if (hasMouse())
     {
-      Color c = mBackgroundColor + 0xff2090;
+      Color c = getBackgroundColor() + 0xff2090;
       graphics->setColor(c);
-      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
+      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
 
       graphics->setColor(c+0x303030);
-      graphics->drawLine(0, 0, mDimension.width-1, 0);
-      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      graphics->drawLine(0, 0, getDimension().width-1, 0);
+      graphics->drawLine(0, 1, 0, getDimension().height-1);
       
       graphics->setColor(c*0.3);      
-      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
-      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
+      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
+      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
     }
     else
     {
-      graphics->setColor(mBackgroundColor);
-      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
+      graphics->setColor(getBackgroundColor());
+      graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
 
-      graphics->setColor(mBackgroundColor+0x303030);
-      graphics->drawLine(0, 0, mDimension.width-1, 0);
-      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      graphics->setColor(getBackgroundColor()+0x303030);
+      graphics->drawLine(0, 0, getDimension().width-1, 0);
+      graphics->drawLine(0, 1, 0, getDimension().height-1);
       
-      graphics->setColor(mBackgroundColor*0.3);      
-      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
-      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
+      graphics->setColor(getBackgroundColor()*0.3);      
+      graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
+      graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
     }
-    
-    
-    graphics->drawText(mText, 2, 2);
+        
+    graphics->drawText(mText, 4, 4);
     
   } // end draw
   
   void Button::adjustSize()
   {
-    setWidth(getFont()->getWidth(mText) + 4);
-    setHeight(getFont()->getHeight() + 4);
+    setWidth(getFont()->getWidth(mText) + 8);
+    setHeight(getFont()->getHeight() + 8);
 
   } // end adjustSize
 
   void Button::mouseClick(int x, int y, int button, int count)
   {
+    generateAction();
     if( button == MouseInput::LEFT && count == 2)
     {
       mText = "Per died";    
@@ -159,13 +160,13 @@ namespace gcn
     {
       mText = "Kill Per";    
     }
+
     adjustSize();
 
   } 
 
   void Button::mousePress(int x, int y, int button)
   {
-//    std::cout << "KUPO! PRESS" << std::endl;
     mMove = true;
     this->x = x;
     this->y = y;
@@ -173,7 +174,6 @@ namespace gcn
 
   void Button::mouseRelease(int x, int y, int button)
   {
-//    std::cout << "KUPO! RELEASE" << std::endl;
     mMove = false;
     this->x = 0;
     this->y = 0;
@@ -181,14 +181,12 @@ namespace gcn
   
   void Button::mouseMotion(int x, int y)
   {
-//    std::cout << "KUPO! MOTION" << x << " " << y << std::endl;
-
     int moveX = x - this->x;
     int moveY = y - this->y;
    
     if (mMove)
     {
-      setPosition(mDimension.x + moveX, mDimension.y + moveY);
+      setPosition(getDimension().x + moveX, getDimension().y + moveY);
     }
     
   }
@@ -198,6 +196,16 @@ namespace gcn
     mMove = false;
     this->x = 0;
     this->y = 0;
+  }
+
+  void Button::keyPress(const Key& key)
+  {
+    if (key.getValue() == Key::ENTER)
+    {
+      generateAction();
+      mText = "Pushed";
+      adjustSize();
+    }
   }
   
 } // end gcn
