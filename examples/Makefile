@@ -21,6 +21,8 @@ sdl:
 	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
 	g++ sdlaction.cpp -o sdlaction \
 	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
+	g++ sdlslider.cpp -o sdlslider \
+	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
 
 clean:
 	rm 	allegrohelloworld \
