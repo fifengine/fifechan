@@ -4,5 +4,6 @@ noinst_LTLIBRARIES = libguichan_widgets.la
 libguichan_widgets_la_SOURCES = \
 	button.cpp		\
 	icon.cpp		\
-	label.cpp
+	label.cpp		\
+	textfield.cpp
 
