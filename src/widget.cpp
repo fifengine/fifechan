@@ -60,6 +60,7 @@
 
 #include "guichan/widget.hpp"
 #include "guichan/focushandler.hpp"
+#include "guichan/basiccontainer.hpp"
 #include <iostream>
 
 namespace gcn
@@ -67,8 +68,8 @@ namespace gcn
   Widget::Widget()
   {
     mParent = NULL;
-    mForegroundColor = Color(255,255,255);
-    mBackgroundColor = Color(128,128,128);
+    mForegroundColor = Color(0xffffff);
+    mBackgroundColor = Color(0xb0c0d0);
     mFocusHandler = NULL;
     mFocusable = false;
     mClickTimeStamp = 0;
@@ -79,13 +80,13 @@ namespace gcn
     
   } // end Widget
 
-  void Widget::_setParent(Widget* parent)
+  void Widget::_setParent(BasicContainer* parent)
   {
     mParent = parent;
 
   } // end _setParent
 
-  Widget* Widget::getParent() const
+  BasicContainer* Widget::getParent() const
   {
     return mParent;
     
@@ -213,6 +214,24 @@ namespace gcn
 
   } // end requestFocus
 
+  void Widget::requestMoveToTop()
+  {
+    if (mParent)
+    {
+      mParent->moveToTop(this);
+    }
+
+  } // end requestMoveToTop
+
+  void Widget::requestMoveToBottom()
+  {
+    if (mParent)
+    {
+      mParent->moveToBottom(this);
+    }
+    
+  } // end requestMoveToBottom
+
   void Widget::setVisible(bool visible)
   {
     if (!visible && hasFocus())
@@ -279,6 +298,11 @@ namespace gcn
     
     mFocusHandler = focusHandler;
 
+  } // end _setFocusHandler
+
+  FocusHandler* Widget::_getFocusHandler()
+  {
+    return mFocusHandler;
   } // end _setFocusHandler
 
   void Widget::addActionListener(ActionListener* actionListener)
@@ -488,5 +512,15 @@ namespace gcn
     mTabable = tabable;
     
   } // end setTabable
-  
+
+  void Widget::generateAction()
+  {
+    ActionListenerIterator iter;
+    for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
+    {
+      (*iter)->action(mEventId);
+    }    
+    
+  } // end generateAction
+     
 } // end gcn

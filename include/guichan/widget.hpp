@@ -78,6 +78,13 @@ namespace gcn
    */
   class FocusHandler;
 
+  /*
+   * This class definiton exists for the widget class to compile.
+   * For more information regarding class BasicContainre please see
+   * the BasicContainer header file.
+  */
+  class BasicContainer;
+
   /**
    * This is the base class for all widgets. It is abstract.
    * It handles the common logic for all widgets such as
@@ -127,7 +134,7 @@ namespace gcn
      *         null if the widget has no parent for example if the
      *         widget is the gui top widget.
      */
-    virtual Widget* getParent() const;
+    virtual BasicContainer* getParent() const;
     
     /**
      * @param width the widget width in pixels
@@ -263,122 +270,6 @@ namespace gcn
     virtual const Color& getBackgroundColor() const;    
     
     /**
-     * This function is called if a key is pressed when
-     * the widget has keyboard focus. Overload this function
-     * if you want your widget to handle key presses.
-     *
-     * If a key is held down the widget will recieve multiple
-     * key presses.
-     *
-     * @param key the key pressed
-     * @see Key
-     */
-//    virtual void keyPressMessage(const Key& key) { }
-
-    /**
-     * This function is called if a key is released when
-     * the widget has keyboard focus. Overload this function
-     * if you want your widget to handle key releases.
-     *
-     * @param key the key released
-     * @see Key
-     */
-    //   virtual void keyReleaseMessage(const Key& key) { }
-    
-    /**
-     * This function is called when the mouse enters into the
-     * widget area. In addition to this function there is also
-     * the function hasMouse with which you can check if the
-     * widget currently has the mouse.
-     */
-//    virtual void mouseInMessage() { }
-
-    /**
-     * This function is called when the mouse leaves the
-     * widget area. In addition to this function there is also
-     * the function hasMouse with which you can check if the
-     * widget currently has the mouse.
-     */
-//    virtual void mouseOutMessage() { }
-    
-    /**
-     * This function is called when a mouse button is pressed
-     * when the mouse is in the widget area or if the widget
-     * has focus.
-     *
-     * NOTE: A mouse press is NOT equal to a mouse click.
-     *       Use mouseClickMessage to check for mouse clicks.
-     *
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     * @param button the button pressed
-     * @see mouseClickMessage
-     */
-//    virtual void mousePressMessage(int x, int y, int button) { }
-    
-    /**
-     * This function is called when a mouse button is released
-     * when the mouse is in the widget area or if the widget
-     * has focus.
-     *
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     * @param button the button released
-     */
-//    virtual void mouseReleaseMessage(int x, int y, int button) { }
-    
-    /**
-     * This function is called when a mouse button is pressed
-     * and released (clicked) when the mouse is in the widget
-     * area or if the widget has focus.
-     * 
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     * @param button the button clicked
-     * @param count the number of clicks
-     */
-//    virtual void mouseClickMessage(int x, int y, int button, int count) { }
-    
-    /**
-     * This function is called on a mouse wheel up when the mouse
-     * is in the widget area or if the widget has focus.
-     * 
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     */
-//    virtual void mouseWheelUpMessage(int x, int y) { }
-
-    /**
-     * This function is called on a mouse wheel down when the
-     * mouse is in the widget area or if the widget has focus.
-     * 
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     */
-//    virtual void mouseWheelDownMessage(int x, int y) { }
-
-    /**
-     * This function is called when the mouse moves and the
-     * mouse is in the widget area or if the widget has focus.
-     * 
-     * @param x the x coordinate of the mouse relative to the
-     *          widget itself.
-     * @param y the y coordinate of the mouse relative to the
-     *          widget itself.
-     */
-    //   virtual void mouseMotionMessage(int x, int y) { }
-
-    /**
      * This function sets the mouseType to be used as a mouse
      * pointer when the mouse is over this widget.
      *
@@ -396,14 +287,6 @@ namespace gcn
      */
     virtual const std::string& getMouseType() const;
         
-    /*
-     * Musmedelanden propageras till barnobjekt om de inte är
-     * i fokus. Detta för att undkiva dubblarade medelanden då
-     * medelanden alltid skickas till fokuserat object.
-     * Föräldraobjektet har ansvar för att skicka _mouseIn/Out
-     * till barnen.
-     */
-    
     /**
      * This function is used internally be the gui to handle all
      * mouse messages. Don't call or overload it unless you know
@@ -414,9 +297,6 @@ namespace gcn
      */
     virtual void _mouseInputMessage(const MouseInput& mouseInput);
 
-    /*
-     * Skickas bara till fokuserat objekt.
-     */
     /**
      * This function is used internally be the gui to handle all
      * key messages. Don't call or overload it unless you know
@@ -449,14 +329,35 @@ namespace gcn
     void requestFocus();
 
     /**
+     * This function requests the container the widgets in to
+     * move the widget to the top.
+     */
+    void requestMoveToTop();
+
+    /**
+     * This function requests the container the widgets in to
+     * move the widget to the bottom.
+    */
+    void requestMoveToBottom();
+
+    /**
      * This function sets the focus handler to be used by this
-     * widget and should not be called or overloaded unless you
+     * widget. Should not be called or overloaded unless you
      * know what you are doing.
      *
      * @param focusHandler a pointer to a focus handler.
      * @see FocusHandler
      */
     virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+    /**
+     * This function gets the focus handler used by this
+     * widget. Should not be called or overloaded unless you
+     * know what you are doing.
+     *
+     * @return the focus handler.
+     */
+    virtual FocusHandler* _getFocusHandler();
 
     /**
      * This function adds the action listener to the widget.
@@ -562,9 +463,9 @@ namespace gcn
      * This function sets the widgets parent. It should not be
      * called unless you know what you are doing.
      *
-     * @param widget the parent widget.
+     * @param widget the parent widget. 
      */
-    void _setParent(Widget* parent);
+    void _setParent(BasicContainer* parent);
 
     /**
      * @return true if the widget is tabable.
@@ -583,13 +484,12 @@ namespace gcn
     void setTabable(bool tabable);
     
   protected:
-    Rectangle mDimension;
-    Widget* mParent;
-    Color mForegroundColor;
-    Color mBackgroundColor;
-    std::string mMouseType;
-    FocusHandler* mFocusHandler;
-
+    /**
+     * This function generates an action to the widgets action listeners.
+     */
+    void generateAction();
+      
+    
     typedef std::list<MouseListener*> MouseListenerList;
     MouseListenerList mMouseListeners;
     typedef MouseListenerList::iterator MouseListenerIterator;
@@ -597,12 +497,18 @@ namespace gcn
     typedef std::list<KeyListener*> KeyListenerList;
     KeyListenerList mKeyListeners;
     typedef KeyListenerList::iterator KeyListenerIterator;
-    
+        
+  private:
     typedef std::list<ActionListener*> ActionListenerList;
     ActionListenerList mActionListeners;
     typedef ActionListenerList::iterator ActionListenerIterator;
-    
-  private:
+
+    Color mForegroundColor;
+    Color mBackgroundColor;
+    std::string mMouseType;
+    FocusHandler* mFocusHandler;
+    BasicContainer* mParent;
+    Rectangle mDimension;
     std::string mEventId;
     int mClickTimeStamp;
     int mClickCount;
