@@ -5,10 +5,11 @@ AC_INIT(guichan, 0.0.1, jansem@darkbits.org, Gui-chan)
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-ALLEGRO="no"
-OPENGL="no"
-SDL="no"
-SDLIMAGE="no"
+ALLEGRO="disabled"
+OPENGL="disabled"
+SDL="disabled"
+SDLIMAGE="disabled"
+X="disabled"
 
 GUICHAN_MAJOR_VERSION=0
 GUICHAN_MINOR_VERSION=0
@@ -38,7 +39,6 @@ AC_SUBST(LT_AGE)
 AM_INIT_AUTOMAKE(Gui-chan, $GUICHAN_VERSION)
 AM_CONFIG_HEADER([include/config.hpp])
 
-
 dnl AC_CONFIG_SRCDIR([src/])
 
 AC_PROG_CXX
@@ -50,6 +50,36 @@ AC_PROG_MAKE_SET
 AC_LANG_CPLUSPLUS
 AC_PROG_INSTALL
 AC_HEADER_STDC
+
+CXXFLAGS="$CXXFLAGS -pedantic -Wall -Werror"
+
+NoX()
+{
+  AC_MSG_WARN(Xlib support skipped when Xlib not found.)
+  X="no"
+}
+
+HaveX()
+{
+
+ X="yes"
+ X_LIBS="$X_LIBS -L$x_libraries -lX11"
+ GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS x"
+}
+
+AC_ARG_ENABLE(x,	     
+[  --enable-x	Enable Xlib support [default=yes]], 
+               , enable_x=yes)
+if test x$enable_x = xyes; then
+  AC_PATH_X
+  if test "x$no_x" = "xyes"; then
+    NoX
+  else
+  dnl   AC_CHECK_HEADERS([X11/Xlib.h])
+  dnl   AC_CHECK_LIB([X11], [XOpenDisplay], HaveX, NoX)
+    HaveX
+  fi
+fi
 
 NoOpenGL()
 {
@@ -129,6 +159,7 @@ fi
 
 AC_SUBST([OPENGL_LIBS])
 AC_SUBST([SDL_LIBS])
+AC_SUBST([X_LIBS])
 AC_SUBST([GUICHAN_EXTRADIRS])
 AC_SUBST([GUICHAN_EXTRALIBS])
 
@@ -140,11 +171,14 @@ include/guichan/Makefile
 include/guichan/allegro/Makefile
 include/guichan/opengl/Makefile
 include/guichan/sdl/Makefile
+include/guichan/widgets/Makefile
+include/guichan/x/Makefile
 src/Makefile
 src/allegro/Makefile
 src/opengl/Makefile
 src/sdl/Makefile
 src/widgets/Makefile
+src/x/Makefile
 guichan-config
 ], [chmod +x guichan-config])
 
@@ -155,4 +189,5 @@ echo "* Allegro   = "$ALLEGRO
 echo "* OpenGL    = "$OPENGL
 echo "* SDL       = "$SDL
 echo "* SDL_Image = "$SDLIMAGE
+echo "* X         = "$X
 echo "--------------------------------"

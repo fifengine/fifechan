@@ -17,7 +17,7 @@ namespace gcn
     /**
      * 
      */
-    MouseInput(int button, int type);
+    MouseInput(int button, int type, int mousex, int mousey, int timeStamp);
 
     /**
      * 
@@ -27,7 +27,7 @@ namespace gcn
     /**
      * 
      */
-    int getType();
+    int getType() const;
 
     /**
      * 
@@ -37,7 +37,17 @@ namespace gcn
     /**
      * 
      */
-    int getButton();
+    int getButton() const;
+
+    /**
+     *
+     */
+    int getTimeStamp() const;
+
+    /**
+     *
+     */
+    void setTimeStamp(int timeStamp);
 
     /**
      * 
@@ -52,10 +62,13 @@ namespace gcn
     const static int WHEEL_DOWN = 5;
     const static int PRESS = 6;
     const static int RELEASE = 7;
+    const static int MOTION = 8;
     
+    int x, y;
   protected:
     int mType;
     int mButton;
+    int mTimeStamp;
     
   }; // end MouseInput
 

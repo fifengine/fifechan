@@ -29,7 +29,7 @@ namespace gcn
     /**
      * 
      */
-    int getType();
+    int getType() const;
 
     /**
      * 
@@ -39,7 +39,7 @@ namespace gcn
     /**
      * 
      */
-    const Key& getKey();
+    const Key& getKey() const;
 
     /**
      * 

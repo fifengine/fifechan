@@ -49,8 +49,8 @@ namespace gcn
    */
   bool Key::isCharacter()
   {
-    return (mAscii >=32 && mAscii <= 126)
-      || (mAscii >= 162 && mAscii <= 255)
+    return (mAscii >= 32 && mAscii <= 126)
+      || (mAscii >= 162)
       || (mAscii == 9);
   }
   
@@ -69,7 +69,7 @@ namespace gcn
   {
     return ((mAscii >= 65 && mAscii <= 90)
             || (mAscii >= 97 && mAscii <= 122)
-            || (mAscii >= 192 && mAscii <= 255)
+            || (mAscii >= 192)
             && (mAscii != 215) && (mAscii != 247));
   }
 

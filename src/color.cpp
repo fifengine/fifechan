@@ -73,5 +73,15 @@ namespace gcn
 
     return result;    
   }
-  
+
+  bool Color::operator==(const Color& color) const
+  {
+    return r == color.r && g == color.g && b == color.b && a == color.a;
+  }
+
+  bool Color::operator!=(const Color& color) const
+  {
+    return !(r == color.r && g == color.g && b == color.b && a == color.a);
+  }
+
 } // end gcn

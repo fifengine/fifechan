@@ -10,6 +10,7 @@ namespace gcn
    */
   class KeyListener
   {
+  public:
     /**
      * 
      */
@@ -18,7 +19,7 @@ namespace gcn
     /**
      * 
      */
-    virtual void keyDownEvent(const std::string& eventId, const Key& key) = 0;
+    virtual void keyPressEvent(const std::string& eventId, const Key& key) = 0;
     /**
      * 
      */

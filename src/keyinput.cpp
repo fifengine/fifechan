@@ -23,7 +23,7 @@ namespace gcn
   /**
    * 
    */
-  int KeyInput::getType()
+  int KeyInput::getType() const
   {
     return mType;
   }
@@ -39,7 +39,7 @@ namespace gcn
   /**
    * 
    */
-  const Key& KeyInput::getKey()
+  const Key& KeyInput::getKey() const
   {
     return mKey;
   }

@@ -2,9 +2,11 @@
 #define GCN_FOCUSHANDLER_HPP
 
 #include <vector>
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
+  class Widget;
 
   /**
    * 
@@ -12,26 +14,37 @@ namespace gcn
   class FocusHandler
   {
   public:
+
+    FocusHandler(){}
     /**
      * 
      */
-    void requestFocus(Widget* widget);
+    void requestFocus(Widget* widget){}
     /**
      * 
      */
-    Widget* getFocused();
+    Widget* getFocused(){ return NULL; }
     /**
      * 
      */
-    void focusNext();
+    void focusNext(){}
     /**
      * 
      */
-    void focusPrevious();
+    void focusPrevious(){}
     /**
      * 
      */
-    bool hasFocus(Widget* widget);
+    bool hasFocus(Widget* widget){ return false; }
+    /**
+     * 
+     */
+    void add(Widget* widget){}
+    /**
+     * 
+     */
+    void remove(Widget* widget){} 
+    
     
   protected:
     std::vector<Widget*> mWidgets;

@@ -24,7 +24,7 @@ namespace gcn
     /**
      *
      */
-    const ClipRectangle& ClipRectangle::operator=(const Rectangle& other);
+    const ClipRectangle& operator=(const Rectangle& other);
     
     int xOffset;
     int yOffset;

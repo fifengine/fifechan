@@ -10,6 +10,7 @@ namespace gcn
    */
   class MouseListener
   {
+  public:
     /**
      * 
      */
@@ -25,8 +26,8 @@ namespace gcn
     /**
      * 
      */
-    virtual void mouseDownEvent(const std::string& eventId, int x,
-                                int y, int button) = 0;
+    virtual void mousePressEvent(const std::string& eventId, int x,
+                                 int y, int button) = 0;
     /**
      * 
      */
@@ -35,16 +36,21 @@ namespace gcn
     /**
      * 
      */
-    virtual void mouseWheelUpEvent(const std::string& eventId) = 0;
+    virtual void mouseWheelUpEvent(const std::string& eventId, int x, int y) = 0;
     /**
      * 
      */
-    virtual void mouseWheelDownEvent(const std::string& eventId) = 0;
+    virtual void mouseWheelDownEvent(const std::string& eventId, int x, int y) = 0;
     /**
      * 
      */
-    virtual void mouseMotionEvent(int x, int y) = 0;
+    virtual void mouseMotionEvent(const std::string& eventId, int x, int y) = 0;
 
+    /**
+     * 
+     */
+    virtual void mouseClickEvent(const std::string& eventId, int x, int y, int button, int count) = 0;
+    
   }; // end MouseListener
 
 } // end gcn
