@@ -154,6 +154,11 @@ namespace gcn
     virtual unsigned int getCaretColumn() const;
     
     virtual void fontChanged();
+
+    /**
+     *
+     */
+    virtual void scrollToCaret();
     
   protected:
     /**

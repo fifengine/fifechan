@@ -61,6 +61,9 @@
 #include "guichan/widgets/textbox.hpp"
 #include "guichan/mouseinput.hpp"
 #include "guichan/keyinput.hpp"
+#include "guichan/basiccontainer.hpp"
+#include "guichan/widgets/scrollarea.hpp"
+
 #include <iostream>
 
 namespace gcn
@@ -119,14 +122,16 @@ namespace gcn
       lastPos = pos + 1;
       
     } while (pos != std::string::npos);
+
+    adjustSize();
     
   } // end setText
   
   void TextBox::draw(Graphics* graphics)
   {
     unsigned int i;
-    
-    graphics->setColor(getBackgroundColor());
+
+    graphics->setColor(getBackgroundColor());    
     graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
     if (hasFocus())
@@ -152,10 +157,16 @@ namespace gcn
   } // end drawCaret
   
   void TextBox::mousePress(int x, int y, int button)
-  {
+  {        
     if (hasMouse() && button == MouseInput::LEFT)
     {
-      mCaretRow = y / getFont()->getHeight(); 
+      mCaretRow = y / getFont()->getHeight();
+
+      if (mCaretRow >= (int)mTextRows.size())
+      {
+        mCaretRow = mTextRows.size() - 1;
+      }
+      
       mCaretColumn = getFont()->getStringIndexAt(mTextRows[mCaretRow], x);
     }
     
@@ -257,13 +268,38 @@ namespace gcn
       mTextRows[mCaretRow] += mTextRows[mCaretRow + 1];
       mTextRows.erase(mTextRows.begin() + mCaretRow + 1);
     }
+    else if(key.getValue() == Key::PAGE_UP)
+    {
+      int w, h, rowsPerPage;
+      getParent()->getDrawSize(w, h, this);
+      rowsPerPage = h / getFont()->getHeight();
+      mCaretRow -= rowsPerPage;
+
+      if (mCaretRow < 0)
+      {
+        mCaretRow = 0;
+      }
+    }
+    else if(key.getValue() == Key::PAGE_DOWN)
+    {
+      int w, h, rowsPerPage;
+      getParent()->getDrawSize(w, h, this);
+      rowsPerPage = h / getFont()->getHeight();
+      mCaretRow += rowsPerPage;
+
+      if (mCaretRow >= (int)mTextRows.size())
+      {
+        mCaretRow = mTextRows.size() - 1;
+      }
+    }
     else if (key.isCharacter())
     {
       mTextRows[mCaretRow].insert(mCaretColumn,std::string(1,(char)key.getValue()));
       ++mCaretColumn;
     }   
-
+   
     adjustSize();
+    scrollToCaret();
     
   } // end keyPress
 
@@ -390,7 +426,22 @@ namespace gcn
 
   std::string TextBox::getText() const
   {
-    return std::string("");
+    if (mTextRows.size() == 0)
+    {
+      return std::string("");
+    }
+    
+    int i;
+    std::string text;
+    
+    for (i = 0; i < (int)mTextRows.size() - 1; ++i)
+    {
+      text = text + mTextRows[i] + "\n";
+    }
+
+    text = text + mTextRows[i];
+
+    return text;
 
   } // end getText
 
@@ -399,5 +450,20 @@ namespace gcn
     adjustSize();
 
   } // end fontChanged
+
+  void TextBox::scrollToCaret()
+  {
+    if (typeid(*getParent()) == typeid(ScrollArea))
+    {
+      ScrollArea* scrollArea = (ScrollArea*)getParent();
+      Rectangle scroll;
+      scroll.x = getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn));
+      scroll.y = getFont()->getHeight() * mCaretRow;
+      scroll.width = 6;
+      scroll.height = getFont()->getHeight();
+      scrollArea->scrollToRectangle(scroll);
+    }
+    
+  } // end scrollToCaret
   
 } // end gcn
