@@ -1,3 +1,5 @@
+* Implemented _getRawData() in AllegroImageLoader.
+* Fixed Image. It is now overloadable. 
 * DropDown sets the colors for its internal widgets if they are
   not custom widgets (not given to the DropDown by the user).
 * Now all default widgets respect the alpha channel in the colors.
