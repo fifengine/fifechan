@@ -106,6 +106,27 @@ namespace gcn
      *                   file is corrupt or if no ImageLoader exists.
      */
     ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
+		
+		/**
+		 * Destructor.
+		 */
+    virtual ~ImageFont();
+		
+    /**
+     * Draws a glyph.
+     *
+     * NOTE: You normally won't use this function to draw text since
+     *       the Graphics class contains better functions for drawing
+     *       text.
+     *
+     * @param graphics a graphics object to be used for drawing.
+     * @param glyph a glyph to draw.
+     * @param x the x coordinate where to draw the glyph.
+     * @param y the y coordinate where to draw the glyph.
+		 * @return the width of the glyph in pixels.
+     * @see Graphics
+     */
+    virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
 		/**
 		 * Sets the spacing between rows, in pixels.
@@ -137,20 +158,25 @@ namespace gcn
 		 */
 		virtual int getGlyphSpacing();
 		
-		/**
-		 * Destructor.
-		 */
-    virtual ~ImageFont();
+    /**
+     * Gets a width of a glyph.
+     *
+     * @param glyph the glyph which width will be returned
+     * @return the width of a glyph 
+     */
+		virtual int getWidth(unsigned char glyph) const;
 
-
+		
 		// Inherited from Font
 
-    virtual int getWidth(unsigned char glyph) const;
+		virtual int getWidth(const std::string& text) const;
+		
+		virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);		
 		
     virtual int getHeight() const;
-		
-    virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
+		virtual int getStringIndexAt(const std::string& text, int x);
+		
   protected:
     int addGlyph(unsigned char c, int x, const Color& separator);
     

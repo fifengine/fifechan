@@ -140,9 +140,8 @@ namespace gcn
   ImageFont::~ImageFont()
   {
 		Image::_getImageLoader()->free(mImage);
-    delete mImage;
-		
-  } // end ~ImageFont
+    delete mImage;		
+  }
   
   int ImageFont::getWidth(unsigned char glyph) const
   {
@@ -152,14 +151,12 @@ namespace gcn
     }
     
     return mGlyphW[glyph] + mGlyphSpacing;
-
-  } // end getWidth
+  }
 
   int ImageFont::getHeight() const
   {
     return mHeight + mRowSpacing;
-
-  } // end getHeight
+  }
 
   int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
   {
@@ -176,8 +173,18 @@ namespace gcn
     graphics->drawImage(mImage, mGlyphX[glyph], 0, x, y + yoffset, mGlyphW[glyph], getHeight());
 
     return mGlyphW[glyph] + mGlyphSpacing;
+  }
 
-  } // end drawGlyph
+	void ImageFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+  {
+    unsigned int i;
+    
+    for (i = 0; i< text.size(); ++i)
+    {
+      drawGlyph(graphics, text.at(i), x, y);
+      x += getWidth(text.at(i));      
+    }    
+  }
 
 	void ImageFont::setRowSpacing(int spacing)
 	{
@@ -253,5 +260,36 @@ namespace gcn
 		return w+x;
 		
   } // end addGlyph
+
+	int ImageFont::getWidth(const std::string& text) const
+	{
+    unsigned int i;
+    int size = 0;
+    
+    for (i = 0; i < text.size(); ++i)
+    {
+      size += getWidth(text.at(i));
+    }
+    
+    return size;    
+  }
+	
+	int ImageFont::getStringIndexAt(const std::string& text, int x)
+  {
+    unsigned int i;
+    int size = 0;
+    
+    for (i = 0; i < text.size(); ++i)
+    {
+      size += getWidth(text.at(i));
+      
+      if (size > x)
+      {
+        return i;
+      }
+    }
+    
+    return text.size();    
+  }
 
 } // end gcn
