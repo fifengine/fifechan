@@ -87,7 +87,7 @@ namespace gcn
   bool Key::isCharacter() const
   {
     return (mValue >= 32 && mValue <= 126)
-      || (mValue >= 162)
+      || (mValue >= 162 && mValue <= 255)
       || (mValue == 9);
 
   } // end isCharacter
@@ -100,11 +100,11 @@ namespace gcn
   
   bool Key::isLetter() const
   {
-    return ((mValue >= 65 && mValue <= 90)
+    return (((mValue >= 65 && mValue <= 90)
             || (mValue >= 97 && mValue <= 122)
-            || (mValue >= 192)
+            || (mValue >= 192 && mValue <= 255))
             && (mValue != 215) && (mValue != 247));
-
+    
   } // end isLetter
 
   bool Key::isShiftPressed() const
