@@ -165,7 +165,6 @@ AC_SUBST([GUICHAN_EXTRALIBS])
 
 AC_OUTPUT([
 Makefile
-examples/Makefile
 include/Makefile
 include/guichan/Makefile
 include/guichan/allegro/Makefile
