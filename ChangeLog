@@ -1,3 +1,4 @@
+* Fixed alpha problem with images loaded and displayed with SDL.
 * Added a new widget, the window widget.
 * SDL.h is now included the proper way meaning you can install
   SDL anywhere and Guichan will include the right headers as long
