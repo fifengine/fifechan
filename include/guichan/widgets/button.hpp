@@ -85,17 +85,16 @@ namespace gcn
 
     virtual void mouseRelease(int x, int y, int button);
 
-    virtual void mouseMotion(int x, int y);
+    virtual void keyPress(const Key& key);
+    
+    virtual void keyRelease(const Key& key);
 
     virtual void lostFocus();
-
-    void keyPress(const Key& key);
     
   private:
     std::string mText;
-    bool mMove;
-    int x, y;
-    
+    bool mMouseDown, mKeyDown;
+        
   }; // end Button
   
 } // end gcn
