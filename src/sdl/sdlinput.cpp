@@ -64,14 +64,7 @@
 #include <iostream>
 
 namespace gcn
-{
-  void SDLInput::init()
-  {
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-  } // end init
-  
+{  
   bool SDLInput::isKeyQueueEmpty()
   {
     return mKeyInputQueue.empty();

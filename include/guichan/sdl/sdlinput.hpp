@@ -78,17 +78,9 @@ namespace gcn
   public:
 
     /**
-     * Constructor. Currently doing nothing.
+     * Constructor.
      */
     SDLInput() { }
-
-    /**
-     * This function initialize the SDLInput. It is not necesary
-     * to call this function if you enable keyrepeate and unicode
-     * by yourself. If you're lazy and want to use this function,
-     * call it after the SDL initialization.
-     */
-    virtual void init();
 
     virtual bool isKeyQueueEmpty();
 
