@@ -5,5 +5,6 @@ libguichan_widgets_la_SOURCES = \
 	button.cpp		\
 	icon.cpp		\
 	label.cpp		\
+	textbox.cpp		\
 	textfield.cpp
 

@@ -1,0 +1,403 @@
+/*
+ *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
+ *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
+ * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
+ * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
+ * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
+ * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
+ *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
+ *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+ *
+ * Copyright (c) 2004 darkbits                              Js_./
+ * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
+ * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
+ *                                                 _Qhm`] _f "'c  1!5m
+ * Visit: http://guichan.darkbits.org             )Qk<P ` _: :+' .'  "{[
+ *                                               .)j(] .d_/ '-(  P .   S
+ * License: (BSD)                                <Td/Z <fP"5(\"??"\a.  .L
+ * Redistribution and use in source and          _dV>ws?a-?'      ._/L  #'
+ * binary forms, with or without                 )4d[#7r, .   '     )d`)[
+ * modification, are permitted provided         _Q-5'5W..j/?'   -?!\)cam'
+ * that the following conditions are met:       j<<WP+k/);.        _W=j f
+ * 1. Redistributions of source code must       .$%w\/]Q  . ."'  .  mj$
+ *    retain the above copyright notice,        ]E.pYY(Q]>.   a     J@\
+ *    this list of conditions and the           j(]1u<sE"L,. .   ./^ ]{a
+ *    following disclaimer.                     4'_uomm\.  )L);-4     (3=
+ * 2. Redistributions in binary form must        )_]X{Z('a_"a7'<a"a,  ]"[
+ *    reproduce the above copyright notice,       #}<]m7`Za??4,P-"'7. ).m
+ *    this list of conditions and the            ]d2e)Q(<Q(  ?94   b-  LQ/
+ *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
+ *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
+ *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
+ * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
+ *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
+ *    from this software without specific        (js, \[QQW$QWW#?!V"".
+ *    prior written permission.                    ]y:.<\..          .
+ *                                                 -]n w/ '         [.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT       )/ )/           !
+ * HOLDERS AND CONTRIBUTORS "AS IS" AND ANY         <  (; sac    ,    '
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING,               ]^ .-  %
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF            c <   r
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR            aga<  <La
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE          5%  )P'-3L
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR        _bQf` y`..)a
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,          ,J?4P'.P"_(\?d'.,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES               _Pa,)!f/<[]/  ?"
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT      _2-..:. .r+_,.. .
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     ?a.<%"'  " -'.a_ _,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION)                     ^
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+ * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * For comments regarding functions please see the header file. 
+ */
+
+#include "guichan/widgets/textbox.hpp"
+#include "guichan/mouseinput.hpp"
+#include "guichan/keyinput.hpp"
+#include <iostream>
+
+namespace gcn
+{
+  TextBox::TextBox()
+  {
+    mCaretColumn = 0;
+    mCaretRow = 0;
+    
+    setFocusable(true);    
+    
+    addMouseListener(this);
+    addKeyListener(this);
+    adjustSize();
+    
+  } // end TextBox
+  
+  TextBox::TextBox(const std::string& text)
+  {
+    mCaretColumn = 0;
+    mCaretRow = 0;
+    
+    setText(text);
+    
+    setFocusable(true);    
+  
+    addMouseListener(this);
+    addKeyListener(this);
+    adjustSize();
+    
+  } // end TextBox
+
+  void TextBox::setText(const std::string& text)
+  {
+    mCaretColumn = 0;
+    mCaretRow = 0;
+
+    mTextRows.clear();
+    
+    std::string::size_type pos, lastPos = 0;
+    int length;
+    do
+    {
+      pos = text.find("\n", lastPos);
+
+      if (pos != std::string::npos)
+      {
+        length = pos - lastPos;
+      }
+      else
+      {
+        length = text.size() - lastPos;
+      }
+      std::string sub = text.substr(lastPos, length);
+      mTextRows.push_back(sub);
+      lastPos = pos + 1;
+      
+    } while (pos != std::string::npos);
+    
+  } // end setText
+  
+  void TextBox::draw(Graphics* graphics)
+  {
+    unsigned int i;
+    
+    graphics->setColor(getBackgroundColor());
+    graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+
+    if (hasFocus())
+    {      
+      drawCaret(graphics, getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn)), mCaretRow * getFont()->getHeight());
+    }
+    
+    graphics->setColor(getForegroundColor());
+    graphics->setFont(getFont());
+
+    for (i = 0; i < mTextRows.size(); i++)
+    {
+      graphics->drawText(mTextRows[i], 0, i * getFont()->getHeight());
+    }
+    
+  } // end draw
+
+  void TextBox::drawCaret(Graphics* graphics, int x, int y)
+  {
+    graphics->setColor(getForegroundColor());
+    graphics->drawLine(x, getFont()->getHeight() - 2 + y, x, 1 + y);
+    
+  } // end drawCaret
+  
+  void TextBox::mousePress(int x, int y, int button)
+  {
+    if (hasMouse() && button == MouseInput::LEFT)
+    {
+      mCaretRow = y / getFont()->getHeight(); 
+      mCaretColumn = getFont()->getStringIndexAt(mTextRows[mCaretRow], x);
+    }
+    
+  } // end mousePress
+  
+  void TextBox::keyPress(const Key& key)
+  {
+    if (key.getValue() == Key::LEFT)
+    {
+      --mCaretColumn;
+      if (mCaretColumn < 0)
+      {
+        --mCaretRow;
+
+        if (mCaretRow < 0)
+        {
+          mCaretRow = 0;
+          mCaretColumn = 0;
+        }
+        else
+        {
+          mCaretColumn = mTextRows[mCaretRow].size();
+        }
+      }
+    }
+    else if (key.getValue() == Key::RIGHT)
+    {
+      ++mCaretColumn;
+      if (mCaretColumn > (int)mTextRows[mCaretRow].size())
+      {
+        ++mCaretRow;
+
+        if (mCaretRow >= (int)mTextRows.size())
+        {
+          mCaretRow = mTextRows.size() - 1;
+          if (mCaretRow < 0)
+          {
+            mCaretRow = 0;
+          }
+          
+          mCaretColumn = mTextRows[mCaretRow].size();
+        }
+        else
+        {
+          mCaretColumn = 0;
+        }
+      }
+    }
+    else if (key.getValue() == Key::DOWN)
+    {
+      setCaretRow(mCaretRow + 1);
+    }
+    else if (key.getValue() == Key::UP)
+    {
+      setCaretRow(mCaretRow - 1);
+    }
+    else if (key.getValue() == Key::HOME)
+//             || key.getValue() == 1)
+    {
+      mCaretColumn = 0;
+    }    
+    else if (key.getValue() == Key::END)
+//             || key.getValue() == 5)
+    {
+      mCaretColumn = mTextRows[mCaretRow].size();
+    }    
+    else if (key.getValue() == Key::ENTER)
+    {
+      mTextRows.insert(mTextRows.begin() + mCaretRow + 1,
+                       mTextRows[mCaretRow].substr(mCaretColumn, mTextRows[mCaretRow].size() - mCaretColumn));
+      mTextRows[mCaretRow].resize(mCaretColumn);
+      ++mCaretRow;
+      mCaretColumn = 0;
+    }
+    else if (key.getValue() == Key::BACKSPACE
+             && mCaretColumn != 0)
+    {
+      mTextRows[mCaretRow].erase(mCaretColumn - 1, 1);
+      --mCaretColumn;
+    }
+    else if (key.getValue() == Key::BACKSPACE
+             && mCaretColumn == 0
+             && mCaretRow != 0)
+    {
+      mCaretColumn = mTextRows[mCaretRow - 1].size();
+      mTextRows[mCaretRow - 1] += mTextRows[mCaretRow];
+      mTextRows.erase(mTextRows.begin() + mCaretRow);
+      --mCaretRow;
+    }
+    else if (key.getValue() == Key::DELETE
+             && mCaretColumn < (int)mTextRows[mCaretRow].size())
+    {
+      mTextRows[mCaretRow].erase(mCaretColumn, 1);
+    }
+    else if (key.getValue() == Key::DELETE
+             && mCaretColumn == (int)mTextRows[mCaretRow].size()
+             && mCaretRow < ((int)mTextRows.size() - 1)) 
+    {
+      mTextRows[mCaretRow] += mTextRows[mCaretRow + 1];
+      mTextRows.erase(mTextRows.begin() + mCaretRow + 1);
+    }
+    else if (key.isCharacter())
+    {
+      mTextRows[mCaretRow].insert(mCaretColumn,std::string(1,(char)key.getValue()));
+      ++mCaretColumn;
+    }   
+
+    adjustSize();
+    
+  } // end keyPress
+
+  void TextBox::lostFocus()
+  {
+
+  } // end lostFocus
+
+  void TextBox::adjustSize()
+  {
+    unsigned int i;
+    int width = 0;
+    for (i = 0; i < mTextRows.size(); ++i)
+    {
+      int w = getFont()->getWidth(mTextRows[i]);
+      if (width < w)
+      {
+        width = w;
+      }
+    }
+           
+    setWidth(width + 1);
+    setHeight(getFont()->getHeight() * mTextRows.size());    
+
+  } // end adjustSize
+  
+  void TextBox::setCaretPosition(unsigned int position)
+  {
+    /*
+    if (position > mText.size())
+    {
+      mCaretPosition = mText.size();
+    }
+    else
+    {    
+      mCaretPosition = position;
+    }
+
+    fixScroll();
+    */
+  } // end setCaretPosition
+
+  unsigned int TextBox::getCaretPosition() const
+  {
+    return 0;
+    
+  } // end getCaretPosition
+
+  void TextBox::setCaretRowColumn(int row, int column)
+  {
+    setCaretRow(row);
+    setCaretColumn(column);
+
+  } // end setCaretRowColumn
+
+  void TextBox::setCaretRow(int row)
+  {    
+    mCaretRow = row;
+
+    if (mCaretRow >= (int)mTextRows.size())
+    {
+      mCaretRow = mTextRows.size() - 1;
+    }
+
+    if (mCaretRow < 0)
+    {
+      mCaretRow = 0;
+    }
+
+    setCaretColumn(mCaretColumn);
+    
+  } // end setCaretRow
+  
+  unsigned int TextBox::getCaretRow() const
+  {
+    return mCaretRow;    
+
+  } // end getCaretRow
+
+  void TextBox::setCaretColumn(int column)
+  {
+    mCaretColumn = column;
+
+    if (mCaretColumn > (int)mTextRows[mCaretRow].size())
+    {
+      mCaretColumn = mTextRows[mCaretRow].size();
+    }
+
+    if (mCaretColumn < 0)
+    {
+      mCaretColumn = 0;
+    }
+
+  } // end setCaretColumn
+
+  unsigned int TextBox::getCaretColumn() const
+  {
+    return mCaretColumn;
+
+  } // end getCaretColumn
+  
+  const std::string& TextBox::getTextRow(int row) const
+  {
+    return mTextRows[row];
+
+  } // end getTextRow
+
+  void TextBox::setTextRow(int row, const std::string& text)
+  {
+    mTextRows[row] = text;
+
+    if (mCaretRow == row)
+    {
+      setCaretColumn(mCaretColumn);
+    }
+
+  } // end setTextRow
+
+  unsigned int TextBox::getNumberOfRows() const
+  {
+    return mTextRows.size();
+
+  } // end getNumberOfRows
+
+  std::string TextBox::getText() const
+  {
+    return std::string("");
+
+  } // end getText
+
+  void TextBox::fontChanged()
+  {
+    adjustSize();
+
+  } // end fontChanged
+  
+} // end gcn
