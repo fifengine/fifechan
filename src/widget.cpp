@@ -175,6 +175,11 @@ namespace gcn
   
   bool Widget::hasFocus()
   {
+    if (!mFocusHandler)
+    {
+      return false;
+    }
+
     return (mFocusHandler->hasFocus(this));
    
   } // end hasFocus
