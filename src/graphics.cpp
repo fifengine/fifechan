@@ -141,7 +141,7 @@ namespace gcn
     
   } // end drawText
 
-	void Grahpics::drawTextCenter(const std::string& text, int x, int y)
+	void Graphics::drawTextCenter(const std::string& text, int x, int y)
 	{
 		if (mFont == NULL)
 		{
@@ -153,7 +153,7 @@ namespace gcn
 		mFont->drawString(this, text, x - width / 2, y);
 	} 
 
-	void Grahpics::drawTextRight(const std::string& text, int x, int y)
+	void Graphics::drawTextRight(const std::string& text, int x, int y)
 	{
 		if (mFont == NULL)
 		{

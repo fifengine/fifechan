@@ -263,8 +263,8 @@ namespace gcn
 		 * @param y the y coordinate where to draw the text.		 
 		 * @trhows Exception when no font is set.
 		 */
-		virtual void drawTexRight(const std::string& text, int x, int y);
-
+		virtual void drawTextRight(const std::string& text, int x, int y);
+		
 //     /**
 //      * 
 //      */
