@@ -23,8 +23,6 @@ sdl:
 	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
 	g++ sdlaction.cpp -o sdlaction $(CFLAGS) \
 	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
-	g++ sdlslider.cpp -o sdlslider $(CFLAGS) \
-	-lguichan -lguichan_sdl `sdl-config --libs --cflags` -lSDL_image
 
 clean:
 	rm -f allegrohelloworld allegrowidgets allegroaction
