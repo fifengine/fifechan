@@ -74,7 +74,7 @@ namespace gcn
    * @see Graphics
    * @todo Alpha channel support.
    */
-  class DECLSPEC AllegroGraphics : public Graphics
+  class GCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
   {
   public:
 		/**

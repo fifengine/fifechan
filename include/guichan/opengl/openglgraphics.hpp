@@ -65,7 +65,7 @@ namespace gcn
    * information about the Graphics object please see the Graphics
    * header.   
    */
-  class DECLSPEC OpenGLGraphics: public Graphics
+  class GCN_EXTENSION_DECLSPEC OpenGLGraphics: public Graphics
   {
   public:
 

@@ -73,7 +73,7 @@ namespace gcn
 	 *
 	 * @see AllegroGraphics, Image
 	 */
-  class DECLSPEC AllegroImageLoader : public ImageLoader
+  class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
   {
   public:
 		AllegroImageLoader();

@@ -73,7 +73,7 @@ namespace gcn
    *
    * @todo Alpha channel support.
    */
-  class DECLSPEC SDLGraphics : public Graphics
+  class GCN_EXTENSION_DECLSPEC SDLGraphics : public Graphics
   {
   public:
 

@@ -70,7 +70,7 @@ namespace gcn
   /**
    * This is an Allegro implementation of the Input class.
    */
-  class DECLSPEC AllegroInput : public Input
+  class GCN_EXTENSION_DECLSPEC AllegroInput : public Input
   {
   public:
 
