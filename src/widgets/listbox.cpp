@@ -156,9 +156,15 @@ namespace gcn
 				mSelected = selected;
 			}
 
-			if (typeid(*getParent()) == typeid(ScrollArea))
+			Widget *par = getParent();
+			if (par == NULL)
 			{
-				ScrollArea* scrollArea = (ScrollArea*)getParent();
+				return;
+			}			
+			
+			ScrollArea* scrollArea = dynamic_cast<ScrollArea *>(par);
+			if (scrollArea != NULL)
+			{
 				Rectangle scroll;
 				scroll.y = getFont()->getHeight() * mSelected;
 				scroll.height = getFont()->getHeight();
