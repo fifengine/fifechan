@@ -62,10 +62,9 @@
 #include "guichan/font.hpp"
 #include "guichan/sdl/sdlgraphics.hpp"
 #include "guichan/sdl/sdlpixel.hpp"
-#include "config.hpp"
 
-//#include <cmath>
-
+// For some reason an old version of MSVC did not like std::abs,
+// so we added this macro.
 #ifndef ABS
 #define ABS(x) ((x)<0?-(x):(x))
 #endif
@@ -73,23 +72,32 @@
 namespace gcn
 {
 
-  void SDLGraphics::setTarget(SDL_Surface* target)
-  {
-    mTarget = target;
+	void SDLGraphics::_beginDraw()
+	{
     Rectangle area;
     area.x = 0;
     area.y = 0;
-    area.width = target->w;
-    area.height = target->h;
-    pushClipArea(area);
+    area.width = mTarget->w;
+    area.height = mTarget->h;
+    pushClipArea(area);		
+	}
 
+	void SDLGraphics::_endDraw()
+	{
+		popClipArea();
+	}
+	
+  void SDLGraphics::setTarget(SDL_Surface* target)
+  {
+    mTarget = target;
+		
   } // end setTarget
 
   bool SDLGraphics::pushClipArea(Rectangle area)
   {
     SDL_Rect rect;
     bool result = Graphics::pushClipArea(area);
-
+		
     ClipRectangle carea = mClipStack.top();
     rect.x = carea.x;
     rect.y = carea.y;
@@ -107,6 +115,11 @@ namespace gcn
     SDL_Rect rect;
     Graphics::popClipArea();
 
+		if (mClipStack.empty())
+		{
+			return;
+		}
+		
     ClipRectangle carea = mClipStack.top();
     rect.x = carea.x;
     rect.y = carea.y;
