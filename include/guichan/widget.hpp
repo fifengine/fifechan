@@ -58,6 +58,7 @@
 #define GCN_WIDGET_HPP
 
 #include <string>
+#include <list>
 
 #include "guichan/actionlistener.hpp"
 #include "guichan/color.hpp"
@@ -272,7 +273,7 @@ namespace gcn
      * @param key the key pressed
      * @see Key
      */
-    virtual void keyPressMessage(const Key& key) { }
+//    virtual void keyPressMessage(const Key& key) { }
 
     /**
      * This function is called if a key is released when
@@ -282,7 +283,7 @@ namespace gcn
      * @param key the key released
      * @see Key
      */
-    virtual void keyReleaseMessage(const Key& key) { }
+    //   virtual void keyReleaseMessage(const Key& key) { }
     
     /**
      * This function is called when the mouse enters into the
@@ -290,7 +291,7 @@ namespace gcn
      * the function hasMouse with which you can check if the
      * widget currently has the mouse.
      */
-    virtual void mouseInMessage() { }
+//    virtual void mouseInMessage() { }
 
     /**
      * This function is called when the mouse leaves the
@@ -298,7 +299,7 @@ namespace gcn
      * the function hasMouse with which you can check if the
      * widget currently has the mouse.
      */
-    virtual void mouseOutMessage() { }
+//    virtual void mouseOutMessage() { }
     
     /**
      * This function is called when a mouse button is pressed
@@ -315,7 +316,7 @@ namespace gcn
      * @param button the button pressed
      * @see mouseClickMessage
      */
-    virtual void mousePressMessage(int x, int y, int button) { }
+//    virtual void mousePressMessage(int x, int y, int button) { }
     
     /**
      * This function is called when a mouse button is released
@@ -328,7 +329,7 @@ namespace gcn
      *          widget itself.
      * @param button the button released
      */
-    virtual void mouseReleaseMessage(int x, int y, int button) { }
+//    virtual void mouseReleaseMessage(int x, int y, int button) { }
     
     /**
      * This function is called when a mouse button is pressed
@@ -342,7 +343,7 @@ namespace gcn
      * @param button the button clicked
      * @param count the number of clicks
      */
-    virtual void mouseClickMessage(int x, int y, int button, int count) { }
+//    virtual void mouseClickMessage(int x, int y, int button, int count) { }
     
     /**
      * This function is called on a mouse wheel up when the mouse
@@ -353,7 +354,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseWheelUpMessage(int x, int y) { }
+//    virtual void mouseWheelUpMessage(int x, int y) { }
 
     /**
      * This function is called on a mouse wheel down when the
@@ -364,7 +365,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseWheelDownMessage(int x, int y) { }
+//    virtual void mouseWheelDownMessage(int x, int y) { }
 
     /**
      * This function is called when the mouse moves and the
@@ -375,7 +376,7 @@ namespace gcn
      * @param y the y coordinate of the mouse relative to the
      *          widget itself.
      */
-    virtual void mouseMotionMessage(int x, int y) { }
+    //   virtual void mouseMotionMessage(int x, int y) { }
 
     /**
      * This function sets the mouseType to be used as a mouse
@@ -458,37 +459,61 @@ namespace gcn
     virtual void _setFocusHandler(FocusHandler* focusHandler);
 
     /**
-     * This function sets the action listener to be used by this
-     * widget. When an action is triggered, the widget calls its
-     * action listener. An action can be just about anything,
+     * This function adds the action listener to the widget.
+     * When an action is triggered, the widget calls its
+     * action listeners. An action can be just about anything,
      * for example a click on a button or enter pressed in an
      * edit box.
      *
-     * @param actionListener a pointer to an action listener.
+     * @param actionListener the action listener to add.
      * @see ActionListener
      */
-    void setActionListener(ActionListener* actionListener);
+    void addActionListener(ActionListener* actionListener);
+    
+    /**
+     * This function removes an action listener from the widget.
+     *
+     * @param actionListener the action listener to remove.
+     * @see ActionListener
+     */
+    void removeActionListener(ActionListener* actionListener);
 
     /**
-     * This function sets the mouse listener to be used by this
-     * widget. When a mouse message is recieved its not just
-     * sent to the widget but also the widgets mouse listener.
+     * This function adds a mouse listener to the widget.
+     * When a mouse message is recieved its sent to the
+     * mouse listeners.
      *
-     * @param mouseListener a pointer to a mouse listener.
+     * @param mouseListener the mouse listener to add.
      * @see MouseListener
      */
-    void setMouseListener(MouseListener* mouseListener);
+    void addMouseListener(MouseListener* mouseListener);
     
     /**
-     * This function sets the key listener to be used by this
-     * widget. When a key message is recieved its not just
-     * sent to the widget but also the widgets key listener.
+     * This function removes a mouse listener from the widget.
      *
-     * @param keyListener a pointer to a key listener.
+     * @param mouseListener the mouse listener to remove.
+     * @see MouseListener
+     */
+    void removeMouseListener(MouseListener* mouseListener);
+
+    /**
+     * This function adds a key listener to the widget.
+     * When a key message is recieved its sent to the 
+     * key listeners.
+     *
+     * @param keyListener the key listener to add.
      * @see KeyListener
      */
-    void setKeyListener(KeyListener* keyListener);
-    
+    void addKeyListener(KeyListener* keyListener);
+
+    /**
+     * This function removes a key listener to the widget.
+     *
+     * @param keyListener the key listener to remove.
+     * @see KeyListener
+     */
+    void removeKeyListener(KeyListener* keyListener);
+
     /**
      * This function sets the widgets event identifier. An event
      * identifier is used with action events. If this widget
@@ -564,11 +589,20 @@ namespace gcn
     Color mBackgroundColor;
     std::string mMouseType;
     FocusHandler* mFocusHandler;
+
+    typedef std::list<MouseListener*> MouseListenerList;
+    MouseListenerList mMouseListeners;
+    typedef MouseListenerList::iterator MouseListenerIterator;
+    
+    typedef std::list<KeyListener*> KeyListenerList;
+    KeyListenerList mKeyListeners;
+    typedef KeyListenerList::iterator KeyListenerIterator;
+    
+    typedef std::list<ActionListener*> ActionListenerList;
+    ActionListenerList mActionListeners;
+    typedef ActionListenerList::iterator ActionListenerIterator;
     
   private:
-    MouseListener* mMouseListener;
-    KeyListener* mKeyListener;
-    ActionListener* mActionListener;
     std::string mEventId;
     int mClickTimeStamp;
     int mClickCount;

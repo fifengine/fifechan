@@ -70,9 +70,6 @@ namespace gcn
     mForegroundColor = Color(255,255,255);
     mBackgroundColor = Color(128,128,128);
     mFocusHandler = NULL;
-    mMouseListener = NULL;
-    mKeyListener = NULL;
-    mActionListener = NULL;
     mFocusable = false;
     mClickTimeStamp = 0;
     mClickCount = 0;
@@ -284,17 +281,41 @@ namespace gcn
 
   } // end _setFocusHandler
 
-  void Widget::setActionListener(ActionListener* actionListener)
+  void Widget::addActionListener(ActionListener* actionListener)
   {
-    mActionListener = actionListener;
-
-  } // end setActionListener
-
-  void Widget::setKeyListener(KeyListener* keyListener)
+    mActionListeners.push_back(actionListener);
+    
+  } // end addActionListener
+  
+  void Widget::removeActionListener(ActionListener* actionListener)
   {
-    mKeyListener = keyListener;
-
-  } // end setKeyListener
+    mActionListeners.remove(actionListener);
+    
+  } // end removeActionListener
+  
+  void Widget::addKeyListener(KeyListener* keyListener)
+  {
+    mKeyListeners.push_back(keyListener);
+    
+  } // end addKeyListener
+  
+  void Widget::removeKeyListener(KeyListener* keyListener)
+  {
+    mKeyListeners.remove(keyListener);
+    
+  } // end removeKeyListener
+  
+  void Widget::addMouseListener(MouseListener* mouseListener)
+  {
+    mMouseListeners.push_back(mouseListener);
+    
+  } // end addMouseListener
+  
+  void Widget::removeMouseListener(MouseListener* mouseListener)
+  {
+    mMouseListeners.remove(mouseListener);
+    
+  } // end removeMouseListener
   
   void Widget::_mouseInputMessage(const MouseInput& mouseInput)
   {
@@ -302,14 +323,15 @@ namespace gcn
     int y = mouseInput.y;
     int b = mouseInput.getButton();
     int ts = mouseInput.getTimeStamp();
-      
+
+    MouseListenerIterator iter;
+    
     switch(mouseInput.getType())
     {
       case MouseInput::MOTION:
-        mouseMotionMessage(x, y);
-        if (mMouseListener)
+        for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
         {
-          mMouseListener->mouseMotionEvent(mEventId, x, y);
+          (*iter)->mouseMotion(x, y);
         }
         break;
         
@@ -318,13 +340,12 @@ namespace gcn
         
         if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
         {
-          mousePressMessage(x, y, b);
-          if (mMouseListener)
+          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
           {
-            mMouseListener->mousePressEvent(mEventId, x, y, b);
+            (*iter)->mousePress(x, y, b);
           }
 
-          // TODO: fajntjuna det här
+          /// @todo Tune the time stamp
           if (ts - mClickTimeStamp < 100 && mClickButton == b)
           {
             mClickCount++;
@@ -338,29 +359,26 @@ namespace gcn
         }
         else if (b == MouseInput::WHEEL_UP)
         {
-          mouseWheelUpMessage(x, y);
-          if (mMouseListener)
+          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
           {
-            mMouseListener->mouseWheelUpEvent(mEventId, x, y);
-          }                    
+            (*iter)->mouseWheelUp(x, y);
+          }
         }
         else
         {
-          mouseWheelDownMessage(x, y);
-          if (mMouseListener)
+          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
           {
-            mMouseListener->mouseWheelDownEvent(mEventId, x, y);
-          }                    
+            (*iter)->mouseWheelDown(x, y);
+          }
         }
         break;
 
       case MouseInput::RELEASE:
         if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
         {
-          mouseReleaseMessage(x, y, b);
-          if (mMouseListener)
+          for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
           {
-            mMouseListener->mouseReleaseEvent(mEventId, x, y, b);
+            (*iter)->mouseRelease(x, y, b);
           }
         }
 
@@ -368,19 +386,18 @@ namespace gcn
         {
           if (b == mClickButton)
           {
-            mouseClickMessage(x, y, b, mClickCount+1);
-            if (mMouseListener)
+            for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
             {
-              mMouseListener->mouseClickEvent(mEventId, x, y, b, mClickCount+1);
+              (*iter)->mouseClick(x, y, b, mClickCount + 1);
             }
           }
           else
           {
-            mouseClickMessage(x, y, b, 1);
-            if (mMouseListener)
+            for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
             {
-              mMouseListener->mouseClickEvent(mEventId, x, y, b, 1);
+              (*iter)->mouseClick(x, y, b, 1);
             }
+            
             mClickCount = 0;            
           }
         }
@@ -391,43 +408,53 @@ namespace gcn
         }
         break;
     }
-
+    
   } // end _mouseInputMessage
 
   void Widget::_keyInputMessage(const KeyInput& keyInput)
   {
+    KeyListenerIterator iter;
+
     switch(keyInput.getType())
     {
       case KeyInput::PRESS:
-        keyPressMessage(keyInput.getKey());
-        if (mKeyListener)
+        for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
         {
-          mKeyListener->keyPressEvent(mEventId, keyInput.getKey());
-        }           
+          (*iter)->keyPress(keyInput.getKey());
+        }        
         break;
         
       case KeyInput::RELEASE:
-        keyReleaseMessage(keyInput.getKey());
-        if (mKeyListener)
+        for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
         {
-          mKeyListener->keyReleaseEvent(mEventId, keyInput.getKey());
+          (*iter)->keyRelease(keyInput.getKey());
         }        
         break;
     }
-
+    
   } // end _keyInputMessage
 
   void Widget::_mouseInMessage()
   {
     mHasMouse = true;
-    mouseInMessage();
+
+    MouseListenerIterator iter;
+    for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+    {
+      (*iter)->mouseIn();
+    }    
 
   } // end _mouseInMessage
 
   void Widget::_mouseOutMessage()
   {
     mHasMouse = false;
-    mouseOutMessage();
+
+    MouseListenerIterator iter;
+    for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
+    {
+      (*iter)->mouseOut();
+    }    
 
   } // end _mouseOutMessage
 
