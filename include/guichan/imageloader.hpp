@@ -107,7 +107,8 @@ namespace gcn
     
     /**
      * This function finalizes an image meaning it will return the image
-     * data.
+     * data. If the image contains pixels with "magic pink" (0xff00ff)
+     * they will be treated as transparent pixels.
      *
      * @return a pointer to the image data.
      * @throws Exception when no image has been prepared.
