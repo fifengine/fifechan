@@ -66,7 +66,7 @@ namespace gcn
 	 * You can set the scale of the slider yourself so that it
 	 * ranges between, for example -1.0 and 2.0.
 	 */
-	class DECLSPEC Slider :
+	class GCN_CORE_DECLSPEC Slider :
 		public Widget,
 		public MouseListener,
 		public KeyListener

@@ -71,7 +71,7 @@ namespace gcn
    *
    * @see Widget
    */
-  class DECLSPEC Container: public BasicContainer
+  class GCN_CORE_DECLSPEC Container: public BasicContainer
   {
   public:
 

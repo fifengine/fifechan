@@ -73,7 +73,7 @@ namespace gcn
 	 *
 	 * @todo Make the ScrollArea handle key input.
 	 */
-	class DECLSPEC ScrollArea:
+	class GCN_CORE_DECLSPEC ScrollArea:
 		public BasicContainer,
 		public MouseListener
 	{

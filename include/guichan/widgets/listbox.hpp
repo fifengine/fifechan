@@ -72,7 +72,7 @@ namespace gcn
 	 *	 
 	 * @see ListModel
 	 */
-	class DECLSPEC ListBox :
+	class GCN_CORE_DECLSPEC ListBox :
 		public Widget,
 		public MouseListener,
 		public KeyListener

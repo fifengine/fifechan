@@ -71,7 +71,7 @@ namespace gcn
 	 * NOTE: A plain TextBox is really uggly and looks much better inside a
 	 *       ScrollArea.
 	 */
-	class DECLSPEC TextBox:
+	class GCN_CORE_DECLSPEC TextBox:
 		public Widget,
 		public MouseListener,
 		public KeyListener

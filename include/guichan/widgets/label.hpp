@@ -65,7 +65,7 @@ namespace gcn
 	/**
 	 * This is a simple labe for displaying a short text message.
 	 */
-	class DECLSPEC Label: public Widget
+	class GCN_CORE_DECLSPEC Label: public Widget
 	{
 	public:
 		/**

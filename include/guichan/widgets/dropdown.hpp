@@ -76,7 +76,7 @@ namespace gcn
 	 *	 
 	 * It uses a ListModel to look up it's values, just like the ListBox.
 	 */
-	class DECLSPEC DropDown :
+	class GCN_CORE_DECLSPEC DropDown :
 		public BasicContainer,
 		public MouseListener,
 		public KeyListener,

@@ -68,7 +68,7 @@ namespace gcn
 	 * This is a normal CheckBox. It can be checked and unchecked, and that is
 	 * basicly it.
 	 */
-	class DECLSPEC CheckBox :
+	class GCN_CORE_DECLSPEC CheckBox :
 		public Widget,
 		public MouseListener,
 		public KeyListener

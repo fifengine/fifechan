@@ -68,7 +68,7 @@ namespace gcn
 	 * be edited. If the enter key is pressed when the textfield has focus
 	 * it will fire an action to any connected ActionListeners.
 	 */
-	class DECLSPEC TextField:
+	class GCN_CORE_DECLSPEC TextField:
 		public Widget,
 		public MouseListener,
 		public KeyListener

@@ -70,7 +70,7 @@ namespace gcn
 	 * If a RadioButton belongs to a group, only one RadioButton in the group
 	 * can be selected.
 	 */
-	class DECLSPEC RadioButton :
+	class GCN_CORE_DECLSPEC RadioButton :
 		public Widget,
 		public MouseListener,
 		public KeyListener

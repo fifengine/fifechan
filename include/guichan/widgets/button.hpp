@@ -70,7 +70,7 @@ namespace gcn
 	 *       to handle, for instance images, you can implement an ImageButton
 	 *       of your own and overload member functions from Button.
 	 */
-	class DECLSPEC Button : public Widget,
+	class GCN_CORE_DECLSPEC Button : public Widget,
 													public MouseListener,
 													public KeyListener
 	{

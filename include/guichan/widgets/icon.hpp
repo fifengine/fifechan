@@ -64,7 +64,7 @@ namespace gcn
 	/**
 	 * This is a simple Icon widget for displaying icons (images).
 	 */	
-	class DECLSPEC Icon: public Widget
+	class GCN_CORE_DECLSPEC Icon: public Widget
 	{
 	public:
 		/**
