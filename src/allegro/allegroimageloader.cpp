@@ -90,7 +90,10 @@ namespace gcn
 			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
 		}
 		
+		#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
 		int colconv = get_color_conversion();
+		#endif
+
 		set_color_conversion(COLORCONV_NONE);
 
 		PALETTE pal;
@@ -112,7 +115,12 @@ namespace gcn
 		blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
 		destroy_bitmap(bmp);
 
-		set_color_conversion(colconv);
+		#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+		set_color_conversion(COLORCONV_TOTAL);
+		#else
+		set_color_conversion(colconv);		
+		#endif
+		
 	}
 	
 	void AllegroImageLoader::free(Image* image)
