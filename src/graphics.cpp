@@ -122,39 +122,29 @@ namespace gcn
     
   } // end setFont
 
-  void Graphics::drawText(const std::string& text, int x, int y)
+  void Graphics::drawText(const std::string& text, int x, int y,
+													unsigned int alignment)
   {
     if (mFont == NULL)
     {
       throw GCN_EXCEPTION("Graphics::drawText. No font set.");
     }
 
-    mFont->drawString(this, text, x, y);
-    
-  } // end drawText
-
-	void Graphics::drawTextCenter(const std::string& text, int x, int y)
-	{
-		if (mFont == NULL)
+		switch (alignment)
 		{
-      throw GCN_EXCEPTION("Graphics::drawTextCenter. No font set.");
+			case LEFT:			
+				mFont->drawString(this, text, x, y);
+				break;
+			case CENTER:
+				mFont->drawString(this, text, x - mFont->getWidth(text) / 2, y);
+				break;
+			case RIGHT:
+				mFont->drawString(this, text, x - mFont->getWidth(text), y);
+				break;
+			default:
+				throw GCN_EXCEPTION("Graphics::drawText. Unknown alignment.");
 		}
-
-		int width = mFont->getWidth(text);
-
-		mFont->drawString(this, text, x - width / 2, y);
-	} 
-
-	void Graphics::drawTextRight(const std::string& text, int x, int y)
-	{
-		if (mFont == NULL)
-		{
-      throw GCN_EXCEPTION("Graphics::drawTextRight. No font set.");
-		}
-
-		int width = mFont->getWidth(text);
 		
-		mFont->drawString(this, text, x - width, y);
-	} 
-
+  } // end drawText
+	
 } // end gcn
