@@ -88,7 +88,7 @@ namespace gcn
     
     /**
      * Sets the focus to a certain widget. Widget::lostFocus and
-     * Widget::gotFocus will be called a necessary.
+     * Widget::gotFocus will be called as necessary.
      *
      * @param widget the widget to be focused.
      */
