@@ -67,7 +67,9 @@ namespace gcn
   class Button: public FontWidget
   {
   public:
-    Button() { };
+    Button()
+    {
+    };
 
     Button(const std::string& text);
 
@@ -78,9 +80,17 @@ namespace gcn
     virtual void adjustSize();
 
     virtual void mouseClickMessage(int x, int y, int button, int count);
-    
+
+    virtual void mousePressMessage(int x, int y, int button);
+
+    virtual void mouseReleaseMessage(int x, int y, int button);
+
+    virtual void mouseMotionMessage(int x, int y);
+
   private:
     std::string mText;
+    bool mMove;
+    int x, y;
     
   }; // end Button
   

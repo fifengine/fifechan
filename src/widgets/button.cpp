@@ -60,6 +60,7 @@
 
 #include "guichan/widgets/button.hpp"
 #include "guichan/mouseinput.hpp"
+#include <iostream>
 
 namespace gcn
 {
@@ -70,6 +71,11 @@ namespace gcn
     
     setWidth(getFont()->getWidth(text) + 4);
     setHeight(getFont()->getHeight() + 4);
+    setFocusable(true);
+
+    x = 0;
+    y = 0;
+    mMove = false;
     
   } // end Button
 
@@ -82,16 +88,49 @@ namespace gcn
   void Button::draw(Graphics* graphics)
   {
     graphics->setFont(getFont());
-    if( hasMouse())
+    if (hasFocus())
     {
-      graphics->setColor(Color(0xFFFFFF));
+      Color c = mBackgroundColor + 0x202020;
+      graphics->setColor(c);
+      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
+
+      graphics->setColor(c+0x303030);
+      graphics->drawLine(0, 0, mDimension.width-1, 0);
+      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      
+      graphics->setColor(c*0.3);      
+      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
+      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
+    }
+    else if (hasMouse())
+    {
+      Color c = mBackgroundColor + 0xff2090;
+      graphics->setColor(c);
+      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
+
+      graphics->setColor(c+0x303030);
+      graphics->drawLine(0, 0, mDimension.width-1, 0);
+      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      
+      graphics->setColor(c*0.3);      
+      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
+      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
     }
     else
     {
-      graphics->setColor(Color(0x707070));
-    }
+      graphics->setColor(mBackgroundColor);
+      graphics->fillRectangle(Rectangle(1, 1, mDimension.width-1, mDimension.height-1));
 
-    graphics->fillRectangle(Rectangle(0, 0, mDimension.width, mDimension.height));
+      graphics->setColor(mBackgroundColor+0x303030);
+      graphics->drawLine(0, 0, mDimension.width-1, 0);
+      graphics->drawLine(0, 1, 0, mDimension.height-1);
+      
+      graphics->setColor(mBackgroundColor*0.3);      
+      graphics->drawLine(mDimension.width-1, 1, mDimension.width-1, mDimension.height-1);
+      graphics->drawLine(1, mDimension.height-1, mDimension.width-1, mDimension.height-1);
+    }
+    
+    
     graphics->drawText(mText, 2, 2);
     
   } // end draw
@@ -115,5 +154,34 @@ namespace gcn
     }
     adjustSize();
   }
+
+  void Button::mousePressMessage(int x, int y, int button)
+  {
+    std::cout << "KUPO! PRESS" << std::endl;
+    mMove = true;
+    this->x = x;
+    this->y = y;
+  }
+
+  void Button::mouseReleaseMessage(int x, int y, int button)
+  {
+    std::cout << "KUPO! RELEASE" << std::endl;
+    mMove = false;
+    this->x = 0;
+    this->y = 0;
+  }
   
+  void Button::mouseMotionMessage(int x, int y)
+  {
+    std::cout << "KUPO! MOTION" << std::endl;
+    int moveX = x - this->x;
+    int moveY = y - this->y;
+
+    if (mMove)
+    {
+      setPosition(mDimension.x + moveX, mDimension.y + moveY);
+    }
+    
+  }
+
 } // end gcn
