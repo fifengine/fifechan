@@ -1,6 +1,26 @@
-* Fixed OpenGL graphics to disable GL_LIGHTNING before
-	draw
+* DropDown sets the colors for its internal widgets if they are
+  not custom widgets (not given to the DropDown by the user).
+* Now all default widgets respect the alpha channel in the colors.
+* Non focusable widgets will now not recieve key input ever.
+  In previous version, focused widgets would still remain focused
+  after setting them to not be focusable.
+* Moved tab handling from Gui to the FocusHandler.
+* Splitted setTabable to setTabInEnabled and setTabOutEnabled.
+  Widgets can now have different behaviours on tab in and tab out.
+  The old setTabable is equivalent to setTabInEnabled.
+* isVisisble now checks if parent is visible
+* Added alpha channel support in AllegroGraphics for
+  drawing primitives
+* Added experimental alpha channel support in SDLGraphics
+  for 32 bpp
+* Added full alpha channel support in OpenGLGraphics
+* Fixed OpenGL graphics to disable GL_LIGHTNING before draw
 * Fixed container problem. Nonvisible widgets no longer
-        recieves mouse input.
+  recieves mouse input.
 * Fixed mouse out problem with SDLInput
 * Fixed alpha problem with the SDLImageLoader
+
+
+Version 0.0.1
+=============
+* Initial release
