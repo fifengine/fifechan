@@ -1,1 +1,2 @@
+* Fixed mouse out problem with SDLInput
 * Fixed alpha problem with the SDLImageLoader
