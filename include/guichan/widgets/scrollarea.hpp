@@ -54,39 +54,176 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GUICHAN_HPP
-#define GCN_GUICHAN_HPP
+#ifndef GCN_SCROLLAREA_HPP
+#define GCN_SCROLLAREA_HPP
 
-#include <guichan/actionlistener.hpp>
-#include <guichan/graphics.hpp>
-#include <guichan/color.hpp>
-#include <guichan/container.hpp>
-#include <guichan/exception.hpp>
-// #include "guichan/focushandler.hpp"
-#include <guichan/font.hpp>
-#include <guichan/gui.hpp>
-#include <guichan/image.hpp>
-#include <guichan/imagefont.hpp>
-#include <guichan/imageloader.hpp>
-// #include "guichan/imagemousetype.hpp"
-#include <guichan/input.hpp>
-#include <guichan/key.hpp>
-#include <guichan/keyinput.hpp>
-#include <guichan/keylistener.hpp>
-#include <guichan/mouseinput.hpp>
-#include <guichan/mouselistener.hpp>
-// #include "guichan/mousetype.hpp"
-#include <guichan/rectangle.hpp>
-#include <guichan/cliprectangle.hpp>
+#include "guichan/basiccontainer.hpp"
 
-#include <guichan/fontwidget.hpp>
-#include <guichan/widget.hpp>
+#include <string>
 
-#include <guichan/widgets/button.hpp>
-#include <guichan/widgets/icon.hpp>
-#include <guichan/widgets/label.hpp>
-#include <guichan/widgets/scrollarea.hpp>
-#include <guichan/widgets/textbox.hpp>
-#include <guichan/widgets/textfield.hpp>
+namespace gcn
+{
+  /**
+   * This is a scroll area
+   */
+  class ScrollArea: public BasicContainer
+  {
+  public:
+    /**
+     *
+     */
+    ScrollArea();
 
-#endif // end GCN_GUICHAN_HPP
+    /**
+     *
+     */    
+    ScrollArea(Widget *content);
+
+    /**
+     *
+     */    
+    ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy);
+
+    /**
+     *
+     */    
+    virtual ~ScrollArea();
+
+    /**
+     *
+     */    
+    virtual void setContent(Widget* widget);
+
+    /**
+     *
+     */    
+    virtual Widget* getContent();
+
+    /**
+     *
+     */    
+    virtual void setHorizontalScrollPolicy(unsigned int hPolicy);
+
+    /**
+     *
+     */    
+    virtual unsigned int getHorizontalScrollPolicy();
+
+    /**
+     *
+     */    
+    virtual void setVerticalScrollPolicy(unsigned int vPolicy);
+
+    /**
+     *
+     */    
+    virtual unsigned int getVerticalScrollPolicy();
+
+    /**
+     *
+     */    
+    virtual void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
+
+    /**
+     *
+     */    
+    virtual void setVerticalScrollAmount(int vScroll);
+
+    /**
+     *
+     */    
+    virtual int getVerticalScrollAmount();
+
+    /**
+     *
+     */    
+    virtual void setHorizontalScrollAmount(int hScroll);
+
+    /**
+     *
+     */    
+    virtual int getHorizontalScrollAmount();
+
+    /**
+     *
+     */    
+    virtual void setScrollAmount(int hScroll, int vScroll);
+
+    /**
+     *
+     */    
+    virtual int getHorizontalMaxScroll();
+
+    /**
+     *
+     */    
+    virtual int getVerticalMaxScroll();
+
+    /**
+     *
+     */
+    virtual void setScrollbarWidth(int width);
+
+    virtual int getScrollbarWidth();
+
+    virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+    virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+    virtual void _mouseOutMessage();
+    
+    virtual void draw(Graphics *graphics);
+
+    virtual void logic();
+
+    virtual void moveToTop(Widget* widget);
+
+    virtual void moveToBottom(Widget* widget);
+
+    /**
+     *
+     */
+    enum 
+    {
+      SHOW_ALWAYS,
+      SHOW_NEVER,
+      SHOW_AUTO
+    };
+    
+  protected:
+    /**
+     *
+     */
+    virtual void drawContent(Graphics* graphics);
+
+    /**
+     *
+     */
+    virtual void drawVBar(Graphics* graphics,
+                  Rectangle position,
+                  Rectangle markerPosition);
+
+    /**
+     *
+     */
+    virtual void drawHBar(Graphics* graphics,
+                  Rectangle position,
+                  Rectangle markerPosition);
+
+    virtual void checkPolicies();
+    
+    Widget *mContent;
+    int mVScroll;
+    int mHScroll;
+    int mScrollBarWidth;
+    unsigned int mHPolicy;
+    unsigned int mVPolicy;
+    bool mouseOverContent;
+    bool mVBarVisible;
+    bool mHBarVisible;
+    
+  }; // end ScrollArea
+
+} // end gcn
+
+#endif // end GCN_SCROLLAREA_HPP
