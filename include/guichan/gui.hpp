@@ -98,25 +98,25 @@ namespace gcn
     /**
      * Constructor.
      */
-    Gui();
+    virtual Gui();
 
     /**
      * Destructor.
      */
-    ~Gui();
+    virtual ~Gui();
 
     /**
      * Sets the top widget of the gui.
      *
      * @param top the top widget.
      */
-    void setTop(Widget* top);
+    virtual void setTop(Widget* top);
 
     /**
      * @return the top widget. NULL if no top widget exists.
      * @see setTop
      */
-    Widget* getTop() const;
+    virtual Widget* getTop() const;
 
     /**
      * Sets the Graphics object to use for drawing.
@@ -125,14 +125,14 @@ namespace gcn
      * @see Graphics, SDLGraphics, OpenGLGraphics, AllegroGraphics
      * @todo Explain about the Graphics object in this comment. (Briefly)
      */
-    void setGraphics(Graphics* graphics);
+    virtual void setGraphics(Graphics* graphics);
 
     /**
      *  @return the Graphics object used for drawing. NULL if no
      *          Graphics object exists.
      */
-    Graphics* getGraphics() const;
-
+    virtual Graphics* getGraphics() const;
+    
     /**
      *  Sets the Input object to use for input handling.
      *
@@ -141,13 +141,13 @@ namespace gcn
      * @todo Explain about the Input object in this comment. (Briefly)
      * @todo Maybe change the tab button to be configurable.
      */
-    void setInput(Input* input);
+    virtual void setInput(Input* input);
     
     /**
      *  @return the input object used for handling input. NULL if no
      *          Input object exists.
      */
-    Input* getInput() const;
+    virtual Input* getInput() const;
     
     /**
      * Performs the Gui:s logic by calling all logic functions
@@ -157,33 +157,33 @@ namespace gcn
 		 * NOTE: Logic also deals with user input (Mouse and Keyboard)
 		 *       for Widgets.
      */
-    void logic();
+    virtual void logic();
 
     /**
      * Draws the whole Gui by calling draw functions down in the
 		 * Gui hierarchy.
      */
-    void draw();
+    virtual void draw();
 
-	/**
-	 * Focus none of the Widgets in the Gui.
-	 */
-    void focusNone();
+    /**
+     * Focus none of the Widgets in the Gui.
+     */
+    virtual void focusNone();
+    
+    /**
+     * Toggle the use of the tab key to focus widgets.
+     * By default, tabbing is enabled.
+     *
+     * @param tabbing set to false if you want to disable tabbing
+     */
+    virtual void setTabbingEnabled(bool tabbing);
 
-	/**
-	 * Toggle the use of the tab key to focus widgets.
-	 * By default, tabbing is enabled.
-	 *
-	 * @param tabbing set to false if you want to disable tabbing
-	 */
-	void setTabbingEnabled(bool tabbing);
-
-	/**
-	 * Checks if tabbing is enabled.
-	 *
-	 * @return true if tabbing is enabled
-	 */
-	bool isTabbingEnabled();
+    /**
+     * Checks if tabbing is enabled.
+     *
+     * @return true if tabbing is enabled
+     */
+    virtual bool isTabbingEnabled();
 			
   protected:
     bool mTopHasMouse;
