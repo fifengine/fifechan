@@ -138,10 +138,10 @@ namespace gcn
 
     void Window::setContent(Widget* widget)
     {
-        if (mContent != NULL)
+        if (getContent() != NULL)
         {
-            mContent->_setParent(NULL);
-            mContent->_setFocusHandler(NULL);
+            getContent()->_setParent(NULL);
+            getContent()->_setFocusHandler(NULL);
         }
     
         if (widget != NULL)
@@ -247,15 +247,8 @@ namespace gcn
                            d.x + d.width - 1,
                            d.y + d.height - 1);
 
-        if (mContent != NULL)
-        {
-            graphics->pushClipArea(getContentDimension());
-            graphics->pushClipArea(Rectangle(0, 0, mContent->getWidth(), mContent->getHeight()));
-            mContent->draw(graphics);
-            graphics->popClipArea();
-            graphics->popClipArea();
-        }
-
+        drawContent(graphics);
+        
         int textX;
         int textY;
         textY = (getTitleBarHeight() - getFont()->getHeight()) / 2;
@@ -302,7 +295,20 @@ namespace gcn
 			graphics->drawLine(i,height - i, width - i - 1, height - i); 
 		}
     }
-			
+
+    void Window::drawContent(Graphics* graphics)
+    {
+        if (getContent() != NULL)
+        {
+            graphics->pushClipArea(getContentDimension());
+            graphics->pushClipArea(Rectangle(0, 0, getContent()->getWidth(),
+                                             getContent()->getHeight()));
+            getContent()->draw(graphics);
+            graphics->popClipArea();
+            graphics->popClipArea();
+        }
+    }
+    
     void Window::mousePress(int x, int y, int button)
     {    
         if (getParent() != NULL)
@@ -310,7 +316,8 @@ namespace gcn
             getParent()->moveToTop(this);
         }
     
-        if (isMovable() && hasMouse() && y < (int)(mTitleBarHeight + mPadding) && button == 1)
+        if (isMovable() && hasMouse()
+            && y < (int)(getTitleBarHeight() + getPadding()) && button == 1)
         {
             mMouseDrag = true;
             mMouseXOffset = x;
@@ -337,7 +344,7 @@ namespace gcn
   
     void Window::moveToTop(Widget* widget)
     {
-        if (widget != mContent)
+        if (widget != getContent())
         {
             throw GCN_EXCEPTION("Window::moveToTop. widget is not content of window");      
         }
@@ -345,7 +352,7 @@ namespace gcn
   
     void Window::moveToBottom(Widget* widget)
     {
-        if (widget != mContent)
+        if (widget != getContent())
         {
             throw GCN_EXCEPTION("Window::moveToBotom. widget is not content of window");      
         }
@@ -353,7 +360,7 @@ namespace gcn
   
     void Window::getDrawSize(int& width, int& height, Widget* widget)
     {
-        if (widget != mContent)
+        if (widget != getContent())
         {
             throw GCN_EXCEPTION("Window::getDrawSize. widget is not content of window");      
         }
@@ -365,7 +372,7 @@ namespace gcn
 
     void Window::repositionContent()
     {
-        if (mContent == NULL)
+        if (getContent() == NULL)
         {
             return;
         }
@@ -376,10 +383,10 @@ namespace gcn
   
     Rectangle Window::getContentDimension()
     {
-        return Rectangle(mPadding,
-                         mTitleBarHeight,
-                         getWidth() - mPadding * 2,
-                         getHeight() - mPadding - mTitleBarHeight);
+        return Rectangle(getPadding(),
+                         getTitleBarHeight(),
+                         getWidth() - getPadding() * 2,
+                         getHeight() - getPadding() - getTitleBarHeight());
     }
 
     void Window::setMovable(bool movable)

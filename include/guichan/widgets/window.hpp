@@ -141,47 +141,47 @@ namespace gcn
          *
          * @param padding the padding value.
          */
-        void setPadding(unsigned int padding);
+        virtual void setPadding(unsigned int padding);
 
         /**
          * Get the padding of the window.
          *
          * @return the padding value.
          */
-        unsigned int getPadding() const;
+        virtual unsigned int getPadding() const;
 
         /**
          * Set the title bar height.
          *
          * @param title the title height value.
          */      
-        void setTitleBarHeight(unsigned int height);
+        virtual void setTitleBarHeight(unsigned int height);
 
         /**
          * Get the title bar height.
          *
          * @return the title bar height.
          */
-        unsigned int getTitleBarHeight();
+        virtual unsigned int getTitleBarHeight();
 
         /**
          * Set the window to be moveble.
          *
          * @param movable true or false.
          */    
-        void setMovable(bool movable);
+        virtual void setMovable(bool movable);
 
         /**
          * Check if the window is movable.
          *
          * @return true or false.
          */    
-        bool isMovable() const;
+        virtual bool isMovable() const;
 
         /**
          * Resize the window to fit the content.
          */
-        void resizeToContent();
+        virtual void resizeToContent();
 
         /**
          * Set the window to be opaque. If it's not opaque,
@@ -189,16 +189,24 @@ namespace gcn
          *
          * @param opaque true or false.
          */
-        void setOpaque(bool opaque);
+        virtual void setOpaque(bool opaque);
 
         /**
          * Check if the window is opaque.
          *
          * @return true or false.
          */
-        bool isOpaque();
-
-    
+        virtual bool isOpaque();
+        
+        /**
+         * Draw the content of the window. This functions uses the
+         * getContentDimension to determin where to draw the content.
+         *
+         * @param graphics a graphics object to draw with.
+         */
+        virtual void drawContent(Graphics* graphics);
+        
+        
         // Inherited from BasicContainer
 
         virtual void moveToTop(Widget* widget);
