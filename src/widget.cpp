@@ -73,10 +73,11 @@ namespace gcn
 		mForegroundColor = Color(0x000000);
 		mBackgroundColor = Color(0xffffff);
 		mBaseColor = Color(0x808090);
+		mBorderSize = 0;
 		mFocusHandler = NULL;
 		mFocusable = false;
 		mClickTimeStamp = 0;
-		mClickCount = 0;
+		mClickCount = 0;		
 		mHasMouse = false;
 		mVisible = true;
 		mTabIn = true;
@@ -173,6 +174,16 @@ namespace gcn
 
 	} // end setDimension
 
+	void Widget::setBorderSize(unsigned int borderSize)
+	{
+		mBorderSize = borderSize;
+	}
+
+	unsigned int Widget::getBorderSize()
+	{
+		return mBorderSize;
+	}
+	
 	const Rectangle& Widget::getDimension()
 	{
 		return mDimension;

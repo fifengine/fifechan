@@ -101,7 +101,9 @@ namespace gcn
 		// Inherited from Widget
 
 		virtual void draw(Graphics* graphics);
-    
+
+		virtual void drawBorder(Graphics* graphics);
+		
 	private:
 		std::string mCaption;
     

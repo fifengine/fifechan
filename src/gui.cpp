@@ -214,44 +214,8 @@ namespace gcn
 							mFocusHandler->focusNone();
 						}
 					}
-				}
-										
-        // Focus another widget only if the widget allows it with
-        // tabable.
-				
-// 				if (mFocusHandler->getFocused())
-// 				{
-// 					if (mTabbing && mFocusHandler->getFocused()->isTabable()
-// 							&& ki.getKey().getValue() == Key::TAB
-// 							&& ki.getType() == KeyInput::PRESS
-// 							&& ki.getKey().isShiftPressed())
-// 					{
-// 						mFocusHandler->focusPrevious();
-// 					}                  
-// 					else if (mTabbing && mFocusHandler->getFocused()->isTabable()
-// 									 && ki.getKey().getValue() == Key::TAB
-// 									 && ki.getType() == KeyInput::PRESS)
-// 					{
-// 						mFocusHandler->focusNext();
-// 					}
-// 					else
-// 					{
-// 				
-// 					}
-// 				}
-// 				else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
-// 								 ki.getType() == KeyInput::PRESS &&
-// 								 ki.getKey().isShiftPressed())
-// 				{
-// 					mFocusHandler->focusPrevious();
-// 				}        
-// 				else if (mTabbing && ki.getKey().getValue() == Key::TAB &&
-// 								 ki.getType() == KeyInput::PRESS)
-// 				{
-// 					mFocusHandler->focusNext();
-// 				}		
-      }
-      
+				}										
+      }      
     } // end if
     
     mTop->logic();
@@ -270,10 +234,27 @@ namespace gcn
     }
 
     mGraphics->_beginDraw();
-    mGraphics->pushClipArea(mTop->getDimension());    
+
+		// If top has a border,
+		// draw it before drawing top
+		if (mTop->getBorderSize() > 0)
+		{
+			Rectangle rec = mTop->getDimension();
+			rec.x -= mTop->getBorderSize();
+			rec.y -= mTop->getBorderSize();
+			rec.width += 2 * mTop->getBorderSize();
+			rec.height += 2 * mTop->getBorderSize();					
+			mGraphics->pushClipArea(rec);
+			mTop->drawBorder(mGraphics);
+			mGraphics->popClipArea();
+		}
+
+		mGraphics->pushClipArea(mTop->getDimension());    
     mTop->draw(mGraphics);
     mGraphics->popClipArea();
-    mGraphics->_endDraw();
+
+
+		mGraphics->_endDraw();
     
   } // end draw
 

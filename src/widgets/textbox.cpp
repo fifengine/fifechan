@@ -78,6 +78,7 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustSize();
+		setBorderSize(1);
     
 	} // end TextBox
   
@@ -95,6 +96,7 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustSize();
+		setBorderSize(1);
     
 	} // end TextBox
 
@@ -149,15 +151,33 @@ namespace gcn
 
 		for (i = 0; i < mTextRows.size(); i++)
 		{
-			graphics->drawText(mTextRows[i], 0, i * getFont()->getHeight());
+			// Move the text one pixel so we can have a caret before a letter.
+			graphics->drawText(mTextRows[i], 1, i * getFont()->getHeight());
 		}
     
 	} // end draw
 
+	void TextBox::drawBorder(Graphics* graphics)
+	{
+		int width = getWidth() + getBorderSize() * 2 - 1;
+		int height = getHeight() + getBorderSize() * 2 - 1;
+
+		graphics->setColor(getBackgroundColor());
+
+		unsigned int i;
+		for (i = 0; i < getBorderSize(); ++i)
+		{
+			graphics->drawLine(i,i, width - i, i); 
+			graphics->drawLine(i,i, i, height - i); 
+			graphics->drawLine(width - i,i, width - i, height - i); 
+			graphics->drawLine(i,height - i, width - i, height - i); 
+		}
+	}
+	
 	void TextBox::drawCaret(Graphics* graphics, int x, int y)
 	{
 		graphics->setColor(getForegroundColor());
-		graphics->drawLine(x, getFont()->getHeight() - 2 + y, x, 1 + y);
+		graphics->drawLine(x, getFont()->getHeight() + y, x, y);
     
 	} // end drawCaret
   

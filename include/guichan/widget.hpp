@@ -111,7 +111,7 @@ namespace gcn
 		virtual ~Widget();
 
 		/**
-		 * This function should draw the widget (No kidding!).
+		 * This function should draw the widget.
 		 * It is called by the parent widget when it is time
 		 * for the widget to draw itself. The graphics object
 		 * is set up so that all drawing is relative to the
@@ -121,6 +121,14 @@ namespace gcn
 		 */
 		virtual void draw(Graphics* graphics) = 0;
 
+		/**
+		 * This function should draw a widgets border. A border is drawn
+		 * around a widget. The width and height of the border is therefore
+		 * the widgets height+2*bordersize. Think of a painting that has
+		 * a certain size, the border surrounds the painting. 
+		 */
+		virtual void drawBorder(Graphics* graphics) { }
+		
 		/**
 		 * This functions gets called for all widgets in the gui
 		 * each time Gui::logic is called. You can do logic stuff
@@ -195,7 +203,27 @@ namespace gcn
 		 * @see Rectangle
 		 */
 		virtual void setDimension(const Rectangle& dimension);
-    
+
+		/**
+		 * Sets the size of the border, or the width if you so like.
+		 * The size is the number of pixels that the border extends
+		 * outside the widget. Border size = 0 means no border.		 
+		 *
+		 * @param borderSize
+		 * @see drawBorder
+		 */
+		virtual void setBorderSize(unsigned int borderSize);
+
+		/**
+		 * Gets the size of the border, or the width if you so like.
+		 * The size is the number of pixels that the border extends
+		 * outside the widget. Border size = 0 means no border.		 			 
+		 *
+		 * @return the size of the border
+		 * @see drawBorder		 
+		 */
+		virtual unsigned int getBorderSize();
+		
 		/**
 		 * @return the widgets dimension relative to its
 		 *         container.
@@ -471,22 +499,6 @@ namespace gcn
 		void _setParent(BasicContainer* parent);
 
 		/**
-		 * @return true if the widget is tabable.
-		 * @see setTabable
-		 */
-//		bool isTabable() const;
-    
-		/**
-		 * Set the widget to be tabable. Tabable means that the tab
-		 * button kan be used to switch focus from the widget to
-		 * another widget.
-		 *
-		 * @param tabable true if the widget is tabable.
-		 * @see isTabable
-		 */
-//		void setTabable(bool tabable);
-
-		/**
 		 * This function returns the font used by this widget. If no 
 		 * font has been set, the global font will be returned instead.
 		 * If no global font has been set either, it will fall back on an
@@ -592,6 +604,7 @@ namespace gcn
 		FocusHandler* mFocusHandler;
 		BasicContainer* mParent;
 		Rectangle mDimension;
+		unsigned int mBorderSize;
 		std::string mEventId;
 		int mClickTimeStamp;
 		int mClickCount;
@@ -599,7 +612,6 @@ namespace gcn
 		bool mHasMouse;
 		bool mFocusable;
 		bool mVisible;
-//		bool mTabable;
 		bool mTabIn;
 		bool mTabOut;
 		

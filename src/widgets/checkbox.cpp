@@ -99,7 +99,31 @@ namespace gcn
 		graphics->drawText(mCaption, getHeight() + getHeight() / 2, 0);
 		
 	} // end draw
-  
+
+	void CheckBox::drawBorder(Graphics* graphics)
+	{
+		Color faceColor = getBaseColor();
+		Color highlightColor, shadowColor;
+		int alpha = getBaseColor().a;
+		int width = getWidth() + getBorderSize() * 2 - 1;
+		int height = getHeight() + getBorderSize() * 2 - 1;
+		highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
+		shadowColor = faceColor - 0x303030;
+		shadowColor.a = alpha;
+		
+		unsigned int i;
+		for (i = 0; i < getBorderSize(); ++i)
+		{
+			graphics->setColor(shadowColor);
+			graphics->drawLine(i,i, width - i, i); 
+			graphics->drawLine(i,i, i, height - i); 
+			graphics->setColor(highlightColor);
+			graphics->drawLine(width - i,i, width - i, height - i); 
+			graphics->drawLine(i,height - i, width - i, height - i); 
+		}
+	}
+
 	void CheckBox::drawBox(Graphics *graphics)
 	{
 		int h = getHeight() - 1;

@@ -176,8 +176,10 @@ namespace gcn
 
 		// Inherited from Widget
 		
-		virtual void draw(Graphics* graphics);   
+		virtual void draw(Graphics* graphics);
 
+		virtual void drawBorder(Graphics* graphics);
+		
 		virtual void _keyInputMessage(const KeyInput& keyInput);
 		
 		virtual void logic();

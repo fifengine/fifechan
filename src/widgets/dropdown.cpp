@@ -82,6 +82,7 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
+		setBorderSize(1);
 		
 	} // end DropDown
     
@@ -115,6 +116,8 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
+		setBorderSize(1);
+		
 	} // end DropDown
   
 	DropDown::DropDown(ListModel *listModel,
@@ -147,6 +150,7 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
+		setBorderSize(1);
 		
 	} // end DropDown
 
@@ -212,28 +216,19 @@ namespace gcn
 		
 
 		graphics->setColor(getBackgroundColor());
-		graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, h - 2));
+		graphics->fillRectangle(Rectangle(0, 0, getWidth(), h));
    
- 		graphics->setColor(shadowColor);
- 		graphics->drawLine(0, 0, 0, h);
- 		graphics->drawLine(0, 0, getWidth()-1, 0);
-
- 		graphics->setColor(highlightColor);           
- 		graphics->drawLine(1, h - 1, getWidth() - 2, h - 1);
- 		graphics->drawLine(getWidth()-1, 1, getWidth()-1, h - 1);
-
-
 		graphics->setColor(getForegroundColor());
 		graphics->setFont(getFont());
     
 		if (mListBox->getListModel() && mListBox->getSelected() >= 0)
 		{
-			graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 2, 1);
+			graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 1, 0);
 		}
 
 		if (hasFocus())
 		{
-			graphics->drawRectangle(Rectangle(1, 1, getWidth() - 1, h - 2));
+			graphics->drawRectangle(Rectangle(0, 0, getWidth() - h, h));
 		}
 		
 		drawButton(graphics);
@@ -243,9 +238,40 @@ namespace gcn
  			graphics->pushClipArea(mScrollArea->getDimension());
  			mScrollArea->draw(graphics);
  			graphics->popClipArea();
+
+			// Draw two lines separating the ListBox with se selected
+			// element view.
+			graphics->setColor(highlightColor);
+			graphics->drawLine(0, h, getWidth(), h);
+  		graphics->setColor(shadowColor);
+			graphics->drawLine(0, h + 1,getWidth(),h + 1);
  		}
 		
 	} // end draw
+
+	void DropDown::drawBorder(Graphics* graphics)
+	{
+		Color faceColor = getBaseColor();
+		Color highlightColor, shadowColor;
+		int alpha = getBaseColor().a;
+		int width = getWidth() + getBorderSize() * 2 - 1;
+		int height = getHeight() + getBorderSize() * 2 - 1;
+		highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
+		shadowColor = faceColor - 0x303030;
+		shadowColor.a = alpha;
+		
+		unsigned int i;
+		for (i = 0; i < getBorderSize(); ++i)
+		{
+			graphics->setColor(shadowColor);
+			graphics->drawLine(i,i, width - i, i); 
+			graphics->drawLine(i,i, i, height - i); 
+			graphics->setColor(highlightColor);
+			graphics->drawLine(width - i,i, width - i, height - i); 
+			graphics->drawLine(i,height - i, width - i, height - i); 
+		}
+	}
 
 	void DropDown::drawButton(Graphics *graphics)
 	{
@@ -277,14 +303,14 @@ namespace gcn
 		int h;
 		if (mDroppedDown)
 		{
-			h = mOldH - 2;
+			h = mOldH;
 		}
 		else
 		{
-			h = getHeight() - 2;
+			h = getHeight();
 		}
 		int x = getWidth() - h;
-		int y = 1;    
+		int y = 0;    
 
 		graphics->setColor(faceColor);
 		graphics->fillRectangle(Rectangle(x+1, y+1, h-2, h-2));
@@ -466,28 +492,31 @@ namespace gcn
 		}
 
 		int listBoxHeight = mListBox->getHeight();
-		int h2 = getFont()->getHeight() + 2;
+		int h2 = getFont()->getHeight();
 
 		setHeight(h2);
-    
+
+		// The addition/subtraction of 2 compensates for the seperation lines
+		// seperating the selected element view and the scroll area.
+		
 		if (mDroppedDown && getParent())
 		{
 			int h = getParent()->getHeight() - getY();
       
-			if (listBoxHeight + 2 > h - h2)
+			if (listBoxHeight > h - h2 - 2)
 			{
-				mScrollArea->setHeight(h - h2);
+				mScrollArea->setHeight(h - h2 - 2);
 				setHeight(h);
 			}
 			else
 			{
 				setHeight(listBoxHeight + h2 + 2);
-				mScrollArea->setHeight(listBoxHeight + 2);
+				mScrollArea->setHeight(listBoxHeight);
 			}
 		}
 
 		mScrollArea->setWidth(getWidth());
-		mScrollArea->setPosition(0, h2);
+		mScrollArea->setPosition(0, h2 + 2);
 		
 	} // end adjustHeight
 

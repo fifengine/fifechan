@@ -92,8 +92,32 @@ namespace gcn
     
 		drawChildren(graphics);
 
-	} // draw
+	}
 
+	void Container::drawBorder(Graphics* graphics)
+	{
+		Color faceColor = getBaseColor();
+		Color highlightColor, shadowColor;
+		int alpha = getBaseColor().a;
+		int width = getWidth() + getBorderSize() * 2 - 1;
+		int height = getHeight() + getBorderSize() * 2 - 1;
+		highlightColor = faceColor + 0x303030;
+		highlightColor.a = alpha;
+		shadowColor = faceColor - 0x303030;
+		shadowColor.a = alpha;
+		
+		unsigned int i;
+		for (i = 0; i < getBorderSize(); ++i)
+		{
+			graphics->setColor(shadowColor);
+			graphics->drawLine(i,i, width - i, i); 
+			graphics->drawLine(i,i, i, height - i); 
+			graphics->setColor(highlightColor);
+			graphics->drawLine(width - i,i, width - i, height - i); 
+			graphics->drawLine(i,height - i, width - i, height - i); 
+		}
+	}
+	
 	void Container::logicChildren()
 	{
 		WidgetIterator iter;
@@ -111,6 +135,20 @@ namespace gcn
 		{
 			if ((*iter)->isVisible())
 			{
+				// If the widget has a border,
+				// draw it before drawing the widget
+				if ((*iter)->getBorderSize() > 0)
+				{
+					Rectangle rec = (*iter)->getDimension();
+					rec.x -= (*iter)->getBorderSize();
+					rec.y -= (*iter)->getBorderSize();
+					rec.width += 2 * (*iter)->getBorderSize();
+					rec.height += 2 * (*iter)->getBorderSize();					
+					graphics->pushClipArea(rec);
+					(*iter)->drawBorder(graphics);
+					graphics->popClipArea();
+				}
+				
 				graphics->pushClipArea((*iter)->getDimension());
 				(*iter)->draw(graphics);
 				graphics->popClipArea();

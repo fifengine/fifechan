@@ -199,11 +199,14 @@ namespace gcn
 		 * @param opaque true if the TextBox should be opaque.		 
 		 */
 		virtual void setOpaque(bool opaque);
+
 		
 		// Inherited from Widget
 		
 		virtual void draw(Graphics* graphics);
 
+		virtual void drawBorder(Graphics* graphics);
+		
 		virtual void fontChanged();
 		
 		virtual void lostFocus();
