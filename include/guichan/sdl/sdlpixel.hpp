@@ -58,7 +58,6 @@
 #include <SDL/SDL.h>
 
 #include "guichan/color.hpp"
-#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -127,13 +126,13 @@ namespace gcn
   inline void SDLputPixel(SDL_Surface* surface, int x, int y, const Color& color)
   {
     int bpp = surface->format->BytesPerPixel;
-
+		
     SDL_LockSurface(surface);
 
     Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
     
     Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-    
+
     switch(bpp)
     {
       case 1:
@@ -167,7 +166,74 @@ namespace gcn
     SDL_UnlockSurface(surface);
 
   } // end SDLputPixel
-  
+
+	/**
+	 * Blends to 32 bit colors together.
+	 *
+	 * @param src the source color.
+	 * @param dst the destination color.
+	 * @param a alpha
+	 */
+	inline unsigned int SDLAlpha32(unsigned int src, unsigned int dst, unsigned char a)
+	{
+		unsigned int b = ((src & 0xff) * a + (dst & 0xff) * (255 - a)) >> 8;
+		unsigned int g = ((src & 0xff00) * a + (dst & 0xff00) * (255 - a)) >> 8;
+		unsigned int r = ((src & 0xff0000) * a + (dst & 0xff0000) * (255 - a)) >> 8;
+
+		return (b & 0xff) | (g & 0xff00) | (r & 0xff0000);
+	}
+	
+  /**
+	 * Puts a pixel on an SDL_Surface with alpha
+	 *
+	 * @param x the x coordinate on the surface.
+	 * @param y the y coordinate on the surface.
+	 * @param color the color the pixel should be in.
+	 */
+  inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, const Color& color)
+  {
+    int bpp = surface->format->BytesPerPixel;
+		
+    SDL_LockSurface(surface);
+
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+    
+    Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+
+    switch(bpp)
+    {
+      case 1:
+        *p = pixel;
+        break;
+        
+      case 2:
+        *(Uint16 *)p = pixel;
+        break;
+        
+      case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+        {
+          p[0] = (pixel >> 16) & 0xff;
+          p[1] = (pixel >> 8) & 0xff;
+          p[2] = pixel & 0xff;
+        }
+        else
+        {
+          p[0] = pixel & 0xff;
+          p[1] = (pixel >> 8) & 0xff;
+          p[2] = (pixel >> 16) & 0xff;
+        }
+        break;
+        
+      case 4:
+        *(Uint32 *)p = SDLAlpha32(pixel, *(Uint32 *)p, color.a);
+        break;
+    }
+    
+    SDL_UnlockSurface(surface);
+
+  } // end SDLputPixel
+
 } // end gcn
 
 #endif // end GCN_SDLPIXEL_HPP

@@ -77,6 +77,11 @@ namespace gcn
   {
   public:
 
+		/**
+		 * Constructor.
+		 */
+		SDLGraphics();
+		
     /**
      * This function sets the target on which to draw Gui-chan.
      * Gui-chan is drawn upon calling the draw function found in
@@ -116,7 +121,9 @@ namespace gcn
     virtual void drawRectangle(const Rectangle& rectangle);
 
     virtual void fillRectangle(const Rectangle& rectangle);
-    
+
+		virtual void setColor(const Color& color);
+		
   protected:
     /**
      * This function draws a horizontal line.
@@ -137,7 +144,9 @@ namespace gcn
     virtual void drawVLine(int x, int y1, int y2);
 
     SDL_Surface* mTarget;
-    
+    Color mColor;
+		bool mAlpha;
+		
   }; // end SDLGraphics
   
 } // end gcn

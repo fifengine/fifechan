@@ -70,6 +70,11 @@
 namespace gcn
 {
 
+	SDLGraphics::SDLGraphics()
+	{
+		mAlpha = false;
+	}
+	
 	void SDLGraphics::_beginDraw()
 	{
     Rectangle area;
@@ -155,27 +160,42 @@ namespace gcn
   } // end drawImage
 
   void SDLGraphics::fillRectangle(const Rectangle& rectangle)
-  {
-    
+  {    
     Rectangle area = rectangle;
     ClipRectangle top = mClipStack.top(); 
-    area.x += top.xOffset;
-    area.y += top.yOffset;
+
+		area.x += top.xOffset;
+		area.y += top.yOffset;
 
     if(!area.intersect(top))
     {
       return;
     }
-    
-    SDL_Rect rect;
-    rect.x = area.x;
-    rect.y = area.y;
-    rect.w = area.width;
-    rect.h = area.height;
-    
-    Uint32 color = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
-    SDL_FillRect(mTarget, &rect, color);
 
+    if (mAlpha)
+		{
+			int x;
+			int y;
+			for (x = rectangle.x; x < rectangle.x + rectangle.width; ++x)
+			{
+				for (y = rectangle.y; y < rectangle.y + rectangle.height; ++y)
+				{
+					drawPoint(x,y);
+				}
+			}
+		}
+		else
+		{
+			SDL_Rect rect;
+			rect.x = area.x;
+			rect.y = area.y;
+			rect.w = area.width;
+			rect.h = area.height;
+    
+			Uint32 color = SDL_MapRGBA(mTarget->format, mColor.r, mColor.g, mColor.b, mColor.a);
+			SDL_FillRect(mTarget, &rect, color);
+		}
+		
   } // end fillRectangle
 
   void SDLGraphics::drawPoint(int x, int y)
@@ -187,7 +207,14 @@ namespace gcn
     if(!top.isPointInRect(x,y))
       return;
 
-    SDLputPixel(mTarget, x, y, mColor);
+		if (mAlpha)
+		{
+			SDLputPixelAlpha(mTarget, x, y, mColor);
+		}
+		else
+		{			
+			SDLputPixel(mTarget, x, y, mColor);
+		}
     
   } // end drawPoint
 
@@ -280,9 +307,18 @@ namespace gcn
         Uint32* q = (Uint32*)p;
         for (;x1 <= x2; ++x1)
         {
-          *(q++) = pixel;
+					if (mAlpha)
+					{
+						*q = SDLAlpha32(pixel,*q,mColor.a);
+						q++;
+					}
+					else
+					{
+						*(q++) = pixel;
+					}
         }
       } break;
+
     } // end switch
     
     SDL_UnlockSurface(mTarget);
@@ -378,7 +414,14 @@ namespace gcn
       {
         for (;y1 <= y2; ++y1)
         {
-          *(Uint32*)p = pixel;
+					if (mAlpha)
+					{
+						*(Uint32*)p = SDLAlpha32(pixel,*(Uint32*)p,mColor.a);
+					}
+					else
+					{
+						*(Uint32*)p = pixel;
+					}
           p += mTarget->pitch;
         }
       } break;
@@ -477,5 +520,13 @@ namespace gcn
       drawPoint(x1 + i, y1 + (int)j);
     } 
   } // end drawLine
-  
+
+	void SDLGraphics::setColor(const Color& color)
+  {
+    mColor = color;    
+
+		mAlpha = color.a != 255;
+		
+  } // end setColor
+
 } // end gcn
