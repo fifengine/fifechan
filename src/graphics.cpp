@@ -137,13 +137,8 @@ namespace gcn
       throw GCN_EXCEPTION("Graphics::drawText. No font set.");
     }
 
-    for (unsigned int i=0; i< text.size(); ++i)
-    {
-      mFont->drawGlyph(this, text.at(i), x, y);
-      x += mFont->getWidth(text.at(i));      
-    }
+    mFont->drawString(this, text, x, y);
     
   } // end drawText
-  
   
 } // end gcn
