@@ -15,6 +15,7 @@ libguichan_la_SOURCES = 	\
 	defaultfont.cpp		\
 	exception.cpp		\
 	focushandler.cpp	\
+	font.cpp		\
 	fontwidget.cpp		\
 	graphics.cpp		\
 	gui.cpp			\

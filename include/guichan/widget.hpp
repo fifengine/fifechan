@@ -392,6 +392,7 @@ namespace gcn
      * Föräldraobjektet har ansvar för att skicka _mouseIn/Out
      * till barnen.
      */
+    
     /**
      * This function is used internally be the gui to handle all
      * mouse messages. Don't call or overload it unless you know
@@ -562,4 +563,3 @@ namespace gcn
  *             pointless quotes are funny in their own pointless
  *             way."
  */
- 

@@ -16,30 +16,37 @@ namespace gcn
   public:
 
     FocusHandler(){}
+    
     /**
      * 
      */
     void requestFocus(Widget* widget){}
+    
     /**
      * 
      */
     Widget* getFocused(){ return NULL; }
+    
     /**
      * 
      */
     void focusNext(){}
+    
     /**
      * 
      */
     void focusPrevious(){}
+
     /**
      * 
      */
     bool hasFocus(Widget* widget){ return false; }
+    
     /**
      * 
      */
     void add(Widget* widget){}
+    
     /**
      * 
      */
