@@ -82,8 +82,6 @@ namespace gcn
     
     virtual void* finalize();
 
-    virtual void* finalizeNoConvert();
-
     virtual void discard();
     
     virtual int getHeight() const;

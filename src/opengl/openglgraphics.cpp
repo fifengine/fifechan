@@ -211,9 +211,10 @@ namespace gcn
     glBindTexture(GL_TEXTURE_2D, *((GLuint *)(image->_getData())));
 
     glEnable(GL_TEXTURE_2D);
-    
-    glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
 
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Draw a textured quad -- the image
     glBegin(GL_QUADS);
     glTexCoord2f(texX1, texY1);
@@ -230,7 +231,8 @@ namespace gcn
     glEnd();
     
     glDisable(GL_TEXTURE_2D);      
-
+    glDisable(GL_BLEND);
+    
   } // drawImage
   
   void OpenGLGraphics::drawPoint(int x, int y)

@@ -72,6 +72,7 @@ namespace gcn
    * header.
    *
    * @see Graphics
+   * @todo Alpha channel support.
    */
   class SDLGraphics : public Graphics
   {

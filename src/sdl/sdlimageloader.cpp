@@ -131,6 +131,17 @@ namespace gcn
     {
       throw GCN_EXCEPTION("SDLImageLoader::finalize. No image prepared.");
     }
+
+    int i;
+    for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
+    {
+      if (((unsigned int*)mCurrentImage->pixels)[i] == SDL_MapRGB(mCurrentImage->format,255,0,255))
+      {
+        SDL_SetColorKey(mCurrentImage,SDL_SRCCOLORKEY,
+                        SDL_MapRGB(mCurrentImage->format,255,0,255));        
+        break;
+      }
+    }    
     
     SDL_Surface* temp = SDL_DisplayFormat(mCurrentImage);
     SDL_FreeSurface(mCurrentImage);
@@ -140,19 +151,6 @@ namespace gcn
 
   } // end finalize
   
-  void* SDLImageLoader::finalizeNoConvert()
-  {
-    if (mCurrentImage == NULL)
-    {
-      throw GCN_EXCEPTION("SDLImageLoader::finalizeNoConvert. No image prepared.");
-    }
-
-    SDL_Surface* temp = mCurrentImage;
-    mCurrentImage = NULL;
-    return temp;
-    
-  } // end finalizeNoConvert
-
   void SDLImageLoader::discard()
   {
     if (mCurrentImage == NULL)
