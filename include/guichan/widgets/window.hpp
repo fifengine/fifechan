@@ -62,6 +62,9 @@
 
 namespace gcn
 {
+  /**
+   * This is a movable window which can contain another widget.
+   */
 	class GCN_CORE_DECLSPEC Window : public BasicContainer,
 													public MouseListener
 	{
@@ -211,9 +214,7 @@ namespace gcn
 		
 		virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);
-			
-		virtual void lostFocus();
+		virtual void drawBorder(Graphics* graphics);			
 
     virtual void _mouseInputMessage(const MouseInput &mouseInput);
     
@@ -222,9 +223,7 @@ namespace gcn
     virtual void _setFocusHandler(FocusHandler* focusHandler);
         
     
-		// Inherited from MouseListener
-		
-		virtual void mouseClick(int x, int y, int button, int count);
+		// Inherited from MouseListener	 
 
 		virtual void mousePress(int x, int y, int button);
 

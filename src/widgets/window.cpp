@@ -303,16 +303,6 @@ namespace gcn
 		}
   }
 			
-  void Window::lostFocus()
-  {
-
-  }
-		  
-	void Window::mouseClick(int x, int y, int button, int count)
-  {
-    
-  }
-
   void Window::mousePress(int x, int y, int button)
   {    
     if (getParent() != NULL)
