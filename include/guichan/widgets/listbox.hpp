@@ -64,41 +64,74 @@
 
 namespace gcn
 {
-  class ListBox :
-    public Widget,
-    public MouseListener,
-    public KeyListener
-  {
-  public:
-    ListBox();
-    
-    ListBox(ListModel *listModel);
-      
-    virtual ~ListBox() { }
-    
-    virtual void logic();
-    
-    virtual void draw(Graphics* graphics);
-    
-    virtual int getSelected();
-    
-    virtual void setSelected(int selected);
+	class ListBox :
+		public Widget,
+		public MouseListener,
+		public KeyListener
+	{
+	public:
+		/**
+		 * Constructor.
+		 */
+		ListBox();
 
-    virtual void keyPress(const Key& key);
+		/**
+		 * Constructor.
+		 *
+		 * @param listModel the ListModel to be used.
+		 * @see ListModel
+		 */
+		ListBox(ListModel *listModel);
 
-    virtual void mousePress(int x, int y, int button);
+		/**
+		 * Destructor.
+		 */
+		virtual ~ListBox() { }
+				
+		virtual void logic();
+				
+		virtual void draw(Graphics* graphics);
 
-    virtual void setListModel(ListModel *listModel);
-
-    virtual ListModel *getListModel();
-
-    virtual void adjustSize();
+		/**
+		 * @return the selected element.
+		 */
+		virtual int getSelected();
     
-  protected:
-    ListModel *mListModel;
-    int mSelected;
+		/**
+		 * Set the selected element.
+		 *
+		 * @param selected the number of the element to be selected.
+		 */
+		virtual void setSelected(int selected);
+
+		virtual void keyPress(const Key& key);
+
+		virtual void mousePress(int x, int y, int button);
+
+		/**
+		 * Sets the ListModel to be used.
+		 *
+		 * @param listModel the ListModel to be used.
+		 * @see ListModel
+		 */
+		virtual void setListModel(ListModel *listModel);
+
+		/**
+		 * @return the ListModel used.
+		 * @see ListModel
+		 */
+		virtual ListModel *getListModel();
+
+		/**
+		 * Adjusts the size of the listbox to fit the font used.
+		 */
+		virtual void adjustSize();
     
-  }; // end ListBox
+	protected:
+		ListModel *mListModel;
+		int mSelected;
+    
+	}; // end ListBox
   
 } // end gcn
 

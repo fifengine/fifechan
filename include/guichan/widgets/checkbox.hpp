@@ -71,34 +71,73 @@ namespace gcn
     public KeyListener
   {
   public:
+
+    /**
+     * Contructor.
+     */
     CheckBox();
-    
+
+    /**
+     * Constructor.
+     *
+     * @param caption the caption of the CheckBox.
+     * @param marked true if the CheckBox should be marked.
+     */
     CheckBox(const std::string &caption, bool marked=false);
-      
+
+    /**
+     * Destructor.
+     */
     virtual ~CheckBox() { }
     
     virtual void logic();
     
     virtual void draw(Graphics* graphics);
 
+    /**
+     * Draws the box i.a not the caption.
+     *
+     * @param graphics a graphics object.
+     */
     virtual void drawBox(Graphics *graphics);
-    
+
+    /**
+     * @return true if the CheckBox is marked.
+     */      
     virtual bool isMarked() const;
-    
+		
+    /**
+     * Set the CheckBox marked.
+     *
+     * @param marked true if the CheckBox should be marked.
+     */
     virtual void setMarked(bool marked);
-
+		
+    /**
+     * @return the caption of the CheckBox.
+     */
     virtual const std::string &getCaption() const;
-
-    virtual void setCaption(const std::string caption);
-
+		
+    /**
+     * Sets the caption of the CheckBox.
+     *
+     * @param caption the CheckBox caption.
+     */
+		virtual void setCaption(const std::string caption);
+		
     virtual void keyPress(const Key& key);
-
+    
     virtual void mouseClick(int x, int y, int button, int count);
 
+    /**
+     * Adjusts the CheckBox size to fit the font size.
+     */
     virtual void adjustSize();
     
   protected:
-
+    /**
+     * Toggle between marked and unmarked.
+     */
     virtual void toggle();
     
     bool mMarked;

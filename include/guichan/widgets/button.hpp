@@ -68,16 +68,27 @@ namespace gcn
    */
   class Button: public Widget, public MouseListener, public KeyListener
   {
+    /**
+     * @todo Make a button able to not only display text but also images.
+     */
   public:
     Button();
 
     Button(const std::string& text);
 
+    /**
+     * Set the text of a button.
+     *
+     * @param text the buttons text.
+     */
     virtual void setText(const std::string& text);
+
+    /**
+     * Adjusts the buttons size to fit the content.     
+     */
+    virtual void adjustSize();
     
     virtual void draw(Graphics* graphics);
-    
-    virtual void adjustSize();
 
     virtual void mouseClick(int x, int y, int button, int count);
 

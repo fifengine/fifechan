@@ -62,19 +62,21 @@
 
 namespace gcn
 {
-
-  class Icon: public Widget
-  {
-  public:
-    Icon(Image* image);
-    
-    virtual void draw(Graphics* graphics);
-    
-  private:
-    Image* mImage;
-    
-  }; // end Icon
-  
+	/**
+	 * This is a simple Icon widget for displaying icons (images).
+	 */	
+	class Icon: public Widget
+	{
+	public:
+		Icon(Image* image);
+		
+		virtual void draw(Graphics* graphics);
+		
+	private:
+		Image* mImage;
+		
+	}; // end Icon
+	
 } // end gcn
 
 #endif // end GCN_ICON_HPP

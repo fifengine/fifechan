@@ -66,43 +66,91 @@
 
 namespace gcn
 {
+	/**
+	 * This is a simple RadioButton.
+	 */
   class RadioButton :
     public Widget,
     public MouseListener,
     public KeyListener
   {
   public:
-    
+
+		/**
+		 * Constructor.
+		 */
     RadioButton();
-    
+
+		/**
+		 * Constructor.
+		 *
+		 * @param caption the radiobuttons caption.
+		 * @param group the group the RadioButton belongs to.
+		 * @param marked true if the RadioButton should be marked.
+		 */
     RadioButton(const std::string &caption,
                 const std::string &group,                
                 bool marked=false);
-      
+
+		/**
+		 * Destructor.
+		 */
     virtual ~RadioButton();
     
     virtual void logic();
     
     virtual void draw(Graphics* graphics);
 
+		/**
+		 * Draws the box i.a not the caption.
+		 *
+		 * @param graphics a Graphics object.
+		 */
     virtual void drawBox(Graphics *graphics);
-    
+
+    /**
+     * @return true if the RadioButton is marked.
+     */      
     virtual bool isMarked() const;
     
+    /**
+     * Set the RadioButton marked.
+     *
+     * @param marked true if the RadioButton should be marked.
+     */
     virtual void setMarked(bool marked);
 
+    /**
+     * @return the caption of the RadioButton.
+     */
     virtual const std::string &getCaption() const;
 
+    /**
+     * Sets the caption of the RadioButton.
+     *
+     * @param caption the RadioButton caption.
+     */
     virtual void setCaption(const std::string caption);
 
     virtual void keyPress(const Key& key);
 
     virtual void mouseClick(int x, int y, int button, int count);
 
+		/**
+		 * Set the group the RadioButton should belong to.
+		 *
+		 * @param group the name of the group.
+		 */
     virtual void setGroup(const std::string &group);
 
+		/**
+		 * @return the group the RadioButton belongs to.
+		 */
     virtual const std::string &getGroup() const;
 
+		/**
+		 * Adjusts the RadioButtons size to fit the font size.
+		 */
     virtual void adjustSize();
     
   protected:

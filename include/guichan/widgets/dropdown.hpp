@@ -74,22 +74,50 @@ namespace gcn
 		public ActionListener
 	{
 	public:
+		/**
+		 * Constructor.
+		 */
 		DropDown();
-    
-		DropDown(ListModel *listModel);
 
+		/**
+		 * Contructor.
+		 *
+		 * @param listModel the ListModel to be used.
+		 * @see ListModel.
+		 */		 
+		DropDown(ListModel *listModel);
+		
+		/**
+		 * Contructor.
+		 *
+		 * @param listModel the ListModel to be used.
+		 * @param scrollArea the ScrollArea to be used.
+		 * @param listBox the listBox to be used.
+		 * @see ListModel, ScrollArea, ListBox.
+		 */		 
 		DropDown(ListModel *listModel,
 				 ScrollArea *scrollArea,
 				 ListBox *listBox);
-    
+
+		/**
+		 * Destructor.
+		 */
 		virtual ~DropDown();
     
 		virtual void logic();
     
 		virtual void draw(Graphics* graphics);   
-    
+
+		/**
+		 * @return the selected element.
+		 */
 		virtual int getSelected();
-    
+
+		/**
+		 * Set the selected element.
+		 *
+		 * @param selected the number of the element to be selected.
+		 */
 		virtual void setSelected(int selected);
 
 		virtual void keyPress(const Key& key);
@@ -98,18 +126,52 @@ namespace gcn
     
 		virtual void mouseRelease(int x, int y, int button);    
 
+		/**
+		 * Sets the ListModel to be used.
+		 *
+		 * @param listModel the ListModel to be used.
+		 * @see ListModel
+		 */
 		virtual void setListModel(ListModel *listModel);
 
+		/**
+		 * @return the ListModel used.
+		 * @see ListModel
+		 */
 		virtual ListModel *getListModel();
 
+		/**
+		 * Sets the ScrollArea to be used.
+		 *
+		 * @param scrollArea the ScrollArea to be used.
+		 * @see ScrollArea
+		 */
 		virtual void setScrollArea(ScrollArea* scrollArea);
 
+		/**
+		 * @return the ScrollArea used.
+		 * @see ScrollArea
+		 */
 		virtual ScrollArea *getScrollArea();
 
+		/**
+		 * Sets the ListBox to be used.
+		 *
+		 * @param listBox the ListBox to be used.
+		 * @see ListBox
+		 */
 		virtual void setListBox(ListBox* listBox);
 
+		/**
+		 * @return the ListBox used.
+		 * @see ListBox
+		 */
 		virtual ListBox *getListBox();
-    
+
+		/**
+		 * Adjusts the height of the DropDown fitting its parents
+		 * height.
+		 */
 		virtual void adjustHeight();
 
 		virtual void _mouseInputMessage(const MouseInput &mouseInput);
