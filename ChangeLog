@@ -1,3 +1,7 @@
+Version 0.1.0
+=============	
+* Better exception with more information in ImageFont,
+  added row spacing and glyph spacing functions.
 * Added verical spacing in ImageFont
 * Fixed problem in ImageFont when loading a corrupt file.
   It will now throw an exception (thanks Terin!).
