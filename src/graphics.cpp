@@ -116,12 +116,6 @@ namespace gcn
     
   } // end drawImage
 
-  void Graphics::setColor(const Color& color)
-  {
-    mColor = color;    
-
-  } // end setColor
-
   void Graphics::setFont(Font* font)
   {
     mFont = font;

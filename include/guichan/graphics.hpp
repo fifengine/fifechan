@@ -215,9 +215,12 @@ namespace gcn
     virtual void fillRectangle(const Rectangle& rectangle) = 0;
 
     /**
-     * @see Color
+		 * Sets the color to be used when drawing primitives.
+		 *
+     * @param color a color
      */
-    virtual void setColor(const Color& color);
+    virtual void setColor(const Color& color) = 0;
+
 //     /**
 //      * 
 //      */
@@ -270,7 +273,6 @@ namespace gcn
 
   protected:
     std::stack<ClipRectangle> mClipStack;
-    Color mColor;
     Font* mFont;
     
   }; // end graphics
