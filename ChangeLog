@@ -1,3 +1,5 @@
+* Fixed problem in ImageFont when loading a corrupt file.
+  It will now throw an exception (thanks Terin!).
 * Implemented _getRawData() in AllegroImageLoader.
 * Fixed Image. It is now overloadable. 
 * DropDown sets the colors for its internal widgets if they are
