@@ -202,7 +202,7 @@ namespace gcn
 			h = getHeight();
 		}
     
-		unsigned char alpha = getBaseColor().a;
+		int alpha = getBaseColor().a;
 		Color faceColor = getBaseColor();
 		faceColor.a = alpha;
 		Color highlightColor = faceColor + 0x303030;
