@@ -57,9 +57,9 @@
 
 #include <string>
 
-#include "guichan/platform.hpp"
 #include "guichan/color.hpp"
 #include "guichan/imageloader.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {
@@ -79,6 +79,9 @@ namespace gcn
 		AllegroImageLoader();
 		
     virtual ~AllegroImageLoader();
+
+		
+		// Inherited from ImageLoader
 
     virtual void prepare(const std::string& filename);
 
@@ -100,7 +103,7 @@ namespace gcn
 
 	protected:
 		BITMAP *mBmp;
-		int *mRawData;
+		unsigned int *mRawData;
   }; // end AllegroImageLoader
   
 } // end gcn
