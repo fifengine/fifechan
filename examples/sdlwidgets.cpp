@@ -68,18 +68,18 @@ public:
 	{
 		switch(i)
 		{
-			case 0:
-				return std::string("zero");
-			case 1:
-				return std::string("one");
-			case 2:
-				return std::string("two");
-			case 3:
-				return std::string("three");
-			case 4:
-				return std::string("four");
-			default: // Just to keep warnings away
-				return std::string("");
+		  case 0:
+			  return std::string("zero");
+		  case 1:
+			  return std::string("one");
+		  case 2:
+			  return std::string("two");
+		  case 3:
+			  return std::string("three");
+		  case 4:
+			  return std::string("four");
+		  default: // Just to keep warnings away
+			  return std::string("");
 		}
 	}
 };
@@ -154,7 +154,7 @@ void init()
 	 * Now it's time for Guichan SDL stuff
 	 */
 	imageLoader = new gcn::SDLImageLoader();
-  // The ImageLoader in use is static and must be set to be
+	// The ImageLoader in use is static and must be set to be
 	// able to load images	
 	gcn::Image::setImageLoader(imageLoader); 
 	graphics = new gcn::SDLGraphics();
@@ -305,15 +305,15 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-	  std::cout << "Std exception: " << e.what() << std::endl;  
-  }
+		std::cout << "Std exception: " << e.what() << std::endl;  
+	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
-  catch (...)
-  {
-	  std::cout << "Unknown exception" << std::endl;
-  }
+	catch (...)
+	{
+		std::cout << "Unknown exception" << std::endl;
+	}
 
-  return 0;
+	return 0;
 }

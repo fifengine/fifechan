@@ -59,7 +59,7 @@ void init()
 	glViewport(0, 0, 640, 480);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	
-  // We want unicode
+	// We want unicode
 	SDL_EnableUNICODE(1);
 	// We want to enable key repeat
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
@@ -73,7 +73,7 @@ void init()
 	// a host imageloader. So we give it an SDL imageloader.
 	imageLoader->setHostImageLoader(hostImageLoader);
 	
-  // The ImageLoader in use is static and must be set to be
+	// The ImageLoader in use is static and must be set to be
 	// able to load images	
 	gcn::Image::setImageLoader(imageLoader); 
 	graphics = new gcn::OpenGLGraphics();
@@ -214,15 +214,15 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-	  std::cout << "Std exception: " << e.what() << std::endl;  
-  }
+		std::cout << "Std exception: " << e.what() << std::endl;  
+	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
-  catch (...)
-  {
-	  std::cout << "Unknown exception" << std::endl;
-  }
+	catch (...)
+	{
+		std::cout << "Unknown exception" << std::endl;
+	}
 
-  return 0;
+	return 0;
 }

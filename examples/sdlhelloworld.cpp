@@ -53,7 +53,7 @@ void init()
 	 * Now it's time for Guichan SDL stuff
 	 */
 	imageLoader = new gcn::SDLImageLoader();
-  // The ImageLoader in use is static and must be set to be
+	// The ImageLoader in use is static and must be set to be
 	// able to load images	
 	gcn::Image::setImageLoader(imageLoader); 
 	graphics = new gcn::SDLGraphics();
@@ -195,15 +195,15 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-	  std::cout << "Std exception: " << e.what() << std::endl;  
-  }
+		std::cout << "Std exception: " << e.what() << std::endl;  
+	}
 	/*
 	 * Catch all Unknown exceptions
 	 */
-  catch (...)
-  {
-	  std::cout << "Unknown exception" << std::endl;
-  }
+	catch (...)
+	{
+		std::cout << "Unknown exception" << std::endl;
+	}
 
-  return 0;
+	return 0;
 }
