@@ -14,7 +14,7 @@
 bool running = true;
 
 /*
- *SDL Stuff we need
+ * SDL Stuff we need
  */
 SDL_Surface* screen;
 SDL_Event event;
@@ -22,17 +22,17 @@ SDL_Event event;
 /*
  * Gui-chan SDL stuff we need
  */
-gcn::SDLInput* input;           // Input driver
-gcn::SDLGraphics* graphics;     // Graphics driver
+gcn::SDLInput* input;             // Input driver
+gcn::SDLGraphics* graphics;       // Graphics driver
+gcn::SDLImageLoader* imageLoader; // For loading images
 
 /*
  * Gui-chan stuff we need
  */
-gcn::ImageLoader* imageLoader;  // For loading images  
-gcn::Gui* gui;                  // A Gui object - binds it all together
-gcn::Container* top;            // A top container
-gcn::ImageFont* font;           // A font
-gcn::Label* label;              // And a label for the Hello World text
+gcn::Gui* gui;            // A Gui object - binds it all together
+gcn::Container* top;      // A top container
+gcn::ImageFont* font;     // A font
+gcn::Label* label;        // And a label for the Hello World text
 
 /**
  * Initializes the Hello World
@@ -113,7 +113,6 @@ void halt()
 	/*
 	 * Destroy SDL stuff
 	 */
-	SDL_FreeSurface(screen);
 	SDL_Quit();
 }
 
