@@ -102,17 +102,17 @@ namespace gcn
 		
 		switch (getAlignment())
 		{
-			case Graphics::LEFT:
-				textX = 0;
-				break;
-			case Graphics::CENTER:
-				textX = getWidth() / 2;
-				break;
-			case Graphics::RIGHT:
-				textX = getWidth();
-				break;
-			default:
-				throw GCN_EXCEPTION("Label::draw. Uknown alignment.");
+          case Graphics::LEFT:
+              textX = 0;
+              break;
+          case Graphics::CENTER:
+              textX = getWidth() / 2;
+              break;
+          case Graphics::RIGHT:
+              textX = getWidth();
+              break;
+          default:
+              throw GCN_EXCEPTION("Label::draw. Uknown alignment.");
 		}
 
 		graphics->setFont(getFont());

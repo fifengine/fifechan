@@ -64,7 +64,7 @@
 namespace gcn
 {
 	// The following comment will appear in the doxygen main page.
-  /**
+    /**
 	 * @mainpage
 	 * @section Introduction
 	 * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
@@ -73,117 +73,117 @@ namespace gcn
 	 * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
 	 */
 	
-	 /**
+    /**
 	 * This is the main class for Guichan. It is the core of the a gui.
 	 * It holds a special widget called the top widget. For more then
 	 * one widget in your Gui, top widget should be a container of some sort.
 	 * For the Gui to function properly you need to set one Graphics object
 	 * and one Input object.
 	 */
-  class GCN_CORE_DECLSPEC Gui
-  {
-  public:
+    class GCN_CORE_DECLSPEC Gui
+    {
+    public:
 
-    /**
-     * Constructor.
-     */
-    Gui();
+        /**
+         * Constructor.
+         */
+        Gui();
 
-    /**
-     * Destructor.
-     */
-    virtual ~Gui();
+        /**
+         * Destructor.
+         */
+        virtual ~Gui();
 
-    /**
-     * Sets the top widget of the gui.
-     *
-     * @param top the top widget.
-     */
-    virtual void setTop(Widget* top);
+        /**
+         * Sets the top widget of the gui.
+         *
+         * @param top the top widget.
+         */
+        virtual void setTop(Widget* top);
 
-    /**
-     * @return the top widget. NULL if no top widget exists.
-     * @see setTop
-     */
-    virtual Widget* getTop() const;
+        /**
+         * @return the top widget. NULL if no top widget exists.
+         * @see setTop
+         */
+        virtual Widget* getTop() const;
 
-    /**
-     * Sets the Graphics object to use for drawing.
-     *
-     * @param graphics the Graphics object to use for drawing.
-     * @see Graphics, SDLGraphics, OpenGLGraphics, AllegroGraphics
-     * @todo Explain about the Graphics object in this comment. (Briefly)
-     */
-    virtual void setGraphics(Graphics* graphics);
+        /**
+         * Sets the Graphics object to use for drawing.
+         *
+         * @param graphics the Graphics object to use for drawing.
+         * @see Graphics, SDLGraphics, OpenGLGraphics, AllegroGraphics
+         * @todo Explain about the Graphics object in this comment. (Briefly)
+         */
+        virtual void setGraphics(Graphics* graphics);
 
-    /**
-     *  @return the Graphics object used for drawing. NULL if no
-     *          Graphics object exists.
-     */
-    virtual Graphics* getGraphics() const;
+        /**
+         *  @return the Graphics object used for drawing. NULL if no
+         *          Graphics object exists.
+         */
+        virtual Graphics* getGraphics() const;
     
-    /**
-     *  Sets the Input object to use for input handling.
-     *
-     * @param input the Input object to use for input handling.
-     * @param see Input, SDLInput, AllegroInput
-     * @todo Explain about the Input object in this comment. (Briefly)
-     * @todo Maybe change the tab button to be configurable.
-     */
-    virtual void setInput(Input* input);
+        /**
+         *  Sets the Input object to use for input handling.
+         *
+         * @param input the Input object to use for input handling.
+         * @param see Input, SDLInput, AllegroInput
+         * @todo Explain about the Input object in this comment. (Briefly)
+         * @todo Maybe change the tab button to be configurable.
+         */
+        virtual void setInput(Input* input);
     
-    /**
-     *  @return the input object used for handling input. NULL if no
-     *          Input object exists.
-     */
-    virtual Input* getInput() const;
+        /**
+         *  @return the input object used for handling input. NULL if no
+         *          Input object exists.
+         */
+        virtual Input* getInput() const;
     
-    /**
-     * Performs the Gui:s logic by calling all logic functions
+        /**
+         * Performs the Gui:s logic by calling all logic functions
 		 * down in the Gui heirarchy. Logic can be just about anything
 		 * like adjusting a Widgets size or doing some calculations.
 		 *
 		 * NOTE: Logic also deals with user input (Mouse and Keyboard)
 		 *       for Widgets.
-     */
-    virtual void logic();
+         */
+        virtual void logic();
 
-    /**
-     * Draws the whole Gui by calling draw functions down in the
+        /**
+         * Draws the whole Gui by calling draw functions down in the
 		 * Gui hierarchy.
-     */
-    virtual void draw();
+         */
+        virtual void draw();
 
-    /**
-     * Focus none of the Widgets in the Gui.
-     */
-    virtual void focusNone();
+        /**
+         * Focus none of the Widgets in the Gui.
+         */
+        virtual void focusNone();
     
-    /**
-     * Toggle the use of the tab key to focus widgets.
-     * By default, tabbing is enabled.
-     *
-     * @param tabbing set to false if you want to disable tabbing
-     */
-    virtual void setTabbingEnabled(bool tabbing);
+        /**
+         * Toggle the use of the tab key to focus widgets.
+         * By default, tabbing is enabled.
+         *
+         * @param tabbing set to false if you want to disable tabbing
+         */
+        virtual void setTabbingEnabled(bool tabbing);
 
-    /**
-     * Checks if tabbing is enabled.
-     *
-     * @return true if tabbing is enabled
-     */
-    virtual bool isTabbingEnabled();
+        /**
+         * Checks if tabbing is enabled.
+         *
+         * @return true if tabbing is enabled
+         */
+        virtual bool isTabbingEnabled();
 			
-  protected:
-    bool mTopHasMouse;
+    protected:
+        bool mTopHasMouse;
 		bool mTabbing;
 		
-    Widget* mTop;
-    Graphics* mGraphics;
-    Input* mInput;
-    FocusHandler* mFocusHandler;
+        Widget* mTop;
+        Graphics* mGraphics;
+        Input* mInput;
+        FocusHandler* mFocusHandler;
     
-  }; // end class Gui
+    }; // end class Gui
   
 } // end gcn
 

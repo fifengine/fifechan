@@ -63,134 +63,134 @@
 
 namespace gcn
 {
-  /**
-   * This is the container base class. It is a widget that holds other
-   * widgets. A widgets position in the container is always relativ to
-   * the container itself, not the screen. Using a container as the top
-   * widget is the only way to use more then one widget in the gui.
-   *
-   * @see Widget
-   */
-  class GCN_CORE_DECLSPEC Container: public BasicContainer
-  {
-  public:
-
     /**
-     * Constructor. A container is opauqe as default.
+     * This is the container base class. It is a widget that holds other
+     * widgets. A widgets position in the container is always relativ to
+     * the container itself, not the screen. Using a container as the top
+     * widget is the only way to use more then one widget in the gui.
      *
-     * @see setOpaque, isOpaque
+     * @see Widget
      */
-    Container();
+    class GCN_CORE_DECLSPEC Container: public BasicContainer
+    {
+    public:
+
+        /**
+         * Constructor. A container is opauqe as default.
+         *
+         * @see setOpaque, isOpaque
+         */
+        Container();
 
 		/**
 		 * Destructor.
 		 */
-    virtual ~Container();
+        virtual ~Container();
 
-    /**
-     * Sets wheter the widget should draw its background or not.
-     * If the widget is not opaque it will be completely transparent.
-     *
-     * NOTE: This is not the same as set visible. A nonvisible
-     *       container will not draw its content.
-     *
-     * @param opaque true it the widget should be opaque
-     * @see isOpaque
-    */
-    virtual void setOpaque(bool opaque);
+        /**
+         * Sets wheter the widget should draw its background or not.
+         * If the widget is not opaque it will be completely transparent.
+         *
+         * NOTE: This is not the same as set visible. A nonvisible
+         *       container will not draw its content.
+         *
+         * @param opaque true it the widget should be opaque
+         * @see isOpaque
+         */
+        virtual void setOpaque(bool opaque);
 
-    /**
-     * @return true if the container is opaque.
-     * @see setOpaque
-     */
-    virtual bool isOpaque() const;
+        /**
+         * @return true if the container is opaque.
+         * @see setOpaque
+         */
+        virtual bool isOpaque() const;
 
-    /**
-     * Adds a widget to the container.
-     *
-     * @param widget the widget to add.
-     * @see remove
-     */
-    virtual void add(Widget* widget);
+        /**
+         * Adds a widget to the container.
+         *
+         * @param widget the widget to add.
+         * @see remove
+         */
+        virtual void add(Widget* widget);
 
-    /**
-     * Adds a widget to the container and also specifices its
-     * position.
-     *
-     * @param widget the widget to add.
-     * @param x the x coordinat for the widget in the container
-     * @param y the y coordinat for the widget in the container
-     * @see remove
-     */
-    virtual void add(Widget* widget, int x, int y);
+        /**
+         * Adds a widget to the container and also specifices its
+         * position.
+         *
+         * @param widget the widget to add.
+         * @param x the x coordinat for the widget in the container
+         * @param y the y coordinat for the widget in the container
+         * @see remove
+         */
+        virtual void add(Widget* widget, int x, int y);
     
-    /**
-     * Removes a widgets.
-     *
-     * @param widget the widget to remove.
-     * @throws Exception when the widget is not in the container
-     * @see add, clear
-     */
-    virtual void remove(Widget* widget);
+        /**
+         * Removes a widgets.
+         *
+         * @param widget the widget to remove.
+         * @throws Exception when the widget is not in the container
+         * @see add, clear
+         */
+        virtual void remove(Widget* widget);
 
-    /**
-     * Clears the container of all widgets.
-     *
-     * @see add, remove
-     */
-    virtual void clear();
+        /**
+         * Clears the container of all widgets.
+         *
+         * @see add, remove
+         */
+        virtual void clear();
 
 
 		// Inherited from Widget
 		
-    virtual void draw(Graphics* graphics);
+        virtual void draw(Graphics* graphics);
 
 		virtual void drawBorder(Graphics* graphics);
 		
-    virtual void logic();
+        virtual void logic();
 		
-    virtual void _setFocusHandler(FocusHandler* focusHandler);
+        virtual void _setFocusHandler(FocusHandler* focusHandler);
 
-    virtual void _mouseInputMessage(const MouseInput &mouseInput);
+        virtual void _mouseInputMessage(const MouseInput &mouseInput);
 
-    virtual void _mouseOutMessage();
+        virtual void _mouseOutMessage();
 
 
 		// Inherited from BasicContainer
 
 		virtual void moveToTop(Widget* widget);
 
-    virtual void moveToBottom(Widget* widget);
+        virtual void moveToBottom(Widget* widget);
 
-	  virtual void _announceDeath(Widget *widget);
+        virtual void _announceDeath(Widget *widget);
 
-    virtual void getDrawSize(int& width, int& height, Widget* widget);
+        virtual void getDrawSize(int& width, int& height, Widget* widget);
 
 		
     protected:
 
-    /**
-     * This function draws all children of the container.
-     * The widgets will bedrawn in the order the widgets were added.
-     *
-     * @param graphics the Graphics object to use for drawing.
-     */
-    virtual void drawChildren(Graphics* graphics);
+        /**
+         * This function draws all children of the container.
+         * The widgets will bedrawn in the order the widgets were added.
+         *
+         * @param graphics the Graphics object to use for drawing.
+         */
+        virtual void drawChildren(Graphics* graphics);
     
-    /**
-     * This function calls the logic function for all children of
-     * container. The widgets logic function will be called in the
-     * order the widgets were added.
-     */
-    virtual void logicChildren();
+        /**
+         * This function calls the logic function for all children of
+         * container. The widgets logic function will be called in the
+         * order the widgets were added.
+         */
+        virtual void logicChildren();
 	  
-    Widget* mWidgetWithMouse;
-    typedef std::list<Widget*> WidgetList;
-    typedef WidgetList::iterator WidgetIterator;
-    WidgetList mWidgets;
-    bool mOpaque;
+        Widget* mWidgetWithMouse;
+        typedef std::list<Widget*> WidgetList;
+        typedef WidgetList::iterator WidgetIterator;
+        WidgetList mWidgets;
+        bool mOpaque;
     
-  }; // end Container
+    }; // end Container
   
 } // end gcn
 

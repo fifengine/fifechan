@@ -344,7 +344,7 @@ namespace gcn
 			}			
 		}
 		while (!mWidgets.at(mFocusedWidget)->isFocusable() ||
-					 !mWidgets.at(mFocusedWidget)->isTabInEnabled());
+               !mWidgets.at(mFocusedWidget)->isTabInEnabled());
 
 		if (focused >= 0)
 		{

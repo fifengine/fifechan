@@ -59,60 +59,60 @@
 
 namespace gcn
 {
-  /**
-   * This class is a basic rectangle class.
-   */
-  class GCN_CORE_DECLSPEC Rectangle
-  {
-  public:
-
     /**
-     * Constructor. Resets member variables.
+     * This class is a basic rectangle class.
      */
-    Rectangle();
+    class GCN_CORE_DECLSPEC Rectangle
+    {
+    public:
 
-    /**
-     * Constructor.
-     *
-     * @param x the rectangle x coordinate
-     * @param y the rectangle y coordinate
-     * @param width the rectangle width
-     * @param height the rectangle height
-     */
-    Rectangle(int x, int y, int width, int height);
+        /**
+         * Constructor. Resets member variables.
+         */
+        Rectangle();
+
+        /**
+         * Constructor.
+         *
+         * @param x the rectangle x coordinate
+         * @param y the rectangle y coordinate
+         * @param width the rectangle width
+         * @param height the rectangle height
+         */
+        Rectangle(int x, int y, int width, int height);
     
-    /**
-     * This functions sets the dimension of a rectangle.
-     *
-     * @param x the rectangle x coordinate
-     * @param y the rectangle y coordinate
-     * @param width the rectangle width
-     * @param height the rectangle height
-     */
-    void setAll(int x, int y, int width, int height);
+        /**
+         * This functions sets the dimension of a rectangle.
+         *
+         * @param x the rectangle x coordinate
+         * @param y the rectangle y coordinate
+         * @param width the rectangle width
+         * @param height the rectangle height
+         */
+        void setAll(int x, int y, int width, int height);
 
-    /**
-     * This functinion checks if another rectangle intersects
-     * with the rectangle.
-     *
-     * @param rectangle another rectangle
-     */
-    bool intersect(const Rectangle& rectangle);
+        /**
+         * This functinion checks if another rectangle intersects
+         * with the rectangle.
+         *
+         * @param rectangle another rectangle
+         */
+        bool intersect(const Rectangle& rectangle);
 
-    /**
-     * This function check if a point is inside the rectangle
-     *
-     * @param x the point x coordinate
-     * @param y the point y coordinate
-     */
-    bool isPointInRect(int x, int y) const;
+        /**
+         * This function check if a point is inside the rectangle
+         *
+         * @param x the point x coordinate
+         * @param y the point y coordinate
+         */
+        bool isPointInRect(int x, int y) const;
     
-    int x;
-    int y;
-    int width;
-    int height;
+        int x;
+        int y;
+        int width;
+        int height;
     
-  }; // end Rectangle
+    }; // end Rectangle
   
 } // end gcn
 

@@ -192,7 +192,7 @@ namespace gcn
 		WidgetVector mWidgets;
     
 		int mFocusedWidget;
-    int mDraggedWidget;
+        int mDraggedWidget;
 		int mToBeFocused;
 		int mToBeDragged;
 

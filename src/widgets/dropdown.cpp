@@ -243,7 +243,7 @@ namespace gcn
 			// element view.
 			graphics->setColor(highlightColor);
 			graphics->drawLine(0, h, getWidth(), h);
-  		graphics->setColor(shadowColor);
+            graphics->setColor(shadowColor);
 			graphics->drawLine(0, h + 1,getWidth(),h + 1);
  		}
 		

@@ -62,96 +62,96 @@
 
 namespace gcn
 {
-  class Image;
+    class Image;
   
-  /**
-   * This is an abstract class used to load images in guichan.
-   */
-  class GCN_CORE_DECLSPEC ImageLoader
-  {
-  public:
+    /**
+     * This is an abstract class used to load images in guichan.
+     */
+    class GCN_CORE_DECLSPEC ImageLoader
+    {
+    public:
     
-    virtual ~ImageLoader() { }
+        virtual ~ImageLoader() { }
 
-    /**
-     * Prepares an image for reading. After you have called this function
-     * you can retrieve information about it and edit it.
-     *
-     * @param filename the image file to prepare
-     * @throws Exception when called without having finalized or disposed to
-     *                   last image or when unable to load the image.
-     * @see load, finalize, discard
-     */
-    virtual void prepare(const std::string& filename) = 0;
+        /**
+         * Prepares an image for reading. After you have called this function
+         * you can retrieve information about it and edit it.
+         *
+         * @param filename the image file to prepare
+         * @throws Exception when called without having finalized or disposed to
+         *                   last image or when unable to load the image.
+         * @see load, finalize, discard
+         */
+        virtual void prepare(const std::string& filename) = 0;
 
-    /**
-     * This function frees an image
-     *
-     * NOTE: There is generally no reason to call this function as
-     *       it is called upon by the Image object when destroying an Image.
-     *
-     * @param filename the file to be freed and removed.
-     * @throws Exception when image points to null.
-     * @see Image, load
-     */
-    virtual void free(Image* image) = 0;
+        /**
+         * This function frees an image
+         *
+         * NOTE: There is generally no reason to call this function as
+         *       it is called upon by the Image object when destroying an Image.
+         *
+         * @param filename the file to be freed and removed.
+         * @throws Exception when image points to null.
+         * @see Image, load
+         */
+        virtual void free(Image* image) = 0;
 
-    /**
-     * This function returns a pointer raw data of an image, the raw
-     * data is in 32 bit RGBA format. The funcion will not free a prepared
-     * image, so finalize or discard should be used afterwards.
-     *
-     * @return a pointer to the raw image data
-     */
-    virtual void* getRawData() = 0;
+        /**
+         * This function returns a pointer raw data of an image, the raw
+         * data is in 32 bit RGBA format. The funcion will not free a prepared
+         * image, so finalize or discard should be used afterwards.
+         *
+         * @return a pointer to the raw image data
+         */
+        virtual void* getRawData() = 0;
     
-    /**
-     * This function finalizes an image meaning it will return the image
-     * data. If the image contains pixels with "magic pink" (0xff00ff)
-     * they will be treated as transparent pixels.
-     *
-     * @return a pointer to the image data.
-     * @throws Exception when no image has been prepared.
-     * @see prepare, discard
-     */
-    virtual void* finalize() = 0;
+        /**
+         * This function finalizes an image meaning it will return the image
+         * data. If the image contains pixels with "magic pink" (0xff00ff)
+         * they will be treated as transparent pixels.
+         *
+         * @return a pointer to the image data.
+         * @throws Exception when no image has been prepared.
+         * @see prepare, discard
+         */
+        virtual void* finalize() = 0;
 
-    /**
-     * This function discards a prepared image.
-     *
-     * @throws Exception when no image has been prepared.
-     * @see prepare, finalize
-     */
-    virtual void discard() = 0;
+        /**
+         * This function discards a prepared image.
+         *
+         * @throws Exception when no image has been prepared.
+         * @see prepare, finalize
+         */
+        virtual void discard() = 0;
     
-    /**
-     * @return the height of the image.
-     * @throws Exception if no image have been prepared.
-     */
-    virtual int getHeight() const = 0;
+        /**
+         * @return the height of the image.
+         * @throws Exception if no image have been prepared.
+         */
+        virtual int getHeight() const = 0;
 
-    /**
-     * @return the width of the image.
-     * @throws Exception if no image have been prepared.
-     */
-    virtual int getWidth() const = 0;
+        /**
+         * @return the width of the image.
+         * @throws Exception if no image have been prepared.
+         */
+        virtual int getWidth() const = 0;
 
-    /**
-     * @param x the x coordinate.
-     * @param y the y coordinate.
-     * @return the color of the pixel.
-     */
-    virtual Color getPixel(int x, int y) = 0;
+        /**
+         * @param x the x coordinate.
+         * @param y the y coordinate.
+         * @return the color of the pixel.
+         */
+        virtual Color getPixel(int x, int y) = 0;
 
-    /**
-     * @param x the x coordinate.
-     * @param y the y coordinate.
-     * @param color the color of the pixel to put.
-     */
-    virtual void putPixel(int x, int y, const Color& color) = 0;
+        /**
+         * @param x the x coordinate.
+         * @param y the y coordinate.
+         * @param color the color of the pixel to put.
+         */
+        virtual void putPixel(int x, int y, const Color& color) = 0;
 
     
-  }; // end ImageLoader
+    }; // end ImageLoader
   
 } // end gcn
 

@@ -105,8 +105,8 @@ namespace gcn
 		 * @see ListModel, ScrollArea, ListBox.
 		 */		 
 		DropDown(ListModel *listModel,
-						 ScrollArea *scrollArea,
-						 ListBox *listBox);
+                 ScrollArea *scrollArea,
+                 ListBox *listBox);
 
 		/**
 		 * Destructor.

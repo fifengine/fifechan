@@ -132,10 +132,10 @@ namespace gcn
 		if (mouseX != mLastMouseX || mouseY != mLastMouseY)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::EMPTY,
-																	MouseInput::MOTION,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::MOTION,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 			mLastMouseX = mouseX;
 			mLastMouseY = mouseY;
 		}
@@ -144,16 +144,16 @@ namespace gcn
 		while (mLastMouseZ < mouseZ)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
-																	MouseInput::PRESS,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 			
 			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
-																	MouseInput::RELEASE,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 			
 			mLastMouseZ++;
 		}
@@ -161,16 +161,16 @@ namespace gcn
 		while (mLastMouseZ > mouseZ)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
-																	MouseInput::PRESS,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 			
 			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
-																	MouseInput::RELEASE,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 			
 			mLastMouseZ--;
 		}
@@ -179,57 +179,57 @@ namespace gcn
 		if (!mMouseButton1 && mouseB1)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::LEFT,
-																	MouseInput::PRESS,
-																	mouseX,
-																	mouseY,
-																	0));			
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));			
 		}
 
 		if (mMouseButton1 && !mouseB1)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::LEFT,
-																	MouseInput::RELEASE,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 		}
 
 		
 		if (!mMouseButton2 && mouseB2)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-																	MouseInput::PRESS,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 		}
 
 		if (mMouseButton2 && !mouseB2)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-																	MouseInput::RELEASE,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 		}
 
 		
 		if (!mMouseButton3 && mouseB3)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-																	MouseInput::PRESS,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 		}
 
 		if (mMouseButton3 && !mouseB3)
 		{
 			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-																	MouseInput::RELEASE,
-																	mouseX,
-																	mouseY,
-																	0));
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
 		}
 
 		mMouseButton1 = mouseB1;
@@ -284,183 +284,183 @@ namespace gcn
 
 		switch(scancode)
 		{
-			case KEY_ESC:
-				keysym = Key::ESCAPE;
-				break;
+          case KEY_ESC:
+              keysym = Key::ESCAPE;
+              break;
 				
-			case KEY_ALT:
-				keysym = Key::LEFT_ALT;
-				break;
+          case KEY_ALT:
+              keysym = Key::LEFT_ALT;
+              break;
 
-			case KEY_ALTGR:
-				keysym = Key::RIGHT_ALT;
-				break;
+          case KEY_ALTGR:
+              keysym = Key::RIGHT_ALT;
+              break;
 
-			case KEY_LSHIFT:
-				keysym = Key::LEFT_SHIFT;
-				break;
+          case KEY_LSHIFT:
+              keysym = Key::LEFT_SHIFT;
+              break;
 
-			case KEY_RSHIFT:
-				keysym = Key::RIGHT_SHIFT;
-				break;
+          case KEY_RSHIFT:
+              keysym = Key::RIGHT_SHIFT;
+              break;
 				
-			case KEY_LCONTROL:
-				keysym = Key::LEFT_CONTROL;
-				break;
+          case KEY_LCONTROL:
+              keysym = Key::LEFT_CONTROL;
+              break;
 				
-			case KEY_RCONTROL:
-				keysym = Key::RIGHT_CONTROL;
-				break;
+          case KEY_RCONTROL:
+              keysym = Key::RIGHT_CONTROL;
+              break;
 
-			case KEY_LWIN:
-				keysym = Key::LEFT_META;
-				break;
+          case KEY_LWIN:
+              keysym = Key::LEFT_META;
+              break;
 				
-			case KEY_RWIN:
-				keysym = Key::RIGHT_META;
-				break;
+          case KEY_RWIN:
+              keysym = Key::RIGHT_META;
+              break;
 
- 			case KEY_INSERT:
-				keysym = Key::INSERT;
-				break;
+          case KEY_INSERT:
+              keysym = Key::INSERT;
+              break;
 
-			case KEY_HOME:
-				keysym = Key::HOME;
-				break;
+          case KEY_HOME:
+              keysym = Key::HOME;
+              break;
 
-			case KEY_PGUP:
-				keysym = Key::PAGE_UP;
-				break;
+          case KEY_PGUP:
+              keysym = Key::PAGE_UP;
+              break;
 
-			case KEY_PGDN:
-				keysym = Key::PAGE_DOWN;
-				break;
+          case KEY_PGDN:
+              keysym = Key::PAGE_DOWN;
+              break;
 
-			case KEY_DEL:
-				keysym = Key::DELETE;
-				break;
+          case KEY_DEL:
+              keysym = Key::DELETE;
+              break;
 				
-			case KEY_DEL_PAD:
-				keysym = Key::DELETE;
-				pad = true;
-				break;
+          case KEY_DEL_PAD:
+              keysym = Key::DELETE;
+              pad = true;
+              break;
 
-			case KEY_END:
-				keysym = Key::END;
-				break;
+          case KEY_END:
+              keysym = Key::END;
+              break;
 
-			case KEY_CAPSLOCK:
-				keysym = Key::CAPS_LOCK;
-				break;
+          case KEY_CAPSLOCK:
+              keysym = Key::CAPS_LOCK;
+              break;
 
-			case KEY_BACKSPACE:
-				keysym = Key::BACKSPACE;
-				break;
+          case KEY_BACKSPACE:
+              keysym = Key::BACKSPACE;
+              break;
 
-			case KEY_F1:
-				keysym = Key::F1;
-				break;
+          case KEY_F1:
+              keysym = Key::F1;
+              break;
 
-			case KEY_F2:
-				keysym = Key::F2;
-				break;
+          case KEY_F2:
+              keysym = Key::F2;
+              break;
 
-			case KEY_F3:
-				keysym = Key::F3;
-				break;
+          case KEY_F3:
+              keysym = Key::F3;
+              break;
 
-			case KEY_F4:
-				keysym = Key::F4;
-				break;
+          case KEY_F4:
+              keysym = Key::F4;
+              break;
 
-			case KEY_F5:
-				keysym = Key::F5;
-				break;
+          case KEY_F5:
+              keysym = Key::F5;
+              break;
 
-			case KEY_F6:
-				keysym = Key::F6;
-				break;
+          case KEY_F6:
+              keysym = Key::F6;
+              break;
 
-			case KEY_F7:
-				keysym = Key::F7;
-				break;
+          case KEY_F7:
+              keysym = Key::F7;
+              break;
 				
-			case KEY_F8:
-				keysym = Key::F8;
-				break;
+          case KEY_F8:
+              keysym = Key::F8;
+              break;
 
-			case KEY_F9:
-				keysym = Key::F9;
-				break;
+          case KEY_F9:
+              keysym = Key::F9;
+              break;
 
-			case KEY_F10:
-				keysym = Key::F10;
-				break;
+          case KEY_F10:
+              keysym = Key::F10;
+              break;
 
-			case KEY_F11:
-				keysym = Key::F11;
-				break;
+          case KEY_F11:
+              keysym = Key::F11;
+              break;
 
-			case KEY_F12:
-				keysym = Key::F12;
-				break;
+          case KEY_F12:
+              keysym = Key::F12;
+              break;
 
-			case KEY_PRTSCR:
-				keysym = Key::PRINT_SCREEN;
-				break;
+          case KEY_PRTSCR:
+              keysym = Key::PRINT_SCREEN;
+              break;
 				
-			case KEY_PAUSE:
-				keysym = Key::PAUSE;
-				break;
+          case KEY_PAUSE:
+              keysym = Key::PAUSE;
+              break;
 
-			case KEY_SCRLOCK:
-				keysym = Key::SCROLL_LOCK;
-				break;
+          case KEY_SCRLOCK:
+              keysym = Key::SCROLL_LOCK;
+              break;
 
-			case KEY_NUMLOCK:
-				keysym = Key::NUM_LOCK;
-				break;
+          case KEY_NUMLOCK:
+              keysym = Key::NUM_LOCK;
+              break;
 
-			case KEY_LEFT:
-				keysym = Key::LEFT;
-				break;
+          case KEY_LEFT:
+              keysym = Key::LEFT;
+              break;
 
-			case KEY_RIGHT:
-				keysym = Key::RIGHT;
-				break;
+          case KEY_RIGHT:
+              keysym = Key::RIGHT;
+              break;
 
-			case KEY_UP:
-				keysym = Key::UP;
-				break;
+          case KEY_UP:
+              keysym = Key::UP;
+              break;
 
-			case KEY_DOWN:
-				keysym = Key::DOWN;
-				break;
+          case KEY_DOWN:
+              keysym = Key::DOWN;
+              break;
 
-			case KEY_ENTER_PAD:
-				pad = true;				
-			case KEY_ENTER:
-				keysym = Key::ENTER;
-				break;
+          case KEY_ENTER_PAD:
+              pad = true;				
+          case KEY_ENTER:
+              keysym = Key::ENTER;
+              break;
 
-			case KEY_0_PAD:
-			case KEY_1_PAD:
-			case KEY_2_PAD:
-			case KEY_3_PAD:
-			case KEY_4_PAD:
-			case KEY_5_PAD:
-			case KEY_6_PAD:
-			case KEY_7_PAD:
-			case KEY_8_PAD:
-			case KEY_9_PAD:
-			case KEY_SLASH_PAD:
-			case KEY_MINUS_PAD:
-			case KEY_PLUS_PAD:
-				pad = true;
-				// no brakes! no brakes!
+          case KEY_0_PAD:
+          case KEY_1_PAD:
+          case KEY_2_PAD:
+          case KEY_3_PAD:
+          case KEY_4_PAD:
+          case KEY_5_PAD:
+          case KEY_6_PAD:
+          case KEY_7_PAD:
+          case KEY_8_PAD:
+          case KEY_9_PAD:
+          case KEY_SLASH_PAD:
+          case KEY_MINUS_PAD:
+          case KEY_PLUS_PAD:
+              pad = true;
+              // no brakes! no brakes!
 
-			default:
-				keysym = unicode;
+          default:
+              keysym = unicode;
 		}
 
 		Key k = Key(keysym);
@@ -471,11 +471,11 @@ namespace gcn
 		k.setControlPressed(key_shifts & KB_CTRL_FLAG);
 #ifdef KB_COMMAND_FLAG
 		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
-																	KB_LWIN_FLAG |
-																	KB_RWIN_FLAG));
+                                       KB_LWIN_FLAG |
+                                       KB_RWIN_FLAG));
 #else
 		k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
-																	KB_RWIN_FLAG));
+                                       KB_RWIN_FLAG));
 #endif
 		
 		return k;

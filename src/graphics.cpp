@@ -63,52 +63,52 @@
 namespace gcn
 {
 
-  Graphics::Graphics()
-  {
-    mFont = NULL;
+    Graphics::Graphics()
+    {
+        mFont = NULL;
     
-  } // end graphics
+    } // end graphics
   
-  bool Graphics::pushClipArea(Rectangle area)
-  {
-    if (mClipStack.empty())
+    bool Graphics::pushClipArea(Rectangle area)
     {
-      ClipRectangle carea;
-      carea.x = area.x;
-      carea.y = area.y;
-      carea.width = area.width;
-      carea.height = area.height;
-      mClipStack.push(carea);
-      return true;
+        if (mClipStack.empty())
+        {
+            ClipRectangle carea;
+            carea.x = area.x;
+            carea.y = area.y;
+            carea.width = area.width;
+            carea.height = area.height;
+            mClipStack.push(carea);
+            return true;
+        }
+
+        ClipRectangle top = mClipStack.top();
+        ClipRectangle carea;
+        carea = area;
+        carea.xOffset = top.xOffset + carea.x;
+        carea.yOffset = top.yOffset + carea.y;
+        carea.x += top.xOffset;
+        carea.y += top.yOffset;
+
+        bool result = carea.intersect(top);
+
+        mClipStack.push(carea);
+
+        return result;
+
+    } // end pushClipArea
+
+    void Graphics::popClipArea()
+    {
+    
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Graphics::popClipArea. Tried to pop clip area from empty stack.");
+        }    
+
+        mClipStack.pop();
+    
     }
-
-    ClipRectangle top = mClipStack.top();
-    ClipRectangle carea;
-    carea = area;
-    carea.xOffset = top.xOffset + carea.x;
-    carea.yOffset = top.yOffset + carea.y;
-    carea.x += top.xOffset;
-    carea.y += top.yOffset;
-
-    bool result = carea.intersect(top);
-
-    mClipStack.push(carea);
-
-    return result;
-
-  } // end pushClipArea
-
-  void Graphics::popClipArea()
-  {
-    
-    if (mClipStack.empty())
-    {
-      throw GCN_EXCEPTION("Graphics::popClipArea. Tried to pop clip area from empty stack.");
-    }    
-
-    mClipStack.pop();
-    
-  }
 
 	const ClipRectangle& Graphics::getCurrentClipArea()
 	{
@@ -120,41 +120,41 @@ namespace gcn
 		return mClipStack.top();
 	}
 	
-  void Graphics::drawImage(const Image* image, int dstX, int dstY)
-  {
-    drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
-    
-  } // end drawImage
-
-  void Graphics::setFont(Font* font)
-  {
-    mFont = font;
-    
-  } // end setFont
-
-  void Graphics::drawText(const std::string& text, int x, int y,
-													unsigned int alignment)
-  {
-    if (mFont == NULL)
+    void Graphics::drawImage(const Image* image, int dstX, int dstY)
     {
-      throw GCN_EXCEPTION("Graphics::drawText. No font set.");
-    }
+        drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
+    
+    } // end drawImage
+
+    void Graphics::setFont(Font* font)
+    {
+        mFont = font;
+    
+    } // end setFont
+
+    void Graphics::drawText(const std::string& text, int x, int y,
+                            unsigned int alignment)
+    {
+        if (mFont == NULL)
+        {
+            throw GCN_EXCEPTION("Graphics::drawText. No font set.");
+        }
 
 		switch (alignment)
 		{
-			case LEFT:			
-				mFont->drawString(this, text, x, y);
-				break;
-			case CENTER:
-				mFont->drawString(this, text, x - mFont->getWidth(text) / 2, y);
-				break;
-			case RIGHT:
-				mFont->drawString(this, text, x - mFont->getWidth(text), y);
-				break;
-			default:
-				throw GCN_EXCEPTION("Graphics::drawText. Unknown alignment.");
+          case LEFT:			
+              mFont->drawString(this, text, x, y);
+              break;
+          case CENTER:
+              mFont->drawString(this, text, x - mFont->getWidth(text) / 2, y);
+              break;
+          case RIGHT:
+              mFont->drawString(this, text, x - mFont->getWidth(text), y);
+              break;
+          default:
+              throw GCN_EXCEPTION("Graphics::drawText. Unknown alignment.");
 		}
 		
-  } // end drawText
+    } // end drawText
 	
 } // end gcn

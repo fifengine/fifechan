@@ -61,28 +61,28 @@
 
 namespace gcn
 {
-  /**
-   * An ActionListener listens for action events from a widget.
-   *
-   * @see Widget::addActionListener
-   */
-  class GCN_CORE_DECLSPEC ActionListener
-  {
-  public:
-
     /**
-     * Destructor.
-     */
-    virtual ~ActionListener() { }
-    
-    /**
-     * This function is called upon an action recieved from a widget.
+     * An ActionListener listens for action events from a widget.
      *
-     * @param eventId the identifier of the widget.
+     * @see Widget::addActionListener
      */
-    virtual void action(const std::string& eventId) = 0;
+    class GCN_CORE_DECLSPEC ActionListener
+    {
+    public:
 
-  }; // end ActionListener
+        /**
+         * Destructor.
+         */
+        virtual ~ActionListener() { }
+    
+        /**
+         * This function is called upon an action recieved from a widget.
+         *
+         * @param eventId the identifier of the widget.
+         */
+        virtual void action(const std::string& eventId) = 0;
+
+    }; // end ActionListener
 
 } // end gcn
 

@@ -62,11 +62,11 @@
 
 namespace gcn
 {
-  /**
-   * This is a movable window which can contain another widget.
-   */
+    /**
+     * This is a movable window which can contain another widget.
+     */
 	class GCN_CORE_DECLSPEC Window : public BasicContainer,
-													public MouseListener
+                                     public MouseListener
 	{
 	public:
 		/**
@@ -81,18 +81,18 @@ namespace gcn
 		 */
 		Window(const std::string& caption);
 
-    /**
-     * Constructor.
-     *
-     * @param content the content widget.
+        /**
+         * Constructor.
+         *
+         * @param content the content widget.
 		 * @param caption the caption of the window.
-    */
-    Window(Widget* content, const std::string& caption = "");
+         */
+        Window(Widget* content, const std::string& caption = "");
 
-    /**
-     * Destructor.
-     */
-    virtual ~Window();
+        /**
+         * Destructor.
+         */
+        virtual ~Window();
     
 		/**
 		 * Set the caption of the window.
@@ -121,93 +121,93 @@ namespace gcn
 		 */
 		virtual unsigned int getAlignment() const;
 		
-    /**
-     * Set the content widget in the window.
-     *
-     * @param widget the contant widget.
-     */
+        /**
+         * Set the content widget in the window.
+         *
+         * @param widget the contant widget.
+         */
 		virtual void setContent(Widget* widget);
 
-    /**
-     * Get the content widget in the window.
-     *
-     * @return the contant widget.
-     */
+        /**
+         * Get the content widget in the window.
+         *
+         * @return the contant widget.
+         */
 		virtual Widget* getContent() const;
 
-    /**
-     * Set the padding of the window which is the distance
-     * between the window border and the content.
-     *
-     * @param padding the padding value.
-     */
-    void setPadding(unsigned int padding);
+        /**
+         * Set the padding of the window which is the distance
+         * between the window border and the content.
+         *
+         * @param padding the padding value.
+         */
+        void setPadding(unsigned int padding);
 
-    /**
-     * Get the padding of the window.
-     *
-     * @return the padding value.
-     */
-    unsigned int getPadding() const;
+        /**
+         * Get the padding of the window.
+         *
+         * @return the padding value.
+         */
+        unsigned int getPadding() const;
 
-    /**
-     * Set the title bar height.
-     *
-     * @param title the title height value.
-     */      
-    void setTitleBarHeight(unsigned int height);
+        /**
+         * Set the title bar height.
+         *
+         * @param title the title height value.
+         */      
+        void setTitleBarHeight(unsigned int height);
 
-    /**
-     * Get the title bar height.
-     *
-     * @return the title bar height.
-     */
-    unsigned int getTitleBarHeight();
+        /**
+         * Get the title bar height.
+         *
+         * @return the title bar height.
+         */
+        unsigned int getTitleBarHeight();
 
-    /**
-     * Set the window to be moveble.
-     *
-     * @param movable true or false.
-     */    
-    void setMovable(bool movable);
+        /**
+         * Set the window to be moveble.
+         *
+         * @param movable true or false.
+         */    
+        void setMovable(bool movable);
 
-    /**
-     * Check if the window is movable.
-     *
-     * @return true or false.
-     */    
-    bool isMovable() const;
+        /**
+         * Check if the window is movable.
+         *
+         * @return true or false.
+         */    
+        bool isMovable() const;
 
-    /**
-     * Resize the window to fit the content.
-     */
-    void resizeToContent();
+        /**
+         * Resize the window to fit the content.
+         */
+        void resizeToContent();
 
-    /**
-     * Set the window to be opaque. If it's not opaque,
-     * the content area will not be filled with a color.
-     *
-     * @param opaque true or false.
-     */
-    void setOpaque(bool opaque);
+        /**
+         * Set the window to be opaque. If it's not opaque,
+         * the content area will not be filled with a color.
+         *
+         * @param opaque true or false.
+         */
+        void setOpaque(bool opaque);
 
-    /**
-     * Check if the window is opaque.
-     *
-     * @return true or false.
-     */
-    bool isOpaque();
+        /**
+         * Check if the window is opaque.
+         *
+         * @return true or false.
+         */
+        bool isOpaque();
 
     
-    // Inherited from BasicContainer
+        // Inherited from BasicContainer
 
-    virtual void moveToTop(Widget* widget);
+        virtual void moveToTop(Widget* widget);
 
-    virtual void moveToBottom(Widget* widget);
+        virtual void moveToBottom(Widget* widget);
 
-    virtual void getDrawSize(int& width, int& height, Widget* widget);
+        virtual void getDrawSize(int& width, int& height, Widget* widget);
 
-    virtual void _announceDeath(Widget *widget);      
+        virtual void _announceDeath(Widget *widget);      
     
     
 		// Inherited from Widget
@@ -216,11 +216,11 @@ namespace gcn
 
 		virtual void drawBorder(Graphics* graphics);			
 
-    virtual void _mouseInputMessage(const MouseInput &mouseInput);
+        virtual void _mouseInputMessage(const MouseInput &mouseInput);
     
-    virtual void _mouseOutMessage();
+        virtual void _mouseOutMessage();
     
-    virtual void _setFocusHandler(FocusHandler* focusHandler);
+        virtual void _setFocusHandler(FocusHandler* focusHandler);
         
     
 		// Inherited from MouseListener	 
@@ -229,30 +229,30 @@ namespace gcn
 
 		virtual void mouseRelease(int x, int y, int button);
 
-    virtual void mouseMotion(int x, int y);
+        virtual void mouseMotion(int x, int y);
     
 	protected:
-    /**
-     * Moves the content to the top left corner of the window,
-     * uses getContentDimension to get the offset
-     */
-    virtual void repositionContent();
+        /**
+         * Moves the content to the top left corner of the window,
+         * uses getContentDimension to get the offset
+         */
+        virtual void repositionContent();
 
-    /**
-     * Gets the area in the window that the content occupies
-     */
-    virtual Rectangle getContentDimension();
+        /**
+         * Gets the area in the window that the content occupies
+         */
+        virtual Rectangle getContentDimension();
     
 		std::string mCaption;
 		unsigned int mAlignment;
 		Widget* mContent;
-    unsigned int mPadding;
-    unsigned int mTitleBarHeight;
-    bool mMouseDrag;
-    int mMouseXOffset;
-    int mMouseYOffset;
-    bool mMovable;
-    bool mOpaque;
+        unsigned int mPadding;
+        unsigned int mTitleBarHeight;
+        bool mMouseDrag;
+        int mMouseXOffset;
+        int mMouseYOffset;
+        bool mMovable;
+        bool mOpaque;
     
 	}; // end Window
   

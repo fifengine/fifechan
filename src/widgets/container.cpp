@@ -342,7 +342,7 @@ namespace gcn
 		for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
 		{
 			if ((*iter)->getDimension().isPointInRect(mouseInput.x, mouseInput.y)
-					&& (*iter)->isVisible())
+                && (*iter)->isVisible())
 			{
 				tempWidgetWithMouse = (*iter);
 			}

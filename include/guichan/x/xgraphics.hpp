@@ -64,10 +64,10 @@
 
 namespace gcn
 {
-  class XGraphics : public Graphics
-  {
-  public:
-  }; // end XGraphics
+    class XGraphics : public Graphics
+    {
+    public:
+    }; // end XGraphics
   
 } // end gcn
 

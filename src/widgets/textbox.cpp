@@ -71,7 +71,7 @@ namespace gcn
 		mCaretColumn = 0;
 		mCaretRow = 0;
 		mEditable = true;
-    mOpaque = true;
+        mOpaque = true;
 		
 		setFocusable(true);
     

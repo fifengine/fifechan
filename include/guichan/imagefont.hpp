@@ -65,68 +65,68 @@
 
 namespace gcn
 {
-  /**
-   * This is an implementation of the Font class. It uses an
-   * image containing the font. You can use any filetype that
-   * can be loaded with your ImageLoader.
-   *
-   * This is an example of an image containing a font.
-   *  \image html imagefontexample.bmp
-   *
-   * @todo Explain the font image format.
-   */
-  class GCN_CORE_DECLSPEC ImageFont: public Font
-  {
-  public:
-
     /**
-     * This constructor takes an image file containing the font and
-     * a string containing the glyphs. The glyphs in the string should
-     * be in the same order as they appear in the font image.
-     *     
-     * @param filename the filename of the image.
-     * @param glyphs the glyphs found in the image.
-     * @throws Exception when glyph list is incorrect or the font file is
-     *                   corrupt or if no ImageLoader exists.
-     */
-    ImageFont(const std::string& filename, const std::string& glyphs);
-
-    /**
-     * This constructor takes an image file containing the font and
-     * two boundaries of ASCII values. The font image should include
-     * all glyphs specified with the boundaries in increasing ASCII
-     * order. The boundaries are inclusive.
+     * This is an implementation of the Font class. It uses an
+     * image containing the font. You can use any filetype that
+     * can be loaded with your ImageLoader.
      *
-     * @param filename the filename of the image
-     * @param glyphsFrom the ASCII value of the first glyph found in the
-     *                   image.
-     * @param glyphsTo the ASCII value of the last glyph found in the
-     *                 image.     
-     * @throws Exception when glyph bondaries are incorrect or the font
-     *                   file is corrupt or if no ImageLoader exists.
+     * This is an example of an image containing a font.
+     *  \image html imagefontexample.bmp
+     *
+     * @todo Explain the font image format.
      */
-    ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
+    class GCN_CORE_DECLSPEC ImageFont: public Font
+    {
+    public:
+
+        /**
+         * This constructor takes an image file containing the font and
+         * a string containing the glyphs. The glyphs in the string should
+         * be in the same order as they appear in the font image.
+         *     
+         * @param filename the filename of the image.
+         * @param glyphs the glyphs found in the image.
+         * @throws Exception when glyph list is incorrect or the font file is
+         *                   corrupt or if no ImageLoader exists.
+         */
+        ImageFont(const std::string& filename, const std::string& glyphs);
+
+        /**
+         * This constructor takes an image file containing the font and
+         * two boundaries of ASCII values. The font image should include
+         * all glyphs specified with the boundaries in increasing ASCII
+         * order. The boundaries are inclusive.
+         *
+         * @param filename the filename of the image
+         * @param glyphsFrom the ASCII value of the first glyph found in the
+         *                   image.
+         * @param glyphsTo the ASCII value of the last glyph found in the
+         *                 image.     
+         * @throws Exception when glyph bondaries are incorrect or the font
+         *                   file is corrupt or if no ImageLoader exists.
+         */
+        ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
 		
 		/**
 		 * Destructor.
 		 */
-    virtual ~ImageFont();
+        virtual ~ImageFont();
 		
-    /**
-     * Draws a glyph.
-     *
-     * NOTE: You normally won't use this function to draw text since
-     *       the Graphics class contains better functions for drawing
-     *       text.
-     *
-     * @param graphics a graphics object to be used for drawing.
-     * @param glyph a glyph to draw.
-     * @param x the x coordinate where to draw the glyph.
-     * @param y the y coordinate where to draw the glyph.
+        /**
+         * Draws a glyph.
+         *
+         * NOTE: You normally won't use this function to draw text since
+         *       the Graphics class contains better functions for drawing
+         *       text.
+         *
+         * @param graphics a graphics object to be used for drawing.
+         * @param glyph a glyph to draw.
+         * @param x the x coordinate where to draw the glyph.
+         * @param y the y coordinate where to draw the glyph.
 		 * @return the width of the glyph in pixels.
-     * @see Graphics
-     */
-    virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
+         * @see Graphics
+         */
+        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
 		/**
 		 * Sets the spacing between rows, in pixels.
@@ -158,12 +158,12 @@ namespace gcn
 		 */
 		virtual int getGlyphSpacing();
 		
-    /**
-     * Gets a width of a glyph.
-     *
-     * @param glyph the glyph which width will be returned
-     * @return the width of a glyph 
-     */
+        /**
+         * Gets a width of a glyph.
+         *
+         * @param glyph the glyph which width will be returned
+         * @return the width of a glyph 
+         */
 		virtual int getWidth(unsigned char glyph) const;
 
 		
@@ -173,22 +173,22 @@ namespace gcn
 		
 		virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);		
 		
-    virtual int getHeight() const;
+        virtual int getHeight() const;
 
 		virtual int getStringIndexAt(const std::string& text, int x);
 		
-  protected:
-    int addGlyph(unsigned char c, int x, const Color& separator);
+    protected:
+        int addGlyph(unsigned char c, int x, const Color& separator);
     
-    int mGlyphX[256];
-    int mGlyphW[256];
-    int mHeight;
+        int mGlyphX[256];
+        int mGlyphW[256];
+        int mHeight;
 		int mGlyphSpacing;
 		int mRowSpacing;
-    Image* mImage;
-    std::string mFilename;
+        Image* mImage;
+        std::string mFilename;
 		
-  }; // end ImageFont
+    }; // end ImageFont
   
 } // end gcn
 

@@ -70,180 +70,180 @@
 
 namespace gcn
 {
-  OpenGLGraphics::OpenGLGraphics()
-  {
-    setTargetPlane(640, 480);
+    OpenGLGraphics::OpenGLGraphics()
+    {
+        setTargetPlane(640, 480);
 		mAlpha = false;
 		
-  } // end OpenGLGraphics
+    } // end OpenGLGraphics
   
-  OpenGLGraphics::OpenGLGraphics(int width, int height)
-  {
-    setTargetPlane(width, height);
+    OpenGLGraphics::OpenGLGraphics(int width, int height)
+    {
+        setTargetPlane(width, height);
 
-  } // end OpenGLGrapics
+    } // end OpenGLGrapics
   
-  OpenGLGraphics::~OpenGLGraphics()
-  {
+    OpenGLGraphics::~OpenGLGraphics()
+    {
 
-  } // end ~OpenGLGraphics
+    } // end ~OpenGLGraphics
 
-  void OpenGLGraphics::_beginDraw()
-  {
-    glPushAttrib(
-      GL_COLOR_BUFFER_BIT |
-      GL_CURRENT_BIT |
-      GL_DEPTH_BUFFER_BIT |
-      GL_ENABLE_BIT |
-      GL_FOG_BIT |
-      GL_LIGHTING_BIT |
-      GL_LINE_BIT |
-      GL_POINT_BIT |
-      GL_POLYGON_BIT |
-      GL_SCISSOR_BIT |
-      GL_STENCIL_BUFFER_BIT	|
-      GL_TEXTURE_BIT |
-      GL_TRANSFORM_BIT
-      );
+    void OpenGLGraphics::_beginDraw()
+    {
+        glPushAttrib(
+            GL_COLOR_BUFFER_BIT |
+            GL_CURRENT_BIT |
+            GL_DEPTH_BUFFER_BIT |
+            GL_ENABLE_BIT |
+            GL_FOG_BIT |
+            GL_LIGHTING_BIT |
+            GL_LINE_BIT |
+            GL_POINT_BIT |
+            GL_POLYGON_BIT |
+            GL_SCISSOR_BIT |
+            GL_STENCIL_BUFFER_BIT	|
+            GL_TEXTURE_BIT |
+            GL_TRANSFORM_BIT
+            );
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
 
-    glMatrixMode(GL_TEXTURE);
-    glPushMatrix();
-    glLoadIdentity();
+        glMatrixMode(GL_TEXTURE);
+        glPushMatrix();
+        glLoadIdentity();
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
     
-    glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
+        glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
 		glDisable(GL_LIGHTING);
 			
-    glEnable(GL_SCISSOR_TEST);
+        glEnable(GL_SCISSOR_TEST);
 
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
-    pushClipArea(Rectangle(0, 0, mWidth, mHeight));
+        pushClipArea(Rectangle(0, 0, mWidth, mHeight));
 
-  } // end _beginDraw
+    } // end _beginDraw
   
-  void OpenGLGraphics::_endDraw()
-  {
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    
-    glMatrixMode(GL_TEXTURE);
-    glPopMatrix();
-    
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    
-    glPopAttrib();
-    
-    popClipArea();
-
-  } // _endDraw
-
-  bool OpenGLGraphics::pushClipArea(Rectangle area)
-  {
-    bool result = Graphics::pushClipArea(area);
-    
-    glScissor(mClipStack.top().x,
-              mHeight - mClipStack.top().y - mClipStack.top().height,
-              mClipStack.top().width,
-              mClipStack.top().height);
-    
-    return result;
-
-  } // end pushClipArea
-
-  void OpenGLGraphics::popClipArea()
-  {
-    Graphics::popClipArea();
-
-    if (mClipStack.empty())
+    void OpenGLGraphics::_endDraw()
     {
-      return;
-    }
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
     
-    glScissor(mClipStack.top().x,
-              mHeight - mClipStack.top().y - mClipStack.top().height,
-              mClipStack.top().width,
-              mClipStack.top().height);
+        glMatrixMode(GL_TEXTURE);
+        glPopMatrix();
+    
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+    
+        glPopAttrib();
+    
+        popClipArea();
 
-  } // end popClipArea
+    } // _endDraw
+
+    bool OpenGLGraphics::pushClipArea(Rectangle area)
+    {
+        bool result = Graphics::pushClipArea(area);
+    
+        glScissor(mClipStack.top().x,
+                  mHeight - mClipStack.top().y - mClipStack.top().height,
+                  mClipStack.top().width,
+                  mClipStack.top().height);
+    
+        return result;
+
+    } // end pushClipArea
+
+    void OpenGLGraphics::popClipArea()
+    {
+        Graphics::popClipArea();
+
+        if (mClipStack.empty())
+        {
+            return;
+        }
+    
+        glScissor(mClipStack.top().x,
+                  mHeight - mClipStack.top().y - mClipStack.top().height,
+                  mClipStack.top().width,
+                  mClipStack.top().height);
+
+    } // end popClipArea
   
-  void OpenGLGraphics::setTargetPlane(int width, int height)
-  {
-    mWidth = width;
-    mHeight = height;
+    void OpenGLGraphics::setTargetPlane(int width, int height)
+    {
+        mWidth = width;
+        mHeight = height;
 
-  } // end setTargetPlane
+    } // end setTargetPlane
   
-  void OpenGLGraphics::drawImage(const Image* image, int srcX, int srcY,
-                                         int dstX, int dstY, int width,
-                                         int height)
-  {
-    dstX += mClipStack.top().xOffset;
-    dstY += mClipStack.top().yOffset;
-    
-    // The following code finds the real width and height of the texture.
-    // OpenGL only supports texture sizes that are powers of two
-    int realImageWidth = 1;
-    int realImageHeight = 1;
-    while (realImageWidth < image->getWidth())
+    void OpenGLGraphics::drawImage(const Image* image, int srcX, int srcY,
+                                   int dstX, int dstY, int width,
+                                   int height)
     {
-      realImageWidth *= 2;
-    }
-    while (realImageHeight < image->getHeight())
-    {
-      realImageHeight *= 2;
-    }
+        dstX += mClipStack.top().xOffset;
+        dstY += mClipStack.top().yOffset;
     
-    // Find OpenGL texture coordinates
-    float texX1 = srcX / (float)realImageWidth;
-    float texY1 = srcY / (float)realImageHeight;
-    float texX2 = (srcX+width) / (float)realImageWidth;
-    float texY2 = (srcY+height) / (float)realImageHeight;
+        // The following code finds the real width and height of the texture.
+        // OpenGL only supports texture sizes that are powers of two
+        int realImageWidth = 1;
+        int realImageHeight = 1;
+        while (realImageWidth < image->getWidth())
+        {
+            realImageWidth *= 2;
+        }
+        while (realImageHeight < image->getHeight())
+        {
+            realImageHeight *= 2;
+        }
     
-    // Please dont look too closely at the next line, it is not pretty.
-    // It uses the image data as a pointer to a GLuint
-    glBindTexture(GL_TEXTURE_2D, *((GLuint *)(image->_getData())));
+        // Find OpenGL texture coordinates
+        float texX1 = srcX / (float)realImageWidth;
+        float texY1 = srcY / (float)realImageHeight;
+        float texX2 = (srcX+width) / (float)realImageWidth;
+        float texY2 = (srcY+height) / (float)realImageHeight;
+    
+        // Please dont look too closely at the next line, it is not pretty.
+        // It uses the image data as a pointer to a GLuint
+        glBindTexture(GL_TEXTURE_2D, *((GLuint *)(image->_getData())));
 
-    glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_2D);
 
 		// Check if blending already is enabled
 		if (!mAlpha)
 		{
 			glEnable(GL_BLEND);
-    }
+        }
 		
-    // Draw a textured quad -- the image
-    glBegin(GL_QUADS);
-    glTexCoord2f(texX1, texY1);
-    glVertex3i(dstX, dstY, 0);
+        // Draw a textured quad -- the image
+        glBegin(GL_QUADS);
+        glTexCoord2f(texX1, texY1);
+        glVertex3i(dstX, dstY, 0);
 
-    glTexCoord2f(texX2, texY1);
-    glVertex3i(dstX + width, dstY, 0);
+        glTexCoord2f(texX2, texY1);
+        glVertex3i(dstX + width, dstY, 0);
 
-    glTexCoord2f(texX2, texY2);
-    glVertex3i(dstX + width, dstY + height, 0);
+        glTexCoord2f(texX2, texY2);
+        glVertex3i(dstX + width, dstY + height, 0);
 
-    glTexCoord2f(texX1, texY2);
-    glVertex3i(dstX, dstY + height, 0);
-    glEnd();
+        glTexCoord2f(texX1, texY2);
+        glVertex3i(dstX, dstY + height, 0);
+        glEnd();
     
-    glDisable(GL_TEXTURE_2D);      
+        glDisable(GL_TEXTURE_2D);      
 
 		// Don't disable blending if the color has alpha
 		if (!mAlpha)
@@ -251,74 +251,74 @@ namespace gcn
 			glDisable(GL_BLEND);
 		}
     
-  } // drawImage
+    } // drawImage
   
-  void OpenGLGraphics::drawPoint(int x, int y)
-  {
-    x += mClipStack.top().xOffset;
-    y += mClipStack.top().yOffset;    
+    void OpenGLGraphics::drawPoint(int x, int y)
+    {
+        x += mClipStack.top().xOffset;
+        y += mClipStack.top().yOffset;    
 
-    glBegin(GL_POINTS);
-    glVertex3i(x, y, 0);
-    glEnd();
+        glBegin(GL_POINTS);
+        glVertex3i(x, y, 0);
+        glEnd();
 
-  } // end drawPoint
+    } // end drawPoint
   
-  void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
-  {
-    x1 += mClipStack.top().xOffset;
-    y1 += mClipStack.top().yOffset;
-    x2 += mClipStack.top().xOffset;
-    y2 += mClipStack.top().yOffset;
+    void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
+    {
+        x1 += mClipStack.top().xOffset;
+        y1 += mClipStack.top().yOffset;
+        x2 += mClipStack.top().xOffset;
+        y2 += mClipStack.top().yOffset;
     
-    glBegin(GL_LINES);
-    glVertex3f(x1+0.5f, y1+0.5f, 0);
-    glVertex3f(x2+0.5f, y2+0.5f, 0);
-    glEnd();
+        glBegin(GL_LINES);
+        glVertex3f(x1+0.5f, y1+0.5f, 0);
+        glVertex3f(x2+0.5f, y2+0.5f, 0);
+        glEnd();
 
 		glBegin(GL_POINTS);
 		glVertex3f(x2+0.5f, y2+0.5f, 0);
 		glEnd();
 
-  } // end drawLine
+    } // end drawLine
   
-  void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
-  {    
-    glBegin(GL_LINE_LOOP);
-    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
-							 rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
-    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
-							 rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
-    glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
-							 rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
-    glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
-							 rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
-    glEnd();
+    void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
+    {    
+        glBegin(GL_LINE_LOOP);
+        glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
+                   rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+        glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
+                   rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+        glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+        glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+        glEnd();
 
-  } // end drawRectangle
+    } // end drawRectangle
   
-  void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
-  {
-    glBegin(GL_QUADS);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset,
-							 rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
-							 rectangle.y + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
-							 rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
-    glVertex3i(rectangle.x + mClipStack.top().xOffset,
-							 rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
-    glEnd();
+    void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
+    {
+        glBegin(GL_QUADS);
+        glVertex3i(rectangle.x + mClipStack.top().xOffset,
+                   rectangle.y + mClipStack.top().yOffset, 0);
+        glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
+                   rectangle.y + mClipStack.top().yOffset, 0);
+        glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+        glVertex3i(rectangle.x + mClipStack.top().xOffset,
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+        glEnd();
 
-  } // end fillRectangle
+    } // end fillRectangle
   
-  void OpenGLGraphics::setColor(const Color& color)
-  {
+    void OpenGLGraphics::setColor(const Color& color)
+    {
 		mColor = color;
-    glColor4f(color.r/255.0,
-              color.g/255.0,
-              color.b/255.0,
-              color.a/255.0);
+        glColor4f(color.r/255.0,
+                  color.g/255.0,
+                  color.b/255.0,
+                  color.a/255.0);
 
 		mAlpha = color.a != 255;
 
@@ -326,11 +326,11 @@ namespace gcn
 		{
 			glEnable(GL_BLEND);
 		}		
-  }
+    }
 
 	const Color& OpenGLGraphics::getColor()
 	{		
-    return mColor;    
-  }	
+        return mColor;    
+    }	
 
 } // end gcn

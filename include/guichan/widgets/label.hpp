@@ -121,7 +121,7 @@ namespace gcn
 		
 	private:
 		std::string mCaption;
-    unsigned int mAlignment;
+        unsigned int mAlignment;
 		
 	}; // end Label
   

@@ -62,82 +62,82 @@
 namespace gcn
 {
 
-  ImageLoader* Image::mImageLoader = NULL;
+    ImageLoader* Image::mImageLoader = NULL;
 
-  Image::Image()
+    Image::Image()
 	{
 		mLoadedWithImageLoader = false;
 	}
 	
-  Image::Image(void* data, int width, int height)
-  {
-    mData = data;
-    mWidth = width;
-    mHeight = height;
+    Image::Image(void* data, int width, int height)
+    {
+        mData = data;
+        mWidth = width;
+        mHeight = height;
 		mLoadedWithImageLoader = false;
 		
-  } // end Image
+    } // end Image
   
-  Image::Image(const std::string& filename)
-  {
-    if (mImageLoader == NULL)
+    Image::Image(const std::string& filename)
     {
-      throw GCN_EXCEPTION("Image::Image. I have no ImageLoader!");
-    }
+        if (mImageLoader == NULL)
+        {
+            throw GCN_EXCEPTION("Image::Image. I have no ImageLoader!");
+        }
 
 		mLoadedWithImageLoader = true;
-    mImageLoader->prepare(filename);    
-    mWidth = mImageLoader->getWidth();
-    mHeight = mImageLoader->getHeight();
-    mData = mImageLoader->finalize();
+        mImageLoader->prepare(filename);    
+        mWidth = mImageLoader->getWidth();
+        mHeight = mImageLoader->getHeight();
+        mData = mImageLoader->finalize();
 
-    mFilename = filename;
+        mFilename = filename;
 
-  } // end Image
+    } // end Image
 
-  Image::~Image()
-  {
+    Image::~Image()
+    {
 		if (mLoadedWithImageLoader)
 		{
 			mImageLoader->free(this);
 		}
     
-  } // end ~Image
+    } // end ~Image
   
-  const std::string& Image::getFilename() const
-  {
-    return mFilename;
+    const std::string& Image::getFilename() const
+    {
+        return mFilename;
 
-  } // end getFilename
+    } // end getFilename
 
-  int Image::getWidth() const
-  {
-    return mWidth;
+    int Image::getWidth() const
+    {
+        return mWidth;
 
-  } // end getWidth
+    } // end getWidth
 
-  int Image::getHeight() const
-  {
-    return mHeight;
+    int Image::getHeight() const
+    {
+        return mHeight;
 
-  } // end getHeight
+    } // end getHeight
 
-  void* Image::_getData() const
-  {
-    return mData;
+    void* Image::_getData() const
+    {
+        return mData;
 
-  } // end getData
+    } // end getData
   
-  void Image::setImageLoader(ImageLoader* imageLoader)
-  { 
-    mImageLoader = imageLoader;
+    void Image::setImageLoader(ImageLoader* imageLoader)
+    { 
+        mImageLoader = imageLoader;
 
-  } // end setImageLoader
+    } // end setImageLoader
 
-  ImageLoader* Image::_getImageLoader()
-  {
-    return mImageLoader;
+    ImageLoader* Image::_getImageLoader()
+    {
+        return mImageLoader;
 
-  } // end _getImageLoader
+    } // end _getImageLoader
 	
 } // end gcn

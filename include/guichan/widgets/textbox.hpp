@@ -240,7 +240,7 @@ namespace gcn
 		int mCaretColumn;
 		int mCaretRow;
 		bool mEditable;
-    bool mOpaque;
+        bool mOpaque;
 
 	}; // end TextBox
   

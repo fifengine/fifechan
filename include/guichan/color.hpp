@@ -59,107 +59,107 @@
 
 namespace gcn
 {
-  /**
-   * Class that represents a color.
-   */
-  class GCN_CORE_DECLSPEC Color
-  {    
-  public:
     /**
-     * Constructor. Gives the color black.
+     * Class that represents a color.
      */
-    Color();
+    class GCN_CORE_DECLSPEC Color
+    {    
+    public:
+        /**
+         * Constructor. Gives the color black.
+         */
+        Color();
     
-    /**
-     * Constructor that constructs a color from the bytes in an integer.
-     * Call it with a hexadecimal constant for HTML-style color representation.
-     * For example, Color(0xff50a0) constructs Gui-chan's favourite color. The
-     * alpha component will always be set to 255 by this constructor.
-     *
-     * NOTE: Because of this constructor, integers will be automatically casted
-     * to a color by your compiler.
-     *
-     * @param color the color.
-     */
-    Color(int color);
+        /**
+         * Constructor that constructs a color from the bytes in an integer.
+         * Call it with a hexadecimal constant for HTML-style color representation.
+         * For example, Color(0xff50a0) constructs Gui-chan's favourite color. The
+         * alpha component will always be set to 255 by this constructor.
+         *
+         * NOTE: Because of this constructor, integers will be automatically casted
+         * to a color by your compiler.
+         *
+         * @param color the color.
+         */
+        Color(int color);
     
-    /**
-     * Constructor.
-     *
-     * @param r Red color component (range 0-255).
-     * @param g Green color component  (range 0-255).
-     * @param b Blue color component (range 0-255).
-     * @param a Color alpha, used for transparency. A value of 0 means totaly
-     *          transparent, 255 is totaly opaque (the default).
-     */
-    Color(int r, int g, int b, int a = 255);
+        /**
+         * Constructor.
+         *
+         * @param r Red color component (range 0-255).
+         * @param g Green color component  (range 0-255).
+         * @param b Blue color component (range 0-255).
+         * @param a Color alpha, used for transparency. A value of 0 means totaly
+         *          transparent, 255 is totaly opaque (the default).
+         */
+        Color(int r, int g, int b, int a = 255);
 
-    /**
-     * Adds the RGB values of two colors together. The values will be clamped
-     * if they go out of range.
-     * The returned color will always have alpha of 255.
-     *
-     * @param color a color to add to this color.
-     * @return the resulting color.
-     */
-    Color operator+(const Color& color) const;
+        /**
+         * Adds the RGB values of two colors together. The values will be clamped
+         * if they go out of range.
+         * The returned color will always have alpha of 255.
+         *
+         * @param color a color to add to this color.
+         * @return the resulting color.
+         */
+        Color operator+(const Color& color) const;
 
-    /**
-     * Subtracts the RGB values of one color from another.
-     * The values will be clamped if they go out of range.
-     * The returned color will always have alpha of 255.
-     *
-     * @param color a color to subtract from this color.
-     * @return the resulting color.
-     */
-    Color operator-(const Color& color) const;
+        /**
+         * Subtracts the RGB values of one color from another.
+         * The values will be clamped if they go out of range.
+         * The returned color will always have alpha of 255.
+         *
+         * @param color a color to subtract from this color.
+         * @return the resulting color.
+         */
+        Color operator-(const Color& color) const;
 
-    /**
-     * Multiplies the RGB values of a color with a float value.
-     * The values will be clamped if they go out of range.
-     * The alpha component will be left untouched.
-     *
-     * @param value the value to multiply the color with.
-     * @return the resulting color.     
-     */
-    Color operator*(float value) const;
+        /**
+         * Multiplies the RGB values of a color with a float value.
+         * The values will be clamped if they go out of range.
+         * The alpha component will be left untouched.
+         *
+         * @param value the value to multiply the color with.
+         * @return the resulting color.     
+         */
+        Color operator*(float value) const;
     
-    /**
-     * Compares two colors.
-     *
-     * @return true if the two colors have the same RGBA components.
-     */
-    bool operator==(const Color& color) const;
+        /**
+         * Compares two colors.
+         *
+         * @return true if the two colors have the same RGBA components.
+         */
+        bool operator==(const Color& color) const;
 
-    /**
-     * Compares two colors.
-     *
-     * @return true if the two colors have different RGBA components.
-     */
-    bool operator!=(const Color& color) const;
+        /**
+         * Compares two colors.
+         *
+         * @return true if the two colors have different RGBA components.
+         */
+        bool operator!=(const Color& color) const;
 
-    /**
-     * Red color component (range 0-255).
-     */
-    int r;
+        /**
+         * Red color component (range 0-255).
+         */
+        int r;
 
-    /**
-     * Green color component (range 0-255).
-     */
-    int g;
+        /**
+         * Green color component (range 0-255).
+         */
+        int g;
 
-    /**
-     * Blue color component (range 0-255).
-     */    
-    int b;
+        /**
+         * Blue color component (range 0-255).
+         */    
+        int b;
 
-    /**
-     * Color alpha, used for transparency. A value of 0 means totaly
-     * transparent, 255 is totaly opaque (the default)
-     */    
-    int a;
+        /**
+         * Color alpha, used for transparency. A value of 0 means totaly
+         * transparent, 255 is totaly opaque (the default)
+         */    
+        int a;
     
-  }; // end Color
+    }; // end Color
   
 } // end gcn
 

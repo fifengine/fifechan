@@ -60,64 +60,64 @@
 
 namespace gcn
 {
-  /**
-   * This is the abstract base class for fonts. It can be overloaded
-   * to represent any type of font.
-   *
-   * @see ImageFont
-   */
-  class GCN_CORE_DECLSPEC Font
-  {
-  public:
-
     /**
-     * Destructor.
+     * This is the abstract base class for fonts. It can be overloaded
+     * to represent any type of font.
+     *
+     * @see ImageFont
      */
-    virtual ~Font(){ }
+    class GCN_CORE_DECLSPEC Font
+    {
+    public:
 
-    /**
-     * Gets the width of a string. The width of a string is not necesserily
-     * the sum of all the widths of its glyphs. 
-     *
-     * @param text the string of which width will be returned
-     * @return the width of a string 
-     */
-    virtual int getWidth(const std::string& text) const = 0;
+        /**
+         * Destructor.
+         */
+        virtual ~Font(){ }
 
-    /**
-     * Gets the height of the glyphs.
-     *
-     * @return the height of the glyphs
-     */
-    virtual int getHeight() const = 0;
+        /**
+         * Gets the width of a string. The width of a string is not necesserily
+         * the sum of all the widths of its glyphs. 
+         *
+         * @param text the string of which width will be returned
+         * @return the width of a string 
+         */
+        virtual int getWidth(const std::string& text) const = 0;
 
-    /**
-     * Use this function to retrive a string index (for a character in a
-     * string) at a certain x position. This function is especially useful
-     * when a mouse clicks in a TextField and you want to know which
-     * character was clicked.
-     *
-     *
-     * @return the string index at coordinate x.
-     */
-    virtual int getStringIndexAt(const std::string& text, int x);
+        /**
+         * Gets the height of the glyphs.
+         *
+         * @return the height of the glyphs
+         */
+        virtual int getHeight() const = 0;
+
+        /**
+         * Use this function to retrive a string index (for a character in a
+         * string) at a certain x position. This function is especially useful
+         * when a mouse clicks in a TextField and you want to know which
+         * character was clicked.
+         *
+         *
+         * @return the string index at coordinate x.
+         */
+        virtual int getStringIndexAt(const std::string& text, int x);
         
-    /**
-     * Draws a string.
-     * 
-     * NOTE: You normally won't use this function to draw text since
-     *       the Graphics class contains better functions for drawing
-     *       text.
-     *
-     * @param graphics a graphics object to be used for drawing
-     * @param text the string to draw
-     * @param x the x coordinate where to draw the string
-     * @param y the y coordinate where to draw the string
-     * @see Graphics
-     */
-    virtual void drawString(Graphics* graphics, const std::string& text, int x, int y) = 0;    
+        /**
+         * Draws a string.
+         * 
+         * NOTE: You normally won't use this function to draw text since
+         *       the Graphics class contains better functions for drawing
+         *       text.
+         *
+         * @param graphics a graphics object to be used for drawing
+         * @param text the string to draw
+         * @param x the x coordinate where to draw the string
+         * @param y the y coordinate where to draw the string
+         * @see Graphics
+         */
+        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y) = 0;    
 
-  }; // end Font
+    }; // end Font
   
 } // end gcn
 

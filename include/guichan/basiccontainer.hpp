@@ -63,59 +63,59 @@
 
 namespace gcn
 {
-  /**
-   * This is the container base class. Every container should
-   * impement this class.
-   *
-   * @see Container
-   */
-  class GCN_CORE_DECLSPEC BasicContainer: public Widget
-  {
-  public:
-
-    virtual ~BasicContainer() { }
-
     /**
-     * Move a widget to the top of the basic container. The effect
-     * of this function is that the widget will be drawn above all
-     * other widgets in the basic container.
+     * This is the container base class. Every container should
+     * impement this class.
      *
-     * @param widget the widget to move.
+     * @see Container
      */
-    virtual void moveToTop(Widget* widget) = 0;
+    class GCN_CORE_DECLSPEC BasicContainer: public Widget
+    {
+    public:
 
-    /**
-     * Move a widget to the bottom of the basic container. The effect
-     * of this function is that the widget will be drawn below all
-     * other widgets in the basic container.
-     *
-     * @param widget the widget to move.
-     */
-    virtual void moveToBottom(Widget* widget) = 0;
+        virtual ~BasicContainer() { }
 
-    /**
-     * Used to check how much space a widget gets to draw itself which is
-     * not necessarily the same as the widgets width and height.
-     *
-     * NOTE: This function does not check the size recursively all the way
-     *       back to the top widget. If the container itself is clipped,
-     *       the size may be inaccurate.
-     * 
-     * @param width the width the widget draw space has
-     * @param height the height the widget draw space has
-     * @param widget a pointer to the widget calling the function
-     */
-    virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
+        /**
+         * Move a widget to the top of the basic container. The effect
+         * of this function is that the widget will be drawn above all
+         * other widgets in the basic container.
+         *
+         * @param widget the widget to move.
+         */
+        virtual void moveToTop(Widget* widget) = 0;
 
-	  /**
-	   * This function is automatically called by the containers children
-	   * when they get destroyed.
-	   *
-	   * @param widget the destroyed widget
-	   */
-	  virtual void _announceDeath(Widget *widget) = 0;
+        /**
+         * Move a widget to the bottom of the basic container. The effect
+         * of this function is that the widget will be drawn below all
+         * other widgets in the basic container.
+         *
+         * @param widget the widget to move.
+         */
+        virtual void moveToBottom(Widget* widget) = 0;
+
+        /**
+         * Used to check how much space a widget gets to draw itself which is
+         * not necessarily the same as the widgets width and height.
+         *
+         * NOTE: This function does not check the size recursively all the way
+         *       back to the top widget. If the container itself is clipped,
+         *       the size may be inaccurate.
+         * 
+         * @param width the width the widget draw space has
+         * @param height the height the widget draw space has
+         * @param widget a pointer to the widget calling the function
+         */
+        virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
+
+        /**
+         * This function is automatically called by the containers children
+         * when they get destroyed.
+         *
+         * @param widget the destroyed widget
+         */
+        virtual void _announceDeath(Widget *widget) = 0;
     
-  }; // end BasicContainer
+    }; // end BasicContainer
   
 } // end gcn
 

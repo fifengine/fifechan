@@ -365,11 +365,11 @@ namespace gcn
 			  break;
         
 		  case MouseInput::PRESS:
-				if (hasMouse())
-				{
-					requestFocus();
-					mFocusHandler->requestDrag(this);
-        }
+              if (hasMouse())
+              {
+                  requestFocus();
+                  mFocusHandler->requestDrag(this);
+              }
 				
 			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
 			  {
@@ -414,10 +414,10 @@ namespace gcn
 			  break;
 
 		  case MouseInput::RELEASE:
-				if (isDragged())
-				{
-					mFocusHandler->dragNone();
-				}
+              if (isDragged())
+              {
+                  mFocusHandler->dragNone();
+              }
 				
 			  if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
 			  {

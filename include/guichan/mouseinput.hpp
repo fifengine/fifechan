@@ -59,65 +59,65 @@
 
 namespace gcn
 {
-  /**
-   * This is an intenral class used in Guichan to grab mouse input.
-   * Generally you won't have to bother using this class.
-   */
-  class GCN_CORE_DECLSPEC MouseInput
-  {
-  public:
-
     /**
-     * Constructor.
+     * This is an intenral class used in Guichan to grab mouse input.
+     * Generally you won't have to bother using this class.
      */
-    MouseInput(){};
+    class GCN_CORE_DECLSPEC MouseInput
+    {
+    public:
 
-    /**
-     * Constructor.
-     *
-     * @param button the button pressed.
-     * @param type the type of input.
-     * @param mousex the mouse x coordinate.
-     * @param mousey the mouse y coordinate.
-     * @param timeStamp the mouse inputs time stamp.
-     */
-    MouseInput(int button, int type, int mousex, int mousey, int timeStamp);
+        /**
+         * Constructor.
+         */
+        MouseInput(){};
 
-    /**
-     * Sets the input type.
-     *
-     * @param type the type of input.
-     */
-    void setType(int type);
+        /**
+         * Constructor.
+         *
+         * @param button the button pressed.
+         * @param type the type of input.
+         * @param mousex the mouse x coordinate.
+         * @param mousey the mouse y coordinate.
+         * @param timeStamp the mouse inputs time stamp.
+         */
+        MouseInput(int button, int type, int mousex, int mousey, int timeStamp);
 
-    /**
-     * @return the input type.
-     */
-    int getType() const;
+        /**
+         * Sets the input type.
+         *
+         * @param type the type of input.
+         */
+        void setType(int type);
 
-    /**
-     * Sets the button pressed.
-     *
-     * @param the button pressed.
-     */
-    void setButton(int button);
+        /**
+         * @return the input type.
+         */
+        int getType() const;
 
-    /**
-     * @return the button pressed.
-     */
-    int getButton() const;
+        /**
+         * Sets the button pressed.
+         *
+         * @param the button pressed.
+         */
+        void setButton(int button);
 
-    /**
-     * Sets the timestamp for the input.
-     *
-     * @param timeStamp the timestamp of the input.
-     */
-    void setTimeStamp(int timeStamp);
+        /**
+         * @return the button pressed.
+         */
+        int getButton() const;
+
+        /**
+         * Sets the timestamp for the input.
+         *
+         * @param timeStamp the timestamp of the input.
+         */
+        void setTimeStamp(int timeStamp);
     
-    /**
-     * @return the timestamp of the input.
-     */
-    int getTimeStamp() const;
+        /**
+         * @return the timestamp of the input.
+         */
+        int getTimeStamp() const;
 
 		enum
 		{
@@ -132,14 +132,14 @@ namespace gcn
 			MOTION
 		};
     
-    int x, y;
+        int x, y;
 
-  protected:
-    int mType;
-    int mButton;
-    int mTimeStamp;
+    protected:
+        int mType;
+        int mButton;
+        int mTimeStamp;
     
-  }; // end MouseInput
+    }; // end MouseInput
 
 } // end gcn
 

@@ -60,11 +60,11 @@
 
 extern "C"
 {
-  /**
-   * This is a C function which exists to make life easier when
-   * checking for the Guichan OpenGL library with autotools.
-   */    
-  extern void gcnOpenGL();
+    /**
+     * This is a C function which exists to make life easier when
+     * checking for the Guichan OpenGL library with autotools.
+     */    
+    extern void gcnOpenGL();
 }
 
 #endif // end GCN_OPENGL_HPP 

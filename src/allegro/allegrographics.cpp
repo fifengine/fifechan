@@ -166,9 +166,9 @@ namespace gcn
 	}
 	
 	void AllegroGraphics::drawImage(const Image* image,
-																	int srcX, int srcY,
-																	int dstX, int dstY,
-																	int width, int height)
+                                    int srcX, int srcY,
+                                    int dstX, int dstY,
+                                    int width, int height)
 	{
 		if (mClipNull)
 		{
@@ -194,9 +194,9 @@ namespace gcn
 		int yOffset = mClipStack.top().yOffset;
 		
 		putpixel(mTarget,
-						 x + xOffset,
-						 y + yOffset,
-						 mAlColor);
+                 x + xOffset,
+                 y + yOffset,
+                 mAlColor);
 	}
 	
 	void AllegroGraphics::drawLine(int x1, int y1, int x2, int y2)
@@ -210,11 +210,11 @@ namespace gcn
 		int yOffset = mClipStack.top().yOffset;
 		
 		line(mTarget,
-				 x1 + xOffset,
-				 y1 + yOffset,
-				 x2 + xOffset,
-				 y2 + yOffset,
-				 mAlColor);
+             x1 + xOffset,
+             y1 + yOffset,
+             x2 + xOffset,
+             y2 + yOffset,
+             mAlColor);
 	}
 	
 	void AllegroGraphics::drawRectangle(const Rectangle& rectangle)
@@ -228,11 +228,11 @@ namespace gcn
 		int yOffset = mClipStack.top().yOffset;
 
 		rect(mTarget,
-				 rectangle.x + xOffset,
-				 rectangle.y + yOffset,
-				 rectangle.x + rectangle.width - 1 + xOffset,
-				 rectangle.y + rectangle.height - 1 + yOffset,
-				 mAlColor);
+             rectangle.x + xOffset,
+             rectangle.y + yOffset,
+             rectangle.x + rectangle.width - 1 + xOffset,
+             rectangle.y + rectangle.height - 1 + yOffset,
+             mAlColor);
 	}
 	
 	void AllegroGraphics::fillRectangle(const Rectangle& rectangle)
@@ -246,11 +246,11 @@ namespace gcn
 		int yOffset = mClipStack.top().yOffset;
 
 		rectfill(mTarget,
-						 rectangle.x + xOffset,
-						 rectangle.y + yOffset,
-						 rectangle.x + rectangle.width - 1 + xOffset,
-						 rectangle.y + rectangle.height - 1 + yOffset,
-						 mAlColor);
+                 rectangle.x + xOffset,
+                 rectangle.y + yOffset,
+                 rectangle.x + rectangle.width - 1 + xOffset,
+                 rectangle.y + rectangle.height - 1 + yOffset,
+                 mAlColor);
 	}
 
 	void AllegroGraphics::setColor(const Color& color)
@@ -271,7 +271,7 @@ namespace gcn
 
 	const Color& AllegroGraphics::getColor()
 	{		
-    return mColor;    
-  }
+        return mColor;    
+    }
 	
 } // end gcn

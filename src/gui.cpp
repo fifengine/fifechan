@@ -64,81 +64,81 @@
 namespace gcn
 {
   
-  Gui::Gui()
-  {
-    mTop = NULL;
-    mInput = NULL;
-    mGraphics = NULL;
-    mFocusHandler = new FocusHandler();
-    mTopHasMouse = false;
+    Gui::Gui()
+    {
+        mTop = NULL;
+        mInput = NULL;
+        mGraphics = NULL;
+        mFocusHandler = new FocusHandler();
+        mTopHasMouse = false;
 		mTabbing = true;
-  } // end Gui
+    } // end Gui
 
-  Gui::~Gui()
-  {
+    Gui::~Gui()
+    {
 		if (Widget::widgetExists(mTop))
 		{
 			setTop(NULL);
 		}
 		
-    delete mFocusHandler;
+        delete mFocusHandler;
 
-  } // end ~Gui
+    } // end ~Gui
   
-  void Gui::setTop(Widget* top)
-  {
-    if (mTop)
+    void Gui::setTop(Widget* top)
     {
-      mTop->_setFocusHandler(NULL);
-    }
-    if (top)
-    {
-      top->_setFocusHandler(mFocusHandler);
-    }
+        if (mTop)
+        {
+            mTop->_setFocusHandler(NULL);
+        }
+        if (top)
+        {
+            top->_setFocusHandler(mFocusHandler);
+        }
     
-    mTop = top;
+        mTop = top;
 
-  } // end setTop
+    } // end setTop
 
-  Widget* Gui::getTop() const
-  {
-    return mTop;
+    Widget* Gui::getTop() const
+    {
+        return mTop;
 
-  } // end getTop
+    } // end getTop
 
-  void Gui::setGraphics(Graphics* graphics)
-  {
-    mGraphics = graphics;
+    void Gui::setGraphics(Graphics* graphics)
+    {
+        mGraphics = graphics;
 
-  } // end setGraphics
+    } // end setGraphics
 
-  Graphics* Gui::getGraphics() const
-  {
-    return mGraphics;
+    Graphics* Gui::getGraphics() const
+    {
+        return mGraphics;
 
-  } // end getGraphics
+    } // end getGraphics
 
-  void Gui::setInput(Input* input)
-  {
-    mInput = input;
+    void Gui::setInput(Input* input)
+    {
+        mInput = input;
 
-  } // end setInput
+    } // end setInput
   
-  Input* Gui::getInput() const
-  {
-    return mInput;
-
-  } // end getInput
-
-  void Gui::logic()
-  {
-    if (!mTop)
+    Input* Gui::getInput() const
     {
-      throw GCN_EXCEPTION("Gui::logic. No top widget set");
-    }
+        return mInput;
 
-    if(mInput)
+    } // end getInput
+
+    void Gui::logic()
     {
+        if (!mTop)
+        {
+            throw GCN_EXCEPTION("Gui::logic. No top widget set");
+        }
+
+        if(mInput)
+        {
 			mInput->_pollInput();
 
 			while (!mInput->isMouseQueueEmpty())
@@ -147,7 +147,7 @@ namespace gcn
 
 				// Send mouse input to every widget that has the mouse.
 				if (mi.x > 0 && mi.y > 0
-						&& mTop->getDimension().isPointInRect(mi.x, mi.y))
+                    && mTop->getDimension().isPointInRect(mi.x, mi.y))
 				{
 					if (!mTop->hasMouse())
 					{
@@ -199,13 +199,13 @@ namespace gcn
 				
 			} // end while
 			
-      while (!mInput->isKeyQueueEmpty())        
-      {
-        KeyInput ki = mInput->dequeueKeyInput();
+            while (!mInput->isKeyQueueEmpty())        
+            {
+                KeyInput ki = mInput->dequeueKeyInput();
 
 				if (mTabbing
-						&& ki.getKey().getValue() == Key::TAB
-						&& ki.getType() == KeyInput::PRESS)
+                    && ki.getKey().getValue() == Key::TAB
+                    && ki.getType() == KeyInput::PRESS)
 				{
 					if (ki.getKey().isShiftPressed())
 					{
@@ -234,26 +234,26 @@ namespace gcn
 				
 				mFocusHandler->applyChanges();
 
-      } // end while
+            } // end while
 			
-    } // end if
+        } // end if
     
-    mTop->logic();
+        mTop->logic();
 		
 	} // end logic
 	
-  void Gui::draw()
-  {
-    if (!mTop)
+    void Gui::draw()
     {
-      throw GCN_EXCEPTION("Gui::draw. No top widget set");
-    }
-    if (!mGraphics)
-    {
-      throw GCN_EXCEPTION("Gui::draw. No graphics set");
-    }
+        if (!mTop)
+        {
+            throw GCN_EXCEPTION("Gui::draw. No top widget set");
+        }
+        if (!mGraphics)
+        {
+            throw GCN_EXCEPTION("Gui::draw. No graphics set");
+        }
 
-    mGraphics->_beginDraw();
+        mGraphics->_beginDraw();
 
 		// If top has a border,
 		// draw it before drawing top
@@ -270,13 +270,13 @@ namespace gcn
 		}
 
 		mGraphics->pushClipArea(mTop->getDimension());    
-    mTop->draw(mGraphics);
-    mGraphics->popClipArea();
+        mTop->draw(mGraphics);
+        mGraphics->popClipArea();
 
 
 		mGraphics->_endDraw();
     
-  } // end draw
+    } // end draw
 
 	void Gui::focusNone()
 	{

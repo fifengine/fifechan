@@ -65,206 +65,206 @@
 namespace gcn
 {
 
-  SDLImageLoader::SDLImageLoader()
-  {
-    mCurrentImage = NULL;
+    SDLImageLoader::SDLImageLoader()
+    {
+        mCurrentImage = NULL;
     
-  } // end SDLImageLoader
+    } // end SDLImageLoader
   
-  void SDLImageLoader::prepare(const std::string& filename)
-  {
-    if (mCurrentImage != NULL)
+    void SDLImageLoader::prepare(const std::string& filename)
     {
-      throw GCN_EXCEPTION("SDLImageLoader::prepare. Function called before finalizing or discarding last loaded image.");
-    }
+        if (mCurrentImage != NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::prepare. Function called before finalizing or discarding last loaded image.");
+        }
 
-    SDL_Surface* tmp = IMG_Load(filename.c_str());
+        SDL_Surface* tmp = IMG_Load(filename.c_str());
 
-    if (tmp == NULL)
-    {
-      throw GCN_EXCEPTION(std::string("SDLImageLoader::prepare. Unable to load image file: ")+filename);
-    }
+        if (tmp == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("SDLImageLoader::prepare. Unable to load image file: ")+filename);
+        }
 
-    Uint32 rmask, gmask, bmask, amask;
+        Uint32 rmask, gmask, bmask, amask;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000;
-    gmask = 0x00ff0000;
-    bmask = 0x0000ff00;
-    amask = 0x000000ff;
+        rmask = 0xff000000;
+        gmask = 0x00ff0000;
+        bmask = 0x0000ff00;
+        amask = 0x000000ff;
 #else
-    rmask = 0x000000ff;
-    gmask = 0x0000ff00;
-    bmask = 0x00ff0000;
-    amask = 0xff000000;
+        rmask = 0x000000ff;
+        gmask = 0x0000ff00;
+        bmask = 0x00ff0000;
+        amask = 0xff000000;
 #endif
     
-    mCurrentImage = SDL_CreateRGBSurface(SDL_SWSURFACE, 0, 0, 32,
-                                         rmask, gmask, bmask, amask);
+        mCurrentImage = SDL_CreateRGBSurface(SDL_SWSURFACE, 0, 0, 32,
+                                             rmask, gmask, bmask, amask);
     
-    if (mCurrentImage == NULL)
-    {
-      throw GCN_EXCEPTION(std::string("SDLImageLoader::prepare. Not enough memory to load: ")+filename);
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("SDLImageLoader::prepare. Not enough memory to load: ")+filename);
+        }
     
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = tmp->w;
-    rect.h = tmp->h;
+        SDL_Rect rect;
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = tmp->w;
+        rect.h = tmp->h;
 
-    SDL_Surface* tmp2 = SDL_ConvertSurface(tmp, mCurrentImage->format, SDL_SWSURFACE);
+        SDL_Surface* tmp2 = SDL_ConvertSurface(tmp, mCurrentImage->format, SDL_SWSURFACE);
 		SDL_FreeSurface(tmp);
 		SDL_FreeSurface(mCurrentImage);
 
 		mCurrentImage = tmp2;
     
-  } // end prepare
+    } // end prepare
 
-  void* SDLImageLoader::getRawData()
-  {
-    return mCurrentImage->pixels;
+    void* SDLImageLoader::getRawData()
+    {
+        return mCurrentImage->pixels;
 
-  } // end getRawData
+    } // end getRawData
   
-  void* SDLImageLoader::finalize()
-  {
-    if (mCurrentImage == NULL)
+    void* SDLImageLoader::finalize()
     {
-      throw GCN_EXCEPTION("SDLImageLoader::finalize. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::finalize. No image prepared.");
+        }
 
-    int i;
-    bool hasPink = false;
-    bool hasAlpha = false;
+        int i;
+        bool hasPink = false;
+        bool hasAlpha = false;
     
-    for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
-    {
-      if (((unsigned int*)mCurrentImage->pixels)[i] == SDL_MapRGB(mCurrentImage->format,255,0,255))
-      {
-        hasPink = true;
-        break;
-      }
-    }
+        for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
+        {
+            if (((unsigned int*)mCurrentImage->pixels)[i] == SDL_MapRGB(mCurrentImage->format,255,0,255))
+            {
+                hasPink = true;
+                break;
+            }
+        }
     
-    for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
-    {
-      Uint8 r, g, b, a;
+        for (i = 0; i < mCurrentImage->w * mCurrentImage->h; ++i)
+        {
+            Uint8 r, g, b, a;
       
-      SDL_GetRGBA(((unsigned int*)mCurrentImage->pixels)[i], mCurrentImage->format,
-                  &r, &g, &b, &a);
+            SDL_GetRGBA(((unsigned int*)mCurrentImage->pixels)[i], mCurrentImage->format,
+                        &r, &g, &b, &a);
 
-      if (a != 255)
-      {
-        hasAlpha = true;
-        break;
-      }      
-    }
+            if (a != 255)
+            {
+                hasAlpha = true;
+                break;
+            }      
+        }
 
-    // Don't convert 32bpp images with alpha, it will destroy the
-    // alpha channel.
-    SDL_Surface *temp;
-    if (hasAlpha)
-    {
-      temp = mCurrentImage;
-      mCurrentImage = NULL;
-    }
-    else
-    {
-      temp = SDL_DisplayFormat(mCurrentImage);
-      SDL_FreeSurface(mCurrentImage);
-      mCurrentImage = NULL;
-    }
+        // Don't convert 32bpp images with alpha, it will destroy the
+        // alpha channel.
+        SDL_Surface *temp;
+        if (hasAlpha)
+        {
+            temp = mCurrentImage;
+            mCurrentImage = NULL;
+        }
+        else
+        {
+            temp = SDL_DisplayFormat(mCurrentImage);
+            SDL_FreeSurface(mCurrentImage);
+            mCurrentImage = NULL;
+        }
     
-    if (hasPink)
-    {
-      SDL_SetColorKey(temp, SDL_SRCCOLORKEY,
-                      SDL_MapRGB(temp->format,255,0,255));
-    }
-    if (hasAlpha)
-    {
-      SDL_SetAlpha(temp, SDL_SRCALPHA, 255);
-    }
+        if (hasPink)
+        {
+            SDL_SetColorKey(temp, SDL_SRCCOLORKEY,
+                            SDL_MapRGB(temp->format,255,0,255));
+        }
+        if (hasAlpha)
+        {
+            SDL_SetAlpha(temp, SDL_SRCALPHA, 255);
+        }
     
-    return temp;
+        return temp;
     
-  } // end finalize
+    } // end finalize
   
-  void SDLImageLoader::discard()
-  {
-    if (mCurrentImage == NULL)
+    void SDLImageLoader::discard()
     {
-      throw GCN_EXCEPTION("SDLImageLoader::discard. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::discard. No image prepared.");
+        }
     
-    SDL_FreeSurface(mCurrentImage);
+        SDL_FreeSurface(mCurrentImage);
     
-    mCurrentImage = NULL;
+        mCurrentImage = NULL;
     
-  } // end discard
+    } // end discard
   
-  void SDLImageLoader::free(Image* image)
-  {
-    if (image->_getData() == NULL)
+    void SDLImageLoader::free(Image* image)
     {
-      throw GCN_EXCEPTION("SDLImageLoader::free. Image data points to null.");
-    }
+        if (image->_getData() == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::free. Image data points to null.");
+        }
     
-    SDL_FreeSurface((SDL_Surface*)image->_getData());
+        SDL_FreeSurface((SDL_Surface*)image->_getData());
     
-  } // end free
+    } // end free
   
-  int SDLImageLoader::getWidth() const
-  {
-    if (mCurrentImage == NULL)
+    int SDLImageLoader::getWidth() const
     {
-      throw GCN_EXCEPTION("SDLImageLoader::getWidth. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::getWidth. No image prepared.");
+        }
     
-    return mCurrentImage->w;
+        return mCurrentImage->w;
 
-  } // end getWidth
+    } // end getWidth
 
-  int SDLImageLoader::getHeight() const
-  {
-    if (mCurrentImage == NULL)
+    int SDLImageLoader::getHeight() const
     {
-      throw GCN_EXCEPTION("SDLImageLoader::getHeight. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::getHeight. No image prepared.");
+        }
     
-    return mCurrentImage->h;
+        return mCurrentImage->h;
 
-  } // end getHeight
+    } // end getHeight
 
-  Color SDLImageLoader::getPixel(int x, int y)
-  {
-    if (mCurrentImage == NULL)
+    Color SDLImageLoader::getPixel(int x, int y)
     {
-      throw GCN_EXCEPTION("SDLImageLoader::getPixel. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::getPixel. No image prepared.");
+        }
 
-    if (x < 0 || y < 0 || x >= mCurrentImage->w || y >= mCurrentImage->h)
-    {
-      throw GCN_EXCEPTION("SDLImageLoader::getPixel. x and y out of image bound.");
-    }
+        if (x < 0 || y < 0 || x >= mCurrentImage->w || y >= mCurrentImage->h)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::getPixel. x and y out of image bound.");
+        }
 
-    return SDLgetPixel(mCurrentImage, x, y);
+        return SDLgetPixel(mCurrentImage, x, y);
     
-  } // end getPixel
+    } // end getPixel
 
-  void SDLImageLoader::putPixel(int x, int y, const Color& color)
-  {
-    if (mCurrentImage == NULL)
+    void SDLImageLoader::putPixel(int x, int y, const Color& color)
     {
-      throw GCN_EXCEPTION("SDLImageLoader::putPixel. No image prepared.");
-    }
+        if (mCurrentImage == NULL)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::putPixel. No image prepared.");
+        }
 
-    if (x < 0 || y < 0 || x >= mCurrentImage->w || y >= mCurrentImage->h)
-    {
-      throw GCN_EXCEPTION("SDLImageLoader::putPixel. x and y out of image bound.");
-    }
+        if (x < 0 || y < 0 || x >= mCurrentImage->w || y >= mCurrentImage->h)
+        {
+            throw GCN_EXCEPTION("SDLImageLoader::putPixel. x and y out of image bound.");
+        }
     
-    SDLputPixel(mCurrentImage, x, y, color);
+        SDLputPixel(mCurrentImage, x, y, color);
     
-  } // end putPixel
+    } // end putPixel
 
 } // end gcn

@@ -164,36 +164,36 @@ namespace gcn
 		 */
 		virtual int getMarkerLength() const;
 
-    /**
-     * Set the orientation of the slider. A slider can be drawn
-     * verticaly or horizontaly. For orientation, see the
-     * enum in this class.
-     *
-     * @param orientation the orientation.
-     */
-    virtual void setOrientation(unsigned int orientation);
+        /**
+         * Set the orientation of the slider. A slider can be drawn
+         * verticaly or horizontaly. For orientation, see the
+         * enum in this class.
+         *
+         * @param orientation the orientation.
+         */
+        virtual void setOrientation(unsigned int orientation);
 
-    /**
-     * Get the orientation of the slider.
-     *
-     * @return the orientation of the slider.     
-     */
-    virtual unsigned int getOrientation() const;
+        /**
+         * Get the orientation of the slider.
+         *
+         * @return the orientation of the slider.     
+         */
+        virtual unsigned int getOrientation() const;
 
-    /**
-     * Set the step length of the slider. Step length is used when
-     * the keys left and right are pressed.
-     *
-     * @param length the step length.
-     */
-    virtual void setStepLength(double length);
+        /**
+         * Set the step length of the slider. Step length is used when
+         * the keys left and right are pressed.
+         *
+         * @param length the step length.
+         */
+        virtual void setStepLength(double length);
 
-    /**
-     * Get the step length of the slider.
-     *
-     * @return the step length.
-     */
-    virtual double getStepLength() const;
+        /**
+         * Get the step length of the slider.
+         *
+         * @return the step length.
+         */
+        virtual double getStepLength() const;
 
     
 		// Inherited from Widget
@@ -218,27 +218,27 @@ namespace gcn
 
 		virtual void keyPress(const Key& key);
 
-    /**
-     * Draw orientation for the slider. It can be drawn verticaly
-     * or horizontaly.
-     */
-    enum
-    {
-      HORIZONTAL = 0,
-      VERTICAL
-    };
+        /**
+         * Draw orientation for the slider. It can be drawn verticaly
+         * or horizontaly.
+         */
+        enum
+        {
+            HORIZONTAL = 0,
+            VERTICAL
+        };
         
 	protected:
 		virtual double calculateValue(int v);
-    virtual int getMarkerPosition();
+        virtual int getMarkerPosition();
     
 		bool mMouseDrag;
-    double mValue;
-    double mStepLength;
+        double mValue;
+        double mStepLength;
 		int mMarkerLength;
 		double mScaleStart;
 		double mScaleEnd;
-    unsigned int mOrientation;
+        unsigned int mOrientation;
 		
 	}; // end Slider
 	

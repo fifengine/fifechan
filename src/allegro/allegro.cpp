@@ -58,5 +58,5 @@
 
 extern "C"
 {
-  void gcnAllegro() { }
+    void gcnAllegro() { }
 }

@@ -63,7 +63,7 @@
 
 namespace gcn
 {
-  class Image;
+    class Image;
 
 	/**
 	 * For loading images to use with AllegroGraphics.
@@ -73,38 +73,38 @@ namespace gcn
 	 *
 	 * @see AllegroGraphics, Image
 	 */
-  class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
-  {
-  public:
+    class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
+    {
+    public:
 		AllegroImageLoader();
 		
-    virtual ~AllegroImageLoader();
+        virtual ~AllegroImageLoader();
 
 		
 		// Inherited from ImageLoader
 
-    virtual void prepare(const std::string& filename);
+        virtual void prepare(const std::string& filename);
 
-    virtual void free(Image* image);
+        virtual void free(Image* image);
 
-    virtual void* getRawData();
+        virtual void* getRawData();
 
-    virtual void* finalize();
+        virtual void* finalize();
 
-    virtual void discard();
+        virtual void discard();
 
-    virtual int getHeight() const;
+        virtual int getHeight() const;
 
-    virtual int getWidth() const;
+        virtual int getWidth() const;
 
-    virtual Color getPixel(int x, int y);
+        virtual Color getPixel(int x, int y);
 
-    virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, const Color& color);
 
 	protected:
 		BITMAP *mBmp;
 		unsigned int *mRawData;
-  }; // end AllegroImageLoader
+    }; // end AllegroImageLoader
   
 } // end gcn
 

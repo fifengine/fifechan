@@ -62,7 +62,7 @@
 
 namespace gcn
 {
-  /**
+    /**
 	 * This is a class holding images in Guichan. To be able to use
 	 * this class you must first set the ImageLoader in Image by
 	 * calling Image::setImageLoader(myImageLoader)
@@ -73,48 +73,48 @@ namespace gcn
 	 * Ex: If you use SDLGraphics you should use SDLImageLoader
 	 *     otherwise your program will crash in a most bizarre way.
 	 */
-  class GCN_CORE_DECLSPEC Image
-  {
-  public:
+    class GCN_CORE_DECLSPEC Image
+    {
+    public:
 
-    /**
-     * Constructor.
-     *
-     * @param data the data of the image
-     * @param width the width of the image     
-     * @param height the height of the image
-     */
-     Image(void* data, int width, int height);
+        /**
+         * Constructor.
+         *
+         * @param data the data of the image
+         * @param width the width of the image     
+         * @param height the height of the image
+         */
+        Image(void* data, int width, int height);
 
-    /**
-     * Constructor.
-     *
-     * @param filename the filename of the image.
-     * @throws Exception when no ImageLoader exists.
-     */
-    Image(const std::string& filename);
+        /**
+         * Constructor.
+         *
+         * @param filename the filename of the image.
+         * @throws Exception when no ImageLoader exists.
+         */
+        Image(const std::string& filename);
 
 		/**
 		 * Destructor.
 		 * Unloads the image with the ImageLoader, if it was
 		 * loaded with it.
 		 */
-    virtual ~Image();
+        virtual ~Image();
     
-    /**
-     * @return the filename of the image (if existing)
-     */
-    virtual const std::string& getFilename() const;
+        /**
+         * @return the filename of the image (if existing)
+         */
+        virtual const std::string& getFilename() const;
 
-    /**
-     * @return the image width
-     */
-    virtual int getWidth() const;
+        /**
+         * @return the image width
+         */
+        virtual int getWidth() const;
 
-    /**
-     * @return the image height
-     */
-    virtual int getHeight() const;
+        /**
+         * @return the image height
+         */
+        virtual int getHeight() const;
 
 		/**
 		 * @return a void pointer to some image data. Image data can
@@ -123,7 +123,7 @@ namespace gcn
 		 *         then an SDL_Surface will be returned.
 		 * @see SDLImageLoader, AllegroImageLoader
 		 */
-    virtual void* _getData() const;
+        virtual void* _getData() const;
 
 		/**
 		 * @return a pointer to the currently used ImageLoader
@@ -140,7 +140,7 @@ namespace gcn
 		 * @param imageLoader the ImageLoader to be used.
 		 * @see SDLImageLoader, AllegroImageLoader
 		 */
-    static void setImageLoader(ImageLoader* imageLoader);
+        static void setImageLoader(ImageLoader* imageLoader);
 		
 	protected:
 		/**
@@ -149,15 +149,15 @@ namespace gcn
 		 */
 		Image();
 		
-  private:
-    void* mData;
-    int mWidth;
-    int mHeight;
-    std::string mFilename;
+    private:
+        void* mData;
+        int mWidth;
+        int mHeight;
+        std::string mFilename;
 		bool mLoadedWithImageLoader;
-    static ImageLoader* mImageLoader;
+        static ImageLoader* mImageLoader;
 		
-  }; // end Image
+    }; // end Image
   
 } // end gcn
 

@@ -60,121 +60,121 @@
 
 namespace gcn
 {
-  Key::Key()
-  {
-    mValue = 0;
-    mShiftPressed = false;
-    mControlPressed = false;
-    mAltPressed = false;  
-    mMetaPressed = false;
-    mNumericPad = false;
+    Key::Key()
+    {
+        mValue = 0;
+        mShiftPressed = false;
+        mControlPressed = false;
+        mAltPressed = false;  
+        mMetaPressed = false;
+        mNumericPad = false;
     
-  } // end Key
+    } // end Key
   
-  Key::Key(int value)
-  {
-    mValue = value;
-    mShiftPressed = false;
-    mControlPressed = false;
-    mAltPressed = false;
-    mMetaPressed = false;
-    mNumericPad = false;
+    Key::Key(int value)
+    {
+        mValue = value;
+        mShiftPressed = false;
+        mControlPressed = false;
+        mAltPressed = false;
+        mMetaPressed = false;
+        mNumericPad = false;
     
-  } // end Key
+    } // end Key
 
-  bool Key::isCharacter() const
-  {
-    return (mValue >= 32 && mValue <= 126)
-      || (mValue >= 162 && mValue <= 255)
-      || (mValue == 9);
+    bool Key::isCharacter() const
+    {
+        return (mValue >= 32 && mValue <= 126)
+            || (mValue >= 162 && mValue <= 255)
+            || (mValue == 9);
 
-  } // end isCharacter
+    } // end isCharacter
 
-  bool Key::isNumber() const
-  {
-    return mValue >= 48 && mValue <= 57;
+    bool Key::isNumber() const
+    {
+        return mValue >= 48 && mValue <= 57;
 
-  } // end isNumber
+    } // end isNumber
   
-  bool Key::isLetter() const
-  {
-    return (((mValue >= 65 && mValue <= 90)
-            || (mValue >= 97 && mValue <= 122)
-            || (mValue >= 192 && mValue <= 255))
-            && (mValue != 215) && (mValue != 247));
+    bool Key::isLetter() const
+    {
+        return (((mValue >= 65 && mValue <= 90)
+                 || (mValue >= 97 && mValue <= 122)
+                 || (mValue >= 192 && mValue <= 255))
+                && (mValue != 215) && (mValue != 247));
     
-  } // end isLetter
+    } // end isLetter
 
-  bool Key::isShiftPressed() const
-  {
-    return mShiftPressed;
+    bool Key::isShiftPressed() const
+    {
+        return mShiftPressed;
 
-  } // end isShiftPressed
+    } // end isShiftPressed
   
-  void Key::setShiftPressed(bool pressed)
-  {
-    mShiftPressed = pressed;
+    void Key::setShiftPressed(bool pressed)
+    {
+        mShiftPressed = pressed;
 
-  } // end setShiftPressed
+    } // end setShiftPressed
 
-  bool Key::isControlPressed() const
-  {
-    return mControlPressed;
+    bool Key::isControlPressed() const
+    {
+        return mControlPressed;
 
-  } // end isControlPressed
+    } // end isControlPressed
   
-  void Key::setControlPressed(bool pressed)
-  {
-    mControlPressed = pressed;
+    void Key::setControlPressed(bool pressed)
+    {
+        mControlPressed = pressed;
 
-  } // end setControlPressed
+    } // end setControlPressed
 
-  bool Key::isAltPressed() const
-  {
-    return mAltPressed;
+    bool Key::isAltPressed() const
+    {
+        return mAltPressed;
 
-  } // end isAltPressed
+    } // end isAltPressed
   
-  void Key::setAltPressed(bool pressed)
-  {
-    mAltPressed = pressed;
+    void Key::setAltPressed(bool pressed)
+    {
+        mAltPressed = pressed;
 
-  } // end setAltPressed
+    } // end setAltPressed
 
-  bool Key::isMetaPressed() const
-  {
-    return mMetaPressed;
+    bool Key::isMetaPressed() const
+    {
+        return mMetaPressed;
 
-  } // end isMetaPressed
+    } // end isMetaPressed
   
-  void Key::setMetaPressed(bool pressed)
-  {
-    mMetaPressed = pressed;
+    void Key::setMetaPressed(bool pressed)
+    {
+        mMetaPressed = pressed;
 
-  } // end setMetaPressed
+    } // end setMetaPressed
 
-  bool Key::isNumericPad() const
-  {
-    return mNumericPad;
+    bool Key::isNumericPad() const
+    {
+        return mNumericPad;
 
-  } // end isNumericPad
+    } // end isNumericPad
   
-  void Key::setNumericPad(bool numpad)
-  {
-    mNumericPad = numpad;
+    void Key::setNumericPad(bool numpad)
+    {
+        mNumericPad = numpad;
 
-  } // end setNumericPad
+    } // end setNumericPad
 
-  void Key::setValue(int value)
-  {
-    mValue = value;
+    void Key::setValue(int value)
+    {
+        mValue = value;
     
-  } // end setValue
+    } // end setValue
 
-  int Key::getValue() const
-  {
-    return mValue;
+    int Key::getValue() const
+    {
+        return mValue;
     
-  } // end getValue
+    } // end getValue
 
 } // end gcn

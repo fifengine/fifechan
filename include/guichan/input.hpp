@@ -61,58 +61,58 @@
 
 namespace gcn
 {
-  /**
-   * This is an abstract input class to be implemented by input
-   * drivers.
-   *
-   * @see SDLInput, AllegroInput
-   */
-  class GCN_CORE_DECLSPEC Input
-  {
-  public:
-
     /**
-     * Destructor.
-     */
-    virtual ~Input(){ }
-
-    /**
-     * Checks whether the key queue is empty or not.
+     * This is an abstract input class to be implemented by input
+     * drivers.
      *
-     * @return true if the key queue is empty.
+     * @see SDLInput, AllegroInput
      */
-    virtual bool isKeyQueueEmpty() = 0;
+    class GCN_CORE_DECLSPEC Input
+    {
+    public:
 
-    /**
-     * Dequeues the key input queue.
-     *
-     * @return a KeyInput object.
-     * @see KeyInput
-     */
-    virtual KeyInput dequeueKeyInput() = 0;
+        /**
+         * Destructor.
+         */
+        virtual ~Input(){ }
 
-    /**
-     * Checks whether the mouse queue is empyt or not.
-     *
-     * @return true if the mouse queue is empty.
-     */
-    virtual bool isMouseQueueEmpty() = 0;
+        /**
+         * Checks whether the key queue is empty or not.
+         *
+         * @return true if the key queue is empty.
+         */
+        virtual bool isKeyQueueEmpty() = 0;
+
+        /**
+         * Dequeues the key input queue.
+         *
+         * @return a KeyInput object.
+         * @see KeyInput
+         */
+        virtual KeyInput dequeueKeyInput() = 0;
+
+        /**
+         * Checks whether the mouse queue is empyt or not.
+         *
+         * @return true if the mouse queue is empty.
+         */
+        virtual bool isMouseQueueEmpty() = 0;
     
-    /**
-     * Dequeues the mouse input queue.
-     * 
-     * @return a MouseInput object.
-     * @see MouseInput
-     */
-    virtual MouseInput dequeueMouseInput() = 0;
+        /**
+         * Dequeues the mouse input queue.
+         * 
+         * @return a MouseInput object.
+         * @see MouseInput
+         */
+        virtual MouseInput dequeueMouseInput() = 0;
 
-    /**
-     * This function polls all input. It exists for input driver
-     * compatibility. It is used internally by the library.
-     */
-    virtual void _pollInput() = 0;
+        /**
+         * This function polls all input. It exists for input driver
+         * compatibility. It is used internally by the library.
+         */
+        virtual void _pollInput() = 0;
     
-  }; // end Input
+    }; // end Input
   
 } // end gcn
 

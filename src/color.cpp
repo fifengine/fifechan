@@ -60,91 +60,91 @@
 
 namespace gcn
 {
-  Color::Color()
-  {
-    r = 0;
-    g = 0;
-    b = 0;
-    a = 255;
+    Color::Color()
+    {
+        r = 0;
+        g = 0;
+        b = 0;
+        a = 255;
 
-  } // end Color
+    } // end Color
 
-  Color::Color(int color)
-  {
-    a = 255;
-    r = (color >> 16) & 0xFF;
-    g = (color >> 8) & 0xFF;
-    b = color & 0xFF;    
+    Color::Color(int color)
+    {
+        a = 255;
+        r = (color >> 16) & 0xFF;
+        g = (color >> 8) & 0xFF;
+        b = color & 0xFF;    
 
-  } // end Color
+    } // end Color
     
-  Color::Color(int r, int g, int b, int a)
-  {
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->a = a;
+    Color::Color(int r, int g, int b, int a)
+    {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->a = a;
 
-  } // end Color
+    } // end Color
 
-  Color Color::operator+(const Color& color) const
-  {
-    Color result;
-    result.r = r + color.r;
-    result.g = g + color.g;
-    result.b = b + color.b;
-    result.a = 255;
+    Color Color::operator+(const Color& color) const
+    {
+        Color result;
+        result.r = r + color.r;
+        result.g = g + color.g;
+        result.b = b + color.b;
+        result.a = 255;
 
-    result.r = (result.r>255?255:(result.r<0?0:result.r));
-    result.g = (result.g>255?255:(result.g<0?0:result.g));
-    result.b = (result.b>255?255:(result.b<0?0:result.b));
+        result.r = (result.r>255?255:(result.r<0?0:result.r));
+        result.g = (result.g>255?255:(result.g<0?0:result.g));
+        result.b = (result.b>255?255:(result.b<0?0:result.b));
 
-    return result;
+        return result;
 
-  } // end operator+
+    } // end operator+
   
-  Color Color::operator-(const Color& color) const
-  {
-    Color result;
-    result.r = r - color.r;
-    result.g = g - color.g;
-    result.b = b - color.b;
-    result.a = 255;
+    Color Color::operator-(const Color& color) const
+    {
+        Color result;
+        result.r = r - color.r;
+        result.g = g - color.g;
+        result.b = b - color.b;
+        result.a = 255;
 
-    result.r = (result.r>255?255:(result.r<0?0:result.r));
-    result.g = (result.g>255?255:(result.g<0?0:result.g));
-    result.b = (result.b>255?255:(result.b<0?0:result.b));
+        result.r = (result.r>255?255:(result.r<0?0:result.r));
+        result.g = (result.g>255?255:(result.g<0?0:result.g));
+        result.b = (result.b>255?255:(result.b<0?0:result.b));
 
-    return result;
+        return result;
 
-  } // operator-
+    } // operator-
 
-  Color Color::operator*(float value) const
-  {
-    Color result;
-    result.r = (int)(r * value);
-    result.g = (int)(g * value);
-    result.b = (int)(b * value);
-    result.a = a;
+    Color Color::operator*(float value) const
+    {
+        Color result;
+        result.r = (int)(r * value);
+        result.g = (int)(g * value);
+        result.b = (int)(b * value);
+        result.a = a;
 
-    result.r = (result.r>255?255:(result.r<0?0:result.r));
-    result.g = (result.g>255?255:(result.g<0?0:result.g));
-    result.b = (result.b>255?255:(result.b<0?0:result.b));
+        result.r = (result.r>255?255:(result.r<0?0:result.r));
+        result.g = (result.g>255?255:(result.g<0?0:result.g));
+        result.b = (result.b>255?255:(result.b<0?0:result.b));
 
-    return result;    
+        return result;    
 
-  } // operator*
+    } // operator*
 
-  bool Color::operator==(const Color& color) const
-  {
-    return r == color.r && g == color.g && b == color.b && a == color.a;
+    bool Color::operator==(const Color& color) const
+    {
+        return r == color.r && g == color.g && b == color.b && a == color.a;
 
-  } // operator==
+    } // operator==
 
-  bool Color::operator!=(const Color& color) const
-  {
-    return !(r == color.r && g == color.g && b == color.b && a == color.a);
+    bool Color::operator!=(const Color& color) const
+    {
+        return !(r == color.r && g == color.g && b == color.b && a == color.a);
 
-  } // operator !=
+    } // operator !=
 
 } // end gcn

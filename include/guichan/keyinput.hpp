@@ -60,50 +60,50 @@
 
 namespace gcn
 {
-  /**
-   * This is an internal class used in Guichan to grab keyboard input.
-   * Generally you won't have to bother using this class.
-   */
-  class GCN_CORE_DECLSPEC KeyInput
-  {
-  public:
-
     /**
-     * Constructor.
+     * This is an internal class used in Guichan to grab keyboard input.
+     * Generally you won't have to bother using this class.
      */
-    KeyInput() { };
+    class GCN_CORE_DECLSPEC KeyInput
+    {
+    public:
 
-    /**
-     * Constructor.
-     *
-     * @param key the Key the input concerns.
-     * @param type the type of input.
-     */
-    KeyInput(const Key& key, int type);
+        /**
+         * Constructor.
+         */
+        KeyInput() { };
+
+        /**
+         * Constructor.
+         *
+         * @param key the Key the input concerns.
+         * @param type the type of input.
+         */
+        KeyInput(const Key& key, int type);
     
-    /**
-     * Sets the input type.
-     *
-     * @param type the type of input.
-     */
-    void setType(int type);
+        /**
+         * Sets the input type.
+         *
+         * @param type the type of input.
+         */
+        void setType(int type);
 
-    /**
-     * @return the input type.
-     */
-    int getType() const;
+        /**
+         * @return the input type.
+         */
+        int getType() const;
 
-    /**
-     * Sets the key the input concerns.
-     *
-     * @param key the Key the input concerns.
-     */
-    void setKey(const Key& key);
+        /**
+         * Sets the key the input concerns.
+         *
+         * @param key the Key the input concerns.
+         */
+        void setKey(const Key& key);
 
-    /**
-     * @return the Key the input concerns.
-     */
-    const Key& getKey() const;
+        /**
+         * @return the Key the input concerns.
+         */
+        const Key& getKey() const;
 
 		
 		enum
@@ -113,11 +113,11 @@ namespace gcn
 			RELEASE
 		};
     
-  protected:
-    Key mKey;
-    int mType;
-    int mButton;
-  };
+    protected:
+        Key mKey;
+        int mType;
+        int mButton;
+    };
 
 } // end gcn
 

@@ -67,69 +67,69 @@
 
 namespace gcn
 {
-  /**
-   * This is an SDL implementation of the Input class.
-   */
-  class GCN_EXTENSION_DECLSPEC SDLInput : public Input
-  {
-  public:
-
     /**
-     * Constructor.
+     * This is an SDL implementation of the Input class.
      */
-    SDLInput();
+    class GCN_EXTENSION_DECLSPEC SDLInput : public Input
+    {
+    public:
+
+        /**
+         * Constructor.
+         */
+        SDLInput();
 
 		/**
-     * This function pushes an SDL event. It should be called
-     * at least once per frame to update input with user input.
-     *
-     * @param event an event from SDL
-     */
-    virtual void pushInput(SDL_Event event);
+         * This function pushes an SDL event. It should be called
+         * at least once per frame to update input with user input.
+         *
+         * @param event an event from SDL
+         */
+        virtual void pushInput(SDL_Event event);
     
-    /**
-     * This function polls all input. It exists for input driver
-     * compatibility. If you only use SDL and plan sticking with
-     * SDL you can safely ignore this function when it does not
-     * do anything.
-     */
-    virtual void _pollInput() { }
+        /**
+         * This function polls all input. It exists for input driver
+         * compatibility. If you only use SDL and plan sticking with
+         * SDL you can safely ignore this function when it does not
+         * do anything.
+         */
+        virtual void _pollInput() { }
 
 
 		// Inherited from Input
 		
-    virtual bool isKeyQueueEmpty();
+        virtual bool isKeyQueueEmpty();
 
-    virtual KeyInput dequeueKeyInput();
+        virtual KeyInput dequeueKeyInput();
 
-    virtual bool isMouseQueueEmpty();
+        virtual bool isMouseQueueEmpty();
 
-    virtual MouseInput dequeueMouseInput();
+        virtual MouseInput dequeueMouseInput();
 
-  protected:
-    /**
-     * This function converts a mouse button from SDL to a mouse
-     * button in Gui-chan.
-     *
-     * @param button an SDL mouse button.
-     * @param a Gui-chan button.     
-     */
-    int convertMouseButton(int button);
+    protected:
+        /**
+         * This function converts a mouse button from SDL to a mouse
+         * button in Gui-chan.
+         *
+         * @param button an SDL mouse button.
+         * @param a Gui-chan button.     
+         */
+        int convertMouseButton(int button);
 
-    /**
-     * This function converts an SDL keysym to a Gui-chan key.
-     *
-     * @param ley an SDL keysym
-     * @return a Gui-chan key.
-     */
-    Key convertKeyCharacter(SDL_keysym key);
+        /**
+         * This function converts an SDL keysym to a Gui-chan key.
+         *
+         * @param ley an SDL keysym
+         * @return a Gui-chan key.
+         */
+        Key convertKeyCharacter(SDL_keysym key);
 
-    std::queue<KeyInput> mKeyInputQueue;
-    std::queue<MouseInput> mMouseInputQueue;
+        std::queue<KeyInput> mKeyInputQueue;
+        std::queue<MouseInput> mMouseInputQueue;
 
-    bool mMouseDown;
-    bool mMouseInWindow;
-  }; // end Input
+        bool mMouseDown;
+        bool mMouseInWindow;
+    }; // end Input
   
 } // end gcn
 

@@ -65,44 +65,44 @@
 
 namespace gcn
 {
-  /**
-   * This is an SDL implementation of the ImageLoader
-   * @see ImageLoader
-   */
-  class GCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
-  {
-  public:
+    /**
+     * This is an SDL implementation of the ImageLoader
+     * @see ImageLoader
+     */
+    class GCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
+    {
+    public:
 
 		/**
 		 * Constructor.
 		 */
-    SDLImageLoader();
+        SDLImageLoader();
 
 
 		// Inherited from ImageLoader
 		
-    virtual void prepare(const std::string& filename);
+        virtual void prepare(const std::string& filename);
 
-    virtual void free(Image* image);
+        virtual void free(Image* image);
 
-    virtual void* getRawData();
+        virtual void* getRawData();
     
-    virtual void* finalize();
+        virtual void* finalize();
 
-    virtual void discard();
+        virtual void discard();
     
-    virtual int getHeight() const;
+        virtual int getHeight() const;
 
-    virtual int getWidth() const;
+        virtual int getWidth() const;
 
-    virtual Color getPixel(int x, int y);
+        virtual Color getPixel(int x, int y);
     
-    virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, const Color& color);
     
-  private:
-    SDL_Surface* mCurrentImage;
+    private:
+        SDL_Surface* mCurrentImage;
     
-  }; // end SDLImageLoader
+    }; // end SDLImageLoader
   
 } // end gcn
 

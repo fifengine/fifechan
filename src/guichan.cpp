@@ -58,8 +58,8 @@
 
 extern "C"
 {
-  char* gcnGuichanVersion()
-  {
-    return "0.3.0";
-  }
+    char* gcnGuichanVersion()
+    {
+        return "0.3.0";
+    }
 }

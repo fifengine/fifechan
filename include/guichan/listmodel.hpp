@@ -61,30 +61,30 @@
 
 namespace gcn
 {
-  /**
-   * This is a ListModel. It is used in certain Widgets like the
+    /**
+     * This is a ListModel. It is used in certain Widgets like the
 	 * ListBox to handle a list wit string elements. If you want
 	 * to use widgets like ListBox you should implement your own
 	 * version of a ListModel since this is an abstract class.
-   */
-  class GCN_CORE_DECLSPEC ListModel
-  {
-
-  public:
-    /**
-     * @return the number of elements in the ListModel
      */
-    virtual int getNumberOfElements() = 0;
+    class GCN_CORE_DECLSPEC ListModel
+    {
 
-    /**
-     * Get an element at a certain index in the list.
+    public:
+        /**
+         * @return the number of elements in the ListModel
+         */
+        virtual int getNumberOfElements() = 0;
+
+        /**
+         * Get an element at a certain index in the list.
 		 *
 		 * @param i an index in the list.
 		 * @return a element as a string
-     */
-    virtual std::string getElementAt(int i) = 0;
+         */
+        virtual std::string getElementAt(int i) = 0;
 
-  }; // end listModel
+    }; // end listModel
 
 } // end gcn
 

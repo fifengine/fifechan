@@ -70,51 +70,51 @@ namespace gcn
 	 * @param y the y coordinate on the surface.
 	 * @return a color of a pixel.
 	 */
-  inline const Color SDLgetPixel(SDL_Surface* surface, int x, int y)
-  {
-    int bpp = surface->format->BytesPerPixel;
-
-    SDL_LockSurface(surface);
-
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-    
-    unsigned int color = 0;
-    
-    switch(bpp)
+    inline const Color SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
-      case 1:
-        color = *p;
-        break;
-        
-      case 2:
-        color = *(Uint16 *)p;
-        break;
-        
-      case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-        {
-          color = p[0] << 16 | p[1] << 8 | p[2];
-        }
-        else
-        {
-          color = p[0] | p[1] << 8 | p[2] << 16;
-        }
-        break;
-        
-      case 4:
-        color = *(Uint32 *)p;
-        break;
-        
-    }
+        int bpp = surface->format->BytesPerPixel;
 
-    unsigned char r,g,b,a;
+        SDL_LockSurface(surface);
+
+        Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
     
-    SDL_GetRGBA(color, surface->format, &r, &g, &b, &a);
-    SDL_UnlockSurface(surface);
+        unsigned int color = 0;
+    
+        switch(bpp)
+        {
+          case 1:
+              color = *p;
+              break;
+        
+          case 2:
+              color = *(Uint16 *)p;
+              break;
+        
+          case 3:
+              if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+              {
+                  color = p[0] << 16 | p[1] << 8 | p[2];
+              }
+              else
+              {
+                  color = p[0] | p[1] << 8 | p[2] << 16;
+              }
+              break;
+        
+          case 4:
+              color = *(Uint32 *)p;
+              break;
+        
+        }
 
-    return Color(r,g,b,a);
+        unsigned char r,g,b,a;
+    
+        SDL_GetRGBA(color, surface->format, &r, &g, &b, &a);
+        SDL_UnlockSurface(surface);
 
-  } // end SDLgetPixel
+        return Color(r,g,b,a);
+
+    } // end SDLgetPixel
 
 	/**
 	 * Puts a pixel on an SDL_Surface
@@ -123,49 +123,49 @@ namespace gcn
 	 * @param y the y coordinate on the surface.
 	 * @param color the color the pixel should be in.
 	 */
-  inline void SDLputPixel(SDL_Surface* surface, int x, int y, const Color& color)
-  {
-    int bpp = surface->format->BytesPerPixel;
-		
-    SDL_LockSurface(surface);
-
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-    
-    Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-
-    switch(bpp)
+    inline void SDLputPixel(SDL_Surface* surface, int x, int y, const Color& color)
     {
-      case 1:
-        *p = pixel;
-        break;
-        
-      case 2:
-        *(Uint16 *)p = pixel;
-        break;
-        
-      case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-        {
-          p[0] = (pixel >> 16) & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = pixel & 0xff;
-        }
-        else
-        {
-          p[0] = pixel & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = (pixel >> 16) & 0xff;
-        }
-        break;
-        
-      case 4:
-        *(Uint32 *)p = pixel;
-        break;
-    }
-    
-    SDL_UnlockSurface(surface);
+        int bpp = surface->format->BytesPerPixel;
+		
+        SDL_LockSurface(surface);
 
-  } // end SDLputPixel
+        Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+    
+        Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+
+        switch(bpp)
+        {
+          case 1:
+              *p = pixel;
+              break;
+        
+          case 2:
+              *(Uint16 *)p = pixel;
+              break;
+        
+          case 3:
+              if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+              {
+                  p[0] = (pixel >> 16) & 0xff;
+                  p[1] = (pixel >> 8) & 0xff;
+                  p[2] = pixel & 0xff;
+              }
+              else
+              {
+                  p[0] = pixel & 0xff;
+                  p[1] = (pixel >> 8) & 0xff;
+                  p[2] = (pixel >> 16) & 0xff;
+              }
+              break;
+        
+          case 4:
+              *(Uint32 *)p = pixel;
+              break;
+        }
+    
+        SDL_UnlockSurface(surface);
+
+    } // end SDLputPixel
 
 	/**
 	 * Blends to 32 bit colors together.
@@ -183,56 +183,56 @@ namespace gcn
 		return (b & 0xff) | (g & 0xff00) | (r & 0xff0000);
 	}
 	
-  /**
+    /**
 	 * Puts a pixel on an SDL_Surface with alpha
 	 *
 	 * @param x the x coordinate on the surface.
 	 * @param y the y coordinate on the surface.
 	 * @param color the color the pixel should be in.
 	 */
-  inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, const Color& color)
-  {
-    int bpp = surface->format->BytesPerPixel;
-		
-    SDL_LockSurface(surface);
-
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-    
-    Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-
-    switch(bpp)
+    inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, const Color& color)
     {
-      case 1:
-        *p = pixel;
-        break;
-        
-      case 2:
-        *(Uint16 *)p = pixel;
-        break;
-        
-      case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-        {
-          p[0] = (pixel >> 16) & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = pixel & 0xff;
-        }
-        else
-        {
-          p[0] = pixel & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = (pixel >> 16) & 0xff;
-        }
-        break;
-        
-      case 4:
-        *(Uint32 *)p = SDLAlpha32(pixel, *(Uint32 *)p, color.a);
-        break;
-    }
-    
-    SDL_UnlockSurface(surface);
+        int bpp = surface->format->BytesPerPixel;
+		
+        SDL_LockSurface(surface);
 
-  } // end SDLputPixel
+        Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+    
+        Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+
+        switch(bpp)
+        {
+          case 1:
+              *p = pixel;
+              break;
+        
+          case 2:
+              *(Uint16 *)p = pixel;
+              break;
+        
+          case 3:
+              if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+              {
+                  p[0] = (pixel >> 16) & 0xff;
+                  p[1] = (pixel >> 8) & 0xff;
+                  p[2] = pixel & 0xff;
+              }
+              else
+              {
+                  p[0] = pixel & 0xff;
+                  p[1] = (pixel >> 8) & 0xff;
+                  p[2] = (pixel >> 16) & 0xff;
+              }
+              break;
+        
+          case 4:
+              *(Uint32 *)p = SDLAlpha32(pixel, *(Uint32 *)p, color.a);
+              break;
+        }
+    
+        SDL_UnlockSurface(surface);
+
+    } // end SDLputPixel
 
 } // end gcn
 

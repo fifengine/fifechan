@@ -67,29 +67,29 @@
 
 namespace gcn
 {
-  /**
-   * This is an Allegro implementation of the Input class.
-   */
-  class GCN_EXTENSION_DECLSPEC AllegroInput : public Input
-  {
-  public:
+    /**
+     * This is an Allegro implementation of the Input class.
+     */
+    class GCN_EXTENSION_DECLSPEC AllegroInput : public Input
+    {
+    public:
 
 		AllegroInput();
 		
-    virtual ~AllegroInput(){ }
+        virtual ~AllegroInput(){ }
 
 
 		// Inherited from Input
 
-    virtual bool isKeyQueueEmpty();
+        virtual bool isKeyQueueEmpty();
 
-    virtual KeyInput dequeueKeyInput();
+        virtual KeyInput dequeueKeyInput();
 
-    virtual bool isMouseQueueEmpty();
+        virtual bool isMouseQueueEmpty();
 
-    virtual MouseInput dequeueMouseInput();
+        virtual MouseInput dequeueMouseInput();
 
-    virtual void _pollInput();
+        virtual void _pollInput();
 
 	protected:
 		/**
@@ -113,11 +113,11 @@ namespace gcn
 		std::map<int, Key> mPressedKeys;
 
 		std::queue<KeyInput> mKeyQueue;
-    std::queue<MouseInput> mMouseQueue;
+        std::queue<MouseInput> mMouseQueue;
 		
 		bool mMouseButton1, mMouseButton2, mMouseButton3;
 		int mLastMouseX, mLastMouseY, mLastMouseZ;
-  }; // end Input
+    }; // end Input
   
 } // end gcn
 

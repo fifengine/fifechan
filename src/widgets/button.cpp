@@ -119,7 +119,7 @@ namespace gcn
 			highlightColor = faceColor - 0x303030;
 			highlightColor.a = alpha;
 			shadowColor = faceColor + 0x303030;      
-		  shadowColor.a = alpha;
+            shadowColor.a = alpha;
 		}
 		else
 		{
@@ -147,17 +147,17 @@ namespace gcn
 		
 		switch (getAlignment())
 		{
-			case Graphics::LEFT:
-				textX = 4;
-				break;
-			case Graphics::CENTER:
-				textX = getWidth() / 2;
-				break;
-			case Graphics::RIGHT:
-				textX = getWidth() - 4;
-				break;
-			default:
-				throw GCN_EXCEPTION("Button::draw. Unknown alignment.");
+          case Graphics::LEFT:
+              textX = 4;
+              break;
+          case Graphics::CENTER:
+              textX = getWidth() / 2;
+              break;
+          case Graphics::RIGHT:
+              textX = getWidth() - 4;
+              break;
+          default:
+              throw GCN_EXCEPTION("Button::draw. Unknown alignment.");
 		}
 
 		graphics->setFont(getFont());
@@ -173,12 +173,12 @@ namespace gcn
 			if (hasFocus())
 			{
 				graphics->drawRectangle(Rectangle(2, 2, getWidth() - 4,
-																					getHeight() - 4));
+                                                  getHeight() - 4));
 			}      
 		}    
 	}
 
-  void Button::drawBorder(Graphics* graphics)
+    void Button::drawBorder(Graphics* graphics)
 	{
 		Color faceColor = getBaseColor();
 		Color highlightColor, shadowColor;

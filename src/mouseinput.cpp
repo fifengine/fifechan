@@ -60,50 +60,50 @@
 
 namespace gcn
 {
-  MouseInput::MouseInput(int button, int type, int mousex, int mousey, int timeStamp)
-  {
-    mType = type;
-    mButton = button;
-    mTimeStamp = timeStamp;
-    x = mousex;
-    y = mousey;
+    MouseInput::MouseInput(int button, int type, int mousex, int mousey, int timeStamp)
+    {
+        mType = type;
+        mButton = button;
+        mTimeStamp = timeStamp;
+        x = mousex;
+        y = mousey;
 
-  } // end MouseInput
+    } // end MouseInput
   
-  void MouseInput::setType(int type)
-  {
-    mType = type;
+    void MouseInput::setType(int type)
+    {
+        mType = type;
 
-  } // end setType
+    } // end setType
 
-  int MouseInput::getType() const
-  {
-    return mType;
+    int MouseInput::getType() const
+    {
+        return mType;
 
-  } // end getType
+    } // end getType
 
-  void MouseInput::setButton(int button)
-  {
-    mButton = button;
+    void MouseInput::setButton(int button)
+    {
+        mButton = button;
 
-  } // end setButton
+    } // end setButton
 
-  int MouseInput::getButton() const
-  {
-    return mButton;
+    int MouseInput::getButton() const
+    {
+        return mButton;
 
-  } // end getButton
+    } // end getButton
 
-  int MouseInput::getTimeStamp() const
-  {
-    return mTimeStamp;
+    int MouseInput::getTimeStamp() const
+    {
+        return mTimeStamp;
 
-  } // end getTimeStamp
+    } // end getTimeStamp
 
-  void MouseInput::setTimeStamp(int timeStamp)
-  {
-    mTimeStamp = timeStamp;
+    void MouseInput::setTimeStamp(int timeStamp)
+    {
+        mTimeStamp = timeStamp;
 
-  } // end setTimeStamp
+    } // end setTimeStamp
 
 } // end gcn

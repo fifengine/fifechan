@@ -60,36 +60,36 @@
 
 namespace gcn
 {
-  KeyInput::KeyInput(const Key& key, int type)
-  {
-    mKey = key;
-    mType = type;
+    KeyInput::KeyInput(const Key& key, int type)
+    {
+        mKey = key;
+        mType = type;
 
-  } // end KeyInput
+    } // end KeyInput
   
-  void KeyInput::setType(int type)
-  {
-    mType = type;
+    void KeyInput::setType(int type)
+    {
+        mType = type;
 
-  } // end setType
+    } // end setType
 
-  int KeyInput::getType() const
-  {
-    return mType;
+    int KeyInput::getType() const
+    {
+        return mType;
 
-  } // end getType
+    } // end getType
 
-  void KeyInput::setKey(const Key& key)
-  {
-    mKey = key;
+    void KeyInput::setKey(const Key& key)
+    {
+        mKey = key;
 
-  } // end setKey
+    } // end setKey
 
-  const Key& KeyInput::getKey() const
-  {
-    return mKey;
+    const Key& KeyInput::getKey() const
+    {
+        return mKey;
 
-  } // end getKey
+    } // end getKey
   
 } //end gcn
 

@@ -60,81 +60,81 @@
 
 namespace gcn
 {
-  Rectangle::Rectangle()
-  {
-    x = 0;
-    y = 0;
-    width = 0;
-    height = 0;
+    Rectangle::Rectangle()
+    {
+        x = 0;
+        y = 0;
+        width = 0;
+        height = 0;
 
-  } // end Rectangle
+    } // end Rectangle
     
-  Rectangle::Rectangle(int x, int y, int width, int height)
-  {
-    this->x = x;
-    this->y = y;
-    this->width = width;
-    this->height = height;
+    Rectangle::Rectangle(int x, int y, int width, int height)
+    {
+        this->x = x;
+        this->y = y;
+        this->width = width;
+        this->height = height;
 
-  } // end Rectangle
+    } // end Rectangle
 
-  void Rectangle::setAll(int x, int y, int width, int height)
-  {
-    this->x = x;
-    this->y = y;
-    this->width = width;
-    this->height = height;
+    void Rectangle::setAll(int x, int y, int width, int height)
+    {
+        this->x = x;
+        this->y = y;
+        this->width = width;
+        this->height = height;
 
-  } // end setAll
+    } // end setAll
 
-  bool Rectangle::intersect(const Rectangle& rectangle)
-  {
-    x -= rectangle.x;
-    y -= rectangle.y;
+    bool Rectangle::intersect(const Rectangle& rectangle)
+    {
+        x -= rectangle.x;
+        y -= rectangle.y;
     
-    if (x < 0)
-    {        
-      width += x;
-      x = 0;
-    }
+        if (x < 0)
+        {        
+            width += x;
+            x = 0;
+        }
 
-    if (y < 0)
-    {      
-      height += y;
-      y = 0;
-    }
+        if (y < 0)
+        {      
+            height += y;
+            y = 0;
+        }
 
-    if (x + width > rectangle.width)
+        if (x + width > rectangle.width)
+        {
+            width = rectangle.width - x;
+        }
+
+        if (y + height > rectangle.height)
+        {
+            height = rectangle.height - y;
+        }
+
+        if (width <= 0 || height <= 0)
+        {
+            height = 0;
+            width = 0;
+            x += rectangle.x;
+            y += rectangle.y;
+            return false;
+        }
+
+        x += rectangle.x;
+        y += rectangle.y;
+        return true;
+
+    } // end intersect
+
+    bool Rectangle::isPointInRect(int x, int y) const
     {
-      width = rectangle.width - x;
-    }
+        return ((x >= this->x) && (y >= this->y)
+                && x < (this->x + this->width)
+                && y < (this->y + this->height));
 
-    if (y + height > rectangle.height)
-    {
-      height = rectangle.height - y;
-    }
-
-    if (width <= 0 || height <= 0)
-    {
-      height = 0;
-      width = 0;
-      x += rectangle.x;
-      y += rectangle.y;
-      return false;
-    }
-
-    x += rectangle.x;
-    y += rectangle.y;
-    return true;
-
-  } // end intersect
-
-  bool Rectangle::isPointInRect(int x, int y) const
-  {
-    return ((x >= this->x) && (y >= this->y)
-            && x < (this->x + this->width)
-            && y < (this->y + this->height));
-
-  } // end isPointInRect
+    } // end isPointInRect
   
 } // end gcn

@@ -64,23 +64,23 @@
 
 namespace gcn
 {
-  class Font;
+    class Font;
 
-  /**
-   * This is an Allegro implementation of the Graphics object. For more
-   * information about the Graphics object please see the Graphics
-   * header.
-   *
-   * @see Graphics
-   * @todo Alpha channel support.
-   */
-  class GCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
-  {
-  public:
+    /**
+     * This is an Allegro implementation of the Graphics object. For more
+     * information about the Graphics object please see the Graphics
+     * header.
+     *
+     * @see Graphics
+     * @todo Alpha channel support.
+     */
+    class GCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
+    {
+    public:
 		/**
 		 * Default constructor
 		 */
-    AllegroGraphics();
+        AllegroGraphics();
 
 		/**
 		 * Contsructor, sets the drawing target
@@ -93,7 +93,7 @@ namespace gcn
 		/**
 		 * Destructor
 		 */
-    virtual ~AllegroGraphics();
+        virtual ~AllegroGraphics();
 
 		/**
 		 * Sets the Allegro BITMAP to draw to. It can be any bitmap
@@ -116,37 +116,37 @@ namespace gcn
 		
 		// Inherited from Graphics
 		
-    virtual void _beginDraw();
+        virtual void _beginDraw();
 
-    virtual void _endDraw();
+        virtual void _endDraw();
 
-    virtual bool pushClipArea(Rectangle area);
+        virtual bool pushClipArea(Rectangle area);
 
-    virtual void popClipArea();
+        virtual void popClipArea();
 
-    virtual void drawImage(const Image* image, int srcX, int srcY,
-                           int dstX, int dstY, int width,
-                           int height);    
+        virtual void drawImage(const Image* image, int srcX, int srcY,
+                               int dstX, int dstY, int width,
+                               int height);    
 
-    virtual void drawPoint(int x, int y);
+        virtual void drawPoint(int x, int y);
 
-    virtual void drawLine(int x1, int y1, int x2, int y2);
+        virtual void drawLine(int x1, int y1, int x2, int y2);
     
-    virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(const Rectangle& rectangle);
 
-    virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(const Rectangle& rectangle);
 
-    virtual void setColor(const Color& color);		
+        virtual void setColor(const Color& color);		
 
 		virtual const Color& getColor();
 		
-  protected:
+    protected:
 		BITMAP *mTarget;
 		bool mClipNull;
 		int mAlColor;
-    Color mColor;
+        Color mColor;
 		
-  }; // end AllegroGraphics
+    }; // end AllegroGraphics
   
 } // end gcn
 
