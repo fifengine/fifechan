@@ -61,6 +61,11 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
+extern "C"
+{
+  extern char* gcnGuichanVersion();
+}
+
 namespace gcn
 {
 	// The following comment will appear in the doxygen main page.
