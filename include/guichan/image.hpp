@@ -63,12 +63,16 @@
 namespace gcn
 {
   /**
-   * This is an abstract class for storing information about
-   * an image. Gui-chan has many graphics drivers. Each driver
-   * should implement this class so Gui-chan can access important
-   * information about an image without knowing which graphics
-   * driver is being used.
-   */
+	 * This is a class holding images in Guichan. To be able to use
+	 * this class you must first set the ImageLoader in Image by
+	 * calling Image::setImageLoader(myImageLoader)
+	 * (it is static). If this is not done, the constructor taking
+	 * a filename will through an exception.
+	 * The ImageLoader you use must be compatible with your Graphis
+	 * obejct.
+	 * Ex: If you use SDLGraphics you should use SDLImageLoader
+	 *     otherwise your program will crash in a most bizarre way.
+	 */
   class DECLSPEC Image
   {
   public:
@@ -90,22 +94,27 @@ namespace gcn
      */
     Image(const std::string& filename);
 
-    ~Image();
+		/**
+		 * Destructor.
+		 * Unloads the image with the ImageLoader, if it was
+		 * loaded with it.
+		 */
+    virtual ~Image();
     
     /**
-     * @return the filename of the image
+     * @return the filename of the image (if existing)
      */
-    const std::string& getFilename();
+    virtual const std::string& getFilename() const;
 
     /**
      * @return the image width
      */
-    int getWidth() const;
+    virtual int getWidth() const;
 
     /**
      * @return the image height
      */
-    int getHeight() const;
+    virtual int getHeight() const;
 
 		/**
 		 * @return a void pointer to some image data. Image data can
@@ -114,7 +123,7 @@ namespace gcn
 		 *         then an SDL_Surface will be returned.
 		 * @see SDLImageLoader, AllegroImageLoader
 		 */
-    void* _getData() const;
+    virtual void* _getData() const;
 
 		/**
 		 * @return a pointer to the currently used ImageLoader
@@ -132,14 +141,22 @@ namespace gcn
 		 * @see SDLImageLoader, AllegroImageLoader
 		 */
     static void setImageLoader(ImageLoader* imageLoader);
-    
+		
+	protected:
+		/**
+		 * Default constructor. It is protected, but it's here so
+		 * that you can overload Image it.
+		 */
+		Image();
+		
   private:
     void* mData;
     int mWidth;
     int mHeight;
     std::string mFilename;
+		bool mLoadedWithImageLoader;
     static ImageLoader* mImageLoader;
-    
+		
   }; // end Image
   
 } // end gcn

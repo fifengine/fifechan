@@ -63,23 +63,29 @@ namespace gcn
 {
 
   ImageLoader* Image::mImageLoader = NULL;
-  
+
+  Image::Image()
+	{
+		mLoadedWithImageLoader = false;
+	}
+	
   Image::Image(void* data, int width, int height)
   {
     mData = data;
     mWidth = width;
     mHeight = height;
-
+		mLoadedWithImageLoader = false;
+		
   } // end Image
   
   Image::Image(const std::string& filename)
   {
-
     if (mImageLoader == NULL)
     {
       throw GCN_EXCEPTION("Image::Image. I have no ImageLoader!");
     }
 
+		mLoadedWithImageLoader = true;
     mImageLoader->prepare(filename);    
     mWidth = mImageLoader->getWidth();
     mHeight = mImageLoader->getHeight();
@@ -91,12 +97,14 @@ namespace gcn
 
   Image::~Image()
   {
-
-    mImageLoader->free(this);
+		if (mLoadedWithImageLoader)
+		{
+			mImageLoader->free(this);
+		}
     
   } // end ~Image
   
-  const std::string& Image::getFilename()
+  const std::string& Image::getFilename() const
   {
     return mFilename;
 
@@ -119,7 +127,6 @@ namespace gcn
     return mData;
 
   } // end getData
-
   
   void Image::setImageLoader(ImageLoader* imageLoader)
   { 
@@ -132,5 +139,5 @@ namespace gcn
     return mImageLoader;
 
   } // end _getImageLoader
-
+	
 } // end gcn
