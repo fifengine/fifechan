@@ -171,16 +171,25 @@ namespace gcn
         mKeyInputQueue.push(keyInput);
         break;
       case SDL_MOUSEBUTTONDOWN:
+        mouseInput.x = event.button.x;
+        mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::PRESS);
         mMouseInputQueue.push(mouseInput);
         break;
       case SDL_MOUSEBUTTONUP:
+        mouseInput.x = event.button.x;
+        mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::RELEASE);
         mMouseInputQueue.push(mouseInput);
         break;
       case SDL_MOUSEMOTION:
+        mouseInput.x = event.button.x;
+        mouseInput.y = event.button.y;
+        mouseInput.setButton(MouseInput::EMPTY);
+        mouseInput.setType(MouseInput::MOTION);
+        mMouseInputQueue.push(mouseInput);
         mMouseX = event.button.x;
         mMouseY = event.button.y;
         mMouseMotion = true;
