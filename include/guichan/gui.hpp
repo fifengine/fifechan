@@ -63,8 +63,18 @@
 
 namespace gcn
 {
+	// The following comment will appear in the doxygen main page.
   /**
-   * This is the main class for Guichan. It is the core of the a gui.
+	 * @mainpage
+	 * @section Introduction
+	 * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
+	 * @n
+	 * @n
+	 * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
+	 */
+	
+	 /**
+	 * This is the main class for Guichan. It is the core of the a gui.
 	 * It holds a special widget called the top widget. For more then
 	 * one widget in your Gui, top widget should be a container of some sort.
 	 * For the Gui to function properly you need to set one Graphics object
