@@ -86,7 +86,7 @@ namespace gcn
 
   void ListBox::draw(Graphics* graphics)
   {
-    graphics->setColor(getBackgroundColor());    
+    graphics->setColor(getBackgroundColor());
     graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
     if (mListModel == NULL)      
@@ -191,12 +191,12 @@ namespace gcn
 
   void ListBox::mousePress(int x, int y, int button)
   {
-    if (button == MouseInput::LEFT)
+    if (button == MouseInput::LEFT && hasMouse())
     {
       setSelected(y / getFont()->getHeight());
       generateAction();
     }
-  } // end mouseClick
+  } // end mousePress
 
   void ListBox::setListModel(ListModel *listModel)
   {
