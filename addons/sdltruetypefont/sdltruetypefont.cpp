@@ -65,8 +65,8 @@
 
 namespace gcn
 {	
-  SDLTrueTypeFont::SDLTrueTypeFont (const std::string& filename, int size)
-  {
+	SDLTrueTypeFont::SDLTrueTypeFont (const std::string& filename, int size)
+	{
 		mRowSpacing = 0;
 		mGlyphSpacing = 0;
 		mAntiAlias = true;		
@@ -81,26 +81,31 @@ namespace gcn
 		}
 	}
 	
-  SDLTrueTypeFont::~SDLTrueTypeFont()
-  {
-    TTF_CloseFont(mFont);
-  }
+	SDLTrueTypeFont::~SDLTrueTypeFont()
+	{
+		TTF_CloseFont(mFont);
+	}
   
 	int SDLTrueTypeFont::getWidth(const std::string& text) const
-  {
+	{
 		int w, h;
-	  TTF_SizeText(mFont, text.c_str(), &w, &h);
+		TTF_SizeText(mFont, text.c_str(), &w, &h);
 
 		return w;
-  }
+	}
 
-  int SDLTrueTypeFont::getHeight() const
-  {
+	int SDLTrueTypeFont::getHeight() const
+	{
 		return TTF_FontHeight(mFont) + mRowSpacing;
-  }
+	}
 	
 	void SDLTrueTypeFont::drawString(Graphics* graphics, const std::string& text, const int x, const int y)
 	{
+		if (text == "")
+		{
+			return;
+		}
+		
 		SDLGraphics *sdlGraphics = dynamic_cast<SDLGraphics *>(graphics);
 
 		if (sdlGraphics == NULL)
