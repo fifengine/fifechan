@@ -59,6 +59,7 @@
  */
 
 #include "guichan/sdl/sdlinput.hpp"
+#include "guichan/exception.hpp"
 
 #include <iostream>
 
@@ -83,10 +84,7 @@ namespace gcn
     
     if (mKeyInputQueue.empty())
     {
-      // TODO
-      // Add exception instead of return statement
-      keyInput.setType(KeyInput::EMPTY);
-      return keyInput;
+      throw GCN_EXCEPTION("SDLInput::dequeueKeyInput: the queue is empty");
     }
     
     keyInput = mKeyInputQueue.front();
@@ -108,10 +106,7 @@ namespace gcn
     
     if (mMouseInputQueue.empty())
     {
-      // TODO
-      // Add exception instead of return statement
-      mouseInput.setType(MouseInput::EMPTY);
-      return mouseInput;
+      throw GCN_EXCEPTION("SDLInput::dequeueMouseInput: the queue is empty");
     }
     
     mouseInput = mMouseInputQueue.front();
@@ -120,83 +115,88 @@ namespace gcn
     return mouseInput;
     
   } // end dequeueMouseInput
-  
-  int SDLInput::getMouseX()
-  {
-    return mMouseX;
-
-  } // end getMouseX 
-
-  int SDLInput::getMouseY()
-  {
-    return mMouseY;
-
-  } // end getMouseY
-
-  void SDLInput::getMousePosition(int& x, int& y)
-  {
-    x = mMouseX;
-    y = mMouseY;
-
-  } // end getMousePosition
-
-  void SDLInput::pollInput()
-  {
-    mMouseMotion = false;
-
-  } // end pollInput
-  
-  bool SDLInput::isMouseMoved()
-  {
-    return mMouseMotion;
-
-  } // end isMouseMoved
-
+    
   void SDLInput::pushInput(SDL_Event event)
   {
-    Key key;
     KeyInput keyInput;
     MouseInput mouseInput;
     
     switch (event.type)
     {
       case SDL_KEYDOWN:
-        key.setValue(convertKeyCharacter(event.key.keysym));
-        key.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-        keyInput.setKey(key);
+        keyInput.setKey(convertKeyCharacter(event.key.keysym));
         keyInput.setType(KeyInput::PRESS);        
         mKeyInputQueue.push(keyInput);
         break;
+
       case SDL_KEYUP:
-        key.setValue(convertKeyCharacter(event.key.keysym));
-        keyInput.setKey(key);
+        keyInput.setKey(convertKeyCharacter(event.key.keysym));
         keyInput.setType(KeyInput::RELEASE);
         mKeyInputQueue.push(keyInput);
         break;
+
       case SDL_MOUSEBUTTONDOWN:
+        mMouseDown = true;
         mouseInput.x = event.button.x;
         mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::PRESS);
         mMouseInputQueue.push(mouseInput);
         break;
+
       case SDL_MOUSEBUTTONUP:
+        mMouseDown = false;        
         mouseInput.x = event.button.x;
         mouseInput.y = event.button.y;
         mouseInput.setButton(convertMouseButton(event.button.button));
         mouseInput.setType(MouseInput::RELEASE);
         mMouseInputQueue.push(mouseInput);
+
+        if (!mMouseInWindow)
+        {
+          mouseInput.x = -1;
+          mouseInput.y = -1;
+          mouseInput.setButton(MouseInput::EMPTY);
+          mouseInput.setType(MouseInput::MOTION);
+          mMouseInputQueue.push(mouseInput);        
+        }        
         break;
+        
       case SDL_MOUSEMOTION:
         mouseInput.x = event.button.x;
         mouseInput.y = event.button.y;
         mouseInput.setButton(MouseInput::EMPTY);
         mouseInput.setType(MouseInput::MOTION);
         mMouseInputQueue.push(mouseInput);
-        mMouseX = event.button.x;
-        mMouseY = event.button.y;
-        mMouseMotion = true;
         break;
+        
+      case SDL_ACTIVEEVENT:
+        /* 
+         * This occurs when the mouse leaves the window and the Gui-chan
+         * application loses its mousefocus.
+         */
+        if ((event.active.state & SDL_APPMOUSEFOCUS)
+            && !event.active.gain)
+        {
+          mMouseInWindow = false;
+          
+          if (!mMouseDown)
+          {
+            mouseInput.x = -1;
+            mouseInput.y = -1;
+            mouseInput.setButton(MouseInput::EMPTY);
+            mouseInput.setType(MouseInput::MOTION);
+            mMouseInputQueue.push(mouseInput);
+          }
+        }
+
+        if ((event.active.state & SDL_APPMOUSEFOCUS)
+            && event.active.gain)
+        {
+          mMouseInWindow = true;
+        }
+        break;
+        
     } // end switch
 
   } // end pushInput
@@ -228,9 +228,13 @@ namespace gcn
 
   } // end convertMouseButton
 
-  int SDLInput::convertKeyCharacter(SDL_keysym keysym)
+  /**
+   * @todo suck on the ENTER vs new line feed bonbon.
+   */
+  Key SDLInput::convertKeyCharacter(SDL_keysym keysym)
   {
     int value = 0; 
+    Key key;
     
     if (keysym.unicode < 255)
     {
@@ -260,11 +264,182 @@ namespace gcn
       case SDLK_RCTRL:
         value = Key::RIGHT_CONTROL;
         break;
+      case SDLK_BACKSPACE:
+        value = Key::BACKSPACE;
+        break;
+      case SDLK_PAUSE:
+        value = Key::PAUSE;
+        break;
+      case SDLK_SPACE:
+        value = Key::SPACE;
+        break;
+      case SDLK_ESCAPE:
+        value = Key::ESCAPE;
+        break;
+      case SDLK_DELETE:
+        value = Key::DELETE;
+        break;
+      case SDLK_INSERT:
+        value = Key::INSERT;
+        break;
+      case SDLK_HOME:
+        value = Key::HOME;
+        break;
+      case SDLK_END:
+        value = Key::END;
+        break;
+      case SDLK_PAGEUP:
+        value = Key::PAGE_UP;
+        break;
+      case SDLK_PRINT:
+        value = Key::PRINT_SCREEN;
+        break;
+      case SDLK_PAGEDOWN:
+        value = Key::PAGE_DOWN;
+        break;
+      case SDLK_F1:
+        value = Key::F1;
+        break;
+      case SDLK_F2:
+        value = Key::F2;
+        break;
+      case SDLK_F3:
+        value = Key::F3;
+        break;
+      case SDLK_F4:
+        value = Key::F4;
+        break;
+      case SDLK_F5:
+        value = Key::F5;
+        break;
+      case SDLK_F6:
+        value = Key::F6;
+        break;
+      case SDLK_F7:
+        value = Key::F7;
+        break;
+      case SDLK_F8:
+        value = Key::F8;
+        break;
+      case SDLK_F9:
+        value = Key::F9;
+        break;
+      case SDLK_F10:
+        value = Key::F10;
+        break;
+      case SDLK_F11:
+        value = Key::F11;
+        break;
+      case SDLK_F12:
+        value = Key::F12;
+        break;
+      case SDLK_F13:
+        value = Key::F13;
+        break;
+      case SDLK_F14:
+        value = Key::F14;
+        break;
+      case SDLK_F15:
+        value = Key::F15;
+        break;
+      case SDLK_NUMLOCK:
+        value = Key::NUM_LOCK;
+        break;
+      case SDLK_CAPSLOCK:
+        value = Key::CAPS_LOCK;
+        break;
+      case SDLK_SCROLLOCK:
+        value = Key::SCROLL_LOCK;
+        break;
+      case SDLK_RMETA:
+        value = Key::RIGHT_META;
+        break;
+      case SDLK_LMETA:
+        value = Key::LEFT_META;
+        break;
+      case SDLK_LSUPER:
+        value = Key::LEFT_SUPER;
+        break;
+      case SDLK_RSUPER:
+        value = Key::RIGHT_SUPER;
+        break;
+      case SDLK_MODE:
+        value = Key::ALT_GR;
+        break;
+      case SDLK_UP:
+        value = Key::UP;
+        break;
+      case SDLK_DOWN:
+        value = Key::DOWN;
+        break;
+      case SDLK_LEFT:
+        value = Key::LEFT;
+        break;
+      case SDLK_RIGHT:
+        value = Key::RIGHT;
+        break;
+      case SDLK_RETURN:
+        value = Key::ENTER;
+        break;
+      case SDLK_KP_ENTER:
+        value = Key::ENTER;
+        break;
+
       default:
         break;
     }
 
-    return value;
+    if (!(keysym.mod & KMOD_NUM))
+    {
+      switch (keysym.sym)
+      {
+        case SDLK_KP0:
+          value = Key::INSERT;
+          break;
+        case SDLK_KP1:
+          value = Key::END;
+          break;
+        case SDLK_KP2:
+          value = Key::DOWN;
+          break;
+        case SDLK_KP3:
+          value = Key::PAGE_DOWN;
+          break;
+        case SDLK_KP4:
+          value = Key::LEFT;
+          break;
+        case SDLK_KP5:
+          value = 0;
+          break;
+        case SDLK_KP6:
+          value = Key::RIGHT;
+          break;
+        case SDLK_KP7:
+          value = Key::HOME;
+          break;
+        case SDLK_KP8:
+          value = Key::UP;
+          break;
+        case SDLK_KP9:
+          value = Key::PAGE_UP;
+          break;          
+        default:
+          break;
+      } 
+    }
+
+    key.setValue(value);
+    key.setShiftPressed(keysym.mod & KMOD_SHIFT);
+    key.setControlPressed(keysym.mod & KMOD_CTRL);
+    key.setAltPressed(keysym.mod & KMOD_ALT);
+    key.setMetaPressed(keysym.mod & KMOD_META);
+
+    if (keysym.sym >= SDLK_KP0 && keysym.sym <= SDLK_KP_EQUALS)
+    {
+      key.setNumericPad(true);
+    }
+    
+    return key;
     
   } // end convertKeyCharacter
 

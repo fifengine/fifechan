@@ -79,7 +79,7 @@ namespace gcn
     /**
      * Constructor. Currently doing nothing.
      */
-    SDLInput(){}
+    SDLInput() { }
 
     /**
      * This function initialize the SDLInput. It is not necesary
@@ -89,54 +89,12 @@ namespace gcn
      */
     virtual void init();
 
-    /**
-     * @return the mouse x coordinate
-     */
-    virtual int getMouseX();
-
-    /**
-     * @return the mouse y coordinate
-     */
-    virtual int getMouseY();
-
-    /**
-     * This function retrivs the mouse position.
-     *
-     * @param x the mouse x coordinate
-     * @param y the mouse y coordinate
-     */
-    virtual void getMousePosition(int& x, int& y);
-
-    /**
-     * This function checks whether the key queue is empty
-     * or not.
-     *
-     * @return true if the key queue is empty
-     */
     virtual bool isKeyQueueEmpty();
 
-    /**
-     * This function dequeues the key input queue.
-     *
-     * @return key input
-     * @see KeyInput
-     */
     virtual KeyInput dequeueKeyInput();
 
-    /**
-     * This function checks whether the mouse queue is empty
-     * or not.
-     *
-     * @return true if the mouse queue is empty
-     */
     virtual bool isMouseQueueEmpty();
 
-    /**
-     * This function dequeues the mouse input queue.
-     *
-     * @return mouse input
-     * @see MouseInput
-     */
     virtual MouseInput dequeueMouseInput();
 
     /**
@@ -153,22 +111,31 @@ namespace gcn
      * SDL you can safely ignore this function when it does not
      * do anything.
      */
-    virtual void pollInput();
-
-    /**
-     * 
-     */
-    virtual bool isMouseMoved();
+    virtual void _pollInput() { }
 
   protected:
+    /**
+     * This function converts a mouse button from SDL to a mouse
+     * button in Gui-chan.
+     *
+     * @param button an SDL mouse button.
+     * @param a Gui-chan button.     
+     */
     int convertMouseButton(int button);
-    int convertKeyCharacter(SDL_keysym key);
+
+    /**
+     * This function converts an SDL keysym to a Gui-chan key.
+     *
+     * @param ley an SDL keysym
+     * @return a Gui-chan key.
+     */
+    Key convertKeyCharacter(SDL_keysym key);
+
     std::queue<KeyInput> mKeyInputQueue;
     std::queue<MouseInput> mMouseInputQueue;
-    int mMouseX;
-    int mMouseY;
-    bool mMouseMotion;
-    
+
+    bool mMouseDown;
+    bool mMouseInWindow;
   }; // end Input
   
 } // end gcn
