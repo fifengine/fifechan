@@ -155,11 +155,7 @@ namespace gcn
 
 		// Inherited from KeyListener
 		
-		virtual void keyPress(const Key& key);
-    
-		virtual void keyRelease(const Key& key);
-
-		virtual void lostFocus();
+		virtual void keyPress(const Key& key);   
 		
 	protected:
 		/**
