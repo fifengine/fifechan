@@ -1,5 +1,5 @@
 /*
- * SDL Hello World example for Gui-chan 
+ * SDL Hello World example for Guichan 
  */
 
 // Include all necessary headers.
@@ -20,14 +20,14 @@ SDL_Surface* screen;
 SDL_Event event;
 
 /*
- * Gui-chan SDL stuff we need
+ * Guichan SDL stuff we need
  */
 gcn::SDLInput* input;             // Input driver
 gcn::SDLGraphics* graphics;       // Graphics driver
 gcn::SDLImageLoader* imageLoader; // For loading images
 
 /*
- * Gui-chan stuff we need
+ * Guichan stuff we need
  */
 gcn::Gui* gui;            // A Gui object - binds it all together
 gcn::Container* top;      // A top container
@@ -50,7 +50,7 @@ void init()
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	/*
-	 * Now it's time for Gui-chan SDL stuff
+	 * Now it's time for Guichan SDL stuff
 	 */
 	gcn::ImageLoader* imageLoader = new gcn::SDLImageLoader();
   // The ImageLoader in use is static and must be set to be
@@ -65,7 +65,7 @@ void init()
 	
 	/*
 	 * Last but not least it's time to initialize and create the gui
-	 * with Gui-chan stuff.
+	 * with Guichan stuff.
 	 */
 	top = new gcn::Container();    
 	// Set the dimension of the top container to match the screen.
@@ -96,7 +96,7 @@ void init()
 void halt()
 {
 	/*
-	 * Destroy Gui-chan stuff
+	 * Destroy Guichan stuff
 	 */
 	delete label;
 	delete font;
@@ -104,7 +104,7 @@ void halt()
 	delete gui;
 	
 	/*
-	 * Destroy Gui-chan SDL stuff
+	 * Destroy Guichan SDL stuff
 	 */
 	delete input;
 	delete graphics;
@@ -151,7 +151,7 @@ void checkInput()
 		 * the leftovers to the SDLInput object to later be handled by
 		 * the Gui. (This example doesn't require us to do this 'cause a
 		 * label doesn't use input. But will do it anyway to show how to
-		 * set up an SDL application with Gui-chan.)
+		 * set up an SDL application with Guichan.)
 		 */
 		input->pushInput(event);        		
 	}
@@ -184,7 +184,7 @@ int main(int argc, char **argv)
 		halt();			
 	}
 	/*
-	 * Catch all Gui-chan exceptions
+	 * Catch all Guichan exceptions
 	 */
 	catch (gcn::Exception e)
 	{
