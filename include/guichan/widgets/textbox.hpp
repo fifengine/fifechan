@@ -188,6 +188,19 @@ namespace gcn
 		 */
 		virtual void addRow(const std::string row);
 
+		/**
+		 * Checks if the TextBox is opaque
+		 *
+		 * @return true if the TextBox is opaque
+		 */
+		virtual bool isOpaque();
+
+		/**
+		 * Sets the TextBox to be opaque.
+		 *
+		 * @param opaque true if the TextBox should be opaque.		 
+		 */
+		virtual void setOpaque(bool opaque);
 		
 		// Inherited from Widget
 		
@@ -227,7 +240,8 @@ namespace gcn
 		int mCaretColumn;
 		int mCaretRow;
 		bool mEditable;
-    
+    bool mOpaque;
+		
 	}; // end TextBox
   
 } // end gcn

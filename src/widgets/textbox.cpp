@@ -73,7 +73,8 @@ namespace gcn
 		mCaretColumn = 0;
 		mCaretRow = 0;
 		mEditable = true;
-    
+    mOpaque = true;
+		
 		setFocusable(true);    
 		setTabable(true);
     
@@ -88,7 +89,8 @@ namespace gcn
 		mCaretColumn = 0;
 		mCaretRow = 0;
 		mEditable = true;
-    
+		mOpaque = true;
+		
 		setText(text);
     
 		setFocusable(true);    
@@ -135,9 +137,12 @@ namespace gcn
 	{
 		unsigned int i;
 
-		graphics->setColor(getBackgroundColor());    
-		graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
-
+		if (mOpaque)
+		{			
+			graphics->setColor(getBackgroundColor());    
+			graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+		}
+		
 		if (hasFocus())
 		{      
 			drawCaret(graphics, getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn)), mCaretRow * getFont()->getHeight());
@@ -525,4 +530,15 @@ namespace gcn
 		mTextRows.push_back(row);
 		adjustSize();
 	}
+
+	bool TextBox::isOpaque()
+	{
+		return mOpaque;
+	}
+
+	void TextBox::setOpaque(bool opaque)
+	{
+		mOpaque = opaque;
+	}
+	
 } // end gcn
