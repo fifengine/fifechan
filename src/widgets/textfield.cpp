@@ -69,6 +69,8 @@ namespace gcn
   {
     mCaretPosition = 0;
     mXScroll = 0;
+
+    setFocusable(true);
     
     addMouseListener(this);
     addKeyListener(this);
@@ -104,49 +106,47 @@ namespace gcn
   
   void TextField::draw(Graphics* graphics)
   {
-    Color faceColor = 0xffffff;
-    Color shadowColor = getBackgroundColor() - 0x303030;
-    Color highlightColor = getBackgroundColor() + 0x303030;
+    Color faceColor = getBackgroundColor();
+    Color shadowColor = getBaseColor() - 0x303030;
+    Color highlightColor = getBaseColor() + 0x303030;
 
     graphics->setColor(faceColor);
-    graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getDimension().height-1));
+    graphics->fillRectangle(Rectangle(1, 1, getWidth() - 2, getHeight() - 2));
     
     graphics->setColor(shadowColor);
-    graphics->drawLine(0, 0, getDimension().width-1, 0);
-    graphics->drawLine(0, 1, 0, getDimension().height-1);
+    graphics->drawLine(0, 0, getWidth() - 1, 0);
+    graphics->drawLine(0, 1, 0, getHeight() - 1);
     
     graphics->setColor(highlightColor);
-    graphics->drawLine(getDimension().width-1, 1, getDimension().width-1, getDimension().height-1);
-    graphics->drawLine(1, getDimension().height-1, getDimension().width-1, getDimension().height-1);
+    graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
+    graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
 
+    if (hasFocus())
+    {      
+      drawCaret(graphics, getFont()->getWidth(mText.substr(0, mCaretPosition)) + 1 - mXScroll);
+    }
+    
     graphics->setColor(getForegroundColor());
     graphics->drawText(mText, 2 - mXScroll, 2);
     
-    if (hasFocus())
-    {      
-      graphics->drawLine(getFont()->getWidth(mText.substr(0, mCaretPosition)) + 1 - mXScroll,
-                         getHeight() - 3,
-                         getFont()->getWidth(mText.substr(0, mCaretPosition)) + 1 - mXScroll,
-                         2);
-    }
-    
   } // end draw
 
+  void TextField::drawCaret(Graphics* graphics, int x)
+  {
+    graphics->setColor(getForegroundColor());
+    graphics->drawLine(x, getHeight() - 3, x, 2);
+    
+  } // end drawCaret
   
   void TextField::mousePress(int x, int y, int button)
   {
-    if (button == MouseInput::LEFT)
+    if (hasMouse() && button == MouseInput::LEFT)
     {
       mCaretPosition = getFont()->getStringIndexAt(mText, x + mXScroll);
       fixScroll();
     }
       
   } // end mousePress
-
-  void TextField::mouseRelease(int x, int y, int button)
-  {
-
-  } // end mouseRelease
   
   void TextField::keyPress(const Key& key)
   {
@@ -160,37 +160,30 @@ namespace gcn
     }
     else if (key.getValue() == Key::DELETE && mCaretPosition < mText.size())
     {
-      std::string pre = mText.substr(0, mCaretPosition);
-      std::string post = mText.substr(mCaretPosition + 1, mText.size() - mCaretPosition - 1);
-      mText = pre + post;
+      mText.erase(mCaretPosition, 1);
     }
     else if (key.getValue() == Key::BACKSPACE && mCaretPosition > 0)
     {
-      std::string pre = mText.substr(0, mCaretPosition - 1);
-      std::string post = mText.substr(mCaretPosition ,mText.size() - mCaretPosition);
-      mText = pre + post;
+      mText.erase(mCaretPosition - 1, 1);
       --mCaretPosition;
     }
     else if (key.getValue() == Key::ENTER)
     {
       generateAction();
     }
-    else if (key.getValue() == Key::HOME
-             || key.getValue() == 1)
+    else if (key.getValue() == Key::HOME)
+//             || key.getValue() == 1)
     {
       mCaretPosition = 0;
     }    
-    else if (key.getValue() == Key::END
-             || key.getValue() == 5)
+    else if (key.getValue() == Key::END)
+//             || key.getValue() == 5)
     {
       mCaretPosition = mText.size();
     }    
     else if (key.isCharacter())
     {
-      std::string pre = mText.substr(0, mCaretPosition);
-      std::string post = mText.substr(mCaretPosition, mText.size() - mCaretPosition);
-      char c = (char)key.getValue();
-      mText = pre + c + post;
+      mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
       ++mCaretPosition;
     }
 
@@ -266,10 +259,16 @@ namespace gcn
     
   } // end getCaretPosition
 
-  std::string TextField::getText() const
+  const std::string& TextField::getText() const
   {
     return mText;
     
   } // end getText
   
+  void TextField::fontChanged()
+  {
+    fixScroll();
+
+  } // end fontChanged
+
 } // end gcn
