@@ -11,23 +11,26 @@ namespace gcn
   class KeyListener
   {
   public:
+
     /**
      * 
      */
-    virtual ~KeyListener();
+    virtual ~KeyListener() { }
     
     /**
      * 
      */
-    virtual void keyPressEvent(const std::string& eventId, const Key& key) = 0;
+    virtual void keyPress(const Key& key) { }
+
     /**
      * 
      */
-    virtual void keyReleaseEvent(const std::string& eventId, const Key& key) = 0;
+    virtual void keyRelease(const Key& key) { }
+
     /**
      * 
      */
-    virtual void keyTypeEvent(const std::string& eventId, const Key& key) = 0;
+    virtual void keyType(const Key& key) { }
 
   }; // end KeyListener
 
