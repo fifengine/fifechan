@@ -6,7 +6,7 @@
 namespace gcn
 {
   /**
-   * A ActionListener listens for action events from a widget.
+   * An ActionListener listens for action events from a widget.
    *
    * @see Widget::addActionListener
    */
