@@ -14,8 +14,8 @@ X="disabled"
 GUICHAN_MAJOR_VERSION=0
 GUICHAN_MINOR_VERSION=1
 GUICHAN_MICRO_VERSION=0
-GUICHAN_INTERFACE_AGE=1
-GUICHAN_BINARY_AGE=1
+GUICHAN_INTERFACE_AGE=0
+GUICHAN_BINARY_AGE=0
 GUICHAN_VERSION=$GUICHAN_MAJOR_VERSION.$GUICHAN_MINOR_VERSION.$GUICHAN_MICRO_VERSION
 
 AC_SUBST(GUICHAN_MAJOR_VERSION)
@@ -175,7 +175,12 @@ src/opengl/Makefile
 src/sdl/Makefile
 src/widgets/Makefile
 src/x/Makefile])
-
+echo ""
+echo "IMPORTANT! You are about install a BETA version of Guichan"
+echo "which most likely will lose binary compatibility with the"
+echo "future stable release. This release should only be used" 
+echo "for testing."
+echo ""
 echo "-------------------------------"
 echo "Guichan ready for compilation!" 
 echo "-------------------------------"
