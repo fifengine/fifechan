@@ -110,9 +110,12 @@ namespace gcn
 		WidgetIterator iter;
 		for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
 		{
-			graphics->pushClipArea((*iter)->getDimension());
-			(*iter)->draw(graphics);
-			graphics->popClipArea();
+			if ((*iter)->isVisible())
+			{
+				graphics->pushClipArea((*iter)->getDimension());
+				(*iter)->draw(graphics);
+				graphics->popClipArea();
+			}
 		}
 
 	} // end drawChildren
