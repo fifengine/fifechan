@@ -67,8 +67,8 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mVBarVisible = true;
-		mHBarVisible = true;
+		mVBarVisible = false;
+		mHBarVisible = false;
 		mScrollbarWidth = 12;
 		mContent = NULL;
 		mUpButtonPressed = false;
@@ -90,8 +90,8 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mVBarVisible = true;
-		mHBarVisible = true;
+		mVBarVisible = false;
+		mHBarVisible = false;
 		mScrollbarWidth = 12;
 		mContent = NULL;
 		mUpButtonPressed = false;
