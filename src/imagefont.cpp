@@ -95,7 +95,8 @@ namespace gcn
     
     mImage = new Image(data, w, h);
     mHeight = h;
-
+		mSpacing = 0;
+		
   } // end ImageFont
 
   ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, unsigned char glyphsTo)
@@ -126,7 +127,8 @@ namespace gcn
     
     mImage = new Image(data, w, h);
     mHeight = h;
-
+		mSpacing = 0;
+		
   } // end ImageFont
 
   ImageFont::~ImageFont()
@@ -140,10 +142,10 @@ namespace gcn
   {
     if (mGlyphW[glyph] == 0)
     {         
-      return mGlyphW[(int)(' ')];
+      return mGlyphW[(int)(' ')] + mSpacing;
     }
     
-    return mGlyphW[glyph];
+    return mGlyphW[glyph] + mSpacing;
 
   } // end getWidth
 
@@ -159,15 +161,25 @@ namespace gcn
     {
       graphics->drawRectangle(Rectangle(x, y + 1, mGlyphW[(int)(' ')] - 1, mHeight - 2));
       
-      return mGlyphW[(int)(' ')];
+      return mGlyphW[(int)(' ')] + mSpacing;
     }
     
     graphics->drawImage(mImage, mGlyphX[glyph], 0, x, y, mGlyphW[glyph], mHeight);
 
-    return mGlyphW[glyph];
+    return mGlyphW[glyph] + mSpacing;
 
   } // end drawGlyph
-  
+
+	void ImageFont::setSpacing(int spacing)
+	{
+		mSpacing = spacing;
+	}
+
+	int ImageFont::getSpacing()
+	{
+		return mSpacing;
+	}
+	
   int ImageFont::addGlyph(unsigned char c, int x, const Color& separator)
   {
 		ImageLoader* il = Image::_getImageLoader();

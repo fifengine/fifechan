@@ -108,6 +108,21 @@ namespace gcn
     ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
 
 		/**
+		 * Sets the spacing between letters, in pixels.
+		 * Default is 0 pixels. The spacing can be negative.
+		 *
+		 * @param spacing the spacing in pixels
+		 */
+		virtual void setSpacing(int spacing);
+
+		/**
+		 * Gets the spacing between letters, in pixels.
+		 *
+		 * @return the spacing.
+		 */
+		virtual int getSpacing();
+		
+		/**
 		 * Destructor.
 		 */
     virtual ~ImageFont();
@@ -127,6 +142,7 @@ namespace gcn
     int mGlyphX[256];
     int mGlyphW[256];
     int mHeight;
+		int mSpacing;
     Image* mImage;
     
   }; // end ImageFont
