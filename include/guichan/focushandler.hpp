@@ -191,10 +191,10 @@ namespace gcn
 		typedef WidgetVector::iterator WidgetIterator;
 		WidgetVector mWidgets;
     
-		int mFocusedWidget;
-        int mDraggedWidget;
-		int mToBeFocused;
-		int mToBeDragged;
+		Widget* mFocusedWidget;
+        Widget* mDraggedWidget;
+		Widget* mToBeFocused;
+		Widget* mToBeDragged;
 
 	}; // FocusHandler
   
