@@ -585,6 +585,12 @@ namespace gcn
 				MouseInput mi = mouseInput;
 				mi.y -= mScrollArea->getY();        
 				mScrollArea->_mouseInputMessage(mi);
+
+				if (mListBox->hasFocus())
+				{
+					mi.y -= mListBox->getY();
+					mListBox->_mouseInputMessage(mi);
+				}
 			}
 		}
 		
