@@ -61,6 +61,8 @@
 #include "guichan/focushandler.hpp"
 #include "guichan/exception.hpp"
 
+#include <iostream>
+
 namespace gcn
 {
   FocusHandler::FocusHandler()
@@ -77,7 +79,14 @@ namespace gcn
     {      
       if (mWidgets[i] == widget)
       {
-        mFocusedWidget = i;
+        if (mFocusedWidget >= 0)
+        {
+          mWidgets.at(mFocusedWidget)->lostFocus();
+        }
+
+        mWidgets.at(i)->gotFocus();        
+        mFocusedWidget = i;        
+        
         return;
       }
     }    
@@ -99,28 +108,76 @@ namespace gcn
     
   void FocusHandler::focusNext()
   {
+    int focused = mFocusedWidget;
+    
     if (mWidgets.size() == 0)
     {
       mFocusedWidget = -1;
       return;
+    }    
+    
+    do
+    {
+      ++mFocusedWidget;
+
+      if (mFocusedWidget >= (int)mWidgets.size())
+      {
+        mFocusedWidget = 0;      
+      }
+
+      if (mFocusedWidget == focused)
+      {
+        return;
+      }
+    }
+    while (!mWidgets.at(mFocusedWidget)->isFocusable());
+
+    if (focused >= 0)
+    {
+      mWidgets.at(focused)->lostFocus();
     }
     
-    ++mFocusedWidget;
-
-    if (mFocusedWidget >= (int)mWidgets.size())
+    if (mFocusedWidget >= 0)
     {
-      mFocusedWidget = 0;      
+      mWidgets.at(mFocusedWidget)->gotFocus();
     }
     
   } // end focusNext
     
   void FocusHandler::focusPrevious()
   {
-    --mFocusedWidget;
-
-    if (mFocusedWidget < 0)
+    int focused = mFocusedWidget;
+    
+    if (mWidgets.size() == 0)
     {
-      mFocusedWidget = mWidgets.size() - 1;
+      mFocusedWidget = -1;
+      return;
+    }    
+    
+    do
+    {
+      --mFocusedWidget;
+
+      if (mFocusedWidget <= 0)
+      {
+        mFocusedWidget = mWidgets.size() - 1;      
+      }
+
+      if (mFocusedWidget == focused)
+      {
+        return;
+      }
+    }
+    while (!mWidgets.at(mFocusedWidget)->isFocusable());
+
+    if (focused >= 0)
+    {
+      mWidgets.at(focused)->lostFocus();
+    }
+    
+    if (mFocusedWidget >= 0)
+    {
+      mWidgets.at(mFocusedWidget)->gotFocus();
     }
     
   } // end focusPrevious
@@ -161,7 +218,7 @@ namespace gcn
         }
         else if (i == mFocusedWidget)
         {
-          mFocusedWidget = -1;
+          focusNone();
         }
         
         return;
@@ -172,6 +229,11 @@ namespace gcn
 
   void FocusHandler::focusNone()
   {
+    if (mFocusedWidget >= 0)
+    {
+      mWidgets.at(mFocusedWidget)->lostFocus();
+    }
+    
     mFocusedWidget = -1;
     
   } // end focusNone
