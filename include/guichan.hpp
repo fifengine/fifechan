@@ -73,6 +73,7 @@
 #include <guichan/key.hpp>
 #include <guichan/keyinput.hpp>
 #include <guichan/keylistener.hpp>
+#include <guichan/listmodel.hpp>
 #include <guichan/mouseinput.hpp>
 #include <guichan/mouselistener.hpp>
 // #include "guichan/mousetype.hpp"
@@ -85,6 +86,7 @@
 #include <guichan/widgets/button.hpp>
 #include <guichan/widgets/icon.hpp>
 #include <guichan/widgets/label.hpp>
+#include <guichan/widgets/listbox.hpp>
 #include <guichan/widgets/scrollarea.hpp>
 #include <guichan/widgets/textbox.hpp>
 #include <guichan/widgets/textfield.hpp>
