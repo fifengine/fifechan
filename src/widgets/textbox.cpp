@@ -58,6 +58,8 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include <typeinfo>
+
 #include "guichan/basiccontainer.hpp"
 #include "guichan/keyinput.hpp"
 #include "guichan/mouseinput.hpp"

@@ -589,7 +589,7 @@ namespace gcn
 		
 	} // end action
 
-	void getDrawSize(int& width, int& height, Widget* widget)
+	void DropDown::getDrawSize(int& width, int& height, Widget* widget)
 	{
 		if (widget == mScrollArea)
 		{

@@ -86,17 +86,17 @@ namespace gcn
     
 	} // end Button
 
-	const std::string& getCaption()
-	{
-		return mCaption;
-
-	} // end getCaption
-	
 	void Button::setCaption(const std::string& caption)
 	{
 		mCaption = caption;
     
-	} // end setText
+	} // end setCaption
+
+	const std::string& Button::getCaption()
+	{
+		return mCaption;
+		
+	} // end getCaption
   
 	void Button::draw(Graphics* graphics)
 	{

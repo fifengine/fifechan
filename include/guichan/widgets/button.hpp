@@ -73,8 +73,8 @@ namespace gcn
 	 *       of your own and overload member functions from Button.
 	 */
 	class DECLSPEC Button : public Widget,
-					        public MouseListener,
-						    public KeyListener
+													public MouseListener,
+													public KeyListener
 	{
 	public:
 		/**

@@ -71,7 +71,7 @@ namespace gcn
 		
 	} // end Label
 
-	const std::string &getCaption() const
+	const std::string &Label::getCaption() const
 	{
 		return mCaption;
 	}
@@ -85,7 +85,7 @@ namespace gcn
 	void Label::draw(Graphics* graphics)
 	{
 		graphics->setFont(getFont());
-		graphics->drawText(mText, 0, 0);
+		graphics->drawText(mCaption, 0, 0);
 
 	} // end draw
 
