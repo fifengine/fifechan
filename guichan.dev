@@ -1,7 +1,7 @@
 [Project]
 FileName=guichan.dev
 Name=guichan
-UnitCount=63
+UnitCount=65
 Type=3
 Ver=1
 ObjFiles=
@@ -676,4 +676,24 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit64]
+FileName=include\guichan\widgets\window.hpp
+CompileCpp=1
+Folder=include/guichan/widgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit65]
+FileName=src\widgets\window.cpp
+CompileCpp=1
+Folder=src/widgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
