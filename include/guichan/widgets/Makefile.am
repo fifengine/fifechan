@@ -9,6 +9,7 @@ libguichaninclude_HEADERS =	\
 	label.hpp		\
 	listbox.hpp		\
 	scrollarea.hpp		\
+	slider.hpp		\
 	radiobutton.hpp		\
 	textbox.hpp		\
 	textfield.hpp		

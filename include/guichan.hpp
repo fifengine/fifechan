@@ -85,6 +85,7 @@
 #include <guichan/widgets/label.hpp>
 #include <guichan/widgets/listbox.hpp>
 #include <guichan/widgets/scrollarea.hpp>
+#include <guichan/widgets/slider.hpp>
 #include <guichan/widgets/radiobutton.hpp>
 #include <guichan/widgets/textbox.hpp>
 #include <guichan/widgets/textfield.hpp>
