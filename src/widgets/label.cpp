@@ -62,34 +62,38 @@
 
 namespace gcn
 {
-  Label::Label(const std::string& text)
-  {
-    //FontWidget();
-    mText = text;
+	Label::Label(const std::string& caption)
+	{
+		mCaption = caption;
     
-    setWidth(getFont()->getWidth(text));
-    setHeight(getFont()->getHeight());
+		setWidth(getFont()->getWidth(caption));
+		setHeight(getFont()->getHeight());
+		
+	} // end Label
+
+	const std::string &getCaption() const
+	{
+		return mCaption;
+	}
+	
+	void Label::setCaption(const std::string& caption)
+	{
+		mCaption = caption;
+
+	} // end setText
     
-  } // end Label
+	void Label::draw(Graphics* graphics)
+	{
+		graphics->setFont(getFont());
+		graphics->drawText(mText, 0, 0);
 
-  void Label::setText(const std::string& text)
-  {
-    mText = text;
+	} // end draw
 
-  } // end setText
-    
-  void Label::draw(Graphics* graphics)
-  {
-    graphics->setFont(getFont());
-    graphics->drawText(mText, 0, 0);
+	void Label::adjustSize()
+	{
+		setWidth(getFont()->getWidth(mCaption));
+		setHeight(getFont()->getHeight());
 
-  } // end draw
-
-  void Label::adjustSize()
-  {
-    setWidth(getFont()->getWidth(mText));
-    setHeight(getFont()->getHeight());
-
-  } // end adjustSize
+	} // end adjustSize
   
 } // end gcn

@@ -83,8 +83,9 @@ namespace gcn
         
 		addMouseListener(this);
 		addKeyListener(this);
-		adjustHeight();    
-	}
+		adjustHeight();
+		
+	} // end DropDown
     
 	DropDown::DropDown(ListModel *listModel)
 	{
@@ -116,7 +117,7 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
-	}
+	} // end DropDown
   
 	DropDown::DropDown(ListModel *listModel,
 					   ScrollArea *scrollArea,
@@ -147,8 +148,9 @@ namespace gcn
 
 		addMouseListener(this);
 		addKeyListener(this);
-		adjustHeight();    
-	}
+		adjustHeight();
+		
+	} // end DropDown
 
 	DropDown::~DropDown()
 	{	  
@@ -172,7 +174,7 @@ namespace gcn
 			mListBox->removeActionListener(this);
 		}
 
-	}
+	} // end ~DropDown
   
 	void DropDown::logic()
 	{
@@ -239,7 +241,8 @@ namespace gcn
 			mScrollArea->draw(graphics);
 			graphics->popClipArea();
 		}
-	}
+		
+	} // end draw
 
 	void DropDown::drawButton(Graphics *graphics)
 	{
@@ -296,8 +299,9 @@ namespace gcn
 							   hy - i + offset,
 							   hx + i + offset,
 							   hy - i + offset);
-		}     
-	}
+		}
+		
+	} // end drawButton
     
 	int DropDown::getSelected()
 	{
@@ -307,7 +311,8 @@ namespace gcn
 		}
 
 		return mListBox->getSelected();
-	}
+		
+	} // end getSelected
     
 	void DropDown::setSelected(int selected)
 	{
@@ -320,7 +325,8 @@ namespace gcn
 		{
 			mListBox->setSelected(selected);
 		}
-	}
+		
+	} // end setSelected
 	
 	void DropDown::keyPress(const Key& key)
 	{
@@ -335,7 +341,8 @@ namespace gcn
 			dropDown();
 			mFocusHandler.requestFocus(mScrollArea->getContent());
 		}
-	}
+		
+	} // end keyPress
   
 	void DropDown::mousePress(int x, int y, int button)
 	{
@@ -353,8 +360,9 @@ namespace gcn
 		else if (!hasMouse())
 		{
 			foldUp();
-		}		
-	}
+		}
+		
+	} // end mousePress
 
 	void DropDown::mouseRelease(int x, int y, int button)
 	{
@@ -380,7 +388,8 @@ namespace gcn
 		}
     
 		adjustHeight();
-	}
+		
+	} // end setListModel
   
 	ListModel *DropDown::getListModel()
 	{
@@ -390,7 +399,8 @@ namespace gcn
 		}
 	  
 		return mListBox->getListModel();
-	}
+		
+	} // end getListModel
 
 	void DropDown::setScrollArea(ScrollArea *scrollArea)
 	{
@@ -401,12 +411,14 @@ namespace gcn
 		mScrollArea->setContent(mListBox);
 		mScrollArea->_setParent(this);
 		adjustHeight();
-	}
+		
+	} // end setScrollArea
 
 	ScrollArea *DropDown::getScrollArea()
 	{
 		return mScrollArea;
-	}
+		
+	} // end getScrollArea
   
 	void DropDown::setListBox(ListBox *listBox)
 	{
@@ -427,12 +439,14 @@ namespace gcn
 		{
 			mListBox->setSelected(0);
 		}
-	}
+		
+	} // end setListBox
 
 	ListBox *DropDown::getListBox()
 	{
 		return mListBox;
-	}
+		
+	} // end getListBox
   
 	void DropDown::adjustHeight()
 	{
@@ -464,7 +478,8 @@ namespace gcn
 
 		mScrollArea->setWidth(getWidth());
 		mScrollArea->setPosition(0, h2);
-	}
+		
+	} // end adjustHeight
 
 	void DropDown::dropDown()
 	{
@@ -474,7 +489,8 @@ namespace gcn
 			mOldH = getHeight();
 			adjustHeight();
 		}
-	}
+		
+	} // end dropDown
 
 	void DropDown::foldUp()
 	{		
@@ -484,7 +500,8 @@ namespace gcn
 			mFocusHandler.focusNone();
 			adjustHeight();
 		}
-	}
+		
+	} // end foldUp
 
 	void DropDown::_keyInputMessage(const KeyInput& keyInput)
 	{		
@@ -504,7 +521,8 @@ namespace gcn
 		{
 			BasicContainer::_keyInputMessage(keyInput);
 		}
-	}
+		
+	} // end _keyInputMessage
 	
 	void DropDown::_mouseInputMessage(const MouseInput &mouseInput)
 	{	  	  
@@ -524,12 +542,14 @@ namespace gcn
 				mScrollArea->_mouseInputMessage(mi);
 			}
 		}
-	}
+		
+	} // end _mouseInputMessage
 
 	void DropDown::lostFocus()
 	{
 		foldUp();
-	}
+		
+	} // end lostFocus
 
 	void DropDown::moveToTop(Widget* widget)
 	{
@@ -537,15 +557,17 @@ namespace gcn
 		{
 			getParent()->moveToTop(this);
 		}
-	}
+		
+	} // end moveToTop
 
     void DropDown::moveToBottom(Widget* widget)
 	{
 		if (getParent())
 		{
 			getParent()->moveToBottom(this);
-		}		
-	}
+		}
+		
+	} // end moveToBottom
 
 	void DropDown::_announceDeath(Widget* widget)
 	{		
@@ -556,14 +578,37 @@ namespace gcn
 		else
 		{
 			throw GCN_EXCEPTION("DropDown::_announceDeath. Death announced for unknown widget.");
-		}		
-	}
+		}
+		
+	} // end _announceDeath
 
 	void DropDown::action(const std::string& eventId)
 	{
 		foldUp();
 		generateAction();
-	}
+		
+	} // end action
+
+	void getDrawSize(int& width, int& height, Widget* widget)
+	{
+		if (widget == mScrollArea)
+		{
+			if (mDroppedDown)
+			{
+				height = getHeight() - mOldH;
+				width = getWidth();
+			}
+			else
+			{
+				width = height = 0;
+			}
+		}
+		else
+		{
+			throw GCN_EXCEPTION("DropDown::getDrawSize. widget is not the ScrollArea (wieeerd...)");
+		}
+		
+	} // end getDrawSize
 	
 } // end gcn
 

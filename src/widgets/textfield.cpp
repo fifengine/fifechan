@@ -59,9 +59,9 @@
  */
 
 #include "guichan/widgets/textfield.hpp"
-#include "guichan/mouseinput.hpp"
+
 #include "guichan/keyinput.hpp"
-#include <iostream>
+#include "guichan/mouseinput.hpp"
 
 namespace gcn
 {
@@ -155,34 +155,39 @@ namespace gcn
     {
       --mCaretPosition;
     }
+
     else if (key.getValue() == Key::RIGHT && mCaretPosition < mText.size())
     {
       ++mCaretPosition;
     }
-    else if (key.getValue() == Key::DELETE && mCaretPosition < mText.size())
+
+	else if (key.getValue() == Key::DELETE && mCaretPosition < mText.size())
     {
       mText.erase(mCaretPosition, 1);
     }
-    else if (key.getValue() == Key::BACKSPACE && mCaretPosition > 0)
+
+	else if (key.getValue() == Key::BACKSPACE && mCaretPosition > 0)
     {
       mText.erase(mCaretPosition - 1, 1);
       --mCaretPosition;
     }
-    else if (key.getValue() == Key::ENTER)
+
+	else if (key.getValue() == Key::ENTER)
     {
       generateAction();
     }
-    else if (key.getValue() == Key::HOME)
-//             || key.getValue() == 1)
+
+	else if (key.getValue() == Key::HOME)
     {
       mCaretPosition = 0;
     }    
-    else if (key.getValue() == Key::END)
-//             || key.getValue() == 5)
+
+	else if (key.getValue() == Key::END)
     {
       mCaretPosition = mText.size();
     }    
-    else if (key.isCharacter())
+
+	else if (key.isCharacter())
     {
       mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
       ++mCaretPosition;

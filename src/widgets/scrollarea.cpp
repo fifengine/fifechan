@@ -65,86 +65,86 @@
 
 namespace gcn
 {
+	
+	ScrollArea::ScrollArea()
+	{
+		mVScroll = 0;
+		mHScroll = 0;
+		mHPolicy = SHOW_AUTO;
+		mVPolicy = SHOW_AUTO;
+		mouseOverContent = false;
+		mVBarVisible = true;
+		mHBarVisible = true;
+		mScrollbarWidth = 12;
+		mContent = NULL;
+		mUpButtonPressed = false;
+		mDownButtonPressed = false;
+		mLeftButtonPressed = false;
+		mRightButtonPressed = false;
 
-  ScrollArea::ScrollArea()
-  {
-    mVScroll = 0;
-    mHScroll = 0;
-    mHPolicy = SHOW_AUTO;
-    mVPolicy = SHOW_AUTO;
-    mouseOverContent = false;
-    mVBarVisible = true;
-    mHBarVisible = true;
-    mScrollbarWidth = 12;
-    mContent = NULL;
-    mUpButtonPressed = false;
-    mDownButtonPressed = false;
-    mLeftButtonPressed = false;
-    mRightButtonPressed = false;
+		mVerticalMarkerPressed = false;
+		mVerticalMarkerMousePosition = 0;
+		mHorizontalMarkerPressed = false;
+		mHorizontalMarkerMousePosition = 0;
 
-    mVerticalMarkerPressed = false;
-    mVerticalMarkerMousePosition = 0;
-    mHorizontalMarkerPressed = false;
-    mHorizontalMarkerMousePosition = 0;
+		setFocusable(true);
+		setTabable(true);
+		addMouseListener(this);
 
-    setFocusable(true);
-    setTabable(true);
-    addMouseListener(this);
+	} // end ScrollArea
 
-  } // end ScrollArea
+	ScrollArea::ScrollArea(Widget *content)
+	{
+		mVScroll = 0;
+		mHScroll = 0;
+		mHPolicy = SHOW_AUTO;
+		mVPolicy = SHOW_AUTO;
+		mouseOverContent = false;
+		mVBarVisible = true;
+		mHBarVisible = true;
+		mScrollbarWidth = 12;
+		mContent = NULL;
+		mUpButtonPressed = false;
+		mDownButtonPressed = false;
+		mLeftButtonPressed = false;
+		mRightButtonPressed = false;
+		mVerticalMarkerPressed = false;
+		mVerticalMarkerMousePosition = 0;
+		mHorizontalMarkerPressed = false;
+		mHorizontalMarkerMousePosition = 0;
 
-  ScrollArea::ScrollArea(Widget *content)
-  {
-    mVScroll = 0;
-    mHScroll = 0;
-    mHPolicy = SHOW_AUTO;
-    mVPolicy = SHOW_AUTO;
-    mouseOverContent = false;
-    mVBarVisible = true;
-    mHBarVisible = true;
-    mScrollbarWidth = 12;
-    mContent = NULL;
-    mUpButtonPressed = false;
-    mDownButtonPressed = false;
-    mLeftButtonPressed = false;
-    mRightButtonPressed = false;
-    mVerticalMarkerPressed = false;
-    mVerticalMarkerMousePosition = 0;
-    mHorizontalMarkerPressed = false;
-    mHorizontalMarkerMousePosition = 0;
+		setContent(content);
+		setFocusable(true);
+		setTabable(true);
+		checkPolicies();
+		addMouseListener(this);
 
-    setContent(content);
-    setFocusable(true);
-    setTabable(true);
-    checkPolicies();
-    addMouseListener(this);
+	} // end ScrollArea
 
-  } // end ScrollArea
+	ScrollArea::ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy)
+	{
+		mVScroll = 0;
+		mHScroll = 0;
+		mHPolicy = hPolicy;
+		mVPolicy = vPolicy;
+		mouseOverContent = false;
+		mScrollbarWidth = 12;
+		mContent = content;
+		mUpButtonPressed = false;
+		mDownButtonPressed = false;
+		mLeftButtonPressed = false;
+		mRightButtonPressed = false;
+		mVerticalMarkerPressed = false;
+		mVerticalMarkerMousePosition = 0;
+		mHorizontalMarkerPressed = false;
+		mHorizontalMarkerMousePosition = 0;
 
-  ScrollArea::ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy)
-  {
-    mVScroll = 0;
-    mHScroll = 0;
-    mHPolicy = hPolicy;
-    mVPolicy = vPolicy;
-    mouseOverContent = false;
-    mScrollbarWidth = 12;
-    mContent = content;
-    mUpButtonPressed = false;
-    mDownButtonPressed = false;
-    mLeftButtonPressed = false;
-    mRightButtonPressed = false;
-    mVerticalMarkerPressed = false;
-    mVerticalMarkerMousePosition = 0;
-    mHorizontalMarkerPressed = false;
-    mHorizontalMarkerMousePosition = 0;
-
-    setFocusable(true);
-    setTabable(true);
-    checkPolicies();
-    addMouseListener(this);
+		setFocusable(true);
+		setTabable(true);
+		checkPolicies();
+		addMouseListener(this);
     
-  } // end ScrollArea
+	} // end ScrollArea
 
 	ScrollArea::~ScrollArea()
 	{
@@ -152,284 +152,284 @@ namespace gcn
 		
 	} // end ~ScrollArea
 	
-  void ScrollArea::setContent(Widget* widget)
-  {
-    if (mContent)
-    {
-      mContent->_setFocusHandler(NULL);
-      mContent->_setParent(NULL);
-    }
-    
-    mContent = widget;
-
-	if (mContent != NULL)
+	void ScrollArea::setContent(Widget* widget)
 	{
-		mContent->_setFocusHandler(_getFocusHandler());
-		mContent->_setParent(this);
-	}
+		if (mContent)
+		{
+			mContent->_setFocusHandler(NULL);
+			mContent->_setParent(NULL);
+		}
+    
+		mContent = widget;
+
+		if (mContent != NULL)
+		{
+			mContent->_setFocusHandler(_getFocusHandler());
+			mContent->_setParent(this);
+		}
 	
-  } // end setContent
+	} // end setContent
   
-  Widget* ScrollArea::getContent()
-  {
-    return mContent;
+	Widget* ScrollArea::getContent()
+	{
+		return mContent;
 
-  } // end getContent
+	} // end getContent
 
-  void ScrollArea::setHorizontalScrollPolicy(unsigned int hPolicy)
-  {
-    mHPolicy = hPolicy;
-    checkPolicies();
+	void ScrollArea::setHorizontalScrollPolicy(unsigned int hPolicy)
+	{
+		mHPolicy = hPolicy;
+		checkPolicies();
 
-  } // end setHorizontalScrollPolicy
+	} // end setHorizontalScrollPolicy
 
-  unsigned int ScrollArea::getHorizontalScrollPolicy()
-  {
-    return mHPolicy;
+	unsigned int ScrollArea::getHorizontalScrollPolicy()
+	{
+		return mHPolicy;
 
-  } // end getHorizontalScrollPolicy
+	} // end getHorizontalScrollPolicy
 
-  void ScrollArea::setVerticalScrollPolicy(unsigned int vPolicy)
-  {
-    mVPolicy = vPolicy;
-    checkPolicies();
+	void ScrollArea::setVerticalScrollPolicy(unsigned int vPolicy)
+	{
+		mVPolicy = vPolicy;
+		checkPolicies();
 
-  } // end setVerticalScrollPolicy
+	} // end setVerticalScrollPolicy
 
-  unsigned int ScrollArea::getVerticalScrollPolicy()
-  {
-    return mVPolicy;
+	unsigned int ScrollArea::getVerticalScrollPolicy()
+	{
+		return mVPolicy;
 
-  } // end getVerticalScrollPolicy
+	} // end getVerticalScrollPolicy
 
-  void ScrollArea::setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy)
-  {
-    mHPolicy = hPolicy;
-    mVPolicy = vPolicy;
-    checkPolicies();
+	void ScrollArea::setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy)
+	{
+		mHPolicy = hPolicy;
+		mVPolicy = vPolicy;
+		checkPolicies();
 
-  } // end setScrollPolicy
+	} // end setScrollPolicy
 
-  void ScrollArea::setVerticalScrollAmount(int vScroll)
-  {
-    int max = getVerticalMaxScroll();
+	void ScrollArea::setVerticalScrollAmount(int vScroll)
+	{
+		int max = getVerticalMaxScroll();
 
-    mVScroll = vScroll;
+		mVScroll = vScroll;
     
-    if (vScroll > max)
-    {
-      mVScroll = max;
-    }
+		if (vScroll > max)
+		{
+			mVScroll = max;
+		}
     
-    if (vScroll < 0)
-    {
-      mVScroll = 0;
-    }
+		if (vScroll < 0)
+		{
+			mVScroll = 0;
+		}
 
-  } // end setVerticalScrollAmount
+	} // end setVerticalScrollAmount
 
-  int ScrollArea::getVerticalScrollAmount()
-  {
-    return mVScroll;
+	int ScrollArea::getVerticalScrollAmount()
+	{
+		return mVScroll;
 
-  } // end getVerticalScrollAmount
+	} // end getVerticalScrollAmount
 
-  void ScrollArea::setHorizontalScrollAmount(int hScroll)
-  {
-    int max = getHorizontalMaxScroll();
+	void ScrollArea::setHorizontalScrollAmount(int hScroll)
+	{
+		int max = getHorizontalMaxScroll();
     
-    mHScroll = hScroll;
+		mHScroll = hScroll;
 	
-    if (hScroll > max)
-    {
-      mHScroll = max;
-    }
-    else if (hScroll < 0)
-    {
-      mHScroll = 0;
-    }
+		if (hScroll > max)
+		{
+			mHScroll = max;
+		}
+		else if (hScroll < 0)
+		{
+			mHScroll = 0;
+		}
 
-  } // end setHorizontalScrollAmount
+	} // end setHorizontalScrollAmount
 
-  int ScrollArea::getHorizontalScrollAmount()
-  {
-    return mHScroll;
+	int ScrollArea::getHorizontalScrollAmount()
+	{
+		return mHScroll;
 
-  } // end getHorizontalScrollAmount
+	} // end getHorizontalScrollAmount
 
-  void ScrollArea::setScrollAmount(int hScroll, int vScroll)
-  {
-    setHorizontalScrollAmount(hScroll);
-    setVerticalScrollAmount(vScroll);
+	void ScrollArea::setScrollAmount(int hScroll, int vScroll)
+	{
+		setHorizontalScrollAmount(hScroll);
+		setVerticalScrollAmount(vScroll);
 
-  } // end setScrollAmount
+	} // end setScrollAmount
 
-  int ScrollArea::getHorizontalMaxScroll()
-  {
-    checkPolicies();
+	int ScrollArea::getHorizontalMaxScroll()
+	{
+		checkPolicies();
 
-    if (mContent == NULL)
-    {
-      return 0;
-    }
+		if (mContent == NULL)
+		{
+			return 0;
+		}
         
-    int value = mContent->getWidth() - getContentDimension().width;
+		int value = mContent->getWidth() - getContentDimension().width;
 
-    if (value < 0)
-    {
-      return 0;
-    }
+		if (value < 0)
+		{
+			return 0;
+		}
 
-    return value;
+		return value;
 
-  } // end getHorizontalMaxScroll
+	} // end getHorizontalMaxScroll
 
-  int ScrollArea::getVerticalMaxScroll()
-  {
-    checkPolicies();
+	int ScrollArea::getVerticalMaxScroll()
+	{
+		checkPolicies();
 
-    if (mContent == NULL)
-    {
-      return 0;
-    }
+		if (mContent == NULL)
+		{
+			return 0;
+		}
 
-    int value;
+		int value;
     
-    value = mContent->getHeight() - getContentDimension().height;
+		value = mContent->getHeight() - getContentDimension().height;
     
-    if (value < 0)
-    {
-      return 0;
-    }
+		if (value < 0)
+		{
+			return 0;
+		}
 
-    return value;
+		return value;
 
-  } // getVerticalMaxScroll
+	} // getVerticalMaxScroll
 
-  void ScrollArea::setScrollbarWidth(int width)
-  {
-    if (width > 0)
-    {
-      mScrollbarWidth = width;
-    }
-    else
-    {
-      throw GCN_EXCEPTION("ScrollArea::setScrollbarWidth. width should be greater then 0");
-    }
+	void ScrollArea::setScrollbarWidth(int width)
+	{
+		if (width > 0)
+		{
+			mScrollbarWidth = width;
+		}
+		else
+		{
+			throw GCN_EXCEPTION("ScrollArea::setScrollbarWidth. width should be greater then 0");
+		}
 
-  } // end setScrollbarWidth
+	} // end setScrollbarWidth
 
-  int ScrollArea::getScrollbarWidth()
-  {
-    return mScrollbarWidth;
+	int ScrollArea::getScrollbarWidth()
+	{
+		return mScrollbarWidth;
 
-  } // end getScrollbarWidth
+	} // end getScrollbarWidth
 
-  void ScrollArea::_setFocusHandler(FocusHandler* focusHandler)
-  {
-    BasicContainer::_setFocusHandler(focusHandler);
+	void ScrollArea::_setFocusHandler(FocusHandler* focusHandler)
+	{
+		BasicContainer::_setFocusHandler(focusHandler);
 
-    if (mContent)
-    {
-      mContent->_setFocusHandler(focusHandler);
-    }
+		if (mContent)
+		{
+			mContent->_setFocusHandler(focusHandler);
+		}
 
-  } // end _setFocusHandler
+	} // end _setFocusHandler
 
-  void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
-  {
-    BasicContainer::_mouseInputMessage(mouseInput);
+	void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
+	{
+		BasicContainer::_mouseInputMessage(mouseInput);
     
-    if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
-    {
-      if (mContent != NULL)
-      {
-        if (!mContent->hasMouse())
-        {
-          mContent->_mouseInMessage();          
-        }
+		if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
+		{
+			if (mContent != NULL)
+			{
+				if (!mContent->hasMouse())
+				{
+					mContent->_mouseInMessage();          
+				}
         
-        // Only send mousemessages to the content if it is not focused
-        // (focused widgets always receive mousemessages)
-        if (!mContent->hasFocus())
-        {          
-          MouseInput mi = mouseInput;
+				// Only send mousemessages to the content if it is not focused
+				// (focused widgets always receive mousemessages)
+				if (!mContent->hasFocus())
+				{          
+					MouseInput mi = mouseInput;
           
-          mi.x -= mContent->getX();
-          mi.y -= mContent->getY();
+					mi.x -= mContent->getX();
+					mi.y -= mContent->getY();
 
-          if (mi.x >= mContent->getWidth())
-          {
-            mi.x = mContent->getWidth() - 1;
-          }
+					if (mi.x >= mContent->getWidth())
+					{
+						mi.x = mContent->getWidth() - 1;
+					}
 
-          if (mi.y >= mContent->getHeight())
-          {
-            mi.y = mContent->getHeight() - 1;
-          }          
+					if (mi.y >= mContent->getHeight())
+					{
+						mi.y = mContent->getHeight() - 1;
+					}          
           
-          mContent->_mouseInputMessage(mi);
-        }
-      }      
-    }
-    else
-    {
-      if (mContent && mContent->hasMouse())
-      {
-        mContent->_mouseOutMessage();
-      }     
-    }
+					mContent->_mouseInputMessage(mi);
+				}
+			}      
+		}
+		else
+		{
+			if (mContent && mContent->hasMouse())
+			{
+				mContent->_mouseOutMessage();
+			}     
+		}
 
-  } // end _mouseInputMessage
+	} // end _mouseInputMessage
 
-  void ScrollArea::_mouseOutMessage()
-  {
-    if (mContent && mContent->hasMouse())
-    {
-      mContent->_mouseOutMessage();
-    }
+	void ScrollArea::_mouseOutMessage()
+	{
+		if (mContent && mContent->hasMouse())
+		{
+			mContent->_mouseOutMessage();
+		}
 	
-    BasicContainer::_mouseOutMessage();
+		BasicContainer::_mouseOutMessage();
 
-  } // end _mouseOutMessage
+	} // end _mouseOutMessage
   
-  void ScrollArea::mousePress(int x, int y, int button)
-  {
-    if (getUpButtonDimension().isPointInRect(x, y))
-    {
-      setVerticalScrollAmount(getVerticalScrollAmount() - 10);
-      mUpButtonPressed = true;
-    }
-    else if (getDownButtonDimension().isPointInRect(x, y))
-    {
-      setVerticalScrollAmount(getVerticalScrollAmount() + 10);
-      mDownButtonPressed = true;
-    }
-    else if (getLeftButtonDimension().isPointInRect(x, y))
-    {
-      setHorizontalScrollAmount(getHorizontalScrollAmount() - 10);
-      mLeftButtonPressed = true;
-    }
-    else if (getRightButtonDimension().isPointInRect(x, y))
-    {
-      setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
-      mRightButtonPressed = true;
-    }		
-    else if (getVerticalMarkerDimension().isPointInRect(x, y))
-    {
-      mVerticalMarkerPressed = true;
-      mVerticalMarkerMousePosition = y - getVerticalMarkerDimension().y;
-    }
-    else if (getHorizontalMarkerDimension().isPointInRect(x, y))
-    {
-      mHorizontalMarkerPressed = true;
-      mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
-    }
+	void ScrollArea::mousePress(int x, int y, int button)
+	{
+		if (getUpButtonDimension().isPointInRect(x, y))
+		{
+			setVerticalScrollAmount(getVerticalScrollAmount() - 10);
+			mUpButtonPressed = true;
+		}
+		else if (getDownButtonDimension().isPointInRect(x, y))
+		{
+			setVerticalScrollAmount(getVerticalScrollAmount() + 10);
+			mDownButtonPressed = true;
+		}
+		else if (getLeftButtonDimension().isPointInRect(x, y))
+		{
+			setHorizontalScrollAmount(getHorizontalScrollAmount() - 10);
+			mLeftButtonPressed = true;
+		}
+		else if (getRightButtonDimension().isPointInRect(x, y))
+		{
+			setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
+			mRightButtonPressed = true;
+		}		
+		else if (getVerticalMarkerDimension().isPointInRect(x, y))
+		{
+			mVerticalMarkerPressed = true;
+			mVerticalMarkerMousePosition = y - getVerticalMarkerDimension().y;
+		}
+		else if (getHorizontalMarkerDimension().isPointInRect(x, y))
+		{
+			mHorizontalMarkerPressed = true;
+			mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
+		}
     
-  } // end mousePress
+	} // end mousePress
 
-  void ScrollArea::mouseRelease(int x, int y, int button)
-  {
+	void ScrollArea::mouseRelease(int x, int y, int button)
+	{
     mUpButtonPressed = false;
     mDownButtonPressed = false;
     mLeftButtonPressed = false;
@@ -1289,3 +1289,7 @@ namespace gcn
   } // end mouseWheelDown
 
 } // end gcn
+
+/*
+ * Wow! This is a looooong source file. 1295 lines!
+ */

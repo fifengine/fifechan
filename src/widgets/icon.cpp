@@ -58,24 +58,24 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/widgets/icon.hpp"
-#include "guichan/rectangle.hpp"
 #include "guichan/container.hpp"
+#include "guichan/rectangle.hpp"
+#include "guichan/widgets/icon.hpp"
 
 namespace gcn
 {
 
-  Icon::Icon(Image* image)
-  {
-    mImage = image;
-    setHeight(image->getHeight());
-    setWidth(image->getWidth());
-  } // end Icon
+	Icon::Icon(Image* image)
+	{
+		mImage = image;
+		setHeight(image->getHeight());
+		setWidth(image->getWidth());
+	} // end Icon
 
-  void Icon::draw(Graphics* graphics)
-  {
-    graphics->drawImage(mImage, 0, 0);
+	void Icon::draw(Graphics* graphics)
+	{
+		graphics->drawImage(mImage, 0, 0);
 
-  } // draw
+	} // draw
   
 } // end gcn

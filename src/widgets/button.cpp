@@ -64,141 +64,147 @@
 
 namespace gcn
 {
-  Button::Button()
-  {
-    addMouseListener(this);
-    addKeyListener(this);
-    adjustSize();
+	Button::Button()
+	{
+		addMouseListener(this);
+		addKeyListener(this);
+		adjustSize();
     
-  } // end Button
+	} // end Button
   
-  Button::Button(const std::string& text)
-  {
-    mText = text;
-    setFocusable(true);
-    adjustSize();
+	Button::Button(const std::string& caption)
+	{
+		mCaption = caption;
+		setFocusable(true);
+		adjustSize();
     
-    mMouseDown = false;
-    mKeyDown = false;
+		mMouseDown = false;
+		mKeyDown = false;
 
-    addMouseListener(this);
-    addKeyListener(this);
+		addMouseListener(this);
+		addKeyListener(this);
     
-  } // end Button
+	} // end Button
 
-  void Button::setText(const std::string& text)
-  {
-    mText = text;
+	const std::string& getCaption()
+	{
+		return mCaption;
+
+	} // end getCaption
+	
+	void Button::setCaption(const std::string& caption)
+	{
+		mCaption = caption;
     
-  } // end setText
+	} // end setText
   
-  void Button::draw(Graphics* graphics)
-  {
-    graphics->setFont(getFont());
+	void Button::draw(Graphics* graphics)
+	{
+		graphics->setFont(getFont());
 
-    Color faceColor = getBaseColor();
-    Color highlightColor, shadowColor;
+		Color faceColor = getBaseColor();
+		Color highlightColor, shadowColor;
 
-    if ((hasMouse() && mMouseDown) || mKeyDown)
-    {
-      faceColor = faceColor - 0x303030;
-      highlightColor = faceColor - 0x303030;
-      shadowColor = faceColor + 0x303030;      
-    }
-    else
-    {
-      highlightColor = faceColor + 0x303030;
-      shadowColor = faceColor - 0x303030;      
-    }
+		if ((hasMouse() && mMouseDown) || mKeyDown)
+		{
+			faceColor = faceColor - 0x303030;
+			highlightColor = faceColor - 0x303030;
+			shadowColor = faceColor + 0x303030;      
+		}
+		else
+		{
+			highlightColor = faceColor + 0x303030;
+			shadowColor = faceColor - 0x303030;      
+		}
 
-    graphics->setColor(faceColor);
-    graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getHeight() - 1));
+		graphics->setColor(faceColor);
+		graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getHeight() - 1));
     
-    graphics->setColor(highlightColor);
-    graphics->drawLine(0, 0, getWidth() - 1, 0);
-    graphics->drawLine(0, 1, 0, getHeight() - 1);
+		graphics->setColor(highlightColor);
+		graphics->drawLine(0, 0, getWidth() - 1, 0);
+		graphics->drawLine(0, 1, 0, getHeight() - 1);
     
-    graphics->setColor(shadowColor);
-    graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
-    graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
+		graphics->setColor(shadowColor);
+		graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
+		graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
 
-    graphics->setColor(getForegroundColor());
-    if ((hasMouse() && mMouseDown) || mKeyDown)
-    {
-      graphics->drawText(mText, 5, 5);
-    }
-    else
-    {
-      graphics->drawText(mText, 4, 4);
+		graphics->setColor(getForegroundColor());
+		if ((hasMouse() && mMouseDown) || mKeyDown)
+		{
+			graphics->drawText(mCaption, 5, 5);
+		}
+		else
+		{
+			graphics->drawText(mCaption, 4, 4);
 
-      if (hasFocus())
-      {
-        graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4, getDimension().height - 4));
-      }      
-    }
+			if (hasFocus())
+			{
+				graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4, getDimension().height - 4));
+			}      
+		}
     
-  } // end draw
+	} // end draw
   
-  void Button::adjustSize()
-  {
-    setWidth(getFont()->getWidth(mText) + 8);
-    setHeight(getFont()->getHeight() + 8);
+	void Button::adjustSize()
+	{
+		setWidth(getFont()->getWidth(mCaption) + 8);
+		setHeight(getFont()->getHeight() + 8);
 
-  } // end adjustSize
+	} // end adjustSize
 
-  void Button::mouseClick(int x, int y, int button, int count)
-  {
-    if (button == MouseInput::LEFT)
-    {
-      generateAction();
-    }
+	void Button::mouseClick(int x, int y, int button, int count)
+	{
+		if (button == MouseInput::LEFT)
+		{
+			generateAction();
+		}
 
-  } // end mouseClick
+	} // end mouseClick
 
-  void Button::mousePress(int x, int y, int button)
-  {
-    if (button == MouseInput::LEFT && hasMouse())
-    {      
-      mMouseDown = true;
-    }
+	void Button::mousePress(int x, int y, int button)
+	{
+		if (button == MouseInput::LEFT && hasMouse())
+		{      
+			mMouseDown = true;
+		}
 
-  } // end mousePress
+	} // end mousePress
 
-  void Button::mouseRelease(int x, int y, int button)
-  {
-    if (button == MouseInput::LEFT)
-    {      
-      mMouseDown = false;
-    }
+	void Button::mouseRelease(int x, int y, int button)
+	{
+		if (button == MouseInput::LEFT)
+		{      
+			mMouseDown = false;
+		}
 
-  } // end mouseRelease
+	} // end mouseRelease
   
-  void Button::keyPress(const Key& key)
-  {
-    if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
-    {
-      mKeyDown = true;
-   }
+	void Button::keyPress(const Key& key)
+	{
+		if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+		{
+			mKeyDown = true;
+		}
 
-    mMouseDown = false;
+		mMouseDown = false;
     
-  } // end keyPress
+	} // end keyPress
 
-  void Button::keyRelease(const Key& key)
-  {
-    if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE) && mKeyDown)
-    {
-      mKeyDown = false;
-      generateAction();
-    }
+	void Button::keyRelease(const Key& key)
+	{
+		if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE) && mKeyDown)
+		{
+			mKeyDown = false;
+			generateAction();
+		}
 
-  } // end keyRelease
+	} // end keyRelease
 
-  void Button::lostFocus()
-  {
-    mMouseDown = false;
-    mKeyDown = false;
+	void Button::lostFocus()
+	{
+		mMouseDown = false;
+		mKeyDown = false;
 
-  } // end lostFocus
+	} // end lostFocus
   
 } // end gcn

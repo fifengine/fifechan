@@ -54,168 +54,170 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/widgets/listbox.hpp"
-#include "guichan/basiccontainer.hpp"
-#include "guichan/widgets/scrollarea.hpp"
+/*
+ * For comments regarding functions please see the header file. 
+ */
 
-#include <iostream>
+#include "guichan/basiccontainer.hpp"
+#include "guichan/widgets/listbox.hpp"
+#include "guichan/widgets/scrollarea.hpp"
 
 namespace gcn
 {
-  ListBox::ListBox()
-  {    
-    mSelected = -1;
-    mListModel = NULL;
-    setWidth(100);
-    setFocusable(true);
+	ListBox::ListBox()
+	{    
+		mSelected = -1;
+		mListModel = NULL;
+		setWidth(100);
+		setFocusable(true);
     
-    addMouseListener(this);
-    addKeyListener(this);
-  }
+		addMouseListener(this);
+		addKeyListener(this);
+	}
 
-  ListBox::ListBox(ListModel *listModel)
-  {
-    mSelected = -1;
-    setWidth(100);
-    setListModel(listModel);
-    setFocusable(true);
+	ListBox::ListBox(ListModel *listModel)
+	{
+		mSelected = -1;
+		setWidth(100);
+		setListModel(listModel);
+		setFocusable(true);
     
-    addMouseListener(this);
-    addKeyListener(this);
-  }
+		addMouseListener(this);
+		addKeyListener(this);
+	}
 
-  void ListBox::draw(Graphics* graphics)
-  {
-    graphics->setColor(getBackgroundColor());
-    graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+	void ListBox::draw(Graphics* graphics)
+	{
+		graphics->setColor(getBackgroundColor());
+		graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
-    if (mListModel == NULL)      
-    {
-      return;
-    }
+		if (mListModel == NULL)      
+		{
+			return;
+		}
     
-    graphics->setColor(getForegroundColor());
-    graphics->setFont(getFont());    
+		graphics->setColor(getForegroundColor());
+		graphics->setFont(getFont());    
     
-    int i, fontHeight;
-    int y = 0;
+		int i, fontHeight;
+		int y = 0;
     
-    fontHeight = getFont()->getHeight();
+		fontHeight = getFont()->getHeight();
     
-    /**
-     * @todo Check cliprects so we do not have to iterate over elements in the list model
-     */
-    for (i = 0; i < mListModel->getNumberOfElements(); ++i)
-    {      
-      if (i == mSelected)
-      {
-        graphics->drawRectangle(Rectangle(0, y, getWidth(), fontHeight));
-      }
+		/**
+		 * @todo Check cliprects so we do not have to iterate over elements in the list model
+		 */
+		for (i = 0; i < mListModel->getNumberOfElements(); ++i)
+		{      
+			if (i == mSelected)
+			{
+				graphics->drawRectangle(Rectangle(0, y, getWidth(), fontHeight));
+			}
       
-      graphics->drawText(mListModel->getElementAt(i), 1, y);      
+			graphics->drawText(mListModel->getElementAt(i), 1, y);      
 
-      y += fontHeight;
-    }
+			y += fontHeight;
+		}
     
-  } // end draw
+	} // end draw
   
-  void ListBox::logic()
-  {
-    adjustSize();
+	void ListBox::logic()
+	{
+		adjustSize();
     
-  } // end logic
+	} // end logic
 
-  int ListBox::getSelected()
-  {
-    return mSelected;
+	int ListBox::getSelected()
+	{
+		return mSelected;
 
-  } // end getSelected
+	} // end getSelected
 
-  void ListBox::setSelected(int selected)
-  {
-    if (mListModel == NULL)
-    {
-      mSelected = -1;
-    }
-    else
-    {
-      if (selected < 0)
-      {
-        mSelected = -1;
-      }
-      else if (selected >= mListModel->getNumberOfElements())
-      {
-        mSelected = mListModel->getNumberOfElements() - 1;
-      }
-      else
-      {
-        mSelected = selected;
-      }
+	void ListBox::setSelected(int selected)
+	{
+		if (mListModel == NULL)
+		{
+			mSelected = -1;
+		}
+		else
+		{
+			if (selected < 0)
+			{
+				mSelected = -1;
+			}
+			else if (selected >= mListModel->getNumberOfElements())
+			{
+				mSelected = mListModel->getNumberOfElements() - 1;
+			}
+			else
+			{
+				mSelected = selected;
+			}
 
-      if (typeid(*getParent()) == typeid(ScrollArea))
-      {
-        ScrollArea* scrollArea = (ScrollArea*)getParent();
-        Rectangle scroll;
-        scroll.y = getFont()->getHeight() * mSelected;
-        scroll.height = getFont()->getHeight();
-        scrollArea->scrollToRectangle(scroll);
-      }
-    }
+			if (typeid(*getParent()) == typeid(ScrollArea))
+			{
+				ScrollArea* scrollArea = (ScrollArea*)getParent();
+				Rectangle scroll;
+				scroll.y = getFont()->getHeight() * mSelected;
+				scroll.height = getFont()->getHeight();
+				scrollArea->scrollToRectangle(scroll);
+			}
+		}
 
-  } // end setSelected
+	} // end setSelected
 
-  void ListBox::keyPress(const Key& key)
-  {    
-    if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
-    {
-      generateAction();
-    }
-    else if (key.getValue() == Key::UP)
-    {      
-      setSelected(mSelected - 1);
+	void ListBox::keyPress(const Key& key)
+	{    
+		if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+		{
+			generateAction();
+		}
+		else if (key.getValue() == Key::UP)
+		{      
+			setSelected(mSelected - 1);
 
-      if (mSelected == -1)
-      {
-        setSelected(0);
-      }
-    }
-    else if (key.getValue() == Key::DOWN)
-    {
-      setSelected(mSelected + 1);
-    }
+			if (mSelected == -1)
+			{
+				setSelected(0);
+			}
+		}
+		else if (key.getValue() == Key::DOWN)
+		{
+			setSelected(mSelected + 1);
+		}
 
-  } // end keyPress
+	} // end keyPress
 
-  void ListBox::mousePress(int x, int y, int button)
-  {
-    if (button == MouseInput::LEFT && hasMouse())
-    {
-      setSelected(y / getFont()->getHeight());
-      generateAction();
-    }
-  } // end mousePress
+	void ListBox::mousePress(int x, int y, int button)
+	{
+		if (button == MouseInput::LEFT && hasMouse())
+		{
+			setSelected(y / getFont()->getHeight());
+			generateAction();
+		}
+	} // end mousePress
 
-  void ListBox::setListModel(ListModel *listModel)
-  {
-    mSelected = -1;
-    mListModel = listModel;
-    adjustSize();
+	void ListBox::setListModel(ListModel *listModel)
+	{
+		mSelected = -1;
+		mListModel = listModel;
+		adjustSize();
     
-  } // end setListModel
+	} // end setListModel
   
-  ListModel* ListBox::getListModel()
-  {
-    return mListModel;
+	ListModel* ListBox::getListModel()
+	{
+		return mListModel;
     
-  } // end getListModel
+	} // end getListModel
 
-  void ListBox::adjustSize()
-  {
-    if (mListModel != NULL)
-    {      
-      setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
-    }
+	void ListBox::adjustSize()
+	{
+		if (mListModel != NULL)
+		{      
+			setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
+		}
     
-  } // end adjustSize
+	} // end adjustSize
   
 } // end gcn
