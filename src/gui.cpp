@@ -56,12 +56,10 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/gui.hpp"
-#include "guichan/focushandler.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/focushandler.hpp"
+#include "guichan/gui.hpp"
 #include "guichan/key.hpp"
-
-#include <iostream>
 
 namespace gcn
 {
@@ -78,7 +76,10 @@ namespace gcn
 
   Gui::~Gui()
   {
-		setTop(NULL);
+		if (Widget::widgetExists(mTop))
+		{
+			setTop(NULL);
+		}
 		
     delete mFocusHandler;
 
