@@ -332,11 +332,8 @@ namespace gcn
 	}
   
 	void Container::_mouseInputMessage(const MouseInput &mouseInput)
-	{
-		BasicContainer::_mouseInputMessage(mouseInput);
-		
+	{		
 		Widget* tempWidgetWithMouse = NULL;
-//    Widget* widgetWithMouseDragged = NULL;
 		
 		WidgetIterator iter;    
 		for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
@@ -346,10 +343,6 @@ namespace gcn
 			{
 				tempWidgetWithMouse = (*iter);
 			}
-// 			if ((*iter)->isMouseDragged())
-// 			{
-// 				widgetWithMouseDragged = *iter;
-// 			}
 		}
 
 		if (tempWidgetWithMouse != mWidgetWithMouse)
@@ -367,7 +360,7 @@ namespace gcn
 			mWidgetWithMouse = tempWidgetWithMouse;
 		}
     
-		if (mWidgetWithMouse)
+		if (mWidgetWithMouse != NULL)
 		{
 			MouseInput mi = mouseInput;
 			mi.x -= mWidgetWithMouse->getX();
@@ -375,19 +368,11 @@ namespace gcn
 			mWidgetWithMouse->_mouseInputMessage(mi);
 		}
 
-// 		if (widgetWithMouseDragged && !widgetWithMouseDragged->hasFocus())
-// 		{
-// 			MouseInput mi = mouseInput;
-// 			mi.x -= widgetWithMouseDragged->getX();
-// 			mi.y -= widgetWithMouseDragged->getY();      
-// 			widgetWithMouseDragged->_mouseInputMessage(mi);
-// 		}
-
-// 		if (mWidgetWithMouse == NULL)
-// 		{
-// 			Widget::_mouseInputMessage(mouseInput);
-// 		}
-	} // end _mouseInputMessage
+ 		if (mWidgetWithMouse == NULL)
+ 		{
+ 			BasicContainer::_mouseInputMessage(mouseInput);
+ 		}        
+	}
 
 	void Container::_mouseOutMessage()
 	{
