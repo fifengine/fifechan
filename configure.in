@@ -51,7 +51,7 @@ AC_LANG_CPLUSPLUS
 AC_PROG_INSTALL
 AC_HEADER_STDC
 
-CXXFLAGS="$CXXFLAGS -pedantic -Wall -Werror"
+CXXFLAGS="$CXXFLAGS -pedantic -Wall -Werror -DGUICHAN_BUILD"
 
 NoX()
 {
@@ -178,9 +178,7 @@ src/allegro/Makefile
 src/opengl/Makefile
 src/sdl/Makefile
 src/widgets/Makefile
-src/x/Makefile
-guichan-config
-], [chmod +x guichan-config])
+src/x/Makefile])
 
 echo "-------------------------------"
 echo "Gui-chan ready for compilation!" 
