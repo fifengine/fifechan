@@ -60,7 +60,12 @@
 #include "guichan/exception.hpp"
 
 namespace gcn
-{  
+{
+	SDLInput::SDLInput()
+	{
+		mWindowHasMouse = true;
+	}
+	
   bool SDLInput::isKeyQueueEmpty()
   {
     return mKeyInputQueue.empty();

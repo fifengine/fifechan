@@ -76,7 +76,7 @@ namespace gcn
     /**
      * Constructor.
      */
-    SDLInput() { }
+    SDLInput();
 
 		/**
      * This function pushes an SDL event. It should be called
