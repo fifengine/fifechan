@@ -68,9 +68,8 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustSize();
-    setBorderSize(1);
-		
-	} // end Button
+		setBorderSize(1);		
+	}
   
 	Button::Button(const std::string& caption)
 	{
@@ -84,21 +83,18 @@ namespace gcn
 		mKeyDown = false;
 
 		addMouseListener(this);
-		addKeyListener(this);
-    
-	} // end Button
+		addKeyListener(this);    
+	}
 
 	void Button::setCaption(const std::string& caption)
 	{
-		mCaption = caption;
-    
-	} // end setCaption
+		mCaption = caption;    
+	}
 
-	const std::string& Button::getCaption()
+	const std::string& Button::getCaption() const
 	{
-		return mCaption;
-		
-	} // end getCaption
+		return mCaption;		
+	}
 
 	void Button::setAlignment(unsigned int alignment)
 	{
@@ -179,9 +175,8 @@ namespace gcn
 				graphics->drawRectangle(Rectangle(2, 2, getDimension().width - 4,
 																					getDimension().height - 4));
 			}      
-		}
-    
-	} // end draw
+		}    
+	}
 
   void Button::drawBorder(Graphics* graphics)
 	{
@@ -211,17 +206,20 @@ namespace gcn
 	{
 		setWidth(getFont()->getWidth(mCaption) + 8);
 		setHeight(getFont()->getHeight() + 8);
+	}
 
-	} // end adjustSize
-
+	bool Button::isPressed() const
+	{
+		return ((hasMouse() && mMouseDown) || mKeyDown);
+	}
+	
 	void Button::mouseClick(int x, int y, int button, int count)
 	{
 		if (button == MouseInput::LEFT)
 		{
 			generateAction();
 		}
-
-	} // end mouseClick
+	}
 
 	void Button::mousePress(int x, int y, int button)
 	{
@@ -229,8 +227,7 @@ namespace gcn
 		{      
 			mMouseDown = true;
 		}
-
-	} // end mousePress
+	}
 
 	void Button::mouseRelease(int x, int y, int button)
 	{
@@ -238,8 +235,7 @@ namespace gcn
 		{      
 			mMouseDown = false;
 		}
-
-	} // end mouseRelease
+	}
   
 	void Button::keyPress(const Key& key)
 	{
@@ -248,9 +244,8 @@ namespace gcn
 			mKeyDown = true;
 		}
 
-		mMouseDown = false;
-    
-	} // end keyPress
+		mMouseDown = false;    
+	}
 
 	void Button::keyRelease(const Key& key)
 	{
@@ -259,14 +254,12 @@ namespace gcn
 			mKeyDown = false;
 			generateAction();
 		}
-
-	} // end keyRelease
+	}
 
 	void Button::lostFocus()
 	{
 		mMouseDown = false;
 		mKeyDown = false;
-
-	} // end lostFocus
+	}
   
 } // end gcn

@@ -97,7 +97,7 @@ namespace gcn
 		/**
 		 * @return the caption of the button.		 
 		 */
-		virtual const std::string& getCaption();
+		virtual const std::string& getCaption() const;
 
 		/**
 		 * Set the alignment for the caption.
@@ -118,6 +118,13 @@ namespace gcn
 		 * Adjusts the buttons size to fit the content.     
 		 */
 		virtual void adjustSize();
+
+		/**
+		 * Checks if the button is pressed down, useful when drawing
+		 *
+		 * @return true if the button is pressed down.
+		 */
+		virtual bool isPressed() const;
 
 		
 		//Inherited from Widget
@@ -144,7 +151,7 @@ namespace gcn
     
 		virtual void keyRelease(const Key& key);
     
-	private:
+	protected:
 		std::string mCaption;
 		bool mMouseDown, mKeyDown;
 		unsigned int mAlignment;
