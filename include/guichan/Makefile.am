@@ -24,6 +24,7 @@ libguichaninclude_HEADERS =	\
 	key.hpp			\
 	keyinput.hpp		\
 	keylistener.hpp		\
+	listmodel.hpp		\
 	mouseinput.hpp		\
 	mouselistener.hpp	\
 	mousetype.hpp		\
