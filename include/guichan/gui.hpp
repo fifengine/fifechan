@@ -140,6 +140,7 @@ namespace gcn
     void draw();
     
   protected:
+    bool mTopHasMouse;
     Widget* mTop;
     Graphics* mGraphics;
     Input* mInput;

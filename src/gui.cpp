@@ -74,7 +74,7 @@ namespace gcn
     mInput = NULL;
     mGraphics = NULL;
     mFocusHandler = new FocusHandler();
-
+    mTopHasMouse = false;
   } // end Gui
 
   Gui::~Gui()
@@ -142,18 +142,37 @@ namespace gcn
         MouseInput mi = mInput->dequeueMouseInput();
 
         Widget* focused = mFocusHandler->getFocused();
+
+        if (mi.x > 0 && mi.y > 0 && mTop->getDimension().isPointInRect(mi.x, mi.y))
+        {
+          if (!mTopHasMouse)
+          {
+            mTop->_mouseInMessage();
+            mTopHasMouse = true;
+          }
+          
+          MouseInput mio = mi;
+          mio.x -= mTop->getX();
+          mio.y -= mTop->getY();        
+          
+          mTop->_mouseInputMessage(mio);
+        }
+        else
+        {
+          if (mTopHasMouse)
+          {
+            mTop->_mouseOutMessage();
+            mTopHasMouse = false;
+          }
+        }
         
-        MouseInput mio = mi;
-        mio.x -= mTop->getX();
-        mio.y -= mTop->getY();        
         
-        mTop->_mouseInputMessage(mio);
 
         if (mFocusHandler->getFocused() && focused == mFocusHandler->getFocused())
         {
           int xOffset, yOffset;
           mFocusHandler->getFocused()->getAbsolutePosition(xOffset, yOffset);
-          mio = mi;
+          MouseInput mio = mi;
           mio.x -= xOffset;
           mio.y -= yOffset;
           mFocusHandler->getFocused()->_mouseInputMessage(mio);
