@@ -1,3 +1,4 @@
+* Fixed bugs in ScrollArea and DropDown involving focus and mouse input,
 * Changed the look when CheckBox is marked.  
 * Changed the look when CheckBox and RadioButton are focused.
   They now draw a rectangle around their captions (common behaivour in Guis).
