@@ -71,7 +71,7 @@ namespace gcn
 		/**
 		 * Constructor.
 		 */
-		Label() { };
+		Label();
 
 		/**
 		 * Constructor.

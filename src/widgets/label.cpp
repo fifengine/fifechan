@@ -61,6 +61,11 @@
 
 namespace gcn
 {
+	Label::Label()
+	{
+		mAlignment = Graphics::LEFT;
+	}
+	
 	Label::Label(const std::string& caption)
 	{
 		mCaption = caption;
