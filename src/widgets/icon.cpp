@@ -57,7 +57,6 @@
  */
 
 #include "guichan/rectangle.hpp"
-#include "guichan/widgets/container.hpp"
 #include "guichan/widgets/icon.hpp"
 
 namespace gcn

@@ -57,7 +57,6 @@
 
 #include <string>
 
-#include "guichan/container.hpp"
 #include "guichan/input.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
