@@ -6,7 +6,6 @@ echo "This may take a while ..."
 # Touch the timestamps on all the files since CVS messes them up
 directory=`dirname $0`
 
-#touch $directory/configure.in
 touch $directory/*
 touch $directory/example/*
 touch $directory/include/*
