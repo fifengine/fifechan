@@ -118,15 +118,19 @@ namespace gcn
 		 * widget, i.e coordinate (0,0) is the top-left corner
 		 * of the widget. It is not possible to draw outside of
 		 * a widgets dimension.
+         *
+         * @param graphics a graphics object to draw with.
 		 */
 		virtual void draw(Graphics* graphics) = 0;
-
+        
 		/**
 		 * This function should draw a widgets border. A border is drawn
 		 * around a widget. The width and height of the border is therefore
 		 * the widgets height+2*bordersize. Think of a painting that has
 		 * a certain size, the border surrounds the painting. 
-		 */
+         *
+         * @param graphics a graphics object to draw with.
+         */
 		virtual void drawBorder(Graphics* graphics) { }
 		
 		/**
