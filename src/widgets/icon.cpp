@@ -70,7 +70,6 @@ namespace gcn
     mImage = image;
     setHeight(image->getHeight());
     setWidth(image->getWidth());
-    setFocusable(true);
   } // end Icon
 
   void Icon::draw(Graphics* graphics)
@@ -78,13 +77,5 @@ namespace gcn
     graphics->drawImage(mImage, 0, 0);
 
   } // draw
-
-  void Icon::logic()
-  {
-    if (hasFocus())
-    {
-      ((Container*)getParent())->moveToTop(this);
-    }
-  }
   
 } // end gcn
