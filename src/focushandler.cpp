@@ -65,177 +65,182 @@
 
 namespace gcn
 {
-  FocusHandler::FocusHandler()
-  {
-    mFocusedWidget = -1;
+	FocusHandler::FocusHandler()
+	{
+		mFocusedWidget = -1;
     
-  } // end FocusHandler
+	} // end FocusHandler
 
-  void FocusHandler::requestFocus(Widget* widget)
-  {
-    unsigned int i = 0;
+	void FocusHandler::requestFocus(Widget* widget)
+	{
+		if (mFocusedWidget >= 0 && mWidgets.at(mFocusedWidget) == widget)
+		{
+			return;
+		}
+	  
+		unsigned int i = 0;
     
-    for (i = 0; i < mWidgets.size(); ++i)
-    {      
-      if (mWidgets[i] == widget)
-      {
-        if (mFocusedWidget >= 0)
-        {
-          mWidgets.at(mFocusedWidget)->lostFocus();
-        }
+		for (i = 0; i < mWidgets.size(); ++i)
+		{      
+			if (mWidgets[i] == widget)
+			{
+				if (mFocusedWidget >= 0)
+				{
+					mWidgets.at(mFocusedWidget)->lostFocus();
+				}
 
-        mWidgets.at(i)->gotFocus();        
-        mFocusedWidget = i;        
+				mWidgets.at(i)->gotFocus();        
+				mFocusedWidget = i;        
         
-        return;
-      }
-    }    
+				return;
+			}
+		}    
     
-    throw GCN_EXCEPTION("FocusHandler::requestFocus. No such widget exists");
+		throw GCN_EXCEPTION("FocusHandler::requestFocus. No such widget exists");
     
-  } // end requestFocus
+	} // end requestFocus
     
-  Widget* FocusHandler::getFocused()
-  {
-    if (mFocusedWidget == -1)
-    {
-      return NULL;
-    }
+	Widget* FocusHandler::getFocused()
+	{
+		if (mFocusedWidget == -1)
+		{
+			return NULL;
+		}
 
-    return mWidgets[mFocusedWidget];
+		return mWidgets[mFocusedWidget];
     
-  } // end getFocused
+	} // end getFocused
     
-  void FocusHandler::focusNext()
-  {
-    int focused = mFocusedWidget;
+	void FocusHandler::focusNext()
+	{
+		int focused = mFocusedWidget;
     
-    if (mWidgets.size() == 0)
-    {
-      mFocusedWidget = -1;
-      return;
-    }    
+		if (mWidgets.size() == 0)
+		{
+			mFocusedWidget = -1;
+			return;
+		}    
     
-    do
-    {
-      ++mFocusedWidget;
+		do
+		{
+			++mFocusedWidget;
 
-      if (mFocusedWidget >= (int)mWidgets.size())
-      {
-        mFocusedWidget = 0;      
-      }
+			if (mFocusedWidget >= (int)mWidgets.size())
+			{
+				mFocusedWidget = 0;      
+			}
 
-      if (mFocusedWidget == focused)
-      {
-        return;
-      }
-    }
-    while (!mWidgets.at(mFocusedWidget)->isFocusable());
+			if (mFocusedWidget == focused)
+			{
+				return;
+			}
+		}
+		while (!mWidgets.at(mFocusedWidget)->isFocusable());
 
-    if (focused >= 0)
-    {
-      mWidgets.at(focused)->lostFocus();
-    }
+		if (focused >= 0)
+		{
+			mWidgets.at(focused)->lostFocus();
+		}
     
-    if (mFocusedWidget >= 0)
-    {
-      mWidgets.at(mFocusedWidget)->gotFocus();
-    }
+		if (mFocusedWidget >= 0)
+		{
+			mWidgets.at(mFocusedWidget)->gotFocus();
+		}
     
-  } // end focusNext
+	} // end focusNext
     
-  void FocusHandler::focusPrevious()
-  {
-    int focused = mFocusedWidget;
+	void FocusHandler::focusPrevious()
+	{
+		int focused = mFocusedWidget;
     
-    if (mWidgets.size() == 0)
-    {
-      mFocusedWidget = -1;
-      return;
-    }    
+		if (mWidgets.size() == 0)
+		{
+			mFocusedWidget = -1;
+			return;
+		}    
     
-    do
-    {
-      --mFocusedWidget;
+		do
+		{
+			--mFocusedWidget;
 
-      if (mFocusedWidget <= 0)
-      {
-        mFocusedWidget = mWidgets.size() - 1;      
-      }
+			if (mFocusedWidget <= 0)
+			{
+				mFocusedWidget = mWidgets.size() - 1;      
+			}
 
-      if (mFocusedWidget == focused)
-      {
-        return;
-      }
-    }
-    while (!mWidgets.at(mFocusedWidget)->isFocusable());
+			if (mFocusedWidget == focused)
+			{
+				return;
+			}
+		}
+		while (!mWidgets.at(mFocusedWidget)->isFocusable());
 
-    if (focused >= 0)
-    {
-      mWidgets.at(focused)->lostFocus();
-    }
+		if (focused >= 0)
+		{
+			mWidgets.at(focused)->lostFocus();
+		}
     
-    if (mFocusedWidget >= 0)
-    {
-      mWidgets.at(mFocusedWidget)->gotFocus();
-    }
+		if (mFocusedWidget >= 0)
+		{
+			mWidgets.at(mFocusedWidget)->gotFocus();
+		}
     
-  } // end focusPrevious
+	} // end focusPrevious
 
-  bool FocusHandler::hasFocus(Widget* widget)
-  {
-    if (mFocusedWidget == -1)
-    {
-      return false;
-    }
+	bool FocusHandler::hasFocus(Widget* widget)
+	{
+		if (mFocusedWidget == -1)
+		{
+			return false;
+		}
     
-    return mWidgets[mFocusedWidget] == widget;
+		return mWidgets[mFocusedWidget] == widget;
 
-  } // end hasFocus
+	} // end hasFocus
     
-  void FocusHandler::add(Widget* widget)
-  {
-    mWidgets.push_back(widget);
+	void FocusHandler::add(Widget* widget)
+	{
+		mWidgets.push_back(widget);
     
-  } // end add
+	} // end add
     
-  void FocusHandler::remove(Widget* widget)
-  {
-    int i = 0;
-    WidgetIterator iter;
+	void FocusHandler::remove(Widget* widget)
+	{
+		int i = 0;
+		WidgetIterator iter;
     
-    for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
-    {
-      ++i;
+		for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+		{
+			++i;
       
-      if ((*iter) == widget)
-      {
-        mWidgets.erase(iter);
-        
-        if (i < mFocusedWidget)
-        {
-          --mFocusedWidget;
-        }
-        else if (i == mFocusedWidget)
-        {
-          focusNone();
-        }
-        
-        return;
-      }      
-    }
-    
-  } // end remove 
+			if ((*iter) == widget)
+			{        
+				if (i < mFocusedWidget)
+				{
+					--mFocusedWidget;
+				}
+				else if (i == mFocusedWidget)
+				{
+					focusNone();
+				}
 
-  void FocusHandler::focusNone()
-  {
-    if (mFocusedWidget >= 0)
-    {
-      mWidgets.at(mFocusedWidget)->lostFocus();
-    }
+				mWidgets.erase(iter);
+		
+				return;
+			}      
+		}
     
-    mFocusedWidget = -1;
+	} // end remove 
+
+	void FocusHandler::focusNone()
+	{
+		if (mFocusedWidget >= 0)
+		{
+			mWidgets.at(mFocusedWidget)->lostFocus();
+		}
     
-  } // end focusNone
+		mFocusedWidget = -1;
+    
+	} // end focusNone
   
 } // end gcn
