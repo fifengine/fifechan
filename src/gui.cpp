@@ -69,9 +69,9 @@ namespace gcn
   
   Gui::Gui()
   {
-    mTop = 0;
-    mInput = 0;
-    mGraphics = 0;
+    mTop = NULL;
+    mInput = NULL;
+    mGraphics = NULL;
     mFocusHandler = new FocusHandler();
 
   } // end Gui
@@ -86,7 +86,7 @@ namespace gcn
   {
     if (mTop)
     {
-      mTop->_setFocusHandler(0);
+      mTop->_setFocusHandler(NULL);
     }
     if (top)
     {
@@ -140,7 +140,19 @@ namespace gcn
       {
         //TODO: adjust x and y depending on top position
         MouseInput mi = mInput->dequeueMouseInput();
+        //TODO: adjust x and y depending on widget position
+        if (mFocusHandler->getFocused())
+        {
+          int xOffset, yOffset;
+          mFocusHandler->getFocused()->getAbsolutePosition(xOffset, yOffset);
+          MouseInput mio = mi;
+          mio.x -= xOffset;
+          mio.y -= yOffset;
+          mFocusHandler->getFocused()->_mouseInputMessage(mio);
+        }
+        
         mTop->_mouseInputMessage(mi);
+
       }
     }
     mTop->logic();

@@ -15,7 +15,7 @@ namespace gcn
   public:
 
     /**
-     * 
+     * @todo Fix mousemessage to focused widget and offset.
      */
     Gui();
 
@@ -43,7 +43,6 @@ namespace gcn
      *  
      */
     Graphics* getGraphics() const;
-
 
     /**
      *  
