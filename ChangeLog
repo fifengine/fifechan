@@ -1,3 +1,9 @@
+* Added --enable-force argument for Allegro, SDL, SDL Image and OpenGL
+  to the configure script which forces Guichan to compile with the
+  forced support.
+* Updated platform.hpp to be able to handle compilation with MinGW.
+* Splited DECLSPEC define into GCN_CORE_DECLSPEC and 
+  GCN_EXTENSION_DECLSPEC.
 * Fixed bugs in ScrollArea and DropDown involving focus and mouse input,
 * Changed the look when CheckBox is marked.  
 * Changed the look when CheckBox and RadioButton are focused.
