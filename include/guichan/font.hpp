@@ -71,24 +71,45 @@ namespace gcn
   {
   public:
 
+    /**
+     * Destructor.
+     */
     virtual ~Font(){}
 
     /**
+     * Gets a width of a glyph.
+     *
      * @param glyph the glyph which width will be returned
      * @return the width of a glyph 
      */
     virtual int getWidth(unsigned char glyph) const = 0;
 
     /**
+     * Gets the width of a string. The width of a string is not necesserily
+     * the sum of all the widths of its glyphs. 
+     *
      * @param text the string of which width will be returned
      * @return the width of a string 
      */
     virtual int getWidth(const std::string& text) const;
 
     /**
+     * Gets the height of the glyphs.
+     *
      * @return the height of the glyphs
      */
     virtual int getHeight() const = 0;
+
+    /**
+     * Use this function to retrive a string index (for a character in a
+     * string) at a certain x position. This function is especially useful
+     * when a mouse clicks in a TextField and you want to know which
+     * character was clicked.
+     *
+     *
+     * @return the string index at coordinate x.
+     */
+    virtual int getStringIndexAt(const std::string& text, int x);
     
     /**
      * Draws a glyph.
