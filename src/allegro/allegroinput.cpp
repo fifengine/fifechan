@@ -431,6 +431,12 @@ namespace gcn
 				keysym = Key::DOWN;
 				break;
 
+			case KEY_ENTER_PAD:
+				pad = true;				
+			case KEY_ENTER:
+				keysym = Key::ENTER;
+				break;
+
 			case KEY_0_PAD:
 			case KEY_1_PAD:
 			case KEY_2_PAD:
@@ -444,7 +450,6 @@ namespace gcn
 			case KEY_SLASH_PAD:
 			case KEY_MINUS_PAD:
 			case KEY_PLUS_PAD:
-			case KEY_ENTER_PAD:
 				pad = true;
 				// no brakes! no brakes!
 
