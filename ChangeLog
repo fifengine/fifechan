@@ -1,5 +1,5 @@
 * Changed the look when CheckBox is marked.  
-* Changed the look when CheckBox and RadioButton is focused.
+* Changed the look when CheckBox and RadioButton are focused.
   They now draw a rectangle around their captions (common behaivour in Guis).
 * Removed unaccesary logic functions (which didn't do anything) in
   widget RadioButton and CheckBox. 
