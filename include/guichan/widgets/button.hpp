@@ -87,6 +87,8 @@ namespace gcn
 
     virtual void mouseMotionMessage(int x, int y);
 
+    virtual void lostFocus();
+    
   private:
     std::string mText;
     bool mMove;

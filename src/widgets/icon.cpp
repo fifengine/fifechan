@@ -59,6 +59,8 @@
  */
 
 #include "guichan/widgets/icon.hpp"
+#include "guichan/rectangle.hpp"
+#include "guichan/container.hpp"
 
 namespace gcn
 {
@@ -68,13 +70,21 @@ namespace gcn
     mImage = image;
     setHeight(image->getHeight());
     setWidth(image->getWidth());
-    
+    setFocusable(true);
   } // end Icon
 
   void Icon::draw(Graphics* graphics)
   {
     graphics->drawImage(mImage, 0, 0);
-      
+
   } // draw
+
+  void Icon::logic()
+  {
+    if (hasFocus())
+    {
+      ((Container*)getParent())->moveToTop(this);
+    }
+  }
   
 } // end gcn

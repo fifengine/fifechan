@@ -69,7 +69,8 @@ namespace gcn
     Icon(Image* image);
     
     virtual void draw(Graphics* graphics);
-      
+    virtual void logic();
+    
   private:
     Image* mImage;
     

@@ -157,7 +157,7 @@ namespace gcn
 
   void Button::mousePressMessage(int x, int y, int button)
   {
-    std::cout << "KUPO! PRESS" << std::endl;
+//    std::cout << "KUPO! PRESS" << std::endl;
     mMove = true;
     this->x = x;
     this->y = y;
@@ -165,7 +165,7 @@ namespace gcn
 
   void Button::mouseReleaseMessage(int x, int y, int button)
   {
-    std::cout << "KUPO! RELEASE" << std::endl;
+//    std::cout << "KUPO! RELEASE" << std::endl;
     mMove = false;
     this->x = 0;
     this->y = 0;
@@ -173,10 +173,11 @@ namespace gcn
   
   void Button::mouseMotionMessage(int x, int y)
   {
-    std::cout << "KUPO! MOTION" << std::endl;
+//    std::cout << "KUPO! MOTION" << x << " " << y << std::endl;
+
     int moveX = x - this->x;
     int moveY = y - this->y;
-
+   
     if (mMove)
     {
       setPosition(mDimension.x + moveX, mDimension.y + moveY);
@@ -184,4 +185,11 @@ namespace gcn
     
   }
 
+  void Button::lostFocus()
+  {
+    mMove = false;
+    this->x = 0;
+    this->y = 0;
+  }
+  
 } // end gcn
