@@ -61,17 +61,6 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-extern "C"
-{
-  /**
-   * This is a C function which returns the Guichan version.
-   * It can be used to check for Guichan with autotools.
-   *
-   * @return the version of Guichan.
-   */
-  extern char* gcnGuichanVersion();
-}
-
 namespace gcn
 {
 	// The following comment will appear in the doxygen main page.
