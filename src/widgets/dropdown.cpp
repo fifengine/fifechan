@@ -375,7 +375,6 @@ namespace gcn
 			&& !mDroppedDown)
 		{
 			dropDown();
-			mFocusHandler.requestFocus(mScrollArea->getContent());
 		}
 		
 	} // end keyPress
@@ -521,7 +520,7 @@ namespace gcn
 	} // end adjustHeight
 
 	void DropDown::dropDown()
-	{
+	{		
 		if (!mDroppedDown)
 		{
 			mDroppedDown = true;
@@ -534,8 +533,10 @@ namespace gcn
 			}
 		}
 		
+		mFocusHandler.requestFocus(mScrollArea->getContent());
+		
 	} // end dropDown
-
+	
 	void DropDown::foldUp()
 	{		
 		if (mDroppedDown)
