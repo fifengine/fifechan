@@ -77,8 +77,6 @@ namespace gcn
 
     /**
      * Constructor.
-     *
-     * @todo Fix mousemessage to focused widget and offset.
      */
     Gui();
 
