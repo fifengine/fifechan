@@ -157,7 +157,7 @@ namespace gcn
 
   void Button::mousePress(int x, int y, int button)
   {
-    if (button == MouseInput::LEFT)
+    if (button == MouseInput::LEFT && hasMouse())
     {      
       mMouseDown = true;
     }
@@ -180,6 +180,8 @@ namespace gcn
       mKeyDown = true;
    }
 
+    mMouseDown = false;
+    
   } // end keyPress
 
   void Button::keyRelease(const Key& key)
