@@ -1,211 +1,473 @@
+/*
+ *    _aaaa,  _aa.  sa,  aaa              _aaaa,_  ac  .aa.   .aa.  .aa,  _a, sa
+ *  .wWV!!!T  |Wm;  dQ[  $WF            _mWT!"?Y  ]QE  :Q#:   ]QW[  :WWk. ]Q[ dW
+ * .jWf       :WW: .dQ[  dQ[           .mW(       )WE  :Q#:  .mSQh. :mWQa.]W[ dQ
+ * |QW:       :Wm;  mQ[  dQ[           ]Qk        )Qmi_aQW:  <B:$Qc :WBWQ()W[ dQ
+ * |W#:  .ww  ;WW;  dQ[  dQ[  .......  ]Qk        )QB?YYW#:  jf ]Qp.:mE)Qm]Q[ )W
+ * +WQ;  :Wm  |Wm; .mQ[  dQ[ :qgggggga ]Qm.       ]WE  :Q# :=QasuQm;:Wk 3QQW[ )Y
+ *  ]Wmi.:Wm  +$Q; .mW(  dQ[  !"!!"!!^ dQk,  ._   ]WE  :Q# :3D"!!$Qc.Wk -$WQ[   
+ *   "?????? ` "?!=m?!   ??'            -??????!  -?!  -?? -?'   "?"-?"  "??' "?
+ *
+ * Copyright (c) 2004 darkbits                              Js_./
+ * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
+ * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
+ *                                                 _Qhm`] _f "'c  1!5m
+ * Visit: http://guichan.darkbits.org             )Qk<P ` _: :+' .'  "{[
+ *                                               .)j(] .d_/ '-(  P .   S
+ * License: (BSD)                                <Td/Z <fP"5(\"??"\a.  .L
+ * Redistribution and use in source and          _dV>ws?a-?'      ._/L  #'
+ * binary forms, with or without                 )4d[#7r, .   '     )d`)[
+ * modification, are permitted provided         _Q-5'5W..j/?'   -?!\)cam'
+ * that the following conditions are met:       j<<WP+k/);.        _W=j f
+ * 1. Redistributions of source code must       .$%w\/]Q  . ."'  .  mj$
+ *    retain the above copyright notice,        ]E.pYY(Q]>.   a     J@\
+ *    this list of conditions and the           j(]1u<sE"L,. .   ./^ ]{a
+ *    following disclaimer.                     4'_uomm\.  )L);-4     (3=
+ * 2. Redistributions in binary form must        )_]X{Z('a_"a7'<a"a,  ]"[
+ *    reproduce the above copyright notice,       #}<]m7`Za??4,P-"'7. ).m
+ *    this list of conditions and the            ]d2e)Q(<Q(  ?94   b-  LQ/
+ *    following disclaimer in the                <B!</]C)d_, '(<' .f. =C+m
+ *    documentation and/or other materials      .Z!=J ]e []('-4f _ ) -.)m]'
+ *    provided with the distribution.          .w[5]' _[ /.)_-"+?   _/ <W"
+ * 3. Neither the name of darkbits nor the     :$we` _! + _/ .        j?
+ *    names of its contributors may be used     =3)= _f  (_yQmWW$#(    "
+ *    to endorse or promote products derived     -   W,  sQQQQmZQ#Wwa]..
+ *    from this software without specific        (js, \[QQW$QWW#?!V"".
+ *    prior written permission.                    ]y:.<\..          .
+ *                                                 -]n w/ '         [.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT       )/ )/           !
+ * HOLDERS AND CONTRIBUTORS "AS IS" AND ANY         <  (; sac    ,    '
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING,               ]^ .-  %
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF            c <   r
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR            aga<  <La
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE          5%  )P'-3L
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR        _bQf` y`..)a
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,          ,J?4P'.P"_(\?d'.,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES               _Pa,)!f/<[]/  ?"
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT      _2-..:. .r+_,.. .
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     ?a.<%"'  " -'.a_ _,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION)                     ^
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+ * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * For comments regarding functions please see the header file. 
+ */
+
+#include <iostream>
+
 #include <allegro.h>
 
+#include "guichan/exception.hpp"
 #include "guichan/allegro/allegroinput.hpp"
 
 namespace gcn
 {
-  AllegroInput::AllegroInput()
-  {
-    mMouseX = 0;
-    mMouseX = 0;
-    mMouseMotion = false;
-  }
-  
-  /**
-   *
-   */
-  bool AllegroInput::isKeyQueueEmpty()
-  {
-    return mKeyInputQueue.empty();
-  }
-  
-  /**
-   *
-   */
-  KeyInput AllegroInput::dequeueKeyInput()
-  {
-    KeyInput keyInput;
-    
-    if (mKeyInputQueue.empty())
-    {
-      // TODO
-      // Add exception instead of return statement
-      keyInput.setType(KeyInput::EMPTY);
-      return keyInput;
-    }
-    
-    keyInput = mKeyInputQueue.front();
-    mKeyInputQueue.pop();
+	AllegroInput::AllegroInput()
+	{
+		mMouseButton1 = mMouseButton2 = mMouseButton3 = false;
+		mLastMouseZ = 0;
+		mLastMouseX = 0;
+		mLastMouseY = 0;		
+	}
+		
+	bool AllegroInput::isKeyQueueEmpty()
+	{
+		return mKeyQueue.empty();
+	}
+	
+	KeyInput AllegroInput::dequeueKeyInput()
+	{
+		if (isKeyQueueEmpty())
+		{
+			throw GCN_EXCEPTION("AllegroInput::dequeueKeyInput. Key queue is empty");
+		}
 
-    return keyInput;
-    
-  } // end dequeueKeyInput
-  
-  bool AllegroInput::isMouseQueueEmpty()
-  {
-    return mMouseInputQueue.empty();
-  }
-  
-  /**
-   *
-   */
-  MouseInput AllegroInput::dequeueMouseInput()
-  {
-    MouseInput mouseInput;
-    
-    if (mMouseInputQueue.empty())
-    {
-      // TODO
-      // Add exception instead of return statement
-      mouseInput.setType(MouseInput::EMPTY);
-      return mouseInput;
-    }
-    
-    mouseInput = mMouseInputQueue.front();
-    mMouseInputQueue.pop();
+		KeyInput ki = mKeyQueue.front();
+		mKeyQueue.pop();
+		
+		return ki;
+	}
+	
+	bool AllegroInput::isMouseQueueEmpty()
+	{
+		return mMouseQueue.empty();
+	}	
+	
+	MouseInput AllegroInput::dequeueMouseInput()
+	{
+		if (isMouseQueueEmpty())
+		{
+			throw GCN_EXCEPTION("AllegroInput::dequeueMouseInput. Mouse queue is empty");
+		}
 
-    return mouseInput;
-    
-  } // end dequeueMouseInput
-  
-  /**
-   *
-   */
-  int AllegroInput::getMouseX()
-  {
-    return mMouseX;
-  }
+		MouseInput mi = mMouseQueue.front();
+		mMouseQueue.pop();
+		
+		return mi;	
+	}
+	
+	void AllegroInput::_pollInput()
+	{
+		pollMouseInput();
+		pollKeyInput();
+	}
 
-  /**
-   *
-   */
-  int AllegroInput::getMouseY()
-  {
-    return mMouseY;
-  }
+	// @todo fix timestamps
+	
+	void AllegroInput::pollMouseInput()
+	{
+		if (mouse_needs_poll())
+		{
+			poll_mouse();
+		}		
+		int mouseX = mouse_x;
+		int mouseY = mouse_y;
+		int mouseZ = mouse_z;
+		int mouseB1 = mouse_b & 1;
+		int mouseB2 = mouse_b & 2;
+		int mouseB3 = mouse_b & 4;		
 
-  /**
-   *
-   */
-  void AllegroInput::getMousePosition(int& x, int& y)
-  {
-    x = mMouseX;
-    y = mMouseY;
-  }
+		// Check mouse movement
+		if (mouseX != mLastMouseX || mouseY != mLastMouseY)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::EMPTY,
+																	MouseInput::MOTION,
+																	mouseX,
+																	mouseY,
+																	0));
+			mLastMouseX = mouseX;
+			mLastMouseY = mouseY;
+		}
 
-  /**
-   *
-   */
-  void AllegroInput::pollInput()
-  {
-    mMouseMotion = false;
+		// Check mouse Wheel
+		while (mLastMouseZ < mouseZ)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
+																	MouseInput::PRESS,
+																	mouseX,
+																	mouseY,
+																	0));
+			
+			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
+																	MouseInput::RELEASE,
+																	mouseX,
+																	mouseY,
+																	0));
+			
+			mLastMouseZ++;
+		}
+		
+		while (mLastMouseZ > mouseZ)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
+																	MouseInput::PRESS,
+																	mouseX,
+																	mouseY,
+																	0));
+			
+			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
+																	MouseInput::RELEASE,
+																	mouseX,
+																	mouseY,
+																	0));
+			
+			mLastMouseZ--;
+		}
 
-    /* Poll keyboard and mouse if needed */
-    if (keyboard_needs_poll())
-    {
-      poll_keyboard();
-    }
+		// Check mouse buttons
+		if (!mMouseButton1 && mouseB1)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::LEFT,
+																	MouseInput::PRESS,
+																	mouseX,
+																	mouseY,
+																	0));			
+		}
 
-    if (mouse_needs_poll())
-    {
-      poll_mouse();
-    }
+		if (mMouseButton1 && !mouseB1)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::LEFT,
+																	MouseInput::RELEASE,
+																	mouseX,
+																	mouseY,
+																	0));
+		}
 
-    /* Check for mouse movement */
-    if (mouse_x != mMouseX && mouse_y != mMouseY)
-    {
-      mMouseX = mouse_x;
-      mMouseY = mouse_y;
-      mMouseMotion = true;
-    }
+		
+		if (!mMouseButton2 && mouseB2)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
+																	MouseInput::PRESS,
+																	mouseX,
+																	mouseY,
+																	0));
+		}
 
-    /* Handle mouse wheel movement */
-    int mz = mouse_z;
-    while (mz != 0)
-    {
-      if (mz < 0)
-      {
-        mMouseInputQueue.push(MouseInput(MouseInput::WHEEL_DOWN, MouseInput::PRESS));
-        mMouseInputQueue.push(MouseInput(MouseInput::WHEEL_DOWN, MouseInput::RELEASE));
-        mz++;
-      }
-      else
-      {
-        mMouseInputQueue.push(MouseInput(MouseInput::WHEEL_UP, MouseInput::PRESS));
-        mMouseInputQueue.push(MouseInput(MouseInput::WHEEL_UP, MouseInput::RELEASE));
-        mz--;        
-      }
-    }
-    position_mouse_z(0);
+		if (mMouseButton2 && !mouseB2)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
+																	MouseInput::RELEASE,
+																	mouseX,
+																	mouseY,
+																	0));
+		}
 
-    /* Handle mouse buttons */
-    int mb = mouse_b;
-    if (mb & 1 && !(mOldMouseButtons & 1))
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::LEFT, MouseInput::PRESS));
-    }
-    if (!(mb & 1) && mOldMouseButtons & 1)
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::LEFT, MouseInput::RELEASE));
-    }
-    if (mb & 2 && !(mOldMouseButtons & 2))
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::RIGHT, MouseInput::PRESS));
-    }
-    if (!(mb & 2) && mOldMouseButtons & 2)
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::RIGHT, MouseInput::RELEASE));
-    }
-    if (mb & 4 && !(mOldMouseButtons & 4))
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE, MouseInput::PRESS));
-    }
-    if (!(mb & 4) && mOldMouseButtons & 4)
-    {
-      mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE, MouseInput::RELEASE));
-    }
-    mOldMouseButtons = mb;
-    
-    /* Check for keypresses */
-    while (keypressed())
-    {
-      int k = readkey();
-      int scancode;
-      unsigned char ascii;
-      
-      //unicode = ureadkey(&scancode);
-      //ascii = convertKeyCharacter(unicode);
+		
+		if (!mMouseButton3 && mouseB3)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+																	MouseInput::PRESS,
+																	mouseX,
+																	mouseY,
+																	0));
+		}
 
-      ascii = k & 0xFF;
-      scancode = k >> 8;
+		if (mMouseButton3 && !mouseB3)
+		{
+			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+																	MouseInput::RELEASE,
+																	mouseX,
+																	mouseY,
+																	0));
+		}
 
-      Key key = Key(ascii, scancode);
-            
-      mKeyInputQueue.push(KeyInput(key, KeyInput::PRESS));
-    }
-  }
-  
-  /**
-   * 
-   */
-  bool AllegroInput::isMouseMoved()
-  {
-    return mMouseMotion;
-  }
+		mMouseButton1 = mouseB1;
+		mMouseButton2 = mouseB2;
+		mMouseButton3 = mouseB3;		
+	}
 
-  /**
-   *
-   */
-  unsigned char AllegroInput::convertKeyCharacter(unsigned int unicode)
-  {
-    if (unicode > 255)
-    {
-      return 0;
-    }
-    else
-    {
-      return (unsigned char)unicode;
-    }    
-  }
+	void AllegroInput::pollKeyInput()
+	{
+		int unicode, scancode;
 
-} // end gcn
+		if (keyboard_needs_poll())
+		{
+			poll_keyboard();
+		}
+		
+		while (keypressed())
+		{
+			unicode = ureadkey(&scancode);
+			Key keyObj = convertToKey(scancode, unicode);
+			
+			mKeyQueue.push(
+				KeyInput(keyObj, KeyInput::PRESS));
+			
+			mPressedKeys[scancode] = keyObj;
+		}
+	
+	 	// Check for released keys
+		std::map<int, Key>::iterator iter;
+		for (iter = mPressedKeys.begin(); iter != mPressedKeys.end();  iter++)
+ 		{
+			if (!key[iter->first])
+			{
+		 		mKeyQueue.push(
+					KeyInput(iter->second, KeyInput::RELEASE));
+				
+				mPressedKeys.erase(iter);
+			}
+		}
+	}
+	
+	Key AllegroInput::convertToKey(int scancode, int unicode)
+	{
+		int keysym;
+		bool pad = false;
+
+		switch(scancode)
+		{
+			case KEY_ESC:
+				keysym = Key::ESCAPE;
+				break;
+				
+			case KEY_ALT:
+				keysym = Key::LEFT_ALT;
+				break;
+
+			case KEY_ALTGR:
+				keysym = Key::RIGHT_ALT;
+				break;
+
+			case KEY_LSHIFT:
+				keysym = Key::LEFT_SHIFT;
+				break;
+
+			case KEY_RSHIFT:
+				keysym = Key::RIGHT_SHIFT;
+				break;
+				
+			case KEY_LCONTROL:
+				keysym = Key::LEFT_CONTROL;
+				break;
+				
+			case KEY_RCONTROL:
+				keysym = Key::RIGHT_CONTROL;
+				break;
+
+			case KEY_LWIN:
+				keysym = Key::LEFT_META;
+				break;
+				
+			case KEY_RWIN:
+				keysym = Key::RIGHT_META;
+				break;
+
+ 			case KEY_INSERT:
+				keysym = Key::INSERT;
+				break;
+
+			case KEY_HOME:
+				keysym = Key::HOME;
+				break;
+
+			case KEY_PGUP:
+				keysym = Key::PAGE_UP;
+				break;
+
+			case KEY_PGDN:
+				keysym = Key::PAGE_DOWN;
+				break;
+
+			case KEY_DEL:
+				keysym = Key::DELETE;
+				break;
+				
+			case KEY_DEL_PAD:
+				keysym = Key::DELETE;
+				pad = true;
+				break;
+
+			case KEY_END:
+				keysym = Key::END;
+				break;
+
+			case KEY_CAPSLOCK:
+				keysym = Key::CAPS_LOCK;
+				break;
+
+			case KEY_BACKSPACE:
+				keysym = Key::BACKSPACE;
+				break;
+
+			case KEY_F1:
+				keysym = Key::F1;
+				break;
+
+			case KEY_F2:
+				keysym = Key::F2;
+				break;
+
+			case KEY_F3:
+				keysym = Key::F3;
+				break;
+
+			case KEY_F4:
+				keysym = Key::F4;
+				break;
+
+			case KEY_F5:
+				keysym = Key::F5;
+				break;
+
+			case KEY_F6:
+				keysym = Key::F6;
+				break;
+
+			case KEY_F7:
+				keysym = Key::F7;
+				break;
+				
+			case KEY_F8:
+				keysym = Key::F8;
+				break;
+
+			case KEY_F9:
+				keysym = Key::F9;
+				break;
+
+			case KEY_F10:
+				keysym = Key::F10;
+				break;
+
+			case KEY_F11:
+				keysym = Key::F11;
+				break;
+
+			case KEY_F12:
+				keysym = Key::F12;
+				break;
+
+			case KEY_PRTSCR:
+				keysym = Key::PRINT_SCREEN;
+				break;
+				
+			case KEY_PAUSE:
+				keysym = Key::PAUSE;
+				break;
+
+			case KEY_SCRLOCK:
+				keysym = Key::SCROLL_LOCK;
+				break;
+
+			case KEY_NUMLOCK:
+				keysym = Key::NUM_LOCK;
+				break;
+
+			case KEY_LEFT:
+				keysym = Key::LEFT;
+				break;
+
+			case KEY_RIGHT:
+				keysym = Key::RIGHT;
+				break;
+
+			case KEY_UP:
+				keysym = Key::UP;
+				break;
+
+			case KEY_DOWN:
+				keysym = Key::DOWN;
+				break;
+
+			case KEY_0_PAD:
+			case KEY_1_PAD:
+			case KEY_2_PAD:
+			case KEY_3_PAD:
+			case KEY_4_PAD:
+			case KEY_5_PAD:
+			case KEY_6_PAD:
+			case KEY_7_PAD:
+			case KEY_8_PAD:
+			case KEY_9_PAD:
+			case KEY_SLASH_PAD:
+			case KEY_MINUS_PAD:
+			case KEY_PLUS_PAD:
+			case KEY_ENTER_PAD:
+				pad = true;
+				// no brakes! no brakes!
+
+			default:
+				keysym = unicode;
+		}
+
+		Key k = Key(keysym);
+		k.setNumericPad(pad);
+
+		k.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
+		k.setAltPressed(key_shifts & KB_ALT_FLAG);
+		k.setControlPressed(key_shifts & KB_CTRL_FLAG);
+		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG ||
+																	KB_LWIN_FLAG ||
+																	KB_RWIN_FLAG));
+
+		return k;
+
+		//Now, THAT was fun to code! =D =D =D
+	}
+}
