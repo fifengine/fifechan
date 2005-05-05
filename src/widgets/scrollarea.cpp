@@ -67,15 +67,12 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mVBarVisible = false;
-		mHBarVisible = false;
 		mScrollbarWidth = 12;
 		mContent = NULL;
 		mUpButtonPressed = false;
 		mDownButtonPressed = false;
 		mLeftButtonPressed = false;
 		mRightButtonPressed = false;
-
 		mVerticalMarkerPressed = false;
 		mVerticalMarkerMousePosition = 0;
 		mHorizontalMarkerPressed = false;
@@ -90,8 +87,6 @@ namespace gcn
 		mHScroll = 0;
 		mHPolicy = SHOW_AUTO;
 		mVPolicy = SHOW_AUTO;
-		mVBarVisible = false;
-		mHBarVisible = false;
 		mScrollbarWidth = 12;
 		mContent = NULL;
 		mUpButtonPressed = false;
@@ -104,7 +99,6 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setContent(content);
-		checkPolicies();
 		addMouseListener(this);
 	}
 
@@ -126,7 +120,6 @@ namespace gcn
 		mHorizontalMarkerMousePosition = 0;
 
 		setContent(content);
-		checkPolicies();
 		addMouseListener(this); 
 	}
 
@@ -149,7 +142,9 @@ namespace gcn
 		{
 			mContent->_setFocusHandler(_getFocusHandler());
 			mContent->_setParent(this);
-		}	
+		}
+
+        checkPolicies();
 	}
   
 	Widget* ScrollArea::getContent()
@@ -931,8 +926,8 @@ namespace gcn
   
 	void ScrollArea::checkPolicies()
 	{
-		int w = getWidth() - 2;
-		int h = getHeight() - 2;
+		int w = getWidth();
+		int h = getHeight();
     
 		mHBarVisible = false;
 		mVBarVisible = false;

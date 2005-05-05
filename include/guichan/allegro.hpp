@@ -62,8 +62,10 @@
 extern "C"
 {
     /**
-     * This is a C function which exists to make life easier when
-     * checking for the Guichan Allegro library with autotools.
+     * Exists to be able to check for Guichan Allegro with
+     * autotools.
+     *
+     * @bug Autotools is incapable of finding this function.
      */    
     extern void gcnAllegro();
 }

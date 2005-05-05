@@ -69,6 +69,9 @@ namespace gcn
     {
     public:
 
+        // Needed so that drawImage(gcn::Image *, int, int) is visible
+        using Graphics::drawImage;
+        
         /**
          * Constructor.
          */

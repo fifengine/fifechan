@@ -121,10 +121,12 @@ namespace gcn
         glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
 		glDisable(GL_LIGHTING);
-			
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		
         glEnable(GL_SCISSOR_TEST);
 
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -233,14 +235,14 @@ namespace gcn
         glTexCoord2f(texX1, texY1);
         glVertex3i(dstX, dstY, 0);
 
-        glTexCoord2f(texX2, texY1);
-        glVertex3i(dstX + width, dstY, 0);
+        glTexCoord2f(texX1, texY2);
+        glVertex3i(dstX, dstY + height, 0);
 
         glTexCoord2f(texX2, texY2);
         glVertex3i(dstX + width, dstY + height, 0);
 
-        glTexCoord2f(texX1, texY2);
-        glVertex3i(dstX, dstY + height, 0);
+		glTexCoord2f(texX2, texY1);
+        glVertex3i(dstX + width, dstY, 0);
         glEnd();
     
         glDisable(GL_TEXTURE_2D);      

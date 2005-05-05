@@ -56,6 +56,8 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/opengl.hpp"
+
 extern "C"
 {
     void gcnOpenGL() { }

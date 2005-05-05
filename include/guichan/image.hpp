@@ -102,11 +102,6 @@ namespace gcn
         virtual ~Image();
     
         /**
-         * @return the filename of the image (if existing)
-         */
-        virtual const std::string& getFilename() const;
-
-        /**
          * @return the image width
          */
         virtual int getWidth() const;
@@ -147,13 +142,10 @@ namespace gcn
 		 * Default constructor. It is protected, but it's here so
 		 * that you can overload Image it.
 		 */
-		Image();
-		
-    private:
+		Image();	   
         void* mData;
         int mWidth;
         int mHeight;
-        std::string mFilename;
 		bool mLoadedWithImageLoader;
         static ImageLoader* mImageLoader;
 		

@@ -55,8 +55,10 @@
 #ifndef GCN_OPENGL_HPP
 #define GCN_OPENGL_HPP
 
-#include "guichan/opengl/openglgraphics.hpp"
-#include "guichan/opengl/openglimageloader.hpp"
+#include <guichan/opengl/openglgraphics.hpp>
+#include <guichan/opengl/openglimageloader.hpp>
+
+#include "guichan/platform.hpp"
 
 extern "C"
 {
@@ -64,7 +66,7 @@ extern "C"
      * This is a C function which exists to make life easier when
      * checking for the Guichan OpenGL library with autotools.
      */    
-    extern void gcnOpenGL();
+    GCN_EXTENSION_DECLSPEC extern void gcnOpenGL();
 }
 
 #endif // end GCN_OPENGL_HPP 

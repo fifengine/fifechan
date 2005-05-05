@@ -92,9 +92,8 @@ namespace gcn
 	
 	void SDLGraphics::setTarget(SDL_Surface* target)
 	{
-		mTarget = target;
-		
-	} // end setTarget
+		mTarget = target;		
+	}
 
 	bool SDLGraphics::pushClipArea(Rectangle area)
 	{
@@ -109,9 +108,8 @@ namespace gcn
     
 		SDL_SetClipRect(mTarget, &rect);
 
-		return result;
-    
-	} // end pushClipArea
+		return result;    
+	}
 
 	void SDLGraphics::popClipArea()
 	{
@@ -130,14 +128,12 @@ namespace gcn
 		rect.h = carea.height;
     
 		SDL_SetClipRect(mTarget, &rect);    
-
-	} // end popClipArea
+	}
   
 	SDL_Surface* SDLGraphics::getTarget() const
 	{
 		return mTarget;
-
-	} // end getTarget 
+	}
   
 	void SDLGraphics::drawImage(const Image* image, int srcX,
 								int srcY, int dstX, int dstY,
@@ -155,9 +151,8 @@ namespace gcn
 
 		SDL_Surface* srcImage = (SDL_Surface*)image->_getData();
     
-		SDL_BlitSurface(srcImage, &src, mTarget, &dst);
-    
-	} // end drawImage
+		SDL_BlitSurface(srcImage, &src, mTarget, &dst);    
+	}
 
 	void SDLGraphics::fillRectangle(const Rectangle& rectangle)
 	{    
@@ -174,15 +169,20 @@ namespace gcn
 
 		if (mAlpha)
 		{
-			int x;
-			int y;
-			for (x = rectangle.x; x < rectangle.x + rectangle.width; ++x)
-			{
-				for (y = rectangle.y; y < rectangle.y + rectangle.height; ++y)
-				{
-					drawPoint(x,y);
-				}
-			}
+            int x1 = area.x > top.x ? area.x : top.x;
+            int y1 = area.y > top.y ? area.y : top.y;
+            int x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
+            int y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
+            int x, y;
+
+            for (y = y1; y < y2; y++)
+            {
+                for (x = x1; x < x2; x++)
+                {
+                    SDLputPixelAlpha(mTarget, x, y, mColor);
+                }
+            }
+            
 		}
 		else
 		{
@@ -194,9 +194,8 @@ namespace gcn
     
 			Uint32 color = SDL_MapRGBA(mTarget->format, mColor.r, mColor.g, mColor.b, mColor.a);
 			SDL_FillRect(mTarget, &rect, color);
-		}
-		
-	} // end fillRectangle
+		}		
+	}
 
 	void SDLGraphics::drawPoint(int x, int y)
 	{
@@ -214,9 +213,8 @@ namespace gcn
 		else
 		{			
 			SDLputPixel(mTarget, x, y, mColor);
-		}
-    
-	} // end drawPoint
+		}    
+	}
 
 	void SDLGraphics::drawHLine(int x1, int y, int x2)
 	{
@@ -321,9 +319,8 @@ namespace gcn
 
 		} // end switch
     
-		SDL_UnlockSurface(mTarget);
-    
-	} // end drawHLine
+		SDL_UnlockSurface(mTarget);    
+	}
 
 	void SDLGraphics::drawVLine(int x, int y1, int y2)
 	{
@@ -428,8 +425,7 @@ namespace gcn
 		} // end switch
     
 		SDL_UnlockSurface(mTarget);
-
-	} // end drawVLine
+	}
 
 	void SDLGraphics::drawRectangle(const Rectangle& rectangle)
 	{
@@ -442,9 +438,8 @@ namespace gcn
 		drawHLine(x1, y2, x2);
 
 		drawVLine(x1, y1, y2);
-		drawVLine(x2, y1, y2);
-    
-	} // end drawRectangle
+		drawVLine(x2, y1, y2);    
+	}
 
 	void SDLGraphics::drawLine(int x1, int y1, int x2, int y2)
 	{
@@ -613,9 +608,8 @@ namespace gcn
 					}
 				}			
 			}
-		}
-	
-	} // end drawLine
+		}	
+	}
 	
 	void SDLGraphics::setColor(const Color& color)
 	{

@@ -91,15 +91,17 @@
 #include <guichan/widgets/textfield.hpp>
 #include <guichan/widgets/window.hpp>
 
+#include "guichan/platform.hpp"
+
 extern "C"
 {
     /**
-     * This is a C function which returns the Guichan version.
-     * It can be used to check for Guichan with autotools.
+     * Gets the the version of Guichan. As it is a C function
+     * it can be used to check for Guichan with autotools.
      *
      * @return the version of Guichan.
      */
-    extern char* gcnGuichanVersion();
+    GCN_CORE_DECLSPEC extern char* gcnGuichanVersion();
 }
 
 #endif // end GCN_GUICHAN_HPP

@@ -77,6 +77,10 @@ namespace gcn
     class GCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
     {
     public:
+        
+        // Needed so that drawImage(gcn::Image *, int, int) is visible
+        using Graphics::drawImage;
+        
 		/**
 		 * Default constructor
 		 */

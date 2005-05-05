@@ -224,6 +224,8 @@ namespace gcn
 
 		virtual void drawBorder(Graphics* graphics);			
 
+        virtual void logic();
+        
         virtual void _mouseInputMessage(const MouseInput &mouseInput);
     
         virtual void _mouseOutMessage();

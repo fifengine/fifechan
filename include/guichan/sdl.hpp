@@ -59,13 +59,15 @@
 #include <guichan/sdl/sdlimageloader.hpp>
 #include <guichan/sdl/sdlinput.hpp>
 
+#include "platform.hpp"
+
 extern "C"
 {
     /**
      * This is a C function which exists to make life easier when
      * checking for the Guichan SDL library with autotools.
      */    
-    extern void gcnSDL();
+    GCN_EXTENSION_DECLSPEC extern void gcnSDL();
 }
 
 #endif // end GCN_SDL_HPP

@@ -60,8 +60,8 @@
 #include "guichan/platform.hpp"
 
 /*
- * This is a macro to be used when throwing exceptions.
- * What is basicly does is that it creates a new exception
+ * A macro to be used when throwing exceptions.
+ * What it basicly does is that it creates a new exception
  * and automatically sets the filename and line number where
  * the exception occured.
  */
@@ -73,17 +73,17 @@ namespace gcn
 {
 
     /**
-     * This class is used for excpetions in Gui-chan. You can use
-     * this class for your own exceptions and a nifty feature of
-     * the excpetion class is that it can tell you from which line
-     * and file it was thrown. To make things easier when throwing
-     * exceptions there exists a macro for creating exception
-     * objects which automatically sets the filename and line number.
+     * An exception containing a message, a file and a line number.
+     * Guichan will only throw exceptions of this class. You can use
+     * this class for your own exceptions. A nifty feature of the
+     * excpetion class is that it can tell you from which line and
+     * file it was thrown. To make things easier when throwing
+     * exceptions there exists a macro for creating exceptions
+     * which automatically sets the filename and line number.
      *
-     * EXAMPLE:
-     * @code
-     * throw GCN_EXCEPTION("my error message");
-     * @endcode
+     * EXAMPLE: @code
+     *          throw GCN_EXCEPTION("my error message");
+     *          @endcode
      */
     class GCN_CORE_DECLSPEC Exception
     {
@@ -97,34 +97,39 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param message the error message
+         * @param message the error message.
          */
         Exception(const std::string& message);
 
         /**
          * Constructor.
          *
-         * NOTE:
-         * Don't use this constructor. Use the GCN_EXCEPTION macro instead.
+         * NOTE: Don't use this constructor. Use the GCN_EXCEPTION macro instead.
          *
-         * @param message the error message
-         * @param filename the name of the file
-         * @param line the line number
+         * @param message the error message.
+         * @param filename the name of the file.
+         * @param line the line number.
          */
         Exception(const std::string& message, const std::string& filename, int line);
 
         /**
+         * Gets the error message of the exception.
+         *
          * @return the error message.
          */
         const std::string& getMessage() const;
 
         /**
+         * Gets the filename in which the exceptions was thrown.
+         *
          * @return the filename in which the exception was thrown.
          */
         const std::string& getFilename() const;
 
         /**
-         * @return the line number from which line the exception was thrown.
+         * Gets the line number of the line where the exception was thrown. 
+         *
+         * @return the line number of the line where the exception was thrown.
          */
         int getLine() const;
     
@@ -132,14 +137,13 @@ namespace gcn
         std::string mMessage;
         std::string mFilename;
         int mLine;
-
-    }; // end Exception
-
-} // end gcn
+    };
+}
 
 #endif // end GCN_EXCEPTION_HPP
 
 /*
  * "Final Fantasy XI is the BEST!... It's even better then water!"
  *  - Astrolite
+ * I believe it's WoW now days. 
  */

@@ -99,7 +99,7 @@ namespace gcn
     
         virtual void putPixel(int x, int y, const Color& color);
     
-    private:
+    protected:
         SDL_Surface* mCurrentImage;
     
     }; // end SDLImageLoader

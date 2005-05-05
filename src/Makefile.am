@@ -2,7 +2,7 @@ SUBDIRS = widgets @GUICHAN_EXTRADIRS@
 
 lib_LTLIBRARIES = libguichan.la
 
-libguichan_la_LIBADD = @GUICHAN_EXTRALIBS@ widgets/libguichan_widgets.la
+libguichan_la_LIBADD = widgets/libguichan_widgets.la
 
 libguichan_la_DEPENDENCIES = \
 	widgets/libguichan_widgets.la

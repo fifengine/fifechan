@@ -464,5 +464,13 @@ namespace gcn
     {
         return mOpaque;    
     }
-  
+
+    void Window::logic()
+    {
+        if (getContent() != NULL)
+        {
+            getContent()->logic();
+        }
+    }
+    
 } // end gcn

@@ -216,11 +216,11 @@ namespace gcn
 		{
             if (getOrientation() == HORIZONTAL)
             {
-                setValue(calculateValue(x - getMarkerLength() / 2));
+                setValue(markerPositionToValue(x - getMarkerLength() / 2));
             }
             else
             {
-                setValue(calculateValue(getHeight() - y - getMarkerLength() / 2));
+                setValue(markerPositionToValue(getHeight() - y - getMarkerLength() / 2));
             }
       
 			mMouseDrag = true;
@@ -248,11 +248,11 @@ namespace gcn
 		{
             if (getOrientation() == HORIZONTAL)
             {
-                setValue(calculateValue(x - getMarkerLength() / 2));
+                setValue(markerPositionToValue(x - getMarkerLength() / 2));
             }
             else
             {
-                setValue(calculateValue(getHeight() - y - getMarkerLength() / 2));
+                setValue(markerPositionToValue(getHeight() - y - getMarkerLength() / 2));
             }
       
             generateAction();
@@ -331,7 +331,7 @@ namespace gcn
         return mOrientation;
     }
 
-    double Slider::calculateValue(int v)
+    double Slider::markerPositionToValue(int v) const
     {
         int w;
         if (getOrientation() == HORIZONTAL)
@@ -348,7 +348,7 @@ namespace gcn
     
     }
   
-    int Slider::getMarkerPosition()
+    int Slider::valueToMarkerPosition(double value) const
     {
         int v;
         if (getOrientation() == HORIZONTAL)
@@ -361,7 +361,8 @@ namespace gcn
         }
 
         int w =  (int)((v - getMarkerLength())
-                       * getValue() / (getScaleEnd() - getScaleStart()));
+                       * (value  - getScaleStart())
+                       / (getScaleEnd() - getScaleStart()));
     
         if (w < 0)
         {
@@ -385,5 +386,10 @@ namespace gcn
     {
         return mStepLength;
     }
-  
+
+    int Slider::getMarkerPosition() const
+    {
+        return valueToMarkerPosition(getValue());
+    }
+    
 } // end gcn

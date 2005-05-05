@@ -67,9 +67,8 @@ namespace gcn
 
     SDLImageLoader::SDLImageLoader()
     {
-        mCurrentImage = NULL;
-    
-    } // end SDLImageLoader
+        mCurrentImage = NULL;    
+    }
   
     void SDLImageLoader::prepare(const std::string& filename)
     {
@@ -106,25 +105,17 @@ namespace gcn
             throw GCN_EXCEPTION(std::string("SDLImageLoader::prepare. Not enough memory to load: ")+filename);
         }
     
-        SDL_Rect rect;
-        rect.x = 0;
-        rect.y = 0;
-        rect.w = tmp->w;
-        rect.h = tmp->h;
-
         SDL_Surface* tmp2 = SDL_ConvertSurface(tmp, mCurrentImage->format, SDL_SWSURFACE);
 		SDL_FreeSurface(tmp);
 		SDL_FreeSurface(mCurrentImage);
 
-		mCurrentImage = tmp2;
-    
-    } // end prepare
+		mCurrentImage = tmp2;    
+    }
 
     void* SDLImageLoader::getRawData()
     {
         return mCurrentImage->pixels;
-
-    } // end getRawData
+    }
   
     void* SDLImageLoader::finalize()
     {
@@ -185,9 +176,8 @@ namespace gcn
             SDL_SetAlpha(temp, SDL_SRCALPHA, 255);
         }
     
-        return temp;
-    
-    } // end finalize
+        return temp;    
+    }
   
     void SDLImageLoader::discard()
     {
@@ -198,9 +188,8 @@ namespace gcn
     
         SDL_FreeSurface(mCurrentImage);
     
-        mCurrentImage = NULL;
-    
-    } // end discard
+        mCurrentImage = NULL;    
+    }
   
     void SDLImageLoader::free(Image* image)
     {
@@ -209,9 +198,8 @@ namespace gcn
             throw GCN_EXCEPTION("SDLImageLoader::free. Image data points to null.");
         }
     
-        SDL_FreeSurface((SDL_Surface*)image->_getData());
-    
-    } // end free
+        SDL_FreeSurface((SDL_Surface*)image->_getData());    
+    }
   
     int SDLImageLoader::getWidth() const
     {
@@ -221,8 +209,7 @@ namespace gcn
         }
     
         return mCurrentImage->w;
-
-    } // end getWidth
+    }
 
     int SDLImageLoader::getHeight() const
     {
@@ -232,8 +219,7 @@ namespace gcn
         }
     
         return mCurrentImage->h;
-
-    } // end getHeight
+    }
 
     Color SDLImageLoader::getPixel(int x, int y)
     {
@@ -247,9 +233,8 @@ namespace gcn
             throw GCN_EXCEPTION("SDLImageLoader::getPixel. x and y out of image bound.");
         }
 
-        return SDLgetPixel(mCurrentImage, x, y);
-    
-    } // end getPixel
+        return SDLgetPixel(mCurrentImage, x, y);    
+    }
 
     void SDLImageLoader::putPixel(int x, int y, const Color& color)
     {
@@ -263,8 +248,7 @@ namespace gcn
             throw GCN_EXCEPTION("SDLImageLoader::putPixel. x and y out of image bound.");
         }
     
-        SDLputPixel(mCurrentImage, x, y, color);
-    
-    } // end putPixel
+        SDLputPixel(mCurrentImage, x, y, color);    
+    }
 
 } // end gcn

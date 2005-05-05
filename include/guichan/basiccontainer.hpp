@@ -64,8 +64,9 @@
 namespace gcn
 {
     /**
-     * This is the container base class. Every container should
-     * impement this class.
+     * Containers base class. Includes basic container functions
+     * every container should have. Ccontainers should
+     * inherit from this class and implement it's functions.
      *
      * @see Container
      */
@@ -76,47 +77,45 @@ namespace gcn
         virtual ~BasicContainer() { }
 
         /**
-         * Move a widget to the top of the basic container. The effect
-         * of this function is that the widget will be drawn above all
-         * other widgets in the basic container.
+         * Moves a Widget to the top of the BasicContainer.
+         * The widget will be drawn above all other Widgets in the
+         * BasicContainer.
          *
-         * @param widget the widget to move.
+         * @param widget the Widget to move.
          */
         virtual void moveToTop(Widget* widget) = 0;
 
         /**
-         * Move a widget to the bottom of the basic container. The effect
-         * of this function is that the widget will be drawn below all
-         * other widgets in the basic container.
+         * Moves a widget to the bottom of the BasicContainer.
+         * The Widget will be drawn below all other Widgets in the
+         * BasicContainer.
          *
-         * @param widget the widget to move.
+         * @param widget the Widget to move.
          */
         virtual void moveToBottom(Widget* widget) = 0;
 
         /**
-         * Used to check how much space a widget gets to draw itself which is
-         * not necessarily the same as the widgets width and height.
+         * Gets the drawing space size a Widget has in the BasicContainer.
+         * It may not be the same size as the Widgets width and height.
          *
-         * NOTE: This function does not check the size recursively all the way
-         *       back to the top widget. If the container itself is clipped,
+         * NOTE: Size is not checked recursively all the way back to the
+         *       top Widget. If the BasicContainer itself is clipped,
          *       the size may be inaccurate.
          * 
-         * @param width the width the widget draw space has
-         * @param height the height the widget draw space has
-         * @param widget a pointer to the widget calling the function
+         * @param width the width the Widget's draw space has.
+         * @param height the height the Widget's draw space has.
+         * @param widget the Widget calling the function.
          */
         virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
 
         /**
-         * This function is automatically called by the containers children
-         * when they get destroyed.
+         * Called when a child of the BasicContainer gets destroyed.
          *
-         * @param widget the destroyed widget
+         * @param widget the destroyed Widget.
          */
         virtual void _announceDeath(Widget *widget) = 0;
     
-    }; // end BasicContainer
-  
-} // end gcn
+    };  
+}
 
 #endif // end GCN_BASICCONTAINER_HPP

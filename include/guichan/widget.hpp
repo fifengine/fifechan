@@ -157,7 +157,7 @@ namespace gcn
 		/**
 		 * @return the widget with in pixels
 		 */
-		virtual int getWidth();
+		virtual int getWidth() const;
     
 		/**
 		 * @param height the widget height in pixels
@@ -167,7 +167,7 @@ namespace gcn
 		/**
 		 * @return the widget height in pixels
 		 */
-		virtual int getHeight();
+		virtual int getHeight() const;
 
 		/**
 		 * Sets the size of the widget.
@@ -187,7 +187,7 @@ namespace gcn
 		 * @return the widgets x coordinate relative to its
 		 *         container.
 		 */
-		virtual int getX();
+		virtual int getX() const;
 
 		/**
 		 * @param y the widgets y coordinate relative to its
@@ -199,7 +199,7 @@ namespace gcn
 		 * @return the widgets y coordinate relative to its
 		 *         container.
 		 */
-		virtual int getY();
+		virtual int getY() const;
 
 		/**
 		 * @param x the widgets x coordinate relative to its
@@ -516,7 +516,7 @@ namespace gcn
 		 * @param x absolute x coordinate will be stored in this parameter
 		 * @param y absolute y coordinate will be stored in this parameter
 		 */	
-		virtual	void getAbsolutePosition(int& x, int& y);
+		virtual	void getAbsolutePosition(int& x, int& y) const;
     
 		/**
 		 * This function sets the widgets parent. It should not be
@@ -614,7 +614,26 @@ namespace gcn
 		 * @return true if the widget is dragged.
 		 */
 		virtual bool isDragged() const;
-		
+
+        /**
+         * Kindly asks to recieve modal focus. When a widget has modal
+         * focus, only that one and it's children may recieve input.
+         * If some other widget allready has modal focus, an exception
+         * will be thrown.
+         */
+		virtual void requestModalFocus();
+
+        /**
+         * Releases modal focus, if the widget has it.
+         */
+        virtual void releaseModalFocus();
+        
+        /**
+         * Checks if the widget or it's parent has modal focus.
+         */
+        virtual bool hasModalFocus() const;
+
+        
 	protected:
 		/**
 		 * This function generates an action to the widgets action listeners.

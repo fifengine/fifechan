@@ -56,6 +56,8 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/sdl.hpp"
+
 extern "C"
 {
     void gcnSDL() { }

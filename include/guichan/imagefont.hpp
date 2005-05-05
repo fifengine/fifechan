@@ -156,7 +156,7 @@ namespace gcn
 		 *
 		 * @return the spacing.
 		 */
-		virtual int getGlyphSpacing();
+        virtual int getGlyphSpacing();
 		
         /**
          * Gets a width of a glyph.
@@ -164,24 +164,25 @@ namespace gcn
          * @param glyph the glyph which width will be returned
          * @return the width of a glyph 
          */
-		virtual int getWidth(unsigned char glyph) const;
+        virtual int getWidth(unsigned char glyph) const;
 
 		
 		// Inherited from Font
 
-		virtual int getWidth(const std::string& text) const;
+        virtual int getWidth(const std::string& text) const;
 		
-		virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);		
+        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);		
 		
         virtual int getHeight() const;
 
-		virtual int getStringIndexAt(const std::string& text, int x);
+        virtual int getStringIndexAt(const std::string& text, int x);
 		
     protected:
-        int addGlyph(unsigned char c, int x, const Color& separator);
-    
-        int mGlyphX[256];
-        int mGlyphW[256];
+        void addGlyph(unsigned char c, int &x, int &y, const Color& separator);
+
+        Rectangle mGlyph[256];
+        //int mGlyphX[256];
+        //int mGlyphW[256];
         int mHeight;
 		int mGlyphSpacing;
 		int mRowSpacing;

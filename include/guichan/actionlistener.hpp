@@ -62,7 +62,9 @@
 namespace gcn
 {
     /**
-     * An ActionListener listens for action events from a widget.
+     * Listener of action events from Widgets. To be able to
+     * listen for actions you must make a class which inherits
+     * from this class and implements the action function.
      *
      * @see Widget::addActionListener
      */
@@ -76,14 +78,15 @@ namespace gcn
         virtual ~ActionListener() { }
     
         /**
-         * This function is called upon an action recieved from a widget.
+         * Called whan an action is recieved from a Widget. It is used
+         * to be able to recieve a notification that an action has
+         * occured.
          *
-         * @param eventId the identifier of the widget.
+         * @param eventId the identifier of the Widget.
          */
         virtual void action(const std::string& eventId) = 0;
 
-    }; // end ActionListener
-
-} // end gcn
+    };
+}
 
 #endif // end GCN_ACTIONLISTENER_HPP

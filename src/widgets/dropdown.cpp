@@ -55,8 +55,6 @@
 #include "guichan/exception.hpp"
 #include "guichan/widgets/dropdown.hpp"
 
-#include <iostream>
-
 namespace gcn
 {  
 	DropDown::DropDown()
@@ -82,9 +80,8 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
-		setBorderSize(1);
-		
-	} // end DropDown
+		setBorderSize(1);		
+	}
     
 	DropDown::DropDown(ListModel *listModel)
 	{
@@ -116,9 +113,8 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
-		setBorderSize(1);
-		
-	} // end DropDown
+		setBorderSize(1);		
+	}
   
 	DropDown::DropDown(ListModel *listModel,
 					   ScrollArea *scrollArea,
@@ -150,9 +146,8 @@ namespace gcn
 		addMouseListener(this);
 		addKeyListener(this);
 		adjustHeight();
-		setBorderSize(1);
-		
-	} // end DropDown
+		setBorderSize(1);		
+	}
 
 	DropDown::~DropDown()
 	{	  
@@ -175,8 +170,7 @@ namespace gcn
 		{
 			mListBox->removeActionListener(this);
 		}
-
-	} // end ~DropDown
+	}
   
 	void DropDown::logic()
 	{
@@ -186,6 +180,7 @@ namespace gcn
 		}
 	  
 		mScrollArea->logic();
+        mFocusHandler.applyChanges();
 	}
     
 	void DropDown::draw(Graphics* graphics)
@@ -346,9 +341,8 @@ namespace gcn
 			throw GCN_EXCEPTION("DropDown::getSelected. ScrollArea or ListBox is NULL");
 		}
 
-		return mListBox->getSelected();
-		
-	} // end getSelected
+		return mListBox->getSelected();		
+	}
     
 	void DropDown::setSelected(int selected)
 	{
@@ -360,9 +354,8 @@ namespace gcn
 		if (selected >= 0)
 		{
 			mListBox->setSelected(selected);
-		}
-		
-	} // end setSelected
+		}		
+	}
 	
 	void DropDown::keyPress(const Key& key)
 	{
@@ -375,9 +368,8 @@ namespace gcn
 			&& !mDroppedDown)
 		{
 			dropDown();
-		}
-		
-	} // end keyPress
+		}		
+	}
   
 	void DropDown::mousePress(int x, int y, int button)
 	{
@@ -395,9 +387,8 @@ namespace gcn
 		else if (!hasMouse())
 		{
 			foldUp();
-		}
-		
-	} // end mousePress
+		}		
+	}
 
 	void DropDown::mouseRelease(int x, int y, int button)
 	{
@@ -405,8 +396,7 @@ namespace gcn
 		{      
 			mPushed = false;
 		}
-
-	} // end mouseRelease
+	}
   
 	void DropDown::setListModel(ListModel *listModel)
 	{
@@ -422,9 +412,8 @@ namespace gcn
 			mListBox->setSelected(0);
 		}
     
-		adjustHeight();
-		
-	} // end setListModel
+		adjustHeight();		
+	}
   
 	ListModel *DropDown::getListModel()
 	{
@@ -433,9 +422,8 @@ namespace gcn
 			throw GCN_EXCEPTION("DropDown::getListModel. ScrollArea or ListBox is NULL");
 		}
 	  
-		return mListBox->getListModel();
-		
-	} // end getListModel
+		return mListBox->getListModel();		
+	}
 
 	void DropDown::setScrollArea(ScrollArea *scrollArea)
 	{
@@ -445,15 +433,13 @@ namespace gcn
 		mScrollArea->_setFocusHandler(&mFocusHandler);
 		mScrollArea->setContent(mListBox);
 		mScrollArea->_setParent(this);
-		adjustHeight();
-		
-	} // end setScrollArea
+		adjustHeight();		
+	}
 
 	ScrollArea *DropDown::getScrollArea()
 	{
-		return mScrollArea;
-		
-	} // end getScrollArea
+		return mScrollArea;		
+	}
   
 	void DropDown::setListBox(ListBox *listBox)
 	{
@@ -473,15 +459,13 @@ namespace gcn
 		if (mListBox->getSelected() < 0)
 		{
 			mListBox->setSelected(0);
-		}
-		
-	} // end setListBox
+		}	   
+	}
 
 	ListBox *DropDown::getListBox()
 	{
-		return mListBox;
-		
-	} // end getListBox
+		return mListBox;		
+	}
   
 	void DropDown::adjustHeight()
 	{
@@ -515,9 +499,8 @@ namespace gcn
 		}
 
 		mScrollArea->setWidth(getWidth());
-		mScrollArea->setPosition(0, h2 + 2);
-		
-	} // end adjustHeight
+		mScrollArea->setPosition(0, h2 + 2);		
+	}
 
 	void DropDown::dropDown()
 	{		
@@ -533,9 +516,8 @@ namespace gcn
 			}
 		}
 		
-		mFocusHandler.requestFocus(mScrollArea->getContent());
-		
-	} // end dropDown
+		mFocusHandler.requestFocus(mScrollArea->getContent());		
+	}
 	
 	void DropDown::foldUp()
 	{		
@@ -544,9 +526,8 @@ namespace gcn
 			mDroppedDown = false;
 			mFocusHandler.focusNone();
 			adjustHeight();
-		}
-		
-	} // end foldUp
+		}		
+	}
 
 	void DropDown::_keyInputMessage(const KeyInput& keyInput)
 	{		
@@ -565,9 +546,8 @@ namespace gcn
 		else
 		{
 			BasicContainer::_keyInputMessage(keyInput);
-		}
-		
-	} // end _keyInputMessage
+		}		
+	}
 	
 	void DropDown::_mouseInputMessage(const MouseInput &mouseInput)
 	{	  	  
@@ -592,33 +572,29 @@ namespace gcn
 					mListBox->_mouseInputMessage(mi);
 				}
 			}
-		}
-		
-	} // end _mouseInputMessage
+		}		
+	}
 
 	void DropDown::lostFocus()
 	{
-		foldUp();
-		
-	} // end lostFocus
+		foldUp();		
+	}
 
 	void DropDown::moveToTop(Widget* widget)
 	{
 		if (getParent())
 		{
 			getParent()->moveToTop(this);
-		}
-		
-	} // end moveToTop
+		}		
+	}
 
     void DropDown::moveToBottom(Widget* widget)
 	{
 		if (getParent())
 		{
 			getParent()->moveToBottom(this);
-		}
-		
-	} // end moveToBottom
+		}		
+	}
 
 	void DropDown::_announceDeath(Widget* widget)
 	{		
@@ -629,16 +605,14 @@ namespace gcn
 		else
 		{
 			throw GCN_EXCEPTION("DropDown::_announceDeath. Death announced for unknown widget.");
-		}
-		
-	} // end _announceDeath
+		}		
+	}
 
 	void DropDown::action(const std::string& eventId)
 	{
 		foldUp();
-		generateAction();
-		
-	} // end action
+		generateAction();		
+	} 
 
 	void DropDown::getDrawSize(int& width, int& height, Widget* widget)
 	{
@@ -657,9 +631,8 @@ namespace gcn
 		else
 		{
 			throw GCN_EXCEPTION("DropDown::getDrawSize. widget is not the ScrollArea (wieeerd...)");
-		}
-		
-	} // end getDrawSize
+		}		
+	}
 
 	void DropDown::setBaseColor(const Color& color)
 	{

@@ -229,9 +229,29 @@ namespace gcn
         };
         
 	protected:
-		virtual double calculateValue(int v);
-        virtual int getMarkerPosition();
-    
+        /**
+         * Converts a marker position to a value.
+         *         
+         * @param v the position to convert.
+         * @return the value corresponding to the position.
+         */
+		virtual double markerPositionToValue(int v) const;
+        
+        /**
+         * Converts a value to a marker position.
+         *
+         * @param value the value to convert.
+         * @return the position corresponding to the value.
+         */
+        virtual int valueToMarkerPosition(double value) const;
+
+        /**
+         * Get the marker position for the current value.
+         *
+         * @return the marker position for the current value.
+         */
+        virtual int getMarkerPosition() const;
+        
 		bool mMouseDrag;
         double mValue;
         double mStepLength;

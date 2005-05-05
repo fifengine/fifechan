@@ -60,24 +60,26 @@
 namespace gcn
 {
     /**
-     * Class that represents a color.
+     * Represents a color with red, green, blue and alpha components. 
      */
     class GCN_CORE_DECLSPEC Color
     {    
     public:
+
         /**
-         * Constructor. Gives the color black.
+         * Constructor. Initializes the color to black.
          */
         Color();
     
         /**
-         * Constructor that constructs a color from the bytes in an integer.
-         * Call it with a hexadecimal constant for HTML-style color representation.
-         * For example, Color(0xff50a0) constructs Gui-chan's favourite color. The
-         * alpha component will always be set to 255 by this constructor.
+         * Constructs a color from the bytes in an integer. Call it with
+         * a hexadecimal constant for HTML-style color representation.
+         * The alpha component will be set to 255.
+         *
+         * EXAMPLE: Color(0xff50a0) constructs Gui-chan's favourite color. 
          *
          * NOTE: Because of this constructor, integers will be automatically casted
-         * to a color by your compiler.
+         *       to a color by your compiler.
          *
          * @param color the color.
          */
@@ -97,30 +99,27 @@ namespace gcn
         /**
          * Adds the RGB values of two colors together. The values will be clamped
          * if they go out of range.
-         * The returned color will always have alpha of 255.
          *
          * @param color a color to add to this color.
-         * @return the resulting color.
+         * @return the resulting color with alpha set to 255.
          */
         Color operator+(const Color& color) const;
 
         /**
          * Subtracts the RGB values of one color from another.
          * The values will be clamped if they go out of range.
-         * The returned color will always have alpha of 255.
          *
          * @param color a color to subtract from this color.
-         * @return the resulting color.
+         * @return the resulting color with alpha set to 255.
          */
         Color operator-(const Color& color) const;
 
         /**
          * Multiplies the RGB values of a color with a float value.
          * The values will be clamped if they go out of range.
-         * The alpha component will be left untouched.
          *
          * @param value the value to multiply the color with.
-         * @return the resulting color.     
+         * @return the resulting color with alpha untouched.     
          */
         Color operator*(float value) const;
     
@@ -157,10 +156,8 @@ namespace gcn
          * Color alpha, used for transparency. A value of 0 means totaly
          * transparent, 255 is totaly opaque (the default)
          */    
-        int a;
-    
-    }; // end Color
-  
-} // end gcn
+        int a;    
+    };  
+}
 
 #endif // end GCN_COLOR_HPP

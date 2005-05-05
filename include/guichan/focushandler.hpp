@@ -62,142 +62,173 @@
 
 namespace gcn
 {
-	class Widget;
+    class Widget;
   
-	/**
-	 * The FocusHandler is used internally in the library to keep
-	 * track of widget focus. You will not have to use the FocusHandler
-	 * directly to handle focus, use the functions handling focus in
-	 * the Widget class instead.
-	 *
-	 * @see Widget::hasFocus
-	 * @see Widget::requestFocus
-	 * @see Widget::setFocusable
-	 * @see Widget::isFocusable
-	 * @see Widget::gotFocus
-	 * @see Widget::lostFocus
-	 */
-	class GCN_CORE_DECLSPEC FocusHandler
-	{
-	public:
+    /**
+     * Used to keep track of widget focus. You will probably not have
+     * to use the FocusHandler directly to handle focus. Widget has
+     * functions for handling focus which uses a FocusHandler. Use them
+     * instead.
+     *
+     * @see Widget::hasFocus
+     * @see Widget::requestFocus
+     * @see Widget::setFocusable
+     * @see Widget::isFocusable
+     * @see Widget::gotFocus
+     * @see Widget::lostFocus
+     */
+    class GCN_CORE_DECLSPEC FocusHandler
+    {
+    public:
+        
+        /**
+         * Constructor.
+         */
+        FocusHandler();
 
-		/**
-		 * Constructor.
-		 */
-		FocusHandler();
+        /**
+         * Destructor.
+         */
+        virtual ~FocusHandler() { };
+        
+        /**
+         * Sets focus to a Widget. Widget::lostFocus and
+         * Widget::gotFocus will be called.
+         *
+         * @param widget the Widget to focus.
+         */
+        virtual void requestFocus(Widget* widget);
+
+        /**
+         * Sets drag to a Widget.
+         *
+         * @param widget the Widget to drag.
+         */
+        virtual void requestDrag(Widget* widget);
+        
+        /**
+         * Sets modal focus to a Widget. If another Widget already
+         * has modal focus will an exception be thrown.
+         *
+         * @param widget the Widget to focus modal.
+         * @throws Exception when another widget already has modal focus.
+         */
+        virtual void requestModalFocus(Widget* widget);
+
+        /**
+         * Releases modal focus if the Widget has modal focus.
+         * Otherwise nothing will be done.
+         *
+         * @param widget the Widget to release modal focus for.
+         */
+        virtual void releaseModalFocus(Widget* widget);
+        
+        /**
+         * Gets the Widget with focus.         
+         *
+         * @return the Widget with focus. NULL will be returned if
+         *         no Widget has focus.
+         */
+        virtual Widget* getFocused() const;
+        
+        /**
+         * Gets the widget that is dragged.
+         *
+         * @return the widget that is dragged. NULL will be returned
+         *         if no Widget is dragged.
+         */
+        virtual Widget* getDragged() const;
+
+        /**
+         * Gets the Widget with modal focus.
+         *
+         * @return the Widget with modal focus. NULL will be returned
+         *         if no Widget has modal focus.
+         */
+        virtual Widget* getModalFocused() const;
+        
+        /**
+         * Focuses the next Widget. If no Widget has focus the first
+         * Widget gets focus. The order in which the Widgets are focused
+         * depends on the order you add them to the GUI.
+         */
+        virtual void focusNext();
     
-		/**
-		 * Sets the focus to a certain widget. Widget::lostFocus and
-		 * Widget::gotFocus will be called as necessary.
-		 *
-		 * @param widget the widget to be focused.
-		 */
-		void requestFocus(Widget* widget);
+        /**
+         * Focuses the previous Widget. If no Widget has focus the first
+         * Widget gets focus. The order in which the widgets are focused
+         * depends on the order you add them to the GUI.     
+         */
+        virtual void focusPrevious();
 
-		/**
-		 * Sets a widget to be dragged.
-		 *
-		 * @param widget the widget to be dragged.
-		 */
-		void requestDrag(Widget* widget);
+        /**
+         * Checks if a Widget has focus.
+         *
+         * @param widget widget to check if it has focus..
+         * @return true if the widget has focus.
+         */
+        virtual bool hasFocus(const Widget* widget) const;
 
-		/**
-		 * Gets the focused widget.
-		 *
-		 * @return a pointer to the focused widget.
-		 */
-		Widget* getFocused() const;
-		
-		/**
-		 * Gets the widget that is dragged.
-		 *
-		 * @return a pointer to the dragged widget.
-		 */
-		Widget* getDragged() const;
-
-		/**
-		 * Focuses the next widget. If no widget has focus the first
-		 * widget is focused. The order that the widgets are focused
-		 * depends on the order that you add them to the GUI.
-		 */
-		void focusNext();
+        /**
+         * Checks if a widget is being dragged
+         *
+         * @param widget the Widget to check if it is being dragged.
+         * @return true if the widget is being dragged.
+         */
+        virtual bool isDragged(const Widget* widget) const;
+        
+        /**
+         * Adds a widget to the FocusHandler.
+         *
+         * @param widget the widget to add.
+         */
+        virtual void add(Widget* widget);
     
-		/**
-		 * Focuses the previous widget. If no widget has focus the first
-		 * widget is focused. The order that the widgets are focused
-		 * depends on the order that you add them to the GUI.     
-		 */
-		void focusPrevious();
+        /**
+         * Removes a widget from the FocusHandler.
+         *
+         * @param widget the widget to remove.     
+         */
+        virtual void remove(Widget* widget);
 
-		/**
-		 * Checks if a widget currently has focus.
-		 *
-		 * @param widget a pointer to the widget to check.
-		 * @return true if the widget has focus.
-		 */
-		bool hasFocus(const Widget* widget) const;
+        /**
+         * Focuses nothing.
+         */
+        virtual void focusNone();
+        
+        /**
+         * Focuses the next Widget which allows tab in unless current focused
+         * Widget disallows tab out.
+         */
+        virtual void tabNext();
 
-		/**
-		 * Checks if a widget is dragged
-		 *
-		 * @param widget a pointer to the widget to check.
-		 * @return true if the widget is dragged.
-		 */
-		bool isDragged(const Widget* widget) const;
-		
-		/**
-		 * Adds a widget to the FocusHandler.
-		 *
-		 * @param widget a pointer to the widget to add.
-		 */
-		void add(Widget* widget);
+        /**
+         * Focuses the previous Widget which allows tab in unless current focused
+         * Widget disallows tab out.
+         */
+        virtual void tabPrevious();
+
+        /**
+         * Applies the changes.
+         */
+        virtual void applyChanges();
+
+        /**
+         * Drag nothing.
+         */
+        virtual void dragNone();
+        
+    protected:
+        typedef std::vector<Widget*> WidgetVector;
+        typedef WidgetVector::iterator WidgetIterator;
+        WidgetVector mWidgets;
     
-		/**
-		 * Removes a widget from the FocusHandler.
-		 *
-		 * @param widget a pointer to the widget to remove.     
-		 */
-		void remove(Widget* widget);
-
-		/**
-		 * Focuses nothing.
-		 */
-		void focusNone();
-
-		/**
-		 * Focus the next Widget which allows tab in unless current focused
-		 * Widget disallows tab out.
-		 */
-		void tabNext();
-
-		/**
-		 * Focus the previous Widget which allows tab in unless current focused
-		 * Widget disallows tab out.
-		 */
-		void tabPrevious();
-
-		/**
-		 * Applies the changes.
-		 */
-		void applyChanges();
-
-		/**
-		 * Drag nothing.
-		 */
-		void dragNone();
-		
-	protected:
-		typedef std::vector<Widget*> WidgetVector;
-		typedef WidgetVector::iterator WidgetIterator;
-		WidgetVector mWidgets;
-    
-		Widget* mFocusedWidget;
+        Widget* mFocusedWidget;
         Widget* mDraggedWidget;
-		Widget* mToBeFocused;
-		Widget* mToBeDragged;
-
-	}; // FocusHandler
-  
-} // end gcn
+        Widget* mToBeFocused;
+        Widget* mToBeDragged;
+        Widget* mModalFocusedWidget;        
+    };  
+}
 
 #endif // end GCN_FOCUSHANDLER_HPP

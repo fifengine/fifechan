@@ -75,8 +75,7 @@ namespace gcn
         mWidth = width;
         mHeight = height;
 		mLoadedWithImageLoader = false;
-		
-    } // end Image
+    }
   
     Image::Image(const std::string& filename)
     {
@@ -90,10 +89,7 @@ namespace gcn
         mWidth = mImageLoader->getWidth();
         mHeight = mImageLoader->getHeight();
         mData = mImageLoader->finalize();
-
-        mFilename = filename;
-
-    } // end Image
+    }
 
     Image::~Image()
     {
@@ -101,43 +97,31 @@ namespace gcn
 		{
 			mImageLoader->free(this);
 		}
-    
-    } // end ~Image
+    }
   
-    const std::string& Image::getFilename() const
-    {
-        return mFilename;
-
-    } // end getFilename
-
     int Image::getWidth() const
     {
         return mWidth;
-
-    } // end getWidth
+    }
 
     int Image::getHeight() const
     {
         return mHeight;
-
-    } // end getHeight
+    }
 
     void* Image::_getData() const
     {
         return mData;
-
-    } // end getData
+    }
   
     void Image::setImageLoader(ImageLoader* imageLoader)
     { 
         mImageLoader = imageLoader;
-
-    } // end setImageLoader
+    }
 
     ImageLoader* Image::_getImageLoader()
     {
         return mImageLoader;
-
-    } // end _getImageLoader
+    }
 	
 } // end gcn
