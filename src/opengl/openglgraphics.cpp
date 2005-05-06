@@ -61,7 +61,13 @@
 #include <windows.h>
 #endif
 
+#ifdef __amigaos4__
+#include <mgl/gl.h>
+#define glVertex3i glVertex3f
+#else
 #include <GL/gl.h>
+#endif
+
 #include <string>
 
 #include "guichan/opengl/openglgraphics.hpp"
@@ -73,20 +79,18 @@ namespace gcn
     OpenGLGraphics::OpenGLGraphics()
     {
         setTargetPlane(640, 480);
-		mAlpha = false;
-		
-    } // end OpenGLGraphics
+        mAlpha = false;        
+    }
   
     OpenGLGraphics::OpenGLGraphics(int width, int height)
     {
         setTargetPlane(width, height);
-
-    } // end OpenGLGrapics
+    }
   
     OpenGLGraphics::~OpenGLGraphics()
     {
 
-    } // end ~OpenGLGraphics
+    }
 
     void OpenGLGraphics::_beginDraw()
     {
@@ -101,7 +105,7 @@ namespace gcn
             GL_POINT_BIT |
             GL_POLYGON_BIT |
             GL_SCISSOR_BIT |
-            GL_STENCIL_BUFFER_BIT	|
+            GL_STENCIL_BUFFER_BIT    |
             GL_TEXTURE_BIT |
             GL_TRANSFORM_BIT
             );
@@ -120,14 +124,14 @@ namespace gcn
     
         glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
-		glDisable(GL_LIGHTING);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		
+        glDisable(GL_LIGHTING);
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_DEPTH_TEST);
+        
         glEnable(GL_SCISSOR_TEST);
 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -136,8 +140,7 @@ namespace gcn
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
         pushClipArea(Rectangle(0, 0, mWidth, mHeight));
-
-    } // end _beginDraw
+    }
   
     void OpenGLGraphics::_endDraw()
     {
@@ -153,8 +156,7 @@ namespace gcn
         glPopAttrib();
     
         popClipArea();
-
-    } // _endDraw
+    }
 
     bool OpenGLGraphics::pushClipArea(Rectangle area)
     {
@@ -166,8 +168,7 @@ namespace gcn
                   mClipStack.top().height);
     
         return result;
-
-    } // end pushClipArea
+    }
 
     void OpenGLGraphics::popClipArea()
     {
@@ -182,15 +183,13 @@ namespace gcn
                   mHeight - mClipStack.top().y - mClipStack.top().height,
                   mClipStack.top().width,
                   mClipStack.top().height);
-
-    } // end popClipArea
+    }
   
     void OpenGLGraphics::setTargetPlane(int width, int height)
     {
         mWidth = width;
         mHeight = height;
-
-    } // end setTargetPlane
+    }
   
     void OpenGLGraphics::drawImage(const Image* image, int srcX, int srcY,
                                    int dstX, int dstY, int width,
@@ -224,12 +223,12 @@ namespace gcn
 
         glEnable(GL_TEXTURE_2D);
 
-		// Check if blending already is enabled
-		if (!mAlpha)
-		{
-			glEnable(GL_BLEND);
+        // Check if blending already is enabled
+        if (!mAlpha)
+        {
+            glEnable(GL_BLEND);
         }
-		
+        
         // Draw a textured quad -- the image
         glBegin(GL_QUADS);
         glTexCoord2f(texX1, texY1);
@@ -241,19 +240,18 @@ namespace gcn
         glTexCoord2f(texX2, texY2);
         glVertex3i(dstX + width, dstY + height, 0);
 
-		glTexCoord2f(texX2, texY1);
+        glTexCoord2f(texX2, texY1);
         glVertex3i(dstX + width, dstY, 0);
         glEnd();
     
         glDisable(GL_TEXTURE_2D);      
 
-		// Don't disable blending if the color has alpha
-		if (!mAlpha)
-		{
-			glDisable(GL_BLEND);
-		}
-    
-    } // drawImage
+        // Don't disable blending if the color has alpha
+        if (!mAlpha)
+        {
+            glDisable(GL_BLEND);
+        }    
+    }
   
     void OpenGLGraphics::drawPoint(int x, int y)
     {
@@ -263,8 +261,7 @@ namespace gcn
         glBegin(GL_POINTS);
         glVertex3i(x, y, 0);
         glEnd();
-
-    } // end drawPoint
+    }
   
     void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
@@ -278,11 +275,10 @@ namespace gcn
         glVertex3f(x2+0.5f, y2+0.5f, 0);
         glEnd();
 
-		glBegin(GL_POINTS);
-		glVertex3f(x2+0.5f, y2+0.5f, 0);
-		glEnd();
-
-    } // end drawLine
+        glBegin(GL_POINTS);
+        glVertex3f(x2+0.5f, y2+0.5f, 0);
+        glEnd();
+    }
   
     void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
     {    
@@ -296,8 +292,7 @@ namespace gcn
         glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
                    rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
         glEnd();
-
-    } // end drawRectangle
+    }
   
     void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
     {
@@ -311,28 +306,26 @@ namespace gcn
         glVertex3i(rectangle.x + mClipStack.top().xOffset,
                    rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
         glEnd();
-
-    } // end fillRectangle
+    }
   
     void OpenGLGraphics::setColor(const Color& color)
     {
-		mColor = color;
+        mColor = color;
         glColor4f(color.r/255.0,
                   color.g/255.0,
                   color.b/255.0,
                   color.a/255.0);
 
-		mAlpha = color.a != 255;
+        mAlpha = color.a != 255;
 
-		if (mAlpha)
-		{
-			glEnable(GL_BLEND);
-		}		
+        if (mAlpha)
+        {
+            glEnable(GL_BLEND);
+        }        
     }
 
-	const Color& OpenGLGraphics::getColor()
-	{		
+    const Color& OpenGLGraphics::getColor()
+    {        
         return mColor;    
-    }	
-
-} // end gcn
+    }    
+}
