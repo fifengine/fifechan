@@ -63,23 +63,24 @@
 
 namespace gcn
 {
-	// The following comment will appear in the doxygen main page.
+    // The following comment will appear in the doxygen main page.
     /**
-	 * @mainpage
-	 * @section Introduction
-	 * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
-	 * @n
-	 * @n
-	 * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
-	 */
-	
+     * @mainpage
+     * @section Introduction
+     * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
+     * @n
+     * @n
+     * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
+     */
+    
     /**
-	 * This is the main class for Guichan. It is the core of the a gui.
-	 * It holds a special widget called the top widget. For more then
-	 * one widget in your Gui, top widget should be a container of some sort.
-	 * For the Gui to function properly you need to set one Graphics object
-	 * and one Input object.
-	 */
+     * Gui core class. Contains a special widget called the top widget.
+     * If you want to be able to have more then one Widget in your Gui,
+     * the top widget should be a Container.
+     *
+     * NOTE: For the Gui to function properly you need to set a Graphics
+     *       object to use and an Input object to use.
+     */
     class GCN_CORE_DECLSPEC Gui
     {
     public:
@@ -95,15 +96,16 @@ namespace gcn
         virtual ~Gui();
 
         /**
-         * Sets the top widget of the gui.
+         * Sets the top Widget.
          *
-         * @param top the top widget.
+         * @param top the top Widget.
          */
         virtual void setTop(Widget* top);
 
         /**
-         * @return the top widget. NULL if no top widget exists.
-         * @see setTop
+         * Gets the top Widget.
+         *
+         * @return the top widget. NULL if no top widget has been set.
          */
         virtual Widget* getTop() const;
 
@@ -111,46 +113,48 @@ namespace gcn
          * Sets the Graphics object to use for drawing.
          *
          * @param graphics the Graphics object to use for drawing.
-         * @see Graphics, SDLGraphics, OpenGLGraphics, AllegroGraphics
-         * @todo Explain about the Graphics object in this comment. (Briefly)
+         * @see SDLGraphics, OpenGLGraphics, AllegroGraphics
          */
         virtual void setGraphics(Graphics* graphics);
 
         /**
+         * Gets the Graphics object used for drawing.
+         *
          *  @return the Graphics object used for drawing. NULL if no
-         *          Graphics object exists.
+         *          Graphics object has been set.
          */
         virtual Graphics* getGraphics() const;
     
         /**
-         *  Sets the Input object to use for input handling.
+         * Sets the Input object to use for input handling.
          *
          * @param input the Input object to use for input handling.
-         * @param see Input, SDLInput, AllegroInput
-         * @todo Explain about the Input object in this comment. (Briefly)
-         * @todo Maybe change the tab button to be configurable.
+         * @param see SDLInput, AllegroInput
          */
         virtual void setInput(Input* input);
     
         /**
-         *  @return the input object used for handling input. NULL if no
-         *          Input object exists.
+         * Gets the Input object being used for input handling.
+         *
+         *  @return the Input object used for handling input. NULL if no
+         *          Input object has been set.
          */
         virtual Input* getInput() const;
     
         /**
-         * Performs the Gui:s logic by calling all logic functions
-		 * down in the Gui heirarchy. Logic can be just about anything
-		 * like adjusting a Widgets size or doing some calculations.
-		 *
-		 * NOTE: Logic also deals with user input (Mouse and Keyboard)
-		 *       for Widgets.
+         * Performs the Gui logic. By calling this function all logic
+         * functions down in the Gui heirarchy will be called.
+         * What performs in Logic can be just about anything like
+         * adjusting a Widgets size or doing some calculations.
+         *
+         * NOTE: Logic also deals with user input (Mouse and Keyboard)
+         *       for Widgets.
          */
         virtual void logic();
 
         /**
-         * Draws the whole Gui by calling draw functions down in the
-		 * Gui hierarchy.
+         * Draws the Gui. By calling this funcion all draw functions
+         * down in the Gui hierarchy will be called.
          */
         virtual void draw();
 
@@ -160,32 +164,30 @@ namespace gcn
         virtual void focusNone();
     
         /**
-         * Toggle the use of the tab key to focus widgets.
+         * Toggles the use of the tab key to focus Widgets.
          * By default, tabbing is enabled.
          *
-         * @param tabbing set to false if you want to disable tabbing
+         * @param tabbing set to false if you want to disable tabbing.
          */
         virtual void setTabbingEnabled(bool tabbing);
 
         /**
          * Checks if tabbing is enabled.
          *
-         * @return true if tabbing is enabled
+         * @return true if tabbing is enabled.
          */
         virtual bool isTabbingEnabled();
-			
+            
     protected:
         bool mTopHasMouse;
-		bool mTabbing;
-		
+        bool mTabbing;
+        
         Widget* mTop;
         Graphics* mGraphics;
         Input* mInput;
-        FocusHandler* mFocusHandler;
-    
-    }; // end class Gui
-  
-} // end gcn
+        FocusHandler* mFocusHandler;    
+    };  
+}
 
 #endif // end GCN_GUI_HPP
 
