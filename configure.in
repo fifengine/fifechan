@@ -9,7 +9,7 @@ ALLEGRO="disabled"
 OPENGL="disabled"
 SDL="disabled"
 SDLIMAGE="disabled"
-X="disabled"
+dnl X="disabled"
 
 GUICHAN_MAJOR_VERSION=0
 GUICHAN_MINOR_VERSION=3
@@ -53,18 +53,18 @@ AC_HEADER_STDC
 
 CXXFLAGS="$CXXFLAGS -Wall -Werror -Wno-unused -DGUICHAN_BUILD"
 
-NoX()
-{
-  AC_MSG_WARN(Xlib support skipped when Xlib not found.)
-  X="no"
-}
+dnl NoX()
+dnl {
+dnl   AC_MSG_WARN(Xlib support skipped when Xlib not found.)
+dnl   X="no"
+dnl }
 
-HaveX()
-{
-  X="yes"
-  X_LIBS="$X_LIBS -L$x_libraries -lX11"
-  GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS x"
-}
+dnl HaveX()
+dnl {
+dnl   X="yes"
+dnl   X_LIBS="$X_LIBS -L$x_libraries -lX11"
+dnl   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS x"
+dnl }
 
 NoOpenGL()
 {
@@ -133,19 +133,19 @@ ForceAllegro()
   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS allegro"
 }
 
-AC_ARG_ENABLE(x,	     
-[  --enable-x	Enable Xlib support [default=no]], 
-               , enable_x=no)
-if test x$enable_x = xyes; then
-  AC_PATH_X
-  if test "x$no_x" = "xyes"; then
-    NoX
-  else
-  dnl   AC_CHECK_HEADERS([X11/Xlib.h])
-  dnl   AC_CHECK_LIB([X11], [XOpenDisplay], HaveX, NoX)
-    HaveX
-  fi
-fi
+dnl AC_ARG_ENABLE(x,	     
+dnl [  --enable-x	Enable Xlib support [default=no]], 
+dnl                , enable_x=no)
+dnl if test x$enable_x = xyes; then
+dnl   AC_PATH_X
+dnl   if test "x$no_x" = "xyes"; then
+dnl     NoX
+dnl   else
+dnl   dnl   AC_CHECK_HEADERS([X11/Xlib.h])
+dnl   dnl   AC_CHECK_LIB([X11], [XOpenDisplay], HaveX, NoX)
+dnl     HaveX
+dnl   fi
+dnl fi
 
 AC_ARG_ENABLE(opengl,	     
 [  --enable-opengl	Enable OpenGL support [default=yes]], 
@@ -230,9 +230,6 @@ else
   AC_MSG_WARN(SDL support skipped when SDL not found.)
 fi
 
-AC_SUBST([OPENGL_LIBS])
-AC_SUBST([SDL_LIBS])
-AC_SUBST([X_LIBS])
 AC_SUBST([GUICHAN_EXTRADIRS])
 
 AC_OUTPUT([
