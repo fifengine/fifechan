@@ -62,8 +62,7 @@
 extern "C"
 {
     /**
-     * Exists to be able to check for Guichan Allegro with
-     * autotools.
+     * Exists to be able to check for Guichan Allegro with autotools.
      *
      * @bug Autotools is incapable of finding this function.
      */    

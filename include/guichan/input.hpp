@@ -62,8 +62,9 @@
 namespace gcn
 {
     /**
-     * This is an abstract input class to be implemented by input
-     * drivers.
+     * Inputs base class. Contains basic Input functions every implemented
+     * input class should have. Input classes should inherit from this class
+     * and implements it's functions.
      *
      * @see SDLInput, AllegroInput
      */
@@ -107,13 +108,11 @@ namespace gcn
         virtual MouseInput dequeueMouseInput() = 0;
 
         /**
-         * This function polls all input. It exists for input driver
+         * Polls all exsisting input. It exists for Input implementation
          * compatibility. It is used internally by the library.
          */
-        virtual void _pollInput() = 0;
-    
-    }; // end Input
-  
-} // end gcn
+        virtual void _pollInput() = 0;    
+    };  
+}
 
 #endif // end GCN_INPUT_HPP

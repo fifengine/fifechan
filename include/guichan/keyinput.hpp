@@ -61,8 +61,8 @@
 namespace gcn
 {
     /**
-     * This is an internal class used in Guichan to grab keyboard input.
-     * Generally you won't have to bother using this class.
+     * Internal class representing keyboard input. Generally you won't have to
+     * bother using this class.
      */
     class GCN_CORE_DECLSPEC KeyInput
     {
@@ -89,6 +89,8 @@ namespace gcn
         void setType(int type);
 
         /**
+         * Gets the input type.
+         *
          * @return the input type.
          */
         int getType() const;
@@ -101,24 +103,28 @@ namespace gcn
         void setKey(const Key& key);
 
         /**
+         * Gets the key the input concerns.
+         *
          * @return the Key the input concerns.
          */
         const Key& getKey() const;
 
-		
-		enum
-		{
-			EMPTY = 0,
-			PRESS,
-			RELEASE
-		};
+
+        /**
+         * Enum with key input values.
+         */
+        enum
+        {
+            EMPTY = 0,
+            PRESS,
+            RELEASE
+        };
     
     protected:
         Key mKey;
         int mType;
         int mButton;
     };
-
-} // end gcn
+}
 
 #endif // end GCN_KEYINPUT_HPP

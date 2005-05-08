@@ -64,9 +64,9 @@
 namespace gcn
 {
     /**
-     * Containers base class. Includes basic container functions
-     * every container should have. Containers should
-     * inherit from this class and implement it's functions.
+     * Containers base class. Contains basic container functions every
+     * container should have. Containers should inherit from this class and
+     * implement it's functions.
      *
      * @see Container
      */
@@ -77,18 +77,16 @@ namespace gcn
         virtual ~BasicContainer() { }
 
         /**
-         * Moves a Widget to the top of the BasicContainer.
-         * The widget will be drawn above all other Widgets in the
-         * BasicContainer.
+         * Moves a Widget to the top of the BasicContainer. The widget will be
+         * drawn above all other Widgets in the BasicContainer.
          *
          * @param widget the Widget to move.
          */
         virtual void moveToTop(Widget* widget) = 0;
 
         /**
-         * Moves a widget to the bottom of the BasicContainer.
-         * The Widget will be drawn below all other Widgets in the
-         * BasicContainer.
+         * Moves a widget to the bottom of the BasicContainer. The Widget will
+         * be drawn below all other Widgets in the BasicContainer.
          *
          * @param widget the Widget to move.
          */

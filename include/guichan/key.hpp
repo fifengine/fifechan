@@ -62,7 +62,7 @@
 namespace gcn
 {
     /**
-     * This represents a key or a character.
+     * Represents a key or a character.
      */
     class GCN_CORE_DECLSPEC Key
     {
@@ -80,21 +80,29 @@ namespace gcn
         Key(int value);
     
         /**
+         * Checks whether a key is a character.
+         *
          * @return true if the key is a letter, number or whitespace.
          */
         bool isCharacter() const;
 
         /**
+         * Checks whether a key is a number.
+         *
          * @return true if the key is a number (0-9).
          */
         bool isNumber() const;
     
         /**
+         * Checks whether a key is a letter.
+         *
          * @return true if the key is a letter (a-z,A-Z). 
          */
         bool isLetter() const;
 
         /**
+         * Checks whether shift is pressed.
+         *
          * @return true if shift was pressed at the same time as the key.
          */
         bool isShiftPressed() const;
@@ -107,6 +115,7 @@ namespace gcn
         void setShiftPressed(bool pressed);
 
         /**
+         * Checks whether control is pressed.
          * @return true if control was pressed at the same time as the key.
          */    
         bool isControlPressed() const;
@@ -119,6 +128,8 @@ namespace gcn
         void setControlPressed(bool pressed);
 
         /**
+         * Checks whether alt is pressed.
+         *
          * @return true if alt was pressed at the same time as the key.
          */
         bool isAltPressed() const;
@@ -131,6 +142,8 @@ namespace gcn
         void setAltPressed(bool pressed);
 
         /**
+         * Checks whether meta is pressed.
+         *
          * @return true if meta was pressed at the same time as the key.
          */
         bool isMetaPressed() const;
@@ -143,6 +156,8 @@ namespace gcn
         void setMetaPressed(bool pressed);
     
         /**
+         * Checks whether the key was pressed at the numeric pad.
+         *
          * @return true if key pressed at the numeric pad.
          */
         bool isNumericPad() const;
@@ -155,8 +170,10 @@ namespace gcn
         void setNumericPad(bool numpad);
     
         /**
-         * @return the value of the key, an ascii value if exists
-         *         otherwise an enum value will be returned.
+         * Gets the value of the key. If an ascii value exists it will be
+         * returned. Otherwise an enum value will be returned.
+         *
+         * @return the value of the key.
          */
         int getValue() const;
 
@@ -226,10 +243,8 @@ namespace gcn
         bool mControlPressed;
         bool mAltPressed;
         bool mMetaPressed;
-        bool mNumericPad;
-    
-    }; // end Key
-
-} // end gcn
+        bool mNumericPad;    
+    };
+}
 
 #endif // end GCN_KEY_HPP

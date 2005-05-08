@@ -60,7 +60,7 @@
 namespace gcn
 {
     /**
-     * This class is a basic rectangle class.
+     * Represents a rectangle.
      */
     class GCN_CORE_DECLSPEC Rectangle
     {
@@ -74,33 +74,32 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param x the rectangle x coordinate
-         * @param y the rectangle y coordinate
-         * @param width the rectangle width
-         * @param height the rectangle height
+         * @param x the Rectangle x coordinate.
+         * @param y the Rectangle y coordinate.
+         * @param width the Rectangle width.
+         * @param height the Rectangle height.
          */
         Rectangle(int x, int y, int width, int height);
     
         /**
-         * This functions sets the dimension of a rectangle.
+         * Sets the dimension of a rectangle.
          *
-         * @param x the rectangle x coordinate
-         * @param y the rectangle y coordinate
-         * @param width the rectangle width
-         * @param height the rectangle height
+         * @param x the Rectangle x coordinate,
+         * @param y the Rectangle y coordinate,
+         * @param width the Rectangle width,
+         * @param height the Rectangle height,
          */
         void setAll(int x, int y, int width, int height);
 
         /**
-         * This functinion checks if another rectangle intersects
-         * with the rectangle.
+         * Checks if another Rectangle intersects with the Rectangle.
          *
-         * @param rectangle another rectangle
+         * @param rectangle another Rectangle.
          */
         bool intersect(const Rectangle& rectangle);
 
         /**
-         * This function check if a point is inside the rectangle
+         * Checks if a point is inside the Rectangle.
          *
          * @param x the point x coordinate
          * @param y the point y coordinate
@@ -110,10 +109,8 @@ namespace gcn
         int x;
         int y;
         int width;
-        int height;
-    
-    }; // end Rectangle
-  
-} // end gcn
+        int height;    
+    };  
+}
 
 #endif // end GCN_RECTANGEL_HPP

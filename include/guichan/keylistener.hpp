@@ -63,13 +63,11 @@
 namespace gcn
 {
     /**
-     * A KeyListener listens for key events on a widget. When a
-     * widget recives a key event, the corresponding function
-     * in all its key listeners will be called. Only focused
-     * widgets will generate key events.
-     *
-     * None of the functions in this class does anything at all,
-     * it is up to you to overload them.
+     * Key listeners base class. Inorder to use this class you must inherit
+     * from it and implements it's functions. KeyListeners listen for key
+     * events on a Widgets. When a Widget recives a key event, the
+     * corresponding function in all it's key listeners will be called.
+     * Only focused Widgets will generate key events.
      *
      * @see Widget::addKeyListener
      */
@@ -83,37 +81,32 @@ namespace gcn
         virtual ~KeyListener() { }
     
         /**
-         * This function is called if a key is pressed when
-         * the widget has keyboard focus.
+         * Called if a key is pressed when the widget has keyboard focus.
+         * If a key is held down the widget will generate multiple key
+         * presses.
          *
-         * If a key is held down the widget will generate multiple
-         * key presses.
-         *
-         * @param key the key pressed
-         * @see Key
+         * @param key the key pressed.
          */
         virtual void keyPress(const Key& key) { }
 
         /**
-         * This function is called if a key is released when
-         * the widget has keyboard focus.
+         * Called if a key is released when the widget has keyboard focus.
          *
-         * @param key the key released
-         * @see Key
+         * @param key the key released.
          */
         virtual void keyRelease(const Key& key) { }
 
-	protected:
-		/**
-		 * Constructor.
-		 *
-		 * You should not be able to make an instance of KeyListener,
-		 * therefore its constructor is protected.
-		 */			
-		KeyListener() { }
-		
-    }; // end KeyListener
-
-} // end gcn
+    protected:
+        /**
+         * Constructor.
+         *
+         * You should not be able to make an instance of KeyListener,
+         * therefore its constructor is protected. To use KeyListener
+         * you must inherit from this class and implement it's
+         * functions.
+         */            
+        KeyListener() { }
+    };
+}
 
 #endif // end GCN_KEYLISTENER_HPP

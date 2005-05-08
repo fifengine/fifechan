@@ -64,8 +64,7 @@
 extern "C"
 {
     /**
-     * This is a C function which exists to make life easier when
-     * checking for the Guichan SDL library with autotools.
+     * Exists to be able to check for Guichan SDL with autotools.
      */    
     GCN_EXTENSION_DECLSPEC extern void gcnSDL();
 }

@@ -63,16 +63,16 @@
 namespace gcn
 {
     /**
-	 * This is a class holding images in Guichan. To be able to use
-	 * this class you must first set the ImageLoader in Image by
-	 * calling Image::setImageLoader(myImageLoader)
-	 * (it is static). If this is not done, the constructor taking
-	 * a filename will throw an exception.
-	 * The ImageLoader you use must be compatible with your Graphis
-	 * obejct.
-	 * Ex: If you use SDLGraphics you should use SDLImageLoader
-	 *     otherwise your program will crash in a most bizarre way.
-	 */
+     * Holds an image. To be able to use this class you must first set an
+     * ImageLoader in Image by calling
+     * @code Image::setImageLoader(myImageLoader) @endcode
+     * The function is static. If this is not done, the constructor taking a
+     * filename will throw an exception. The ImageLoader you use must be
+     * compatible with the Graphics object you use.
+     *
+     * EXAMPLE: If you use SDLGraphics you should use SDLImageLoader.
+     *          Otherwise your program will crash in a most bizarre way.
+     */
     class GCN_CORE_DECLSPEC Image
     {
     public:
@@ -80,9 +80,9 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param data the data of the image
-         * @param width the width of the image     
-         * @param height the height of the image
+         * @param data the data of the image.
+         * @param width the width of the image.     
+         * @param height the height of the image.
          */
         Image(void* data, int width, int height);
 
@@ -94,63 +94,67 @@ namespace gcn
          */
         Image(const std::string& filename);
 
-		/**
-		 * Destructor.
-		 * Unloads the image with the ImageLoader, if it was
-		 * loaded with it.
-		 */
+        /**
+         * Destructor. Unloads the image with the ImageLoader,
+         * if it was loaded with it.
+         */
         virtual ~Image();
     
         /**
+         * Gets the width of the Image.
+         *
          * @return the image width
          */
         virtual int getWidth() const;
 
         /**
+         * Gets the height of the Image.
+         *
          * @return the image height
          */
         virtual int getHeight() const;
 
-		/**
-		 * @return a void pointer to some image data. Image data can
-		 *         be different things depending on what ImageLoader
-		 *         you use. If you for instance use the SDLImageLoader
-		 *         then an SDL_Surface will be returned.
-		 * @see SDLImageLoader, AllegroImageLoader
-		 */
+        /**
+         * Gets the data of the Image. Image data can be different things
+         * depending on what ImageLoader you use. If you for instance use the
+         * SDLImageLoader then an SDL_Surface will be returned.
+         *
+         * @return a void pointer to the Image data. 
+         * @see SDLImageLoader, AllegroImageLoader
+         */
         virtual void* _getData() const;
 
-		/**
-		 * @return a pointer to the currently used ImageLoader
-		 * @see SDLImageLoader, AllegroImageLoader
-		 */
-		static ImageLoader* _getImageLoader();
-		
-		/**
-		 * Sets the ImageLoader to be used be the Image class.
-		 *
-		 * IMPORTANT: The ImageLoader is static and MUST be set before
-		 *            loading images!
-		 *
-		 * @param imageLoader the ImageLoader to be used.
-		 * @see SDLImageLoader, AllegroImageLoader
-		 */
+        /**
+         * Gets the ImageLoader used for loading Images.
+         *
+         * @return the ImageLoader used for loading Images.
+         * @see SDLImageLoader, AllegroImageLoader
+         */
+        static ImageLoader* _getImageLoader();
+        
+        /**
+         * Sets the ImageLoader to be used for loading images.
+         *
+         * IMPORTANT: The ImageLoader is static and MUST be set before loading
+         *            images!
+         *
+         * @param imageLoader the ImageLoader to be used for loading images.
+         * @see SDLImageLoader, AllegroImageLoader
+         */
         static void setImageLoader(ImageLoader* imageLoader);
-		
-	protected:
-		/**
-		 * Default constructor. It is protected, but it's here so
-		 * that you can overload Image it.
-		 */
-		Image();	   
+        
+    protected:
+        /**
+         * Default constructor. It is protected so you can inherit
+         * from this class.
+         */
+        Image();       
         void* mData;
         int mWidth;
         int mHeight;
-		bool mLoadedWithImageLoader;
-        static ImageLoader* mImageLoader;
-		
-    }; // end Image
-  
-} // end gcn
+        bool mLoadedWithImageLoader;
+        static ImageLoader* mImageLoader;        
+    };  
+}
 
 #endif // end GCN_IMAGE_HPP

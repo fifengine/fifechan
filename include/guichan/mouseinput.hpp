@@ -59,9 +59,10 @@
 
 namespace gcn
 {
+
     /**
-     * This is an intenral class used in Guichan to grab mouse input.
-     * Generally you won't have to bother using this class.
+     * Internal class representing mouse input. Generally you won't have to
+     * bother using this class.
      */
     class GCN_CORE_DECLSPEC MouseInput
     {
@@ -91,6 +92,8 @@ namespace gcn
         void setType(int type);
 
         /**
+         * Gets the input type.
+         *
          * @return the input type.
          */
         int getType() const;
@@ -103,6 +106,8 @@ namespace gcn
         void setButton(int button);
 
         /**
+         * Gets the button pressed.
+         *
          * @return the button pressed.
          */
         int getButton() const;
@@ -115,32 +120,35 @@ namespace gcn
         void setTimeStamp(int timeStamp);
     
         /**
-         * @return the timestamp of the input.
+         * Gets the time stamp of the input.
+         *
+         * @return the time stamp of the input.
          */
         int getTimeStamp() const;
 
-		enum
-		{
-			EMPTY = 0,
-			LEFT,
-			RIGHT,
-			MIDDLE,
-			WHEEL_UP,
-			WHEEL_DOWN,
-			PRESS,
-			RELEASE,
-			MOTION
-		};
+        /**
+         * Enum with mouse input values.
+         */
+        enum
+        {
+            EMPTY = 0,
+            LEFT,
+            RIGHT,
+            MIDDLE,
+            WHEEL_UP,
+            WHEEL_DOWN,
+            PRESS,
+            RELEASE,
+            MOTION
+        };
     
         int x, y;
 
     protected:
         int mType;
         int mButton;
-        int mTimeStamp;
-    
-    }; // end MouseInput
-
-} // end gcn
+        int mTimeStamp;    
+    };
+}
 
 #endif // end GCN_MOUSEINPUT_HPP
