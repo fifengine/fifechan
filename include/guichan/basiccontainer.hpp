@@ -65,7 +65,7 @@ namespace gcn
 {
     /**
      * Containers base class. Includes basic container functions
-     * every container should have. Ccontainers should
+     * every container should have. Containers should
      * inherit from this class and implement it's functions.
      *
      * @see Container
