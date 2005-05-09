@@ -68,7 +68,7 @@
 namespace gcn
 {
     /**
-     * This is an SDL implementation of the Input class.
+     * SDL implementation of Input.
      */
     class GCN_EXTENSION_DECLSPEC SDLInput : public Input
     {
@@ -79,25 +79,24 @@ namespace gcn
          */
         SDLInput();
 
-		/**
-         * This function pushes an SDL event. It should be called
-         * at least once per frame to update input with user input.
+        /**
+         * Pushes an SDL event. It should be called at least once per frame to
+         * update input with user input.
          *
-         * @param event an event from SDL
+         * @param event an event from SDL.
          */
         virtual void pushInput(SDL_Event event);
     
         /**
-         * This function polls all input. It exists for input driver
-         * compatibility. If you only use SDL and plan sticking with
-         * SDL you can safely ignore this function when it does not
-         * do anything.
+         * Polls all input. It exists for input driver compatibility. If you
+         * only use SDL and plan sticking with SDL you can safely ignore this
+         * function as it in the SDL case does nothing.
          */
         virtual void _pollInput() { }
 
 
-		// Inherited from Input
-		
+        // Inherited from Input
+        
         virtual bool isKeyQueueEmpty();
 
         virtual KeyInput dequeueKeyInput();
@@ -108,19 +107,19 @@ namespace gcn
 
     protected:
         /**
-         * This function converts a mouse button from SDL to a mouse
-         * button in Gui-chan.
+         * Converts a mouse button from SDL to a Guichan mouse button
+         * representation.
          *
          * @param button an SDL mouse button.
-         * @param a Gui-chan button.     
+         * @param a Guichan button.     
          */
         int convertMouseButton(int button);
 
         /**
-         * This function converts an SDL keysym to a Gui-chan key.
+         * Converts an SDL keysym to a Key object.
          *
          * @param ley an SDL keysym
-         * @return a Gui-chan key.
+         * @return a Key object.
          */
         Key convertKeyCharacter(SDL_keysym key);
 
@@ -129,8 +128,7 @@ namespace gcn
 
         bool mMouseDown;
         bool mMouseInWindow;
-    }; // end Input
-  
-} // end gcn
+    };  
+}
 
 #endif // end GCN_SDLINPUT_HPP

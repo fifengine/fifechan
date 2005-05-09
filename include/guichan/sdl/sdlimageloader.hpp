@@ -66,21 +66,20 @@
 namespace gcn
 {
     /**
-     * This is an SDL implementation of the ImageLoader
-     * @see ImageLoader
+     * SDL implementation of ImageLoader.
      */
     class GCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
     {
     public:
 
-		/**
-		 * Constructor.
-		 */
+        /**
+         * Constructor.
+         */
         SDLImageLoader();
 
 
-		// Inherited from ImageLoader
-		
+        // Inherited from ImageLoader
+        
         virtual void prepare(const std::string& filename);
 
         virtual void free(Image* image);
@@ -100,10 +99,8 @@ namespace gcn
         virtual void putPixel(int x, int y, const Color& color);
     
     protected:
-        SDL_Surface* mCurrentImage;
-    
-    }; // end SDLImageLoader
-  
-} // end gcn
+        SDL_Surface* mCurrentImage;    
+    };  
+}
 
 #endif // end GCN_SDLIMAGELOADER_HPP

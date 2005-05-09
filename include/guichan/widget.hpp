@@ -72,612 +72,606 @@
 
 namespace gcn
 {
-	/*
-	 * This class definiton exists for the widget class to compile.
-	 * For more information regarding class FocusHandler please see
-	 * the FocusHandler header file.
-	 */
-	class FocusHandler;
+    /*
+     * Exists for the widget class to compile.
+     */
+    class FocusHandler;
 
-	/*
-	 * This class definiton exists for the widget class to compile.
-	 * For more information regarding class BasicContainre please see
-	 * the BasicContainer header file.
-	 */
-	class BasicContainer;
+    /*
+     * Exists for the widget class to compile.
+     */
+    class BasicContainer;
 
-	/**
-	 * This is the base class for all widgets. It is abstract.
-	 * It handles the common logic for all widgets such as
-	 * user input.
-	 *
-	 * NOTE: Functions begining with underscore "_" should not
-	 * be overloaded unless you know what you are doing.
-	 */
-	class GCN_CORE_DECLSPEC Widget
-	{
-	public:
-		/**
-		 * Constructor. Resets member variables. Noteable, a widget
-		 * is not focusable as default, therefore, widgets that are
-		 * supposed to be focusable should overide this default in
-		 * their own constructor.
-		 */
-		Widget();
+    /**
+     * Widget base class. Contains basic widget functions every widget should
+     * have. Widgets should inherit from this class and implements it's
+     * functions.
+     *
+     * NOTE: Functions begining with underscore "_" should not
+     *       be overloaded unless you know what you are doing.
+     */
+    class GCN_CORE_DECLSPEC Widget
+    {
+    public:
+        /**
+         * Constructor. Resets member variables. Noteable, a widget is not
+         * focusable as default, therefore, Widgets that are supposed to be
+         * focusable should overide this default in their own constructor.
+         */
+        Widget();
     
-		/**
-		 * Default destructor.
-		 */
-		virtual ~Widget();
+        /**
+         * Default destructor.
+         */
+        virtual ~Widget();
 
-		/**
-		 * This function should draw the widget.
-		 * It is called by the parent widget when it is time
-		 * for the widget to draw itself. The graphics object
-		 * is set up so that all drawing is relative to the
-		 * widget, i.e coordinate (0,0) is the top-left corner
-		 * of the widget. It is not possible to draw outside of
-		 * a widgets dimension.
+        /**
+         * Draws the Widget. It is called by the parent widget when it is time
+         * for the Widget to draw itself. The graphics object is set up so
+         * that all drawing is relative to the Widget, i.e coordinate (0,0) is
+         * the top-left corner of the Widget. It is not possible to draw
+         * outside of a Widgets dimension.
          *
-         * @param graphics a graphics object to draw with.
-		 */
-		virtual void draw(Graphics* graphics) = 0;
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void draw(Graphics* graphics) = 0;
         
-		/**
-		 * This function should draw a widgets border. A border is drawn
-		 * around a widget. The width and height of the border is therefore
-		 * the widgets height+2*bordersize. Think of a painting that has
-		 * a certain size, the border surrounds the painting. 
+        /**
+         * Draws a the Widget border. A border is drawn around a Widget.
+         * The width and height of the border is therefore the Widgets
+         * height+2*bordersize. Think of a painting that has a certain size,
+         * the border surrounds the painting. 
          *
-         * @param graphics a graphics object to draw with.
+         * @param graphics a Graphics object to draw with.
          */
-		virtual void drawBorder(Graphics* graphics) { }
-		
-		/**
-		 * This functions gets called for all widgets in the gui
-		 * each time Gui::logic is called. You can do logic stuff
-		 * here like playing an animation.
-		 *
-		 * @see Gui
-		 */
-		virtual void logic() { }
+        virtual void drawBorder(Graphics* graphics) { }
+        
+        /**
+         * Called for all Widgets in the gui each time Gui::logic is called.
+         * You can do logic stuff here like playing an animation.
+         *
+         * @see Gui
+         */
+        virtual void logic() { }
     
-		/**
-		 * @return a pointer to the widgets parent container. Returns
-		 *         null if the widget has no parent for example if the
-		 *         widget is the gui top widget.
-		 */
-		virtual BasicContainer* getParent() const;
+        /**
+         * Gets the Widget parent container.
+         *
+         * @return the Widget parent container. Returns NULL if the Widget
+         *         has no parent.         
+         */
+        virtual BasicContainer* getParent() const;
     
-		/**
-		 * @param width the widget width in pixels
-		 */
-		virtual void setWidth(int width);
+        /**
+         * Sets the width of the Widget in pixels.
+         *
+         * @param width the Widget width in pixels.
+         */
+        virtual void setWidth(int width);
 
-		/**
-		 * @return the widget with in pixels
-		 */
-		virtual int getWidth() const;
+        /**
+         * Gets the width of the Widget in pixels.
+         *
+         * @return the Widget with in pixels.
+         */
+        virtual int getWidth() const;
     
-		/**
-		 * @param height the widget height in pixels
-		 */
-		virtual void setHeight(int height);
+        /**
+         * Sets the height of the Widget in pixels.
+         *
+         * @param height the Widget height in pixels.
+         */
+        virtual void setHeight(int height);
 
-		/**
-		 * @return the widget height in pixels
-		 */
-		virtual int getHeight() const;
+        /**
+         * Gets the height of the Widget in pixels.
+         *
+         * @return the Widget height in pixels.
+         */
+        virtual int getHeight() const;
 
-		/**
-		 * Sets the size of the widget.
-		 *
-		 * @param width the width
-		 * @param height the height
-		 */
-		virtual void setSize(int width, int height);
-		
-		/**
-		 * @param x the widgets x coordinate relative to its
-		 *          container.
-		 */
-		virtual void setX(int x);
+        /**
+         * Sets the size of the Widget.
+         *
+         * @param width the width.
+         * @param height the height.
+         */
+        virtual void setSize(int width, int height);
+        
+        /**
+         * Set the Widget x coordinate. It is relateive to it's parent.
+         *
+         * @param x the Widget x coordinate.
+         */
+        virtual void setX(int x);
 
-		/**
-		 * @return the widgets x coordinate relative to its
-		 *         container.
-		 */
-		virtual int getX() const;
+        /**
+         * Gets the Widget x coordinate. It is relative to it's parent.
+         *
+         * @return the Widget x coordinate.
+         */
+        virtual int getX() const;
 
-		/**
-		 * @param y the widgets y coordinate relative to its
-		 *          container.
-		 */
-		virtual void setY(int y);
+        /**
+         * Set the Widget y coordinate. It is relative to it's parent.
+         *
+         * @param y the Widget y coordinate. 
+         */
+        virtual void setY(int y);
 
-		/**
-		 * @return the widgets y coordinate relative to its
-		 *         container.
-		 */
-		virtual int getY() const;
+        /**
+         * Gets the Widget y coordinate. It is relative to it's parent.
+         *
+         * @return the Widget y coordinate.
+         */
+        virtual int getY() const;
 
-		/**
-		 * @param x the widgets x coordinate relative to its
-		 *          container.
-		 * @param y the widgets y coordinate relative to its
-		 *          container.
-		 */
-		virtual void setPosition(int x, int y);
+        /**
+         * Sets the Widget position. It is relative to it's parent.
+         *
+         * @param x the Widget x coordinate.
+         * @param y the Widgets y coordinate.
+         */
+        virtual void setPosition(int x, int y);
     
-		/**
-		 * @param dimension the widgets dimension relative to is
-		 *                  container.
-		 * @see Rectangle
-		 */
-		virtual void setDimension(const Rectangle& dimension);
+        /**
+         * Sets the dimension of the Widget. It is relative to it's parent.
+         *
+         * @param dimension the Widget dimension.
+         */
+        virtual void setDimension(const Rectangle& dimension);
 
-		/**
-		 * Sets the size of the border, or the width if you so like.
-		 * The size is the number of pixels that the border extends
-		 * outside the widget. Border size = 0 means no border.		 
-		 *
-		 * @param borderSize
-		 * @see drawBorder
-		 */
-		virtual void setBorderSize(unsigned int borderSize);
+        /**
+         * Sets the size of the border, or the width if you so like. The size
+         * is the number of pixels that the border extends outside the Widget.
+         * Border size = 0 means no border.         
+         *
+         * @param borderSize the size of the border.
+         * @see drawBorder         
+        */
+        virtual void setBorderSize(unsigned int borderSize);
 
-		/**
-		 * Gets the size of the border, or the width if you so like.
-		 * The size is the number of pixels that the border extends
-		 * outside the widget. Border size = 0 means no border.		 			 
-		 *
-		 * @return the size of the border
-		 * @see drawBorder		 
-		 */
-		virtual unsigned int getBorderSize() const;
-		
-		/**
-		 * @return the widgets dimension relative to its
-		 *         container.
-		 * @see Rectangle
-		 */
-		virtual const Rectangle& getDimension() const;
+        /**
+         * Gets the size of the border, or the width if you so like. The size
+         * is the number of pixels that the border extends outside the Widget.
+         * Border size = 0 means no border.                      
+         *
+         * @return the size of the border.
+         * @see drawBorder         
+         */
+        virtual unsigned int getBorderSize() const;
+        
+        /**
+         * Gets the dimension of the Widget. It is relative to it's parent.
+         *
+         * @return the widget dimension.
+         */
+        virtual const Rectangle& getDimension() const;
 
-		/**
-		 * @param focusable indicates whether the widget is focusable
-		 *                  or not.
-		 */
-		virtual void setFocusable(bool focusable);
+        /**
+         * Sets a Widgets focusability.
+         *
+         * @param focusable true if the Widget should be focusable.
+         */
+        virtual void setFocusable(bool focusable);
 
-		/**
-		 * @return true if the widget is focusable.
-		 */
-		virtual bool isFocusable() const;
-		
-		/**
-		 * @return true if the widget currently has focus.
-		 */
-		virtual bool hasFocus() const;
+        /**
+         * Checks whether the Widget is focusable.
+         *
+         * @return true if the widget is focusable.
+         */
+        virtual bool isFocusable() const;
+        
+        /**
+         * Checks if the Widget has focus.
+         *
+         * @return true if the widget currently has focus.
+         */
+        virtual bool hasFocus() const;
 
-		/**
-		 * Sets the widget to be disabled or enabled. A disabled
-		 * widget will never recieve mouse or key input.
-		 *
-		 * @param disabled indicates whether the widget is disabled
-		 *                 or not
-		 */
-		virtual void setEnabled(bool disabled);
+        /**
+         * Sets the Widget to be disabled or enabled. A disabled
+         * Widget will never recieve mouse or key input.
+         *
+         * @param disabled true if Widget is enabled.
+         */
+        virtual void setEnabled(bool enabled);
 
-		/**
-		 * Checks if a widget is disabled or not.
-		 *
-		 * @return true if the widget is disabled, false otherwise
-		 */
-		virtual bool isEnabled() const; 
-		
-		/**
-		 * Called if the widget looses focus.
-		 */
-		virtual void lostFocus() { };
+        /**
+         * Checks if a Widget is disabled or not.
+         *
+         * @return true if the Widget should be enabled.
+         */
+        virtual bool isEnabled() const; 
+        
+        /**
+         * Called if the Widget looses focus.
+         */
+        virtual void lostFocus() { };
     
-		/**
-		 * Called if the widget recieves focus.       
-		 */
-		virtual void gotFocus() { };
+        /**
+         * Called if the Widget recieves focus.       
+         */
+        virtual void gotFocus() { };
     
-		/**
-		 * @return true if the widget currently has the mouse.
-		 */
-		virtual bool hasMouse() const;
+        /**
+         * Checks if the Widget has the mouse.
+         *
+         * @return true if the Widget has the mouse.
+         */
+        virtual bool hasMouse() const;
     
-		/**
-		 * @param visible indicates whether the widget is visible or
-		 *                not.
-		 */
-		virtual void setVisible(bool visible);
+        /**
+         * Sets the Widget to be visible.
+         *
+         * @param visible true if the Widget should be visiable.
+         */
+        virtual void setVisible(bool visible);
 
-		/**
-		 * @return true if the widget is visible.
-		 */
-		virtual bool isVisible() const;
+        /**
+         * Checks if the Widget is visible.
+         *
+         * @return true if the Widget is visible.
+         */
+        virtual bool isVisible() const;
 
-		/**
-		 * Sets the widget's base color. (the background
-		 * colors for buttons and containers).
-		 *
-		 * @param color the foreground color.
-		 * @see Color
-		 */
-		virtual void setBaseColor(const Color& color);
+        /**
+         * Sets the base color. The base color is the background
+         * color for many Widgets like the Button and Contianer Widgets.
+         *
+         * @param color the baseground Color.
+         */
+        virtual void setBaseColor(const Color& color);
 
-		/**
-		 * @return the widgets foreground color.
-		 * @see Color
-		 */
-		virtual const Color& getBaseColor() const;
+        /**
+         * Gets the base color.
+         *
+         * @return the foreground Color.
+         */
+        virtual const Color& getBaseColor() const;
     
-		/**
-		 * Sets the widget's foreground color.
-		 *
-		 * @param color the foreground color.
-		 * @see Color
-		 */
-		virtual void setForegroundColor(const Color& color);
+        /**
+         * Sets the foreground color.
+         *
+         * @param color the foreground Color.
+         */
+        virtual void setForegroundColor(const Color& color);
 
-		/**
-		 * @return the widgets foreground color.
-		 * @see Color
-		 */
-		virtual const Color& getForegroundColor() const;
+        /**
+         * Gets the foreground color.
+         *
+         * @return the foreground Color.
+         */
+        virtual const Color& getForegroundColor() const;
     
-		/**
-		 * Sets the widget's background color.
-		 *
-		 * @param color the background color.
-		 * @see Color
-		 */
-		virtual void setBackgroundColor(const Color& color);
+        /**
+         * Sets the background color.
+         *
+         * @param color the background Color.
+         */
+        virtual void setBackgroundColor(const Color& color);
 
-		/**
-		 * @return the widgets background color.
-		 * @see Color
-		 */
-		virtual const Color& getBackgroundColor() const;    
+        /**
+         * Gets the background color.
+         *
+         * @return the background Color.
+         */
+        virtual const Color& getBackgroundColor() const;    
             
-		/**
-		 * This function is used internally be the gui to handle all
-		 * mouse messages. Don't call or overload it unless you know
-		 * what you are doing.
-		 *
-		 * @param mouseInput
-		 * @see MouseInput
-		 */
-		virtual void _mouseInputMessage(const MouseInput& mouseInput);
-
-		/**
-		 * This function is used internally be the gui to handle all
-		 * key messages. Don't call or overload it unless you know
-		 * what you are doing.
-		 *
-		 * @param keyInput
-		 * @see KeyInput
-		 */
-		virtual void _keyInputMessage(const KeyInput& keyInput);
-
-		/**
-		 * This function is used internally be the gui to handle
-		 * mouse in messages. Don't call this function unless you
-		 * know what you are doing.
-		 */
-		virtual void _mouseInMessage();
-
-		/**
-		 * This function is used internally be the gui to handle
-		 * mouse out messages. Don't call this function unless you
-		 * know what you are doing.
-		 */
-		virtual void _mouseOutMessage();
-    
-		/**
-		 * This function requests focus for the widget. If the widget
-		 * is focusable it will get focus. Otherwise, this function
-		 * does nothing.
-		 */
-		virtual void requestFocus();
-
-		/**
-		 * This function requests the container the widgets in to
-		 * move the widget to the top.
-		 */
-		virtual void requestMoveToTop();
-
-		/**
-		 * This function requests the container the widgets in to
-		 * move the widget to the bottom.
-		 */
-		virtual void requestMoveToBottom();
-
-		/**
-		 * This function sets the focus handler to be used by this
-		 * widget. Should not be called or overloaded unless you
-		 * know what you are doing.
-		 *
-		 * @param focusHandler a pointer to a focus handler.
-		 * @see FocusHandler
-		 */
-		virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-		/**
-		 * This function gets the focus handler used by this
-		 * widget. Should not be called or overloaded unless you
-		 * know what you are doing.
-		 *
-		 * @return the focus handler.
-		 */
-		virtual FocusHandler* _getFocusHandler();
-
-		/**
-		 * This function adds the action listener to the widget.
-		 * When an action is triggered, the widget calls its
-		 * action listeners. An action can be just about anything,
-		 * for example a click on a button or enter pressed in an
-		 * edit box.
-		 *
-		 * @param actionListener the action listener to add.
-		 * @see ActionListener
-		 */
-		virtual void addActionListener(ActionListener* actionListener);
-    
-		/**
-		 * This function removes an action listener from the widget.
-		 *
-		 * @param actionListener the action listener to remove.
-		 * @see ActionListener
-		 */
-		virtual	void removeActionListener(ActionListener* actionListener);
-
-		/**
-		 * This function adds a mouse listener to the widget.
-		 * When a mouse message is recieved its sent to the
-		 * mouse listeners.
-		 *
-		 * @param mouseListener the mouse listener to add.
-		 * @see MouseListener
-		 */
-		virtual	void addMouseListener(MouseListener* mouseListener);
-    
-		/**
-		 * This function removes a mouse listener from the widget.
-		 *
-		 * @param mouseListener the mouse listener to remove.
-		 * @see MouseListener
-		 */	
-		virtual	void removeMouseListener(MouseListener* mouseListener);
-
-		/**
-		 * This function adds a key listener to the widget.
-		 * When a key message is recieved its sent to the 
-		 * key listeners.
-		 *
-		 * @param keyListener the key listener to add.
-		 * @see KeyListener
-		 */	
-		virtual	void addKeyListener(KeyListener* keyListener);
-
-		/**
-		 * This function removes a key listener to the widget.
-		 *
-		 * @param keyListener the key listener to remove.
-		 * @see KeyListener
-		 */	
-		virtual	void removeKeyListener(KeyListener* keyListener);
-
-		/**
-		 * This function sets the widgets event identifier. An event
-		 * identifier is used with action events. If this widget
-		 * sends an action event, the widgets event identifier is
-		 * sent along with the action so that the action listener can
-		 * determine which widget sent the action event.
-		 *
-		 * NOTE: An event identifier should not be used to identify
-		 * a certain widget but rather a certain event in your
-		 * application. Several widgets can have the same event
-		 * identifer.
-		 * 
-		 * @param eventId the event identifier
-		 * @see ActionListener, getEventId, generateAction
-		 */	
-		virtual	void setEventId(const std::string& eventId);
-
-		/**
-		 * This function returns the widgets event identifier. An
-		 * event identifier is used with action events. If this
-		 * widget sends an action event, the widgets event identifier
-		 * is sent along with the action so that the action listener
-		 * can determine which widget sent the action event.
-		 *
-		 * @return the widgets event identifier
-		 */
-		virtual const std::string& getEventId() const;
-
-		/**
-		 * This function sends an action event to the widgets action
-		 * listener. An action can be just about anything, for
-		 * example a click on a button or enter pressed in an edit
-		 * box.
-		 *
-		 * @see setEventId, getEventId, ActionListener
-		 */	
-//		virtual	void sendActionEvent();
-
-		/**
-		 * Gets the absolute position on the screen for the widget,
-		 *
-		 * @param x absolute x coordinate will be stored in this parameter
-		 * @param y absolute y coordinate will be stored in this parameter
-		 */	
-		virtual	void getAbsolutePosition(int& x, int& y) const;
-    
-		/**
-		 * This function sets the widgets parent. It should not be
-		 * called unless you know what you are doing.
-		 *
-		 * @param widget the parent widget. 
-		 */	
-		virtual	void _setParent(BasicContainer* parent);
-
-		/**
-		 * This function returns the font used by this widget. If no 
-		 * font has been set, the global font will be returned instead.
-		 * If no global font has been set either, it will fall back on an
-		 * ugly default.
-		 *
-		 * @return the currently used font.
-		 * @see Font, DefaultFont
-		 */
-		Font *getFont() const;
-    
-		/**
-		 * Sets the global font to be used by default for all widgets.
-		 *
-		 * @param font the global font
-		 * @see Font
-		 */
-		static void setGlobalFont(Font* font);
-    
-		/**
-		 * Sets the font for this widget. Pass NULL to this function
-		 * to use the global font.
-		 *
-		 * @param font the font. If NULL, the global font will be used.
-		 * @see setGlobalFont
-		 */
-		virtual void setFont(Font* font);
-
-		/**
-		 * Use this function to trap font changes. It is called
-		 * whenever a widgets font is chanegd. 
-		 * If the change is global, this function will only be called
-		 * if the widget don't have a font of its own.
-		 */
-		virtual void fontChanged() { }
-
-		/**
-		 * Checks whether a widget exists or not, that is if it still exists
-		 * an instance of the object.
-		 *
-		 *  @param widget the widget to check
-		 */
-		static bool widgetExists(const Widget* widget);
-
-		/**
-		 * Tab in means that you can set focus to this widget by pressing
-		 * the tab button. If tab in is disabled then the FocusHandler will
-		 * skip this widget and focus the next in its focus order.
-		 *
-		 * @return true if tab is enabled for the widget.
-		 */
-		virtual bool isTabInEnabled() const;
-		
-		/**
-		 * Tab in means that you can set focus to this widget by pressing
-		 * the tab button. If tab in is disabled then the FocusHandler will
-		 * skip this widget and focus the next in its focus order.
-		 *
-		 * @param enabled true if tab in should be enabled.
-		 */
-		virtual void setTabInEnabled(bool enabled);
-
-		/**
-		 * Tab out means that you can lose focus to this widget by pressing
-		 * the tab button. If tab out is disabled then the FocusHandler ignores
-		 * tabbing and focus will stay with this widget,
-		 *
-		 * @return true if tab out is enabled for the widget.
-		 */
-		virtual bool isTabOutEnabled() const;
-		
-		/**
-		 * Tab out means that you can lose focus to this widget by pressing
-		 * the tab button. If tab out is disabled then the FocusHandler ignores
-		 * tabbing and focus will stay with this widget,
-		 *
-		 * @param enabled true if tab out should be enabled.
-		 */
-		virtual void setTabOutEnabled(bool enabled);
-
-		/**
-		 * Checks if the widget is dragged, meaning if the mouse button
-		 * has been pressed down over the widget and the mouse has been
-		 * moved.
-		 *
-		 * @return true if the widget is dragged.
-		 */
-		virtual bool isDragged() const;
-
         /**
-         * Kindly asks to recieve modal focus. When a widget has modal
-         * focus, only that one and it's children may recieve input.
-         * If some other widget allready has modal focus, an exception
-         * will be thrown.
+         * Called when a Widget recieves a MouseInput.
+         *
+         * WARNING: This function is used internally to handle all mouse
+         *          messages. Don't call or overload it unless you know what
+         *          you are doing.
+         *
+         * @param mouseInput the MouseInput message.
          */
-		virtual void requestModalFocus();
+        virtual void _mouseInputMessage(const MouseInput& mouseInput);
 
         /**
-         * Releases modal focus, if the widget has it.
+         * Called when a Widget recieves a KeyInput.
+         *
+         * WARNING: This function is used internally to handle all key
+         *          messages. Don't call or overload it unless you know what
+         *          you are doing.
+         *
+         * @param keyInput the KeyInput message.
+         */
+        virtual void _keyInputMessage(const KeyInput& keyInput);
+
+        /**
+         * Called when the mouse enters the Widget area.
+         *
+         * WARNING: This function is used internally to handle mouse in
+         *          messages. Don't call or overload this function unless
+         *          you know what you are doing.
+         */
+        virtual void _mouseInMessage();
+
+        /**
+         * Called when the mouse leaves the Widget area.
+         *
+         * WARNING: This function is used internally be to handle mouse
+         *          out messages. Don't call or overload this function
+         *          unless you know what you are doing.
+         */
+        virtual void _mouseOutMessage();
+    
+        /**
+         * Requests focus for the Widget. A Widget will only recieve focus
+         * if it is focusable.
+         */
+        virtual void requestFocus();
+
+        /**
+         * Requests a move to the top in the parent Widget.
+         */
+        virtual void requestMoveToTop();
+
+        /**
+         * Requests a move to the bottom in the parent Widget.
+         */
+        virtual void requestMoveToBottom();
+
+        /**
+         * Sets the FocusHandler to be used.
+         *
+         * WARNING: This function is used internally and should not
+         *          be called or overloaded unless you know what you
+         *          are doing.
+         *
+         * @param focusHandler the FocusHandler to use.
+         */
+        virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+        /**
+         * Gets the FocusHandler used.
+         *
+         * WARNING: This function is used internally and should not
+         *          be called or overloaded unless you know what you
+         *          are doing.
+         *
+         * @return the FocusHandler used.
+         */
+        virtual FocusHandler* _getFocusHandler();
+
+        /**
+         * Adds an ActionListener to the Widget. When an action is triggered
+         * by the Widget, the action function in all the Widget's
+         * ActionListeners will be called.
+         *
+         * @param actionListener the ActionListener to add.
+         */
+        virtual void addActionListener(ActionListener* actionListener);
+    
+        /**
+         * Removes an added ActionListener from the Widget.
+         *
+         * @param actionListener the ActionListener to remove.
+         */
+        virtual    void removeActionListener(ActionListener* actionListener);
+
+        /**
+         * Adds a MouseListener to the Widget. When a mouse message is
+         * recieved, it will be sent to the Widget's MouseListeners.
+         *
+         * @param mouseListener the MouseListener to add.
+         */
+        virtual    void addMouseListener(MouseListener* mouseListener);
+    
+        /**
+         * Removes an added MouseListener from the Widget.
+         *
+         * @param mouseListener the MouseListener to remove.
+         */    
+        virtual    void removeMouseListener(MouseListener* mouseListener);
+
+        /**
+         * Adds a KeyListener to the Widget. When a key message is recieved,
+         * it will be sent to the Widget's KeyListeners.
+         *
+         * @param keyListener the KeyListener to add.
+         */    
+        virtual    void addKeyListener(KeyListener* keyListener);
+
+        /**
+         * Removes an added KeyListener from the Widget.
+         *
+         * @param keyListener the KeyListener to remove.
+         */    
+        virtual    void removeKeyListener(KeyListener* keyListener);
+
+        /**
+         * Sets the event identifier of the Widget. The event identifier is
+         * used to be able to identify which Widget generated an action when
+         * an action has occured.
+         *
+         * NOTE: An event identifier should not be used to identify a certain
+         *       Widget but rather a certain event in your application. Several
+         *       Widgets can have the same event identifer.
+         * 
+         * @param eventId the event identifier.
+         */    
+        virtual    void setEventId(const std::string& eventId);
+
+        /**
+         * Gets the event identifier.
+         *
+         * @return the event identifier.
+         */
+        virtual const std::string& getEventId() const;
+
+        /**
+         * Gets the absolute position on the screen for the Widget.
+         *
+         * @param x absolute x coordinate will be stored in this parameter.
+         * @param y absolute y coordinate will be stored in this parameter.
+         */    
+        virtual    void getAbsolutePosition(int& x, int& y) const;
+    
+        /**
+         * Sets the parent of the Widget. A parent must be a BasicContainer.
+         *
+         * WARNING: This function is used internally and should not
+         *          be called or overloaded unless you know what you
+         *          are doing.
+         *
+         * @param parent the parent BasicContainer.. 
+         */    
+        virtual    void _setParent(BasicContainer* parent);
+
+        /**
+         * Gets the font used. If no font has been set, the global font will
+         * be returned instead. If no global font has been set, the default
+         * font will be returend.
+         * ugly default.
+         *
+         * @return the used Font.
+         */
+        Font *getFont() const;
+    
+        /**
+         * Sets the global font to be used by default for all Widgets.
+         *
+         * @param font the global Font.
+         */
+        static void setGlobalFont(Font* font);
+    
+        /**
+         * Sets the font. If font is NULL, the global font will be used.
+         *
+         * @param font the Font.
+         */
+        virtual void setFont(Font* font);
+
+        /**
+         * Called when the font has changed. If the change is global,
+         * this function will only be called if the Widget don't have a
+         * font already set.
+         */
+        virtual void fontChanged() { }
+
+        /**
+         * Checks whether a Widget exists or not, that is if it still exists
+         * an instance of the object.
+         *
+         * @param widget the Widget to check.
+         */
+        static bool widgetExists(const Widget* widget);
+
+        /**
+         * Check if tab in is enabled. Tab in means that you can set focus
+         * to this Widget by pressing the tab button. If tab in is disabled
+         * then the FocusHandler will skip this widget and focus the next
+         * in its focus order.
+         *
+         * @return true if tab in is enabled.
+         */
+        virtual bool isTabInEnabled() const;
+        
+        /**
+         * Sets tab in enabled. Tab in means that you can set focus
+         * to this Widget by pressing the tab button. If tab in is disabled
+         * then the FocusHandler will skip this widget and focus the next
+         * in its focus order.
+         *
+         * @param enabled true if tab in should be enabled.
+         */
+        virtual void setTabInEnabled(bool enabled);
+
+        /**
+         * Checks if tab out is enabled. Tab out means that you can lose
+         * focus to this Widget by pressing the tab button. If tab out is
+         * disabled then the FocusHandler ignores tabbing and focus will
+         * stay with this Widget.
+         *
+         * @return true if tab out is enabled.
+         */
+        virtual bool isTabOutEnabled() const;
+        
+        /**
+         * Sets tab out enabled. Tab out means that you can lose
+         * focus to this Widget by pressing the tab button. If tab out is
+         * disabled then the FocusHandler ignores tabbing and focus will
+         * stay with this Widget.
+         *
+         * @param enabled true if tab out should be enabled.
+         */
+        virtual void setTabOutEnabled(bool enabled);
+
+        /**
+         * Checks if the Widget is dragged. Dragged means that the mouse
+         * button has been pressed down over the Widget and the mouse has
+         * been moved.
+         *
+         * @return true if the widget is dragged.
+         */
+        virtual bool isDragged() const;
+
+        /**
+         * Requests modal focus. When a widget has modal focus, only that
+         * Widget and it's children may recieve input. If some other Widget
+         * already has modal focus, an exception will be thrown.
+         *
+         * @throws Exception if another Widget already has modal focus.
+         */
+        virtual void requestModalFocus();
+
+        /**
+         * Releases modal focus. Modal focus will only be released if the
+         * Widget has the modal focus.
          */
         virtual void releaseModalFocus();
         
         /**
-         * Checks if the widget or it's parent has modal focus.
+         * Checks if the Widget or it's parent has modal focus.
          */
         virtual bool hasModalFocus() const;
 
         
-	protected:
-		/**
-		 * This function generates an action to the widgets action listeners.
-		 */
-		void generateAction();
-		
-		typedef std::list<MouseListener*> MouseListenerList;
-		MouseListenerList mMouseListeners;
-		typedef MouseListenerList::iterator MouseListenerIterator;
-    
-		typedef std::list<KeyListener*> KeyListenerList;
-		KeyListenerList mKeyListeners;
-		typedef KeyListenerList::iterator KeyListenerIterator;
+    protected:
+        /**
+         * Generates an action to the Widget's ActionListeners.
+         */
+        void generateAction();
         
-	private:		
-		typedef std::list<ActionListener*> ActionListenerList;
-		ActionListenerList mActionListeners;
-		typedef ActionListenerList::iterator ActionListenerIterator;
-		
-		Color mForegroundColor;
-		Color mBackgroundColor;
-		Color mBaseColor;
-		FocusHandler* mFocusHandler;
-		BasicContainer* mParent;
-		Rectangle mDimension;
-		unsigned int mBorderSize;
-		std::string mEventId;
-		int mClickTimeStamp;
-		int mClickCount;
-		int mClickButton;
-		bool mHasMouse;
-		bool mFocusable;
-		bool mVisible;
-		bool mTabIn;
-		bool mTabOut;
-		bool mEnabled;
-		
-		Font* mCurrentFont;
-		static DefaultFont mDefaultFont;
-		static Font* mGlobalFont;
-		static std::list<Widget*> mWidgets;
-	}; // end Widget
-  
-} // end gcn
+        typedef std::list<MouseListener*> MouseListenerList;
+        MouseListenerList mMouseListeners;
+        typedef MouseListenerList::iterator MouseListenerIterator;
+    
+        typedef std::list<KeyListener*> KeyListenerList;
+        KeyListenerList mKeyListeners;
+        typedef KeyListenerList::iterator KeyListenerIterator;
+        
+        typedef std::list<ActionListener*> ActionListenerList;
+        ActionListenerList mActionListeners;
+        typedef ActionListenerList::iterator ActionListenerIterator;
+        
+        Color mForegroundColor;
+        Color mBackgroundColor;
+        Color mBaseColor;
+        FocusHandler* mFocusHandler;
+        BasicContainer* mParent;
+        Rectangle mDimension;
+        unsigned int mBorderSize;
+        std::string mEventId;
+        int mClickTimeStamp;
+        int mClickCount;
+        int mClickButton;
+        bool mHasMouse;
+        bool mFocusable;
+        bool mVisible;
+        bool mTabIn;
+        bool mTabOut;
+        bool mEnabled;
+        
+        Font* mCurrentFont;
+        static DefaultFont mDefaultFont;
+        static Font* mGlobalFont;
+        static std::list<Widget*> mWidgets;
+    };  
+}
 
 #endif // end GCN_WIDGET_HPP
 

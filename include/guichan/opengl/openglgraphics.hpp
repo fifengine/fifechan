@@ -61,15 +61,13 @@
 namespace gcn
 {
     /**
-     * This is an OpenGL implementation of the Graphics object. For more
-     * information about the Graphics object please see the Graphics
-     * header.   
+     * OpenGL implementation of the Graphics.
      */
     class GCN_EXTENSION_DECLSPEC OpenGLGraphics: public Graphics
     {
     public:
 
-        // Needed so that drawImage(gcn::Image *, int, int) is visible
+        // Needed so that drawImage(gcn::Image *, int, int) is visible.
         using Graphics::drawImage;
         
         /**
@@ -80,10 +78,11 @@ namespace gcn
         /**
          * Constructor.
 		 *
-		 * @param width the width of the logical drawing surface.
-		 *              Should be the same as the screen resolution.
-		 * @param height the height ot the logical drawing surface.
-		 *              Should be the same as the screen resolution.
+		 * @param width the width of the logical drawing surface. Should be the
+         *              same as the screen resolution.
+		 *              
+		 * @param height the height ot the logical drawing surface. Should be
+		 *               the same as the screen resolution.
 		 */
         OpenGLGraphics(int width, int height);
 
@@ -95,10 +94,10 @@ namespace gcn
         /**
          * Sets the target plane on where to draw.
 		 *
-		 * @param width the width of the logical drawing surface.
-		 *              Should be the same as the screen resolution.
-		 * @param height the height ot the logical drawing surface.
-		 *              Should be the same as the screen resolution.
+		 * @param width the width of the logical drawing surface. Should be the
+		 *              same as the screen resolution.
+		 * @param height the height ot the logical drawing surface. Should be
+		 *               the same as the screen resolution.
          */
         virtual void setTargetPlane(int width, int height);
 
@@ -133,9 +132,7 @@ namespace gcn
         int mWidth, mHeight;
 		bool mAlpha;
         Color mColor;
-
-    }; // end OpenGLGraphics
-  
-} // end gcn
+    };  
+}
 
 #endif // end GCN_OPENGLGRAPHICS_HPP

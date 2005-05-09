@@ -62,14 +62,14 @@
 namespace gcn
 {
 
-	/**
-	 * Checks a pixels color of an SDL_Surface.
-	 *
-	 * @param surface an SDL_Surface where to check for a pixel color.
-	 * @param x the x coordinate on the surface.
-	 * @param y the y coordinate on the surface.
-	 * @return a color of a pixel.
-	 */
+    /**
+     * Checks a pixels color of an SDL_Surface.
+     *
+     * @param surface an SDL_Surface where to check for a pixel color.
+     * @param x the x coordinate on the surface.
+     * @param y the y coordinate on the surface.
+     * @return a color of a pixel.
+     */
     inline const Color SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
         int bpp = surface->format->BytesPerPixel;
@@ -113,20 +113,19 @@ namespace gcn
         SDL_UnlockSurface(surface);
 
         return Color(r,g,b,a);
+    }
 
-    } // end SDLgetPixel
-
-	/**
-	 * Puts a pixel on an SDL_Surface
-	 *
-	 * @param x the x coordinate on the surface.
-	 * @param y the y coordinate on the surface.
-	 * @param color the color the pixel should be in.
-	 */
+    /**
+     * Puts a pixel on an SDL_Surface.
+     *
+     * @param x the x coordinate on the surface.
+     * @param y the y coordinate on the surface.
+     * @param color the color the pixel should be in.
+     */
     inline void SDLputPixel(SDL_Surface* surface, int x, int y, const Color& color)
     {
         int bpp = surface->format->BytesPerPixel;
-		
+        
         SDL_LockSurface(surface);
 
         Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
@@ -164,36 +163,35 @@ namespace gcn
         }
     
         SDL_UnlockSurface(surface);
+    }
 
-    } // end SDLputPixel
-
-	/**
-	 * Blends to 32 bit colors together.
-	 *
-	 * @param src the source color.
-	 * @param dst the destination color.
-	 * @param a alpha
-	 */
-	inline unsigned int SDLAlpha32(unsigned int src, unsigned int dst, unsigned char a)
-	{
-		unsigned int b = ((src & 0xff) * a + (dst & 0xff) * (255 - a)) >> 8;
-		unsigned int g = ((src & 0xff00) * a + (dst & 0xff00) * (255 - a)) >> 8;
-		unsigned int r = ((src & 0xff0000) * a + (dst & 0xff0000) * (255 - a)) >> 8;
-
-		return (b & 0xff) | (g & 0xff00) | (r & 0xff0000);
-	}
-	
     /**
-	 * Puts a pixel on an SDL_Surface with alpha
-	 *
-	 * @param x the x coordinate on the surface.
-	 * @param y the y coordinate on the surface.
-	 * @param color the color the pixel should be in.
-	 */
+     * Blends two 32 bit colors together.
+     *
+     * @param src the source color.
+     * @param dst the destination color.
+     * @param a alpha.
+     */
+    inline unsigned int SDLAlpha32(unsigned int src, unsigned int dst, unsigned char a)
+    {
+        unsigned int b = ((src & 0xff) * a + (dst & 0xff) * (255 - a)) >> 8;
+        unsigned int g = ((src & 0xff00) * a + (dst & 0xff00) * (255 - a)) >> 8;
+        unsigned int r = ((src & 0xff0000) * a + (dst & 0xff0000) * (255 - a)) >> 8;
+
+        return (b & 0xff) | (g & 0xff00) | (r & 0xff0000);
+    }
+    
+    /**
+     * Puts a pixel on an SDL_Surface with alpha
+     *
+     * @param x the x coordinate on the surface.
+     * @param y the y coordinate on the surface.
+     * @param color the color the pixel should be in.
+     */
     inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, const Color& color)
     {
         int bpp = surface->format->BytesPerPixel;
-		
+        
         SDL_LockSurface(surface);
 
         Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
@@ -231,9 +229,7 @@ namespace gcn
         }
     
         SDL_UnlockSurface(surface);
-
-    } // end SDLputPixel
-
-} // end gcn
+    }
+}
 
 #endif // end GCN_SDLPIXEL_HPP

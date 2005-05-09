@@ -65,23 +65,28 @@ namespace gcn
 {
     class Image;
 
-	/**
-	 * For loading images to use with AllegroGraphics.
-	 * Able to load BMP, LBM, PCX, and TGA files, plus
-	 * any formats you have added with Allegro's
-	 * register_bitmap_file_type.
-	 *
-	 * @see AllegroGraphics, Image
-	 */
+    /**
+     * Allegro implementatino of ImageLoader. It is able to load BMP, LBM,
+     * PCX, and TGA files, plus any formats you have added with Allegro's
+     * register_bitmap_file_type.
+     *
+     * @see AllegroGraphics, Image
+     */
     class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
     {
     public:
-		AllegroImageLoader();
-		
+        /**
+         * Constructor.
+         */
+        AllegroImageLoader();
+
+        /**
+         * Destructor.
+         */
         virtual ~AllegroImageLoader();
 
-		
-		// Inherited from ImageLoader
+        
+        // Inherited from ImageLoader
 
         virtual void prepare(const std::string& filename);
 
@@ -101,11 +106,10 @@ namespace gcn
 
         virtual void putPixel(int x, int y, const Color& color);
 
-	protected:
-		BITMAP *mBmp;
-		unsigned int *mRawData;
-    }; // end AllegroImageLoader
-  
-} // end gcn
+    protected:
+        BITMAP *mBmp;
+        unsigned int *mRawData;
+    };  
+}
 
 #endif // end GCN_ALLEGROIMAGELOADER_HPP

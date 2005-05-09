@@ -67,59 +67,51 @@ namespace gcn
     class Font;
 
     /**
-     * This is an Allegro implementation of the Graphics object. For more
-     * information about the Graphics object please see the Graphics
-     * header.
-     *
-     * @see Graphics
-     * @todo Alpha channel support.
+     * Allegro implementation of Graphics.
      */
     class GCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
     {
     public:
         
-        // Needed so that drawImage(gcn::Image *, int, int) is visible
+        // Needed so that drawImage(gcn::Image *, int, int) is visible.
         using Graphics::drawImage;
         
-		/**
-		 * Default constructor
-		 */
+        /**
+         * Constructor.
+         */
         AllegroGraphics();
 
-		/**
-		 * Contsructor, sets the drawing target
-		 *
-		 * @param target the target
-		 * @see setTarget
-		 */
-		AllegroGraphics(BITMAP *target);
+        /**
+         * Contsructor. Sets the drawing target.
+         *
+         * @param target the target to draw to.
+         */
+        AllegroGraphics(BITMAP *target);
 
-		/**
-		 * Destructor
-		 */
+        /**
+         * Destructor.
+         */
         virtual ~AllegroGraphics();
 
-		/**
-		 * Sets the Allegro BITMAP to draw to. It can be any bitmap
-		 * with the same bit-depth as the screen,
-		 * but if you pass the screen bitmap you will probably get
-		 * flicker. Use a double buffer!
-		 *
-		 * @target the bitmap to draw the GUI to.
-		 */
-		virtual void setTarget(BITMAP *target);
+        /**
+         * Sets the target bitmap to draw to. It can be any bitmap with the same
+         * bit-depth as the screen. However, if you pass the screen bitmap you
+         * will probably get flicker. Use a double buffer!
+         *
+         * @param target the bitmap to draw to.
+         */
+        virtual void setTarget(BITMAP *target);
 
-		/**
-		 * Gets the target bitmap.
-		 *
-		 * @return the target bitmap.
-		 * @see setTarget
-		 */
-		virtual BITMAP *getTarget();
+        /**
+         * Gets the target bitmap.
+         *
+         * @return the target bitmap.
+         */
+        virtual BITMAP *getTarget();
 
-		
-		// Inherited from Graphics
-		
+        
+        // Inherited from Graphics
+        
         virtual void _beginDraw();
 
         virtual void _endDraw();
@@ -140,19 +132,17 @@ namespace gcn
 
         virtual void fillRectangle(const Rectangle& rectangle);
 
-        virtual void setColor(const Color& color);		
+        virtual void setColor(const Color& color);        
 
-		virtual const Color& getColor();
-		
+        virtual const Color& getColor();
+        
     protected:
-		BITMAP *mTarget;
-		bool mClipNull;
-		int mAlColor;
-        Color mColor;
-		
-    }; // end AllegroGraphics
-  
-} // end gcn
+        BITMAP *mTarget;
+        bool mClipNull;
+        int mAlColor;
+        Color mColor;        
+    };  
+}
 
 #endif // end GCN_ALLEGROGRAPHICS_HPP
  

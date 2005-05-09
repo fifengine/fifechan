@@ -68,57 +68,53 @@
 namespace gcn
 {
     /**
-     * This is an SDL implementation of the Graphics object. For more
-     * information about the Graphics object please see the Graphics
-     * header.
-     *
-     * @todo Alpha channel support.
+     * SDL implementation of the Graphics.
      */
     class GCN_EXTENSION_DECLSPEC SDLGraphics : public Graphics
     {
     public:
         
-        // Needed so that drawImage(gcn::Image *, int, int) is visible
+        // Needed so that drawImage(gcn::Image *, int, int) is visible.
         using Graphics::drawImage;
         
-		/**
-		 * Constructor.
-		 */
-		SDLGraphics();
-		
         /**
-         * This function sets the target on which to draw Gui-chan.
-         * Gui-chan is drawn upon calling the draw function found in
-         * the Gui class. As you might notice, Gui-chan can be drawn
-         * on any SDL_Surface. This funtion also pushes a clip area
-         * corresponding to the dimension of the target.
+         * Constructor.
+         */
+        SDLGraphics();
+        
+        /**
+         * Sets the target SDL_Surface to draw to. The target can be any
+         * SDL_Surface. This funtion also pushes a clip areas corresponding to
+         * the dimension of the target.
          *
-         * @param target the target where to draw Gui-chan
-         * @see Graphics
+         * @param target the target to draw to.
          */
         virtual void setTarget(SDL_Surface* target);
 
         /**
-         * @return the target on which Gui-chan is drawn
+         * Gets the target SDL_Surface.
+         *
+         * @return the target SDL_Surface.
          */
         virtual SDL_Surface* getTarget() const;
 
-		/**
-		 * Draws an SDL_Surface on the target surface. Normaly you'll
-		 * use drawImage, but if you want to write SDL specific code
-		 * this function might come in handy.
-		 *
-		 * NOTE: The clip area will be taken into account.
-		 */
-		virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
+        /**
+         * Draws an SDL_Surface on the target surface. Normaly you'll
+         * use drawImage, but if you want to write SDL specific code
+         * this function might come in handy.
+         *
+         * NOTE: The clip areas will be taken into account.
+         */
+        virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
                                     SDL_Rect destination);
 
-		// Inherited from Graphics
+        
+        // Inherited from Graphics
 
-		virtual void _beginDraw();
+        virtual void _beginDraw();
 
-		virtual void _endDraw();
-		
+        virtual void _endDraw();
+        
         virtual bool pushClipArea(Rectangle area);
     
         virtual void popClipArea();
@@ -135,35 +131,33 @@ namespace gcn
 
         virtual void fillRectangle(const Rectangle& rectangle);
 
-		virtual void setColor(const Color& color);
+        virtual void setColor(const Color& color);
 
-		virtual const Color& getColor();
-		
+        virtual const Color& getColor();
+        
     protected:
         /**
-         * This function draws a horizontal line.
+         * Draws a horizontal line.
          *
-         * @param x1 the start coordinate of the line
-         * @param y the y coordinate of the line
-         * @param x2 the end coordinate of the line
+         * @param x1 the start coordinate of the line.
+         * @param y the y coordinate of the line.
+         * @param x2 the end coordinate of the line.
          */
         virtual void drawHLine(int x1, int y, int x2);
 
         /**
-         * This function draws a vertical line.
+         * Draws a vertical line.
          *
-         * @param x the x coordinate of the line
-         * @param y1 the start coordinate of the line
-         * @param y2 the end coordinate of the line
+         * @param x the x coordinate of the line.
+         * @param y1 the start coordinate of the line.
+         * @param y2 the end coordinate of the line.
          */
         virtual void drawVLine(int x, int y1, int y2);
 
         SDL_Surface* mTarget;
         Color mColor;
-		bool mAlpha;
-		
-    }; // end SDLGraphics
-  
-} // end gcn
+        bool mAlpha;        
+    };  
+}
 
 #endif // end GCN_SDLGRAPHICS_HPP

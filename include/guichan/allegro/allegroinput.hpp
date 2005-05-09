@@ -68,18 +68,24 @@
 namespace gcn
 {
     /**
-     * This is an Allegro implementation of the Input class.
+     * Allegro implementation of the Input.
      */
     class GCN_EXTENSION_DECLSPEC AllegroInput : public Input
     {
     public:
 
-		AllegroInput();
-		
-        virtual ~AllegroInput(){ }
+        /**
+         * Constructor.
+         */
+        AllegroInput();
+
+        /**
+         * Destructor.
+         */
+        virtual ~AllegroInput() { }
 
 
-		// Inherited from Input
+        // Inherited from Input
 
         virtual bool isKeyQueueEmpty();
 
@@ -91,35 +97,34 @@ namespace gcn
 
         virtual void _pollInput();
 
-	protected:
-		/**
-		 * Handles the mouse input called by _pollInput
-		 */
-		virtual void pollMouseInput();
+    protected:
+        /**
+         * Handles the mouse input called by _pollInput.
+         */
+        virtual void pollMouseInput();
 
-		/**
-		 * Handles the key input called by _pollInput
-		 */
-		virtual void pollKeyInput();
+        /**
+         * Handles the key input called by _pollInput.
+         */
+        virtual void pollKeyInput();
 
-		/**
-		 * Converts scancode and unicode to Key obejct.
-		 */
-		virtual Key convertToKey(int scancode, int unicode);
-		
-		// This map holds the currently pressed Keys
-		// so we can send the correct key releases.
-		// it maps from scancode to key objects.
-		std::map<int, Key> mPressedKeys;
+        /**
+         * Converts scancode and unicode to Key object.
+         */
+        virtual Key convertToKey(int scancode, int unicode);
+        
+        // This map holds the currently pressed Keys
+        // so we can send the correct key releases.
+        // it maps from scancode to key objects.
+        std::map<int, Key> mPressedKeys;
 
-		std::queue<KeyInput> mKeyQueue;
+        std::queue<KeyInput> mKeyQueue;
         std::queue<MouseInput> mMouseQueue;
-		
-		bool mMouseButton1, mMouseButton2, mMouseButton3;
-		int mLastMouseX, mLastMouseY, mLastMouseZ;
-    }; // end Input
-  
-} // end gcn
+        
+        bool mMouseButton1, mMouseButton2, mMouseButton3;
+        int mLastMouseX, mLastMouseY, mLastMouseZ;
+    };  
+}
 
 #endif // end GCN_INPUT_HPP
 

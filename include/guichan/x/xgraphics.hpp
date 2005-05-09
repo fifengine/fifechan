@@ -67,8 +67,7 @@ namespace gcn
     class XGraphics : public Graphics
     {
     public:
-    }; // end XGraphics
-  
-} // end gcn
+    };  
+}
 
 #endif // end GCN_XGRAPHICS_HPP
