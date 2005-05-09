@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
  *
- * Copyright (c) 2004 darkbits                              Js_./
+ * Copyright (c) 2004, 2005 darkbits                        Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -68,15 +68,15 @@
 namespace gcn
 {
   /**
-   * This is an implementation of the Font class. It uses the SDL_ttf 
-   * library to display True Type Fonts with SDL.
-	 *
-	 * NOTE: You must initialize the SDL_ttf library before using this
-	 *       class. Also, remember to call the SDL_ttf libraries quit
-	 *       function.
-	 *
-	 * Original author of this class is Walluce Pinkham. Some modifications
-	 * made by the Guichan team.
+   * SDL True Type Font implementation of Font. It uses the SDL_ttf library
+   * to display True Type Fonts with SDL.
+   *
+   * NOTE: You must initialize the SDL_ttf library before using this
+   *       class. Also, remember to call the SDL_ttf libraries quit
+   *       function.
+   *
+   * Original author of this class is Walluce Pinkham. Some modifications
+   * made by the Guichan team.
    */
   class DECLSPEC SDLTrueTypeFont: public Font
   {
@@ -86,81 +86,79 @@ namespace gcn
      * Constructor.
      *     
      * @param filename the filename of the True Type Font.
-		 * @param size the size the font should be in.
+     * @param size the size the font should be in.
      */
     SDLTrueTypeFont (const std::string& filename, int size);
 
-		/**
-		 * Destructor.
-		 */
-    virtual ~SDLTrueTypeFont();
-		
-		/**
-		 * Sets the spacing between rows, in pixels.
-		 * Default is 0 pixels. The spacing can be negative.
-		 *
-		 * @param spacing the spacing in pixels
-		 */
-		virtual void setRowSpacing (int spacing);
+      /**
+       * Destructor.
+       */
+      virtual ~SDLTrueTypeFont();
+      
+      /**
+       * Sets the spacing between rows in pixels. Default is 0 pixels.
+       * The spacing can be negative.
+       *
+       * @param spacing the spacing in pixels.
+       */
+      virtual void setRowSpacing (int spacing);
+      
+      /**
+       * Gets the spacing between rows in pixels.
+       *
+       * @return the spacing.
+       */
+      virtual int getRowSpacing();
+      
+      /**
+       * Sets the spacing between letters in pixels. Default is 0 pixels.
+       * The spacing can be negative.
+       *
+       * @param spacing the spacing in pixels.
+       */
+      virtual void setGlyphSpacing(int spacing);
 
-		/**
-		 * Gets the spacing between rows, in pixels.
-		 *
-		 * @return the spacing.
-		 */
-		virtual int getRowSpacing();
-		
-		/**
-		 * Sets the spacing between letters, in pixels.
-		 * Default is 0 pixels. The spacing can be negative.
-		 *
-		 * @param spacing the spacing in pixels
-		 */
-		virtual void setGlyphSpacing(int spacing);
-
-		/**
-		 * Gets the spacing between letters, in pixels.
-		 *
-		 * @return the spacing.
-		 */
-		virtual int getGlyphSpacing();
-
-		/**
-		 * Turn on and off the use of anti-aliasing.
-		 *
-		 * @param antaAlias true or false.
-		 */
-		virtual void setAntiAlias(bool antiAlias);
-
-		/**
-		 * Check if antia-aliasing is used.
-		 *
-		 * @return true if enabled, otherwise false.		 
-		 */
-		virtual bool isAntiAlias();
-
-		
-		// Inherited from Font
-
-		virtual int getWidth(const std::string& text) const;
-		
-    virtual int getHeight() const;		
-
-		virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
-		
+      /**
+       * Gets the spacing between letters in pixels.
+       *
+       * @return the spacing.
+       */
+      virtual int getGlyphSpacing();
+      
+      /**
+       * Sets the use of anti aliasing..
+       *
+       * @param antaAlias true for use of antia aliasing.
+       */
+      virtual void setAntiAlias(bool antiAlias);
+      
+      /**
+       * Checks if anti aliasing is used.
+       *
+       * @return true if anti aliasing is used.
+       */
+      virtual bool isAntiAlias();
+      
+        
+      // Inherited from Font
+      
+      virtual int getWidth(const std::string& text) const;
+      
+      virtual int getHeight() const;        
+      
+      virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+      
   protected:
-		TTF_Font *mFont;
-		
-    int mHeight;
-		int mGlyphSpacing;
-		int mRowSpacing;
-		
-    std::string mFilename;
-		bool mAntiAlias;
-		
-  }; // end SDLTrueTypeFont
-  
-} // end gcn
+      TTF_Font *mFont;
+      
+      int mHeight;
+      int mGlyphSpacing;
+      int mRowSpacing;
+      
+      std::string mFilename;
+      bool mAntiAlias;      
+  }; 
+}
 
 #endif // end GCN_SDLTRUETYPEFONT_HPP
 
