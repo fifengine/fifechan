@@ -163,16 +163,16 @@ namespace gcn
 		}
 		while (!mWidgets.at(focusedWidget)->isFocusable());
 
+        if (focusedWidget >= 0)
+		{
+            mFocusedWidget = mWidgets.at(focusedWidget);
+			mWidgets.at(focusedWidget)->gotFocus();         
+		}
+        
 		if (focused >= 0)
 		{
 			mWidgets.at(focused)->lostFocus();
-		}
-    
-		if (focusedWidget >= 0)
-		{
-			mWidgets.at(focusedWidget)->gotFocus();
-            mFocusedWidget = mWidgets.at(focusedWidget);
-		}
+		}    
 	}
     
 	void FocusHandler::focusPrevious()
@@ -221,16 +221,16 @@ namespace gcn
 		}
 		while (!mWidgets.at(focusedWidget)->isFocusable());
 
+        if (focusedWidget >= 0)
+		{
+            mFocusedWidget = mWidgets.at(focusedWidget);
+			mWidgets.at(focusedWidget)->gotFocus();
+		}
+                
 		if (focused >= 0)
 		{
 			mWidgets.at(focused)->lostFocus();
-		}
-    
-		if (focusedWidget >= 0)
-		{
-			mWidgets.at(focusedWidget)->gotFocus();
-            mFocusedWidget = mWidgets.at(focusedWidget);
-		}
+		}    
 	}
 
 	bool FocusHandler::hasFocus(const Widget* widget) const
@@ -284,10 +284,10 @@ namespace gcn
 	{
         if (mFocusedWidget != NULL)
         {
+            mFocusedWidget = NULL;
             mFocusedWidget->lostFocus();
         }
         
-		mFocusedWidget = NULL;
         mToBeFocused = NULL;
 	}
 
@@ -359,17 +359,17 @@ namespace gcn
 		}
 		while (!done);
 
+        if (focusedWidget >= 0)
+		{
+            mFocusedWidget = mWidgets.at(focusedWidget);
+			mWidgets.at(focusedWidget)->gotFocus();
+		}
+        
 		if (focused >= 0)
 		{
 			mWidgets.at(focused)->lostFocus();
 		}
-        
-		if (focusedWidget >= 0)
-		{
-			mWidgets.at(focusedWidget)->gotFocus();
-            mFocusedWidget = mWidgets.at(focusedWidget);
-		}
-	}
+    }
 
 	void FocusHandler::tabPrevious()
 	{
@@ -434,15 +434,15 @@ namespace gcn
 		}
 		while (!done);
 
+        if (focusedWidget >= 0)
+		{
+            mFocusedWidget = mWidgets.at(focusedWidget);
+			mWidgets.at(focusedWidget)->gotFocus();
+		}    
+
 		if (focused >= 0)
 		{
 			mWidgets.at(focused)->lostFocus();
-		}
-    
-		if (focusedWidget >= 0)
-		{
-			mWidgets.at(focusedWidget)->gotFocus();
-            mFocusedWidget = mWidgets.at(focusedWidget);
 		}    
 	}
 
@@ -465,10 +465,21 @@ namespace gcn
             {
                 throw GCN_EXCEPTION("FocusHandler::applyChanges. Trying to focus a none existing widget.");
             }
-            
-            mWidgets.at(toBeFocusedIndex)->gotFocus();        
-            mFocusedWidget = mWidgets.at(toBeFocusedIndex);
-            mToBeFocused = NULL;            
+
+            Widget *oldFocused = mFocusedWidget;
+
+            if (oldFocused != mToBeFocused)
+            {
+                mFocusedWidget = mWidgets.at(toBeFocusedIndex);
+                
+                if (oldFocused != NULL)
+                {
+                    oldFocused->lostFocus();
+                }
+                
+                mWidgets.at(toBeFocusedIndex)->gotFocus();
+            }
+            mToBeFocused = NULL;
         }
 
         if (mToBeDragged != NULL)
