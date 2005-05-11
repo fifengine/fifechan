@@ -87,7 +87,7 @@ namespace gcn
     {
         if (mBmp != NULL)
         {
-            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
+            throw GCN_EXCEPTION(std::string("Older image has not been finalized or discarded") + filename);
         }
         
 #if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
@@ -101,14 +101,14 @@ namespace gcn
         
         if (bmp == NULL)
         {
-            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Unable to load: ") + filename);
+            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
         mBmp = create_bitmap_ex(32, bmp->w, bmp->h);
 
         if (mBmp == NULL)
         {
-            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Not enough memory to load: ") + filename);
+            throw GCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
         }
         
         set_palette(pal);
@@ -132,12 +132,12 @@ namespace gcn
     void* AllegroImageLoader::getRawData()
     {
         // @todo do it!
-        throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
+        throw GCN_EXCEPTION("Not implemented yet");
 
         
         if (mBmp == NULL)
         {
-            GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+            GCN_EXCEPTION("No image seems to be loaded");
         }
         
         return 0;
@@ -147,7 +147,7 @@ namespace gcn
     {
         if (mBmp == NULL)
         {
-            GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+            GCN_EXCEPTION("No image seems to be loaded");
         }        
         
         BITMAP *bmp = create_bitmap(mBmp->w, mBmp->h);
@@ -169,7 +169,7 @@ namespace gcn
     {
         if (mBmp == NULL)
         {
-            GCN_EXCEPTION("AllegroImageLoader::discard. No image seems to be loaded");
+            GCN_EXCEPTION("No image seems to be loaded");
         }                
         
         destroy_bitmap(mBmp);
@@ -185,7 +185,7 @@ namespace gcn
     {
         if (mBmp == NULL)
         {
-            GCN_EXCEPTION("AllegroImageLoader::getHeight. No image seems to be loaded");
+            GCN_EXCEPTION("No image seems to be loaded");
         }                        
         
         return mBmp->h;
@@ -195,7 +195,7 @@ namespace gcn
     {
         if (mBmp == NULL)
         {
-            GCN_EXCEPTION("AllegroImageLoader::getWidth. No image seems to be loaded");
+            GCN_EXCEPTION("No image seems to be loaded");
         }                
         
         return mBmp->w;

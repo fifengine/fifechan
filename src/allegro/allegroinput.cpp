@@ -80,7 +80,7 @@ namespace gcn
     {
         if (isKeyQueueEmpty())
         {
-            throw GCN_EXCEPTION("AllegroInput::dequeueKeyInput. Key queue is empty");
+            throw GCN_EXCEPTION("Key queue is empty.");
         }
 
         KeyInput ki = mKeyQueue.front();
@@ -98,7 +98,7 @@ namespace gcn
     {
         if (isMouseQueueEmpty())
         {
-            throw GCN_EXCEPTION("AllegroInput::dequeueMouseInput. Mouse queue is empty");
+            throw GCN_EXCEPTION("Mouse queue is empty.");
         }
 
         MouseInput mi = mMouseQueue.front();

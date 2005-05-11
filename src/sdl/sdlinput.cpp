@@ -77,7 +77,7 @@ namespace gcn
     
         if (mKeyInputQueue.empty())
         {
-            throw GCN_EXCEPTION("SDLInput::dequeueKeyInput: the queue is empty");
+            throw GCN_EXCEPTION("The queue is empty.");
         }
     
         keyInput = mKeyInputQueue.front();
@@ -97,7 +97,7 @@ namespace gcn
     
         if (mMouseInputQueue.empty())
         {
-            throw GCN_EXCEPTION("SDLInput::dequeueMouseInput: the queue is empty");
+            throw GCN_EXCEPTION("The queue is empty.");
         }
     
         mouseInput = mMouseInputQueue.front();

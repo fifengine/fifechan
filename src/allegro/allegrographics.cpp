@@ -93,7 +93,7 @@ namespace gcn
     {
         if (mTarget == NULL)
         {
-            throw GCN_EXCEPTION("AllegroGraphics::_beginDraw. Target BITMAP is null, set it with setTarget first");
+            throw GCN_EXCEPTION("Target BITMAP is null, set it with setTarget first.");
         }        
 
         // push a clip area the size of the target bitmap
