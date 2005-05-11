@@ -84,7 +84,7 @@ namespace gcn
     {
         if (mModalFocusedWidget != NULL && mModalFocusedWidget != widget)
         {
-            throw GCN_EXCEPTION("FocusHandler::requestModalFocus. Another widget allready has modal focus.");
+            throw GCN_EXCEPTION("Another widget allready has modal focus.");
         }
 
         mModalFocusedWidget = widget;
@@ -463,7 +463,7 @@ namespace gcn
             
             if (toBeFocusedIndex < 0)
             {
-                throw GCN_EXCEPTION("FocusHandler::applyChanges. Trying to focus a none existing widget.");
+                throw GCN_EXCEPTION("Trying to focus a none existing widget.");
             }
 
             Widget *oldFocused = mFocusedWidget;
@@ -497,7 +497,7 @@ namespace gcn
 
             if (toBeDraggedIndex < 0)
             {
-                throw GCN_EXCEPTION("FocusHandler::applyChanges. Trying to give drag to a none existing widget");
+                throw GCN_EXCEPTION("Trying to give drag to a none existing widget");
             }
             
              mDraggedWidget = mWidgets.at(toBeDraggedIndex);

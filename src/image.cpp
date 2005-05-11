@@ -81,7 +81,7 @@ namespace gcn
     {
         if (mImageLoader == NULL)
         {
-            throw GCN_EXCEPTION("Image::Image. I have no ImageLoader!");
+            throw GCN_EXCEPTION("I have no ImageLoader!");
         }
 
         mLoadedWithImageLoader = true;

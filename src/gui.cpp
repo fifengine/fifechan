@@ -126,7 +126,7 @@ namespace gcn
     {
         if (!mTop)
         {
-            throw GCN_EXCEPTION("Gui::logic. No top widget set");
+            throw GCN_EXCEPTION("No top widget set");
         }
 
         if(mInput)
@@ -237,11 +237,11 @@ namespace gcn
     {
         if (!mTop)
         {
-            throw GCN_EXCEPTION("Gui::draw. No top widget set");
+            throw GCN_EXCEPTION("No top widget set");
         }
         if (!mGraphics)
         {
-            throw GCN_EXCEPTION("Gui::draw. No graphics set");
+            throw GCN_EXCEPTION("No graphics set");
         }
 
         mGraphics->_beginDraw();

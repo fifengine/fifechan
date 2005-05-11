@@ -68,7 +68,7 @@ namespace gcn
     {
         if (Image::_getImageLoader() == NULL)
         {
-            throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+            throw GCN_EXCEPTION("I have no ImageLoader!");
         }
 
         ImageLoader* imageLoader = Image::_getImageLoader();
@@ -84,7 +84,7 @@ namespace gcn
         
         if (i >= imageLoader->getWidth())
         {
-            throw GCN_EXCEPTION("ImageFont::ImageFont. Corrupt image");
+            throw GCN_EXCEPTION("Corrupt image.");
         }
         
         int j = 0;
@@ -119,7 +119,7 @@ namespace gcn
     {
         if (Image::_getImageLoader() == NULL)
         {
-            throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+            throw GCN_EXCEPTION("I have no ImageLoader!");
         }
 
         ImageLoader* imageLoader = Image::_getImageLoader();
@@ -135,7 +135,7 @@ namespace gcn
         
         if (i >= imageLoader->getWidth())
         {
-            throw GCN_EXCEPTION("ImageFont::ImageFont. Corrupt image");
+            throw GCN_EXCEPTION("Corrupt image.");
         }
         
         int j = 0;
@@ -255,7 +255,7 @@ namespace gcn
                 {
                     std::string str;
                     std::ostringstream os(str);
-                    os << "ImageFont::addGlyph. Image ";
+                    os << "Image ";
                     os << mFilename;
                     os << " with font is corrupt near character '";
                     os << c;
@@ -278,7 +278,7 @@ namespace gcn
             {
                 std::string str;
                 std::ostringstream os(str);
-                os << "ImageFont::addGlyph. Image ";
+                os << "Image ";
                 os << mFilename;
                 os << " with font is corrupt near character '";
                 os << c;
