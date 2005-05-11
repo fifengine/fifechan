@@ -66,7 +66,8 @@
  * the exception occured.
  */
 #define GCN_EXCEPTION(mess) gcn::Exception(mess,   \
-                            std::string(__FILE__), \
+                            __FUNCTION__,          \
+                            __FILE__,              \
                             __LINE__)              \
 
 namespace gcn
@@ -107,11 +108,22 @@ namespace gcn
          * NOTE: Don't use this constructor. Use the GCN_EXCEPTION macro instead.
          *
          * @param message the error message.
+         * @param function the function name.
          * @param filename the name of the file.
          * @param line the line number.
          */
-        Exception(const std::string& message, const std::string& filename, int line);
+        Exception(const std::string& message,
+                  const std::string& function,
+                  const std::string& filename,
+                  int line);
 
+        /**
+         * Gets the function name in which the exception was thrown.
+         *
+         * @return the function name in which the exception was thrown.
+         */
+        const std::string& getFunction() const;
+        
         /**
          * Gets the error message of the exception.
          *
@@ -134,6 +146,7 @@ namespace gcn
         int getLine() const;
     
     protected:
+        std::string mFunction;
         std::string mMessage;
         std::string mFilename;
         int mLine;
