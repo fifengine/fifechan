@@ -64,99 +64,101 @@
 
 namespace gcn
 {
-	/**
-	 * This is a normal CheckBox. It can be checked and unchecked, and that is
-	 * basicly it.
-	 */
-	class GCN_CORE_DECLSPEC CheckBox :
-		public Widget,
-		public MouseListener,
-		public KeyListener
-	{
-	public:
+    /**
+     * A regular CheckBox. It can be checked and unchecked.
+     */
+    class GCN_CORE_DECLSPEC CheckBox :
+        public Widget,
+        public MouseListener,
+        public KeyListener
+    {
+    public:
 
-		/**
-		 * Contructor.
-		 */
-		CheckBox();
+        /**
+         * Contructor.
+         */
+        CheckBox();
 
-		/**
-		 * Constructor.
-		 *
-		 * @param caption the caption of the CheckBox.
-		 * @param marked true if the CheckBox should be marked.
-		 */
-		CheckBox(const std::string &caption, bool marked=false);
+        /**
+         * Constructor.
+         *
+         * @param caption the CheckBox caption.
+         * @param marked true if the CheckBox should be marked.
+         */
+        CheckBox(const std::string &caption, bool marked=false);
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~CheckBox() { }
-		
-		/**
-		 * Draws the box i.a not the caption.
-		 *
-		 * @param graphics a graphics object.
-		 */
-		virtual void drawBox(Graphics *graphics);
+        /**
+         * Destructor.
+         */
+        virtual ~CheckBox() { }
+        
+        /**
+         * Draws the box i.a not the caption.
+         *
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void drawBox(Graphics *graphics);
 
-		/**
-		 * @return true if the CheckBox is marked.
-		 */      
-		virtual bool isMarked() const;
-		
-		/**
-		 * Set the CheckBox marked.
-		 *
-		 * @param marked true if the CheckBox should be marked.
-		 */
-		virtual void setMarked(bool marked);
-		
-		/**
-		 * @return the caption of the CheckBox.
-		 */
-		virtual const std::string &getCaption() const;
-		
-		/**
-		 * Sets the caption of the CheckBox.
-		 *
-		 * @param caption the CheckBox caption.
-		 */
-		virtual void setCaption(const std::string caption);
-		
-		/**
-		 * Adjusts the CheckBox size to fit the font size.
-		 */
-		virtual void adjustSize();
-		
+        /**
+         * Checks if the CheckBox is marked.
+         *
+         * @return true if the CheckBox is marked.
+         */      
+        virtual bool isMarked() const;
+        
+        /**
+         * Sets the CheckBox to be marked.
+         *
+         * @param marked true if the CheckBox should be marked.
+         */
+        virtual void setMarked(bool marked);
+        
+        /**
+         * Gets the CheckBox caption.
+         *
+         * @return the CheckBox caption.
+         */
+        virtual const std::string &getCaption() const;
+        
+        /**
+         * Sets the CheckBox caption.
+         *
+         * @param caption the CheckBox caption.
+         */
+        virtual void setCaption(const std::string caption);
+        
+        /**
+         * Adjusts the CheckBox size to fit the font size.
+         */
+        virtual void adjustSize();
+        
 
-		// Inherited from Widget
-		
-		virtual void draw(Graphics* graphics);
+        // Inherited from Widget
+        
+        virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);
-	  
+        virtual void drawBorder(Graphics* graphics);
+      
 
-		// Inherited from KeyListener
+        // Inherited from KeyListener
 
-		virtual void keyPress(const Key& key);
-
-
-		// Inherited from MouseListener
-		virtual void mouseClick(int x, int y, int button, int count);
+        virtual void keyPress(const Key& key);
 
 
-	protected:
-		/**
-		 * Toggle between marked and unmarked.
-		 */
-		virtual void toggle();
+        // Inherited from MouseListener
+
+        virtual void mouseClick(int x, int y, int button, int count);
+
+
+    protected:
+        /**
+         * Toggles between marked and unmarked.
+         */
+        virtual void toggle();
     
-		bool mMarked;
-		std::string mCaption;
-    
-	}; // end CheckBox
-  
-} // end gcn
+        bool mMarked;
+        std::string mCaption;    
+    };  
+}
 
 #endif // end GCN_CHECKBOX_HPP

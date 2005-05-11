@@ -61,31 +61,29 @@
 
 namespace gcn
 {
-	/**
-	 * This is a simple Icon widget for displaying icons (images).
-	 */	
-	class GCN_CORE_DECLSPEC Icon: public Widget
-	{
-	public:
-		/**
-		 * Constructor.
-		 *
-		 * @param image an Image to be displayed.
-		 */
-		Icon(Image* image);
-		
-		
-		// Inherited from Widget
-		
-		virtual void draw(Graphics* graphics);
+    /**
+     * An Icon for displaying images.
+     */    
+    class GCN_CORE_DECLSPEC Icon: public Widget
+    {
+    public:
+        /**
+         * Constructor.
+         *
+         * @param image an Image to display.
+         */
+        Icon(Image* image);
+        
+        
+        // Inherited from Widget
+        
+        virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);
-		
-	private:
-		Image* mImage;
-		
-	}; // end Icon
-	
-} // end gcn
+        virtual void drawBorder(Graphics* graphics);
+        
+    private:
+        Image* mImage;        
+    };    
+}
 
 #endif // end GCN_ICON_HPP

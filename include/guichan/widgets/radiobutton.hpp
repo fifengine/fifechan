@@ -65,116 +65,119 @@
 
 namespace gcn
 {
-	/**
-	 * This is a simple RadioButton. A RadioButton can belong to a group.
-	 * If a RadioButton belongs to a group, only one RadioButton in the group
-	 * can be selected.
-	 */
-	class GCN_CORE_DECLSPEC RadioButton :
-		public Widget,
-		public MouseListener,
-		public KeyListener
-	{
-	public:
+    /**
+     * A RadioButton which can be grouped into RadioButtons groups. In a
+     * RadioButton group, only one of the RadioButtons can be selected.
+     */
+    class GCN_CORE_DECLSPEC RadioButton :
+        public Widget,
+        public MouseListener,
+        public KeyListener
+    {
+    public:
 
-		/**
-		 * Constructor.
-		 */
-		RadioButton();
+        /**
+         * Constructor.
+         */
+        RadioButton();
 
-		/**
-		 * Constructor.
-		 *
-		 * @param caption the radiobuttons caption.
-		 * @param group the group the RadioButton belongs to.
-		 * @param marked true if the RadioButton should be marked.
-		 */
-		RadioButton(const std::string &caption,
-					const std::string &group,                
-					bool marked=false);
+        /**
+         * Constructor.
+         *
+         * @param caption the Radiobutton caption.
+         * @param group the group the RadioButton belongs to.
+         * @param marked true if the RadioButton should be marked.
+         */
+        RadioButton(const std::string &caption,
+                    const std::string &group,                
+                    bool marked=false);
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~RadioButton();
+        /**
+         * Destructor.
+         */
+        virtual ~RadioButton();
     
-		/**
-		 * Draws the box i.a not the caption.
-		 *
-		 * @param graphics a Graphics object.
-		 */
-		virtual void drawBox(Graphics *graphics);
+        /**
+         * Draws the box i.a not the caption.
+         *
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void drawBox(Graphics *graphics);
 
-		/**
-		 * @return true if the RadioButton is marked.
-		 */      
-		virtual bool isMarked() const;
+        /**
+         * Checks if the RadioButton is marked.
+         *
+         * @return true if the RadioButton is marked.
+         */      
+        virtual bool isMarked() const;
     
-		/**
-		 * Set the RadioButton marked.
-		 *
-		 * @param marked true if the RadioButton should be marked.
-		 */
-		virtual void setMarked(bool marked);
+        /**
+         * Sets the RadioButton to be marked.
+         *
+         * @param marked true if the RadioButton should be marked.
+         */
+        virtual void setMarked(bool marked);
 
-		/**
-		 * @return the caption of the RadioButton.
-		 */
-		virtual const std::string &getCaption() const;
+        /**
+         * Gets the RadioButton caption.
+         *
+         * @return the RadioButton caption.
+         */
+        virtual const std::string &getCaption() const;
 
-		/**
-		 * Sets the caption of the RadioButton.
-		 *
-		 * @param caption the RadioButton caption.
-		 */
-		virtual void setCaption(const std::string caption);
+        /**
+         * Sets the RadioButton caption.
+         *
+         * @param caption the RadioButton caption.
+         */
+        virtual void setCaption(const std::string caption);
 
-		/**
-		 * Set the group the RadioButton should belong to.
-		 *
-		 * @param group the name of the group.
-		 */
-		virtual void setGroup(const std::string &group);
+        /**
+         * Sets the group the RadioButton should belong to.
+         *
+         * @param group the name of the group.
+         */
+        virtual void setGroup(const std::string &group);
 
-		/**
-		 * @return the group the RadioButton belongs to.
-		 */
-		virtual const std::string &getGroup() const;
+        /**
+         * Gets the group the RadioButton belongs to.
+         *
+         * @return the group the RadioButton belongs to.
+         */
+        virtual const std::string &getGroup() const;
 
-		/**
-		 * Adjusts the RadioButtons size to fit the font size.
-		 */
-		virtual void adjustSize();
-
-
-		// Inherited from Widget
-
-		virtual void draw(Graphics* graphics);
-
-		virtual void drawBorder(Graphics* graphics);
-		
-
-		// Inherited from KeyListener
-
-		virtual void keyPress(const Key& key);
+        /**
+         * Adjusts the RadioButtons size to fit the font size.
+         */
+        virtual void adjustSize();
 
 
-		// Inherited from MouseListener
+        // Inherited from Widget
 
-		virtual void mouseClick(int x, int y, int button, int count);
-				
-	protected:    
-		bool mMarked;
-		std::string mCaption;
-		std::string mGroup;
+        virtual void draw(Graphics* graphics);
 
-		typedef std::multimap<std::string, RadioButton *> GroupMap;
-		typedef GroupMap::iterator GroupIterator;
+        virtual void drawBorder(Graphics* graphics);
+        
+
+        // Inherited from KeyListener
+
+        virtual void keyPress(const Key& key);
+
+
+        // Inherited from MouseListener
+
+        virtual void mouseClick(int x, int y, int button, int count);
+                
+    protected:    
+        bool mMarked;
+        std::string mCaption;
+        std::string mGroup;
+
+        typedef std::multimap<std::string, RadioButton *> GroupMap;
+        typedef GroupMap::iterator GroupIterator;
     
-		static GroupMap mGroupMap;
-    
-	}; // end RadioButton
-  
-} // end gcn
+        static GroupMap mGroupMap;    
+    };  
+}
 
 #endif // end GCN_RADIOBUTTON_HPP

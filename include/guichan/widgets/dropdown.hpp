@@ -66,192 +66,190 @@
 
 namespace gcn
 {
-	/**
-	 * This is a drop down box (you know, the ones you can drop down and
-	 * select between different values, like a list box). It is one of the
-	 * most complicated widgets you will find in gui-chan. For drawing the
-	 * dropped down box it uses one ScrollArea and one ListBox. It also
-	 * uses an internal FocusHandler to handle the focus of the internal
-	 * ScollArea and ListBox.
-	 *	 
-	 * It uses a ListModel to look up it's values, just like the ListBox.
-	 */
-	class GCN_CORE_DECLSPEC DropDown :
-		public BasicContainer,
-		public MouseListener,
-		public KeyListener,
-		public ActionListener
-	{
-	public:
-		/**
-		 * Constructor.
-		 */
-		DropDown();
+    /**
+     * A drop down box from which you can select different values. It is one of
+     * the most complicated Widgets you will find in Guichan. For drawing the
+     * DroppedDown box it uses one ScrollArea and one ListBox. It also uses an
+     * internal FocusHandler to handle the focus of the internal ScollArea and
+     * ListBox. DropDown uses a ListModel to handle the list. To be able to use
+     * DropDown you must give DropDown an implemented ListModel which represents
+     * your list.
+     */
+    class GCN_CORE_DECLSPEC DropDown :
+        public BasicContainer,
+        public MouseListener,
+        public KeyListener,
+        public ActionListener
+    {
+    public:
+        /**
+         * Constructor.
+         */
+        DropDown();
 
-		/**
-		 * Contructor.
-		 *
-		 * @param listModel the ListModel to be used.
-		 * @see ListModel.
-		 */		 
-		DropDown(ListModel *listModel);
-		
-		/**
-		 * Contructor.
-		 *
-		 * @param listModel the ListModel to be used.
-		 * @param scrollArea the ScrollArea to be used.
-		 * @param listBox the listBox to be used.
-		 * @see ListModel, ScrollArea, ListBox.
-		 */		 
-		DropDown(ListModel *listModel,
+        /**
+         * Contructor.
+         *
+         * @param listModel the ListModel to use.
+         * @see ListModel.
+         */         
+        DropDown(ListModel *listModel);
+        
+        /**
+         * Contructor.
+         *
+         * @param listModel the ListModel to use.
+         * @param scrollArea the ScrollArea to use.
+         * @param listBox the listBox to use.
+         * @see ListModel, ScrollArea, ListBox.
+         */         
+        DropDown(ListModel *listModel,
                  ScrollArea *scrollArea,
                  ListBox *listBox);
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~DropDown();
+        /**
+         * Destructor.
+         */
+        virtual ~DropDown();
     
-		/**
-		 * @return the selected element.
-		 */
-		virtual int getSelected();
+        /**
+         * Gets the index int the ListModel of the selected element.
+         *
+         * @return the selected element.
+         */
+        virtual int getSelected();
 
-		/**
-		 * Set the selected element.
-		 *
-		 * @param selected the number of the element to be selected.
-		 */
-		virtual void setSelected(int selected);
+        /**
+         * Sets the ListModel index of the selected element.
+         *
+         * @param selected the ListModel index of the selected element.
+         */
+        virtual void setSelected(int selected);
 
-		/**
-		 * Sets the ListModel to be used.
-		 *
-		 * @param listModel the ListModel to be used.
-		 * @see ListModel
-		 */
-		virtual void setListModel(ListModel *listModel);
+        /**
+         * Sets the ListModel to use.
+         *
+         * @param listModel the ListModel to use.
+         */
+        virtual void setListModel(ListModel *listModel);
 
-		/**
-		 * @return the ListModel used.
-		 * @see ListModel
-		 */
-		virtual ListModel *getListModel();
+        /**
+         * Gets the ListModel used.
+         *
+         * @return the ListModel used.
+         */
+        virtual ListModel *getListModel();
 
-		/**
-		 * Sets the ScrollArea to be used.
-		 *
-		 * @param scrollArea the ScrollArea to be used.
-		 * @see ScrollArea
-		 */
-		virtual void setScrollArea(ScrollArea* scrollArea);
+        /**
+         * Sets the ScrollArea to use.
+         *
+         * @param scrollArea the ScrollArea to use.
+         */
+        virtual void setScrollArea(ScrollArea* scrollArea);
 
-		/**
-		 * @return the ScrollArea used.
-		 * @see ScrollArea
-		 */
-		virtual ScrollArea *getScrollArea();
+        /**
+         * Gets the ScrollArea used.
+         *
+         * @return the ScrollArea used.
+         */
+        virtual ScrollArea *getScrollArea();
 
-		/**
-		 * Sets the ListBox to be used.
-		 *
-		 * @param listBox the ListBox to be used.
-		 * @see ListBox
-		 */
-		virtual void setListBox(ListBox* listBox);
+        /**
+         * Sets the ListBox to use.
+         *
+         * @param listBox the ListBox to use.
+         */
+        virtual void setListBox(ListBox* listBox);
 
-		/**
-		 * @return the ListBox used.
-		 * @see ListBox
-		 */
-		virtual ListBox *getListBox();
+        /**
+         * Gets the ListBox used.
+         *
+         * @return the ListBox used.
+         */
+        virtual ListBox *getListBox();
 
-		/**
-		 * Adjusts the height of the DropDown fitting its parents
-		 * height.
-		 */
-		virtual void adjustHeight();
-
-
-		// Inherited from Widget
-		
-		virtual void draw(Graphics* graphics);
-
-		virtual void drawBorder(Graphics* graphics);
-		
-		virtual void _keyInputMessage(const KeyInput& keyInput);
-		
-		virtual void logic();
-		
-		virtual void _mouseInputMessage(const MouseInput &mouseInput);
-
-		virtual void lostFocus();
-
-		virtual void setBaseColor(const Color& color);
-
-		virtual void setBackgroundColor(const Color& color);
-
-		virtual void setForegroundColor(const Color& color);
-		
-		// Inherited from BasicContainer
-
-		virtual void moveToTop(Widget* widget);
-
-		virtual void moveToBottom(Widget* widget);
-
-		virtual void _announceDeath(Widget* widget);
-
-		virtual void getDrawSize(int& width, int& height, Widget* widget);
+        /**
+         * Adjusts the height of the DropDown fitting it's parents height.
+         */
+        virtual void adjustHeight();
 
 
-		// Inherited from ActionListener
-		
-		virtual void action(const std::string& eventId);
+        // Inherited from Widget
+        
+        virtual void draw(Graphics* graphics);
+
+        virtual void drawBorder(Graphics* graphics);
+        
+        virtual void _keyInputMessage(const KeyInput& keyInput);
+        
+        virtual void logic();
+        
+        virtual void _mouseInputMessage(const MouseInput &mouseInput);
+
+        virtual void lostFocus();
+
+        virtual void setBaseColor(const Color& color);
+
+        virtual void setBackgroundColor(const Color& color);
+
+        virtual void setForegroundColor(const Color& color);
+
+        
+        // Inherited from BasicContainer
+
+        virtual void moveToTop(Widget* widget);
+
+        virtual void moveToBottom(Widget* widget);
+
+        virtual void _announceDeath(Widget* widget);
+
+        virtual void getDrawSize(int& width, int& height, Widget* widget);
 
 
-		// Inherited from KeyListener
-		
-		virtual void keyPress(const Key& key);
+        // Inherited from ActionListener
+        
+        virtual void action(const std::string& eventId);
 
 
-		// Inherited from MouseListener
-		
-		virtual void mousePress(int x, int y, int button);
+        // Inherited from KeyListener
+        
+        virtual void keyPress(const Key& key);
+
+
+        // Inherited from MouseListener
+        
+        virtual void mousePress(int x, int y, int button);
     
-		virtual void mouseRelease(int x, int y, int button);    
+        virtual void mouseRelease(int x, int y, int button);    
 
-		
-	protected:
-		/**
-		 * Draws the button with the little down arrow.
-		 *
-		 *
-		 * @param graphics a Graphics object.
-		 */
-		virtual void drawButton(Graphics *graphics);
+        
+    protected:
+        /**
+         * Draws the button with the little down arrow.
+         *
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void drawButton(Graphics *graphics);
 
-		/**
-		 * Sets the DropDown widget to dropped-down mode.
-		 */
-		virtual void dropDown();
+        /**
+         * Sets the DropDown Widget to dropped-down mode.
+         */
+        virtual void dropDown();
 
-		/**
-		 * Sets the DropDown widget to folded-up mode.
-		 */
-		virtual void foldUp();
+        /**
+         * Sets the DropDown Widget to folded-up mode.
+         */
+        virtual void foldUp();
     
-		bool mDroppedDown;
-		bool mPushed;
-		int mOldH;
-		ScrollArea* mScrollArea;
-		ListBox* mListBox;
-		ScrollArea* mDefaultScrollArea;
-		ListBox* mDefaultListBox;
-		FocusHandler mFocusHandler;
-    
-	}; // end DropDown
-  
-} // end gcn
+        bool mDroppedDown;
+        bool mPushed;
+        int mOldH;
+        ScrollArea* mScrollArea;
+        ListBox* mListBox;
+        ScrollArea* mDefaultScrollArea;
+        ListBox* mDefaultListBox;
+        FocusHandler mFocusHandler;    
+    };  
+}
 
 #endif // end GCN_DROPDOWN_HPP

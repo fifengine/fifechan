@@ -63,95 +63,91 @@
 
 namespace gcn
 {
-	/**
-	 * This is a ListBox. It is a box with objects that can be selected. Only
-	 * one object can be selected.
-	 * ListBox uses a ListModel to handle the list. To be able to use ListBox
-	 * you must give ListModel an implemented ListModel which represents your
-	 * list.
-	 *	 
-	 * @see ListModel
-	 */
-	class GCN_CORE_DECLSPEC ListBox :
-		public Widget,
-		public MouseListener,
-		public KeyListener
-	{
-	public:
-		/**
-		 * Constructor.
-		 */
-		ListBox();
+    /**
+     * A ListBox displaying a list in which elemets can be selected. Only one     
+     * element can be selected at time. ListBox uses a ListModel to handle the
+     * list. To be able to use ListBox you must give ListBox an implemented
+     * ListModel which represents your list.
+     */
+    class GCN_CORE_DECLSPEC ListBox :
+        public Widget,
+        public MouseListener,
+        public KeyListener
+    {
+    public:
+        /**
+         * Constructor.
+         */
+        ListBox();
 
-		/**
-		 * Constructor.
-		 *
-		 * @param listModel the ListModel to be used.
-		 * @see ListModel
-		 */
-		ListBox(ListModel *listModel);
+        /**
+         * Constructor.
+         *
+         * @param listModel the ListModel to use.
+         */
+        ListBox(ListModel *listModel);
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~ListBox() { }
-				
-		/**
-		 * @return the selected element.
-		 */
-		virtual int getSelected();
+        /**
+         * Destructor.
+         */
+        virtual ~ListBox() { }
+                
+        /**
+         * Gets the ListModel index of the selected element.
+         *
+         * @return the ListModel index of the selected element.
+         */
+        virtual int getSelected();
     
-		/**
-		 * Set the selected element.
-		 *
-		 * @param selected the number of the element to be selected.
-		 */
-		virtual void setSelected(int selected);
+        /**
+         * Sets the ListModel index of the selected element.
+         *
+         * @param selected the ListModel index of the selected element.
+         */
+        virtual void setSelected(int selected);
 
-		/**
-		 * Sets the ListModel to be used.
-		 *
-		 * @param listModel the ListModel to be used.
-		 * @see ListModel
-		 */
-		virtual void setListModel(ListModel *listModel);
+        /**
+         * Sets the ListModel to use.
+         *
+         * @param listModel the ListModel to use.
+         */
+        virtual void setListModel(ListModel *listModel);
 
-		/**
-		 * @return the ListModel used.
-		 * @see ListModel
-		 */
-		virtual ListModel *getListModel();
+        /**
+         * Gets the ListModel used.
+         *
+         * @return the ListModel used.
+         */
+        virtual ListModel *getListModel();
 
-		/**
-		 * Adjusts the size of the listbox to fit the font used.
-		 */
-		virtual void adjustSize();
-
-
-		// Inherited from Widget
-
-		virtual void draw(Graphics* graphics);
-
-		virtual void drawBorder(Graphics* graphics);
-		
-		virtual void logic();
+        /**
+         * Adjusts the size of the ListBox to fit the font used.
+         */
+        virtual void adjustSize();
 
 
-		// Inherited from KeyListener
+        // Inherited from Widget
 
-		virtual void keyPress(const Key& key);
+        virtual void draw(Graphics* graphics);
+
+        virtual void drawBorder(Graphics* graphics);
+        
+        virtual void logic();
 
 
-		// Inherited from MouseListener
+        // Inherited from KeyListener
 
-		virtual void mousePress(int x, int y, int button);
+        virtual void keyPress(const Key& key);
 
-	protected:
-		ListModel *mListModel;
-		int mSelected;
-    
-	}; // end ListBox
-  
-} // end gcn
+
+        // Inherited from MouseListener
+
+        virtual void mousePress(int x, int y, int button);
+
+    protected:
+        ListModel *mListModel;
+        int mSelected;    
+    };  
+}
 
 #endif // end GCN_LISTBOX_HPP

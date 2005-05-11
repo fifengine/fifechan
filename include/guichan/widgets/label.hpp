@@ -62,69 +62,69 @@
 
 namespace gcn
 {
-	/**
-	 * This is a simple labe for displaying a short text message.
-	 */
-	class GCN_CORE_DECLSPEC Label: public Widget
-	{
-	public:
-		/**
-		 * Constructor.
-		 */
-		Label();
+    /**
+     * A label for displaying text.
+     */
+    class GCN_CORE_DECLSPEC Label: public Widget
+    {
+    public:
+        /**
+         * Constructor.
+         */
+        Label();
 
-		/**
-		 * Constructor.
-		 *
-		 * @param caption the caption of the label.
-		 */
-		Label(const std::string& caption);
+        /**
+         * Constructor.
+         *
+         * @param caption the Label caption.
+         */
+        Label(const std::string& caption);
 
-		/**
-		 * @return the caption of the Label.
-		 */
-		virtual const std::string &getCaption() const;
+        /**
+         * Gets the Label caption.
+         *
+         * @return the Label caption.
+         */
+        virtual const std::string &getCaption() const;
 
-		/**
-		 * Sets the caption of the label.
-		 *
-		 * @param caption the caption of the Label.
-		 */
-		virtual void setCaption(const std::string& caption);
+        /**
+         * Sets the Label caption.
+         *
+         * @param caption the Label caption.
+         */
+        virtual void setCaption(const std::string& caption);
 
-		/**
-		 * Set the alignment for the caption.
-		 *
-		 * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
-		 * @see Graphics
-		 */
-		virtual void setAlignment(unsigned int alignment);
+        /**
+         * Sets the alignment for the caption.
+         *
+         * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
+         * @see Graphics
+         */
+        virtual void setAlignment(unsigned int alignment);
 
-		/**
-		 * Get the alignment for the caption.
-		 *
-		 * @return alignment of caption.
-		 */
-		virtual unsigned int getAlignment();
-		
-		/**
-		 * Adjusts the Label size to fit the font size.
-		 */
-		virtual void adjustSize();
-		
-		
-		// Inherited from Widget
+        /**
+         * Gets the alignment for the caption.
+         *
+         * @return alignment of caption.
+         */
+        virtual unsigned int getAlignment();
+        
+        /**
+         * Adjusts the Label size to fit the font size.
+         */
+        virtual void adjustSize();
+        
+        
+        // Inherited from Widget
 
-		virtual void draw(Graphics* graphics);
+        virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);
-		
-	private:
-		std::string mCaption;
-        unsigned int mAlignment;
-		
-	}; // end Label
-  
-} // end gcn
+        virtual void drawBorder(Graphics* graphics);
+        
+    private:
+        std::string mCaption;
+        unsigned int mAlignment;        
+    };  
+}
 
 #endif // end GCN_LABEL_HPP

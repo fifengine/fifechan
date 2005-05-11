@@ -63,29 +63,29 @@
 namespace gcn
 {
     /**
-     * This is a movable window which can contain another widget.
+     * A movable window which can conatin another Widget.
      */
-	class GCN_CORE_DECLSPEC Window : public BasicContainer,
+    class GCN_CORE_DECLSPEC Window : public BasicContainer,
                                      public MouseListener
-	{
-	public:
-		/**
-		 * Constructor.
-		 */
-		Window();
-
-		/**
-		 * Constructor.
-		 *
-		 * @param caption the caption of the window.
-		 */
-		Window(const std::string& caption);
+    {
+    public:
+        /**
+         * Constructor.
+         */
+        Window();
 
         /**
          * Constructor.
          *
-         * @param content the content widget.
-		 * @param caption the caption of the window.
+         * @param caption the Window caption.
+         */
+        Window(const std::string& caption);
+
+        /**
+         * Constructor.
+         *
+         * @param content the content Widget.
+         * @param caption the Window caption.
          */
         Window(Widget* content, const std::string& caption = "");
 
@@ -94,78 +94,79 @@ namespace gcn
          */
         virtual ~Window();
     
-		/**
-		 * Set the caption of the window.
-		 *
-		 * @param caption the caption of the button.
-		 */
-		virtual void setCaption(const std::string& caption);
-		
-		/**
-		 * @return the caption of the window.		 
-		 */
-		virtual const std::string& getCaption() const;
-
-		/**
-		 * Set the alignment for the caption.
-		 *
-		 * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
-		 * @see Graphics
-		 */
-		virtual void setAlignment(unsigned int alignment);
-
-		/**
-		 * Get the alignment for the caption.
-		 *
-		 * @return alignment of caption.
-		 */
-		virtual unsigned int getAlignment() const;
-		
         /**
-         * Set the content widget in the window.
+         * Sets the Window caption.
          *
-         * @param widget the contant widget.
+         * @param caption the Window caption.
          */
-		virtual void setContent(Widget* widget);
-
+        virtual void setCaption(const std::string& caption);
+        
         /**
-         * Get the content widget in the window.
+         * Gets the Window caption.
          *
-         * @return the contant widget.
+         * @return the Window caption.
          */
-		virtual Widget* getContent() const;
+        virtual const std::string& getCaption() const;
 
         /**
-         * Set the padding of the window which is the distance
-         * between the window border and the content.
+         * Sets the alignment for the caption.
+         *
+         * @param alignemnt Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
+         */
+        virtual void setAlignment(unsigned int alignment);
+
+        /**
+         * Gets the alignment for the caption.
+         *
+         * @return alignment of caption.
+         */
+        virtual unsigned int getAlignment() const;
+        
+        /**
+         * Sets the content Widget.
+         *
+         * @param widget the contant Widget.
+         */
+        virtual void setContent(Widget* widget);
+
+        /**
+         * Gets the content Widget.
+         *
+         * @return the contant Widget.
+         */
+        virtual Widget* getContent() const;
+
+        /**
+         * Sets the padding of the window which is the distance between the
+         * window border and the content.
          *
          * @param padding the padding value.
          */
         virtual void setPadding(unsigned int padding);
 
         /**
-         * Get the padding of the window.
+         * Gets the padding.
          *
          * @return the padding value.
          */
         virtual unsigned int getPadding() const;
 
         /**
-         * Set the title bar height.
+         * Sets the title bar height.
          *
          * @param title the title height value.
          */      
         virtual void setTitleBarHeight(unsigned int height);
 
         /**
-         * Get the title bar height.
+         * Gets the title bar height.
          *
          * @return the title bar height.
          */
         virtual unsigned int getTitleBarHeight();
 
         /**
-         * Set the window to be moveble.
+         * Sets the Window to be moveble.
          *
          * @param movable true or false.
          */    
@@ -179,30 +180,30 @@ namespace gcn
         virtual bool isMovable() const;
 
         /**
-         * Resize the window to fit the content.
+         * Resizes the window to fit the content.
          */
         virtual void resizeToContent();
 
         /**
-         * Set the window to be opaque. If it's not opaque,
-         * the content area will not be filled with a color.
+         * Sets the Window to be opaque. If it's not opaque, the content area
+         * will not be filled with a color.
          *
          * @param opaque true or false.
          */
         virtual void setOpaque(bool opaque);
 
         /**
-         * Check if the window is opaque.
+         * Checks if the Window is opaque.
          *
          * @return true or false.
          */
         virtual bool isOpaque();
         
         /**
-         * Draw the content of the window. This functions uses the
+         * Draws the content of the Window. This functions uses the
          * getContentDimension to determin where to draw the content.
          *
-         * @param graphics a graphics object to draw with.
+         * @param graphics a Graphics object to draw with.
          */
         virtual void drawContent(Graphics* graphics);
         
@@ -218,11 +219,11 @@ namespace gcn
         virtual void _announceDeath(Widget *widget);      
     
     
-		// Inherited from Widget
-		
-		virtual void draw(Graphics* graphics);
+        // Inherited from Widget
+        
+        virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);			
+        virtual void drawBorder(Graphics* graphics);            
 
         virtual void logic();
         
@@ -233,15 +234,15 @@ namespace gcn
         virtual void _setFocusHandler(FocusHandler* focusHandler);
         
     
-		// Inherited from MouseListener	 
+        // Inherited from MouseListener     
 
-		virtual void mousePress(int x, int y, int button);
+        virtual void mousePress(int x, int y, int button);
 
-		virtual void mouseRelease(int x, int y, int button);
+        virtual void mouseRelease(int x, int y, int button);
 
         virtual void mouseMotion(int x, int y);
     
-	protected:
+    protected:
         /**
          * Moves the content to the top left corner of the window,
          * uses getContentDimension to get the offset
@@ -249,23 +250,21 @@ namespace gcn
         virtual void repositionContent();
 
         /**
-         * Gets the area in the window that the content occupies
+         * Gets the area in the window that the content occupies.
          */
         virtual Rectangle getContentDimension();
     
-		std::string mCaption;
-		unsigned int mAlignment;
-		Widget* mContent;
+        std::string mCaption;
+        unsigned int mAlignment;
+        Widget* mContent;
         unsigned int mPadding;
         unsigned int mTitleBarHeight;
         bool mMouseDrag;
         int mMouseXOffset;
         int mMouseYOffset;
         bool mMovable;
-        bool mOpaque;
-    
-	}; // end Window
-  
-} // end gcn
+        bool mOpaque;    
+    };  
+}
 
 #endif // end GCN_WINDOW_HPP

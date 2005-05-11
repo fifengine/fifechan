@@ -64,12 +64,11 @@
 namespace gcn
 {
     /**
-     * This is the container base class. It is a widget that holds other
-     * widgets. A widgets position in the container is always relativ to
-     * the container itself, not the screen. Using a container as the top
-     * widget is the only way to use more then one widget in the gui.
-     *
-     * @see Widget
+     * A container able to contain other Widgets. It is in other words a
+     * Widget that holds other Widgets. A Widgets position in the container is
+     * always relativ to the Container itself, not the screen. Using a
+     * Container as the top Widget in Gui is the only way to use more then one
+     * Widget in your Gui.
      */
     class GCN_CORE_DECLSPEC Container: public BasicContainer
     {
@@ -82,73 +81,75 @@ namespace gcn
          */
         Container();
 
-		/**
-		 * Destructor.
-		 */
+        /**
+         * Destructor.
+         */
         virtual ~Container();
 
         /**
-         * Sets wheter the widget should draw its background or not.
-         * If the widget is not opaque it will be completely transparent.
+         * Sets whether the background should be drawn or not. If the
+         * Container is not opaque it will be completely transparent.
          *
-         * NOTE: This is not the same as set visible. A nonvisible
-         *       container will not draw its content.
+         * NOTE: This is not the same as to set visibility. A nonvisible
+         *       Container will not draw it's content.
          *
-         * @param opaque true it the widget should be opaque
+         * @param opaque true if the Container should be opaque.
          * @see isOpaque
          */
         virtual void setOpaque(bool opaque);
 
         /**
-         * @return true if the container is opaque.
+         * Checks if the Container is opaque.
+         *
+         * @return true if the Container is opaque.
          * @see setOpaque
          */
         virtual bool isOpaque() const;
 
         /**
-         * Adds a widget to the container.
+         * Adds a Widget to the Container.
          *
-         * @param widget the widget to add.
+         * @param widget the Widget to add.
          * @see remove
          */
         virtual void add(Widget* widget);
 
         /**
-         * Adds a widget to the container and also specifices its
-         * position.
+         * Adds a Widget to the container and also specifices it's postion
          *
-         * @param widget the widget to add.
-         * @param x the x coordinat for the widget in the container
-         * @param y the y coordinat for the widget in the container
+         * @param widget the Widget to add.
+         * @param x the x coordinat for the Widget in the Container.
+         * @param y the y coordinat for the Widget in the Container.
          * @see remove
          */
         virtual void add(Widget* widget, int x, int y);
     
         /**
-         * Removes a widgets.
+         * Removes a Widget from the Container.
          *
-         * @param widget the widget to remove.
-         * @throws Exception when the widget is not in the container
+         * @param widget the Widget to remove.
+         * @throws Exception when the Widget has not been added to the
+         *                   Container.
          * @see add, clear
          */
         virtual void remove(Widget* widget);
 
         /**
-         * Clears the container of all widgets.
+         * Clears the Container of all widgets.
          *
          * @see add, remove
          */
         virtual void clear();
 
 
-		// Inherited from Widget
-		
+        // Inherited from Widget
+        
         virtual void draw(Graphics* graphics);
 
-		virtual void drawBorder(Graphics* graphics);
-		
+        virtual void drawBorder(Graphics* graphics);
+        
         virtual void logic();
-		
+        
         virtual void _setFocusHandler(FocusHandler* focusHandler);
 
         virtual void _mouseInputMessage(const MouseInput &mouseInput);
@@ -156,9 +157,9 @@ namespace gcn
         virtual void _mouseOutMessage();
 
 
-		// Inherited from BasicContainer
+        // Inherited from BasicContainer
 
-		virtual void moveToTop(Widget* widget);
+        virtual void moveToTop(Widget* widget);
 
         virtual void moveToBottom(Widget* widget);
 
@@ -166,32 +167,30 @@ namespace gcn
 
         virtual void getDrawSize(int& width, int& height, Widget* widget);
 
-		
+        
     protected:
 
         /**
-         * This function draws all children of the container.
-         * The widgets will bedrawn in the order the widgets were added.
+         * Draws all children of the Container. The Widgets will bedrawn in
+         * the order the Widgets were added to the Container.
          *
-         * @param graphics the Graphics object to use for drawing.
+         * @param graphics the Graphics object to draw with.
          */
         virtual void drawChildren(Graphics* graphics);
     
         /**
-         * This function calls the logic function for all children of
-         * container. The widgets logic function will be called in the
-         * order the widgets were added.
+         * Calls the logic function for all children of Container. The Widgets
+         * logic function will be called in the order the Widgets were added
+         * to the Container.        
          */
         virtual void logicChildren();
-	  
+      
         Widget* mWidgetWithMouse;
         typedef std::list<Widget*> WidgetList;
         typedef WidgetList::iterator WidgetIterator;
         WidgetList mWidgets;
-        bool mOpaque;
-    
-    }; // end Container
-  
-} // end gcn
+        bool mOpaque;    
+    };  
+}
 
 #endif // end GCN_CONTAINER_HPP
