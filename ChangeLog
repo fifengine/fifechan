@@ -1,3 +1,6 @@
+* The GCN_EXCEPTION macro is now capable of determin the function in
+  which the excetpion was thrown. Also, you can get the function name
+  from the Exception class.
 * Added a fix to make both versions of drawImage in
   AllegroGraphics, OpenGLGraphics and SDLGraphics visible
   and usable.
