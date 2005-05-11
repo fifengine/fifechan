@@ -61,16 +61,15 @@
 
 namespace gcn
 {
-	SDLInput::SDLInput()
-	{
-		mMouseInWindow = true;
-	}
-	
+    SDLInput::SDLInput()
+    {
+        mMouseInWindow = true;
+    }
+    
     bool SDLInput::isKeyQueueEmpty()
     {
         return mKeyInputQueue.empty();
-
-    } // end isKeyQueueEmpty
+    }
   
     KeyInput SDLInput::dequeueKeyInput()
     {
@@ -84,15 +83,13 @@ namespace gcn
         keyInput = mKeyInputQueue.front();
         mKeyInputQueue.pop();
 
-        return keyInput;
-    
-    } // end dequeueKeyInput
+        return keyInput;    
+    }
 
     bool SDLInput::isMouseQueueEmpty()
     {
         return mMouseInputQueue.empty();
-
-    } // end isMouseQueueEmpty
+    }
 
     MouseInput SDLInput::dequeueMouseInput()
     {
@@ -106,9 +103,8 @@ namespace gcn
         mouseInput = mMouseInputQueue.front();
         mMouseInputQueue.pop();
 
-        return mouseInput;
-    
-    } // end dequeueMouseInput
+        return mouseInput;    
+    }
     
     void SDLInput::pushInput(SDL_Event event)
     {
@@ -186,8 +182,7 @@ namespace gcn
               break;
         
         } // end switch
-
-    } // end pushInput
+    }
   
     int SDLInput::convertMouseButton(int button)
     {
@@ -210,11 +205,10 @@ namespace gcn
               break;
         } 
 
-        //TODO: Exception!
+        throw GCN_EXCEPTION("Unknown SDL mouse type.");
     
         return 0;
-
-    } // end convertMouseButton
+    }
 
     Key SDLInput::convertKeyCharacter(SDL_keysym keysym)
     {
@@ -424,8 +418,6 @@ namespace gcn
             key.setNumericPad(true);
         }
     
-        return key;
-    
-    } // end convertKeyCharacter
-
-} // end gcn
+        return key;    
+    }
+}

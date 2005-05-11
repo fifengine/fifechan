@@ -106,10 +106,10 @@ namespace gcn
         }
     
         SDL_Surface* tmp2 = SDL_ConvertSurface(tmp, mCurrentImage->format, SDL_SWSURFACE);
-		SDL_FreeSurface(tmp);
-		SDL_FreeSurface(mCurrentImage);
+        SDL_FreeSurface(tmp);
+        SDL_FreeSurface(mCurrentImage);
 
-		mCurrentImage = tmp2;    
+        mCurrentImage = tmp2;    
     }
 
     void* SDLImageLoader::getRawData()
@@ -250,5 +250,4 @@ namespace gcn
     
         SDLputPixel(mCurrentImage, x, y, color);    
     }
-
-} // end gcn
+}

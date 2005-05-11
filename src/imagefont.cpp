@@ -66,13 +66,13 @@ namespace gcn
 {
     ImageFont::ImageFont(const std::string& filename, const std::string& glyphs)
     {
-		if (Image::_getImageLoader() == NULL)
-		{
-			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
-		}
+        if (Image::_getImageLoader() == NULL)
+        {
+            throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+        }
 
         ImageLoader* imageLoader = Image::_getImageLoader();
-		mFilename = filename;		        
+        mFilename = filename;                
         Image::_getImageLoader()->prepare(filename);
         Color separator = Image::_getImageLoader()->getPixel(0, 0);
 
@@ -111,19 +111,19 @@ namespace gcn
         void* data = imageLoader->finalize();
     
         mImage = new Image(data, w, h);
-		mRowSpacing = 0;
-		mGlyphSpacing = 0;		
+        mRowSpacing = 0;
+        mGlyphSpacing = 0;        
     }
 
     ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, unsigned char glyphsTo)
     {
-		if (Image::_getImageLoader() == NULL)
-		{
-			throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
-		}
+        if (Image::_getImageLoader() == NULL)
+        {
+            throw GCN_EXCEPTION("ImageFont::ImageFont. I have no ImageLoader!");
+        }
 
         ImageLoader* imageLoader = Image::_getImageLoader();
-		mFilename = filename;		        
+        mFilename = filename;                
         Image::_getImageLoader()->prepare(filename);
         Color separator = Image::_getImageLoader()->getPixel(0, 0);
 
@@ -150,7 +150,7 @@ namespace gcn
         mHeight = j;
         int x = 0, y = 0;
         unsigned char k;
-    	
+        
         for (i=glyphsFrom; i<glyphsTo+1; i++)
         {
             addGlyph(i, x, y, separator); 
@@ -161,14 +161,14 @@ namespace gcn
         void* data = imageLoader->finalize();
         
         mImage = new Image(data, w, h);
-		mRowSpacing = 0;
-		mGlyphSpacing = 0;		
+        mRowSpacing = 0;
+        mGlyphSpacing = 0;        
     }
 
     ImageFont::~ImageFont()
     {
-		Image::_getImageLoader()->free(mImage);
-        delete mImage;		
+        Image::_getImageLoader()->free(mImage);
+        delete mImage;        
     }
   
     int ImageFont::getWidth(unsigned char glyph) const
@@ -188,9 +188,9 @@ namespace gcn
 
     int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
     {
-		// This is needed for drawing the Glyph in the middle if we have spacing
-		int yoffset = getRowSpacing() >> 1;
-		
+        // This is needed for drawing the Glyph in the middle if we have spacing
+        int yoffset = getRowSpacing() >> 1;
+        
         if (mGlyph[glyph].width == 0)
         {
             graphics->drawRectangle(Rectangle(x, y + 1 + yoffset, mGlyph[(int)(' ')].width - 1,
@@ -205,7 +205,7 @@ namespace gcn
         return mGlyph[glyph].width + mGlyphSpacing;
     }
 
-	void ImageFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+    void ImageFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
     {
         unsigned int i;
     
@@ -216,38 +216,38 @@ namespace gcn
         }    
     }
 
-	void ImageFont::setRowSpacing(int spacing)
-	{
-		mRowSpacing = spacing;
-	}
+    void ImageFont::setRowSpacing(int spacing)
+    {
+        mRowSpacing = spacing;
+    }
 
-	int ImageFont::getRowSpacing()
-	{
-		return mRowSpacing;
-	}
-	
-	void ImageFont::setGlyphSpacing(int spacing)
-	{
-		mGlyphSpacing = spacing;
-	}
-	
-	int ImageFont::getGlyphSpacing()
-	{
-		return mGlyphSpacing;
-	}
+    int ImageFont::getRowSpacing()
+    {
+        return mRowSpacing;
+    }
+    
+    void ImageFont::setGlyphSpacing(int spacing)
+    {
+        mGlyphSpacing = spacing;
+    }
+    
+    int ImageFont::getGlyphSpacing()
+    {
+        return mGlyphSpacing;
+    }
 
     void ImageFont::addGlyph(unsigned char c, int &x,
                              int &y, const Color& separator)
     {
-		ImageLoader* il = Image::_getImageLoader();
-		
-		Color color;
-		do
-		{
-			++x;
+        ImageLoader* il = Image::_getImageLoader();
+        
+        Color color;
+        do
+        {
+            ++x;
 
-			if (x >= il->getWidth())
-			{
+            if (x >= il->getWidth())
+            {
                 y += mHeight + 1;
                 x = 0;
 
@@ -262,41 +262,41 @@ namespace gcn
                     os << "'";
                     throw GCN_EXCEPTION(os.str());
                 }
-			}			
+            }            
 
-			color = il->getPixel(x, y);
+            color = il->getPixel(x, y);
 
-		} while (color == separator);
-		
-		int w = 0;
-		
-		do
-		{
-			++w;
+        } while (color == separator);
+        
+        int w = 0;
+        
+        do
+        {
+            ++w;
 
-			if (x+w >= il->getWidth())
-			{
-				std::string str;
-				std::ostringstream os(str);
-				os << "ImageFont::addGlyph. Image ";
-				os << mFilename;
-				os << " with font is corrupt near character '";
-				os << c;
-				os << "'";
-				throw GCN_EXCEPTION(os.str());
-			}			
-			
-			color = il->getPixel(x + w, y);
-			
-		} while (color != separator);
-		
+            if (x+w >= il->getWidth())
+            {
+                std::string str;
+                std::ostringstream os(str);
+                os << "ImageFont::addGlyph. Image ";
+                os << mFilename;
+                os << " with font is corrupt near character '";
+                os << c;
+                os << "'";
+                throw GCN_EXCEPTION(os.str());
+            }            
+            
+            color = il->getPixel(x + w, y);
+            
+        } while (color != separator);
+        
         mGlyph[c] = Rectangle(x, y, w, mHeight);
-		
-		x += w;		
+        
+        x += w;        
     }
 
-	int ImageFont::getWidth(const std::string& text) const
-	{
+    int ImageFont::getWidth(const std::string& text) const
+    {
         unsigned int i;
         int size = 0;
     
@@ -307,8 +307,8 @@ namespace gcn
     
         return size;    
     }
-	
-	int ImageFont::getStringIndexAt(const std::string& text, int x)
+    
+    int ImageFont::getStringIndexAt(const std::string& text, int x)
     {
         unsigned int i;
         int size = 0;
@@ -325,5 +325,4 @@ namespace gcn
     
         return text.size();    
     }
-
-} // end gcn
+}

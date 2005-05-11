@@ -64,155 +64,154 @@
 
 namespace gcn
 {
-	AllegroImageLoader::AllegroImageLoader()
-	{
-		mBmp = NULL;
-		mRawData = NULL;
-	}
-	
-	AllegroImageLoader::~AllegroImageLoader()
-	{
-		if (mBmp != NULL)
-		{
-			destroy_bitmap(mBmp);
-		}
+    AllegroImageLoader::AllegroImageLoader()
+    {
+        mBmp = NULL;
+        mRawData = NULL;
+    }
+    
+    AllegroImageLoader::~AllegroImageLoader()
+    {
+        if (mBmp != NULL)
+        {
+            destroy_bitmap(mBmp);
+        }
 
-		if (mRawData != NULL)
-		{
-			delete[] mRawData;
-		}
-	}
-	
-	void AllegroImageLoader::prepare(const std::string& filename)
-	{
-		if (mBmp != NULL)
-		{
-			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
-		}
-		
+        if (mRawData != NULL)
+        {
+            delete[] mRawData;
+        }
+    }
+    
+    void AllegroImageLoader::prepare(const std::string& filename)
+    {
+        if (mBmp != NULL)
+        {
+            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Older image has not been finalized or discarded") + filename);
+        }
+        
 #if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
-		int colconv = get_color_conversion();
+        int colconv = get_color_conversion();
 #endif
 
-		set_color_conversion(COLORCONV_NONE);
+        set_color_conversion(COLORCONV_NONE);
 
-		PALETTE pal;
-		BITMAP *bmp = load_bitmap(filename.c_str(), pal);		
-		
-		if (bmp == NULL)
-		{
-			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Unable to load: ") + filename);
-		}
+        PALETTE pal;
+        BITMAP *bmp = load_bitmap(filename.c_str(), pal);        
+        
+        if (bmp == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Unable to load: ") + filename);
+        }
 
-		mBmp = create_bitmap_ex(32, bmp->w, bmp->h);
+        mBmp = create_bitmap_ex(32, bmp->w, bmp->h);
 
-		if (mBmp == NULL)
-		{
-			throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Not enough memory to load: ") + filename);
-		}
-		
-		set_palette(pal);
-		blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
-		destroy_bitmap(bmp);
-		
+        if (mBmp == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("AllegroImageLoader::prepare. Not enough memory to load: ") + filename);
+        }
+        
+        set_palette(pal);
+        blit(bmp, mBmp, 0, 0, 0, 0, bmp->w, bmp->h);
+        destroy_bitmap(bmp);
+        
 #if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
-		set_color_conversion(COLORCONV_TOTAL);
+        set_color_conversion(COLORCONV_TOTAL);
 #else
-		set_color_conversion(colconv);		
+        set_color_conversion(colconv);        
 #endif
-		
-	}
-	
-	void AllegroImageLoader::free(Image* image)
-	{
-		BITMAP *bmp = (BITMAP *)image->_getData();
-		destroy_bitmap(bmp);
-	}
-	
-	void* AllegroImageLoader::getRawData()
-	{
-		// @todo do it!
-		throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
+        
+    }
+    
+    void AllegroImageLoader::free(Image* image)
+    {
+        BITMAP *bmp = (BITMAP *)image->_getData();
+        destroy_bitmap(bmp);
+    }
+    
+    void* AllegroImageLoader::getRawData()
+    {
+        // @todo do it!
+        throw GCN_EXCEPTION("AllegroImageLoader::getRawData. Not implemented yet");
 
-		
-		if (mBmp == NULL)
-		{
-			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
-		}
-		
-		return 0;
-	}
-	
-	void* AllegroImageLoader::finalize()
-	{
-		if (mBmp == NULL)
-		{
-			GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
-		}		
-		
-		BITMAP *bmp = create_bitmap(mBmp->w, mBmp->h);
+        
+        if (mBmp == NULL)
+        {
+            GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+        }
+        
+        return 0;
+    }
+    
+    void* AllegroImageLoader::finalize()
+    {
+        if (mBmp == NULL)
+        {
+            GCN_EXCEPTION("AllegroImageLoader::finalize. No image seems to be loaded");
+        }        
+        
+        BITMAP *bmp = create_bitmap(mBmp->w, mBmp->h);
 
-		blit(mBmp, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
+        blit(mBmp, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
 
-		mBmp = NULL;
+        mBmp = NULL;
 
-		if (mRawData != NULL)
-		{
-			delete[] mRawData;
-			mRawData = NULL;			
-		}
-				
-		return bmp;
-	}
-	
-	void AllegroImageLoader::discard()
-	{
-		if (mBmp == NULL)
-		{
-			GCN_EXCEPTION("AllegroImageLoader::discard. No image seems to be loaded");
-		}				
-		
-		destroy_bitmap(mBmp);
-		
-		if (mRawData != NULL)
-		{
-			delete[] mRawData;
-			mRawData = NULL;
-		}
-	}	
-	
-	int AllegroImageLoader::getHeight() const
-	{
-		if (mBmp == NULL)
-		{
-			GCN_EXCEPTION("AllegroImageLoader::getHeight. No image seems to be loaded");
-		}						
-		
-		return mBmp->h;
-	}
-	
-	int AllegroImageLoader::getWidth() const
-	{
-		if (mBmp == NULL)
-		{
-			GCN_EXCEPTION("AllegroImageLoader::getWidth. No image seems to be loaded");
-		}				
-		
-		return mBmp->w;
-	}
-	
-	Color AllegroImageLoader::getPixel(int x, int y)
-	{
-		int c = getpixel(mBmp, x, y);
+        if (mRawData != NULL)
+        {
+            delete[] mRawData;
+            mRawData = NULL;            
+        }
+                
+        return bmp;
+    }
+    
+    void AllegroImageLoader::discard()
+    {
+        if (mBmp == NULL)
+        {
+            GCN_EXCEPTION("AllegroImageLoader::discard. No image seems to be loaded");
+        }                
+        
+        destroy_bitmap(mBmp);
+        
+        if (mRawData != NULL)
+        {
+            delete[] mRawData;
+            mRawData = NULL;
+        }
+    }    
+    
+    int AllegroImageLoader::getHeight() const
+    {
+        if (mBmp == NULL)
+        {
+            GCN_EXCEPTION("AllegroImageLoader::getHeight. No image seems to be loaded");
+        }                        
+        
+        return mBmp->h;
+    }
+    
+    int AllegroImageLoader::getWidth() const
+    {
+        if (mBmp == NULL)
+        {
+            GCN_EXCEPTION("AllegroImageLoader::getWidth. No image seems to be loaded");
+        }                
+        
+        return mBmp->w;
+    }
+    
+    Color AllegroImageLoader::getPixel(int x, int y)
+    {
+        int c = getpixel(mBmp, x, y);
 
-		return Color(getr32(c), getg32(c), getb32(c), geta(32));
-	}
-	
-	void AllegroImageLoader::putPixel(int x, int y, const Color& color)
-	{
-		int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
+        return Color(getr32(c), getg32(c), getb32(c), geta(32));
+    }
+    
+    void AllegroImageLoader::putPixel(int x, int y, const Color& color)
+    {
+        int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
 
-		putpixel(mBmp, x, y, c);
-	}
-	
-} // end gcn
+        putpixel(mBmp, x, y, c);
+    }    
+}

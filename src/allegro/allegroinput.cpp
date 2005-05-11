@@ -63,231 +63,229 @@
 
 namespace gcn
 {
-	AllegroInput::AllegroInput()
-	{
-		mMouseButton1 = mMouseButton2 = mMouseButton3 = false;
-		mLastMouseZ = 0;
-		mLastMouseX = 0;
-		mLastMouseY = 0;		
-	}
-		
-	bool AllegroInput::isKeyQueueEmpty()
-	{
-		return mKeyQueue.empty();
-	}
-	
-	KeyInput AllegroInput::dequeueKeyInput()
-	{
-		if (isKeyQueueEmpty())
-		{
-			throw GCN_EXCEPTION("AllegroInput::dequeueKeyInput. Key queue is empty");
-		}
+    AllegroInput::AllegroInput()
+    {
+        mMouseButton1 = mMouseButton2 = mMouseButton3 = false;
+        mLastMouseZ = 0;
+        mLastMouseX = 0;
+        mLastMouseY = 0;        
+    }
+        
+    bool AllegroInput::isKeyQueueEmpty()
+    {
+        return mKeyQueue.empty();
+    }
+    
+    KeyInput AllegroInput::dequeueKeyInput()
+    {
+        if (isKeyQueueEmpty())
+        {
+            throw GCN_EXCEPTION("AllegroInput::dequeueKeyInput. Key queue is empty");
+        }
 
-		KeyInput ki = mKeyQueue.front();
-		mKeyQueue.pop();
-		
-		return ki;
-	}
-	
-	bool AllegroInput::isMouseQueueEmpty()
-	{
-		return mMouseQueue.empty();
-	}	
-	
-	MouseInput AllegroInput::dequeueMouseInput()
-	{
-		if (isMouseQueueEmpty())
-		{
-			throw GCN_EXCEPTION("AllegroInput::dequeueMouseInput. Mouse queue is empty");
-		}
+        KeyInput ki = mKeyQueue.front();
+        mKeyQueue.pop();
+        
+        return ki;
+    }
+    
+    bool AllegroInput::isMouseQueueEmpty()
+    {
+        return mMouseQueue.empty();
+    }    
+    
+    MouseInput AllegroInput::dequeueMouseInput()
+    {
+        if (isMouseQueueEmpty())
+        {
+            throw GCN_EXCEPTION("AllegroInput::dequeueMouseInput. Mouse queue is empty");
+        }
 
-		MouseInput mi = mMouseQueue.front();
-		mMouseQueue.pop();
-		
-		return mi;	
-	}
-	
-	void AllegroInput::_pollInput()
-	{
-		pollMouseInput();
-		pollKeyInput();
-	}
+        MouseInput mi = mMouseQueue.front();
+        mMouseQueue.pop();
+        
+        return mi;    
+    }
+    
+    void AllegroInput::_pollInput()
+    {
+        pollMouseInput();
+        pollKeyInput();
+    }
+    
+    void AllegroInput::pollMouseInput()
+    {
+        if (mouse_needs_poll())
+        {
+            poll_mouse();
+        }        
+        int mouseX = mouse_x;
+        int mouseY = mouse_y;
+        int mouseZ = mouse_z;
+        int mouseB1 = mouse_b & 1;
+        int mouseB2 = mouse_b & 2;
+        int mouseB3 = mouse_b & 4;        
 
-	// @todo fix timestamps
-	
-	void AllegroInput::pollMouseInput()
-	{
-		if (mouse_needs_poll())
-		{
-			poll_mouse();
-		}		
-		int mouseX = mouse_x;
-		int mouseY = mouse_y;
-		int mouseZ = mouse_z;
-		int mouseB1 = mouse_b & 1;
-		int mouseB2 = mouse_b & 2;
-		int mouseB3 = mouse_b & 4;		
-
-		// Check mouse movement
-		if (mouseX != mLastMouseX || mouseY != mLastMouseY)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::EMPTY,
+        // Check mouse movement
+        if (mouseX != mLastMouseX || mouseY != mLastMouseY)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
                                         MouseInput::MOTION,
                                         mouseX,
                                         mouseY,
                                         0));
-			mLastMouseX = mouseX;
-			mLastMouseY = mouseY;
-		}
+            mLastMouseX = mouseX;
+            mLastMouseY = mouseY;
+        }
 
-		// Check mouse Wheel
-		while (mLastMouseZ < mouseZ)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
+        // Check mouse Wheel
+        while (mLastMouseZ < mouseZ)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
                                         MouseInput::PRESS,
                                         mouseX,
                                         mouseY,
                                         0));
-			
-			mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
+            
+            mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-			
-			mLastMouseZ++;
-		}
-		
-		while (mLastMouseZ > mouseZ)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
+            
+            mLastMouseZ++;
+        }
+        
+        while (mLastMouseZ > mouseZ)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
                                         MouseInput::PRESS,
                                         mouseX,
                                         mouseY,
                                         0));
-			
-			mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
+            
+            mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-			
-			mLastMouseZ--;
-		}
+            
+            mLastMouseZ--;
+        }
 
-		// Check mouse buttons
-		if (!mMouseButton1 && mouseB1)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::LEFT,
+        // Check mouse buttons
+        if (!mMouseButton1 && mouseB1)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::LEFT,
                                         MouseInput::PRESS,
                                         mouseX,
                                         mouseY,
-                                        0));			
-		}
+                                        0));            
+        }
 
-		if (mMouseButton1 && !mouseB1)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::LEFT,
+        if (mMouseButton1 && !mouseB1)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::LEFT,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-		}
+        }
 
-		
-		if (!mMouseButton2 && mouseB2)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::PRESS,
-                                        mouseX,
-                                        mouseY,
-                                        0));
-		}
-
-		if (mMouseButton2 && !mouseB2)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::RELEASE,
-                                        mouseX,
-                                        mouseY,
-                                        0));
-		}
-
-		
-		if (!mMouseButton3 && mouseB3)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+        
+        if (!mMouseButton2 && mouseB2)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
                                         MouseInput::PRESS,
                                         mouseX,
                                         mouseY,
                                         0));
-		}
+        }
 
-		if (mMouseButton3 && !mouseB3)
-		{
-			mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+        if (mMouseButton2 && !mouseB2)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-		}
+        }
 
-		mMouseButton1 = mouseB1;
-		mMouseButton2 = mouseB2;
-		mMouseButton3 = mouseB3;		
-	}
+        
+        if (!mMouseButton3 && mouseB3)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+                                        MouseInput::PRESS,
+                                        mouseX,
+                                        mouseY,
+                                        0));
+        }
 
-	void AllegroInput::pollKeyInput()
-	{
-		int unicode, scancode;
+        if (mMouseButton3 && !mouseB3)
+        {
+            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+                                        MouseInput::RELEASE,
+                                        mouseX,
+                                        mouseY,
+                                        0));
+        }
 
-		if (keyboard_needs_poll())
-		{
-			poll_keyboard();
-		}
-		
-		while (keypressed())
-		{
-			unicode = ureadkey(&scancode);
-			Key keyObj = convertToKey(scancode, unicode);
-			
-			mKeyQueue.push(
-				KeyInput(keyObj, KeyInput::PRESS));
-			
-			mPressedKeys[scancode] = keyObj;
-		}
-	
-	 	// Check for released keys
-		std::map<int, Key>::iterator iter, tempIter;
-		for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
- 		{
-			if (!key[iter->first])
-			{
-		 		mKeyQueue.push(
-					KeyInput(iter->second, KeyInput::RELEASE));
-				
-				tempIter = iter;
-				iter++;
-				mPressedKeys.erase(tempIter);
-			}
-			else
-			{
-				iter++;
-			}
-		}
-	}
-	
-	Key AllegroInput::convertToKey(int scancode, int unicode)
-	{
-		int keysym;
-		bool pad = false;
+        mMouseButton1 = mouseB1;
+        mMouseButton2 = mouseB2;
+        mMouseButton3 = mouseB3;        
+    }
 
-		switch(scancode)
-		{
+    void AllegroInput::pollKeyInput()
+    {
+        int unicode, scancode;
+
+        if (keyboard_needs_poll())
+        {
+            poll_keyboard();
+        }
+        
+        while (keypressed())
+        {
+            unicode = ureadkey(&scancode);
+            Key keyObj = convertToKey(scancode, unicode);
+            
+            mKeyQueue.push(
+                KeyInput(keyObj, KeyInput::PRESS));
+            
+            mPressedKeys[scancode] = keyObj;
+        }
+    
+         // Check for released keys
+        std::map<int, Key>::iterator iter, tempIter;
+        for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
+         {
+            if (!key[iter->first])
+            {
+                 mKeyQueue.push(
+                    KeyInput(iter->second, KeyInput::RELEASE));
+                
+                tempIter = iter;
+                iter++;
+                mPressedKeys.erase(tempIter);
+            }
+            else
+            {
+                iter++;
+            }
+        }
+    }
+    
+    Key AllegroInput::convertToKey(int scancode, int unicode)
+    {
+        int keysym;
+        bool pad = false;
+
+        switch(scancode)
+        {
           case KEY_ESC:
               keysym = Key::ESCAPE;
               break;
-				
+                
           case KEY_ALT:
               keysym = Key::LEFT_ALT;
               break;
@@ -303,11 +301,11 @@ namespace gcn
           case KEY_RSHIFT:
               keysym = Key::RIGHT_SHIFT;
               break;
-				
+                
           case KEY_LCONTROL:
               keysym = Key::LEFT_CONTROL;
               break;
-				
+                
           case KEY_RCONTROL:
               keysym = Key::RIGHT_CONTROL;
               break;
@@ -315,7 +313,7 @@ namespace gcn
           case KEY_LWIN:
               keysym = Key::LEFT_META;
               break;
-				
+                
           case KEY_RWIN:
               keysym = Key::RIGHT_META;
               break;
@@ -339,7 +337,7 @@ namespace gcn
           case KEY_DEL:
               keysym = Key::DELETE;
               break;
-				
+                
           case KEY_DEL_PAD:
               keysym = Key::DELETE;
               pad = true;
@@ -384,7 +382,7 @@ namespace gcn
           case KEY_F7:
               keysym = Key::F7;
               break;
-				
+                
           case KEY_F8:
               keysym = Key::F8;
               break;
@@ -408,7 +406,7 @@ namespace gcn
           case KEY_PRTSCR:
               keysym = Key::PRINT_SCREEN;
               break;
-				
+                
           case KEY_PAUSE:
               keysym = Key::PAUSE;
               break;
@@ -438,7 +436,7 @@ namespace gcn
               break;
 
           case KEY_ENTER_PAD:
-              pad = true;				
+              pad = true;                
           case KEY_ENTER:
               keysym = Key::ENTER;
               break;
@@ -461,25 +459,25 @@ namespace gcn
 
           default:
               keysym = unicode;
-		}
+        }
 
-		Key k = Key(keysym);
-		k.setNumericPad(pad);
+        Key k = Key(keysym);
+        k.setNumericPad(pad);
 
-		k.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
-		k.setAltPressed(key_shifts & KB_ALT_FLAG);
-		k.setControlPressed(key_shifts & KB_CTRL_FLAG);
+        k.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
+        k.setAltPressed(key_shifts & KB_ALT_FLAG);
+        k.setControlPressed(key_shifts & KB_CTRL_FLAG);
 #ifdef KB_COMMAND_FLAG
-		k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
+        k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
                                        KB_LWIN_FLAG |
                                        KB_RWIN_FLAG));
 #else
-		k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
+        k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
                                        KB_RWIN_FLAG));
 #endif
-		
-		return k;
+        
+        return k;
 
-		//Now, THAT was fun to code! =D =D =D
-	}
+        //Now, THAT was fun to code! =D =D =D
+    }
 }

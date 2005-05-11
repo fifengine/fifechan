@@ -66,8 +66,7 @@ namespace gcn
         y = 0;
         width = 0;
         height = 0;
-
-    } // end Rectangle
+    }
     
     Rectangle::Rectangle(int x, int y, int width, int height)
     {
@@ -75,8 +74,7 @@ namespace gcn
         this->y = y;
         this->width = width;
         this->height = height;
-
-    } // end Rectangle
+    }
 
     void Rectangle::setAll(int x, int y, int width, int height)
     {
@@ -84,8 +82,7 @@ namespace gcn
         this->y = y;
         this->width = width;
         this->height = height;
-
-    } // end setAll
+    }
 
     bool Rectangle::intersect(const Rectangle& rectangle)
     {
@@ -126,15 +123,12 @@ namespace gcn
         x += rectangle.x;
         y += rectangle.y;
         return true;
-
-    } // end intersect
+    }
 
     bool Rectangle::isPointInRect(int x, int y) const
     {
         return ((x >= this->x) && (y >= this->y)
                 && x < (this->x + this->width)
                 && y < (this->y + this->height));
-
-    } // end isPointInRect
-  
-} // end gcn
+    } 
+}
