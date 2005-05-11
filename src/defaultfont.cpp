@@ -66,19 +66,19 @@ namespace gcn
         return 8;
     }
 
-	int DefaultFont::getWidth(const std::string& text) const
-	{
+    int DefaultFont::getWidth(const std::string& text) const
+    {
         return 8*text.size();
     }
 
-	int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
-	{
+    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
+    {
         graphics->drawRectangle( Rectangle(x, y, 8, 8));
      
-        return 8;		 
-	}
-	
-	void DefaultFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+        return 8;         
+    }
+    
+    void DefaultFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
     {
         unsigned int i;
     
@@ -89,14 +89,13 @@ namespace gcn
         }    
     }
 
-	int DefaultFont::getStringIndexAt(const std::string& text, int x)
+    int DefaultFont::getStringIndexAt(const std::string& text, int x)
     {
-		if (x > (int)text.size() * 8)
-		{
-			return text.size();
-		}
-		
+        if (x > (int)text.size() * 8)
+        {
+            return text.size();
+        }
+        
         return x / 8;
-    }
-	
-} // end gcn
+    }    
+}

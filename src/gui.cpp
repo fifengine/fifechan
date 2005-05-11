@@ -63,7 +63,6 @@
 
 namespace gcn
 {
-  
     Gui::Gui()
     {
         mTop = NULL;
@@ -71,19 +70,18 @@ namespace gcn
         mGraphics = NULL;
         mFocusHandler = new FocusHandler();
         mTopHasMouse = false;
-		mTabbing = true;
-    } // end Gui
+        mTabbing = true;
+    }
 
     Gui::~Gui()
     {
-		if (Widget::widgetExists(mTop))
-		{
-			setTop(NULL);
-		}
-		
+        if (Widget::widgetExists(mTop))
+        {
+            setTop(NULL);
+        }
+        
         delete mFocusHandler;
-
-    } // end ~Gui
+    }
   
     void Gui::setTop(Widget* top)
     {
@@ -97,38 +95,32 @@ namespace gcn
         }
     
         mTop = top;
-
-    } // end setTop
+    }
 
     Widget* Gui::getTop() const
     {
         return mTop;
-
-    } // end getTop
+    }
 
     void Gui::setGraphics(Graphics* graphics)
     {
         mGraphics = graphics;
-
-    } // end setGraphics
+    }
 
     Graphics* Gui::getGraphics() const
     {
         return mGraphics;
-
-    } // end getGraphics
+    }
 
     void Gui::setInput(Input* input)
     {
         mInput = input;
-
-    } // end setInput
+    }
   
     Input* Gui::getInput() const
     {
         return mInput;
-
-    } // end getInput
+    }
 
     void Gui::logic()
     {
@@ -139,109 +131,108 @@ namespace gcn
 
         if(mInput)
         {
-			mInput->_pollInput();
+            mInput->_pollInput();
 
-			while (!mInput->isMouseQueueEmpty())
-			{
-				MouseInput mi = mInput->dequeueMouseInput();
+            while (!mInput->isMouseQueueEmpty())
+            {
+                MouseInput mi = mInput->dequeueMouseInput();
 
-				// Send mouse input to every widget that has the mouse.
-				if (mi.x > 0 && mi.y > 0
+                // Send mouse input to every widget that has the mouse.
+                if (mi.x > 0 && mi.y > 0
                     && mTop->getDimension().isPointInRect(mi.x, mi.y))
-				{
-					if (!mTop->hasMouse())
-					{
-						mTop->_mouseInMessage();
-					}
+                {
+                    if (!mTop->hasMouse())
+                    {
+                        mTop->_mouseInMessage();
+                    }
 
-					MouseInput mio = mi;
-					mio.x -= mTop->getX();
-					mio.y -= mTop->getY();
-					mTop->_mouseInputMessage(mio);
-				}
-				else if (mTop->hasMouse())
-				{
-					mTop->_mouseOutMessage();
-				}				
+                    MouseInput mio = mi;
+                    mio.x -= mTop->getX();
+                    mio.y -= mTop->getY();
+                    mTop->_mouseInputMessage(mio);
+                }
+                else if (mTop->hasMouse())
+                {
+                    mTop->_mouseOutMessage();
+                }                
 
-				Widget* f = mFocusHandler->getFocused();
-				Widget* d = mFocusHandler->getDragged();
+                Widget* f = mFocusHandler->getFocused();
+                Widget* d = mFocusHandler->getDragged();
 
-				// If the focused widget doesn't have the mouse,
-				// send the mouse input to the focused widget.
-				if (f != NULL && !f->hasMouse())
-				{
-					int xOffset, yOffset;
-					f->getAbsolutePosition(xOffset, yOffset);
-					
-					MouseInput mio = mi;
-					mio.x -= xOffset;
-					mio.y -= yOffset;
-					
-					f->_mouseInputMessage(mio);
-				}
+                // If the focused widget doesn't have the mouse,
+                // send the mouse input to the focused widget.
+                if (f != NULL && !f->hasMouse())
+                {
+                    int xOffset, yOffset;
+                    f->getAbsolutePosition(xOffset, yOffset);
+                    
+                    MouseInput mio = mi;
+                    mio.x -= xOffset;
+                    mio.y -= yOffset;
+                    
+                    f->_mouseInputMessage(mio);
+                }
 
-				// If the dragged widget is different from the focused
-				// widget, send the mouse input to the dragged widget.
-				if (d != NULL && d != f && !d->hasMouse())
-				{
-					int xOffset, yOffset;
-					d->getAbsolutePosition(xOffset, yOffset);
-					
-					MouseInput mio = mi;
-					mio.x -= xOffset;
-					mio.y -= yOffset;
-					
-					d->_mouseInputMessage(mio);					
-				}
-				
-				mFocusHandler->applyChanges();
-				
-			} // end while
-			
+                // If the dragged widget is different from the focused
+                // widget, send the mouse input to the dragged widget.
+                if (d != NULL && d != f && !d->hasMouse())
+                {
+                    int xOffset, yOffset;
+                    d->getAbsolutePosition(xOffset, yOffset);
+                    
+                    MouseInput mio = mi;
+                    mio.x -= xOffset;
+                    mio.y -= yOffset;
+                    
+                    d->_mouseInputMessage(mio);                    
+                }
+                
+                mFocusHandler->applyChanges();
+                
+            } // end while
+            
             while (!mInput->isKeyQueueEmpty())        
             {
                 KeyInput ki = mInput->dequeueKeyInput();
 
-				if (mTabbing
+                if (mTabbing
                     && ki.getKey().getValue() == Key::TAB
                     && ki.getType() == KeyInput::PRESS)
-				{
-					if (ki.getKey().isShiftPressed())
-					{
-						mFocusHandler->tabPrevious();
-					}
-					else
-					{
-						mFocusHandler->tabNext();
-					}
-				}
-				else
-				{
-					// Send key inputs to the focused widgets
-					if (mFocusHandler->getFocused())						
-					{
-						if (mFocusHandler->getFocused()->isFocusable())
-						{
-							mFocusHandler->getFocused()->_keyInputMessage(ki);
-						}
-						else
-						{
-							mFocusHandler->focusNone();
-						}
-					}
-				}
-				
-				mFocusHandler->applyChanges();
+                {
+                    if (ki.getKey().isShiftPressed())
+                    {
+                        mFocusHandler->tabPrevious();
+                    }
+                    else
+                    {
+                        mFocusHandler->tabNext();
+                    }
+                }
+                else
+                {
+                    // Send key inputs to the focused widgets
+                    if (mFocusHandler->getFocused())                        
+                    {
+                        if (mFocusHandler->getFocused()->isFocusable())
+                        {
+                            mFocusHandler->getFocused()->_keyInputMessage(ki);
+                        }
+                        else
+                        {
+                            mFocusHandler->focusNone();
+                        }
+                    }
+                }
+                
+                mFocusHandler->applyChanges();
 
             } // end while
-			
+            
         } // end if
     
-        mTop->logic();
-		
-	} // end logic
-	
+        mTop->logic();        
+    }
+    
     void Gui::draw()
     {
         if (!mTop)
@@ -255,42 +246,40 @@ namespace gcn
 
         mGraphics->_beginDraw();
 
-		// If top has a border,
-		// draw it before drawing top
-		if (mTop->getBorderSize() > 0)
-		{
-			Rectangle rec = mTop->getDimension();
-			rec.x -= mTop->getBorderSize();
-			rec.y -= mTop->getBorderSize();
-			rec.width += 2 * mTop->getBorderSize();
-			rec.height += 2 * mTop->getBorderSize();					
-			mGraphics->pushClipArea(rec);
-			mTop->drawBorder(mGraphics);
-			mGraphics->popClipArea();
-		}
+        // If top has a border,
+        // draw it before drawing top
+        if (mTop->getBorderSize() > 0)
+        {
+            Rectangle rec = mTop->getDimension();
+            rec.x -= mTop->getBorderSize();
+            rec.y -= mTop->getBorderSize();
+            rec.width += 2 * mTop->getBorderSize();
+            rec.height += 2 * mTop->getBorderSize();                    
+            mGraphics->pushClipArea(rec);
+            mTop->drawBorder(mGraphics);
+            mGraphics->popClipArea();
+        }
 
-		mGraphics->pushClipArea(mTop->getDimension());    
+        mGraphics->pushClipArea(mTop->getDimension());    
         mTop->draw(mGraphics);
         mGraphics->popClipArea();
 
 
-		mGraphics->_endDraw();
+        mGraphics->_endDraw();    
+    }
+
+    void Gui::focusNone()
+    {
+        mFocusHandler->focusNone();
+    }
+
+    void Gui::setTabbingEnabled(bool tabbing)
+    {
+        mTabbing = tabbing;
+    }
     
-    } // end draw
-
-	void Gui::focusNone()
-	{
-		mFocusHandler->focusNone();
-	}
-
-	void Gui::setTabbingEnabled(bool tabbing)
-	{
-		mTabbing = tabbing;
-	}
-	
-	bool Gui::isTabbingEnabled()
-	{
-		return mTabbing;
-	}
-	
-} // end gcn
+    bool Gui::isTabbingEnabled()
+    {
+        return mTabbing;
+    }    
+}

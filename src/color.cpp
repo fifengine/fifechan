@@ -66,8 +66,7 @@ namespace gcn
         g = 0;
         b = 0;
         a = 255;
-
-    } // end Color
+    }
 
     Color::Color(int color)
     {
@@ -75,8 +74,7 @@ namespace gcn
         r = (color >> 16) & 0xFF;
         g = (color >> 8) & 0xFF;
         b = color & 0xFF;    
-
-    } // end Color
+    }
     
     Color::Color(int r, int g, int b, int a)
     {
@@ -84,8 +82,7 @@ namespace gcn
         this->g = g;
         this->b = b;
         this->a = a;
-
-    } // end Color
+    }
 
     Color Color::operator+(const Color& color) const
     {
@@ -100,8 +97,7 @@ namespace gcn
         result.b = (result.b>255?255:(result.b<0?0:result.b));
 
         return result;
-
-    } // end operator+
+    }
   
     Color Color::operator-(const Color& color) const
     {
@@ -116,8 +112,7 @@ namespace gcn
         result.b = (result.b>255?255:(result.b<0?0:result.b));
 
         return result;
-
-    } // operator-
+    }
 
     Color Color::operator*(float value) const
     {
@@ -132,19 +127,15 @@ namespace gcn
         result.b = (result.b>255?255:(result.b<0?0:result.b));
 
         return result;    
-
-    } // operator*
+    }
 
     bool Color::operator==(const Color& color) const
     {
         return r == color.r && g == color.g && b == color.b && a == color.a;
-
-    } // operator==
+    }
 
     bool Color::operator!=(const Color& color) const
     {
         return !(r == color.r && g == color.g && b == color.b && a == color.a);
-
-    } // operator !=
-
-} // end gcn
+    }
+}

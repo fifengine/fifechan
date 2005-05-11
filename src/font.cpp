@@ -77,5 +77,4 @@ namespace gcn
     
         return text.size();    
     }
-
-} // end gcn
+}

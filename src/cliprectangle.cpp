@@ -63,8 +63,7 @@ namespace gcn
     ClipRectangle::ClipRectangle()
     {
         x = y = width = height = xOffset = yOffset  = 0;
-
-    } // end ClipRectangle
+    }
   
     ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset)
     {
@@ -74,8 +73,7 @@ namespace gcn
         this->height = height;
         this->xOffset = xOffset;
         this->yOffset = yOffset;
-
-    } // end ClipRectangle
+    }
   
     const ClipRectangle& ClipRectangle::operator=(const Rectangle& other)
     {
@@ -85,7 +83,5 @@ namespace gcn
         height = other.height;
 
         return *this;
-
-    } // end operator=
-
-} // end gcn
+    }
+}

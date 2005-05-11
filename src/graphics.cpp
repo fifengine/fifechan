@@ -65,9 +65,8 @@ namespace gcn
 
     Graphics::Graphics()
     {
-        mFont = NULL;
-    
-    } // end graphics
+        mFont = NULL;    
+    }
   
     bool Graphics::pushClipArea(Rectangle area)
     {
@@ -95,8 +94,7 @@ namespace gcn
         mClipStack.push(carea);
 
         return result;
-
-    } // end pushClipArea
+    }
 
     void Graphics::popClipArea()
     {
@@ -106,31 +104,28 @@ namespace gcn
             throw GCN_EXCEPTION("Graphics::popClipArea. Tried to pop clip area from empty stack.");
         }    
 
-        mClipStack.pop();
-    
+        mClipStack.pop();    
     }
 
-	const ClipRectangle& Graphics::getCurrentClipArea()
-	{
-		if (mClipStack.empty())
-		{
-			throw GCN_EXCEPTION("Graphics::getCurrentClipArea. The clip area stack is empty.");
-		}
-		
-		return mClipStack.top();
-	}
-	
+    const ClipRectangle& Graphics::getCurrentClipArea()
+    {
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Graphics::getCurrentClipArea. The clip area stack is empty.");
+        }
+        
+        return mClipStack.top();
+    }
+    
     void Graphics::drawImage(const Image* image, int dstX, int dstY)
     {
-        drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
-    
-    } // end drawImage
+        drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());    
+    }
 
     void Graphics::setFont(Font* font)
     {
-        mFont = font;
-    
-    } // end setFont
+        mFont = font;    
+    }
 
     void Graphics::drawText(const std::string& text, int x, int y,
                             unsigned int alignment)
@@ -140,9 +135,9 @@ namespace gcn
             throw GCN_EXCEPTION("Graphics::drawText. No font set.");
         }
 
-		switch (alignment)
-		{
-          case LEFT:			
+        switch (alignment)
+        {
+          case LEFT:            
               mFont->drawString(this, text, x, y);
               break;
           case CENTER:
@@ -153,8 +148,6 @@ namespace gcn
               break;
           default:
               throw GCN_EXCEPTION("Graphics::drawText. Unknown alignment.");
-		}
-		
-    } // end drawText
-	
-} // end gcn
+        }        
+    }    
+}
