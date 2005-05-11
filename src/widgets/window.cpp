@@ -182,14 +182,14 @@ namespace gcn
     void Window::draw(Graphics* graphics)
     {
         Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		int width = getWidth() + getBorderSize() * 2 - 1;
-		int height = getHeight() + getBorderSize() * 2 - 1;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getBorderSize() * 2 - 1;
+        int height = getHeight() + getBorderSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
 
         Rectangle d = getContentDimension();
 
@@ -253,7 +253,7 @@ namespace gcn
         int textY;
         textY = (getTitleBarHeight() - getFont()->getHeight()) / 2;
         switch (getAlignment())
-		{
+        {
           case Graphics::LEFT:
               textX = 4;
               break;
@@ -264,36 +264,36 @@ namespace gcn
               textX = getWidth() - 4;
               break;
           default:
-              throw GCN_EXCEPTION("Window::draw. Unknown alignment.");
-		}
+              throw GCN_EXCEPTION("Unknown alignment.");
+        }
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
         graphics->drawText(getCaption(), textX, textY, getAlignment());
     }
 
-	void Window::drawBorder(Graphics* graphics)
+    void Window::drawBorder(Graphics* graphics)
     {
-		Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		int width = getWidth() + getBorderSize() * 2 - 1;
-		int height = getHeight() + getBorderSize() * 2 - 1;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;
-		
-		unsigned int i;
-		for (i = 0; i < getBorderSize(); ++i)
-		{
-			graphics->setColor(highlightColor);
-			graphics->drawLine(i,i, width - i, i);
-			graphics->drawLine(i,i + 1, i, height - i - 1);
-			graphics->setColor(shadowColor);
-			graphics->drawLine(width - i,i + 1, width - i, height - i); 
-			graphics->drawLine(i,height - i, width - i - 1, height - i); 
-		}
+        Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getBorderSize() * 2 - 1;
+        int height = getHeight() + getBorderSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
+        
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(highlightColor);
+            graphics->drawLine(i,i, width - i, i);
+            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->setColor(shadowColor);
+            graphics->drawLine(width - i,i + 1, width - i, height - i); 
+            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+        }
     }
 
     void Window::drawContent(Graphics* graphics)
@@ -346,7 +346,7 @@ namespace gcn
     {
         if (widget != getContent())
         {
-            throw GCN_EXCEPTION("Window::moveToTop. widget is not content of window");      
+            throw GCN_EXCEPTION("Widget is not content of window.");      
         }
     }
   
@@ -354,7 +354,7 @@ namespace gcn
     {
         if (widget != getContent())
         {
-            throw GCN_EXCEPTION("Window::moveToBotom. widget is not content of window");      
+            throw GCN_EXCEPTION("Widget is not content of window");      
         }
     }
   
@@ -362,7 +362,7 @@ namespace gcn
     {
         if (widget != getContent())
         {
-            throw GCN_EXCEPTION("Window::getDrawSize. widget is not content of window");      
+            throw GCN_EXCEPTION("Widget is not content of window");      
         }
 
         Rectangle d = getContentDimension();
@@ -419,9 +419,9 @@ namespace gcn
                 getContent()->getDimension().isPointInRect(mouseInput.x, mouseInput.y))
             {
                 if (!getContent()->hasMouse())
-				{
-					getContent()->_mouseInMessage();          
-				}
+                {
+                    getContent()->_mouseInMessage();          
+                }
         
                 MouseInput mi = mouseInput;
                 mi.x -= getContent()->getX();
@@ -436,14 +436,14 @@ namespace gcn
     }
   
     void Window::_mouseOutMessage()
-	{
+    {
         BasicContainer::_mouseOutMessage();
         
         if (getContent() != NULL && getContent()->hasMouse())
         {
-			getContent()->_mouseOutMessage();
-		}   
-	}
+            getContent()->_mouseOutMessage();
+        }   
+    }
 
     void Window::_setFocusHandler(FocusHandler *focusHandler)
     {

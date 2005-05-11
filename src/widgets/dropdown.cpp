@@ -176,7 +176,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::logic. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
       
         mScrollArea->logic();
@@ -187,7 +187,7 @@ namespace gcn
     {     
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::draw. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         int h;
@@ -336,7 +336,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::getSelected. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         return mListBox->getSelected();        
@@ -346,7 +346,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::setSelected. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         if (selected >= 0)
@@ -359,7 +359,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::keyPress. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
@@ -400,7 +400,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::setListModel. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         mListBox->setListModel(listModel);
@@ -417,7 +417,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::getListModel. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
       
         return mListBox->getListModel();        
@@ -469,7 +469,7 @@ namespace gcn
     {
         if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
         {
-            throw GCN_EXCEPTION("DropDown::adjustHeight. ScrollArea or ListBox is NULL");
+            throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
         }
 
         int listBoxHeight = mListBox->getHeight();
@@ -514,7 +514,7 @@ namespace gcn
             }
         }
         
-        mFocusHandler.requestFocus(mScrollArea->getContent());        
+        mFocusHandler.requestFocus(mScrollArea->getContent());
     }
     
     void DropDown::foldUp()
@@ -533,7 +533,7 @@ namespace gcn
         {
             if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
             {
-                throw GCN_EXCEPTION("DropDown::_keyInputMessage. ScrollArea or ListBox is NULL");
+                throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
             }
 
             if (mFocusHandler.getFocused() != NULL)
@@ -555,7 +555,7 @@ namespace gcn
         {
             if (mScrollArea == NULL || mScrollArea->getContent() == NULL)
             {
-                throw GCN_EXCEPTION("DropDown::_mouseInputMessage. ScrollArea or ListBox is NULL");
+                throw GCN_EXCEPTION("ScrollArea or ListBox is NULL.");
             }
                     
             if (mouseInput.y >= mOldH)
@@ -602,7 +602,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("DropDown::_announceDeath. Death announced for unknown widget.");
+            throw GCN_EXCEPTION("Death announced for unknown widget..");
         }        
     }
 

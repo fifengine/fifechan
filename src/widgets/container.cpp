@@ -173,7 +173,7 @@ namespace gcn
             }
         }
 
-        throw GCN_EXCEPTION("Container::moveToTop. There is no such widget in this container");
+        throw GCN_EXCEPTION("There is no such widget in this container.");
     }
 
     void Container::moveToBottom(Widget* widget)
@@ -189,7 +189,7 @@ namespace gcn
             }
         }
 
-        throw GCN_EXCEPTION("Container::moveToBottom. There is no such widget in this container");
+        throw GCN_EXCEPTION("There is no such widget in this container.");
     }
 
     void Container::_announceDeath(Widget *widget)
@@ -209,7 +209,7 @@ namespace gcn
             }
         }
 
-        throw GCN_EXCEPTION("Container::_announceDeath. There is no such widget in this container");          
+        throw GCN_EXCEPTION("There is no such widget in this container.");
     }
     
     void Container::getDrawSize(int& width, int& height, Widget* widget)
@@ -266,7 +266,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("Container::getDrawSize. Widget not in container");
+            throw GCN_EXCEPTION("Widget not in container.");
         }    
     }
   
@@ -302,7 +302,7 @@ namespace gcn
             }
         }
 
-        throw GCN_EXCEPTION("Container::remove. There is no such widget in this container");
+        throw GCN_EXCEPTION("There is no such widget in this container.");
     }
 
     void Container::clear()

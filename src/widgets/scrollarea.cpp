@@ -278,7 +278,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("ScrollArea::setScrollbarWidth. width should be greater then 0");
+            throw GCN_EXCEPTION("Width should be greater then 0.");
         }
     }
 
@@ -867,7 +867,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("ScrollArea::moveToTop. only a ScrollArea's content may be moved to top");
+            throw GCN_EXCEPTION("Only a ScrollArea's content may be moved to top.");
         }
     }
 
@@ -882,7 +882,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("ScrollArea::moveToBottom. only a ScrollArea's content may be moved to bottom");
+            throw GCN_EXCEPTION("Only a ScrollArea's content may be moved to bottom.");
         }
     }
 
@@ -895,7 +895,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("ScrollArea::_announceDeath. called by not-child");
+            throw GCN_EXCEPTION("Called by not-child.");
         }
     }
 
@@ -908,7 +908,7 @@ namespace gcn
         }
         else
         {
-            throw GCN_EXCEPTION("ScrollArea::getDrawSize. Widget not in scrollarea");
+            throw GCN_EXCEPTION("Widget not in scrollarea.");
         }    
     }
   
@@ -987,7 +987,7 @@ namespace gcn
               break;
 
           default:
-              throw GCN_EXCEPTION("ScrollArea::checkPolicies. Horizontal scroll policy invalid");
+              throw GCN_EXCEPTION("Horizontal scroll policy invalid.");
         }
 
         switch (mVPolicy)
@@ -1011,7 +1011,7 @@ namespace gcn
               }
               break;
           default:
-              throw GCN_EXCEPTION("ScrollArea::checkPolicies. Vertical scroll policy invalid");
+              throw GCN_EXCEPTION("Vertical scroll policy invalid.");
         }
     }
 

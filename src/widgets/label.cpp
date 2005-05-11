@@ -112,7 +112,7 @@ namespace gcn
               textX = getWidth();
               break;
           default:
-              throw GCN_EXCEPTION("Label::draw. Uknown alignment.");
+              throw GCN_EXCEPTION("Unknown alignment.");
         }
 
         graphics->setFont(getFont());
