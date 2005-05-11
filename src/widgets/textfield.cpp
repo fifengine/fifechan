@@ -72,7 +72,7 @@ namespace gcn
         addMouseListener(this);
         addKeyListener(this);
         adjustHeight();
-		setBorderSize(1);    
+        setBorderSize(1);    
     }
   
     TextField::TextField(const std::string& text)
@@ -82,8 +82,8 @@ namespace gcn
     
         mText = text;
         adjustSize();
-		setBorderSize(1);
-		
+        setBorderSize(1);
+        
         setFocusable(true);    
   
         addMouseListener(this);
@@ -116,30 +116,30 @@ namespace gcn
         graphics->drawText(mText, 1 - mXScroll, 1);    
     }
 
-	void TextField::drawBorder(Graphics* graphics)
-	{
-		Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		int width = getWidth() + getBorderSize() * 2 - 1;
-		int height = getHeight() + getBorderSize() * 2 - 1;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;
-		
-		unsigned int i;
-		for (i = 0; i < getBorderSize(); ++i)
-		{
-			graphics->setColor(shadowColor);
-			graphics->drawLine(i,i, width - i, i);
-			graphics->drawLine(i,i + 1, i, height - i - 1);
-			graphics->setColor(highlightColor);
-			graphics->drawLine(width - i,i + 1, width - i, height - i); 
-			graphics->drawLine(i,height - i, width - i - 1, height - i);
-		}
-	}
-	
+    void TextField::drawBorder(Graphics* graphics)
+    {
+        Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getBorderSize() * 2 - 1;
+        int height = getHeight() + getBorderSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
+        
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(i,i, width - i, i);
+            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width - i,i + 1, width - i, height - i); 
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
+        }
+    }
+    
     void TextField::drawCaret(Graphics* graphics, int x)
     {
         graphics->setColor(getForegroundColor());
@@ -199,9 +199,8 @@ namespace gcn
             ++mCaretPosition;
         }
 
-        fixScroll();
-    
-    } // end keyPress
+        fixScroll();    
+    }
 
     void TextField::adjustSize()
     {
@@ -229,7 +228,7 @@ namespace gcn
             else if (caretX - mXScroll < getFont()->getWidth(" "))
             {
                 mXScroll = caretX - getFont()->getWidth(" ");
-		
+        
                 if (mXScroll < 0)
                 {
                     mXScroll = 0;
@@ -266,5 +265,4 @@ namespace gcn
     {
         fixScroll();
     }
-
-} // end gcn
+}

@@ -61,116 +61,116 @@
 
 namespace gcn
 {
-	Slider::Slider(double scaleEnd)
-	{
-		mMouseDrag = false;
+    Slider::Slider(double scaleEnd)
+    {
+        mMouseDrag = false;
 
 
-		mScaleStart = 0;
-		mScaleEnd = scaleEnd;
-		
-		setFocusable(true);
-		setBorderSize(1);
+        mScaleStart = 0;
+        mScaleEnd = scaleEnd;
+        
+        setFocusable(true);
+        setBorderSize(1);
         setOrientation(HORIZONTAL);
         setValue(0);
         setStepLength(scaleEnd / 10);
         setMarkerLength(10);
     
-		addMouseListener(this);
-		addKeyListener(this);
-	}
+        addMouseListener(this);
+        addKeyListener(this);
+    }
 
-	Slider::Slider(double scaleStart, double scaleEnd)
-	{
-		mMouseDrag = false;
-		
-		mScaleStart = scaleStart;
-		mScaleEnd = scaleEnd;
-		
-		setFocusable(true);
-		setBorderSize(1);
+    Slider::Slider(double scaleStart, double scaleEnd)
+    {
+        mMouseDrag = false;
+        
+        mScaleStart = scaleStart;
+        mScaleEnd = scaleEnd;
+        
+        setFocusable(true);
+        setBorderSize(1);
         setOrientation(HORIZONTAL);
         setValue(scaleStart);
         setStepLength((scaleEnd  - scaleStart)/ 10);
         setMarkerLength(10);
     
-		addMouseListener(this);
-		addKeyListener(this);
-	}
+        addMouseListener(this);
+        addKeyListener(this);
+    }
 
-	void Slider::setScale(double scaleStart, double scaleEnd)
-	{
-		mScaleStart = scaleStart;
-		mScaleEnd = scaleEnd;
-	}
+    void Slider::setScale(double scaleStart, double scaleEnd)
+    {
+        mScaleStart = scaleStart;
+        mScaleEnd = scaleEnd;
+    }
 
-	double Slider::getScaleStart() const
-	{
-		return mScaleStart;
-	}
+    double Slider::getScaleStart() const
+    {
+        return mScaleStart;
+    }
 
-	void Slider::setScaleStart(double scaleStart)
-	{
-		mScaleStart = scaleStart;
-	}
+    void Slider::setScaleStart(double scaleStart)
+    {
+        mScaleStart = scaleStart;
+    }
 
-	double Slider::getScaleEnd() const
-	{
-		return mScaleEnd;
-	}
+    double Slider::getScaleEnd() const
+    {
+        return mScaleEnd;
+    }
 
-	void Slider::setScaleEnd(double scaleEnd)
-	{
-		mScaleEnd = scaleEnd;
-	}
+    void Slider::setScaleEnd(double scaleEnd)
+    {
+        mScaleEnd = scaleEnd;
+    }
 
-	void Slider::draw(gcn::Graphics* graphics)
-	{
-		Color shadowColor = getBaseColor() - 0x101010;
-		int alpha = getBaseColor().a;		
- 		shadowColor.a = alpha;
-				
-		graphics->setColor(shadowColor);
+    void Slider::draw(gcn::Graphics* graphics)
+    {
+        Color shadowColor = getBaseColor() - 0x101010;
+        int alpha = getBaseColor().a;        
+         shadowColor.a = alpha;
+                
+        graphics->setColor(shadowColor);
         graphics->fillRectangle(gcn::Rectangle(0,0,getWidth(),getHeight()));
     
-		drawMarker(graphics);
-	}
+        drawMarker(graphics);
+    }
 
-	void Slider::drawBorder(gcn::Graphics* graphics)
-	{
-		Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		int width = getWidth() + getBorderSize() * 2 - 1;
-		int height = getHeight() + getBorderSize() * 2 - 1;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;
-		
-		unsigned int i;
-		for (i = 0; i < getBorderSize(); ++i)
-		{
-			graphics->setColor(shadowColor);
-			graphics->drawLine(i,i, width - i, i);
-			graphics->drawLine(i,i + 1, i, height - i - 1);
-			graphics->setColor(highlightColor);
-			graphics->drawLine(width - i,i + 1, width - i, height - i); 
-			graphics->drawLine(i,height - i, width - i - 1, height - i);
+    void Slider::drawBorder(gcn::Graphics* graphics)
+    {
+        Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getBorderSize() * 2 - 1;
+        int height = getHeight() + getBorderSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
+        
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(i,i, width - i, i);
+            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width - i,i + 1, width - i, height - i); 
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
-	}
-	
-	void Slider::drawMarker(gcn::Graphics* graphics)
-	{
-		gcn::Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;		
-		
-		graphics->setColor(faceColor);	
+    }
+    
+    void Slider::drawMarker(gcn::Graphics* graphics)
+    {
+        gcn::Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;        
+        
+        graphics->setColor(faceColor);    
 
         if (getOrientation() == HORIZONTAL)
         {
@@ -207,13 +207,13 @@ namespace gcn
             }    
         }
     }
-	
-	void Slider::mousePress(int x, int y, int button)
-	{
-		if (button == gcn::MouseInput::LEFT
+    
+    void Slider::mousePress(int x, int y, int button)
+    {
+        if (button == gcn::MouseInput::LEFT
             && x >= 0 && x <= getWidth()
             && y >= 0 && y <= getHeight())
-		{
+        {
             if (getOrientation() == HORIZONTAL)
             {
                 setValue(markerPositionToValue(x - getMarkerLength() / 2));
@@ -223,29 +223,29 @@ namespace gcn
                 setValue(markerPositionToValue(getHeight() - y - getMarkerLength() / 2));
             }
       
-			mMouseDrag = true;
-			generateAction();
-		}
-		else
-		{
-			mMouseDrag = false;
-		}
-	}
-	
-	void Slider::mouseRelease(int x, int y, int button)
-	{
-		mMouseDrag = false;
-	}
-	
-	void Slider::lostFocus()
-	{
-		mMouseDrag = false;
-	}
-	
-	void Slider::mouseMotion(int x, int y)
-	{
-		if (mMouseDrag)
-		{
+            mMouseDrag = true;
+            generateAction();
+        }
+        else
+        {
+            mMouseDrag = false;
+        }
+    }
+    
+    void Slider::mouseRelease(int x, int y, int button)
+    {
+        mMouseDrag = false;
+    }
+    
+    void Slider::lostFocus()
+    {
+        mMouseDrag = false;
+    }
+    
+    void Slider::mouseMotion(int x, int y)
+    {
+        if (mMouseDrag)
+        {
             if (getOrientation() == HORIZONTAL)
             {
                 setValue(markerPositionToValue(x - getMarkerLength() / 2));
@@ -256,11 +256,11 @@ namespace gcn
             }
       
             generateAction();
-		}
-	}
-	
-	void Slider::setValue(double value)
-	{
+        }
+    }
+    
+    void Slider::setValue(double value)
+    {
         if (value > getScaleEnd())
         {
             mValue = getScaleEnd();
@@ -274,25 +274,25 @@ namespace gcn
         }
 
         mValue = value;
-	}
-	
-	double Slider::getValue() const
-	{
+    }
+    
+    double Slider::getValue() const
+    {
         return mValue;
-	}
+    }
 
-	int Slider::getMarkerLength() const
-	{
-		return mMarkerLength;
-	}
+    int Slider::getMarkerLength() const
+    {
+        return mMarkerLength;
+    }
 
-	void Slider::setMarkerLength(int length)
-	{
-		mMarkerLength = length;
-	}
+    void Slider::setMarkerLength(int length)
+    {
+        mMarkerLength = length;
+    }
 
-	void Slider::keyPress(const Key& key)
-	{
+    void Slider::keyPress(const Key& key)
+    {
         if (getOrientation() == HORIZONTAL)
         {
             if (key.getValue() == Key::RIGHT)
@@ -319,9 +319,9 @@ namespace gcn
                 generateAction();
             }
         }
-	}
+    }
 
-	void Slider::setOrientation(unsigned int orientation)
+    void Slider::setOrientation(unsigned int orientation)
     {
         mOrientation = orientation;    
     }
@@ -390,6 +390,5 @@ namespace gcn
     int Slider::getMarkerPosition() const
     {
         return valueToMarkerPosition(getValue());
-    }
-    
-} // end gcn
+    }    
+}

@@ -471,6 +471,5 @@ namespace gcn
         {
             getContent()->logic();
         }
-    }
-    
-} // end gcn
+    }   
+}

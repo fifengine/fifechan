@@ -64,183 +64,181 @@
 
 namespace gcn
 {
-	ListBox::ListBox()
-	{    
-		mSelected = -1;
-		mListModel = NULL;
-		setWidth(100);
-		setFocusable(true);
+    ListBox::ListBox()
+    {    
+        mSelected = -1;
+        mListModel = NULL;
+        setWidth(100);
+        setFocusable(true);
     
-		addMouseListener(this);
-		addKeyListener(this);
-	}
+        addMouseListener(this);
+        addKeyListener(this);
+    }
 
-	ListBox::ListBox(ListModel *listModel)
-	{
-		mSelected = -1;
-		setWidth(100);
-		setListModel(listModel);
-		setFocusable(true);
+    ListBox::ListBox(ListModel *listModel)
+    {
+        mSelected = -1;
+        setWidth(100);
+        setListModel(listModel);
+        setFocusable(true);
     
-		addMouseListener(this);
-		addKeyListener(this);
-	}
+        addMouseListener(this);
+        addKeyListener(this);
+    }
 
-	void ListBox::draw(Graphics* graphics)
-	{
-		graphics->setColor(getBackgroundColor());
-		graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+    void ListBox::draw(Graphics* graphics)
+    {
+        graphics->setColor(getBackgroundColor());
+        graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
-		if (mListModel == NULL)      
-		{
-			return;
-		}
+        if (mListModel == NULL)      
+        {
+            return;
+        }
     
-		graphics->setColor(getForegroundColor());
-		graphics->setFont(getFont());    
+        graphics->setColor(getForegroundColor());
+        graphics->setFont(getFont());    
     
-		int i, fontHeight;
-		int y = 0;
+        int i, fontHeight;
+        int y = 0;
     
-		fontHeight = getFont()->getHeight();
+        fontHeight = getFont()->getHeight();
     
-		/**
-		 * @todo Check cliprects so we do not have to iterate over elements in the list model
-		 */
-		for (i = 0; i < mListModel->getNumberOfElements(); ++i)
-		{      
-			if (i == mSelected)
-			{
-				graphics->drawRectangle(Rectangle(0, y, getWidth(), fontHeight));
-			}
+        /**
+         * @todo Check cliprects so we do not have to iterate over elements in the list model
+         */
+        for (i = 0; i < mListModel->getNumberOfElements(); ++i)
+        {      
+            if (i == mSelected)
+            {
+                graphics->drawRectangle(Rectangle(0, y, getWidth(), fontHeight));
+            }
       
-			graphics->drawText(mListModel->getElementAt(i), 1, y);      
+            graphics->drawText(mListModel->getElementAt(i), 1, y);      
 
-			y += fontHeight;
-		}
+            y += fontHeight;
+        }    
+    }
+
+    void ListBox::drawBorder(Graphics* graphics)
+    {
+        Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getBorderSize() * 2 - 1;
+        int height = getHeight() + getBorderSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
+        
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(i,i, width - i, i);
+            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width - i,i + 1, width - i, height - i); 
+            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+        }
+    }
     
-	} // end draw
+    void ListBox::logic()
+    {
+        adjustSize();    
+    }
 
-	void ListBox::drawBorder(Graphics* graphics)
-	{
-		Color faceColor = getBaseColor();
-		Color highlightColor, shadowColor;
-		int alpha = getBaseColor().a;
-		int width = getWidth() + getBorderSize() * 2 - 1;
-		int height = getHeight() + getBorderSize() * 2 - 1;
-		highlightColor = faceColor + 0x303030;
-		highlightColor.a = alpha;
-		shadowColor = faceColor - 0x303030;
-		shadowColor.a = alpha;
-		
-		unsigned int i;
-		for (i = 0; i < getBorderSize(); ++i)
-		{
-			graphics->setColor(shadowColor);
-			graphics->drawLine(i,i, width - i, i);
-			graphics->drawLine(i,i + 1, i, height - i - 1);
-			graphics->setColor(highlightColor);
-			graphics->drawLine(width - i,i + 1, width - i, height - i); 
-			graphics->drawLine(i,height - i, width - i - 1, height - i); 
-		}
-	}
-	
-	void ListBox::logic()
-	{
-		adjustSize();    
-	}
+    int ListBox::getSelected()
+    {
+        return mSelected;
+    }
 
-	int ListBox::getSelected()
-	{
-		return mSelected;
-	}
+    void ListBox::setSelected(int selected)
+    {
+        if (mListModel == NULL)
+        {
+            mSelected = -1;
+        }
+        else
+        {
+            if (selected < 0)
+            {
+                mSelected = -1;
+            }
+            else if (selected >= mListModel->getNumberOfElements())
+            {
+                mSelected = mListModel->getNumberOfElements() - 1;
+            }
+            else
+            {
+                mSelected = selected;
+            }
 
-	void ListBox::setSelected(int selected)
-	{
-		if (mListModel == NULL)
-		{
-			mSelected = -1;
-		}
-		else
-		{
-			if (selected < 0)
-			{
-				mSelected = -1;
-			}
-			else if (selected >= mListModel->getNumberOfElements())
-			{
-				mSelected = mListModel->getNumberOfElements() - 1;
-			}
-			else
-			{
-				mSelected = selected;
-			}
+            Widget *par = getParent();
+            if (par == NULL)
+            {
+                return;
+            }            
+            
+            ScrollArea* scrollArea = dynamic_cast<ScrollArea *>(par);
+            if (scrollArea != NULL)
+            {
+                Rectangle scroll;
+                scroll.y = getFont()->getHeight() * mSelected;
+                scroll.height = getFont()->getHeight();
+                scrollArea->scrollToRectangle(scroll);
+            }
+        }
+    }
 
-			Widget *par = getParent();
-			if (par == NULL)
-			{
-				return;
-			}			
-			
-			ScrollArea* scrollArea = dynamic_cast<ScrollArea *>(par);
-			if (scrollArea != NULL)
-			{
-				Rectangle scroll;
-				scroll.y = getFont()->getHeight() * mSelected;
-				scroll.height = getFont()->getHeight();
-				scrollArea->scrollToRectangle(scroll);
-			}
-		}
-	}
+    void ListBox::keyPress(const Key& key)
+    {    
+        if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+        {
+            generateAction();
+        }
+        else if (key.getValue() == Key::UP)
+        {      
+            setSelected(mSelected - 1);
 
-	void ListBox::keyPress(const Key& key)
-	{    
-		if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
-		{
-			generateAction();
-		}
-		else if (key.getValue() == Key::UP)
-		{      
-			setSelected(mSelected - 1);
+            if (mSelected == -1)
+            {
+                setSelected(0);
+            }
+        }
+        else if (key.getValue() == Key::DOWN)
+        {
+            setSelected(mSelected + 1);
+        }
+    }
 
-			if (mSelected == -1)
-			{
-				setSelected(0);
-			}
-		}
-		else if (key.getValue() == Key::DOWN)
-		{
-			setSelected(mSelected + 1);
-		}
-	}
+    void ListBox::mousePress(int x, int y, int button)
+    {
+        if (button == MouseInput::LEFT && hasMouse())
+        {
+            setSelected(y / getFont()->getHeight());
+            generateAction();
+        }
+    }
 
-	void ListBox::mousePress(int x, int y, int button)
-	{
-		if (button == MouseInput::LEFT && hasMouse())
-		{
-			setSelected(y / getFont()->getHeight());
-			generateAction();
-		}
-	}
-
-	void ListBox::setListModel(ListModel *listModel)
-	{
-		mSelected = -1;
-		mListModel = listModel;
-		adjustSize();    
-	}
+    void ListBox::setListModel(ListModel *listModel)
+    {
+        mSelected = -1;
+        mListModel = listModel;
+        adjustSize();    
+    }
   
-	ListModel* ListBox::getListModel()
-	{
-		return mListModel;    
-	}
+    ListModel* ListBox::getListModel()
+    {
+        return mListModel;    
+    }
 
-	void ListBox::adjustSize()
-	{
-		if (mListModel != NULL)
-		{      
-			setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
-		}    
-	}
-  
-} // end gcn
+    void ListBox::adjustSize()
+    {
+        if (mListModel != NULL)
+        {      
+            setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
+        }    
+    }  
+}
