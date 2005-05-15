@@ -284,8 +284,8 @@ namespace gcn
     {
         if (mFocusedWidget != NULL)
         {
-            mFocusedWidget = NULL;
             mFocusedWidget->lostFocus();
+            mFocusedWidget= = NULL;
         }
         
         mToBeFocused = NULL;
