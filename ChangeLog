@@ -1,3 +1,5 @@
+Version 0.4.0
+=============
 * The GCN_EXCEPTION macro is now capable of determin the function in
   which the excetpion was thrown. Also, you can get the function name
   from the Exception class.
