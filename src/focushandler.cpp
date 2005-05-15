@@ -282,10 +282,12 @@ namespace gcn
     
     void FocusHandler::focusNone()
     {
+         
         if (mFocusedWidget != NULL)
         {
-            mFocusedWidget->lostFocus();
-            mFocusedWidget= = NULL;
+            Widget* focused = mFocusedWidget;
+            mFocusedWidget = NULL; 
+            focused->lostFocus();            
         }
         
         mToBeFocused = NULL;
