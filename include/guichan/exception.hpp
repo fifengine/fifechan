@@ -59,6 +59,11 @@
 
 #include "guichan/platform.hpp"
 
+
+#if _MSVC_VER <= 1200
+#define __FUNCTION__ "?"
+#endif
+
 /*
  * A macro to be used when throwing exceptions.
  * What it basicly does is that it creates a new exception
@@ -68,7 +73,7 @@
 #define GCN_EXCEPTION(mess) gcn::Exception(mess,   \
                             __FUNCTION__,          \
                             __FILE__,              \
-                            __LINE__)              \
+                            __LINE__)
 
 namespace gcn
 {
