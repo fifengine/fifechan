@@ -60,8 +60,10 @@
 #include "guichan/platform.hpp"
 
 
+#ifdef _MSVC_VER
 #if _MSVC_VER <= 1200
 #define __FUNCTION__ "?"
+#endif
 #endif
 
 /*
