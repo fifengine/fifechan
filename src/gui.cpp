@@ -129,6 +129,8 @@ namespace gcn
             throw GCN_EXCEPTION("No top widget set");
         }
 
+        mFocusHandler->applyChanges();
+        
         if(mInput)
         {
             mInput->_pollInput();
