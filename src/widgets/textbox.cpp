@@ -79,6 +79,7 @@ namespace gcn
         addKeyListener(this);
         adjustSize();
         setBorderSize(1);    
+        setText("");
     }
   
     TextBox::TextBox(const std::string& text)
