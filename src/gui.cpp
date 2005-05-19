@@ -227,6 +227,10 @@ namespace gcn
                 mFocusHandler->applyChanges();
 
             } // end while
+
+            // Apply changes even if no input has been processed.
+            // A widget might has asked for focus.
+            mFocusHandler->applyChanges();
             
         } // end if
     
