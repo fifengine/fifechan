@@ -298,7 +298,7 @@ namespace gcn
 
     void Window::drawContent(Graphics* graphics)
     {
-        if (getContent() != NULL)
+        if (getContent() != NULL && getContent()->isVisible())
         {
             graphics->pushClipArea(getContentDimension());
             graphics->pushClipArea(Rectangle(0, 0, getContent()->getWidth(),
