@@ -250,6 +250,11 @@ namespace gcn
             throw GCN_EXCEPTION("No graphics set");
         }
 
+        if (!mTop->isVisible())
+        {
+            return;
+        }
+        
         mGraphics->_beginDraw();
 
         // If top has a border,
