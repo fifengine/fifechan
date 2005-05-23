@@ -56,7 +56,6 @@
 #define GCN_SDLPIXEL_HPP
 
 #include "SDL.h"
-
 #include "guichan/color.hpp"
 
 namespace gcn
@@ -182,6 +181,35 @@ namespace gcn
     }
     
     /**
+     * Blends two 16 bit colors together.
+     *
+     * @param src the source color.
+     * @param dst the destination color.
+     * @param a alpha.
+     */
+    inline unsigned short SDLAlpha16(unsigned short src, unsigned short dst, unsigned char a, const SDL_PixelFormat *f)
+    {
+        unsigned int b = ((src & f->Rmask) * a + (dst & f->Rmask) * (255 - a)) >> 8;
+        unsigned int g = ((src & f->Gmask) * a + (dst & f->Gmask) * (255 - a)) >> 8;
+        unsigned int r = ((src & f->Bmask) * a + (dst & f->Bmask) * (255 - a)) >> 8;
+
+        return (unsigned short)((b & f->Rmask) | (g & f->Gmask) | (r & f->Bmask));
+    }
+
+    /*
+    typedef struct{
+        SDL_Palette *palette;
+        Uint8  BitsPerPixel;
+        Uint8  BytesPerPixel;
+        Uint32 Rmask, Gmask, Bmask, Amask;
+        Uint8  Rshift, Gshift, Bshift, Ashift;
+        Uint8  Rloss, Gloss, Bloss, Aloss;
+        Uint32 colorkey;
+        Uint8  alpha;
+    } SDL_PixelFormat;
+    */
+    
+    /**
      * Puts a pixel on an SDL_Surface with alpha
      *
      * @param x the x coordinate on the surface.
@@ -205,21 +233,30 @@ namespace gcn
               break;
         
           case 2:
-              *(Uint16 *)p = pixel;
+              *(Uint16 *)p = SDLAlpha16(pixel, *(Uint32 *)p, color.a, surface->format);
               break;
         
           case 3:
+              unsigned int c;
               if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
               {
-                  p[0] = (pixel >> 16) & 0xff;
-                  p[1] = (pixel >> 8) & 0xff;
-                  p[2] = pixel & 0xff;
+                  unsigned int r = (p[0] * (255 - color.a) + color.r * color.a) >> 8;
+                  unsigned int g = (p[1] * (255 - color.a) + color.g * color.a) >> 8;
+                  unsigned int b = (p[2] * (255 - color.a) + color.b * color.a) >> 8;
+
+                  p[2] = b;
+                  p[1] = g;
+                  p[0] = r;
               }
               else
               {
-                  p[0] = pixel & 0xff;
-                  p[1] = (pixel >> 8) & 0xff;
-                  p[2] = (pixel >> 16) & 0xff;
+                  unsigned int r = (p[2] * (255 - color.a) + color.r * color.a) >> 8;
+                  unsigned int g = (p[1] * (255 - color.a) + color.g * color.a) >> 8;
+                  unsigned int b = (p[0] * (255 - color.a) + color.b * color.a) >> 8;
+
+                  p[0] = b;
+                  p[1] = g;
+                  p[2] = r;
               }
               break;
         
