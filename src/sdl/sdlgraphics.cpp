@@ -175,6 +175,7 @@ namespace gcn
             int y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
             int x, y;
 
+            SDL_LockSurface(mTarget);
             for (y = y1; y < y2; y++)
             {
                 for (x = x1; x < x2; x++)
@@ -182,6 +183,7 @@ namespace gcn
                     SDLputPixelAlpha(mTarget, x, y, mColor);
                 }
             }
+            SDL_UnlockSurface(mTarget);
             
         }
         else
