@@ -65,10 +65,15 @@ namespace gcn
     Button::Button()
     {
         mAlignment = Graphics::CENTER;
-        addMouseListener(this);
-        addKeyListener(this);
+        setFocusable(true);
         adjustSize();
-        setBorderSize(1);        
+        setBorderSize(1);
+        
+        mMouseDown = false;
+        mKeyDown = false;
+
+        addMouseListener(this);
+        addKeyListener(this);    
     }
   
     Button::Button(const std::string& caption)
