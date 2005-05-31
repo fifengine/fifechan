@@ -117,7 +117,7 @@ namespace gcn
         virtual void draw(Graphics* graphics) = 0;
         
         /**
-         * Draws a the Widget border. A border is drawn around a Widget.
+         * Draws the Widget border. A border is drawn around a Widget.
          * The width and height of the border is therefore the Widgets
          * height+2*bordersize. Think of a painting that has a certain size,
          * the border surrounds the painting. 
