@@ -97,7 +97,7 @@ namespace gcn
         }        
 
         // push a clip area the size of the target bitmap
-        pushClipArea(Rectangle(0, 0, mTarget->w - 1, mTarget->h - 1));
+        pushClipArea(Rectangle(0, 0, mTarget->w, mTarget->h));
     }
     
     void AllegroGraphics::_endDraw()
