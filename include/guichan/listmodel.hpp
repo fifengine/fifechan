@@ -74,7 +74,7 @@ namespace gcn
         /**
          * Destructor.
          */
-        virtual ~ListModel() = 0;
+        virtual ~ListModel() { }
         
         /**
          * Gets the number of elements in the ListModel.
