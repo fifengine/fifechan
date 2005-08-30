@@ -55,6 +55,7 @@
 #ifndef GCN_GUI_HPP
 #define GCN_GUI_HPP
 
+#include <list>
 #include <string>
 
 #include "guichan/input.hpp"
@@ -177,7 +178,22 @@ namespace gcn
          * @return true if tabbing is enabled.
          */
         virtual bool isTabbingEnabled();
-            
+
+        /**
+         * Adds a global KeyListener to the Gui.
+         *
+         * @param keyListener a KeyListener to add.
+         */
+        virtual void addGlobalKeyListener(KeyListener* keyListener);
+
+        /**
+         * Remove global KeyListener from the Gui.
+         *
+         * @param keyListener a KeyListener to remove.
+         * @throws Exception if the KeyListener hasn't been added.
+         */
+        virtual void removeGlobalKeyListener(KeyListener* keyListener);
+        
     protected:
         bool mTopHasMouse;
         bool mTabbing;
@@ -186,6 +202,9 @@ namespace gcn
         Graphics* mGraphics;
         Input* mInput;
         FocusHandler* mFocusHandler;    
+        typedef std::list<KeyListener*> KeyListenerList;
+        KeyListenerList mKeyListeners;
+        typedef KeyListenerList::iterator KeyListenerListIterator;
     };  
 }
 

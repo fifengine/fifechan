@@ -196,7 +196,27 @@ namespace gcn
             while (!mInput->isKeyQueueEmpty())        
             {
                 KeyInput ki = mInput->dequeueKeyInput();
+                
+                KeyListenerListIterator it;
 
+                // Propagate key input to global KeyListeners
+                switch(ki.getType())
+                {
+                  case KeyInput::PRESS:
+                      for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it)
+                      {
+                          (*it)->keyPress(ki.getKey());
+                      }        
+                      break;
+                      
+                  case KeyInput::RELEASE:
+                      for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it)
+                      {
+                          (*it)->keyRelease(ki.getKey());
+                      }        
+                      break;                      
+                }
+                
                 if (mTabbing
                     && ki.getKey().getValue() == Key::TAB
                     && ki.getType() == KeyInput::PRESS)
@@ -293,4 +313,14 @@ namespace gcn
     {
         return mTabbing;
     }    
+
+    void Gui::addGlobalKeyListener(KeyListener* keyListener)
+    {
+        mKeyListeners.push_back(keyListener);
+    }
+
+    void Gui::removeGlobalKeyListener(KeyListener* keyListener)
+    {
+        mKeyListeners.remove(keyListener);
+    }
 }
