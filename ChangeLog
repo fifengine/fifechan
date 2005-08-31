@@ -1,3 +1,5 @@
+* Added functions for global KeyListeners in Gui. Global KeyListeners
+  can be just about any object inheriting from KeyListener.
 * Fixed an offset by one error in AllegroGraphics::_beginDraw.
   The initial clip area is now correct.
 * Added alpha blending with SDL for 16bpp and 24 bpp mode.
