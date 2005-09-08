@@ -64,20 +64,14 @@ namespace gcn
 
     Container::Container()
     {
-        mWidgetWithMouse = NULL;
         mOpaque = true;        
     }
 
     Container::~Container()
     {
-        clear();        
+
     }
     
-    void Container::logic()
-    {
-        logicChildren();
-    }
-   
     void Container::draw(Graphics* graphics)
     {
         if (isOpaque())
@@ -113,43 +107,6 @@ namespace gcn
         }
     }
     
-    void Container::logicChildren()
-    {
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            (*iter)->logic();
-        }
-    }
-  
-    void Container::drawChildren(Graphics* graphics)
-    {
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if ((*iter)->isVisible())
-            {
-                // If the widget has a border,
-                // draw it before drawing the widget
-                if ((*iter)->getBorderSize() > 0)
-                {
-                    Rectangle rec = (*iter)->getDimension();
-                    rec.x -= (*iter)->getBorderSize();
-                    rec.y -= (*iter)->getBorderSize();
-                    rec.width += 2 * (*iter)->getBorderSize();
-                    rec.height += 2 * (*iter)->getBorderSize();                    
-                    graphics->pushClipArea(rec);
-                    (*iter)->drawBorder(graphics);
-                    graphics->popClipArea();
-                }
-                
-                graphics->pushClipArea((*iter)->getDimension());
-                (*iter)->draw(graphics);
-                graphics->popClipArea();
-            }
-        }
-    }
-
     void Container::setOpaque(bool opaque)
     {
         mOpaque = opaque;
@@ -159,229 +116,25 @@ namespace gcn
     {
         return mOpaque;
     }
-
-    void Container::moveToTop(Widget* widget)
-    {
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                mWidgets.push_back(widget);
-                return;
-            }
-        }
-
-        throw GCN_EXCEPTION("There is no such widget in this container.");
-    }
-
-    void Container::moveToBottom(Widget* widget)
-    {
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                mWidgets.push_front(widget);
-                return;
-            }
-        }
-
-        throw GCN_EXCEPTION("There is no such widget in this container.");
-    }
-
-    void Container::_announceDeath(Widget *widget)
-    {
-        if (mWidgetWithMouse == widget)
-        {
-            mWidgetWithMouse = NULL;
-        }
-          
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                return;
-            }
-        }
-
-        throw GCN_EXCEPTION("There is no such widget in this container.");
-    }
-    
-    void Container::getDrawSize(int& width, int& height, Widget* widget)
-    {
-        WidgetIterator iter;
-        bool contains = false;
-
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (widget == *iter)
-            {
-                contains = true;
-                break;
-            }
-        }
-    
-        if (contains)
-        {
-            Rectangle widgetDim = widget->getDimension();
-            Rectangle dim = getDimension();
-
-            width = widgetDim.width;
-            height = widgetDim.height;
-
-            if (widgetDim.x < 0)
-            {
-                width += widgetDim.x;
-            }
-
-            if (widgetDim.y < 0)
-            {
-                height += widgetDim.y;
-            }
-
-            if (widgetDim.x + widgetDim.width > dim.width)
-            {
-                width -= (widgetDim.x + widgetDim.width) - dim.width;
-            }
-
-            if (widgetDim.y + widgetDim.height > dim.height)
-            {
-                height -= (widgetDim.y + widgetDim.height) - dim.height;
-            }
-
-            if (width < 0)
-            {
-                width = 0;
-            }
-
-            if (height < 0)
-            {
-                height = 0;
-            }
-        }
-        else
-        {
-            throw GCN_EXCEPTION("Widget not in container.");
-        }    
-    }
   
     void Container::add(Widget* widget)
     {
-        mWidgets.push_back(widget);
-        widget->_setFocusHandler(_getFocusHandler());
-        widget->_setParent(this);
+        BasicContainer::add(widget);
     }
 
     void Container::add(Widget* widget, int x, int y)
     {
         widget->setPosition(x, y);
-        add(widget);
+        BasicContainer::add(widget);
     }
 
     void Container::remove(Widget* widget)
     {
-        if (mWidgetWithMouse == widget)
-        {
-            mWidgetWithMouse = NULL;
-        }
-    
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                widget->_setFocusHandler(NULL);
-                widget->_setParent(NULL);
-                return;
-            }
-        }
-
-        throw GCN_EXCEPTION("There is no such widget in this container.");
+        BasicContainer::remove(widget);
     }
 
     void Container::clear()
     { 
-        mWidgetWithMouse = NULL;
-    
-        WidgetIterator iter;
-
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {      
-            (*iter)->_setFocusHandler(NULL);
-            (*iter)->_setParent(NULL);
-        }
-    
-        mWidgets.clear();
+        BasicContainer::clear();
     }
-
-    void Container::_setFocusHandler(FocusHandler* focusHandler)
-    {
-        Widget::_setFocusHandler(focusHandler);
-    
-        WidgetIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            (*iter)->_setFocusHandler(focusHandler);
-        }   
-    }
-  
-    void Container::_mouseInputMessage(const MouseInput &mouseInput)
-    {        
-        Widget* tempWidgetWithMouse = NULL;
-        
-        WidgetIterator iter;    
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if ((*iter)->getDimension().isPointInRect(mouseInput.x, mouseInput.y)
-                && (*iter)->isVisible())
-            {
-                tempWidgetWithMouse = (*iter);
-            }
-        }
-
-        if (tempWidgetWithMouse != mWidgetWithMouse)
-        {
-            if (mWidgetWithMouse)
-            {
-                mWidgetWithMouse->_mouseOutMessage();
-            }
-
-            if (tempWidgetWithMouse)
-            {
-                tempWidgetWithMouse->_mouseInMessage();
-            }
-
-            mWidgetWithMouse = tempWidgetWithMouse;
-        }
-    
-        if (mWidgetWithMouse != NULL)
-        {
-            MouseInput mi = mouseInput;
-            mi.x -= mWidgetWithMouse->getX();
-            mi.y -= mWidgetWithMouse->getY();      
-            mWidgetWithMouse->_mouseInputMessage(mi);
-        }
-
-         if (mWidgetWithMouse == NULL)
-         {
-             BasicContainer::_mouseInputMessage(mouseInput);
-         }        
-    }
-
-    void Container::_mouseOutMessage()
-    {
-        if (mWidgetWithMouse)
-        {
-            mWidgetWithMouse->_mouseOutMessage();
-            mWidgetWithMouse = NULL;
-        }
-
-        Widget::_mouseOutMessage();
-    }  
 }

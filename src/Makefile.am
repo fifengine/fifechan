@@ -9,6 +9,7 @@ libguichan_la_DEPENDENCIES = \
 
 # The Gui-chan library sources
 libguichan_la_SOURCES = 	\
+	basiccontainer.cpp	\
 	cliprectangle.cpp	\
 	color.cpp		\
 	defaultfont.cpp		\

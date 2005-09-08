@@ -146,49 +146,9 @@ namespace gcn
         
         virtual void draw(Graphics* graphics);
 
-        virtual void drawBorder(Graphics* graphics);
+        virtual void drawBorder(Graphics* graphics);       
         
-        virtual void logic();
-        
-        virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-        virtual void _mouseInputMessage(const MouseInput &mouseInput);
-
-        virtual void _mouseOutMessage();
-
-
-        // Inherited from BasicContainer
-
-        virtual void moveToTop(Widget* widget);
-
-        virtual void moveToBottom(Widget* widget);
-
-        virtual void _announceDeath(Widget *widget);
-
-        virtual void getDrawSize(int& width, int& height, Widget* widget);
-
-        
-    protected:
-
-        /**
-         * Draws all children of the Container. The Widgets will bedrawn in
-         * the order the Widgets were added to the Container.
-         *
-         * @param graphics the Graphics object to draw with.
-         */
-        virtual void drawChildren(Graphics* graphics);
-    
-        /**
-         * Calls the logic function for all children of Container. The Widgets
-         * logic function will be called in the order the Widgets were added
-         * to the Container.        
-         */
-        virtual void logicChildren();
-      
-        Widget* mWidgetWithMouse;
-        typedef std::list<Widget*> WidgetList;
-        typedef WidgetList::iterator WidgetIterator;
-        WidgetList mWidgets;
+    protected:         
         bool mOpaque;    
     };  
 }

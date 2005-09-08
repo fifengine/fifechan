@@ -64,7 +64,6 @@ namespace gcn
 {
     Window::Window()
     {
-        mContent = NULL;
         mMouseDrag = false;
         setBorderSize(1);
         setPadding(2);
@@ -77,7 +76,6 @@ namespace gcn
 
     Window::Window(const std::string& caption)
     {
-        mContent = NULL;
         mMouseDrag = false;
         setCaption(caption);    
         setBorderSize(1);
@@ -89,30 +87,13 @@ namespace gcn
         setOpaque(true);
     }
 
-    Window::Window(Widget* content, const std::string& caption)
-    {
-        mContent = NULL;
-        mMouseDrag = false;    
-        setContent(content);
-        setCaption(caption);
-        setBorderSize(1);
-        setPadding(2);
-        setTitleBarHeight(16);
-        setAlignment(Graphics::CENTER);
-        addMouseListener(this);    
-        setMovable(true);
-        setOpaque(true);
-    }
-
     Window::~Window()
     {
-        setContent(NULL);
     }
   
     void Window::setPadding(unsigned int padding)
     {
         mPadding = padding;
-        repositionContent();
     }
 
     unsigned int Window::getPadding() const
@@ -123,40 +104,11 @@ namespace gcn
     void Window::setTitleBarHeight(unsigned int height)
     {
         mTitleBarHeight = height;
-        repositionContent();
     }
 
     unsigned int Window::getTitleBarHeight()
     {
         return mTitleBarHeight;
-    }
-
-    void Window:: _announceDeath(Widget *widget)
-    {
-        mContent = NULL;
-    }
-
-    void Window::setContent(Widget* widget)
-    {
-        if (getContent() != NULL)
-        {
-            getContent()->_setParent(NULL);
-            getContent()->_setFocusHandler(NULL);
-        }
-    
-        if (widget != NULL)
-        {
-            widget->_setParent(this);
-            widget->_setFocusHandler(_getFocusHandler());
-        }
-
-        mContent = widget;
-        repositionContent();
-    }
-
-    Widget* Window::getContent() const
-    {
-        return mContent;
     }
 
     void Window::setCaption(const std::string& caption)
@@ -191,7 +143,7 @@ namespace gcn
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
 
-        Rectangle d = getContentDimension();
+        Rectangle d = getChildrenArea();
 
         // Fill the background around the content
         graphics->setColor(faceColor);
@@ -247,7 +199,7 @@ namespace gcn
                            d.x + d.width - 1,
                            d.y + d.height - 1);
 
-        drawContent(graphics);
+        drawChildren(graphics);
         
         int textX;
         int textY;
@@ -295,19 +247,6 @@ namespace gcn
             graphics->drawLine(i,height - i, width - i - 1, height - i); 
         }
     }
-
-    void Window::drawContent(Graphics* graphics)
-    {
-        if (getContent() != NULL && getContent()->isVisible())
-        {
-            graphics->pushClipArea(getContentDimension());
-            graphics->pushClipArea(Rectangle(0, 0, getContent()->getWidth(),
-                                             getContent()->getHeight()));
-            getContent()->draw(graphics);
-            graphics->popClipArea();
-            graphics->popClipArea();
-        }
-    }
     
     void Window::mousePress(int x, int y, int button)
     {    
@@ -341,47 +280,8 @@ namespace gcn
                         y - mMouseYOffset + getY());
         }
     }
-  
-    void Window::moveToTop(Widget* widget)
-    {
-        if (widget != getContent())
-        {
-            throw GCN_EXCEPTION("Widget is not content of window.");      
-        }
-    }
-  
-    void Window::moveToBottom(Widget* widget)
-    {
-        if (widget != getContent())
-        {
-            throw GCN_EXCEPTION("Widget is not content of window");      
-        }
-    }
-  
-    void Window::getDrawSize(int& width, int& height, Widget* widget)
-    {
-        if (widget != getContent())
-        {
-            throw GCN_EXCEPTION("Widget is not content of window");      
-        }
-
-        Rectangle d = getContentDimension();
-        width = d.width;
-        height = d.height;
-    }
-
-    void Window::repositionContent()
-    {
-        if (getContent() == NULL)
-        {
-            return;
-        }
-
-        Rectangle d = getContentDimension();
-        mContent->setPosition(d.x, d.y);
-    }
-  
-    Rectangle Window::getContentDimension()
+     
+    Rectangle Window::getChildrenArea()
     {
         return Rectangle(getPadding(),
                          getTitleBarHeight(),
@@ -399,62 +299,6 @@ namespace gcn
         return mMovable;
     }
 
-    void Window::resizeToContent()
-    {
-        if (getContent() != NULL)
-        {      
-            setSize(getContent()->getWidth() + 2*getPadding(),
-                    getContent()->getHeight() + getPadding()
-                    + getTitleBarHeight());
-        }
-    }
-
-    void Window::_mouseInputMessage(const MouseInput &mouseInput)
-    {
-        BasicContainer::_mouseInputMessage(mouseInput);
-    
-        if (getContent() != NULL)
-        {
-            if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y) &&
-                getContent()->getDimension().isPointInRect(mouseInput.x, mouseInput.y))
-            {
-                if (!getContent()->hasMouse())
-                {
-                    getContent()->_mouseInMessage();          
-                }
-        
-                MouseInput mi = mouseInput;
-                mi.x -= getContent()->getX();
-                mi.y -= getContent()->getY();
-                getContent()->_mouseInputMessage(mi);
-            }
-            else if (getContent()->hasMouse())
-            {
-                getContent()->_mouseOutMessage();
-            }
-        }
-    }
-  
-    void Window::_mouseOutMessage()
-    {
-        BasicContainer::_mouseOutMessage();
-        
-        if (getContent() != NULL && getContent()->hasMouse())
-        {
-            getContent()->_mouseOutMessage();
-        }   
-    }
-
-    void Window::_setFocusHandler(FocusHandler *focusHandler)
-    {
-        if (getContent() != NULL)
-        {
-            getContent()->_setFocusHandler(focusHandler);
-        }
-    
-        BasicContainer::_setFocusHandler(focusHandler);
-    }
-
     void Window::setOpaque(bool opaque)
     {
         mOpaque = opaque;
@@ -465,11 +309,24 @@ namespace gcn
         return mOpaque;    
     }
 
-    void Window::logic()
+    void Window::resizeToContent()
     {
-        if (getContent() != NULL)
+        WidgetListIterator it;
+
+        int w = 0, h = 0;
+        for (it = mWidgets.begin(); it != mWidgets.end(); it++)
         {
-            getContent()->logic();
+            if ((*it)->getX() + (*it)->getWidth() > w)
+            {
+                w = (*it)->getX() + (*it)->getWidth();
+            }
+
+            if ((*it)->getY() + (*it)->getHeight() > h)
+            {
+                h = (*it)->getY() + (*it)->getHeight();
+            }            
         }
-    }   
+
+        setSize(w + 2* getPadding(), h + getPadding() + getTitleBarHeight());
+    }
 }

@@ -225,40 +225,23 @@ namespace gcn
          */
         virtual int getScrollbarWidth();
 
-        /**
-         * Tries to scroll to a specific rectangle. If the rectangle is to
-         * large to be visible as much as possibly, begining in the rectangles
-         * upper corner, will be visible.
-         *
-         * @param rectangle the Rectangle to scroll to.
-         */
-        virtual void scrollToRectangle(const Rectangle& rectangle);
 
+        // Inherited from BasicContainer
 
+        virtual void showWidgetPart(Widget* widget, Rectangle area);
+
+        virtual Rectangle ScrollArea::getChildrenArea();
+
+        virtual Widget *getWidgetAt(int x, int y);
+        
+        
         // Inherited from Widget
         
         virtual void draw(Graphics *graphics);
 
         virtual void drawBorder(Graphics* graphics);
         
-        virtual void logic();
-        
-        virtual void _mouseInputMessage(const MouseInput &mouseInput);
-
-        virtual void _mouseOutMessage();
-        
-        virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-
-        // Inherited from BasicContainer
-
-        virtual void _announceDeath(Widget *widget);
-
-        virtual void getDrawSize(int& width, int& height, Widget* widget);
-        
-        virtual void moveToBottom(Widget* widget);
-        
-        virtual void moveToTop(Widget* widget);               
+        virtual void logic();                
 
 
         // Inherited from MouseListener
@@ -292,6 +275,14 @@ namespace gcn
         
     protected:
         /**
+         * Draws the background of the ScrollArea
+         * (the area behind the content).
+         *
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void drawBackground(Graphics *graphics);
+        
+        /**
          * Draws the up button.
          *
          * @param graphics a Graphics object to draw with.
@@ -318,13 +309,6 @@ namespace gcn
          * @param graphics a Graphics object to draw with.
          */
         virtual void drawRightButton(Graphics *graphics);
-
-        /**
-         * Draws the content in the ScrollArea.
-         *
-         * @param graphics a Graphics object to draw with.
-         */
-        virtual void drawContent(Graphics* graphics);
 
         /**
          * Draws the vertical scrollbar.
@@ -388,13 +372,6 @@ namespace gcn
         virtual Rectangle getRightButtonDimension();
 
         /**
-         * Gets the content dimension.
-         *
-         * @return the dimension of the content.
-         */
-        virtual Rectangle getContentDimension();
-
-        /**
          * Gets the vertical scrollbar dimension.
          *
          * @return the dimension of the vertical scrollbar.
@@ -422,7 +399,6 @@ namespace gcn
          */
         virtual Rectangle getHorizontalMarkerDimension();
         
-        Widget *mContent;
         int mVScroll;
         int mHScroll;
         int mScrollbarWidth;

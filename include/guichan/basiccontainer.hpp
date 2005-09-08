@@ -70,11 +70,18 @@ namespace gcn
      *
      * @see Container
      */
-    class GCN_CORE_DECLSPEC BasicContainer: public Widget
+    class GCN_CORE_DECLSPEC BasicContainer : public Widget
     {
     public:
+        /**
+         * Constructor
+         */
+        BasicContainer();
 
-        virtual ~BasicContainer() { }
+        /**
+         * Destructor
+         */
+        virtual ~BasicContainer();
 
         /**
          * Moves a Widget to the top of the BasicContainer. The widget will be
@@ -82,7 +89,7 @@ namespace gcn
          *
          * @param widget the Widget to move.
          */
-        virtual void moveToTop(Widget* widget) = 0;
+        virtual void moveToTop(Widget* widget);
 
         /**
          * Moves a widget to the bottom of the BasicContainer. The Widget will
@@ -90,29 +97,142 @@ namespace gcn
          *
          * @param widget the Widget to move.
          */
-        virtual void moveToBottom(Widget* widget) = 0;
-
-        /**
-         * Gets the drawing space size a Widget has in the BasicContainer.
-         * It may not be the same size as the Widgets width and height.
-         *
-         * NOTE: Size is not checked recursively all the way back to the
-         *       top Widget. If the BasicContainer itself is clipped,
-         *       the size may be inaccurate.
-         * 
-         * @param width the width the Widget's draw space has.
-         * @param height the height the Widget's draw space has.
-         * @param widget the Widget calling the function.
-         */
-        virtual void getDrawSize(int& width, int& height, Widget* widget) = 0;
+        virtual void moveToBottom(Widget* widget);
 
         /**
          * Called when a child of the BasicContainer gets destroyed.
          *
          * @param widget the destroyed Widget.
          */
-        virtual void _announceDeath(Widget *widget) = 0;
-    
+        virtual void _announceDeath(Widget *widget);
+
+        /**
+         * Gets the subarea of the BasicContainer that the children
+         * occupy.
+         *
+         * @return the subarea as a Rectangle.
+         */
+        virtual Rectangle getChildrenArea();
+
+        /**
+         * Focuses the next Widget in the BasicContainer.
+         */
+        virtual void focusNext();
+
+        /**
+         * Focuses the previous Widge in the BasicContainer.
+         */
+        virtual void focusPrevious();
+
+        /**
+         * Gets a widget from a certain position in the container.
+         * This function is used to decide which gets mouse input,
+         * thus it can be overloaded to change that behaviour.
+         *
+         * @param x the x coordinate.
+         * @param y the y coordinate.
+         * @return the widget at the specified coodinate, or NULL
+         *         if no such widget exists.
+         */
+        virtual Widget *getWidgetAt(int x, int y);
+
+        /**
+         * Tries to show a specific part of a Widget by moving it. 
+         *
+         * @param widget the target Widget.
+         * @param area the area to show.
+         */
+        virtual void showWidgetPart(Widget* widget, Rectangle area);
+        
+        
+        // Inherited from Widget
+        
+        virtual void logic();
+
+        virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+        virtual void _mouseInputMessage(const MouseInput& mouseInput);
+        
+        virtual void _mouseOutMessage();
+
+        enum
+        {
+            NEVER,
+            ALWAYS,
+            NOT_ON_CHILD,
+            NOT_IN_CHILDREN_AREA
+        };        
+
+    protected:
+        /**
+         * Adds a widget.
+         *
+         * @param widget the Widget to add.
+         */
+        virtual void add(Widget* widget);
+
+        /**
+         * Removes a widget.
+         *
+         * @param widget the Widget to remove.
+         */
+        virtual void remove(Widget* widget);
+
+        /**
+         * Clears the BasicContainer of widgets.
+         */
+        virtual void clear();
+
+        /**
+         * Draws children widgets.
+         *
+         * @param graphics a Graphics object to draw with.
+         */
+        virtual void drawChildren(Graphics* graphics);
+               
+        /**
+         * Calls logic for children widgets.
+         */
+        virtual void logicChildren();
+
+        /**
+         * Sets the mouse input policy.
+         *
+         * @param policy the mouse input policy. See enum.
+         */
+        virtual void setMouseInputPolicy(unsigned int policy);
+
+        /**
+         * Gets the mouse input policy.
+         *
+         * @return the mouse input policy. See enum.
+         */
+        virtual unsigned int getMouseInputPolicy();
+
+        /**
+         * Sets the internal FocusHandler. An internal focushandler is
+         * needed if both a widget in the container and the container
+         * should be foucsed at once.
+         *
+         * @param focusHandler the interna FocusHandler to use.
+         */
+        virtual void setInternalFocusHandler(FocusHandler* focusHandler);
+        
+        /**
+         * Gets the internal FocusHandler used.
+         *
+         * @return the internal FocusHandler used. NULL if no internal FocusHandler
+         *         is used.
+         */
+        virtual FocusHandler* getInternalFocusHandler();
+
+        typedef std::list<Widget *> WidgetList;
+        typedef WidgetList::iterator WidgetListIterator;
+        typedef WidgetList::reverse_iterator WidgetListReverseIterator;
+        
+        WidgetList mWidgets;
+        Widget *mWidgetWithMouse;
+        unsigned int mMouseInputPolicy;
     };  
 }
 

@@ -175,20 +175,16 @@ namespace gcn
                 mSelected = selected;
             }
 
-            Widget *par = getParent();
+            BasicContainer *par = getParent();
             if (par == NULL)
             {
                 return;
             }            
             
-            ScrollArea* scrollArea = dynamic_cast<ScrollArea *>(par);
-            if (scrollArea != NULL)
-            {
-                Rectangle scroll;
-                scroll.y = getFont()->getHeight() * mSelected;
-                scroll.height = getFont()->getHeight();
-                scrollArea->scrollToRectangle(scroll);
-            }
+            Rectangle scroll;
+            scroll.y = getFont()->getHeight() * mSelected;
+            scroll.height = getFont()->getHeight();
+            par->showWidgetPart(this, scroll);
         }
     }
 

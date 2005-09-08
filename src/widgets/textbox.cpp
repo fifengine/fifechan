@@ -303,27 +303,33 @@ namespace gcn
 
         else if(key.getValue() == Key::PAGE_UP)
         {
-            int w, h, rowsPerPage;
-            getParent()->getDrawSize(w, h, this);
-            rowsPerPage = h / getFont()->getHeight();
-            mCaretRow -= rowsPerPage;
+            BasicContainer* par = getParent();
 
-            if (mCaretRow < 0)
-            {
-                mCaretRow = 0;
+            if (par != NULL)
+            {                
+                int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
+                mCaretRow -= rowsPerPage;
+                
+                if (mCaretRow < 0)
+                {
+                    mCaretRow = 0;
+                }
             }
         }
 
         else if(key.getValue() == Key::PAGE_DOWN)
         {
-            int w, h, rowsPerPage;
-            getParent()->getDrawSize(w, h, this);
-            rowsPerPage = h / getFont()->getHeight();
-            mCaretRow += rowsPerPage;
+            BasicContainer* par = getParent();
 
-            if (mCaretRow >= (int)mTextRows.size())
-            {
-                mCaretRow = mTextRows.size() - 1;
+            if (par != NULL)
+            {                
+                int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
+                mCaretRow += rowsPerPage;
+                
+                if (mCaretRow >= (int)mTextRows.size())
+                {
+                    mCaretRow = mTextRows.size() - 1;
+                }
             }
         }
 
@@ -494,22 +500,18 @@ namespace gcn
 
     void TextBox::scrollToCaret()
     {
-        Widget *par = getParent();
+        BasicContainer *par = getParent();
         if (par == NULL)
         {
             return;
         }            
         
-        ScrollArea* scrollArea = dynamic_cast<ScrollArea *>(par);
-        if (scrollArea != NULL)
-        {
-            Rectangle scroll;
-            scroll.x = getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn));
-            scroll.y = getFont()->getHeight() * mCaretRow;
-            scroll.width = 6;
-            scroll.height = getFont()->getHeight() + 2; // add 2 for some extra space
-            scrollArea->scrollToRectangle(scroll);
-        }
+        Rectangle scroll;
+        scroll.x = getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn));
+        scroll.y = getFont()->getHeight() * mCaretRow;
+        scroll.width = getFont()->getWidth(" ");
+        scroll.height = getFont()->getHeight() + 2; // add 2 for some extra space
+        par->showWidgetPart(this,scroll);
     }
 
     void TextBox::setEditable(bool editable)

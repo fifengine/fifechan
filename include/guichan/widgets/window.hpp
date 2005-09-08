@@ -58,14 +58,14 @@
 #include <string>
 
 #include "guichan/platform.hpp"
-#include "guichan/basiccontainer.hpp"
+#include "guichan/widgets/container.hpp"
 
 namespace gcn
 {
     /**
      * A movable window which can conatin another Widget.
      */
-    class GCN_CORE_DECLSPEC Window : public BasicContainer,
+    class GCN_CORE_DECLSPEC Window : public Container,
                                      public MouseListener
     {
     public:
@@ -80,14 +80,6 @@ namespace gcn
          * @param caption the Window caption.
          */
         Window(const std::string& caption);
-
-        /**
-         * Constructor.
-         *
-         * @param content the content Widget.
-         * @param caption the Window caption.
-         */
-        Window(Widget* content, const std::string& caption = "");
 
         /**
          * Destructor.
@@ -122,20 +114,6 @@ namespace gcn
          */
         virtual unsigned int getAlignment() const;
         
-        /**
-         * Sets the content Widget.
-         *
-         * @param widget the contant Widget.
-         */
-        virtual void setContent(Widget* widget);
-
-        /**
-         * Gets the content Widget.
-         *
-         * @return the contant Widget.
-         */
-        virtual Widget* getContent() const;
-
         /**
          * Sets the padding of the window which is the distance between the
          * window border and the content.
@@ -180,11 +158,6 @@ namespace gcn
         virtual bool isMovable() const;
 
         /**
-         * Resizes the window to fit the content.
-         */
-        virtual void resizeToContent();
-
-        /**
          * Sets the Window to be opaque. If it's not opaque, the content area
          * will not be filled with a color.
          *
@@ -198,41 +171,24 @@ namespace gcn
          * @return true or false.
          */
         virtual bool isOpaque();
-        
+
         /**
-         * Draws the content of the Window. This functions uses the
-         * getContentDimension to determin where to draw the content.
-         *
-         * @param graphics a Graphics object to draw with.
+         * Resizes the container to fit the content exactly.
          */
-        virtual void drawContent(Graphics* graphics);
+        virtual void resizeToContent();
         
-        
+
         // Inherited from BasicContainer
+        
+        virtual Rectangle getChildrenArea();
 
-        virtual void moveToTop(Widget* widget);
-
-        virtual void moveToBottom(Widget* widget);
-
-        virtual void getDrawSize(int& width, int& height, Widget* widget);
-
-        virtual void _announceDeath(Widget *widget);      
-    
-    
+            
         // Inherited from Widget
         
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);            
-
-        virtual void logic();
-        
-        virtual void _mouseInputMessage(const MouseInput &mouseInput);
-    
-        virtual void _mouseOutMessage();
-    
-        virtual void _setFocusHandler(FocusHandler* focusHandler);
-        
+                
     
         // Inherited from MouseListener     
 
@@ -242,21 +198,9 @@ namespace gcn
 
         virtual void mouseMotion(int x, int y);
     
-    protected:
-        /**
-         * Moves the content to the top left corner of the window,
-         * uses getContentDimension to get the offset
-         */
-        virtual void repositionContent();
-
-        /**
-         * Gets the area in the window that the content occupies.
-         */
-        virtual Rectangle getContentDimension();
-    
+    protected:        
         std::string mCaption;
         unsigned int mAlignment;
-        Widget* mContent;
         unsigned int mPadding;
         unsigned int mTitleBarHeight;
         bool mMouseDrag;
