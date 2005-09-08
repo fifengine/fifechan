@@ -1,3 +1,13 @@
+* Moved a lot of common container functionality into BasicContainer.
+  This made the code and API a lot cleaner. Affected classes are:
+  BasicContainer - now holds a lot of common functionality for containers.
+  Container - implementation is now a lot smaller.
+  Window - window now inherits from Container and can have several child 
+  widgets.
+  ScrollArea - smaller, nicer code.
+  TextBox & ListBox - Takes advantage of the new Container API to get rid
+  of a dynamic cast.
+* Added drawBackground to ScrollArea to simplify overloading.
 * Added functions for global KeyListeners in Gui. Global KeyListeners
   can be just about any object inheriting from KeyListener.
 * Fixed an offset by one error in AllegroGraphics::_beginDraw.
