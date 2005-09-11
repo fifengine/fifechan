@@ -139,7 +139,7 @@ namespace gcn
             graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
         }
         
-        if (hasFocus() && isEditable())
+        if (isFocused() && isEditable())
         {      
             drawCaret(graphics, getFont()->getWidth(mTextRows[mCaretRow].substr(0, mCaretColumn)), mCaretRow * getFont()->getHeight());
         }

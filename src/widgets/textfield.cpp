@@ -106,7 +106,7 @@ namespace gcn
         graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
     
-        if (hasFocus())
+        if (isFocused())
         {      
             drawCaret(graphics, getFont()->getWidth(mText.substr(0, mCaretPosition)) - mXScroll);
         }
@@ -217,7 +217,7 @@ namespace gcn
 
     void TextField::fixScroll()
     {
-        if (hasFocus())
+        if (isFocused())
         {
             int caretX = getFont()->getWidth(mText.substr(0, mCaretPosition));
 

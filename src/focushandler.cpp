@@ -233,7 +233,7 @@ namespace gcn
         }    
     }
 
-    bool FocusHandler::hasFocus(const Widget* widget) const
+    bool FocusHandler::isFocused(const Widget* widget) const
     {
         return mFocusedWidget == widget;
     }
@@ -259,7 +259,7 @@ namespace gcn
             mToBeDragged = NULL;
         }
 
-        if (hasFocus(widget))
+        if (isFocused(widget))
         {
             mFocusedWidget = NULL;
             mToBeFocused = NULL;

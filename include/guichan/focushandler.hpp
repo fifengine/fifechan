@@ -70,7 +70,7 @@ namespace gcn
      * functions for handling focus which uses a FocusHandler. Use them
      * instead.
      *
-     * @see Widget::hasFocus
+     * @see Widget::isFocused
      * @see Widget::requestFocus
      * @see Widget::setFocusable
      * @see Widget::isFocusable
@@ -162,12 +162,12 @@ namespace gcn
         virtual void focusPrevious();
 
         /**
-         * Checks if a Widget has focus.
+         * Checks if a Widget is focused.
          *
-         * @param widget widget to check if it has focus..
-         * @return true if the widget has focus.
+         * @param widget widget to check if it is focused.
+         * @return true if the widget is focused.
          */
-        virtual bool hasFocus(const Widget* widget) const;
+        virtual bool isFocused(const Widget* widget) const;
 
         /**
          * Checks if a widget is being dragged

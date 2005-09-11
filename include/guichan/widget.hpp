@@ -263,11 +263,11 @@ namespace gcn
         virtual bool isFocusable() const;
         
         /**
-         * Checks if the Widget has focus.
+         * Checks if the Widget is focused.
          *
          * @return true if the widget currently has focus.
          */
-        virtual bool hasFocus() const;
+        virtual bool isFocused() const;
 
         /**
          * Sets the Widget to be disabled or enabled. A disabled

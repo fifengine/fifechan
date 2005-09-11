@@ -221,7 +221,7 @@ namespace gcn
             graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 1, 0);
         }
 
-        if (hasFocus())
+        if (isFocused())
         {
             graphics->drawRectangle(Rectangle(0, 0, getWidth() - h, h));
         }
@@ -564,7 +564,7 @@ namespace gcn
                 mi.y -= mScrollArea->getY();        
                 mScrollArea->_mouseInputMessage(mi);
 
-                if (mListBox->hasFocus())
+                if (mListBox->isFocused())
                 {
                     mi.y -= mListBox->getY();
                     mListBox->_mouseInputMessage(mi);

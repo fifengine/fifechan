@@ -189,14 +189,14 @@ namespace gcn
         mEventId = eventId;
     }
   
-    bool Widget::hasFocus() const
+    bool Widget::isFocused() const
     {
         if (!mFocusHandler)
         {
             return false;
         }
 
-        return (mFocusHandler->hasFocus(this));
+        return (mFocusHandler->isFocused(this));
     }
 
     bool Widget::hasMouse() const
@@ -206,7 +206,7 @@ namespace gcn
 
     void Widget::setFocusable(bool focusable)
     {
-        if (!focusable && hasFocus())
+        if (!focusable && isFocused())
         {
             mFocusHandler->focusNone();
         }
@@ -250,7 +250,7 @@ namespace gcn
 
     void Widget::setVisible(bool visible)
     {
-        if (!visible && hasFocus())
+        if (!visible && isFocused())
         {
             mFocusHandler->focusNone();
         }    

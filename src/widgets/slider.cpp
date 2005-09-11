@@ -183,7 +183,7 @@ namespace gcn
             graphics->drawLine(v + getMarkerLength() - 1, 1, v + getMarkerLength() - 1, getHeight() - 1);
             graphics->drawLine(v + 1, getHeight() - 1, v + getMarkerLength() - 1, getHeight() - 1);
 
-            if (hasFocus())
+            if (isFocused())
             {
                 graphics->setColor(getForegroundColor());
                 graphics->drawRectangle(Rectangle(v + 2, 2, getMarkerLength() - 4, getHeight() - 4));
@@ -200,7 +200,7 @@ namespace gcn
             graphics->drawLine(1, v + getMarkerLength() - 1, getWidth() - 1, v + getMarkerLength() - 1);
             graphics->drawLine(getWidth() - 1, v + 1, getWidth() - 1, v + getMarkerLength() - 1);
 
-            if (hasFocus())
+            if (isFocused())
             {
                 graphics->setColor(getForegroundColor());
                 graphics->drawRectangle(Rectangle(2, v + 2, getWidth() - 4, getMarkerLength() - 4));

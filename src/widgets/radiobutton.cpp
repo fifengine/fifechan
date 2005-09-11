@@ -103,7 +103,7 @@ namespace gcn
         
         graphics->drawText(getCaption(), h - 2, 0);
         
-        if (hasFocus())
+        if (isFocused())
         {        
             graphics->drawRectangle(Rectangle(h - 4, 0, getWidth() - h + 3, getHeight()));
         }     
