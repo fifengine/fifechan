@@ -1,3 +1,5 @@
+* Changed the function name of Widget::hasFocus and FocusHandler::hasFocus
+  to isFocused.
 * Moved a lot of common container functionality into BasicContainer.
   This made the code and API a lot cleaner. Affected classes are:
   BasicContainer - now holds a lot of common functionality for containers.
