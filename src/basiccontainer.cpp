@@ -217,7 +217,7 @@ namespace gcn
         WidgetListReverseIterator it;
         for (it = mWidgets.rbegin(); it != mWidgets.rend(); it++)
         {
-            if ((*it)->getDimension().isPointInRect(x, y))
+            if ((*it)->isVisible() && (*it)->getDimension().isPointInRect(x, y))
             {
                 return (*it);
             }
