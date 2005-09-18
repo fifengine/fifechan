@@ -143,7 +143,7 @@ namespace gcn
          * @param area the area to show.
          */
         virtual void showWidgetPart(Widget* widget, Rectangle area);
-        
+
         
         // Inherited from Widget
         
@@ -155,6 +155,8 @@ namespace gcn
         
         virtual void _mouseOutMessage();
 
+        virtual void _keyInputMessage(const KeyInput& keyInput);
+        
         enum
         {
             NEVER,
@@ -210,29 +212,30 @@ namespace gcn
         virtual unsigned int getMouseInputPolicy();
 
         /**
+         * Gets the internal FocusHandler used.
+         *
+         * @return the internalFocusHandler used. If no internal FocusHandler
+         *         is used, NULL will be returned.
+         */
+        virtual FocusHandler* getInternalFocusHandler();
+        
+        /**
          * Sets the internal FocusHandler. An internal focushandler is
          * needed if both a widget in the container and the container
          * should be foucsed at once.
          *
-         * @param focusHandler the interna FocusHandler to use.
+         * @param focusHandler the FocusHandler to be used.
          */
         virtual void setInternalFocusHandler(FocusHandler* focusHandler);
         
-        /**
-         * Gets the internal FocusHandler used.
-         *
-         * @return the internal FocusHandler used. NULL if no internal FocusHandler
-         *         is used.
-         */
-        virtual FocusHandler* getInternalFocusHandler();
-
         typedef std::list<Widget *> WidgetList;
         typedef WidgetList::iterator WidgetListIterator;
         typedef WidgetList::reverse_iterator WidgetListReverseIterator;
         
         WidgetList mWidgets;
         Widget *mWidgetWithMouse;
-        unsigned int mMouseInputPolicy;
+        unsigned int mMouseInputPolicy;        
+        FocusHandler* mInternalFocusHandler;
     };  
 }
 

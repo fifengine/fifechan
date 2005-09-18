@@ -58,6 +58,7 @@
 
 #include "guichan/basiccontainer.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/focushandler.hpp"
 #include <iostream>
 
 namespace gcn
@@ -66,6 +67,7 @@ namespace gcn
     {
         mWidgetWithMouse = NULL;
         mMouseInputPolicy = NOT_ON_CHILD;
+        mInternalFocusHandler = NULL;
     }
     
     BasicContainer::~BasicContainer()
@@ -235,6 +237,12 @@ namespace gcn
     {
         Widget::_setFocusHandler(focusHandler);
         
+        if (mInternalFocusHandler != NULL)
+        {
+            return;
+        }
+        
+        
         WidgetListIterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
         {
@@ -294,6 +302,32 @@ namespace gcn
             mWidgetWithMouse->_mouseInputMessage(mi);
         }
 
+        if (mInternalFocusHandler != NULL)
+        {
+            Widget *f = mInternalFocusHandler->getFocused();
+            Widget *d = mInternalFocusHandler->getDragged();
+
+            if (f != NULL && !f->hasMouse() && isFocused())
+            {
+                MouseInput mi = mouseInput;
+                Rectangle ca = getChildrenArea();
+                mi.x -= f->getX() + ca.x;
+                mi.y -= f->getY() + ca.y;
+                    
+                f->_mouseInputMessage(mi);
+            }                
+
+            if (d != NULL && f != d && !d->hasMouse() && isDragged())
+            {
+                MouseInput mi = mouseInput;
+                Rectangle ca = getChildrenArea();
+                mi.x -= d->getX() + ca.x;
+                mi.y -= d->getY() + ca.y;
+                    
+                d->_mouseInputMessage(mi);
+            }                
+        }
+        
         bool toContainer = isDragged();
         
         switch (mMouseInputPolicy)
@@ -339,7 +373,16 @@ namespace gcn
     {
         mWidgets.push_back(widget);
         /// @todo internal focushandler
-        widget->_setFocusHandler(_getFocusHandler());
+
+        if (mInternalFocusHandler == NULL)
+        {
+            widget->_setFocusHandler(_getFocusHandler());
+        }
+        else
+        {
+            widget->_setFocusHandler(mInternalFocusHandler);
+        }
+        
         widget->_setParent(this);
     }
     
@@ -431,15 +474,6 @@ namespace gcn
         return mMouseInputPolicy;
     }
     
-    void BasicContainer::setInternalFocusHandler(FocusHandler* focusHandler)
-    {
-    }
-    
-    FocusHandler* BasicContainer::getInternalFocusHandler()
-    {
-        return NULL;
-    }
-
     void BasicContainer::showWidgetPart(Widget* widget, Rectangle area)
     {
         Rectangle widgetArea = getChildrenArea(); 
@@ -464,6 +498,41 @@ namespace gcn
         if (area.y < 0)
         {
             widget->setY(widget->getY() - area.y);
+        }
+    }
+
+    FocusHandler* BasicContainer::getInternalFocusHandler()
+    {
+        return mFocusHandler;
+    }
+
+    void BasicContainer::setInternalFocusHandler(FocusHandler* focusHandler)
+    {
+        mInternalFocusHandler = focusHandler;
+
+        WidgetListIterator iter;
+        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
+        {
+            if (mInternalFocusHandler == NULL)
+            {
+                (*iter)->_setFocusHandler(_getFocusHandler());
+            }
+            else
+            {
+                (*iter)->_setFocusHandler(mInternalFocusHandler);                
+            }
+        }
+    }
+
+    void BasicContainer::_keyInputMessage(const KeyInput& keyInput)
+    {
+        if (mInternalFocusHandler != NULL && mInternalFocusHandler->getFocused() != NULL)
+        {
+            mInternalFocusHandler->getFocused()->_keyInputMessage(keyInput);
+        }
+        else
+        {
+            Widget::_keyInputMessage(keyInput);
         }
     }
 }
