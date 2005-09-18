@@ -81,20 +81,7 @@ namespace gcn
         public KeyListener,
         public ActionListener
     {
-    public:
-        /**
-         * Constructor.
-         */
-        DropDown();
-
-        /**
-         * Contructor.
-         *
-         * @param listModel the ListModel to use.
-         * @see ListModel.
-         */         
-        DropDown(ListModel *listModel);
-        
+    public:        
         /**
          * Contructor.
          *
@@ -103,9 +90,9 @@ namespace gcn
          * @param listBox the listBox to use.
          * @see ListModel, ScrollArea, ListBox.
          */         
-        DropDown(ListModel *listModel,
-                 ScrollArea *scrollArea,
-                 ListBox *listBox);
+        DropDown(ListModel *listModel = NULL,
+                 ScrollArea *scrollArea = NULL,
+                 ListBox *listBox = NULL);
 
         /**
          * Destructor.
@@ -141,34 +128,6 @@ namespace gcn
         virtual ListModel *getListModel();
 
         /**
-         * Sets the ScrollArea to use.
-         *
-         * @param scrollArea the ScrollArea to use.
-         */
-        virtual void setScrollArea(ScrollArea* scrollArea);
-
-        /**
-         * Gets the ScrollArea used.
-         *
-         * @return the ScrollArea used.
-         */
-        virtual ScrollArea *getScrollArea();
-
-        /**
-         * Sets the ListBox to use.
-         *
-         * @param listBox the ListBox to use.
-         */
-        virtual void setListBox(ListBox* listBox);
-
-        /**
-         * Gets the ListBox used.
-         *
-         * @return the ListBox used.
-         */
-        virtual ListBox *getListBox();
-
-        /**
          * Adjusts the height of the DropDown fitting it's parents height.
          */
         virtual void adjustHeight();
@@ -180,30 +139,22 @@ namespace gcn
 
         virtual void drawBorder(Graphics* graphics);
         
-        virtual void _keyInputMessage(const KeyInput& keyInput);
-        
-        virtual void logic();
-        
-        virtual void _mouseInputMessage(const MouseInput &mouseInput);
-
         virtual void lostFocus();
 
         virtual void setBaseColor(const Color& color);
 
         virtual void setBackgroundColor(const Color& color);
-
+        
         virtual void setForegroundColor(const Color& color);
 
+        virtual void logic();
+        
         
         // Inherited from BasicContainer
 
-        virtual void moveToTop(Widget* widget);
-
-        virtual void moveToBottom(Widget* widget);
-
         virtual void _announceDeath(Widget* widget);
 
-        virtual void getDrawSize(int& width, int& height, Widget* widget);
+        virtual Rectangle getChildrenArea();
 
 
         // Inherited from ActionListener
@@ -246,9 +197,9 @@ namespace gcn
         int mOldH;
         ScrollArea* mScrollArea;
         ListBox* mListBox;
-        ScrollArea* mDefaultScrollArea;
-        ListBox* mDefaultListBox;
-        FocusHandler mFocusHandler;    
+        FocusHandler mFocusHandler;
+        bool mInternalScrollArea;
+        bool mInternalListBox;
     };  
 }
 
