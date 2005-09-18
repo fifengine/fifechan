@@ -243,9 +243,15 @@ namespace gcn
         
         virtual void logic();                
 
+        virtual void setWidth(int width);
 
+        virtual void setHeight(int height);
+
+        virtual void setDimension(const Rectangle& dimension);
+
+        
         // Inherited from MouseListener
-
+        
         virtual void mousePress(int x, int y, int button);
     
         virtual void mouseRelease(int x, int y, int button);

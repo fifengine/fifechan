@@ -1147,8 +1147,26 @@ namespace gcn
             setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
         }    
     }
+
+    void ScrollArea::setWidth(int width)
+    {
+        Widget::setWidth(width);
+        checkPolicies();
+    }
+
+    void ScrollArea::setHeight(int height)
+    {
+        Widget::setHeight(height);
+        checkPolicies();
+    }
+    
+    void ScrollArea::setDimension(const Rectangle& dimension)
+    {        
+        Widget::setDimension(dimension);
+        checkPolicies();
+    }
 }
 
 /*
- * Wow! This is a looooong source file. 1291 lines!
+ * Wow! This is a looooong source file. 1172 lines!
  */
