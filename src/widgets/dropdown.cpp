@@ -484,5 +484,20 @@ namespace gcn
         mFocusHandler.applyChanges();
         BasicContainer::logic();
     }
+
+	void DropDown::setFont(Font *font)
+	{
+		if (mInternalScrollArea)
+        {
+            mScrollArea->setFont(font);
+        }
+
+        if (mInternalListBox)
+        {
+            mListBox->setFont(font);
+        }
+        
+        Widget::setFont(font);
+	}
 }
 

@@ -149,6 +149,8 @@ namespace gcn
 
         virtual void logic();
         
+		virtual void setFont(Font *font);
+
         
         // Inherited from BasicContainer
 

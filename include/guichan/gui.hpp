@@ -130,7 +130,7 @@ namespace gcn
          * Sets the Input object to use for input handling.
          *
          * @param input the Input object to use for input handling.
-         * @param see SDLInput, AllegroInput
+         * @see SDLInput, AllegroInput
          */
         virtual void setInput(Input* input);
     
