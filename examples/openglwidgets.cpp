@@ -79,18 +79,18 @@ public:
 	{
 		switch(i)
 		{
-		  case 0:
-			  return std::string("zero");
-		  case 1:
-			  return std::string("one");
-		  case 2:
-			  return std::string("two");
-		  case 3:
-			  return std::string("three");
-		  case 4:
-			  return std::string("four");
-		  default: // Just to keep warnings away
-			  return std::string("");
+            case 0:
+                return std::string("zero");
+            case 1:
+                return std::string("one");
+            case 2:
+                return std::string("two");
+            case 3:
+                return std::string("three");
+            case 4:
+                return std::string("four");
+            default: // Just to keep warnings away
+                return std::string("");
 		}
 	}
 };
@@ -131,32 +131,32 @@ void initWidgets()
 
 	slider = new gcn::Slider(0, 10);
 	slider->setSize(100, 10);
-
-  window = new gcn::Window("I am a window  Drag me");
-  window->setBaseColor(gcn::Color(255, 150, 200, 190));
-  
-  darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
-  darkbitsIcon = new gcn::Icon(darkbitsImage);
-  window->setContent(darkbitsIcon);
-  window->resizeToContent();
-
-	/*
+    
+    window = new gcn::Window("I am a window  Drag me");
+    window->setBaseColor(gcn::Color(255, 150, 200, 190));
+    
+    darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
+    darkbitsIcon = new gcn::Icon(darkbitsImage);
+    window->add(darkbitsIcon);
+    window->resizeToContent();
+    
+    /*
 	 * Add them to the top container
 	 */
-	top->add(label, 10, 10);
-	top->add(icon, 10, 30);
-	top->add(button, 200, 10);
-	top->add(textField, 250, 10);
-	top->add(textBoxScrollArea, 200, 50);
-	top->add(listBox, 200, 200);
-	top->add(dropDown, 500, 10);
-	top->add(checkBox1, 500, 130);
+    top->add(label, 10, 10);
+    top->add(icon, 10, 30);
+    top->add(button, 200, 10);
+    top->add(textField, 250, 10);
+    top->add(textBoxScrollArea, 200, 50);
+    top->add(listBox, 200, 200);
+    top->add(dropDown, 500, 10);
+    top->add(checkBox1, 500, 130);
 	top->add(checkBox2, 500, 150);
 	top->add(radioButton1, 500, 200);
 	top->add(radioButton2, 500, 220);
 	top->add(radioButton3, 500, 240);	
 	top->add(slider, 500, 300);
-  top->add(window, 100, 350);
+    top->add(window, 100, 350);
 }
 
 /**
@@ -249,8 +249,8 @@ void halt()
 	delete radioButton2;
 	delete radioButton3;
 	delete slider;
-  delete window;
-  delete darkbitsIcon;
+    delete window;
+    delete darkbitsIcon;
 	delete darkbitsImage;
 	
 	/*

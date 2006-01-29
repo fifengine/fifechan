@@ -65,18 +65,18 @@ public:
 	{
 		switch(i)
 		{
-		  case 0:
-			  return std::string("zero");
-		  case 1:
-			  return std::string("one");
-		  case 2:
-			  return std::string("two");
-		  case 3:
-			  return std::string("three");
-		  case 4:
-			  return std::string("four");
-		  default: // Just to keep warnings away
-			  return std::string("");
+            case 0:
+                return std::string("zero");
+            case 1:
+                return std::string("one");
+            case 2:
+                return std::string("two");
+            case 3:
+                return std::string("three");
+            case 4:
+                return std::string("four");
+            default: // Just to keep warnings away
+                return std::string("");
 		}
 	}
 };
@@ -123,7 +123,7 @@ void initWidgets()
   
 	darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
 	darkbitsIcon = new gcn::Icon(darkbitsImage);
-	window->setContent(darkbitsIcon);
+	window->add(darkbitsIcon);
 	window->resizeToContent();
 
 	/*
