@@ -105,11 +105,13 @@ namespace gcn
             GL_POINT_BIT |
             GL_POLYGON_BIT |
             GL_SCISSOR_BIT |
-            GL_STENCIL_BUFFER_BIT    |
+            GL_STENCIL_BUFFER_BIT |
             GL_TEXTURE_BIT |
-            GL_TRANSFORM_BIT
+            GL_TRANSFORM_BIT |
+            GL_POINT_BIT |
+            GL_LINE_BIT
             );
-
+ 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -127,8 +129,11 @@ namespace gcn
         glDisable(GL_LIGHTING);
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
+        glDisable(GL_TEXTURE_2D);
         
         glEnable(GL_SCISSOR_TEST);
+        glPointSize(1.0);
+        glLineWidth(1.0);
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
