@@ -163,34 +163,34 @@ namespace gcn
         virtual void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
 
         /**
-         * Sets the amount to scroll verticaly.
+         * Sets the amount to scroll vertically.
          *
          * @param vScroll the amount to scroll.
          */    
         virtual void setVerticalScrollAmount(int vScroll);
 
         /**
-         * Gets the amount that is scrolled verticaly.
+         * Gets the amount that is scrolled vertically.
          * @return the scroll amount on vertical scroll.
          */    
         virtual int getVerticalScrollAmount();
 
         /**
-         * Sets the amount to scroll horizontaly.
+         * Sets the amount to scroll horizontally.
          *
          * @param hScroll the amount to scroll.
          */    
         virtual void setHorizontalScrollAmount(int hScroll);
 
         /**
-         * Gets the amount that is scrolled horizontaly.
+         * Gets the amount that is scrolled horizontally.
          *
          * @return the scroll amount on horizontal scroll.
          */    
         virtual int getHorizontalScrollAmount();
 
         /**
-         * Sets the amount to scroll horizontaly and verticaly.
+         * Sets the amount to scroll horizontally and vertically.
          *
          * @param hScroll the amount to scroll on horizontal scroll.
          * @param vScroll the amount to scroll on vertical scroll.
@@ -225,7 +225,63 @@ namespace gcn
          */
         virtual int getScrollbarWidth();
 
+        /**
+         * Sets the amount to scroll in pixels when the left scroll button is
+         * pushed.
+         */
+        virtual void setLeftButtonScrollAmount(int amount);
 
+        /**
+         * Sets the amount to scroll in pixels when the right scroll button is
+         * pushed.
+         */
+        virtual void setRightButtonScrollAmount(int amount);
+
+        /**
+         * Sets the amount to scroll in pixels when the up scroll button is
+         * pushed.
+         */
+        virtual void setUpButtonScrollAmount(int amount);
+
+        /**
+         * Sets the amount to scroll in pixels when the down scroll button is
+         * pushed.
+         */
+        virtual void setDownButtonScrollAmount(int amount);
+
+        /**
+         * Gets the amount to scroll in pixels when the left scroll button is
+         * pushed.
+         *
+         * @return the amount to scroll when the left scroll button is pushed.
+         */
+        virtual int getLeftButtonScrollAmount();
+
+        /**
+         * Gets the amount to scroll in pixels when the right scroll button is
+         * pushed.
+         *
+         * @return the amount to scroll when the right scroll button is pushed.
+         */
+        virtual int getRightButtonScrollAmount();
+
+        /**
+         * Gets the amount to scroll in pixels when the up scroll button is
+         * pushed.
+         *
+         * @return the amount to scroll when the up scroll button is pushed.
+         */
+        virtual int getUpButtonScrollAmount();
+
+        /**
+         * Gets the amount to scroll in pixels when the down scroll button is
+         * pushed.
+         *
+         * @return the amount to scroll when the down scroll button is pushed.
+         */
+        virtual int getDownButtonScrollAmount();
+
+        
         // Inherited from BasicContainer
 
         virtual void showWidgetPart(Widget* widget, Rectangle area);
@@ -420,6 +476,10 @@ namespace gcn
         int mVerticalMarkerMousePosition;
         bool mHorizontalMarkerPressed;
         int mHorizontalMarkerMousePosition;
+        int mUpButtonScrollAmount;
+        int mDownButtonScrollAmount;
+        int mLeftButtonScrollAmount;
+        int mRightButtonScrollAmount;
     };
 }
 

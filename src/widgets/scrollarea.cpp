@@ -59,6 +59,8 @@
 #include "guichan/exception.hpp"
 #include "guichan/widgets/scrollarea.hpp"
 
+#include <iostream>
+
 namespace gcn
 {
     ScrollArea::ScrollArea()
@@ -76,6 +78,10 @@ namespace gcn
         mVerticalMarkerMousePosition = 0;
         mHorizontalMarkerPressed = false;
         mHorizontalMarkerMousePosition = 0;
+        mUpButtonScrollAmount = 10;
+        mDownButtonScrollAmount = 10;
+        mLeftButtonScrollAmount = 10;
+        mRightButtonScrollAmount = 10;
 
         addMouseListener(this);
     }
@@ -95,6 +101,10 @@ namespace gcn
         mVerticalMarkerMousePosition = 0;
         mHorizontalMarkerPressed = false;
         mHorizontalMarkerMousePosition = 0;
+        mUpButtonScrollAmount = 10;
+        mDownButtonScrollAmount = 10;
+        mLeftButtonScrollAmount = 10;
+        mRightButtonScrollAmount = 10;
 
         setContent(content);
         addMouseListener(this);
@@ -115,6 +125,10 @@ namespace gcn
         mVerticalMarkerMousePosition = 0;
         mHorizontalMarkerPressed = false;
         mHorizontalMarkerMousePosition = 0;
+        mUpButtonScrollAmount = 10;
+        mDownButtonScrollAmount = 10;
+        mLeftButtonScrollAmount = 10;
+        mRightButtonScrollAmount = 10;
 
         setContent(content);
         addMouseListener(this); 
@@ -292,22 +306,26 @@ namespace gcn
     {
         if (getUpButtonDimension().isPointInRect(x, y))
         {
-            setVerticalScrollAmount(getVerticalScrollAmount() - 10);
+            setVerticalScrollAmount(getVerticalScrollAmount()
+                                    - mUpButtonScrollAmount);
             mUpButtonPressed = true;
         }
         else if (getDownButtonDimension().isPointInRect(x, y))
         {
-            setVerticalScrollAmount(getVerticalScrollAmount() + 10);
+            setVerticalScrollAmount(getVerticalScrollAmount()
+                                    + mDownButtonScrollAmount);
             mDownButtonPressed = true;
         }
         else if (getLeftButtonDimension().isPointInRect(x, y))
         {
-            setHorizontalScrollAmount(getHorizontalScrollAmount() - 10);
+            setHorizontalScrollAmount(getHorizontalScrollAmount()
+                                      - mLeftButtonScrollAmount);
             mLeftButtonPressed = true;
         }
         else if (getRightButtonDimension().isPointInRect(x, y))
         {
-            setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
+            setHorizontalScrollAmount(getHorizontalScrollAmount()
+                                      + mRightButtonScrollAmount);
             mRightButtonPressed = true;
         }        
         else if (getVerticalMarkerDimension().isPointInRect(x, y))
@@ -315,11 +333,37 @@ namespace gcn
             mVerticalMarkerPressed = true;
             mVerticalMarkerMousePosition = y - getVerticalMarkerDimension().y;
         }
+        else if (getVerticalBarDimension().isPointInRect(x,y))
+        {            
+            if (y < getVerticalMarkerDimension().y)
+            {
+                setVerticalScrollAmount(getVerticalScrollAmount()
+                                        - (int)(getChildrenArea().height * 0.95));
+            }
+            else
+            {
+                setVerticalScrollAmount(getVerticalScrollAmount()
+                                        + (int)(getChildrenArea().height * 0.95));
+            }
+        }
         else if (getHorizontalMarkerDimension().isPointInRect(x, y))
         {
             mHorizontalMarkerPressed = true;
             mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
         } 
+        else if (getHorizontalBarDimension().isPointInRect(x,y))
+        {
+            if (x < getHorizontalMarkerDimension().x)
+            {
+                setHorizontalScrollAmount(getHorizontalScrollAmount()
+                                          - (int)(getChildrenArea().width * 0.95));
+            }
+            else
+            {
+                setHorizontalScrollAmount(getHorizontalScrollAmount()
+                                          + (int)(getChildrenArea().width * 0.95));
+            }
+        }
     }
 
     void ScrollArea::mouseRelease(int x, int y, int button)
@@ -1165,8 +1209,48 @@ namespace gcn
         Widget::setDimension(dimension);
         checkPolicies();
     }
+    
+    void ScrollArea::setLeftButtonScrollAmount(int amount)
+    {
+        mLeftButtonScrollAmount = amount;
+    }
+    
+    void ScrollArea::setRightButtonScrollAmount(int amount)
+    {
+        mRightButtonScrollAmount = amount;
+    }
+
+    void ScrollArea::setUpButtonScrollAmount(int amount)
+    {
+        mUpButtonScrollAmount = amount;
+    }
+    
+    void ScrollArea::setDownButtonScrollAmount(int amount)
+    {
+        mDownButtonScrollAmount = amount;
+    }
+
+    int ScrollArea::getLeftButtonScrollAmount()
+    {
+        return mLeftButtonScrollAmount;
+    }
+    
+    int ScrollArea::getRightButtonScrollAmount()
+    {
+        return mRightButtonScrollAmount;
+    }
+    
+    int ScrollArea::getUpButtonScrollAmount()
+    {
+        return mUpButtonScrollAmount;
+    }
+
+    int ScrollArea::getDownButtonScrollAmount()
+    {
+        return mDownButtonScrollAmount;
+    }
 }
 
 /*
- * Wow! This is a looooong source file. 1172 lines!
+ * Wow! This is a looooong source file.
  */
