@@ -1,5 +1,7 @@
 noinst_LTLIBRARIES = libguichan_widgets.la
 
+INCLUDES = -I$(top_srcdir)/include
+
 # The Gui-chan library sources
 libguichan_widgets_la_SOURCES = \
 	button.cpp		\

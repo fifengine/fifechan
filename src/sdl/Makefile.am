@@ -2,6 +2,8 @@
 
 lib_LTLIBRARIES = libguichan_sdl.la
 
+INCLUDES = -I$(top_srcdir)/include
+
 libguichan_sdl_la_SOURCES =	\
 	sdl.cpp			\
 	sdlgraphics.cpp		\

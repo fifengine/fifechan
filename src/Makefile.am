@@ -1,5 +1,7 @@
 SUBDIRS = widgets @GUICHAN_EXTRADIRS@
 
+INCLUDES = -I$(top_srcdir)/include
+
 lib_LTLIBRARIES = libguichan.la
 
 libguichan_la_LIBADD = widgets/libguichan_widgets.la
