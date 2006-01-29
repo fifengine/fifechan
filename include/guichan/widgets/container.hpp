@@ -65,7 +65,7 @@ namespace gcn
 {
     /**
      * A container able to contain other Widgets. It is in other words a
-     * Widget that holds other Widgets. A Widgets position in the container is
+     * Widget that holds other Widgets. A Widget's position in the container is
      * always relativ to the Container itself, not the screen. Using a
      * Container as the top Widget in Gui is the only way to use more then one
      * Widget in your Gui.
