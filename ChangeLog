@@ -1,3 +1,6 @@
+* ScrollArea now scrolls if the open space around the markers is clicked.	
+* ScrollArea now has functions to set the amount to scroll when ScrollArea's
+  buttons are pushed, each button can have it's own amount.	
 * Changed the function name of Widget::hasFocus and FocusHandler::hasFocus
   to isFocused.
 * Moved a lot of common container functionality into BasicContainer.
