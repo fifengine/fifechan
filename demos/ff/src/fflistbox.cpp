@@ -105,7 +105,7 @@ void FFListBox::draw(gcn::Graphics* graphics)
 			
 			if (i == mSelected)
 			{
-				if (hasFocus())
+				if (isFocused())
 				{
 					graphics->drawImage(mHand, 0, y);
 				}

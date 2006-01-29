@@ -73,7 +73,7 @@ FFCharacterChooser::~FFCharacterChooser()
 
 void FFCharacterChooser::draw(gcn::Graphics* graphics)
 {
-	if (hasFocus())
+	if (isFocused())
 	{
 		graphics->drawImage(mHand, 0, mDistance*mSelected);
 	}
