@@ -118,7 +118,7 @@ namespace gcn
         /**
          * Converts an SDL keysym to a Key object.
          *
-         * @param ley an SDL keysym
+         * @param key an SDL keysym
          * @return a Key object.
          */
         Key convertKeyCharacter(SDL_keysym key);
