@@ -53,12 +53,12 @@ class ButtonActionListener : public gcn::ActionListener
 public:
 	// Implement the action function in ActionListener to recieve actions
 	// The eventId tells us which widget called the action function.
-	void action(const std::string& eventId)
+	void action(const std::string& eventId, gcn::Widget* widget)
 	{
 		std::string str;
 		std::ostringstream os(str);
 		
-		if (eventId == "button1")
+		if (widget == label1)
 		{
 			clickCountButton1++;
 			os << "Button1 clicks " << clickCountButton1;
