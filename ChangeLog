@@ -1,3 +1,6 @@
+* The function action in ActionListener now takes a pointer to the 
+  Widget who called the function, it makes handling of action events,
+  hopefully, cleaner.
 * ScrollArea now scrolls if the open space around the markers is clicked.	
 * ScrollArea now has functions to set the amount to scroll when ScrollArea's
   buttons are pushed, each button can have it's own amount.	
