@@ -111,7 +111,7 @@ namespace gcn
          * representation.
          *
          * @param button an SDL mouse button.
-         * @param a Guichan button.     
+         * @return a Guichan mouse button.     
          */
         int convertMouseButton(int button);
 
