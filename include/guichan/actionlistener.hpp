@@ -61,6 +61,8 @@
 
 namespace gcn
 {
+    class Widget;
+    
     /**
      * Listener of action events from Widgets. To be able to
      * listen for actions you must make a class which inherits
@@ -83,8 +85,9 @@ namespace gcn
          * occured.
          *
          * @param eventId the identifier of the Widget.
+         * @param widget a pointer to the Widget who called this function.  
          */
-        virtual void action(const std::string& eventId) = 0;
+        virtual void action(const std::string& eventId, Widget* widget) = 0;
 
     };
 }

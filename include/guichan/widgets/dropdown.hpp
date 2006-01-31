@@ -161,7 +161,7 @@ namespace gcn
 
         // Inherited from ActionListener
         
-        virtual void action(const std::string& eventId);
+        virtual void action(const std::string& eventId, Widget* widget);
 
 
         // Inherited from KeyListener

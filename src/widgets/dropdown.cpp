@@ -418,7 +418,7 @@ namespace gcn
         }        
     }
 
-    void DropDown::action(const std::string& eventId)
+    void DropDown::action(const std::string& eventId, Widget* widget)
     {
         foldUp();
         generateAction();        

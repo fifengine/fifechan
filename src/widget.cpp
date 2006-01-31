@@ -549,7 +549,7 @@ namespace gcn
         ActionListenerIterator iter;
         for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
         {
-            (*iter)->action(mEventId);
+            (*iter)->action(mEventId, this);
         }        
     }
     
