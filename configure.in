@@ -92,7 +92,7 @@ NoGLUT()
   GLUT="no"
 }
 
-HaveGlut()
+HaveGLUT()
 {
   GLUT="yes"
   GUICHAN_EXTRADIRS="$GUICHAN_EXTRADIRS glut"
