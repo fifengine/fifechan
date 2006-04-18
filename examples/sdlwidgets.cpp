@@ -96,7 +96,7 @@ void initWidgets()
 	 */
 	label = new gcn::Label("Label");
 	
-	image = new gcn::Image("gui-chan.bmp");
+	image = gcn::Image::load("gui-chan.bmp");
 	icon = new gcn::Icon(image);
 	
 	button = new gcn::Button("Button");
@@ -108,7 +108,8 @@ void initWidgets()
 	textBoxScrollArea->setWidth(200);
 	textBoxScrollArea->setHeight(100);
 	textBoxScrollArea->setBorderSize(1);
-	
+	textBoxScrollArea->setUpButtonScrollAmount(100);
+    
 	listBox = new gcn::ListBox(&demoListModel);
 	listBox->setBorderSize(1);
 	
@@ -127,7 +128,7 @@ void initWidgets()
     window = new gcn::Window("I am a window  Drag me");
     window->setBaseColor(gcn::Color(255, 150, 200, 190));
   
-    darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
+    darkbitsImage = gcn::Image::load("darkbitslogo_by_haiko.bmp");
     darkbitsIcon = new gcn::Icon(darkbitsImage);
     window->add(darkbitsIcon);
     window->resizeToContent();
