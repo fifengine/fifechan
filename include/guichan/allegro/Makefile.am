@@ -2,5 +2,6 @@ libguichanincludedir = $(includedir)/guichan/allegro
 
 libguichaninclude_HEADERS =	\
 	allegrographics.hpp	\
-	allegroimageloader.hpp  \
+	allegroimage.hpp	\
+	allegroimageloader.hpp	\
 	allegroinput.hpp

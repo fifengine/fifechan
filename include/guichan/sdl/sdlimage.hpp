@@ -52,27 +52,76 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROIMAGELOADER_HPP
-#define GCN_ALLEGROIMAGELOADER_HPP
+#ifndef GCN_SDLIMAGE_HPP
+#define GCN_SDLIMAGE_HPP
 
-#include "guichan/image.hpp"
-#include "guichan/imageloader.hpp"
+#include "SDL.h"
+
+#include <string>
+
+#include "guichan/color.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/image.hpp"
 
 namespace gcn
-{
-
+{  
     /**
-     * Allegro implementation of ImageLoader.
+     * SDL implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
+    class GCN_CORE_DECLSPEC SDLImage : public Image
     {
-    public:
-
-        // Inherited from ImageLoader
+    public:                
+        /**
+         * Constructor. Loads an image from a file.
+         *
+         * NOTE: The functions getPixel and putPixel are only guaranteed to work
+         *       before an image has been converted to display format.
+         *
+         * @param filename the file to load.
+         * @param convertToDisplayFormat true if the image should be converted
+         *                               to display, false otherwise.
+         */
+        SDLImage(const std::string& filename, bool convertToDisplayFormat = true);
         
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
-    };  
+        /**
+         * Constructor. Load an image from an SDL surface.
+         *
+         * @param surface the surface from which to load.
+         * @param autoFree true if the surface should automatically be deleted.
+         */
+        SDLImage(SDL_Surface* surface, bool autoFree);
+
+        /**
+         * Destructor.
+         */
+        virtual ~SDLImage();
+        
+        /**
+         * Gets the SDL surface for the image.
+         *
+         * @return the SDL surface for the image.
+         */
+        virtual SDL_Surface* getSurface() const;
+
+        
+        // Inherited from Image
+
+        virtual void free();
+        
+        virtual int getWidth() const;
+
+        virtual int getHeight() const;
+
+        virtual Color getPixel(int x, int y);
+        
+        virtual void putPixel(int x, int y, const Color& color);
+
+        virtual void convertToDisplayFormat();
+        
+    protected:
+        SDL_Surface* mSurface;
+        bool mAutoFree;
+    };
 }
 
-#endif // end GCN_ALLEGROIMAGELOADER_HPP
+#endif // end GCN_SDLIMAGE_HPP

@@ -52,27 +52,75 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROIMAGELOADER_HPP
-#define GCN_ALLEGROIMAGELOADER_HPP
+#ifndef GCN_ALLEGROIMAGE_HPP
+#define GCN_ALLEGROIMAGE_HPP
 
-#include "guichan/image.hpp"
-#include "guichan/imageloader.hpp"
+#include <allegro.h>
+#include <string>
+
+#include "guichan/color.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/image.hpp"
 
 namespace gcn
-{
-
+{  
     /**
-     * Allegro implementation of ImageLoader.
+     * Allegro implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
+    class GCN_CORE_DECLSPEC AllegroImage : public Image
     {
-    public:
-
-        // Inherited from ImageLoader
+    public:                
+        /**
+         * Constructor. Loads an image from a file.
+         *
+         * NOTE: The functions getPixel and putPixel are only guaranteed to work
+         *       before an image has been converted to display format.
+         *
+         * @param filename the file to load.
+         * @param convertToDisplayFormat true if the image should be converted
+         *                               to display, false otherwise.
+         */
+        AllegroImage(const std::string& filename, bool convertToDisplayFormat = true);
         
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
-    };  
+        /**
+         * Constructor. Load an image from an Allegro BITMAP.
+         *
+         * @param bitmap the bitmap from which to load.
+         * @param autoFree true if the surface should automatically be deleted.
+         */
+        AllegroImage(BITMAP* bitmap, bool autoFree);
+
+        /**
+         * Destructor.
+         */
+        virtual ~AllegroImage();
+        
+        /**
+         * Gets the Allegro bitmap for the image.
+         *
+         * @return the Allegro bitmap for the image.
+         */
+        virtual BITMAP* getBitmap() const;
+
+        
+        // Inherited from Image
+
+        virtual void free();
+        
+        virtual int getWidth() const;
+
+        virtual int getHeight() const;
+
+        virtual Color getPixel(int x, int y);
+        
+        virtual void putPixel(int x, int y, const Color& color);
+
+        virtual void convertToDisplayFormat();
+        
+    protected:
+        BITMAP* mBitmap;
+        bool mAutoFree;
+    };
 }
 
-#endif // end GCN_ALLEGROIMAGELOADER_HPP
+#endif // end GCN_ALLEGROIMAGE_HPP

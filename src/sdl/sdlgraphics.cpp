@@ -59,6 +59,7 @@
 #include "guichan/exception.hpp"
 #include "guichan/font.hpp"
 #include "guichan/sdl/sdlgraphics.hpp"
+#include "guichan/sdl/sdlimage.hpp"
 #include "guichan/sdl/sdlpixel.hpp"
 
 // For some reason an old version of MSVC did not like std::abs,
@@ -149,9 +150,14 @@ namespace gcn
         dst.x = dstX + top.xOffset;
         dst.y = dstY + top.yOffset;
 
-        SDL_Surface* srcImage = (SDL_Surface*)image->_getData();
-    
-        SDL_BlitSurface(srcImage, &src, mTarget, &dst);    
+        const SDLImage* srcImage = dynamic_cast<const SDLImage*>(image);
+
+        if (srcImage == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an SDLImage.");
+        }
+        
+        SDL_BlitSurface(srcImage->getSurface(), &src, mTarget, &dst);    
     }
 
     void SDLGraphics::fillRectangle(const Rectangle& rectangle)

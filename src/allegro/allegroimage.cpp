@@ -52,27 +52,133 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROIMAGELOADER_HPP
-#define GCN_ALLEGROIMAGELOADER_HPP
+/*
+ * For comments regarding functions please see the header file. 
+ */
 
-#include "guichan/image.hpp"
-#include "guichan/imageloader.hpp"
-#include "guichan/platform.hpp"
+#include "guichan/allegro/allegroimage.hpp"
+#include "guichan/exception.hpp"
 
 namespace gcn
-{
-
-    /**
-     * Allegro implementation of ImageLoader.
-     */
-    class GCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
+{  
+    AllegroImage::AllegroImage(const std::string& filename,
+                               bool convertToDisplayFormat)
     {
-    public:
+        mAutoFree = true;
 
-        // Inherited from ImageLoader
+#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+        int colconv = get_color_conversion();
+#endif
         
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
-    };  
-}
+        set_color_conversion(COLORCONV_NONE);
+        
+        PALETTE pal;
+        BITMAP *bmp = load_bitmap(filename.c_str(), pal);        
+        
+        if (bmp == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
+        }
 
-#endif // end GCN_ALLEGROIMAGELOADER_HPP
+        mBitmap = create_bitmap_ex(32, bmp->w, bmp->h);
+
+        if (mBitmap == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
+        }
+        
+        set_palette(pal);
+        blit(bmp, mBitmap, 0, 0, 0, 0, bmp->w, bmp->h);
+        destroy_bitmap(bmp);
+        
+#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+        set_color_conversion(COLORCONV_TOTAL);
+#else
+        set_color_conversion(colconv);        
+#endif        
+    }
+    
+    AllegroImage::AllegroImage(BITMAP* bitmap, bool autoFree)
+    {
+        mAutoFree = autoFree;
+        mBitmap = bitmap;        
+    }
+    
+    AllegroImage::~AllegroImage()
+    {
+        if (mAutoFree)
+        {
+            free();
+        }
+    }
+    
+    BITMAP* AllegroImage::getBitmap() const
+    {
+        return mBitmap;
+    }
+    
+    void AllegroImage::free()
+    {
+        destroy_bitmap(mBitmap);   
+    }
+    
+    int AllegroImage::getWidth() const
+    {
+        if (mBitmap == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+        }
+
+        return mBitmap->w;
+    }
+    
+    int AllegroImage::getHeight() const
+    {
+        if (mBitmap == NULL)
+        {
+            GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+        }                        
+        
+        return mBitmap->h;
+    }
+    
+    Color AllegroImage::getPixel(int x, int y)
+    {
+        if (mBitmap == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+        }
+        
+        int c = getpixel(mBitmap, x, y);
+        
+        return Color(getr32(c), getg32(c), getb32(c), geta(32));
+    }
+    
+    void AllegroImage::putPixel(int x, int y, const Color& color)
+    {
+        if (mBitmap == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
+        }
+        
+        int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
+
+        putpixel(mBitmap, x, y, c);
+    }
+    
+    void AllegroImage::convertToDisplayFormat()
+    {
+        if (mBitmap == NULL)
+        {
+            GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+        }        
+        
+        BITMAP *bmp = create_bitmap(mBitmap->w, mBitmap->h);
+
+        blit(mBitmap, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
+
+        destroy_bitmap(mBitmap);
+
+        mBitmap = bmp;
+    }       
+}

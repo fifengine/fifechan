@@ -57,6 +57,7 @@
  */
 
 #include "guichan/allegro/allegrographics.hpp"
+#include "guichan/allegro/allegroimage.hpp"
 #include "guichan/rectangle.hpp"
 #include "guichan/exception.hpp"
 #include "guichan/cliprectangle.hpp"
@@ -171,12 +172,17 @@ namespace gcn
             return;
         }
         
-        BITMAP *src = (BITMAP *)image->_getData();
-
         dstX += mClipStack.top().xOffset;
         dstY += mClipStack.top().yOffset;
+
+        const AllegroImage* srcImage = dynamic_cast<const AllegroImage*>(image);
+
+        if (srcImage == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
+        }
         
-        masked_blit(src, mTarget, srcX, srcY, dstX, dstY, width, height);
+        masked_blit(srcImage->getBitmap(), mTarget, srcX, srcY, dstX, dstY, width, height);
     }    
     
     void AllegroGraphics::drawPoint(int x, int y)

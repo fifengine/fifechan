@@ -77,87 +77,18 @@ namespace gcn
          * Destructor.
          */
         virtual ~ImageLoader() { }
-
+        
         /**
-         * Prepares an image for reading. After you have called this function
-         * you can retrieve information about it and edit it.
+         * Loads an image by calling the image's ImageLoader.
          *
-         * @param filename the image file to prepare.
-         * @throws Exception when called without having finalized or disposed to
-         *                   last image or when unable to load the image.
+         * NOTE: The functions getPixel and putPixel in Image are only guaranteed to
+         *       work before an image has been converted to display format.
+         *
+         * @param filename the file to load.
+         * @param convertToDisplayFormat true if the image should be converted
+         *                               to display, false otherwise.
          */
-        virtual void prepare(const std::string& filename) = 0;
-
-        /**
-         * This function frees an image.
-         *
-         * NOTE: There is generally no reason to call this function as
-         *       it is called upon by the Image object when destroying an Image.
-         *
-         * @param image the file to be freed and removed.
-         * @throws Exception when image points to NULL.
-         */
-        virtual void free(Image* image) = 0;
-
-        /**
-         * Rreturns a pointer of raw data of an image. The raw data is in 32
-         * bit RGBA format. The funcion will not free a prepared image, so
-         * finalize or discard should be used afterwards.
-         *
-         * @return a pointer to the raw image data.
-         */
-        virtual void* getRawData() = 0;
-    
-        /**
-         * Finalizes an image meaning it will return the image data. If the
-         * image contains pixels with "magic pink" (0xff00ff) they will be
-         * treated as transparent pixels.
-         *
-         * @return a pointer to the image data.
-         * @throws Exception when no image has been prepared.
-         */
-        virtual void* finalize() = 0;
-
-        /**
-         * Discards a prepared image.
-         *
-         * @throws Exception when no image has been prepared.
-         */
-        virtual void discard() = 0;
-    
-        /**
-         * Gets the height if the image.
-         *
-         * @return the height of the image.
-         * @throws Exception if no image have been prepared.
-         */
-        virtual int getHeight() const = 0;
-
-        /**
-         * Gets the width of an image.
-         *
-         * @return the width of the image.
-         * @throws Exception if no image have been prepared.
-         */
-        virtual int getWidth() const = 0;
-
-        /**
-         * Gets the color of a pixel at coordinate x and y.
-         *
-         * @param x the x coordinate.
-         * @param y the y coordinate.
-         * @return the color of the pixel.
-         */
-        virtual Color getPixel(int x, int y) = 0;
-
-        /**
-         * Puts a pixel with a certain color at coordinate x and y.
-         *
-         * @param x the x coordinate.
-         * @param y the y coordinate.
-         * @param color the color of the pixel to put.
-         */
-        virtual void putPixel(int x, int y, const Color& color) = 0;    
+        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true) = 0;
     };  
 }
 

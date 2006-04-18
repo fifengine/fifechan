@@ -79,51 +79,26 @@ namespace gcn
 
         /**
          * Constructor.
-         *
-         * @param data the data of the image.
-         * @param width the width of the image.     
-         * @param height the height of the image.
          */
-        Image(void* data, int width, int height);
+        Image();
 
         /**
-         * Constructor.
-         *
-         * @param filename the filename of the image.
-         * @throws Exception when no ImageLoader exists.
-         */
-        Image(const std::string& filename);
-
-        /**
-         * Destructor. Unloads the image with the ImageLoader,
-         * if it was loaded with it.
+         * Destructor. 
          */
         virtual ~Image();
-    
+        
         /**
-         * Gets the width of the Image.
+         * Loads an image by calling the image's ImageLoader.
          *
-         * @return the image width
-         */
-        virtual int getWidth() const;
-
-        /**
-         * Gets the height of the Image.
+         * NOTE: The functions getPixel and putPixel are only guaranteed to work
+         *       before an image has been converted to display format.
          *
-         * @return the image height
+         * @param filename the file to load.
+         * @param convertToDisplayFormat true if the image should be converted
+         *                               to display, false otherwise.
          */
-        virtual int getHeight() const;
-
-        /**
-         * Gets the data of the Image. Image data can be different things
-         * depending on what ImageLoader you use. If you for instance use the
-         * SDLImageLoader then an SDL_Surface will be returned.
-         *
-         * @return a void pointer to the Image data. 
-         * @see SDLImageLoader, AllegroImageLoader
-         */
-        virtual void* _getData() const;
-
+        static Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+        
         /**
          * Gets the ImageLoader used for loading Images.
          *
@@ -143,16 +118,55 @@ namespace gcn
          */
         static void setImageLoader(ImageLoader* imageLoader);
         
-    protected:
         /**
-         * Default constructor. It is protected so you can inherit
-         * from this class.
+         * Frees an image.
          */
-        Image();       
-        void* mData;
-        int mWidth;
-        int mHeight;
-        bool mLoadedWithImageLoader;
+        virtual void free() = 0;
+
+        /**
+         * Gets the width of the Image.
+         *
+         * @return the image width
+         */
+        virtual int getWidth() const = 0;
+
+        /**
+         * Gets the height of the Image.
+         *
+         * @return the image height
+         */
+        virtual int getHeight() const = 0;
+
+        /**
+         * Gets the color of a pixel at coordinate (x, y) in the image.
+         *
+         * IMPORTANT: Only guaranteed to work before the image has been
+         *            converted to display format.
+         *
+         * @param x the x coordinate.
+         * @param y the y coordinate.
+         * @return the color of the pixel.
+         */
+        virtual Color getPixel(int x, int y) = 0;
+        
+        /**
+         * Puts a pixel with a certain color at coordinate (x, y).
+         *
+         * @param x the x coordinate.
+         * @param y the y coordinate.
+         * @param color the color of the pixel to put.
+         */
+        virtual void putPixel(int x, int y, const Color& color) = 0;    
+
+        /**
+         * Converts the image, if possible, to display format.
+         *
+         * IMPORTANT: Only guaranteed to work before the image has been
+         *            converted to display format.         
+         */
+        virtual void convertToDisplayFormat() = 0;
+        
+    protected:
         static ImageLoader* mImageLoader;        
     };  
 }

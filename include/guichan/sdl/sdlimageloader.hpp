@@ -57,8 +57,6 @@
 
 #include <map>
 
-#include "SDL.h"
-
 #include "guichan/image.hpp"
 #include "guichan/imageloader.hpp"
 #include "guichan/platform.hpp"
@@ -72,34 +70,10 @@ namespace gcn
     {
     public:
 
-        /**
-         * Constructor.
-         */
-        SDLImageLoader();
-
 
         // Inherited from ImageLoader
         
-        virtual void prepare(const std::string& filename);
-
-        virtual void free(Image* image);
-
-        virtual void* getRawData();
-    
-        virtual void* finalize();
-
-        virtual void discard();
-    
-        virtual int getHeight() const;
-
-        virtual int getWidth() const;
-
-        virtual Color getPixel(int x, int y);
-    
-        virtual void putPixel(int x, int y, const Color& color);
-    
-    protected:
-        SDL_Surface* mCurrentImage;    
+        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
     };  
 }
 
