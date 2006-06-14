@@ -56,6 +56,8 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/opengl/openglgraphics.hpp"
+
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -68,11 +70,9 @@
 #include <GL/gl.h>
 #endif
 
-#include <string>
-
-#include "guichan/opengl/openglgraphics.hpp"
 #include "guichan/exception.hpp"
-
+#include "guichan/image.hpp"
+#include "guichan/opengl/openglimage.hpp"
 
 namespace gcn
 {
@@ -200,31 +200,23 @@ namespace gcn
                                    int dstX, int dstY, int width,
                                    int height)
     {
+		const OpenGLImage* srcImage = dynamic_cast<const OpenGLImage*>(image);
+
+        if (srcImage == NULL)
+        {
+            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenGLImage.");
+        }
+		
         dstX += mClipStack.top().xOffset;
         dstY += mClipStack.top().yOffset;
-    
-        // The following code finds the real width and height of the texture.
-        // OpenGL only supports texture sizes that are powers of two
-        int realImageWidth = 1;
-        int realImageHeight = 1;
-        while (realImageWidth < image->getWidth())
-        {
-            realImageWidth *= 2;
-        }
-        while (realImageHeight < image->getHeight())
-        {
-            realImageHeight *= 2;
-        }
-    
+        
         // Find OpenGL texture coordinates
-        float texX1 = srcX / (float)realImageWidth;
-        float texY1 = srcY / (float)realImageHeight;
-        float texX2 = (srcX+width) / (float)realImageWidth;
-        float texY2 = (srcY+height) / (float)realImageHeight;
+        float texX1 = srcX / (float)srcImage->getTextureWidth();
+        float texY1 = srcY / (float)srcImage->getTextureHeight();
+        float texX2 = (srcX+width) / (float)srcImage->getTextureWidth();
+        float texY2 = (srcY+height) / (float)srcImage->getTextureHeight();
     
-        // Please dont look too closely at the next line, it is not pretty.
-        // It uses the image data as a pointer to a GLuint
-        glBindTexture(GL_TEXTURE_2D, *((GLuint *)(image->_getData())));
+        glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
         glEnable(GL_TEXTURE_2D);
 
@@ -248,14 +240,13 @@ namespace gcn
         glTexCoord2f(texX2, texY1);
         glVertex3i(dstX + width, dstY, 0);
         glEnd();
-    
         glDisable(GL_TEXTURE_2D);      
 
         // Don't disable blending if the color has alpha
         if (!mAlpha)
         {
             glDisable(GL_BLEND);
-        }    
+        }
     }
   
     void OpenGLGraphics::drawPoint(int x, int y)
@@ -316,10 +307,7 @@ namespace gcn
     void OpenGLGraphics::setColor(const Color& color)
     {
         mColor = color;
-        glColor4f(color.r/255.0,
-                  color.g/255.0,
-                  color.b/255.0,
-                  color.a/255.0);
+        glColor4ub(color.r, color.g, color.b, color.a);
 
         mAlpha = color.a != 255;
 

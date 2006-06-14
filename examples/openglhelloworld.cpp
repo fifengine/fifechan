@@ -7,6 +7,8 @@
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
 #include <guichan/opengl.hpp>
+// A class used to load images for OpenGL using SDL
+#include <guichan/opengl/openglsdlimageloader.hpp>
 #include <SDL/SDL.h>
 
 #ifdef _WIN32
@@ -29,10 +31,9 @@ SDL_Event event;
 /*
  * Guichan OpenGL/SDL stuff we need
  */
-gcn::SDLInput* input;                 // Input driver
-gcn::OpenGLGraphics* graphics;        // Graphics driver
-gcn::OpenGLImageLoader* imageLoader;  // For loading images
-gcn::SDLImageLoader* hostImageLoader; // For loading images
+gcn::SDLInput* input;                    // Input driver
+gcn::OpenGLGraphics* graphics;           // Graphics driver
+gcn::OpenGLSDLImageLoader* imageLoader;  // For loading images
 
 /*
  * Guichan stuff we need
@@ -67,11 +68,7 @@ void init()
 	/*
 	 * Now it's time for Guichan OpenGL/SDL stuff
 	 */
-	imageLoader = new gcn::OpenGLImageLoader();
-	hostImageLoader = new gcn::SDLImageLoader();
-	// The OpenGL imageloader cant load images by itself, it needs
-	// a host imageloader. So we give it an SDL imageloader.
-	imageLoader->setHostImageLoader(hostImageLoader);
+	imageLoader = new gcn::OpenGLSDLImageLoader();
 	
 	// The ImageLoader in use is static and must be set to be
 	// able to load images	
@@ -127,7 +124,6 @@ void halt()
 	delete input;
 	delete graphics;
 	delete imageLoader;
-	delete hostImageLoader;
 	
 	/*
 	 * Destroy SDL stuff

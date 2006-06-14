@@ -52,8 +52,6 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <X11/Xutil.h>
-
 #include "guichan/x/xgraphics.hpp"
 
 namespace gcn

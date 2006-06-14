@@ -55,12 +55,11 @@
 #ifndef GCN_ALLEGROGRAPHICS_HPP
 #define GCN_ALLEGROGRAPHICS_HPP
 
-#include "guichan/platform.hpp"
-#include "guichan/graphics.hpp"
-
 #include <allegro.h>
-#include <stack>
-#include <string>
+
+#include "guichan/color.hpp"
+#include "guichan/graphics.hpp"
+#include "guichan/platform.hpp"
 
 namespace gcn
 {

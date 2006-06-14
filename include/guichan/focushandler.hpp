@@ -58,7 +58,6 @@
 #include <vector>
 
 #include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
 
 namespace gcn
 {

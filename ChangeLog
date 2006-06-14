@@ -1,3 +1,6 @@
+* Redesign of the Image class. Image now has different subclasses for
+  different Graphics objects. The static method load in the Image class
+  loads the appropiate type of image if an ImageLoader is set.
 * The function action in ActionListener now takes a pointer to the 
   Widget who called the function, it makes handling of action events,
   hopefully, cleaner.

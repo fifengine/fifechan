@@ -52,8 +52,16 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/exception.hpp"
 #include "guichan/widgets/dropdown.hpp"
+
+#include "guichan/exception.hpp"
+#include "guichan/font.hpp"
+#include "guichan/graphics.hpp"
+#include "guichan/key.hpp"
+#include "guichan/listmodel.hpp"
+#include "guichan/mouseinput.hpp"
+#include "guichan/widgets/listbox.hpp"
+#include "guichan/widgets/scrollarea.hpp"
 
 namespace gcn
 {  

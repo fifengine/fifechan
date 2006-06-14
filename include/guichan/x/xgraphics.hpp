@@ -55,12 +55,7 @@
 #ifndef GCN_XGRAPHICS_HPP
 #define GCN_XGRAPHICS_HPP
 
-#include <map>
-#include <string>
-#include <X11/Xlib.h>
-
 #include "guichan/graphics.hpp"
-#include "guichan/rectangle.hpp"
 
 namespace gcn
 {

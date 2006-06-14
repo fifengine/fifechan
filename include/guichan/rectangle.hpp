@@ -84,10 +84,10 @@ namespace gcn
         /**
          * Sets the dimension of a rectangle.
          *
-         * @param x the Rectangle x coordinate,
-         * @param y the Rectangle y coordinate,
-         * @param width the Rectangle width,
-         * @param height the Rectangle height,
+         * @param x the Rectangle x coordinate.
+         * @param y the Rectangle y coordinate.
+         * @param width the Rectangle width.
+         * @param height the Rectangle height.
          */
         void setAll(int x, int y, int width, int height);
 
@@ -101,8 +101,8 @@ namespace gcn
         /**
          * Checks if a point is inside the Rectangle.
          *
-         * @param x the point x coordinate
-         * @param y the point y coordinate
+         * @param x the point x coordinate.
+         * @param y the point y coordinate.
          */
         bool isPointInRect(int x, int y) const;
     

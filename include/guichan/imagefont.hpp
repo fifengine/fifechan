@@ -55,16 +55,18 @@
 #ifndef GCN_IMAGEFONT_HPP
 #define GCN_IMAGEFONT_HPP
 
-#include <map>
 #include <string>
 
 #include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/rectangle.hpp"
 
 namespace gcn
 {
+    class Color;
+    class Graphics;
+    class Image;
+    
     /**
      * A font using an image containing the font data. It implements the font
      * class. You can use any filetype for the font data as long as it can be     
@@ -119,7 +121,8 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, unsigned char glyphsFrom=32, unsigned char glyphsTo=126);
+        ImageFont(const std::string& filename, unsigned char glyphsFrom=32, 
+                  unsigned char glyphsTo=126);
         
         /**
          * Destructor.
@@ -140,7 +143,8 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @return the width of the glyph in pixels.
          * @see Graphics
          */
-        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
+        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, 
+                              int x, int y);
 
         /**
          * Sets the spacing between rows in pixels.  Default is 0 pixels.
@@ -185,7 +189,8 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
 
         virtual int getWidth(const std::string& text) const;
         
-        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);        
+        virtual void drawString(Graphics* graphics, const std::string& text, 
+                                int x, int y);        
         
         virtual int getHeight() const;
 

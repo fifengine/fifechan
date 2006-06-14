@@ -55,7 +55,7 @@
 #ifndef GCN_LISTMODEL_HPP
 #define GCN_LISTMODEL_HPP
 
-#include <string>
+#include <iosfwd>
 
 #include "guichan/platform.hpp"
 

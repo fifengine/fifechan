@@ -55,13 +55,12 @@
 #ifndef GCN_KEYLISTENER_HPP
 #define GCN_KEYLISTENER_HPP
 
-#include <string>
-
-#include "guichan/key.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Key;
+    
     /**
      * Key listeners base class. Inorder to use this class you must inherit
      * from it and implements it's functions. KeyListeners listen for key

@@ -55,6 +55,8 @@
 #ifndef GCN_TEXTFIELD_HPP
 #define GCN_TEXTFIELD_HPP
 
+#include "guichan/keylistener.hpp"
+#include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 

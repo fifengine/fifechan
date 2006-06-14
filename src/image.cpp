@@ -57,7 +57,9 @@
  */
 
 #include "guichan/image.hpp"
+
 #include "guichan/exception.hpp"
+#include "guichan/imageloader.hpp"
 
 namespace gcn
 {
@@ -77,7 +79,7 @@ namespace gcn
         mImageLoader = imageLoader;
     }
 
-    ImageLoader* Image::_getImageLoader()
+    ImageLoader* Image::getImageLoader()
     {
         return mImageLoader;
     }    

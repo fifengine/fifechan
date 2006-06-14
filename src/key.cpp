@@ -60,24 +60,12 @@
 
 namespace gcn
 {
-    Key::Key()
-    {
-        mValue = 0;
-        mShiftPressed = false;
-        mControlPressed = false;
-        mAltPressed = false;  
-        mMetaPressed = false;
-        mNumericPad = false;    
-    }
-  
     Key::Key(int value)
+            :mValue(value),
+             mShiftPressed(false), mControlPressed(false),
+             mAltPressed(false), mMetaPressed(false),
+             mNumericPad(false)
     {
-        mValue = value;
-        mShiftPressed = false;
-        mControlPressed = false;
-        mAltPressed = false;
-        mMetaPressed = false;
-        mNumericPad = false;    
     }
 
     bool Key::isCharacter() const

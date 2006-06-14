@@ -56,10 +56,11 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/allegro/allegroinput.hpp"
+
 #include <allegro.h>
 
 #include "guichan/exception.hpp"
-#include "guichan/allegro/allegroinput.hpp"
 
 namespace gcn
 {

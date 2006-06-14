@@ -56,7 +56,7 @@
 #define GCN_OPENGL_HPP
 
 #include <guichan/opengl/openglgraphics.hpp>
-#include <guichan/opengl/openglimageloader.hpp>
+#include <guichan/opengl/openglimage.hpp>
 
 #include "guichan/platform.hpp"
 

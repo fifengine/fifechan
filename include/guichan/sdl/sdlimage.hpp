@@ -68,7 +68,7 @@ namespace gcn
     /**
      * SDL implementation of Image.
      */
-    class GCN_CORE_DECLSPEC SDLImage : public Image
+    class GCN_EXTENSION_DECLSPEC SDLImage : public Image
     {
     public:                
         /**

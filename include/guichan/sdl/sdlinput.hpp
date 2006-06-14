@@ -60,13 +60,14 @@
 #include "SDL.h"
 
 #include "guichan/input.hpp"
-#include "guichan/key.hpp"
 #include "guichan/keyinput.hpp"
 #include "guichan/mouseinput.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Key;
+    
     /**
      * SDL implementation of Input.
      */

@@ -57,6 +57,7 @@
  */
 
 #include "guichan/allegro/allegroimageloader.hpp"
+
 #include "guichan/allegro/allegroimage.hpp"
 
 namespace gcn

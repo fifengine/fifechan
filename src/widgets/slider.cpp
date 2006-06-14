@@ -57,6 +57,9 @@
  */
 
 #include "guichan/widgets/slider.hpp"
+
+#include "guichan/graphics.hpp"
+#include "guichan/key.hpp"
 #include "guichan/mouseinput.hpp"
 
 namespace gcn

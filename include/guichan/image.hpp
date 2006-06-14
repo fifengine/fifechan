@@ -55,13 +55,15 @@
 #ifndef GCN_IMAGE_HPP
 #define GCN_IMAGE_HPP
 
-#include <string>
+#include <iosfwd>
 
-#include "guichan/imageloader.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Color;
+    class ImageLoader;
+    
     /**
      * Holds an image. To be able to use this class you must first set an
      * ImageLoader in Image by calling
@@ -88,7 +90,7 @@ namespace gcn
         virtual ~Image();
         
         /**
-         * Loads an image by calling the image's ImageLoader.
+         * Loads an image by calling the Image class' ImageLoader.
          *
          * NOTE: The functions getPixel and putPixel are only guaranteed to work
          *       before an image has been converted to display format.
@@ -105,7 +107,7 @@ namespace gcn
          * @return the ImageLoader used for loading Images.
          * @see SDLImageLoader, AllegroImageLoader
          */
-        static ImageLoader* _getImageLoader();
+        static ImageLoader* getImageLoader();
         
         /**
          * Sets the ImageLoader to be used for loading images.
@@ -167,7 +169,7 @@ namespace gcn
         virtual void convertToDisplayFormat() = 0;
         
     protected:
-        static ImageLoader* mImageLoader;        
+        static ImageLoader* mImageLoader;
     };  
 }
 

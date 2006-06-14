@@ -58,6 +58,8 @@
 
 #include "guichan/font.hpp"
 
+#include <string>
+
 namespace gcn
 {  
     int Font::getStringIndexAt(const std::string& text, int x)

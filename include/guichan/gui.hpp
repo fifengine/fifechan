@@ -56,14 +56,17 @@
 #define GCN_GUI_HPP
 
 #include <list>
-#include <string>
 
-#include "guichan/input.hpp"
 #include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
 
 namespace gcn
 {
+    class FocusHandler;
+    class Graphics;
+    class Input;
+    class KeyListener;
+    class Widget;
+
     // The following comment will appear in the doxygen main page.
     /**
      * @mainpage

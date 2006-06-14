@@ -55,6 +55,7 @@
 #ifndef GCN_OPENGLGRAPHICS_HPP
 #define GCN_OPENGLGRAPHICS_HPP
 
+#include "guichan/color.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/platform.hpp"
 

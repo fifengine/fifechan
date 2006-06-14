@@ -57,9 +57,13 @@
  */
 
 #include "guichan/basiccontainer.hpp"
+
+#include <algorithm>
+
 #include "guichan/exception.hpp"
 #include "guichan/focushandler.hpp"
-#include <iostream>
+#include "guichan/graphics.hpp"
+#include "guichan/mouseinput.hpp"
 
 namespace gcn
 {
@@ -94,19 +98,16 @@ namespace gcn
     void BasicContainer::moveToBottom(Widget* widget)
     {
         WidgetListIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                mWidgets.push_front(widget);
-                return;
-            }
-        }
+        iter = find(mWidgets.begin(), mWidgets.end(), widget);
 
-        throw GCN_EXCEPTION("There is no such widget in this container.");        
+        if (iter == mWidgets.end())
+        {
+            throw GCN_EXCEPTION("There is no such widget in this container.");        
+        }
+        mWidgets.erase(iter);
+        mWidgets.push_front(widget);
     }
-        
+    
     void BasicContainer::_announceDeath(Widget *widget)
     {
         if (mWidgetWithMouse == widget)
@@ -115,16 +116,14 @@ namespace gcn
         }
           
         WidgetListIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
+        iter = find(mWidgets.begin(), mWidgets.end(), widget);
+        
+        if (iter == mWidgets.end())
         {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                return;
-            }
+            throw GCN_EXCEPTION("There is no such widget in this container.");
         }
 
-        throw GCN_EXCEPTION("There is no such widget in this container.");        
+        mWidgets.erase(iter);
     }
     
     Rectangle BasicContainer::getChildrenArea()

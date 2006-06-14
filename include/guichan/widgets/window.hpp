@@ -57,6 +57,7 @@
 
 #include <string>
 
+#include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widgets/container.hpp"
 

@@ -1,7 +1,7 @@
 [Project]
 FileName=guichan_sdl.dev
 Name=guichan_sdl
-UnitCount=9
+UnitCount=11
 Type=3
 Ver=1
 ObjFiles=
@@ -129,6 +129,26 @@ AutoIncBuildNr=0
 
 [Unit9]
 FileName=src\sdl\sdl.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
+FileName=include\guichan\sdl\sdlimage.hpp
+CompileCpp=1
+Folder=include/sdl
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit11]
+FileName=src\sdl\sdlimage.cpp
 CompileCpp=1
 Folder=src
 Compile=1

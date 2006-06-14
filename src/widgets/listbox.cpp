@@ -56,12 +56,15 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include <typeinfo>
+#include "guichan/widgets/listbox.hpp"
 
 #include "guichan/basiccontainer.hpp"
-#include "guichan/widgets/listbox.hpp"
-#include "guichan/widgets/scrollarea.hpp"
-
+#include "guichan/font.hpp"
+#include "guichan/graphics.hpp"
+#include "guichan/key.hpp"
+#include "guichan/listmodel.hpp"
+#include "guichan/mouseinput.hpp"
+ 
 namespace gcn
 {
     ListBox::ListBox()

@@ -55,8 +55,6 @@
 #ifndef GCN_ALLEGROINPUT_HPP
 #define GCN_ALLEGROINPUT_HPP
 
-#include <allegro.h>
-
 #include <map>
 #include <queue>
 

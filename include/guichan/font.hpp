@@ -55,11 +55,13 @@
 #ifndef GCN_FONT_HPP
 #define GCN_FONT_HPP
 
-#include "guichan/graphics.hpp"
+#include <iosfwd>
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Graphics;
+    
     /**
      * Holder of a font. Fonts should inherit from this class and
      * implements it's functions.
@@ -113,7 +115,8 @@ namespace gcn
          * @param x the x coordinate where to draw the string.
          * @param y the y coordinate where to draw the string.
          */
-        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y) = 0;    
+        virtual void drawString(Graphics* graphics, const std::string& text, 
+                                int x, int y) = 0;    
     };  
 }
 

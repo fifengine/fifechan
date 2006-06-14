@@ -55,9 +55,8 @@
 #ifndef GCN_IMAGELOADER_HPP
 #define GCN_IMAGELOADER_HPP
 
-#include <string>
+#include <iosfwd>
 
-#include "guichan/color.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn

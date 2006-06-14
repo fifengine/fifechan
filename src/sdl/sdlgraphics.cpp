@@ -56,9 +56,11 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/sdl/sdlgraphics.hpp"
+
 #include "guichan/exception.hpp"
 #include "guichan/font.hpp"
-#include "guichan/sdl/sdlgraphics.hpp"
+#include "guichan/image.hpp"
 #include "guichan/sdl/sdlimage.hpp"
 #include "guichan/sdl/sdlpixel.hpp"
 

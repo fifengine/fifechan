@@ -57,6 +57,10 @@
  */
 
 #include "guichan/defaultfont.hpp"
+
+#include <string>
+
+#include "guichan/graphics.hpp"
 #include "guichan/rectangle.hpp"
 
 namespace gcn

@@ -7,6 +7,8 @@
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
 #include <guichan/opengl.hpp>
+// A class used to load images for OpenGL using SDL
+#include <guichan/opengl/openglsdlimageloader.hpp>
 #include <SDL/SDL.h>
 
 #ifdef _WIN32
@@ -29,10 +31,9 @@ SDL_Event event;
 /*
  * Guichan OpenGL/SDL stuff we need
  */
-gcn::SDLInput* input;                 // Input driver
-gcn::OpenGLGraphics* graphics;        // Graphics driver
-gcn::OpenGLImageLoader* imageLoader;  // For loading images
-gcn::SDLImageLoader* hostImageLoader; // For loading images
+gcn::SDLInput* input;                    // Input driver
+gcn::OpenGLGraphics* graphics;           // Graphics driver
+gcn::OpenGLSDLImageLoader* imageLoader;  // For loading images
 
 /*
  * Guichan stuff we need
@@ -104,7 +105,7 @@ void initWidgets()
 	 */
 	label = new gcn::Label("Label");
 
-	image = new gcn::Image("gui-chan.bmp");
+	image = gcn::Image::load("gui-chan.bmp");
 	icon = new gcn::Icon(image);
 
 	button = new gcn::Button("Button");
@@ -135,7 +136,7 @@ void initWidgets()
     window = new gcn::Window("I am a window  Drag me");
     window->setBaseColor(gcn::Color(255, 150, 200, 190));
     
-    darkbitsImage = new gcn::Image("darkbitslogo_by_haiko.bmp");
+    darkbitsImage = gcn::Image::load("darkbitslogo_by_haiko.bmp");
     darkbitsIcon = new gcn::Icon(darkbitsImage);
     window->add(darkbitsIcon);
     window->resizeToContent();
@@ -184,11 +185,7 @@ void init()
 	/*
 	 * Now it's time for Guichan OpenGL/SDL stuff
 	 */
-	imageLoader = new gcn::OpenGLImageLoader();
-	hostImageLoader = new gcn::SDLImageLoader();
-	// The OpenGL imageloader cant load images by itself, it needs
-	// a host imageloader. So we give it an SDL imageloader.
-	imageLoader->setHostImageLoader(hostImageLoader);
+	imageLoader = new gcn::OpenGLSDLImageLoader();
 	
 	// The ImageLoader in use is static and must be set to be
 	// able to load images	

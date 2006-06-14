@@ -55,6 +55,7 @@
 #ifndef GCN_DROPDOWN_HPP
 #define GCN_DROPDOWN_HPP
 
+#include "guichan/actionlistener.hpp"
 #include "guichan/basiccontainer.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/keylistener.hpp"

@@ -59,6 +59,8 @@
 #include <string>
 #include <vector>
 
+#include "guichan/keylistener.hpp"
+#include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 

@@ -58,29 +58,21 @@
 #include <list>
 #include <string>
 
-#include "guichan/actionlistener.hpp"
 #include "guichan/color.hpp"
-#include "guichan/defaultfont.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/mouselistener.hpp"
 #include "guichan/rectangle.hpp"
-#include "guichan/platform.hpp"
 
 namespace gcn
 {
-    /*
-     * Exists for the widget class to compile.
-     */
-    class FocusHandler;
-
-    /*
-     * Exists for the widget class to compile.
-     */
+    class ActionListener;
     class BasicContainer;
+    class DefaultFont;
+    class FocusHandler;
+    class Font;
+    class Graphics;
+    class KeyInput;
+    class KeyListener;
+    class MouseInput;
+    class MouseListener;
 
     /**
      * Widget base class. Contains basic widget functions every widget should

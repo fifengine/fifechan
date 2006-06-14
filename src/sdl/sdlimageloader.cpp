@@ -57,6 +57,7 @@
  */
 
 #include "guichan/sdl/sdlimage.hpp"
+
 #include "guichan/sdl/sdlimageloader.hpp"
 
 namespace gcn

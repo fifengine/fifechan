@@ -55,21 +55,19 @@
 #ifndef GCN_SDLIMAGELOADER_HPP
 #define GCN_SDLIMAGELOADER_HPP
 
-#include <map>
-
-#include "guichan/image.hpp"
 #include "guichan/imageloader.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Image;
+    
     /**
      * SDL implementation of ImageLoader.
      */
     class GCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
     {
     public:
-
 
         // Inherited from ImageLoader
         

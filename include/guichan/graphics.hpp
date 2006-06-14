@@ -55,31 +55,32 @@
 #ifndef GCN_GRAPHICS_HPP
 #define GCN_GRAPHICS_HPP
 
+#include <iosfwd>
 #include <stack>
-#include <string>
 
 #include "guichan/cliprectangle.hpp"
-#include "guichan/color.hpp"
-#include "guichan/image.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class Color;
     class Font;
+    class Image;
   
     /**
      * Used for drawing graphics. It contains all vital functions for drawing.
-     * We include implemented Graphics classes for some common platforms like the
-     * Allegro library, the OpenGL library and the SDL library. To make Guichan
-     * usable under another platform, a Graphics class must be implemented.
+     * We include implemented Graphics classes for some common platforms like 
+     * the Allegro library, the OpenGL library and the SDL library. To make 
+     * Guichan usable under another platform, a Graphics class must be 
+     * implemented.
      *
      * In Graphics you can set clip areas to limit drawing to certain
      * areas of the screen. Clip areas are put on a stack, which means that you
      * can push smaller and smaller clip areas onto the stack. All coordinates
      * will be relative to the topmost clip area. In most cases you won't have
      * to worry about the clip areas, unless you want to implement some really
-     * complex widget. Pushing and poping of clip areas are handled automatically
-     * by container widgets when their child widgets are drawn.
+     * complex widget. Pushing and poping of clip areas are handled 
+     * automatically by container widgets when their child widgets are drawn.
      *
      * IMPORTANT: Remember to pop each clip area that you pushed on the stack
      * after you are done with it. 
@@ -146,10 +147,10 @@ namespace gcn
         virtual void popClipArea();
 
         /**
-         * Gets the current ClipArea. Usefull if you want to do drawing
+         * Gets the current clip area. Usefull if you want to do drawing
          * bypassing Graphics.
          *
-         * @return the current ClipArea.
+         * @return the current clip area.
          */
         virtual const ClipRectangle& getCurrentClipArea();
         
@@ -162,9 +163,10 @@ namespace gcn
          *       this function.
          *
          * EXAMPLE: @code drawImage(myImage, 10, 10, 20, 20, 40, 40); @endcode       
-         *          Will draw a rectangular piece of myImage starting at coordinate
-         *          (10, 10) in myImage, with width and height 40. The piece will be
-         *          drawn with it's top left corner at coordinate (20, 20).
+         *          Will draw a rectangular piece of myImage starting at 
+         *          coordinate (10, 10) in myImage, with width and height 40. 
+         *          The piece will be drawn with it's top left corner at 
+         *          coordinate (20, 20).
          *
          * @param image the Image to draw.
          * @param srcX source Image x coordinate.
@@ -181,7 +183,8 @@ namespace gcn
          * Draws an image. A simplified version of the other drawImage.
          * It will draw a whole image at the coordinate you specify.
          * It is equivalent to calling:
-         * @code drawImage(myImage, 0, 0, dstX, dstY, image->getWidth(), image->getHeight()); @endcode
+         * @code drawImage(myImage, 0, 0, dstX, dstY, image->getWidth(), \
+         image->getHeight()); @endcode
          */
         virtual void drawImage(const Image* image, int dstX, int dstY);
     

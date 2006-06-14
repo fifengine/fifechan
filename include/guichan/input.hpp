@@ -55,12 +55,13 @@
 #ifndef GCN_INPUT_HPP
 #define GCN_INPUT_HPP
 
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
 {
+    class KeyInput;
+    class MouseInput;
+    
     /**
      * Inputs base class. Contains basic Input functions every implemented
      * input class should have. Input classes should inherit from this class

@@ -57,8 +57,11 @@
  */
 
 #include "guichan/widgets/label.hpp"
-#include "guichan/exception.hpp"
 
+#include "guichan/exception.hpp"
+#include "guichan/font.hpp"
+#include "guichan/graphics.hpp"
+ 
 namespace gcn
 {
     Label::Label()

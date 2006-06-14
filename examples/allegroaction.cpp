@@ -51,8 +51,10 @@ public:
 	{
 		std::string str;
 		std::ostringstream os(str);
-		
-		if (eventId == "button1")
+
+		// Here we use the widget pointer to check which widget the action
+        // originated from.
+		if (widget == button1)
 		{
 			clickCountButton1++;
 			os << "Button1 clicks " << clickCountButton1;
@@ -61,6 +63,7 @@ public:
 			// Adjust the label to fit the new caption
 			label1->adjustSize();
 		}
+		// Here we use the event id in order to check what action occured.
 		else if (eventId == "button2")
 		{
 			clickCountButton2++;

@@ -40,16 +40,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=include\guichan\opengl\openglimageloader.hpp
-CompileCpp=1
-Folder=include/opengl
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit3]
 FileName=include\guichan\opengl\openglgraphics.hpp
 CompileCpp=1
 Folder=include/opengl
@@ -59,8 +49,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit3]
+FileName=src\opengl\openglgraphics.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit4]
-FileName=src\opengl\openglimageloader.cpp
+FileName=src\opengl\opengl.cpp
 CompileCpp=1
 Folder=src
 Compile=1
@@ -70,7 +70,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=src\opengl\openglgraphics.cpp
+FileName=src\opengl\openglimage.cpp
 CompileCpp=1
 Folder=src
 Compile=1
@@ -98,9 +98,9 @@ ProductVersion=
 AutoIncBuildNr=0
 
 [Unit6]
-FileName=src\opengl\opengl.cpp
+FileName=include\guichan\opengl\openglimage.hpp
 CompileCpp=1
-Folder=src
+Folder=include/opengl
 Compile=1
 Link=1
 Priority=1000

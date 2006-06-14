@@ -57,6 +57,7 @@
  */
 
 #include "guichan/allegro/allegroimage.hpp"
+
 #include "guichan/exception.hpp"
 
 namespace gcn
@@ -96,6 +97,11 @@ namespace gcn
 #else
         set_color_conversion(colconv);        
 #endif        
+
+        if (convertToDisplayFormat)
+        {
+            AllegroImage::convertToDisplayFormat();
+        }
     }
     
     AllegroImage::AllegroImage(BITMAP* bitmap, bool autoFree)

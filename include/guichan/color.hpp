@@ -78,8 +78,8 @@ namespace gcn
          *
          * EXAMPLE: Color(0xff50a0) constructs Gui-chan's favourite color. 
          *
-         * NOTE: Because of this constructor, integers will be automatically casted
-         *       to a color by your compiler.
+         * NOTE: Because of this constructor, integers will be automatically 
+         *       casted to a color by your compiler.
          *
          * @param color the color.
          */
@@ -91,14 +91,14 @@ namespace gcn
          * @param r Red color component (range 0-255).
          * @param g Green color component  (range 0-255).
          * @param b Blue color component (range 0-255).
-         * @param a Color alpha, used for transparency. A value of 0 means totaly
-         *          transparent, 255 is totaly opaque (the default).
+         * @param a Color alpha, used for transparency. A value of 0 means 
+         *          totaly transparent, 255 is totaly opaque (the default).
          */
         Color(int r, int g, int b, int a = 255);
 
         /**
-         * Adds the RGB values of two colors together. The values will be clamped
-         * if they go out of range.
+         * Adds the RGB values of two colors together. The values will be 
+         * clamped if they go out of range.
          *
          * @param color a color to add to this color.
          * @return the resulting color with alpha set to 255.

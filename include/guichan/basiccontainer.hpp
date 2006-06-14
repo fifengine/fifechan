@@ -58,7 +58,6 @@
 #include <list>
 
 #include "guichan/platform.hpp"
-#include "guichan/graphics.hpp"
 #include "guichan/widget.hpp"
 
 namespace gcn

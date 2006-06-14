@@ -56,11 +56,11 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/exception.hpp"
 #include "guichan/widgets/scrollarea.hpp"
 
-#include <iostream>
-
+#include "guichan/exception.hpp"
+#include "guichan/graphics.hpp"
+ 
 namespace gcn
 {
     ScrollArea::ScrollArea()

@@ -57,7 +57,9 @@
  */
 
 #include "guichan/focushandler.hpp"
+
 #include "guichan/exception.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {

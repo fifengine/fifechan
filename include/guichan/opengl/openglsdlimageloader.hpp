@@ -52,53 +52,89 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file. 
- */
+#ifndef GCN_OPENGLSDLIMAGELOADER_HPP
+#define GCN_OPENGLSDLIMAGELOADER_HPP
 
-#include "guichan/widgets/icon.hpp"
+#include <guichan/imageloader.hpp>
 
-#include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
-#include "guichan/rectangle.hpp"
+#include "SDL.h"
+#include "SDL_image.h"
+
+#include <guichan/opengl/openglimage.hpp>
 
 namespace gcn
 {
-
-    Icon::Icon(Image* image)
+    class Image;
+    
+    /**
+     * OpenGL ImageLoader that loads images with SDL.
+     */
+    class OpenGLSDLImageLoader : public ImageLoader
     {
-        mImage = image;
-        setHeight(image->getHeight());
-        setWidth(image->getWidth());
-    }
+    public:
 
-    void Icon::draw(Graphics* graphics)
-    {
-        graphics->drawImage(mImage, 0, 0);
-
-    }
-
-    void Icon::drawBorder(Graphics* graphics)
-    {
-        Color faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-        int width = getWidth() + getBorderSize() * 2 - 1;
-        int height = getHeight() + getBorderSize() * 2 - 1;
-        highlightColor = faceColor + 0x303030;
-        highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        // Inherited from ImageLoader
         
-        unsigned int i;
-        for (i = 0; i < getBorderSize(); ++i)
-        {
-            graphics->setColor(shadowColor);
-            graphics->drawLine(i,i, width - i, i);
-            graphics->drawLine(i,i + 1, i, height - i - 1);
-            graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
-            graphics->drawLine(i,height - i, width - i - 1, height - i); 
-        }
-    }
+        virtual Image* load(const std::string& filename,
+							bool convertToDisplayFormat = true)
+		{
+			SDL_Surface* loadedSurface = IMG_Load(filename.c_str());			
+        
+			if (loadedSurface == NULL)
+			{
+				throw GCN_EXCEPTION(std::string("Unable to load image file: ")
+									+ filename);
+			}
+        
+			Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask = 0xff000000;
+			gmask = 0x00ff0000;
+			bmask = 0x0000ff00;
+			amask = 0x000000ff;
+#else
+			rmask = 0x000000ff;
+			gmask = 0x0000ff00;
+			bmask = 0x00ff0000;
+			amask = 0xff000000;
+#endif
+        
+			SDL_Surface *colorSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
+															 0,
+															 0,
+															 32,
+															 rmask,
+															 gmask,
+															 bmask,
+															 amask);
+        
+			if (colorSurface == NULL)
+			{
+				throw GCN_EXCEPTION(std::string("Not enough memory to load: ")
+									+ filename);
+			}
+        
+			SDL_Surface* surface = SDL_ConvertSurface(loadedSurface,
+													  colorSurface->format,
+													  SDL_SWSURFACE);
+
+			if (surface == NULL)
+			{
+				throw GCN_EXCEPTION(std::string("Not enough memory to load: ")
+									+ filename);
+			}
+
+			SDL_FreeSurface(loadedSurface);
+			SDL_FreeSurface(colorSurface);
+			
+			OpenGLImage *image = new OpenGLImage((unsigned int*)surface->pixels,
+												 surface->w,
+												 surface->h,
+												 convertToDisplayFormat);
+			SDL_FreeSurface(surface);
+			return image;			
+		}
+    };  
 }
+
+#endif // end GCN_OPENGLSDLIMAGELOADER_HPP

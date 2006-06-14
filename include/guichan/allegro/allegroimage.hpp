@@ -67,7 +67,7 @@ namespace gcn
     /**
      * Allegro implementation of Image.
      */
-    class GCN_CORE_DECLSPEC AllegroImage : public Image
+    class GCN_EXTENSION_DECLSPEC AllegroImage : public Image
     {
     public:                
         /**

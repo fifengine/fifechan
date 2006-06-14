@@ -55,8 +55,6 @@
 #ifndef GCN_KEY_HPP
 #define GCN_KEY_HPP
 
-#include <string>
-
 #include "guichan/platform.hpp"
 
 namespace gcn
@@ -67,17 +65,13 @@ namespace gcn
     class GCN_CORE_DECLSPEC Key
     {
     public:
-        /**
-         * Constructor.
-         */
-        Key();
-    
+
         /**
          * Constructor.
          *
          * @param value the ascii or enum value for the key.
          */
-        Key(int value);
+        Key(int value = 0);
     
         /**
          * Checks whether a key is a character.

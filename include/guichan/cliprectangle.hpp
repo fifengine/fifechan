@@ -83,7 +83,8 @@ namespace gcn
          * @param xOffset origin of drawing (used by Graphics).
          * @param yOffset origin of drawing (used by Graphics) .    
          */
-        ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset);
+        ClipRectangle(int x, int y, int width, int height, 
+                      int xOffset, int yOffset);
 
         /**
          * Copies x, y, width and height field from a Rectangle.
@@ -99,7 +100,7 @@ namespace gcn
         int xOffset;
 
         /**
-         * y-origin of drawing (used by Graphics)
+         * y-origin of drawing (used by Graphics).
          */
         int yOffset;
     };

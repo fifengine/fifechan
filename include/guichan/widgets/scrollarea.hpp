@@ -286,7 +286,7 @@ namespace gcn
 
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
-        virtual Rectangle ScrollArea::getChildrenArea();
+        virtual Rectangle getChildrenArea();
 
         virtual Widget *getWidgetAt(int x, int y);
         

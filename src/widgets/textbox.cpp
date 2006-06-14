@@ -56,13 +56,13 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include <typeinfo>
+#include "guichan/widgets/textbox.hpp"
 
 #include "guichan/basiccontainer.hpp"
-#include "guichan/keyinput.hpp"
+#include "guichan/font.hpp"
+#include "guichan/graphics.hpp"
+#include "guichan/key.hpp"
 #include "guichan/mouseinput.hpp"
-#include "guichan/widgets/scrollarea.hpp"
-#include "guichan/widgets/textbox.hpp"
 
 namespace gcn
 {

@@ -57,6 +57,7 @@
  */
 
 #include "guichan/sdl/sdlinput.hpp"
+
 #include "guichan/exception.hpp"
 
 namespace gcn

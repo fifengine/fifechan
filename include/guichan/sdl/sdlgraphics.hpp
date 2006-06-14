@@ -55,18 +55,17 @@
 #ifndef GCN_SDLGRAPHICS_HPP
 #define GCN_SDLGRAPHICS_HPP
 
-#include <map>
-#include <string>
-
 #include "SDL.h"
 
+#include "guichan/color.hpp"
 #include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
 #include "guichan/platform.hpp"
-#include "guichan/rectangle.hpp"
 
 namespace gcn
 {
+    class Image;
+    class Rectangle;
+    
     /**
      * SDL implementation of the Graphics.
      */

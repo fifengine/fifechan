@@ -58,6 +58,11 @@
 
 #include "guichan/widgets/radiobutton.hpp"
 
+#include "guichan/font.hpp"
+#include "guichan/graphics.hpp"
+#include "guichan/key.hpp"
+#include "guichan/mouseinput.hpp"
+
 namespace gcn
 {
     RadioButton::GroupMap RadioButton::mGroupMap;

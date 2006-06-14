@@ -56,41 +56,39 @@
  * For comments regarding functions please see the header file. 
  */
 
+#include "guichan/imagefont.hpp"
+
 #include <sstream>
 
+#include "guichan/color.hpp"
 #include "guichan/exception.hpp"
-#include "guichan/imagefont.hpp"
+#include "guichan/graphics.hpp"
 #include "guichan/image.hpp"
 
 namespace gcn
 {
     ImageFont::ImageFont(const std::string& filename, const std::string& glyphs)
     {
-        if (Image::_getImageLoader() == NULL)
-        {
-            throw GCN_EXCEPTION("I have no ImageLoader!");
-        }
-
-        ImageLoader* imageLoader = Image::_getImageLoader();
-        mFilename = filename;                
-        Image::_getImageLoader()->prepare(filename);
-        Color separator = Image::_getImageLoader()->getPixel(0, 0);
+        mFilename = filename;
+        mImage = Image::load(filename, false);
+ 
+        Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i=0; separator == imageLoader->getPixel(i, 0)
-                 && i < imageLoader->getWidth(); ++i)
+        for (i=0; separator == mImage->getPixel(i, 0)
+                 && i < mImage->getWidth(); ++i)
         {         
         }
         
-        if (i >= imageLoader->getWidth())
+        if (i >= mImage->getWidth())
         {
             throw GCN_EXCEPTION("Corrupt image.");
         }
         
         int j = 0;
-        for (j = 0; j < imageLoader->getHeight(); ++j)
+        for (j = 0; j < mImage->getHeight(); ++j)
         {
-            if (separator == imageLoader->getPixel(i, j))
+            if (separator == mImage->getPixel(i, j))
             {
                 break;
             }
@@ -106,42 +104,37 @@ namespace gcn
             addGlyph(k, x, y, separator);
         }
     
-        int w = imageLoader->getWidth();
-        int h = imageLoader->getHeight();
-        void* data = imageLoader->finalize();
+        int w = mImage->getWidth();
+        int h = mImage->getHeight();
+        mImage->convertToDisplayFormat();
     
-        mImage = new Image(data, w, h);
         mRowSpacing = 0;
         mGlyphSpacing = 0;        
     }
 
-    ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, unsigned char glyphsTo)
+    ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, 
+                         unsigned char glyphsTo)
     {
-        if (Image::_getImageLoader() == NULL)
-        {
-            throw GCN_EXCEPTION("I have no ImageLoader!");
-        }
-
-        ImageLoader* imageLoader = Image::_getImageLoader();
         mFilename = filename;                
-        Image::_getImageLoader()->prepare(filename);
-        Color separator = Image::_getImageLoader()->getPixel(0, 0);
+        mImage = Image::load(filename, false);
+        
+        Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i=0; separator == imageLoader->getPixel(i, 0)
-                 && i < imageLoader->getWidth(); ++i)
+        for (i=0; separator == mImage->getPixel(i, 0)
+                 && i < mImage->getWidth(); ++i)
         {         
         }
         
-        if (i >= imageLoader->getWidth())
+        if (i >= mImage->getWidth())
         {
             throw GCN_EXCEPTION("Corrupt image.");
         }
         
         int j = 0;
-        for (j = 0; j < imageLoader->getHeight(); ++j)
+        for (j = 0; j < mImage->getHeight(); ++j)
         {
-            if (separator == imageLoader->getPixel(i, j))
+            if (separator == mImage->getPixel(i, j))
             {
                 break;
             }
@@ -156,18 +149,16 @@ namespace gcn
             addGlyph(i, x, y, separator); 
         }
 
-        int w = imageLoader->getWidth();
-        int h = imageLoader->getHeight();
-        void* data = imageLoader->finalize();
+        int w = mImage->getWidth();
+        int h = mImage->getHeight();
+        mImage->convertToDisplayFormat();
         
-        mImage = new Image(data, w, h);
         mRowSpacing = 0;
         mGlyphSpacing = 0;        
     }
 
     ImageFont::~ImageFont()
     {
-        Image::_getImageLoader()->free(mImage);
         delete mImage;        
     }
   
@@ -186,26 +177,30 @@ namespace gcn
         return mHeight + mRowSpacing;
     }
 
-    int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
+    int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, 
+                             int x, int y)
     {
         // This is needed for drawing the Glyph in the middle if we have spacing
         int yoffset = getRowSpacing() >> 1;
         
         if (mGlyph[glyph].width == 0)
         {
-            graphics->drawRectangle(Rectangle(x, y + 1 + yoffset, mGlyph[(int)(' ')].width - 1,
+            graphics->drawRectangle(Rectangle(x, y + 1 + yoffset, 
+                                              mGlyph[(int)(' ')].width - 1,
                                               mGlyph[(int)(' ')].height - 2));
       
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
     
         graphics->drawImage(mImage, mGlyph[glyph].x, mGlyph[glyph].y, x,
-                            y + yoffset, mGlyph[glyph].width, mGlyph[glyph].height);
+                            y + yoffset, mGlyph[glyph].width, 
+                            mGlyph[glyph].height);
         
         return mGlyph[glyph].width + mGlyphSpacing;
     }
 
-    void ImageFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+    void ImageFont::drawString(Graphics* graphics, const std::string& text, 
+                               int x, int y)
     {
         unsigned int i;
     
@@ -239,19 +234,17 @@ namespace gcn
     void ImageFont::addGlyph(unsigned char c, int &x,
                              int &y, const Color& separator)
     {
-        ImageLoader* il = Image::_getImageLoader();
-        
         Color color;
         do
         {
             ++x;
 
-            if (x >= il->getWidth())
+            if (x >= mImage->getWidth())
             {
                 y += mHeight + 1;
                 x = 0;
 
-                if (y >= il->getHeight())
+                if (y >= mImage->getHeight())
                 {
                     std::string str;
                     std::ostringstream os(str);
@@ -264,7 +257,7 @@ namespace gcn
                 }
             }            
 
-            color = il->getPixel(x, y);
+            color = mImage->getPixel(x, y);
 
         } while (color == separator);
         
@@ -274,7 +267,7 @@ namespace gcn
         {
             ++w;
 
-            if (x+w >= il->getWidth())
+            if (x+w >= mImage->getWidth())
             {
                 std::string str;
                 std::ostringstream os(str);
@@ -286,7 +279,7 @@ namespace gcn
                 throw GCN_EXCEPTION(os.str());
             }            
             
-            color = il->getPixel(x + w, y);
+            color = mImage->getPixel(x + w, y);
             
         } while (color != separator);
         
