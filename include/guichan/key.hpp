@@ -110,6 +110,7 @@ namespace gcn
 
         /**
          * Checks whether control is pressed.
+         *
          * @return true if control was pressed at the same time as the key.
          */    
         bool isControlPressed() const;
