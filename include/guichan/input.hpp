@@ -88,8 +88,7 @@ namespace gcn
         /**
          * Dequeues the key input queue.
          *
-         * @return a KeyInput object.
-         * @see KeyInput
+         * @return key input.
          */
         virtual KeyInput dequeueKeyInput() = 0;
 
@@ -103,8 +102,7 @@ namespace gcn
         /**
          * Dequeues the mouse input queue.
          * 
-         * @return a MouseInput object.
-         * @see MouseInput
+         * @return mouse input.
          */
         virtual MouseInput dequeueMouseInput() = 0;
 
