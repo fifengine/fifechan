@@ -81,7 +81,7 @@ namespace gcn
 
         virtual void drawBorder(Graphics* graphics);
         
-    private:
+    protected:
         Image* mImage;        
     };    
 }
