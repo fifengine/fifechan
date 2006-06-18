@@ -121,7 +121,7 @@ namespace gcn
 
         virtual void drawBorder(Graphics* graphics);
         
-    private:
+    protected:
         std::string mCaption;
         unsigned int mAlignment;        
     };  
