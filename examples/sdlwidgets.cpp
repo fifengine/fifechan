@@ -6,7 +6,7 @@
 #include <iostream>
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /*
  * Common stuff we need
