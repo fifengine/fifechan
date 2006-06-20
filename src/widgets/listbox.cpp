@@ -185,6 +185,16 @@ namespace gcn
             }            
             
             Rectangle scroll;
+            
+            if (mSelected < 0)
+            {
+                scroll.y = 0;
+            }
+            else
+            {
+                scroll.y = getFont()->getHeight() * mSelected;
+            }
+            
             scroll.y = getFont()->getHeight() * mSelected;
             scroll.height = getFont()->getHeight();
             par->showWidgetPart(this, scroll);
