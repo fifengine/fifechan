@@ -55,7 +55,7 @@
 #ifndef GCN_ACTIONLISTENER_HPP
 #define GCN_ACTIONLISTENER_HPP
 
-#include <iosfwd>
+#include <string>
 
 #include "guichan/platform.hpp"
 

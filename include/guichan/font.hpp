@@ -55,7 +55,7 @@
 #ifndef GCN_FONT_HPP
 #define GCN_FONT_HPP
 
-#include <iosfwd>
+#include <string>
 #include "guichan/platform.hpp"
 
 namespace gcn
