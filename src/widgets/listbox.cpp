@@ -71,6 +71,7 @@ namespace gcn
     {    
         mSelected = -1;
         mListModel = NULL;
+        mWrappingKeyboardSelection = false;
         setWidth(100);
         setFocusable(true);
     
@@ -81,6 +82,7 @@ namespace gcn
     ListBox::ListBox(ListModel *listModel)
     {
         mSelected = -1;
+        mWrappingKeyboardSelection = false;
         setWidth(100);
         setListModel(listModel);
         setFocusable(true);
@@ -213,12 +215,27 @@ namespace gcn
 
             if (mSelected == -1)
             {
-                setSelected(0);
+                if (isWrappingKeyboardSelection())
+                {
+                    setSelected(getListModel().getNumberOfElements() - 1);
+                }
+                else
+                {
+                    setSelected(0);
+                }
             }
         }
         else if (key.getValue() == Key::DOWN)
         {
-            setSelected(mSelected + 1);
+            if (isWrappingKeyboardSelection() 
+                && getSelected() == getListModel().getNumberOfElements() - 1)
+            {
+                setSelected(0);
+            }
+            else
+            {            
+                setSelected(selected + 1);
+            }
         }
     }
 
@@ -250,4 +267,14 @@ namespace gcn
             setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
         }    
     }  
+
+    bool isWrappingKeyboardSelection()
+    {
+        return mWrappingKeyboardSelection;
+    }
+
+    void setWrappingKeyboardSelection(bool wrapping)
+    {
+        mWrappingKeyboardSelection = wrapping;
+    }
 }
