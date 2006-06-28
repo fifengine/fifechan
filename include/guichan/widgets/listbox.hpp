@@ -125,6 +125,26 @@ namespace gcn
          */
         virtual void adjustSize();
 
+        /**
+         * Checks whether the ListBox wraps when selecting items with keyboard.
+         *
+         * Wrapping means that if up is pressed and the first item is selected, the last
+         * item will get selected. If down is pressed and the last item is selected, the
+         * first item will get selected. 
+         * 
+         * @return true if wrapping, fasle otherwise.
+         */
+        virtual bool isWrappingKeyboardSelection();
+
+        /**
+         * Sets the ListBox to wrap or not when selecting items with keyboard. 
+         * 
+         * Wrapping means that if up is pressed and the first item is selected, the last 
+         * item will get selected. If down is pressed and the last item is selected, the
+         * first item will get selected.
+         *  
+         */
+         virtual void setWrappingKeyboardSelection(bool wrapping);
 
         // Inherited from Widget
 
@@ -146,7 +166,8 @@ namespace gcn
 
     protected:
         ListModel *mListModel;
-        int mSelected;    
+        int mSelected;  
+        bool mWrappingKeyboardSelection;
     };  
 }
 
