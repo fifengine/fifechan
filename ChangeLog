@@ -1,3 +1,7 @@
+* ListBox now has the ability to wrap keyboard selection. Wrapping means
+  that if the key up is pressed and the first item is selected, then
+  the last item will get selected. If the key down is pressed and the last
+  item is selected, then the first item will get selected.
 * Redesign of the Image class. Image now has different subclasses for
   different Graphics objects. The static method load in the Image class
   loads the appropiate type of image if an ImageLoader is set.
