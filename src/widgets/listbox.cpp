@@ -217,7 +217,7 @@ namespace gcn
             {
                 if (isWrappingKeyboardSelection())
                 {
-                    setSelected(getListModel().getNumberOfElements() - 1);
+                    setSelected(getListModel()->getNumberOfElements() - 1);
                 }
                 else
                 {
@@ -228,13 +228,13 @@ namespace gcn
         else if (key.getValue() == Key::DOWN)
         {
             if (isWrappingKeyboardSelection() 
-                && getSelected() == getListModel().getNumberOfElements() - 1)
+                && getSelected() == getListModel()->getNumberOfElements() - 1)
             {
                 setSelected(0);
             }
             else
             {            
-                setSelected(selected + 1);
+                setSelected(getSelected() + 1);
             }
         }
     }
@@ -268,12 +268,12 @@ namespace gcn
         }    
     }  
 
-    bool isWrappingKeyboardSelection()
+    bool ListBox::isWrappingKeyboardSelection()
     {
         return mWrappingKeyboardSelection;
     }
 
-    void setWrappingKeyboardSelection(bool wrapping)
+    void ListBox::setWrappingKeyboardSelection(bool wrapping)
     {
         mWrappingKeyboardSelection = wrapping;
     }
