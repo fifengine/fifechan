@@ -546,8 +546,8 @@ namespace gcn
 
         getParent()->getAbsolutePosition(parentX, parentY);
 
-        x = parentX + mDimension.x;
-        y = parentY + mDimension.y;    
+        x = parentX + mDimension.x + getParent()->getChildrenArea().x;
+        y = parentY + mDimension.y + getParent()->getChildrenArea().y;    
     }
     
     void Widget::generateAction()
