@@ -393,5 +393,17 @@ namespace gcn
     int Slider::getMarkerPosition() const
     {
         return valueToMarkerPosition(getValue());
+    } 
+
+    void Slider::mouseWheelUp(int x, int y) 
+    {
+        setValue(getValue() + getStepLength());
+        generateAction();
+    }
+
+    void Slider::mouseWheelDown(int x, int y) 
+    {
+        setValue(getValue() - getStepLength());
+        generateAction();
     }    
 }
