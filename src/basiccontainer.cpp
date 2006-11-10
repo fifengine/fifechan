@@ -70,10 +70,8 @@
 namespace gcn
 {
     BasicContainer::BasicContainer()
+        : mInternalFocusHandler(NULL)
     {
-        mWidgetWithMouse = NULL;
-        mMouseInputPolicy = NOT_ON_CHILD;
-        mInternalFocusHandler = NULL;
     }
 
     BasicContainer::~BasicContainer()
@@ -112,11 +110,6 @@ namespace gcn
 
     void BasicContainer::_announceDeath(Widget *widget)
     {
-        if (mWidgetWithMouse == widget)
-        {
-            mWidgetWithMouse = NULL;
-        }
-
         WidgetListIterator iter;
         iter = find(mWidgets.begin(), mWidgets.end(), widget);
 
@@ -268,11 +261,6 @@ namespace gcn
 
     void BasicContainer::remove(Widget* widget)
     {
-        if (widget == mWidgetWithMouse)
-        {
-            mWidgetWithMouse = NULL;
-        }
-
         WidgetListIterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
         {
@@ -290,8 +278,6 @@ namespace gcn
 
     void BasicContainer::clear()
     {
-        mWidgetWithMouse = NULL;
-
         WidgetListIterator iter;
 
         for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
@@ -342,16 +328,6 @@ namespace gcn
         {
             (*iter)->logic();
         }
-    }
-
-    void BasicContainer::setMouseInputPolicy(unsigned int policy)
-    {
-        mMouseInputPolicy = policy;
-    }
-
-    unsigned int BasicContainer::getMouseInputPolicy()
-    {
-        return mMouseInputPolicy;
     }
 
     void BasicContainer::showWidgetPart(Widget* widget, Rectangle area)
