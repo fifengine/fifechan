@@ -59,6 +59,7 @@
 
 #include <list>
 
+#include "guichan/keyevent.hpp"
 #include "guichan/mouseevent.hpp"
 #include "guichan/mouseinput.hpp"
 #include "guichan/platform.hpp"
@@ -204,54 +205,120 @@ namespace gcn
     protected:
         /**
          * Handles all mouse input.
+         *
+         * @since 0.6.0
          */
         virtual void handleMouseInput();
+
+        /**
+         * Handles key input.
+         *
+         * @since 0.6.0
+         */
+        virtual void handleKeyInput();
 
         /**
          * Handles mouse moved events.
          *
          * @param widget The widget the event concerns.
-         * @param mouseInput the mouse input of the event.
+         * @since 0.6.0
          */
-        virtual void handleMouseMoved(Widget* widget, const MouseInput& mouseInput);
+        virtual void handleMouseMoved(Widget* widget);
 
         /**
          * Handles mouse pressed events.
          *
          * @param widget The widget the event concerns.
-         * @param mouseInput the mouse input of the event.
+         * @since 0.6.0
          */
-        virtual void handleMousePressed(Widget* widget, const MouseInput& mouseInput);
+        virtual void handleMousePressed(Widget* widget);
+
+        /**
+         *
+         * Handles mouse wheel moved down events.
+         *
+         * @param widget The widget the event concerns.
+         * @since 0.6.0
+         */
+        virtual void handleMouseWheelMovedDown(Widget* widget);
+
+        /**
+         * Handles mouse wheel moved up events.
+         *
+         * @param widget The widget the event concerns.
+         * @since 0.6.0
+         */
+        virtual void handleMouseWheelMovedUp(Widget* widget);
 
         /**
          * Handles mouse released events.
          *
          * @param widget The widget the event concerns.
-         * @param mouseInput the mouse input of the event.
+         * @since 0.6.0
          */
-        virtual void handleMouseReleased(Widget* widget, const MouseInput& mouseInput);
+        virtual void handleMouseReleased(Widget* widget);
 
+        /**
+         * Handles modal mouse input focus releases. When a release occurs appropriate
+         * mouse events should be distributed (such as mouse entered and mouse exited).
+         *
+         * @since 0.6.0
+         */
+        virtual void handleModalMouseInputFocusRelease();
+
+        /**
+         * Handles modal focus releases. When a release occurs appropriate mouse events
+         * should be distributed (such as mouse entered and mouse exited).
+         *
+         * @since 0.6.0
+         */
+        virtual void handleModalFocusRelease();
+        
         /**
          * Distributes a mouse event.
          *
-         * @param mouseEvent the mouse event to distribute.
+         * @since 0.6.0
          */
-        virtual void distributeMouseEvent(MouseEvent& mouseEvent);
+        virtual void distributeMouseEvent();
+        
+        /**
+         * Distributes a key event.
+         *
+         * @param keyEvent the key event to distribute.
+         * @since 0.6.0
+         */
+        virtual void distributeKeyEvent(KeyEvent& keyEvent);
+
+        /**
+         * Distributes a key event to the global key listeners.
+         *
+         * @param keyEvent the key event to distribute.
+         * @since 0.6.0
+         */
+        virtual void distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent);
+        
+        /**
+         * Gets the widget with the mouse.
+         *
+         * @return the widget with the mouse.
+         * @since 0.6.0
+         */
+        virtual Widget* getWidgetWithMouse();
 
         /**
          * Gets the source of the event.
          *
-         * @param x the x coordinate of the mouse input.
-         * @param y the y coordinate of the mouse input.
+         * @return the source widget of the mouse event.
+         * @since 0.6.0
          */
-        virtual Widget* getMouseEventSource(const MouseInput& mouseInput);        
+        virtual Widget* getMouseEventSource();
         
-        bool mTabbing;
-
         Widget* mTop;
         Graphics* mGraphics;
         Input* mInput;
         FocusHandler* mFocusHandler;
+
+        bool mTabbing;
         
         typedef std::list<KeyListener*> KeyListenerList;
         typedef KeyListenerList::iterator KeyListenerListIterator;
@@ -260,15 +327,34 @@ namespace gcn
 
         Widget* mDraggedWidget;
         Widget* mLastWidgetWithMouse;
+        Widget* mLastWidgetWithModalFocus;
+        Widget* mLastWidgetWithModalMouseInputFocus;
 
+        // Current input state
         bool mIsShiftPressed;
         bool mIsMetaPressed;
         bool mIsControlPressed;
         bool mIsAltPressed;
 
-        int mClickCount;
-        int mLastMousePressButton;
+        // Current key state
+        Key mKey;
+
+        // Current mouse state
+        int mMouseX;
+        int mMouseY;
+        unsigned int mMouseButton;
+        int mMousePressTimeStamp;
+        
+        // Last mouse state
+        unsigned int mLastMousePressButton;
         int mLastMousePressTimeStamp;
+        
+        int mClickCount;
+
+        // Current mouse event state
+        Widget* mMouseEventSource;
+        unsigned int mMouseEventType;
+        
     };
 }
 
