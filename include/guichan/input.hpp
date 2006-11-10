@@ -65,8 +65,7 @@ namespace gcn
     class MouseInput;
 
     /**
-     * Inputs base class. Contains basic Input functions every implemented
-     * input class should have. Input classes should inherit from this class
+     * Input events base class. Input classes should inherit from this class
      * and implements it's functions.
      *
      * @see SDLInput, AllegroInput
