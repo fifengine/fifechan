@@ -47,14 +47,14 @@ class ButtonActionListener : public gcn::ActionListener
 public:
 	// Implement the action function in ActionListener to recieve actions
 	// The eventId tells us which widget called the action function.
-	void action(const std::string& eventId, gcn::Widget* widget)
+	void action(const gcn::ActionEvent& actionEvent)
 	{
 		std::string str;
 		std::ostringstream os(str);
 
 		// Here we use the widget pointer to check which widget the action
         // originated from.
-		if (widget == button1)
+		if (actionEvent.getSource() == button1)
 		{
 			clickCountButton1++;
 			os << "Button1 clicks " << clickCountButton1;
@@ -64,7 +64,7 @@ public:
 			label1->adjustSize();
 		}
 		// Here we use the event id in order to check what action occured.
-		else if (eventId == "button2")
+		else if (actionEvent.getId() == "button2")
 		{
 			clickCountButton2++;
 			os << "Button2 clicks " << clickCountButton2;
