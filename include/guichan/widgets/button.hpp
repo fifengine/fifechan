@@ -158,9 +158,9 @@ namespace gcn
         
         // Inherited from KeyListener
 
-        virtual void keyPress(const Key& key);
+        virtual void keyPressed(KeyEvent& keyEvent);
 
-        virtual void keyRelease(const Key& key);
+        virtual void keyReleased(KeyEvent& keyEvent);
 
     protected:
         std::string mCaption;

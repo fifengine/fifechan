@@ -236,7 +236,7 @@ namespace gcn
 
     void Button::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             generateAction();
         }
@@ -246,7 +246,7 @@ namespace gcn
 
     void Button::mousePressed(MouseEvent& mouseEvent)
     {        
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             mIsMousePressed = true;
         }
@@ -268,7 +268,7 @@ namespace gcn
     
     void Button::mouseReleased(MouseEvent& mouseEvent)
     {        
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             mIsMousePressed = false;
         }
@@ -276,19 +276,24 @@ namespace gcn
         mouseEvent.consume();
     }
     
-    void Button::keyPress(const Key& key)
+    void Button::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if (key.getValue() == Key::ENTER
             || key.getValue() == Key::SPACE)
         {
             mIsKeyPressed = true;
             mIsMousePressed = false;
         }
-        
+
+        keyEvent.consume();
     }
 
-    void Button::keyRelease(const Key& key)
+    void Button::keyReleased(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if ((key.getValue() == Key::ENTER
              || key.getValue() == Key::SPACE)
             && mIsKeyPressed)
@@ -296,6 +301,8 @@ namespace gcn
             mIsKeyPressed = false;
             generateAction();
         }
+
+        keyEvent.consume();
     }
 
     void Button::lostFocus()

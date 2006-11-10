@@ -169,7 +169,7 @@ namespace gcn
 
         // Inherited from KeyListener
 
-        virtual void keyPress(const Key& key);
+        virtual void keyPressed(KeyEvent& keyEvent);
 
 
         // Inherited from MouseListener

@@ -215,7 +215,7 @@ namespace gcn
 
     void Slider::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == gcn::MouseInput::LEFT
+        if (mouseEvent.getButton() == gcn::MouseEvent::MOUSE_BUTTON_LEFT
             && mouseEvent.getX() >= 0
             && mouseEvent.getX() <= getWidth()
             && mouseEvent.getY() >= 0
@@ -284,8 +284,10 @@ namespace gcn
         mMarkerLength = length;
     }
 
-    void Slider::keyPress(const Key& key)
+    void Slider::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if (getOrientation() == HORIZONTAL)
         {
             if (key.getValue() == Key::RIGHT)
@@ -312,6 +314,8 @@ namespace gcn
                 generateAction();
             }
         }
+
+        keyEvent.consume();
     }
 
     void Slider::setOrientation(unsigned int orientation)

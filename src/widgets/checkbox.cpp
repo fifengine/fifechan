@@ -185,18 +185,22 @@ namespace gcn
         mCaption = caption;
     }
 
-    void CheckBox::keyPress(const Key& key)
+    void CheckBox::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if (key.getValue() == Key::ENTER ||
             key.getValue() == Key::SPACE)
         {
             toggle();
         }
+
+        keyEvent.consume();
     }
 
     void CheckBox::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             toggle();
         }

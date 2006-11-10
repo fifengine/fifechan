@@ -181,7 +181,7 @@ namespace gcn
 
     void TextBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             mCaretRow = mouseEvent.getY() / getFont()->getHeight();
 
@@ -196,8 +196,10 @@ namespace gcn
         mouseEvent.consume();
     }
 
-    void TextBox::keyPress(const Key& key)
+    void TextBox::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if (key.getValue() == Key::LEFT)
         {
             --mCaretColumn;
@@ -353,6 +355,8 @@ namespace gcn
 
         adjustSize();
         scrollToCaret();
+
+        keyEvent.consume();
     }
 
     void TextBox::adjustSize()

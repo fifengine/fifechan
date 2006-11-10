@@ -204,8 +204,10 @@ namespace gcn
         }
     }
 
-    void ListBox::keyPress(const Key& key)
+    void ListBox::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
         {
             generateAction();
@@ -238,11 +240,13 @@ namespace gcn
                 setSelected(getSelected() + 1);
             }
         }
+
+        keyEvent.consume();
     }
 
     void ListBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             setSelected(mouseEvent.getY() / getFont()->getHeight());
             generateAction();

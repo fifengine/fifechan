@@ -293,13 +293,17 @@ namespace gcn
         }
     }
 
-    void DropDown::keyPress(const Key& key)
+    void DropDown::keyPressed(KeyEvent& keyEvent)
     {
+        Key key = keyEvent.getKey();
+        
         if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
             && !mDroppedDown)
         {
             dropDown();
         }
+
+        keyEvent.consume();
     }
 
     void DropDown::mousePressed(MouseEvent& mouseEvent)
