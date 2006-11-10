@@ -243,7 +243,6 @@ namespace gcn
             return;
         }
 
-
         WidgetListIterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
         {
@@ -254,7 +253,6 @@ namespace gcn
     void BasicContainer::add(Widget* widget)
     {
         mWidgets.push_back(widget);
-        /// @todo internal focushandler
 
         if (mInternalFocusHandler == NULL)
         {
@@ -385,7 +383,7 @@ namespace gcn
 
     FocusHandler* BasicContainer::_getInternalFocusHandler()
     {
-        return mFocusHandler;
+        return mInternalFocusHandler;
     }
 
     void BasicContainer::setInternalFocusHandler(FocusHandler* focusHandler)
