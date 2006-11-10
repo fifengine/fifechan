@@ -61,6 +61,7 @@
 #include <guichan/actionlistener.hpp>
 #include <guichan/graphics.hpp>
 #include <guichan/color.hpp>
+#include <guichan/deathlistener.hpp>
 #include <guichan/event.hpp>
 #include <guichan/exception.hpp>
 #include <guichan/focushandler.hpp>
