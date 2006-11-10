@@ -57,9 +57,11 @@
 #ifndef GCN_GUICHAN_HPP
 #define GCN_GUICHAN_HPP
 
+#include <guichan/actionevent.hpp>
 #include <guichan/actionlistener.hpp>
 #include <guichan/graphics.hpp>
 #include <guichan/color.hpp>
+#include <guichan/event.hpp>
 #include <guichan/exception.hpp>
 #include <guichan/focushandler.hpp>
 #include <guichan/font.hpp>
@@ -68,10 +70,13 @@
 #include <guichan/imagefont.hpp>
 #include <guichan/imageloader.hpp>
 #include <guichan/input.hpp>
+#include <guichan/inputevent.hpp>
 #include <guichan/key.hpp>
+#include <guichan/keyevent.hpp>
 #include <guichan/keyinput.hpp>
 #include <guichan/keylistener.hpp>
 #include <guichan/listmodel.hpp>
+#include <guichan/mouseevent.hpp>
 #include <guichan/mouseinput.hpp>
 #include <guichan/mouselistener.hpp>
 #include <guichan/rectangle.hpp>
