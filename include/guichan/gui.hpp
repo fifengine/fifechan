@@ -284,18 +284,16 @@ namespace gcn
         /**
          * Distributes a key event.
          *
-         * @param keyEvent the key event to distribute.
          * @since 0.6.0
          */
-        virtual void distributeKeyEvent(KeyEvent& keyEvent);
+        virtual void distributeKeyEvent();
 
         /**
          * Distributes a key event to the global key listeners.
          *
-         * @param keyEvent the key event to distribute.
          * @since 0.6.0
          */
-        virtual void distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent);
+        virtual void distributeKeyEventToGlobalKeyListeners();
         
         /**
          * Gets the widget with the mouse.
@@ -354,6 +352,12 @@ namespace gcn
         // Current mouse event state
         Widget* mMouseEventSource;
         unsigned int mMouseEventType;
+
+        // Current key event state
+        Widget* mKeyEventSource;
+        Key mKeyEventKey;
+        bool mKeyEventIsNumericPad;
+        unsigned int mKeyEventType;
         
     };
 }

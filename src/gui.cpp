@@ -60,6 +60,7 @@
 
 #include "guichan/gui.hpp"
 
+#include "guichan/basiccontainer.hpp"
 #include "guichan/exception.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/graphics.hpp"
@@ -93,7 +94,11 @@ namespace gcn
              mLastMousePressTimeStamp(0),
              mClickCount(0),
              mMouseEventSource(NULL),
-             mMouseEventType(0)
+             mMouseEventType(0),
+             mKeyEventSource(NULL),
+             mKeyEventIsNumericPad(false),
+             mKeyEventType(0)
+        
     {
         mFocusHandler = new FocusHandler();
     }
@@ -307,16 +312,11 @@ namespace gcn
             mIsControlPressed = keyInput.isControlPressed();
             mIsAltPressed = keyInput.isAltPressed();
 
-            KeyEvent keyEvent(NULL,
-                              mIsShiftPressed,
-                              mIsControlPressed,
-                              mIsAltPressed,
-                              mIsMetaPressed,
-                              keyInput.getType(),
-                              keyInput.isNumericPad(),
-                              keyInput.getKey());
-            
-            distributeKeyEventToGlobalKeyListeners(keyEvent);
+            mKeyEventSource = NULL;
+            mKeyEventType = keyInput.getType();
+            mKeyEventIsNumericPad = keyInput.isNumericPad();
+            mKeyEventKey = keyInput.getKey();
+            distributeKeyEventToGlobalKeyListeners();
             
             if (mTabbing
                 && keyInput.getKey().getValue() == Key::TAB
@@ -338,16 +338,23 @@ namespace gcn
                 {
                     if (mFocusHandler->getFocused()->isFocusable())
                     {
-                        KeyEvent keyEvent(mFocusHandler->getFocused(),
-                                          mIsShiftPressed,
-                                          mIsControlPressed,
-                                          mIsAltPressed,
-                                          mIsMetaPressed,
-                                          keyInput.getType(),
-                                          keyInput.isNumericPad(),
-                                          keyInput.getKey());
+                        BasicContainer* basicContainer = dynamic_cast<BasicContainer*>(mFocusHandler->getFocused());
 
-                        distributeKeyEvent(keyEvent);
+                        if (basicContainer != NULL
+                            && basicContainer->_getInternalFocusHandler() != NULL
+                            && basicContainer->_getInternalFocusHandler()->getFocused() != NULL)
+                        {
+                            mKeyEventSource = basicContainer->_getInternalFocusHandler()->getFocused();
+                        }
+                        else
+                        {
+                            mKeyEventSource = mFocusHandler->getFocused();
+                        }
+
+                        mKeyEventType = keyInput.getType();
+                        mKeyEventIsNumericPad = keyInput.isNumericPad();
+                        mKeyEventKey = keyInput.getKey();                        
+                        distributeKeyEvent();
                     }
                     else
                     {
@@ -662,10 +669,10 @@ namespace gcn
         } 
     }
 
-    void Gui::distributeKeyEvent(KeyEvent& keyEvent)
+    void Gui::distributeKeyEvent()
     {
-        Widget* parent = keyEvent.getSource();
-        Widget* widget = keyEvent.getSource();
+        Widget* parent = mKeyEventSource;
+        Widget* widget = mKeyEventSource;
                     
         if (mFocusHandler->getModalFocused() != NULL
             && !widget->hasModalFocus())
@@ -675,12 +682,22 @@ namespace gcn
         
         while (parent != NULL)
         {
+            bool isEventConsumed = false;            
             parent = (Widget*)widget->getParent();
 
             if (widget->isEnabled())
             {
                 std::list<KeyListener*> keyListeners = widget->_getKeyListeners();
                 
+                KeyEvent keyEvent(widget,
+                                  mIsShiftPressed,
+                                  mIsControlPressed,
+                                  mIsAltPressed,
+                                  mIsMetaPressed,
+                                  mKeyEventType,
+                                  mKeyEventIsNumericPad,
+                                  mKeyEventKey);
+
                 // Send the event to all key listeners of the widget.
                 for (std::list<KeyListener*>::iterator it = keyListeners.begin();
                      it != keyListeners.end();
@@ -700,6 +717,7 @@ namespace gcn
                     
                     if (keyEvent.isConsumed())
                     {
+                        isEventConsumed = true;
                         break;
                     }
                 }
@@ -708,7 +726,7 @@ namespace gcn
             // Check if event has been consumed by one of the widget's
             // key listeners. If it has been consumed no further distribution
             // of the event to the widget's parents should take place.
-            if (keyEvent.isConsumed())
+            if (isEventConsumed)
             {
                     break;
             }                
@@ -725,15 +743,23 @@ namespace gcn
         } 
     }
 
-    void Gui::distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent)
-    {
-        
+    void Gui::distributeKeyEventToGlobalKeyListeners()
+    {        
         KeyListenerListIterator it;
         
         for (it = mKeyListeners.begin(); it != mKeyListeners.end(); it++)
         {
+                KeyEvent keyEvent(mKeyEventSource,
+                                  mIsShiftPressed,
+                                  mIsControlPressed,
+                                  mIsAltPressed,
+                                  mIsMetaPressed,
+                                  mKeyEventType,
+                                  mKeyEventIsNumericPad,
+                                  mKeyEventKey);
+                
             switch (keyEvent.getType())
-            {
+            {                
               case KeyEvent::KEY_PRESSED:
                   (*it)->keyPressed(keyEvent);
                   break;
@@ -747,8 +773,7 @@ namespace gcn
             if (keyEvent.isConsumed())
             {
                 break;
-            }
-            
+            }            
         }               
     }
 }
