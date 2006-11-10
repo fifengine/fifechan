@@ -64,7 +64,12 @@ namespace gcn
 
     /**
      * Internal class representing mouse input. Generally you won't have to
-     * bother using this class.
+     * bother using this class as it will get translated into a MouseEvent.
+     * The class should be seen as a bridge between the low layer backends
+     * providing input and the higher lever parts of the Gui (such as widgets).
+     *
+     * @author Olof Naessén
+     * @author Per Larsson
      */
     class GCN_CORE_DECLSPEC MouseInput
     {
@@ -73,18 +78,18 @@ namespace gcn
         /**
          * Constructor.
          */
-        MouseInput(){};
+        MouseInput() { };
 
         /**
          * Constructor.
          *
          * @param button the button pressed.
          * @param type the type of input.
-         * @param mousex the mouse x coordinate.
-         * @param mousey the mouse y coordinate.
+         * @param x the mouse x coordinate.
+         * @param y the mouse y coordinate.
          * @param timeStamp the mouse inputs time stamp.
          */
-        MouseInput(int button, int type, int mousex, int mousey, int timeStamp);
+        MouseInput(int button, int type, int x, int y, int timeStamp);
 
         /**
          * Sets the input type.
@@ -129,27 +134,65 @@ namespace gcn
         int getTimeStamp() const;
 
         /**
-         * Enum with mouse input values.
+         * Sets the x coordinate of the input.
+         *
+         * @param x the x coordinate of the input.
+         * @since 0.6.0
+         */
+        void setX(int x);
+            
+        /**
+         * Gets the x coordinate of the input.
+         *
+         * @return the x coordinate of the input.
+         * @since 0.6.0
+         */
+        int getX() const;
+
+        /**
+         * Sets the y coordinate of the input.
+         *
+         * @param y the y coordinate of the input.
+         * @since 0.6.0
+         */
+        void setY(int y);
+
+        /**
+         * Gets the y coordinate of the input.
+         * @since 0.6.0
+         */
+        int getY() const;
+        
+        /**
+         * Mouse input event types. This enum partially corresponds
+         * to the enum with event types in MouseEvent for easy mapping.
          */
         enum
         {
-            EMPTY = 0,
-            LEFT,
-            RIGHT,
-            MIDDLE,
-            WHEEL_UP,
-            WHEEL_DOWN,
-            PRESS,
-            RELEASE,
-            MOTION
+            MOUSE_MOVED = 0,
+            MOUSE_PRESSED,
+            MOUSE_RELEASED,
+            MOUSE_WHEEL_MOVED_DOWN,
+            MOUSE_WHEEL_MOVED_UP,
         };
 
-        int x, y;
+        /**
+         * Mouse button types.
+         */
+        enum        
+        {
+            MOUSE_BUTTON_EMPTY = 0,
+            MOUSE_BUTTON_LEFT,
+            MOUSE_BUTTON_RIGHT,
+            MOUSE_BUTTON_MIDDLE
+        };
 
     protected:
         int mType;
         int mButton;
         int mTimeStamp;
+        int mX;
+        int mY;
     };
 }
 
