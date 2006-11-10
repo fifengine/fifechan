@@ -146,6 +146,14 @@ namespace gcn
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
         /**
+         * Gets the internal FocusHandler used.
+         *
+         * @return the internalFocusHandler used. If no internal FocusHandler
+         *         is used, NULL will be returned.
+         */
+        virtual FocusHandler* _getInternalFocusHandler();
+
+        /**
          * Mouse policies to be used with setMouseInputPolicy().
          *
          * NEVER - Mouse input will never be sent the BasicContainer but to 
@@ -173,8 +181,6 @@ namespace gcn
         virtual void logic();
 
         virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-        virtual void _keyInputMessage(const KeyInput& keyInput);
 
     protected:
         /**
@@ -221,14 +227,6 @@ namespace gcn
          * @return the mouse input policy. See enum.
          */
         virtual unsigned int getMouseInputPolicy();
-
-        /**
-         * Gets the internal FocusHandler used.
-         *
-         * @return the internalFocusHandler used. If no internal FocusHandler
-         *         is used, NULL will be returned.
-         */
-        virtual FocusHandler* getInternalFocusHandler();
 
         /**
          * Sets the internal FocusHandler. An internal focushandler is

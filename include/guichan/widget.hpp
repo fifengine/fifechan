@@ -349,17 +349,6 @@ namespace gcn
         virtual const Color& getBackgroundColor() const;
        
         /**
-         * Called when a Widget recieves a KeyInput.
-         *
-         * WARNING: This function is used internally to handle all key
-         *          messages. Don't call or overload it unless you know what
-         *          you are doing.
-         *
-         * @param keyInput the KeyInput message.
-         */
-        virtual void _keyInputMessage(const KeyInput& keyInput);
-
-        /**
          * Requests focus for the Widget. A Widget will only recieve focus
          * if it is focusable.
          */
@@ -628,7 +617,15 @@ namespace gcn
          * @since 0.6.0
          */
         virtual const std::list<MouseListener*>& _getMouseListeners();            
-       
+
+        /**
+         * Gets the key listeners of the widget.
+         *
+         * @return the key listeners of the widget.
+         * @since 0.6.0
+         */
+        virtual const std::list<KeyListener*>& _getKeyListeners();            
+
     protected:
         /**
          * Generates an action to the Widget's ActionListeners.

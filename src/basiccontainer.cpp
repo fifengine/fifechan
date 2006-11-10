@@ -383,7 +383,7 @@ namespace gcn
         }
     }
 
-    FocusHandler* BasicContainer::getInternalFocusHandler()
+    FocusHandler* BasicContainer::_getInternalFocusHandler()
     {
         return mFocusHandler;
     }
@@ -403,18 +403,6 @@ namespace gcn
             {
                 (*iter)->_setFocusHandler(mInternalFocusHandler);
             }
-        }
-    }
-
-    void BasicContainer::_keyInputMessage(const KeyInput& keyInput)
-    {
-        if (mInternalFocusHandler != NULL && mInternalFocusHandler->getFocused() != NULL)
-        {
-            mInternalFocusHandler->getFocused()->_keyInputMessage(keyInput);
-        }
-        else
-        {
-            Widget::_keyInputMessage(keyInput);
         }
     }
 }

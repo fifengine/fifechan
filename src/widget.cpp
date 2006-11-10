@@ -349,39 +349,6 @@ namespace gcn
         mMouseListeners.remove(mouseListener);
     }
 
-    void Widget::_keyInputMessage(const KeyInput& keyInput)
-    {
-        if (mFocusHandler == NULL)
-        {
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
-        }
-
-        if (!mEnabled || (mFocusHandler->getModalFocused() != NULL &&
-                          !hasModalFocus()))
-        {
-            return;
-        }
-
-        KeyListenerIterator iter;
-
-        switch(keyInput.getType())
-        {
-          case KeyInput::PRESS:
-              for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
-              {
-                  (*iter)->keyPress(keyInput.getKey());
-              }
-              break;
-
-          case KeyInput::RELEASE:
-              for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
-              {
-                  (*iter)->keyRelease(keyInput.getKey());
-              }
-              break;
-        }
-    }
-
     void Widget::getAbsolutePosition(int& x, int& y) const
     {
         if (getParent() == NULL)
@@ -572,9 +539,14 @@ namespace gcn
         return NULL;
     }    
 
-
     const std::list<MouseListener*>& Widget::_getMouseListeners()
     {
         return mMouseListeners;
     }
+
+    const std::list<KeyListener*>& Widget::_getKeyListeners()
+    {
+        return mKeyListeners;
+    }
+
 }
