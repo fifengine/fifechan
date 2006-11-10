@@ -208,6 +208,7 @@ namespace gcn
         bool mOpaque;
         int mDragOffsetX;
         int mDragOffsetY;
+        bool mIsMoving;
     };
 }
 

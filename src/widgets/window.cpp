@@ -65,9 +65,12 @@
 #include "guichan/graphics.hpp"
 #include "guichan/mouseinput.hpp"
 
+#include <iostream>
+
 namespace gcn
 {
     Window::Window()
+            :mIsMoving(false)
     {
         setBorderSize(1);
         setPadding(2);
@@ -80,6 +83,7 @@ namespace gcn
     }
 
     Window::Window(const std::string& caption)
+            :mIsMoving(false)
     {
         setCaption(caption);
         setBorderSize(1);
@@ -267,12 +271,15 @@ namespace gcn
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
+        mIsMoving = mouseEvent.getY() <= (int)mTitleBarHeight;
+
+        std::cout << mouseEvent.getY() << " " << mTitleBarHeight << std::endl;
         mouseEvent.consume();
     }
 
     void Window::mouseDragged(MouseEvent& mouseEvent)
     {        
-        if (isMovable())
+        if (isMovable() && mIsMoving)
         {
             setPosition(mouseEvent.getX() - mDragOffsetX + getX(),
                         mouseEvent.getY() - mDragOffsetY + getY());
