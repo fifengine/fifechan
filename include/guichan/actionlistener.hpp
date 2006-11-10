@@ -64,8 +64,6 @@
 
 namespace gcn
 {
-    class Widget;
-
     /**
      * Listener of action events from Widgets. To be able to
      * listen for actions you must make a class which inherits
