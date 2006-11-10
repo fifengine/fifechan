@@ -59,6 +59,7 @@
 
 #include <string>
 
+#include "guichan/actionevent.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
@@ -71,6 +72,8 @@ namespace gcn
      * from this class and implements the action function.
      *
      * @see Widget::addActionListener
+     * @author Olof Naessén
+     * @author Per Larsson
      */
     class GCN_CORE_DECLSPEC ActionListener
     {
@@ -86,10 +89,10 @@ namespace gcn
          * to be able to recieve a notification that an action has
          * occured.
          *
-         * @param eventId the identifier of the Widget.
-         * @param widget a pointer to the Widget who called this function.
+         * @param actionEvent the event of the action.
+         * @since 0.6.0
          */
-        virtual void action(const std::string& eventId, Widget* widget) = 0;
+        virtual void action(const ActionEvent& actionEvent) = 0;
 
     };
 }

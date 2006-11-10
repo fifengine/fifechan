@@ -66,7 +66,7 @@ namespace gcn
      * Mouse listeners base class. Inorder to use this class you must inherit
      * from it and implements it's functions. MouseListeners listen for mouse
      * events on a Widgets. When a Widget recives a mouse event, the
-     * corresponding function in all it's mouse listeners will be
+     * corresponding function in all it's mouse listeners will be called.
      *
      * @see Widget::addMouseListener
      */
@@ -83,6 +83,7 @@ namespace gcn
          * Called when the mouse has entered into the widget area.
          *
          * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseEntered(MouseEvent& mouseEvent)
         {
@@ -106,6 +107,7 @@ namespace gcn
          *       Use mouseClickMessage to check for mouse clicks.
          *
          * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mousePressed(MouseEvent& mouseEvent)
         {
@@ -127,6 +129,7 @@ namespace gcn
          * the widget area.
          *
          * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseClicked(MouseEvent& mouseEvent)
         {
@@ -137,6 +140,7 @@ namespace gcn
          * Called when the mouse wheel has moved up on the widget area.
          *
          * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseWheelMovedUp(MouseEvent& mouseEvent)
         {
@@ -146,7 +150,8 @@ namespace gcn
         /**
          * Called when the mouse wheel has moved down on the widget area.
          *
-         * @param mouseEvent describes the event.
+         * @param mousEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent)
         {
@@ -158,6 +163,7 @@ namespace gcn
          * has been pressed (i.e no widget is being dragged).
          *
          * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseMoved(MouseEvent& mouseEvent)
         {
@@ -168,7 +174,8 @@ namespace gcn
          * Called when the mouse has moved and the mouse has previously been
          * pressed on the widget.
          *
-i         * @param mouseEvent describes the event.
+         * @param mouseEvent describes the event.
+         * @since 0.6.0
          */
         virtual void mouseDragged(MouseEvent& mouseEvent)
         {
