@@ -207,7 +207,7 @@ namespace gcn
         int mOldH;
         ScrollArea* mScrollArea;
         ListBox* mListBox;
-        FocusHandler mFocusHandler;
+        FocusHandler mInternalFocusHandler;
         bool mInternalScrollArea;
         bool mInternalListBox;
         bool mIsDragged;

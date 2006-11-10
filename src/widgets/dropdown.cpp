@@ -78,7 +78,7 @@ namespace gcn
         mPushed = false;
         mIsDragged = false;
         
-        setInternalFocusHandler(&mFocusHandler);
+        setInternalFocusHandler(&mInternalFocusHandler);
 
         mInternalScrollArea = (scrollArea == NULL);
         mInternalListBox = (listBox == NULL);
@@ -294,7 +294,7 @@ namespace gcn
     }
 
     void DropDown::keyPressed(KeyEvent& keyEvent)
-    {
+    {        
         Key key = keyEvent.getKey();
         
         if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
@@ -460,7 +460,7 @@ namespace gcn
         if (mDroppedDown)
         {
             mDroppedDown = false;
-            mFocusHandler.focusNone();
+            mInternalFocusHandler.focusNone();
             adjustHeight();
         }
     }
@@ -548,7 +548,7 @@ namespace gcn
 
     void DropDown::logic()
     {
-        mFocusHandler.applyChanges();
+        mInternalFocusHandler.applyChanges();
         BasicContainer::logic();
     }
 
