@@ -158,12 +158,12 @@ namespace gcn
             }
         }
 
-        // Don't convert 32bpp images with alpha, it will destroy the
-        // alpha channel.
         SDL_Surface *tmp;
+        
         if (hasAlpha)
         {
-            tmp = mSurface;
+            tmp = SDL_DisplayFormatAlpha(mSurface);
+            SDL_FreeSurface(mSurface);
             mSurface = NULL;
         }
         else
