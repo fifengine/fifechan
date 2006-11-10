@@ -1,19 +1,36 @@
+Version 0.6.0
+=============
+* DeathListener is a new interface which can be used to listen for a widget's
+  death. Because of the presence of death listeners have the function
+  BasicContainer::_announceDeath been removed.
+* MouseListener now has the funciton mouseDragged which is called if a widget
+  is dragged.
+* All distribution of input is now handled by the Gui class. Because of this
+  all functions regarding input have been removed from the classes Widget
+  and BasicContainer.
+* All functions of KeyListener and MouseListener have been renamed. The reason 
+  for this is that the functions now bear the names of the well known Java 
+  listeners which will hopefully be more intuitive for most people.
+* All input events can now be consumed making it easier to implement hot key
+  bindings.
 * Mouse input (now called mouse events) are now distributed bottom up starting 
   from the widget directly under the mouse. If a mouse event should be distributed 
   futher up depends on if the mouse event is consumed or not.
 * Widgets can now ask for modal mouse input focus. A widget with modal mouse input
   focus will be the only widget recieving mouse input, no matter where the mouse
-  input occurs. This is very usefull for widgets like such as a drop down which
+  input occurs. This can be very usefull for some widgets, like a drop down which
   aquires modal mouse input focus when folded down to be able to fold back up as
   soon as the mouse is pressed outside of the drop down.
-* Events are now present in Guichan. All listener classes now takes event classes
-  as parameters. This is a very big API change.
+* Events are now present in Guichan. All listener classes now take event classes
+  as parameters which is a very big API. The presence of events has propagated 
+  changes to all input clases to better reflect the new usage of events. 
 * DropDown now acts on mouse wheel up and mouse wheel down.
 * ListBox now acts on mouse wheel up and mouse wheel down.
 * Widgets will no longer aquire focus if a mouse wheel up or a mouse wheel down 
   occurs over a widget.
 * The header exception.hpp is now included properly in openglsdlimageloader.hpp. 
-
+* Many small fixes.
+	
 Version 0.5.0
 =============
 * Slider now acts on the mouse wheel moving the slider to the left on 
