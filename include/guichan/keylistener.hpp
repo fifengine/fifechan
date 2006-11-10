@@ -57,6 +57,7 @@
 #ifndef GCN_KEYLISTENER_HPP
 #define GCN_KEYLISTENER_HPP
 
+#include "guichan/keyevent.hpp"
 #include "guichan/platform.hpp"
 
 namespace gcn
@@ -86,16 +87,16 @@ namespace gcn
          * If a key is held down the widget will generate multiple key
          * presses.
          *
-         * @param key the key pressed.
+         * @param keyEvent discribes the event.
          */
-        virtual void keyPress(const Key& key) { }
+        virtual void keyPressed(KeyEvent& keyEvent) { }
 
         /**
          * Called if a key is released when the widget has keyboard focus.
          *
-         * @param key the key released.
+         * @param keyEvent discribes the event.
          */
-        virtual void keyRelease(const Key& key) { }
+        virtual void keyReleased(KeyEvent& keyEvent) { }
 
     protected:
         /**
