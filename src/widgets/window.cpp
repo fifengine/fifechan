@@ -65,8 +65,6 @@
 #include "guichan/graphics.hpp"
 #include "guichan/mouseinput.hpp"
 
-#include <iostream>
-
 namespace gcn
 {
     Window::Window()
@@ -272,8 +270,7 @@ namespace gcn
         mDragOffsetY = mouseEvent.getY();
 
         mIsMoving = mouseEvent.getY() <= (int)mTitleBarHeight;
-
-        std::cout << mouseEvent.getY() << " " << mTitleBarHeight << std::endl;
+        
         mouseEvent.consume();
     }
 
