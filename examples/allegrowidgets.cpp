@@ -48,6 +48,9 @@ gcn::Image *image;                   // An image for the icon
 gcn::Window *window;
 gcn::Image *darkbitsImage;
 gcn::Icon* darkbitsIcon;
+gcn::ScrollArea* nestedScrollArea;
+gcn::Container* nestedContainer;
+gcn::Slider* nestedSlider;
 
 /*
  * List boxes and dropdowns needs an instance of a listmodel
@@ -102,10 +105,10 @@ void initWidgets()
 	textBoxScrollArea->setWidth(200);
 	textBoxScrollArea->setHeight(100);
 	textBoxScrollArea->setBorderSize(1);
-	
+
 	listBox = new gcn::ListBox(&demoListModel);
 	listBox->setBorderSize(1);
-	
+
 	dropDown = new gcn::DropDown(&demoListModel);
 
 	checkBox1 = new gcn::CheckBox("Checkbox 1");
@@ -120,11 +123,22 @@ void initWidgets()
 
 	window = new gcn::Window("I am a window  Drag me");
 	window->setBaseColor(gcn::Color(255, 150, 200, 190));
-  
+
 	darkbitsImage = gcn::Image::load("darkbitslogo_by_haiko.bmp");
 	darkbitsIcon = new gcn::Icon(darkbitsImage);
 	window->add(darkbitsIcon);
 	window->resizeToContent();
+
+    nestedSlider = new gcn::Slider(0, 10);
+    nestedSlider->setSize(100, 10);
+    
+    nestedContainer = new gcn::Container();
+    nestedContainer->setSize(400, 200);
+    nestedContainer->add(nestedSlider, 50, 70);
+
+    nestedScrollArea = new gcn::ScrollArea(nestedContainer);
+    nestedScrollArea->setSize(180, 90);
+    nestedScrollArea->setBorderSize(1);
 
 	/*
 	 * Add them to the top container
@@ -140,9 +154,10 @@ void initWidgets()
 	top->add(checkBox2, 500, 150);
 	top->add(radioButton1, 500, 200);
 	top->add(radioButton2, 500, 220);
-	top->add(radioButton3, 500, 240);	
+	top->add(radioButton3, 500, 240);
 	top->add(slider, 500, 300);
 	top->add(window, 100, 350);
+    top->add(nestedScrollArea, 440, 350);
 }
 
 /**
@@ -150,7 +165,7 @@ void initWidgets()
  */
 void init()
 {
-	/* 
+	/*
 	 * Here we initialize Allegro as we
 	 * would do with any Allegro application.
 	 */
@@ -161,7 +176,7 @@ void init()
 	{
 		bpp = 16;
 	}
-	
+
 	set_color_depth(bpp);
 
 	if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0))
@@ -178,40 +193,40 @@ void init()
 	{
 		throw GCN_EXCEPTION("Unable to create a screen buffer");
 	}
-	
+
 	install_keyboard();
 	install_mouse();
 	install_timer();
-	
+
 	/*
 	 * Ok, we have Allegro set up, now its time to add the glue
 	 * between Allegro and Guichan
 	 */
 	imageLoader = new gcn::AllegroImageLoader();
 	// The ImageLoader in use is static and must be set to be
-	// able to load images	
+	// able to load images
 	gcn::Image::setImageLoader(imageLoader);
-	
+
 	graphics = new gcn::AllegroGraphics();
 	// Set the target for the graphics object to be the doublebuffer
 	// for the screen. Drawing to the screen directly is not a good
 	// idea, as it will produce flicker, unless you use page flipping.
 	graphics->setTarget(screenBuffer);
-	
+
 	input = new gcn::AllegroInput();
-	
+
 	/*
 	 * Last but not least it's time to initialize and create the gui
 	 * with Guichan stuff.
 	 */
-	top = new gcn::Container();    
+	top = new gcn::Container();
 	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(0, 0, 640, 480));
 	gui = new gcn::Gui();
 	// Set gui to use the AllegroGraphics object.
 	gui->setGraphics(graphics);
 	// Set gui to use the AllegroInput object
-	gui->setInput(input);	
+	gui->setInput(input);
 	// Set the top container
 	gui->setTop(top);
 	// Load the image font.
@@ -254,14 +269,17 @@ void halt()
 	delete window;
 	delete darkbitsIcon;
 	delete darkbitsImage;
-	
+    delete nestedScrollArea;
+    delete nestedContainer;
+    delete nestedSlider;
+
 	/*
 	 * Destroy Guichan Allegro stuff
 	 */
 	delete input;
 	delete graphics;
 	delete imageLoader;
-	
+
 	/*
 	 * Destroy Allegro stuff
 	 */
@@ -277,21 +295,21 @@ void run()
 	{
 		// Let the gui perform it's logic (like handle input)
 		gui->logic();
-				
+
 		// Draw the gui
 		gui->draw();
 
 		// We draw the mouse pointer manually, as Allegro's mouse
 		// drawing code is so wierd.
 		draw_sprite(screenBuffer, mouse_sprite, mouse_x, mouse_y);
-		
+
 		// Update the screen
 		blit(screenBuffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-	}		
+	}
 }
 
 int main(int argc, char **argv)
-{	
+{
 	try
 	{
  		init();
@@ -311,7 +329,7 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-		std::cerr << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;
 		return 1;
 	}
 	/*

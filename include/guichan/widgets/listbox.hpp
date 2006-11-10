@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -64,7 +66,7 @@
 namespace gcn
 {
     /**
-     * A ListBox displaying a list in which elemets can be selected. Only one     
+     * A ListBox displaying a list in which elemets can be selected. Only one
      * element can be selected at time. ListBox uses a ListModel to handle the
      * list. To be able to use ListBox you must give ListBox an implemented
      * ListModel which represents your list.
@@ -91,14 +93,14 @@ namespace gcn
          * Destructor.
          */
         virtual ~ListBox() { }
-                
+
         /**
          * Gets the ListModel index of the selected element.
          *
          * @return the ListModel index of the selected element.
          */
         virtual int getSelected();
-    
+
         /**
          * Sets the ListModel index of the selected element.
          *
@@ -130,19 +132,19 @@ namespace gcn
          *
          * Wrapping means that if up is pressed and the first item is selected, the last
          * item will get selected. If down is pressed and the last item is selected, the
-         * first item will get selected. 
-         * 
+         * first item will get selected.
+         *
          * @return true if wrapping, fasle otherwise.
          */
         virtual bool isWrappingKeyboardSelection();
 
         /**
-         * Sets the ListBox to wrap or not when selecting items with keyboard. 
-         * 
-         * Wrapping means that if up is pressed and the first item is selected, the last 
+         * Sets the ListBox to wrap or not when selecting items with keyboard.
+         *
+         * Wrapping means that if up is pressed and the first item is selected, the last
          * item will get selected. If down is pressed and the last item is selected, the
          * first item will get selected.
-         *  
+         *
          */
          virtual void setWrappingKeyboardSelection(bool wrapping);
 
@@ -151,7 +153,7 @@ namespace gcn
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);
-        
+
         virtual void logic();
 
 
@@ -162,13 +164,17 @@ namespace gcn
 
         // Inherited from MouseListener
 
-        virtual void mousePress(int x, int y, int button);
+        virtual void mousePressed(MouseEvent& mouseEvent);
+        
+        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        
+        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
     protected:
         ListModel *mListModel;
-        int mSelected;  
+        int mSelected;
         bool mWrappingKeyboardSelection;
-    };  
+    };
 }
 
 #endif // end GCN_LISTBOX_HPP

@@ -1,3 +1,11 @@
+2006-06-29 Sixth Beta release
+
+After a long awating comes the sixth beta release of Guichan. The major
+change since the last version is a refactoring of the way Guichan handles
+images, it should now be easier to extend Guichan with backends for 
+graphics handling. Also, containers have gone through a refactoring as 
+well making it much easier to make container widgets of your own.
+
 2005-05-17 Fith Beta release (and Norways national day)
 
 And here comes yet yet another beta release of Guichan. The major

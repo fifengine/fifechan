@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -58,12 +60,13 @@
 #include <string>
 
 #include "guichan/keylistener.hpp"
+#include "guichan/mouseevent.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
 namespace gcn
-{
+{    
     /**
      * A regular button. Add an ActionListener to it to know when it
      * has been clicked.
@@ -88,14 +91,14 @@ namespace gcn
          * @param caption the caption of the Button.
          */
         Button(const std::string& caption);
-      
+
         /**
          * Sets the Button caption.
          *
          * @param caption the Button caption.
          */
         virtual void setCaption(const std::string& caption);
-        
+
         /**
          * Gets the Button caption.
          *
@@ -117,9 +120,9 @@ namespace gcn
          * @return alignment of caption.
          */
         virtual unsigned int getAlignment() const;
-        
+
         /**
-         * Adjusts the buttons size to fit the content.     
+         * Adjusts the buttons size to fit the content.
          */
         virtual void adjustSize();
 
@@ -130,36 +133,42 @@ namespace gcn
          */
         virtual bool isPressed() const;
 
-        
+
         //Inherited from Widget
-        
+
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);
-            
+
         virtual void lostFocus();
-        
+
 
         // Inherited from MouseListener
+
+        virtual void mouseClicked(MouseEvent& mouseEvent);
+
+        virtual void mousePressed(MouseEvent& mouseEvent);
+
+        virtual void mouseReleased(MouseEvent& mouseEvent);
+
+        virtual void mouseEntered(MouseEvent& mouseEvent);
         
-        virtual void mouseClick(int x, int y, int button, int count);
+        virtual void mouseExited(MouseEvent& mouseEvent);
 
-        virtual void mousePress(int x, int y, int button);
-
-        virtual void mouseRelease(int x, int y, int button);
-
-
+        
         // Inherited from KeyListener
 
         virtual void keyPress(const Key& key);
-    
+
         virtual void keyRelease(const Key& key);
-    
+
     protected:
         std::string mCaption;
-        bool mMouseDown, mKeyDown;
-        unsigned int mAlignment;        
-    };  
+        bool mHasMouse;
+        bool mIsKeyPressed;
+        bool mIsMousePressed;
+        unsigned int mAlignment;
+    };
 }
 
 #endif // end GCN_BUTTON_HPP

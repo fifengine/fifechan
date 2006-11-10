@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -89,14 +91,14 @@ namespace gcn
          * @param marked true if the RadioButton should be marked.
          */
         RadioButton(const std::string &caption,
-                    const std::string &group,                
+                    const std::string &group,
                     bool marked=false);
 
         /**
          * Destructor.
          */
         virtual ~RadioButton();
-    
+
         /**
          * Draws the box i.a not the caption.
          *
@@ -108,9 +110,9 @@ namespace gcn
          * Checks if the RadioButton is marked.
          *
          * @return true if the RadioButton is marked.
-         */      
+         */
         virtual bool isMarked() const;
-    
+
         /**
          * Sets the RadioButton to be marked.
          *
@@ -157,7 +159,7 @@ namespace gcn
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);
-        
+
 
         // Inherited from KeyListener
 
@@ -166,18 +168,18 @@ namespace gcn
 
         // Inherited from MouseListener
 
-        virtual void mouseClick(int x, int y, int button, int count);
-                
-    protected:    
+        virtual void mouseClicked(MouseEvent& mouseEvent);
+
+    protected:
         bool mMarked;
         std::string mCaption;
         std::string mGroup;
 
         typedef std::multimap<std::string, RadioButton *> GroupMap;
         typedef GroupMap::iterator GroupIterator;
-    
-        static GroupMap mGroupMap;    
-    };  
+
+        static GroupMap mGroupMap;
+    };
 }
 
 #endif // end GCN_RADIOBUTTON_HPP

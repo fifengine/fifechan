@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -62,7 +64,7 @@
 namespace gcn
 {
     class Image;
-  
+
     /**
      * ImageLoaders base class. Contains basic image loading functions every
      * image loader should have. Image loaders should inherit from this
@@ -71,12 +73,12 @@ namespace gcn
     class GCN_CORE_DECLSPEC ImageLoader
     {
     public:
-    
+
         /**
          * Destructor.
          */
         virtual ~ImageLoader() { }
-        
+
         /**
          * Loads an image by calling the image's ImageLoader.
          *
@@ -88,7 +90,7 @@ namespace gcn
          *                               to display, false otherwise.
          */
         virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true) = 0;
-    };  
+    };
 }
 
 #endif // end GCN_IMAGELOADER_HPP

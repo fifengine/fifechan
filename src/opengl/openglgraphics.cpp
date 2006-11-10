@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/opengl/openglgraphics.hpp"
@@ -79,14 +81,14 @@ namespace gcn
     OpenGLGraphics::OpenGLGraphics()
     {
         setTargetPlane(640, 480);
-        mAlpha = false;        
+        mAlpha = false;
     }
-  
+
     OpenGLGraphics::OpenGLGraphics(int width, int height)
     {
         setTargetPlane(width, height);
     }
-  
+
     OpenGLGraphics::~OpenGLGraphics()
     {
 
@@ -111,7 +113,7 @@ namespace gcn
             GL_POINT_BIT |
             GL_LINE_BIT
             );
- 
+
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -123,55 +125,55 @@ namespace gcn
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-    
+
         glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
         glDisable(GL_LIGHTING);
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_TEXTURE_2D);
-        
+
         glEnable(GL_SCISSOR_TEST);
         glPointSize(1.0);
         glLineWidth(1.0);
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    
+
         pushClipArea(Rectangle(0, 0, mWidth, mHeight));
     }
-  
+
     void OpenGLGraphics::_endDraw()
     {
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-    
+
         glMatrixMode(GL_TEXTURE);
         glPopMatrix();
-    
+
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
-    
+
         glPopAttrib();
-    
+
         popClipArea();
     }
 
     bool OpenGLGraphics::pushClipArea(Rectangle area)
     {
         bool result = Graphics::pushClipArea(area);
-    
+
         glScissor(mClipStack.top().x,
                   mHeight - mClipStack.top().y - mClipStack.top().height,
                   mClipStack.top().width,
                   mClipStack.top().height);
-    
+
         return result;
     }
 
@@ -183,19 +185,19 @@ namespace gcn
         {
             return;
         }
-    
+
         glScissor(mClipStack.top().x,
                   mHeight - mClipStack.top().y - mClipStack.top().height,
                   mClipStack.top().width,
                   mClipStack.top().height);
     }
-  
+
     void OpenGLGraphics::setTargetPlane(int width, int height)
     {
         mWidth = width;
         mHeight = height;
     }
-  
+
     void OpenGLGraphics::drawImage(const Image* image, int srcX, int srcY,
                                    int dstX, int dstY, int width,
                                    int height)
@@ -206,16 +208,16 @@ namespace gcn
         {
             throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenGLImage.");
         }
-		
+
         dstX += mClipStack.top().xOffset;
         dstY += mClipStack.top().yOffset;
-        
+
         // Find OpenGL texture coordinates
         float texX1 = srcX / (float)srcImage->getTextureWidth();
         float texY1 = srcY / (float)srcImage->getTextureHeight();
         float texX2 = (srcX+width) / (float)srcImage->getTextureWidth();
         float texY2 = (srcY+height) / (float)srcImage->getTextureHeight();
-    
+
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
         glEnable(GL_TEXTURE_2D);
@@ -225,7 +227,7 @@ namespace gcn
         {
             glEnable(GL_BLEND);
         }
-        
+
         // Draw a textured quad -- the image
         glBegin(GL_QUADS);
         glTexCoord2f(texX1, texY1);
@@ -240,7 +242,7 @@ namespace gcn
         glTexCoord2f(texX2, texY1);
         glVertex3i(dstX + width, dstY, 0);
         glEnd();
-        glDisable(GL_TEXTURE_2D);      
+        glDisable(GL_TEXTURE_2D);
 
         // Don't disable blending if the color has alpha
         if (!mAlpha)
@@ -248,24 +250,24 @@ namespace gcn
             glDisable(GL_BLEND);
         }
     }
-  
+
     void OpenGLGraphics::drawPoint(int x, int y)
     {
         x += mClipStack.top().xOffset;
-        y += mClipStack.top().yOffset;    
+        y += mClipStack.top().yOffset;
 
         glBegin(GL_POINTS);
         glVertex3i(x, y, 0);
         glEnd();
     }
-  
+
     void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
         x1 += mClipStack.top().xOffset;
         y1 += mClipStack.top().yOffset;
         x2 += mClipStack.top().xOffset;
         y2 += mClipStack.top().yOffset;
-    
+
         glBegin(GL_LINES);
         glVertex3f(x1+0.5f, y1+0.5f, 0);
         glVertex3f(x2+0.5f, y2+0.5f, 0);
@@ -275,9 +277,9 @@ namespace gcn
         glVertex3f(x2+0.5f, y2+0.5f, 0);
         glEnd();
     }
-  
+
     void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
-    {    
+    {
         glBegin(GL_LINE_LOOP);
         glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
                    rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
@@ -289,7 +291,7 @@ namespace gcn
                    rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
         glEnd();
     }
-  
+
     void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
     {
         glBegin(GL_QUADS);
@@ -303,7 +305,7 @@ namespace gcn
                    rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
         glEnd();
     }
-  
+
     void OpenGLGraphics::setColor(const Color& color)
     {
         mColor = color;
@@ -314,11 +316,11 @@ namespace gcn
         if (mAlpha)
         {
             glEnable(GL_BLEND);
-        }        
+        }
     }
 
     const Color& OpenGLGraphics::getColor()
-    {        
-        return mColor;    
-    }    
+    {
+        return mColor;
+    }
 }

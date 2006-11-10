@@ -26,6 +26,7 @@ touch $directory/src/x/*
 aclocal
 autoheader
 automake --foreign --include-deps --add-missing --copy
+libtoolize --force
 autoconf
 
 # Run configure for this platform

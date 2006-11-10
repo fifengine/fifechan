@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -82,7 +84,7 @@ namespace gcn
         public KeyListener,
         public ActionListener
     {
-    public:        
+    public:
         /**
          * Contructor.
          *
@@ -90,7 +92,7 @@ namespace gcn
          * @param scrollArea the ScrollArea to use.
          * @param listBox the listBox to use.
          * @see ListModel, ScrollArea, ListBox.
-         */         
+         */
         DropDown(ListModel *listModel = NULL,
                  ScrollArea *scrollArea = NULL,
                  ListBox *listBox = NULL);
@@ -99,7 +101,7 @@ namespace gcn
          * Destructor.
          */
         virtual ~DropDown();
-    
+
         /**
          * Gets the index int the ListModel of the selected element.
          *
@@ -135,24 +137,24 @@ namespace gcn
 
 
         // Inherited from Widget
-        
+
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);
-        
+
         virtual void lostFocus();
 
         virtual void setBaseColor(const Color& color);
 
         virtual void setBackgroundColor(const Color& color);
-        
+
         virtual void setForegroundColor(const Color& color);
 
         virtual void logic();
-        
+
 		virtual void setFont(Font *font);
 
-        
+
         // Inherited from BasicContainer
 
         virtual void _announceDeath(Widget* widget);
@@ -161,21 +163,26 @@ namespace gcn
 
 
         // Inherited from ActionListener
-        
-        virtual void action(const std::string& eventId, Widget* widget);
+
+        virtual void action(const ActionEvent& actionEvent);
 
 
         // Inherited from KeyListener
-        
+
         virtual void keyPress(const Key& key);
 
 
         // Inherited from MouseListener
-        
-        virtual void mousePress(int x, int y, int button);
-    
-        virtual void mouseRelease(int x, int y, int button);    
 
+        virtual void mousePressed(MouseEvent& mouseEvent);
+
+        virtual void mouseReleased(MouseEvent& mouseEvent);
+        
+        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        
+        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent); 
+
+        virtual void mouseDragged(MouseEvent& mouseEvent);
         
     protected:
         /**
@@ -194,7 +201,7 @@ namespace gcn
          * Sets the DropDown Widget to folded-up mode.
          */
         virtual void foldUp();
-    
+
         bool mDroppedDown;
         bool mPushed;
         int mOldH;
@@ -203,7 +210,8 @@ namespace gcn
         FocusHandler mFocusHandler;
         bool mInternalScrollArea;
         bool mInternalListBox;
-    };  
+        bool mIsDragged;
+    };
 }
 
 #endif // end GCN_DROPDOWN_HPP

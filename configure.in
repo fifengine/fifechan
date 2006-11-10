@@ -1,6 +1,6 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichan, 0.4.0, jansem@darkbits.org, Guichan)
+AC_INIT(guichan, 0.6.0, jansem@darkbits.org, Guichan)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
@@ -13,7 +13,7 @@ GLUT="disabled"
 dnl X="disabled"
 
 GUICHAN_MAJOR_VERSION=0
-GUICHAN_MINOR_VERSION=4
+GUICHAN_MINOR_VERSION=6
 GUICHAN_MICRO_VERSION=0
 GUICHAN_INTERFACE_AGE=0
 GUICHAN_BINARY_AGE=0

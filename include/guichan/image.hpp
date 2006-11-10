@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -63,7 +65,7 @@ namespace gcn
 {
     class Color;
     class ImageLoader;
-    
+
     /**
      * Holds an image. To be able to use this class you must first set an
      * ImageLoader in Image by calling
@@ -85,10 +87,10 @@ namespace gcn
         Image();
 
         /**
-         * Destructor. 
+         * Destructor.
          */
         virtual ~Image();
-        
+
         /**
          * Loads an image by calling the Image class' ImageLoader.
          *
@@ -100,7 +102,7 @@ namespace gcn
          *                               to display, false otherwise.
          */
         static Image* load(const std::string& filename, bool convertToDisplayFormat = true);
-        
+
         /**
          * Gets the ImageLoader used for loading Images.
          *
@@ -108,7 +110,7 @@ namespace gcn
          * @see SDLImageLoader, AllegroImageLoader
          */
         static ImageLoader* getImageLoader();
-        
+
         /**
          * Sets the ImageLoader to be used for loading images.
          *
@@ -119,7 +121,7 @@ namespace gcn
          * @see SDLImageLoader, AllegroImageLoader
          */
         static void setImageLoader(ImageLoader* imageLoader);
-        
+
         /**
          * Frees an image.
          */
@@ -150,7 +152,7 @@ namespace gcn
          * @return the color of the pixel.
          */
         virtual Color getPixel(int x, int y) = 0;
-        
+
         /**
          * Puts a pixel with a certain color at coordinate (x, y).
          *
@@ -158,19 +160,19 @@ namespace gcn
          * @param y the y coordinate.
          * @param color the color of the pixel to put.
          */
-        virtual void putPixel(int x, int y, const Color& color) = 0;    
+        virtual void putPixel(int x, int y, const Color& color) = 0;
 
         /**
          * Converts the image, if possible, to display format.
          *
          * IMPORTANT: Only guaranteed to work before the image has been
-         *            converted to display format.         
+         *            converted to display format.
          */
         virtual void convertToDisplayFormat() = 0;
-        
+
     protected:
         static ImageLoader* mImageLoader;
-    };  
+    };
 }
 
 #endif // end GCN_IMAGE_HPP

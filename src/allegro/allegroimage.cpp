@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/allegro/allegroimage.hpp"
@@ -61,55 +63,13 @@
 #include "guichan/exception.hpp"
 
 namespace gcn
-{  
-    AllegroImage::AllegroImage(const std::string& filename,
-                               bool convertToDisplayFormat)
-    {
-        mAutoFree = true;
-
-#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
-        int colconv = get_color_conversion();
-#endif
-        
-        set_color_conversion(COLORCONV_NONE);
-        
-        PALETTE pal;
-        BITMAP *bmp = load_bitmap(filename.c_str(), pal);        
-        
-        if (bmp == NULL)
-        {
-            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
-        }
-
-        mBitmap = create_bitmap_ex(32, bmp->w, bmp->h);
-
-        if (mBitmap == NULL)
-        {
-            throw GCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
-        }
-        
-        set_palette(pal);
-        blit(bmp, mBitmap, 0, 0, 0, 0, bmp->w, bmp->h);
-        destroy_bitmap(bmp);
-        
-#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
-        set_color_conversion(COLORCONV_TOTAL);
-#else
-        set_color_conversion(colconv);        
-#endif        
-
-        if (convertToDisplayFormat)
-        {
-            AllegroImage::convertToDisplayFormat();
-        }
-    }
-    
+{
     AllegroImage::AllegroImage(BITMAP* bitmap, bool autoFree)
     {
         mAutoFree = autoFree;
-        mBitmap = bitmap;        
+        mBitmap = bitmap;
     }
-    
+
     AllegroImage::~AllegroImage()
     {
         if (mAutoFree)
@@ -117,17 +77,17 @@ namespace gcn
             free();
         }
     }
-    
+
     BITMAP* AllegroImage::getBitmap() const
     {
         return mBitmap;
     }
-    
+
     void AllegroImage::free()
     {
-        destroy_bitmap(mBitmap);   
+        destroy_bitmap(mBitmap);
     }
-    
+
     int AllegroImage::getWidth() const
     {
         if (mBitmap == NULL)
@@ -137,48 +97,48 @@ namespace gcn
 
         return mBitmap->w;
     }
-    
+
     int AllegroImage::getHeight() const
     {
         if (mBitmap == NULL)
         {
             GCN_EXCEPTION("Trying to get the height of a non loaded image.");
-        }                        
-        
+        }
+
         return mBitmap->h;
     }
-    
+
     Color AllegroImage::getPixel(int x, int y)
     {
         if (mBitmap == NULL)
         {
             throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
-        
+
         int c = getpixel(mBitmap, x, y);
-        
+
         return Color(getr32(c), getg32(c), getb32(c), geta(32));
     }
-    
+
     void AllegroImage::putPixel(int x, int y, const Color& color)
     {
         if (mBitmap == NULL)
         {
             throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
-        
+
         int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
 
         putpixel(mBitmap, x, y, c);
     }
-    
+
     void AllegroImage::convertToDisplayFormat()
     {
         if (mBitmap == NULL)
         {
             GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
-        }        
-        
+        }
+
         BITMAP *bmp = create_bitmap(mBitmap->w, mBitmap->h);
 
         blit(mBitmap, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
@@ -186,5 +146,5 @@ namespace gcn
         destroy_bitmap(mBitmap);
 
         mBitmap = bmp;
-    }       
+    }
 }

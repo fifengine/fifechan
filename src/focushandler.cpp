@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/focushandler.hpp"
@@ -66,20 +68,14 @@ namespace gcn
     FocusHandler::FocusHandler()
     {
         mFocusedWidget = NULL;
-        mDraggedWidget = NULL; 
         mToBeFocused = NULL;
-        mToBeDragged = NULL;
         mModalFocusedWidget = NULL;
+        mModalMouseInputFocusedWidget = NULL;
     }
 
     void FocusHandler::requestFocus(Widget* widget)
     {
-        mToBeFocused = widget;        
-    }
-
-    void FocusHandler::requestDrag(Widget* widget)
-    {
-        mToBeDragged = widget;
+        mToBeFocused = widget;
     }
 
     void FocusHandler::requestModalFocus(Widget* widget)
@@ -95,11 +91,17 @@ namespace gcn
         {
             focusNone();
         }
+    }
 
-        if (mDraggedWidget != NULL && !mDraggedWidget->hasModalFocus())
+    void FocusHandler::requestModalMouseInputFocus(Widget* widget)
+    {
+        if (mModalMouseInputFocusedWidget != NULL
+            && mModalMouseInputFocusedWidget != widget)
         {
-            dragNone();
+            throw GCN_EXCEPTION("Another widget allready has modal input focus.");
         }
+
+        mModalMouseInputFocusedWidget = widget;
     }
 
     void FocusHandler::releaseModalFocus(Widget* widget)
@@ -109,22 +111,30 @@ namespace gcn
             mModalFocusedWidget = NULL;
         }
     }
-    
+
+    void FocusHandler::releaseModalMouseInputFocus(Widget* widget)
+    {
+        if (mModalMouseInputFocusedWidget == widget)
+        {
+            mModalMouseInputFocusedWidget = NULL;
+        }
+    }
+
     Widget* FocusHandler::getFocused() const
     {
         return mFocusedWidget;
-    }
-
-    Widget* FocusHandler::getDragged() const
-    {
-        return mDraggedWidget;
     }
 
     Widget* FocusHandler::getModalFocused() const
     {
         return mModalFocusedWidget;
     }
-    
+
+    Widget* FocusHandler::getModalMouseInputFocused() const
+    {
+        return mModalMouseInputFocusedWidget;
+    }
+
     void FocusHandler::focusNext()
     {
         int i;
@@ -137,83 +147,25 @@ namespace gcn
             }
         }
         int focused = focusedWidget;
-        
+
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
         i = (int)mWidgets.size();
         do
         {
             ++focusedWidget;
-            
+
             if (i==0)
             {
                 focusedWidget = -1;
                 break;
             }
-            
+
             --i;
 
             if (focusedWidget >= (int)mWidgets.size())
             {
-                focusedWidget = 0;      
-            }
-
-            if (focusedWidget == focused)
-            {
-                return;
-            }            
-        }
-        while (!mWidgets.at(focusedWidget)->isFocusable());
-
-        if (focusedWidget >= 0)
-        {
-            mFocusedWidget = mWidgets.at(focusedWidget);
-            mWidgets.at(focusedWidget)->gotFocus();         
-        }
-        
-        if (focused >= 0)
-        {
-            mWidgets.at(focused)->lostFocus();
-        }    
-    }
-    
-    void FocusHandler::focusPrevious()
-    {        
-        if (mWidgets.size() == 0)
-        {
-            mFocusedWidget = NULL;
-            return;
-        }    
-
-        int i;
-        int focusedWidget = -1;
-        for (i = 0; i < (int)mWidgets.size(); ++i)
-        {
-            if (mWidgets[i] == mFocusedWidget)
-            {
-                focusedWidget = i;
-            }
-        }
-        int focused = focusedWidget;               
-        
-        // i is a counter that ensures that the following loop
-        // won't get stuck in an infinite loop
-        i = (int)mWidgets.size();
-        do
-        {
-            --focusedWidget;
-
-            if (i==0)
-            {
-                focusedWidget = -1;
-                break;
-            }
-
-            --i;
-            
-            if (focusedWidget <= 0)
-            {
-                focusedWidget = mWidgets.size() - 1;      
+                focusedWidget = 0;
             }
 
             if (focusedWidget == focused)
@@ -228,11 +180,69 @@ namespace gcn
             mFocusedWidget = mWidgets.at(focusedWidget);
             mWidgets.at(focusedWidget)->gotFocus();
         }
-                
+
         if (focused >= 0)
         {
             mWidgets.at(focused)->lostFocus();
-        }    
+        }
+    }
+
+    void FocusHandler::focusPrevious()
+    {
+        if (mWidgets.size() == 0)
+        {
+            mFocusedWidget = NULL;
+            return;
+        }
+
+        int i;
+        int focusedWidget = -1;
+        for (i = 0; i < (int)mWidgets.size(); ++i)
+        {
+            if (mWidgets[i] == mFocusedWidget)
+            {
+                focusedWidget = i;
+            }
+        }
+        int focused = focusedWidget;
+
+        // i is a counter that ensures that the following loop
+        // won't get stuck in an infinite loop
+        i = (int)mWidgets.size();
+        do
+        {
+            --focusedWidget;
+
+            if (i==0)
+            {
+                focusedWidget = -1;
+                break;
+            }
+
+            --i;
+
+            if (focusedWidget <= 0)
+            {
+                focusedWidget = mWidgets.size() - 1;
+            }
+
+            if (focusedWidget == focused)
+            {
+                return;
+            }
+        }
+        while (!mWidgets.at(focusedWidget)->isFocusable());
+
+        if (focusedWidget >= 0)
+        {
+            mFocusedWidget = mWidgets.at(focusedWidget);
+            mWidgets.at(focusedWidget)->gotFocus();
+        }
+
+        if (focused >= 0)
+        {
+            mWidgets.at(focused)->lostFocus();
+        }
     }
 
     bool FocusHandler::isFocused(const Widget* widget) const
@@ -240,25 +250,16 @@ namespace gcn
         return mFocusedWidget == widget;
     }
 
-     bool FocusHandler::isDragged(const Widget* widget) const
-     {
-        return mDraggedWidget == widget;
-     }
-
     void FocusHandler::add(Widget* widget)
     {
-        mWidgets.push_back(widget);    
+        mWidgets.push_back(widget);
     }
-    
+
     void FocusHandler::remove(Widget* widget)
     {
         if (widget == mToBeFocused)
         {
             mToBeFocused = NULL;
-        }
-        if (widget == mToBeDragged)
-        {
-            mToBeDragged = NULL;
         }
 
         if (isFocused(widget))
@@ -266,40 +267,32 @@ namespace gcn
             mFocusedWidget = NULL;
             mToBeFocused = NULL;
         }
-        
-        int i = 0;
+
         WidgetIterator iter;
-        
+
         for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
         {
-            ++i;
-            
             if ((*iter) == widget)
-            {        
-                mWidgets.erase(iter);                
+            {
+                mWidgets.erase(iter);
                 return;
-            }      
-        }        
+            }
+        }
     }
-    
+
     void FocusHandler::focusNone()
     {
-         
+
         if (mFocusedWidget != NULL)
         {
             Widget* focused = mFocusedWidget;
-            mFocusedWidget = NULL; 
-            focused->lostFocus();            
+            mFocusedWidget = NULL;
+            focused->lostFocus();
         }
-        
+
         mToBeFocused = NULL;
     }
 
-    void FocusHandler::dragNone()
-    {
-        mDraggedWidget = NULL;
-    }
-    
     void FocusHandler::tabNext()
     {
         if (mFocusedWidget != NULL)
@@ -314,7 +307,7 @@ namespace gcn
         {
             mFocusedWidget = NULL;
             return;
-        }    
+        }
 
         int i;
         int focusedWidget = -1;
@@ -325,34 +318,34 @@ namespace gcn
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;               
+        int focused = focusedWidget;
         bool done = false;
-        
+
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
         i = (int)mWidgets.size();
         do
         {
             ++focusedWidget;
-            
+
             if (i==0)
             {
                 focusedWidget = -1;
                 break;
             }
-            
+
             --i;
 
             if (focusedWidget >= (int)mWidgets.size())
             {
-                focusedWidget = 0;      
+                focusedWidget = 0;
             }
 
             if (focusedWidget == focused)
             {
                 return;
             }
-            
+
             if (mWidgets.at(focusedWidget)->isFocusable() &&
                 mWidgets.at(focusedWidget)->isTabInEnabled() &&
                 (mModalFocusedWidget == NULL ||
@@ -368,7 +361,7 @@ namespace gcn
             mFocusedWidget = mWidgets.at(focusedWidget);
             mWidgets.at(focusedWidget)->gotFocus();
         }
-        
+
         if (focused >= 0)
         {
             mWidgets.at(focused)->lostFocus();
@@ -384,12 +377,12 @@ namespace gcn
                 return;
             }
         }
-                
+
         if (mWidgets.size() == 0)
         {
             mFocusedWidget = NULL;
             return;
-        }    
+        }
 
         int i;
         int focusedWidget = -1;
@@ -400,9 +393,9 @@ namespace gcn
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;               
+        int focused = focusedWidget;
         bool done = false;
-        
+
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
         i = (int)mWidgets.size();
@@ -417,10 +410,10 @@ namespace gcn
             }
 
             --i;
-            
+
             if (focusedWidget <= 0)
             {
-                focusedWidget = mWidgets.size() - 1;      
+                focusedWidget = mWidgets.size() - 1;
             }
 
             if (focusedWidget == focused)
@@ -442,29 +435,34 @@ namespace gcn
         {
             mFocusedWidget = mWidgets.at(focusedWidget);
             mWidgets.at(focusedWidget)->gotFocus();
-        }    
+        }
 
         if (focused >= 0)
         {
             mWidgets.at(focused)->lostFocus();
-        }    
+        }
     }
 
     void FocusHandler::applyChanges()
     {
+        if (mToBeFocused == mFocusedWidget)
+        {
+            return;
+        }
+        
         if (mToBeFocused != NULL)
         {
             unsigned int i = 0;
             int toBeFocusedIndex = -1;
             for (i = 0; i < mWidgets.size(); ++i)
-            {      
+            {
                 if (mWidgets[i] == mToBeFocused)
                 {
                     toBeFocusedIndex = i;
-                    break;                
+                    break;
                 }
-            }    
-            
+            }
+
             if (toBeFocusedIndex < 0)
             {
                 throw GCN_EXCEPTION("Trying to focus a none existing widget.");
@@ -475,37 +473,15 @@ namespace gcn
             if (oldFocused != mToBeFocused)
             {
                 mFocusedWidget = mWidgets.at(toBeFocusedIndex);
-                
+
                 if (oldFocused != NULL)
                 {
                     oldFocused->lostFocus();
                 }
-                
+
                 mWidgets.at(toBeFocusedIndex)->gotFocus();
             }
             mToBeFocused = NULL;
         }
-
-        if (mToBeDragged != NULL)
-        {
-            unsigned int i = 0;
-            int toBeDraggedIndex = -1;
-            for (i = 0; i < mWidgets.size(); ++i)
-            {      
-                if (mWidgets[i] == mToBeDragged)
-                {
-                    toBeDraggedIndex = i;                
-                    break;
-                }
-            }    
-
-            if (toBeDraggedIndex < 0)
-            {
-                throw GCN_EXCEPTION("Trying to give drag to a none existing widget");
-            }
-            
-             mDraggedWidget = mWidgets.at(toBeDraggedIndex);
-             mToBeDragged = NULL;            
-        }
-    }    
+    }
 }

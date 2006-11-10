@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/imagefont.hpp"
@@ -71,20 +73,20 @@ namespace gcn
     {
         mFilename = filename;
         mImage = Image::load(filename, false);
- 
+
         Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
         for (i=0; separator == mImage->getPixel(i, 0)
                  && i < mImage->getWidth(); ++i)
-        {         
+        {
         }
-        
+
         if (i >= mImage->getWidth())
         {
             throw GCN_EXCEPTION("Corrupt image.");
         }
-        
+
         int j = 0;
         for (j = 0; j < mImage->getHeight(); ++j)
         {
@@ -92,45 +94,45 @@ namespace gcn
             {
                 break;
             }
-        }                       
+        }
 
         mHeight = j;
         int x = 0, y = 0;
         unsigned char k;
 
-        for (i=0; i < (int)glyphs.size(); ++i) 
+        for (i=0; i < (int)glyphs.size(); ++i)
         {
             k = glyphs.at(i);
             addGlyph(k, x, y, separator);
         }
-    
+
         int w = mImage->getWidth();
         int h = mImage->getHeight();
         mImage->convertToDisplayFormat();
-    
+
         mRowSpacing = 0;
-        mGlyphSpacing = 0;        
+        mGlyphSpacing = 0;
     }
 
-    ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom, 
+    ImageFont::ImageFont(const std::string& filename, unsigned char glyphsFrom,
                          unsigned char glyphsTo)
     {
-        mFilename = filename;                
+        mFilename = filename;
         mImage = Image::load(filename, false);
-        
+
         Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
         for (i=0; separator == mImage->getPixel(i, 0)
                  && i < mImage->getWidth(); ++i)
-        {         
+        {
         }
-        
+
         if (i >= mImage->getWidth())
         {
             throw GCN_EXCEPTION("Corrupt image.");
         }
-        
+
         int j = 0;
         for (j = 0; j < mImage->getHeight(); ++j)
         {
@@ -138,37 +140,37 @@ namespace gcn
             {
                 break;
             }
-        }                       
+        }
 
         mHeight = j;
         int x = 0, y = 0;
         unsigned char k;
-        
+
         for (i=glyphsFrom; i<glyphsTo+1; i++)
         {
-            addGlyph(i, x, y, separator); 
+            addGlyph(i, x, y, separator);
         }
 
         int w = mImage->getWidth();
         int h = mImage->getHeight();
         mImage->convertToDisplayFormat();
-        
+
         mRowSpacing = 0;
-        mGlyphSpacing = 0;        
+        mGlyphSpacing = 0;
     }
 
     ImageFont::~ImageFont()
     {
-        delete mImage;        
+        delete mImage;
     }
-  
+
     int ImageFont::getWidth(unsigned char glyph) const
     {
         if (mGlyph[glyph].width == 0)
-        {         
+        {
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
-    
+
         return mGlyph[glyph].width + mGlyphSpacing;
     }
 
@@ -177,38 +179,38 @@ namespace gcn
         return mHeight + mRowSpacing;
     }
 
-    int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, 
+    int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph,
                              int x, int y)
     {
         // This is needed for drawing the Glyph in the middle if we have spacing
         int yoffset = getRowSpacing() >> 1;
-        
+
         if (mGlyph[glyph].width == 0)
         {
-            graphics->drawRectangle(Rectangle(x, y + 1 + yoffset, 
+            graphics->drawRectangle(Rectangle(x, y + 1 + yoffset,
                                               mGlyph[(int)(' ')].width - 1,
                                               mGlyph[(int)(' ')].height - 2));
-      
+
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
-    
+
         graphics->drawImage(mImage, mGlyph[glyph].x, mGlyph[glyph].y, x,
-                            y + yoffset, mGlyph[glyph].width, 
+                            y + yoffset, mGlyph[glyph].width,
                             mGlyph[glyph].height);
-        
+
         return mGlyph[glyph].width + mGlyphSpacing;
     }
 
-    void ImageFont::drawString(Graphics* graphics, const std::string& text, 
+    void ImageFont::drawString(Graphics* graphics, const std::string& text,
                                int x, int y)
     {
         unsigned int i;
-    
+
         for (i = 0; i< text.size(); ++i)
         {
             drawGlyph(graphics, text.at(i), x, y);
-            x += getWidth(text.at(i));      
-        }    
+            x += getWidth(text.at(i));
+        }
     }
 
     void ImageFont::setRowSpacing(int spacing)
@@ -220,12 +222,12 @@ namespace gcn
     {
         return mRowSpacing;
     }
-    
+
     void ImageFont::setGlyphSpacing(int spacing)
     {
         mGlyphSpacing = spacing;
     }
-    
+
     int ImageFont::getGlyphSpacing()
     {
         return mGlyphSpacing;
@@ -255,14 +257,14 @@ namespace gcn
                     os << "'";
                     throw GCN_EXCEPTION(os.str());
                 }
-            }            
+            }
 
             color = mImage->getPixel(x, y);
 
         } while (color == separator);
-        
+
         int w = 0;
-        
+
         do
         {
             ++w;
@@ -277,45 +279,45 @@ namespace gcn
                 os << c;
                 os << "'";
                 throw GCN_EXCEPTION(os.str());
-            }            
-            
+            }
+
             color = mImage->getPixel(x + w, y);
-            
+
         } while (color != separator);
-        
+
         mGlyph[c] = Rectangle(x, y, w, mHeight);
-        
-        x += w;        
+
+        x += w;
     }
 
     int ImageFont::getWidth(const std::string& text) const
     {
         unsigned int i;
         int size = 0;
-    
+
         for (i = 0; i < text.size(); ++i)
         {
             size += getWidth(text.at(i));
         }
-    
-        return size;    
+
+        return size;
     }
-    
+
     int ImageFont::getStringIndexAt(const std::string& text, int x)
     {
         unsigned int i;
         int size = 0;
-    
+
         for (i = 0; i < text.size(); ++i)
         {
             size += getWidth(text.at(i));
-      
+
             if (size > x)
             {
                 return i;
             }
         }
-    
-        return text.size();    
+
+        return text.size();
     }
 }

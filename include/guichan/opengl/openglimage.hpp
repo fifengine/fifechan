@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -58,6 +60,9 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#ifdef DELETE
+#undef DELETE
+#endif
 #endif
 
 #ifdef __amigaos4__
@@ -73,13 +78,13 @@
 #include "guichan/image.hpp"
 
 namespace gcn
-{  
+{
     /**
      * OpenGL implementation of Image.
      */
     class GCN_EXTENSION_DECLSPEC OpenGLImage : public Image
     {
-    public:                
+    public:
         /**
          * Constructor. Loads an image from an array of pixels. The pixel array is
 		 * is copied in the constructor and should thus be freed after the constructor
@@ -95,7 +100,7 @@ namespace gcn
          *                               to display, false otherwise.
          */
         OpenGLImage(unsigned int* pixels, int width, int height, bool convertToDisplayFormat = true);
-        
+
         /**
          * Constructor. Load an image from an OpenGL texture handle. The width
 		 * and height specifies the size of the "interesting" part of the
@@ -113,13 +118,13 @@ namespace gcn
          * Destructor.
          */
         virtual ~OpenGLImage();
-        
+
         /**
          * Gets the OpenGL texture handle for the image.
          *
          * @return the OpenGL texture handle for the image.
          */
-        
+
         virtual GLuint getTextureHandle() const;
 
         /**
@@ -136,21 +141,21 @@ namespace gcn
          */
         virtual int getTextureHeight() const;
 
-        
+
         // Inherited from Image
 
         virtual void free();
-        
+
         virtual int getWidth() const;
 
         virtual int getHeight() const;
 
         virtual Color getPixel(int x, int y);
-        
+
         virtual void putPixel(int x, int y, const Color& color);
 
         virtual void convertToDisplayFormat();
-        
+
     protected:
         GLuint mTextureHandle;
         unsigned int* mPixels;
@@ -159,7 +164,7 @@ namespace gcn
         int mHeight;
 		int mTextureWidth;
 		int mTextureHeight;
-		
+
     };
 }
 

@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -62,7 +64,7 @@
 namespace gcn
 {
     class Widget;
-  
+
     /**
      * Used to keep track of widget focus. You will probably not have
      * to use the FocusHandler directly to handle focus. Widget has
@@ -79,7 +81,7 @@ namespace gcn
     class GCN_CORE_DECLSPEC FocusHandler
     {
     public:
-        
+
         /**
          * Constructor.
          */
@@ -89,25 +91,17 @@ namespace gcn
          * Destructor.
          */
         virtual ~FocusHandler() { };
-        
+
         /**
-         * Sets focus to a Widget. Widget::lostFocus and
+         * Sets focus to a widget. Widget::lostFocus and
          * Widget::gotFocus will be called.
          *
-         * @param widget the Widget to focus.
+         * @param widget the widget to focus.
          */
         virtual void requestFocus(Widget* widget);
 
         /**
-         * Sets drag to a Widget.
-         *
-         * @param widget the Widget to drag.
-         */
-        virtual void requestDrag(Widget* widget);
-        
-        /**
-         * Sets modal focus to a Widget. If another Widget already
-         * has modal focus will an exception be thrown.
+         * Sets modal focus to a widget.
          *
          * @param widget the Widget to focus modal.
          * @throws Exception when another widget already has modal focus.
@@ -115,48 +109,68 @@ namespace gcn
         virtual void requestModalFocus(Widget* widget);
 
         /**
-         * Releases modal focus if the Widget has modal focus.
+         * Releases modal focus if the widget has modal focus.
          * Otherwise nothing will be done.
          *
          * @param widget the Widget to release modal focus for.
          */
         virtual void releaseModalFocus(Widget* widget);
-        
+
         /**
-         * Gets the Widget with focus.         
+         * Sets modal mouse input focus to a widget. Modal mouse input focus means
+         * no other widget then the widget with modal mouse input focus will
+         * receive mouse input..
+         * The widget with modal mouse input focus will also receive mouse input no
+         * matter what the mouse input is or where the mouse input occurs.
+         *
+         * @param widget the widget to focus for modal mouse input focus.
+         * @throws Exception when another widget already has modal mouse input focus.
+         */
+        virtual void requestModalMouseInputFocus(Widget* widget);        
+
+        /**
+         * Releases modal mouse input focus if the widget has modal mouse input
+         * focus. Otherwise nothing will be done.
+         *
+         * @param widget the widget to release modal mouse input focus for.
+         */
+        virtual void releaseModalMouseInputFocus(Widget* widget);
+
+        /**
+         * Gets the widget with focus.
          *
          * @return the Widget with focus. NULL will be returned if
          *         no Widget has focus.
          */
         virtual Widget* getFocused() const;
-        
-        /**
-         * Gets the widget that is dragged.
-         *
-         * @return the widget that is dragged. NULL will be returned
-         *         if no Widget is dragged.
-         */
-        virtual Widget* getDragged() const;
 
         /**
-         * Gets the Widget with modal focus.
+         * Gets the widget with modal focus.
          *
          * @return the Widget with modal focus. NULL will be returned
          *         if no Widget has modal focus.
          */
         virtual Widget* getModalFocused() const;
-        
+
+        /**
+         * Gets the widget with modal mouse input focus.
+         *
+         * @return the widget with modal mouse input focus. NULL will be returned
+         *         if no widget has modal mouse input focus.
+         */
+        virtual Widget* getModalMouseInputFocused() const;
+
         /**
          * Focuses the next Widget. If no Widget has focus the first
          * Widget gets focus. The order in which the Widgets are focused
          * depends on the order you add them to the GUI.
          */
         virtual void focusNext();
-    
+
         /**
          * Focuses the previous Widget. If no Widget has focus the first
          * Widget gets focus. The order in which the widgets are focused
-         * depends on the order you add them to the GUI.     
+         * depends on the order you add them to the GUI.
          */
         virtual void focusPrevious();
 
@@ -169,24 +183,16 @@ namespace gcn
         virtual bool isFocused(const Widget* widget) const;
 
         /**
-         * Checks if a widget is being dragged
-         *
-         * @param widget the Widget to check if it is being dragged.
-         * @return true if the widget is being dragged.
-         */
-        virtual bool isDragged(const Widget* widget) const;
-        
-        /**
          * Adds a widget to the FocusHandler.
          *
          * @param widget the widget to add.
          */
         virtual void add(Widget* widget);
-    
+
         /**
          * Removes a widget from the FocusHandler.
          *
-         * @param widget the widget to remove.     
+         * @param widget the widget to remove.
          */
         virtual void remove(Widget* widget);
 
@@ -194,7 +200,7 @@ namespace gcn
          * Focuses nothing.
          */
         virtual void focusNone();
-        
+
         /**
          * Focuses the next Widget which allows tab in unless current focused
          * Widget disallows tab out.
@@ -212,22 +218,16 @@ namespace gcn
          */
         virtual void applyChanges();
 
-        /**
-         * Drag nothing.
-         */
-        virtual void dragNone();
-        
     protected:
         typedef std::vector<Widget*> WidgetVector;
         typedef WidgetVector::iterator WidgetIterator;
         WidgetVector mWidgets;
-    
+
         Widget* mFocusedWidget;
-        Widget* mDraggedWidget;
         Widget* mToBeFocused;
-        Widget* mToBeDragged;
-        Widget* mModalFocusedWidget;        
-    };  
+        Widget* mModalFocusedWidget;
+        Widget* mModalMouseInputFocusedWidget;
+    };
 }
 
 #endif // end GCN_FOCUSHANDLER_HPP

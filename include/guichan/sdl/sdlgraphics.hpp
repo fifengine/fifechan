@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -65,22 +67,22 @@ namespace gcn
 {
     class Image;
     class Rectangle;
-    
+
     /**
      * SDL implementation of the Graphics.
      */
     class GCN_EXTENSION_DECLSPEC SDLGraphics : public Graphics
     {
     public:
-        
+
         // Needed so that drawImage(gcn::Image *, int, int) is visible.
         using Graphics::drawImage;
-        
+
         /**
          * Constructor.
          */
         SDLGraphics();
-        
+
         /**
          * Sets the target SDL_Surface to draw to. The target can be any
          * SDL_Surface. This funtion also pushes a clip areas corresponding to
@@ -107,25 +109,25 @@ namespace gcn
         virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
                                     SDL_Rect destination);
 
-        
+
         // Inherited from Graphics
 
         virtual void _beginDraw();
 
         virtual void _endDraw();
-        
+
         virtual bool pushClipArea(Rectangle area);
-    
+
         virtual void popClipArea();
-    
+
         virtual void drawImage(const Image* image, int srcX, int srcY,
                                int dstX, int dstY, int width,
-                               int height);    
-    
+                               int height);
+
         virtual void drawPoint(int x, int y);
-    
+
         virtual void drawLine(int x1, int y1, int x2, int y2);
-    
+
         virtual void drawRectangle(const Rectangle& rectangle);
 
         virtual void fillRectangle(const Rectangle& rectangle);
@@ -133,7 +135,7 @@ namespace gcn
         virtual void setColor(const Color& color);
 
         virtual const Color& getColor();
-        
+
     protected:
         /**
          * Draws a horizontal line.
@@ -155,8 +157,8 @@ namespace gcn
 
         SDL_Surface* mTarget;
         Color mColor;
-        bool mAlpha;        
-    };  
+        bool mAlpha;
+    };
 }
 
 #endif // end GCN_SDLGRAPHICS_HPP

@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,17 +55,61 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/allegro/allegroimageloader.hpp"
 
 #include "guichan/allegro/allegroimage.hpp"
+#include "guichan/exception.hpp"
 
 namespace gcn
 {
     Image* AllegroImageLoader::load(const std::string& filename, bool convertToDisplayFormat)
     {
-        return new AllegroImage(filename, convertToDisplayFormat);
+#if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+        int colconv = get_color_conversion();
+#endif
+
+        set_color_conversion(COLORCONV_NONE);
+
+        PALETTE pal;
+        BITMAP *bmp = loadBitmap(filename, pal);
+
+        if (bmp == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
+        }
+
+        BITMAP *bmp2 = create_bitmap_ex(32, bmp->w, bmp->h);
+
+        if (bmp2 == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
+        }
+
+        set_palette(pal);
+        blit(bmp, bmp2, 0, 0, 0, 0, bmp->w, bmp->h);
+        destroy_bitmap(bmp);
+
+#if (ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
+        set_color_conversion(COLORCONV_TOTAL);
+#else
+        set_color_conversion(colconv);
+#endif
+
+        Image *image = new AllegroImage(bmp2, true);
+
+        if (convertToDisplayFormat)
+        {
+            image->convertToDisplayFormat();
+        }
+
+        return image;
+    }
+
+    BITMAP* AllegroImageLoader::loadBitmap(const std::string& filename, PALETTE pal)
+    {
+        return load_bitmap(filename.c_str(), pal);
     }
 }

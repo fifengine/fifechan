@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/widgets/button.hpp"
@@ -62,6 +64,7 @@
 #include "guichan/font.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/key.hpp"
+#include "guichan/mouseevent.hpp"
 #include "guichan/mouseinput.hpp"
 
 namespace gcn
@@ -72,14 +75,15 @@ namespace gcn
         setFocusable(true);
         adjustSize();
         setBorderSize(1);
-        
-        mMouseDown = false;
-        mKeyDown = false;
+
+        mHasMouse = false;
+        mIsMousePressed = false;
+        mIsKeyPressed = false;
 
         addMouseListener(this);
-        addKeyListener(this);    
+        addKeyListener(this);
     }
-  
+
     Button::Button(const std::string& caption)
     {
         mCaption = caption;
@@ -87,22 +91,23 @@ namespace gcn
         setFocusable(true);
         adjustSize();
         setBorderSize(1);
-        
-        mMouseDown = false;
-        mKeyDown = false;
+
+        mHasMouse = false;
+        mIsMousePressed = false;
+        mIsKeyPressed = false;
 
         addMouseListener(this);
-        addKeyListener(this);    
+        addKeyListener(this);
     }
 
     void Button::setCaption(const std::string& caption)
     {
-        mCaption = caption;    
+        mCaption = caption;
     }
 
     const std::string& Button::getCaption() const
     {
-        return mCaption;        
+        return mCaption;
     }
 
     void Button::setAlignment(unsigned int alignment)
@@ -114,20 +119,20 @@ namespace gcn
     {
         return mAlignment;
     }
-    
+
     void Button::draw(Graphics* graphics)
     {
         Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
-        
+
         if (isPressed())
         {
             faceColor = faceColor - 0x303030;
             faceColor.a = alpha;
             highlightColor = faceColor - 0x303030;
             highlightColor.a = alpha;
-            shadowColor = faceColor + 0x303030;      
+            shadowColor = faceColor + 0x303030;
             shadowColor.a = alpha;
         }
         else
@@ -140,11 +145,11 @@ namespace gcn
 
         graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(1, 1, getDimension().width-1, getHeight() - 1));
-    
+
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, getWidth() - 1, 0);
         graphics->drawLine(0, 1, 0, getHeight() - 1);
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
         graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
@@ -153,7 +158,7 @@ namespace gcn
 
         int textX;
         int textY = getHeight() / 2 - getFont()->getHeight() / 2;
-        
+
         switch (getAlignment())
         {
           case Graphics::LEFT:
@@ -170,7 +175,7 @@ namespace gcn
         }
 
         graphics->setFont(getFont());
-        
+
         if (isPressed())
         {
             graphics->drawText(getCaption(), textX + 1, textY + 1, getAlignment());
@@ -178,13 +183,13 @@ namespace gcn
         else
         {
             graphics->drawText(getCaption(), textX, textY, getAlignment());
-            
+
             if (isFocused())
             {
                 graphics->drawRectangle(Rectangle(2, 2, getWidth() - 4,
                                                   getHeight() - 4));
-            }      
-        }    
+            }
+        }
     }
 
     void Button::drawBorder(Graphics* graphics)
@@ -198,7 +203,7 @@ namespace gcn
         highlightColor.a = alpha;
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         unsigned int i;
         for (i = 0; i < getBorderSize(); ++i)
         {
@@ -206,11 +211,11 @@ namespace gcn
             graphics->drawLine(i,i, width - i, i);
             graphics->drawLine(i,i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
-            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
     }
-    
+
     void Button::adjustSize()
     {
         setWidth(getFont()->getWidth(mCaption) + 8);
@@ -219,55 +224,83 @@ namespace gcn
 
     bool Button::isPressed() const
     {
-        return (hasMouse() && mMouseDown) || mKeyDown;
+        if (mIsMousePressed)
+        {
+            return mHasMouse;
+        }
+        else
+        {
+            return mIsKeyPressed;
+        }
     }
-    
-    void Button::mouseClick(int x, int y, int button, int count)
+
+    void Button::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (button == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseInput::LEFT)
         {
             generateAction();
         }
+
+        mouseEvent.consume();
     }
 
-    void Button::mousePress(int x, int y, int button)
-    {
-        if (button == MouseInput::LEFT && hasMouse())
-        {      
-            mMouseDown = true;
+    void Button::mousePressed(MouseEvent& mouseEvent)
+    {        
+        if (mouseEvent.getButton() == MouseInput::LEFT)
+        {
+            mIsMousePressed = true;
         }
+
+        mouseEvent.consume();
     }
 
-    void Button::mouseRelease(int x, int y, int button)
+    void Button::mouseExited(MouseEvent& mouseEvent)
     {
-        if (button == MouseInput::LEFT)
-        {      
-            mMouseDown = false;
-        }
+        mHasMouse = false;
+        mouseEvent.consume();        
     }
-  
+
+    void Button::mouseEntered(MouseEvent& mouseEvent)
+    {
+        mHasMouse = true;
+        mouseEvent.consume();
+    }
+    
+    void Button::mouseReleased(MouseEvent& mouseEvent)
+    {        
+        if (mouseEvent.getButton() == MouseInput::LEFT)
+        {
+            mIsMousePressed = false;
+        }
+
+        mouseEvent.consume();
+    }
+    
     void Button::keyPress(const Key& key)
     {
-        if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+        if (key.getValue() == Key::ENTER
+            || key.getValue() == Key::SPACE)
         {
-            mKeyDown = true;
+            mIsKeyPressed = true;
+            mIsMousePressed = false;
         }
-
-        mMouseDown = false;    
+        
     }
 
     void Button::keyRelease(const Key& key)
     {
-        if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE) && mKeyDown)
+        if ((key.getValue() == Key::ENTER
+             || key.getValue() == Key::SPACE)
+            && mIsKeyPressed)
         {
-            mKeyDown = false;
+            mIsKeyPressed = false;
             generateAction();
         }
     }
 
     void Button::lostFocus()
     {
-        mMouseDown = false;
-        mKeyDown = false;
-    }  
+        mIsMousePressed = false;
+        mIsKeyPressed = false;
+    }
 }

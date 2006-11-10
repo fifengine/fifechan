@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/widgets/textfield.hpp"
@@ -75,22 +77,22 @@ namespace gcn
         addMouseListener(this);
         addKeyListener(this);
         adjustHeight();
-        setBorderSize(1);    
+        setBorderSize(1);
     }
-  
+
     TextField::TextField(const std::string& text)
     {
         mCaretPosition = 0;
         mXScroll = 0;
-    
+
         mText = text;
         adjustSize();
         setBorderSize(1);
-        
-        setFocusable(true);    
-  
+
+        setFocusable(true);
+
         addMouseListener(this);
-        addKeyListener(this);    
+        addKeyListener(this);
     }
 
     void TextField::setText(const std::string& text)
@@ -99,24 +101,24 @@ namespace gcn
         {
             mCaretPosition = text.size();
         }
-    
-        mText = text;    
+
+        mText = text;
     }
-  
+
     void TextField::draw(Graphics* graphics)
     {
         Color faceColor = getBackgroundColor();
         graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
-    
+
         if (isFocused())
-        {      
+        {
             drawCaret(graphics, getFont()->getWidth(mText.substr(0, mCaretPosition)) - mXScroll);
         }
-    
+
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
-        graphics->drawText(mText, 1 - mXScroll, 1);    
+        graphics->drawText(mText, 1 - mXScroll, 1);
     }
 
     void TextField::drawBorder(Graphics* graphics)
@@ -130,7 +132,7 @@ namespace gcn
         highlightColor.a = alpha;
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         unsigned int i;
         for (i = 0; i < getBorderSize(); ++i)
         {
@@ -138,26 +140,28 @@ namespace gcn
             graphics->drawLine(i,i, width - i, i);
             graphics->drawLine(i,i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
             graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
     }
-    
+
     void TextField::drawCaret(Graphics* graphics, int x)
     {
         graphics->setColor(getForegroundColor());
-        graphics->drawLine(x, getHeight() - 2, x, 1);    
+        graphics->drawLine(x, getHeight() - 2, x, 1);
     }
-  
-    void TextField::mousePress(int x, int y, int button)
+
+    void TextField::mousePressed(MouseEvent& mouseEvent)
     {
-        if (hasMouse() && button == MouseInput::LEFT)
+        if (mouseEvent.getButton() == MouseInput::LEFT)
         {
-            mCaretPosition = getFont()->getStringIndexAt(mText, x + mXScroll);
+            mCaretPosition = getFont()->getStringIndexAt(mText, mouseEvent.getX() + mXScroll);
             fixScroll();
-        }      
+        }
+
+        mouseEvent.consume();
     }
-  
+
     void TextField::keyPress(const Key& key)
     {
         if (key.getValue() == Key::LEFT && mCaretPosition > 0)
@@ -189,12 +193,12 @@ namespace gcn
         else if (key.getValue() == Key::HOME)
         {
             mCaretPosition = 0;
-        }    
+        }
 
         else if (key.getValue() == Key::END)
         {
             mCaretPosition = mText.size();
-        }    
+        }
 
         else if (key.isCharacter())
         {
@@ -202,7 +206,7 @@ namespace gcn
             ++mCaretPosition;
         }
 
-        fixScroll();    
+        fixScroll();
     }
 
     void TextField::adjustSize()
@@ -210,12 +214,12 @@ namespace gcn
         setWidth(getFont()->getWidth(mText) + 4);
         adjustHeight();
 
-        fixScroll();    
+        fixScroll();
     }
-  
+
     void TextField::adjustHeight()
     {
-        setHeight(getFont()->getHeight() + 2);    
+        setHeight(getFont()->getHeight() + 2);
     }
 
     void TextField::fixScroll()
@@ -231,7 +235,7 @@ namespace gcn
             else if (caretX - mXScroll < getFont()->getWidth(" "))
             {
                 mXScroll = caretX - getFont()->getWidth(" ");
-        
+
                 if (mXScroll < 0)
                 {
                     mXScroll = 0;
@@ -247,23 +251,23 @@ namespace gcn
             mCaretPosition = mText.size();
         }
         else
-        {    
+        {
             mCaretPosition = position;
         }
 
-        fixScroll();    
+        fixScroll();
     }
 
     unsigned int TextField::getCaretPosition() const
     {
-        return mCaretPosition;    
+        return mCaretPosition;
     }
 
     const std::string& TextField::getText() const
     {
-        return mText;    
+        return mText;
     }
-  
+
     void TextField::fontChanged()
     {
         fixScroll();

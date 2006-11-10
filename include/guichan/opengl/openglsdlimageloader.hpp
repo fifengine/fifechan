@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -55,86 +57,53 @@
 #ifndef GCN_OPENGLSDLIMAGELOADER_HPP
 #define GCN_OPENGLSDLIMAGELOADER_HPP
 
-#include <guichan/imageloader.hpp>
+#include <guichan/sdl/sdlimageloader.hpp>
 
-#include "SDL.h"
-#include "SDL_image.h"
-
+#include <guichan/exception.hpp>
 #include <guichan/opengl/openglimage.hpp>
 
 namespace gcn
 {
     class Image;
-    
+
     /**
      * OpenGL ImageLoader that loads images with SDL.
      */
-    class OpenGLSDLImageLoader : public ImageLoader
+    class OpenGLSDLImageLoader : public SDLImageLoader
     {
     public:
 
         // Inherited from ImageLoader
-        
+
         virtual Image* load(const std::string& filename,
-							bool convertToDisplayFormat = true)
-		{
-			SDL_Surface* loadedSurface = IMG_Load(filename.c_str());			
-        
-			if (loadedSurface == NULL)
-			{
-				throw GCN_EXCEPTION(std::string("Unable to load image file: ")
-									+ filename);
-			}
-        
-			Uint32 rmask, gmask, bmask, amask;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-			rmask = 0xff000000;
-			gmask = 0x00ff0000;
-			bmask = 0x0000ff00;
-			amask = 0x000000ff;
-#else
-			rmask = 0x000000ff;
-			gmask = 0x0000ff00;
-			bmask = 0x00ff0000;
-			amask = 0xff000000;
-#endif
-        
-			SDL_Surface *colorSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-															 0,
-															 0,
-															 32,
-															 rmask,
-															 gmask,
-															 bmask,
-															 amask);
-        
-			if (colorSurface == NULL)
-			{
-				throw GCN_EXCEPTION(std::string("Not enough memory to load: ")
-									+ filename);
-			}
-        
-			SDL_Surface* surface = SDL_ConvertSurface(loadedSurface,
-													  colorSurface->format,
-													  SDL_SWSURFACE);
+                            bool convertToDisplayFormat = true)
+        {
+            SDL_Surface *loadedSurface = loadSDLSurface(filename);
 
-			if (surface == NULL)
-			{
-				throw GCN_EXCEPTION(std::string("Not enough memory to load: ")
-									+ filename);
-			}
+            if (loadedSurface == NULL)
+            {
+                throw GCN_EXCEPTION(
+                        std::string("Unable to load image file: ") + filename);
+            }
 
-			SDL_FreeSurface(loadedSurface);
-			SDL_FreeSurface(colorSurface);
-			
-			OpenGLImage *image = new OpenGLImage((unsigned int*)surface->pixels,
-												 surface->w,
-												 surface->h,
-												 convertToDisplayFormat);
-			SDL_FreeSurface(surface);
-			return image;			
-		}
-    };  
+            SDL_Surface *surface = convertToStandardFormat(loadedSurface);
+            SDL_FreeSurface(loadedSurface);
+
+            if (surface == NULL)
+            {
+                throw GCN_EXCEPTION(
+                        std::string("Not enough memory to load: ") + filename);
+            }
+
+            OpenGLImage *image = new OpenGLImage((unsigned int*)surface->pixels,
+                                                 surface->w,
+                                                 surface->h,
+                                                 convertToDisplayFormat);
+            SDL_FreeSurface(surface);
+
+            return image;
+        }
+    };
 }
 
 #endif // end GCN_OPENGLSDLIMAGELOADER_HPP

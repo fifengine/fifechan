@@ -77,7 +77,7 @@ FFDemo::FFDemo()
 	mSDLGraphics->setTarget(mScreen);
 	mSDLInput = new gcn::SDLInput();
 	
-	mSplashImage = new gcn::Image("images/splash.png");	
+	mSplashImage = gcn::Image::load("images/splash.png");	
 
 	mTop = new gcn::Container();
 	mTop->setBaseColor(gcn::Color(0x000000));
@@ -202,9 +202,9 @@ void FFDemo::initMain()
 	mMain->setDimension(gcn::Rectangle(0, 0, 320, 240));
 	mTop->add(mMain);
 
-	mPerImage = new gcn::Image("images/finalman.png");
-	mOlofImage = new gcn::Image("images/yakslem.png");
-	mTomasImage = new gcn::Image("images/peak.png");
+	mPerImage = gcn::Image::load("images/finalman.png");
+	mOlofImage = gcn::Image::load("images/yakslem.png");
+	mTomasImage = gcn::Image::load("images/peak.png");
 
 	mPerIcon = new gcn::Icon(mPerImage);
 	mOlofIcon = new gcn::Icon(mOlofImage);
@@ -642,15 +642,16 @@ void FFDemo::run()
 		mTimeLabel2->adjustSize();
 		
 		if (SDL_GetTicks() < 3000)
-		{
+        {
 			SDL_Rect src, dst;
 			src.x = src.y = 0;
 			src.w = dst.w = mSplashImage->getWidth();
 			src.h = dst.h = mSplashImage->getHeight();
 			dst.x = 10;
 			dst.y = 50;
-			SDL_BlitSurface((SDL_Surface *)mSplashImage->_getData(), &src, mScreen, &dst);
-		}
+			gcn::SDLImage* image = (gcn::SDLImage*) mSplashImage;
+			SDL_BlitSurface(image->getSurface(), &src, mScreen, &dst);
+	}
 		else		
 		{
 			mGui->logic();
@@ -662,7 +663,7 @@ void FFDemo::run()
 	}		
 }
 
-void FFDemo::action(const std::string &eventId)
+void FFDemo::action(const std::string &eventId, gcn::Widget* widget)
 {
 	if (eventId == "menu")		
 	{
@@ -807,7 +808,7 @@ void FFDemo::input()
 			if (mEvent.key.keysym.sym == SDLK_ESCAPE)
 			{  
 				Mix_PlayChannel(-1, mEscapeSound, 0);
-				action("escape");
+				action("escape", NULL);
 			}
 			else if (mEvent.key.keysym.sym == SDLK_RETURN
 					|| mEvent.key.keysym.sym == SDLK_UP

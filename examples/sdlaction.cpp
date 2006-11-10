@@ -7,7 +7,7 @@
 #include <sstream>         // Used for int to string conversion
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /*
  * Common stuff we need
@@ -57,7 +57,7 @@ public:
 	{
 		std::string str;
 		std::ostringstream os(str);
-		
+
 		// Here we use the widget pointer to check which widget the action
         // originated from.
 		if (widget == button1)
@@ -79,7 +79,7 @@ public:
 			// Adjust the label to fit the new caption
 			label2->adjustSize();
 		}
-	}		
+	}
 };
 
 ButtonActionListener* buttonActionListener; // A pointer to the above class
@@ -89,7 +89,7 @@ ButtonActionListener* buttonActionListener; // A pointer to the above class
  */
 void init()
 {
-	/* 
+	/*
 	 * Here we initialize SDL as we would do with any SDL application.
 	 */
 	SDL_Init(SDL_INIT_VIDEO);
@@ -104,27 +104,27 @@ void init()
 	 */
 	imageLoader = new gcn::SDLImageLoader();
 	// The ImageLoader in use is static and must be set to be
-	// able to load images	
-	gcn::Image::setImageLoader(imageLoader); 
+	// able to load images
+	gcn::Image::setImageLoader(imageLoader);
 	graphics = new gcn::SDLGraphics();
 	// Set the target for the graphics object to be the screen.
 	// In other words, we will draw to the screen.
 	// Note, any surface will do, it doesn't have to be the screen.
 	graphics->setTarget(screen);
 	input = new gcn::SDLInput();
-	
+
 	/*
 	 * Last but not least it's time to initialize and create the gui
 	 * with Guichan stuff.
 	 */
-	top = new gcn::Container();    
+	top = new gcn::Container();
 	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(0, 0, 640, 480));
 	gui = new gcn::Gui();
 	// Set gui to use the SDLGraphics object.
 	gui->setGraphics(graphics);
 	// Set gui to use the SDLInput object
-	gui->setInput(input);	
+	gui->setInput(input);
 	// Set the top container
 	gui->setTop(top);
 	// Load the image font.
@@ -139,9 +139,9 @@ void init()
 	button1->setPosition(120, 230);
 	button2->setPosition(420, 230);
 	// Add the buttons to the top container
-	top->add(button1);						
+	top->add(button1);
 	top->add(button2);
-	
+
 	// Create labels
 	label1 = new gcn::Label("Button1 clicks 0");
 	label2 = new gcn::Label("Button2 clicks 0");
@@ -149,17 +149,17 @@ void init()
 	label1->setPosition(100, 200);
 	label2->setPosition(400, 200);
 	// Add the labels to the top container
-	top->add(label1);						
+	top->add(label1);
 	top->add(label2);
 
-	
-	// Set the buttons event ids
-	button1->setEventId("button1");
-	button2->setEventId("button2");
-	
+
+	// Set the buttons action event id's.
+	button1->setActionEventId("button1");
+	button2->setActionEventId("button2");
+
 	// Make an instance of the ButtonActionListener
 	buttonActionListener = new ButtonActionListener();
-	
+
 	// Add the ButtonActionListener to the buttons action listeners
 	button1->addActionListener(buttonActionListener);
 	button2->addActionListener(buttonActionListener);
@@ -172,12 +172,12 @@ void halt()
 {
 	/*
 	 * Destroy our action listener
-	 */ 
+	 */
 	delete buttonActionListener;
-	
+
 	/*
 	 * Destroy Guichan stuff
-	 */	
+	 */
 	delete label1;
 	delete label2;
 	delete button1;
@@ -185,14 +185,14 @@ void halt()
 	delete font;
 	delete top;
 	delete gui;
-	
+
 	/*
 	 * Destroy Guichan SDL stuff
 	 */
 	delete input;
 	delete graphics;
 	delete imageLoader;
-	
+
 	/*
 	 * Destroy SDL stuff
 	 */
@@ -212,7 +212,7 @@ void checkInput()
 		if (event.type == SDL_KEYDOWN)
 		{
 			if (event.key.keysym.sym == SDLK_ESCAPE)
-			{  
+			{
 				running = false;
 			}
 			if (event.key.keysym.sym == SDLK_f)
@@ -236,7 +236,7 @@ void checkInput()
 		 * label doesn't use input. But will do it anyway to show how to
 		 * set up an SDL application with Guichan.)
 		 */
-		input->pushInput(event);        		
+		input->pushInput(event);
 	}
 }
 
@@ -255,16 +255,16 @@ void run()
 		gui->draw();
 		// Update the screen
 		SDL_Flip(screen);
-	}		
+	}
 }
 
 int main(int argc, char **argv)
-{	
+{
 	try
 	{
  		init();
 		run();
-		halt();			
+		halt();
 	}
 	/*
 	 * Catch all Guichan exceptions
@@ -279,7 +279,7 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-		std::cerr << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;
 		return 1;
 	}
 	/*

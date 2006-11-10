@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -66,10 +68,10 @@ namespace gcn
     class Color;
     class Graphics;
     class Image;
-    
+
     /**
      * A font using an image containing the font data. It implements the font
-     * class. You can use any filetype for the font data as long as it can be     
+     * class. You can use any filetype for the font data as long as it can be
      * loaded with your ImageLoader.
      *
      * This are two examples of an image containing a font.
@@ -99,7 +101,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * Constructor which takes an image file containing the font and
          * a string containing the glyphs. The glyphs in the string should
          * be in the same order as they appear in the font image.
-         *     
+         *
          * @param filename the filename of the image.
          * @param glyphs the glyphs found in the image.
          * @throws Exception when glyph list is incorrect or the font file is
@@ -117,18 +119,18 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @param glyphsFrom the ASCII value of the first glyph found in the
          *                   image.
          * @param glyphsTo the ASCII value of the last glyph found in the
-         *                 image.     
+         *                 image.
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, unsigned char glyphsFrom=32, 
+        ImageFont(const std::string& filename, unsigned char glyphsFrom=32,
                   unsigned char glyphsTo=126);
-        
+
         /**
          * Destructor.
          */
         virtual ~ImageFont();
-        
+
         /**
          * Draws a glyph.
          *
@@ -143,7 +145,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @return the width of the glyph in pixels.
          * @see Graphics
          */
-        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, 
+        virtual int drawGlyph(Graphics* graphics, unsigned char glyph,
                               int x, int y);
 
         /**
@@ -175,27 +177,27 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @return the spacing.
          */
         virtual int getGlyphSpacing();
-        
+
         /**
          * Gets a width of a glyph.
          *
          * @param glyph the glyph which width will be returned
-         * @return the width of a glyph 
+         * @return the width of a glyph
          */
         virtual int getWidth(unsigned char glyph) const;
 
-        
+
         // Inherited from Font
 
         virtual int getWidth(const std::string& text) const;
-        
-        virtual void drawString(Graphics* graphics, const std::string& text, 
-                                int x, int y);        
-        
+
+        virtual void drawString(Graphics* graphics, const std::string& text,
+                                int x, int y);
+
         virtual int getHeight() const;
 
         virtual int getStringIndexAt(const std::string& text, int x);
-        
+
     protected:
         void addGlyph(unsigned char c, int &x, int &y, const Color& separator);
 
@@ -204,8 +206,8 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
         int mGlyphSpacing;
         int mRowSpacing;
         Image* mImage;
-        std::string mFilename;        
-    };  
+        std::string mFilename;
+    };
 }
 
 #endif // end GCN_IMAGEFONT_HPP

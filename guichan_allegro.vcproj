@@ -13,7 +13,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\lib"
+			OutputDirectory="..\lib"
 			IntermediateDirectory=".\msvc_intermediate_dbg"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -78,7 +78,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
+			OutputDirectory="..\lib"
 			IntermediateDirectory=".\msvc_intermediate"
 			ConfigurationType="2"
 			UseOfMFC="0"

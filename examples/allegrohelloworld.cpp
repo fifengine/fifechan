@@ -33,7 +33,7 @@ gcn::Label* label;       // And a label for the Hello World text
  */
 void init()
 {
-	/* 
+	/*
 	 * Here we initialize Allegro as we
 	 * would do with any Allegro application.
 	 */
@@ -44,7 +44,7 @@ void init()
 	{
 		bpp = 16;
 	}
-	
+
 	set_color_depth(bpp);
 
 	if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0))
@@ -61,40 +61,40 @@ void init()
 	{
 		throw GCN_EXCEPTION("Unable to create a screen buffer");
 	}
-	
+
 	install_keyboard();
 	install_mouse();
 	install_timer();
-	
+
 	/*
 	 * Ok, we have Allegro set up, now its time to add the glue
 	 * between Allegro and Guichan
 	 */
 	imageLoader = new gcn::AllegroImageLoader();
 	// The ImageLoader in use is static and must be set to be
-	// able to load images	
+	// able to load images
 	gcn::Image::setImageLoader(imageLoader);
-	
+
 	graphics = new gcn::AllegroGraphics();
 	// Set the target for the graphics object to be the doublebuffer
 	// for the screen. Drawing to the screen directly is not a good
 	// idea, as it will produce flicker, unless you use page flipping.
 	graphics->setTarget(screenBuffer);
-	
+
 	input = new gcn::AllegroInput();
-	
+
 	/*
 	 * Last but not least it's time to initialize and create the gui
 	 * with Guichan stuff.
 	 */
-	top = new gcn::Container();    
+	top = new gcn::Container();
 	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(0, 0, 640, 480));
 	gui = new gcn::Gui();
 	// Set gui to use the AllegroGraphics object.
 	gui->setGraphics(graphics);
 	// Set gui to use the AllegroInput object
-	gui->setInput(input);	
+	gui->setInput(input);
 	// Set the top container
 	gui->setTop(top);
 	// Load the image font.
@@ -107,7 +107,7 @@ void init()
 	// Set the labels position
 	label->setPosition(280, 220);
 	// Add the label to the top container
-	top->add(label);						
+	top->add(label);
 }
 
 /**
@@ -122,14 +122,14 @@ void halt()
 	delete guiFont;
 	delete top;
 	delete gui;
-	
+
 	/*
 	 * Destroy Guichan Allegro stuff
 	 */
 	delete input;
 	delete graphics;
 	delete imageLoader;
-	
+
 	/*
 	 * Destroy Allegro stuff
 	 */
@@ -145,21 +145,21 @@ void run()
 	{
 		// Let the gui perform it's logic (like handle input)
 		gui->logic();
-				
+
 		// Draw the gui
 		gui->draw();
 
 		// We draw the mouse pointer manually, as Allegro's mouse
 		// drawing code is so wierd.
 		draw_sprite(screenBuffer, mouse_sprite, mouse_x, mouse_y);
-		
+
 		// Update the screen
 		blit(screenBuffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-	}		
+	}
 }
 
 int main(int argc, char **argv)
-{	
+{
 	try
 	{
  		init();
@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-		std::cerr << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;
 		return 1;
 	}
 	/*

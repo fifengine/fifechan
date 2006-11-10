@@ -15,6 +15,7 @@ libguichan_la_SOURCES = 	\
 	cliprectangle.cpp	\
 	color.cpp		\
 	defaultfont.cpp		\
+	event.cpp		\
 	exception.cpp		\
 	focushandler.cpp	\
 	font.cpp		\
@@ -23,8 +24,11 @@ libguichan_la_SOURCES = 	\
 	guichan.cpp		\
 	image.cpp		\
 	imagefont.cpp		\
+	inputevent.cpp		\
 	key.cpp			\
+	keyevent.cpp		\
 	keyinput.cpp		\
+	mouseevent.cpp		\
 	mouseinput.cpp		\
 	rectangle.cpp		\
 	widget.cpp

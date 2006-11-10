@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -78,9 +80,9 @@ void FFScrollArea::draw(gcn::Graphics *graphics)
 		graphics->setColor(0x000000);
 		graphics->drawRectangle(gcn::Rectangle(getWidth()-11, y, 8, 32));
 		graphics->drawRectangle(gcn::Rectangle(getWidth()-10, y+1, 8, 32));
-		
+
 		graphics->setColor(0xffffff);
-		
+
 		graphics->fillRectangle(gcn::Rectangle(getWidth()-10, y+1, 6, 30));
 	}
 }
@@ -93,6 +95,6 @@ void FFScrollArea::keyPress(const gcn::Key &key)
 	}
 	else if (key.getValue() == gcn::Key::UP)
 	{
-		setVerticalScrollAmount(getVerticalScrollAmount() - 16);		
+		setVerticalScrollAmount(getVerticalScrollAmount() - 16);
 	}
 }

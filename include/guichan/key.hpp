@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -72,7 +74,7 @@ namespace gcn
          * @param value the ascii or enum value for the key.
          */
         Key(int value = 0);
-    
+
         /**
          * Checks whether a key is a character.
          *
@@ -86,11 +88,11 @@ namespace gcn
          * @return true if the key is a number (0-9).
          */
         bool isNumber() const;
-    
+
         /**
          * Checks whether a key is a letter.
          *
-         * @return true if the key is a letter (a-z,A-Z). 
+         * @return true if the key is a letter (a-z,A-Z).
          */
         bool isLetter() const;
 
@@ -100,7 +102,7 @@ namespace gcn
          * @return true if shift was pressed at the same time as the key.
          */
         bool isShiftPressed() const;
-    
+
         /**
          * Sets the shift pressed flag.
          *
@@ -112,9 +114,9 @@ namespace gcn
          * Checks whether control is pressed.
          *
          * @return true if control was pressed at the same time as the key.
-         */    
+         */
         bool isControlPressed() const;
-    
+
         /**
          * Sets the control pressed flag.
          *
@@ -149,7 +151,7 @@ namespace gcn
          * @param pressed the meta flag value.
          */
         void setMetaPressed(bool pressed);
-    
+
         /**
          * Checks whether the key was pressed at the numeric pad.
          *
@@ -163,7 +165,7 @@ namespace gcn
          * @param numpad the numeric pad flag value.
          */
         void setNumericPad(bool numpad);
-    
+
         /**
          * Gets the value of the key. If an ascii value exists it will be
          * returned. Otherwise an enum value will be returned.
@@ -185,8 +187,8 @@ namespace gcn
         enum
         {
             SPACE              = ' ',
-            TAB                = '\t', 
-            ENTER              = '\n',   
+            TAB                = '\t',
+            ENTER              = '\n',
             LEFT_ALT           = 1000,
             RIGHT_ALT,
             LEFT_SHIFT,
@@ -229,16 +231,16 @@ namespace gcn
             LEFT,
             RIGHT,
             UP,
-            DOWN      
+            DOWN
         };
-    
+
     protected:
         int mValue;
         bool mShiftPressed;
         bool mControlPressed;
         bool mAltPressed;
         bool mMetaPressed;
-        bool mNumericPad;    
+        bool mNumericPad;
     };
 }
 

@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/allegro/allegrographics.hpp"
@@ -70,12 +72,12 @@ namespace gcn
         mTarget = NULL;
         mClipNull = false;
     }
-    
+
     AllegroGraphics::AllegroGraphics(BITMAP *target)
     {
         mTarget = target;
     }
-    
+
     AllegroGraphics::~AllegroGraphics()
     {
     }
@@ -95,18 +97,18 @@ namespace gcn
         if (mTarget == NULL)
         {
             throw GCN_EXCEPTION("Target BITMAP is null, set it with setTarget first.");
-        }        
+        }
 
         // push a clip area the size of the target bitmap
         pushClipArea(Rectangle(0, 0, mTarget->w, mTarget->h));
     }
-    
+
     void AllegroGraphics::_endDraw()
     {
         // pop the clip area pushed in _beginDraw
-        popClipArea();       
+        popClipArea();
     }
-    
+
     bool AllegroGraphics::pushClipArea(Rectangle area)
     {
         bool result = Graphics::pushClipArea(area);
@@ -132,7 +134,7 @@ namespace gcn
 
         return result;
     }
-    
+
     void AllegroGraphics::popClipArea()
     {
         Graphics::popClipArea();
@@ -141,7 +143,7 @@ namespace gcn
         {
             return;
         }
-        
+
         ClipRectangle cr = mClipStack.top();
 
         // Allegro won't let you set clip areas
@@ -155,13 +157,13 @@ namespace gcn
         {
             mClipNull = false;
 #if ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0
-            set_clip(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);            
+            set_clip(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
 #else
             set_clip_rect(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
 #endif
-        }        
+        }
     }
-    
+
     void AllegroGraphics::drawImage(const Image* image,
                                     int srcX, int srcY,
                                     int dstX, int dstY,
@@ -171,7 +173,7 @@ namespace gcn
         {
             return;
         }
-        
+
         dstX += mClipStack.top().xOffset;
         dstY += mClipStack.top().yOffset;
 
@@ -181,10 +183,10 @@ namespace gcn
         {
             throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
         }
-        
+
         masked_blit(srcImage->getBitmap(), mTarget, srcX, srcY, dstX, dstY, width, height);
-    }    
-    
+    }
+
     void AllegroGraphics::drawPoint(int x, int y)
     {
         if (mClipNull)
@@ -194,23 +196,23 @@ namespace gcn
 
         int xOffset = mClipStack.top().xOffset;
         int yOffset = mClipStack.top().yOffset;
-        
+
         putpixel(mTarget,
                  x + xOffset,
                  y + yOffset,
                  mAlColor);
     }
-    
+
     void AllegroGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
         if (mClipNull)
         {
             return;
         }
-        
+
         int xOffset = mClipStack.top().xOffset;
         int yOffset = mClipStack.top().yOffset;
-        
+
         line(mTarget,
              x1 + xOffset,
              y1 + yOffset,
@@ -218,14 +220,14 @@ namespace gcn
              y2 + yOffset,
              mAlColor);
     }
-    
+
     void AllegroGraphics::drawRectangle(const Rectangle& rectangle)
     {
         if (mClipNull)
         {
             return;
         }
-        
+
         int xOffset = mClipStack.top().xOffset;
         int yOffset = mClipStack.top().yOffset;
 
@@ -236,7 +238,7 @@ namespace gcn
              rectangle.y + rectangle.height - 1 + yOffset,
              mAlColor);
     }
-    
+
     void AllegroGraphics::fillRectangle(const Rectangle& rectangle)
     {
         if (mClipNull)
@@ -272,7 +274,7 @@ namespace gcn
     }
 
     const Color& AllegroGraphics::getColor()
-    {        
-        return mColor;    
-    }    
+    {
+        return mColor;
+    }
 }

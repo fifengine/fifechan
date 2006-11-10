@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/key.hpp"
@@ -79,20 +81,20 @@ namespace gcn
     {
         return mValue >= 48 && mValue <= 57;
     }
-  
+
     bool Key::isLetter() const
     {
         return (((mValue >= 65 && mValue <= 90)
                  || (mValue >= 97 && mValue <= 122)
                  || (mValue >= 192 && mValue <= 255))
-                && (mValue != 215) && (mValue != 247));    
+                && (mValue != 215) && (mValue != 247));
     }
 
     bool Key::isShiftPressed() const
     {
         return mShiftPressed;
     }
-  
+
     void Key::setShiftPressed(bool pressed)
     {
         mShiftPressed = pressed;
@@ -102,7 +104,7 @@ namespace gcn
     {
         return mControlPressed;
     }
-  
+
     void Key::setControlPressed(bool pressed)
     {
         mControlPressed = pressed;
@@ -112,7 +114,7 @@ namespace gcn
     {
         return mAltPressed;
     }
-  
+
     void Key::setAltPressed(bool pressed)
     {
         mAltPressed = pressed;
@@ -122,7 +124,7 @@ namespace gcn
     {
         return mMetaPressed;
     }
-  
+
     void Key::setMetaPressed(bool pressed)
     {
         mMetaPressed = pressed;
@@ -132,7 +134,7 @@ namespace gcn
     {
         return mNumericPad;
     }
-  
+
     void Key::setNumericPad(bool numpad)
     {
         mNumericPad = numpad;
@@ -145,6 +147,6 @@ namespace gcn
 
     int Key::getValue() const
     {
-        return mValue;    
+        return mValue;
     }
 }

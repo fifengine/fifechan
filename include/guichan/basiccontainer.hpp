@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -119,7 +121,7 @@ namespace gcn
         virtual void focusNext();
 
         /**
-         * Focuses the previous Widge in the BasicContainer.
+         * Focuses the previous Widget in the BasicContainer.
          */
         virtual void focusPrevious();
 
@@ -136,33 +138,43 @@ namespace gcn
         virtual Widget *getWidgetAt(int x, int y);
 
         /**
-         * Tries to show a specific part of a Widget by moving it. 
+         * Tries to show a specific part of a Widget by moving it.
          *
          * @param widget the target Widget.
          * @param area the area to show.
          */
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
-        
-        // Inherited from Widget
-        
-        virtual void logic();
-
-        virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-        virtual void _mouseInputMessage(const MouseInput& mouseInput);
-        
-        virtual void _mouseOutMessage();
-
-        virtual void _keyInputMessage(const KeyInput& keyInput);
-        
+        /**
+         * Mouse policies to be used with setMouseInputPolicy().
+         *
+         * NEVER - Mouse input will never be sent the BasicContainer but to 
+         *         children of the BasicContainer.
+         * ALWAYS - Mouse inpuyt will always be sent to the BasicContainer
+         *          as well as to the children of the BasicContainer.
+         * NOT_ON_CHILD - Mouse input will not be sent to the BasicContainer if
+         *                the mouse input occurs over a child.
+         * NOT_IN_CHILDREN_AREA -  Mouse input will not be sent to the
+         *                         BasicContainer if the mouse input occurs 
+         *                         over the children area.
+         *
+         */
         enum
         {
             NEVER,
             ALWAYS,
             NOT_ON_CHILD,
             NOT_IN_CHILDREN_AREA
-        };        
+        };
+        
+        
+        // Inherited from Widget
+
+        virtual void logic();
+
+        virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+        virtual void _keyInputMessage(const KeyInput& keyInput);
 
     protected:
         /**
@@ -190,14 +202,14 @@ namespace gcn
          * @param graphics a Graphics object to draw with.
          */
         virtual void drawChildren(Graphics* graphics);
-               
+
         /**
          * Calls logic for children widgets.
          */
         virtual void logicChildren();
 
         /**
-         * Sets the mouse input policy.
+         * Sets the mouse input policy. The default policy is NOT_ON_CHILD.
          *
          * @param policy the mouse input policy. See enum.
          */
@@ -217,7 +229,7 @@ namespace gcn
          *         is used, NULL will be returned.
          */
         virtual FocusHandler* getInternalFocusHandler();
-        
+
         /**
          * Sets the internal FocusHandler. An internal focushandler is
          * needed if both a widget in the container and the container
@@ -226,16 +238,16 @@ namespace gcn
          * @param focusHandler the FocusHandler to be used.
          */
         virtual void setInternalFocusHandler(FocusHandler* focusHandler);
-        
+
         typedef std::list<Widget *> WidgetList;
         typedef WidgetList::iterator WidgetListIterator;
         typedef WidgetList::reverse_iterator WidgetListReverseIterator;
-        
+
         WidgetList mWidgets;
         Widget *mWidgetWithMouse;
-        unsigned int mMouseInputPolicy;        
+        unsigned int mMouseInputPolicy;
         FocusHandler* mInternalFocusHandler;
-    };  
+    };
 }
 
 #endif // end GCN_BASICCONTAINER_HPP

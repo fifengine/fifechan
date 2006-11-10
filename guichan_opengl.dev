@@ -1,7 +1,7 @@
 [Project]
 FileName=guichan_opengl.dev
 Name=guichan_opengl
-UnitCount=6
+UnitCount=7
 Type=3
 Ver=1
 ObjFiles=
@@ -99,6 +99,16 @@ AutoIncBuildNr=0
 
 [Unit6]
 FileName=include\guichan\opengl\openglimage.hpp
+CompileCpp=1
+Folder=include/opengl
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=include\guichan\opengl\openglsdlimageloader.hpp
 CompileCpp=1
 Folder=include/opengl
 Compile=1

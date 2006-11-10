@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/widgets/window.hpp"
@@ -67,7 +69,6 @@ namespace gcn
 {
     Window::Window()
     {
-        mMouseDrag = false;
         setBorderSize(1);
         setPadding(2);
         setTitleBarHeight(16);
@@ -75,12 +76,12 @@ namespace gcn
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
+        setFocusable(true);
     }
 
     Window::Window(const std::string& caption)
     {
-        mMouseDrag = false;
-        setCaption(caption);    
+        setCaption(caption);
         setBorderSize(1);
         setPadding(2);
         setTitleBarHeight(16);
@@ -88,12 +89,13 @@ namespace gcn
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
+        setFocusable(true);
     }
 
     Window::~Window()
     {
     }
-  
+
     void Window::setPadding(unsigned int padding)
     {
         mPadding = padding;
@@ -121,7 +123,7 @@ namespace gcn
 
     const std::string& Window::getCaption() const
     {
-        return mCaption;    
+        return mCaption;
     }
 
     void Window::setAlignment(unsigned int alignment)
@@ -163,13 +165,13 @@ namespace gcn
         graphics->fillRectangle(Rectangle(d.x - 1,
                                           d.y + d.height + 1,
                                           d.width + 2,
-                                          getHeight() - d.height - d.y - 1));    
+                                          getHeight() - d.height - d.y - 1));
 
         if (isOpaque())
-        {      
+        {
             graphics->fillRectangle(d);
         }
-    
+
         // Construct a rectangle one pixel bigger than the content
         d.x -= 1;
         d.y -= 1;
@@ -189,7 +191,7 @@ namespace gcn
                            d.y + 1,
                            d.x,
                            d.y + d.height - 1);
-    
+
         graphics->setColor(highlightColor);
         // Right line
         graphics->drawLine(d.x + d.width - 1,
@@ -203,10 +205,12 @@ namespace gcn
                            d.y + d.height - 1);
 
         drawChildren(graphics);
-        
+
         int textX;
         int textY;
-        textY = (getTitleBarHeight() - getFont()->getHeight()) / 2;
+        
+        textY = ((int)getTitleBarHeight() - getFont()->getHeight()) / 2;
+       
         switch (getAlignment())
         {
           case Graphics::LEFT:
@@ -221,10 +225,12 @@ namespace gcn
           default:
               throw GCN_EXCEPTION("Unknown alignment.");
         }
-
+        
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
+        graphics->pushClipArea(Rectangle(0, 0, getWidth(), getTitleBarHeight() - 1));
         graphics->drawText(getCaption(), textX, textY, getAlignment());
+        graphics->popClipArea();
     }
 
     void Window::drawBorder(Graphics* graphics)
@@ -238,7 +244,7 @@ namespace gcn
         highlightColor.a = alpha;
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         unsigned int i;
         for (i = 0; i < getBorderSize(); ++i)
         {
@@ -246,44 +252,35 @@ namespace gcn
             graphics->drawLine(i,i, width - i, i);
             graphics->drawLine(i,i + 1, i, height - i - 1);
             graphics->setColor(shadowColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
-            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
     }
-    
-    void Window::mousePress(int x, int y, int button)
-    {    
+
+    void Window::mousePressed(MouseEvent& mouseEvent)
+    {
         if (getParent() != NULL)
         {
             getParent()->moveToTop(this);
         }
-    
-        if (isMovable() && hasMouse()
-            && y < (int)(getTitleBarHeight() + getPadding()) && button == 1)
-        {
-            mMouseDrag = true;
-            mMouseXOffset = x;
-            mMouseYOffset = y;
-        }
-    }
-  
-    void Window::mouseRelease(int x, int y, int button)
-    {
-        if (button == 1)
-        {
-            mMouseDrag = false;
-        }
+
+        mDragOffsetX = mouseEvent.getX();
+        mDragOffsetY = mouseEvent.getY();
+
+        mouseEvent.consume();
     }
 
-    void Window::mouseMotion(int x, int y)
-    {
-        if (mMouseDrag && isMovable())
+    void Window::mouseDragged(MouseEvent& mouseEvent)
+    {        
+        if (isMovable())
         {
-            setPosition(x - mMouseXOffset + getX(),
-                        y - mMouseYOffset + getY());
+            setPosition(mouseEvent.getX() - mDragOffsetX + getX(),
+                        mouseEvent.getY() - mDragOffsetY + getY());
         }
+
+        mouseEvent.consume();
     }
-     
+
     Rectangle Window::getChildrenArea()
     {
         return Rectangle(getPadding(),
@@ -309,7 +306,7 @@ namespace gcn
 
     bool Window::isOpaque()
     {
-        return mOpaque;    
+        return mOpaque;
     }
 
     void Window::resizeToContent()
@@ -327,7 +324,7 @@ namespace gcn
             if ((*it)->getY() + (*it)->getHeight() > h)
             {
                 h = (*it)->getY() + (*it)->getHeight();
-            }            
+            }
         }
 
         setSize(w + 2* getPadding(), h + getPadding() + getTitleBarHeight());

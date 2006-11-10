@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -123,7 +125,7 @@ namespace gcn
          *
          * @return the number of rows in the text.
          */
-        virtual unsigned int getNumberOfRows() const;   
+        virtual unsigned int getNumberOfRows() const;
 
         /**
          * Gets the caret position in the text.
@@ -152,7 +154,7 @@ namespace gcn
          * @param row the row number.
          */
         virtual void setCaretRow(int row);
-                
+
         /**
          * Gets the column the caret is in in the text.
          *
@@ -164,9 +166,9 @@ namespace gcn
          * Sets the column the caret should be in in the text.
          *
          * @param column the column number.
-         */        
+         */
         virtual void setCaretColumn(int column);
-        
+
         /**
          * Sets the row and the column the caret should be in in the text.
          *
@@ -184,9 +186,9 @@ namespace gcn
          * Checks if the TextBox is editable.
          *
          * @return true it the TextBox is editable.
-         */     
+         */
         virtual bool isEditable() const;
-        
+
         /**
          * Sets if the TextBox should be editable or not.
          *
@@ -211,30 +213,30 @@ namespace gcn
         /**
          * Sets the TextBox to be opaque.
          *
-         * @param opaque true if the TextBox should be opaque.         
+         * @param opaque true if the TextBox should be opaque.
          */
         virtual void setOpaque(bool opaque);
 
-        
+
         // Inherited from Widget
-        
+
         virtual void draw(Graphics* graphics);
-        
+
         virtual void drawBorder(Graphics* graphics);
-        
+
         virtual void fontChanged();
-        
+
 
         // Inherited from KeyListener
 
         virtual void keyPress(const Key& key);
 
-        
-        // Inherited from MouseListener
-        
-        virtual void mousePress(int x, int y, int button);
 
-        
+        // Inherited from MouseListener
+
+        virtual void mousePressed(MouseEvent& mouseEvent);
+
+
     protected:
         /**
          * Draws the caret.
@@ -244,18 +246,18 @@ namespace gcn
          * @param y the y position.
          */
         virtual void drawCaret(Graphics* graphics, int x, int y);
-        
+
         /**
          * Adjusts the TextBox size to fit the font size.
          */
         virtual void adjustSize();
-    
+
         std::vector<std::string> mTextRows;
         int mCaretColumn;
         int mCaretRow;
         bool mEditable;
         bool mOpaque;
-    };  
+    };
 }
 
 #endif // end GCN_TEXTBOX_HPP

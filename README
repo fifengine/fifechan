@@ -1,62 +1,58 @@
 IMPORTANT!
-Guichan is in a pre-beta stage and should not be used for anything accept 
-testing. We will change the API before the 1.0 release and every project using 
-a beta version of Guichan will most likely lose binary compatibility.
+=========
+Guichan is currently in a beta stage. This means that the API is not fixed and may
+change in the future. Every API change will break compatibility between older
+versions of Guichan.
 
-What is Guichan?
------------------
-Guichan is a small, efficient C++ GUI library designed for games. 
-It comes with a standard set of widgets and can use several different objects 
-for displaying graphics and grabbing user input.
+INTRODUCTON TO GUICHAN
+======================
+Guichan is a C++ GUI library designed for games. It comes with a standard set of 
+'widgets' and can use several different objects for displaying graphics and 
+capturing user input.
+Guichan has an abstract design which allows users of Guichan to use different 
+objects for displaying of graphics and grabbing of user input. Guichan comes with 
+three implemented graphics objects (SDLGraphics, OpenGLGraphics and AllegroGraphics)
+and two implemented input objects (SDLInput and AllegroInput). Due to Guichan's 
+extendible nature, new objects can also be created by the developer to suit their 
+needs.
+As Guichan is designed for games, Guichan lacks many features of more advanced GUI 
+libraries (such as GTK and QT). However, a game developer may not normally require 
+all the advanced features of the larger GUI libraries. Guichan aims to keep small 
+and simple, thus avoiding the complication and large dependencies found with some 
+other GUI libraries. Guichan is small but contains all basic GUI features making it 
+ideal for games.
 
-So what are these objects you are talking about?
-------------------------------------------------
-Guichan has a very abstract design which allows users of Guichan to use 
-different objects for displaying of graphics and grabbing of user input. 
-Guichan comes with (for now) 3 implemented graphics objects 
-(SDLGraphics, OpenGLGraphics and AllegroGraphics) and 2 implemented input 
-objects (SDLInput and AllegroInput),
+Guichan allows the developer control over the initialization of external libraries, 
+giving a degree of freedom which is almost required in game development, but not 
+provided by some GUI libraries. Guichan should not be considered a full GUI library 
+but rather a tool or helper library for game development.
 
-The Guichan philosophy
------------------------
-Guichan is designed for games. This means that Guichan lacks many features 
-of more advanced GUI libraries (such as GTK, QT ). However, this should not 
-be considered a weakness of Guichan but on the contrary a strength of Guichan. 
-When making games you normally don't need all features in advanced GUI libraries. 
-They often complicate things and adding a dependency such as QT for a 
-small platform game doesn't really feel good. Guichan is small but contains 
-all basic GUI features making it ideal for games.
+The basic nature of Guichan means that it comes with a small number of default 
+widgets. There exists no themes or theme handling for Guichan, as their 
+implementation would increase the size and complexity of the library unnecessarily. 
+Instead, the developer creates their own new widgets by inheriting from the standard
+widgets or by overloading standard widget functions. This makes Guichan much more 
+flexible for customisation than theme based GUIs, and more natural to use for C++ 
+developers, as they need only learn the API instead of a whole new theming system.
 
-Guichan is designed for games. This means that Guichan will not take over 
-your game/application when it comes to initialization of external libraries. 
-When making games you normally want to initiallize all extern libraries 
-yourself. This gives all users of Guichan a freedom that's almost required in 
-game development. Guichan should not be considered a full GUI library but 
-rather a tool or helper library for game development.
+FOR MORE INFORMATION AND DOWNLOADS
+==================================
+For more general information about Guichan and/or downloads related to Guichan 
+please visit the Guichan homepage at http://guichan.sourceforge.net.
 
-Guichan is designed for games. This means that Guichan comes with really 
-ugly default widgets and a small number of widgets too. Also, there exists no 
-themes or theme handling for Guichan. Every user of Guichan is suppose to 
-make new widets by ineherit from the standard widgets or by overloading 
-standard widgets functions. This is very powerful and beats all theme 
-based GUIs. If we would implement theme handling, for widgets to be able to 
-look exaclty as you want, it would have to be very complex and it would 
-increase the size of Guichan. We believe that theme handling for a specific 
-GUI is nothing a game developer wants to learn when developing a simple game. 
-The knowledge of standard C++ ought every game developer possess that 
-uses Guichan, so no new learning is required (accept the API) 
-for using Guichan
+GETTING HELP WITH GUICHAN
+=========================
+If you need help with Guichan, the best way to proceed is to ask questions either
+by joining the users mailing list or by joining our forum. Information about 
+Guichan's mailing lists and our forum is found at the Guichan homepate at 
+http://guichan.sourceforge.net.
 
-Guichan is designed in a very abstract way making it very easy to extend 
-Guichan for your own needs. It is even very easy to implement new graphics 
-objects making Guichan as portable as ansi C++ is.
 
-Under which license comes Guichan?
------------------------------------
-Guichan comes under the BSD license and there exist a very good reason for 
-the choice of BSD over LGPL (which i believe are the standard licenses for 
-open(free) source library projects). BSD lets you link with Guichan statically 
-or even include all of the source for Guichan into your own project not using 
-any linkage at all (which would violate the LGPL license). 
-We believe this is something users of Guichan might want to do because of our 
-philosophy of using inherits and overloading over theme handling.
+GETTING INVOLVED WITH GUICHAN DEVELOPMENT
+=========================================
+If you want to get involved with Guichan development, the best way to proceed is to
+suggest improvements to Guichan either by joining the developers mailing list or
+by joining our forum. Information about Guichan's mailing lists and our forum is
+found at the Guichan homepate at http://guichan.sourceforge.net.
+
+By Olof Naessén 2006-06-30.

@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -91,7 +93,7 @@ namespace gcn
          * Destructor.
          */
         virtual ~CheckBox() { }
-        
+
         /**
          * Draws the box i.a not the caption.
          *
@@ -103,42 +105,42 @@ namespace gcn
          * Checks if the CheckBox is marked.
          *
          * @return true if the CheckBox is marked.
-         */      
+         */
         virtual bool isMarked() const;
-        
+
         /**
          * Sets the CheckBox to be marked.
          *
          * @param marked true if the CheckBox should be marked.
          */
         virtual void setMarked(bool marked);
-        
+
         /**
          * Gets the CheckBox caption.
          *
          * @return the CheckBox caption.
          */
         virtual const std::string &getCaption() const;
-        
+
         /**
          * Sets the CheckBox caption.
          *
          * @param caption the CheckBox caption.
          */
         virtual void setCaption(const std::string& caption);
-        
+
         /**
          * Adjusts the CheckBox size to fit the font size.
          */
         virtual void adjustSize();
-        
+
 
         // Inherited from Widget
-        
+
         virtual void draw(Graphics* graphics);
 
         virtual void drawBorder(Graphics* graphics);
-      
+
 
         // Inherited from KeyListener
 
@@ -147,7 +149,7 @@ namespace gcn
 
         // Inherited from MouseListener
 
-        virtual void mouseClick(int x, int y, int button, int count);
+        virtual void mouseClicked(MouseEvent& mouseEvent);
 
 
     protected:
@@ -155,10 +157,10 @@ namespace gcn
          * Toggles between marked and unmarked.
          */
         virtual void toggle();
-    
+
         bool mMarked;
-        std::string mCaption;    
-    };  
+        std::string mCaption;
+    };
 }
 
 #endif // end GCN_CHECKBOX_HPP

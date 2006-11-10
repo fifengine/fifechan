@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/glut/glutinput.hpp"
@@ -65,25 +67,25 @@ namespace gcn
     GLUTInput::GLUTInput()
     {
     }
-    
+
     bool GLUTInput::isKeyQueueEmpty()
     {
         return mKeyInputQueue.empty();
     }
-  
+
     KeyInput GLUTInput::dequeueKeyInput()
     {
         KeyInput keyInput;
-    
+
         if (mKeyInputQueue.empty())
         {
             throw GCN_EXCEPTION("The queue is empty.");
         }
-    
+
         keyInput = mKeyInputQueue.front();
         mKeyInputQueue.pop();
 
-        return keyInput;    
+        return keyInput;
     }
 
     bool GLUTInput::isMouseQueueEmpty()
@@ -94,29 +96,29 @@ namespace gcn
     MouseInput GLUTInput::dequeueMouseInput()
     {
         MouseInput mouseInput;
-    
+
         if (mMouseInputQueue.empty())
         {
             throw GCN_EXCEPTION("The queue is empty.");
         }
-    
+
         mouseInput = mMouseInputQueue.front();
         mMouseInputQueue.pop();
 
-        return mouseInput;    
+        return mouseInput;
     }
-  
+
     void GLUTInput::pushKeyDownInput(unsigned char key)
     {
-        KeyInput keyInput;    
+        KeyInput keyInput;
         keyInput.setKey(convertKeyCharacter(key));
-        keyInput.setType(KeyInput::PRESS);        
+        keyInput.setType(KeyInput::PRESS);
         mKeyInputQueue.push(keyInput);
     }
 
     void GLUTInput::pushKeyUpInput(unsigned char key)
     {
-        KeyInput keyInput;    
+        KeyInput keyInput;
         keyInput.setKey(convertKeyCharacter(key));
         keyInput.setType(KeyInput::RELEASE);
         mKeyInputQueue.push(keyInput);
@@ -124,16 +126,16 @@ namespace gcn
 
     void GLUTInput::pushSpecialDownInput(unsigned char key)
     {
-        KeyInput keyInput;    
+        KeyInput keyInput;
         keyInput.setKey(convertSpecialCharacter(key));
-        keyInput.setType(KeyInput::PRESS);        
+        keyInput.setType(KeyInput::PRESS);
         mKeyInputQueue.push(keyInput);
 
     }
 
     void GLUTInput::pushSpecialUpInput(unsigned char key)
     {
-        KeyInput keyInput;    
+        KeyInput keyInput;
         keyInput.setKey(convertSpecialCharacter(key));
         keyInput.setType(KeyInput::RELEASE);
         mKeyInputQueue.push(keyInput);
@@ -155,7 +157,7 @@ namespace gcn
             mouseInput.setType(MouseInput::RELEASE);
         }
 
-        mMouseInputQueue.push(mouseInput);        
+        mMouseInputQueue.push(mouseInput);
     }
 
     void GLUTInput::pushMotionInput(int x, int y)
@@ -165,7 +167,7 @@ namespace gcn
         mouseInput.y = y;
         mouseInput.setButton(MouseInput::EMPTY);
         mouseInput.setType(MouseInput::MOTION);
-        mMouseInputQueue.push(mouseInput);              
+        mMouseInputQueue.push(mouseInput);
     }
 
     void GLUTInput::pushPassiveMotionInput(int x, int y)
@@ -175,7 +177,7 @@ namespace gcn
 
     Key GLUTInput::convertKeyCharacter(unsigned char key)
     {
-        int value = 0; 
+        int value = 0;
         Key gcnKey;
 
         value = (int)key;
@@ -205,14 +207,14 @@ namespace gcn
 
         return gcnKey;
     }
-    
+
     Key GLUTInput::convertSpecialCharacter(unsigned char key)
     {
-        int value = 0; 
+        int value = 0;
         Key gcnKey;
 
         value = (int)key;
-        
+
         switch(key)
         {
             case GLUT_KEY_UP:
@@ -226,7 +228,7 @@ namespace gcn
                 break;
             case GLUT_KEY_LEFT:
                 value = Key::LEFT;
-                break;                
+                break;
             case GLUT_KEY_F1:
                 value = Key::F1;
                 break;
@@ -277,7 +279,7 @@ namespace gcn
                 break;
             case GLUT_KEY_INSERT:
                 value = Key::INSERT;
-                break;                
+                break;
             default:
                 break;
         }
@@ -305,10 +307,10 @@ namespace gcn
             case GLUT_MIDDLE_BUTTON:
                 return MouseInput::MIDDLE;
                 break;
-        } 
-        
+        }
+
         throw GCN_EXCEPTION("Unknown GLUT mouse type.");
-        
+
         return 0;
     }
 }

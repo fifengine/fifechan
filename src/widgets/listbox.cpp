@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/widgets/listbox.hpp"
@@ -64,17 +66,17 @@
 #include "guichan/key.hpp"
 #include "guichan/listmodel.hpp"
 #include "guichan/mouseinput.hpp"
- 
+
 namespace gcn
 {
     ListBox::ListBox()
-    {    
+    {
         mSelected = -1;
         mListModel = NULL;
         mWrappingKeyboardSelection = false;
         setWidth(100);
         setFocusable(true);
-    
+
         addMouseListener(this);
         addKeyListener(this);
     }
@@ -86,7 +88,7 @@ namespace gcn
         setWidth(100);
         setListModel(listModel);
         setFocusable(true);
-    
+
         addMouseListener(this);
         addKeyListener(this);
     }
@@ -96,33 +98,33 @@ namespace gcn
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
-        if (mListModel == NULL)      
+        if (mListModel == NULL)
         {
             return;
         }
-    
+
         graphics->setColor(getForegroundColor());
-        graphics->setFont(getFont());    
-    
+        graphics->setFont(getFont());
+
         int i, fontHeight;
         int y = 0;
-    
+
         fontHeight = getFont()->getHeight();
-    
+
         /**
          * @todo Check cliprects so we do not have to iterate over elements in the list model
          */
         for (i = 0; i < mListModel->getNumberOfElements(); ++i)
-        {      
+        {
             if (i == mSelected)
             {
                 graphics->drawRectangle(Rectangle(0, y, getWidth(), fontHeight));
             }
-      
-            graphics->drawText(mListModel->getElementAt(i), 1, y);      
+
+            graphics->drawText(mListModel->getElementAt(i), 1, y);
 
             y += fontHeight;
-        }    
+        }
     }
 
     void ListBox::drawBorder(Graphics* graphics)
@@ -136,7 +138,7 @@ namespace gcn
         highlightColor.a = alpha;
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         unsigned int i;
         for (i = 0; i < getBorderSize(); ++i)
         {
@@ -144,14 +146,14 @@ namespace gcn
             graphics->drawLine(i,i, width - i, i);
             graphics->drawLine(i,i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
-            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
     }
-    
+
     void ListBox::logic()
     {
-        adjustSize();    
+        adjustSize();
     }
 
     int ListBox::getSelected()
@@ -184,10 +186,10 @@ namespace gcn
             if (par == NULL)
             {
                 return;
-            }            
-            
+            }
+
             Rectangle scroll;
-            
+
             if (mSelected < 0)
             {
                 scroll.y = 0;
@@ -196,21 +198,20 @@ namespace gcn
             {
                 scroll.y = getFont()->getHeight() * mSelected;
             }
-            
-            scroll.y = getFont()->getHeight() * mSelected;
+
             scroll.height = getFont()->getHeight();
             par->showWidgetPart(this, scroll);
         }
     }
 
     void ListBox::keyPress(const Key& key)
-    {    
+    {
         if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
         {
             generateAction();
         }
         else if (key.getValue() == Key::UP)
-        {      
+        {
             setSelected(mSelected - 1);
 
             if (mSelected == -1)
@@ -227,46 +228,65 @@ namespace gcn
         }
         else if (key.getValue() == Key::DOWN)
         {
-            if (isWrappingKeyboardSelection() 
+            if (isWrappingKeyboardSelection()
                 && getSelected() == getListModel()->getNumberOfElements() - 1)
             {
                 setSelected(0);
             }
             else
-            {            
+            {
                 setSelected(getSelected() + 1);
             }
         }
     }
 
-    void ListBox::mousePress(int x, int y, int button)
+    void ListBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (button == MouseInput::LEFT && hasMouse())
+        if (mouseEvent.getButton() == MouseInput::LEFT)
         {
-            setSelected(y / getFont()->getHeight());
+            setSelected(mouseEvent.getY() / getFont()->getHeight());
             generateAction();
         }
+
+        mouseEvent.consume();
     }
 
+    void ListBox::mouseWheelMovedUp(MouseEvent& mouseEvent)
+    {
+        if (getSelected() > 0 )
+        {
+            setSelected(getSelected() - 1);
+        }
+
+        mouseEvent.consume();
+    }
+    
+    void ListBox::mouseWheelMovedDown(MouseEvent& mouseEvent)
+    {
+        setSelected(getSelected() + 1);
+
+        mouseEvent.consume();
+    }
+    
     void ListBox::setListModel(ListModel *listModel)
     {
         mSelected = -1;
         mListModel = listModel;
-        adjustSize();    
+        adjustSize();
     }
-  
+
     ListModel* ListBox::getListModel()
     {
-        return mListModel;    
+        return mListModel;
     }
 
     void ListBox::adjustSize()
     {
         if (mListModel != NULL)
-        {      
+        {
             setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
-        }    
-    }  
+        }
+    }
 
     bool ListBox::isWrappingKeyboardSelection()
     {

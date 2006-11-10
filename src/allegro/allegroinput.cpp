@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,7 +55,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/allegro/allegroinput.hpp"
@@ -69,14 +71,14 @@ namespace gcn
         mMouseButton1 = mMouseButton2 = mMouseButton3 = false;
         mLastMouseZ = 0;
         mLastMouseX = 0;
-        mLastMouseY = 0;        
+        mLastMouseY = 0;
     }
-        
+
     bool AllegroInput::isKeyQueueEmpty()
     {
         return mKeyQueue.empty();
     }
-    
+
     KeyInput AllegroInput::dequeueKeyInput()
     {
         if (isKeyQueueEmpty())
@@ -86,15 +88,15 @@ namespace gcn
 
         KeyInput ki = mKeyQueue.front();
         mKeyQueue.pop();
-        
+
         return ki;
     }
-    
+
     bool AllegroInput::isMouseQueueEmpty()
     {
         return mMouseQueue.empty();
-    }    
-    
+    }
+
     MouseInput AllegroInput::dequeueMouseInput()
     {
         if (isMouseQueueEmpty())
@@ -104,28 +106,28 @@ namespace gcn
 
         MouseInput mi = mMouseQueue.front();
         mMouseQueue.pop();
-        
-        return mi;    
+
+        return mi;
     }
-    
+
     void AllegroInput::_pollInput()
     {
         pollMouseInput();
         pollKeyInput();
     }
-    
+
     void AllegroInput::pollMouseInput()
     {
         if (mouse_needs_poll())
         {
             poll_mouse();
-        }        
+        }
         int mouseX = mouse_x;
         int mouseY = mouse_y;
         int mouseZ = mouse_z;
         int mouseB1 = mouse_b & 1;
         int mouseB2 = mouse_b & 2;
-        int mouseB3 = mouse_b & 4;        
+        int mouseB3 = mouse_b & 4;
 
         // Check mouse movement
         if (mouseX != mLastMouseX || mouseY != mLastMouseY)
@@ -147,16 +149,16 @@ namespace gcn
                                         mouseX,
                                         mouseY,
                                         0));
-            
+
             mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-            
+
             mLastMouseZ++;
         }
-        
+
         while (mLastMouseZ > mouseZ)
         {
             mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
@@ -164,13 +166,13 @@ namespace gcn
                                         mouseX,
                                         mouseY,
                                         0));
-            
+
             mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
                                         MouseInput::RELEASE,
                                         mouseX,
                                         mouseY,
                                         0));
-            
+
             mLastMouseZ--;
         }
 
@@ -181,7 +183,7 @@ namespace gcn
                                         MouseInput::PRESS,
                                         mouseX,
                                         mouseY,
-                                        0));            
+                                        0));
         }
 
         if (mMouseButton1 && !mouseB1)
@@ -193,7 +195,7 @@ namespace gcn
                                         0));
         }
 
-        
+
         if (!mMouseButton2 && mouseB2)
         {
             mMouseQueue.push(MouseInput(MouseInput::RIGHT,
@@ -212,7 +214,7 @@ namespace gcn
                                         0));
         }
 
-        
+
         if (!mMouseButton3 && mouseB3)
         {
             mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
@@ -233,7 +235,7 @@ namespace gcn
 
         mMouseButton1 = mouseB1;
         mMouseButton2 = mouseB2;
-        mMouseButton3 = mouseB3;        
+        mMouseButton3 = mouseB3;
     }
 
     void AllegroInput::pollKeyInput()
@@ -244,18 +246,18 @@ namespace gcn
         {
             poll_keyboard();
         }
-        
+
         while (keypressed())
         {
             unicode = ureadkey(&scancode);
             Key keyObj = convertToKey(scancode, unicode);
-            
+
             mKeyQueue.push(
                 KeyInput(keyObj, KeyInput::PRESS));
-            
+
             mPressedKeys[scancode] = keyObj;
         }
-    
+
          // Check for released keys
         std::map<int, Key>::iterator iter, tempIter;
         for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
@@ -264,7 +266,7 @@ namespace gcn
             {
                  mKeyQueue.push(
                     KeyInput(iter->second, KeyInput::RELEASE));
-                
+
                 tempIter = iter;
                 iter++;
                 mPressedKeys.erase(tempIter);
@@ -275,7 +277,7 @@ namespace gcn
             }
         }
     }
-    
+
     Key AllegroInput::convertToKey(int scancode, int unicode)
     {
         int keysym;
@@ -286,7 +288,7 @@ namespace gcn
           case KEY_ESC:
               keysym = Key::ESCAPE;
               break;
-                
+
           case KEY_ALT:
               keysym = Key::LEFT_ALT;
               break;
@@ -302,11 +304,11 @@ namespace gcn
           case KEY_RSHIFT:
               keysym = Key::RIGHT_SHIFT;
               break;
-                
+
           case KEY_LCONTROL:
               keysym = Key::LEFT_CONTROL;
               break;
-                
+
           case KEY_RCONTROL:
               keysym = Key::RIGHT_CONTROL;
               break;
@@ -314,7 +316,7 @@ namespace gcn
           case KEY_LWIN:
               keysym = Key::LEFT_META;
               break;
-                
+
           case KEY_RWIN:
               keysym = Key::RIGHT_META;
               break;
@@ -338,7 +340,7 @@ namespace gcn
           case KEY_DEL:
               keysym = Key::DELETE;
               break;
-                
+
           case KEY_DEL_PAD:
               keysym = Key::DELETE;
               pad = true;
@@ -383,7 +385,7 @@ namespace gcn
           case KEY_F7:
               keysym = Key::F7;
               break;
-                
+
           case KEY_F8:
               keysym = Key::F8;
               break;
@@ -407,7 +409,7 @@ namespace gcn
           case KEY_PRTSCR:
               keysym = Key::PRINT_SCREEN;
               break;
-                
+
           case KEY_PAUSE:
               keysym = Key::PAUSE;
               break;
@@ -437,7 +439,7 @@ namespace gcn
               break;
 
           case KEY_ENTER_PAD:
-              pad = true;                
+              pad = true;
           case KEY_ENTER:
               keysym = Key::ENTER;
               break;
@@ -476,7 +478,7 @@ namespace gcn
         k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
                                        KB_RWIN_FLAG));
 #endif
-        
+
         return k;
 
         //Now, THAT was fun to code! =D =D =D

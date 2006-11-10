@@ -6,7 +6,7 @@
 #include <iostream>
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /*
  * Common stuff we need
@@ -39,7 +39,7 @@ gcn::Label* label;        // And a label for the Hello World text
  */
 void init()
 {
-	/* 
+	/*
 	 * Here we initialize SDL as we would do with any SDL application.
 	 */
 	SDL_Init(SDL_INIT_VIDEO);
@@ -54,27 +54,27 @@ void init()
 	 */
 	imageLoader = new gcn::SDLImageLoader();
 	// The ImageLoader in use is static and must be set to be
-	// able to load images	
-	gcn::Image::setImageLoader(imageLoader); 
+	// able to load images
+	gcn::Image::setImageLoader(imageLoader);
 	graphics = new gcn::SDLGraphics();
 	// Set the target for the graphics object to be the screen.
 	// In other words, we will draw to the screen.
 	// Note, any surface will do, it doesn't have to be the screen.
 	graphics->setTarget(screen);
 	input = new gcn::SDLInput();
-	
+
 	/*
 	 * Last but not least it's time to initialize and create the gui
 	 * with Guichan stuff.
 	 */
-	top = new gcn::Container();    
+	top = new gcn::Container();
 	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(0, 0, 640, 480));
 	gui = new gcn::Gui();
 	// Set gui to use the SDLGraphics object.
 	gui->setGraphics(graphics);
 	// Set gui to use the SDLInput object
-	gui->setInput(input);	
+	gui->setInput(input);
 	// Set the top container
 	gui->setTop(top);
 	// Load the image font.
@@ -87,7 +87,7 @@ void init()
 	// Set the labels position
 	label->setPosition(280, 220);
 	// Add the label to the top container
-	top->add(label);						
+	top->add(label);
 }
 
 /**
@@ -102,14 +102,14 @@ void halt()
 	delete font;
 	delete top;
 	delete gui;
-	
+
 	/*
 	 * Destroy Guichan SDL stuff
 	 */
 	delete input;
 	delete graphics;
 	delete imageLoader;
-	
+
 	/*
 	 * Destroy SDL stuff
 	 */
@@ -129,7 +129,7 @@ void checkInput()
 		if (event.type == SDL_KEYDOWN)
 		{
 			if (event.key.keysym.sym == SDLK_ESCAPE)
-			{  
+			{
 				running = false;
 			}
 			if (event.key.keysym.sym == SDLK_f)
@@ -153,7 +153,7 @@ void checkInput()
 		 * label doesn't use input. But will do it anyway to show how to
 		 * set up an SDL application with Guichan.)
 		 */
-		input->pushInput(event);        		
+		input->pushInput(event);
 	}
 }
 
@@ -172,16 +172,16 @@ void run()
 		gui->draw();
 		// Update the screen
 		SDL_Flip(screen);
-	}		
+	}
 }
 
 int main(int argc, char **argv)
-{	
+{
 	try
 	{
  		init();
 		run();
-		halt();			
+		halt();
 	}
 	/*
 	 * Catch all Guichan exceptions
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 	 */
 	catch (std::exception e)
 	{
-		std::cerr << "Std exception: " << e.what() << std::endl;  
+		std::cerr << "Std exception: " << e.what() << std::endl;
 		return 1;
 	}
 	/*

@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -63,27 +65,18 @@
 #include "guichan/image.hpp"
 
 namespace gcn
-{  
+{
     /**
      * Allegro implementation of Image.
      */
     class GCN_EXTENSION_DECLSPEC AllegroImage : public Image
     {
-    public:                
+    public:
         /**
-         * Constructor. Loads an image from a file.
+         * Constructor. Load an image from an Allegro BITMAP.
          *
          * NOTE: The functions getPixel and putPixel are only guaranteed to work
          *       before an image has been converted to display format.
-         *
-         * @param filename the file to load.
-         * @param convertToDisplayFormat true if the image should be converted
-         *                               to display, false otherwise.
-         */
-        AllegroImage(const std::string& filename, bool convertToDisplayFormat = true);
-        
-        /**
-         * Constructor. Load an image from an Allegro BITMAP.
          *
          * @param bitmap the bitmap from which to load.
          * @param autoFree true if the surface should automatically be deleted.
@@ -94,7 +87,7 @@ namespace gcn
          * Destructor.
          */
         virtual ~AllegroImage();
-        
+
         /**
          * Gets the Allegro bitmap for the image.
          *
@@ -102,21 +95,21 @@ namespace gcn
          */
         virtual BITMAP* getBitmap() const;
 
-        
+
         // Inherited from Image
 
         virtual void free();
-        
+
         virtual int getWidth() const;
 
         virtual int getHeight() const;
 
         virtual Color getPixel(int x, int y);
-        
+
         virtual void putPixel(int x, int y, const Color& color);
 
         virtual void convertToDisplayFormat();
-        
+
     protected:
         BITMAP* mBitmap;
         bool mAutoFree;

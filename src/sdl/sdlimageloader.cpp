@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -53,17 +55,81 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/sdl/sdlimage.hpp"
 
+#include "SDL_image.h"
+
+#include "guichan/exception.hpp"
 #include "guichan/sdl/sdlimageloader.hpp"
 
 namespace gcn
 {
-    Image* SDLImageLoader::load(const std::string& filename, bool convertToDisplayFormat)
+    Image* SDLImageLoader::load(const std::string& filename,
+                                bool convertToDisplayFormat)
     {
-        return new SDLImage(filename, convertToDisplayFormat);
+        SDL_Surface *loadedSurface = loadSDLSurface(filename);
+
+        if (loadedSurface == NULL)
+        {
+            throw GCN_EXCEPTION(
+                    std::string("Unable to load image file: ") + filename);
+        }
+
+        SDL_Surface *surface = convertToStandardFormat(loadedSurface);
+        SDL_FreeSurface(loadedSurface);
+
+        if (surface == NULL)
+        {
+            throw GCN_EXCEPTION(
+                    std::string("Not enough memory to load: ") + filename);
+        }
+
+        Image *image = new SDLImage(surface, true);
+
+        if (convertToDisplayFormat)
+        {
+            image->convertToDisplayFormat();
+        }
+
+        return image;
+    }
+
+    SDL_Surface* SDLImageLoader::loadSDLSurface(const std::string& filename)
+    {
+        return IMG_Load(filename.c_str());
+    }
+
+    SDL_Surface* SDLImageLoader::convertToStandardFormat(SDL_Surface* surface)
+    {
+        Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xff000000;
+        gmask = 0x00ff0000;
+        bmask = 0x0000ff00;
+        amask = 0x000000ff;
+#else
+        rmask = 0x000000ff;
+        gmask = 0x0000ff00;
+        bmask = 0x00ff0000;
+        amask = 0xff000000;
+#endif
+
+        SDL_Surface *colorSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                0, 0, 32,
+                rmask, gmask, bmask, amask);
+
+        SDL_Surface *tmp = NULL;
+
+        if (colorSurface != NULL)
+        {
+            tmp = SDL_ConvertSurface(surface, colorSurface->format,
+                                     SDL_SWSURFACE);
+            SDL_FreeSurface(colorSurface);
+        }
+
+        return tmp;
     }
 }

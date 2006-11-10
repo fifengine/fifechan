@@ -1,12 +1,14 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005 darkbits                        Js_./
+ * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ *
+ *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
  * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
@@ -60,44 +62,44 @@
 namespace gcn
 {
     /**
-     * Represents a color with red, green, blue and alpha components. 
+     * Represents a color with red, green, blue and alpha components.
      */
     class GCN_CORE_DECLSPEC Color
-    {    
+    {
     public:
 
         /**
          * Constructor. Initializes the color to black.
          */
         Color();
-    
+
         /**
          * Constructs a color from the bytes in an integer. Call it with
          * a hexadecimal constant for HTML-style color representation.
          * The alpha component will be set to 255.
          *
-         * EXAMPLE: Color(0xff50a0) constructs Gui-chan's favourite color. 
+         * EXAMPLE: Color(0xff50a0) constructs Gui-chan's favourite color.
          *
-         * NOTE: Because of this constructor, integers will be automatically 
+         * NOTE: Because of this constructor, integers will be automatically
          *       casted to a color by your compiler.
          *
          * @param color the color.
          */
         Color(int color);
-    
+
         /**
          * Constructor.
          *
          * @param r Red color component (range 0-255).
          * @param g Green color component  (range 0-255).
          * @param b Blue color component (range 0-255).
-         * @param a Color alpha, used for transparency. A value of 0 means 
+         * @param a Color alpha, used for transparency. A value of 0 means
          *          totaly transparent, 255 is totaly opaque (the default).
          */
         Color(int r, int g, int b, int a = 255);
 
         /**
-         * Adds the RGB values of two colors together. The values will be 
+         * Adds the RGB values of two colors together. The values will be
          * clamped if they go out of range.
          *
          * @param color a color to add to this color.
@@ -119,10 +121,10 @@ namespace gcn
          * The values will be clamped if they go out of range.
          *
          * @param value the value to multiply the color with.
-         * @return the resulting color with alpha untouched.     
+         * @return the resulting color with alpha untouched.
          */
         Color operator*(float value) const;
-    
+
         /**
          * Compares two colors.
          *
@@ -149,15 +151,15 @@ namespace gcn
 
         /**
          * Blue color component (range 0-255).
-         */    
+         */
         int b;
 
         /**
          * Color alpha, used for transparency. A value of 0 means totaly
          * transparent, 255 is totaly opaque (the default)
-         */    
-        int a;    
-    };  
+         */
+        int a;
+    };
 }
 
 #endif // end GCN_COLOR_HPP
