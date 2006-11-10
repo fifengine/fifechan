@@ -118,42 +118,68 @@ namespace gcn
         switch (event.type)
         {
           case SDL_KEYDOWN:
-              keyInput.setKey(convertKeyCharacter(event.key.keysym));
-              keyInput.setType(KeyInput::PRESS);
+              keyInput.setKey(Key(convertKeyCharacter(event.key.keysym)));
+              keyInput.setType(KeyInput::KEY_PRESSED);
+              keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
+              keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
+              keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
+              keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
+              keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
+                                     && event.key.keysym.sym <= SDLK_KP_EQUALS);
+              
               mKeyInputQueue.push(keyInput);
               break;
-
+              
           case SDL_KEYUP:
-              keyInput.setKey(convertKeyCharacter(event.key.keysym));
-              keyInput.setType(KeyInput::RELEASE);
+              keyInput.setKey(Key(convertKeyCharacter(event.key.keysym)));
+              keyInput.setType(KeyInput::KEY_RELEASED);
+              keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
+              keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
+              keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
+              keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
+              keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
+                                     && event.key.keysym.sym <= SDLK_KP_EQUALS);
+
               mKeyInputQueue.push(keyInput);
               break;
 
           case SDL_MOUSEBUTTONDOWN:
               mMouseDown = true;
-              mouseInput.x = event.button.x;
-              mouseInput.y = event.button.y;
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
               mouseInput.setButton(convertMouseButton(event.button.button));
-              mouseInput.setType(MouseInput::PRESS);
+
+              if (event.button.button == SDL_BUTTON_WHEELDOWN)
+              {
+                  mouseInput.setType(MouseInput::MOUSE_WHEEL_MOVED_DOWN);
+              }
+              else if (event.button.button == SDL_BUTTON_WHEELUP)
+              {
+                  mouseInput.setType(MouseInput::MOUSE_WHEEL_MOVED_UP);
+              }
+              else
+              {
+                  mouseInput.setType(MouseInput::MOUSE_PRESSED);
+              }
               mouseInput.setTimeStamp(SDL_GetTicks());
               mMouseInputQueue.push(mouseInput);
               break;
 
           case SDL_MOUSEBUTTONUP:
               mMouseDown = false;
-              mouseInput.x = event.button.x;
-              mouseInput.y = event.button.y;
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
               mouseInput.setButton(convertMouseButton(event.button.button));
-              mouseInput.setType(MouseInput::RELEASE);
+              mouseInput.setType(MouseInput::MOUSE_RELEASED);
               mouseInput.setTimeStamp(SDL_GetTicks());
               mMouseInputQueue.push(mouseInput);
               break;
 
           case SDL_MOUSEMOTION:
-              mouseInput.x = event.button.x;
-              mouseInput.y = event.button.y;
-              mouseInput.setButton(MouseInput::EMPTY);
-              mouseInput.setType(MouseInput::MOTION);
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
+              mouseInput.setButton(MouseInput::MOUSE_BUTTON_EMPTY);
+              mouseInput.setType(MouseInput::MOUSE_MOVED);
               mouseInput.setTimeStamp(SDL_GetTicks());
               mMouseInputQueue.push(mouseInput);
               break;
@@ -170,10 +196,10 @@ namespace gcn
 
                   if (!mMouseDown)
                   {
-                      mouseInput.x = -1;
-                      mouseInput.y = -1;
-                      mouseInput.setButton(MouseInput::EMPTY);
-                      mouseInput.setType(MouseInput::MOTION);
+                      mouseInput.setX(-1);
+                      mouseInput.setY(-1);
+                      mouseInput.setButton(MouseInput::MOUSE_BUTTON_EMPTY);
+                      mouseInput.setType(MouseInput::MOUSE_MOVED);
                       mMouseInputQueue.push(mouseInput);
                   }
               }
@@ -193,30 +219,23 @@ namespace gcn
         switch (button)
         {
           case SDL_BUTTON_LEFT:
-              return MouseInput::LEFT;
+              return MouseInput::MOUSE_BUTTON_LEFT;
               break;
           case SDL_BUTTON_RIGHT:
-              return MouseInput::RIGHT;
+              return MouseInput::MOUSE_BUTTON_RIGHT;
               break;
           case SDL_BUTTON_MIDDLE:
-              return MouseInput::MIDDLE;
+              return MouseInput::MOUSE_BUTTON_MIDDLE;
               break;
-          case SDL_BUTTON_WHEELUP:
-              return MouseInput::WHEEL_UP;
-              break;
-          case SDL_BUTTON_WHEELDOWN:
-              return MouseInput::WHEEL_DOWN;
-              break;
+          default:
+              // We have an unknown mouse type which is ignored.
+              return button;
         }
-
-        // We have an unknown mouse type which is ignored.
-        return button;
     }
 
-    Key SDLInput::convertKeyCharacter(SDL_keysym keysym)
+    int SDLInput::convertKeyCharacter(SDL_keysym keysym)
     {
         int value = 0;
-        Key key;
 
         if (keysym.unicode < 255)
         {
@@ -409,18 +428,7 @@ namespace gcn
                   break;
             }
         }
-
-        key.setValue(value);
-        key.setShiftPressed(keysym.mod & KMOD_SHIFT);
-        key.setControlPressed(keysym.mod & KMOD_CTRL);
-        key.setAltPressed(keysym.mod & KMOD_ALT);
-        key.setMetaPressed(keysym.mod & KMOD_META);
-
-        if (keysym.sym >= SDLK_KP0 && keysym.sym <= SDLK_KP_EQUALS)
-        {
-            key.setNumericPad(true);
-        }
-
-        return key;
+        
+        return value;
     }
 }

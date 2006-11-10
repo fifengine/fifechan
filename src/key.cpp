@@ -63,10 +63,7 @@
 namespace gcn
 {
     Key::Key(int value)
-            :mValue(value),
-             mShiftPressed(false), mControlPressed(false),
-             mAltPressed(false), mMetaPressed(false),
-             mNumericPad(false)
+            :mValue(value)
     {
     }
 
@@ -88,61 +85,6 @@ namespace gcn
                  || (mValue >= 97 && mValue <= 122)
                  || (mValue >= 192 && mValue <= 255))
                 && (mValue != 215) && (mValue != 247));
-    }
-
-    bool Key::isShiftPressed() const
-    {
-        return mShiftPressed;
-    }
-
-    void Key::setShiftPressed(bool pressed)
-    {
-        mShiftPressed = pressed;
-    }
-
-    bool Key::isControlPressed() const
-    {
-        return mControlPressed;
-    }
-
-    void Key::setControlPressed(bool pressed)
-    {
-        mControlPressed = pressed;
-    }
-
-    bool Key::isAltPressed() const
-    {
-        return mAltPressed;
-    }
-
-    void Key::setAltPressed(bool pressed)
-    {
-        mAltPressed = pressed;
-    }
-
-    bool Key::isMetaPressed() const
-    {
-        return mMetaPressed;
-    }
-
-    void Key::setMetaPressed(bool pressed)
-    {
-        mMetaPressed = pressed;
-    }
-
-    bool Key::isNumericPad() const
-    {
-        return mNumericPad;
-    }
-
-    void Key::setNumericPad(bool numpad)
-    {
-        mNumericPad = numpad;
-    }
-
-    void Key::setValue(int value)
-    {
-        mValue = value;
     }
 
     int Key::getValue() const

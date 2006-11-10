@@ -111,21 +111,105 @@ namespace gcn
          */
         const Key& getKey() const;
 
+        /**
+         * Checks whether shift is pressed.
+         *
+         * @return true if shift was pressed at the same time as the key.
+         * @since 0.6.0
+         */
+        bool isShiftPressed() const;
+        
+        /**
+         * Sets the shift pressed flag.
+         *
+         * @param pressed the shift flag value.
+         * @since 0.6.0
+         */
+        void setShiftPressed(bool pressed);
 
         /**
-         * Enum with key input values.
+         * Checks whether control is pressed.
+         *
+         * @return true if control was pressed at the same time as the key.
+         * @since 0.6.0
+         */
+        bool isControlPressed() const;
+
+        /**
+         * Sets the control pressed flag.
+         *
+         * @param pressed the control flag value.
+         * @since 0.6.0
+         */
+        void setControlPressed(bool pressed);
+
+        /**
+         * Checks whether alt is pressed.
+         *
+         * @return true if alt was pressed at the same time as the key.
+         * @since 0.6.0
+         */
+        bool isAltPressed() const;
+
+        /**
+         * Sets the alt pressed flag.
+         *
+         * @param pressed the alt flag value.
+         * @since 0.6.0
+         */
+        void setAltPressed(bool pressed);
+
+        /**
+         * Checks whether meta is pressed.
+         *
+         * @return true if meta was pressed at the same time as the key.
+         * @since 0.6.0
+         */
+        bool isMetaPressed() const;
+
+        /**
+         * Sets the meta pressed flag.
+         *
+         * @param pressed the meta flag value.
+         * @since 0.6.0
+         */
+        void setMetaPressed(bool pressed);
+
+        /**
+         * Checks whether the key was pressed at the numeric pad.
+         *
+         * @return true if key pressed at the numeric pad.
+         * @since 0.6.0
+         */
+        bool isNumericPad() const;
+
+        /**
+         * Sets the numeric pad flag.
+         *
+         * @param numpad the numeric pad flag value.
+         * @since 0.6.0
+         */
+        void setNumericPad(bool numpad);
+
+        /**
+         * Key input types. This enum corresponds to the enum with event
+         * types on KeyEvent for easy mapping.
          */
         enum
         {
-            EMPTY = 0,
-            PRESS,
-            RELEASE
+            KEY_PRESSED = 0,
+            KEY_RELEASED
         };
 
     protected:
         Key mKey;
         int mType;
         int mButton;
+        bool mShiftPressed;
+        bool mControlPressed;
+        bool mAltPressed;
+        bool mMetaPressed;
+        bool mNumericPad;        
     };
 }
 

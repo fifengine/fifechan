@@ -113,10 +113,12 @@ namespace gcn
          */
         virtual Key convertToKey(int scancode, int unicode);
 
+        virtual bool isNumericPad(int scancode);
+        
         // This map holds the currently pressed Keys
         // so we can send the correct key releases.
         // it maps from scancode to key objects.
-        std::map<int, Key> mPressedKeys;
+        std::map<int, KeyInput> mPressedKeys;
 
         std::queue<KeyInput> mKeyQueue;
         std::queue<MouseInput> mMouseQueue;

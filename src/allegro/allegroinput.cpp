@@ -132,8 +132,8 @@ namespace gcn
         // Check mouse movement
         if (mouseX != mLastMouseX || mouseY != mLastMouseY)
         {
-            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
-                                        MouseInput::MOTION,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
+                                        MouseInput::MOUSE_MOVED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -144,43 +144,29 @@ namespace gcn
         // Check mouse Wheel
         while (mLastMouseZ < mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
-                                        MouseInput::PRESS,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
+                                        MouseInput::MOUSE_WHEEL_MOVED_UP,
                                         mouseX,
                                         mouseY,
                                         0));
-
-            mMouseQueue.push(MouseInput(MouseInput::WHEEL_UP,
-                                        MouseInput::RELEASE,
-                                        mouseX,
-                                        mouseY,
-                                        0));
-
             mLastMouseZ++;
         }
 
         while (mLastMouseZ > mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
-                                        MouseInput::PRESS,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
+                                        MouseInput::MOUSE_WHEEL_MOVED_DOWN,
                                         mouseX,
                                         mouseY,
                                         0));
-
-            mMouseQueue.push(MouseInput(MouseInput::WHEEL_DOWN,
-                                        MouseInput::RELEASE,
-                                        mouseX,
-                                        mouseY,
-                                        0));
-
             mLastMouseZ--;
         }
 
         // Check mouse buttons
         if (!mMouseButton1 && mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::LEFT,
-                                        MouseInput::PRESS,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_LEFT,
+                                        MouseInput::MOUSE_PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -188,8 +174,8 @@ namespace gcn
 
         if (mMouseButton1 && !mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::LEFT,
-                                        MouseInput::RELEASE,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_LEFT,
+                                        MouseInput::MOUSE_RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -198,8 +184,8 @@ namespace gcn
 
         if (!mMouseButton2 && mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::PRESS,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_RIGHT,
+                                        MouseInput::MOUSE_PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -207,8 +193,8 @@ namespace gcn
 
         if (mMouseButton2 && !mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::RELEASE,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_RIGHT,
+                                        MouseInput::MOUSE_RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -217,8 +203,8 @@ namespace gcn
 
         if (!mMouseButton3 && mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-                                        MouseInput::PRESS,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_MIDDLE,
+                                        MouseInput::MOUSE_PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -226,8 +212,8 @@ namespace gcn
 
         if (mMouseButton3 && !mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-                                        MouseInput::RELEASE,
+            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_MIDDLE,
+                                        MouseInput::MOUSE_RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -252,20 +238,40 @@ namespace gcn
             unicode = ureadkey(&scancode);
             Key keyObj = convertToKey(scancode, unicode);
 
-            mKeyQueue.push(
-                KeyInput(keyObj, KeyInput::PRESS));
+            KeyInput keyInput(keyObj, KeyInput::KEY_PRESSED);
 
-            mPressedKeys[scancode] = keyObj;
+            keyInput.setNumericPad(isNumericPad(scancode));            
+            keyInput.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
+            keyInput.setAltPressed(key_shifts & KB_ALT_FLAG);
+            keyInput.setControlPressed(key_shifts & KB_CTRL_FLAG);
+#ifdef KB_COMMAND_FLAG
+            keyInput.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
+                                           KB_LWIN_FLAG |
+                                           KB_RWIN_FLAG));
+#else
+            keyInput.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
+                                                  KB_RWIN_FLAG));
+#endif
+            
+            
+            mKeyQueue.push(keyInput);
+
+            mPressedKeys[scancode] = keyInput;
         }
 
          // Check for released keys
-        std::map<int, Key>::iterator iter, tempIter;
+        std::map<int, KeyInput>::iterator iter, tempIter;
         for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
          {
             if (!key[iter->first])
-            {
-                 mKeyQueue.push(
-                    KeyInput(iter->second, KeyInput::RELEASE));
+            {         
+                KeyInput keyInput(iter->second.getKey(), KeyInput::KEY_RELEASED);
+                keyInput.setNumericPad(iter->second.isNumericPad());
+                keyInput.setShiftPressed(iter->second.isShiftPressed());
+                keyInput.setAltPressed(iter->second.isAltPressed());
+                keyInput.setControlPressed(iter->second.isControlPressed());
+                
+                mKeyQueue.push(keyInput);
 
                 tempIter = iter;
                 iter++;
@@ -443,7 +449,21 @@ namespace gcn
           case KEY_ENTER:
               keysym = Key::ENTER;
               break;
+     default:
+              keysym = unicode;
+        }
 
+        Key k = Key(keysym);
+
+        return k;
+
+        //Now, THAT was fun to code! =D =D =D
+    }
+
+    bool AllegroInput::isNumericPad(int scancode)
+    {
+        switch (scancode)
+        {
           case KEY_0_PAD:
           case KEY_1_PAD:
           case KEY_2_PAD:
@@ -457,30 +477,9 @@ namespace gcn
           case KEY_SLASH_PAD:
           case KEY_MINUS_PAD:
           case KEY_PLUS_PAD:
-              pad = true;
-              // no brakes! no brakes!
-
+              return true;
           default:
-              keysym = unicode;
+              return false;
         }
-
-        Key k = Key(keysym);
-        k.setNumericPad(pad);
-
-        k.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
-        k.setAltPressed(key_shifts & KB_ALT_FLAG);
-        k.setControlPressed(key_shifts & KB_CTRL_FLAG);
-#ifdef KB_COMMAND_FLAG
-        k.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
-                                       KB_LWIN_FLAG |
-                                       KB_RWIN_FLAG));
-#else
-        k.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
-                                       KB_RWIN_FLAG));
-#endif
-
-        return k;
-
-        //Now, THAT was fun to code! =D =D =D
     }
 }

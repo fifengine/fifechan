@@ -63,9 +63,15 @@
 namespace gcn
 {
     KeyInput::KeyInput(const Key& key, int type)
+            :mKey(key),
+             mType(type),
+             mShiftPressed(false),
+             mControlPressed(false),
+             mAltPressed(false),
+             mMetaPressed(false),
+             mNumericPad(false) 
     {
-        mKey = key;
-        mType = type;
+        
     }
 
     void KeyInput::setType(int type)
@@ -86,6 +92,56 @@ namespace gcn
     const Key& KeyInput::getKey() const
     {
         return mKey;
+    }
+
+    bool KeyInput::isShiftPressed() const
+    {
+        return mShiftPressed;
+    }
+
+    void KeyInput::setShiftPressed(bool pressed)
+    {
+        mShiftPressed = pressed;
+    }
+
+    bool KeyInput::isControlPressed() const
+    {
+        return mControlPressed;
+    }
+
+    void KeyInput::setControlPressed(bool pressed)
+    {
+        mControlPressed = pressed;
+    }
+
+    bool KeyInput::isAltPressed() const
+    {
+        return mAltPressed;
+    }
+
+    void KeyInput::setAltPressed(bool pressed)
+    {
+        mAltPressed = pressed;
+    }
+
+    bool KeyInput::isMetaPressed() const
+    {
+        return mMetaPressed;
+    }
+
+    void KeyInput::setMetaPressed(bool pressed)
+    {
+        mMetaPressed = pressed;
+    }
+
+    bool KeyInput::isNumericPad() const
+    {
+        return mNumericPad;
+    }
+
+    void KeyInput::setNumericPad(bool numpad)
+    {
+        mNumericPad = numpad;
     }
 }
 

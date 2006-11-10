@@ -119,12 +119,13 @@ namespace gcn
         int convertMouseButton(int button);
 
         /**
-         * Converts an SDL keysym to a Key object.
+         * Converts an SDL keysym to a key value.
          *
          * @param key an SDL keysym
-         * @return a Key object.
+         * @return a key value.
+         * @see Key
          */
-        Key convertKeyCharacter(SDL_keysym key);
+        int convertKeyCharacter(SDL_keysym key);
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;
