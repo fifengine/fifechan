@@ -59,6 +59,7 @@
 
 #include "guichan/actionlistener.hpp"
 #include "guichan/basiccontainer.hpp"
+#include "guichan/deathlistener.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/listmodel.hpp"
@@ -79,10 +80,10 @@ namespace gcn
      * your list.
      */
     class GCN_CORE_DECLSPEC DropDown :
+        public ActionListener,
         public BasicContainer,
-        public MouseListener,
         public KeyListener,
-        public ActionListener
+        public MouseListener
     {
     public:
         /**
@@ -157,8 +158,6 @@ namespace gcn
 
         // Inherited from BasicContainer
 
-        virtual void _announceDeath(Widget* widget);
-
         virtual Rectangle getChildrenArea();
 
 
@@ -167,6 +166,10 @@ namespace gcn
         virtual void action(const ActionEvent& actionEvent);
 
 
+        // Inherited from DeathListener
+
+        virtual void death(const Event& event);
+        
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);

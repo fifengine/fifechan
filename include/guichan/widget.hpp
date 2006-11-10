@@ -67,6 +67,7 @@ namespace gcn
 {
     class ActionListener;
     class BasicContainer;
+    class DeathListener;
     class DefaultFont;
     class FocusHandler;
     class Font;
@@ -403,6 +404,21 @@ namespace gcn
         virtual void removeActionListener(ActionListener* actionListener);
 
         /**
+         * Adds a DeathListener to the Widget. When the widget dies
+         * the death function in all the Widget's DeathListeners will be called.
+         *
+         * @param actionListener the DeathListener to add.
+         */
+        virtual void addDeathListener(DeathListener* deathListener);
+
+        /**
+         * Removes an added DeathListener from the Widget.
+         *
+         * @param deathListener the DeathListener to remove.
+         */
+        virtual void removeDeathListener(DeathListener* deathListener);
+
+        /**
          * Adds a MouseListener to the Widget. When a mouse message is
          * recieved, it will be sent to the Widget's MouseListeners.
          *
@@ -644,6 +660,10 @@ namespace gcn
         typedef std::list<ActionListener*> ActionListenerList;
         ActionListenerList mActionListeners;
         typedef ActionListenerList::iterator ActionListenerIterator;
+
+        typedef std::list<DeathListener*> DeathListenerList;
+        DeathListenerList mDeathListeners;
+        typedef DeathListenerList::iterator DeathListenerIterator;
 
         Color mForegroundColor;
         Color mBackgroundColor;

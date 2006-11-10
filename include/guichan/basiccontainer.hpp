@@ -59,6 +59,7 @@
 
 #include <list>
 
+#include "guichan/deathlistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
@@ -71,7 +72,7 @@ namespace gcn
      *
      * @see Container
      */
-    class GCN_CORE_DECLSPEC BasicContainer : public Widget
+    class GCN_CORE_DECLSPEC BasicContainer : public Widget, public DeathListener
     {
     public:
         /**
@@ -99,13 +100,6 @@ namespace gcn
          * @param widget the Widget to move.
          */
         virtual void moveToBottom(Widget* widget);
-
-        /**
-         * Called when a child of the BasicContainer gets destroyed.
-         *
-         * @param widget the destroyed Widget.
-         */
-        virtual void _announceDeath(Widget *widget);
 
         /**
          * Gets the subarea of the BasicContainer that the children
@@ -160,6 +154,11 @@ namespace gcn
 
         virtual void _setFocusHandler(FocusHandler* focusHandler);
 
+
+        // Inherited from DeathListener
+
+        virtual void death(const Event& event);
+        
     protected:
         /**
          * Adds a widget.

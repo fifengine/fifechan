@@ -63,7 +63,9 @@
 #include "guichan/actionevent.hpp"
 #include "guichan/actionlistener.hpp"
 #include "guichan/basiccontainer.hpp"
+#include "guichan/deathlistener.hpp"
 #include "guichan/defaultfont.hpp"
+#include "guichan/event.hpp"
 #include "guichan/exception.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/keyinput.hpp"
@@ -97,13 +99,16 @@ namespace gcn
 
     Widget::~Widget()
     {
-        if (getParent() != NULL)
+        DeathListenerIterator iter;
+
+        for (iter = mDeathListeners.begin(); iter != mDeathListeners.end(); ++iter)
         {
-            getParent()->_announceDeath(this);
+            Event event(this);
+            (*iter)->death(event);
         }
 
         _setFocusHandler(NULL);
-
+        
         mWidgets.remove(this);
     }
 
@@ -329,6 +334,16 @@ namespace gcn
         mActionListeners.remove(actionListener);
     }
 
+    void Widget::addDeathListener(DeathListener* deathListener)
+    {
+        mDeathListeners.push_back(deathListener);
+    }
+
+    void Widget::removeDeathListener(DeathListener* deathListener)
+    {
+        mDeathListeners.remove(deathListener);
+    }
+
     void Widget::addKeyListener(KeyListener* keyListener)
     {
         mKeyListeners.push_back(keyListener);
@@ -548,5 +563,5 @@ namespace gcn
     {
         return mKeyListeners;
     }
-
+    
 }

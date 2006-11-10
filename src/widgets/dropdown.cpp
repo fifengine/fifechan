@@ -118,16 +118,18 @@ namespace gcn
         addKeyListener(this);
         adjustHeight();
         setBorderSize(1);
+
+        mScrollArea->addDeathListener(this);
     }
 
     DropDown::~DropDown()
     {
-        if (mInternalScrollArea)
+        if (mInternalScrollArea != NULL)
         {
             delete mScrollArea;
         }
 
-        if (mInternalListBox)
+        if (mInternalListBox != NULL)
         {
             delete mListBox;
         }
@@ -135,6 +137,11 @@ namespace gcn
         if (widgetExists(mListBox))
         {
             mListBox->removeActionListener(this);
+        }
+
+        if (mScrollArea != NULL)
+        {
+            mScrollArea->removeDeathListener(this);
         }
     }
 
@@ -471,16 +478,15 @@ namespace gcn
     }
 
 
-    void DropDown::_announceDeath(Widget* widget)
+    void DropDown::death(const Event& event)
     {
-        if (widget == mScrollArea)
+        if (event.getSource() == mScrollArea)
         {
             mScrollArea = NULL;
-            BasicContainer::_announceDeath(widget);
         }
         else
         {
-            throw GCN_EXCEPTION("Death announced for unknown widget..");
+            BasicContainer::death(event);
         }
     }
 

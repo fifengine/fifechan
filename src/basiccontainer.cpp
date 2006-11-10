@@ -108,10 +108,10 @@ namespace gcn
         mWidgets.push_front(widget);
     }
 
-    void BasicContainer::_announceDeath(Widget *widget)
+    void BasicContainer::death(const Event& event)
     {
         WidgetListIterator iter;
-        iter = find(mWidgets.begin(), mWidgets.end(), widget);
+        iter = find(mWidgets.begin(), mWidgets.end(), event.getSource());
 
         if (iter == mWidgets.end())
         {
@@ -120,7 +120,7 @@ namespace gcn
 
         mWidgets.erase(iter);
     }
-
+    
     Rectangle BasicContainer::getChildrenArea()
     {
         return Rectangle(0, 0, getWidth(), getHeight());
@@ -257,6 +257,7 @@ namespace gcn
         }
 
         widget->_setParent(this);
+        widget->addDeathListener(this);
     }
 
     void BasicContainer::remove(Widget* widget)
@@ -269,6 +270,7 @@ namespace gcn
                 mWidgets.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
+                widget->removeDeathListener(this);
                 return;
             }
         }
@@ -284,6 +286,7 @@ namespace gcn
         {
             (*iter)->_setFocusHandler(NULL);
             (*iter)->_setParent(NULL);
+            (*iter)->removeDeathListener(this);
         }
 
         mWidgets.clear();
