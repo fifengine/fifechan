@@ -140,7 +140,7 @@ namespace gcn
 
         virtual void drawBorder(Graphics* graphics);
 
-        virtual void lostFocus();
+        virtual void focusLost();
 
 
         // Inherited from MouseListener

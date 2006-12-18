@@ -305,7 +305,7 @@ namespace gcn
         keyEvent.consume();
     }
 
-    void Button::lostFocus()
+    void Button::focusLost()
     {
         mIsMousePressed = false;
         mIsKeyPressed = false;
