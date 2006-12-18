@@ -143,7 +143,7 @@ namespace gcn
 
         virtual void drawBorder(Graphics* graphics);
 
-        virtual void lostFocus();
+        virtual void focusLost();
 
         virtual void setBaseColor(const Color& color);
 

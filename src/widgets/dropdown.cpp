@@ -309,6 +309,15 @@ namespace gcn
         {
             dropDown();
         }
+        else if (key.getValue() == Key::UP)
+        {
+            setSelected(getSelected() - 1);
+        }
+        else if (key.getValue() == Key::DOWN)
+        {
+            setSelected(getSelected() + 1);
+        }
+                 
 
         keyEvent.consume();
     }
@@ -472,7 +481,7 @@ namespace gcn
         }
     }
 
-    void DropDown::lostFocus()
+    void DropDown::focusLost()
     {
         foldUp();
     }
