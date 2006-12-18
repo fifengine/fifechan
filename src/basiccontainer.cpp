@@ -68,12 +68,7 @@
 #include "guichan/mouseinput.hpp"
 
 namespace gcn
-{
-    BasicContainer::BasicContainer()
-        : mInternalFocusHandler(NULL)
-    {
-    }
-
+{   
     BasicContainer::~BasicContainer()
     {
         clear();
@@ -360,14 +355,10 @@ namespace gcn
         }
     }
 
-    FocusHandler* BasicContainer::_getInternalFocusHandler()
-    {
-        return mInternalFocusHandler;
-    }
 
     void BasicContainer::setInternalFocusHandler(FocusHandler* focusHandler)
     {
-        mInternalFocusHandler = focusHandler;
+        Widget::setInternalFocusHandler(focusHandler);
 
         WidgetListIterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)

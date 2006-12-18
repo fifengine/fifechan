@@ -66,9 +66,8 @@
 namespace gcn
 {
     /**
-     * Base class for containers. Contains basic container functions every
-     * container should have. Containers should inherit from this class and
-     * implement it's functions.
+     * Implements basic container behaviour. Most container will suffice by
+     * inheriting from this class.
      *
      * @see Container
      */
@@ -76,109 +75,46 @@ namespace gcn
     {
     public:
         /**
-         * Constructor
-         */
-        BasicContainer();
-
-        /**
          * Destructor
          */
         virtual ~BasicContainer();
 
-        /**
-         * Moves a Widget to the top of the BasicContainer. The widget will be
-         * drawn above all other Widgets in the BasicContainer.
-         *
-         * @param widget the Widget to move.
-         */
+
+        // Inherited from Widget
+
         virtual void moveToTop(Widget* widget);
 
-        /**
-         * Moves a widget to the bottom of the BasicContainer. The Widget will
-         * be drawn below all other Widgets in the BasicContainer.
-         *
-         * @param widget the Widget to move.
-         */
         virtual void moveToBottom(Widget* widget);
 
-        /**
-         * Gets the subarea of the BasicContainer that the children
-         * occupy.
-         *
-         * @return the subarea as a Rectangle.
-         */
         virtual Rectangle getChildrenArea();
 
-        /**
-         * Focuses the next Widget in the BasicContainer.
-         */
         virtual void focusNext();
 
-        /**
-         * Focuses the previous Widget in the BasicContainer.
-         */
         virtual void focusPrevious();
-
-        /**
-         * Gets a widget from a certain position in the container.
-         * This function is used to decide which gets mouse input,
-         * thus it can be overloaded to change that behaviour.
-         *
-         * @param x the x coordinate.
-         * @param y the y coordinate.
-         * @return the widget at the specified coodinate, or NULL
-         *         if no such widget exists.
-         */
-        virtual Widget *getWidgetAt(int x, int y);
-
-        /**
-         * Tries to show a specific part of a Widget by moving it.
-         *
-         * @param widget the target Widget.
-         * @param area the area to show.
-         */
-        virtual void showWidgetPart(Widget* widget, Rectangle area);
-
-        /**
-         * Gets the internal FocusHandler used.
-         *
-         * @return the internalFocusHandler used. If no internal FocusHandler
-         *         is used, NULL will be returned.
-         */
-        virtual FocusHandler* _getInternalFocusHandler();
-        
-        
-        // Inherited from Widget
 
         virtual void logic();
 
         virtual void _setFocusHandler(FocusHandler* focusHandler);
 
+        virtual void setInternalFocusHandler(FocusHandler* focusHandler);
+
+        virtual void add(Widget* widget);
+
+        virtual void remove(Widget* widget);
+
+        virtual void clear();
+
+        virtual void showWidgetPart(Widget* widget, Rectangle area);
+        
+        virtual Widget *getWidgetAt(int x, int y);
+        
 
         // Inherited from DeathListener
 
         virtual void death(const Event& event);
-        
+
     protected:
-        /**
-         * Adds a widget.
-         *
-         * @param widget the Widget to add.
-         */
-        virtual void add(Widget* widget);
-
-        /**
-         * Removes a widget.
-         *
-         * @param widget the Widget to remove.
-         */
-        virtual void remove(Widget* widget);
-
-        /**
-         * Clears the BasicContainer of widgets.
-         */
-        virtual void clear();
-
+        
         /**
          * Draws children widgets.
          *
@@ -191,21 +127,11 @@ namespace gcn
          */
         virtual void logicChildren();
 
-        /**
-         * Sets the internal FocusHandler. An internal focushandler is
-         * needed if both a widget in the container and the container
-         * should be foucsed at once.
-         *
-         * @param focusHandler the FocusHandler to be used.
-         */
-        virtual void setInternalFocusHandler(FocusHandler* focusHandler);
-
         typedef std::list<Widget *> WidgetList;
         typedef WidgetList::iterator WidgetListIterator;
         typedef WidgetList::reverse_iterator WidgetListReverseIterator;
 
         WidgetList mWidgets;
-        FocusHandler* mInternalFocusHandler;
     };
 }
 
