@@ -80,20 +80,20 @@ namespace gcn
     std::list<Widget*> Widget::mWidgets;
 
     Widget::Widget()
+            : mParent(NULL),
+              mFocusHandler(NULL),
+              mInternalFocusHandler(NULL),              
+              mForegroundColor(0x000000),
+              mBackgroundColor(0xffffff),
+              mBaseColor(0x808090),
+              mBorderSize(0),
+              mFocusable(false),
+              mVisible(true),
+              mTabIn(true),
+              mTabOut(true),
+              mEnabled(true),
+              mCurrentFont(NULL)              
     {
-        mParent = NULL;
-        mForegroundColor = Color(0x000000);
-        mBackgroundColor = Color(0xffffff);
-        mBaseColor = Color(0x808090);
-        mBorderSize = 0;
-        mFocusHandler = NULL;
-        mFocusable = false;
-        mVisible = true;
-        mTabIn = true;
-        mTabOut = true;
-        mEnabled = true;
-
-        mCurrentFont = NULL;
         mWidgets.push_back(this);
     }
 
@@ -563,5 +563,19 @@ namespace gcn
     {
         return mKeyListeners;
     }
+
+    Rectangle Widget::getChildrenArea()
+    {
+        return Rectangle(0, 0, 0, 0);
+    }
+
+    FocusHandler* Widget::_getInternalFocusHandler()
+    {
+        return mInternalFocusHandler;
+    }
     
+    void Widget::setInternalFocusHandler(FocusHandler* focusHandler)
+    {
+        mInternalFocusHandler = focusHandler;
+    }   
 }

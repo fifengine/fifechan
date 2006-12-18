@@ -285,12 +285,12 @@ namespace gcn
         /**
          * Called if the Widget looses focus.
          */
-        virtual void lostFocus() { };
+        virtual void focusLost() { };
 
         /**
          * Called if the Widget recieves focus.
          */
-        virtual void gotFocus() { };
+        virtual void focusGained() { };
 
         /**
          * Sets the Widget to be visible.
@@ -642,6 +642,86 @@ namespace gcn
          */
         virtual const std::list<KeyListener*>& _getKeyListeners();            
 
+        /**
+         * Gets the subarea of the widget that the children occupy.
+         *
+         * @return the subarea as a Rectangle.
+         */
+        virtual Rectangle getChildrenArea();
+
+        /**
+         * Gets the internal FocusHandler used.
+         *
+         * @return the internalFocusHandler used. If no internal FocusHandler
+         *         is used, NULL will be returned.
+         */
+        virtual FocusHandler* _getInternalFocusHandler();                
+        
+        /**
+         * Sets the internal FocusHandler. An internal focushandler is
+         * needed if both a widget in the widget and the widget itself
+         * should be foucsed at the same time.
+         *
+         * @param focusHandler the FocusHandler to be used.
+         */
+        virtual void setInternalFocusHandler(FocusHandler* focusHandler);
+
+                /**
+         * Moves a Widget to the top of this widget. The moved widget will be
+         * drawn above all other widgets in this widget.
+         *
+         * @param widget the Widget to move.
+         */
+        virtual void moveToTop(Widget* widget) { };
+
+        /**
+         * Moves a widget in this widget to the bottom of this widget.
+         * The moved widget will be drawn below all other widgets in this widget.
+         *
+         * @param widget the Widget to move.
+         */
+        virtual void moveToBottom(Widget* widget) { };
+        
+        /**
+         * Focuses the next Widget in the widget.
+         */
+        virtual void focusNext() { };
+
+        /**
+         * Focuses the previous Widget in the widget.
+         */
+        virtual void focusPrevious() { };
+
+        /**
+         * Tries to show a specific part of a Widget by moving it. Used if the
+         * widget should act as a container.
+         *
+         * @param widget the target Widget.
+         * @param area the area to show.
+         */
+        virtual void showWidgetPart(Widget* widget, Rectangle area) { };
+
+        /**
+         * Adds a widget to the widget. Used if the widget should act
+         * as a container.
+         *
+         * @param widget the Widget to add.
+         */
+        virtual void add(Widget* widget) { };
+
+        /**
+         * Removes a widget. Used if the widget should act as a container.
+         *
+         * @param widget the Widget to remove.
+         */
+        virtual void remove(Widget* widget) { };
+
+        /**
+         * Clears the widget of widgets. Used if the widget should act as
+         * a container.
+         */
+        virtual void clear() { };
+
     protected:
         /**
          * Generates an action to the Widget's ActionListeners.
@@ -669,6 +749,7 @@ namespace gcn
         Color mBackgroundColor;
         Color mBaseColor;
         FocusHandler* mFocusHandler;
+        FocusHandler* mInternalFocusHandler;
         BasicContainer* mParent;
         Rectangle mDimension;
         unsigned int mBorderSize;
