@@ -178,12 +178,12 @@ namespace gcn
         if (focusedWidget >= 0)
         {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            mWidgets.at(focusedWidget)->gotFocus();
+            mWidgets.at(focusedWidget)->focusGained();
         }
 
         if (focused >= 0)
         {
-            mWidgets.at(focused)->lostFocus();
+            mWidgets.at(focused)->focusLost();
         }
     }
 
@@ -236,12 +236,12 @@ namespace gcn
         if (focusedWidget >= 0)
         {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            mWidgets.at(focusedWidget)->gotFocus();
+            mWidgets.at(focusedWidget)->focusGained();
         }
 
         if (focused >= 0)
         {
-            mWidgets.at(focused)->lostFocus();
+            mWidgets.at(focused)->focusLost();
         }
     }
 
@@ -287,7 +287,7 @@ namespace gcn
         {
             Widget* focused = mFocusedWidget;
             mFocusedWidget = NULL;
-            focused->lostFocus();
+            focused->focusLost();
         }
 
         mToBeFocused = NULL;
@@ -359,12 +359,12 @@ namespace gcn
         if (focusedWidget >= 0)
         {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            mWidgets.at(focusedWidget)->gotFocus();
+            mWidgets.at(focusedWidget)->focusGained();
         }
 
         if (focused >= 0)
         {
-            mWidgets.at(focused)->lostFocus();
+            mWidgets.at(focused)->focusLost();
         }
     }
 
@@ -434,12 +434,12 @@ namespace gcn
         if (focusedWidget >= 0)
         {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            mWidgets.at(focusedWidget)->gotFocus();
+            mWidgets.at(focusedWidget)->focusGained();
         }
 
         if (focused >= 0)
         {
-            mWidgets.at(focused)->lostFocus();
+            mWidgets.at(focused)->focusLost();
         }
     }
 
@@ -476,11 +476,12 @@ namespace gcn
 
                 if (oldFocused != NULL)
                 {
-                    oldFocused->lostFocus();
+                    oldFocused->focusLost();
                 }
 
-                mWidgets.at(toBeFocusedIndex)->gotFocus();
+                mWidgets.at(toBeFocusedIndex)->focusGained();
             }
+            
             mToBeFocused = NULL;
         }
     }
