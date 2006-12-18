@@ -1,5 +1,14 @@
 Version 0.6.0
 =============
+* A lot of function definitions from BasicContainer have been moved down to
+  Widget, but Widget doesn't provide any usefull implementations of these
+  functions. Usefull implementations still reside in BasicContainer. 
+  For container widget implementations inheriting from BasicContainer, as before, 
+  should work just fine. The reason for the move of definitions is to be able to 
+  consider a widget a container for the sake of simplicity when it comes to 
+  distribution of input.
+* The functions Widget::lostFocus andWidget::gotFocus have been renamed to
+  Widget::focusLost and Widget::focusGained.
 * DeathListener is a new interface which can be used to listen for a widget's
   death. Because of the presence of death listeners have the function
   BasicContainer::_announceDeath been removed.
