@@ -304,12 +304,20 @@ namespace gcn
         virtual Widget* getWidgetWithMouse();
 
         /**
-         * Gets the source of the event.
+         * Gets the source of the mouse event.
          *
          * @return the source widget of the mouse event.
          * @since 0.6.0
          */
         virtual Widget* getMouseEventSource();
+
+        /**
+         * Gets the source of the key event.
+         *
+         * @return the source widget of the key event.
+         * @since 0.6.0
+         */
+        virtual Widget* getKeyEventSource();
         
         Widget* mTop;
         Graphics* mGraphics;

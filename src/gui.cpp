@@ -337,20 +337,8 @@ namespace gcn
                 if (mFocusHandler->getFocused() != NULL)
                 {
                     if (mFocusHandler->getFocused()->isFocusable())
-                    {
-                        BasicContainer* basicContainer = dynamic_cast<BasicContainer*>(mFocusHandler->getFocused());
-
-                        if (basicContainer != NULL
-                            && basicContainer->_getInternalFocusHandler() != NULL
-                            && basicContainer->_getInternalFocusHandler()->getFocused() != NULL)
-                        {
-                            mKeyEventSource = basicContainer->_getInternalFocusHandler()->getFocused();
-                        }
-                        else
-                        {
-                            mKeyEventSource = mFocusHandler->getFocused();
-                        }
-
+                    {                        
+                        mKeyEventSource = getKeyEventSource();
                         mKeyEventType = keyInput.getType();
                         mKeyEventIsNumericPad = keyInput.isNumericPad();
                         mKeyEventKey = keyInput.getKey();                        
@@ -557,6 +545,19 @@ namespace gcn
         return widget;
     }
 
+    Widget* Gui::getKeyEventSource()
+    {
+        Widget* widget = mFocusHandler->getFocused();
+
+        while (widget->_getInternalFocusHandler() != NULL
+               && widget->_getInternalFocusHandler()->getFocused() != NULL)
+        {
+            widget = widget->_getInternalFocusHandler()->getFocused();            
+        }
+
+        return widget;                
+    }
+    
     void Gui::distributeMouseEvent()
     {
         Widget* parent = mMouseEventSource;
