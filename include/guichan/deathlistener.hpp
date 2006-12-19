@@ -83,8 +83,8 @@ namespace gcn
         virtual ~DeathListener() { }
 
         /**
-         * Called when a death from a widget is recieved. It is used
-         * to be able to recieve a notification that a death has occured.
+         * Called when a widget dies. It is used to be able to recieve 
+         * a notification when a death of a widget occurs.
          *
          * @param event the event of the death.
          */
