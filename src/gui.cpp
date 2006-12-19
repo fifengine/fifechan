@@ -218,7 +218,6 @@ namespace gcn
         mTop->draw(mGraphics);
         mGraphics->popClipArea();
 
-
         mGraphics->_endDraw();
     }
 
@@ -533,7 +532,6 @@ namespace gcn
 
     Widget* Gui::getMouseEventSource()
     {
-
         Widget* widget = getWidgetWithMouse();
         
         if (mFocusHandler->getModalMouseInputFocused() != NULL
@@ -579,6 +577,13 @@ namespace gcn
         {
             bool isEventConsumed = false;
             
+            // If the widget has been removed due to input
+            // cancel the distribution.
+            if (!Widget::widgetExists(widget))
+            {
+                break;
+            }
+
             parent = (Widget*)widget->getParent();
 
             if (widget->isEnabled())
@@ -649,19 +654,23 @@ namespace gcn
             // of the event to the widget's parents should take place.
             if (isEventConsumed)
             {
-                    break;
+                break;
             }                
             
             Widget* swap = widget;
             widget = parent;
             parent = (Widget*)swap->getParent();
             
+            // If a non modal focused widget has been reach
+            // and we have modal focus cancel the distribution.
             if (mFocusHandler->getModalFocused() != NULL
                 && !widget->hasModalFocus())
             {
                 break;
             }
             
+            // If a non modal mouse input focused widget has been reach
+            // and we have modal mouse input focus cancel the distribution.
             if (mFocusHandler->getModalMouseInputFocused() != NULL
                 && !widget->hasModalMouseInputFocus())
             {
@@ -683,7 +692,15 @@ namespace gcn
         
         while (parent != NULL)
         {
-            bool isEventConsumed = false;            
+            bool isEventConsumed = false; 
+
+            // If the widget has been removed due to input
+            // cancel the distribution.
+            if (!Widget::widgetExists(widget))
+            {
+                break;
+            }
+
             parent = (Widget*)widget->getParent();
 
             if (widget->isEnabled())
@@ -729,7 +746,7 @@ namespace gcn
             // of the event to the widget's parents should take place.
             if (isEventConsumed)
             {
-                    break;
+                break;
             }                
             
             Widget* swap = widget;
@@ -750,14 +767,14 @@ namespace gcn
         
         for (it = mKeyListeners.begin(); it != mKeyListeners.end(); it++)
         {
-                KeyEvent keyEvent(mKeyEventSource,
-                                  mIsShiftPressed,
-                                  mIsControlPressed,
-                                  mIsAltPressed,
-                                  mIsMetaPressed,
-                                  mKeyEventType,
-                                  mKeyEventIsNumericPad,
-                                  mKeyEventKey);
+            KeyEvent keyEvent(mKeyEventSource,
+                              mIsShiftPressed,
+                              mIsControlPressed,
+                              mIsAltPressed,
+                              mIsMetaPressed,
+                              mKeyEventType,
+                              mKeyEventIsNumericPad,
+                              mKeyEventKey);
                 
             switch (keyEvent.getType())
             {                
