@@ -27,7 +27,7 @@ aclocal
 autoheader
 automake --foreign --include-deps --add-missing --copy
 libtoolize --force
-autoconf
+autoreconf -i
 
 # Run configure for this platform
 #./configure $*
