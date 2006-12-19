@@ -1,8 +1,8 @@
 Version 0.6.0
 =============
 * A lot of function definitions from BasicContainer have been moved down to
-  Widget, but Widget doesn't provide any usefull implementations of these
-  functions. Usefull implementations still reside in BasicContainer. 
+  Widget, but Widget doesn't provide any useful implementations of these
+  functions. Useful implementations still reside in BasicContainer. 
   For container widget implementations inheriting from BasicContainer, as before, 
   should work just fine. The reason for the move of definitions is to be able to 
   consider a widget a container for the sake of simplicity when it comes to 
@@ -10,9 +10,9 @@ Version 0.6.0
 * The functions Widget::lostFocus andWidget::gotFocus have been renamed to
   Widget::focusLost and Widget::focusGained.
 * DeathListener is a new interface which can be used to listen for a widget's
-  death. Because of the presence of death listeners have the function
-  BasicContainer::_announceDeath been removed.
-* MouseListener now has the funciton mouseDragged which is called if a widget
+  death. Because of the presence of death listeners the function
+  BasicContainer::_announceDeath has been removed.
+* MouseListener now has the function mouseDragged which is called if a widget
   is dragged.
 * All distribution of input is now handled by the Gui class. Because of this
   all functions regarding input have been removed from the classes Widget
@@ -27,15 +27,15 @@ Version 0.6.0
   futher up depends on if the mouse event is consumed or not.
 * Widgets can now ask for modal mouse input focus. A widget with modal mouse input
   focus will be the only widget recieving mouse input, no matter where the mouse
-  input occurs. This can be very usefull for some widgets, like a drop down which
-  aquires modal mouse input focus when folded down to be able to fold back up as
+  input occurs. This can be very useful for some widgets, like a drop down which
+  acquires modal mouse input focus when folded down to be able to fold back up as
   soon as the mouse is pressed outside of the drop down.
 * Events are now present in Guichan. All listener classes now take event classes
   as parameters which is a very big API. The presence of events has propagated 
   changes to all input clases to better reflect the new usage of events. 
 * DropDown now acts on mouse wheel up and mouse wheel down.
 * ListBox now acts on mouse wheel up and mouse wheel down.
-* Widgets will no longer aquire focus if a mouse wheel up or a mouse wheel down 
+* Widgets will no longer acquire focus if a mouse wheel up or a mouse wheel down 
   occurs over a widget.
 * The header exception.hpp is now included properly in openglsdlimageloader.hpp. 
 * Many small fixes.
