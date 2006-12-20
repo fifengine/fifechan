@@ -142,7 +142,7 @@ FFDemo::FFDemo()
 	mMenuListModel->add("Quit");
 	
 	mMenuList = new FFListBox();
-	mMenuList->setEventId("menu");
+	mMenuList->setActionEventId("menu");
 	mMenuList->addActionListener(this);	
 	mMenuList->setListModel(mMenuListModel);
 	mMenu->add(mMenuList, 5, 5);
@@ -263,7 +263,7 @@ void FFDemo::initMain()
 	mMain->add(mTomasInfo1, 60, offset);	
 	
 	mCharacterChooser = new FFCharacterChooser();	
-	mCharacterChooser->setEventId("character");
+	mCharacterChooser->setActionEventId("character");
 	mCharacterChooser->addActionListener(this);
 
 	mMain->add(mCharacterChooser, 5, 25);
@@ -305,9 +305,9 @@ void FFDemo::initStatus()
 	mTop->add(mStatus);
 
 	mPerStatus1 = new gcn::TextBox("  STR           EXP\n"
-																 "  INT           NEXT\n"
-																 "  DEF\n"
-																 "  MAGDEF\n");
+                                   "  INT           NEXT\n"
+                                   "  DEF\n"
+                                   "  MAGDEF\n");
 	mPerStatus1->setFont(mFontCyan);
 	mPerStatus1->setOpaque(false);
 	mPerStatus1->setEditable(false);
@@ -316,12 +316,12 @@ void FFDemo::initStatus()
 	mPerStatus1->setBorderSize(0);
 	
 	mPerStatus2 = new gcn::TextBox("         32          12382\n"
-																 "         56          13872\n"
-																 "         12\n"
-																 "         11\n\n"
-																 " FINALMAN is immune against\n"
-																 " poisinous attacks, thanks to his\n"
-																 " face mask.");
+                                   "         56          13872\n"
+                                   "         12\n"
+                                   "         11\n\n"
+                                   " FINALMAN is immune against\n"
+                                   " poisinous attacks, thanks to his\n"
+                                   " face mask.");
 	mPerStatus2->setOpaque(false);
 	mPerStatus2->setEditable(false);
 	mPerStatus2->setFocusable(false);
@@ -329,9 +329,9 @@ void FFDemo::initStatus()
 	mPerStatus2->setBorderSize(0);
 	
 	mOlofStatus1 = new gcn::TextBox("  STR           EXP\n"
-																	"  INT           NEXT\n"
-																	"  DEF\n"
-																	"  MAGDEF\n");
+                                    "  INT           NEXT\n"
+                                    "  DEF\n"
+                                    "  MAGDEF\n");
 	mOlofStatus1->setFont(mFontCyan);
 	mOlofStatus1->setOpaque(false);
 	mOlofStatus1->setEditable(false);
@@ -340,12 +340,12 @@ void FFDemo::initStatus()
 	mOlofStatus1->setBorderSize(0);
 	
 	mOlofStatus2 = new gcn::TextBox("          2          412382\n"
-																	"         72          513872\n"
-																	"          4\n"
-																	"         34\n\n"
-																	" YAKSLEM has one passion in life,\n"
-																	" to annoy other people...\n"
-																	" especially FINALMAN.");
+                                    "         72          513872\n"
+                                    "          4\n"
+                                    "         34\n\n"
+                                    " YAKSLEM has one passion in life,\n"
+                                    " to annoy other people...\n"
+                                    " especially FINALMAN.");
 	mOlofStatus2->setOpaque(false);
 	mOlofStatus2->setEditable(false);
 	mOlofStatus2->setFocusable(false);
@@ -353,9 +353,9 @@ void FFDemo::initStatus()
 	mOlofStatus2->setBorderSize(0);
 	
 	mTomasStatus1 = new gcn::TextBox("  STR           EXP\n"
-																	 "  INT           NEXT\n"
-																	 "  DEF\n"
-																	 "  MAGDEF\n");
+                                     "  INT           NEXT\n"
+                                     "  DEF\n"
+                                     "  MAGDEF\n");
 	mTomasStatus1->setFont(mFontCyan);
 	mTomasStatus1->setOpaque(false);
 	mTomasStatus1->setEditable(false);
@@ -364,12 +364,12 @@ void FFDemo::initStatus()
 	mTomasStatus1->setBorderSize(0);
 	
 	mTomasStatus2 = new gcn::TextBox("          1          412382\n"
-																	 "          3          513872\n"
-																	 "          9\n"
-																	 "         24\n\n"
-																	 " PEAK is very weak but so cute!\n"
-																	 " He has a tendency of answering\n"
-																	 " any question with \"KUPO!\"");
+                                     "          3          513872\n"
+                                     "          9\n"
+                                     "         24\n\n"
+                                     " PEAK is very weak but so cute!\n"
+                                     " He has a tendency of answering\n"
+                                     " any question with \"KUPO!\"");
 	mTomasStatus2->setOpaque(false);
 	mTomasStatus2->setEditable(false);
 	mTomasStatus2->setFocusable(false);
@@ -382,7 +382,6 @@ void FFDemo::initStatus()
 	mStatus->add(mOlofStatus1, 5, 10);
 	mStatus->add(mTomasStatus2, 5, 10);
 	mStatus->add(mTomasStatus1, 5, 10);
-
 }
 
 void FFDemo::initMagicSkills()
@@ -515,11 +514,11 @@ void FFDemo::initItems()
 	mItemsInfoInfo->setEditable(false);
 	mItemsInfoInfo->setFocusable(false);
 	mItemsInfoInfo->setDimension(gcn::Rectangle(5, 5, 310, 40));
-  mItemsInfoInfo->setBorderSize(0);
+    mItemsInfoInfo->setBorderSize(0);
 	mItemsInfo->add(mItemsInfoInfo);
 	
 	mItemsList = new FFListBox();
-	mItemsList->setEventId("items");	
+	mItemsList->setActionEventId("items");	
 	mItemsList->addKeyListener(this);
 	mItemsList->setWidth(300);
 	mItemsList->setListModel(mItemsListModel);
@@ -663,9 +662,9 @@ void FFDemo::run()
 	}		
 }
 
-void FFDemo::action(const std::string &eventId, gcn::Widget* widget)
+void FFDemo::action(const gcn::ActionEvent& actionEvent)
 {
-	if (eventId == "menu")		
+	if (actionEvent.getId() == "menu")		
 	{
 		switch (mMenuList->getSelected())
 		{
@@ -698,7 +697,7 @@ void FFDemo::action(const std::string &eventId, gcn::Widget* widget)
 		}
 	}
 
-	if (eventId == "escape")
+	if (actionEvent.getId() == "escape")
 	{
 		mAbout->setVisible(false);
 		mItems->setVisible(false);
@@ -719,7 +718,7 @@ void FFDemo::action(const std::string &eventId, gcn::Widget* widget)
 		mNavigationLabel->setVisible(false);
 	}
 
-	if (eventId == "character")
+	if (actionEvent.getId() == "character")
 	{
 		mMain->slideContentTo(-76*mCharacterChooser->getSelected());
 		mMenu->setVisible(false);
@@ -808,7 +807,8 @@ void FFDemo::input()
 			if (mEvent.key.keysym.sym == SDLK_ESCAPE)
 			{  
 				Mix_PlayChannel(-1, mEscapeSound, 0);
-				action("escape", NULL);
+				
+				action(gcn::ActionEvent(NULL, "escape"));
 			}
 			else if (mEvent.key.keysym.sym == SDLK_RETURN
 					|| mEvent.key.keysym.sym == SDLK_UP
@@ -831,11 +831,10 @@ void FFDemo::input()
 		{
 			mRunning = false;
 		}
-
 	}
 }
 
-void FFDemo::keyPress(const gcn::Key& key)
+void FFDemo::keyPressed(gcn::KeyEvent& keyEvent)
 {		
 	mItemsInfoInfo->setText(mItemsInfoListModel->getElementAt(mItemsList->getSelected()));		
 }

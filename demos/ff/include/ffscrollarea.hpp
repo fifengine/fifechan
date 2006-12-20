@@ -59,14 +59,12 @@
 
 #include <guichan.hpp>
 
-class FFScrollArea : public gcn::ScrollArea,
-										 public gcn::KeyListener
-
+class FFScrollArea : public gcn::ScrollArea, public gcn::KeyListener
 {
 public:
 	FFScrollArea();
 	void draw(gcn::Graphics *graphics);
-	void keyPress(const gcn::Key &key);
+	void keyPressed(gcn::KeyEvent &keyEvent);
 };
 
 #endif

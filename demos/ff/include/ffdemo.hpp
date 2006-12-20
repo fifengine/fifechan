@@ -74,8 +74,8 @@ public:
 	FFDemo();
 	~FFDemo();
 	void run();
-	void action(const std::string &eventId, gcn::Widget* widget);
-	void keyPress(const gcn::Key& key);
+	void action(const gcn::ActionEvent& actionEvent);
+	void keyPressed(gcn::KeyEvent& keyEvent);
 
 private:
 	void input();

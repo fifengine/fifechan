@@ -68,7 +68,7 @@ public:
 	int getSelected();
 	void setSelected(int selected);
 	void setDistance(int distance);
-	void keyPress(const gcn::Key& key);
+	void keyPressed(gcn::KeyEvent& keyEvent);
 
 private:
 	int mSelected;

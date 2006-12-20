@@ -87,13 +87,13 @@ void FFScrollArea::draw(gcn::Graphics *graphics)
 	}
 }
 
-void FFScrollArea::keyPress(const gcn::Key &key)
+void FFScrollArea::keyPressed(gcn::KeyEvent &keyEvent)
 {
-	if (key.getValue() == gcn::Key::DOWN)
+	if (keyEvent.getKey().getValue() == gcn::Key::DOWN)
 	{
 		setVerticalScrollAmount(getVerticalScrollAmount() + 16);
 	}
-	else if (key.getValue() == gcn::Key::UP)
+	else if (keyEvent.getKey().getValue() == gcn::Key::UP)
 	{
 		setVerticalScrollAmount(getVerticalScrollAmount() - 16);
 	}

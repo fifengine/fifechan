@@ -96,9 +96,9 @@ void FFCharacterChooser::setDistance(int distance)
 	mDistance = distance;
 }
 
-void FFCharacterChooser::keyPress(const gcn::Key& key)
+void FFCharacterChooser::keyPressed(gcn::KeyEvent& keyEvent)
 {
-	if (key.getValue() == gcn::Key::UP)
+	if (keyEvent.getKey().getValue() == gcn::Key::UP)
 	{
 		mSelected--;
 		if (mSelected < 0)
@@ -106,7 +106,7 @@ void FFCharacterChooser::keyPress(const gcn::Key& key)
 			mSelected = 0;
 		}
 	}
-	else if (key.getValue() == gcn::Key::DOWN)
+	else if (keyEvent.getKey().getValue() == gcn::Key::DOWN)
 	{
 		mSelected++;
 		if (mSelected > 2)
@@ -114,7 +114,7 @@ void FFCharacterChooser::keyPress(const gcn::Key& key)
 			mSelected = 2;
 		}
 	}
-	else if (key.getValue() == gcn::Key::ENTER)
+	else if (keyEvent.getKey().getValue() == gcn::Key::ENTER)
 	{
 		generateAction();
 	}
