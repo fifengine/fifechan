@@ -290,7 +290,7 @@ void FPSDemo::initMultiplay()
 	mMultiplayText->setFont(mWhiteFont);
 	mMultiplayText->setOpaque(false);
 	mMultiplayText->setEditable(false);
-  mMultiplayText->setBorderSize(0);
+    mMultiplayText->setBorderSize(0);
 	mMultiplay->add(mMultiplayText);
 
 	mMultiplayBackButton = new FPSButton("Back");
@@ -374,15 +374,16 @@ void FPSDemo::initOptions()
 	mResolution->addActionListener(this);
 	mOptions->add(mResolution);
 
-	mVolume = new FPSSlider();
+	mVolume = new gcn::Slider(0.0, 1.0);
 	mVolume->setWidth(200);
 	mVolume->setHeight(20);
-	mVolume->setPercentMarked(70);
+	mVolume->setValue(0.7);
 	mVolume->setBackgroundColor(0x331010);
 	mVolume->setForegroundColor(0x331010);
 	mVolume->setBaseColor(0x771010);
 	mVolume->setActionEventId("volume");
 	mVolume->addActionListener(this);
+	mVolume->setMarkerLength(20);
 	mOptions->add(mVolume);
 
 	mVolumePercent = new gcn::Label("70%");
@@ -736,11 +737,11 @@ void FPSDemo::action(const gcn::ActionEvent& actionEvent)
 	{
 		std::string str;
 		std::ostringstream os(str);
-		os << mVolume->getPercentMarked() << "%";
+		os << (int)(mVolume->getValue() * 100) << "%";
 		mVolumePercent->setCaption(os.str());
 		mVolumePercent->adjustSize();
  		double m = MIX_MAX_VOLUME;
- 		double p = mVolume->getPercentMarked();
+ 		double p = mVolume->getValue();
  		Mix_Volume(-1,(int)(m*(p/100)));
 	}
 }

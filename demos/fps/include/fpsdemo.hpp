@@ -174,7 +174,7 @@ private:
 	gcn::ScrollArea* mResolutionScrollArea;
 	gcn::ListBox* mResolutionListBox;
 
-	FPSSlider* mVolume;
+	gcn::Slider* mVolume;
 	gcn::Label* mVolumePercent;
 	gcn::Label* mVolumeLabel;
 	gcn::Label* mResolutionLabel;
