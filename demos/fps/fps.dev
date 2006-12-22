@@ -1,7 +1,7 @@
 [Project]
 FileName=fps.dev
 Name=fps
-UnitCount=9
+UnitCount=7
 Type=1
 Ver=1
 ObjFiles=
@@ -30,16 +30,6 @@ CompilerSet=0
 CompilerSettings=0000000000000000000000
 
 [Unit1]
-FileName=include\fpsslider.hpp
-CompileCpp=1
-Folder=include
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit2]
 FileName=include\fpsbutton.hpp
 CompileCpp=1
 Folder=include
@@ -49,7 +39,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit3]
+[Unit2]
 FileName=include\fpscheckbox.hpp
 CompileCpp=1
 Folder=include
@@ -59,7 +49,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit4]
+[Unit3]
 FileName=include\fpsdemo.hpp
 CompileCpp=1
 Folder=include
@@ -69,7 +59,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit5]
+[Unit4]
 FileName=src\guichanfpsdemo.cpp
 CompileCpp=1
 Folder=src
@@ -79,7 +69,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit6]
+[Unit5]
 FileName=src\fpsbutton.cpp
 CompileCpp=1
 Folder=src
@@ -89,8 +79,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit7]
+[Unit6]
 FileName=src\fpscheckbox.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=src\fpsdemo.cpp
 CompileCpp=1
 Folder=src
 Compile=1
