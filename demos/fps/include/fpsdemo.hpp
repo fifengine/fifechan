@@ -15,6 +15,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #undef DELETE
+#undef MOUSE_MOVED
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -57,7 +58,7 @@ public:
 	FPSDemo();
 	~FPSDemo();
 	void run();
-	void action(const std::string& action, gcn::Widget* widget);
+	void action(const gcn::ActionEvent& actionEvent);
 	
 private:
 	void runIntro();

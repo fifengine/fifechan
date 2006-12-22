@@ -38,10 +38,12 @@ public:
 	 * Inherited from Widget
 	 */
 	void draw(gcn::Graphics* graphics);
-	void mouseIn();
+	void mouseEntered(gcn::MouseEvent& mouseEvent);
+	void mouseExited(gcn::MouseEvent& mouseEvent);
  
 private:
 	gcn::Font* mHighLightFont;
+	bool mHasMouse;
 	// The sound (see SDL_mixer docs)
 	static Mix_Chunk* mHoverSound;
 	// Keep track of instances to be able to free the sound

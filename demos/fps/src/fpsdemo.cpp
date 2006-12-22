@@ -171,7 +171,7 @@ void FPSDemo::initMain()
 	mSingleplayButton = new FPSButton("Singleplayer");
 	mSingleplayButton->setHighLightFont(mHighLightFont);
 	mSingleplayButton->adjustSize();
-	mSingleplayButton->setEventId("singleplay");
+	mSingleplayButton->setActionEventId("singleplay");
 	mSingleplayButton->addActionListener(this);
 	mSingleplayButton->setFont(mFont);
 	mSingleplayButton->adjustSize();
@@ -180,7 +180,7 @@ void FPSDemo::initMain()
 	mMultiplayButton = new FPSButton("Multiplayer");
 	mMultiplayButton->setHighLightFont(mHighLightFont);
 	mMultiplayButton->adjustSize();
-	mMultiplayButton->setEventId("multiplay");
+	mMultiplayButton->setActionEventId("multiplay");
 	mMultiplayButton->addActionListener(this);
 	mMultiplayButton->setFont(mFont);
 	mMultiplayButton->adjustSize();
@@ -189,7 +189,7 @@ void FPSDemo::initMain()
 	mOptionsButton = new FPSButton("Options");
 	mOptionsButton->setHighLightFont(mHighLightFont);
 	mOptionsButton->adjustSize();
-	mOptionsButton->setEventId("options");
+	mOptionsButton->setActionEventId("options");
 	mOptionsButton->addActionListener(this);
 	mOptionsButton->setFont(mFont);
 	mOptionsButton->adjustSize();
@@ -198,7 +198,7 @@ void FPSDemo::initMain()
 	mQuitButton = new FPSButton("Quit");
 	mQuitButton->setHighLightFont(mHighLightFont);
 	mQuitButton->adjustSize();
-	mQuitButton->setEventId("quit");
+	mQuitButton->setActionEventId("quit");
 	mQuitButton->addActionListener(this);
 	mQuitButton->setFont(mFont);
 	mQuitButton->adjustSize();
@@ -249,7 +249,7 @@ void FPSDemo::initSingleplay()
 	mSingleplayBackButton = new FPSButton("Back");
 	mSingleplayBackButton->setHighLightFont(mHighLightFont);
 	mSingleplayBackButton->adjustSize();
-	mSingleplayBackButton->setEventId("back");
+	mSingleplayBackButton->setActionEventId("back");
 	mSingleplayBackButton->addActionListener(this);
 	mSingleplayBackButton->setFont(mFont);
 	mSingleplayBackButton->adjustSize();
@@ -296,7 +296,7 @@ void FPSDemo::initMultiplay()
 	mMultiplayBackButton = new FPSButton("Back");
 	mMultiplayBackButton->setHighLightFont(mHighLightFont);
 	mMultiplayBackButton->adjustSize();
-	mMultiplayBackButton->setEventId("back");
+	mMultiplayBackButton->setActionEventId("back");
 	mMultiplayBackButton->addActionListener(this);
 	mMultiplayBackButton->setFont(mFont);
 	
@@ -338,7 +338,7 @@ void FPSDemo::initOptions()
 	mFullScreen->setBackgroundColor(0x331010);
 	mFullScreen->setForegroundColor(0xffffff);
 	mFullScreen->setBaseColor(0x771010);
-	mFullScreen->setEventId("fullscreen");
+	mFullScreen->setActionEventId("fullscreen");
 	mFullScreen->addActionListener(this);
 	mFullScreen->setMarked(mHaveFullscreen);
 	mOptions->add(mFullScreen);
@@ -370,7 +370,7 @@ void FPSDemo::initOptions()
 	{
 		mResolution->setSelected(0);
 	}	
-	mResolution->setEventId("resolution");
+	mResolution->setActionEventId("resolution");
 	mResolution->addActionListener(this);
 	mOptions->add(mResolution);
 
@@ -381,7 +381,7 @@ void FPSDemo::initOptions()
 	mVolume->setBackgroundColor(0x331010);
 	mVolume->setForegroundColor(0x331010);
 	mVolume->setBaseColor(0x771010);
-	mVolume->setEventId("volume");
+	mVolume->setActionEventId("volume");
 	mVolume->addActionListener(this);
 	mOptions->add(mVolume);
 
@@ -397,7 +397,7 @@ void FPSDemo::initOptions()
 	mOptionsBackButton = new FPSButton("Back");
 	mOptionsBackButton->setHighLightFont(mHighLightFont);
 	mOptionsBackButton->adjustSize();
-	mOptionsBackButton->setEventId("back");
+	mOptionsBackButton->setActionEventId("back");
 	mOptionsBackButton->addActionListener(this);
 	mOptionsBackButton->setFont(mFont);
 	mOptionsBackButton->adjustSize();
@@ -689,32 +689,32 @@ void FPSDemo::input()
 /**
  * The action funcion from ActionListener
  */
-void FPSDemo::action(const std::string& action, gcn::Widget* widget)
+void FPSDemo::action(const gcn::ActionEvent& actionEvent)
 {	
-	if (action == "quit")
+	if (actionEvent.getId() == "quit")
 	{
 		Mix_PlayChannel(-1, mEscapeSound, 0);
 		mRunning = false;
 	}
- 	else if (action == "singleplay")
+ 	else if (actionEvent.getId() == "singleplay")
  	{
 		Mix_PlayChannel(-1, mChooseSound, 0);
  		mMain->setVisible(false);
  		mSingleplay->setVisible(true);
  	}
- 	else if (action == "multiplay")
+ 	else if (actionEvent.getId() == "multiplay")
  	{
  		Mix_PlayChannel(-1, mChooseSound, 0);
  		mMain->setVisible(false);
  		mMultiplay->setVisible(true);
  	}
- 	else if (action == "options")
+ 	else if (actionEvent.getId() == "options")
  	{
 		Mix_PlayChannel(-1, mChooseSound, 0);
  		mMain->setVisible(false);
  		mOptions->setVisible(true);
  	}
- 	else if (action == "back")
+ 	else if (actionEvent.getId() == "back")
  	{
  		Mix_PlayChannel(-1, mEscapeSound, 0);
  		mMain->setVisible(true);
@@ -722,17 +722,17 @@ void FPSDemo::action(const std::string& action, gcn::Widget* widget)
  		mMultiplay->setVisible(false);
  		mOptions->setVisible(false);
  	}
-	else if (action == "fullscreen")
+	else if (actionEvent.getId() == "fullscreen")
 	{
 		Mix_PlayChannel(-1, mOptionsSound, 0);
 		initVideo();
 	}
-	else if (action == "resolution")
+	else if (actionEvent.getId() == "resolution")
 	{
 		Mix_PlayChannel(-1, mOptionsSound, 0);
 		initVideo();
 	}
-	else if (action == "volume")
+	else if (actionEvent.getId() == "volume")
 	{
 		std::string str;
 		std::ostringstream os(str);

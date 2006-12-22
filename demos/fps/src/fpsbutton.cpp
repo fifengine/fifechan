@@ -19,7 +19,7 @@ Mix_Chunk* FPSButton::mHoverSound = NULL;
  * instances.
  */
 FPSButton::FPSButton(const std::string& caption)
-		:Button(caption)
+		:Button(caption), mHasMouse(false)
 {
   setBorderSize(0);
   
@@ -51,7 +51,7 @@ FPSButton::~FPSButton()
  */
 void FPSButton::draw(gcn::Graphics* graphics)
 {
-	if (hasMouse())
+    if (mHasMouse)
 	{
 		graphics->setFont(mHighLightFont);
 		graphics->drawText(getCaption(),0,0);
@@ -70,11 +70,26 @@ void FPSButton::setHighLightFont(gcn::Font* font)
 
 /*
  * Button is already a MouseListener. Thats why FPSButton doesn't
- * need to inherit from MouseListener. Mouse in is called when the
+ * need to inherit from MouseListener, mouseEntered is called when the
  * mouse enters the widget. We want to know this in order to play
- * the mouse hover sound.
+ * the mouse hover sound and to save a state that we have the mouse.
  */
-void FPSButton::mouseIn()
+void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
 {
 	Mix_PlayChannel(-1, mHoverSound, 0);
+	mHasMouse = true;
+	mouseEvent.consume();
 }
+
+/*
+ * Button is already a MouseListener. Thats why FPSButton doesn't
+ * need to inherit from MouseListener, mouseExited is called when the
+ * mouse exits the widget. We want to know this in order to play
+ * the mouse hover sound and to save a state that we have the mouse.
+ */
+void FPSButton::mouseExited(gcn::MouseEvent& mouseEvent)
+{
+	mHasMouse = false;
+	mouseEvent.consume();
+}
+
