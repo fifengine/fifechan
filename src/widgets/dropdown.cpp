@@ -124,12 +124,12 @@ namespace gcn
 
     DropDown::~DropDown()
     {
-        if (mInternalScrollArea != NULL)
+        if (!mInternalScrollArea)
         {
             delete mScrollArea;
         }
 
-        if (mInternalListBox != NULL)
+        if (!mInternalListBox)
         {
             delete mListBox;
         }
