@@ -82,7 +82,7 @@ namespace gcn
 
         mInternalScrollArea = (scrollArea == NULL);
         mInternalListBox = (listBox == NULL);
-
+        
         if (mInternalScrollArea)
         {
             mScrollArea = new ScrollArea();
@@ -124,12 +124,12 @@ namespace gcn
 
     DropDown::~DropDown()
     {
-        if (!mInternalScrollArea)
+        if (mInternalScrollArea)
         {
             delete mScrollArea;
         }
 
-        if (!mInternalListBox)
+        if (mInternalListBox)
         {
             delete mListBox;
         }
