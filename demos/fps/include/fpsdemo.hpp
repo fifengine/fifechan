@@ -25,7 +25,6 @@
 #include <guichan/opengl/openglsdlimageloader.hpp>
 #include "fpsbutton.hpp"
 #include "fpscheckbox.hpp"
-#include "fpsslider.hpp"
 
 /*
  * This is a ListModel we will use for resultion.
