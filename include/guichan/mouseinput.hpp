@@ -89,35 +89,39 @@ namespace gcn
          * @param y the mouse y coordinate.
          * @param timeStamp the mouse inputs time stamp.
          */
-        MouseInput(int button, int type, int x, int y, int timeStamp);
+        MouseInput(unsigned int button,
+                   unsigned int type,
+                   int x,
+                   int y,
+                   int timeStamp);
 
         /**
          * Sets the input type.
          *
          * @param type the type of input.
          */
-        void setType(int type);
+        void setType(unsigned int type);
 
         /**
          * Gets the input type.
          *
          * @return the input type.
          */
-        int getType() const;
+        unsigned int getType() const;
 
         /**
          * Sets the button pressed.
          *
          * @param button the button pressed.
          */
-        void setButton(int button);
+        void setButton(unsigned int button);
 
         /**
          * Gets the button pressed.
          *
          * @return the button pressed.
          */
-        int getButton() const;
+        unsigned int getButton() const;
 
         /**
          * Sets the timestamp for the input.
@@ -188,8 +192,8 @@ namespace gcn
         };
 
     protected:
-        int mType;
-        int mButton;
+        unsigned int mType;
+        unsigned int mButton;
         int mTimeStamp;
         int mX;
         int mY;
