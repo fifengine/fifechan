@@ -272,7 +272,13 @@ namespace gcn
               value = Key::PAUSE;
               break;
           case SDLK_SPACE:
-              value = Key::SPACE;
+              // Special characters like ~ (tilde) ends up
+              // with the keysym.sym SDLK_SPACE which
+              // without this check would be lost.
+              if (keysym.unicode == ' ')
+              {
+                  value = Key::SPACE;
+              }
               break;
           case SDLK_ESCAPE:
               value = Key::ESCAPE;
