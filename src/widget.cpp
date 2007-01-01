@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -82,7 +82,7 @@ namespace gcn
     Widget::Widget()
             : mParent(NULL),
               mFocusHandler(NULL),
-              mInternalFocusHandler(NULL),              
+              mInternalFocusHandler(NULL),
               mForegroundColor(0x000000),
               mBackgroundColor(0xffffff),
               mBaseColor(0x808090),
@@ -92,7 +92,7 @@ namespace gcn
               mTabIn(true),
               mTabOut(true),
               mEnabled(true),
-              mCurrentFont(NULL)              
+              mCurrentFont(NULL)
     {
         mWidgets.push_back(this);
     }
@@ -108,7 +108,7 @@ namespace gcn
         }
 
         _setFocusHandler(NULL);
-        
+
         mWidgets.remove(this);
     }
 
@@ -552,7 +552,7 @@ namespace gcn
     Widget *Widget::getWidgetAt(int x, int y)
     {
         return NULL;
-    }    
+    }
 
     const std::list<MouseListener*>& Widget::_getMouseListeners()
     {
@@ -573,9 +573,9 @@ namespace gcn
     {
         return mInternalFocusHandler;
     }
-    
+
     void Widget::setInternalFocusHandler(FocusHandler* focusHandler)
     {
         mInternalFocusHandler = focusHandler;
-    }   
+    }
 }

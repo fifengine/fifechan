@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -245,7 +245,7 @@ namespace gcn
     }
 
     void Button::mousePressed(MouseEvent& mouseEvent)
-    {        
+    {
         if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             mIsMousePressed = true;
@@ -257,7 +257,7 @@ namespace gcn
     void Button::mouseExited(MouseEvent& mouseEvent)
     {
         mHasMouse = false;
-        mouseEvent.consume();        
+        mouseEvent.consume();
     }
 
     void Button::mouseEntered(MouseEvent& mouseEvent)
@@ -265,9 +265,9 @@ namespace gcn
         mHasMouse = true;
         mouseEvent.consume();
     }
-    
+
     void Button::mouseReleased(MouseEvent& mouseEvent)
-    {        
+    {
         if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
         {
             mIsMousePressed = false;
@@ -275,11 +275,11 @@ namespace gcn
 
         mouseEvent.consume();
     }
-    
+
     void Button::keyPressed(KeyEvent& keyEvent)
     {
         Key key = keyEvent.getKey();
-        
+
         if (key.getValue() == Key::ENTER
             || key.getValue() == Key::SPACE)
         {
@@ -293,7 +293,7 @@ namespace gcn
     void Button::keyReleased(KeyEvent& keyEvent)
     {
         Key key = keyEvent.getKey();
-        
+
         if ((key.getValue() == Key::ENTER
              || key.getValue() == Key::SPACE)
             && mIsKeyPressed)

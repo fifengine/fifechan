@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -126,10 +126,10 @@ namespace gcn
               keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
               keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
                                      && event.key.keysym.sym <= SDLK_KP_EQUALS);
-              
+
               mKeyInputQueue.push(keyInput);
               break;
-              
+
           case SDL_KEYUP:
               keyInput.setKey(Key(convertKeyCharacter(event.key.keysym)));
               keyInput.setType(KeyInput::KEY_RELEASED);
@@ -428,7 +428,7 @@ namespace gcn
                   break;
             }
         }
-        
+
         return value;
     }
 }

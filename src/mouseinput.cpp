@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -104,17 +104,17 @@ namespace gcn
     {
         mTimeStamp = timeStamp;
     }
-    
+
     void MouseInput::setX(int x)
     {
         mX = x;
     }
-            
+
     int MouseInput::getX() const
     {
         return mX;
     }
-    
+
     void MouseInput::setY(int y)
     {
         mY = y;

@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -169,7 +169,7 @@ namespace gcn
         // Inherited from DeathListener
 
         virtual void death(const Event& event);
-        
+
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
@@ -180,13 +180,13 @@ namespace gcn
         virtual void mousePressed(MouseEvent& mouseEvent);
 
         virtual void mouseReleased(MouseEvent& mouseEvent);
-        
+
         virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
-        
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent); 
+
+        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
-        
+
     protected:
         /**
          * Draws the button with the little down arrow.

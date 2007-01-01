@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -240,7 +240,7 @@ namespace gcn
 
             KeyInput keyInput(keyObj, KeyInput::KEY_PRESSED);
 
-            keyInput.setNumericPad(isNumericPad(scancode));            
+            keyInput.setNumericPad(isNumericPad(scancode));
             keyInput.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
             keyInput.setAltPressed(key_shifts & KB_ALT_FLAG);
             keyInput.setControlPressed(key_shifts & KB_CTRL_FLAG);
@@ -252,8 +252,8 @@ namespace gcn
             keyInput.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
                                                   KB_RWIN_FLAG));
 #endif
-            
-            
+
+
             mKeyQueue.push(keyInput);
 
             mPressedKeys[scancode] = keyInput;
@@ -264,13 +264,13 @@ namespace gcn
         for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
          {
             if (!key[iter->first])
-            {         
+            {
                 KeyInput keyInput(iter->second.getKey(), KeyInput::KEY_RELEASED);
                 keyInput.setNumericPad(iter->second.isNumericPad());
                 keyInput.setShiftPressed(iter->second.isShiftPressed());
                 keyInput.setAltPressed(iter->second.isAltPressed());
                 keyInput.setControlPressed(iter->second.isControlPressed());
-                
+
                 mKeyQueue.push(keyInput);
 
                 tempIter = iter;

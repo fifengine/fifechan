@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -210,9 +210,9 @@ namespace gcn
 
         int textX;
         int textY;
-        
+
         textY = ((int)getTitleBarHeight() - getFont()->getHeight()) / 2;
-       
+
         switch (getAlignment())
         {
           case Graphics::LEFT:
@@ -227,7 +227,7 @@ namespace gcn
           default:
               throw GCN_EXCEPTION("Unknown alignment.");
         }
-        
+
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
         graphics->pushClipArea(Rectangle(0, 0, getWidth(), getTitleBarHeight() - 1));
@@ -270,12 +270,12 @@ namespace gcn
         mDragOffsetY = mouseEvent.getY();
 
         mIsMoving = mouseEvent.getY() <= (int)mTitleBarHeight;
-        
+
         mouseEvent.consume();
     }
 
     void Window::mouseDragged(MouseEvent& mouseEvent)
-    {        
+    {
         if (isMovable() && mIsMoving)
         {
             setPosition(mouseEvent.getX() - mDragOffsetX + getX(),

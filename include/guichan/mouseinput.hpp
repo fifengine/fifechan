@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -144,7 +144,7 @@ namespace gcn
          * @since 0.6.0
          */
         void setX(int x);
-            
+
         /**
          * Gets the x coordinate of the input.
          *
@@ -166,7 +166,7 @@ namespace gcn
          * @since 0.6.0
          */
         int getY() const;
-        
+
         /**
          * Mouse input event types. This enum partially corresponds
          * to the enum with event types in MouseEvent for easy mapping.
@@ -183,7 +183,7 @@ namespace gcn
         /**
          * Mouse button types.
          */
-        enum        
+        enum
         {
             MOUSE_BUTTON_EMPTY = 0,
             MOUSE_BUTTON_LEFT,

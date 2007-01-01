@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -62,7 +62,7 @@
 namespace gcn
 {
     class Widget;
-    
+
     /**
      * Base class for all events.
      *
@@ -92,10 +92,10 @@ namespace gcn
          */
         virtual Widget* getSource() const;
 
-        
+
     protected:
         Widget* mSource;
-        unsigned int mType;        
+        unsigned int mType;
     };
 }
 

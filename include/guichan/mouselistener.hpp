@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -97,7 +97,7 @@ namespace gcn
          */
         virtual void mouseExited(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**
@@ -111,7 +111,7 @@ namespace gcn
          */
         virtual void mousePressed(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**
@@ -121,7 +121,7 @@ namespace gcn
          */
         virtual void mouseReleased(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**
@@ -133,7 +133,7 @@ namespace gcn
          */
         virtual void mouseClicked(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**
@@ -155,7 +155,7 @@ namespace gcn
          */
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**
@@ -167,7 +167,7 @@ namespace gcn
          */
         virtual void mouseMoved(MouseEvent& mouseEvent)
         {
-            
+
         }
 
         /**

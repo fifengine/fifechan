@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -83,7 +83,7 @@ namespace gcn
         virtual ~DeathListener() { }
 
         /**
-         * Called when a widget dies. It is used to be able to recieve 
+         * Called when a widget dies. It is used to be able to recieve
          * a notification when a death of a widget occurs.
          *
          * @param event the event of the death.

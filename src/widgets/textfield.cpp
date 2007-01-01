@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -162,10 +162,10 @@ namespace gcn
         mouseEvent.consume();
     }
 
-    void TextField::keyPressed(KeyEvent& keyEvent)        
+    void TextField::keyPressed(KeyEvent& keyEvent)
     {
         Key key = keyEvent.getKey();
-        
+
         if (key.getValue() == Key::LEFT && mCaretPosition > 0)
         {
             --mCaretPosition;

@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -77,12 +77,12 @@ namespace gcn
         mDroppedDown = false;
         mPushed = false;
         mIsDragged = false;
-        
+
         setInternalFocusHandler(&mInternalFocusHandler);
 
         mInternalScrollArea = (scrollArea == NULL);
         mInternalListBox = (listBox == NULL);
-        
+
         if (mInternalScrollArea)
         {
             mScrollArea = new ScrollArea();
@@ -301,9 +301,9 @@ namespace gcn
     }
 
     void DropDown::keyPressed(KeyEvent& keyEvent)
-    {        
+    {
         Key key = keyEvent.getKey();
-        
+
         if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
             && !mDroppedDown)
         {
@@ -317,7 +317,7 @@ namespace gcn
         {
             setSelected(getSelected() + 1);
         }
-                 
+
 
         keyEvent.consume();
     }
@@ -367,7 +367,7 @@ namespace gcn
         {
             mPushed = false;
         }
-        
+
         // Released outside of widget. Can happen when we have modal input focus.
         if (0 > mouseEvent.getY()
             || mouseEvent.getY() >= getHeight()
@@ -389,14 +389,14 @@ namespace gcn
         }
 
         mIsDragged = false;
-        
+
         mouseEvent.consume();
     }
 
     void DropDown::mouseDragged(MouseEvent& mouseEvent)
     {
         mIsDragged = true;
-        
+
         mouseEvent.consume();
     }
 
@@ -581,34 +581,34 @@ namespace gcn
 
         Widget::setFont(font);
 	}
-	
+
 	void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
 	{
         mouseEvent.consume();
-        
+
         if (mDroppedDown)
         {
              // ListBox will take care of this for us as it will be focused.
             return;
         }
-        
+
         if (mListBox->getSelected() > 0)
         {
             mListBox->setSelected(mListBox->getSelected() - 1);
         }
     }
-    
+
     void DropDown::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
         mouseEvent.consume();
-        
+
         if (mDroppedDown)
         {
             // ListBox will take care of this for us as it will be focused.
             return;
         }
-        
+
         mListBox->setSelected(mListBox->getSelected() + 1);
-    } 
+    }
 }
 

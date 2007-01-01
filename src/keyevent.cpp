@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -78,15 +78,15 @@ namespace gcn
              mType(type),
              mIsNumericPad(isNumericPad),
              mKey(key)
-    {    
-        
+    {
+
     }
 
     KeyEvent::~KeyEvent()
     {
 
     }
-    
+
     unsigned int KeyEvent::getType() const
     {
         return mType;

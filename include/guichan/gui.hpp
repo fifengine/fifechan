@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -273,7 +273,7 @@ namespace gcn
          * @since 0.6.0
          */
         virtual void handleModalFocusRelease();
-        
+
         /**
          * Distributes a mouse event.
          *
@@ -285,12 +285,12 @@ namespace gcn
          * @since 0.6.0
          */
         virtual void distributeMouseEvent(MouseEvent& mouseEvent, bool force = false);
-        
+
         /**
          * Distributes a key event.
          *
          * @param keyEvent the key event to distribute.
-         
+
          * @since 0.6.0
          */
         virtual void distributeKeyEvent(KeyEvent& keyEvent);
@@ -303,7 +303,7 @@ namespace gcn
          * @since 0.6.0
          */
         virtual void distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent);
-        
+
         /**
          * Gets the widget at a certain position.
          *
@@ -327,14 +327,14 @@ namespace gcn
          * @since 0.6.0
          */
         virtual Widget* getKeyEventSource();
-        
+
         Widget* mTop;
         Graphics* mGraphics;
         Input* mInput;
         FocusHandler* mFocusHandler;
 
         bool mTabbing;
-        
+
         typedef std::list<KeyListener*> KeyListenerList;
         typedef KeyListenerList::iterator KeyListenerListIterator;
 
@@ -355,7 +355,7 @@ namespace gcn
         unsigned int mLastMousePressButton;
         int mLastMousePressTimeStamp;
         int mLastMouseX;
-        int mLastMouseY;        
+        int mLastMouseY;
         int mClickCount;
     };
 }

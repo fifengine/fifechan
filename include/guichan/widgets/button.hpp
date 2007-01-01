@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -66,7 +66,7 @@
 #include "guichan/widget.hpp"
 
 namespace gcn
-{    
+{
     /**
      * A regular button. Add an ActionListener to it to know when it
      * has been clicked.
@@ -152,10 +152,10 @@ namespace gcn
         virtual void mouseReleased(MouseEvent& mouseEvent);
 
         virtual void mouseEntered(MouseEvent& mouseEvent);
-        
+
         virtual void mouseExited(MouseEvent& mouseEvent);
 
-        
+
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);

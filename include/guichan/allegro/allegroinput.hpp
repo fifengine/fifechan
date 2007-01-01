@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -114,7 +114,7 @@ namespace gcn
         virtual Key convertToKey(int scancode, int unicode);
 
         virtual bool isNumericPad(int scancode);
-        
+
         // This map holds the currently pressed Keys
         // so we can send the correct key releases.
         // it maps from scancode to key objects.

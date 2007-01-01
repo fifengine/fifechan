@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -125,7 +125,7 @@ namespace gcn
         mRightButtonScrollAmount = 10;
         mIsVerticalMarkerDragged = false;
         mIsHorizontalMarkerDragged =false;
-        
+
         setContent(content);
         addMouseListener(this);
     }
@@ -302,7 +302,7 @@ namespace gcn
     {
         int x = mouseEvent.getX();
         int y = mouseEvent.getY();
-        
+
         if (getUpButtonDimension().isPointInRect(x, y))
         {
             setVerticalScrollAmount(getVerticalScrollAmount()
@@ -379,7 +379,7 @@ namespace gcn
         mRightButtonPressed = false;
         mIsHorizontalMarkerDragged = false;
         mIsVerticalMarkerDragged = false;
-            
+
         mouseEvent.consume();
     }
 
@@ -389,9 +389,9 @@ namespace gcn
         {
             int pos = mouseEvent.getY() - getVerticalBarDimension().y  - mVerticalMarkerDragOffset;
             int length = getVerticalMarkerDimension().height;
-            
+
             Rectangle barDim = getVerticalBarDimension();
-            
+
             if ((barDim.height - length) > 0)
             {
                 setVerticalScrollAmount((getVerticalMaxScroll() * pos)
@@ -407,9 +407,9 @@ namespace gcn
         {
             int pos = mouseEvent.getX() - getHorizontalBarDimension().x  - mHorizontalMarkerDragOffset;
             int length = getHorizontalMarkerDimension().width;
-            
+
             Rectangle barDim = getHorizontalBarDimension();
-            
+
             if ((barDim.width - length) > 0)
             {
                 setHorizontalScrollAmount((getHorizontalMaxScroll() * pos)

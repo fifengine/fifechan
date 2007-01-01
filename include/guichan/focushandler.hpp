@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -126,7 +126,7 @@ namespace gcn
          * @param widget the widget to focus for modal mouse input focus.
          * @throws Exception when another widget already has modal mouse input focus.
          */
-        virtual void requestModalMouseInputFocus(Widget* widget);        
+        virtual void requestModalMouseInputFocus(Widget* widget);
 
         /**
          * Releases modal mouse input focus if the widget has modal mouse input

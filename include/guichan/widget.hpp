@@ -6,7 +6,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006 Olof Naessén and Per Larsson
+ * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
  *
  *                                                         Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -348,7 +348,7 @@ namespace gcn
          * @return the background Color.
          */
         virtual const Color& getBackgroundColor() const;
-       
+
         /**
          * Requests focus for the Widget. A Widget will only recieve focus
          * if it is focusable.
@@ -568,7 +568,7 @@ namespace gcn
 
         /**
          * Requests modal focus. When a widget has modal focus, only that
-         * widget and it's children may recieve input. 
+         * widget and it's children may recieve input.
          *
          * @throws Exception if another widget already has modal focus.
          */
@@ -632,7 +632,7 @@ namespace gcn
          * @return the mouse listeners of the widget.
          * @since 0.6.0
          */
-        virtual const std::list<MouseListener*>& _getMouseListeners();            
+        virtual const std::list<MouseListener*>& _getMouseListeners();
 
         /**
          * Gets the key listeners of the widget.
@@ -640,7 +640,7 @@ namespace gcn
          * @return the key listeners of the widget.
          * @since 0.6.0
          */
-        virtual const std::list<KeyListener*>& _getKeyListeners();            
+        virtual const std::list<KeyListener*>& _getKeyListeners();
 
         /**
          * Gets the subarea of the widget that the children occupy.
@@ -655,8 +655,8 @@ namespace gcn
          * @return the internalFocusHandler used. If no internal FocusHandler
          *         is used, NULL will be returned.
          */
-        virtual FocusHandler* _getInternalFocusHandler();                
-        
+        virtual FocusHandler* _getInternalFocusHandler();
+
         /**
          * Sets the internal FocusHandler. An internal focushandler is
          * needed if both a widget in the widget and the widget itself
@@ -681,7 +681,7 @@ namespace gcn
          * @param widget the Widget to move.
          */
         virtual void moveToBottom(Widget* widget) { };
-        
+
         /**
          * Focuses the next Widget in the widget.
          */
@@ -729,7 +729,7 @@ namespace gcn
         void generateAction();
 
         typedef std::list<MouseListener*> MouseListenerList;
-        typedef MouseListenerList::iterator MouseListenerIterator;        
+        typedef MouseListenerList::iterator MouseListenerIterator;
         MouseListenerList mMouseListeners;
 
 
