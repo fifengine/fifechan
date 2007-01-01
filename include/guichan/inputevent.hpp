@@ -116,8 +116,8 @@ namespace gcn
         virtual bool isMetaPressed() const;
 
         /**
-         * Consumes the event which means it will not be received by other
-         * event listeners.
+         * Marks the event as consumed. How widgets should act on consumed
+         * events are up to the widgets themselves.
          */
         virtual void consume();
 
