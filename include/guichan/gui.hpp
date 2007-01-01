@@ -218,45 +218,45 @@ namespace gcn
         virtual void handleKeyInput();
 
         /**
-         * Handles mouse moved events.
+         * Handles mouse moved input.
          *
-         * @param widget The widget the event concerns.
+         * @param mouseInput the mouse input to handle.
          * @since 0.6.0
          */
-        virtual void handleMouseMoved(Widget* widget);
+        virtual void handleMouseMoved(const MouseInput& mouseInput);
 
         /**
-         * Handles mouse pressed events.
+         * Handles mouse pressed input.
          *
-         * @param widget The widget the event concerns.
+         * @param mouseInput the mouse input to handle.
          * @since 0.6.0
          */
-        virtual void handleMousePressed(Widget* widget);
+        virtual void handleMousePressed(const MouseInput& mouseInput);
 
         /**
          *
-         * Handles mouse wheel moved down events.
+         * Handles mouse wheel moved down input.
          *
-         * @param widget The widget the event concerns.
+         * @param mouseInput the mouse input to handle.
          * @since 0.6.0
          */
-        virtual void handleMouseWheelMovedDown(Widget* widget);
+        virtual void handleMouseWheelMovedDown(const MouseInput& mouseInput);
 
         /**
-         * Handles mouse wheel moved up events.
+         * Handles mouse wheel moved up input.
          *
-         * @param widget The widget the event concerns.
+         * @param mouseInput the mouse input to handle.
          * @since 0.6.0
          */
-        virtual void handleMouseWheelMovedUp(Widget* widget);
+        virtual void handleMouseWheelMovedUp(const MouseInput& mouseInput);
 
         /**
-         * Handles mouse released events.
+         * Handles mouse released input.
          *
-         * @param widget The widget the event concerns.
+         * @param mouseInput the mouse input to handle.
          * @since 0.6.0
          */
-        virtual void handleMouseReleased(Widget* widget);
+        virtual void handleMouseReleased(const MouseInput& mouseInput);
 
         /**
          * Handles modal mouse input focus releases. When a release occurs appropriate
@@ -277,31 +277,40 @@ namespace gcn
         /**
          * Distributes a mouse event.
          *
+         * @param mouseEvent the mouse event to distribute.
+         * @param fource indicates whether the distribution should be forced or not.
+         *               A forced distribution distributes the event even if a widget
+         *               is not enabled or not visible. Default value is false.
+         *
          * @since 0.6.0
          */
-        virtual void distributeMouseEvent();
+        virtual void distributeMouseEvent(MouseEvent& mouseEvent, bool force = false);
         
         /**
          * Distributes a key event.
          *
+         * @param keyEvent the key event to distribute.
+         
          * @since 0.6.0
          */
-        virtual void distributeKeyEvent();
+        virtual void distributeKeyEvent(KeyEvent& keyEvent);
 
         /**
          * Distributes a key event to the global key listeners.
          *
+         * @param keyEvent the key event to distribute.
+         *
          * @since 0.6.0
          */
-        virtual void distributeKeyEventToGlobalKeyListeners();
+        virtual void distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent);
         
         /**
-         * Gets the widget with the mouse.
+         * Gets the widget at a certain position.
          *
-         * @return the widget with the mouse.
+         * @return the widget at a certain position.
          * @since 0.6.0
          */
-        virtual Widget* getWidgetWithMouse();
+        virtual Widget* getWidgetAt(int x, int y);
 
         /**
          * Gets the source of the mouse event.
@@ -309,7 +318,7 @@ namespace gcn
          * @return the source widget of the mouse event.
          * @since 0.6.0
          */
-        virtual Widget* getMouseEventSource();
+        virtual Widget* getMouseEventSource(int x, int y);
 
         /**
          * Gets the source of the key event.
@@ -337,36 +346,17 @@ namespace gcn
         Widget* mLastWidgetWithModalMouseInputFocus;
 
         // Current input state
-        bool mIsShiftPressed;
-        bool mIsMetaPressed;
-        bool mIsControlPressed;
-        bool mIsAltPressed;
+        bool mShiftPressed;
+        bool mMetaPressed;
+        bool mControlPressed;
+        bool mAltPressed;
 
-        // Current key state
-        Key mKey;
-
-        // Current mouse state
-        int mMouseX;
-        int mMouseY;
-        unsigned int mMouseButton;
-        int mMousePressTimeStamp;
-        
         // Last mouse state
         unsigned int mLastMousePressButton;
         int mLastMousePressTimeStamp;
-        
+        int mLastMouseX;
+        int mLastMouseY;        
         int mClickCount;
-
-        // Current mouse event state
-        Widget* mMouseEventSource;
-        unsigned int mMouseEventType;
-
-        // Current key event state
-        Widget* mKeyEventSource;
-        Key mKeyEventKey;
-        bool mKeyEventIsNumericPad;
-        unsigned int mKeyEventType;
-        
     };
 }
 
