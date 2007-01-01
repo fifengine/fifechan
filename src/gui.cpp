@@ -369,7 +369,7 @@ namespace gcn
                                   mouseInput.getX() - lastWidgetWithMouseX,
                                   mouseInput.getY() - lastWidgetWithMouseY,
                                   mClickCount);
-            distributeMouseEvent(mouseEvent, true);
+            distributeMouseEvent(mouseEvent, true, true);
 
             mLastWidgetWithMouse = NULL;
 
@@ -395,7 +395,7 @@ namespace gcn
                                       mouseInput.getX() - lastWidgetWithMouseX,
                                       mouseInput.getY() - lastWidgetWithMouseY,
                                       mClickCount);
-                distributeMouseEvent(mouseEvent, true);
+                distributeMouseEvent(mouseEvent, true, true);
 
                 mClickCount = 0;
                 mLastMousePressTimeStamp = 0;
@@ -414,7 +414,7 @@ namespace gcn
                                   mouseInput.getX() - sourceWidgetX,
                                   mouseInput.getY() - sourceWidgetY,
                                   mClickCount);
-            distributeMouseEvent(mouseEvent, true);
+            distributeMouseEvent(mouseEvent, true, true);
 
             mLastWidgetWithMouse = sourceWidget;
         }
@@ -707,7 +707,9 @@ namespace gcn
         return widget;
     }
 
-    void Gui::distributeMouseEvent(MouseEvent& mouseEvent, bool force)
+    void Gui::distributeMouseEvent(MouseEvent& mouseEvent,
+                                   bool force,
+                                   bool toSourceOnly)
     {
         Widget* parent = mouseEvent.getSource();
         Widget* widget = mouseEvent.getSource();
@@ -775,21 +777,13 @@ namespace gcn
                           break;
                       default:
                           throw GCN_EXCEPTION("Unknown mouse event type.");
-                    }
-
-                    if (mouseEvent.isConsumed())
-                    {
-                        break;
-                    }
+                    }                    
                 }
-            }
-
-            // Check if event has been consumed by one of the widget's
-            // mouse listeners. If it has been consumed no further distribution
-            // of the event to the widget's parents should take place.
-            if (mouseEvent.isConsumed())
-            {
-                break;
+                
+                if (toSourceOnly)
+                {
+                    break;
+                }
             }
 
             Widget* swap = widget;
@@ -816,72 +810,43 @@ namespace gcn
 
     void Gui::distributeKeyEvent(KeyEvent& keyEvent)
     {
-        Widget* parent = keyEvent.getSource();
-        Widget* widget = keyEvent.getSource();
+        Widget* sourceWidget = keyEvent.getSource();
 
         if (mFocusHandler->getModalFocused() != NULL
-            && !widget->hasModalFocus())
+            && !sourceWidget->hasModalFocus())
         {
             return;
         }
 
-        while (parent != NULL)
+        // If the widget has been removed due to input
+        // cancel the distribution.
+        if (!Widget::widgetExists(sourceWidget))
         {
-            // If the widget has been removed due to input
-            // cancel the distribution.
-            if (!Widget::widgetExists(widget))
+            return;
+        }       
+        
+        if (sourceWidget->isEnabled())
+        {
+            std::list<KeyListener*> keyListeners = sourceWidget->_getKeyListeners();
+            
+            // Send the event to all key listeners of the source widget.
+            for (std::list<KeyListener*>::iterator it = keyListeners.begin();
+                 it != keyListeners.end();
+                 ++it)
             {
-                break;
-            }
-
-            parent = (Widget*)widget->getParent();
-
-            if (widget->isEnabled())
-            {
-                std::list<KeyListener*> keyListeners = widget->_getKeyListeners();
-
-                // Send the event to all key listeners of the widget.
-                for (std::list<KeyListener*>::iterator it = keyListeners.begin();
-                     it != keyListeners.end();
-                     ++it)
+                switch (keyEvent.getType())
                 {
-                    switch (keyEvent.getType())
-                    {
-                      case KeyEvent::KEY_PRESSED:
-                          (*it)->keyPressed(keyEvent);
-                          break;
-                      case KeyEvent::KEY_RELEASED:
-                          (*it)->keyReleased(keyEvent);
-                          break;
-                      default:
-                          throw GCN_EXCEPTION("Unknown key event type.");
-                    }
-
-                    if (keyEvent.isConsumed())
-                    {
-                        break;
-                    }
-                }
+                  case KeyEvent::KEY_PRESSED:
+                      (*it)->keyPressed(keyEvent);
+                      break;
+                  case KeyEvent::KEY_RELEASED:
+                      (*it)->keyReleased(keyEvent);
+                      break;
+                  default:
+                      throw GCN_EXCEPTION("Unknown key event type.");
+                }                
             }
-
-            // Check if event has been consumed by one of the widget's
-            // key listeners. If it has been consumed no further distribution
-            // of the event to the widget's parents should take place.
-            if (keyEvent.isConsumed())
-            {
-                break;
-            }
-
-            Widget* swap = widget;
-            widget = parent;
-            parent = (Widget*)swap->getParent();
-
-            if (mFocusHandler->getModalFocused() != NULL
-                && !widget->hasModalFocus())
-            {
-                break;
-            }
-        }
+        }        
     }
 
     void Gui::distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent)

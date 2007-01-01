@@ -281,10 +281,13 @@ namespace gcn
          * @param fource indicates whether the distribution should be forced or not.
          *               A forced distribution distributes the event even if a widget
          *               is not enabled or not visible. Default value is false.
+         * @param toSourceOnly indicates whether the distribution should be to the
+         *                     source widget only or to it's parent's mouse listeners
+         *                     as well.
          *
          * @since 0.6.0
          */
-        virtual void distributeMouseEvent(MouseEvent& mouseEvent, bool force = false);
+        virtual void distributeMouseEvent(MouseEvent& mouseEvent, bool force = false, bool toSourceOnly = false);
 
         /**
          * Distributes a key event.
