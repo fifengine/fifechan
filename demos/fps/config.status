@@ -310,7 +310,7 @@ Copyright (C) 2003 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 srcdir=.
-INSTALL="/bin/install -c"
+INSTALL="/usr/bin/install -c"
 # If no file are specified by the user, then we need to provide default
 # value.  By we need to know if files were specified by the user.
 ac_need_defaults=:
@@ -499,13 +499,13 @@ s,@INSTALL_SCRIPT@,${INSTALL},;t t
 s,@INSTALL_DATA@,${INSTALL} -m 644,;t t
 s,@PACKAGE@,Gui-chan-FF-demo,;t t
 s,@VERSION@,1.0,;t t
-s,@ACLOCAL@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run aclocal-1.6,;t t
-s,@AUTOCONF@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run autoconf,;t t
-s,@AUTOMAKE@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run automake-1.6,;t t
-s,@AUTOHEADER@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run autoheader,;t t
-s,@MAKEINFO@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run makeinfo,;t t
-s,@AMTAR@,${SHELL} /home/olof/prog/c/guichanfpsdemo/missing --run tar,;t t
-s,@install_sh@,/home/olof/prog/c/guichanfpsdemo/install-sh,;t t
+s,@ACLOCAL@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run aclocal-1.6,;t t
+s,@AUTOCONF@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run autoconf,;t t
+s,@AUTOMAKE@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run automake-1.6,;t t
+s,@AUTOHEADER@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run autoheader,;t t
+s,@MAKEINFO@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run makeinfo,;t t
+s,@AMTAR@,${SHELL} /home/olof/prog/c/guichan/demos/fps/missing --run tar,;t t
+s,@install_sh@,/home/olof/prog/c/guichan/demos/fps/install-sh,;t t
 s,@STRIP@,,;t t
 s,@ac_ct_STRIP@,,;t t
 s,@INSTALL_STRIP_PROGRAM@,${SHELL} $(install_sh) -c -s,;t t
@@ -513,7 +513,7 @@ s,@AWK@,gawk,;t t
 s,@SET_MAKE@,,;t t
 s,@CXX@,g++,;t t
 s,@CXXFLAGS@,-g -O2,;t t
-s,@LDFLAGS@, -L/usr/lib -Wl,-rpath,/usr/lib -lSDL -lpthread,;t t
+s,@LDFLAGS@, -lSDL -lpthread,;t t
 s,@CPPFLAGS@,-g -O2 -I/usr/include/SDL -D_REENTRANT,;t t
 s,@ac_ct_CXX@,g++,;t t
 s,@EXEEXT@,,;t t
@@ -537,9 +537,9 @@ s,@PTHREAD_CC@,gcc,;t t
 s,@PTHREAD_LIBS@,,;t t
 s,@PTHREAD_CFLAGS@,,;t t
 s,@CPP@,gcc -E,;t t
-s,@GL_CFLAGS@,-I/usr/X11R6/include ,;t t
+s,@GL_CFLAGS@,,;t t
 s,@GL_LIBS@,-lGL  -lm,;t t
-s,@GLU_CFLAGS@,-I/usr/X11R6/include ,;t t
+s,@GLU_CFLAGS@,,;t t
 s,@GLU_LIBS@,-lGLU -lGL  -lm,;t t
 s,@GUICHANFPSDEMO_LIBS@, -lSDL_image -lSDL_mixer -lguichan -lguichan_sdl -lguichan_opengl,;t t
 s,@LIBOBJS@,,;t t
