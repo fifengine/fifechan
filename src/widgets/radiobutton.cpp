@@ -264,7 +264,10 @@ namespace gcn
             setMarked(true);
             generateAction();
         }
+    }
 
+    void RadioButton::mouseDragged(MouseEvent& mouseEvent)
+    {
         mouseEvent.consume();
     }
 

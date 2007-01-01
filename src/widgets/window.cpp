@@ -261,6 +261,11 @@ namespace gcn
 
     void Window::mousePressed(MouseEvent& mouseEvent)
     {
+        if (mouseEvent.getSource() != this)
+        {
+            return;
+        }
+        
         if (getParent() != NULL)
         {
             getParent()->moveToTop(this);
@@ -268,14 +273,17 @@ namespace gcn
 
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
-
+        
         mIsMoving = mouseEvent.getY() <= (int)mTitleBarHeight;
-
-        mouseEvent.consume();
     }
 
     void Window::mouseDragged(MouseEvent& mouseEvent)
     {
+        if (mouseEvent.isConsumed() || mouseEvent.getSource() != this)
+        {
+            return;
+        }
+        
         if (isMovable() && mIsMoving)
         {
             setPosition(mouseEvent.getX() - mDragOffsetX + getX(),

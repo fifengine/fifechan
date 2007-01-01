@@ -276,6 +276,11 @@ namespace gcn
         mouseEvent.consume();
     }
 
+    void Button::mouseDragged(MouseEvent& mouseEvent)
+    {
+        mouseEvent.consume();
+    }
+
     void Button::keyPressed(KeyEvent& keyEvent)
     {
         Key key = keyEvent.getKey();

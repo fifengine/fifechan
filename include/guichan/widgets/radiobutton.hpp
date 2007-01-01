@@ -170,6 +170,8 @@ namespace gcn
 
         virtual void mouseClicked(MouseEvent& mouseEvent);
 
+        virtual void mouseDragged(MouseEvent& mouseEvent);
+
     protected:
         bool mMarked;
         std::string mCaption;

@@ -158,10 +158,13 @@ namespace gcn
             mCaretPosition = getFont()->getStringIndexAt(mText, mouseEvent.getX() + mXScroll);
             fixScroll();
         }
-
-        mouseEvent.consume();
     }
 
+    void TextField::mouseDragged(MouseEvent& mouseEvent)
+    {
+        mouseEvent.consume();
+    }
+    
     void TextField::keyPressed(KeyEvent& keyEvent)
     {
         Key key = keyEvent.getKey();

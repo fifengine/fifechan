@@ -367,8 +367,6 @@ namespace gcn
                                           + (int)(getChildrenArea().width * 0.95));
             }
         }
-
-        mouseEvent.consume();
     }
 
     void ScrollArea::mouseReleased(MouseEvent& mouseEvent)
@@ -379,8 +377,6 @@ namespace gcn
         mRightButtonPressed = false;
         mIsHorizontalMarkerDragged = false;
         mIsVerticalMarkerDragged = false;
-
-        mouseEvent.consume();
     }
 
     void ScrollArea::mouseDragged(MouseEvent& mouseEvent)
@@ -1188,6 +1184,11 @@ namespace gcn
 
     void ScrollArea::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
+        if (mouseEvent.isConsumed())
+        {
+            return;
+        }
+        
         setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
 
         mouseEvent.consume();
@@ -1195,6 +1196,11 @@ namespace gcn
 
     void ScrollArea::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
+        if (mouseEvent.isConsumed())
+        {
+            return;
+        }
+
         setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
 
         mouseEvent.consume();

@@ -251,24 +251,33 @@ namespace gcn
             setSelected(mouseEvent.getY() / getFont()->getHeight());
             generateAction();
         }
-
-        mouseEvent.consume();
     }
 
     void ListBox::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (getSelected() > 0 )
+        if (isFocused())
         {
-            setSelected(getSelected() - 1);
-        }
+            if (getSelected() > 0 )
+            {
+                setSelected(getSelected() - 1);
+            }
 
-        mouseEvent.consume();
+            mouseEvent.consume();
+        }
     }
 
     void ListBox::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        setSelected(getSelected() + 1);
+        if (isFocused())
+        {
+            setSelected(getSelected() + 1);
 
+            mouseEvent.consume();
+        }
+    }
+
+    void ListBox::mouseDragged(MouseEvent& mouseEvent)
+    {
         mouseEvent.consume();
     }
 

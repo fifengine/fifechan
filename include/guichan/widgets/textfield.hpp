@@ -153,6 +153,8 @@ namespace gcn
 
         virtual void mousePressed(MouseEvent& mouseEvent);
 
+        virtual void mouseDragged(MouseEvent& mouseEvent);
+        
 
         // Inherited from KeyListener
 

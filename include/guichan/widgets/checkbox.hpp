@@ -151,6 +151,8 @@ namespace gcn
 
         virtual void mouseClicked(MouseEvent& mouseEvent);
 
+        virtual void mouseDragged(MouseEvent& mouseEvent);
+
 
     protected:
         /**

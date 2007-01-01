@@ -204,7 +204,10 @@ namespace gcn
         {
             toggle();
         }
+    }
 
+    void CheckBox::mouseDragged(MouseEvent& mouseEvent)
+    {
         mouseEvent.consume();
     }
 

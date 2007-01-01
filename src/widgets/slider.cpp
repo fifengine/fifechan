@@ -232,8 +232,6 @@ namespace gcn
 
             generateAction();
         }
-
-        mouseEvent.consume();
     }
 
     void Slider::mouseDragged(MouseEvent& mouseEvent)

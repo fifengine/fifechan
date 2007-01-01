@@ -67,7 +67,6 @@
 
 namespace gcn
 {
-
     DropDown::DropDown(ListModel *listModel,
                        ScrollArea *scrollArea,
                        ListBox *listBox)
@@ -323,14 +322,15 @@ namespace gcn
     }
 
     void DropDown::mousePressed(MouseEvent& mouseEvent)
-    {
+    {        
         // If we have a mouse press on the widget.
         if (0 <= mouseEvent.getY()
             && mouseEvent.getY() < getHeight()
             && mouseEvent.getX() >= 0
             && mouseEvent.getX() < getWidth()
             && mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT
-            && !mDroppedDown)
+            && !mDroppedDown
+            && mouseEvent.getSource() == this)
         {
             mPushed = true;
             dropDown();
@@ -342,7 +342,8 @@ namespace gcn
                  && mouseEvent.getX() >= 0
                  && mouseEvent.getX() < getWidth()
                  && mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT
-                 && mDroppedDown)
+                 && mDroppedDown
+                 && mouseEvent.getSource() == this)
         {
             mPushed = false;
             foldUp();
@@ -357,8 +358,6 @@ namespace gcn
             mPushed = false;
             foldUp();
         }
-
-        mouseEvent.consume();
     }
 
     void DropDown::mouseReleased(MouseEvent& mouseEvent)
@@ -389,8 +388,6 @@ namespace gcn
         }
 
         mIsDragged = false;
-
-        mouseEvent.consume();
     }
 
     void DropDown::mouseDragged(MouseEvent& mouseEvent)
@@ -584,31 +581,25 @@ namespace gcn
 
 	void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
 	{
-        mouseEvent.consume();
+        if (isFocused() && mouseEvent.getSource() == this)
+        {                   
+            mouseEvent.consume();
 
-        if (mDroppedDown)
-        {
-             // ListBox will take care of this for us as it will be focused.
-            return;
-        }
-
-        if (mListBox->getSelected() > 0)
-        {
-            mListBox->setSelected(mListBox->getSelected() - 1);
+            if (mListBox->getSelected() > 0)
+            {
+                mListBox->setSelected(mListBox->getSelected() - 1);
+            }
         }
     }
 
     void DropDown::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        mouseEvent.consume();
+        if (isFocused() && mouseEvent.getSource() == this)
+        {            
+            mouseEvent.consume();
 
-        if (mDroppedDown)
-        {
-            // ListBox will take care of this for us as it will be focused.
-            return;
+            mListBox->setSelected(mListBox->getSelected() + 1);
         }
-
-        mListBox->setSelected(mListBox->getSelected() + 1);
     }
 }
 

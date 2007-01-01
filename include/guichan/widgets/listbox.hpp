@@ -169,7 +169,10 @@ namespace gcn
         virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
 
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        
+        virtual void mouseDragged(MouseEvent& mouseEvent);
 
+        
     protected:
         ListModel *mListModel;
         int mSelected;

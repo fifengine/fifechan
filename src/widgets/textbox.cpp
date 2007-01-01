@@ -192,7 +192,10 @@ namespace gcn
 
             mCaretColumn = getFont()->getStringIndexAt(mTextRows[mCaretRow], mouseEvent.getX());
         }
+    }
 
+    void TextBox::mouseDragged(MouseEvent& mouseEvent)
+    {
         mouseEvent.consume();
     }
 

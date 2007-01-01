@@ -186,7 +186,7 @@ namespace gcn
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
-
+        
     protected:
         /**
          * Draws the button with the little down arrow.
