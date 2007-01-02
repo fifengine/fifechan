@@ -23,8 +23,7 @@ Version 0.6.0
 * All input events can now be consumed making it easier to implement hot key
   bindings.
 * Mouse input (now called mouse events) are now distributed bottom up starting 
-  from the widget directly under the mouse. If a mouse event should be distributed 
-  futher up depends on if the mouse event is consumed or not.
+  from the widget directly under the mouse.
 * Widgets can now ask for modal mouse input focus. A widget with modal mouse input
   focus will be the only widget recieving mouse input, no matter where the mouse
   input occurs. This can be very useful for some widgets, like a drop down which
@@ -33,7 +32,7 @@ Version 0.6.0
 * Events are now present in Guichan. All listener classes now take event classes
   as parameters which is a very big API. The presence of events has propagated 
   changes to all input clases to better reflect the new usage of events. 
-* DropDown now acts on mouse wheel up and mouse wheel down.
+* DropDown now acts on mouse wheel up and mouse wheel down when it has focus.
 * ListBox now acts on mouse wheel up and mouse wheel down.
 * Widgets will no longer acquire focus if a mouse wheel up or a mouse wheel down 
   occurs over a widget.
