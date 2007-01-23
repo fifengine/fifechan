@@ -12,13 +12,25 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
-#ifdef _WIN32
+
+#if defined (_WIN32)
 #include <windows.h>
+#if defined (DELETE)
 #undef DELETE
-#undef MOUSE_MOVED
 #endif
+#endif
+
+#if defined (__amigaos4__)
+#include <mgl/gl.h>
+#include <mgl/glu.h>
+#elif defined(__APPLE__)
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
+
 #include <guichan.hpp>
 #include <guichan/sdl.hpp>
 #include <guichan/opengl.hpp>

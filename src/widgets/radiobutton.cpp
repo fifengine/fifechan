@@ -252,14 +252,13 @@ namespace gcn
         {
             setMarked(true);
             generateAction();
+            keyEvent.consume();
         }
-
-        keyEvent.consume();
     }
 
     void RadioButton::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
+        if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             setMarked(true);
             generateAction();

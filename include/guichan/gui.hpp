@@ -347,7 +347,8 @@ namespace gcn
         Widget* mLastWidgetWithMouse;
         Widget* mLastWidgetWithModalFocus;
         Widget* mLastWidgetWithModalMouseInputFocus;
-
+        Widget* mLastWidgetPressed;
+        
         // Current input state
         bool mShiftPressed;
         bool mMetaPressed;
@@ -359,7 +360,7 @@ namespace gcn
         int mLastMousePressTimeStamp;
         int mLastMouseX;
         int mLastMouseY;
-        int mClickCount;
+        int mClickCount;       
     };
 }
 

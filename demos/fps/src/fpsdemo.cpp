@@ -10,7 +10,6 @@
 #include "fpsdemo.hpp"
 #include <cmath>
 #include <sstream>
-#include <iostream>
 
 FPSDemo::FPSDemo()
 		:mRotation(0), mRunning(true), mGlow(0),
@@ -691,7 +690,7 @@ void FPSDemo::input()
  * The action funcion from ActionListener
  */
 void FPSDemo::action(const gcn::ActionEvent& actionEvent)
-{	
+{
 	if (actionEvent.getId() == "quit")
 	{
 		Mix_PlayChannel(-1, mEscapeSound, 0);

@@ -77,7 +77,6 @@ namespace gcn
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
-        setFocusable(true);
     }
 
     Window::Window(const std::string& caption)
@@ -91,7 +90,6 @@ namespace gcn
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
-        setFocusable(true);
     }
 
     Window::~Window()

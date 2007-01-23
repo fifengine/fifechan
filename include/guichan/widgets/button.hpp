@@ -145,8 +145,6 @@ namespace gcn
 
         // Inherited from MouseListener
 
-        virtual void mouseClicked(MouseEvent& mouseEvent);
-
         virtual void mousePressed(MouseEvent& mouseEvent);
 
         virtual void mouseReleased(MouseEvent& mouseEvent);
@@ -157,6 +155,7 @@ namespace gcn
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
+
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
@@ -166,8 +165,8 @@ namespace gcn
     protected:
         std::string mCaption;
         bool mHasMouse;
-        bool mIsKeyPressed;
-        bool mIsMousePressed;
+        bool mKeyPressed;
+        bool mMousePressed;
         unsigned int mAlignment;
     };
 }

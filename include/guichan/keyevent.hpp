@@ -125,8 +125,8 @@ namespace gcn
          */
         enum
         {
-            KEY_PRESSED = 0,
-            KEY_RELEASED
+            PRESSED = 0,
+            RELEASED
         };
 
     protected:

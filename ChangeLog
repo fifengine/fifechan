@@ -1,3 +1,9 @@
+Version 0.6.1
+=============
+* The functions add, remove and clear have been removed from Widget.
+  They now reside protected in basic container.
+* Inclusion of OpenGL headers has been fixed on Mac.
+
 Version 0.6.0
 =============
 * A lot of function definitions from BasicContainer have been moved down to
@@ -30,10 +36,10 @@ Version 0.6.0
   acquires modal mouse input focus when folded down to be able to fold back up as
   soon as the mouse is pressed outside of the drop down.
 * Events are now present in Guichan. All listener classes now take event classes
-  as parameters which is a very big API. The presence of events has propagated 
-  changes to all input clases to better reflect the new usage of events. 
-* DropDown now acts on mouse wheel up and mouse wheel down when it has focus.
-* ListBox now acts on mouse wheel up and mouse wheel down.
+  as parameters which is a very big API change. The presence of events has propagated 
+  changes to all input classes to better reflect the new usage of events. 
+* DropDown now acts on mouse wheel up and mouse wheel down when having focus.
+* ListBox now acts on mouse wheel up and mouse wheel down when having focus.
 * Widgets will no longer acquire focus if a mouse wheel up or a mouse wheel down 
   occurs over a widget.
 * The header exception.hpp is now included properly in openglsdlimageloader.hpp. 

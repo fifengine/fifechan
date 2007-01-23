@@ -153,7 +153,7 @@ namespace gcn
 
     void TextField::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
+        if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             mCaretPosition = getFont()->getStringIndexAt(mText, mouseEvent.getX() + mXScroll);
             fixScroll();
@@ -205,15 +205,19 @@ namespace gcn
             mCaretPosition = mText.size();
         }
 
-        else if (key.isCharacter())
+        else if (key.isCharacter()
+                 && key.getValue() != Key::TAB)
         {
             mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
             ++mCaretPosition;
         }
 
+        if (key.getValue() != Key::TAB)
+        {
+            keyEvent.consume();
+        }
+        
         fixScroll();
-
-        keyEvent.consume();
     }
 
     void TextField::adjustSize()

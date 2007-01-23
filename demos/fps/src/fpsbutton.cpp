@@ -19,7 +19,8 @@ Mix_Chunk* FPSButton::mHoverSound = NULL;
  * instances.
  */
 FPSButton::FPSButton(const std::string& caption)
-		:Button(caption), mHasMouse(false)
+		:Button(caption),
+         mHasMouse(false)
 {
   setBorderSize(0);
   
@@ -76,9 +77,9 @@ void FPSButton::setHighLightFont(gcn::Font* font)
  */
 void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
 {
+    Button::mouseEntered(mouseEvent);
 	Mix_PlayChannel(-1, mHoverSound, 0);
 	mHasMouse = true;
-	mouseEvent.consume();
 }
 
 /*
@@ -89,7 +90,7 @@ void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
  */
 void FPSButton::mouseExited(gcn::MouseEvent& mouseEvent)
 {
+    Button::mouseExited(mouseEvent);
 	mHasMouse = false;
-	mouseEvent.consume();
 }
 

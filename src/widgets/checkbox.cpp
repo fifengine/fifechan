@@ -193,14 +193,13 @@ namespace gcn
             key.getValue() == Key::SPACE)
         {
             toggle();
+            keyEvent.consume();
         }
-
-        keyEvent.consume();
     }
 
     void CheckBox::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
+        if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             toggle();
         }

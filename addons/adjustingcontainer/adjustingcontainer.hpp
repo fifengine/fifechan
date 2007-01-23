@@ -6,11 +6,11 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004, 2005, 2006, 2007 Olof Naessén and Per Larsson
+ * Copyright (c) 2007 Josh Matthews
  *
  *                                                         Js_./
- * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
- * Olof Naessén a.k.a jansem/yakslem                _asww7!uY`>  )\a//
+ *                                                     _RqZ{a<^_aa
+ *                                                  _asww7!uY`>  )\a//
  *                                                 _Qhm`] _f "'c  1!5m
  * Visit: http://guichan.darkbits.org             )Qk<P ` _: :+' .'  "{[
  *                                               .)j(] .d_/ '-(  P .   S
@@ -54,150 +54,132 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_MOUSEINPUT_HPP
-#define GCN_MOUSEINPUT_HPP
+#ifndef ADJUSTINGCONTAINER_HPP
+#define ADJUSTINGCONTAINER_HPP
 
-#include "guichan/platform.hpp"
+#include <vector>
 
 namespace gcn
 {
-
     /**
-     * Internal class representing mouse input. Generally you won't have to
-     * bother using this class as it will get translated into a MouseEvent.
-     * The class should be seen as a bridge between the low layer backends
-     * providing input and the higher lever parts of the Gui (such as widgets).
+     * Self-adjusting Container class.  Add widgets to it, set the number of
+     * columns, padding, alignment and spacing, and it'll arrange all of the
+     * elements.
      *
-     * @author Olof Naessén
-     * @author Per Larsson
+     * @author Josh Matthews
      */
-    class GCN_CORE_DECLSPEC MouseInput
+    class AdjustingContainer : public gcn::Container
     {
     public:
-
         /**
          * Constructor.
          */
-        MouseInput() { };
-
+        AdjustingContainer();
+        
         /**
-         * Constructor.
+         * Destructor.
+         */
+        virtual ~AdjustingContainer();
+        
+        /**
+         * Set the number of columns to divide the widgets into.
+         * The number of rows is derived automatically from the number
+         * of widgets based on the number of columns.  Default column
+         * alignment is left.
          *
-         * @param button the button pressed.
-         * @param type the type of input.
-         * @param x the mouse x coordinate.
-         * @param y the mouse y coordinate.
-         * @param timeStamp the mouse inputs time stamp.
+         * @param numberOfColumns the number of columns.
          */
-        MouseInput(unsigned int button,
-                   unsigned int type,
-                   int x,
-                   int y,
-                   int timeStamp);
-
+        virtual void setNumberOfColumns(unsigned int numberOfColumns);
+        
         /**
-         * Sets the input type.
+         * Set a specific column's alignment.
          *
-         * @param type the type of input.
+         * @param column the column number, starting from 0.
+         * @param alignment the column's alignment. See enum with alignments.
          */
-        void setType(unsigned int type);
-
+        virtual void setColumnAlignment(unsigned int column, unsigned int alignment);
+        
         /**
-         * Gets the input type.
+         * Set the padding for the sides of the container.
          *
-         * @return the input type.
+         * @param paddingLeft left padding.
+         * @param paddingRight right padding.
+         * @param paddingTop top padding.
+         * @param paddingBottom bottom padding.
          */
-        unsigned int getType() const;
-
+        virtual void setPadding(unsigned int paddingLeft,
+                                unsigned int paddingRight,
+                                unsigned int paddingTop,
+                                unsigned int paddingBottom);
+        
         /**
-         * Sets the button pressed.
+         * Set the spacing between rows.
          *
-         * @param button the button pressed.
+         * @param verticalSpacing spacing in pixels.
          */
-        void setButton(unsigned int button);
-
+        virtual void setVerticalSpacing(unsigned int verticalSpacing);
+        
         /**
-         * Gets the button pressed.
+         * Set the horizontal spacing between columns.
          *
-         * @return the button pressed.
+         * @param horizontalSpacing spacing in pixels.
          */
-        unsigned int getButton() const;
-
+        virtual void setHorizontalSpacing(unsigned int horizontalSpacing);
+        
         /**
-         * Sets the timestamp for the input.
+         * Rearrange the widgets and resize the container.
+         */
+        virtual void adjustContent();
+
+
+        // Inherited from Container
+
+        virtual void logic();
+        
+        virtual void add(Widget *widget);
+
+        virtual void add(Widget *widget, int x, int y);
+
+        virtual void remove(Widget *widget);
+
+        virtual void clear();
+               
+        /**
+         * Possible alignment values for each column.
          *
-         * @param timeStamp the timestamp of the input.
-         */
-        void setTimeStamp(int timeStamp);
-
-        /**
-         * Gets the time stamp of the input.
-         *
-         * @return the time stamp of the input.
-         */
-        int getTimeStamp() const;
-
-        /**
-         * Sets the x coordinate of the input.
-         *
-         * @param x the x coordinate of the input.
-         * @since 0.6.0
-         */
-        void setX(int x);
-
-        /**
-         * Gets the x coordinate of the input.
-         *
-         * @return the x coordinate of the input.
-         * @since 0.6.0
-         */
-        int getX() const;
-
-        /**
-         * Sets the y coordinate of the input.
-         *
-         * @param y the y coordinate of the input.
-         * @since 0.6.0
-         */
-        void setY(int y);
-
-        /**
-         * Gets the y coordinate of the input.
-         * @since 0.6.0
-         */
-        int getY() const;
-
-        /**
-         * Mouse input event types. This enum partially corresponds
-         * to the enum with event types in MouseEvent for easy mapping.
+         * LEFT   - Align content to the left of the column.
+         * MIDDLE - Align content to the middle of the column.
+         * RIGHT  - Align content to the right of the column.
          */
         enum
         {
-            MOVED = 0,
-            PRESSED,
-            RELEASED,
-            WHEEL_MOVED_DOWN,
-            WHEEL_MOVED_UP
-        };
-
-        /**
-         * Mouse button types.
-         */
-        enum
-        {
-            EMPTY = 0,
-            LEFT,
-            RIGHT,
-            MIDDLE
+            LEFT = 0,
+            CENTER,
+            RIGHT
         };
 
     protected:
-        unsigned int mType;
-        unsigned int mButton;
-        int mTimeStamp;
-        int mX;
-        int mY;
+        
+        /**
+         * Adjust the size of the container to fit all the widgets.
+         */
+        virtual void adjustSize();
+
+        std::vector<Widget*> mContainedWidgets;
+        std::vector<unsigned int> mColumnWidths;
+        std::vector<unsigned int> mColumnAlignment;
+        std::vector<unsigned int> mRowHeights;
+        unsigned int mWidth;
+        unsigned int mHeight;
+        unsigned int mNumberOfColumns;
+        unsigned int mNumberOfRows;
+        unsigned int mPaddingLeft;
+        unsigned int mPaddingRight;
+        unsigned int mPaddingTop;
+        unsigned int mPaddingBottom;
+        unsigned int mVerticalSpacing;
+        unsigned int mHorizontalSpacing;
     };
 }
 
-#endif // end GCN_MOUSEINPUT_HPP
+#endif // ADJUSTINGCONTAINER_HPP

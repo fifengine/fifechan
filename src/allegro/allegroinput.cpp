@@ -132,8 +132,8 @@ namespace gcn
         // Check mouse movement
         if (mouseX != mLastMouseX || mouseY != mLastMouseY)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
-                                        MouseInput::MOUSE_MOVED,
+            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
+                                        MouseInput::MOVED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -144,8 +144,8 @@ namespace gcn
         // Check mouse Wheel
         while (mLastMouseZ < mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
-                                        MouseInput::MOUSE_WHEEL_MOVED_UP,
+            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
+                                        MouseInput::WHEEL_MOVED_UP,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -154,8 +154,8 @@ namespace gcn
 
         while (mLastMouseZ > mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_EMPTY,
-                                        MouseInput::MOUSE_WHEEL_MOVED_DOWN,
+            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
+                                        MouseInput::WHEEL_MOVED_DOWN,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -165,8 +165,8 @@ namespace gcn
         // Check mouse buttons
         if (!mMouseButton1 && mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_LEFT,
-                                        MouseInput::MOUSE_PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::LEFT,
+                                        MouseInput::PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -174,8 +174,8 @@ namespace gcn
 
         if (mMouseButton1 && !mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_LEFT,
-                                        MouseInput::MOUSE_RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::LEFT,
+                                        MouseInput::RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -184,8 +184,8 @@ namespace gcn
 
         if (!mMouseButton2 && mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_RIGHT,
-                                        MouseInput::MOUSE_PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
+                                        MouseInput::PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -193,8 +193,8 @@ namespace gcn
 
         if (mMouseButton2 && !mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_RIGHT,
-                                        MouseInput::MOUSE_RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
+                                        MouseInput::RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -203,8 +203,8 @@ namespace gcn
 
         if (!mMouseButton3 && mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_MIDDLE,
-                                        MouseInput::MOUSE_PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+                                        MouseInput::PRESSED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -212,8 +212,8 @@ namespace gcn
 
         if (mMouseButton3 && !mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MOUSE_BUTTON_MIDDLE,
-                                        MouseInput::MOUSE_RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
+                                        MouseInput::RELEASED,
                                         mouseX,
                                         mouseY,
                                         0));
@@ -238,7 +238,7 @@ namespace gcn
             unicode = ureadkey(&scancode);
             Key keyObj = convertToKey(scancode, unicode);
 
-            KeyInput keyInput(keyObj, KeyInput::KEY_PRESSED);
+            KeyInput keyInput(keyObj, KeyInput::PRESSED);
 
             keyInput.setNumericPad(isNumericPad(scancode));
             keyInput.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
@@ -265,7 +265,7 @@ namespace gcn
          {
             if (!key[iter->first])
             {
-                KeyInput keyInput(iter->second.getKey(), KeyInput::KEY_RELEASED);
+                KeyInput keyInput(iter->second.getKey(), KeyInput::RELEASED);
                 keyInput.setNumericPad(iter->second.isNumericPad());
                 keyInput.setShiftPressed(iter->second.isShiftPressed());
                 keyInput.setAltPressed(iter->second.isAltPressed());

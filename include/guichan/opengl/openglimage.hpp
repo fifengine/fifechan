@@ -57,16 +57,18 @@
 #ifndef GCN_OPENGLIMAGE_HPP
 #define GCN_OPENGLIMAGE_HPP
 
-#ifdef _WIN32
+#if defined (_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#ifdef DELETE
+#if defined (DELETE)
 #undef DELETE
 #endif
 #endif
 
-#ifdef __amigaos4__
+#if defined (__amigaos4__)
 #include <mgl/gl.h>
+#elif defined (__APPLE__)
+#include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif

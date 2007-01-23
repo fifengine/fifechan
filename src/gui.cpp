@@ -82,6 +82,7 @@ namespace gcn
              mLastWidgetWithMouse(NULL),
              mLastWidgetWithModalFocus(NULL),
              mLastWidgetWithModalMouseInputFocus(NULL),
+             mLastWidgetPressed(NULL),
              mShiftPressed(false),
              mMetaPressed(false),
              mControlPressed(false),
@@ -251,19 +252,19 @@ namespace gcn
 
              switch (mouseInput.getType())
              {
-               case MouseInput::MOUSE_PRESSED:
+               case MouseInput::PRESSED:
                    handleMousePressed(mouseInput);
                    break;
-               case MouseInput::MOUSE_RELEASED:
+               case MouseInput::RELEASED:
                    handleMouseReleased(mouseInput);
                    break;
-               case MouseInput::MOUSE_MOVED:
+               case MouseInput::MOVED:
                    handleMouseMoved(mouseInput);
                    break;
-               case MouseInput::MOUSE_WHEEL_MOVED_DOWN:
+               case MouseInput::WHEEL_MOVED_DOWN:
                    handleMouseWheelMovedDown(mouseInput);
                    break;
-               case MouseInput::MOUSE_WHEEL_MOVED_UP:
+               case MouseInput::WHEEL_MOVED_UP:
                    handleMouseWheelMovedUp(mouseInput);
                    break;
                default:
@@ -285,28 +286,58 @@ namespace gcn
             mControlPressed = keyInput.isControlPressed();
             mAltPressed = keyInput.isAltPressed();
 
-            KeyEvent keyEvent(NULL,
-                              mShiftPressed,
-                              mControlPressed,
-                              mAltPressed,
-                              mMetaPressed,
-                              keyInput.getType(),
-                              keyInput.isNumericPad(),
-                              keyInput.getKey());
+            KeyEvent keyEventToGlobalKeyListeners(NULL,
+                                                  mShiftPressed,
+                                                  mControlPressed,
+                                                  mAltPressed,
+                                                  mMetaPressed,
+                                                  keyInput.getType(),
+                                                  keyInput.isNumericPad(),
+                                                  keyInput.getKey());
 
-            distributeKeyEventToGlobalKeyListeners(keyEvent);
+            distributeKeyEventToGlobalKeyListeners(keyEventToGlobalKeyListeners);
 
             // If a global key listener consumes the event it will not be
             // sent further to the source of the event.
-            if (keyEvent.isConsumed())
+            if (keyEventToGlobalKeyListeners.isConsumed())
             {
-                return;
+                continue;
             }
 
+            bool keyEventConsumed = false;
+            
+            // Send key inputs to the focused widgets
+            if (mFocusHandler->getFocused() != NULL)
+            {
+                KeyEvent keyEvent(getKeyEventSource(),
+                                  mShiftPressed,
+                                  mControlPressed,
+                                  mAltPressed,
+                                  mMetaPressed,
+                                  keyInput.getType(),
+                                  keyInput.isNumericPad(),
+                                  keyInput.getKey());
+                
 
-            if (mTabbing
+                if (!mFocusHandler->getFocused()->isFocusable())
+                {
+                    mFocusHandler->focusNone();
+                }
+                else
+                {                    
+                    distributeKeyEvent(keyEvent);                    
+                }
+
+                keyEventConsumed = keyEvent.isConsumed();
+            }
+
+            // If the key event hasn't been consumed and
+            // tabbing is enable check for tab press and
+            // change focus.
+            if (!keyEventConsumed
+                && mTabbing
                 && keyInput.getKey().getValue() == Key::TAB
-                && keyInput.getType() == KeyInput::KEY_PRESSED)
+                && keyInput.getType() == KeyInput::PRESSED)
             {
                 if (keyInput.isShiftPressed())
                 {
@@ -317,33 +348,9 @@ namespace gcn
                     mFocusHandler->tabNext();
                 }
             }
-            else
-            {
-                // Send key inputs to the focused widgets
-                if (mFocusHandler->getFocused() != NULL)
-                {
-                    if (mFocusHandler->getFocused()->isFocusable())
-                    {
-                        KeyEvent keyEvent(getKeyEventSource(),
-                                          mShiftPressed,
-                                          mControlPressed,
-                                          mAltPressed,
-                                          mMetaPressed,
-                                          keyInput.getType(),
-                                          keyInput.isNumericPad(),
-                                          keyInput.getKey());
-
-                        distributeKeyEvent(keyEvent);
-                    }
-                    else
-                    {
-                        mFocusHandler->focusNone();
-                    }
-                }
-            }
-
+                            
             mFocusHandler->applyChanges();
-
+                
         } // end while
     }
 
@@ -351,6 +358,7 @@ namespace gcn
     {
         // Check if the mouse leaves the application window.
         if (mLastWidgetWithMouse != NULL
+            && Widget::widgetExists(mLastWidgetWithMouse)
             && (mouseInput.getX() < 0
                 || mouseInput.getY() < 0
                 || !mTop->getDimension().isPointInRect(mouseInput.getX(), mouseInput.getY()))
@@ -364,7 +372,7 @@ namespace gcn
                                   mControlPressed,
                                   mAltPressed,
                                   mMetaPressed,
-                                  MouseEvent::MOUSE_EXITED,
+                                  MouseEvent::EXITED,
                                   mouseInput.getButton(),
                                   mouseInput.getX() - lastWidgetWithMouseX,
                                   mouseInput.getY() - lastWidgetWithMouseY,
@@ -380,7 +388,8 @@ namespace gcn
 
         if (sourceWidget != mLastWidgetWithMouse)
         {
-            if (mLastWidgetWithMouse != NULL)
+            if (mLastWidgetWithMouse != NULL
+                && Widget::widgetExists(mLastWidgetWithMouse))
             {
                 int lastWidgetWithMouseX, lastWidgetWithMouseY;
                 mLastWidgetWithMouse->getAbsolutePosition(lastWidgetWithMouseX, lastWidgetWithMouseY);
@@ -390,7 +399,7 @@ namespace gcn
                                       mControlPressed,
                                       mAltPressed,
                                       mMetaPressed,
-                                      MouseEvent::MOUSE_EXITED,
+                                      MouseEvent::EXITED,
                                       mouseInput.getButton(),
                                       mouseInput.getX() - lastWidgetWithMouseX,
                                       mouseInput.getY() - lastWidgetWithMouseY,
@@ -409,7 +418,7 @@ namespace gcn
                                   mControlPressed,
                                   mAltPressed,
                                   mMetaPressed,
-                                  MouseEvent::MOUSE_ENTERED,
+                                  MouseEvent::ENTERED,
                                   mouseInput.getButton(),
                                   mouseInput.getX() - sourceWidgetX,
                                   mouseInput.getY() - sourceWidgetY,
@@ -419,7 +428,8 @@ namespace gcn
             mLastWidgetWithMouse = sourceWidget;
         }
 
-        if (mDraggedWidget != NULL)
+        if (mDraggedWidget != NULL
+            && Widget::widgetExists(mDraggedWidget))
         {
             int draggedWidgetX, draggedWidgetY;
             mDraggedWidget->getAbsolutePosition(draggedWidgetX, draggedWidgetY);
@@ -429,7 +439,7 @@ namespace gcn
                                   mControlPressed,
                                   mAltPressed,
                                   mMetaPressed,
-                                  MouseEvent::MOUSE_DRAGGED,
+                                  MouseEvent::DRAGGED,
                                   mouseInput.getButton(),
                                   mouseInput.getX() - draggedWidgetX,
                                   mouseInput.getY() - draggedWidgetY,
@@ -446,7 +456,7 @@ namespace gcn
                                   mControlPressed,
                                   mAltPressed,
                                   mMetaPressed,
-                                  MouseEvent::MOUSE_MOVED,
+                                  MouseEvent::MOVED,
                                   mouseInput.getButton(),
                                   mouseInput.getX() - sourceWidgetX,
                                   mouseInput.getY() - sourceWidgetY,
@@ -472,14 +482,15 @@ namespace gcn
                               mControlPressed,
                               mAltPressed,
                               mMetaPressed,
-                              MouseEvent::MOUSE_PRESSED,
+                              MouseEvent::PRESSED,
                               mouseInput.getButton(),
                               mouseInput.getX() - sourceWidgetX,
                               mouseInput.getY() - sourceWidgetY,
                               mClickCount);
 
         distributeMouseEvent(mouseEvent);
-
+        mLastWidgetPressed = sourceWidget;
+        
         if (mFocusHandler->getModalFocused() != NULL
             && sourceWidget->hasModalFocus()
             || mFocusHandler->getModalFocused() == NULL)
@@ -520,7 +531,7 @@ namespace gcn
                               mControlPressed,
                               mAltPressed,
                               mMetaPressed,
-                              MouseEvent::MOUSE_WHEEL_MOVED_DOWN,
+                              MouseEvent::WHEEL_MOVED_DOWN,
                               mouseInput.getButton(),
                               mouseInput.getX() - sourceWidgetX,
                               mouseInput.getY() - sourceWidgetY,
@@ -546,7 +557,7 @@ namespace gcn
                               mControlPressed,
                               mAltPressed,
                               mMetaPressed,
-                              MouseEvent::MOUSE_WHEEL_MOVED_UP,
+                              MouseEvent::WHEEL_MOVED_UP,
                               mouseInput.getButton(),
                               mouseInput.getX() - sourceWidgetX,
                               mouseInput.getY() - sourceWidgetY,
@@ -560,6 +571,11 @@ namespace gcn
 
         if (mDraggedWidget != NULL)
         {
+            if (sourceWidget != mLastWidgetPressed)
+            {
+                mLastWidgetPressed = NULL;
+            }
+            
             sourceWidget = mDraggedWidget;
         }
 
@@ -570,7 +586,7 @@ namespace gcn
                               mControlPressed,
                               mAltPressed,
                               mMetaPressed,
-                              MouseEvent::MOUSE_RELEASED,
+                              MouseEvent::RELEASED,
                               mouseInput.getButton(),
                               mouseInput.getX() - sourceWidgetX,
                               mouseInput.getY() - sourceWidgetY,
@@ -578,20 +594,22 @@ namespace gcn
 
         distributeMouseEvent(mouseEvent);
 
-        if (mouseInput.getButton() == mLastMousePressButton)
+        if (mouseInput.getButton() == mLastMousePressButton            
+            && mLastWidgetPressed == sourceWidget)
         {
             MouseEvent mouseEvent(sourceWidget,
                                   mShiftPressed,
                                   mControlPressed,
                                   mAltPressed,
                                   mMetaPressed,
-                                  MouseEvent::MOUSE_CLICKED,
+                                  MouseEvent::CLICKED,
                                   mouseInput.getButton(),
                                   mouseInput.getX() - sourceWidgetX,
                                   mouseInput.getY() - sourceWidgetY,
                                   mClickCount);
 
             distributeMouseEvent(mouseEvent);
+            mLastWidgetPressed = NULL;
         }
         else
         {
@@ -621,7 +639,7 @@ namespace gcn
                                       mControlPressed,
                                       mAltPressed,
                                       mMetaPressed,
-                                      MouseEvent::MOUSE_ENTERED,
+                                      MouseEvent::ENTERED,
                                       mLastMousePressButton,
                                       mLastMouseX,
                                       mLastMouseY,
@@ -650,7 +668,7 @@ namespace gcn
                                       mControlPressed,
                                       mAltPressed,
                                       mMetaPressed,
-                                      MouseEvent::MOUSE_ENTERED,
+                                      MouseEvent::ENTERED,
                                       mLastMousePressButton,
                                       mLastMouseX,
                                       mLastMouseY,
@@ -748,31 +766,31 @@ namespace gcn
                 {
                     switch (mouseEvent.getType())
                     {
-                      case MouseEvent::MOUSE_ENTERED:
+                      case MouseEvent::ENTERED:
                           (*it)->mouseEntered(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_EXITED:
+                      case MouseEvent::EXITED:
                           (*it)->mouseExited(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_MOVED:
+                      case MouseEvent::MOVED:
                           (*it)->mouseMoved(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_PRESSED:
+                      case MouseEvent::PRESSED:
                           (*it)->mousePressed(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_RELEASED:
+                      case MouseEvent::RELEASED:
                           (*it)->mouseReleased(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_WHEEL_MOVED_UP:
+                      case MouseEvent::WHEEL_MOVED_UP:
                           (*it)->mouseWheelMovedUp(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_WHEEL_MOVED_DOWN:
+                      case MouseEvent::WHEEL_MOVED_DOWN:
                           (*it)->mouseWheelMovedDown(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_DRAGGED:
+                      case MouseEvent::DRAGGED:
                           (*it)->mouseDragged(mouseEvent);
                           break;
-                      case MouseEvent::MOUSE_CLICKED:
+                      case MouseEvent::CLICKED:
                           (*it)->mouseClicked(mouseEvent);
                           break;
                       default:
@@ -836,10 +854,10 @@ namespace gcn
             {
                 switch (keyEvent.getType())
                 {
-                  case KeyEvent::KEY_PRESSED:
+                  case KeyEvent::PRESSED:
                       (*it)->keyPressed(keyEvent);
                       break;
-                  case KeyEvent::KEY_RELEASED:
+                  case KeyEvent::RELEASED:
                       (*it)->keyReleased(keyEvent);
                       break;
                   default:
@@ -857,10 +875,10 @@ namespace gcn
         {
             switch (keyEvent.getType())
             {
-              case KeyEvent::KEY_PRESSED:
+              case KeyEvent::PRESSED:
                   (*it)->keyPressed(keyEvent);
                   break;
-              case KeyEvent::KEY_RELEASED:
+              case KeyEvent::RELEASED:
                   (*it)->keyReleased(keyEvent);
                   break;
               default:

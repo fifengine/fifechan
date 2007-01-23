@@ -7,6 +7,6 @@ guichanfpsdemo_SOURCES = 		\
 	src/fpsdemo.cpp			\
 	src/fpsbutton.cpp
 
-guichanfpsdemo_LDADD = @GUICHANFPSDEMO_LIBS@ @GL_LIBS@ @GLU_LIBS@
+guichanfpsdemo_LDADD = @GUICHANFPSDEMO_LIBS@
 
 

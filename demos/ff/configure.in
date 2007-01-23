@@ -1,11 +1,11 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichanffdemo, 1.0, jansem@darkbits.org, Gui-chan-FF-demo)
+AC_INIT(guichanffdemo, 0.6.1, olof@darkbits.org, guichanffdemo)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-AM_INIT_AUTOMAKE(Gui-chan-FF-demo, 1.0)
+AM_INIT_AUTOMAKE(guichanffdemo, 0.6.1)
 AM_CONFIG_HEADER([include/config.hpp])
 
 AC_PROG_CXX
@@ -33,4 +33,6 @@ AC_SUBST([GUICHANFFDEMO_LIBS])
 
 AC_OUTPUT([
 Makefile
+images/Makefile
+sound/Makefile
 ])

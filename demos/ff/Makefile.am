@@ -1,16 +1,26 @@
 AUTOMAKE_OPTIONS = 1.4
 
+INCLUDES = -I$(top_srcdir)/include
+
+SUBDIRS = images sound
+
 bin_PROGRAMS = guichanffdemo
-guichanffdemo_SOURCES = 		\
-	include/ffcharacterchooser.hpp 	\
-	src/ffcharacterchooser.cpp	\
+
+guichanffdemodir = $(top_srcdir)
+
+guichanffdemo_HEADERS =			\
+	include/ffcharacterchooser.hpp	\
 	include/ffcontainer.hpp		\
-	src/ffcontainer.cpp		\
 	include/ffdemo.hpp		\
-	src/ffdemo.cpp			\
 	include/fflistbox.hpp		\
-	src/fflistbox.cpp		\
 	include/ffscrollarea.hpp	\
+	include/stringlistmodel.hpp	
+
+guichanffdemo_SOURCES = 		\
+	src/ffcharacterchooser.cpp	\
+	src/ffcontainer.cpp		\
+	src/ffdemo.cpp			\
+	src/fflistbox.cpp		\
 	src/ffscrollarea.cpp		\
 	src/guichanffdemo.cpp
 

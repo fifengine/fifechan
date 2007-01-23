@@ -182,7 +182,7 @@ namespace gcn
                 mSelected = selected;
             }
 
-            BasicContainer *par = getParent();
+            Widget *par = getParent();
             if (par == NULL)
             {
                 return;
@@ -211,6 +211,7 @@ namespace gcn
         if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
         {
             generateAction();
+            keyEvent.consume();
         }
         else if (key.getValue() == Key::UP)
         {
@@ -227,6 +228,8 @@ namespace gcn
                     setSelected(0);
                 }
             }
+            
+            keyEvent.consume();
         }
         else if (key.getValue() == Key::DOWN)
         {
@@ -239,14 +242,14 @@ namespace gcn
             {
                 setSelected(getSelected() + 1);
             }
+            
+            keyEvent.consume();
         }
-
-        keyEvent.consume();
     }
 
     void ListBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
+        if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             setSelected(mouseEvent.getY() / getFont()->getHeight());
             generateAction();

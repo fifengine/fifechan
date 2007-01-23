@@ -181,7 +181,7 @@ namespace gcn
 
     void TextBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::MOUSE_BUTTON_LEFT)
+        if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             mCaretRow = mouseEvent.getY() / getFont()->getHeight();
 
@@ -312,7 +312,7 @@ namespace gcn
 
         else if(key.getValue() == Key::PAGE_UP)
         {
-            BasicContainer* par = getParent();
+            Widget* par = getParent();
 
             if (par != NULL)
             {
@@ -328,7 +328,7 @@ namespace gcn
 
         else if(key.getValue() == Key::PAGE_DOWN)
         {
-            BasicContainer* par = getParent();
+            Widget* par = getParent();
 
             if (par != NULL)
             {
@@ -511,7 +511,7 @@ namespace gcn
 
     void TextBox::scrollToCaret()
     {
-        BasicContainer *par = getParent();
+        Widget *par = getParent();
         if (par == NULL)
         {
             return;

@@ -138,7 +138,7 @@ namespace gcn
          * @return the Widget parent container. Returns NULL if the Widget
          *         has no parent.
          */
-        virtual BasicContainer* getParent() const;
+        virtual Widget* getParent() const;
 
         /**
          * Sets the width of the Widget in pixels.
@@ -485,7 +485,7 @@ namespace gcn
          *
          * @param parent the parent BasicContainer..
          */
-        virtual void _setParent(BasicContainer* parent);
+        virtual void _setParent(Widget* parent);
 
         /**
          * Gets the font used. If no font has been set, the global font will
@@ -701,27 +701,6 @@ namespace gcn
          */
         virtual void showWidgetPart(Widget* widget, Rectangle area) { };
 
-        /**
-         * Adds a widget to the widget. Used if the widget should act
-         * as a container.
-         *
-         * @param widget the Widget to add.
-         */
-        virtual void add(Widget* widget) { };
-
-        /**
-         * Removes a widget. Used if the widget should act as a container.
-         *
-         * @param widget the Widget to remove.
-         */
-        virtual void remove(Widget* widget) { };
-
-        /**
-         * Clears the widget of widgets. Used if the widget should act as
-         * a container.
-         */
-        virtual void clear() { };
-
     protected:
         /**
          * Generates an action to the Widget's ActionListeners.
@@ -750,7 +729,7 @@ namespace gcn
         Color mBaseColor;
         FocusHandler* mFocusHandler;
         FocusHandler* mInternalFocusHandler;
-        BasicContainer* mParent;
+        Widget* mParent;
         Rectangle mDimension;
         unsigned int mBorderSize;
         std::string mActionEventId;

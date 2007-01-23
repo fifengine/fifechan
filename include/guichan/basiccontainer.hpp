@@ -98,12 +98,6 @@ namespace gcn
 
         virtual void setInternalFocusHandler(FocusHandler* focusHandler);
 
-        virtual void add(Widget* widget);
-
-        virtual void remove(Widget* widget);
-
-        virtual void clear();
-
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
         virtual Widget *getWidgetAt(int x, int y);
@@ -114,7 +108,25 @@ namespace gcn
         virtual void death(const Event& event);
 
     protected:
+        /**
+         * Adds a widget to the basic container.
+         *
+         * @param widget the widget to add.
+         */
+        virtual void add(Widget* widget);
 
+        /**
+         * Removes a widget from the basic container.
+         *
+         * @param widget the widget to remove.
+         */
+        virtual void remove(Widget* widget);
+
+        /**
+         * Clears the basic container from all widgets.
+         */
+        virtual void clear();
+        
         /**
          * Draws children widgets.
          *

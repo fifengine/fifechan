@@ -80,12 +80,12 @@ namespace gcn
     std::list<Widget*> Widget::mWidgets;
 
     Widget::Widget()
-            : mParent(NULL),
-              mFocusHandler(NULL),
-              mInternalFocusHandler(NULL),
-              mForegroundColor(0x000000),
+            : mForegroundColor(0x000000),
               mBackgroundColor(0xffffff),
               mBaseColor(0x808090),
+              mFocusHandler(NULL),
+              mInternalFocusHandler(NULL),
+              mParent(NULL),
               mBorderSize(0),
               mFocusable(false),
               mVisible(true),
@@ -112,12 +112,12 @@ namespace gcn
         mWidgets.remove(this);
     }
 
-    void Widget::_setParent(BasicContainer* parent)
+    void Widget::_setParent(Widget* parent)
     {
         mParent = parent;
     }
 
-    BasicContainer* Widget::getParent() const
+    Widget* Widget::getParent() const
     {
         return mParent;
     }

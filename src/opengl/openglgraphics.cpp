@@ -60,14 +60,16 @@
 
 #include "guichan/opengl/openglgraphics.hpp"
 
-#ifdef _WIN32
+#if defined (_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
-#ifdef __amigaos4__
+#if defined (__amigaos4__)
 #include <mgl/gl.h>
 #define glVertex3i glVertex3f
+#elif defined(__APPLE__)
+#include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif

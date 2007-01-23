@@ -67,11 +67,11 @@ namespace gcn
                            int x,
                            int y,
                            int timeStamp)
-            : mButton(button),
-              mType(type),
+            : mType(type),
+              mButton(button),
+              mTimeStamp(timeStamp),
               mX(x),
-              mY(y),
-              mTimeStamp(timeStamp)
+              mY(y)
     {
     }
 
