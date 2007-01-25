@@ -1009,6 +1009,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\guichan\focuslistener.hpp"
+				>
+			</File>
+			<File
 				RelativePath="include\guichan\font.hpp"
 				>
 			</File>
