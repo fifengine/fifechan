@@ -140,9 +140,13 @@ namespace gcn
         return mTarget;
     }
 
-    void SDLGraphics::drawImage(const Image* image, int srcX,
-                                int srcY, int dstX, int dstY,
-                                int width, int height)
+    void SDLGraphics::drawImage(const Image* image,
+                                int srcX,
+                                int srcY,
+                                int dstX,
+                                int dstY,
+                                int width,
+                                int height)
     {
         ClipRectangle top = mClipStack.top();
         SDL_Rect src;
@@ -204,7 +208,11 @@ namespace gcn
             rect.w = area.width;
             rect.h = area.height;
 
-            Uint32 color = SDL_MapRGBA(mTarget->format, mColor.r, mColor.g, mColor.b, mColor.a);
+            Uint32 color = SDL_MapRGBA(mTarget->format,
+                                       mColor.r,
+                                       mColor.g,
+                                       mColor.b,
+                                       mColor.a);
             SDL_FillRect(mTarget, &rect, color);
         }
     }
@@ -236,7 +244,9 @@ namespace gcn
         x2 += top.xOffset;
 
         if (y < top.y || y >= top.y + top.height)
+        {
             return;
+        }
 
         if (x1 > x2)
         {
@@ -251,6 +261,7 @@ namespace gcn
             {
                 return;
             }
+
             x1 = top.x;
         }
 
@@ -260,6 +271,7 @@ namespace gcn
             {
                 return;
             }
+            
             x2 = top.x + top.width -1;
         }
 
@@ -269,66 +281,67 @@ namespace gcn
 
         Uint8 *p = (Uint8 *)mTarget->pixels + y * mTarget->pitch + x1 * bpp;
 
-        Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
+        Uint32 pixel = SDL_MapRGB(mTarget->format,
+                                  mColor.r,
+                                  mColor.g,
+                                  mColor.b);
+        
+        switch(bpp)
+        {
+            case 1:
+                for (;x1 <= x2; ++x1)
+                {
+                    *(p++) = pixel;
+                }
+                break;
+                
+            case 2:
+                Uint16* q = (Uint16*)p;
+                for (;x1 <= x2; ++x1)
+                {
+                    *(q++) = pixel;
+                }
+                break;
 
-        switch(bpp) {
-          case 1:
-          {
-              for (;x1 <= x2; ++x1)
-              {
-                  *(p++) = pixel;
-              }
-          } break;
+            case 3:
+                if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+                {
+                    for (;x1 <= x2; ++x1)
+                    {
+                        p[0] = (pixel >> 16) & 0xff;
+                        p[1] = (pixel >> 8) & 0xff;
+                        p[2] = pixel & 0xff;
+                        p += 3;
+                    }
+                }
+                else
+                {
+                    for (;x1 <= x2; ++x1)
+                    {
+                        p[0] = pixel & 0xff;
+                        p[1] = (pixel >> 8) & 0xff;
+                        p[2] = (pixel >> 16) & 0xff;
+                        p += 3;
+                    }
+                }
+                break;
 
-          case 2:
-          {
-              Uint16* q = (Uint16*)p;
-              for (;x1 <= x2; ++x1)
-              {
-                  *(q++) = pixel;
-              }
-          } break;
-
-          case 3:
-          {
-              if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                  for (;x1 <= x2; ++x1)
-                  {
-                      p[0] = (pixel >> 16) & 0xff;
-                      p[1] = (pixel >> 8) & 0xff;
-                      p[2] = pixel & 0xff;
-                      p += 3;
-                  }
-              }
-              else
-              {
-                  for (;x1 <= x2; ++x1)
-                  {
-                      p[0] = pixel & 0xff;
-                      p[1] = (pixel >> 8) & 0xff;
-                      p[2] = (pixel >> 16) & 0xff;
-                      p += 3;
-                  }
-              }
-          } break;
-
-          case 4:
-          {
-              Uint32* q = (Uint32*)p;
-              for (;x1 <= x2; ++x1)
-              {
-                  if (mAlpha)
-                  {
-                      *q = SDLAlpha32(pixel,*q,mColor.a);
-                      q++;
-                  }
-                  else
-                  {
-                      *(q++) = pixel;
-                  }
-              }
-          } break;
-
+            case 4:
+                Uint32* q = (Uint32*)p;
+                for (;x1 <= x2; ++x1)
+                {
+                    if (mAlpha)
+                    {
+                        *q = SDLAlpha32(pixel,*q,mColor.a);
+                        q++;
+                    }
+                    else
+                    {
+                        *(q++) = pixel;
+                    }
+                }
+                break;
+                
         } // end switch
 
         SDL_UnlockSurface(mTarget);
@@ -342,8 +355,10 @@ namespace gcn
         y2 += top.yOffset;
 
         if (x < top.x || x >= top.x + top.width)
+        {
             return;
-
+        }
+        
         if (y1 > y2)
         {
             y1 ^= y2;
@@ -357,6 +372,7 @@ namespace gcn
             {
                 return;
             }
+
             y1 = top.y;
         }
 
@@ -366,6 +382,7 @@ namespace gcn
             {
                 return;
             }
+
             y2 = top.y + top.height - 1;
         }
 
@@ -377,28 +394,27 @@ namespace gcn
 
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
 
-        switch(bpp) {
+        switch(bpp)
+        {            
           case 1:
-          {
               for (;y1 <= y2; ++y1)
               {
                   *p = pixel;
                   p += mTarget->pitch;
               }
-          } break;
+              break;
 
           case 2:
-          {
               for (;y1 <= y2; ++y1)
               {
                   *(Uint16*)p = pixel;
                   p += mTarget->pitch;
               }
-          } break;
+              break;
 
           case 3:
-          {
-              if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+              if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+              {
                   for (;y1 <= y2; ++y1)
                   {
                       p[0] = (pixel >> 16) & 0xff;
@@ -417,10 +433,9 @@ namespace gcn
                       p += mTarget->pitch;
                   }
               }
-          } break;
+              break;
 
           case 4:
-          {
               for (;y1 <= y2; ++y1)
               {
                   if (mAlpha)
@@ -433,9 +448,10 @@ namespace gcn
                   }
                   p += mTarget->pitch;
               }
-          } break;
+              break;
+              
         } // end switch
-
+        
         SDL_UnlockSurface(mTarget);
     }
 
@@ -635,7 +651,8 @@ namespace gcn
         return mColor;
     }
 
-    void SDLGraphics::drawSDLSurface(SDL_Surface* surface, SDL_Rect source,
+    void SDLGraphics::drawSDLSurface(SDL_Surface* surface,
+                                     SDL_Rect source,
                                      SDL_Rect destination)
     {
         ClipRectangle top = mClipStack.top();

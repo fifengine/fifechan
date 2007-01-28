@@ -178,8 +178,12 @@ namespace gcn
          * @param width the width of the piece.
          * @param height the height of the piece.
          */
-        virtual void drawImage(const Image* image, int srcX, int srcY,
-                               int dstX, int dstY, int width,
+        virtual void drawImage(const Image* image,
+                               int srcX,
+                               int srcY,
+                               int dstX,
+                               int dstY,
+                               int width,
                                int height) = 0;
         /**
          * Draws an image. A simplified version of the other drawImage.
@@ -252,7 +256,9 @@ namespace gcn
          * @param alignment Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
          * @throws Exception when no Font is set.
          */
-        virtual void drawText(const std::string& text, int x, int y,
+        virtual void drawText(const std::string& text,
+                              int x,
+                              int y,
                               unsigned int alignment = LEFT);
         /**
          * Alignments for text drawing.

@@ -126,9 +126,17 @@ namespace gcn
         {
             mClipNull = false;
 #if ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0
-            set_clip(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+            set_clip(mTarget,
+                     cr.x,
+                     cr.y,
+                     cr.x + cr.width - 1,
+                     cr.y + cr.height - 1);
 #else
-            set_clip_rect(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+            set_clip_rect(mTarget,
+                          cr.x,
+                          cr.y,
+                          cr.x + cr.width - 1,
+                          cr.y + cr.height - 1);
 #endif
         }
 
@@ -157,17 +165,28 @@ namespace gcn
         {
             mClipNull = false;
 #if ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0
-            set_clip(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+            set_clip(mTarget,
+                     cr.x,
+                     cr.y,
+                     cr.x + cr.width - 1,
+                     cr.y + cr.height - 1);
 #else
-            set_clip_rect(mTarget, cr.x, cr.y, cr.x + cr.width - 1, cr.y + cr.height - 1);
+            set_clip_rect(mTarget,
+                          cr.x,
+                          cr.y,
+                          cr.x + cr.width - 1,
+                          cr.y + cr.height - 1);
 #endif
         }
     }
 
     void AllegroGraphics::drawImage(const Image* image,
-                                    int srcX, int srcY,
-                                    int dstX, int dstY,
-                                    int width, int height)
+                                    int srcX,
+                                    int srcY,
+                                    int dstX,
+                                    int dstY,
+                                    int width,
+                                    int height)
     {
         if (mClipNull)
         {
@@ -184,7 +203,14 @@ namespace gcn
             throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
         }
 
-        masked_blit(srcImage->getBitmap(), mTarget, srcX, srcY, dstX, dstY, width, height);
+        masked_blit(srcImage->getBitmap(),
+                    mTarget,
+                    srcX,
+                    srcY,
+                    dstX,
+                    dstY,
+                    width,
+                    height);
     }
 
     void AllegroGraphics::drawPoint(int x, int y)
