@@ -97,10 +97,10 @@ namespace gcn
     bool OpenLayerGraphics::pushClipArea(Rectangle area)
     {
         bool result = Graphics::pushClipArea(area);
-
+        
         ol::Transforms::SetPosition(mClipStack.top().xOffset,
                                     mClipStack.top().yOffset);
-
+        
         ol::Canvas::SetClipping(mClipStack.top().x,
                                 mClipStack.top().y,
                                 mClipStack.top().width,
@@ -130,7 +130,7 @@ namespace gcn
                                       int width,
                                       int height)
     {
-		const OpenLayerImage* srcImage = dynamic_cast<const OpenLayerImage*>(image);
+        const OpenLayerImage* srcImage = dynamic_cast<const OpenLayerImage*>(image);
 
         if (srcImage == NULL)
         {
