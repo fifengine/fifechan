@@ -128,7 +128,12 @@ namespace gcn
         glPushMatrix();
         glLoadIdentity();
 
-        glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
+        glOrtho(0.0,
+                (double)mWidth,
+                (double)mHeight,
+                0.0,
+                -1.0,
+                1.0);
 
         glDisable(GL_LIGHTING);
         glDisable(GL_CULL_FACE);
@@ -195,8 +200,12 @@ namespace gcn
         mHeight = height;
     }
 
-    void OpenGLGraphics::drawImage(const Image* image, int srcX, int srcY,
-                                   int dstX, int dstY, int width,
+    void OpenGLGraphics::drawImage(const Image* image,
+                                   int srcX,
+                                   int srcY,
+                                   int dstX,
+                                   int dstY,
+                                   int width,
                                    int height)
     {
 		const OpenGLImage* srcImage = dynamic_cast<const OpenGLImage*>(image);
@@ -266,12 +275,12 @@ namespace gcn
         y2 += mClipStack.top().yOffset;
 
         glBegin(GL_LINES);
-        glVertex3f(x1+0.5f, y1+0.5f, 0);
-        glVertex3f(x2+0.5f, y2+0.5f, 0);
+        glVertex3f(x1 + 0.5f, y1 + 0.5f, 0);
+        glVertex3f(x2 + 0.5f, y2 + 0.5f, 0);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex3f(x2+0.5f, y2+0.5f, 0);
+        glVertex3f(x2 + 0.5f, y2 + 0.5f, 0);
         glEnd();
     }
 
@@ -279,13 +288,17 @@ namespace gcn
     {
         glBegin(GL_LINE_LOOP);
         glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
-                   rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+                   rectangle.y + mClipStack.top().yOffset + 0.5f,
+                   0);
         glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
-                   rectangle.y + mClipStack.top().yOffset + 0.5f, 0);
+                   rectangle.y + mClipStack.top().yOffset + 0.5f,
+                   0);
         glVertex3f(rectangle.x + rectangle.width - 0.5f + mClipStack.top().xOffset,
-                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f,
+                   0);
         glVertex3f(rectangle.x + mClipStack.top().xOffset + 0.5f,
-                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f, 0);
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset - 0.5f,
+                   0);
         glEnd();
     }
 
@@ -293,13 +306,17 @@ namespace gcn
     {
         glBegin(GL_QUADS);
         glVertex3i(rectangle.x + mClipStack.top().xOffset,
-                   rectangle.y + mClipStack.top().yOffset, 0);
+                   rectangle.y + mClipStack.top().yOffset,
+                   0);
         glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
-                   rectangle.y + mClipStack.top().yOffset, 0);
+                   rectangle.y + mClipStack.top().yOffset,
+                   0);
         glVertex3i(rectangle.x + rectangle.width + mClipStack.top().xOffset,
-                   rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset,
+                   0);
         glVertex3i(rectangle.x + mClipStack.top().xOffset,
-                   rectangle.y + rectangle.height + mClipStack.top().yOffset, 0);
+                   rectangle.y + rectangle.height + mClipStack.top().yOffset,
+                   0);
         glEnd();
     }
 

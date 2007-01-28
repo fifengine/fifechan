@@ -115,8 +115,12 @@ namespace gcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image, int srcX, int srcY,
-                               int dstX, int dstY, int width,
+        virtual void drawImage(const Image* image,
+                               int srcX,
+                               int srcY,
+                               int dstX,
+                               int dstY,
+                               int width,
                                int height);
 
         virtual void drawPoint(int x, int y);
