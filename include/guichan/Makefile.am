@@ -14,6 +14,7 @@ libguichaninclude_HEADERS =	\
 	event.hpp		\
 	exception.hpp		\
 	focushandler.hpp	\
+	focuslistener.hpp	\
 	font.hpp		\
 	glut.hpp		\
 	graphics.hpp		\
