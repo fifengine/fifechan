@@ -143,6 +143,7 @@ namespace gcn
     protected:
         int mWidth, mHeight;
         ol::Rgba mRgba;
+        Color mColor;
     };
 }
 

@@ -196,6 +196,7 @@ namespace gcn
 
     void OpenLayerGraphics::setColor(const Color& color)
     {
+        mColor = color;
         mRgba.r = color.r / 255.0f;
         mRgba.g = color.g / 255.0f;
         mRgba.b = color.b / 255.0f;
@@ -204,9 +205,6 @@ namespace gcn
 
     const Color& OpenLayerGraphics::getColor()
     {
-        return Color(mRgba.r * 255,
-                     mRgba.g * 255,
-                     mRgba.b * 255,
-                     mRgba.a * 255);
+        return mColor;
     }
 }
