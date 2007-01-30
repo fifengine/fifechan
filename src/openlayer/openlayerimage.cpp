@@ -66,15 +66,13 @@ namespace gcn
 {
     OpenLayerImage::OpenLayerImage(BITMAP* allegroBitmap, bool autoFree)
             : mOpenLayerBitmap(NULL),
-              mAllegroBitmap(NULL),
+              mAllegroBitmap(allegroBitmap),
               mAutoFree(autoFree)
         
     {
-        BITMAP* mAllegroBitmap = allegroBitmap;
-
         if (mAllegroBitmap == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load bitmap.");
+            throw GCN_EXCEPTION(std::string("Unable to load bitmap."));
         }
     }
 
@@ -86,7 +84,7 @@ namespace gcn
         }
     }
 
-    Bitmap* OpenLayerImage::getBitmap() const
+    ol::Bitmap* OpenLayerImage::getBitmap() const
     {
         return mOpenLayerBitmap;
     }
@@ -177,7 +175,7 @@ namespace gcn
             throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
-        mOpenLayerBitmap = new ol::BitMap(mAllegroBitmap, false, true);
+        mOpenLayerBitmap = new ol::Bitmap(mAllegroBitmap, false, true);
         mOpenLayerBitmap->SendToGPU();
         
         destroy_bitmap(mAllegroBitmap);

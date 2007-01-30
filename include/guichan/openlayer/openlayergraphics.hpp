@@ -118,8 +118,6 @@ namespace gcn
 
         virtual void popClipArea();
 
-        virtual void setTargetPlane(int width, int height);
-
         virtual void drawImage(const Image* image,
                                int srcX,
                                int srcY,
