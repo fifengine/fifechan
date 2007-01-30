@@ -58,25 +58,23 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/ol/openlayerimage.h"
+#include "guichan/openlayer/openlayerimage.hpp"
 
 #include "guichan/exception.hpp"
-
-using namespace ol;
 
 namespace gcn
 {
     OpenLayerImage::OpenLayerImage(BITMAP* allegroBitmap, bool autoFree)
             : mOpenLayerBitmap(NULL),
+              mAllegroBitmap(NULL),
               mAutoFree(autoFree)
         
     {
         BITMAP* mAllegroBitmap = allegroBitmap;
 
-
         if (mAllegroBitmap == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
+            throw GCN_EXCEPTION(std::string("Unable to load bitmap.");
         }
     }
 
@@ -110,7 +108,7 @@ namespace gcn
 
     int OpenLayerImage::getWidth() const
     {
-        if (mAllegroBitmap == NULL && mOpenlayerBitmap == NULL)
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
             throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
@@ -125,9 +123,9 @@ namespace gcn
 
     int OpenLayerImage::getHeight() const
     {
-        if (mAllegroBitmap == NULL && mOpenlayerBitmap == NULL)
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
-            GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            throw GCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
         
         if (mOpenLayerBitmap == NULL)
@@ -176,11 +174,11 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL)
         {
-            GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
-        mOpenLayerImage = new ol::BitMap(mAllegroBitmap, true, true);
-        mOpenLayerImage->SendToGPU();
+        mOpenLayerBitmap = new ol::BitMap(mAllegroBitmap, false, true);
+        mOpenLayerBitmap->SendToGPU();
         
         destroy_bitmap(mAllegroBitmap);
         mAllegroBitmap = NULL;

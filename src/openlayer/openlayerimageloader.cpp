@@ -58,10 +58,10 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/ol/openlayerimageloader.hpp"
+#include "guichan/openlayer/openlayerimageloader.hpp"
 
-#include "guichan/ol/openlayerimage.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/openlayer/openlayerimage.hpp"
 
 namespace gcn
 {

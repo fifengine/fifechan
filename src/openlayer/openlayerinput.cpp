@@ -58,7 +58,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/ol/openlayerinput.hpp"
+#include "guichan/openlayer/openlayerinput.hpp"
 
 #include <allegro.h>
 

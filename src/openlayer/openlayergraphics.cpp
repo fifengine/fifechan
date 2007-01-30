@@ -153,7 +153,7 @@ namespace gcn
     
     void OpenLayerGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        mColor.Select();
+        mRgba.Select();
         glDisable(GL_TEXTURE_2D);
         glLineWidth(1.0f);
         

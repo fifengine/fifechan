@@ -57,13 +57,13 @@
 #ifndef GCN_OPENLAYERGRAPHICS_HPP
 #define GCN_OPENLAYERGRAPHICS_HPP
 
-#include "guichan/openlayer/openlayergraphics.hpp"
-
 #include <OpenLayer.hpp>
 
 #include <string>
 
+#include "guichan/color.hpp"
 #include "guichan/exception.hpp"
+#include "guichan/graphics.hpp"
 
 namespace gcn
 {
