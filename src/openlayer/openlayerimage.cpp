@@ -175,6 +175,11 @@ namespace gcn
             throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
+        if (mOpenLayerBitmap != NULL)
+        {
+            throw GCN_EXCEPTION("Trying to convert an image to display format which has already been converted.");
+        }
+
         mOpenLayerBitmap = new ol::Bitmap(mAllegroBitmap, false, true);
         mOpenLayerBitmap->SendToGPU();
         
