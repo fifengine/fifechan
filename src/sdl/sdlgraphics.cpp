@@ -285,7 +285,7 @@ namespace gcn
                                   mColor.r,
                                   mColor.g,
                                   mColor.b);
-        
+        Uint16* q;
         switch(bpp)
         {
             case 1:
@@ -296,13 +296,14 @@ namespace gcn
                 break;
                 
             case 2:
+            {
                 Uint16* q = (Uint16*)p;
                 for (;x1 <= x2; ++x1)
                 {
                     *(q++) = pixel;
                 }
                 break;
-
+            }
             case 3:
                 if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
                 {
@@ -326,7 +327,8 @@ namespace gcn
                 }
                 break;
 
-            case 4:
+            case 4:  
+            {          
                 Uint32* q = (Uint32*)p;
                 for (;x1 <= x2; ++x1)
                 {
@@ -341,6 +343,7 @@ namespace gcn
                     }
                 }
                 break;
+            }
                 
         } // end switch
 
