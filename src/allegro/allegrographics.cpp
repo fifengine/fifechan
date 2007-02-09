@@ -113,7 +113,7 @@ namespace gcn
     {
         bool result = Graphics::pushClipArea(area);
 
-        ClipRectangle cr = mClipStack.top();
+        const ClipRectangle& cr = mClipStack.top();
 
         // Allegro won't let you set clip areas
         // that have zero width or height
@@ -152,7 +152,7 @@ namespace gcn
             return;
         }
 
-        ClipRectangle cr = mClipStack.top();
+        const ClipRectangle& cr = mClipStack.top();
 
         // Allegro won't let you set clip areas
         //that have zero width or height
@@ -193,8 +193,13 @@ namespace gcn
             return;
         }
 
-        dstX += mClipStack.top().xOffset;
-        dstY += mClipStack.top().yOffset;
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        }
+
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
 
         const AllegroImage* srcImage = dynamic_cast<const AllegroImage*>(image);
 
@@ -207,8 +212,8 @@ namespace gcn
                     mTarget,
                     srcX,
                     srcY,
-                    dstX,
-                    dstY,
+                    dstX + xOffset,
+                    dstY + yOffset,
                     width,
                     height);
     }
@@ -220,8 +225,13 @@ namespace gcn
             return;
         }
 
-        int xOffset = mClipStack.top().xOffset;
-        int yOffset = mClipStack.top().yOffset;
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        }
+
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
 
         putpixel(mTarget,
                  x + xOffset,
@@ -236,8 +246,13 @@ namespace gcn
             return;
         }
 
-        int xOffset = mClipStack.top().xOffset;
-        int yOffset = mClipStack.top().yOffset;
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        }
+
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
 
         line(mTarget,
              x1 + xOffset,
@@ -254,8 +269,13 @@ namespace gcn
             return;
         }
 
-        int xOffset = mClipStack.top().xOffset;
-        int yOffset = mClipStack.top().yOffset;
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        }
+
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
 
         rect(mTarget,
              rectangle.x + xOffset,
@@ -272,8 +292,13 @@ namespace gcn
             return;
         }
 
-        int xOffset = mClipStack.top().xOffset;
-        int yOffset = mClipStack.top().yOffset;
+        if (mClipStack.empty())
+        {
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        }
+
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
 
         rectfill(mTarget,
                  rectangle.x + xOffset,
