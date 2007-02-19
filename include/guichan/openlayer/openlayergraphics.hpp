@@ -136,7 +136,7 @@ namespace gcn
         
         virtual void setColor(const Color& color);
         
-        virtual const Color& OpenLayerGraphics::getColor();
+        virtual const Color& getColor();
         
     protected:
         int mWidth, mHeight;
