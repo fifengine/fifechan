@@ -237,6 +237,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\allegro\allegrofont.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\allegro\allegrographics.cpp"
 				>
 				<FileConfiguration
@@ -322,6 +326,10 @@
 			>
 			<File
 				RelativePath="include\guichan\allegro.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\guichan\allegro\allegrofont.hpp"
 				>
 			</File>
 			<File
