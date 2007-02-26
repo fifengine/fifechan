@@ -195,7 +195,8 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+                                "outside of _beginDraw() and _endDraw()?");
         }
 
         const int xOffset = mClipStack.top().xOffset;
@@ -227,7 +228,8 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+                                "outside of _beginDraw() and _endDraw()?");
         }
 
         const int xOffset = mClipStack.top().xOffset;
@@ -236,7 +238,7 @@ namespace gcn
         putpixel(mTarget,
                  x + xOffset,
                  y + yOffset,
-                 mAlColor);
+                 mAllegroColor);
     }
 
     void AllegroGraphics::drawLine(int x1, int y1, int x2, int y2)
@@ -248,7 +250,8 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+                                "outside of _beginDraw() and _endDraw()?");
         }
 
         const int xOffset = mClipStack.top().xOffset;
@@ -259,7 +262,7 @@ namespace gcn
              y1 + yOffset,
              x2 + xOffset,
              y2 + yOffset,
-             mAlColor);
+             mAllegroColor);
     }
 
     void AllegroGraphics::drawRectangle(const Rectangle& rectangle)
@@ -271,7 +274,8 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
+                                "outside of _beginDraw() and _endDraw()?");
         }
 
         const int xOffset = mClipStack.top().xOffset;
@@ -282,7 +286,7 @@ namespace gcn
              rectangle.y + yOffset,
              rectangle.x + rectangle.width - 1 + xOffset,
              rectangle.y + rectangle.height - 1 + yOffset,
-             mAlColor);
+             mAllegroColor);
     }
 
     void AllegroGraphics::fillRectangle(const Rectangle& rectangle)
@@ -294,7 +298,8 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
+                                "outside of _beginDraw() and _endDraw()?");
         }
 
         const int xOffset = mClipStack.top().xOffset;
@@ -305,13 +310,13 @@ namespace gcn
                  rectangle.y + yOffset,
                  rectangle.x + rectangle.width - 1 + xOffset,
                  rectangle.y + rectangle.height - 1 + yOffset,
-                 mAlColor);
+                 mAllegroColor);
     }
 
     void AllegroGraphics::setColor(const Color& color)
     {
         mColor = color;
-        mAlColor = makecol(color.r, color.g, color.b);
+        mAllegroColor = makecol(color.r, color.g, color.b);
 
         if (color.a != 255)
         {
@@ -327,5 +332,10 @@ namespace gcn
     const Color& AllegroGraphics::getColor()
     {
         return mColor;
+    }
+
+    int AllegroGraphics::getAllegroColor() const
+    {
+        return mAllegroColor;
     }
 }
