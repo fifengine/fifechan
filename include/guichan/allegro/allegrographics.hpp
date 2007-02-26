@@ -110,6 +110,13 @@ namespace gcn
          */
         virtual BITMAP *getTarget();
 
+        /**
+         * Gets the color in Allegro format.
+         *
+         * @return the color in Allegro format.
+         */
+        int getAllegroColor() const;
+
 
         // Inherited from Graphics
 
@@ -144,7 +151,7 @@ namespace gcn
     protected:
         BITMAP *mTarget;
         bool mClipNull;
-        int mAlColor;
+        int mAllegroColor;
         Color mColor;
     };
 }
