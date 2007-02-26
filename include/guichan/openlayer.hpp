@@ -57,6 +57,7 @@
 #ifndef GCN_OPENLAYER_HPP
 #define GCN_OPENLAYER_HPP
 
+#include <guichan/openlayer/openlayerfont.hpp>
 #include <guichan/openlayer/openlayerinput.hpp>
 #include <guichan/openlayer/openlayerimageloader.hpp>
 #include <guichan/openlayer/openlayergraphics.hpp>
