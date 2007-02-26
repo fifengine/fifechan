@@ -57,6 +57,7 @@
 #ifndef GCN_ALLEGRO_HPP
 #define GCN_ALLEGRO_HPP
 
+#include <guichan/allegro/allegrofont.hpp>
 #include <guichan/allegro/allegrographics.hpp>
 #include <guichan/allegro/allegroimage.hpp>
 #include <guichan/allegro/allegroimageloader.hpp>
