@@ -97,7 +97,7 @@ namespace gcn
 
         virtual void drawString(gcn::Graphics* graphics, const std::string& text, int x, int y);
 
-    private:
+    protected:
         bool mAutoFree;
         FONT* mAllegroFont;
     };
