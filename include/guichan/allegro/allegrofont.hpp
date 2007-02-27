@@ -81,7 +81,7 @@ namespace gcn
          *
          * @param filename The filename of the Allegro font to load.
          */
-        AllegroFont(const char *filename);
+        AllegroFont(const std::string& filename);
 
         /**
          * Destructor.

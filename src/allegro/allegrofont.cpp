@@ -72,8 +72,8 @@ namespace gcn
         }
     }
 
-    AllegroFont::AllegroFont(const char *filename)
-        : mAllegroFont(load_font(filename, 0, 0)), 
+    AllegroFont::AllegroFont(const std::string& filename)
+        : mAllegroFont(load_font(filename.c_str(), 0, 0)), 
           mAutoFree(true)
     {
         if (mAllegroFont == NULL)
