@@ -58,7 +58,9 @@
 #define GCN_OPENLAYERFONT_HPP
 
 #include <OpenLayer.hpp>
-
+#if defined (DELETE)
+#undef DELETE
+#endif
 #include "guichan/font.hpp"
 #include "guichan/platform.hpp"
 

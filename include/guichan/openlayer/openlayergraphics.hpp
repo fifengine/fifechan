@@ -58,7 +58,7 @@
 #define GCN_OPENLAYERGRAPHICS_HPP
 
 #include <OpenLayer.hpp>
-#ifdef (DELETE)
+#if defined (DELETE)
 #undef DELETE
 #endif
 #include <string>
