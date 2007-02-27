@@ -64,7 +64,6 @@
 
 namespace gcn
 {
-
     class GCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
     {
     public:
@@ -75,7 +74,7 @@ namespace gcn
          * @param filename The filename of the font to load.
          * @param size The size of the font.
          */
-        OpenLayerTTFont(const char* filename, int size);
+        OpenLayerTTFont(const std::string& filename, int size);
 
         /**
          * Destructor.
@@ -89,7 +88,7 @@ namespace gcn
 
         virtual int getHeight() const;
 
-        virtual void drawString(gcn::Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
 
     protected:
         ol::TextRenderer mTextRenderer;

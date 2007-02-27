@@ -61,13 +61,12 @@
 
 namespace gcn
 {
-
-    OpenLayerTTFont::OpenLayerTTFont(const char* filename, int size)
-      : mTextRenderer(filename, size, size)
+    OpenLayerTTFont::OpenLayerTTFont(const std::string& filename, int size)
+      : mTextRenderer(filename.c_str(), size, size)
     {
         if (!mTextRenderer.IsValid())
         {
-          throw GCN_EXCEPTION("Unable to load font.");
+            throw GCN_EXCEPTION("Unable to load font.");
         }
     }
 
@@ -86,9 +85,9 @@ namespace gcn
         return mTextRenderer.FontTotalHeight();
     }
 
-    void OpenLayerTTFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
+    void OpenLayerTTFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
     {
-        const gcn::ClipRectangle& rec = graphics->getCurrentClipArea();
+        const ClipRectangle& rec = graphics->getCurrentClipArea();
 
         mTextRenderer.Print(text, 
                             x + rec.x, 
