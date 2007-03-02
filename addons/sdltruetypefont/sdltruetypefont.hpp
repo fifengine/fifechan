@@ -77,10 +77,10 @@ namespace gcn
    *       class. Also, remember to call the SDL_ttf libraries quit
    *       function.
    *
-   * Original author of this class is Walluce Pinkham. Some modifications
-   * made by the Guichan team.
+   * @author Walluce Pinkham
+   * @author Olof Naessén
    */
-  class DECLSPEC SDLTrueTypeFont: public Font
+  class GCN_EXTENSION_DECLSPEC SDLTrueTypeFont: public Font
   {
   public:
 
