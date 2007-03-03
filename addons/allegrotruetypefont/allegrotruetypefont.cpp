@@ -57,6 +57,7 @@
 #include "allegrotruetypefont.hpp"
 
 #include "guichan/allegro.hpp"
+#include "guichan/exception.hpp"
 
 #include <glyph.h>
 
