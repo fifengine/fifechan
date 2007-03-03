@@ -207,4 +207,9 @@ namespace gcn
     {
         return mColor;
     }
+
+    const ol::Rgba& OpenLayerGraphics::getOpenLayerColor() const
+    {
+        return mRgba;
+    }
 }

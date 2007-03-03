@@ -104,7 +104,7 @@ namespace gcn
          *
          * @return a string index in a string providing an x coordinate.
          */
-        virtual int getStringIndexAt(const std::string& text, int x);
+        virtual int getStringIndexAt(const std::string& text, int x) const;
 
         /**
          * Draws a string.

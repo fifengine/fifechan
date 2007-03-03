@@ -238,7 +238,7 @@ namespace gcn
          *
          * @return the Color used when drawing.
          */
-        virtual const Color& getColor() = 0;
+        virtual const Color& getColor() const = 0;
 
         /**
          * Sets the font to use when drawing text.

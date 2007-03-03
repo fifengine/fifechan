@@ -139,6 +139,8 @@ namespace gcn
         virtual void setColor(const Color& color);
         
         virtual const Color& getColor();
+
+        const ol::Rgba& getOpenLayerColor() const;
         
     protected:
         int mWidth, mHeight;

@@ -89,6 +89,9 @@ namespace gcn
     {
         const ClipRectangle& rec = graphics->getCurrentClipArea();
 
+        OpenLayerGraphics* const openLayerGraphics = dynamic_cast<gcn::OpenLayerGraphics*>(graphics);
+        
+        mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());
         mTextRenderer.Print(text, 
                             x + rec.x, 
                             y + rec.y + mTextRenderer.Height(text));
