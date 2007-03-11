@@ -684,7 +684,7 @@ namespace gcn
         mAlpha = color.a != 255;
     }
 
-    const Color& SDLGraphics::getColor()
+    const Color& SDLGraphics::getColor() const
     {
         return mColor;
     }

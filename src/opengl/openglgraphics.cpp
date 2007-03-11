@@ -372,7 +372,7 @@ namespace gcn
         }
     }
 
-    const Color& OpenGLGraphics::getColor()
+    const Color& OpenGLGraphics::getColor() const
     {
         return mColor;
     }

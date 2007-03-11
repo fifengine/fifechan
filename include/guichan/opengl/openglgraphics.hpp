@@ -133,7 +133,7 @@ namespace gcn
 
         virtual void setColor(const Color& color);
 
-		virtual const Color& getColor();
+		virtual const Color& getColor() const;
 
     protected:
         int mWidth, mHeight;

@@ -329,7 +329,7 @@ namespace gcn
         }
     }
 
-    const Color& AllegroGraphics::getColor()
+    const Color& AllegroGraphics::getColor() const
     {
         return mColor;
     }

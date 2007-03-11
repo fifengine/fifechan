@@ -203,7 +203,7 @@ namespace gcn
         mRgba.a = color.a / 255.0f;
     }
 
-    const Color& OpenLayerGraphics::getColor()
+    const Color& OpenLayerGraphics::getColor() const
     {
         return mColor;
     }
