@@ -1,5 +1,5 @@
 /**
- * SDL widgets example for Guichan.
+ * SDL widgets example for Guichan. 
  *
  * @author Kevin Lynx
  * @author Olof Naessén
@@ -78,18 +78,18 @@ public:
     {
         switch(i)
         {
-            case 0:
-                return std::string("zero");
-            case 1:
-                return std::string("one");
-            case 2:
-                return std::string("two");
-            case 3:
-                return std::string("three");
-            case 4:
-                return std::string("four");
-            default: // Just to keep warnings away
-                return std::string("");
+          case 0:
+              return std::string("zero");
+          case 1:
+              return std::string("one");
+          case 2:
+              return std::string("two");
+          case 3:
+              return std::string("three");
+          case 4:
+              return std::string("four");
+          default: // Just to keep warnings away
+              return std::string("");
         }  
     }
 };
@@ -151,9 +151,9 @@ void initWidgets()
     nestedScrollArea->setSize(180, 90);
     nestedScrollArea->setBorderSize(1);
 
-   /*
-    * Add them to the top container
-    */
+    /*
+     * Add them to the top container
+     */
     top->add(label, 10, 10);
     top->add(icon, 10, 30);
     top->add(button, 200, 10);
@@ -178,16 +178,16 @@ void  init()
 {
     imageLoader  = new gcn::HGEImageLoader();
     // The ImageLoader in use is static and must be set to be
-	// able to load images
+    // able to load images
     Image::setImageLoader(imageLoader);
   
     graphics = new gcn::HGEGraphics();
     input = new gcn::HGEInput();
     
     /*
-	 * Last but not least it's time to initialize and create the gui
-	 * with Guichan stuff.
-	 */
+     * Last but not least it's time to initialize and create the gui
+     * with Guichan stuff.
+     */
     top = new gcn::Container();
     top->setDimension(gcn::Rectangle(0, 0, 640, 480));
     gui = new gcn::Gui();
@@ -208,14 +208,14 @@ void  init()
 void  halt()
 {
     /*
-	 * Destroy Guichan stuff
-	 */
+     * Destroy Guichan stuff
+     */
     delete  font;
     delete gui;
 
     /*
-	 * Widgets
-	 */
+     * Widgets
+     */
     delete label;
     delete icon;
     delete button;
@@ -238,8 +238,8 @@ void  halt()
     delete nestedSlider;
 
     /*
-	 * Destroy Guichan HGE stuff
-	 */
+     * Destroy Guichan HGE stuff
+     */
     delete nput;
     delete graphics;
     delete imageLoader;
@@ -249,7 +249,7 @@ bool frameFunc()
 {
     if (hge->Input_GetKeyState(HGEK_ESCAPE) || running) 
     {
-         return true;
+        return true;
     }
 
     // Let the gui perform it's logic (like handle input)
@@ -301,28 +301,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         return 0;
     }
     /*
-	 * Catch all Guichan exceptions
-	 */
-	catch (gcn::Exception e)
-	{
-		MessageBox(NULL, hge->System_GetErrorMessage(), e.getMessage().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
-		return 1;
-	}
-	/*
-	 * Catch all Std exceptions
-	 */
-	catch (std::exception e)
-	{
+     * Catch all Guichan exceptions
+     */
+    catch (gcn::Exception e)
+    {
+        MessageBox(NULL, hge->System_GetErrorMessage(), e.getMessage().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+        return 1;
+    }
+    /*
+     * Catch all Std exceptions
+     */
+    catch (std::exception e)
+    {
         MessageBox(NULL, hge->System_GetErrorMessage(), e.what().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
-		return 1;
-	}
-	/*
-	 * Catch all Unknown exceptions
-	 */
-	catch (...)
-	{
+        return 1;
+    }
+    /*
+     * Catch all Unknown exceptions
+     */
+    catch (...)
+    {
         MessageBox(NULL, hge->System_GetErrorMessage(), "Unknown exception", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
-		return 1;
-	}
+        return 1;
+    }
 }
 

@@ -65,67 +65,67 @@ gcn::Slider* nestedSlider;
 class DemoListModel : public gcn::ListModel
 {
 public:
-	int getNumberOfElements()
-	{
-		return 5;
-	}
+    int getNumberOfElements()
+    {
+        return 5;
+    }
 
-	std::string getElementAt(int i)
-	{
-		switch(i)
-		{
-            case 0:
-                return std::string("zero");
-            case 1:
-                return std::string("one");
-            case 2:
-                return std::string("two");
-            case 3:
-                return std::string("three");
-            case 4:
-                return std::string("four");
-            default: // Just to keep warnings away
-                return std::string("");
-		}
-	}
+    std::string getElementAt(int i)
+    {
+        switch(i)
+        {
+          case 0:
+              return std::string("zero");
+          case 1:
+              return std::string("one");
+          case 2:
+              return std::string("two");
+          case 3:
+              return std::string("three");
+          case 4:
+              return std::string("four");
+          default: // Just to keep warnings away
+              return std::string("");
+        }
+    }
 };
 
 DemoListModel demoListModel;
 
 void initWidgets()
 {
-	/*
-	 * Create all the widgets
-	 */
-	label = new gcn::Label("Label");
+    /*
+     * Create all the widgets
+     */
+    label = new gcn::Label("Label");
 
-	image = gcn::Image::load("gui-chan.bmp");
-	icon = new gcn::Icon(image);
+    image = gcn::Image::load("gui-chan.bmp");
+    icon = new gcn::Icon(image);
 
-	button = new gcn::Button("Button");
+    button = new gcn::Button("Button");
 
-	textField = new gcn::TextField("Text field");
+    textField = new gcn::TextField("Text field");
 
-	textBox = new gcn::TextBox("Multiline\nText box");
-	textBoxScrollArea = new gcn::ScrollArea(textBox);
-	textBoxScrollArea->setWidth(200);
-	textBoxScrollArea->setHeight(100);
-	textBoxScrollArea->setBorderSize(1);
+    textBox = new gcn::TextBox("Multiline\nText box");
+    textBoxScrollArea = new gcn::ScrollArea(textBox);
+    textBoxScrollArea->setWidth(200);
+    textBoxScrollArea->setHeight(100);
+    textBoxScrollArea->setBorderSize(1);
 
-	listBox = new gcn::ListBox(&demoListModel);
-	listBox->setBorderSize(1);
+    listBox = new gcn::ListBox(&demoListModel);
+    listBox->setBorderSize(1);
 
-	dropDown = new gcn::DropDown(&demoListModel);
+    dropDown = new gcn::DropDown(&demoListModel);
     
-	checkBox1 = new gcn::CheckBox("Checkbox 1");
-	checkBox2 = new gcn::CheckBox("Checkbox 2");
+    checkBox1 = new gcn::CheckBox("Checkbox 1");
+    checkBox2 = new gcn::CheckBox("Checkbox 2");
 
-	radioButton1 = new gcn::RadioButton("RadioButton 1", "radiogroup", true);
-	radioButton2 = new gcn::RadioButton("RadioButton 2", "radiogroup");
-	radioButton3 = new gcn::RadioButton("RadioButton 3", "radiogroup");
+    radioButton1 = new gcn::RadioButton("RadioButton 1", "radiogroup", true);
+    radioButton2 = new gcn::RadioButton("RadioButton 2", "radiogroup");
+    radioButton3 = new gcn::RadioButton("RadioButton 3", "radiogroup");
 
-	slider = new gcn::Slider(0, 10);
-	slider->setSize(100, 10);
+    slider = new gcn::Slider(0, 10);
+    slider->setSize(100, 10);
 
     window = new gcn::Window("I am a window  Drag me");
     window->setBaseColor(gcn::Color(255, 150, 200, 190));
@@ -146,22 +146,22 @@ void initWidgets()
     nestedScrollArea->setSize(180, 90);
     nestedScrollArea->setBorderSize(1);
 
-	/*
-	 * Add them to the top container
-	 */
-	top->add(label, 10, 10);
-	top->add(icon, 10, 30);
-	top->add(button, 200, 10);
-	top->add(textField, 250, 10);
-	top->add(textBoxScrollArea, 200, 50);
-	top->add(listBox, 200, 200);
-	top->add(dropDown, 500, 10);
-	top->add(checkBox1, 500, 130);
-	top->add(checkBox2, 500, 150);
-	top->add(radioButton1, 500, 200);
-	top->add(radioButton2, 500, 220);
-	top->add(radioButton3, 500, 240);
-	top->add(slider, 500, 300);
+    /*
+     * Add them to the top container
+     */
+    top->add(label, 10, 10);
+    top->add(icon, 10, 30);
+    top->add(button, 200, 10);
+    top->add(textField, 250, 10);
+    top->add(textBoxScrollArea, 200, 50);
+    top->add(listBox, 200, 200);
+    top->add(dropDown, 500, 10);
+    top->add(checkBox1, 500, 130);
+    top->add(checkBox2, 500, 150);
+    top->add(radioButton1, 500, 200);
+    top->add(radioButton2, 500, 220);
+    top->add(radioButton3, 500, 240);
+    top->add(slider, 500, 300);
     top->add(window, 100, 350);
     top->add(nestedScrollArea, 440, 350);
 }
@@ -171,50 +171,50 @@ void initWidgets()
  */
 void init()
 {
-	/*
-	 * Here we initialize SDL as we would do with any SDL application.
-	 */
-	SDL_Init(SDL_INIT_VIDEO);
-	screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE);
-	// We want unicode
-	SDL_EnableUNICODE(1);
-	// We want to enable key repeat
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+    /*
+     * Here we initialize SDL as we would do with any SDL application.
+     */
+    SDL_Init(SDL_INIT_VIDEO);
+    screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE);
+    // We want unicode
+    SDL_EnableUNICODE(1);
+    // We want to enable key repeat
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-	/*
-	 * Now it's time for Guichan SDL stuff
-	 */
-	imageLoader = new gcn::SDLImageLoader();
-	// The ImageLoader in use is static and must be set to be
-	// able to load images
-	gcn::Image::setImageLoader(imageLoader);
-	graphics = new gcn::SDLGraphics();
-	// Set the target for the graphics object to be the screen.
-	// In other words, we will draw to the screen.
-	// Note, any surface will do, it doesn't have to be the screen.
-	graphics->setTarget(screen);
-	input = new gcn::SDLInput();
+    /*
+     * Now it's time for Guichan SDL stuff
+     */
+    imageLoader = new gcn::SDLImageLoader();
+    // The ImageLoader in use is static and must be set to be
+    // able to load images
+    gcn::Image::setImageLoader(imageLoader);
+    graphics = new gcn::SDLGraphics();
+    // Set the target for the graphics object to be the screen.
+    // In other words, we will draw to the screen.
+    // Note, any surface will do, it doesn't have to be the screen.
+    graphics->setTarget(screen);
+    input = new gcn::SDLInput();
 
-	/*
-	 * Last but not least it's time to initialize and create the gui
-	 * with Guichan stuff.
-	 */
-	top = new gcn::Container();
-	// Set the dimension of the top container to match the screen.
-	top->setDimension(gcn::Rectangle(0, 0, 640, 480));
-	gui = new gcn::Gui();
-	// Set gui to use the SDLGraphics object.
-	gui->setGraphics(graphics);
-	// Set gui to use the SDLInput object
-	gui->setInput(input);
-	// Set the top container
-	gui->setTop(top);
-	// Load the image font.
-	font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-	// The global font is static and must be set.
-	gcn::Widget::setGlobalFont(font);
+    /*
+     * Last but not least it's time to initialize and create the gui
+     * with Guichan stuff.
+     */
+    top = new gcn::Container();
+    // Set the dimension of the top container to match the screen.
+    top->setDimension(gcn::Rectangle(0, 0, 640, 480));
+    gui = new gcn::Gui();
+    // Set gui to use the SDLGraphics object.
+    gui->setGraphics(graphics);
+    // Set gui to use the SDLInput object
+    gui->setInput(input);
+    // Set the top container
+    gui->setTop(top);
+    // Load the image font.
+    font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    // The global font is static and must be set.
+    gcn::Widget::setGlobalFont(font);
 
-	initWidgets();
+    initWidgets();
 }
 
 /**
@@ -222,48 +222,48 @@ void init()
  */
 void halt()
 {
-	/*
-	 * Destroy Guichan stuff
-	 */
-	delete font;
-	delete gui;
+    /*
+     * Destroy Guichan stuff
+     */
+    delete font;
+    delete gui;
 
-	/*
-	 * Widgets
-	 */
-	delete top;
-	delete label;
-	delete icon;
-	delete button;
-	delete textField;
-	delete textBox;
-	delete textBoxScrollArea;
-	delete listBox;
-	delete dropDown;
-	delete checkBox1;
-	delete checkBox2;
-	delete radioButton1;
-	delete radioButton2;
-	delete radioButton3;
-	delete slider;
+    /*
+     * Widgets
+     */
+    delete top;
+    delete label;
+    delete icon;
+    delete button;
+    delete textField;
+    delete textBox;
+    delete textBoxScrollArea;
+    delete listBox;
+    delete dropDown;
+    delete checkBox1;
+    delete checkBox2;
+    delete radioButton1;
+    delete radioButton2;
+    delete radioButton3;
+    delete slider;
     delete window;
     delete darkbitsIcon;
-	delete darkbitsImage;
+    delete darkbitsImage;
     delete nestedScrollArea;
     delete nestedContainer;
     delete nestedSlider;
     
-	/*
-	 * Destroy Guichan SDL stuff
-	 */
-	delete input;
-	delete graphics;
-	delete imageLoader;
+    /*
+     * Destroy Guichan SDL stuff
+     */
+    delete input;
+    delete graphics;
+    delete imageLoader;
 
-	/*
-	 * Destroy SDL stuff
-	 */
-	SDL_Quit();
+    /*
+     * Destroy SDL stuff
+     */
+    SDL_Quit();
 }
 
 /**
@@ -271,38 +271,38 @@ void halt()
  */
 void checkInput()
 {
-	/*
-	 * Poll SDL events
-	 */
-	while(SDL_PollEvent(&event))
-	{
-		if (event.type == SDL_KEYDOWN)
-		{
-			if (event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				running = false;
-			}
-			if (event.key.keysym.sym == SDLK_f)
-			{
-				if (event.key.keysym.mod & KMOD_CTRL)
-				{
-					// Works with X11 only
-					SDL_WM_ToggleFullScreen(screen);
-				}
-			}
-		}
-		else if(event.type == SDL_QUIT)
-		{
-			running = false;
-		}
+    /*
+     * Poll SDL events
+     */
+    while(SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+            {
+                running = false;
+            }
+            if (event.key.keysym.sym == SDLK_f)
+            {
+                if (event.key.keysym.mod & KMOD_CTRL)
+                {
+                    // Works with X11 only
+                    SDL_WM_ToggleFullScreen(screen);
+                }
+            }
+        }
+        else if(event.type == SDL_QUIT)
+        {
+            running = false;
+        }
 
-		/*
-		 * Now that we are done polling and using SDL events we pass
-		 * the leftovers to the SDLInput object to later be handled by
-		 * the Gui.
-		 */
-		input->pushInput(event);
-	}
+        /*
+         * Now that we are done polling and using SDL events we pass
+         * the leftovers to the SDLInput object to later be handled by
+         * the Gui.
+         */
+        input->pushInput(event);
+    }
 }
 
 /**
@@ -310,51 +310,51 @@ void checkInput()
  */
 void run()
 {
-	while(running)
-	{
-		// Poll input
-		checkInput();
-		// Let the gui perform it's logic (like handle input)
-		gui->logic();
-		// Draw the gui
-		gui->draw();
-		// Update the screen
-		SDL_Flip(screen);
-	}
+    while(running)
+    {
+        // Poll input
+        checkInput();
+        // Let the gui perform it's logic (like handle input)
+        gui->logic();
+        // Draw the gui
+        gui->draw();
+        // Update the screen
+        SDL_Flip(screen);
+    }
 }
 
 int main(int argc, char **argv)
 {
-	try
-	{
- 		init();
-		run();
-		halt();
-	}
-	/*
-	 * Catch all Guichan exceptions
-	 */
-	catch (gcn::Exception e)
-	{
-		std::cerr << e.getMessage() << std::endl;
-		return 1;
-	}
-	/*
-	 * Catch all Std exceptions
-	 */
-	catch (std::exception e)
-	{
-		std::cerr << "Std exception: " << e.what() << std::endl;
-		return 1;
-	}
-	/*
-	 * Catch all Unknown exceptions
-	 */
-	catch (...)
-	{
-		std::cerr << "Unknown exception" << std::endl;
-		return 1;
-	}
+    try
+    {
+        init();
+        run();
+        halt();
+    }
+    /*
+     * Catch all Guichan exceptions
+     */
+    catch (gcn::Exception e)
+    {
+        std::cerr << e.getMessage() << std::endl;
+        return 1;
+    }
+    /*
+     * Catch all Std exceptions
+     */
+    catch (std::exception e)
+    {
+        std::cerr << "Std exception: " << e.what() << std::endl;
+        return 1;
+    }
+    /*
+     * Catch all Unknown exceptions
+     */
+    catch (...)
+    {
+        std::cerr << "Unknown exception" << std::endl;
+        return 1;
+    }
 
-	return 0;
+    return 0;
 }

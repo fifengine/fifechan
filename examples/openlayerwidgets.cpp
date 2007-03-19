@@ -62,18 +62,18 @@ public:
     {
         switch(i)
         {
-            case 0:
-                return std::string("zero");
-            case 1:
-                return std::string("one");
-            case 2:
-                return std::string("two");
-            case 3:
-                return std::string("three");
-            case 4:
-                return std::string("four");
-            default: // Just to keep warnings away
-                return std::string("");
+          case 0:
+              return std::string("zero");
+          case 1:
+              return std::string("one");
+          case 2:
+              return std::string("two");
+          case 3:
+              return std::string("three");
+          case 4:
+              return std::string("four");
+          default: // Just to keep warnings away
+              return std::string("");
         }
     }
 };
@@ -309,6 +309,7 @@ int main(int argc, char **argv)
     return 0;
 }
 END_OF_MAIN()
+    
     
     
     
