@@ -1,5 +1,5 @@
 /**
- * SDL widgets example for Guichan. 
+ * HGE widgets example for Guichan. 
  *
  * @author Kevin Lynx
  * @author Olof Naessén
