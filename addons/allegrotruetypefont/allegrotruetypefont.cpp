@@ -63,10 +63,7 @@
 
 namespace gcn
 {
-    AllegroTrueTypeFont::AllegroTrueTypeFont(const std::string& filename, int size)
-        : mFace(0), 
-          mRend(0), 
-          mKeeper(0)
+    void AllegroTrueTypeFont::load(const std::string& filename, int w, int h)
     {
         mKeeper = gk_create_keeper(0,0);
 
@@ -90,8 +87,24 @@ namespace gcn
         }
 
         gk_rend_set_hinting_off(mRend);
-        gk_rend_set_size_pixels(mRend, size, size);
+        gk_rend_set_size_pixels(mRend, w, h);
         gk_rend_set_text_color_rgb(mRend, 0, 0, 0);
+    }
+
+    AllegroTrueTypeFont::AllegroTrueTypeFont(const std::string& filename, int size)
+        : mFace(0), 
+          mRend(0), 
+          mKeeper(0)
+    {
+        load(filename, size, size);
+    }
+
+    AllegroTrueTypeFont::AllegroTrueTypeFont(const std::string& filename, int w, int h)
+        : mFace(0), 
+          mRend(0), 
+          mKeeper(0)
+    {
+        load(filename, w, h);
     }
 
     AllegroTrueTypeFont::~AllegroTrueTypeFont()

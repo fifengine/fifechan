@@ -93,6 +93,15 @@ namespace gcn
         AllegroTrueTypeFont(const std::string& filename, int size);
 
         /**
+         * Constructor.
+         *     
+         * @param filename the filename of the True Type Font.
+         * @param width the width the font should be in.
+         * @param height the height the font should be in.
+         */
+        AllegroTrueTypeFont(const std::string& filename, int width, int height);
+
+        /**
          * Destructor.
          */
         ~AllegroTrueTypeFont();
@@ -107,6 +116,7 @@ namespace gcn
         virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
 
     protected:
+        void load(const std::string& filename, int w, int h);
         GLYPH_FACE* mFace;
         GLYPH_REND* mRend;
         GLYPH_KEEP* mKeeper;

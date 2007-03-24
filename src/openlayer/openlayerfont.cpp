@@ -70,6 +70,15 @@ namespace gcn
         }
     }
 
+    OpenLayerTTFont::OpenLayerTTFont(const std::string& filename, int width, int height)
+        : mTextRenderer(filename.c_str(), width, height)
+    {
+        if (!mTextRenderer.IsValid())
+        {
+            throw GCN_EXCEPTION("Unable to load font.");
+        }
+    }
+
     OpenLayerTTFont::~OpenLayerTTFont()
     {
 

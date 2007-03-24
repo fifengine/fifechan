@@ -79,6 +79,15 @@ namespace gcn
         OpenLayerTTFont(const std::string& filename, int size);
 
         /**
+         * Constructor. The font loaded with this constructor will be freed in the destructor.
+         *
+         * @param filename The filename of the font to load.
+         * @param width The width of the font.
+         * @param height The height of the font.
+         */
+        OpenLayerTTFont(const std::string& filename, int width, int height);
+
+        /**
          * Destructor.
          */
         ~OpenLayerTTFont();
