@@ -127,91 +127,10 @@ namespace gcn
     {
         hgeInputEvent ie;
     
-        mHGE->Input_GetEvent( &ie );
-
-        //pollMouseInput( ie );
+        mHGE->Input_GetEvent(&ie);
+        
         pollMouseInput();
-
-        pollKeyInput( ie );
-    }
-
-    void  HGEInput::pollMouseInput(hgeInputEvent &mi)
-    {
-        if (mi.type == INPUT_KEYDOWN 
-            || mi.type == INPUT_KEYUP )
-        {
-            return ;
-        }
-        else if (mi.type == INPUT_MOUSEMOVE )
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
-                                             MouseInput::MOVED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONDOWN 
-                 && mi.key == HGEK_LBUTTON )
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::LEFT,
-                                             MouseInput::PRESSED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONDOWN 
-                 && mi.key == HGEK_RBUTTON )
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::RIGHT,
-                                             MouseInput::PRESSED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONDOWN 
-                 && mi.key == HGEK_MBUTTON )
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE,
-                                             MouseInput::PRESSED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONUP 
-                 && mi.key == HGEK_LBUTTON )
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::LEFT,
-                                             MouseInput::RELEASED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONUP 
-            && mi.key == HGEK_RBUTTON)
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::RIGHT,
-                                             MouseInput::RELEASED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MBUTTONUP 
-                 && mi.key == HGEK_MBUTTON)
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE,
-                                             MouseInput::RELEASED,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
-        else if (mi.type == INPUT_MOUSEWHEEL)
-        {
-            mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
-                                             mi.wheel > 0 ? MouseInput::WHEEL_MOVED_UP : MouseInput::WHEEL_MOVED_DOWN,
-                                             mi.x,
-                                             mi.y,
-                                             0));
-        }
+        pollKeyInput(ie);
     }
 
     void  HGEInput::pollMouseInput()
@@ -243,7 +162,7 @@ namespace gcn
         }
 
         // Check mouse wheel
-        if (MouseWheel > 0)
+        if (mouseWheel > 0)
         {
             mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
                                              MouseInput::WHEEL_MOVED_UP,
@@ -251,7 +170,7 @@ namespace gcn
                                              curMouseY,
                                              0));
         }
-        else if (MouseWheel < 0)
+        else if (mouseWheel < 0)
         {
             mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
                                              MouseInput::WHEEL_MOVED_DOWN,

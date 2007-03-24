@@ -59,6 +59,7 @@
 
 #include <guichan/hge/hgegraphics.hpp>
 #include <guichan/hge/hgeimage.hpp>
+#include <guichan/hge/hgeimagefont.hpp>
 #include <guichan/hge/hgeimageloader.hpp>
 #include <guichan/hge/hgeinput.hpp>
 

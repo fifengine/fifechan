@@ -1,4 +1,2 @@
-* Make focus apply synchronously.
 * Graphics and input objects for DirectX.
-* Graphics and input objects for OpenLayer.
 * Graphics and input objects for X11.

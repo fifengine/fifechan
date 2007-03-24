@@ -87,7 +87,9 @@ namespace gcn
 
         ClipRectangle carea = mClipStack.top();
 
-        //To avoid the odd thing.
+        // To avoid the odd thing. When the width or the height of the clip area is zero,
+        // Gfx_SetClipping will fail and set the clip area as the fullscreen
+        // (or the full window).
         if (carea.width == 0)
         {
             carea.width++;
@@ -173,7 +175,9 @@ namespace gcn
 
     void HGEGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        //avoid some strange things
+        // To avoid some strange things.
+        // HGE::Gfx_RenderLine will omit the last point 
+        // of the line, so we should adjust the coordinates here.
         if (y1 == y2)
         {
             if (x1 < x2)

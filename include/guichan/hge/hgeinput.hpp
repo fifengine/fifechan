@@ -115,14 +115,6 @@ namespace gcn
         /**
          * Handles mouse input. The function is called by _pollInput.
          *
-         * @param mi the hge input event to handle.
-         * @todo There seems to be a bug present which is at the moment unsolved.
-         */
-        void pollMouseInput(hgeInputEvent &mi);
-    
-        /**
-         * Handles mouse input. The function is called by _pollInput.
-         *
          * This function directly deal with the mouse input , and it avoid 
          * the odd things in HGE.
          */
