@@ -62,28 +62,28 @@
 
 namespace gcn
 {
-    Rectangle::Rectangle()
+    Rectangle::Rectangle() 
+        : x(0), 
+          y(0), 
+          width(0), 
+          height(0)
     {
-        x = 0;
-        y = 0;
-        width = 0;
-        height = 0;
     }
 
-    Rectangle::Rectangle(int x, int y, int width, int height)
+    Rectangle::Rectangle(int ax, int ay, int awidth, int aheight)
+      : x(ax),
+        y(ay),
+        width(awidth),
+        height(aheight)
     {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
     }
 
-    void Rectangle::setAll(int x, int y, int width, int height)
+    void Rectangle::setAll(int ax, int ay, int awidth, int aheight)
     {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
+        x = ax;
+        y = ay;
+        width = awidth;
+        height = aheight;
     }
 
     bool Rectangle::intersect(const Rectangle& rectangle)
@@ -96,19 +96,17 @@ namespace gcn
             width += x;
             x = 0;
         }
+        else if (x + width > rectangle.width)
+        {
+            width = rectangle.width - x;
+        }
 
         if (y < 0)
         {
             height += y;
             y = 0;
         }
-
-        if (x + width > rectangle.width)
-        {
-            width = rectangle.width - x;
-        }
-
-        if (y + height > rectangle.height)
+        else if (y + height > rectangle.height)
         {
             height = rectangle.height - y;
         }
@@ -119,18 +117,21 @@ namespace gcn
             width = 0;
             x += rectangle.x;
             y += rectangle.y;
+
             return false;
         }
 
         x += rectangle.x;
         y += rectangle.y;
+
         return true;
     }
 
-    bool Rectangle::isPointInRect(int x, int y) const
+    bool Rectangle::isPointInRect(int ax, int ay) const
     {
-        return ((x >= this->x) && (y >= this->y)
-                && x < (this->x + this->width)
-                && y < (this->y + this->height));
+        return (ax >= x) 
+                && (ay >= y) 
+                && ax < (x + width) 
+                && ay < (y + height);
     }
 }

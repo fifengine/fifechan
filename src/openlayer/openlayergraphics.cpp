@@ -178,10 +178,10 @@ namespace gcn
 
     void OpenLayerGraphics::drawRectangle(const Rectangle& rectangle)
     {
-        ol::GfxRend::RectOutline(rectangle.x,
-                                 rectangle.y,
-                                 rectangle.width - 1,
-                                 rectangle.height - 1,
+        ol::GfxRend::RectOutline(rectangle.x + 0.5f,
+                                 rectangle.y + 0.5f,
+                                 rectangle.width - 0.5f,
+                                 rectangle.height - 0.5f,
                                  mRgba);
     }
     
