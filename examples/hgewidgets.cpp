@@ -19,10 +19,10 @@ bool running = false;
 /*
  * Guichan HGE stuff we need
  */
-gnc::HGEInput *input;                    // Input driver
-gnc::HGEGraphics *graphics;              // Graphics driver
-gnc::HGEImageLoader *imageLoader;        // For loading images
-gnc::HGEImageFont *font;                 // For displaying a font
+gcn::HGEInput *input;                    // Input driver
+gcn::HGEGraphics *graphics;              // Graphics driver
+gcn::HGEImageLoader *imageLoader;        // For loading images
+gcn::HGEImageFont *font;                 // For displaying a font
 
 /*
  * Guichan stuff we need
