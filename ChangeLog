@@ -1,9 +1,12 @@
+Version 0.7.0
+=============
 * HGE support has been added.
 * OpenLayer support has been added.
 * A focus listener has been added. Due to the addition of a focus listener
   the functions Widget::focusLost and Widget::focusGained have been removed.
   To receive widget focus events a widget should now inherit from FocusListener
   and listen for events from itself.
+* Many small bug fixes.
 
 Version 0.6.1
 =============
