@@ -16,6 +16,7 @@ libguichaninclude_HEADERS =	\
 	focushandler.hpp	\
 	focuslistener.hpp	\
 	font.hpp		\
+	genericinput.hpp	\
 	glut.hpp		\
 	graphics.hpp		\
 	gui.hpp			\
