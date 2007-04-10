@@ -114,7 +114,7 @@ private:
 	Mix_Chunk* mChooseSound;
 	Mix_Chunk* mEscapeSound;
 	Mix_Chunk* mOptionsSound;
-	Mix_Chunk* mMusic;
+	Mix_Music* mMusic;
 	
 	gcn::OpenGLGraphics* mOpenGLGraphics;
 	gcn::SDLInput* mSDLInput;

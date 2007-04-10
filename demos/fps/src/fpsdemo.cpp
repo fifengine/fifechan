@@ -12,9 +12,17 @@
 #include <sstream>
 
 FPSDemo::FPSDemo()
-		:mRotation(0), mRunning(true), mGlow(0),
-		 mWidth(800), mHeight(600), mTime(-1), mDeltaTime(0),
-		 mInit(true), mResolutionChange(false), mHaveFullscreen(false)
+		:mRotation(0), 
+         mRunning(true), 
+         mGlow(0),
+		 mWidth(800), 
+         mHeight(600), 
+         mTime(-1), 
+         mDeltaTime(0),
+		 mInit(true), 
+         mResolutionChange(false), 
+         mHaveFullscreen(false),
+         mMusic(NULL)
 {
 	// Init SDL
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -32,12 +40,10 @@ FPSDemo::FPSDemo()
  	mChooseSound = Mix_LoadWAV("sound/sound4.wav");
  	mEscapeSound = Mix_LoadWAV("sound/sound3.wav");
  	mOptionsSound = Mix_LoadWAV("sound/sound2.wav");
- 	mMusic = Mix_LoadWAV("sound/space.ogg");
+ 	mMusic = Mix_LoadMUS("sound/space.ogg");
 	
  	// Set the mixer volume
- 	double m = MIX_MAX_VOLUME;
- 	double p = 70;
- 	Mix_Volume(-1,(int)(m*(p/100)));
+ 	Mix_Volume(-1,(int)(MIX_MAX_VOLUME*0.7));
 	
 	// Create some GLU quadrics	
 	mQuad1 = gluNewQuadric();
@@ -69,7 +75,7 @@ FPSDemo::~FPSDemo()
  	Mix_FreeChunk(mChooseSound);
  	Mix_FreeChunk(mEscapeSound);
  	Mix_FreeChunk(mOptionsSound);
- 	Mix_FreeChunk(mMusic);
+ 	Mix_FreeMusic(mMusic);
  	Mix_CloseAudio();
 
 	SDL_Quit();
@@ -602,10 +608,12 @@ void FPSDemo::runIntro()
 		SDL_GL_SwapBuffers();
 		SDL_Delay(10);		
 	}
-	mGui->setTop(mTop);
-	if (mMusic > 0)
+	
+    mGui->setTop(mTop);
+	
+    if (mMusic != NULL)
 	{
-    Mix_PlayChannel(-1, mMusic, -1);		
+        Mix_FadeInMusic(mMusic, -1, 2000);		
 	}
 }
 
@@ -741,7 +749,7 @@ void FPSDemo::action(const gcn::ActionEvent& actionEvent)
 		mVolumePercent->adjustSize();
  		double m = MIX_MAX_VOLUME;
  		double p = mVolume->getValue();
- 		Mix_Volume(-1,(int)(m*(p/100)));
+ 		Mix_Volume(-1,(int)(m*p));
 	}
 }
 
