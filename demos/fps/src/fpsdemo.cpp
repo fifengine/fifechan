@@ -357,6 +357,7 @@ void FPSDemo::initOptions()
 	mResolutionListBox->setBackgroundColor(0x331010);
 	mResolutionListBox->setForegroundColor(0x331010);
 	mResolutionListBox->setBaseColor(0x771010);
+	mResolutionListBox->setSelectionColor(0x552020);
 	
 	mResolutionListModel = new ResolutionListModel();
 	mResolution = new gcn::DropDown(mResolutionListModel,
@@ -366,6 +367,7 @@ void FPSDemo::initOptions()
 	mResolution->setBackgroundColor(0x331010);
 	mResolution->setForegroundColor(0x331010);
 	mResolution->setBaseColor(0x771010);
+	mResolution->setSelectionColor(0x552020);
 
 	if (mWidth == 800)
 	{
