@@ -93,7 +93,7 @@ namespace gcn
 
         /**
          * Loads an image by calling the Image class' ImageLoader. All image loaders implemented
-         * in Guichan returns a newly instantiated image which must be deleted in
+         * in Guichan return a newly instantiated image which must be deleted in
          * order to avoid a memory leak.
          *
          * NOTE: The functions getPixel and putPixel are only guaranteed to work
