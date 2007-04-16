@@ -92,7 +92,9 @@ namespace gcn
         virtual ~Image();
 
         /**
-         * Loads an image by calling the Image class' ImageLoader.
+         * Loads an image by calling the Image class' ImageLoader. With most image loaders
+         * you can assume a newly instantiated image is return which must be deleted in
+         * order to avoid a memory leak.
          *
          * NOTE: The functions getPixel and putPixel are only guaranteed to work
          *       before an image has been converted to display format.
