@@ -338,4 +338,19 @@ namespace gcn
     {
         return mAllegroColor;
     }
+
+    void AllegroGraphics::drawBitmap(BITMAP* bitmap, int dstX, int dstY)
+    {
+        const int xOffset = mClipStack.top().xOffset;
+        const int yOffset = mClipStack.top().yOffset;
+
+        masked_blit(bitmap,
+                    mTarget,
+                    0,
+                    0,
+                    dstX + xOffset,
+                    dstY + yOffset,
+                    bitmap->w,
+                    bitmap->h);
+    }
 }

@@ -117,6 +117,15 @@ namespace gcn
          */
         int getAllegroColor() const;
 
+        /**
+         * Draws an Allegro bitmap.
+         *
+         * @param bitmap the bitmap to draw.
+         * @param dstX the x-coordinate where to draw the bitmap.
+         * @param dstY the y-coordinate where to draw the bitmap.
+         */
+        virtual void drawBitmap(BITMAP* bitmap, int dstX, int dstY);
+
 
         // Inherited from Graphics
 
