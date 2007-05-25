@@ -259,6 +259,48 @@ namespace gcn
             mPressedKeys[scancode] = keyInput;
         }
 
+        if (key[KEY_ALT] && mPressedKeys.find(KEY_ALT) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_ALT, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_ALT] = keyInput;
+		}
+
+		if (key[KEY_ALTGR] && mPressedKeys.find(KEY_ALTGR) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_ALTGR, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_ALTGR] = keyInput;
+		}
+
+		if (key[KEY_LSHIFT] && mPressedKeys.find(KEY_LSHIFT) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_LSHIFT, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_LSHIFT] = keyInput;
+		}
+
+		if (key[KEY_RSHIFT] && mPressedKeys.find(KEY_RSHIFT) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_RSHIFT, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_RSHIFT] = keyInput;
+		}
+		
+		if (key[KEY_LCONTROL] && mPressedKeys.find(KEY_LCONTROL) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_LCONTROL, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_LCONTROL] = keyInput;
+		}
+
+		if (key[KEY_RCONTROL] && mPressedKeys.find(KEY_RCONTROL) == mPressedKeys.end())
+		{
+			KeyInput keyInput(convertToKey(KEY_RCONTROL, 0), KeyInput::PRESSED);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_RCONTROL] = keyInput;
+		}
+
          // Check for released keys
         std::map<int, KeyInput>::iterator iter, tempIter;
         for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
