@@ -124,6 +124,16 @@ namespace gcn
 
     DropDown::~DropDown()
     {
+        if (widgetExists(mListBox))
+        {
+            mListBox->removeActionListener(this);
+        }
+
+        if (widgetExists(mScrollArea))
+        {
+            mScrollArea->removeDeathListener(this);
+        }
+
         if (mInternalScrollArea)
         {
             delete mScrollArea;
@@ -132,16 +142,6 @@ namespace gcn
         if (mInternalListBox)
         {
             delete mListBox;
-        }
-
-        if (widgetExists(mListBox))
-        {
-            mListBox->removeActionListener(this);
-        }
-
-        if (mScrollArea != NULL)
-        {
-            mScrollArea->removeDeathListener(this);
         }
     }
 
