@@ -1,5 +1,8 @@
 Version 0.7.0
 =============
+* The distribution of key events has changed. Key events are now distributed 
+  like mouse events, events are first distributed to the source widget followed 
+  by the parents of the source widget.
 * HGE support has been added.
 * OpenLayer support has been added.
 * A focus listener has been added. Due to the addition of a focus listener
