@@ -201,6 +201,7 @@ namespace gcn
         mRgba.g = color.g / 255.0f;
         mRgba.b = color.b / 255.0f;
         mRgba.a = color.a / 255.0f;
+        mRgba.Select();
     }
 
     const Color& OpenLayerGraphics::getColor() const
