@@ -1,3 +1,3 @@
 AUTOMAKE_OPTIONS = 1.4
 
-SUBDIRS = include src
+SUBDIRS = examples include src
