@@ -1,6 +1,6 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichan, 0.7.0, olof.naessen@gmail.com, guichan)
+AC_INIT(guichan, 0.7.1, olof.naessen@gmail.com, guichan)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
@@ -14,7 +14,7 @@ dnl X="disabled"
 
 GUICHAN_MAJOR_VERSION=0
 GUICHAN_MINOR_VERSION=7
-GUICHAN_MICRO_VERSION=0
+GUICHAN_MICRO_VERSION=1
 GUICHAN_INTERFACE_AGE=0
 GUICHAN_BINARY_AGE=0
 GUICHAN_VERSION=$GUICHAN_MAJOR_VERSION.$GUICHAN_MINOR_VERSION.$GUICHAN_MICRO_VERSION
@@ -277,12 +277,16 @@ examples/Makefile
 include/Makefile
 include/guichan/Makefile
 include/guichan/allegro/Makefile
+include/guichan/hge/Makefile
 include/guichan/opengl/Makefile
+include/guichan/openlayer/Makefile
 include/guichan/sdl/Makefile
 include/guichan/widgets/Makefile
 src/Makefile
 src/allegro/Makefile
+src/hge/Makefile
 src/opengl/Makefile
+src/openlayer/Makefile
 src/sdl/Makefile
 src/widgets/Makefile])
 echo ""
@@ -295,7 +299,9 @@ echo "-------------------------------"
 echo "Guichan ready for compilation!" 
 echo "-------------------------------"
 echo "* Allegro   = "$ALLEGRO
+echo "* HGE       = no (Windows specific and cannot be built)"
 echo "* OpenGL    = "$OPENGL
+echo "* OpenLayer = no (Requires static build and cannot be built)"
 echo "* SDL       = "$SDL
 echo "* SDL Image = "$SDLIMAGE
 echo "--------------------------------"

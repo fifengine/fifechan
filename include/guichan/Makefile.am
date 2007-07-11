@@ -1,4 +1,4 @@
-SUBDIRS = @GUICHAN_EXTRADIRS@ widgets
+SUBDIRS = @GUICHAN_EXTRADIRS@ widgets hge openlayer
 
 libguichanincludedir = $(includedir)/guichan
 
