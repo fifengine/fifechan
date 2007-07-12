@@ -1,3 +1,7 @@
+Version 0.8.0
+=============
+* Button now has configurable spacing.
+	
 Version 0.7.1
 =============
 * A problem with make dist has been fixed to include the source of the
