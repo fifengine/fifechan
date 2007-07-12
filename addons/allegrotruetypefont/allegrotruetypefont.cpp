@@ -154,8 +154,9 @@ namespace gcn
         gk_render_line_utf8(target,
                             mRend, 
                             text.c_str(), 
-                            x + rec.x, 
-                            y + rec.y + gk_rend_ascender_pixels(mRend));
+                            x + rec.xOffset, 
+                            y + rec.yOffset + gk_rend_ascender_pixels(mRend));
     }
 }
+
 

@@ -102,7 +102,7 @@ namespace gcn
         
         mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());
         mTextRenderer.Print(text, 
-                            x + rec.x, 
-                            y + rec.y + mTextRenderer.Height(text));
+                            x + rec.xOffset, 
+                            y + rec.yOffset + mTextRenderer.Height(text));
     }
 }
