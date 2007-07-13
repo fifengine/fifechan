@@ -126,8 +126,8 @@ namespace gcn
         /**
          * Sets the spacing between the border of this button and its caption.
          *
-         * @param spacing is a number between 0 and 255. The default value for 
-                          spacing is 4 and can be changed using this method.
+         * @param spacing The default value for spacing is 4 and can be changed 
+         *                using this method.
          */
         virtual void setSpacing(unsigned int spacing);
 
