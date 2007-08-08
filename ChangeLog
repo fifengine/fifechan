@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* OpenGL true type font has been added as an add on. The font uses the OGLFT font
+  library, http://oglft.sourceforge.net/.
 * A bug has been fixed where a segfault could occur when a drop down widget
   was deleted.
 * Button now has configurable spacing.
