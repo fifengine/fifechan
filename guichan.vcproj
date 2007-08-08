@@ -1017,10 +1017,6 @@
 				>
 			</File>
 			<File
-				RelativePath="include\guichan\fontwidget.hpp"
-				>
-			</File>
-			<File
 				RelativePath="include\guichan\graphics.hpp"
 				>
 			</File>
