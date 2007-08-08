@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* A bug has been fixed where a segfault could occur when a drop down widget
+  was deleted.
 * Button now has configurable spacing.
 	
 Version 0.7.1
