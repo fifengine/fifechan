@@ -1,8 +1,8 @@
 Version 0.8.0
 =============
 
-* A but with setting the selection colour for DropDown has been fixed.
-  Before the fix was the selection coloured ignored by the internal
+* A bug with setting the selection colour for DropDown has been fixed.
+  Before the fix the selection coloured was ignored by the internal
   ListBox of DropDown.
 * Distribution of mouse entered and mouse exited events have been fixed.
   A mouse entered event is distributed to a widget when the mouse enters
