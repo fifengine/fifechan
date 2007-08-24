@@ -66,7 +66,7 @@
 namespace gcn
 {
     /**
-     * A movable window which can contain another Widgets.
+     * A movable window that can contain other widgets.
      */
     class GCN_CORE_DECLSPEC Window : public Container,
                                      public MouseListener
