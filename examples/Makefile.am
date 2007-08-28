@@ -3,6 +3,7 @@ EXTRA_DIST =                  		\
 	allegroaction.cpp		\
 	allegrohelloworld.cpp 		\
 	allegrowidgets.cpp		\
+	allegroglwidgets.cpp		\
 	darkbitslogo_by_haiko.bmp	\
 	fixedfont.bmp			\
 	gui-chan.bmp			\
