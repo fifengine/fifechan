@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib alld.lib lib\guichand.lib"
+				AdditionalDependencies="alld.lib lib\guichand.lib"
 				OutputFile="lib/guichan_allegrod.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -170,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib alleg.lib lib\guichan.lib"
+				AdditionalDependencies="alleg.lib lib\guichan.lib"
 				OutputFile=".\lib/guichan_allegro.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
