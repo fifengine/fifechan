@@ -1104,6 +1104,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\guichan\widgets\container.hpp"
+					>
+				</File>
+				<File
 					RelativePath="include\guichan\widgets\dropdown.hpp"
 					>
 				</File>

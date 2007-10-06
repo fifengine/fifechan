@@ -1,5 +1,10 @@
 Version 0.8.0
 =============
+* An id property has been added to Widget. The property can be used to uniquely
+  identify widgets inside a container. BasicContainer and Container have been
+  enhanced with the ability to find a widget given an id. An id can be
+  useful when using GUIs created from an XML file or created with a Gui 
+  editor.
 * An OpenGL image loader that uses Allegro to load images has been
   added along with an example of how to use Guichan with AllegroGL.
 * A bug with setting the selection colour for DropDown has been fixed.
