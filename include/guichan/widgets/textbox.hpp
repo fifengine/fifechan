@@ -71,7 +71,7 @@ namespace gcn
     /**
      * A TextBox in which you can write and/or display a lines of text.
      *
-     * NOTE: A plain TextBox is really uggly and looks much better inside a
+     * NOTE: A plain TextBox is really ugly and looks much better inside a
      *       ScrollArea.
      */
     class GCN_CORE_DECLSPEC TextBox:
