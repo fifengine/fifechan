@@ -107,7 +107,11 @@ namespace gcn
 
     void AllegroFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
     {
-        gcn::AllegroGraphics* const allegroGraphics = static_cast<gcn::AllegroGraphics*>(graphics);
+        gcn::AllegroGraphics* const allegroGraphics = dynamic_cast<gcn::AllegroGraphics*>(graphics);
+        if (!allegroGraphics)
+        {
+            throw GCN_EXCEPTION("Graphics is not of type AllegroGraphics");
+        }
 
         BITMAP* const db = allegroGraphics->getTarget();
         

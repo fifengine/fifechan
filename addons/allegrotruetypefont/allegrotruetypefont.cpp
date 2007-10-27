@@ -143,7 +143,12 @@ namespace gcn
 
     void AllegroTrueTypeFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
     {
-        AllegroGraphics* const allegroGraphics = static_cast<AllegroGraphics*>(graphics);
+        AllegroGraphics* const allegroGraphics = dynamic_cast<AllegroGraphics*>(graphics);
+        if (!allegroGraphics)
+        {
+            throw GCN_EXCEPTION("Graphics is not of type AllegroGraphics");
+        }
+
         BITMAP* const target = allegroGraphics->getTarget();
         
         gk_rend_set_text_color_combined(mRend, allegroGraphics->getAllegroColor());
@@ -158,5 +163,6 @@ namespace gcn
                             y + rec.yOffset + gk_rend_ascender_pixels(mRend));
     }
 }
+
 
 

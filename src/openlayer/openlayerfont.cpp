@@ -99,6 +99,10 @@ namespace gcn
         const ClipRectangle& rec = graphics->getCurrentClipArea();
 
         OpenLayerGraphics* const openLayerGraphics = dynamic_cast<gcn::OpenLayerGraphics*>(graphics);
+        if (!openLayerGraphics)
+        {
+            throw GCN_EXCEPTION("Graphics is not of type OpenLayerGraphics");
+        }
         
         mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());
         mTextRenderer.Print(text, 
