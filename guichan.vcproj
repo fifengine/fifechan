@@ -50,7 +50,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_EXPORTS;GUICHAN_BUILD"
+				PreprocessorDefinitions="&quot;#pragma warning disable: 425 )"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -143,7 +143,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_EXPORTS;GUICHAN_BUILD"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -1082,6 +1081,10 @@
 			</File>
 			<File
 				RelativePath="include\guichan\rectangle.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\guichan\selectionlistener.hpp"
 				>
 			</File>
 			<File

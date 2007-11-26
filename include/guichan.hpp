@@ -59,7 +59,7 @@
 
 #include <guichan/actionevent.hpp>
 #include <guichan/actionlistener.hpp>
-#include <guichan/graphics.hpp>
+#include <guichan/cliprectangle.hpp>
 #include <guichan/color.hpp>
 #include <guichan/deathlistener.hpp>
 #include <guichan/event.hpp>
@@ -68,6 +68,7 @@
 #include <guichan/focuslistener.hpp>
 #include <guichan/font.hpp>
 #include <guichan/genericinput.hpp>
+#include <guichan/graphics.hpp>
 #include <guichan/gui.hpp>
 #include <guichan/image.hpp>
 #include <guichan/imagefont.hpp>
@@ -83,7 +84,7 @@
 #include <guichan/mouseinput.hpp>
 #include <guichan/mouselistener.hpp>
 #include <guichan/rectangle.hpp>
-#include <guichan/cliprectangle.hpp>
+#include <guichan/selectionlistener.hpp>
 
 #include <guichan/widget.hpp>
 
