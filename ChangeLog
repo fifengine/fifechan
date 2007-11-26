@@ -1,5 +1,10 @@
 Version 0.8.0
 =============
+* A selection listener interface has been added used to listener for
+  value change events from a list box.
+* A bug has been fixed where mouse entered and exited events weren't
+  honored when a widget gained or released modal focus or modal mouse input
+  focus.
 * An id property has been added to Widget. The property can be used to uniquely
   identify widgets inside a container. BasicContainer and Container have been
   enhanced with the ability to find a widget given an id. An id can be
