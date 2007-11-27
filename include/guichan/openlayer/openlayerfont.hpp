@@ -66,6 +66,10 @@
 
 namespace gcn
 {
+    /**
+     * OpenLayer font implementation of Font that uses the native
+     * OpenLayer font.
+     */
     class GCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
     {
     public:
