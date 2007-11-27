@@ -95,7 +95,6 @@ namespace gcn
 
     protected:
         Widget* mSource;
-        unsigned int mType;
     };
 }
 
