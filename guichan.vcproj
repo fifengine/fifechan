@@ -609,6 +609,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\selectionevent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\widget.cpp"
 				>
 				<FileConfiguration
@@ -887,6 +891,14 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\widgets\tab.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\widgets\tabbedarea.cpp"
+					>
+				</File>
+				<File
 					RelativePath="src\widgets\textbox.cpp"
 					>
 					<FileConfiguration
@@ -1084,6 +1096,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\guichan\selectionevent.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\guichan\selectionlistener.hpp"
 				>
 			</File>
@@ -1136,6 +1152,14 @@
 				</File>
 				<File
 					RelativePath="include\guichan\widgets\slider.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\guichan\widgets\tab.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\guichan\widgets\tabbedarea.hpp"
 					>
 				</File>
 				<File
