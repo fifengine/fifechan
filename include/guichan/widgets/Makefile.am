@@ -11,6 +11,8 @@ libguichaninclude_HEADERS =	\
 	scrollarea.hpp		\
 	slider.hpp		\
 	radiobutton.hpp		\
+	tab.hpp			\
+	tabbedarea.hpp		\
 	textbox.hpp		\
 	textfield.hpp		\
 	window.hpp

@@ -14,6 +14,8 @@ libguichan_widgets_la_SOURCES = \
 	radiobutton.cpp		\
 	scrollarea.cpp		\
 	slider.cpp		\
+	tab.cpp			\
+	tabbedarea.cpp		\
 	textbox.cpp		\
 	textfield.cpp		\
 	window.cpp
