@@ -33,4 +33,5 @@ libguichan_la_SOURCES = 	\
 	mouseevent.cpp		\
 	mouseinput.cpp		\
 	rectangle.cpp		\
+	selectionevent.cpp	\
 	widget.cpp

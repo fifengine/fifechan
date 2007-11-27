@@ -36,6 +36,8 @@ libguichaninclude_HEADERS =	\
 	opengl.hpp		\
 	platform.hpp		\
 	rectangle.hpp		\
+	selectionevent.hpp	\
+	selectionlistener.hpp	\
 	sdl.hpp			\
 	widget.hpp		\
 	x.hpp			
