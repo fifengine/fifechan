@@ -1,6 +1,6 @@
 CFLAGS = -Werror -Wall -Wno-unused
 
-all: allegro opengl sdl
+all: allegro allegrogl opengl sdl
 
 allegro:
 	g++ allegrohelloworld.cpp -o allegrohelloworld $(CFLAGS) \
@@ -9,6 +9,10 @@ allegro:
 	-lguichan_allegro -lguichan `allegro-config --libs --cflags`
 	g++ allegroaction.cpp -o allegroaction $(CFLAGS) \
 	-lguichan_allegro -lguichan `allegro-config --libs --cflags`
+
+allegrogl:
+	g++ allegroglwidgets.cpp -o allegroglwidgets  $(CFLAGS) \
+	-lguichan_opengl -lguichan_allegro -lguichan -lGL -lGLU -lagl `allegro-config --libs --cflags`
 
 opengl:
 	g++ openglhelloworld.cpp -o openglhelloworld $(CFLAGS) \
