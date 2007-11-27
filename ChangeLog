@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* Two new widgets have been added, a tabbed area widget and a tab widget
+  to be used with the tabbed widget.
 * A selection listener interface has been added used to listener for
   value change events from a list box.
 * A bug has been fixed where mouse entered and exited events weren't
