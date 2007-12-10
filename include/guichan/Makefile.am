@@ -40,4 +40,5 @@ libguichaninclude_HEADERS =	\
 	selectionlistener.hpp	\
 	sdl.hpp			\
 	widget.hpp		\
-	x.hpp			
+	widgetlistener.hpp	\
+	x.hpp

@@ -1,8 +1,10 @@
 Version 0.8.0
 =============
+* A widget listener has been added used to listen for resized events,
+  hidden events, shown events and moved events from a widget.
 * Two new widgets have been added, a tabbed area widget and a tab widget
   to be used with the tabbed widget.
-* A selection listener interface has been added used to listener for
+* A selection listener interface has been added used to listen for
   value change events from a list box.
 * A bug has been fixed where mouse entered and exited events weren't
   honored when a widget gained or released modal focus or modal mouse input
