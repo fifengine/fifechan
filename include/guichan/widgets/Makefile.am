@@ -6,6 +6,7 @@ libguichaninclude_HEADERS =	\
 	container.hpp		\
 	dropdown.hpp		\
 	icon.hpp		\
+	imagebutton.hpp		\
 	label.hpp		\
 	listbox.hpp		\
 	scrollarea.hpp		\

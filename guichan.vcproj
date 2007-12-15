@@ -771,6 +771,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\widgets\imagebutton.cpp"
+					>
+				</File>
+				<File
 					RelativePath="src\widgets\label.cpp"
 					>
 					<FileConfiguration
@@ -1141,6 +1145,10 @@
 				</File>
 				<File
 					RelativePath="include\guichan\widgets\icon.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\guichan\widgets\imagebutton.hpp"
 					>
 				</File>
 				<File

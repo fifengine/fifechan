@@ -94,6 +94,7 @@
 #include <guichan/widgets/container.hpp>
 #include <guichan/widgets/dropdown.hpp>
 #include <guichan/widgets/icon.hpp>
+#include <guichan/widgets/imagebutton.hpp>
 #include <guichan/widgets/label.hpp>
 #include <guichan/widgets/listbox.hpp>
 #include <guichan/widgets/scrollarea.hpp>

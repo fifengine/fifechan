@@ -9,6 +9,7 @@ libguichan_widgets_la_SOURCES = \
 	container.cpp		\
 	dropdown.cpp		\
 	icon.cpp		\
+	imagebutton.cpp		\
 	label.cpp		\
 	listbox.cpp		\
 	radiobutton.cpp		\

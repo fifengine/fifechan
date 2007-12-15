@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* An image button widget, a button capable of displaying an image,
+  has been added.
 * A widget listener has been added used to listen for resized events,
   hidden events, shown events and moved events from a widget.
 * Two new widgets have been added, a tabbed area widget and a tab widget
