@@ -1,7 +1,7 @@
 [Project]
 FileName=guichan.dev
 Name=guichan
-UnitCount=84
+UnitCount=86
 Type=3
 Ver=1
 ObjFiles=
@@ -879,6 +879,26 @@ BuildCmd=
 
 [Unit84]
 FileName=src\widgets\tab.cpp
+CompileCpp=1
+Folder=src/widgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit85]
+FileName=include\guichan\widgets\imagebutton.hpp
+CompileCpp=1
+Folder=include/guichan/widgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit86]
+FileName=src\widgets\imagebutton.cpp
 CompileCpp=1
 Folder=src/widgets
 Compile=1
