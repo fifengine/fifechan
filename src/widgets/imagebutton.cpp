@@ -67,38 +67,26 @@ namespace gcn
 {
     ImageButton::ImageButton(const std::string& filename)
     {
-        mImage = gcn::Image::load(filename);
-        adjustSize();
+        mImage = Image::load(filename);
+        mInternalImage = true;
+        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
+        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
     }
 
     ImageButton::ImageButton(Image* image)
     {
         mImage = image;
-        adjustSize();
+        mInternalImage = false;
+        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
+        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
     }
 
     ImageButton::~ImageButton()
     {
-       
-    }
-
-    void ImageButton::adjustSize()
-    {
-        if (mImage != NULL)
+        if (mInternalImage)
         {
-            setWidth(mImage->getWidth() + mImage->getWidth() / 2);
-            setHeight(mImage->getHeight() + mImage->getHeight() / 2);
+            delete mImage;
         }
-    }
-
-    void ImageButton::setImage(Image* image)
-    {
-        mImage = image;
-    }
-
-    Image* ImageButton::getImage()
-    {
-        return mImage;
     }
 
     void ImageButton::draw(Graphics* graphics)

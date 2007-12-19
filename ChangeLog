@@ -1,5 +1,10 @@
 Version 0.8.0
 =============
+* RadioButton::setMarked and RadioButton::isMarked have been 
+  renamed to RadioButton::setSelected and RadioButton::isSelected.
+* CheckBox::setMarked, CheckBox::isMarked and CheckBox::toogle have been 
+  renamed to CheckBox::setSelected, CheckBox::isSelected and
+  CheckBox::toogleSelected.
 * An image button widget, a button capable of displaying an image,
   has been added.
 * A widget listener has been added used to listen for resized events,
@@ -7,7 +12,7 @@ Version 0.8.0
 * Two new widgets have been added, a tabbed area widget and a tab widget
   to be used with the tabbed widget.
 * A selection listener interface has been added used to listen for
-  value change events from a list box.
+  value change events from a list box and a drop down.
 * A bug has been fixed where mouse entered and exited events weren't
   honored when a widget gained or released modal focus or modal mouse input
   focus.

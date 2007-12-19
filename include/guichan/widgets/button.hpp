@@ -69,12 +69,13 @@
 namespace gcn
 {
     /**
-     * A regular button. Add an ActionListener to it to know when it
-     * has been clicked.
+     * An implementation of a regular clickable button. A button is capable of
+     * displaying a caption. 
      *
-     * NOTE: You can only have text (a caption) on the button. If you want it
-     *       to handle, for instance images, you can implement an ImageButton
-     *       of your own and overload member functions from Button.
+     * If a button is clicked an action event will be sent to all action listener's 
+     * of the button.
+     *
+     * @see ImageButton
      */
     class GCN_CORE_DECLSPEC Button : public Widget,
                                      public MouseListener,
@@ -88,38 +89,44 @@ namespace gcn
         Button();
 
         /**
-         * Constructor.
+         * Constructor. The button will be automatically resized
+         * to fit it's caption.
          *
-         * @param caption the caption of the Button.
+         * @param caption The caption of the button.
          */
         Button(const std::string& caption);
 
         /**
-         * Sets the Button caption.
+         * Sets the caption of the button. It's advisable to call
+         * adjustSize after setting of the caption to adjust the
+         * button's size to fit the caption.
          *
-         * @param caption the Button caption.
+         * @param caption The caption of the button.
+         * @see getCaption, adjustSize
          */
         void setCaption(const std::string& caption);
 
         /**
-         * Gets the Button caption.
+         * Gets the caption of the button.
          *
-         * @return the Button caption.
+         * @return The caption of the button.
          */
         const std::string& getCaption() const;
 
         /**
-         * Sets the alignment for the caption.
+         * Sets the alignment for the caption. The alignment is relative
+         * to the center of the button.
          *
          * @param alignment Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
-         * @see Graphics
+         * @see getAlignment, Graphics
          */
         void setAlignment(unsigned int alignment);
 
         /**
          * Gets the alignment for the caption.
          *
-         * @return alignment of caption.
+         * @return Alignment of caption. Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
+         * @see setAlignment, Graphics
          */
         unsigned int getAlignment() const;
 
@@ -128,6 +135,7 @@ namespace gcn
          *
          * @param spacing The default value for spacing is 4 and can be changed 
          *                using this method.
+         * @see getSpacing
          */
         void setSpacing(unsigned int spacing);
 
@@ -135,18 +143,20 @@ namespace gcn
          * Gets the spacing between the border of this button and its caption.
          *
          * @return spacing.
+         * @see setSpacing
          */
         unsigned int getSpacing() const;
 
         /**
-         * Adjusts the buttons size to fit the content.
+         * Adjusts the button's size to fit the caption.
          */
         void adjustSize();
 
         /**
-         * Checks if the button is pressed down. Useful when drawing.
+         * Checks if the button is pressed. Convenient method to use
+         * when overloading the draw method of the button.
          *
-         * @return true if the button is pressed down.
+         * @return True if the button is pressed, false otherwise.
          */
         bool isPressed() const;
 
@@ -183,11 +193,34 @@ namespace gcn
         virtual void keyReleased(KeyEvent& keyEvent);
 
     protected:
+        /**
+         * Holds the caption of the button.
+         */
         std::string mCaption;
+
+        /**
+         * True if the mouse is ontop of the button, false otherwise.
+         */
         bool mHasMouse;
+
+        /**
+         * True if a key has been pressed, false otherwise.
+         */
         bool mKeyPressed;
+
+        /**
+         * True if a mouse has been pressed, false otherwise.
+         */
         bool mMousePressed;
+
+        /**
+         * Holds the alignment of the caption.
+         */
         unsigned int mAlignment;
+
+        /**
+         * Holds the spacing between the border and the caption.
+         */
         unsigned int mSpacing;
     };
 }
