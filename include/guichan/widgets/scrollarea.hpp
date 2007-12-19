@@ -66,13 +66,9 @@
 namespace gcn
 {
     /**
-     * A ScrollArea in which another Widget can be added. It the other Widget
-     * is bigger then the ScrollArea, the ScrollArea will only display the part
-     * of the Widget that fits the ScrollArea and make it possible to scroll
-     * to the other areas of the Widget.
-     *
-     * NOTE: A TextBox or a ListBox looks really ugly unless they exist in a
-     *       ScrollArea.
+     * Implementation if a scrollable area used to view widgets larger than the scroll area.
+     * A scroll area can be customized to always show scroll bars or to show them only when
+     * necessary.
      */
     class GCN_CORE_DECLSPEC ScrollArea:
         public BasicContainer,
@@ -88,17 +84,17 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param content the content of the ScrollArea.
+         * @param content The content of the scroll area.
          */
         ScrollArea(Widget *content);
 
         /**
          * Constructor.
          *
-         * @param content the content of the ScrollArea.
-         * @param hPolicy the policy for the horizontal scrollbar. See enum with
+         * @param content The content of the scroll area.
+         * @param hPolicy The policy for the horizontal scrollbar. See enum with
          *                policies.
-         * @param vPolicy the policy for the vertical scrollbar. See enum with
+         * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
          */
         ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy);
@@ -111,143 +107,168 @@ namespace gcn
         /**
          * Sets the content.
          *
-         * @param widget the content of the ScrollArea.
+         * @param widget The content of the scroll area.
          */
         void setContent(Widget* widget);
 
         /**
          * Gets the content.
          *
-         * @return the content of the ScrollArea.
+         * @return The content of the scroll area.
          */
         Widget* getContent();
 
         /**
          * Sets the horizontal scrollbar policy. See enum with policies.
          *
-         * @param hPolicy the policy for the horizontal scrollbar. See enum with
+         * @param hPolicy The policy for the horizontal scrollbar. See enum with
          *                policies.
+         * @see getHorizontalScrollPolicy
          */
         void setHorizontalScrollPolicy(unsigned int hPolicy);
 
         /**
          * Gets the horizontal scrollbar policy. See enum with policies.
          *
-         * @return the policy for the horizontal scrollbar policy. See enum with
+         * @return The policy for the horizontal scrollbar policy. See enum with
          *         policies.
+         * @see setHorizontalScrollPolicy, setScrollPolicy
          */
         unsigned int getHorizontalScrollPolicy() const;
 
         /**
          * Sets the vertical scrollbar policy. See enum with policies.
          *
-         * @param vPolicy the policy for the vertical scrollbar. See enum with
+         * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
+         * @see getVerticalScrollPolicy
          */
         void setVerticalScrollPolicy(unsigned int vPolicy);
 
         /**
          * Gets the vertical scrollbar policy. See enum with policies.
          *
-         * @return the policy for the vertical scrollbar. See enum with
+         * @return The policy for the vertical scrollbar. See enum with
          *         policies.
+         * @see setVerticalScrollPolicy, setScrollPolicy
          */
         unsigned int getVerticalScrollPolicy() const;
 
         /**
          * Sets the horizontal and vertical scrollbar policy. See enum with policies.
          *
-         * @param hPolicy the policy for the horizontal scrollbar. See enum with
+         * @param hPolicy The policy for the horizontal scrollbar. See enum with
          *                policies.
-         * @param vPolicy the policy for the vertical scrollbar. See enum with
+         * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
+         * @see getVerticalScrollPolicy, getHorizontalScrollPolicy
          */
         void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
 
         /**
          * Sets the amount to scroll vertically.
          *
-         * @param vScroll the amount to scroll.
+         * @param vScroll The amount to scroll.
+         * @see getVerticalScrollAmount
          */
         void setVerticalScrollAmount(int vScroll);
 
         /**
          * Gets the amount that is scrolled vertically.
-         * @return the scroll amount on vertical scroll.
+         *
+         * @return The scroll amount on vertical scroll.
+         * @see setVerticalScrollAmount, setScrollAmount
          */
         int getVerticalScrollAmount() const;
 
         /**
          * Sets the amount to scroll horizontally.
          *
-         * @param hScroll the amount to scroll.
+         * @param hScroll The amount to scroll.
+         * @see getHorizontalScrollAmount
          */
         void setHorizontalScrollAmount(int hScroll);
 
         /**
          * Gets the amount that is scrolled horizontally.
          *
-         * @return the scroll amount on horizontal scroll.
+         * @return The scroll amount on horizontal scroll.
+         * @see setHorizontalScrollAmount, setScrollAmount
          */
         int getHorizontalScrollAmount() const;
 
         /**
          * Sets the amount to scroll horizontally and vertically.
          *
-         * @param hScroll the amount to scroll on horizontal scroll.
-         * @param vScroll the amount to scroll on vertical scroll.
+         * @param hScroll The amount to scroll on horizontal scroll.
+         * @param vScroll The amount to scroll on vertical scroll.
+         * @see getHorizontalScrollAmount, getVerticalScrollAmount
          */
         void setScrollAmount(int hScroll, int vScroll);
 
         /**
          * Gets the maximum amount of horizontal scroll.
          *
-         * @return the horizontal max scroll.
+         * @return The horizontal max scroll.
          */
         int getHorizontalMaxScroll();
 
         /**
          * Gets the maximum amount of vertical scroll.
          *
-         * @return the vertical max scroll.
+         * @return The vertical max scroll.
          */
         int getVerticalMaxScroll();
 
         /**
-         * Sets the width.
+         * Sets the width of the scroll bars.
          *
-         * @param width the width of the ScrollBar.
+         * @param width The width of the scroll bars.
+         * @see getScrollbarWidth
          */
         void setScrollbarWidth(int width);
 
         /**
-         * Gets the width.
-
+         * Gets the width of the scroll bars.
+         *
          * @return the width of the ScrollBar.
+         * @see setScrollbarWidth
          */
         int getScrollbarWidth() const;
 
         /**
          * Sets the amount to scroll in pixels when the left scroll button is
          * pushed.
+         *
+         * @param amount The amount to scroll in pixels. 
+         * @see getLeftButtonScrollAmount
          */
         void setLeftButtonScrollAmount(int amount);
 
         /**
          * Sets the amount to scroll in pixels when the right scroll button is
          * pushed.
+         *
+         * @param amount The amount to scroll in pixels.
+         * @see getRightButtonScrollAmount
          */
         void setRightButtonScrollAmount(int amount);
 
         /**
          * Sets the amount to scroll in pixels when the up scroll button is
          * pushed.
+         *
+         * @param amount The amount to scroll in pixels.
+         * @see getUpButtonScrollAmount
          */
         void setUpButtonScrollAmount(int amount);
 
         /**
          * Sets the amount to scroll in pixels when the down scroll button is
          * pushed.
+         *
+         * @param amount The amount to scroll in pixels.
+         * @see getDownButtonScrollAmount
          */
         void setDownButtonScrollAmount(int amount);
 
@@ -255,7 +276,8 @@ namespace gcn
          * Gets the amount to scroll in pixels when the left scroll button is
          * pushed.
          *
-         * @return the amount to scroll when the left scroll button is pushed.
+         * @return The amount to scroll in pixels.
+         * @see setLeftButtonScrollAmount
          */
         int getLeftButtonScrollAmount() const;
 
@@ -263,7 +285,8 @@ namespace gcn
          * Gets the amount to scroll in pixels when the right scroll button is
          * pushed.
          *
-         * @return the amount to scroll when the right scroll button is pushed.
+         * @return The amount to scroll in pixels.
+         * @see setRightButtonScrollAmount
          */
         int getRightButtonScrollAmount() const;
 
@@ -271,7 +294,8 @@ namespace gcn
          * Gets the amount to scroll in pixels when the up scroll button is
          * pushed.
          *
-         * @return the amount to scroll when the up scroll button is pushed.
+         * @return The amount to scroll in pixels.
+         * @see setUpButtonScrollAmount
          */
         int getUpButtonScrollAmount() const;
 
@@ -279,7 +303,8 @@ namespace gcn
          * Gets the amount to scroll in pixels when the down scroll button is
          * pushed.
          *
-         * @return the amount to scroll when the down scroll button is pushed.
+         * @return The amount to scroll in pixels.
+         * @see setDownButtonScrollAmount
          */
         int getDownButtonScrollAmount() const;
 
@@ -339,8 +364,8 @@ namespace gcn
 
     protected:
         /**
-         * Draws the background of the ScrollArea
-         * (the area behind the content).
+         * Draws the background of the scroll area, that is
+         * the area behind the content.
          *
          * @param graphics a Graphics object to draw with.
          */
@@ -375,14 +400,14 @@ namespace gcn
         virtual void drawRightButton(Graphics *graphics);
 
         /**
-         * Draws the vertical scrollbar.
+         * Draws the vertical scroll bar.
          *
          * @param graphics a Graphics object to draw with.
          */
         virtual void drawVBar(Graphics* graphics);
 
         /**
-         * Draws the horizontal scrollbar.
+         * Draws the horizontal scroll bar.
          *
          * @param graphics a Graphics object to draw with.
          */
@@ -403,7 +428,7 @@ namespace gcn
         virtual void drawHMarker(Graphics* graphics);
 
         /**
-         * Checks the policies for the scrollbars.
+         * Checks the policies for the scroll bars.
          */
         virtual void checkPolicies();
 
@@ -462,25 +487,100 @@ namespace gcn
          * @return the dimension of the horizontal marker.
          */
         Rectangle getHorizontalMarkerDimension();
-
+        
+        /**
+         * Holds the vertical scroll amount.
+         */
         int mVScroll;
+
+        /**
+         * Holds the horizontal scroll amount.
+         */
         int mHScroll;
+
+        /**
+         * Holds the width of the scroll bars.
+         */
         int mScrollbarWidth;
+
+        /**
+         * Holds the horizontal scroll bar policy.
+         */
         unsigned int mHPolicy;
+
+        /**
+         * Holds the vertical scroll bar policy.
+         */
         unsigned int mVPolicy;
+
+        /**
+         * True if the vertical scroll bar is visible, false otherwise.
+         */
         bool mVBarVisible;
+
+        /**
+         * True if the horizontal scroll bar is visible, false otherwise.
+         */
         bool mHBarVisible;
+
+        /**
+         * True if the up button is pressed, false otherwise.
+         */
         bool mUpButtonPressed;
+
+        /**
+         * True if the down button is pressed, false otherwise.
+         */
         bool mDownButtonPressed;
+
+        /**
+         * True if the left button is pressed, false otherwise.
+         */
         bool mLeftButtonPressed;
+
+        /**
+         * True if the right button is pressed, false otherwise.
+         */
         bool mRightButtonPressed;
+
+        /**
+         * Holds the up button scroll amount.
+         */
         int mUpButtonScrollAmount;
+
+        /**
+         * Holds the down button scroll amount.
+         */
         int mDownButtonScrollAmount;
+
+        /**
+         * Holds the left button scroll amount.
+         */
         int mLeftButtonScrollAmount;
+
+        /**
+         * Holds the right button scroll amount.
+         */
         int mRightButtonScrollAmount;
+
+        /**
+         * True if the vertical marked is dragged.
+         */
         bool mIsVerticalMarkerDragged;
+
+        /**
+         * True if the horizontal marked is dragged.
+         */
         bool mIsHorizontalMarkerDragged;
+
+        /**
+         * Holds the horizontal markers drag offset.
+         */
         int mHorizontalMarkerDragOffset;
+
+        /**
+         * Holds the vertical markers drag offset.
+         */
         int mVerticalMarkerDragOffset;
     };
 }
