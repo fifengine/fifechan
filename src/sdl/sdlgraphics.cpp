@@ -308,7 +308,6 @@ namespace gcn
                                   mColor.r,
                                   mColor.g,
                                   mColor.b);
-        Uint16* q;
         switch(bpp)
         {
             case 1:
