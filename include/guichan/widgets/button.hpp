@@ -60,6 +60,7 @@
 #include <string>
 
 #include "guichan/focuslistener.hpp"
+#include "guichan/graphics.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/mouseevent.hpp"
 #include "guichan/mouselistener.hpp"
@@ -90,7 +91,7 @@ namespace gcn
 
         /**
          * Constructor. The button will be automatically resized
-         * to fit it's caption.
+         * to fit the caption.
          *
          * @param caption The caption of the button.
          */
@@ -114,24 +115,24 @@ namespace gcn
         const std::string& getCaption() const;
 
         /**
-         * Sets the alignment for the caption. The alignment is relative
+         * Sets the alignment of the caption. The alignment is relative
          * to the center of the button.
          *
-         * @param alignment Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT
+         * @param alignment The alignment of the caption.
          * @see getAlignment, Graphics
          */
-        void setAlignment(unsigned int alignment);
+        void setAlignment(Graphics::Alignment alignment);
 
         /**
-         * Gets the alignment for the caption.
+         * Gets the alignment of the caption.
          *
-         * @return Alignment of caption. Graphics::LEFT, Graphics::CENTER or Graphics::RIGHT.
+         * @return The alignment of the caption.
          * @see setAlignment, Graphics
          */
-        unsigned int getAlignment() const;
+        Graphics::Alignment getAlignment() const;
 
         /**
-         * Sets the spacing between the border of this button and its caption.
+         * Sets the spacing between the border of the button and its caption.
          *
          * @param spacing The default value for spacing is 4 and can be changed 
          *                using this method.
@@ -140,7 +141,7 @@ namespace gcn
         void setSpacing(unsigned int spacing);
 
         /**
-         * Gets the spacing between the border of this button and its caption.
+         * Gets the spacing between the border of the button and its caption.
          *
          * @return spacing.
          * @see setSpacing
@@ -151,14 +152,6 @@ namespace gcn
          * Adjusts the button's size to fit the caption.
          */
         void adjustSize();
-
-        /**
-         * Checks if the button is pressed. Convenient method to use
-         * when overloading the draw method of the button.
-         *
-         * @return True if the button is pressed, false otherwise.
-         */
-        bool isPressed() const;
 
 
         //Inherited from Widget
@@ -194,6 +187,14 @@ namespace gcn
 
     protected:
         /**
+         * Checks if the button is pressed. Convenient method to use
+         * when overloading the draw method of the button.
+         *
+         * @return True if the button is pressed, false otherwise.
+         */
+        bool isPressed() const;
+
+        /**
          * Holds the caption of the button.
          */
         std::string mCaption;
@@ -216,7 +217,7 @@ namespace gcn
         /**
          * Holds the alignment of the caption.
          */
-        unsigned int mAlignment;
+        Graphics::Alignment mAlignment;
 
         /**
          * Holds the spacing between the border and the caption.

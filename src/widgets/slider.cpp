@@ -68,8 +68,7 @@ namespace gcn
 {
     Slider::Slider(double scaleEnd)
     {
-        mMouseDrag = false;
-
+        mDragged = false;
 
         mScaleStart = 0;
         mScaleEnd = scaleEnd;
@@ -87,7 +86,7 @@ namespace gcn
 
     Slider::Slider(double scaleStart, double scaleEnd)
     {
-        mMouseDrag = false;
+        mDragged = false;
 
         mScaleStart = scaleStart;
         mScaleEnd = scaleEnd;
@@ -318,12 +317,12 @@ namespace gcn
         }
     }
 
-    void Slider::setOrientation(unsigned int orientation)
+    void Slider::setOrientation(Slider::Orientation orientation)
     {
         mOrientation = orientation;
     }
 
-    unsigned int Slider::getOrientation() const
+    Slider::Orientation Slider::getOrientation() const
     {
         return mOrientation;
     }

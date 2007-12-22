@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* The alignment enum in Graphics, the orientation enum in Slider and
+  the scroll policy enum in ScrollArea are no longer anonymous enums.
 * RadioButton::setMarked and RadioButton::isMarked have been 
   renamed to RadioButton::setSelected and RadioButton::isSelected.
 * CheckBox::setMarked, CheckBox::isMarked and CheckBox::toogle have been 

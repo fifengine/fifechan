@@ -77,6 +77,22 @@ namespace gcn
     public:
 
         /**
+         * Scrollpolicies for the horizontal and vertical scrollbar.
+         * The policies are:
+         *
+         * SHOW_ALWAYS - Always show the scrollbars no matter what.
+         * SHOW_NEVER  - Never show the scrollbars no matter waht.
+         * SHOW_AUTO   - Show the scrollbars only when needed. That is if the
+         *               content grows larger then the ScrollArea.
+         */
+        enum ScrollPolicy
+        {
+            SHOW_ALWAYS = 0,
+            SHOW_NEVER,
+            SHOW_AUTO
+        };
+
+        /**
          * Constructor.
          */
         ScrollArea();
@@ -97,7 +113,9 @@ namespace gcn
          * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
          */
-        ScrollArea(Widget *content, unsigned int hPolicy, unsigned int vPolicy);
+        ScrollArea(Widget *content, 
+                   ScrollPolicy hPolicy, 
+                   ScrollPolicy vPolicy);
 
         /**
          * Destructor.
@@ -121,49 +139,43 @@ namespace gcn
         /**
          * Sets the horizontal scrollbar policy. See enum with policies.
          *
-         * @param hPolicy The policy for the horizontal scrollbar. See enum with
-         *                policies.
+         * @param hPolicy The policy for the horizontal scrollbar.
          * @see getHorizontalScrollPolicy
          */
-        void setHorizontalScrollPolicy(unsigned int hPolicy);
+        void setHorizontalScrollPolicy(ScrollPolicy hPolicy);
 
         /**
          * Gets the horizontal scrollbar policy. See enum with policies.
          *
-         * @return The policy for the horizontal scrollbar policy. See enum with
-         *         policies.
+         * @return The policy for the horizontal scrollbar policy.
          * @see setHorizontalScrollPolicy, setScrollPolicy
          */
-        unsigned int getHorizontalScrollPolicy() const;
+        ScrollPolicy getHorizontalScrollPolicy() const;
 
         /**
          * Sets the vertical scrollbar policy. See enum with policies.
          *
-         * @param vPolicy The policy for the vertical scrollbar. See enum with
-         *                policies.
+         * @param vPolicy The policy for the vertical scrollbar.
          * @see getVerticalScrollPolicy
          */
-        void setVerticalScrollPolicy(unsigned int vPolicy);
+        void setVerticalScrollPolicy(ScrollPolicy vPolicy);
 
         /**
          * Gets the vertical scrollbar policy. See enum with policies.
          *
-         * @return The policy for the vertical scrollbar. See enum with
-         *         policies.
+         * @return The policy for the vertical scrollbar.
          * @see setVerticalScrollPolicy, setScrollPolicy
          */
-        unsigned int getVerticalScrollPolicy() const;
+        ScrollPolicy getVerticalScrollPolicy() const;
 
         /**
-         * Sets the horizontal and vertical scrollbar policy. See enum with policies.
+         * Sets the horizontal and vertical scrollbar policy.
          *
-         * @param hPolicy The policy for the horizontal scrollbar. See enum with
-         *                policies.
-         * @param vPolicy The policy for the vertical scrollbar. See enum with
-         *                policies.
+         * @param hPolicy The policy for the horizontal scrollbar.
+         * @param vPolicy The policy for the vertical scrollbar.
          * @see getVerticalScrollPolicy, getHorizontalScrollPolicy
          */
-        void setScrollPolicy(unsigned int hPolicy, unsigned int vPolicy);
+        void setScrollPolicy(ScrollPolicy hPolicy, ScrollPolicy vPolicy);
 
         /**
          * Sets the amount to scroll vertically.
@@ -345,23 +357,6 @@ namespace gcn
 
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
-
-        /**
-         * Scrollpolicies for the horizontal and vertical scrollbar.
-         * The policies are:
-         *
-         * SHOW_ALWAYS - Always show the scrollbars no matter what.
-         * SHOW_NEVER  - Never show the scrollbars no matter waht.
-         * SHOW_AUTO   - Show the scrollbars only when needed. That is if the
-         *               content grows larger then the ScrollArea.
-         */
-        enum
-        {
-            SHOW_ALWAYS,
-            SHOW_NEVER,
-            SHOW_AUTO
-        };
-
     protected:
         /**
          * Draws the background of the scroll area, that is
@@ -506,12 +501,12 @@ namespace gcn
         /**
          * Holds the horizontal scroll bar policy.
          */
-        unsigned int mHPolicy;
+        ScrollPolicy mHPolicy;
 
         /**
          * Holds the vertical scroll bar policy.
          */
-        unsigned int mVPolicy;
+        ScrollPolicy mVPolicy;
 
         /**
          * True if the vertical scroll bar is visible, false otherwise.

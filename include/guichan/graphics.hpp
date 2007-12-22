@@ -100,6 +100,16 @@ namespace gcn
     class GCN_CORE_DECLSPEC Graphics
     {
     public:
+        /**
+         * Alignments for text drawing.
+         */
+        enum Alignment
+        {
+            LEFT = 0,
+            CENTER,
+            RIGHT
+        };
+
         Graphics();
 
         virtual ~Graphics() { }
@@ -259,16 +269,7 @@ namespace gcn
         virtual void drawText(const std::string& text,
                               int x,
                               int y,
-                              unsigned int alignment = LEFT);
-        /**
-         * Alignments for text drawing.
-         */
-        enum
-        {
-            LEFT = 0,
-            CENTER,
-            RIGHT
-        };
+                              Alignment alignment = LEFT);
 
     protected:
         std::stack<ClipRectangle> mClipStack;
