@@ -69,13 +69,13 @@
 namespace gcn
 {
     Tab::Tab()
-            :mHasMouse(false)
+            :mHasMouse(false),
+            mTabbedArea(NULL)
     {
         mLabel = new Label();
         mLabel->setPosition(4, 4);
         add(mLabel);
-        setBorderSize(1);
-
+        
         addMouseListener(this);
     }
     
@@ -113,29 +113,7 @@ namespace gcn
         
     void Tab::draw(Graphics *graphics)
     {
-        if (mTabbedArea->isTabSelected(this) || mHasMouse)
-        {
-            graphics->setColor(getBaseColor());
-        }
-        else
-        {            
-            graphics->setColor(getBaseColor() - 0x151515);
-        }
-
-        graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
-        
-        drawChildren(graphics);
-
-        if (mTabbedArea->isFocused()
-            && mTabbedArea->isTabSelected(this))
-        {
-            graphics->setColor(Color(0x000000));
-            graphics->drawRectangle(Rectangle(2, 2, getWidth() - 4, getHeight() - 4));
-        }
-    }
-    
-    void Tab::drawBorder(Graphics* graphics)
-    {
+               /*
         Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
@@ -156,8 +134,29 @@ namespace gcn
             graphics->drawLine(width - i,i + 1, width - i, height - i);
             graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
+        */
+
+        if (mTabbedArea->isTabSelected(this) || mHasMouse)
+        {
+            graphics->setColor(getBaseColor());
+        }
+        else
+        {            
+            graphics->setColor(getBaseColor() - 0x151515);
+        }
+
+        graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+        
+        drawChildren(graphics);
+
+        if (mTabbedArea->isFocused()
+            && mTabbedArea->isTabSelected(this))
+        {
+            graphics->setColor(Color(0x000000));
+            graphics->drawRectangle(Rectangle(2, 2, getWidth() - 4, getHeight() - 4));
+        }
     }
-    
+       
     void Tab::mouseEntered(MouseEvent& mouseEvent)
     {
         mHasMouse = true;

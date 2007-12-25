@@ -130,8 +130,6 @@ namespace gcn
 
         virtual void draw(Graphics* graphics);
 
-        virtual void drawBorder(Graphics* graphics);
-
     protected:
         /**
          * Holds the caption of the label.

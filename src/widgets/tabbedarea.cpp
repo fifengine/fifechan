@@ -75,7 +75,6 @@ namespace gcn
     TabbedArea::TabbedArea()
             :mSelectedTab(NULL)
     {
-        setBorderSize(1);
         setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
@@ -265,31 +264,10 @@ namespace gcn
     {
         return mSelectedTab;
     }
-    
         
     void TabbedArea::draw(Graphics *graphics)
     {
-        graphics->setColor(getBaseColor() + 0x303030);
-        graphics->drawLine(0,
-                           mTabContainer->getHeight(),
-                           getWidth(),
-                           mTabContainer->getHeight());
-
-        if (mSelectedTab != NULL)
-        {
-            graphics->setColor(getBaseColor());
-            graphics->drawLine(mSelectedTab->getX(),
-                               mTabContainer->getHeight(),
-                               mSelectedTab->getX() + mSelectedTab->getWidth(),
-                               mTabContainer->getHeight());
-
-        }
-
-        drawChildren(graphics);
-    }
-    
-    void TabbedArea::drawBorder(Graphics* graphics)
-    {
+        /*
         Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
@@ -309,8 +287,26 @@ namespace gcn
             graphics->drawLine(width - i,i + 1 + mWidgetContainer->getY(), width - i, height - i);
             graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
-    }
+        */
 
+        graphics->setColor(getBaseColor() + 0x303030);
+        graphics->drawLine(0,
+                           mTabContainer->getHeight(),
+                           getWidth(),
+                           mTabContainer->getHeight());
+
+        if (mSelectedTab != NULL)
+        {
+            graphics->setColor(getBaseColor());
+            graphics->drawLine(mSelectedTab->getX(),
+                               mTabContainer->getHeight(),
+                               mSelectedTab->getX() + mSelectedTab->getWidth(),
+                               mTabContainer->getHeight());
+
+        }
+
+        drawChildren(graphics);
+    }
     
     void TabbedArea::logic()
     {
@@ -360,26 +356,20 @@ namespace gcn
         for (i = 0; i < mTabs.size(); i++)            
         {
             Tab* tab = mTabs[i].first;
-
-            if (x == 0)
-            {
-                x = tab->getBorderSize() + 2;
-            }
             
             tab->setX(x);
 
             if (tab->getHeight() < maxTabHeight)
             {
                 tab->setY(maxTabHeight
-                          - tab->getHeight()
-                          + tab->getBorderSize());
+                          - tab->getHeight());
             }
             else
             {
-                tab->setY(mTabs[i].first->getBorderSize());
+                tab->setY(0);
             }
             
-            x += tab->getWidth() + tab->getBorderSize() * 2;
+            x += tab->getWidth();
         }
     }
     

@@ -1,5 +1,8 @@
 Version 0.8.0
 =============
+* Widget::drawBorder, Widget::getBorderSize and Widget::setBorderSize
+  have been renamed to Widget::drawFrame, Widget::getFrameSize and
+  Widget::setFrameSize.
 * The alignment enum in Graphics, the orientation enum in Slider and
   the scroll policy enum in ScrollArea are no longer anonymous enums.
 * RadioButton::setMarked and RadioButton::isMarked have been 

@@ -68,6 +68,7 @@
 #include "guichan/event.hpp"
 #include "guichan/exception.hpp"
 #include "guichan/focushandler.hpp"
+#include "guichan/graphics.hpp"
 #include "guichan/keyinput.hpp"
 #include "guichan/keylistener.hpp"
 #include "guichan/mouseinput.hpp"
@@ -88,7 +89,7 @@ namespace gcn
               mFocusHandler(NULL),
               mInternalFocusHandler(NULL),
               mParent(NULL),
-              mBorderSize(0),
+              mFrameSize(0),
               mFocusable(false),
               mVisible(true),
               mTabIn(true),
@@ -112,6 +113,30 @@ namespace gcn
         _setFocusHandler(NULL);
 
         mWidgets.remove(this);
+    }
+
+    void Widget::drawFrame(Graphics* graphics)
+    {
+        Color faceColor = getBaseColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() + getFrameSize() * 2 - 1;
+        int height = getHeight() + getFrameSize() * 2 - 1;
+        highlightColor = faceColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = faceColor - 0x303030;
+        shadowColor.a = alpha;
+
+        unsigned int i;
+        for (i = 0; i < getFrameSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(i,i, width - i, i);
+            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
+        }
     }
 
     void Widget::_setParent(Widget* parent)
@@ -203,14 +228,14 @@ namespace gcn
         }
     }
 
-    void Widget::setBorderSize(unsigned int borderSize)
+    void Widget::setFrameSize(unsigned int frameSize)
     {
-        mBorderSize = borderSize;
+        mFrameSize = frameSize;
     }
 
-    unsigned int Widget::getBorderSize() const
+    unsigned int Widget::getFrameSize() const
     {
-        return mBorderSize;
+        return mFrameSize;
     }
 
     const Rectangle& Widget::getDimension() const

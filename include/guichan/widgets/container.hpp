@@ -164,8 +164,6 @@ namespace gcn
 
         virtual void draw(Graphics* graphics);
 
-        virtual void drawBorder(Graphics* graphics);
-
     protected:
         /**
          * True if the container is opaque, false otherwise.
