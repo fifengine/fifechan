@@ -85,24 +85,29 @@ namespace gcn
     {
         bool result = Graphics::pushClipArea(area);
 
-        ClipRectangle carea = mClipStack.top();
+        const ClipRectangle carea = mClipStack.top();
 
         // To avoid the odd thing. When the width or the height of the clip area is zero,
         // Gfx_SetClipping will fail and set the clip area as the fullscreen
         // (or the full window).
-        if (carea.width == 0)
+        int x = carea.x - 1;
+        int y = carea.y - 1;
+        int width = carea.width;
+        int height = carea.height;
+
+        if (width == 0)
         {
-            carea.width++;
+            width++;
         }
-        if (carea.height == 0)
+        if (height == 0)
         {
-            carea.height++;
+            height++;
         }
 
-        mHGE->Gfx_SetClipping(carea.x - 1, 
-                              carea.y - 1, 
-                              carea.width, 
-                              carea.height);
+        mHGE->Gfx_SetClipping(x, 
+                              y, 
+                              width, 
+                              height);
         return result;
     }
 
@@ -117,21 +122,25 @@ namespace gcn
             return;
         }
 
-        ClipRectangle carea = mClipStack.top();
+        const ClipRectangle carea = mClipStack.top();
+        int x = carea.x - 1;
+        int y = carea.y - 1;
+        int width = carea.width;
+        int height = carea.height;
 
-        if (carea.width == 0)
+        if (width == 0)
         {
-            carea.width++;
+            width++;
         }
-        if (carea.height == 0)
+        if (height == 0)
         {
-            carea.height++;
+            height++;
         }
 
-        mHGE->Gfx_SetClipping(carea.x - 1, 
-                              carea.y - 1, 
-                              carea.width, 
-                              carea.height);
+        mHGE->Gfx_SetClipping(x, 
+                              y, 
+                              width, 
+                              height);
     }
 
     void HGEGraphics::drawImage(const Image *image, 
