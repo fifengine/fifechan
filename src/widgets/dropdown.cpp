@@ -94,7 +94,6 @@ namespace gcn
         if (mInternalListBox)
         {
             mListBox = new ListBox();
-            mListBox->setMouseHighlightingEnabled(true);
         }
         else
         {
