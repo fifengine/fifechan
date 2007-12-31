@@ -176,7 +176,7 @@ namespace gcn
         const Rectangle currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(getBackgroundColor());
-        graphics->fillRectangle(Rectangle(0, 0, getWidth(), h));
+        graphics->fillRectangle(Rectangle(0, 0, currentClipArea.width, currentClipArea.height));
        
         if (isFocused())
         {
