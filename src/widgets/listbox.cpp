@@ -106,16 +106,14 @@ namespace gcn
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
-
-        int i, fontHeight;
+         
+        const ClipRectangle currentClipArea = graphics->getCurrentClipArea();
+        int fontHeight = getFont()->getHeight();
+        int i = currentClipArea.y / getFont()->getHeight();
+        int end = (currentClipArea.y + currentClipArea.height) / getFont()->getHeight();
         int y = 0;
 
-        fontHeight = getFont()->getHeight();
-
-        /**
-         * @todo Check cliprects so we do not have to iterate over elements in the list model
-         */
-        for (i = 0; i < mListModel->getNumberOfElements(); ++i)
+        for (i = 0; i < end; ++i)
         {
             if (i == mSelected)
             {
