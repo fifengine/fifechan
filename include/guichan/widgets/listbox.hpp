@@ -184,6 +184,34 @@ namespace gcn
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
+        /**
+         * Sets mouse highlighting to be enabled or not. With mouse highlighting
+         * enabled, the list box will highlight the item currently under the 
+         * mouse opposed to only highlighting the selected item.
+         *
+         * A list box does not use mouse highlighting by default.
+         *
+         * @param enabled True if mouse highlighting should be enabled,
+         *                false otherwise.
+         * @see isMouseHighlightingEnabled
+         * @since 0.8.0
+         */
+        void setMouseHighlightingEnabled(bool enabled);
+
+         /**
+         * Checks if mouse highlighting is enabled or not. With mouse highlighting
+         * enabled, the list box will highlight the item currently under the 
+         * mouse opposed to only highlighting the selected item.
+         *
+         * A list box does not use mouse highlighting by default.
+         *
+         * @return True if mouse highlighting should be enabled,
+         *         false otherwise.
+         * @see setMouseHighlightingEnabled
+         * @since 0.8.0
+         */
+        bool isMouseHighlightingEnabled();
+
 
         // Inherited from Widget
 
@@ -206,6 +234,8 @@ namespace gcn
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
         
         virtual void mouseDragged(MouseEvent& mouseEvent);
+
+        virtual void mouseMoved(MouseEvent& mouseEvent); 
 
         
     protected:
@@ -246,6 +276,18 @@ namespace gcn
          * Typedef.
          */
         typedef SelectionListenerList::iterator SelectionListenerIterator;
+
+        /**
+         * True if the list box should highlight the item the mouse is over,
+         * false otherwise.
+         */
+        bool mMouseHighlightingEnabled;
+
+        /**
+         * Holds the last y coordinate of the mouse. Used when  mouse 
+         * highlighting is enabled to highlight an item under the mouse.
+         */
+        int mLastMouseY;
     };
 }
 

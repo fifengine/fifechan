@@ -71,10 +71,12 @@
 namespace gcn
 {
     ListBox::ListBox()
+        : mSelected(-1),
+          mListModel(NULL),
+          mWrappingEnabled(false),
+          mMouseHighlightingEnabled(false),
+          mLastMouseY(0)
     {
-        mSelected = -1;
-        mListModel = NULL;
-        mWrappingEnabled = false;
         setWidth(100);
         setFocusable(true);
 
@@ -83,9 +85,11 @@ namespace gcn
     }
 
     ListBox::ListBox(ListModel *listModel)
+        : mSelected(-1),
+          mWrappingEnabled(false),
+          mMouseHighlightingEnabled(false),
+          mLastMouseY(0)
     {
-        mSelected = -1;
-        mWrappingEnabled = false;
         setWidth(100);
         setListModel(listModel);
         setFocusable(true);
@@ -117,7 +121,11 @@ namespace gcn
          */
         for (i = 0; i < mListModel->getNumberOfElements(); ++i)
         {
-            if (i == mSelected)
+            if ((i == mSelected 
+                    && !mMouseHighlightingEnabled)
+                || (mMouseHighlightingEnabled 
+                    && y <= mLastMouseY
+                    && y + fontHeight > mLastMouseY))
             {
                 graphics->setColor(getSelectionColor());
                 graphics->fillRectangle(Rectangle(0, y, getWidth(), fontHeight));
@@ -275,6 +283,11 @@ namespace gcn
         mouseEvent.consume();
     }
 
+    void ListBox::mouseMoved(MouseEvent& mouseEvent)
+    {
+        mLastMouseY = mouseEvent.getY();
+    }
+
     void ListBox::setListModel(ListModel *listModel)
     {
         mSelected = -1;
@@ -324,5 +337,15 @@ namespace gcn
             SelectionEvent event(this);
             (*iter)->valueChanged(event);
         }
+    }
+
+    void ListBox::setMouseHighlightingEnabled(bool enabled)
+    {
+        mMouseHighlightingEnabled = enabled;
+    }
+
+    bool ListBox::isMouseHighlightingEnabled()
+    {
+        return mMouseHighlightingEnabled;
     }
 }

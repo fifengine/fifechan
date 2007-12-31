@@ -94,6 +94,7 @@ namespace gcn
         if (mInternalListBox)
         {
             mListBox = new ListBox();
+            mListBox->setMouseHighlightingEnabled(true);
         }
         else
         {
@@ -188,7 +189,8 @@ namespace gcn
             graphics->setColor(getForegroundColor());
         }
 
-        if (mListBox->getListModel() && mListBox->getSelected() >= 0)
+        if (mListBox->getListModel() 
+            && mListBox->getSelected() >= 0)
         {
             graphics->setColor(getForegroundColor());
             graphics->setFont(getFont());
@@ -214,13 +216,6 @@ namespace gcn
                                                getWidth(),
                                                getHeight() - mFoldedUpHeight));
              drawChildren(graphics);
-             
-            // Draw two lines separating the ListBox with se selected
-            // element view.
-            //graphics->setColor(highlightColor);
-            //graphics->drawLine(0, h, getWidth(), h);
-            //graphics->setColor(shadowColor);
-            //graphics->drawLine(0, h + 1,getWidth(),h + 1);
          }
     }
 
