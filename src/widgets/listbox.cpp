@@ -107,6 +107,8 @@ namespace gcn
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
          
+        // Check the current clip area so we don't draw unnecessary items
+        // that are not visible.
         const ClipRectangle currentClipArea = graphics->getCurrentClipArea();
         int fontHeight = getFont()->getHeight();
         int i = currentClipArea.y / getFont()->getHeight();
