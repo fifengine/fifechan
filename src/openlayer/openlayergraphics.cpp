@@ -112,8 +112,22 @@ namespace gcn
     void OpenLayerGraphics::popClipArea()
     {
         Graphics::popClipArea();
-        ol::Transforms::SetPosition(0, 0);
-        ol::Canvas::DisableClipping();
+
+        if (mClipStack.empty())
+        {
+            ol::Transforms::SetPosition(0, 0);
+            ol::Canvas::DisableClipping();
+        } 
+        else
+        {
+            const ClipRectangle top = mClipStack.top();
+            ol::Transforms::SetPosition(top.xOffset,
+                                        top.yOffset);
+            ol::Canvas::SetClipping(top.x,
+                                    top.y,
+                                    top.width,
+                                    top.height);
+        }
     }
 
     void OpenLayerGraphics::setTargetPlane(int width, int height)
