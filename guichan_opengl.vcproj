@@ -280,6 +280,10 @@
 				RelativePath="include\guichan\opengl\openglgraphics.hpp"
 				>
 			</File>
+			<File
+				RelativePath=".\include\guichan\opengl\openglimage.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
