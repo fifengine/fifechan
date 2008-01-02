@@ -1,5 +1,7 @@
 Version 0.8.0
 =============
+* All the examples have been improved. Examples have been added for
+  HGE, OpenGL with SDL and for OpenGL with Allegro.
 * Widget::drawBorder, Widget::getBorderSize and Widget::setBorderSize
   have been renamed to Widget::drawFrame, Widget::getFrameSize and
   Widget::setFrameSize.
