@@ -1,6 +1,6 @@
 /**
- * This is an example that shows of the widgets present in
- * Guichan. The example uses the HGE back end.
+ * This is an example that shows a simple Hello World example
+ * with Guichan. The example uses the HGE back end.
  */
 
 #include <guichan.hpp>
@@ -21,9 +21,9 @@ namespace globals
 // The hge.hpp file is responsible for creating and deleting
 // the global Gui object.
 #include "hge.hpp"
-// Include code to set up a Guichan GUI with all the widgets
-// of Guichan. The code populates the global Gui object.
-#include "widgets.hpp"
+// Include code to set up a Guichan GUI with a simple Hello
+// World example. The code populates the global Gui object.
+#include "helloworld.hpp"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -31,9 +31,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     try
     {
         hge::init();
-        widgets::init();
+        helloworld::init();
         hge::run();
-        widgets::halt();
+        helloworld::halt();
         hge::halt();
     }
     // Catch all Guichan exceptions.

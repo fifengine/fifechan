@@ -65,7 +65,7 @@
 				OutputFile="$(OutDir)/allegrowidgets.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/sdlwidgets.pdb"
+				ProgramDatabaseFile="$(OutDir)/allegrowidgets.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -191,6 +191,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\allegro.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\widgets.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

@@ -1,6 +1,7 @@
 /**
- * This is an example that shows of the widgets present in
- * Guichan. The example uses the OpenLayer back end.
+ * This is an example that shows a simple Hello World example
+ * with Guichan. The example uses the OpenGL back end and the 
+ * SDL back end.
  */
 
 #include <guichan.hpp>
@@ -9,7 +10,7 @@
 // Here we store a global Gui object.  We make it global
 // so it's easily accessable. Of course, global variables
 // should normally be avioded when it comes to OOP, but
-// this examples it not an example that shows how to make a 
+// this examples is not an example that shows how to make a 
 // good and clean C++ application but merely an example
 // that shows how to use Guichan.
 namespace globals
@@ -17,23 +18,23 @@ namespace globals
     gcn::Gui* gui;
 }
 
-// Include code to set up an OpenLayer application with Guichan.
-// The openlayer.hpp file is responsible for creating and deleting
+// Include code to set up an OpenGL and SDL application with Guichan.
+// The openglsdl.hpp file is responsible for creating and deleting
 // the global Gui object.
-#include "openlayer.hpp"
-// Include code to set up a Guichan GUI with all the widgets
-// of Guichan. The code populates the global Gui object.
-#include "widgets.hpp"
+#include "openglsdl.hpp"
+// Include code to set up a Guichan GUI with a simple Hello
+// World example. The code populates the global Gui object.
+#include "helloworld.hpp"
 
 int main(int argc, char **argv)
 {
     try
     {
-        openlayer::init();
-        widgets::init();
-        openlayer::run();
-        widgets::halt();
-        openlayer::halt();
+        openglsdl::init();
+        helloworld::init();
+        openglsdl::run();
+        helloworld::halt();
+        openglsdl::halt();
     }
     // Catch all Guichan exceptions.
     catch (gcn::Exception e)
