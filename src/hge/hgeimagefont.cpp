@@ -123,10 +123,6 @@ namespace gcn
 
         mHGEFont->SetColor(ARGB(color.a, color.r, color.g, color.b));
 
-#if HGE_VERSION == 0x160
         mHGEFont->Render(x, y, HGETEXT_LEFT, text.c_str());
-#else
-        mHGEFont->Render(x, y, text.c_str());
-#endif
     }
 }

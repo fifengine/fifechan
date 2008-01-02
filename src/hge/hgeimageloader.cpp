@@ -85,12 +85,12 @@ namespace gcn
             throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
-        hgeSprite *sprite = new hgeSprite(texture,  
-                                          0, 
-                                          0, 
-                                          mHGE->Texture_GetWidth(texture),
-                                          mHGE->Texture_GetHeight(texture));
-        HGEImage *image = new HGEImage(sprite, true);
+        HGEImage *image = new HGEImage(texture, true);
+
+        if (convertToDisplayFormat)
+        {
+            image->convertToDisplayFormat();
+        }
 
         return image; 
     }

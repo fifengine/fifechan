@@ -89,6 +89,10 @@ namespace gcn
 
         //Inherited from Graphics
 
+        void _beginDraw();
+        
+        void _endDraw();
+
         void drawImage(const Image *image, 
                        int srcX, 
                        int srcY, 
@@ -111,8 +115,6 @@ namespace gcn
 
         const Color &getColor() const;
 
-        void drawText(const std::string &text, int x, int y , unsigned int alignment = LEFT);
-
         bool pushClipArea(Rectangle area);
     
         void popClipArea();
@@ -121,6 +123,7 @@ namespace gcn
         static  HGE *mHGE;
         Color mColor;
         DWORD mHardwareColor;
+        bool mClipNull;
     };
 }
 

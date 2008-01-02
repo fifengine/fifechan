@@ -70,6 +70,7 @@ namespace gcn
     HGE *HGEGraphics::mHGE = NULL;
 
     HGEGraphics::HGEGraphics()
+        :mClipNull(false)
     {
         mHGE = hgeCreate(HGE_VERSION);
 
@@ -81,33 +82,43 @@ namespace gcn
         mHGE->Release();
     }
 
+    void HGEGraphics::_beginDraw()
+    {
+        pushClipArea(Rectangle(0, 
+                               0,
+                               mHGE->System_GetState(HGE_SCREENWIDTH), 
+                               mHGE->System_GetState(HGE_SCREENHEIGHT)));
+    }
+
+    void HGEGraphics::_endDraw()
+    {
+        // pop the clip area pushed in _beginDraw
+        popClipArea();
+    }
+
     bool HGEGraphics::pushClipArea(Rectangle area)
     {
         bool result = Graphics::pushClipArea(area);
 
-        const ClipRectangle carea = mClipStack.top();
+        const ClipRectangle top = mClipStack.top();
 
-        // To avoid the odd thing. When the width or the height of the clip area is zero,
-        // Gfx_SetClipping will fail and set the clip area as the fullscreen
-        // (or the full window).
-        int x = carea.x - 1;
-        int y = carea.y - 1;
-        int width = carea.width;
-        int height = carea.height;
-
-        if (width == 0)
+        // HGE won't let you set clip areas
+        // that have zero width or height
+        // so we have to check for that.
+        if (top.width == 0 || top.height == 0)
         {
-            width++;
+            mClipNull = true;
         }
-        if (height == 0)
+        else
         {
-            height++;
+            mClipNull = false;
+            mHGE->Gfx_SetTransform(top.xOffset,
+                                   top.yOffset);
+            mHGE->Gfx_SetClipping(top.x, 
+                                  top.y, 
+                                  top.width, 
+                                  top.height);
         }
-
-        mHGE->Gfx_SetClipping(x, 
-                              y, 
-                              width, 
-                              height);
         return result;
     }
 
@@ -121,26 +132,28 @@ namespace gcn
 
             return;
         }
-
-        const ClipRectangle carea = mClipStack.top();
-        int x = carea.x - 1;
-        int y = carea.y - 1;
-        int width = carea.width;
-        int height = carea.height;
-
-        if (width == 0)
+        else
         {
-            width++;
-        }
-        if (height == 0)
-        {
-            height++;
-        }
+            const ClipRectangle top = mClipStack.top();
 
-        mHGE->Gfx_SetClipping(x, 
-                              y, 
-                              width, 
-                              height);
+            // HGE won't let you set clip areas
+            //that have zero width or height
+            // so we have to check for that.
+            if (top.width == 0 || top.height == 0)
+            {
+                mClipNull = true;
+            }
+            else
+            {
+                mClipNull = false;
+                mHGE->Gfx_SetTransform(top.xOffset,
+                                       top.yOffset);
+                mHGE->Gfx_SetClipping(top.x, 
+                                      top.y, 
+                                      top.width, 
+                                      top.height);
+            }
+        }
     }
 
     void HGEGraphics::drawImage(const Image *image, 
@@ -151,6 +164,11 @@ namespace gcn
                                 int width, 
                                 int height)
     {
+        if (mClipNull)
+        {
+            return;
+        }
+
         const HGEImage *hgeImage = static_cast<const HGEImage*>(image);
 
         if (hgeImage == NULL)
@@ -169,11 +187,21 @@ namespace gcn
 
     void HGEGraphics::drawImage(const Image *image, int dstX, int dstY)
     {
+        if (mClipNull)
+        {
+            return;
+        }
+       
         drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
 
     void HGEGraphics::drawPoint(int x, int y)
     {
+        if (mClipNull)
+        {
+            return;
+        }
+
         ClipRectangle const top = mClipStack.top();
 
         x += top.xOffset;
@@ -184,53 +212,48 @@ namespace gcn
 
     void HGEGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        // To avoid some strange things.
-        // HGE::Gfx_RenderLine will omit the last point 
-        // of the line, so we should adjust the coordinates here.
-        if (y1 == y2)
+        if (mClipNull)
         {
-            if (x1 < x2)
-            {
-                x1--;
-            }
-            else
-            {
-                x2--;
-            }
+            return;
         }
-        else
-        if (x1 == x2)
-        {
-            if (y1 < y2)
-            {
-                y1--;
-            }
-            else
-            {
-                y2--;
-            }
-        }
-        else
-        if (x1 != x2 && y1 != y2)
-        {
-            if (x1 < x2)
-            {
-                x1--;
-            }
-            else
-            {
-                x2--;
-            }
-            if (y1 < y2)
-            {
-                y1--;
-            }
-            else
-            {
-                y2--;
-            }
-         } 
 
+        // As HGE omits the last pixel we need to adjust the coordinates
+        // before drawing the line. If it's a vertical or horizontal line
+        // all we have to do is add the omitted pixel.
+        if (y1 == y2 || x1 == x2)
+        {
+            x2++;
+            y2++;
+        }
+        // If it's not a vertical or horizontal line it gets a little bit
+        // trickier.
+        else 
+        {
+            // If y2 is greater than y1 then we know y2 will be omitted as
+            // it will be a part of the last pixel coordinate.
+            if (y2 > y1)
+            {
+                y2++;
+            }
+            // Else will y1 be omitted.
+            else
+            {
+                y1++;
+            }
+            // The same thing applies for the x coordinates. If x2 is greater 
+            // than x1 then we know x2 will be omitted as it will be a part of
+            // the last pixel coordinate.
+            if (x2 > x1)
+            {
+                x2++;
+            }
+            // Else will x1 be omitted.
+            else
+            {
+                x1++;
+            }
+        }
+       
         ClipRectangle const top = mClipStack.top();
 
         x1 += top.xOffset;
@@ -243,10 +266,15 @@ namespace gcn
 
     void HGEGraphics::drawRectangle(const Rectangle &rectangle)
     {
+        if (mClipNull)
+        {
+            return;
+        }
+
         int x1 = rectangle.x;
         int y1 = rectangle.y;
-        int x2 = rectangle.x + rectangle.width - 1 ;
-        int y2 = rectangle.y + rectangle.height - 1;
+        int x2 = rectangle.x + rectangle.width;
+        int y2 = rectangle.y + rectangle.height;
 
         ClipRectangle const top = mClipStack.top();
 
@@ -255,18 +283,26 @@ namespace gcn
         x2 += top.xOffset;
         y2 += top.yOffset;
      
-        mHGE->Gfx_RenderLine(x1, y1, x2, y1, mHardwareColor);
-        mHGE->Gfx_RenderLine(x2, y1, x2, y2, mHardwareColor);
-        mHGE->Gfx_RenderLine(x2, y2, x1, y2, mHardwareColor);
-        mHGE->Gfx_RenderLine(x1, y2, x1, y1 - 1, mHardwareColor);
+        mHGE->Gfx_RenderLine(x1, y1 + 1, x2, y1, mHardwareColor);
+        mHGE->Gfx_RenderLine(x2, y1 + 1, x2, y2 - 1, mHardwareColor);
+        mHGE->Gfx_RenderLine(x2, y2, x1 + 1, y2, mHardwareColor);
+        mHGE->Gfx_RenderLine(x1 + 1, y2, x1 + 1, y1 + 1, mHardwareColor);
     }
 
     void HGEGraphics::fillRectangle(const Rectangle &rectangle)
     {
-        int x1 = rectangle.x - 1;
-        int y1 = rectangle.y - 1;
-        int x2 = rectangle.x + rectangle.width - 1;
-        int y2 = rectangle.y + rectangle.height - 1;
+        if (mClipNull)
+        {
+            return;
+        }
+
+        // We need to compensate for the fact that HGE doesn't
+        // seem to include the the coordinate pixels when rendering
+        // a quad.
+        int x1 = rectangle.x;
+        int y1 = rectangle.y;
+        int x2 = rectangle.x + rectangle.width;
+        int y2 = rectangle.y + rectangle.height;
 
         ClipRectangle const top = mClipStack.top();
 
@@ -304,17 +340,6 @@ namespace gcn
         quad.blend = BLEND_DEFAULT;
 
         mHGE->Gfx_RenderQuad(&quad);
-
-    }
-
-    void HGEGraphics::drawText(const std::string &text, int x, int y, unsigned int alignment)
-    {
-        ClipRectangle const top = mClipStack.top();
-
-        x += top.xOffset;
-        y += top.yOffset;
-       
-        Graphics::drawText(text, x, y, alignment);
     }
 
     void HGEGraphics::setColor(const Color &color)

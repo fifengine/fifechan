@@ -79,16 +79,16 @@ namespace gcn
         /**
          * Constructor. 
          * 
-         * Creates an image from a HGE sprite object.
+         * Creates an image from a HGE texture.
          *
          * NOTE : The functions getPixel and putPixel are only guaranteed to work
          * with a 32bits image.
          *
-         * @param sprite a HGE sprite to create the image from.
-         * @param autoFree true it the image should be automatically deleted by 
-                           the destructor, false otherwise. 
+         * @param sprite A HGE texture to create the image from.
+         * @param autoFree True it the image should be automatically deleted by 
+         *                 the destructor, false otherwise. 
          */
-        HGEImage(hgeSprite *sprite, bool autoFree = false);
+        HGEImage(HTEXTURE texture, bool autoFree = false);
 
         /**
          * Destructor.
@@ -116,12 +116,13 @@ namespace gcn
     
         virtual void putPixel(int x, int y, const Color &color);
 
-        virtual void convertToDisplayFormat() { /* Does nothing in HGE */ }
+        virtual void convertToDisplayFormat();
 
     protected:
         static HGE *mHGE;
         bool mAutoFree;
         hgeSprite *mHGESprite;
+        HTEXTURE mTexture;
     };
 }
 
