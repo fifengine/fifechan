@@ -1,7 +1,7 @@
 [Project]
 FileName=allegrowidgets.dev
 Name=allegrowidgets
-UnitCount=1
+UnitCount=3
 Type=1
 Ver=1
 ObjFiles=
@@ -56,4 +56,24 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit2]
+FileName=allegro.hpp
+CompileCpp=1
+Folder=allegrowidgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit3]
+FileName=widgets.hpp
+CompileCpp=1
+Folder=allegrowidgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
