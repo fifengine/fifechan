@@ -1,7 +1,7 @@
 [Project]
-FileName=openglwidgets.dev
-Name=openglwidgets
-UnitCount=1
+FileName=openglsdlwidgets.dev
+Name=openglsdlwidgets
+UnitCount=3
 Type=1
 Ver=1
 ObjFiles=
@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=0000001000000000000000
 
 [Unit1]
-FileName=openglwidgets.cpp
+FileName=openglsdlwidgets.cpp
 CompileCpp=1
 Folder=openglwidgets
 Compile=1
@@ -56,4 +56,24 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit2]
+FileName=widgets.hpp
+CompileCpp=1
+Folder=openglwidgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit3]
+FileName=openglsdl.hpp
+CompileCpp=1
+Folder=openglwidgets
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
