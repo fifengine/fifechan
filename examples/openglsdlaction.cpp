@@ -1,5 +1,5 @@
 /**
- * This is an example that demonstrates how to use actios
+ * This is an example that demonstrates how to use actions
  * in Guichan. The example uses the OpenGL back end and the 
  * SDL back end.
  */
