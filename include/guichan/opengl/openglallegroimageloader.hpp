@@ -83,6 +83,7 @@ namespace gcn
                                                  bmp->h,
                                                  convertToDisplayFormat);
 
+            delete[] pixels;
             destroy_bitmap(bmp);
 
             return image;
