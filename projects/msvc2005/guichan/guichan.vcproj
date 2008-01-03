@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="DLL Release|Win32"
-			OutputDirectory="../../../lib/msvc/"
-			IntermediateDirectory="../../../obj/msvc/release/"
+			OutputDirectory="..\..\..\lib\msvc"
+			IntermediateDirectory="..\..\..\obj\msvc\release_dll"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -109,7 +109,7 @@
 		<Configuration
 			Name="DLL Debug|Win32"
 			OutputDirectory="..\..\..\lib\msvc"
-			IntermediateDirectory="..\..\..\obj\msvc\debug"
+			IntermediateDirectory="..\..\..\obj\msvc\debug_dll"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -201,8 +201,8 @@
 		</Configuration>
 		<Configuration
 			Name="Static Library Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="..\..\..\lib\msvc"
+			IntermediateDirectory="..\..\..\obj\msvc\debug_static"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -279,8 +279,8 @@
 		</Configuration>
 		<Configuration
 			Name="Static Library Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="..\..\..\lib\msvc"
+			IntermediateDirectory="..\..\..\obj\msvc\release_static"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
