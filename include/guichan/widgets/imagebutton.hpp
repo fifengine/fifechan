@@ -76,6 +76,11 @@ namespace gcn
     {
     public:
         /**
+         * Default constructor.
+         */
+        ImageButton();
+
+        /**
          * Constructor.
          *
          * @param filename The filename of the image to display.
@@ -87,12 +92,27 @@ namespace gcn
          *
          * @param image The image to display.
          */
-        ImageButton(Image* image);
+        ImageButton(const Image* image);
 
         /**
          * Destructor.
          */
         virtual ~ImageButton();
+
+        /**
+         * Sets the image to display. Existing Image is freed automatically, 
+         * if it was loaded internally.
+         *
+         * @param image The image to display.
+         */
+        void setImage(const Image* image);
+
+        /**
+         * Gets current image.
+         *
+         * @return The current image.
+         */
+        const Image* getImage() const;
 
 
         // Inherited from Widget
@@ -103,7 +123,7 @@ namespace gcn
         /**
          * The image to display.
          */
-        gcn::Image* mImage;
+        const Image* mImage;
         
         /**
          * True if the image has been loaded internally, false otherwise.
