@@ -120,8 +120,8 @@ namespace gcn
          * preparations before drawing. An example of such an implementation
          * would be OpenGLGraphics.
          *
-         * NOTE: You will never need to call this function yourself.
-         *       Gui will do it for you.
+         * NOTE: You will never need to call this function yourself, unless
+         *       you use a Graphics object outside of Guichan.
          *
          * @see _endDraw, Gui::draw
          */
@@ -131,8 +131,8 @@ namespace gcn
          * Deinitializes drawing. Called by the Gui when a Gui::draw() is done.
          * done. It should reset any state changes made by _beginDraw().
          *
-         * NOTE: You will never need to call this function yourself.
-         *       Gui will do it for you.
+         * NOTE: You will never need to call this function yourself, unless
+         *       you use a Graphics object outside of Guichan.
          *
          * @see _beginDraw, Gui::draw
          */
