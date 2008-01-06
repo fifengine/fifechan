@@ -373,7 +373,7 @@ namespace gcn
             || mouseEvent.getX() < 0
             || mouseEvent.getX() >= getWidth()
             && mouseEvent.getButton() == MouseEvent::LEFT
-            && hasModalMouseInputFocus())
+            && isModalMouseInputFocused())
         {
             releaseModalMouseInputFocus();
 
@@ -506,7 +506,7 @@ namespace gcn
     {
         foldUp();
         releaseModalMouseInputFocus();
-        generateAction();
+        distributeActionEvent();
     }
 
     Rectangle DropDown::getChildrenArea()

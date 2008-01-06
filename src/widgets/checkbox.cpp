@@ -197,7 +197,7 @@ namespace gcn
     void CheckBox::toggleSelected()
     {
         mSelected = !mSelected;
-        generateAction();
+        distributeActionEvent();
     }
 }
 

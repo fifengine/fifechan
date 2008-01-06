@@ -191,7 +191,7 @@ namespace gcn
 
         if (key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
         {
-            generateAction();
+            distributeActionEvent();
             keyEvent.consume();
         }
         else if (key.getValue() == Key::UP)
@@ -243,7 +243,7 @@ namespace gcn
         if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
             setSelected(mouseEvent.getY() / getFont()->getHeight());
-            generateAction();
+            distributeActionEvent();
         }
     }
 

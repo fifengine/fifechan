@@ -248,7 +248,7 @@ namespace gcn
             && mHasMouse)
         {
             mMousePressed = false;
-            generateAction();
+            distributeActionEvent();
             mouseEvent.consume();
         }
         else if (mouseEvent.getButton() == MouseEvent::LEFT)
@@ -284,7 +284,7 @@ namespace gcn
             && mKeyPressed)
         {
             mKeyPressed = false;
-            generateAction();
+            distributeActionEvent();
             keyEvent.consume();
         }
     }

@@ -1,5 +1,9 @@
 Version 0.8.0
 =============
+* Widget::hasModalFocus and Widget::hasModalMouseInputFocus has been
+  renamed to Widget::isModalFocused and Widget::isModalMouseInputFocused.
+* Widget::generateAction has been renamed to 
+  Widget::distributeActionEvent.
 * All the examples have been improved. Examples have been added for
   HGE, OpenGL with SDL and for OpenGL with Allegro.
 * Widget::drawBorder, Widget::getBorderSize and Widget::setBorderSize

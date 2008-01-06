@@ -667,15 +667,17 @@ namespace gcn
 
         /**
          * Checks if the widget or it's parent has modal focus.
+         *
+         * * @since 0.8.0
          */
-        virtual bool hasModalFocus() const;
+        virtual bool isModalFocused() const;
 
         /**
          * Checks if the widget or it's parent has modal mouse input focus.
          *
-         * @since 0.6.0
+         * @since 0.8.0
          */
-        virtual bool hasModalMouseInputFocus() const;
+        virtual bool isModalMouseInputFocused() const;
 
         /**
          * Gets a widget from a certain position in the widget.
@@ -800,15 +802,17 @@ namespace gcn
 
     protected:
         /**
-         * Generates an action to the widget's ActionListeners.
+         * Distributes an action event to all action listeners
+         * of the widget.
+         *
+         * @since 0.8.0
          */
-        void generateAction();
+        void distributeActionEvent();
 
         /**
          * Distributes resized events to all of the widget's listeners.
          *
          * @since 0.8.0
-         * @author Olof Naessén
          */
         void distributeResizedEvent();
 
@@ -816,7 +820,6 @@ namespace gcn
          * Distributes moved events to all of the widget's listeners.
          *
          * @since 0.8.0
-         * @author Olof Naessén
          */
         void distributeMovedEvent();
 
