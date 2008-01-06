@@ -211,6 +211,7 @@ namespace gcn
          *
          * @param tabbing True if tabbing should be enabled, false
          *                otherwise.
+         * @see isTabbingEnabled
          * @since 0.1.0
          */
         virtual void setTabbingEnabled(bool tabbing);
@@ -219,6 +220,7 @@ namespace gcn
          * Checks if tabbing is enabled.
          *
          * @return True if tabbing is enabled, false otherwise.
+         * @see setTabbingEnabled
          * @since 0.1.0
          */
         virtual bool isTabbingEnabled();
@@ -230,7 +232,7 @@ namespace gcn
          * of widgets.
          *
          * @param keyListener The key listener to add.
-         * @see removeKeyListener
+         * @see removeGlobalKeyListener
          * @since 0.5.0
          */
         virtual void addGlobalKeyListener(KeyListener* keyListener);
@@ -240,7 +242,7 @@ namespace gcn
          *
          * @param keyListener The key listener to remove.
          * @throws Exception if the key listener hasn't been added.
-         * @see addKeyListener
+         * @see addGlobalKeyListener
          * @since 0.5.0
          */
         virtual void removeGlobalKeyListener(KeyListener* keyListener);

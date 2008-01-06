@@ -255,6 +255,7 @@ namespace gcn
          * Sets the color to use when drawing.
          *
          * @param color A color.
+         * @see getColor
          */
         virtual void setColor(const Color& color) = 0;
 
@@ -262,6 +263,7 @@ namespace gcn
          * Gets the color to use when drawing.
          *
          * @return The color used when drawing.
+         * @see setColor
          */
         virtual const Color& getColor() const = 0;
 
