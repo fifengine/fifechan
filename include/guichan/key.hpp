@@ -71,34 +71,37 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param value the ascii or enum value for the key.
+         * @param value The ascii or enum value for the key.
          */
         Key(int value = 0);
 
         /**
-         * Checks whether a key is a character.
+         * Checks if a key is a character.
          *
-         * @return true if the key is a letter, number or whitespace.
+         * @return True if the key is a letter, number or whitespace,
+         *         false otherwise.
          */
         bool isCharacter() const;
 
         /**
-         * Checks whether a key is a number.
+         * Checks if a key is a number.
          *
-         * @return true if the key is a number (0-9).
+         * @return True if the key is a number (0-9),
+         *         false otherwise.
          */
         bool isNumber() const;
 
         /**
-         * Checks whether a key is a letter.
+         * Checks if a key is a letter.
          *
-         * @return true if the key is a letter (a-z,A-Z).
+         * @return True if the key is a letter (a-z,A-Z),
+         *         false otherwise.
          */
         bool isLetter() const;
 
         /**
-         * Gets the value of the key. If an ascii value exists it will be
-         * returned. Otherwise an enum value will be returned.
+         * Gets the value of the key. If an ascii value exists it 
+         * will be returned. Otherwise an enum value will be returned.
          *
          * @return the value of the key.
          */
@@ -158,6 +161,10 @@ namespace gcn
         };
 
     protected:
+        /**
+         * Holds the value of the key. It may be an ascii value
+         * or an enum value.
+         */
         int mValue;
     };
 }

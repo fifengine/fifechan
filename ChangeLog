@@ -1,5 +1,6 @@
 Version 0.8.0
 =============
+* Rectangle::intersect has been renamed to Rectangle::isIntersecting.
 * Widget::hasModalFocus and Widget::hasModalMouseInputFocus has been
   renamed to Widget::isModalFocused and Widget::isModalMouseInputFocused.
 * Widget::generateAction has been renamed to 

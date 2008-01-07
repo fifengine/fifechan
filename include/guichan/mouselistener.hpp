@@ -63,7 +63,7 @@
 namespace gcn
 {
     /**
-     * Interface for listening for death events from widgets.
+     * Interface for listening for mouse events from widgets.
      *
      * @see Widget::addMouseListener, Widget::removeMouseListener
      * @since 0.1.0
