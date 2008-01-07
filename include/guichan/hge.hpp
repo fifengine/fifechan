@@ -62,6 +62,4 @@
 #include <guichan/hge/hgeimagefont.hpp>
 #include <guichan/hge/hgeimageloader.hpp>
 #include <guichan/hge/hgeinput.hpp>
-
-
 #endif // end GCN_HGE_HPP
