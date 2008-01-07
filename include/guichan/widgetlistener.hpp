@@ -117,6 +117,15 @@ namespace gcn
          */
         virtual void widgetShown(const Event& event) { }
 
+        protected:
+        /**
+         * Constructor.
+         *
+         * You should not be able to make an instance of WidgetListener,
+         * therefore its constructor is protected.
+         */
+        WidgetListener() { }
+
     };
 }
 
