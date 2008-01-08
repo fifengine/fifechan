@@ -107,6 +107,7 @@
 
 #include "guichan/platform.hpp"
 
+
 class Widget;
 
 extern "C"
