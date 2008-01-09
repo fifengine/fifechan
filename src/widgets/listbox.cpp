@@ -114,9 +114,9 @@ namespace gcn
         int i = currentClipArea.y / getFont()->getHeight();
         int end = (currentClipArea.y + currentClipArea.height) / getFont()->getHeight();
 
-        if (end >= mListModel->getNumberOfElements())
+        if (end > mListModel->getNumberOfElements())
         {
-            end = mListModel->getNumberOfElements() - 1;
+            end = mListModel->getNumberOfElements();
         }
 
         int y = 0;
