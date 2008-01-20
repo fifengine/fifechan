@@ -65,7 +65,7 @@ FFCharacterChooser::FFCharacterChooser()
 	mHand = gcn::Image::load("images/hand.png");
 	setFocusable(true);
 	addKeyListener(this);
-	setBorderSize(0);
+	setFrameSize(0);
 }
 
 FFCharacterChooser::~FFCharacterChooser()
@@ -116,6 +116,6 @@ void FFCharacterChooser::keyPressed(gcn::KeyEvent& keyEvent)
 	}
 	else if (keyEvent.getKey().getValue() == gcn::Key::ENTER)
 	{
-		generateAction();
+		distributeActionEvent();
 	}
 }

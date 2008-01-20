@@ -63,7 +63,7 @@ FFScrollArea::FFScrollArea()
 	setScrollPolicy(SHOW_NEVER,	SHOW_ALWAYS);
 	addKeyListener(this);
 	setFocusable(false);
-	setBorderSize(0);
+	setFrameSize(0);
 }
 
 void FFScrollArea::draw(gcn::Graphics *graphics)
@@ -89,6 +89,11 @@ void FFScrollArea::draw(gcn::Graphics *graphics)
 
 void FFScrollArea::keyPressed(gcn::KeyEvent &keyEvent)
 {
+    if (keyEvent.isConsumed())
+    {
+        return;
+    }
+    
 	if (keyEvent.getKey().getValue() == gcn::Key::DOWN)
 	{
 		setVerticalScrollAmount(getVerticalScrollAmount() + 16);

@@ -70,8 +70,8 @@ FFListBox::FFListBox()
 	}
 
 	mInstances++;
-	setBorderSize(0);
-	setWrappingKeyboardSelection(true);
+	setFrameSize(0);
+	setWrappingEnabled(true);
 }
 
 FFListBox::~FFListBox()
