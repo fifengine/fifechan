@@ -331,9 +331,10 @@ namespace gcn
     void BasicContainer::showWidgetPart(Widget* widget, Rectangle area)
     {
         Rectangle widgetArea = getChildrenArea();
+
         area.x += widget->getX();
         area.y += widget->getY();
-
+        
         if (area.x + area.width > widgetArea.width)
         {
             widget->setX(widget->getX() - area.x - area.width + widgetArea.width);

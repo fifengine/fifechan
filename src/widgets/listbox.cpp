@@ -167,12 +167,6 @@ namespace gcn
                 mSelected = selected;
             }
 
-            Widget *par = getParent();
-            if (par == NULL)
-            {
-                return;
-            }
-
             Rectangle scroll;
 
             if (mSelected < 0)
@@ -185,7 +179,7 @@ namespace gcn
             }
 
             scroll.height = getFont()->getHeight();
-            par->showWidgetPart(this, scroll);
+            showPart(scroll);
         }
 
         distributeValueChangedEvent();
