@@ -1,6 +1,6 @@
 CFLAGS = -Werror -Wall -Wno-unused
 
-all: allegro allegrogl opengl sdl
+all: allegro openglallegro openglsdl sdl
 
 allegro:
 	g++ allegrohelloworld.cpp -o allegrohelloworld $(CFLAGS) \
@@ -10,14 +10,20 @@ allegro:
 	g++ allegroaction.cpp -o allegroaction $(CFLAGS) \
 	-lguichan_allegro -lguichan `allegro-config --libs --cflags`
 
-allegrogl:
-	g++ allegroglwidgets.cpp -o allegroglwidgets  $(CFLAGS) \
+openglallegro:
+	g++ openglallegrohelloworld.cpp -o openglallegrohelloworld  $(CFLAGS) \
+	-lguichan_opengl -lguichan_allegro -lguichan -lGL -lGLU -lagl `allegro-config --libs --cflags`
+	g++ openglallegrowidgets.cpp -o openglallegrowidgets  $(CFLAGS) \
+	-lguichan_opengl -lguichan_allegro -lguichan -lGL -lGLU -lagl `allegro-config --libs --cflags`
+	g++ openglallegrowidgets.cpp -o openglallegroaction  $(CFLAGS) \
 	-lguichan_opengl -lguichan_allegro -lguichan -lGL -lGLU -lagl `allegro-config --libs --cflags`
 
-opengl:
-	g++ openglhelloworld.cpp -o openglhelloworld $(CFLAGS) \
+openglsdl:
+	g++ openglsdlhelloworld.cpp -o openglsdlhelloworld $(CFLAGS) \
 	-lguichan_sdl -lguichan_opengl -lguichan -lSDL_image `sdl-config --libs --cflags` -lGL
-	g++ openglwidgets.cpp -o openglwidgets $(CFLAGS) \
+	g++ openglsdlwidgets.cpp -o openglsdlwidgets $(CFLAGS) \
+	-lguichan_sdl -lguichan_opengl -lguichan -lSDL_image `sdl-config --libs --cflags` -lGL
+	g++ openglsdlaction.cpp -o openglsdlaction $(CFLAGS) \
 	-lguichan_sdl -lguichan_opengl -lguichan -lSDL_image `sdl-config --libs --cflags` -lGL
 
 sdl:
