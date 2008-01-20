@@ -134,4 +134,20 @@ namespace gcn
                 && ax < (x + width) 
                 && ay < (y + height);
     }
+
+    std::ostream& operator<<(std::ostream& out,
+                             const Rectangle& rectangle)
+    {
+        out << "Rectangle [x = "
+            << rectangle.x
+            << ", y = "
+            << rectangle.y
+            << ", width = "
+            << rectangle.width
+            << ", height = "
+            << rectangle.height
+            << "]";
+
+        return out;
+    }
 }
