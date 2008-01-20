@@ -113,7 +113,7 @@ void FPSDemo::initGui()
 	mDemoInfo->setOpaque(false);
 	mDemoInfo->setEditable(false);
 	mDemoInfo->setFocusable(false);
-    mDemoInfo->setBorderSize(0);
+    mDemoInfo->setFrameSize(0);
 	mTop->add(mDemoInfo);
 
 	mVersionLabel = new gcn::Label("Version 1.00");
@@ -248,7 +248,7 @@ void FPSDemo::initSingleplay()
 	mSingleplayText->setFont(mWhiteFont);
 	mSingleplayText->setOpaque(false);
     mSingleplayText->setEditable(false);
-    mSingleplayText->setBorderSize(0);
+    mSingleplayText->setFrameSize(0);
 	mSingleplay->add(mSingleplayText);
 
 	mSingleplayBackButton = new FPSButton("Back");
@@ -295,7 +295,7 @@ void FPSDemo::initMultiplay()
 	mMultiplayText->setFont(mWhiteFont);
 	mMultiplayText->setOpaque(false);
 	mMultiplayText->setEditable(false);
-    mMultiplayText->setBorderSize(0);
+    mMultiplayText->setFrameSize(0);
 	mMultiplay->add(mMultiplayText);
 
 	mMultiplayBackButton = new FPSButton("Back");
@@ -345,7 +345,7 @@ void FPSDemo::initOptions()
 	mFullScreen->setBaseColor(0x771010);
 	mFullScreen->setActionEventId("fullscreen");
 	mFullScreen->addActionListener(this);
-	mFullScreen->setMarked(mHaveFullscreen);
+	mFullScreen->setSelected(mHaveFullscreen);
 	mOptions->add(mFullScreen);
 
 	mResolutionScrollArea = new gcn::ScrollArea();
@@ -769,7 +769,7 @@ void FPSDemo::initVideo()
  		mHeight = 600;
 		mResolutionChange = true;
  	}
- 	if (mFullScreen->isMarked())
+ 	if (mFullScreen->isSelected())
  	{
  		mScreen = SDL_SetVideoMode(mWidth, mHeight, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_HWACCEL | SDL_FULLSCREEN);
 		mHaveFullscreen = true;

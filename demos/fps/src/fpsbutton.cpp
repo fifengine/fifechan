@@ -22,7 +22,7 @@ FPSButton::FPSButton(const std::string& caption)
 		:Button(caption),
          mHasMouse(false)
 {
-  setBorderSize(0);
+  setFrameSize(0);
   
 	if (mInstances == 0)
 	{		
