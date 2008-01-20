@@ -218,14 +218,14 @@ namespace gcn
         void distributeValueChangedEvent();
 
         /**
-         * The list model to use.
-         */
-        ListModel *mListModel;
-
-        /**
          * The selected item as an index in the list model.
          */
         int mSelected;
+
+        /**
+         * The list model to use.
+         */
+        ListModel *mListModel;
 
         /**
          * True if wrapping is enabled, false otherwise.

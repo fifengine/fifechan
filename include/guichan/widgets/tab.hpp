@@ -148,6 +148,11 @@ namespace gcn
         Label* mLabel;
 
         /**
+         * True if the tab has the mouse, false otherwise.
+         */
+        bool mHasMouse;
+
+        /**
          * Holds the tabbed area the tab is a part of.
          */
         TabbedArea* mTabbedArea;
@@ -156,11 +161,6 @@ namespace gcn
          * Holds the caption of the tab.
          */
         std::string mCaption;
-
-        /**
-         * True if the tab has the mouse, false otherwise.
-         */
-        bool mHasMouse;
     };
 }
 
