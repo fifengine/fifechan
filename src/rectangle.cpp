@@ -57,69 +57,67 @@ namespace gcn
     {
     }
 
-    Rectangle::Rectangle(int ax, int ay, int awidth, int aheight)
-      : x(ax),
-        y(ay),
-        width(awidth),
-        height(aheight)
+    Rectangle::Rectangle(int x_, int y_, int width_, int height_)
+      : x(x_),
+        y(y_),
+        width(width_),
+        height(height_)
     {
     }
 
-    void Rectangle::setAll(int ax, int ay, int awidth, int aheight)
+    void Rectangle::setAll(int x_, int y_, int width_, int height_)
     {
-        x = ax;
-        y = ay;
-        width = awidth;
-        height = aheight;
+        x = x_;
+        y = y_;
+        width = width_;
+        height = height_;
     }
 
-    bool Rectangle::isIntersecting(const Rectangle& rectangle)
+    bool Rectangle::isIntersecting(const Rectangle& rectangle) const
     {
-        x -= rectangle.x;
-        y -= rectangle.y;
+        int x_ = x;
+        int y_ = y;
+		int width_ = width;
+		int height_ = height;
+		
+		x_ -= rectangle.x;
+		y_ -= rectangle.y;
+       
 
-        if (x < 0)
+        if (x_ < 0)
         {
-            width += x;
-            x = 0;
+            width_ += x_;
+            x_ = 0;
         }
-        else if (x + width > rectangle.width)
+        else if (x_ + width_ > rectangle.width)
         {
-            width = rectangle.width - x;
-        }
-
-        if (y < 0)
-        {
-            height += y;
-            y = 0;
-        }
-        else if (y + height > rectangle.height)
-        {
-            height = rectangle.height - y;
+            width_ = rectangle.width - x_;
         }
 
-        if (width <= 0 || height <= 0)
+        if (y_ < 0)
         {
-            height = 0;
-            width = 0;
-            x += rectangle.x;
-            y += rectangle.y;
+            height_ += y_;
+            y_ = 0;
+        }
+        else if (y_ + height_ > rectangle.height)
+        {
+            height_ = rectangle.height - y_;
+        }
 
+        if (width_ <= 0 || height_ <= 0)
+        {
             return false;
         }
-
-        x += rectangle.x;
-        y += rectangle.y;
 
         return true;
     }
 
-    bool Rectangle::isPointInRect(int ax, int ay) const
+    bool Rectangle::isPointInRect(int x_, int y_) const
     {
-        return (ax >= x) 
-                && (ay >= y) 
-                && ax < (x + width) 
-                && ay < (y + height);
+        return (x_ >= x) 
+                && (y_ >= y) 
+                && x_ < (x + width) 
+                && y_ < (y + height);
     }
 
     std::ostream& operator<<(std::ostream& out,
