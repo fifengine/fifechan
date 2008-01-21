@@ -21,9 +21,9 @@ Version 0.8.0
   the scroll policy enum in ScrollArea are no longer anonymous enums.
 * RadioButton::setMarked and RadioButton::isMarked have been 
   renamed to RadioButton::setSelected and RadioButton::isSelected.
-* CheckBox::setMarked, CheckBox::isMarked and CheckBox::toogle have been 
+* CheckBox::setMarked, CheckBox::isMarked and CheckBox::toggle have been 
   renamed to CheckBox::setSelected, CheckBox::isSelected and
-  CheckBox::toogleSelected.
+  CheckBox::toggleSelected.
 * An image button widget, a button capable of displaying an image,
   has been added.
 * A widget listener has been added used to listen for resized events,
