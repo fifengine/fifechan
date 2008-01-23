@@ -54,9 +54,9 @@ namespace gcn
     /**
      * Interface for listening for selection events from widgets.
      *
-     * @see ListBox::addSelectionListener, 
-     *      ListBox::removeSelectionListener, 
-     *      DropDown:addSelectionListener,
+     * @see ListBox::addSelectionListener,
+     *      ListBox::removeSelectionListener,
+     *      DropDown::addSelectionListener,
      *      DropDown::removeSelectionListener
      * @author Olof Naessén
      * @since 0.8.0
@@ -71,14 +71,15 @@ namespace gcn
         virtual ~SelectionListener() { }
 
         /**
-         * Called when a value has been changed in a Widget. It is used
-         * to be able to recieve a notification that a value has been changed.
+         * Called when the value of a selection has been changed in a Widget.
+         * It is used to be able to recieve a notification that a value has
+         * been changed.
          *
          * @param event The event of the value change.
          * @since 0.8.0
          */
         virtual void valueChanged(const SelectionEvent& event) { };
-        
+
     protected:
         /**
          * Constructor.
