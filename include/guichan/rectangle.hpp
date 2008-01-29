@@ -99,8 +99,8 @@ namespace gcn
         /**
          * Checks if a point is inside the rectangle
          *
-         * @param x The point x coordinate of the point.
-         * @param y The point y coordinate of the point.
+         * @param x The x coordinate of the point.
+         * @param y The y coordinate of the point.
          * @return True if the point is inside the rectangle.
          * @since 0.1.0
          */
@@ -129,7 +129,7 @@ namespace gcn
          * Holds the width of the rectangle.
          */
         int width;
-        
+
         /**
          * Holds the height of the rectangle.
          */

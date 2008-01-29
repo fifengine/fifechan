@@ -49,10 +49,10 @@
 
 namespace gcn
 {
-    Rectangle::Rectangle() 
-        : x(0), 
-          y(0), 
-          width(0), 
+    Rectangle::Rectangle()
+        : x(0),
+          y(0),
+          width(0),
           height(0)
     {
     }
@@ -77,12 +77,11 @@ namespace gcn
     {
         int x_ = x;
         int y_ = y;
-		int width_ = width;
-		int height_ = height;
-		
-		x_ -= rectangle.x;
-		y_ -= rectangle.y;
-       
+        int width_ = width;
+        int height_ = height;
+
+        x_ -= rectangle.x;
+        y_ -= rectangle.y;
 
         if (x_ < 0)
         {
@@ -114,23 +113,19 @@ namespace gcn
 
     bool Rectangle::isPointInRect(int x_, int y_) const
     {
-        return (x_ >= x) 
-                && (y_ >= y) 
-                && x_ < (x + width) 
-                && y_ < (y + height);
+        return x_ >= x
+            && y_ >= y
+            && x_ < x + width
+            && y_ < y + height;
     }
 
     std::ostream& operator<<(std::ostream& out,
                              const Rectangle& rectangle)
     {
-        out << "Rectangle [x = "
-            << rectangle.x
-            << ", y = "
-            << rectangle.y
-            << ", width = "
-            << rectangle.width
-            << ", height = "
-            << rectangle.height
+        out << "Rectangle [x = " << rectangle.x
+            << ", y = " << rectangle.y
+            << ", width = " << rectangle.width
+            << ", height = " << rectangle.height
             << "]";
 
         return out;

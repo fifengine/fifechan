@@ -58,7 +58,7 @@ namespace gcn
 {
     class Container;
     class Tab;
-    
+
     /**
      * An implementation of a tabbed area where a user can display a widget by
      * selecting a tab.
@@ -69,8 +69,9 @@ namespace gcn
         public KeyListener,
         public MouseListener
     {
-    public:
+        friend class Tab;
 
+    public:
         /**
          * Constructor.
          */
@@ -94,7 +95,7 @@ namespace gcn
          * Adds a tab to the tabbed area.
          *
          * @param tab The tab widget for the tab.
-         * @param widget The widget to view when the tab is selected.  
+         * @param widget The widget to view when the tab is selected.
          * @see removeTab, removeTabWithIndex
          */
         virtual void addTab(Tab* tab, Widget* widget);
@@ -106,7 +107,7 @@ namespace gcn
          * @see addTab
          */
         virtual void removeTabWithIndex(unsigned int index);
-        
+
         /**
          * Removes a tab from the tabbed area.
          *
@@ -123,7 +124,7 @@ namespace gcn
          * @see setSelectedTab
          */
         virtual bool isTabSelected(unsigned int index) const;
-        
+
         /**
          * Checks if a tab is selected or not.
          *
@@ -157,7 +158,7 @@ namespace gcn
          * @see isTabSelected, setSelectedTab
          */
         virtual int getSelectedTabIndex() const;
-        
+
         /**
          * Gets the selected tab.
          *
@@ -181,11 +182,11 @@ namespace gcn
 
         void setDimension(const Rectangle& dimension);
 
-        
+
         // Inherited from ActionListener
 
         void action(const ActionEvent& actionEvent);
-        
+
 
         // Inherited from DeathListener
 
@@ -198,10 +199,10 @@ namespace gcn
 
 
         // Inherited from MouseListener
-        
+
         virtual void mousePressed(MouseEvent& mouseEvent);
 
-        
+
     protected:
         /**
          * Adjusts the size of the tabbed area.
@@ -209,10 +210,10 @@ namespace gcn
         void adjustSize();
 
         /**
-         * Adjusts the positions ot the tabs.
+         * Adjusts the positions of the tabs.
          */
         void adjustTabPositions();
-        
+
         /**
          * Holds the selected tab.
          */
