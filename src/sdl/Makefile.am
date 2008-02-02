@@ -4,6 +4,8 @@ lib_LTLIBRARIES = libguichan_sdl.la
 
 INCLUDES = -I$(top_srcdir)/include
 
+libguichan_sdl_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -release $(LT_RELEASE)
+
 libguichan_sdl_la_SOURCES =	\
 	sdl.cpp			\
 	sdlgraphics.cpp		\

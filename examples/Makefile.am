@@ -1,14 +1,30 @@
 EXTRA_DIST =                  		\
 	Makefile.examples		\
+	action.hpp			\
+	allegro.hpp			\
 	allegroaction.cpp		\
 	allegrohelloworld.cpp 		\
 	allegrowidgets.cpp		\
-	allegroglwidgets.cpp		\
 	darkbitslogo_by_haiko.bmp	\
 	fixedfont.bmp			\
 	gui-chan.bmp			\
-	openglhelloworld.cpp		\
-	openglwidgets.cpp		\
+	helloworld.hpp			\
+	hge.hpp				\
+	hgeaction.cpp			\
+	hgehelloworld.cpp		\
+	hgewidgets.cpp			\
+	openglallegro.hpp		\
+	openglallegroaction.cpp		\
+	openglallegrohelloworld.cpp	\
+	openglallegrowidgets.cpp	\
+	openglsdl.hpp			\
+	openglsdlaction.cpp		\
+	openglsdlhelloworld.cpp		\
+	openglsdlwidgets.cpp		\
+	openlayer.hpp			\
+	openlayerwidgets.cpp		\
+	sdl.hpp				\
 	sdlaction.cpp			\
 	sdlhelloworld.cpp		\
-	sdlwidgets.cpp
+	sdlwidgets.cpp			\
+	widgets.hpp
