@@ -49,8 +49,8 @@ Version 0.8.0
   A mouse entered event is distributed to a widget when the mouse enters
   a widget and a mouse exited event is distributed to a widget as soon
   as the mouse leaves the widget.
-* OpenGL true type font has been added as an add on. The font uses the OGLFT font
-  library, http://oglft.sourceforge.net/.
+* OpenGL true type font has been added as an add on. The font uses the OGLFT 
+  font library, http://oglft.sourceforge.net/.
 * A bug has been fixed where a segfault could occur when a drop down widget
   was deleted.
 * Button now has configurable spacing.
