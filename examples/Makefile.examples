@@ -35,6 +35,7 @@ sdl:
 	-lguichan_sdl -lguichan -lSDL_image `sdl-config --libs --cflags`
 
 clean:
-	rm -f allegrohelloworld allegrowidgets allegroaction
-	rm -f sdlhelloworld sdlwidgets sdlaction
-	rm -f openglhelloworld openglwidgets
+	rm -f allegroaction allegrohelloworld allegrowidgets
+	rm -f openglallegroaction openglallegrohelloworld openglallegrowidgets
+	rm -f openglsdlaction openglsdlhelloworld openglsdlwidgets
+	rm -f sdlaction sdlhelloworld sdlwidgets
