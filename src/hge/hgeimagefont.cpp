@@ -106,7 +106,12 @@ namespace gcn
 
     void HGEImageFont::drawString(Graphics *graphics, const std::string &text, int x, int y)
     {
-        Color color = graphics->getColor();
+		ClipRectangle const top = mClipStack.top();
+
+        x += top.xOffset;
+        y += top.yOffset;
+
+		Color color = graphics->getColor();
 
         mHGEFont->SetColor(ARGB(color.a, color.r, color.g, color.b));
 
