@@ -106,7 +106,7 @@ namespace gcn
 
     void HGEImageFont::drawString(Graphics *graphics, const std::string &text, int x, int y)
     {
-		ClipRectangle const top = mClipStack.top();
+		ClipRectangle const &top = graphics->getCurrentClipArea();
 
         x += top.xOffset;
         y += top.yOffset;
