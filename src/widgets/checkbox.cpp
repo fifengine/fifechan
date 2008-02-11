@@ -83,16 +83,15 @@ namespace gcn
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
 
-        int h = getHeight() + getHeight() / 2;
+        const int h = getHeight() + getHeight() / 2;
 
         graphics->drawText(getCaption(), h - 2, 0);
     }
 
     void CheckBox::drawBox(Graphics *graphics)
     {
-        int h = getHeight() - 2;
-
-        int alpha = getBaseColor().a;
+        const int h = getHeight() - 2;
+        const int alpha = getBaseColor().a;
         Color faceColor = getBaseColor();
         faceColor.a = alpha;
         Color highlightColor = faceColor + 0x303030;
@@ -116,8 +115,8 @@ namespace gcn
         if (isFocused())
         {
             graphics->drawRectangle(Rectangle(0, 0, h + 2, h + 2));
-        }        
-               
+        }
+
         if (mSelected)
         {
             graphics->drawLine(3, 5, 3, h - 2);
