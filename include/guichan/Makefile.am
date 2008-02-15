@@ -41,3 +41,7 @@ libguichaninclude_HEADERS =	\
 	sdl.hpp			\
 	widget.hpp		\
 	widgetlistener.hpp
+
+EXTRA_DIST = 			\
+	hge.hpp			\
+	openlayer.hpp
