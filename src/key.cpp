@@ -78,4 +78,14 @@ namespace gcn
     {
         return mValue;
     }
+		
+	bool Key::operator==(const Key& key) const
+	{
+		return mValue == key.mValue;
+	}
+
+	bool Key::operator!=(const Key& key) const
+	{
+		return (mValue != key.mValue);
+	}
 }
