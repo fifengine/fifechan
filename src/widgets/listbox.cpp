@@ -97,12 +97,12 @@ namespace gcn
         // Check the current clip area so we don't draw unnecessary items
         // that are not visible.
         const ClipRectangle currentClipArea = graphics->getCurrentClipArea();
-        int fontHeight = getFont()->getHeight();
+        int rowHeight = getRowHeight();
         
 		// Calculate the number of rows to draw by checking the clip area.
 		// The addition of two makes covers a partial visible row at the top
 		// and a partial visible row at the bottom.
-		int numberOfRows = currentClipArea.height / fontHeight + 2;
+		int numberOfRows = currentClipArea.height / rowHeight + 2;
 
         if (numberOfRows > mListModel->getNumberOfElements())
         {
@@ -118,7 +118,7 @@ namespace gcn
 		int startRow;    	
 		if (getY() < 0)
 		{
-			startRow = -1 * (getY() / fontHeight);
+			startRow = -1 * (getY() / rowHeight);
 		}
 		else
 		{
@@ -128,19 +128,28 @@ namespace gcn
 		int i;
 		// The y coordinate where we start to draw the text is
 		// simply the y coordinate multiplied with the font height.
-		int y = fontHeight * startRow;
+		int y = rowHeight * startRow;
         for (i = startRow; i < startRow + numberOfRows; ++i)
         {
             if (i == mSelected)
             {
                 graphics->setColor(getSelectionColor());
-                graphics->fillRectangle(Rectangle(0, y, getWidth(), fontHeight));
+                graphics->fillRectangle(Rectangle(0, y, getWidth(), rowHeight));
                 graphics->setColor(getForegroundColor());
             }
+			
+			// If the row height is greater than the font height we
+			// draw the text with a center vertical alignment.
+			if (rowHeight > getFont()->getHeight())
+			{
+				graphics->drawText(mListModel->getElementAt(i), 1, y + rowHeight / 2 - getFont()->getHeight() / 2);
+			}
+			else
+			{
+				graphics->drawText(mListModel->getElementAt(i), 1, y);
+			}
 
-            graphics->drawText(mListModel->getElementAt(i), 1, y);
-
-            y += fontHeight;
+            y += rowHeight;
         }
     }
 
@@ -183,10 +192,10 @@ namespace gcn
             }
             else
             {
-                scroll.y = getFont()->getHeight() * mSelected;
+                scroll.y = getRowHeight() * mSelected;
             }
 
-            scroll.height = getFont()->getHeight();
+            scroll.height = getRowHeight();
             showPart(scroll);
         }
 
@@ -250,7 +259,7 @@ namespace gcn
     {
         if (mouseEvent.getButton() == MouseEvent::LEFT)
         {
-            setSelected(mouseEvent.getY() / getFont()->getHeight());
+            setSelected(mouseEvent.getY() / getRowHeight());
             distributeActionEvent();
         }
     }
@@ -299,7 +308,7 @@ namespace gcn
     {
         if (mListModel != NULL)
         {
-            setHeight(getFont()->getHeight() * mListModel->getNumberOfElements());
+            setHeight(getRowHeight() * mListModel->getNumberOfElements());
         }
     }
 
@@ -333,4 +342,9 @@ namespace gcn
             (*iter)->valueChanged(event);
         }
     }
+
+	unsigned int ListBox::getRowHeight() const
+	{
+		return getFont()->getHeight();
+	}
 }

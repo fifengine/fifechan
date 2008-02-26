@@ -171,6 +171,15 @@ namespace gcn
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
+		/**
+		 * Gets the height of a row. Should be overridden if another row
+		 * height than the font height is preferred.
+		 *
+		 * @return The height of a row.
+		 * @since 0.8.0
+		 */
+		virtual unsigned int getRowHeight() const;
+
 
         // Inherited from Widget
 
