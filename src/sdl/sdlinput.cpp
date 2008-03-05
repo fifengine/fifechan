@@ -228,8 +228,8 @@ namespace gcn
 
         if (keysym.unicode < 255)
         {
-            value = (int)keysym.unicode;
-        }
+            value = (int)keysym.sym;
+        } 
 
         switch (keysym.sym)
         {
