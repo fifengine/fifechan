@@ -347,7 +347,7 @@ namespace gcn
                                          MouseEvent::EXITED,
                                          mouseInput.getButton(),
                                          mouseInput.getX(),
-                                         mouseInput.getX(),
+                                         mouseInput.getY(),
                                          true,
                                          true);
                 }
@@ -393,7 +393,7 @@ namespace gcn
                                              MouseEvent::EXITED,
                                              mouseInput.getButton(),
                                              mouseInput.getX(),
-                                             mouseInput.getX(),
+                                             mouseInput.getY(),
                                              true,
                                              true);                                       
                         mClickCount = 1;
