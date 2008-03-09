@@ -1,0 +1,13 @@
+Dependency:
+
+You must have installed psptoolchain, pspsdk and psplibraries from (www.pspdev.org).
+
+Installation:
+
+Just run buildpsp.sh
+
+Contact:
+
+Danny Angelo Carminati Grein
+danny@bitcrafters.com.br
+http://danny.bitcrafters.com.br/
