@@ -1,4 +1,24 @@
-2008-01-23 Eigth Beta release Guichan 0.6.1
+2008-04-06 Twelfth Beta release Guichan 0.8.0
+
+The new version of Guichan has better HGE support, enhanced API documentation,
+enhanced examples and two new widgets called TabbedArea and Tab. Also a 
+number of nasty bugs have been fixed.
+
+2007-07-11 Tenth Beta release Guichan 0.7.1
+
+Small update compared to the 0.7.0 release. Missing source for the add ons, 
+the HGE support and the OpenLayer support was added.
+
+2007-06-30 Ninth Beta release Guichan 0.7.0
+
+The new version of Guichan contains support for the library OpenLayer 
+and experimental support for the library HGE. As users have had many 
+problems related to binary incompatibility with DLLs we are not going 
+to provide pre-compiled binaries anymore. From now on users are encourage 
+to compile Guichan themselves either by making DLLs and library files or 
+by simply including the source of Guichan in to the project using Guichan.
+
+2007-01-23 Eigth Beta release Guichan 0.6.1
 
 A small update compared to the 0.6.0 release which fixes a prolem 
 with inclusion OpenGL headers on Macintosh and removes some unneccesary
