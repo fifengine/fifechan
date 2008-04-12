@@ -1,5 +1,8 @@
 Version 0.8.1
 =============
+* Add ons are now refered to as contribs all contribs have been added
+  to the main source directory under the contrib directory. All
+  contribs now also reside in a namespace called contrib.
 * ScrollArea::isOpaque and ScrollArea::setOpaque have been added to
   control if a scroll area should draw its background or not.
 * DELETE is now undefined in Key.hpp if present. It should hopefully

@@ -269,14 +269,15 @@ AC_SUBST([GUICHAN_EXTRADIRS])
 
 AC_OUTPUT([
 Makefile
-addons/Makefile
-addons/adjustingcontainer/Makefile
-addons/allegrotruetypefont/Makefile
-addons/sdltruetypefont/Makefile
 examples/Makefile
 include/Makefile
 include/guichan/Makefile
 include/guichan/allegro/Makefile
+include/guichan/contrib/Makefile
+include/guichan/contrib/allegro/Makefile
+include/guichan/contrib/opengl/Makefile
+include/guichan/contrib/sdl/Makefile
+include/guichan/contrib/widgets/Makefile
 include/guichan/hge/Makefile
 include/guichan/opengl/Makefile
 include/guichan/openlayer/Makefile
@@ -284,6 +285,11 @@ include/guichan/sdl/Makefile
 include/guichan/widgets/Makefile
 src/Makefile
 src/allegro/Makefile
+src/contrib/Makefile
+src/contrib/allegro/Makefile
+src/contrib/opengl/Makefile
+src/contrib/sdl/Makefile
+src/contrib/widgets/Makefile
 src/hge/Makefile
 src/opengl/Makefile
 src/openlayer/Makefile

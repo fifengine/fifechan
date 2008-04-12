@@ -1,4 +1,4 @@
-SUBDIRS = widgets @GUICHAN_EXTRADIRS@ hge openlayer
+SUBDIRS = widgets @GUICHAN_EXTRADIRS@ hge openlayer contrib
 
 INCLUDES = -I$(top_srcdir)/include
 
