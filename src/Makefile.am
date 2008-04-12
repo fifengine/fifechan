@@ -6,7 +6,7 @@ lib_LTLIBRARIES = libguichan.la
 
 libguichan_la_LIBADD = widgets/libguichan_widgets.la
 
-libguichan_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -release $(LT_RELEASE)
+libguichan_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 
 
 libguichan_la_DEPENDENCIES = \
 	widgets/libguichan_widgets.la
