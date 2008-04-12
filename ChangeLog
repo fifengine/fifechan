@@ -1,5 +1,7 @@
 Version 0.8.1
 =============
+* ScrollArea::isOpaque and ScrollArea::setOpaque have been added to
+  control if a scroll area should draw its background or not.
 * DELETE is now undefined in Key.hpp if present. It should hopefully
   take care of some problems with windows.h defining delete which
   sometimes breaks Key.hpp.
