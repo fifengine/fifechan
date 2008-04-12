@@ -46,13 +46,6 @@
 
 #include <allegro.h>
 #include <alleggl.h>
-#if defined (_WIN32)
-// Sometimes windows.h defines DELETE which causes a compilation
-// error in a Guichan header.
-#if defined (DELETE)
-#undef DELETE 
-#endif
-#endif
 
 #include <guichan/imageloader.hpp>
 #include <guichan/exception.hpp>
