@@ -1,3 +1,8 @@
+Version 0.8.1
+=============
+* Soname support has been fixed. The correct version number should
+  now be used in the produced binaries.
+	
 Version 0.8.0
 =============
 * Widget::showPart has been added to be used when a specific
