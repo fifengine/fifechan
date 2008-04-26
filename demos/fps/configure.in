@@ -1,11 +1,11 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichanfpsdemo, 0.8.0, olof@darkbits.org, guichanfpsdemo)
+AC_INIT(guichanfpsdemo, 0.8.1, olof@darkbits.org, guichanfpsdemo)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-AM_INIT_AUTOMAKE(guichanfpsdemo, 0.8.0)
+AM_INIT_AUTOMAKE(guichanfpsdemo, 0.8.1)
 AM_CONFIG_HEADER([include/config.hpp])
 
 AC_PROG_CXX
