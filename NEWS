@@ -1,3 +1,8 @@
+2008-04-26 Thirteenth Beta release Guichan 0.8.1
+
+A minor release that fixes a soname problem along with a couple of GCC
+3.4.2 issues.
+
 2008-04-06 Twelfth Beta release Guichan 0.8.0
 
 The new version of Guichan has better HGE support, enhanced API documentation,

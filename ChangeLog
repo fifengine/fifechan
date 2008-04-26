@@ -1,5 +1,6 @@
 Version 0.8.1
 =============
+* A couple of minor GCC 3.4.2. issues have been fixed.
 * Add ons are now refered to as contribs all contribs have been added
   to the main source directory under the contrib directory. All
   contribs now also reside in a namespace called contrib.
