@@ -45,7 +45,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "allegrotruetypefont.hpp"
+#include "guichan/contrib/allegro/allegroglyphkeeperfont.hpp"
 
 #include "guichan/allegro.hpp"
 #include "guichan/exception.hpp"
@@ -158,6 +158,7 @@ namespace gcn
         }
     }
 }
+
 
 
 

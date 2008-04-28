@@ -47,15 +47,16 @@
 #include "guichan/font.hpp"
 #include "guichan/platform.hpp"
 
+struct GLYPH_FACE;
+struct GLYPH_REND;
+struct GLYPH_KEEP;
+
 namespace gcn
 {
+    class Graphics;
+
     namespace contrib
     {
-        struct GLYPH_FACE;
-        struct GLYPH_REND;
-        struct GLYPH_KEEP;
-        class Graphics;
-        
         /**
          * True type font support using Allegro and GlyphKeeper.
          *

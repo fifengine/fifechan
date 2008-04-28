@@ -44,6 +44,8 @@
 #ifndef GCN_CONTRIB_ADJUSTINGCONTAINER_HPP
 #define GCN_CONTRIB_ADJUSTINGCONTAINER_HPP
 
+#include "guichan/widgets/container.hpp"
+
 #include <vector>
 
 namespace gcn

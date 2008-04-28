@@ -45,7 +45,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "adjustingcontainer.hpp"
+#include "guichan/contrib/widgets/adjustingcontainer.hpp"
 
 #include <guichan.hpp>
 
