@@ -95,10 +95,10 @@ namespace gcn
         //Inherited from Font
 
         int getWidth(const std::string &text) const;
-    
+
         int getHeight() const;
 
-        int getStringIndexAt(const std::string &text, int x);
+        int getStringIndexAt(const std::string &text, int x) const;
 
         void drawString(Graphics *graphics, const std::string &text, int x, int y);
 

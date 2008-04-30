@@ -358,10 +358,10 @@ namespace gcn
             size += getWidth(text.at(i));
         }
 
-		return size - mGlyphSpacing;
+        return size - mGlyphSpacing;
     }
 
-    int ImageFont::getStringIndexAt(const std::string& text, int x)
+    int ImageFont::getStringIndexAt(const std::string& text, int x) const
     {
         unsigned int i;
         int size = 0;

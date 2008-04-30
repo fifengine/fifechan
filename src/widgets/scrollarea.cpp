@@ -92,13 +92,13 @@ namespace gcn
         mIsVerticalMarkerDragged = false;
         mIsHorizontalMarkerDragged =false;
         mOpaque = true;
-        
+
         setContent(content);
         addMouseListener(this);
     }
 
-    ScrollArea::ScrollArea(Widget *content, 
-                           ScrollPolicy hPolicy, 
+    ScrollArea::ScrollArea(Widget *content,
+                           ScrollPolicy hPolicy,
                            ScrollPolicy vPolicy)
     {
         mVScroll = 0;
@@ -117,7 +117,7 @@ namespace gcn
         mIsVerticalMarkerDragged = false;
         mIsHorizontalMarkerDragged =false;
         mOpaque = true;
-        
+
         setContent(content);
         addMouseListener(this);
     }
@@ -975,23 +975,9 @@ namespace gcn
 
     Rectangle ScrollArea::getChildrenArea()
     {
-        if (mVBarVisible && mHBarVisible)
-        {
-            return Rectangle(0, 0, getWidth() - mScrollbarWidth,
-                             getHeight() - mScrollbarWidth);
-        }
-
-        if (mVBarVisible)
-        {
-            return Rectangle(0, 0, getWidth() - mScrollbarWidth, getHeight());
-        }
-
-        if (mHBarVisible)
-        {
-            return Rectangle(0, 0, getWidth(), getHeight() - mScrollbarWidth);
-        }
-
-        return Rectangle(0, 0, getWidth(), getHeight());
+        return Rectangle(0, 0,
+                         getWidth() - mVBarVisible ? mScrollbarWidth : 0,
+                         getHeight() - mHBarVisible ? mScrollbarWidth : 0);
     }
 
     Rectangle ScrollArea::getVerticalBarDimension()
@@ -1161,7 +1147,7 @@ namespace gcn
         {
             return;
         }
-        
+
         setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
 
         mouseEvent.consume();

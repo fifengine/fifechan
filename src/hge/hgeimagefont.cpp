@@ -86,7 +86,7 @@ namespace gcn
         return  static_cast<int>(mHGEFont->GetHeight());
     }
 
-    int HGEImageFont::getStringIndexAt(const std::string& text, int x)
+    int HGEImageFont::getStringIndexAt(const std::string& text, int x) const
     {
         unsigned int i;
         int size = 0;

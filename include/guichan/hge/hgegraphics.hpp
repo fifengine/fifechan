@@ -77,17 +77,17 @@ namespace gcn
         //Inherited from Graphics
 
         void _beginDraw();
-        
+
         void _endDraw();
 
-        void drawImage(const Image *image, 
-                       int srcX, 
-                       int srcY, 
-                       int dstX, 
-                       int dstY, 
-                       int width, 
+        void drawImage(const Image *image,
+                       int srcX,
+                       int srcY,
+                       int dstX,
+                       int dstY,
+                       int width,
                        int height);
-    
+
         void drawImage(const Image* image, int dstX, int dstY);
 
         void drawPoint(int x, int y);
@@ -103,7 +103,7 @@ namespace gcn
         const Color &getColor() const;
 
         bool pushClipArea(Rectangle area);
-    
+
         void popClipArea();
 
     protected:

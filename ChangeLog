@@ -1,3 +1,6 @@
+* Fixed of ImageFont, DefaultFont and HGEImageFont to correctly override the
+  const method Font::getStringIndexAt.
+
 Version 0.8.1
 =============
 * A couple of minor GCC 3.4.2. issues have been fixed.
@@ -11,7 +14,7 @@ Version 0.8.1
   sometimes breaks Key.hpp.
 * Soname support has been fixed. The correct version number should
   now be used in the produced binaries.
-	
+
 Version 0.8.0
 =============
 * Widget::showPart has been added to be used when a specific
