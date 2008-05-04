@@ -505,8 +505,8 @@ namespace gcn
 
         int sourceWidgetX, sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
-        
-		if ((mFocusHandler->getModalFocused() != NULL
+
+        if ((mFocusHandler->getModalFocused() != NULL
             && sourceWidget->isModalFocused())
             || mFocusHandler->getModalFocused() == NULL)
         {
@@ -520,7 +520,7 @@ namespace gcn
                              mouseInput.getY());
 
         mFocusHandler->setLastWidgetPressed(sourceWidget);
-        
+
         mFocusHandler->setDraggedWidget(sourceWidget);
         mLastMouseDragButton = mouseInput.getButton();
 
