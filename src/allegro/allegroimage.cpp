@@ -72,12 +72,16 @@ namespace gcn
 
     void AllegroImage::free()
     {
-        destroy_bitmap(mBitmap);
+        if (mBitmap)
+        {
+            destroy_bitmap(mBitmap);
+            mBitmap = 0;
+        }
     }
 
     int AllegroImage::getWidth() const
     {
-        if (mBitmap == NULL)
+        if (!mBitmap)
         {
             throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
@@ -87,7 +91,7 @@ namespace gcn
 
     int AllegroImage::getHeight() const
     {
-        if (mBitmap == NULL)
+        if (!mBitmap)
         {
             GCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
@@ -97,7 +101,7 @@ namespace gcn
 
     Color AllegroImage::getPixel(int x, int y)
     {
-        if (mBitmap == NULL)
+        if (!mBitmap)
         {
             throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
@@ -109,7 +113,7 @@ namespace gcn
 
     void AllegroImage::putPixel(int x, int y, const Color& color)
     {
-        if (mBitmap == NULL)
+        if (!mBitmap)
         {
             throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
@@ -121,7 +125,7 @@ namespace gcn
 
     void AllegroImage::convertToDisplayFormat()
     {
-        if (mBitmap == NULL)
+        if (!mBitmap)
         {
             GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
