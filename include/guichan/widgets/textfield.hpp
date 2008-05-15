@@ -102,6 +102,29 @@ namespace gcn
         void adjustHeight();
 
         /**
+         * Checks if the text field is editable.
+         *
+         * @return True it the text field is editable, false otherwise.
+         * @see setEditable
+         */
+        bool isEditable() const
+        {
+            return mEditable;
+        }
+
+        /**
+         * Sets the text field to be editable or not. A text field is editable
+         * by default.
+         *
+         * @param editable True if the text field should be editable, false
+         *                 otherwise.
+         */
+        void setEditable(bool editable)
+        {
+            mEditable = editable;
+        }
+
+        /**
          * Sets the caret position. As there is only one line of text
          * in a text field the position is the caret's x coordinate.
          *
@@ -132,7 +155,7 @@ namespace gcn
         virtual void mousePressed(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
-        
+
 
         // Inherited from KeyListener
 
@@ -171,6 +194,11 @@ namespace gcn
          * text needs to scroll in order to show the last type character.
          */
         int mXScroll;
+
+        /**
+         * True if the text field is editable, false otherwise.
+         */
+        bool mEditable;
     };
 }
 
