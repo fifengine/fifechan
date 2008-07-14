@@ -135,9 +135,10 @@ namespace gcn
             return gk_rend_height_pixels(mRend);
         }
 
-        void AllegroGlyphKeeperFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+        void AllegroGlyphKeeperFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
         {
-            AllegroGraphics* const allegroGraphics = dynamic_cast<AllegroGraphics*>(graphics);
+            gcn::AllegroGraphics* const allegroGraphics = dynamic_cast<gcn::AllegroGraphics*>(graphics);
+
             if (!allegroGraphics)
             {
                 throw GCN_EXCEPTION("Graphics is not of type AllegroGraphics");
@@ -148,7 +149,7 @@ namespace gcn
             gk_rend_set_text_color_combined(mRend, allegroGraphics->getAllegroColor());
             gk_rend_set_text_alpha(mRend, allegroGraphics->getColor().a);
         
-            const ClipRectangle& rec = graphics->getCurrentClipArea();
+            const gcn::ClipRectangle& rec = graphics->getCurrentClipArea();
         
             gk_render_line_utf8(target,
                                 mRend, 
