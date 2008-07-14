@@ -110,21 +110,21 @@ namespace gcn
             mFontColor = color;
         }
 
-        void OGLFTFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+        void OGLFTFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
         {
             if (text == "")
             {
                 return;
             }
 
-            gcn::OpenGLGraphics* glGraphics = (gcn::OpenGLGraphics*) graphics;
+            gcn::OpenGLGraphics* glGraphics = dynamic_cast<gcn::OpenGLGraphics *>(graphics);
 
             if(glGraphics == NULL)
             {
                 throw GCN_EXCEPTION("Graphics object not an OpenGL graphics object!");
             }
 
-            const ClipRectangle& top = glGraphics->getCurrentClipArea();
+            const gcn::ClipRectangle& top = glGraphics->getCurrentClipArea();
 
             mFont->setForegroundColor(mFontColor.r/255, mFontColor.g/255, mFontColor.b/255);
 

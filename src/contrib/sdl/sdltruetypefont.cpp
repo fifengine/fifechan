@@ -90,14 +90,14 @@ namespace gcn
             return TTF_FontHeight(mFont) + mRowSpacing;
         }
     
-        void SDLTrueTypeFont::drawString(Graphics* graphics, const std::string& text, const int x, const int y)
+        void SDLTrueTypeFont::drawString(gcn::Graphics* graphics, const std::string& text, const int x, const int y)
         {
             if (text == "")
             {
                 return;
             }
         
-            SDLGraphics *sdlGraphics = dynamic_cast<SDLGraphics *>(graphics);
+            gcn::SDLGraphics *sdlGraphics = dynamic_cast<gcn::SDLGraphics *>(graphics);
 
             if (sdlGraphics == NULL)
             {
