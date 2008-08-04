@@ -59,27 +59,27 @@
 class FPSCheckBox : public gcn::CheckBox
 {
 public:
-	/**
-	 * Constructor.
-	 *
-	 * Well this constructor doesn't do much. But what it does is very
-	 * importent. The CheckBoxs constructor takes an argument, a caption.
-	 * To be able to inherit from CheckBox we must also have a constructor
-	 * which takes a caption as argument and then call the super
-	 * constructor (that is CheckBox constructor). Note that this cannot
-	 * be done in the constructor execution code but has to be done in
-	 * the constructors initialization code (becasue CheckBox constructor
-	 * must run before the execution code in the FPSCheckBox constructor).
-	 * 
-	 */
-	FPSCheckBox(const std::string& caption)
-			:CheckBox(caption)
-	{}
+    /**
+     * Constructor.
+     *
+     * Well this constructor doesn't do much. But what it does is very
+     * importent. The CheckBoxs constructor takes an argument, a caption.
+     * To be able to inherit from CheckBox we must also have a constructor
+     * which takes a caption as argument and then call the super
+     * constructor (that is CheckBox constructor). Note that this cannot
+     * be done in the constructor execution code but has to be done in
+     * the constructors initialization code (becasue CheckBox constructor
+     * must run before the execution code in the FPSCheckBox constructor).
+     * 
+     */
+    FPSCheckBox(const std::string& caption)
+            :CheckBox(caption)
+    {}
 
-	/*
-	 * Inherited from Widget
-	 */
-	void draw(gcn::Graphics* graphics);
+    /*
+     * Inherited from Widget
+     */
+    void draw(gcn::Graphics* graphics);
 };
 
 #endif

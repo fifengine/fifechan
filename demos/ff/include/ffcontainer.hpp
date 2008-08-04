@@ -49,32 +49,32 @@
 class FFContainer : public gcn::Container
 {
 public:
-	FFContainer();
-	~FFContainer();
-	void logic();
-	void draw(gcn::Graphics* graphics);
-	void setVisible(bool visible);
-	void setWidth(int width);
-	void setHeight(int width);
-	void setDimension(const gcn::Rectangle &dimension);
-	void slideContentTo(int y);
-	gcn::Rectangle getChildrenArea();
+    FFContainer();
+    ~FFContainer();
+    void logic();
+    void draw(gcn::Graphics* graphics);
+    void setVisible(bool visible);
+    void setWidth(int width);
+    void setHeight(int width);
+    void setDimension(const gcn::Rectangle &dimension);
+    void slideContentTo(int y);
+    gcn::Rectangle getChildrenArea();
 
 private:
-	int mRealWidth;
-	int mRealHeight;
-	int mSlideTarget;
-	int mCurrentSlide;
-	int mTime;
-	bool mShow;
+    int mRealWidth;
+    int mRealHeight;
+    int mSlideTarget;
+    int mCurrentSlide;
+    int mTime;
+    bool mShow;
 
-	static int mInstances;
-	static gcn::Image *mCornerUL;
-	static gcn::Image *mCornerUR;
-	static gcn::Image *mCornerDL;
-	static gcn::Image *mCornerDR;
-	static gcn::Image *mHorizontal;
-	static gcn::Image *mVertical;
+    static int mInstances;
+    static gcn::Image *mCornerUL;
+    static gcn::Image *mCornerUR;
+    static gcn::Image *mCornerDL;
+    static gcn::Image *mCornerDR;
+    static gcn::Image *mHorizontal;
+    static gcn::Image *mVertical;
 };
 
 #endif

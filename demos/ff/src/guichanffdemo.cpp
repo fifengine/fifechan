@@ -47,26 +47,26 @@
 
 int main(int argc, char** argv)
 {
-	try
-	{
-		FFDemo ffDemo;
-		ffDemo.run();
-	}
-	catch (gcn::Exception e)
-	{
- 		std::cout << e.getMessage() << std::endl;
-		return 1;
-	}
- 	catch (std::exception e)
-	{
- 	  std::cout << "Std exception: " << e.what() << std::endl;
-		return 1;
-	}
-	catch (...)
-	{
-		std::cout << "Unknown exception" << std::endl;
-		return 1;
-	}
+    try
+    {
+        FFDemo ffDemo;
+        ffDemo.run();
+    }
+    catch (gcn::Exception e)
+    {
+        std::cout << e.getMessage() << std::endl;
+        return 1;
+    }
+    catch (std::exception e)
+    {
+        std::cout << "Std exception: " << e.what() << std::endl;
+        return 1;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown exception" << std::endl;
+        return 1;
+    }
 
-	return 0;
+    return 0;
 }
