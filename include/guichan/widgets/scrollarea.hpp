@@ -74,9 +74,9 @@ namespace gcn
          */
         enum ScrollPolicy
         {
-            SHOW_ALWAYS = 0,
-            SHOW_NEVER,
-            SHOW_AUTO
+            ShowAlways = 0,
+            ShowNever,
+            ShowAuto
         };
 
         /**

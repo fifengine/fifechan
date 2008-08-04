@@ -1,10 +1,44 @@
-/*
- * Guichan FPS Demo
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * This is a demonstration of the Guichan GUI library and what it
- * is capable of.
+ * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
  *
- * For more information about Guichan visit: http://guichan.sourceforge.net
+ *
+ * Per Larsson a.k.a finalman
+ * Olof Naessén a.k.a jansem/yakslem
+ *
+ * Visit: http://guichan.sourceforge.net
+ *
+ * License: (BSD)
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ * 3. Neither the name of Guichan nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "fpsbutton.hpp"
@@ -19,18 +53,18 @@ Mix_Chunk* FPSButton::mHoverSound = NULL;
  * instances.
  */
 FPSButton::FPSButton(const std::string& caption)
-		:Button(caption),
+        :Button(caption),
          mHasMouse(false)
 {
-  setFrameSize(0);
+    setFrameSize(0);
   
-	if (mInstances == 0)
-	{		
-		mHoverSound = Mix_LoadWAV("sound/sound5.wav");
-		Mix_VolumeChunk(mHoverSound, 60);
-	}
+    if (mInstances == 0)
+    {		
+        mHoverSound = Mix_LoadWAV("sound/sound5.wav");
+        Mix_VolumeChunk(mHoverSound, 60);
+    }
 	
-	++mInstances;
+    ++mInstances;
 }
 
 /**
@@ -38,12 +72,12 @@ FPSButton::FPSButton(const std::string& caption)
  */
 FPSButton::~FPSButton()
 {
-	--mInstances;
+    --mInstances;
 
-	if (mInstances == 0)
-	{
-		Mix_FreeChunk(mHoverSound);
-	}
+    if (mInstances == 0)
+    {
+        Mix_FreeChunk(mHoverSound);
+    }
 }
 
 /*
@@ -53,20 +87,20 @@ FPSButton::~FPSButton()
 void FPSButton::draw(gcn::Graphics* graphics)
 {
     if (mHasMouse)
-	{
-		graphics->setFont(mHighLightFont);
-		graphics->drawText(getCaption(),0,0);
-	}
-	else
-	{
-		graphics->setFont(getFont());
-		graphics->drawText(getCaption(),0,0);
-	}
+    {
+        graphics->setFont(mHighLightFont);
+        graphics->drawText(getCaption(),0,0);
+    }
+    else
+    {
+        graphics->setFont(getFont());
+        graphics->drawText(getCaption(),0,0);
+    }
 }
 
 void FPSButton::setHighLightFont(gcn::Font* font)
 {
-	mHighLightFont = font;
+    mHighLightFont = font;
 }
 
 /*
@@ -78,8 +112,8 @@ void FPSButton::setHighLightFont(gcn::Font* font)
 void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
 {
     Button::mouseEntered(mouseEvent);
-	Mix_PlayChannel(-1, mHoverSound, 0);
-	mHasMouse = true;
+    Mix_PlayChannel(-1, mHoverSound, 0);
+    mHasMouse = true;
 }
 
 /*
@@ -91,6 +125,6 @@ void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
 void FPSButton::mouseExited(gcn::MouseEvent& mouseEvent)
 {
     Button::mouseExited(mouseEvent);
-	mHasMouse = false;
+    mHasMouse = false;
 }
 

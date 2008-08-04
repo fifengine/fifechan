@@ -68,209 +68,209 @@ gcn::Image *FFContainer::mVertical = 0;
 
 FFContainer::FFContainer()
 {
-	if (mInstances == 0)
-	{
-		mCornerUL = gcn::Image::load("images/cornerul.png");
-		mCornerUR = gcn::Image::load("images/cornerur.png");
-		mCornerDL = gcn::Image::load("images/cornerdl.png");
-		mCornerDR = gcn::Image::load("images/cornerdr.png");
-		mHorizontal = gcn::Image::load("images/horizontal.png");
-		mVertical = gcn::Image::load("images/vertical.png");
-	}
+    if (mInstances == 0)
+    {
+        mCornerUL = gcn::Image::load("images/cornerul.png");
+        mCornerUR = gcn::Image::load("images/cornerur.png");
+        mCornerDL = gcn::Image::load("images/cornerdl.png");
+        mCornerDR = gcn::Image::load("images/cornerdr.png");
+        mHorizontal = gcn::Image::load("images/horizontal.png");
+        mVertical = gcn::Image::load("images/vertical.png");
+    }
 
-	mInstances++;
+    mInstances++;
 
- 	mRealWidth = 0;
-	mRealHeight = 0;
-	mTime = -1;
-	mShow = true;
-	Container::setWidth(0);
-	Container::setHeight(0);
-	mSlideTarget = 0;
-	mCurrentSlide = 0;
-	setFrameSize(0);
+    mRealWidth = 0;
+    mRealHeight = 0;
+    mTime = -1;
+    mShow = true;
+    Container::setWidth(0);
+    Container::setHeight(0);
+    mSlideTarget = 0;
+    mCurrentSlide = 0;
+    setFrameSize(0);
 }
 
 FFContainer::~FFContainer()
 {
-	mInstances--;
+    mInstances--;
 
-	if (mInstances == 0)
-	{
-		delete mCornerUL;
-		delete mCornerUR;
-		delete mCornerDL;
-		delete mCornerDR;
-		delete mHorizontal;
-		delete mVertical;
-	}
+    if (mInstances == 0)
+    {
+        delete mCornerUL;
+        delete mCornerUR;
+        delete mCornerDL;
+        delete mCornerDR;
+        delete mHorizontal;
+        delete mVertical;
+    }
 }
 
 void FFContainer::draw(gcn::Graphics* graphics)
 {
-	int i;
+    int i;
 
-	if (isOpaque())
-	{
-		double height = (mRealHeight - 8) / 16.0;
-		gcn::Color c(0x7070FF);
+    if (isOpaque())
+    {
+        double height = (mRealHeight - 8) / 16.0;
+        gcn::Color c(0x7070FF);
 
-		for (i = 0; i<16; ++i)
-		{
-			graphics->setColor(c * (1.0 - i / 18.0));
-			graphics->fillRectangle(gcn::Rectangle(4, (int)(i*height+4), getWidth()-8, (int)((i*height)+height)));
-		}
-	}
+        for (i = 0; i<16; ++i)
+        {
+            graphics->setColor(c * (1.0 - i / 18.0));
+            graphics->fillRectangle(gcn::Rectangle(4, (int)(i*height+4), getWidth()-8, (int)((i*height)+height)));
+        }
+    }
 
-	graphics->pushClipArea(gcn::Rectangle(0, mCurrentSlide, getWidth(), getHeight()));
-	drawChildren(graphics);
-	graphics->popClipArea();
+    graphics->pushClipArea(gcn::Rectangle(0, mCurrentSlide, getWidth(), getHeight()));
+    drawChildren(graphics);
+    graphics->popClipArea();
 
-	for (i = 5; i < getHeight()-10; i+=5)
-	{
-		graphics->drawImage(mVertical, 0, i);
-		graphics->drawImage(mVertical, getWidth()-4, i);
-	}
-	graphics->drawImage(mVertical, 0, 0, 0, i, 4, getHeight()-5-i);
-	graphics->drawImage(mVertical, 0, 0, getWidth()-4, i, 4, getHeight()-5-i);
+    for (i = 5; i < getHeight()-10; i+=5)
+    {
+        graphics->drawImage(mVertical, 0, i);
+        graphics->drawImage(mVertical, getWidth()-4, i);
+    }
+    graphics->drawImage(mVertical, 0, 0, 0, i, 4, getHeight()-5-i);
+    graphics->drawImage(mVertical, 0, 0, getWidth()-4, i, 4, getHeight()-5-i);
 
-	for (i = 5; i < getWidth()-10; i+=5)
-	{
-		graphics->drawImage(mHorizontal, i, 0);
-		graphics->drawImage(mHorizontal, i, getHeight()-4);
-	}
-	graphics->drawImage(mHorizontal, 0, 0, i, 0, getWidth()-5-i, 4);
-	graphics->drawImage(mHorizontal, 0, 0, i, getHeight()-4, getWidth()-5-i, 4);
+    for (i = 5; i < getWidth()-10; i+=5)
+    {
+        graphics->drawImage(mHorizontal, i, 0);
+        graphics->drawImage(mHorizontal, i, getHeight()-4);
+    }
+    graphics->drawImage(mHorizontal, 0, 0, i, 0, getWidth()-5-i, 4);
+    graphics->drawImage(mHorizontal, 0, 0, i, getHeight()-4, getWidth()-5-i, 4);
 
-	graphics->drawImage(mCornerUL, 0, 0);
-	graphics->drawImage(mCornerUR, getWidth()-5, 0);
-	graphics->drawImage(mCornerDL, 0, getHeight()-5);
-	graphics->drawImage(mCornerDR, getWidth()-5, getHeight()-5);
+    graphics->drawImage(mCornerUL, 0, 0);
+    graphics->drawImage(mCornerUR, getWidth()-5, 0);
+    graphics->drawImage(mCornerDL, 0, getHeight()-5);
+    graphics->drawImage(mCornerDR, getWidth()-5, getHeight()-5);
 }
 
 void FFContainer::logic()
 {
-	if (mTime < 0)
-	{
-		mTime = SDL_GetTicks();
-	}
+    if (mTime < 0)
+    {
+        mTime = SDL_GetTicks();
+    }
 
-	int deltaTime = SDL_GetTicks() - mTime;
-	mTime = SDL_GetTicks();
+    int deltaTime = SDL_GetTicks() - mTime;
+    mTime = SDL_GetTicks();
 
-	if (!mShow)
-	{
-		Container::setWidth(getWidth() - deltaTime);
+    if (!mShow)
+    {
+        Container::setWidth(getWidth() - deltaTime);
 
-		if (getWidth() < 0)
-		{
-			Container::setWidth(0);
-		}
+        if (getWidth() < 0)
+        {
+            Container::setWidth(0);
+        }
 
-		Container::setHeight(getHeight() - deltaTime);
+        Container::setHeight(getHeight() - deltaTime);
 
-		if (getHeight() < 0)
-		{
-			Container::setHeight(0);
-		}
+        if (getHeight() < 0)
+        {
+            Container::setHeight(0);
+        }
 
-		if (getHeight() == 0 && getWidth() == 0)
-		{
-			Container::setVisible(false);
-		}
-	}
-	else
-	{
-		if (getWidth() < mRealWidth)
-		{
-			Container::setWidth(getWidth() + deltaTime);
+        if (getHeight() == 0 && getWidth() == 0)
+        {
+            Container::setVisible(false);
+        }
+    }
+    else
+    {
+        if (getWidth() < mRealWidth)
+        {
+            Container::setWidth(getWidth() + deltaTime);
 
-			if (getWidth() > mRealWidth)
-			{
-				Container::setWidth(mRealWidth);
-			}
-		}
-		else if (getWidth() > mRealWidth)
-		{
-			Container::setWidth(getWidth() - deltaTime);
+            if (getWidth() > mRealWidth)
+            {
+                Container::setWidth(mRealWidth);
+            }
+        }
+        else if (getWidth() > mRealWidth)
+        {
+            Container::setWidth(getWidth() - deltaTime);
 
-			if (getWidth() < mRealWidth)
-			{
-				Container::setWidth(mRealWidth);
-			}
-		}
+            if (getWidth() < mRealWidth)
+            {
+                Container::setWidth(mRealWidth);
+            }
+        }
 
-		if (getHeight() < mRealHeight)
-		{
-			Container::setHeight(getHeight() + deltaTime);
+        if (getHeight() < mRealHeight)
+        {
+            Container::setHeight(getHeight() + deltaTime);
 
-			if (getHeight() > mRealHeight)
-			{
-				Container::setHeight(mRealHeight);
-			}
-		}
-		else if (getHeight() > mRealHeight)
-		{
-			Container::setHeight(getHeight() - deltaTime);
+            if (getHeight() > mRealHeight)
+            {
+                Container::setHeight(mRealHeight);
+            }
+        }
+        else if (getHeight() > mRealHeight)
+        {
+            Container::setHeight(getHeight() - deltaTime);
 
-			if (getHeight() < mRealHeight)
-			{
-				Container::setHeight(mRealHeight);
-			}
-		}
-	}
+            if (getHeight() < mRealHeight)
+            {
+                Container::setHeight(mRealHeight);
+            }
+        }
+    }
 
-	if (mCurrentSlide < mSlideTarget)
-	{
-		mCurrentSlide += deltaTime;
-		if (mCurrentSlide > mSlideTarget)
-		{
-			mCurrentSlide = mSlideTarget;
-		}
-	}
+    if (mCurrentSlide < mSlideTarget)
+    {
+        mCurrentSlide += deltaTime;
+        if (mCurrentSlide > mSlideTarget)
+        {
+            mCurrentSlide = mSlideTarget;
+        }
+    }
 
-	if (mCurrentSlide > mSlideTarget)
-	{
-		mCurrentSlide -= deltaTime;
-		if (mCurrentSlide < mSlideTarget)
-		{
-			mCurrentSlide = mSlideTarget;
-		}
-	}
+    if (mCurrentSlide > mSlideTarget)
+    {
+        mCurrentSlide -= deltaTime;
+        if (mCurrentSlide < mSlideTarget)
+        {
+            mCurrentSlide = mSlideTarget;
+        }
+    }
 
-	Container::logic();
+    Container::logic();
 }
 
 void FFContainer::setDimension(const gcn::Rectangle &dimension)
 {
-	setPosition(dimension.x, dimension.y);
-	setWidth(dimension.width);
-	setHeight(dimension.height);
+    setPosition(dimension.x, dimension.y);
+    setWidth(dimension.width);
+    setHeight(dimension.height);
 }
 
 void FFContainer::setVisible(bool visible)
 {
-	mShow = visible;
+    mShow = visible;
 
-	if (visible)
-	{
-		Container::setVisible(true);
-	}
+    if (visible)
+    {
+        Container::setVisible(true);
+    }
 }
 
 void FFContainer::setWidth(int width)
 {
-	mRealWidth = width;
+    mRealWidth = width;
 }
 
 void FFContainer::setHeight(int height)
 {
-	mRealHeight = height;
+    mRealHeight = height;
 }
 
 void FFContainer::slideContentTo(int y)
 {
-	mSlideTarget = y;
+    mSlideTarget = y;
 }
 
 gcn::Rectangle FFContainer::getChildrenArea()
