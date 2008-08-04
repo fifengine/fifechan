@@ -71,8 +71,8 @@ namespace gcn
          */
         enum Orientation
         {
-            HORIZONTAL = 0,
-            VERTICAL
+            Horizontal = 0,
+            Vertical
         };
 
         /**

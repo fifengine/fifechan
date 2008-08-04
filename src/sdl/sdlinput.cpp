@@ -104,117 +104,117 @@ namespace gcn
 
         switch (event.type)
         {
-            case SDL_KEYDOWN:
-            {
-                int value = convertSDLEventToGuichanKeyValue(event);
+          case SDL_KEYDOWN:
+          {
+              int value = convertSDLEventToGuichanKeyValue(event);
 
-                if (value == -1)
-                {
-                    value = (int)event.key.keysym.unicode;
-                } 
+              if (value == -1)
+              {
+                  value = (int)event.key.keysym.unicode;
+              } 
                
-                keyInput.setKey(Key(value));
-                keyInput.setType(KeyInput::PRESSED);
-                keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-                keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-                keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-                keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
-                keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
+              keyInput.setKey(Key(value));
+              keyInput.setType(KeyInput::Pressed);
+              keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
+              keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
+              keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
+              keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
+              keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
                                      && event.key.keysym.sym <= SDLK_KP_EQUALS);
 
-                mKeyInputQueue.push(keyInput);
-                break;
-            }
+              mKeyInputQueue.push(keyInput);
+              break;
+          }
 
-            case SDL_KEYUP:
-            {
-                int value = convertSDLEventToGuichanKeyValue(event);
+          case SDL_KEYUP:
+          {
+              int value = convertSDLEventToGuichanKeyValue(event);
 
-                if (value == -1)
-                {
-                    value = (int)event.key.keysym.sym;
-                } 
+              if (value == -1)
+              {
+                  value = (int)event.key.keysym.sym;
+              } 
 
-                keyInput.setKey(Key(value));
-                keyInput.setType(KeyInput::RELEASED);
-                keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-                keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-                keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-                keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
-                keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
+              keyInput.setKey(Key(value));
+              keyInput.setType(KeyInput::Released);
+              keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
+              keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
+              keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
+              keyInput.setMetaPressed(event.key.keysym.mod & KMOD_META);
+              keyInput.setNumericPad(event.key.keysym.sym >= SDLK_KP0
                                      && event.key.keysym.sym <= SDLK_KP_EQUALS);
 
-                mKeyInputQueue.push(keyInput);
-                break;
-            }
+              mKeyInputQueue.push(keyInput);
+              break;
+          }
 
-            case SDL_MOUSEBUTTONDOWN:
-                mMouseDown = true;
-                mouseInput.setX(event.button.x);
-                mouseInput.setY(event.button.y);
-                mouseInput.setButton(convertMouseButton(event.button.button));
+          case SDL_MOUSEBUTTONDOWN:
+              mMouseDown = true;
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
+              mouseInput.setButton(convertMouseButton(event.button.button));
 
-                if (event.button.button == SDL_BUTTON_WHEELDOWN)
-                {
-                  mouseInput.setType(MouseInput::WHEEL_MOVED_DOWN);
-                }
-                else if (event.button.button == SDL_BUTTON_WHEELUP)
-                {
-                  mouseInput.setType(MouseInput::WHEEL_MOVED_UP);
-                }
-                else
-                {
-                  mouseInput.setType(MouseInput::PRESSED);
-                }
-                mouseInput.setTimeStamp(SDL_GetTicks());
-                mMouseInputQueue.push(mouseInput);
-                break;
+              if (event.button.button == SDL_BUTTON_WHEELDOWN)
+              {
+                  mouseInput.setType(MouseInput::WheelMovedDown);
+              }
+              else if (event.button.button == SDL_BUTTON_WHEELUP)
+              {
+                  mouseInput.setType(MouseInput::WheelMovedUp);
+              }
+              else
+              {
+                  mouseInput.setType(MouseInput::Pressed);
+              }
+              mouseInput.setTimeStamp(SDL_GetTicks());
+              mMouseInputQueue.push(mouseInput);
+              break;
 
-            case SDL_MOUSEBUTTONUP:
-                mMouseDown = false;
-                mouseInput.setX(event.button.x);
-                mouseInput.setY(event.button.y);
-                mouseInput.setButton(convertMouseButton(event.button.button));
-                mouseInput.setType(MouseInput::RELEASED);
-                mouseInput.setTimeStamp(SDL_GetTicks());
-                mMouseInputQueue.push(mouseInput);
-                break;
+          case SDL_MOUSEBUTTONUP:
+              mMouseDown = false;
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
+              mouseInput.setButton(convertMouseButton(event.button.button));
+              mouseInput.setType(MouseInput::Released);
+              mouseInput.setTimeStamp(SDL_GetTicks());
+              mMouseInputQueue.push(mouseInput);
+              break;
 
-            case SDL_MOUSEMOTION:
-                mouseInput.setX(event.button.x);
-                mouseInput.setY(event.button.y);
-                mouseInput.setButton(MouseInput::EMPTY);
-                mouseInput.setType(MouseInput::MOVED);
-                mouseInput.setTimeStamp(SDL_GetTicks());
-                mMouseInputQueue.push(mouseInput);
-                break;
+          case SDL_MOUSEMOTION:
+              mouseInput.setX(event.button.x);
+              mouseInput.setY(event.button.y);
+              mouseInput.setButton(MouseInput::Empty);
+              mouseInput.setType(MouseInput::Moved);
+              mouseInput.setTimeStamp(SDL_GetTicks());
+              mMouseInputQueue.push(mouseInput);
+              break;
 
-            case SDL_ACTIVEEVENT:
-                /*
-                * This occurs when the mouse leaves the window and the Gui-chan
-                * application loses its mousefocus.
-                */
-                if ((event.active.state & SDL_APPMOUSEFOCUS)
+          case SDL_ACTIVEEVENT:
+              /*
+               * This occurs when the mouse leaves the window and the Gui-chan
+               * application loses its mousefocus.
+               */
+              if ((event.active.state & SDL_APPMOUSEFOCUS)
                   && !event.active.gain)
-                {
+              {
                   mMouseInWindow = false;
 
                   if (!mMouseDown)
                   {
                       mouseInput.setX(-1);
                       mouseInput.setY(-1);
-                      mouseInput.setButton(MouseInput::EMPTY);
-                      mouseInput.setType(MouseInput::MOVED);
+                      mouseInput.setButton(MouseInput::Empty);
+                      mouseInput.setType(MouseInput::Moved);
                       mMouseInputQueue.push(mouseInput);
                   }
-                }
+              }
 
-                if ((event.active.state & SDL_APPMOUSEFOCUS)
+              if ((event.active.state & SDL_APPMOUSEFOCUS)
                   && event.active.gain)
-                {
+              {
                   mMouseInWindow = true;
-                }
-                break;
+              }
+              break;
 
         } // end switch
     }
@@ -224,13 +224,13 @@ namespace gcn
         switch (button)
         {
           case SDL_BUTTON_LEFT:
-              return MouseInput::LEFT;
+              return MouseInput::Left;
               break;
           case SDL_BUTTON_RIGHT:
-              return MouseInput::RIGHT;
+              return MouseInput::Right;
               break;
           case SDL_BUTTON_MIDDLE:
-              return MouseInput::MIDDLE;
+              return MouseInput::Middle;
               break;
           default:
               // We have an unknown mouse type which is ignored.
@@ -245,31 +245,31 @@ namespace gcn
         switch (event.key.keysym.sym)
         {
           case SDLK_TAB:
-              value = Key::TAB;
+              value = Key::Tab;
               break;
           case SDLK_LALT:
-              value = Key::LEFT_ALT;
+              value = Key::LeftAlt;
               break;
           case SDLK_RALT:
-              value = Key::RIGHT_ALT;
+              value = Key::RightAlt;
               break;
           case SDLK_LSHIFT:
-              value = Key::LEFT_SHIFT;
+              value = Key::LeftShift;
               break;
           case SDLK_RSHIFT:
-              value = Key::RIGHT_SHIFT;
+              value = Key::RightShift;
               break;
           case SDLK_LCTRL:
-              value = Key::LEFT_CONTROL;
+              value = Key::LeftControl;
               break;
           case SDLK_RCTRL:
-              value = Key::RIGHT_CONTROL;
+              value = Key::RightControl;
               break;
           case SDLK_BACKSPACE:
-              value = Key::BACKSPACE;
+              value = Key::Backspace;
               break;
           case SDLK_PAUSE:
-              value = Key::PAUSE;
+              value = Key::Pause;
               break;
           case SDLK_SPACE:
               // Special characters like ~ (tilde) ends up
@@ -278,32 +278,32 @@ namespace gcn
               // is only valid on key down events in SDL.
               if (event.type == SDL_KEYUP || event.key.keysym.unicode == ' ')
               {
-                  value = Key::SPACE;
+                  value = Key::Space;
               }
               break;
           case SDLK_ESCAPE:
-              value = Key::ESCAPE;
+              value = Key::Escape;
               break;
           case SDLK_DELETE:
-              value = Key::DELETE;
+              value = Key::Delete;
               break;
           case SDLK_INSERT:
-              value = Key::INSERT;
+              value = Key::Insert;
               break;
           case SDLK_HOME:
-              value = Key::HOME;
+              value = Key::Home;
               break;
           case SDLK_END:
-              value = Key::END;
+              value = Key::End;
               break;
           case SDLK_PAGEUP:
-              value = Key::PAGE_UP;
+              value = Key::PageUp;
               break;
           case SDLK_PRINT:
-              value = Key::PRINT_SCREEN;
+              value = Key::PrintScreen;
               break;
           case SDLK_PAGEDOWN:
-              value = Key::PAGE_DOWN;
+              value = Key::PageDown;
               break;
           case SDLK_F1:
               value = Key::F1;
@@ -351,46 +351,46 @@ namespace gcn
               value = Key::F15;
               break;
           case SDLK_NUMLOCK:
-              value = Key::NUM_LOCK;
+              value = Key::NumLock;
               break;
           case SDLK_CAPSLOCK:
-              value = Key::CAPS_LOCK;
+              value = Key::CapsLock;
               break;
           case SDLK_SCROLLOCK:
-              value = Key::SCROLL_LOCK;
+              value = Key::ScrollLock;
               break;
           case SDLK_RMETA:
-              value = Key::RIGHT_META;
+              value = Key::RightMeta;
               break;
           case SDLK_LMETA:
-              value = Key::LEFT_META;
+              value = Key::LeftMeta;
               break;
           case SDLK_LSUPER:
-              value = Key::LEFT_SUPER;
+              value = Key::LeftSuper;
               break;
           case SDLK_RSUPER:
-              value = Key::RIGHT_SUPER;
+              value = Key::RightSuper;
               break;
           case SDLK_MODE:
-              value = Key::ALT_GR;
+              value = Key::AltGr;
               break;
           case SDLK_UP:
-              value = Key::UP;
+              value = Key::Up;
               break;
           case SDLK_DOWN:
-              value = Key::DOWN;
+              value = Key::Down;
               break;
           case SDLK_LEFT:
-              value = Key::LEFT;
+              value = Key::Left;
               break;
           case SDLK_RIGHT:
-              value = Key::RIGHT;
+              value = Key::Right;
               break;
           case SDLK_RETURN:
-              value = Key::ENTER;
+              value = Key::Enter;
               break;
           case SDLK_KP_ENTER:
-              value = Key::ENTER;
+              value = Key::Enter;
               break;
 
           default:
@@ -402,34 +402,34 @@ namespace gcn
             switch (event.key.keysym.sym)
             {
               case SDLK_KP0:
-                  value = Key::INSERT;
+                  value = Key::Insert;
                   break;
               case SDLK_KP1:
-                  value = Key::END;
+                  value = Key::End;
                   break;
               case SDLK_KP2:
-                  value = Key::DOWN;
+                  value = Key::Down;
                   break;
               case SDLK_KP3:
-                  value = Key::PAGE_DOWN;
+                  value = Key::PageDown;
                   break;
               case SDLK_KP4:
-                  value = Key::LEFT;
+                  value = Key::Left;
                   break;
               case SDLK_KP5:
                   value = 0;
                   break;
               case SDLK_KP6:
-                  value = Key::RIGHT;
+                  value = Key::Right;
                   break;
               case SDLK_KP7:
-                  value = Key::HOME;
+                  value = Key::Home;
                   break;
               case SDLK_KP8:
-                  value = Key::UP;
+                  value = Key::Up;
                   break;
               case SDLK_KP9:
-                  value = Key::PAGE_UP;
+                  value = Key::PageUp;
                   break;
               default:
                   break;

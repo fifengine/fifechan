@@ -109,22 +109,21 @@ namespace gcn
         {
             poll_mouse();
         }
-        const int mouseX = mouse_x;
-        const int mouseY = mouse_y;
-        const int mouseZ = mouse_z;
-        const bool mouseB1 = (mouse_b & 1) != 0;
-        const bool mouseB2 = (mouse_b & 2) != 0;
-        const bool mouseB3 = (mouse_b & 4) != 0;
-        const int mouseTimeStamp = clock() / (CLOCKS_PER_SEC/1000.0);
+        int mouseX = mouse_x;
+        int mouseY = mouse_y;
+        int mouseZ = mouse_z;
+        int mouseB1 = mouse_b & 1;
+        int mouseB2 = mouse_b & 2;
+        int mouseB3 = mouse_b & 4;
 
         // Check mouse movement
         if (mouseX != mLastMouseX || mouseY != mLastMouseY)
         {
-            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
-                                        MouseInput::MOVED,
+            mMouseQueue.push(MouseInput(MouseInput::Empty,
+                                        MouseInput::Moved,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
             mLastMouseX = mouseX;
             mLastMouseY = mouseY;
         }
@@ -132,79 +131,79 @@ namespace gcn
         // Check mouse Wheel
         while (mLastMouseZ < mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
-                                        MouseInput::WHEEL_MOVED_UP,
+            mMouseQueue.push(MouseInput(MouseInput::Empty,
+                                        MouseInput::WheelMovedUp,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
             mLastMouseZ++;
         }
 
         while (mLastMouseZ > mouseZ)
         {
-            mMouseQueue.push(MouseInput(MouseInput::EMPTY,
-                                        MouseInput::WHEEL_MOVED_DOWN,
+            mMouseQueue.push(MouseInput(MouseInput::Empty,
+                                        MouseInput::WheelMovedDown,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
             mLastMouseZ--;
         }
 
         // Check mouse buttons
         if (!mMouseButton1 && mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::LEFT,
-                                        MouseInput::PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::Left,
+                                        MouseInput::Pressed,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
         if (mMouseButton1 && !mouseB1)
         {
-            mMouseQueue.push(MouseInput(MouseInput::LEFT,
-                                        MouseInput::RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::Left,
+                                        MouseInput::Released,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
 
         if (!mMouseButton2 && mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::Right,
+                                        MouseInput::Pressed,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
         if (mMouseButton2 && !mouseB2)
         {
-            mMouseQueue.push(MouseInput(MouseInput::RIGHT,
-                                        MouseInput::RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::Right,
+                                        MouseInput::Released,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
 
         if (!mMouseButton3 && mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-                                        MouseInput::PRESSED,
+            mMouseQueue.push(MouseInput(MouseInput::Middle,
+                                        MouseInput::Pressed,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
         if (mMouseButton3 && !mouseB3)
         {
-            mMouseQueue.push(MouseInput(MouseInput::MIDDLE,
-                                        MouseInput::RELEASED,
+            mMouseQueue.push(MouseInput(MouseInput::Middle,
+                                        MouseInput::Released,
                                         mouseX,
                                         mouseY,
-                                        mouseTimeStamp));
+                                        0));
         }
 
         mMouseButton1 = mouseB1;
@@ -226,36 +225,81 @@ namespace gcn
             unicode = ureadkey(&scancode);
             Key keyObj = convertToKey(scancode, unicode);
 
-            KeyInput keyInput(keyObj, KeyInput::PRESSED);
+            KeyInput keyInput(keyObj, KeyInput::Pressed);
 
-            keyInput.setNumericPad(isNumericPad(scancode));            
-            keyInput.setShiftPressed(   (key_shifts & KB_SHIFT_FLAG) != 0 );
-            keyInput.setAltPressed(     (key_shifts & KB_ALT_FLAG)   != 0 );
-            keyInput.setControlPressed( (key_shifts & KB_CTRL_FLAG)  != 0 );
+            keyInput.setNumericPad(isNumericPad(scancode));
+            keyInput.setShiftPressed(key_shifts & KB_SHIFT_FLAG);
+            keyInput.setAltPressed(key_shifts & KB_ALT_FLAG);
+            keyInput.setControlPressed(key_shifts & KB_CTRL_FLAG);
 #ifdef KB_COMMAND_FLAG
-            keyInput.setMetaPressed(    (key_shifts & (KB_COMMAND_FLAG | KB_LWIN_FLAG | KB_RWIN_FLAG) ) != 0 );
+            keyInput.setMetaPressed(key_shifts & (KB_COMMAND_FLAG |
+                                                  KB_LWIN_FLAG |
+                                                  KB_RWIN_FLAG));
 #else
-            keyInput.setMetaPressed(    (key_shifts & (KB_LWIN_FLAG | KB_RWIN_FLAG) ) != 0 );
+            keyInput.setMetaPressed(key_shifts & (KB_LWIN_FLAG |
+                                                  KB_RWIN_FLAG));
 #endif
-            
-            
+
+
             mKeyQueue.push(keyInput);
 
             mPressedKeys[scancode] = keyInput;
         }
 
-         // Check for released keys
+        if (key[KEY_ALT] && mPressedKeys.find(KEY_ALT) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_ALT, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_ALT] = keyInput;
+        }
+
+        if (key[KEY_ALTGR] && mPressedKeys.find(KEY_ALTGR) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_ALTGR, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_ALTGR] = keyInput;
+        }
+
+        if (key[KEY_LSHIFT] && mPressedKeys.find(KEY_LSHIFT) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_LSHIFT, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_LSHIFT] = keyInput;
+        }
+    
+        if (key[KEY_RSHIFT] && mPressedKeys.find(KEY_RSHIFT) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_RSHIFT, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_RSHIFT] = keyInput;
+        }
+		
+        if (key[KEY_LCONTROL] && mPressedKeys.find(KEY_LCONTROL) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_LCONTROL, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_LCONTROL] = keyInput;
+        }
+
+        if (key[KEY_RCONTROL] && mPressedKeys.find(KEY_RCONTROL) == mPressedKeys.end())
+        {
+            KeyInput keyInput(convertToKey(KEY_RCONTROL, 0), KeyInput::Pressed);
+            mKeyQueue.push(keyInput);
+            mPressedKeys[KEY_RCONTROL] = keyInput;
+        }
+
+        // Check for released keys
         std::map<int, KeyInput>::iterator iter, tempIter;
         for (iter = mPressedKeys.begin(); iter != mPressedKeys.end(); )
-         {
+        {
             if (!key[iter->first])
-            {         
-                KeyInput keyInput(iter->second.getKey(), KeyInput::RELEASED);
+            {
+                KeyInput keyInput(iter->second.getKey(), KeyInput::Released);
                 keyInput.setNumericPad(iter->second.isNumericPad());
                 keyInput.setShiftPressed(iter->second.isShiftPressed());
                 keyInput.setAltPressed(iter->second.isAltPressed());
                 keyInput.setControlPressed(iter->second.isControlPressed());
-                
+
                 mKeyQueue.push(keyInput);
 
                 tempIter = iter;
@@ -277,76 +321,76 @@ namespace gcn
         switch(scancode)
         {
           case KEY_ESC:
-              keysym = Key::ESCAPE;
+              keysym = Key::Escape;
               break;
 
           case KEY_ALT:
-              keysym = Key::LEFT_ALT;
+              keysym = Key::LeftAlt;
               break;
 
           case KEY_ALTGR:
-              keysym = Key::RIGHT_ALT;
+              keysym = Key::RightAlt;
               break;
 
           case KEY_LSHIFT:
-              keysym = Key::LEFT_SHIFT;
+              keysym = Key::LeftShift;
               break;
 
           case KEY_RSHIFT:
-              keysym = Key::RIGHT_SHIFT;
+              keysym = Key::RightShift;
               break;
 
           case KEY_LCONTROL:
-              keysym = Key::LEFT_CONTROL;
+              keysym = Key::LeftControl;
               break;
 
           case KEY_RCONTROL:
-              keysym = Key::RIGHT_CONTROL;
+              keysym = Key::RightControl;
               break;
 
           case KEY_LWIN:
-              keysym = Key::LEFT_META;
+              keysym = Key::LeftMeta;
               break;
 
           case KEY_RWIN:
-              keysym = Key::RIGHT_META;
+              keysym = Key::RightMeta;
               break;
 
           case KEY_INSERT:
-              keysym = Key::INSERT;
+              keysym = Key::Insert;
               break;
 
           case KEY_HOME:
-              keysym = Key::HOME;
+              keysym = Key::Home;
               break;
 
           case KEY_PGUP:
-              keysym = Key::PAGE_UP;
+              keysym = Key::PageUp;
               break;
 
           case KEY_PGDN:
-              keysym = Key::PAGE_DOWN;
+              keysym = Key::PageDown;
               break;
 
           case KEY_DEL:
-              keysym = Key::DELETE;
+              keysym = Key::Delete;
               break;
 
           case KEY_DEL_PAD:
-              keysym = Key::DELETE;
+              keysym = Key::Delete;
               pad = true;
               break;
 
           case KEY_END:
-              keysym = Key::END;
+              keysym = Key::End;
               break;
 
           case KEY_CAPSLOCK:
-              keysym = Key::CAPS_LOCK;
+              keysym = Key::CapsLock;
               break;
 
           case KEY_BACKSPACE:
-              keysym = Key::BACKSPACE;
+              keysym = Key::Backspace;
               break;
 
           case KEY_F1:
@@ -398,51 +442,49 @@ namespace gcn
               break;
 
           case KEY_PRTSCR:
-              keysym = Key::PRINT_SCREEN;
+              keysym = Key::PrintScreen;
               break;
 
           case KEY_PAUSE:
-              keysym = Key::PAUSE;
+              keysym = Key::Pause;
               break;
 
           case KEY_SCRLOCK:
-              keysym = Key::SCROLL_LOCK;
+              keysym = Key::ScrollLock;
               break;
 
           case KEY_NUMLOCK:
-              keysym = Key::NUM_LOCK;
+              keysym = Key::NumLock;
               break;
 
           case KEY_LEFT:
-              keysym = Key::LEFT;
+              keysym = Key::Left;
               break;
 
           case KEY_RIGHT:
-              keysym = Key::RIGHT;
+              keysym = Key::Right;
               break;
 
           case KEY_UP:
-              keysym = Key::UP;
+              keysym = Key::Up;
               break;
 
           case KEY_DOWN:
-              keysym = Key::DOWN;
+              keysym = Key::Down;
               break;
 
           case KEY_ENTER_PAD:
               pad = true;
           case KEY_ENTER:
-              keysym = Key::ENTER;
+              keysym = Key::Enter;
               break;
-     default:
+          default:
               keysym = unicode;
         }
 
         Key k = Key(keysym);
 
         return k;
-
-        //Now, THAT was fun to code! =D =D =D
     }
 
     bool OpenLayerInput::isNumericPad(int scancode)

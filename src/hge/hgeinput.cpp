@@ -136,10 +136,10 @@ namespace gcn
 
         // Check mouse movement
         if (mMouseX != curMouseX 
-            || mMouseY != curMouseY )
+            || mMouseY != curMouseY)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
-                                             MouseInput::MOVED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Empty,
+                                             MouseInput::Moved,
                                              curMouseX,
                                              curMouseY,
                                              0));
@@ -151,16 +151,16 @@ namespace gcn
         // Check mouse wheel
         if (mouseWheel > 0)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
-                                             MouseInput::WHEEL_MOVED_UP,
+            mMouseInputQueue.push(MouseInput(MouseInput::Empty,
+                                             MouseInput::WheelMovedUp,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (mouseWheel < 0)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::EMPTY,
-                                             MouseInput::WHEEL_MOVED_DOWN,
+            mMouseInputQueue.push(MouseInput(MouseInput::Empty,
+                                             MouseInput::WheelMovedDown,
                                              curMouseX,
                                              curMouseY,
                                              0));
@@ -169,48 +169,48 @@ namespace gcn
         //check mouse buttons
         if (!mLeftMouseButtonDown && leftBtn)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::LEFT,
-                                             MouseInput::PRESSED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Left,
+                                             MouseInput::Pressed,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (mLeftMouseButtonDown && !leftBtn )
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::LEFT,
-                                             MouseInput::RELEASED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Left,
+                                             MouseInput::Released,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (!mRightMouseButtonDown && rightBtn)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::RIGHT,
-                                             MouseInput::PRESSED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Right,
+                                             MouseInput::Pressed,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (mRightMouseButtonDown &&  !rightBtn)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::RIGHT,
-                                             MouseInput::RELEASED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Right,
+                                             MouseInput::Released,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (!mMiddleMouseButtonDown && centerBtn)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE,
-                                             MouseInput::PRESSED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Middle,
+                                             MouseInput::Pressed,
                                              curMouseX,
                                              curMouseY,
                                              0));
         }
         else if (mMiddleMouseButtonDown && !centerBtn)
         {
-            mMouseInputQueue.push(MouseInput(MouseInput::MIDDLE,
-                                             MouseInput::RELEASED,
+            mMouseInputQueue.push(MouseInput(MouseInput::Middle,
+                                             MouseInput::Released,
                                              curMouseX,
                                              curMouseY,
                                              0));
@@ -233,7 +233,7 @@ namespace gcn
         {
             Key keyObj = convertToKey(ki.key, ki.chr);
   
-            KeyInput keyInput(keyObj, KeyInput::PRESSED);
+            KeyInput keyInput(keyObj, KeyInput::Pressed);
   
             keyInput.setNumericPad(isNumericPad(ki.key));
   
@@ -248,7 +248,7 @@ namespace gcn
         {
             Key keyObj = convertToKey(ki.key, ki.chr);
   
-            KeyInput keyInput(keyObj, KeyInput::RELEASED);
+            KeyInput keyInput(keyObj, KeyInput::Released);
   
             keyInput.setNumericPad(isNumericPad(ki.key));
   
@@ -267,74 +267,49 @@ namespace gcn
         switch(key)
         {
             case HGEK_TAB:
-              keysym = Key::TAB;  
+              keysym = Key::Tab;  
               break;
             case HGEK_ESCAPE:
-              keysym = Key::ESCAPE;
+              keysym = Key::Escape;
               break;
             case HGEK_ALT:
-              keysym = Key::LEFT_ALT;
+              keysym = Key::LeftAlt;
               break;
-            /*
-            Unsupported by HGE.
-            case HGEK_ALT: 
-            keysym = Key::RIGHT_ALT;
-            break;
-            */
             case HGEK_SHIFT:
-              keysym = Key::LEFT_SHIFT;
+              keysym = Key::LeftShift;
               break;
-            /*
-            Unsuppored by HGE.
-            case HGEK_SHIFT:
-            keysym = Key::RIGHT_SHIFT;
-            break;
-            */
             case HGEK_CTRL:
-              keysym = Key::LEFT_CONTROL;
+              keysym = Key::LeftControl;
               break;
-            /*
-            Unsupported by HGE.
-            case HGEK_CTRL:
-            keysym = Key::RIGHT_CONTROL;
-            break;
-            */
             case HGEK_LWIN:
-              keysym = Key::LEFT_META;
+              keysym = Key::LeftMeta;
               break;
             case HGEK_RWIN:
-              keysym = Key::RIGHT_META;
+              keysym = Key::RightMeta;
               break;   
             case HGEK_INSERT:
-              keysym = Key::INSERT;
+              keysym = Key::Insert;
               break;  
             case HGEK_HOME:
-              keysym = Key::HOME;
+              keysym = Key::Home;
               break;  
             case HGEK_PGUP:
-              keysym = Key::PAGE_UP;
+              keysym = Key::PageUp;
               break;
             case HGEK_PGDN:
-              keysym = Key::PAGE_DOWN;
+              keysym = Key::PageDown;
               break;    
             case HGEK_DELETE:
-              keysym = Key::DELETE;
+              keysym = Key::Delete;
               break;
-            /*
-            Unsupported by HGE.
-            case HGEK_BACKSPACE:
-            keysym = Key::DELETE;
-            pad = true;
-            break;
-            */
             case HGEK_END:
-              keysym = Key::END;
+              keysym = Key::End;
               break;
             case HGEK_CAPSLOCK:
-              keysym = Key::CAPS_LOCK;
+              keysym = Key::CapsLock;
               break;
             case HGEK_BACKSPACE:
-              keysym = Key::BACKSPACE;
+              keysym = Key::Backspace;
               break;
             case HGEK_F1:
               keysym = Key::F1;
@@ -372,35 +347,29 @@ namespace gcn
             case HGEK_F12:
               keysym = Key::F12;
               break;
-            /* 
-            Unsupported by HGE
-            case HGEK_PRTSCR:
-            keysym = Key::PRINT_SCREEN;
-            break;
-            */
             case HGEK_PAUSE:
-              keysym = Key::PAUSE;
+              keysym = Key::Pause;
               break;
             case HGEK_SCROLLLOCK:
-              keysym = Key::SCROLL_LOCK;
+              keysym = Key::ScrollLock;
               break;
             case HGEK_NUMLOCK:
-              keysym = Key::NUM_LOCK;
+              keysym = Key::NumLock;
               break;
             case HGEK_LEFT:
-              keysym = Key::LEFT;
+              keysym = Key::Left;
               break;
             case HGEK_RIGHT:
-              keysym = Key::RIGHT;
+              keysym = Key::Right;
               break;
             case HGEK_UP:
-              keysym = Key::UP;
+              keysym = Key::Up;
               break;
             case HGEK_DOWN:
-              keysym = Key::DOWN;
+              keysym = Key::Down;
               break;
             case HGEK_ENTER:
-              keysym = Key::ENTER;
+              keysym = Key::Enter;
               break;
             default:
               keysym = chr;

@@ -63,8 +63,8 @@ namespace gcn
          */
         enum
         {
-            PRESSED = 0,
-            RELEASED
+            Pressed = 0,
+            Released
         };
 
         /**

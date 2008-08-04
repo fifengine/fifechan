@@ -60,7 +60,7 @@ namespace gcn
         : mHasMouse(false),
           mKeyPressed(false),
           mMousePressed(false),
-          mAlignment(Graphics::CENTER),
+          mAlignment(Graphics::Center),
           mSpacing(4)
     {
         setFocusable(true);
@@ -77,7 +77,7 @@ namespace gcn
               mHasMouse(false),
               mKeyPressed(false),
               mMousePressed(false),
-              mAlignment(Graphics::CENTER),
+              mAlignment(Graphics::Center),
               mSpacing(4)
     {
         setFocusable(true);
@@ -160,13 +160,13 @@ namespace gcn
 
         switch (getAlignment())
         {
-          case Graphics::LEFT:
+          case Graphics::Left:
               textX = mSpacing;
               break;
-          case Graphics::CENTER:
+          case Graphics::Center:
               textX = getWidth() / 2;
               break;
-          case Graphics::RIGHT:
+          case Graphics::Right:
               textX = getWidth() - mSpacing;
               break;
           default:
@@ -211,7 +211,7 @@ namespace gcn
 
     void Button::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::LEFT)
+        if (mouseEvent.getButton() == MouseEvent::Left)
         {
             mMousePressed = true;
             mouseEvent.consume();
@@ -230,7 +230,7 @@ namespace gcn
 
     void Button::mouseReleased(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::LEFT
+        if (mouseEvent.getButton() == MouseEvent::Left
             && mMousePressed
             && mHasMouse)
         {
@@ -238,7 +238,7 @@ namespace gcn
             distributeActionEvent();
             mouseEvent.consume();
         }
-        else if (mouseEvent.getButton() == MouseEvent::LEFT)
+        else if (mouseEvent.getButton() == MouseEvent::Left)
         {
             mMousePressed = false;
             mouseEvent.consume();
@@ -254,8 +254,8 @@ namespace gcn
     {
         Key key = keyEvent.getKey();
 
-        if (key.getValue() == Key::ENTER
-            || key.getValue() == Key::SPACE)
+        if (key.getValue() == Key::Enter
+            || key.getValue() == Key::Space)
         {
             mKeyPressed = true;
             keyEvent.consume();
@@ -266,8 +266,8 @@ namespace gcn
     {
         Key key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::ENTER
-             || key.getValue() == Key::SPACE)
+        if ((key.getValue() == Key::Enter
+             || key.getValue() == Key::Space)
             && mKeyPressed)
         {
             mKeyPressed = false;

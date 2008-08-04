@@ -290,18 +290,18 @@ namespace gcn
     {
         Key key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::ENTER || key.getValue() == Key::SPACE)
+        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space)
             && !mDroppedDown)
         {
             dropDown();
             keyEvent.consume();
         }
-        else if (key.getValue() == Key::UP)
+        else if (key.getValue() == Key::Up)
         {
             setSelected(getSelected() - 1);
             keyEvent.consume();
         }
-        else if (key.getValue() == Key::DOWN)
+        else if (key.getValue() == Key::Down)
         {
             setSelected(getSelected() + 1);
             keyEvent.consume();
@@ -315,7 +315,7 @@ namespace gcn
             && mouseEvent.getY() < getHeight()
             && mouseEvent.getX() >= 0
             && mouseEvent.getX() < getWidth()
-            && mouseEvent.getButton() == MouseEvent::LEFT
+            && mouseEvent.getButton() == MouseEvent::Left
             && !mDroppedDown
             && mouseEvent.getSource() == this)
         {
@@ -328,7 +328,7 @@ namespace gcn
                  && mouseEvent.getY() < mFoldedUpHeight
                  && mouseEvent.getX() >= 0
                  && mouseEvent.getX() < getWidth()
-                 && mouseEvent.getButton() == MouseEvent::LEFT
+                 && mouseEvent.getButton() == MouseEvent::Left
                  && mDroppedDown
                  && mouseEvent.getSource() == this)
         {
@@ -359,7 +359,7 @@ namespace gcn
             || mouseEvent.getY() >= getHeight()
             || mouseEvent.getX() < 0
             || mouseEvent.getX() >= getWidth())
-            && mouseEvent.getButton() == MouseEvent::LEFT
+            && mouseEvent.getButton() == MouseEvent::Left
             && isModalMouseInputFocused())
         {
             releaseModalMouseInputFocus();
@@ -369,7 +369,7 @@ namespace gcn
                 foldUp();
             }
         }
-        else if (mouseEvent.getButton() == MouseEvent::LEFT)
+        else if (mouseEvent.getButton() == MouseEvent::Left)
         {
             mPushed = false;
         }
