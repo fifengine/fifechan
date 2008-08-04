@@ -45,7 +45,7 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "sdltruetypefont.hpp"
+#include "guichan/contrib/sdl/sdltruetypefont.hpp"
 
 #include "guichan/exception.hpp"
 #include "guichan/image.hpp"
