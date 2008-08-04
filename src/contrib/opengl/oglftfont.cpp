@@ -45,7 +45,7 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "oglftfont.hpp"
+#include "guichan/contrib/opengl/oglftfont.hpp"
 
 #include "guichan/exception.hpp"
 #include "guichan/opengl/openglgraphics.hpp"
