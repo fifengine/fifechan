@@ -8,3 +8,8 @@ libguichan_opengl_la_SOURCES =	\
 	opengl.cpp		\
 	openglimage.cpp		\
 	openglgraphics.cpp
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = guichan_opengl-0.8.pc
+
+EXTRA_DIST = guichan_opengl-0.8.pc.in
