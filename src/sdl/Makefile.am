@@ -12,3 +12,8 @@ libguichan_sdl_la_SOURCES =	\
 	sdlimage.cpp		\
 	sdlimageloader.cpp	\
 	sdlinput.cpp
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = guichan_sdl-0.8.pc
+
+EXTRA_DIST = guichan_sdl-0.8.pc.in

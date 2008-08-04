@@ -269,6 +269,7 @@ AC_SUBST([GUICHAN_EXTRADIRS])
 
 AC_OUTPUT([
 Makefile
+guichan-0.8.pc
 examples/Makefile
 include/Makefile
 include/guichan/Makefile
@@ -292,8 +293,10 @@ src/contrib/sdl/Makefile
 src/contrib/widgets/Makefile
 src/hge/Makefile
 src/opengl/Makefile
+src/opengl/guichan_opengl-0.8.pc
 src/openlayer/Makefile
 src/sdl/Makefile
+src/sdl/guichan_sdl-0.8.pc
 src/widgets/Makefile])
 echo ""
 echo "IMPORTANT! You are about install a BETA version of Guichan"
