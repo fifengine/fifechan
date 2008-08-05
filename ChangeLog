@@ -1,3 +1,7 @@
+* All enum constants have been renamed to avoid clashes with defines
+  present in other libraries (read windows.h). Enum constants are now named
+  the same ways as classes are. For example, the Key constant LEFT_SHIFT is 
+  now named LeftShift.
 * Fixed of ImageFont, DefaultFont and HGEImageFont to correctly override the
   const method Font::getStringIndexAt.
 * TabbedArea::isOpaque and TabbedArea::setOpaque have been added to
