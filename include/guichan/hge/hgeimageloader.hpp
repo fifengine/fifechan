@@ -45,6 +45,7 @@
 #define GCN_HGEIMAGELOADER_HPP
 
 #include <hge.h>
+#include <hgeresource.h>
 
 #include "guichan/platform.hpp"
 #include "guichan/imageloader.hpp"
@@ -72,6 +73,21 @@ namespace gcn
          * Destructor.
          */
         ~HGEImageLoader();
+
+        /**
+         * Loads an image with the HGE resource manager.
+         *
+         * NOTE: The functions Image::getPixel and Image::putPixel 
+         *       are only guaranteed to work before an image has 
+         *       been converted to display format.
+         *
+         * @param manager The manager to use.
+         * @param name The name of the image.
+         * @param resourceGroup The resource group.
+         * @param convertToDisplayFormat True if the image should be converted
+         *                               to display, false otherwise.
+         */
+        virtual Image* load(hgeResourceManager* manager, char* name, int resourceGroup, bool convertToDisplayFormat);
 
 
         // Inherited from ImageLoader

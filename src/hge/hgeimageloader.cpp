@@ -81,4 +81,23 @@ namespace gcn
 
         return image; 
     }
+
+    Image *HGEImageLoader::load(hgeResourceManager* manager, char* name, int resgroup, bool convertToDisplayFormat)
+    {
+        HTEXTURE texture = manager->GetTexture(name, resgroup);
+
+        if (texture == NULL)
+        {
+            throw GCN_EXCEPTION(std::string("Unable to load: ") + name);
+        }
+
+        HGEImage *image = new HGEImage(texture, true);
+
+        if (convertToDisplayFormat)
+        {
+            image->convertToDisplayFormat();
+        }
+
+        return image;
+    }
 }
