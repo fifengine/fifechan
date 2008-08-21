@@ -362,4 +362,14 @@ namespace gcn
     {
         return mColor;
     }
+
+    int OpenGLGraphics::getTargetPlaneWidth() const
+    {
+        return mWidth;
+    }
+
+    int OpenGLGraphics::getTargetPlaneHeight() const
+    {
+        return mHeight;
+    }
 }

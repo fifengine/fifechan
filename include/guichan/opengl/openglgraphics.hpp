@@ -90,6 +90,20 @@ namespace gcn
 		 *               the same as the screen resolution.
          */
         virtual void setTargetPlane(int width, int height);
+       
+        /**
+         * Gets the target plane width.
+         *
+         * @return The target plane width.
+         */
+        virtual int getTargetPlaneWidth() const;
+
+        /**
+         * Gets the target plane height.
+         *
+         * @return The target plane height.
+         */
+        virtual int getTargetPlaneHeight() const;
 
 
 		// Inherited from Graphics
