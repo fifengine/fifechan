@@ -58,7 +58,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/directx/directx3dinput.hpp"
+#include "guichan/directx3d/directx3dinput.hpp"
 
 #include "guichan/exception.hpp"
 
@@ -328,7 +328,7 @@ namespace gcn
                                                      point.x,
                                                      point.y,
                                                      GetTickCount()));
-                    mLastMouseZ = mLastMouseZ + mouseZ - 120;
+                    mLastMouseZ = 0;
                 }
                 else if (mLastMouseZ + mouseZ <= -120)
                 {     
@@ -337,7 +337,11 @@ namespace gcn
                                                      point.x,
                                                      point.y,
                                                      GetTickCount()));
-                    mLastMouseZ = mLastMouseZ + mouseZ + 120;
+                    mLastMouseZ = 0;
+                }
+                else
+                {
+                    mLastMouseZ += mouseZ;
                 }
 
                 break;
@@ -488,7 +492,8 @@ namespace gcn
           default:
               ToAscii(wParam, 
                       HIWORD(lParam) & 0xff, // Gets the scan code.
-                      kbstate, (unsigned short*)&value, 
+                      kbstate, 
+                      (unsigned short*)&value, 
                       0);
               break;
         }

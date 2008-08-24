@@ -153,25 +153,21 @@ namespace gcn
 
     void DirectX3DImage::putPixel(int x, int y, const Color& color)
     {
-        /*
-        if (mPixels == NULL)
-		{
-			throw GCN_EXCEPTION("Image has been converted to display format");
-		}
+       if (mSurface == NULL)
+        {
+            throw GCN_EXCEPTION("Image has been converted to display format");
+        }
 
-		if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
+        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
 		{
 			throw GCN_EXCEPTION("Coordinates outside of the image");
 		}
 
-#ifdef __BIG_ENDIAN__
-		unsigned int c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
-#else
-		unsigned int c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
-#endif
-
-		mPixels[x + y * mTextureWidth] = c;
-        */
+        D3DLOCKED_RECT lockedRect;
+        mSurface->LockRect(&lockedRect, NULL, 0);
+        DWORD* pixels = (DWORD*)lockedRect.pBits;
+        pixels[lockedRect.Pitch / sizeof(DWORD) * y + x] = D3DCOLOR_RGBA(color.r, color.g, color.b, color.a);
+        mSurface->UnlockRect();
     }
 
     void DirectX3DImage::convertToDisplayFormat()
@@ -200,12 +196,12 @@ namespace gcn
         dest.bottom = mHeight;
         result = D3DXLoadSurfaceFromSurface(textureSurface, 
                                             NULL, 
-                                           &dest, 
-                                           mSurface, 
-                                           NULL, 
-                                           NULL, 
-                                           D3DX_FILTER_NONE,
-                                           0);
+                                            &dest, 
+                                            mSurface, 
+                                            NULL, 
+                                            NULL, 
+                                            D3DX_FILTER_NONE,
+                                            0);
         if (result != D3D_OK)
         {
             throw GCN_EXCEPTION("Unable to convert image to display format!");
