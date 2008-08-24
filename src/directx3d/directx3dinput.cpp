@@ -495,6 +495,7 @@ namespace gcn
                       kbstate, 
                       (unsigned short*)&value, 
                       0);
+              value = (char)value;
               break;
         }
 
