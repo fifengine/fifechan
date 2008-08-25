@@ -43,7 +43,8 @@ namespace directx3d
         if (input != NULL)
         {
             input->dispatchMessage(hWnd, msg, wParam, lParam);
-          /*
+       
+            /*
             if (!input->isMouseQueueEmpty())
             {
                 gcn::MouseInput mouseInput = input->dequeueMouseInput();
@@ -67,6 +68,23 @@ namespace directx3d
                 
                 OutputDebugStringA(os.str().c_str());
             }*/
+
+           /*
+            if (!input->isKeyQueueEmpty())
+            {
+                gcn::KeyInput keyInput = input->dequeueKeyInput();
+                std::string str;
+                std::ostringstream os(str);
+ 
+                if (keyInput.getType() == gcn::KeyInput::Pressed)
+                {
+                    os << "Key pressed: " << (char)keyInput.getKey().getValue() << " " << keyInput.getKey().isCharacter() << std::endl;
+                }
+
+                OutputDebugStringA(os.str().c_str());
+            }*/
+          
+            
         }
 
         return DefWindowProc(hWnd, msg, wParam, lParam);

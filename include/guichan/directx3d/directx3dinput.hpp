@@ -87,12 +87,10 @@ namespace gcn
          * Dispatches a windows message. It should be called as soon as a windows
          * message is received in the window proc function.
          *
-         * @param hWnd A windows window handle.
-         * @param msg A message from windows.
-         * @param wParam A parameter from windows.
-         * @param lParam A parameter from windows.
+         * @param window A windows window handle.
+         * @param message A message from windows.
          */
-        virtual void dispatchMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+        virtual void dispatchMessage(HWND window, MSG message);
 
         /**
          * Polls all input. It exists for input driver compatibility. If you
