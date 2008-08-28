@@ -63,12 +63,14 @@ namespace gcn
          * Constructor.
          *
          * @param source The source widget of the event.
+         * @param distributer The distributer of the event.
          * @param isShiftPressed True if shift is pressed, false otherwise.
          * @param isControlPressed True if control is pressed, false otherwise.
          * @param isAltPressed True if alt is pressed, false otherwise.
          * @param isMetaPressed True if meta is pressed, false otherwise.
          */
         InputEvent(Widget* source,
+                   Widget* distributer,
                    bool isShiftPressed,
                    bool isControlPressed,
                    bool isAltPressed,
@@ -127,6 +129,14 @@ namespace gcn
          */
         bool isConsumed() const;
 
+        /**
+         * Gets the distributer of the event. The function is
+         * used to tell which widget actually distributed the 
+         * event. As input events bubbles up, the source of the event
+         * may not be the same as the distributer of the event.
+         */ 
+        Widget* getDistributer() const;
+
     protected:
         /**
          * True if shift is pressed, false otherwise.
@@ -153,6 +163,20 @@ namespace gcn
          * false otherwise.
          */
         bool mIsConsumed;
+
+        /**
+         * Holds the distributer of the event.
+         */
+        Widget* mDistributer;
+    
+        /**
+         * Gui is a friend of this class in order to be able to manipulate
+         * the protected member variables of this class and at the same time
+         * keep the MouseEvent class as const as possible. Gui needs to
+         * update the distributer of this class whenever the distributer
+         * changes as events bubble up.
+         */
+        friend class Gui;
     };
 }
 

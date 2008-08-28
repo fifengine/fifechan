@@ -50,6 +50,7 @@
 namespace gcn
 {
     KeyEvent::KeyEvent(Widget* source,
+                       Widget* distributer,
                        bool isShiftPressed,
                        bool isControlPressed,
                        bool isAltPressed,
@@ -58,6 +59,7 @@ namespace gcn
                        bool isNumericPad,
                        const Key& key)
             :InputEvent(source,
+                        distributer,
                         isShiftPressed,
                         isControlPressed,
                         isAltPressed,

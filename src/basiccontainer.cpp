@@ -56,6 +56,12 @@
 
 namespace gcn
 {
+    BasicContainer::BasicContainer()
+      :mLogicIsProcessing(false)
+    {
+
+    }
+
     BasicContainer::~BasicContainer()
     {
         clear();
@@ -64,17 +70,17 @@ namespace gcn
     void BasicContainer::moveToTop(Widget* widget)
     {
         WidgetListIterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
+        iter = std::find(mWidgets.begin(), mWidgets.end(), widget);
+
+        if (iter == mWidgets.end())
         {
-            if (*iter == widget)
-            {
-                mWidgets.erase(iter);
-                mWidgets.push_back(widget);
-                return;
-            }
+            throw GCN_EXCEPTION("There is no such widget in this container.");
         }
 
-        throw GCN_EXCEPTION("There is no such widget in this container.");
+        if (mLogicIsProcessing)
+            mWidgetToBeMovedToTheTop = widget;
+        else
+            _moveToTopWithNoChecks(widget);
     }
 
     void BasicContainer::moveToBottom(Widget* widget)
@@ -86,8 +92,11 @@ namespace gcn
         {
             throw GCN_EXCEPTION("There is no such widget in this container.");
         }
-        mWidgets.erase(iter);
-        mWidgets.push_front(widget);
+
+         if (mLogicIsProcessing)
+            mWidgetToBeMovedToTheBottom = widget;
+        else
+            _moveToBottomWithNoChecks(widget);
     }
 
     void BasicContainer::death(const Event& event)
@@ -206,7 +215,23 @@ namespace gcn
 
     void BasicContainer::logic()
     {
+        mLogicIsProcessing = true;
+        mWidgetToBeMovedToTheTop = NULL;
+        mWidgetToBeMovedToTheBottom = NULL;
         logicChildren();
+        mLogicIsProcessing = false;
+
+        if (mWidgetToBeMovedToTheTop != NULL)
+        {
+            _moveToTopWithNoChecks(mWidgetToBeMovedToTheTop);
+            mWidgetToBeMovedToTheTop = NULL;
+        }
+
+        if (mWidgetToBeMovedToTheBottom != NULL)
+        {
+            _moveToTopWithNoChecks(mWidgetToBeMovedToTheBottom);
+            mWidgetToBeMovedToTheBottom = NULL;
+        }
     }
 
     void BasicContainer::_setFocusHandler(FocusHandler* focusHandler)
@@ -343,7 +368,6 @@ namespace gcn
         }
     }
 
-
     void BasicContainer::setInternalFocusHandler(FocusHandler* focusHandler)
     {
         Widget::setInternalFocusHandler(focusHandler);
@@ -386,5 +410,17 @@ namespace gcn
         }
 
         return NULL;
+    }
+
+    void BasicContainer::_moveToTopWithNoChecks(Widget* widget)
+    {
+        mWidgets.remove(widget);
+        mWidgets.push_back(widget);
+    }
+
+    void BasicContainer::_moveToBottomWithNoChecks(Widget* widget)
+    {
+        mWidgets.remove(widget);
+        mWidgets.push_front(widget);
     }
 }

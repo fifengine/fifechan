@@ -64,6 +64,11 @@ namespace gcn
     {
     public:
         /**
+         * Constructor.
+         */
+        BasicContainer();
+
+        /**
          * Destructor
          */
         virtual ~BasicContainer();
@@ -109,7 +114,34 @@ namespace gcn
 
     protected:
         /**
+         * Moves a widget to the top. Normally one wants to use
+         * Widget::moveToTop instead.
+         *
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
+         *
+         * @param widget The widget to move to the top.
+         * @since 0.9.0
+         */
+        void _moveToTopWithNoChecks(Widget* widget);
+
+         /**
+         * Moves a widget to the bottom. Normally one wants to use
+         * Widget::moveToBottom instead.
+         *
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
+         *
+         * @param The widget to move to the bottom.
+         * @since 0.9.0
+         */
+        void _moveToBottomWithNoChecks(Widget* widget);
+
+        /**
          * Adds a widget to the basic container.
+         *
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
          *
          * @param widget The widget to add.
          * @see remove, clear
@@ -119,6 +151,9 @@ namespace gcn
         /**
          * Removes a widget from the basic container.
          *
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
+         *
          * @param widget The widget to remove.
          * @see add, clear
          */
@@ -126,6 +161,9 @@ namespace gcn
 
         /**
          * Clears the basic container from all widgets.
+         *
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
          *
          * @see remove, clear
          */
@@ -158,7 +196,7 @@ namespace gcn
         /**
          * Typedef.
          */
-        typedef std::list<Widget *> WidgetList;
+        typedef std::list<Widget*> WidgetList;
 
          /**
          * Typedef.
@@ -174,6 +212,21 @@ namespace gcn
          * Holds all widgets of the basic container.
          */
         WidgetList mWidgets;
+
+        /**
+         * Holds a widget that should be moved to the top.
+         */
+        Widget* mWidgetToBeMovedToTheTop;
+
+        /**
+         * Holds a widget that should be moved to the bottom.
+         */
+        Widget* mWidgetToBeMovedToTheBottom;
+
+        /**
+         * True if logic is currently being processed, false otherwise.
+         */
+        bool mLogicIsProcessing;
     };
 }
 

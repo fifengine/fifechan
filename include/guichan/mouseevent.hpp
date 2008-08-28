@@ -66,6 +66,7 @@ namespace gcn
          * Constructor.
          *
          * @param source The source widget of the mouse event.
+         * @param distributer The distributer of the mouse event.
          * @param isShiftPressed True if shift is pressed, false otherwise.
          * @param isControlPressed True if control is pressed, false otherwise.
          * @param isAltPressed True if alt is pressed, false otherwise.
@@ -78,6 +79,7 @@ namespace gcn
          *                   It's set to zero if another button is used.
          */
         MouseEvent(Widget* source,
+                   Widget* distributer,
                    bool isShiftPressed,
                    bool isControlPressed,
                    bool isAltPressed,

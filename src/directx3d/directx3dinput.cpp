@@ -111,12 +111,14 @@ namespace gcn
         return mouseInput;
     }
 
-    void DirectX3DInput::dispatchMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    void DirectX3DInput:: dispatchMessage(HWND window, MSG message)
     {
         KeyInput keyInput;
         MouseInput mouseInput;
+        WPARAM wParam = message.wParam;
+        LPARAM lParam = message.lParam;
 
-        switch (msg)
+        switch (message.message)
         {
             case WM_SYSKEYDOWN:
             case WM_KEYDOWN:
@@ -162,7 +164,7 @@ namespace gcn
                     mouseInput.setTimeStamp(GetTickCount());
                     mMouseInputQueue.push(mouseInput);
                     mMouseDown = true;
-                    SetCapture(hWnd);
+                    SetCapture(window);
                     break;
                 }
             case WM_MBUTTONDOWN:
@@ -177,7 +179,7 @@ namespace gcn
                     mouseInput.setTimeStamp(GetTickCount());
                     mMouseInputQueue.push(mouseInput);
                     mMouseDown = true;
-                    SetCapture(hWnd);
+                    SetCapture(window);
                     break;
                 }
             case WM_RBUTTONDOWN:
@@ -192,7 +194,7 @@ namespace gcn
                     mouseInput.setTimeStamp(GetTickCount());
                     mMouseInputQueue.push(mouseInput);
                     mMouseDown = true;
-                    SetCapture(hWnd);
+                    SetCapture(window);
                     break;
                 }
             case WM_LBUTTONUP:
@@ -304,10 +306,10 @@ namespace gcn
                 int x = (int)((signed short)(LOWORD(lParam)));
                 int y = (int)((signed short)(HIWORD(lParam)));
                 POINT point = {x,y};
-                ScreenToClient(hWnd, &point);
+                ScreenToClient(window, &point);
 
                 RECT rect; 
-                GetClientRect(hWnd, &rect);
+                GetClientRect(window, &rect);
 
                 if (point.x < 0 
                     || point.y < 0 
