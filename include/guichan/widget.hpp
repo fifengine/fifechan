@@ -177,6 +177,15 @@ namespace gcn
         virtual Widget* getParent() const;
 
         /**
+         * Gets the top widget, or top parent, of this widget.
+         *
+         * @return The top widget, or top parent, if this widget. NULL if no top widget
+         *         exists (that is this widget doesn't have a parent).
+         * @since 0.9.0
+         */
+        virtual Widget* getTop() const;
+
+        /**
          * Sets the width of the widget.
          *
          * @param width The width of the widget.
@@ -869,6 +878,8 @@ namespace gcn
          * Moves a widget to the top of this widget. The moved widget will be
          * drawn above all other widgets in this widget.
          *
+         * This method is safe to call at any times.
+         *
          * @param widget The widget to move to the top.
          * @see moveToBottom
          * @since 0.1.0
@@ -878,6 +889,8 @@ namespace gcn
         /**
          * Moves a widget in this widget to the bottom of this widget.
          * The moved widget will be drawn below all other widgets in this widget.
+         *
+         * This method is safe to call at any times.
          *
          * @param widget The widget to move to the bottom.
          * @see moveToTop
