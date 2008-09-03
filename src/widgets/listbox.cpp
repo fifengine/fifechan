@@ -83,6 +83,7 @@ namespace gcn
 
     void ListBox::draw(Graphics* graphics)
     {
+        const ClipRectangle area = graphics->getCurrentClipArea();
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
@@ -155,7 +156,21 @@ namespace gcn
 
     void ListBox::logic()
     {
-        adjustSize();
+         adjustSize();
+
+         Rectangle scroll;
+
+        if (mSelected < 0)
+        {
+            scroll.y = 0;
+        }
+        else
+        {
+            scroll.y = getRowHeight() * mSelected;
+        }
+
+        scroll.height = getRowHeight();
+        showPart(scroll);
     }
 
     int ListBox::getSelected() const
@@ -183,20 +198,6 @@ namespace gcn
             {
                 mSelected = selected;
             }
-
-            Rectangle scroll;
-
-            if (mSelected < 0)
-            {
-                scroll.y = 0;
-            }
-            else
-            {
-                scroll.y = getRowHeight() * mSelected;
-            }
-
-            scroll.height = getRowHeight();
-            showPart(scroll);
         }
 
         distributeValueChangedEvent();
