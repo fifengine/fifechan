@@ -48,6 +48,8 @@
 #include <guichan/actionlistener.hpp>
 #include <guichan/cliprectangle.hpp>
 #include <guichan/color.hpp>
+#include <guichan/containerevent.hpp>
+#include <guichan/containerlistener.hpp>
 #include <guichan/deathlistener.hpp>
 #include <guichan/event.hpp>
 #include <guichan/exception.hpp>
