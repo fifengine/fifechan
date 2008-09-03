@@ -83,7 +83,6 @@ namespace gcn
 
     void ListBox::draw(Graphics* graphics)
     {
-        const ClipRectangle area = graphics->getCurrentClipArea();
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
 
