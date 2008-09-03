@@ -50,7 +50,7 @@
 namespace gcn
 {
     MouseEvent::MouseEvent(Widget* source,
-                           Widget* distributer,
+                           Widget* distributor,
                            bool isShiftPressed,
                            bool isControlPressed,
                            bool isAltPressed,
@@ -61,7 +61,7 @@ namespace gcn
                            int y,
                            int clickCount)
             :InputEvent(source,
-                        distributer,
+                        distributor,
                         isShiftPressed,
                         isControlPressed,
                         isAltPressed,

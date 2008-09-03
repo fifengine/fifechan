@@ -62,15 +62,15 @@ namespace gcn
         /**
          * Constructor.
          *
-         * @param source The source widget of the event.
-         * @param distributer The distributer of the event.
+         * @param source The widget the event concerns.
+         * @param distributor The distributor of the event.
          * @param isShiftPressed True if shift is pressed, false otherwise.
          * @param isControlPressed True if control is pressed, false otherwise.
          * @param isAltPressed True if alt is pressed, false otherwise.
          * @param isMetaPressed True if meta is pressed, false otherwise.
          */
         InputEvent(Widget* source,
-                   Widget* distributer,
+                   Widget* distributor,
                    bool isShiftPressed,
                    bool isControlPressed,
                    bool isAltPressed,
@@ -130,12 +130,12 @@ namespace gcn
         bool isConsumed() const;
 
         /**
-         * Gets the distributer of the event. The function is
+         * Gets the distributor of the event. The function is
          * used to tell which widget actually distributed the 
          * event. As input events bubbles up, the source of the event
-         * may not be the same as the distributer of the event.
+         * may not be the same as the distributor of the event.
          */ 
-        Widget* getDistributer() const;
+        Widget* getDistributor() const;
 
     protected:
         /**
@@ -165,9 +165,9 @@ namespace gcn
         bool mIsConsumed;
 
         /**
-         * Holds the distributer of the event.
+         * Holds the distributor of the event.
          */
-        Widget* mDistributer;
+        Widget* mDistributor;
     
         /**
          * Gui is a friend of this class in order to be able to manipulate
