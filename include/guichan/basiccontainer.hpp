@@ -140,8 +140,8 @@ namespace gcn
         /**
          * Adds a widget to the basic container.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
+         * INSIDE ANY LISTENER FUNCTIONS!
          *
          * @param widget The widget to add.
          * @see remove, clear
@@ -151,8 +151,8 @@ namespace gcn
         /**
          * Removes a widget from the basic container.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
+         * INSIDE ANY LISTENER FUNCTIONS!
          *
          * @param widget The widget to remove.
          * @see add, clear
@@ -162,8 +162,8 @@ namespace gcn
         /**
          * Clears the basic container from all widgets.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
+         * INSIDE ANY LISTENERR FUNCTIONS!
          *
          * @see remove, clear
          */
