@@ -92,7 +92,7 @@ namespace gcn
         D3DXMATRIX identity;
         D3DXMATRIX ortho;
         D3DXMatrixIdentity(&identity);
-        //D3DXMatrixOrthoOffCenterLH(&ortho, -mWidth, mWidth, -mHeight, mHeight, 1, 1);
+
         D3DXMatrixOrthoLH(&ortho, (float)mWidth, (float)mHeight, 0.0f, 1.0f);
         mDevice->SetTransform(D3DTS_VIEW, &identity);
         mDevice->SetTransform(D3DTS_WORLD, &identity);       
@@ -108,6 +108,8 @@ namespace gcn
         mDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
         mDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 
+        mDevice->SetTexture(0, 0);
+
         pushClipArea(Rectangle(0, 0, mWidth, mHeight));
     }
 
@@ -121,6 +123,7 @@ namespace gcn
         bool result = Graphics::pushClipArea(area);
     
         const ClipRectangle& carea = mClipStack.top();
+
         RECT rect;
         rect.left = carea.x;
         rect.top = carea.y;
@@ -142,6 +145,7 @@ namespace gcn
         }
 
         const ClipRectangle& carea = mClipStack.top();
+
         RECT rect;
         rect.left = carea.x;
         rect.top = carea.y;
@@ -373,5 +377,20 @@ namespace gcn
     void DirectX3DGraphics::setDevice(LPDIRECT3DDEVICE9 device)
     {
         mDevice = device;
+    }
+
+    LPDIRECT3DDEVICE9 DirectX3DGraphics::getDevice() const
+    {
+        return mDevice;
+    }
+
+    int DirectX3DGraphics::getTargetPlaneWidth() const
+    {
+        return mWidth;
+    }
+   
+    int DirectX3DGraphics::getTargetPlaneHeight() const
+    {
+        return mHeight;
     }
 }
