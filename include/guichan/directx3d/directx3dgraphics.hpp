@@ -114,6 +114,46 @@ namespace gcn
          * @param device The D3D device to use when drawing.
          */
         virtual void setDevice(LPDIRECT3DDEVICE9 device);
+     
+        /**
+         * Gets the D3D device to use when drawing.
+         *
+         * @return The D3D device to use when drawing.
+         */
+        virtual LPDIRECT3DDEVICE9 getDevice() const;
+
+        /**
+         * Gets the width of the target plane.
+         *
+         * @return The width of the target plane.
+         */
+        virtual int getTargetPlaneWidth() const;
+
+        /**
+         * Gets the height of the target plane.
+         *
+         * @return The height of the target plane.
+         */
+        virtual int getTargetPlaneHeight() const;
+
+        /**
+         * A struct for plain vertex information.
+         */
+        struct Vertex
+        {
+            float x, y, z, rhw;
+            DWORD color;
+        };
+
+        /**
+         * A struct for vertex information that contians texture coordinates.
+         */
+        struct VertexWithTexture
+        {
+            float x, y, z, rhw;
+            DWORD color;
+            float u, v;
+        };
 
 
 		// Inherited from Graphics
@@ -147,24 +187,6 @@ namespace gcn
 		virtual const Color& getColor() const;
 
     protected:
-        /**
-         * A struct for plain vertex information.
-         */
-        struct Vertex
-        {
-            float x, y, z, rhw;
-            DWORD color;
-        };
-
-        /**
-         * A struct for vertex information that contians texture coordinates.
-         */
-        struct VertexWithTexture
-        {
-            float x, y, z, rhw;
-            DWORD color;
-            float u, v;
-        };
 
         /**
          * Hold the width of the target plane.
