@@ -401,6 +401,7 @@ namespace gcn
         gcn::Rectangle dim = mDimension;
         mDimension = dimension;
         adjustSize();
+        mDimension = dim;
         Widget::setDimension(dimension);      
     }
 
