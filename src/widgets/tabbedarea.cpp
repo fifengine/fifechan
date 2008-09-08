@@ -315,10 +315,6 @@ namespace gcn
         drawChildren(graphics);
     }
 
-    void TabbedArea::logic()
-    {
-    }
-
     void TabbedArea::adjustSize()
     {
         int maxTabHeight = 0;
@@ -368,20 +364,32 @@ namespace gcn
 
     void TabbedArea::setHeight(int height)
     {
-        Widget::setHeight(height);
+        gcn::Rectangle dim = mDimension;
+        mDimension.height = height;
         adjustSize();
+        mDimension = dim;
+        Widget::setHeight(height);
     }
 
     void TabbedArea::setSize(int width, int height)
     {
-        Widget::setSize(width, height);
+        gcn::Rectangle dim = mDimension;
+        mDimension.width = width;
+        mDimension.height = height;
         adjustSize();
+        mDimension = dim;
+        Widget::setSize(width, height);
     }
 
     void TabbedArea::setDimension(const Rectangle& dimension)
     {
-        Widget::setDimension(dimension);
+        gcn::Rectangle dim = mDimension;
+        mDimension.x = dimension.x;
+        mDimension.y = dimension.y;
+        mDimension.width = dimension.width;
+        mDimension.height = dimension.height;
         adjustSize();
+        Widget::setDimension(dimension);      
     }
 
     void TabbedArea::keyPressed(KeyEvent& keyEvent)
@@ -479,5 +487,12 @@ namespace gcn
         }
 
         setSelectedTab(tab);
+    }
+
+    void TabbedArea::setBaseColor(const Color& color)
+    {
+        Widget::setBaseColor(color);
+        mWidgetContainer->setBaseColor(color);
+        mTabContainer->setBaseColor(color);
     }
 }
