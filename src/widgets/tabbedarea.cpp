@@ -358,12 +358,21 @@ namespace gcn
 
     void TabbedArea::setWidth(int width)
     {
-        Widget::setWidth(width);
+        // This may seem odd, but we want the TabbedArea to adjust
+        // it's size properly before we call Widget::setWidth as
+        // Widget::setWidth might distribute a resize event.
+        gcn::Rectangle dim = mDimension;
+        mDimension.width = width;
         adjustSize();
+        mDimension = dim;
+        Widget::setWidth(width);
     }
 
     void TabbedArea::setHeight(int height)
     {
+        // This may seem odd, but we want the TabbedArea to adjust
+        // it's size properly before we call Widget::setHeight as
+        // Widget::setHeight might distribute a resize event.
         gcn::Rectangle dim = mDimension;
         mDimension.height = height;
         adjustSize();
@@ -373,6 +382,9 @@ namespace gcn
 
     void TabbedArea::setSize(int width, int height)
     {
+        // This may seem odd, but we want the TabbedArea to adjust
+        // it's size properly before we call Widget::setSize as
+        // Widget::setSize might distribute a resize event.
         gcn::Rectangle dim = mDimension;
         mDimension.width = width;
         mDimension.height = height;
@@ -383,11 +395,11 @@ namespace gcn
 
     void TabbedArea::setDimension(const Rectangle& dimension)
     {
+        // This may seem odd, but we want the TabbedArea to adjust
+        // it's size properly before we call Widget::setDimension as
+        // Widget::setDimension might distribute a resize event.
         gcn::Rectangle dim = mDimension;
-        mDimension.x = dimension.x;
-        mDimension.y = dimension.y;
-        mDimension.width = dimension.width;
-        mDimension.height = dimension.height;
+        mDimension = dimension;
         adjustSize();
         Widget::setDimension(dimension);      
     }
