@@ -9,6 +9,8 @@ libguichaninclude_HEADERS =	\
 	basiccontainer.hpp	\
 	cliprectangle.hpp	\
 	color.hpp		\
+	containerevent.hpp	\
+	containerlistener.hpp	\
 	deathlistener.hpp	\
 	defaultfont.hpp		\
 	event.hpp		\
