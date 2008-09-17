@@ -140,8 +140,8 @@ namespace gcn
         /**
          * Adds a widget to the basic container.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
-         * INSIDE ANY LISTENER FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
          *
          * @param widget The widget to add.
          * @see remove, clear
@@ -151,8 +151,8 @@ namespace gcn
         /**
          * Removes a widget from the basic container.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
-         * INSIDE ANY LISTENER FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
          *
          * @param widget The widget to remove.
          * @see add, clear
@@ -162,8 +162,8 @@ namespace gcn
         /**
          * Clears the basic container from all widgets.
          *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION OR
-         * INSIDE ANY LISTENERR FUNCTIONS!
+         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+         * INSIDE ANY LISTER FUNCTIONS!
          *
          * @see remove, clear
          */
@@ -192,6 +192,11 @@ namespace gcn
                    NULL of no widget is found.
          */
         virtual Widget* findWidgetById(const std::string& id);
+
+        /**
+         * Resizes the BasicContainer to fit it's content exactly.
+         */
+        void resizeToContent();
 
         /**
          * Typedef.

@@ -423,4 +423,25 @@ namespace gcn
         mWidgets.remove(widget);
         mWidgets.push_front(widget);
     }
+
+    void BasicContainer::resizeToContent()
+    {
+        WidgetListIterator it;
+
+        int w = 0, h = 0;
+        for (it = mWidgets.begin(); it != mWidgets.end(); it++)
+        {
+            if ((*it)->getX() + (*it)->getWidth() > w)
+            {
+                w = (*it)->getX() + (*it)->getWidth();
+            }
+
+            if ((*it)->getY() + (*it)->getHeight() > h)
+            {
+                h = (*it)->getY() + (*it)->getHeight();
+            }
+        }
+
+        setSize(w, h);
+    }
 }
