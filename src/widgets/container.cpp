@@ -148,4 +148,9 @@ namespace gcn
     {
         return mWidgets;
     }
+
+    void Container::resizeToContent()
+    {
+        BasicContainer::resizeToContent();
+    }
 }
