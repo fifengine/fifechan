@@ -51,14 +51,15 @@
 #include "guichan/graphics.hpp"
 #include "guichan/key.hpp"
 #include "guichan/mouseinput.hpp"
+#include "guichan/text.hpp"
 
 namespace gcn
 {
     TextField::TextField():
-        mEditable(true)
+        mEditable(true),
+        mXScroll(0)
     {
-        mCaretPosition = 0;
-        mXScroll = 0;
+        mText = new Text();
 
         setFocusable(true);
 
@@ -67,12 +68,11 @@ namespace gcn
     }
 
     TextField::TextField(const std::string& text):
-        mEditable(true)
+        mEditable(true),
+        mXScroll(0)
     {
-        mCaretPosition = 0;
-        mXScroll = 0;
+        mText = new Text(text);
 
-        mText = text;
         adjustSize();
 
         setFocusable(true);
@@ -83,12 +83,7 @@ namespace gcn
 
     void TextField::setText(const std::string& text)
     {
-        if(text.size() < mCaretPosition )
-        {
-            mCaretPosition = text.size();
-        }
-
-        mText = text;
+        mText->setRow(0, text);
     }
 
     void TextField::draw(Graphics* graphics)
@@ -125,12 +120,15 @@ namespace gcn
 
         if (isFocused() && isEditable())
         {
-            drawCaret(graphics, getFont()->getWidth(mText.substr(0, mCaretPosition)) - mXScroll);
+            drawCaret(graphics, mText->getCaretX(getFont()) - mXScroll);
         }
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
-        graphics->drawText(mText, 3 - mXScroll, 1);
+
+        const Rectangle& dim = mText->getCaretDimension(getFont());
+        if (mText->getNumberOfRows() != 0)
+            graphics->drawText(mText->getRow(0), 1 - mXScroll, 1);
 
         graphics->popClipArea();
     }
@@ -151,7 +149,8 @@ namespace gcn
     {
         if (mouseEvent.getButton() == MouseEvent::Left)
         {
-            mCaretPosition = getFont()->getStringIndexAt(mText, mouseEvent.getX() + mXScroll);
+            const Rectangle& dim = mText->getCaretDimension(getFont());
+            mText->setCaretPosition(mouseEvent.getX() + dim.x, mouseEvent.getY(), getFont());
             fixScroll();
         }
     }
@@ -165,63 +164,42 @@ namespace gcn
     {
         Key key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Left && mCaretPosition > 0)
-        {
-            --mCaretPosition;
-        }
+        if (key.getValue() == Key::Left)
+            mText->setCaretPosition(mText->getCaretPosition() - 1);
 
-        else if (key.getValue() == Key::Right && mCaretPosition < mText.size())
-        {
-            ++mCaretPosition;
-        }
+        else if (key.getValue() == Key::Right)
+            mText->setCaretPosition(mText->getCaretPosition() + 1);
 
-        else if (key.getValue() == Key::Delete && mCaretPosition < mText.size()
-                 && mEditable)
-        {
-            mText.erase(mCaretPosition, 1);
-        }
+        else if (key.getValue() == Key::Delete && mEditable)
+            mText->remove(1);
 
-        else if (key.getValue() == Key::Backspace && mCaretPosition > 0
-                 && mEditable)
-        {
-            mText.erase(mCaretPosition - 1, 1);
-            --mCaretPosition;
-        }
+        else if (key.getValue() == Key::Backspace && mEditable)
+            mText->remove(-1);
 
         else if (key.getValue() == Key::Enter)
-        {
             distributeActionEvent();
-        }
 
         else if (key.getValue() == Key::Home)
-        {
-            mCaretPosition = 0;
-        }
+            mText->setCaretColumn(0);
 
         else if (key.getValue() == Key::End)
-        {
-            mCaretPosition = mText.size();
-        }
+            mText->setCaretColumn(mText->getNumberOfCharacters(0));
 
         else if (key.isCharacter()
                  && key.getValue() != Key::Tab
                  && mEditable)
-        {
-            mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
-            ++mCaretPosition;
-        }
+            mText->insert(key.getValue());
 
         if (key.getValue() != Key::Tab)
-        {
             keyEvent.consume();
-        }
 
         fixScroll();
     }
 
     void TextField::adjustSize()
     {
-        setWidth(getFont()->getWidth(mText) + 7);
+        const Rectangle& dim = mText->getDimension(getFont());
+        setWidth(dim.width + 8);
         adjustHeight();
 
         fixScroll();
@@ -236,7 +214,7 @@ namespace gcn
     {
         if (isFocused())
         {
-            int caretX = getFont()->getWidth(mText.substr(0, mCaretPosition));
+            int caretX = mText->getCaretDimension(getFont()).x;
 
             if (caretX - mXScroll >= getWidth() - 4)
             {
@@ -256,30 +234,26 @@ namespace gcn
 
     void TextField::setCaretPosition(unsigned int position)
     {
-        if (position > mText.size())
-        {
-            mCaretPosition = mText.size();
-        }
-        else
-        {
-            mCaretPosition = position;
-        }
-
-        fixScroll();
+        mText->setCaretPosition(position);
     }
 
     unsigned int TextField::getCaretPosition() const
     {
-        return mCaretPosition;
+        return  mText->getCaretPosition();
     }
 
     const std::string& TextField::getText() const
     {
-        return mText;
+        return mText->getContent();
     }
 
-    void TextField::fontChanged()
+    bool TextField::isEditable() const
     {
-        fixScroll();
+        return mEditable;
+    }
+
+    void TextField::setEditable(bool editable)
+    {
+        mEditable = editable;
     }
 }

@@ -1,3 +1,9 @@
+* A new helper class has been added called Text for manipulating
+  text in widgets. It's utilised by both TextBox and TextField which
+  has reduced the complexity of those widgets significantly.
+* BasicContainer and Container now hos the ability to resize themselves
+  to fit their content with BasicContainer::resizeToContent and 
+  Container::resizeToContent.
 * All enum constants have been renamed to avoid clashes with defines
   present in other libraries (read windows.h). Enum constants are now named
   the same ways as classes are. For example, the Key constant LEFT_SHIFT is 

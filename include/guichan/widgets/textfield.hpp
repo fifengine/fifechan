@@ -53,6 +53,8 @@
 
 namespace gcn
 {
+    class Text;
+
     /**
      * An implementation of a text field where a user can enter a line of text.
      */
@@ -107,10 +109,7 @@ namespace gcn
          * @return True it the text field is editable, false otherwise.
          * @see setEditable
          */
-        bool isEditable() const
-        {
-            return mEditable;
-        }
+        bool isEditable() const;
 
         /**
          * Sets the text field to be editable or not. A text field is editable
@@ -119,10 +118,7 @@ namespace gcn
          * @param editable True if the text field should be editable, false
          *                 otherwise.
          */
-        void setEditable(bool editable)
-        {
-            mEditable = editable;
-        }
+        void setEditable(bool editable);
 
         /**
          * Sets the caret position. As there is only one line of text
@@ -144,8 +140,6 @@ namespace gcn
 
 
         // Inherited from Widget
-
-        virtual void fontChanged();
 
         virtual void draw(Graphics* graphics);
 
@@ -179,14 +173,14 @@ namespace gcn
         void fixScroll();
 
         /**
-         * Holds the text of the text box.
+         * True if the text field is editable, false otherwise.
          */
-        std::string mText;
+        bool mEditable;
 
         /**
-         * Holds the caret position.
+         * Holds the text of the text field.
          */
-        unsigned int mCaretPosition;
+        Text* mText;
 
         /**
          * Holds the amount scrolled in x. If a user types more characters than
@@ -194,11 +188,6 @@ namespace gcn
          * text needs to scroll in order to show the last type character.
          */
         int mXScroll;
-
-        /**
-         * True if the text field is editable, false otherwise.
-         */
-        bool mEditable;
     };
 }
 

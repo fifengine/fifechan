@@ -55,6 +55,8 @@
 
 namespace gcn
 {
+    class Text;
+
     /**
      * An implementation of a text box where a user can enter text that contains of many lines.
      */
@@ -99,7 +101,7 @@ namespace gcn
          * @return A row from the text of the text box.
          * @see setTextRow
          */
-        const std::string& getTextRow(int row) const;
+        std::string getTextRow(int row) const;
 
         /**
          * Sets the text of a certain row of the text.
@@ -258,21 +260,11 @@ namespace gcn
          * Adjusts the text box's size to fit the text.
          */
         virtual void adjustSize();
-
+        
         /**
-         * Holds all the rows of the text.
+         * Holds the text of the text box.
          */
-        std::vector<std::string> mTextRows;
-
-        /**
-         * Holds the current column of the caret.
-         */
-        int mCaretColumn;
-
-        /**
-         * Holds the current row of the caret.
-         */
-        int mCaretRow;
+        Text* mText;
 
         /**
          * True if the text box is editable, false otherwise.
