@@ -107,6 +107,8 @@ namespace gcn
 
         virtual Widget *getWidgetAt(int x, int y);
 
+        virtual std::list<Widget*> getWidgetsIn(const Rectangle& area, 
+                                                Widget* ignore = NULL);
 
         // Inherited from DeathListener
 

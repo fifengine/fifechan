@@ -58,6 +58,8 @@ namespace gcn
      * A utility class to ease working with text in widgets such as 
      * TextBox and TextField. The class wraps common text operations
      * such as inserting and deleting text.
+     *
+     * @since 0.9.0
      */
     class GCN_CORE_DECLSPEC Text
     {
@@ -71,11 +73,13 @@ namespace gcn
          * Constructor.
          *
          * @param content The content of the text.
+         * @since 0.9.0
          */
         Text(const std::string& content);
 
         /**
          * Destructor.
+         * @since 0.9.0
          */
         virtual ~Text();
 
@@ -84,6 +88,7 @@ namespace gcn
          * any previous text and reset the caret position.
          *
          * @param content The content of the text.
+         * @since 0.9.0
          */
         virtual void setContent(const std::string& text);
 
@@ -91,6 +96,7 @@ namespace gcn
          * Gets the content of the text.
          *
          * @return The content of the text.
+         * @since 0.9.0
          */
         virtual std::string getContent() const;
 
@@ -99,6 +105,7 @@ namespace gcn
          *
          * @param row The row to set the text of.
          * @throws Exception when the row does not exist.
+         * @since 0.9.0
          */
         virtual void setRow(unsigned int row, const std::string& content);
 
@@ -107,6 +114,7 @@ namespace gcn
          * not change the current caret position.
          *
          * @param row The row to add.
+         * @since 0.9.0
          */
         virtual void addRow(const std::string& row);
 
@@ -116,6 +124,7 @@ namespace gcn
          * @param row The row to get the content of.
          * @return The content of a row.
          * @throws Exception when no such row exists.
+         * @since 0.9.0
          */
         virtual std::string getRow(unsigned int row) const;
 
@@ -123,6 +132,7 @@ namespace gcn
          * Inserts a character at the current caret position.
          *
          * @parameter character The character to insert.
+         * @since 0.9.0
          */
         virtual void insert(int character);
 
@@ -137,14 +147,16 @@ namespace gcn
          * removed the row with the line feed will be merged
          * with the row above the line feed.
          *
-         * @numberOfCharacters The number of characters to remove.
+         * @param numberOfCharacters The number of characters to remove.
+         * @since 0.9.0
          */
         virtual void remove(int numberOfCharacters);
 
         /**
          * Gets the caret position.
          *
-         * @return The caret position;
+         * @return The caret position.
+         * @since 0.9.0
          */
         virtual int getCaretPosition() const;
 
@@ -153,9 +165,9 @@ namespace gcn
          * clamp to the dimension of the content.
          *
          * @param position The position of the caret.
+         * @since 0.9.0
          */
         virtual void setCaretPosition(int position);
-
         
         /**
          * Sets the caret position given an x and y coordinate in pixels
@@ -164,6 +176,7 @@ namespace gcn
          * @param x The x coordinate of the caret.
          * @param y The y coordinate of the caret.
          * @param font The font to use when calculating the position.
+         * @since 0.9.0
          */
         virtual void setCaretPosition(int x, int y, Font* font);
 
@@ -171,6 +184,7 @@ namespace gcn
          * Gets the column the caret is currently in.
          *
          * @return The column the caret is currently in.
+         * @since 0.9.0
          */
         virtual int getCaretColumn() const;
 
@@ -178,6 +192,7 @@ namespace gcn
          * Gets the row the caret is currently in.
          *
          * @return The row the caret is currently in.
+         * @since 0.9.0
          */
         virtual int getCaretRow() const;
         
@@ -186,6 +201,7 @@ namespace gcn
          * will be clamp to the current row.
          *
          * @param column The column the caret should be in.
+         * @since 0.9.0
          */
         virtual void setCaretColumn(int column);
 
@@ -199,6 +215,7 @@ namespace gcn
          * column.
          *
          * @param row The row the caret should be in.
+         * @since 0.9.0
          */
         virtual void setCaretRow(int row);
 
@@ -207,6 +224,7 @@ namespace gcn
          *
          * @param font The font to use when calculating the x coordinate.
          * @return The x coorinate of the caret in pixels.
+         * @since 0.9.0
          */
         virtual int getCaretX(Font* font) const;
 
@@ -215,6 +233,7 @@ namespace gcn
          *
          * @param font The font to use when calculating the y coordinate.
          * @return The y coorinate of the caret in pixels.
+         * @since 0.9.0
          */
         virtual int getCaretY(Font* font) const;
 
@@ -224,6 +243,7 @@ namespace gcn
          *
          * @param font The font to use when calculating the dimension.
          * @return The dimension in pixels of the text given a font.
+         * @since 0.9.0
          */
         virtual Rectangle getDimension(Font* font) const;
 
@@ -234,6 +254,7 @@ namespace gcn
          *
          * @param font The font to use when calculating the dimension.
          * @return The dimension of the caret.
+         * @since 0.9.0
          */
         virtual Rectangle getCaretDimension(Font* font) const;
 
@@ -243,6 +264,7 @@ namespace gcn
          *
          * @param row The row to get the width of.
          * @return The width in pixels of a row.
+         * @since 0.9.0
          */ 
         virtual int getWidth(int row, Font* font) const;
 
@@ -250,6 +272,7 @@ namespace gcn
          * Gets the maximum row the caret can be in.
          * 
          * @return The maximum row the caret can be in.
+         * @since 0.9.0
          */
         virtual unsigned int getMaximumCaretRow() const;
 
@@ -258,6 +281,7 @@ namespace gcn
          * 
          * @param row The row of the caret.
          * @return The maximum column of a row the caret can be in.
+         * @since 0.9.0
          */
         virtual unsigned int getMaximumCaretRow(unsigned int row) const;
 
@@ -265,6 +289,7 @@ namespace gcn
          * Gets the number of rows in the text.
          *
          * @return The number of rows in the text.
+         * @since 0.9.0
          */
         virtual unsigned int getNumberOfRows() const;
 
@@ -272,6 +297,7 @@ namespace gcn
          * Gets the number of characters in the text.
          *
          * @return The number of characters in the text.
+         * @since 0.9.0
          */
         virtual unsigned int getNumberOfCharacters() const;
 
@@ -282,6 +308,7 @@ namespace gcn
          * @param row The row to get the number of characters in.
          * @return The number of characters in a certain row, or zero
          *         if the row does not exist.
+         * @since 0.9.0
          */
         virtual unsigned int getNumberOfCharacters(unsigned int row) const;
 
