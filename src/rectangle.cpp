@@ -119,6 +119,11 @@ namespace gcn
             && y_ < y + height;
     }
 
+    bool Rectangle::isEmpty() const
+    {
+        return width < 0 || height < 0;
+    }
+
     std::ostream& operator<<(std::ostream& out,
                              const Rectangle& rectangle)
     {

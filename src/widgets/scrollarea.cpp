@@ -980,7 +980,7 @@ namespace gcn
                                    mVBarVisible ? getWidth() - mScrollbarWidth : getWidth(),
                                    mHBarVisible ? getHeight() - mScrollbarWidth : getHeight()); 
         
-        if (area.width < 0 || area.height < 0)
+        if (area.isEmpty())
             return Rectangle();
 
         return area;
