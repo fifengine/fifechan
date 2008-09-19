@@ -45,7 +45,7 @@
 #define GCN_GUI_HPP
 
 #include <list>
-#include <deque>
+#include <set>
 
 #include "guichan/keyevent.hpp"
 #include "guichan/mouseevent.hpp"
@@ -393,6 +393,16 @@ namespace gcn
         virtual Widget* getKeyEventSource();
 
         /**
+         * Gets all widgets a certain cooridnate in the Gui.
+         *
+         * @param x The x coordinate.
+         * @param y The y coordinate.
+         * @return A set of all widgets at the specified coordinate.
+         * @since 0.9.0
+         */
+        virtual std::set<Widget*> getWidgetsAt(int x, int y);
+
+        /**
          * Holds the top widget.
          */
         Widget* mTop;
@@ -484,20 +494,7 @@ namespace gcn
          * when the same button is released.
          */
         int mLastMouseDragButton;
-
-        /**
-         * Holds a stack with all the widgets with the mouse.
-         * Used to properly distribute mouse events.
-         */
-        std::deque<Widget*> mWidgetWithMouseQueue;
     };
 }
 
 #endif // end GCN_GUI_HPP
-
-/* yakslem  - "Women, it's a constant struggle."
- * finalman - "Yes, but sometimes they succeed with their guesses."
- * yaklsem  - "...eh...I was talking about love."
- * finalman - "Oh...ok..."
- * An awkward silence followed.
- */

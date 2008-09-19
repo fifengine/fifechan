@@ -242,7 +242,7 @@ namespace gcn
         return  mText->getCaretPosition();
     }
 
-    const std::string& TextField::getText() const
+    std::string TextField::getText() const
     {
         return mText->getContent();
     }
