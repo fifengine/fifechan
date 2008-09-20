@@ -149,8 +149,7 @@ namespace gcn
     {
         if (mouseEvent.getButton() == MouseEvent::Left)
         {
-            const Rectangle& dim = mText->getCaretDimension(getFont());
-            mText->setCaretPosition(mouseEvent.getX() + dim.x, mouseEvent.getY(), getFont());
+            mText->setCaretPosition(mouseEvent.getX() + mXScroll, mouseEvent.getY(), getFont());
             fixScroll();
         }
     }
