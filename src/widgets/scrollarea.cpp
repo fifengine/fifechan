@@ -295,38 +295,38 @@ namespace gcn
         int x = mouseEvent.getX();
         int y = mouseEvent.getY();
 
-        if (getUpButtonDimension().isPointInRect(x, y))
+        if (getUpButtonDimension().isContaining(x, y))
         {
             setVerticalScrollAmount(getVerticalScrollAmount()
                                     - mUpButtonScrollAmount);
             mUpButtonPressed = true;
         }
-        else if (getDownButtonDimension().isPointInRect(x, y))
+        else if (getDownButtonDimension().isContaining(x, y))
         {
             setVerticalScrollAmount(getVerticalScrollAmount()
                                     + mDownButtonScrollAmount);
             mDownButtonPressed = true;
         }
-        else if (getLeftButtonDimension().isPointInRect(x, y))
+        else if (getLeftButtonDimension().isContaining(x, y))
         {
             setHorizontalScrollAmount(getHorizontalScrollAmount()
                                       - mLeftButtonScrollAmount);
             mLeftButtonPressed = true;
         }
-        else if (getRightButtonDimension().isPointInRect(x, y))
+        else if (getRightButtonDimension().isContaining(x, y))
         {
             setHorizontalScrollAmount(getHorizontalScrollAmount()
                                       + mRightButtonScrollAmount);
             mRightButtonPressed = true;
         }
-        else if (getVerticalMarkerDimension().isPointInRect(x, y))
+        else if (getVerticalMarkerDimension().isContaining(x, y))
         {
             mIsHorizontalMarkerDragged = false;
             mIsVerticalMarkerDragged = true;
 
             mVerticalMarkerDragOffset = y - getVerticalMarkerDimension().y;
         }
-        else if (getVerticalBarDimension().isPointInRect(x,y))
+        else if (getVerticalBarDimension().isContaining(x,y))
         {
             if (y < getVerticalMarkerDimension().y)
             {
@@ -339,14 +339,14 @@ namespace gcn
                                         + (int)(getChildrenArea().height * 0.95));
             }
         }
-        else if (getHorizontalMarkerDimension().isPointInRect(x, y))
+        else if (getHorizontalMarkerDimension().isContaining(x, y))
         {
             mIsHorizontalMarkerDragged = true;
             mIsVerticalMarkerDragged = false;
 
             mHorizontalMarkerDragOffset = x - getHorizontalMarkerDimension().x;
         }
-        else if (getHorizontalBarDimension().isPointInRect(x,y))
+        else if (getHorizontalBarDimension().isContaining(x,y))
         {
             if (x < getHorizontalMarkerDimension().x)
             {
@@ -1139,7 +1139,7 @@ namespace gcn
 
     Widget *ScrollArea::getWidgetAt(int x, int y)
     {
-        if (getChildrenArea().isPointInRect(x, y))
+        if (getChildrenArea().isContaining(x, y))
         {
             return getContent();
         }

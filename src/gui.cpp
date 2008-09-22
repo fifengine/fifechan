@@ -343,7 +343,7 @@ namespace gcn
         // Check if the mouse has left the application window.
         if (mouseInput.getX() < 0
             || mouseInput.getY() < 0
-            || !mTop->getDimension().isPointInRect(mouseInput.getX(), mouseInput.getY()))
+            || !mTop->getDimension().isContaining(mouseInput.getX(), mouseInput.getY()))
         {
             std::set<Widget*>::const_iterator iter;
             for (iter = mLastWidgetsWithMouse.begin(); 

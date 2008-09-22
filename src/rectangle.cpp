@@ -47,6 +47,9 @@
 
 #include "guichan/rectangle.hpp"
 
+#include <string>
+#include "stringutil.hpp"
+
 namespace gcn
 {
     Rectangle::Rectangle()
@@ -111,7 +114,7 @@ namespace gcn
         return true;
     }
 
-    bool Rectangle::isPointInRect(int x_, int y_) const
+    bool Rectangle::isContaining(int x_, int y_) const
     {
         return x_ >= x
             && y_ >= y
@@ -119,9 +122,47 @@ namespace gcn
             && y_ < y + height;
     }
 
+    bool Rectangle::isContaining(const Rectangle& other) const
+    {
+        return other.x >= x
+            && other.y >= y
+            && other.x + other.width <= x + width
+            && other.y + other.height <= y + height;
+    }
+
     bool Rectangle::isEmpty() const
     {
         return width < 0 || height < 0;
+    }
+
+       
+    Rectangle Rectangle::operator+(const Rectangle& rh) const
+    {
+        int nx = x < rh.x ? x : rh.x;
+        int ny = y < rh.y ? y : rh.y;
+        int nx2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
+        int ny2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
+        return Rectangle(nx, ny, nx2 - nx, ny2 - ny);
+    }
+
+    const Rectangle& Rectangle::operator+=(const Rectangle& rh)
+    {
+        x = x < rh.x ? x : rh.x;
+        y = y < rh.y ? y : rh.y;
+        int x2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
+        int y2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
+        width = x2 - x;
+        height = y2 - y;
+        return *(this);
+    }
+
+    Rectangle Rectangle::intersection(const Rectangle& rh) const
+    {
+        int nx = x > rh.x ? x : rh.x;
+        int ny = y > rh.y ? y : rh.y;
+        int nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
+        int ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
+        return Rectangle(nx, ny, nx2 - nx, ny2 - ny);
     }
 
     std::ostream& operator<<(std::ostream& out,
