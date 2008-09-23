@@ -77,9 +77,7 @@ namespace gcn
                 mLabel->getHeight() + 8);
 
         if (mTabbedArea != NULL)
-        {
             mTabbedArea->adjustTabPositions();
-        }
     }
 
     void Tab::setTabbedArea(TabbedArea* tabbedArea)
@@ -151,8 +149,6 @@ namespace gcn
                                           0, 
                                           currentClipArea.width, 
                                           currentClipArea.height));
-
-        drawChildren(graphics);
 
         if (mTabbedArea != NULL
             && mTabbedArea->isFocused()

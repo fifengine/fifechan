@@ -69,8 +69,6 @@ namespace gcn
             graphics->setColor(getBaseColor());
             graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
         }
-
-        drawChildren(graphics);
     }
 
     void Container::setOpaque(bool opaque)
@@ -85,31 +83,31 @@ namespace gcn
 
     void Container::add(Widget* widget)
     {
-        BasicContainer::add(widget);
+        Widget::add(widget);
         distributeWidgetAddedEvent(widget);
     }
 
     void Container::add(Widget* widget, int x, int y)
     {
         widget->setPosition(x, y);
-        BasicContainer::add(widget);
+        Widget::add(widget);
         distributeWidgetAddedEvent(widget);
     }
 
     void Container::remove(Widget* widget)
     {
-        BasicContainer::remove(widget);
+        Widget::remove(widget);
         distributeWidgetRemovedEvent(widget);
     }
 
     void Container::clear()
     {
-        BasicContainer::clear();
+        Widget::clear();
     }
 
     Widget* Container::findWidgetById(const std::string &id)
     {
-        return BasicContainer::findWidgetById(id);
+        return Widget::findWidgetById(id);
     }
 
     void Container::addContainerListener(ContainerListener* containerListener)
@@ -151,6 +149,11 @@ namespace gcn
 
     void Container::resizeToContent()
     {
-        BasicContainer::resizeToContent();
+        Widget::resizeToChildren();
+    }
+
+    Rectangle Container::getChildrenArea()
+    {
+        return Rectangle(0, 0, getWidth(), getHeight());
     }
 }

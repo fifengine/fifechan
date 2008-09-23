@@ -46,10 +46,10 @@
 
 #include <list>
 
-#include "guichan/basiccontainer.hpp"
 #include "guichan/containerlistener.hpp"
 #include "guichan/graphics.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
@@ -61,7 +61,7 @@ namespace gcn
      *
      * @see Gui::setTop
      */
-    class GCN_CORE_DECLSPEC Container: public BasicContainer
+    class GCN_CORE_DECLSPEC Container: public Widget
     {
     public:
 
@@ -181,6 +181,8 @@ namespace gcn
         // Inherited from Widget
 
         virtual void draw(Graphics* graphics);
+
+        virtual Rectangle getChildrenArea();
 
     protected:
         /**

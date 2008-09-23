@@ -46,9 +46,9 @@
 
 #include <string>
 
-#include "guichan/basiccontainer.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn
 {
@@ -58,8 +58,8 @@ namespace gcn
      * necessary.
      */
     class GCN_CORE_DECLSPEC ScrollArea:
-        public BasicContainer,
-        public MouseListener
+        public MouseListener,
+        public Widget
     {
     public:
 

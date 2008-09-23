@@ -201,7 +201,7 @@ namespace gcn
                                                mFoldedUpHeight,
                                                getWidth(),
                                                getHeight() - mFoldedUpHeight));
-             drawChildren(graphics);
+             //drawChildren(graphics);
          }
     }
 
@@ -489,7 +489,7 @@ namespace gcn
             mScrollArea = NULL;
         }
 
-        BasicContainer::death(event);
+        Widget::death(event);
     }
 
     void DropDown::action(const ActionEvent& actionEvent)

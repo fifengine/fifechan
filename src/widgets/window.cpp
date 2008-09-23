@@ -189,7 +189,7 @@ namespace gcn
                            d.x + d.width - 1,
                            d.y + d.height - 1);
 
-        drawChildren(graphics);
+        //drawChildren(graphics);
 
         int textX;
         int textY;
@@ -287,7 +287,7 @@ namespace gcn
 
     void Window::resizeToContent()
     {
-        BasicContainer::resizeToContent();
+        resizeToChildren();
         setSize(getWidth() + 2* getPadding(), 
                 getHeight() + getPadding() + getTitleBarHeight());
     }

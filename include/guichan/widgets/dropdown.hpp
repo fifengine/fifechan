@@ -45,19 +45,19 @@
 #define GCN_DROPDOWN_HPP
 
 #include "guichan/actionlistener.hpp"
-#include "guichan/basiccontainer.hpp"
-#include "guichan/deathlistener.hpp"
 #include "guichan/focushandler.hpp"
 #include "guichan/focuslistener.hpp"
 #include "guichan/keylistener.hpp"
-#include "guichan/listmodel.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/selectionlistener.hpp"
-#include "guichan/widgets/listbox.hpp"
-#include "guichan/widgets/scrollarea.hpp"
+#include "guichan/widget.hpp"
 
 namespace gcn {
+    class ListBox;
+    class ListModel;
+    class ScrollArea;
+
     /**
      * An implementation of a drop downable list from which an item can be
      * selected. The drop down consists of an internal ScrollArea and an
@@ -76,11 +76,11 @@ namespace gcn {
      */
     class GCN_CORE_DECLSPEC DropDown :
         public ActionListener,
-        public BasicContainer,
         public KeyListener,
         public MouseListener,
         public FocusListener,
-        public SelectionListener
+        public SelectionListener,
+        public Widget
     {
     public:
         /**

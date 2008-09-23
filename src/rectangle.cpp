@@ -135,7 +135,7 @@ namespace gcn
 
     bool Rectangle::isEmpty() const
     {
-        return width < 0 || height < 0;
+        return width <= 0 || height <= 0;
     }
 
     Rectangle Rectangle::operator+(const Rectangle& rh) const
@@ -155,6 +155,9 @@ namespace gcn
         if (rh.isEmpty())
              return *(this);
 
+        if (isEmpty())
+            return rh;
+
         x = x < rh.x ? x : rh.x;
         y = y < rh.y ? y : rh.y;
         int x2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
@@ -166,14 +169,20 @@ namespace gcn
 
     Rectangle Rectangle::intersection(const Rectangle& rh) const
     {
-        if (rh.isEmpty())
-            return Rectangle();
-
         int nx = x > rh.x ? x : rh.x;
         int ny = y > rh.y ? y : rh.y;
+
+        if (rh.isEmpty() || isEmpty())
+            return Rectangle(nx, ny, 0, 0);
+    
         int nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
         int ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
-        return Rectangle(nx, ny, nx2 - nx, ny2 - ny);
+        Rectangle result(nx, ny, nx2 - nx, ny2 - ny);
+
+        if (result.isEmpty())
+            return Rectangle(nx, ny, 0, 0);
+        
+        return result;
     }
 
     std::ostream& operator<<(std::ostream& out,
