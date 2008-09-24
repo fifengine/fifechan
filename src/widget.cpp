@@ -49,7 +49,6 @@
 
 #include "guichan/actionevent.hpp"
 #include "guichan/actionlistener.hpp"
-#include "guichan/basiccontainer.hpp"
 #include "guichan/deathlistener.hpp"
 #include "guichan/defaultfont.hpp"
 #include "guichan/event.hpp"
