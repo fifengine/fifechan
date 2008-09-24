@@ -48,12 +48,12 @@
 #include <string>
 
 #include "guichan/color.hpp"
-#include "guichan/deathlistener.hpp"
 #include "guichan/rectangle.hpp"
 
 namespace gcn
 {
     class ActionListener;
+    class DeathListener;
     class DefaultFont;
     class FocusHandler;
     class FocusListener;
@@ -70,13 +70,13 @@ namespace gcn
      * every widget should have.
      *
      * NOTE: Functions begining with underscore "_" should not
-     *       be overloaded unless you know what you are doing
+     *       be overloaded unless you know what you are doing.
      *
      * @author Olof Naessén
-     * @author Per Larsson.
+     * @author Per Larsson
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC Widget: public DeathListener
+    class GCN_CORE_DECLSPEC Widget
     {
     public:
         /**
@@ -1025,11 +1025,6 @@ namespace gcn
          */
         virtual void showPart(Rectangle rectangle);
 
-
-        // Inherited from DeathListener
-
-        void death(const Event& event);
-
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1121,6 +1116,14 @@ namespace gcn
          * @since 0.9.0
          */
         void resizeToChildren();
+
+        /**
+         * Gets the children of the widget.
+         *
+         * @return A list of the widgets children.
+         * @since 0.9.0
+         */
+        const std::list<Widget*>& getChildren() const;
 
         /**
          * Holds the mouse listeners of the widget.
@@ -1252,7 +1255,7 @@ namespace gcn
         /**
          * Holds a list of all instances of widgets.
          */
-        static std::list<Widget*> mWidgets;
+        static std::list<Widget*> mWidgetInstances;
 
         /**
          * Holds all children of the widget.

@@ -67,7 +67,7 @@ namespace gcn
 {
     Font* Widget::mGlobalFont = NULL;
     DefaultFont Widget::mDefaultFont;
-    std::list<Widget*> Widget::mWidgets;
+    std::list<Widget*> Widget::mWidgetInstances;
 
     Widget::Widget()
             : mForegroundColor(0x000000),
@@ -85,14 +85,17 @@ namespace gcn
               mEnabled(true),
               mCurrentFont(NULL)
     {
-        mWidgets.push_back(this);
+        mWidgetInstances.push_back(this);
     }
 
     Widget::~Widget()
     {
+        if (mParent != NULL)
+            mParent->remove(this);
+
         std::list<Widget*>::const_iterator childrenIter;
         for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); childrenIter++)
-            (*childrenIter)->removeDeathListener(this);
+            (*childrenIter)->_setParent(NULL);
         
         std::list<DeathListener*>::const_iterator deathIter;
         for (deathIter = mDeathListeners.begin(); deathIter != mDeathListeners.end(); ++deathIter)
@@ -103,7 +106,7 @@ namespace gcn
 
         _setFocusHandler(NULL);
 
-        mWidgets.remove(this);
+        mWidgetInstances.remove(this);
     }
 
     void Widget::drawFrame(Graphics* graphics)
@@ -476,7 +479,7 @@ namespace gcn
         mGlobalFont = font;
 
         std::list<Widget*>::iterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter)
         {
             if ((*iter)->mCurrentFont == NULL)
                 (*iter)->fontChanged();
@@ -492,7 +495,7 @@ namespace gcn
     bool Widget::widgetExists(const Widget* widget)
     {
         std::list<Widget*>::const_iterator iter;
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
+        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter)
         {
             if (*iter == widget)
                 return true;
@@ -823,7 +826,6 @@ namespace gcn
             Widget* widget = (*iter);
             widget->_setFocusHandler(NULL);
             widget->_setParent(NULL);
-            widget->removeDeathListener(this);
         }
 
         mChildren.clear();
@@ -839,7 +841,6 @@ namespace gcn
                 mChildren.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
-                widget->removeDeathListener(this);
                 return;
             }
         }
@@ -857,7 +858,6 @@ namespace gcn
             widget->_setFocusHandler(mInternalFocusHandler);
 
         widget->_setParent(this);
-        widget->addDeathListener(this);
     }
 
     void Widget::moveToTop(Widget* widget)
@@ -983,8 +983,8 @@ namespace gcn
             (*iter)->_logic();
     }
 
-    void Widget::death(const Event& event)
+    const std::list<Widget*>& Widget::getChildren() const
     {
-        mChildren.remove(event.getSource());
+        return mChildren;
     }
 }

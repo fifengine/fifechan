@@ -488,8 +488,6 @@ namespace gcn
         {
             mScrollArea = NULL;
         }
-
-        Widget::death(event);
     }
 
     void DropDown::action(const ActionEvent& actionEvent)
