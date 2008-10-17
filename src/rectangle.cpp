@@ -47,9 +47,6 @@
 
 #include "guichan/rectangle.hpp"
 
-#include <string>
-#include "stringutil.hpp"
-
 namespace gcn
 {
     Rectangle::Rectangle()
