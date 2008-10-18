@@ -54,15 +54,15 @@ namespace gcn
 {
     Text::Text()
         :mCaretPosition(0),
-         mCaretColumn(0), 
-         mCaretRow(0)
+         mCaretRow(0),
+         mCaretColumn(0)
     {
     }
 
     Text::Text(const std::string& content)
         :mCaretPosition(0),
-         mCaretColumn(0), 
-         mCaretRow(0)
+         mCaretRow(0),
+         mCaretColumn(0)
     {
         std::string::size_type pos, lastPos = 0;
         int length;
@@ -78,7 +78,7 @@ namespace gcn
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
-        } 
+        }
         while (pos != std::string::npos);
     }
 
@@ -104,7 +104,7 @@ namespace gcn
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
-        } 
+        }
         while (pos != std::string::npos);
     }
 
@@ -224,7 +224,7 @@ namespace gcn
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two
                 // rows.
-                if (mCaretColumn == mRows[mCaretRow].size() 
+                if (mCaretColumn == mRows[mCaretRow].size()
                     && mCaretRow < (mRows.size() - 1))
                 {
                     mRows[mCaretRow] += mRows[mCaretRow + 1];
@@ -268,7 +268,7 @@ namespace gcn
                 mCaretPosition = position;
                 return;
             }
-           
+
             // Add one for the line feed.
             total += mRows[i].size() + 1;
         }
@@ -351,9 +351,9 @@ namespace gcn
                 width = w;
         }
 
-        return Rectangle(0, 
-                         0, 
-                         width + font->getWidth(" "), 
+        return Rectangle(0,
+                         0,
+                         width + font->getWidth(" "),
                          font->getHeight() * mRows.size());
     }
 
@@ -364,7 +364,7 @@ namespace gcn
         dim.y = font->getHeight() * mCaretRow;
         dim.width = font->getWidth(" ");
         // We add two for some extra spacing to be sure the whole caret is visible.
-        dim.height = font->getHeight() + 2; 
+        dim.height = font->getHeight() + 2;
         return dim;
     }
 
@@ -402,7 +402,7 @@ namespace gcn
     {
         if (row >= mRows.size())
            return 0;
-        
+
         return mRows[row].size();
     }
 
@@ -410,10 +410,10 @@ namespace gcn
     {
         unsigned int i;
         unsigned int total = 0;
-        for (i = 0; i < mCaretRow; i++)           
+        for (i = 0; i < mCaretRow; i++)
             // Add one for the line feed.
             total += mRows[i].size() + 1;
-        
+
         mCaretPosition = total + mCaretColumn;
     }
 }

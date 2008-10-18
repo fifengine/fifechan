@@ -6,7 +6,6 @@ libguichaninclude_HEADERS =	\
 	actionevent.hpp		\
 	actionlistener.hpp	\
 	allegro.hpp		\
-	basiccontainer.hpp	\
 	cliprectangle.hpp	\
 	color.hpp		\
 	containerevent.hpp	\

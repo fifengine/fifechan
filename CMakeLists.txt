@@ -24,7 +24,6 @@ FILE(GLOB GUICHAN_HEADER include/guichan.hpp)
 FILE(GLOB GUICHAN_HEADERS
   include/guichan/actionevent.hpp		
   include/guichan/actionlistener.hpp		
-  include/guichan/basiccontainer.hpp	
   include/guichan/cliprectangle.hpp	
   include/guichan/color.hpp		
   include/guichan/deathlistener.hpp	
@@ -55,6 +54,7 @@ FILE(GLOB GUICHAN_HEADERS
   include/guichan/rectangle.hpp		
   include/guichan/selectionevent.hpp	
   include/guichan/selectionlistener.hpp	
+  include/guichan/text.hpp
   include/guichan/widget.hpp		
   include/guichan/widgetlistener.hpp
 )

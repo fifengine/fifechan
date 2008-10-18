@@ -195,7 +195,7 @@ namespace gcn
          * @since 0.9.0
          */
         virtual int getCaretRow() const;
-        
+
         /**
          * Sets the column the caret should be in. The column
          * will be clamp to the current row.
@@ -313,10 +313,10 @@ namespace gcn
         virtual unsigned int getNumberOfCharacters(unsigned int row) const;
 
     protected:
-        
+
         /**
          * Calculates the caret position from the caret row and caret column.
-         */ 
+         */
         void calculateCaretPositionFromRowAndColumn();
 
         /**

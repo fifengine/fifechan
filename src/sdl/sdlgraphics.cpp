@@ -169,7 +169,7 @@ namespace gcn
         }
 
         const ClipRectangle& top = mClipStack.top();
-        
+
         Rectangle area = rectangle;
         area.x += top.xOffset;
         area.y += top.yOffset;
@@ -223,11 +223,11 @@ namespace gcn
         }
 
         const ClipRectangle& top = mClipStack.top();
-        
+
         x += top.xOffset;
         y += top.yOffset;
 
-        if(!top.isPointInRect(x,y))
+        if(!top.isContaining(x,y))
             return;
 
         if (mAlpha)
@@ -281,7 +281,7 @@ namespace gcn
             {
                 return;
             }
-            
+
             x2 = top.x + top.width -1;
         }
 
@@ -303,7 +303,7 @@ namespace gcn
                     *(p++) = pixel;
                 }
                 break;
-                
+
             case 2:
             {
                 Uint16* q = (Uint16*)p;
@@ -336,8 +336,8 @@ namespace gcn
                 }
                 break;
 
-            case 4:  
-            {          
+            case 4:
+            {
                 Uint32* q = (Uint32*)p;
                 for (;x1 <= x2; ++x1)
                 {
@@ -353,7 +353,7 @@ namespace gcn
                 }
                 break;
             }
-                
+
         } // end switch
 
         SDL_UnlockSurface(mTarget);
@@ -376,7 +376,7 @@ namespace gcn
         {
             return;
         }
-        
+
         if (y1 > y2)
         {
             y1 ^= y2;
@@ -413,7 +413,7 @@ namespace gcn
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
 
         switch(bpp)
-        {            
+        {
           case 1:
               for (;y1 <= y2; ++y1)
               {
@@ -467,9 +467,9 @@ namespace gcn
                   p += mTarget->pitch;
               }
               break;
-              
+
         } // end switch
-        
+
         SDL_UnlockSurface(mTarget);
     }
 
@@ -539,7 +539,7 @@ namespace gcn
 
                 for (int x = x1; x <= x2; x++)
                 {
-                    if (top.isPointInRect(x, y))
+                    if (top.isContaining(x, y))
                     {
                         if (mAlpha)
                         {
@@ -567,7 +567,7 @@ namespace gcn
 
                 for (int x = x1; x <= x2; x++)
                 {
-                    if (top.isPointInRect(x, y))
+                    if (top.isContaining(x, y))
                     {
                         if (mAlpha)
                         {
@@ -611,7 +611,7 @@ namespace gcn
 
                 for (int y = y1; y <= y2; y++)
                 {
-                    if (top.isPointInRect(x, y))
+                    if (top.isContaining(x, y))
                     {
                         if (mAlpha)
                         {
@@ -639,7 +639,7 @@ namespace gcn
 
                 for (int y = y1; y <= y2; y++)
                 {
-                    if (top.isPointInRect(x, y))
+                    if (top.isContaining(x, y))
                     {
                         if (mAlpha)
                         {

@@ -14,7 +14,6 @@ libguichan_la_DEPENDENCIES = \
 # The Gui-chan library sources
 libguichan_la_SOURCES = 	\
 	actionevent.cpp		\
-	basiccontainer.cpp	\
 	cliprectangle.cpp	\
 	color.cpp		\
 	defaultfont.cpp		\
