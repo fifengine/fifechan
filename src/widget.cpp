@@ -613,7 +613,7 @@ namespace gcn
         x -= r.x;
         y -= r.y;
 
-        std::list<Widget*>::const_reverse_iterator iter;
+        std::list<Widget*>::reverse_iterator iter;
         for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++)
         {
             Widget* widget = (*iter);
@@ -916,7 +916,7 @@ namespace gcn
 
     void Widget::focusPrevious()
     {
-        std::list<Widget*>::const_reverse_iterator iter;
+        std::list<Widget*>::reverse_iterator iter;
 
         for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++)
         {
@@ -924,7 +924,7 @@ namespace gcn
                 break;
         }
 
-        std::list<Widget*>::const_reverse_iterator end = iter;
+        std::list<Widget*>::reverse_iterator end = iter;
         iter++;
 
         if (iter == mChildren.rend())
