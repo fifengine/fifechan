@@ -16,6 +16,7 @@ libguichan_la_SOURCES = 	\
 	actionevent.cpp		\
 	cliprectangle.cpp	\
 	color.cpp		\
+	containerevent.cpp	\
 	defaultfont.cpp		\
 	event.cpp		\
 	exception.cpp		\
