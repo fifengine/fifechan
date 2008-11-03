@@ -1,6 +1,6 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichan, 0.8.1, olof.naessen@gmail.com, guichan)
+AC_INIT(guichan, 0.9.0, olof.naessen@gmail.com, guichan)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)

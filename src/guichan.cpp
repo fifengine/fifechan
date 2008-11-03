@@ -49,6 +49,6 @@ extern "C"
 {
     const char* gcnGuichanVersion()
     {
-        return "0.8";
+        return "0.9.0";
     }
 }
