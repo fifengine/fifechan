@@ -14,6 +14,6 @@ libguichan_sdl_la_SOURCES =	\
 	sdlinput.cpp
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = guichan_sdl-0.8.pc
+pkgconfig_DATA = guichan_sdl.pc
 
-EXTRA_DIST = guichan_sdl-0.8.pc.in
+EXTRA_DIST = guichan_sdl.pc.in
