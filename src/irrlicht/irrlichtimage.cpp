@@ -6,11 +6,11 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  *
  * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Olof Naessï¿½n a.k.a jansem/yakslem
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -153,6 +153,21 @@ namespace gcn
             throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
+        bool hasPink = false;
+
+        irr::video::SColor pink(255, 255, 0, 255);
+        for (int i = 0; i < mImage->getDimension().Width; ++i)
+        {
+            for (int j = 0; j < mImage->getDimension().Height; ++j)
+            {
+                if(mImage->getPixel(i, j) == pink)
+                {
+                    hasPink = true;
+                    break;
+                }
+            }
+        }
+
         mTexture = mDriver->addTexture(mName.c_str(), mImage);
 
         if (mTexture == NULL)
@@ -160,7 +175,10 @@ namespace gcn
             throw GCN_EXCEPTION("Unable to convert image to display format!");
         }
 
-        mDriver->makeColorKeyTexture(mTexture, irr::video::SColor(0,255,0,255));
+        if(hasPink == true)
+        {
+            mDriver->makeColorKeyTexture(mTexture, irr::video::SColor(0,255,0,255));
+        }
 
         mImage->drop();
         mImage = NULL;
