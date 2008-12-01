@@ -98,7 +98,7 @@ namespace gcn
         mTitleBarHeight = height;
     }
 
-    unsigned int Window::getTitleBarHeight()
+    unsigned int Window::getTitleBarHeight() const
     {
         return mTitleBarHeight;
     }
@@ -280,7 +280,7 @@ namespace gcn
         mOpaque = opaque;
     }
 
-    bool Window::isOpaque()
+    bool Window::isOpaque() const
     {
         return mOpaque;
     }

@@ -399,7 +399,7 @@ namespace gcn
         adjustHeight();
     }
 
-    ListModel *DropDown::getListModel()
+    ListModel *DropDown::getListModel() const
     {
         return mListBox->getListModel();
     }

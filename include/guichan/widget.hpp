@@ -1011,7 +1011,7 @@ namespace gcn
          * @see setId, BasicContainer::findWidgetById
          * @since 0.8.0
          */
-        const std::string& getId();
+        const std::string& getId() const;
 
         /**
          * Shows a certain part of a widget in the widget's parent.

@@ -143,7 +143,7 @@ namespace gcn
         checkPolicies();
     }
 
-    Widget* ScrollArea::getContent()
+    Widget* ScrollArea::getContent() const
     {
         if (mChildren.size() > 0)
             return *mChildren.begin();

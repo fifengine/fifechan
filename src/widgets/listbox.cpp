@@ -298,7 +298,7 @@ namespace gcn
         adjustSize();
     }
 
-    ListModel* ListBox::getListModel()
+    ListModel* ListBox::getListModel() const
     {
         return mListModel;
     }

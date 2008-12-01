@@ -668,7 +668,7 @@ namespace gcn
         mId = id;
     }
 
-    const std::string& Widget::getId()
+    const std::string& Widget::getId() const
     {
         return mId;
     }

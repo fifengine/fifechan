@@ -195,7 +195,7 @@ namespace gcn
         return mSelectedTab == mTabs[index].first;
     }
 
-    bool TabbedArea::isTabSelected(Tab* tab)
+    bool TabbedArea::isTabSelected(Tab* tab) const
     {
         return mSelectedTab == tab;
     }
@@ -245,7 +245,7 @@ namespace gcn
         return -1;
     }
 
-    Tab* TabbedArea::getSelectedTab()
+    Tab* TabbedArea::getSelectedTab() const
     {
         return mSelectedTab;
     }

@@ -160,7 +160,7 @@ namespace gcn
          * @return True if the tab is selected, false otherwise.
          * @see setSelectedTab
          */
-        virtual bool isTabSelected(Tab* tab);
+        virtual bool isTabSelected(Tab* tab) const;
 
         /**
          * Sets a tab given an index to be selected.
@@ -193,7 +193,7 @@ namespace gcn
          * @return The selected tab.
          * @see isTabSelected, setSelectedTab
          */
-        Tab* getSelectedTab();
+        Tab* getSelectedTab() const;
 
 
         // Inherited from Widget

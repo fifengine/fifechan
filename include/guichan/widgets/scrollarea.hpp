@@ -121,7 +121,7 @@ namespace gcn
          *
          * @return The content of the scroll area.
          */
-        Widget* getContent();
+        Widget* getContent() const;
 
         /**
          * Sets the horizontal scrollbar policy. See enum with policies.
