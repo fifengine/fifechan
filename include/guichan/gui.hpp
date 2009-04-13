@@ -393,7 +393,7 @@ namespace gcn
         virtual Widget* getKeyEventSource();
 
         /**
-         * Gets all widgets a certain cooridnate in the Gui.
+         * Gets all widgets a certain coordinate in the Gui.
          *
          * @param x The x coordinate.
          * @param y The y coordinate.
