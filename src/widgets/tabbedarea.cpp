@@ -185,6 +185,11 @@ namespace gcn
         adjustTabPositions();
     }
 
+    int TabbedArea::getNumberOfTabs() const
+    {
+        return mTabs.size();
+    }
+
     bool TabbedArea::isTabSelected(unsigned int index) const
     {
         if (index >= mTabs.size())

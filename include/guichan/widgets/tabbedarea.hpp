@@ -145,6 +145,13 @@ namespace gcn
         virtual void removeTab(Tab* tab);
 
         /**
+         * Returns the number of tabs in this tabbed area.
+         *
+         * @since 0.9.0
+         */
+        int getNumberOfTabs() const;
+
+        /**
          * Checks if a tab given an index is selected or not.
          *
          * @param index The index of the tab to check.
