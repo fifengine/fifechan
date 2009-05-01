@@ -61,12 +61,12 @@ namespace gcn
 
     int DefaultFont::getWidth(const std::string& text) const
     {
-        return 8*text.size();
+        return 8 * text.size();
     }
 
     int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
     {
-        graphics->drawRectangle( Rectangle(x, y, 8, 8));
+        graphics->drawRectangle(x, y, 8, 8);
 
         return 8;
     }

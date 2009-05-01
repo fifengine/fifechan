@@ -415,10 +415,10 @@ namespace gcn
         if (mHBarVisible && mVBarVisible)
         {
             graphics->setColor(getBaseColor());
-            graphics->fillRectangle(Rectangle(getWidth() - mScrollbarWidth,
-                                              getHeight() - mScrollbarWidth,
-                                              mScrollbarWidth,
-                                              mScrollbarWidth));
+            graphics->fillRectangle(getWidth() - mScrollbarWidth,
+                                    getHeight() - mScrollbarWidth,
+                                    mScrollbarWidth,
+                                    mScrollbarWidth);
         }
     }
 
@@ -435,7 +435,7 @@ namespace gcn
         shadowColor.a = alpha;
 
         graphics->setColor(trackColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(shadowColor);
         graphics->drawLine(0, 0, dim.width, 0);
@@ -456,7 +456,7 @@ namespace gcn
         shadowColor.a = alpha;
 
         graphics->setColor(trackColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(shadowColor);
         graphics->drawLine(0, 0, 0, dim.height);
@@ -508,7 +508,7 @@ namespace gcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
@@ -569,7 +569,7 @@ namespace gcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
@@ -630,7 +630,7 @@ namespace gcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
@@ -691,7 +691,7 @@ namespace gcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
+        graphics->fillRectangle(0, 0, dim.width, dim.height);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
@@ -731,7 +731,7 @@ namespace gcn
         shadowColor.a = alpha;
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
+        graphics->fillRectangle(1, 1, dim.width - 1, dim.height - 1);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
@@ -758,7 +758,7 @@ namespace gcn
         shadowColor.a = alpha;
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
+        graphics->fillRectangle(1, 1, dim.width - 1, dim.height - 1);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);

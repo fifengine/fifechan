@@ -138,19 +138,19 @@ namespace gcn
         // Fill the background around the content
         graphics->setColor(faceColor);
         // Fill top
-        graphics->fillRectangle(Rectangle(0,0,getWidth(),d.y - 1));
+        graphics->fillRectangle(0, 0, getWidth(), d.y - 1);
         // Fill left
-        graphics->fillRectangle(Rectangle(0,d.y - 1, d.x - 1, getHeight() - d.y + 1));
+        graphics->fillRectangle(0, d.y - 1, d.x - 1, getHeight() - d.y + 1);
         // Fill right
-        graphics->fillRectangle(Rectangle(d.x + d.width + 1,
-                                          d.y - 1,
-                                          getWidth() - d.x - d.width - 1,
-                                          getHeight() - d.y + 1));
+        graphics->fillRectangle(d.x + d.width + 1,
+                                d.y - 1,
+                                getWidth() - d.x - d.width - 1,
+                                getHeight() - d.y + 1);
         // Fill bottom
-        graphics->fillRectangle(Rectangle(d.x - 1,
-                                          d.y + d.height + 1,
-                                          d.width + 2,
-                                          getHeight() - d.height - d.y - 1));
+        graphics->fillRectangle(d.x - 1,
+                                d.y + d.height + 1,
+                                d.width + 2,
+                                getHeight() - d.height - d.y - 1);
 
         if (isOpaque())
         {

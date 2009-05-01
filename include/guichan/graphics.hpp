@@ -225,11 +225,26 @@ namespace gcn
         virtual void drawLine(int x1, int y1, int x2, int y2) = 0;
 
         /**
-         * Draws a simple, non-filled, rectangle with a one pixel width.
+         * Draws a simple, non-filled rectangle with a one pixel width.
          *
          * @param rectangle The rectangle to draw.
          */
         virtual void drawRectangle(const Rectangle& rectangle) = 0;
+
+        /**
+         * Draws a simple, non-filled rectangle with a one pixel width.
+         *
+         * This is an overload provided for convenience.
+         *
+         * @param x      The x coordinate of the rectangle
+         * @param y      The y coordinate of the rectangle
+         * @param width  The width of the rectangle
+         * @param height The height of the rectangle
+         *
+         * @since 0.9.0
+         */
+        inline void drawRectangle(int x, int y, int width, int height)
+        { drawRectangle(Rectangle(x, y, width, height)); }
 
         /**
          * Draws a filled rectangle.
@@ -237,6 +252,21 @@ namespace gcn
          * @param rectangle The filled rectangle to draw.
          */
         virtual void fillRectangle(const Rectangle& rectangle) = 0;
+
+        /**
+         * Draws a filled rectangle.
+         *
+         * This is an overload provided for convenience.
+         *
+         * @param x      The x coordinate of the rectangle
+         * @param y      The y coordinate of the rectangle
+         * @param width  The width of the rectangle
+         * @param height The height of the rectangle
+         *
+         * @since 0.9.0
+         */
+        inline void fillRectangle(int x, int y, int width, int height)
+        { fillRectangle(Rectangle(x, y, width, height)); }
 
         /**
          * Sets the color to use when drawing.

@@ -234,7 +234,7 @@ namespace directx3d
                 graphics->_beginDraw();
                 graphics->pushClipArea(gcn::Rectangle(2,2,25,25));
                 graphics->setColor(gcn::Color(0xff0000));
-                graphics->fillRectangle(gcn::Rectangle(2,2,100,100));
+                graphics->fillRectangle(2,2,100,100);
                 graphics->popClipArea();
                 graphics->drawLine(32, 30, 28, 30);
                 graphics->drawPoint(639, 479);

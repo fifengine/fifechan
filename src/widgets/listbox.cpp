@@ -83,7 +83,7 @@ namespace gcn
     void ListBox::draw(Graphics* graphics)
     {
         graphics->setColor(getBackgroundColor());
-        graphics->fillRectangle(Rectangle(0, 0, getWidth(), getHeight()));
+        graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
         if (mListModel == NULL)
         {
@@ -133,20 +133,20 @@ namespace gcn
             if (i == mSelected)
             {
                 graphics->setColor(getSelectionColor());
-                graphics->fillRectangle(Rectangle(0, y, getWidth(), rowHeight));
+                graphics->fillRectangle(0, y, getWidth(), rowHeight);
                 graphics->setColor(getForegroundColor());
             }
 			
-			// If the row height is greater than the font height we
-			// draw the text with a center vertical alignment.
-			if (rowHeight > getFont()->getHeight())
-			{
-				graphics->drawText(mListModel->getElementAt(i), 1, y + rowHeight / 2 - getFont()->getHeight() / 2);
-			}
-			else
-			{
-				graphics->drawText(mListModel->getElementAt(i), 1, y);
-			}
+            // If the row height is greater than the font height we
+            // draw the text with a center vertical alignment.
+            if (rowHeight > getFont()->getHeight())
+            {
+                graphics->drawText(mListModel->getElementAt(i), 1, y + rowHeight / 2 - getFont()->getHeight() / 2);
+            }
+            else
+            {
+                graphics->drawText(mListModel->getElementAt(i), 1, y);
+            }
 
             y += rowHeight;
         }

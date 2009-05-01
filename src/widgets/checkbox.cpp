@@ -108,13 +108,13 @@ namespace gcn
         graphics->drawLine(1, h, h - 1, h);
 
         graphics->setColor(getBackgroundColor());
-        graphics->fillRectangle(Rectangle(2, 2, h - 2, h - 2));
+        graphics->fillRectangle(2, 2, h - 2, h - 2);
 
         graphics->setColor(getForegroundColor());
 
         if (isFocused())
         {
-            graphics->drawRectangle(Rectangle(0, 0, h + 2, h + 2));
+            graphics->drawRectangle(0, 0, h + 2, h + 2);
         }
 
         if (mSelected)

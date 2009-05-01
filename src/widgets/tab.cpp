@@ -145,20 +145,20 @@ namespace gcn
         const Rectangle currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(baseColor);
-        graphics->fillRectangle(Rectangle(0, 
-                                          0, 
-                                          currentClipArea.width, 
-                                          currentClipArea.height));
+        graphics->fillRectangle(0,
+                                0,
+                                currentClipArea.width,
+                                currentClipArea.height);
 
         if (mTabbedArea != NULL
             && mTabbedArea->isFocused()
             && mTabbedArea->isTabSelected(this))
         {
             graphics->setColor(Color(0x000000));
-            graphics->drawRectangle(Rectangle(2,
-                                              2,
-                                              currentClipArea.width - 4,
-                                              currentClipArea.height - 4));
+            graphics->drawRectangle(2,
+                                    2,
+                                    currentClipArea.width - 4,
+                                    currentClipArea.height - 4);
         }
 
         graphics->popClipArea();

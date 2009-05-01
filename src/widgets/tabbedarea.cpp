@@ -293,9 +293,9 @@ namespace gcn
         if (isOpaque())
         {
             graphics->setColor(getBaseColor());
-            graphics->fillRectangle(Rectangle(1, 1,
-                                              getWidth() - 2,
-                                              getHeight() - 2));
+            graphics->fillRectangle(1, 1,
+                                    getWidth() - 2,
+                                    getHeight() - 2);
         }
 
         // Draw a line underneath the tabs.

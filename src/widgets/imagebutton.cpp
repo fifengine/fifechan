@@ -126,10 +126,10 @@ namespace gcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(1, 
-                                          1, 
-                                          getDimension().width - 1, 
-                                          getHeight() - 1));
+        graphics->fillRectangle(1,
+                                1,
+                                getWidth() - 1,
+                                getHeight() - 1);
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, getWidth() - 1, 0);
@@ -156,10 +156,10 @@ namespace gcn
 
             if (isFocused())
             {
-                graphics->drawRectangle(Rectangle(2, 
-                                                  2, 
-                                                  getWidth() - 4,
-                                                  getHeight() - 4));
+                graphics->drawRectangle(2,
+                                        2,
+                                        getWidth() - 4,
+                                        getHeight() - 4);
             }
         }
     }

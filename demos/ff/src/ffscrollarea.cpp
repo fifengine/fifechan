@@ -66,12 +66,12 @@ void FFScrollArea::draw(gcn::Graphics *graphics)
             getVerticalMaxScroll();
 
         graphics->setColor(0x000000);
-        graphics->drawRectangle(gcn::Rectangle(getWidth()-11, y, 8, 32));
-        graphics->drawRectangle(gcn::Rectangle(getWidth()-10, y+1, 8, 32));
+        graphics->drawRectangle(getWidth()-11, y, 8, 32);
+        graphics->drawRectangle(getWidth()-10, y+1, 8, 32);
 
         graphics->setColor(0xffffff);
 
-        graphics->fillRectangle(gcn::Rectangle(getWidth()-10, y+1, 6, 30));
+        graphics->fillRectangle(getWidth()-10, y+1, 6, 30);
     }
 }
 

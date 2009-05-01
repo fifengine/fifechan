@@ -163,15 +163,15 @@ namespace gcn
         const Rectangle currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(getBackgroundColor());
-        graphics->fillRectangle(Rectangle(0, 0, currentClipArea.width, currentClipArea.height));
+        graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);
        
         if (isFocused())
         {
             graphics->setColor(getSelectionColor());
-            graphics->fillRectangle(Rectangle(0, 
-                                              0, 
-                                              currentClipArea.width - currentClipArea.height, 
-                                              currentClipArea.height));
+            graphics->fillRectangle(0,
+                                    0,
+                                    currentClipArea.width - currentClipArea.height,
+                                    currentClipArea.height);
             graphics->setColor(getForegroundColor());
         }
 
@@ -197,10 +197,10 @@ namespace gcn
          {
              // Draw a border around the children.
              graphics->setColor(shadowColor);
-             graphics->drawRectangle(Rectangle(0,
-                                               mFoldedUpHeight,
-                                               getWidth(),
-                                               getHeight() - mFoldedUpHeight));
+             graphics->drawRectangle(0,
+                                     mFoldedUpHeight,
+                                     getWidth(),
+                                     getHeight() - mFoldedUpHeight);
              //drawChildren(graphics);
          }
     }
@@ -253,10 +253,10 @@ namespace gcn
                            currentClipArea.height - 1);
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(Rectangle(1, 
-                                          1, 
-                                          currentClipArea.width - 2, 
-                                          currentClipArea.height - 2));
+        graphics->fillRectangle(1,
+                                1,
+                                currentClipArea.width - 2,
+                                currentClipArea.height - 2);
 
         graphics->setColor(getForegroundColor());
 

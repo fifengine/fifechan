@@ -122,7 +122,7 @@ namespace gcn
          shadowColor.a = alpha;
 
         graphics->setColor(shadowColor);
-        graphics->fillRectangle(gcn::Rectangle(0,0,getWidth(),getHeight()));
+        graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
         drawMarker(graphics);
     }
@@ -142,7 +142,7 @@ namespace gcn
         if (getOrientation() == Horizontal)
         {
             int v = getMarkerPosition();
-            graphics->fillRectangle(gcn::Rectangle(v + 1, 1, getMarkerLength() - 2, getHeight() - 2));
+            graphics->fillRectangle(v + 1, 1, getMarkerLength() - 2, getHeight() - 2);
             graphics->setColor(highlightColor);
             graphics->drawLine(v, 0, v + getMarkerLength() - 1,0);
             graphics->drawLine(v, 0, v, getHeight() - 1);
@@ -153,13 +153,13 @@ namespace gcn
             if (isFocused())
             {
                 graphics->setColor(getForegroundColor());
-                graphics->drawRectangle(Rectangle(v + 2, 2, getMarkerLength() - 4, getHeight() - 4));
+                graphics->drawRectangle(v + 2, 2, getMarkerLength() - 4, getHeight() - 4);
             }
         }
         else
         {
             int v = (getHeight() - getMarkerLength()) - getMarkerPosition();
-            graphics->fillRectangle(gcn::Rectangle(1, v + 1, getWidth() - 2, getMarkerLength() - 2));
+            graphics->fillRectangle(1, v + 1, getWidth() - 2, getMarkerLength() - 2);
             graphics->setColor(highlightColor);
             graphics->drawLine(0, v, 0, v + getMarkerLength() - 1);
             graphics->drawLine(0, v, getWidth() - 1, v);
@@ -170,7 +170,7 @@ namespace gcn
             if (isFocused())
             {
                 graphics->setColor(getForegroundColor());
-                graphics->drawRectangle(Rectangle(2, v + 2, getWidth() - 4, getMarkerLength() - 4));
+                graphics->drawRectangle(2, v + 2, getWidth() - 4, getMarkerLength() - 4);
             }
         }
     }

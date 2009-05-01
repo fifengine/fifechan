@@ -232,10 +232,10 @@ namespace gcn
 
         if (mGlyph[glyph].width == 0)
         {
-            graphics->drawRectangle(Rectangle(x,
-                                              y + 1 + yoffset,
-                                              mGlyph[(int)(' ')].width - 1,
-                                              mGlyph[(int)(' ')].height - 2));
+            graphics->drawRectangle(x,
+                                    y + 1 + yoffset,
+                                    mGlyph[(int)(' ')].width - 1,
+                                    mGlyph[(int)(' ')].height - 2);
 
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
