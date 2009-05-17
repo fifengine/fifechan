@@ -455,8 +455,7 @@ namespace gcn
 
     void TabbedArea::death(const Event& event)
     {
-        Widget* source = event.getSource();
-        Tab* tab = dynamic_cast<Tab*>(source);
+        Tab* tab = dynamic_cast<Tab*>(event.getSource());
 
         if (tab != NULL)
         {
