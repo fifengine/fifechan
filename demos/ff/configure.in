@@ -1,11 +1,11 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichanffdemo, 0.8.1, olof@darkbits.org, guichanffdemo)
+AC_INIT(guichanffdemo, 0.8.2, olof@darkbits.org, guichanffdemo)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-AM_INIT_AUTOMAKE(guichanffdemo, 0.8.1)
+AM_INIT_AUTOMAKE(guichanffdemo, 0.8.2)
 AM_CONFIG_HEADER([include/config.hpp])
 
 AC_PROG_CXX

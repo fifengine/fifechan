@@ -1,3 +1,5 @@
+Version 0.8.2
+=============
 * Fixed of ImageFont, DefaultFont and HGEImageFont to correctly override the
   const method Font::getStringIndexAt.
 * TabbedArea::isOpaque and TabbedArea::setOpaque have been added to

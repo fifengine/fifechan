@@ -1,3 +1,8 @@
+2009-09-03 Fourteenth Beta release Guichan 0.8.2
+
+A minor release that fixes some bugs in 0.8.1 as well as updating outdated
+autoconf files in the release.
+
 2008-04-26 Thirteenth Beta release Guichan 0.8.1
 
 A minor release that fixes a soname problem along with a couple of GCC
