@@ -4,6 +4,13 @@ Version 0.8.2
   const method Font::getStringIndexAt.
 * TabbedArea::isOpaque and TabbedArea::setOpaque have been added to
   control if a tabbed area should draw its background or not.
+* SDLImage::convertToDisplayFormat now throws an exception if conversion fails.
+* Improved pkg-config/autotools support.
+* Fixed text drawn outside of a TextField.
+* Fixed focus issues when having a TextField inside a Tab.
+* Fixed compilation with MSVC 2005 and 2008.
+* Fixed selecting with arrow keys when DropDown is open skipping items
+* Fixed DropDown inside a TabbedArea looking odd when dropped down.
 
 Version 0.8.1
 =============
