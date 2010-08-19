@@ -18,6 +18,8 @@
   the same ways as classes are. For example, the Key constant LEFT_SHIFT is 
   now named LeftShift.
 
+* Fixed handling of key events in the HGE backend
+
 Version 0.8.2
 =============
 * Fixed of ImageFont, DefaultFont and HGEImageFont to correctly override the
