@@ -1,3 +1,5 @@
+* Fixed handling of key events in the HGE backend
+
 Version 0.8.2
 =============
 * Fixed of ImageFont, DefaultFont and HGEImageFont to correctly override the

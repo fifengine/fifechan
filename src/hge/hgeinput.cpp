@@ -113,11 +113,11 @@ namespace gcn
     void  HGEInput::_pollInput()
     {
         hgeInputEvent ie;
-    
-        mHGE->Input_GetEvent(&ie);
-        
+
+        while (mHGE->Input_GetEvent(&ie)
+            pollKeyInput(ie);
+
         pollMouseInput();
-        pollKeyInput(ie);
     }
 
     void  HGEInput::pollMouseInput()
