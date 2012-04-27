@@ -117,16 +117,33 @@ namespace gcn
          * @since 0.9.0
          */
         virtual void addRow(const std::string& row);
+        
+        /**
+         * Inserts a row before the specified row position. Calling this method
+         * will not change the current caret position.
+         * 
+         * @param row The row to add.
+         * @param position Inserts new row before this row.
+         */
+        virtual void insertRow(const std::string& row, unsigned int position);
 
         /**
-         * Gets the content of a row.
+         * Erases the given row. Calling this method will not change the current
+         * caret position.
+         * 
+         * @param row Row to be erased.
+         */
+        virtual void eraseRow(unsigned int row);
+        
+        /**
+         * Gets a reference to a row.
          *
          * @param row The row to get the content of.
-         * @return The content of a row.
+         * @return The reference to a row.
          * @throws Exception when no such row exists.
          * @since 0.9.0
          */
-        virtual std::string getRow(unsigned int row) const;
+        virtual std::string& getRow(unsigned int row);
 
         /**
          * Inserts a character at the current caret position.

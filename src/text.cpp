@@ -142,8 +142,42 @@ namespace gcn
 
         mRows.push_back(row);
     }
+    
+    void Text::insertRow(const std::string& row, unsigned int position)
+    {
+        unsigned int totalRows = mRows.size();
+        
+        if(position >= totalRows)
+        {
+            if(position == totalRows)
+            {
+                addRow(row);
+            }
+            else
+            {
+                throw GCN_EXCEPTION("Position out of bounds!");
+            }
+        }
+        
+        unsigned int i;
+        for(i = 0; i < row.size(); i++)
+        {
+            if(row[i] == '\n')
+                throw GCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
+        }
 
-    std::string Text::getRow(unsigned int row) const
+        mRows.insert(mRows.begin() + position, row);
+    }
+    
+    void Text::eraseRow(unsigned int row)
+    {
+        if(row >= mRows.size())
+            throw GCN_EXCEPTION("Row to be erased out of bounds!");
+        
+        mRows.erase(mRows.begin() + row);
+    }
+
+    std::string& Text::getRow(unsigned int row)
     {
         if (row >= mRows.size())
             throw GCN_EXCEPTION("Row out of bounds!");
