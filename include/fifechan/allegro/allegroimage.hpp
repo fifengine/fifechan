@@ -41,22 +41,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROIMAGE_HPP
-#define GCN_ALLEGROIMAGE_HPP
+#ifndef FCN_ALLEGROIMAGE_HPP
+#define FCN_ALLEGROIMAGE_HPP
 
 #include <allegro.h>
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Allegro implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC AllegroImage : public Image
+    class FCN_EXTENSION_DECLSPEC AllegroImage : public Image
     {
     public:
         /**
@@ -103,4 +103,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_ALLEGROIMAGE_HPP
+#endif // end FCN_ALLEGROIMAGE_HPP

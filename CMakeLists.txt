@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.4.6)
 # Path to local modules
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
-PROJECT(guichan)
+PROJECT(fifechan)
 
 SET(MAJOR_VERSION 0)
 SET(MINOR_VERSION 9)
@@ -17,73 +17,73 @@ SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 #ENDIF()
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
-ADD_DEFINITIONS("-DGUICHAN_BUILD -DGUICHAN_EXTENSION_BUILD")
+ADD_DEFINITIONS("-DFIFECHAN_BUILD -DFIFECHAN_EXTENSION_BUILD")
 
 # The Guichan core library 
-FILE(GLOB GUICHAN_HEADER include/guichan.hpp)
-FILE(GLOB GUICHAN_HEADERS
-  include/guichan/actionevent.hpp		
-  include/guichan/actionlistener.hpp		
-  include/guichan/cliprectangle.hpp	
-  include/guichan/color.hpp		
-  include/guichan/containerevent.hpp		
-  include/guichan/containerlistener.hpp		
-  include/guichan/deathlistener.hpp	
-  include/guichan/defaultfont.hpp		
-  include/guichan/event.hpp		
-  include/guichan/exception.hpp		
-  include/guichan/focushandler.hpp	
-  include/guichan/focuslistener.hpp	
-  include/guichan/font.hpp		
-  include/guichan/genericinput.hpp	
-  include/guichan/glut.hpp		
-  include/guichan/graphics.hpp		
-  include/guichan/gui.hpp			
-  include/guichan/image.hpp		
-  include/guichan/imagefont.hpp		
-  include/guichan/imageloader.hpp		
-  include/guichan/input.hpp		
-  include/guichan/inputevent.hpp		
-  include/guichan/key.hpp			
-  include/guichan/keyevent.hpp		
-  include/guichan/keyinput.hpp		
-  include/guichan/keylistener.hpp		
-  include/guichan/listmodel.hpp		
-  include/guichan/mouseevent.hpp		
-  include/guichan/mouseinput.hpp		
-  include/guichan/mouselistener.hpp	
-  include/guichan/platform.hpp		
-  include/guichan/rectangle.hpp		
-  include/guichan/selectionevent.hpp	
-  include/guichan/selectionlistener.hpp	
-  include/guichan/text.hpp
-  include/guichan/widget.hpp		
-  include/guichan/widgetlistener.hpp
+FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
+FILE(GLOB FIFECHAN_HEADERS
+  include/fifechan/actionevent.hpp		
+  include/fifechan/actionlistener.hpp		
+  include/fifechan/cliprectangle.hpp	
+  include/fifechan/color.hpp		
+  include/fifechan/containerevent.hpp		
+  include/fifechan/containerlistener.hpp		
+  include/fifechan/deathlistener.hpp	
+  include/fifechan/defaultfont.hpp		
+  include/fifechan/event.hpp		
+  include/fifechan/exception.hpp		
+  include/fifechan/focushandler.hpp	
+  include/fifechan/focuslistener.hpp	
+  include/fifechan/font.hpp		
+  include/fifechan/genericinput.hpp	
+  include/fifechan/glut.hpp		
+  include/fifechan/graphics.hpp		
+  include/fifechan/gui.hpp			
+  include/fifechan/image.hpp		
+  include/fifechan/imagefont.hpp		
+  include/fifechan/imageloader.hpp		
+  include/fifechan/input.hpp		
+  include/fifechan/inputevent.hpp		
+  include/fifechan/key.hpp			
+  include/fifechan/keyevent.hpp		
+  include/fifechan/keyinput.hpp		
+  include/fifechan/keylistener.hpp		
+  include/fifechan/listmodel.hpp		
+  include/fifechan/mouseevent.hpp		
+  include/fifechan/mouseinput.hpp		
+  include/fifechan/mouselistener.hpp	
+  include/fifechan/platform.hpp		
+  include/fifechan/rectangle.hpp		
+  include/fifechan/selectionevent.hpp	
+  include/fifechan/selectionlistener.hpp	
+  include/fifechan/text.hpp
+  include/fifechan/widget.hpp		
+  include/fifechan/widgetlistener.hpp
 )
-FILE(GLOB GUICHAN_WIDGET_HEADERS include/guichan/widgets/*.hpp)
-FILE(GLOB GUICHAN_CONTRIB_WIDGET_HEADERS include/guichan/contrib/widgets/*.hpp)
-FILE(GLOB GUICHAN_SRC src/*.cpp)
-FILE(GLOB GUICHAN_WIDGET_SRC src/widgets/*.cpp)
+FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
+FILE(GLOB FIFECHAN_CONTRIB_WIDGET_HEADERS include/fifechan/contrib/widgets/*.hpp)
+FILE(GLOB FIFECHAN_SRC src/*.cpp)
+FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
 
 # Grouping of the source for nicer display in IDEs such as Visual Studio
-SOURCE_GROUP(src FILES ${GUICHAN_HEADER})
-SOURCE_GROUP(src/guichan FILES ${GUICHAN_HEADERS} ${GUICHAN_SRC})
-SOURCE_GROUP(src/guichan/widgets FILES ${GUICHAN_WIDGET_HEADERS} ${GUICHAN_WIDGET_SRC})
-SOURCE_GROUP(src/guichan/contrib/widgets FILES ${GUICHAN_CONTRIB_WIDGET_HEADERS})
+SOURCE_GROUP(src FILES ${FIFECHAN_HEADER})
+SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
+SOURCE_GROUP(src/fifechan/widgets FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
+SOURCE_GROUP(src/fifechan/contrib/widgets FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS})
 
-OPTION(BUILD_GUICHAN_SHARED "Build the Guichan core library as a shared library." ON)
-IF(BUILD_GUICHAN_SHARED)
-  SET(GUICHAN_LIBRARY_TYPE SHARED)
-ELSE(BUILD_GUICHAN_SHARED)
-  SET(GUICHAN_LIBRARY_TYPE STATIC)
-ENDIF(BUILD_GUICHAN_SHARED)
-ADD_LIBRARY(${PROJECT_NAME} ${GUICHAN_LIBRARY_TYPE} 
-	${GUICHAN_HEADER} 
-	${GUICHAN_HEADERS} 
-	${GUICHAN_WIDGET_HEADERS} 
-	${GUICHAN_CONTRIB_WIDGET_HEADERS}
-	${GUICHAN_SRC} 
-	${GUICHAN_WIDGET_SRC})
+OPTION(BUILD_FIFECHAN_SHARED "Build the Guichan core library as a shared library." ON)
+IF(BUILD_FIFECHAN_SHARED)
+  SET(FIFECHAN_LIBRARY_TYPE SHARED)
+ELSE(BUILD_FIFECHAN_SHARED)
+  SET(FIFECHAN_LIBRARY_TYPE STATIC)
+ENDIF(BUILD_FIFECHAN_SHARED)
+ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE} 
+	${FIFECHAN_HEADER} 
+	${FIFECHAN_HEADERS} 
+	${FIFECHAN_WIDGET_HEADERS} 
+	${FIFECHAN_CONTRIB_WIDGET_HEADERS}
+	${FIFECHAN_SRC} 
+	${FIFECHAN_WIDGET_SRC})
 ADD_CUSTOM_TARGET(lib DEPENDS ${PROJECT_NAME}) # Create symlink
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
    VERSION ${${PROJECT_NAME}_VERSION}
@@ -94,40 +94,40 @@ INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib PERMISSIONS
   OWNER_READ OWNER_WRITE OWNER_EXECUTE
   GROUP_READ GROUP_EXECUTE
   WORLD_READ WORLD_EXECUTE)
-INSTALL(FILES ${GUICHAN_HEADER} DESTINATION include/)
-INSTALL(FILES ${GUICHAN_HEADERS} DESTINATION include/guichan/)
-INSTALL(FILES ${GUICHAN_WIDGET_HEADERS} DESTINATION include/guichan/widgets/)
-INSTALL(FILES ${GUICHAN_CONTRIB_WIDGET_HEADERS} DESTINATION include/guichan/contrib/widgets/)
+INSTALL(FILES ${FIFECHAN_HEADER} DESTINATION include/)
+INSTALL(FILES ${FIFECHAN_HEADERS} DESTINATION include/fifechan/)
+INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS} DESTINATION include/fifechan/widgets/)
+INSTALL(FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS} DESTINATION include/fifechan/contrib/widgets/)
 
 # The Guichan Allegro extension library
 OPTION(ENABLE_ALLEGRO "Enable the Guichan Allegro extension" ON)
-OPTION(BUILD_GUICHAN_ALLEGRO_SHARED "Build the Guichan Allegro extension library as a shared library." ON)
+OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED "Build the Guichan Allegro extension library as a shared library." ON)
 FIND_PACKAGE(Allegro)
 IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)  
 
   INCLUDE_DIRECTORIES(${ALLEGRO_INCLUDE_DIR})
 
   # The Guichan Allegro extension source
-  FILE(GLOB GUICHAN_ALLEGRO_HEADER include/guichan/allegro.hpp)
-  FILE(GLOB GUICHAN_ALLEGRO_HEADERS include/guichan/allegro/*.hpp)
-  FILE(GLOB GUICHAN_ALLEGRO_CONTRIB_HEADERS include/guichan/contrib/allegro/*.hpp)
-  FILE(GLOB GUICHAN_ALLEGRO_SRC src/allegro/*.cpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS include/fifechan/contrib/allegro/*.hpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_SRC src/allegro/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/guichan FILES ${GUICHAN_ALLEGRO_HEADER})
-  SOURCE_GROUP(src/guichan/allegro FILES ${GUICHAN_ALLEGRO_HEADERS} ${GUICHAN_ALLEGRO_SRC})
-  SOURCE_GROUP(src/guichan/contrib/allegro FILES ${GUICHAN_ALLEGRO_CONTRIB_HEADERS})
+  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
+  SOURCE_GROUP(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
+  SOURCE_GROUP(src/fifechan/contrib/allegro FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS})
 
-  IF(BUILD_GUICHAN_ALLEGRO_SHARED)
-    SET(GUICHAN_ALLEGRO_LIBRARY_TYPE SHARED)
-   ELSE(BUILD_GUICHAN_ALLEGRO_SHARED)
-     SET(GUICHAN_ALLEGRO_LIBRARY_TYPE STATIC)
-   ENDIF(BUILD_GUICHAN_ALLEGRO_SHARED)
-   ADD_LIBRARY(${PROJECT_NAME}_allegro ${GUICHAN_ALLEGRO_LIBRARY_TYPE} 
-	${GUICHAN_ALLEGRO_HEADER}
-	${GUICHAN_ALLEGRO_HEADERS}
-	${GUICHAN_ALLEGRO_CONTRIB_HEADERS}
-	${GUICHAN_ALLEGRO_SRC})
+  IF(BUILD_FIFECHAN_ALLEGRO_SHARED)
+    SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE SHARED)
+   ELSE(BUILD_FIFECHAN_ALLEGRO_SHARED)
+     SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE STATIC)
+   ENDIF(BUILD_FIFECHAN_ALLEGRO_SHARED)
+   ADD_LIBRARY(${PROJECT_NAME}_allegro ${FIFECHAN_ALLEGRO_LIBRARY_TYPE} 
+	${FIFECHAN_ALLEGRO_HEADER}
+	${FIFECHAN_ALLEGRO_HEADERS}
+	${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}
+	${FIFECHAN_ALLEGRO_SRC})
    IF(WIN32)
      TARGET_LINK_LIBRARIES(${PROJECT_NAME}_allegro ${ALLEG_LIBRARY} ${PROJECT_NAME})
    ENDIF(WIN32)
@@ -141,37 +141,37 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
      WORLD_READ WORLD_EXECUTE)
-   INSTALL(FILES ${GUICHAN_ALLEGRO_HEADER} DESTINATION include/guichan/)
-   INSTALL(FILES ${GUICHAN_ALLEGRO_HEADERS} DESTINATION include/guichan/allegro/)
-   INSTALL(FILES ${GUICHAN_ALLEGRO_CONTRIB_HEADERS} DESTINATION include/guichan/contrib/allegro/)   
+   INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADER} DESTINATION include/fifechan/)
+   INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADERS} DESTINATION include/fifechan/allegro/)
+   INSTALL(FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/allegro/)   
 ENDIF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 
 # The Guichan Irrlicht extension library
 OPTION(ENABLE_IRRLICHT "Enable the Guichan Irrlicht extension" ON)
-OPTION(BUILD_GUICHAN_IRRLICHT_SHARED "Build the Guichan Irrlicht extension library as a shared library." ON)
+OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED "Build the Guichan Irrlicht extension library as a shared library." ON)
 FIND_PACKAGE(Irrlicht)
 IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
   INCLUDE_DIRECTORIES(${IRRLICHT_INCLUDE_DIR})
 
   # The Guichan Irrlicht extension source
-  FILE(GLOB GUICHAN_IRRLICHT_HEADER include/guichan/irrlicht.hpp)
-  FILE(GLOB GUICHAN_IRRLICHT_HEADERS include/guichan/irrlicht/*.hpp)
-  FILE(GLOB GUICHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
+  FILE(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
+  FILE(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
+  FILE(GLOB FIFECHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/guichan FILES ${GUICHAN_IRRLICHT_HEADER})
-  SOURCE_GROUP(src/guichan/irrlicht FILES ${GUICHAN_IRRLICHT_HEADERS} ${GUICHAN_IRRLICHT_SRC})
+  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_IRRLICHT_HEADER})
+  SOURCE_GROUP(src/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
 
-  IF(BUILD_GUICHAN_IRRLICHT_SHARED)
-    SET(GUICHAN_IRRLICHT_LIBRARY_TYPE SHARED)
-   ELSE(BUILD_GUICHAN_IRRLICHT_SHARED)
-     SET(GUICHAN_IRRLICHT_LIBRARY_TYPE STATIC)
-   ENDIF(BUILD_GUICHAN_IRRLICHT_SHARED)
-   ADD_LIBRARY(${PROJECT_NAME}_irrlicht ${GUICHAN_IRRLICHT_LIBRARY_TYPE}
-        ${GUICHAN_IRRLICHT_HEADER}
-        ${GUICHAN_IRRLICHT_HEADERS}
-        ${GUICHAN_IRRLICHT_SRC})
+  IF(BUILD_FIFECHAN_IRRLICHT_SHARED)
+    SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE SHARED)
+   ELSE(BUILD_FIFECHAN_IRRLICHT_SHARED)
+     SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE STATIC)
+   ENDIF(BUILD_FIFECHAN_IRRLICHT_SHARED)
+   ADD_LIBRARY(${PROJECT_NAME}_irrlicht ${FIFECHAN_IRRLICHT_LIBRARY_TYPE}
+        ${FIFECHAN_IRRLICHT_HEADER}
+        ${FIFECHAN_IRRLICHT_HEADERS}
+        ${FIFECHAN_IRRLICHT_SRC})
    IF(WIN32)
      TARGET_LINK_LIBRARIES(${PROJECT_NAME}_irrlicht ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
    ENDIF(WIN32)
@@ -185,39 +185,39 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
      WORLD_READ WORLD_EXECUTE)
-   INSTALL(FILES ${GUICHAN_IRRLICHT_HEADER} DESTINATION include/guichan/)
-   INSTALL(FILES ${GUICHAN_IRRLICHT_HEADERS} DESTINATION include/guichan/irrlicht/)
+   INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADER} DESTINATION include/fifechan/)
+   INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADERS} DESTINATION include/fifechan/irrlicht/)
 ENDIF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
 # The Guichan OpenGL extension library
 OPTION(ENABLE_OPENGL "Enable the Guichan OpenGL extension" ON)
-OPTION(BUILD_GUICHAN_OPENGL_SHARED "Build the Guichan OpenGL extension library as a shared library." ON)
+OPTION(BUILD_FIFECHAN_OPENGL_SHARED "Build the Guichan OpenGL extension library as a shared library." ON)
 FIND_PACKAGE(OpenGL)
 IF(ENABLE_OPENGL AND OPENGL_FOUND)  
 
   INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
 
   # The Guican OpenGL extension source
-  FILE(GLOB GUICHAN_OPENGL_HEADER include/guichan/opengl.hpp)
-  FILE(GLOB GUICHAN_OPENGL_HEADERS include/guichan/opengl/*.hpp)
-  FILE(GLOB GUICHAN_OPENGL_CONTRIB_HEADERS include/guichan/contrib/opengl/*.hpp)
-  FILE(GLOB GUICHAN_OPENGL_SRC src/opengl/*.cpp)
+  FILE(GLOB FIFECHAN_OPENGL_HEADER include/fifechan/opengl.hpp)
+  FILE(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
+  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_HEADERS include/fifechan/contrib/opengl/*.hpp)
+  FILE(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/guichan FILES ${GUICHAN_OPENGL_HEADER})
-  SOURCE_GROUP(src/guichan/opengl FILES ${GUICHAN_OPENGL_HEADERS} ${GUICHAN_OPENGL_SRC})
-  SOURCE_GROUP(src/guichan/contrib/opengl FILES ${GUICHAN_OPENGL_CONTRIB_HEADERS})
+  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_OPENGL_HEADER})
+  SOURCE_GROUP(src/fifechan/opengl FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
+  SOURCE_GROUP(src/fifechan/contrib/opengl FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS})
 
-  IF(BUILD_GUICHAN_OPENGL_SHARED)
-    SET(GUICHAN_OPENGL_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_GUICHAN_OPENGL_SHARED)
-    SET(GUICHAN_OPENGL_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_GUICHAN_OPENGL_SHARED)
-  ADD_LIBRARY(${PROJECT_NAME}_opengl ${GUICHAN_OPENGL_LIBRARY_TYPE} 
-	${GUICHAN_OPENGL_HEADER}
-	${GUICHAN_OPENGL_HEADERS}
-	${GUICHAN_OPENGL_CONTRIB_HEADERS}
-	${GUICHAN_OPENGL_SRC})
+  IF(BUILD_FIFECHAN_OPENGL_SHARED)
+    SET(FIFECHAN_OPENGL_LIBRARY_TYPE SHARED)
+  ELSE(BUILD_FIFECHAN_OPENGL_SHARED)
+    SET(FIFECHAN_OPENGL_LIBRARY_TYPE STATIC)
+  ENDIF(BUILD_FIFECHAN_OPENGL_SHARED)
+  ADD_LIBRARY(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE} 
+	${FIFECHAN_OPENGL_HEADER}
+	${FIFECHAN_OPENGL_HEADERS}
+	${FIFECHAN_OPENGL_CONTRIB_HEADERS}
+	${FIFECHAN_OPENGL_SRC})
   IF(WIN32)
     TARGET_LINK_LIBRARIES(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${PROJECT_NAME})
   ENDIF(WIN32)
@@ -231,14 +231,14 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-  INSTALL(FILES ${GUICHAN_OPENGL_HEADER} DESTINATION include/guichan/)
-  INSTALL(FILES ${GUICHAN_OPENGL_HEADERS} DESTINATION include/guichan/opengl/)
-  INSTALL(FILES ${GUICHAN_OPENGL_CONTRIB_HEADERS} DESTINATION include/guichan/contrib/opengl/)   
+  INSTALL(FILES ${FIFECHAN_OPENGL_HEADER} DESTINATION include/fifechan/)
+  INSTALL(FILES ${FIFECHAN_OPENGL_HEADERS} DESTINATION include/fifechan/opengl/)
+  INSTALL(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/opengl/)   
 ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
 
 # The Guichan SDL extension library
 OPTION(ENABLE_SDL "Enable the Guichan SDL extension" ON)
-OPTION(BUILD_GUICHAN_SDL_SHARED "Build the Guichan SDL extension library as a shared library." ON)
+OPTION(BUILD_FIFECHAN_SDL_SHARED "Build the Guichan SDL extension library as a shared library." ON)
 FIND_PACKAGE(SDL)
 FIND_PACKAGE(SDL_image)
 IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)  
@@ -246,26 +246,26 @@ IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
   INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
  
   # The Guichan SDL extension source
-  FILE(GLOB GUICHAN_SDL_HEADER include/guichan/sdl.hpp)
-  FILE(GLOB GUICHAN_SDL_HEADERS include/guichan/sdl/*.hpp)
-  FILE(GLOB GUICHAN_SDL_CONTRIB_HEADERS include/guichan/contrib/sdl/*.hpp)
-  FILE(GLOB GUICHAN_SDL_SRC src/sdl/*.cpp)
+  FILE(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
+  FILE(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
+  FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)
+  FILE(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
   
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/guichan FILES ${GUICHAN_SDL_HEADER})
-  SOURCE_GROUP(src/guichan/sdl FILES ${GUICHAN_SDL_HEADERS} ${GUICHAN_SDL_SRC})
-  SOURCE_GROUP(src/guichan/contrib/sdl FILES ${GUICHAN_SDL_CONTRIB_HEADERS})
+  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_SDL_HEADER})
+  SOURCE_GROUP(src/fifechan/sdl FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
+  SOURCE_GROUP(src/fifechan/contrib/sdl FILES ${FIFECHAN_SDL_CONTRIB_HEADERS})
  
-  IF(BUILD_GUICHAN_SDL_SHARED)
-    SET(GUICHAN_SDL_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_GUICHAN_SDL_SHARED)
-    SET(GUICHAN_SDL_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_GUICHAN_SDL_SHARED)
-  ADD_LIBRARY(${PROJECT_NAME}_sdl ${GUICHAN_SDL_LIBRARY_TYPE} 
-	${GUICHAN_SDL_HEADER}
-	${GUICHAN_SDL_HEADERS}
-	${GUICHAN_SDL_CONTRIB_HEADERS}
-	${GUICHAN_SDL_SRC})
+  IF(BUILD_FIFECHAN_SDL_SHARED)
+    SET(FIFECHAN_SDL_LIBRARY_TYPE SHARED)
+  ELSE(BUILD_FIFECHAN_SDL_SHARED)
+    SET(FIFECHAN_SDL_LIBRARY_TYPE STATIC)
+  ENDIF(BUILD_FIFECHAN_SDL_SHARED)
+  ADD_LIBRARY(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE} 
+	${FIFECHAN_SDL_HEADER}
+	${FIFECHAN_SDL_HEADERS}
+	${FIFECHAN_SDL_CONTRIB_HEADERS}
+	${FIFECHAN_SDL_SRC})
   IF(WIN32)
     IF(MINGW)
       TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${MINGW32_LIBRARY} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} SDLmain ${PROJECT_NAME})
@@ -283,9 +283,9 @@ IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-  INSTALL(FILES ${GUICHAN_SDL_HEADER} DESTINATION include/guichan/)
-  INSTALL(FILES ${GUICHAN_SDL_HEADERS} DESTINATION include/guichan/sdl/)
-  INSTALL(FILES ${GUICHAN_SDL_CONTRIB_HEADERS} DESTINATION include/guichan/contrib/sdl/)   
+  INSTALL(FILES ${FIFECHAN_SDL_HEADER} DESTINATION include/fifechan/)
+  INSTALL(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION include/fifechan/sdl/)
+  INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/sdl/)   
 ENDIF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
 
 # Make uninstall target

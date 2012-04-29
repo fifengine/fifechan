@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CAIRO_HPP
-#define GCN_CAIRO_HPP
+#ifndef FCN_CAIRO_HPP
+#define FCN_CAIRO_HPP
 
-#include <guichan/cairo/cairofont.hpp>
-#include <guichan/cairo/cairographics.hpp>
-#include <guichan/cairo/cairoimage.hpp>
-#include <guichan/cairo/cairoimageloader.hpp>
+#include <fifechan/cairo/cairofont.hpp>
+#include <fifechan/cairo/cairographics.hpp>
+#include <fifechan/cairo/cairoimage.hpp>
+#include <fifechan/cairo/cairoimageloader.hpp>
 
 extern "C"
 {
@@ -56,7 +56,7 @@ extern "C"
      *
      * @bug Autotools is incapable of finding this function.
      */
-    extern void gcnCairo();
+    extern void fcnCairo();
 }
 
-#endif // end GCN_CAIRO_HPP
+#endif // end FCN_CAIRO_HPP

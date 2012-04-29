@@ -54,25 +54,25 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DIRECTX3DGRAPHICS_HPP
-#define GCN_DIRECTX3DGRAPHICS_HPP
+#ifndef FCN_DIRECTX3DGRAPHICS_HPP
+#define FCN_DIRECTX3DGRAPHICS_HPP
 
-#include "guichan/color.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
 
 #include <d3d9.h>
 
-namespace gcn
+namespace fcn
 {
     /**
      * DirectX 3D implementation of the Graphics.
      */
-    class GCN_EXTENSION_DECLSPEC DirectX3DGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC DirectX3DGraphics: public Graphics
     {
     public:
 
-        // Needed so that drawImage(gcn::Image *, int, int) is visible.
+        // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**
@@ -215,4 +215,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DIRECTX3DGRAPHICS_HPP
+#endif // end FCN_DIRECTX3DGRAPHICS_HPP

@@ -41,8 +41,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENGLIMAGE_HPP
-#define GCN_OPENGLIMAGE_HPP
+#ifndef FCN_OPENGLIMAGE_HPP
+#define FCN_OPENGLIMAGE_HPP
 
 #if defined (_WIN32)
 #define WIN32_LEAN_AND_MEAN
@@ -59,16 +59,16 @@
 
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenGL implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC OpenGLImage : public Image
+    class FCN_EXTENSION_DECLSPEC OpenGLImage : public Image
     {
     public:
         /**
@@ -154,4 +154,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENGLIMAGE_HPP
+#endif // end FCN_OPENGLIMAGE_HPP

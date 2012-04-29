@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_INPUT_HPP
-#define GCN_INPUT_HPP
+#ifndef FCN_INPUT_HPP
+#define FCN_INPUT_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class KeyInput;
     class MouseInput;
@@ -63,7 +63,7 @@ namespace gcn
      * @see AllegroInput, HGEInput, OpenLayerInput, 
      *      SDLInput
      */
-    class GCN_CORE_DECLSPEC Input
+    class FCN_CORE_DECLSPEC Input
     {
     public:
 
@@ -112,4 +112,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_INPUT_HPP
+#endif // end FCN_INPUT_HPP

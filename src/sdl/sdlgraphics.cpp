@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/sdl/sdlgraphics.hpp"
+#include "fifechan/sdl/sdlgraphics.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/image.hpp"
-#include "guichan/sdl/sdlimage.hpp"
-#include "guichan/sdl/sdlpixel.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/sdl/sdlimage.hpp"
+#include "fifechan/sdl/sdlpixel.hpp"
 
 // For some reason an old version of MSVC did not like std::abs,
 // so we added this macro.
@@ -59,7 +59,7 @@
 #define ABS(x) ((x)<0?-(x):(x))
 #endif
 
-namespace gcn
+namespace fcn
 {
 
     SDLGraphics::SDLGraphics()
@@ -137,7 +137,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -155,7 +155,7 @@ namespace gcn
 
         if (srcImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an SDLImage.");
+            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an SDLImage.");
         }
 
         SDL_BlitSurface(srcImage->getSurface(), &src, mTarget, &dst);
@@ -165,7 +165,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -219,7 +219,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -244,7 +244,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -363,7 +363,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -502,7 +502,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -681,7 +681,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();

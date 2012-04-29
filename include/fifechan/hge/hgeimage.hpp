@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGEIMAGE_HPP
-#define GCN_HGEIMAGE_HPP
+#ifndef FCN_HGEIMAGE_HPP
+#define FCN_HGEIMAGE_HPP
 
 #include <hge.h>
 #include <hgesprite.h>
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * HGE implementation of Image.
@@ -60,7 +60,7 @@ namespace gcn
      * @author Kevin Lynx
      * @since  0.6.1
      */
-    class GCN_EXTENSION_DECLSPEC HGEImage : public Image
+    class FCN_EXTENSION_DECLSPEC HGEImage : public Image
     {
     public:
         /**
@@ -113,4 +113,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_HGEIMAGE_HPP
+#endif // end FCN_HGEIMAGE_HPP

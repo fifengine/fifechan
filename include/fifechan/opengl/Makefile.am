@@ -1,6 +1,6 @@
-libguichanincludedir = $(includedir)/guichan/opengl
+libfifechanincludedir = $(includedir)/fifechan/opengl
 
-libguichaninclude_HEADERS =		\
+libfifechaninclude_HEADERS =		\
 	openglallegroimageloader.hpp	\
 	openglgraphics.hpp		\
 	openglimage.hpp			\

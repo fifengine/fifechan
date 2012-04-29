@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/sdl/sdlinput.hpp"
+#include "fifechan/sdl/sdlinput.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     SDLInput::SDLInput()
     {
@@ -68,7 +68,7 @@ namespace gcn
 
         if (mKeyInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         keyInput = mKeyInputQueue.front();
@@ -88,7 +88,7 @@ namespace gcn
 
         if (mMouseInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         mouseInput = mMouseInputQueue.front();

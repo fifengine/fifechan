@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CAIROFONT_HPP
-#define GCN_CAIROFONT_HPP
+#ifndef FCN_CAIROFONT_HPP
+#define FCN_CAIROFONT_HPP
 
-#include "guichan/font.hpp"
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
 
 #include "cairo.h"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Cairo font implementation of Fonts used by Cairo.
      */
-    class GCN_EXTENSION_DECLSPEC CairoFont : public Font
+    class FCN_EXTENSION_DECLSPEC CairoFont : public Font
     {
     public:
 
@@ -82,7 +82,7 @@ namespace gcn
 
         virtual int getHeight() const;
 
-        virtual void drawString(gcn::Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(fcn::Graphics* graphics, const std::string& text, int x, int y);
 
         private :
 

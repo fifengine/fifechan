@@ -41,14 +41,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IMAGE_HPP
-#define GCN_IMAGE_HPP
+#ifndef FCN_IMAGE_HPP
+#define FCN_IMAGE_HPP
 
 #include <string>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Color;
     class ImageLoader;
@@ -67,7 +67,7 @@ namespace gcn
      *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader, SDLImageLoader
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC Image
+    class FCN_CORE_DECLSPEC Image
     {
     public:
 
@@ -187,4 +187,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IMAGE_HPP
+#endif // end FCN_IMAGE_HPP

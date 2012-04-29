@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_LABEL_HPP
-#define GCN_LABEL_HPP
+#ifndef FCN_LABEL_HPP
+#define FCN_LABEL_HPP
 
 #include <string>
 
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Implementation of a label capable of displaying a caption.
      */
-    class GCN_CORE_DECLSPEC Label: public Widget
+    class FCN_CORE_DECLSPEC Label: public Widget
     {
     public:
         /**
@@ -130,4 +130,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_LABEL_HPP
+#endif // end FCN_LABEL_HPP

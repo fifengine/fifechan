@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/focushandler.hpp"
+#include "fifechan/focushandler.hpp"
 
-#include "guichan/focuslistener.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/focuslistener.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     FocusHandler::FocusHandler()
         :mFocusedWidget(NULL),
@@ -87,7 +87,7 @@ namespace gcn
         
         if (toBeFocusedIndex < 0)
         {
-            throw GCN_EXCEPTION("Trying to focus a none existing widget.");
+            throw FCN_EXCEPTION("Trying to focus a none existing widget.");
         }
         
         Widget *oldFocused = mFocusedWidget;
@@ -111,7 +111,7 @@ namespace gcn
     {
         if (mModalFocusedWidget != NULL && mModalFocusedWidget != widget)
         {
-            throw GCN_EXCEPTION("Another widget already has modal focus.");
+            throw FCN_EXCEPTION("Another widget already has modal focus.");
         }
 
         mModalFocusedWidget = widget;
@@ -128,7 +128,7 @@ namespace gcn
         if (mModalMouseInputFocusedWidget != NULL
             && mModalMouseInputFocusedWidget != widget)
         {
-            throw GCN_EXCEPTION("Another widget already has modal input focus.");
+            throw FCN_EXCEPTION("Another widget already has modal input focus.");
         }
 
         mModalMouseInputFocusedWidget = widget;

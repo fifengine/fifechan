@@ -41,22 +41,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IRRLICHT_HPP
-#define GCN_IRRLICHT_HPP
+#ifndef FCN_IRRLICHT_HPP
+#define FCN_IRRLICHT_HPP
 
-#include <guichan/irrlicht/irrlichtgraphics.hpp>
-#include <guichan/irrlicht/irrlichtimage.hpp>
-#include <guichan/irrlicht/irrlichtimageloader.hpp>
-#include <guichan/irrlicht/irrlichtinput.hpp>
+#include <fifechan/irrlicht/irrlichtgraphics.hpp>
+#include <fifechan/irrlicht/irrlichtimage.hpp>
+#include <fifechan/irrlicht/irrlichtimageloader.hpp>
+#include <fifechan/irrlicht/irrlichtinput.hpp>
 
-#include <guichan/platform.hpp>
+#include <fifechan/platform.hpp>
 
 extern "C"
 {
     /**
      * Exists to be able to check for Guichan Irrlicht with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnIrrlicht();
+    FCN_EXTENSION_DECLSPEC extern void fcnIrrlicht();
 }
 
-#endif // end GCN_IRRLICHT_HPP
+#endif // end FCN_IRRLICHT_HPP

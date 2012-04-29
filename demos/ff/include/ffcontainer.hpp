@@ -44,21 +44,21 @@
 #ifndef __FFCONTAINER_HPP
 #define __FFCONTAINER_HPP
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 
-class FFContainer : public gcn::Container
+class FFContainer : public fcn::Container
 {
 public:
     FFContainer();
     ~FFContainer();
     void logic();
-    void draw(gcn::Graphics* graphics);
+    void draw(fcn::Graphics* graphics);
     void setVisible(bool visible);
     void setWidth(int width);
     void setHeight(int width);
-    void setDimension(const gcn::Rectangle &dimension);
+    void setDimension(const fcn::Rectangle &dimension);
     void slideContentTo(int y);
-    gcn::Rectangle getChildrenArea();
+    fcn::Rectangle getChildrenArea();
 
 private:
     int mRealWidth;
@@ -69,12 +69,12 @@ private:
     bool mShow;
 
     static int mInstances;
-    static gcn::Image *mCornerUL;
-    static gcn::Image *mCornerUR;
-    static gcn::Image *mCornerDL;
-    static gcn::Image *mCornerDR;
-    static gcn::Image *mHorizontal;
-    static gcn::Image *mVertical;
+    static fcn::Image *mCornerUL;
+    static fcn::Image *mCornerUR;
+    static fcn::Image *mCornerDL;
+    static fcn::Image *mCornerDR;
+    static fcn::Image *mHorizontal;
+    static fcn::Image *mVertical;
 };
 
 #endif

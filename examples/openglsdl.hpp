@@ -5,12 +5,12 @@
  * to be used).
  */
 
-#include <guichan.hpp>
-#include <guichan/opengl.hpp>
+#include <fifechan.hpp>
+#include <fifechan/opengl.hpp>
 // The openglsdlimageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and SDL.
-#include <guichan/opengl/openglsdlimageloader.hpp>
-#include <guichan/sdl.hpp>
+#include <fifechan/opengl/openglsdlimageloader.hpp>
+#include <fifechan/sdl.hpp>
 
 namespace openglsdl
 {
@@ -22,9 +22,9 @@ namespace openglsdl
     // able to draw itself using OpenGL, an input objec to make 
     // Guichan able to get user input using SDL and an ImageLoader 
     // object to make Guichan able to load images using OpenGL and SDL.
-    gcn::OpenGLGraphics* graphics;
-    gcn::SDLInput* input;
-    gcn::OpenGLSDLImageLoader* imageLoader;
+    fcn::OpenGLGraphics* graphics;
+    fcn::SDLInput* input;
+    fcn::OpenGLSDLImageLoader* imageLoader;
 
     /**
      * Initialises the OpenGL and SDL application. This function creates the global
@@ -50,18 +50,18 @@ namespace openglsdl
         // Now it's time to initialise the Guichan OpenGL back end
         // and the Guichan SDL back end.
 
-        imageLoader = new gcn::OpenGLSDLImageLoader();
+        imageLoader = new fcn::OpenGLSDLImageLoader();
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::OpenGLGraphics();
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::OpenGLGraphics();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
-        input = new gcn::SDLInput();
+        input = new fcn::SDLInput();
 
         // Now we create the Gui object to be used with this OpenGL
         // and SDL application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with OpenGL and SDL implementations of these objects hence 

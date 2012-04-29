@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENGL_HPP
-#define GCN_OPENGL_HPP
+#ifndef FCN_OPENGL_HPP
+#define FCN_OPENGL_HPP
 
-#include <guichan/opengl/openglgraphics.hpp>
-#include <guichan/opengl/openglimage.hpp>
+#include <fifechan/opengl/openglgraphics.hpp>
+#include <fifechan/opengl/openglimage.hpp>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 extern "C"
 {
     /**
      * Exists to be able to check for Guichan OpenGL with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnOpenGL();
+    FCN_EXTENSION_DECLSPEC extern void fcnOpenGL();
 }
 
-#endif // end GCN_OPENGL_HPP
+#endif // end FCN_OPENGL_HPP

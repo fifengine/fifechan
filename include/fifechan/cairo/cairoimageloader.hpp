@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CAIROIMAGELOADER_HPP
-#define GCN_CAIROIMAGELOADER_HPP
+#ifndef FCN_CAIROIMAGELOADER_HPP
+#define FCN_CAIROIMAGELOADER_HPP
 
-#include "guichan/imageloader.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/imageloader.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
     /**
      * Cairo implementation of ImageLoader.
      */
-    class GCN_EXTENSION_DECLSPEC CairoImageLoader : public ImageLoader
+    class FCN_EXTENSION_DECLSPEC CairoImageLoader : public ImageLoader
     {
     public:
 

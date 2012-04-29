@@ -1,7 +1,7 @@
-lib_LTLIBRARIES = libguichan_glut.la
+lib_LTLIBRARIES = libfifechan_glut.la
 #noinst_LTLIBRARIES = libglut.la
 
 INCLUDES = -I$(top_srcdir)/include
 
-libguichan_glut_la_SOURCES =		\
+libfifechan_glut_la_SOURCES =		\
 		glutinput.cpp

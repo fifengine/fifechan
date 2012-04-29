@@ -84,7 +84,7 @@ FPSButton::~FPSButton()
  * If we have the mouse we should draw the caption with the highlight
  * font, if not we should draw it with the ordinary font.
  */
-void FPSButton::draw(gcn::Graphics* graphics)
+void FPSButton::draw(fcn::Graphics* graphics)
 {
     if (mHasMouse)
     {
@@ -98,7 +98,7 @@ void FPSButton::draw(gcn::Graphics* graphics)
     }
 }
 
-void FPSButton::setHighLightFont(gcn::Font* font)
+void FPSButton::setHighLightFont(fcn::Font* font)
 {
     mHighLightFont = font;
 }
@@ -109,7 +109,7 @@ void FPSButton::setHighLightFont(gcn::Font* font)
  * mouse enters the widget. We want to know this in order to play
  * the mouse hover sound and to save a state that we have the mouse.
  */
-void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
+void FPSButton::mouseEntered(fcn::MouseEvent& mouseEvent)
 {
     Button::mouseEntered(mouseEvent);
     Mix_PlayChannel(-1, mHoverSound, 0);
@@ -122,7 +122,7 @@ void FPSButton::mouseEntered(gcn::MouseEvent& mouseEvent)
  * mouse exits the widget. We want to know this in order to play
  * the mouse hover sound and to save a state that we have the mouse.
  */
-void FPSButton::mouseExited(gcn::MouseEvent& mouseEvent)
+void FPSButton::mouseExited(fcn::MouseEvent& mouseEvent)
 {
     Button::mouseExited(mouseEvent);
     mHasMouse = false;

@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_KEYEVENT_HPP
-#define GCN_KEYEVENT_HPP
+#ifndef FCN_KEYEVENT_HPP
+#define FCN_KEYEVENT_HPP
 
-#include "guichan/inputevent.hpp"
-#include "guichan/key.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/inputevent.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Widget;
 
     /**
      * Represents a key event.
      */
-    class GCN_CORE_DECLSPEC KeyEvent: public InputEvent
+    class FCN_CORE_DECLSPEC KeyEvent: public InputEvent
     {
     public:
         /**
@@ -137,4 +137,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_KEYEVENT_HPP
+#endif // end FCN_KEYEVENT_HPP

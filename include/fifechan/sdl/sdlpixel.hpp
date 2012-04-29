@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SDLPIXEL_HPP
-#define GCN_SDLPIXEL_HPP
+#ifndef FCN_SDLPIXEL_HPP
+#define FCN_SDLPIXEL_HPP
 
 #include "SDL.h"
-#include "guichan/color.hpp"
+#include "fifechan/color.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     /**
@@ -257,4 +257,4 @@ namespace gcn
     }
 }
 
-#endif // end GCN_SDLPIXEL_HPP
+#endif // end FCN_SDLPIXEL_HPP

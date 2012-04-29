@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/contrib/sdl/sdltruetypefont.hpp"
+#include "fifechan/contrib/sdl/sdltruetypefont.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/image.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/sdl/sdlgraphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/sdl/sdlgraphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -68,7 +68,7 @@ namespace gcn
         
             if (mFont == NULL)
             {
-                throw GCN_EXCEPTION("SDLTrueTypeFont::SDLTrueTypeFont. "+std::string(TTF_GetError()));
+                throw FCN_EXCEPTION("SDLTrueTypeFont::SDLTrueTypeFont. "+std::string(TTF_GetError()));
             }
         }
     
@@ -90,18 +90,18 @@ namespace gcn
             return TTF_FontHeight(mFont) + mRowSpacing;
         }
     
-        void SDLTrueTypeFont::drawString(gcn::Graphics* graphics, const std::string& text, const int x, const int y)
+        void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, const std::string& text, const int x, const int y)
         {
             if (text == "")
             {
                 return;
             }
         
-            gcn::SDLGraphics *sdlGraphics = dynamic_cast<gcn::SDLGraphics *>(graphics);
+            fcn::SDLGraphics *sdlGraphics = dynamic_cast<fcn::SDLGraphics *>(graphics);
 
             if (sdlGraphics == NULL)
             {
-                throw GCN_EXCEPTION("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!");
+                throw FCN_EXCEPTION("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!");
                 return;
             }
         

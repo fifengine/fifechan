@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SELECTIONLISTENER_HPP
-#define GCN_SELECTIONLISTENER_HPP
+#ifndef FCN_SELECTIONLISTENER_HPP
+#define FCN_SELECTIONLISTENER_HPP
 
 #include <string>
 
-#include "guichan/selectionevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/selectionevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for selection events from widgets.
@@ -61,7 +61,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.8.0
      */
-    class GCN_CORE_DECLSPEC SelectionListener
+    class FCN_CORE_DECLSPEC SelectionListener
     {
     public:
 
@@ -92,4 +92,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_SELECTIONLISTENER_HPP
+#endif // end FCN_SELECTIONLISTENER_HPP

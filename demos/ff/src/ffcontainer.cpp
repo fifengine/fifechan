@@ -46,23 +46,23 @@
 #include <SDL/SDL.h>
 
 int FFContainer::mInstances = 0;
-gcn::Image *FFContainer::mCornerUL = 0;
-gcn::Image *FFContainer::mCornerUR = 0;
-gcn::Image *FFContainer::mCornerDL = 0;
-gcn::Image *FFContainer::mCornerDR = 0;
-gcn::Image *FFContainer::mHorizontal = 0;
-gcn::Image *FFContainer::mVertical = 0;
+fcn::Image *FFContainer::mCornerUL = 0;
+fcn::Image *FFContainer::mCornerUR = 0;
+fcn::Image *FFContainer::mCornerDL = 0;
+fcn::Image *FFContainer::mCornerDR = 0;
+fcn::Image *FFContainer::mHorizontal = 0;
+fcn::Image *FFContainer::mVertical = 0;
 
 FFContainer::FFContainer()
 {
     if (mInstances == 0)
     {
-        mCornerUL = gcn::Image::load("images/cornerul.png");
-        mCornerUR = gcn::Image::load("images/cornerur.png");
-        mCornerDL = gcn::Image::load("images/cornerdl.png");
-        mCornerDR = gcn::Image::load("images/cornerdr.png");
-        mHorizontal = gcn::Image::load("images/horizontal.png");
-        mVertical = gcn::Image::load("images/vertical.png");
+        mCornerUL = fcn::Image::load("images/cornerul.png");
+        mCornerUR = fcn::Image::load("images/cornerur.png");
+        mCornerDL = fcn::Image::load("images/cornerdl.png");
+        mCornerDR = fcn::Image::load("images/cornerdr.png");
+        mHorizontal = fcn::Image::load("images/horizontal.png");
+        mVertical = fcn::Image::load("images/vertical.png");
     }
 
     mInstances++;
@@ -93,14 +93,14 @@ FFContainer::~FFContainer()
     }
 }
 
-void FFContainer::draw(gcn::Graphics* graphics)
+void FFContainer::draw(fcn::Graphics* graphics)
 {
     int i;
 
     if (isOpaque())
     {
         double height = (mRealHeight - 8) / 16.0;
-        gcn::Color c(0x7070FF);
+        fcn::Color c(0x7070FF);
 
         for (i = 0; i<16; ++i)
         {
@@ -109,7 +109,7 @@ void FFContainer::draw(gcn::Graphics* graphics)
         }
     }
 
-    graphics->pushClipArea(gcn::Rectangle(0, mCurrentSlide, getWidth(), getHeight()));
+    graphics->pushClipArea(fcn::Rectangle(0, mCurrentSlide, getWidth(), getHeight()));
     drawChildren(graphics);
     graphics->popClipArea();
 
@@ -228,7 +228,7 @@ void FFContainer::logic()
     Container::logic();
 }
 
-void FFContainer::setDimension(const gcn::Rectangle &dimension)
+void FFContainer::setDimension(const fcn::Rectangle &dimension)
 {
     setPosition(dimension.x, dimension.y);
     setWidth(dimension.width);
@@ -260,7 +260,7 @@ void FFContainer::slideContentTo(int y)
     mSlideTarget = y;
 }
 
-gcn::Rectangle FFContainer::getChildrenArea()
+fcn::Rectangle FFContainer::getChildrenArea()
 {
-    return gcn::Rectangle(0, 0, mRealWidth, mRealHeight);
+    return fcn::Rectangle(0, 0, mRealWidth, mRealHeight);
 }

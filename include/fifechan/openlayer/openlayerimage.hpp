@@ -41,8 +41,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYERIMAGE_HPP
-#define GCN_OPENLAYERIMAGE_HPP
+#ifndef FCN_OPENLAYERIMAGE_HPP
+#define FCN_OPENLAYERIMAGE_HPP
 
 #include <OpenLayer.hpp>
 #if defined (DELETE)
@@ -50,16 +50,16 @@
 #endif
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenLayer implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC OpenLayerImage : public Image
+    class FCN_EXTENSION_DECLSPEC OpenLayerImage : public Image
     {
     public:
         
@@ -105,4 +105,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENLAYERIMAGE_HPP
+#endif // end FCN_OPENLAYERIMAGE_HPP

@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYERIMAGELOADER_HPP
-#define GCN_OPENLAYERIMAGELOADER_HPP
+#ifndef FCN_OPENLAYERIMAGELOADER_HPP
+#define FCN_OPENLAYERIMAGELOADER_HPP
 
-#include "guichan/image.hpp"
-#include "guichan/imageloader.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/imageloader.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     /**
      * OpenLayer implementation of ImageLoader.
      */
-    class GCN_EXTENSION_DECLSPEC OpenLayerImageLoader : public ImageLoader
+    class FCN_EXTENSION_DECLSPEC OpenLayerImageLoader : public ImageLoader
     {
     public:
 
@@ -64,4 +64,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENLAYERIMAGELOADER_HPP
+#endif // end FCN_OPENLAYERIMAGELOADER_HPP

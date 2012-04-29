@@ -44,18 +44,18 @@
 #ifndef __FFLISTBOX_HPP
 #define __FFLISTBOX_HPP
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 
-class FFListBox : public gcn::ListBox
+class FFListBox : public fcn::ListBox
 {
 public:
     FFListBox();
     ~FFListBox();
-    void draw(gcn::Graphics* graphics);
+    void draw(fcn::Graphics* graphics);
     void setSelected(int i);
 
 private:
-    static gcn::Image *mHand;
+    static fcn::Image *mHand;
     static int mInstances;
 };
 

@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_TABBEDAREA_HPP
-#define GCN_TABBEDAREA_HPP
+#ifndef FCN_TABBEDAREA_HPP
+#define FCN_TABBEDAREA_HPP
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "guichan/actionlistener.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/actionlistener.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Container;
     class Tab;
@@ -65,7 +65,7 @@ namespace gcn
      *
      * @since 0.8.0
      */
-    class GCN_CORE_DECLSPEC TabbedArea:
+    class FCN_CORE_DECLSPEC TabbedArea:
         public ActionListener,
         public KeyListener,
         public MouseListener,
@@ -284,4 +284,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_TABBEDAREA_HPP
+#endif // end FCN_TABBEDAREA_HPP

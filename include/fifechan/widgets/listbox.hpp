@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_LISTBOX_HPP
-#define GCN_LISTBOX_HPP
+#ifndef FCN_LISTBOX_HPP
+#define FCN_LISTBOX_HPP
 
 #include <list>
 
-#include "guichan/keylistener.hpp"
-#include "guichan/listmodel.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/listmodel.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     class SelectionListener;
 
@@ -67,7 +67,7 @@ namespace gcn
      * a mouse click or by using the enter or space key an action event will be
      * sent to all action listeners of the list box.
      */
-    class GCN_CORE_DECLSPEC ListBox :
+    class FCN_CORE_DECLSPEC ListBox :
         public Widget,
         public MouseListener,
         public KeyListener
@@ -250,4 +250,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_LISTBOX_HPP
+#endif // end FCN_LISTBOX_HPP

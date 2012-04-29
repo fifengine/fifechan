@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_MOUSEINPUT_HPP
-#define GCN_MOUSEINPUT_HPP
+#ifndef FCN_MOUSEINPUT_HPP
+#define FCN_MOUSEINPUT_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     /**
@@ -58,7 +58,7 @@ namespace gcn
      * @author Per Larsson
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC MouseInput
+    class FCN_CORE_DECLSPEC MouseInput
     {
     public:
 
@@ -232,4 +232,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_MOUSEINPUT_HPP
+#endif // end FCN_MOUSEINPUT_HPP

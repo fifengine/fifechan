@@ -4,21 +4,21 @@ INCLUDES = -I$(top_srcdir)/include
 
 SUBDIRS = images sound
 
-bin_PROGRAMS = guichanfpsdemo
+bin_PROGRAMS = fifechanfpsdemo
 
-guichanfpsdemodir = $(top_srcdir)
+fifechanfpsdemodir = $(top_srcdir)
 
-guichanfpsdemo_HEADERS = 		\
+fifechanfpsdemo_HEADERS = 		\
 	include/fpsbutton.hpp		\
 	include/fpscheckbox.hpp		\
 	include/fpsdemo.hpp
 
-guichanfpsdemo_SOURCES = 		\
-	src/guichanfpsdemo.cpp		\
+fifechanfpsdemo_SOURCES = 		\
+	src/fifechanfpsdemo.cpp		\
 	src/fpscheckbox.cpp		\
 	src/fpsdemo.cpp			\
 	src/fpsbutton.cpp
 
-guichanfpsdemo_LDADD = @GUICHANFPSDEMO_LIBS@
+fifechanfpsdemo_LDADD = @FIFECHANFPSDEMO_LIBS@
 
 

@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DROPDOWN_HPP
-#define GCN_DROPDOWN_HPP
+#ifndef FCN_DROPDOWN_HPP
+#define FCN_DROPDOWN_HPP
 
-#include "guichan/actionlistener.hpp"
-#include "guichan/focushandler.hpp"
-#include "guichan/focuslistener.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/selectionlistener.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/actionlistener.hpp"
+#include "fifechan/focushandler.hpp"
+#include "fifechan/focuslistener.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/selectionlistener.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     class ListBox;
     class ListModel;
@@ -75,7 +75,7 @@ namespace gcn
      * using a mouse click or by using the enter or space key an action event
      * will be sent to all action listeners of the drop down.
      */
-    class GCN_CORE_DECLSPEC DropDown :
+    class FCN_CORE_DECLSPEC DropDown :
         public ActionListener,
         public KeyListener,
         public MouseListener,
@@ -316,4 +316,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DROPDOWN_HPP
+#endif // end FCN_DROPDOWN_HPP

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/keyinput.hpp"
+#include "fifechan/keyinput.hpp"
 
-namespace gcn
+namespace fcn
 {
     KeyInput::KeyInput(const Key& key, unsigned int type)
             :mKey(key),

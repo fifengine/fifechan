@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROINPUT_HPP
-#define GCN_ALLEGROINPUT_HPP
+#ifndef FCN_ALLEGROINPUT_HPP
+#define FCN_ALLEGROINPUT_HPP
 
 #include <map>
 #include <queue>
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Allegro implementation of the Input.
      */
-    class GCN_EXTENSION_DECLSPEC AllegroInput : public Input
+    class FCN_EXTENSION_DECLSPEC AllegroInput : public Input
     {
     public:
 
@@ -115,7 +115,7 @@ namespace gcn
     };
 }
 
-#endif // end GCN_INPUT_HPP
+#endif // end FCN_INPUT_HPP
 
 /*
  * finalman - "A dyslectic walks in to a bra..."

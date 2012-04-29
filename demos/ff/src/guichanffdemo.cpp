@@ -42,7 +42,7 @@
  */
 
 #include <iostream>
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include "ffdemo.hpp"
 
 int main(int argc, char** argv)
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
         FFDemo ffDemo;
         ffDemo.run();
     }
-    catch (gcn::Exception e)
+    catch (fcn::Exception e)
     {
         std::cout << e.getMessage() << std::endl;
         return 1;

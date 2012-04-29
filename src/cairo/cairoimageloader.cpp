@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/cairo/cairoimage.hpp"
+#include "fifechan/cairo/cairoimage.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/cairo/cairoimageloader.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/cairo/cairoimageloader.hpp"
 
-namespace gcn
+namespace fcn
 {
     Image* CairoImageLoader::load(const std::string& filename,
                                 bool convertToDisplayFormat)
@@ -55,7 +55,7 @@ namespace gcn
 
         if (loadedSurface == NULL)
         {
-            throw GCN_EXCEPTION(
+            throw FCN_EXCEPTION(
                     std::string("Unable to load image file: ") + filename);
         }
 

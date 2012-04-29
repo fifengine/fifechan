@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/opengl.hpp"
+#include "fifechan/opengl.hpp"
 
 extern "C"
 {
-    void gcnOpenGL() { }
+    void fcnOpenGL() { }
 }

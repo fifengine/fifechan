@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_BUTTON_HPP
-#define GCN_BUTTON_HPP
+#ifndef FCN_BUTTON_HPP
+#define FCN_BUTTON_HPP
 
 #include <string>
 
-#include "guichan/focuslistener.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouseevent.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/focuslistener.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouseevent.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An implementation of a regular clickable button. A button is capable of
@@ -65,7 +65,7 @@ namespace gcn
      *
      * @see ImageButton
      */
-    class GCN_CORE_DECLSPEC Button : public Widget,
+    class FCN_CORE_DECLSPEC Button : public Widget,
                                      public MouseListener,
                                      public KeyListener,
                                      public FocusListener
@@ -211,4 +211,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_BUTTON_HPP
+#endif // end FCN_BUTTON_HPP

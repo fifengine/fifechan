@@ -3,8 +3,8 @@
  * Guichan Irrlicht back end.
  */
 
-#include <guichan.hpp>
-#include <guichan/irrlicht.hpp>
+#include <fifechan.hpp>
+#include <fifechan/irrlicht.hpp>
 
 namespace irrlicht
 {
@@ -15,7 +15,7 @@ namespace irrlicht
     {
     public:
 
-        MyEventReceiver(gcn::IrrlichtInput* input) : mInput(input) {}
+        MyEventReceiver(fcn::IrrlichtInput* input) : mInput(input) {}
 
         bool OnEvent(const irr::SEvent& event) {
             mInput->pushInput(event);
@@ -23,7 +23,7 @@ namespace irrlicht
         }
 
     private:
-        gcn::IrrlichtInput* mInput;
+        fcn::IrrlichtInput* mInput;
     };
 
     irr::IrrlichtDevice* device;
@@ -35,9 +35,9 @@ namespace irrlicht
     // input object to make Guichan able to get user input using Irrlicht
     // and an ImageLoader object to make Guichan able to load images
     // using Irrlicht.
-    gcn::IrrlichtGraphics* graphics;
-    gcn::IrrlichtInput* input;
-    gcn::IrrlichtImageLoader* imageLoader;
+    fcn::IrrlichtGraphics* graphics;
+    fcn::IrrlichtInput* input;
+    fcn::IrrlichtImageLoader* imageLoader;
 
     /**
      * Initialises the Irrlicht application. This function creates the global
@@ -50,18 +50,18 @@ namespace irrlicht
 
         // Now it's time to initialise the Guichan Irrlicht back end.
 
-        imageLoader = new gcn::IrrlichtImageLoader(device->getVideoDriver());
+        imageLoader = new fcn::IrrlichtImageLoader(device->getVideoDriver());
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::IrrlichtGraphics(device->getVideoDriver());
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::IrrlichtGraphics(device->getVideoDriver());
 
-        input = new gcn::IrrlichtInput(device);
+        input = new fcn::IrrlichtInput(device);
         receiver = new MyEventReceiver(input);
         device->setEventReceiver(receiver);
 
         // Now we create the Gui object to be used with this Irrlicht application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with Irrlicht implementations of these objects hence making Guichan

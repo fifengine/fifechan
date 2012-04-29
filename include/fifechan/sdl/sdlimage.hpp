@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SDLIMAGE_HPP
-#define GCN_SDLIMAGE_HPP
+#ifndef FCN_SDLIMAGE_HPP
+#define FCN_SDLIMAGE_HPP
 
 #include "SDL.h"
 
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * SDL implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC SDLImage : public Image
+    class FCN_EXTENSION_DECLSPEC SDLImage : public Image
     {
     public:
         /**
@@ -104,4 +104,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_SDLIMAGE_HPP
+#endif // end FCN_SDLIMAGE_HPP

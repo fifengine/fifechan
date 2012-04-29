@@ -41,14 +41,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IMAGELOADER_HPP
-#define GCN_IMAGELOADER_HPP
+#ifndef FCN_IMAGELOADER_HPP
+#define FCN_IMAGELOADER_HPP
 
 #include <string>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
@@ -71,7 +71,7 @@ namespace gcn
      *      SDLImageLoader     
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC ImageLoader
+    class FCN_CORE_DECLSPEC ImageLoader
     {
     public:
 
@@ -95,4 +95,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IMAGELOADER_HPP
+#endif // end FCN_IMAGELOADER_HPP

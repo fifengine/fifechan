@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/graphics.hpp"
+#include "fifechan/graphics.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     Graphics::Graphics()
     {
@@ -103,7 +103,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Tried to pop clip area from empty stack.");
+            throw FCN_EXCEPTION("Tried to pop clip area from empty stack.");
         }
 
         mClipStack.pop();
@@ -113,7 +113,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("The clip area stack is empty.");
+            throw FCN_EXCEPTION("The clip area stack is empty.");
         }
 
         return mClipStack.top();
@@ -134,7 +134,7 @@ namespace gcn
     {
         if (mFont == NULL)
         {
-            throw GCN_EXCEPTION("No font set.");
+            throw FCN_EXCEPTION("No font set.");
         }
 
         switch (alignment)
@@ -149,7 +149,7 @@ namespace gcn
               mFont->drawString(this, text, x - mFont->getWidth(text), y);
               break;
           default:
-              throw GCN_EXCEPTION("Unknown alignment.");
+              throw FCN_EXCEPTION("Unknown alignment.");
         }
     }
 }

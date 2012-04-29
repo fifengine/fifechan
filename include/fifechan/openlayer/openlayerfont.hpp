@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYERFONT_HPP
-#define GCN_OPENLAYERFONT_HPP
+#ifndef FCN_OPENLAYERFONT_HPP
+#define FCN_OPENLAYERFONT_HPP
 
 #include <OpenLayer.hpp>
 #if defined (DELETE)
 #undef DELETE
 #endif
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenLayer font implementation of Font that uses the native
      * OpenLayer font.
      */
-    class GCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
+    class FCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
     {
     public:
 
@@ -97,4 +97,4 @@ namespace gcn
     };
 }
 
-#endif // GCN_OPENLAYERFONT_HPP
+#endif // FCN_OPENLAYERFONT_HPP

@@ -1,11 +1,11 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichanfpsdemo, 0.8.2, olof@darkbits.org, guichanfpsdemo)
+AC_INIT(fifechanfpsdemo, 0.8.2, olof@darkbits.org, fifechanfpsdemo)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-AM_INIT_AUTOMAKE(guichanfpsdemo, 0.8.2)
+AM_INIT_AUTOMAKE(fifechanfpsdemo, 0.8.2)
 AM_CONFIG_HEADER([include/config.hpp])
 
 AC_PROG_CXX
@@ -23,17 +23,17 @@ fi
 CPPFLAGS="$CFLAGS `sdl-config --cflags`"
 LDFLAGS="$LDFLAGS `sdl-config --libs`"
 
-AC_CHECK_LIB(SDL_image, IMG_Load, GUICHANFPSDEMO_LIBS="$GUICHANFPSDEMO_LIBS -lSDL_image",AC_MSG_ERROR([Could not find lib SDL_image (SDL)!]))
+AC_CHECK_LIB(SDL_image, IMG_Load, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lSDL_image",AC_MSG_ERROR([Could not find lib SDL_image (SDL)!]))
 
-AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, GUICHANFPSDEMO_LIBS="$GUICHANFPSDEMO_LIBS -lSDL_mixer",AC_MSG_ERROR([Could not find lib SDL_mixer (SDL_mixer)!]))
+AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lSDL_mixer",AC_MSG_ERROR([Could not find lib SDL_mixer (SDL_mixer)!]))
 
-AC_CHECK_LIB(GL, glAccum, GUICHANFPSDEMO_LIBS="$GUICHANFPSDEMO_LIBS -lGL",AC_MSG_ERROR([Could not find lib OpenGL (GL)!]))
+AC_CHECK_LIB(GL, glAccum, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lGL",AC_MSG_ERROR([Could not find lib OpenGL (GL)!]))
 
-AC_CHECK_LIB(GLU, gluBeginCurve, GUICHANFPSDEMO_LIBS="$GUICHANFPSDEMO_LIBS -lGLU",AC_MSG_ERROR([Could not find lib OpenGL Utils (GLU)!]))
+AC_CHECK_LIB(GLU, gluBeginCurve, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lGLU",AC_MSG_ERROR([Could not find lib OpenGL Utils (GLU)!]))
 
-AC_CHECK_LIB(guichan, gcnGuichanVersion, GUICHANFPSDEMO_LIBS="$GUICHANFPSDEMO_LIBS -lguichan -lguichan_sdl -lguichan_opengl",AC_MSG_ERROR([Could not find lib Guichan (guichan)!]))
+AC_CHECK_LIB(fifechan, gcnGuichanVersion, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lfifechan -lfifechan_sdl -lfifechan_opengl",AC_MSG_ERROR([Could not find lib Guichan (fifechan)!]))
 
-AC_SUBST([GUICHANFPSDEMO_LIBS])
+AC_SUBST([FIFECHANFPSDEMO_LIBS])
 
 AC_OUTPUT([
 Makefile

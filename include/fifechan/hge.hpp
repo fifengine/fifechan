@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGE_HPP
-#define GCN_HGE_HPP
+#ifndef FCN_HGE_HPP
+#define FCN_HGE_HPP
 
-#include <guichan/hge/hgegraphics.hpp>
-#include <guichan/hge/hgeimage.hpp>
-#include <guichan/hge/hgeimagefont.hpp>
-#include <guichan/hge/hgeimageloader.hpp>
-#include <guichan/hge/hgeinput.hpp>
+#include <fifechan/hge/hgegraphics.hpp>
+#include <fifechan/hge/hgeimage.hpp>
+#include <fifechan/hge/hgeimagefont.hpp>
+#include <fifechan/hge/hgeimageloader.hpp>
+#include <fifechan/hge/hgeinput.hpp>
 
-#endif // end GCN_HGE_HPP
+#endif // end FCN_HGE_HPP

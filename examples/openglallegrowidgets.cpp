@@ -4,7 +4,7 @@
  * Allegro back end.
  */
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <iostream>
 
 // Here we store a global Gui object.  We make it global
@@ -15,7 +15,7 @@
 // that shows how to use Guichan.
 namespace globals
 {
-    gcn::Gui* gui;
+    fcn::Gui* gui;
 }
 
 // Include code to set up an OpenGL and Allegro application with Guichan.
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     /*
      * Catch all Guichan exceptions
      */
-    catch (gcn::Exception e)
+    catch (fcn::Exception e)
     {
         std::cerr << e.getMessage() << std::endl;
         return 1;

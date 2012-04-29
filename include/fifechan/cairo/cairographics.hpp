@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CAIROGRAPHICS_HPP
-#define GCN_CAIROGRAPHICS_HPP
+#ifndef FCN_CAIROGRAPHICS_HPP
+#define FCN_CAIROGRAPHICS_HPP
 
-#include "guichan/color.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
 
 #include "cairo.h"
 
-namespace gcn
+namespace fcn
 {
     class Image;
     class Rectangle;
@@ -58,11 +58,11 @@ namespace gcn
     /**
      * Cairo implementation of the Graphics.
      */
-    class GCN_EXTENSION_DECLSPEC CairoGraphics : public Graphics
+    class FCN_EXTENSION_DECLSPEC CairoGraphics : public Graphics
     {
     public:
 
-        // Needed so that drawImage(gcn::Image *, int, int) is visible.
+        // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**

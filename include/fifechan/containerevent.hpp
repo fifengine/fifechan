@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTAINEREVENT_HPP
-#define GCN_CONTAINEREVENT_HPP
+#ifndef FCN_CONTAINEREVENT_HPP
+#define FCN_CONTAINEREVENT_HPP
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Container;
     class Widget;
@@ -65,7 +65,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.9.0
      */
-    class GCN_CORE_DECLSPEC ContainerEvent: public Event
+    class FCN_CORE_DECLSPEC ContainerEvent: public Event
     {
     public:
 
@@ -98,5 +98,5 @@ namespace gcn
     };
 }
 
-#endif // GCN_ACTIONEVENT_HPP
+#endif // FCN_ACTIONEVENT_HPP
 

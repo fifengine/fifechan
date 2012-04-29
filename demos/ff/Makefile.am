@@ -4,11 +4,11 @@ INCLUDES = -I$(top_srcdir)/include
 
 SUBDIRS = images sound
 
-bin_PROGRAMS = guichanffdemo
+bin_PROGRAMS = fifechanffdemo
 
-guichanffdemodir = $(top_srcdir)
+fifechanffdemodir = $(top_srcdir)
 
-guichanffdemo_HEADERS =			\
+fifechanffdemo_HEADERS =			\
 	include/ffcharacterchooser.hpp	\
 	include/ffcontainer.hpp		\
 	include/ffdemo.hpp		\
@@ -16,14 +16,14 @@ guichanffdemo_HEADERS =			\
 	include/ffscrollarea.hpp	\
 	include/stringlistmodel.hpp	
 
-guichanffdemo_SOURCES = 		\
+fifechanffdemo_SOURCES = 		\
 	src/ffcharacterchooser.cpp	\
 	src/ffcontainer.cpp		\
 	src/ffdemo.cpp			\
 	src/fflistbox.cpp		\
 	src/ffscrollarea.cpp		\
-	src/guichanffdemo.cpp
+	src/fifechanffdemo.cpp
 
-guichanffdemo_LDADD = @GUICHANFFDEMO_LIBS@
+fifechanffdemo_LDADD = @FIFECHANFFDEMO_LIBS@
 
 

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/irrlicht.hpp"
+#include "fifechan/irrlicht.hpp"
 
 extern "C"
 {
-    void gcnIrrlicht() { }
+    void fcnIrrlicht() { }
 }

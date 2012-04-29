@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/sdl/sdlimage.hpp"
+#include "fifechan/sdl/sdlimage.hpp"
 
 #include "SDL_image.h"
 
-#include "guichan/exception.hpp"
-#include "guichan/sdl/sdlimageloader.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/sdl/sdlimageloader.hpp"
 
-namespace gcn
+namespace fcn
 {
     Image* SDLImageLoader::load(const std::string& filename,
                                 bool convertToDisplayFormat)
@@ -61,7 +61,7 @@ namespace gcn
 
         if (loadedSurface == NULL)
         {
-            throw GCN_EXCEPTION(
+            throw FCN_EXCEPTION(
                     std::string("Unable to load image file: ") + filename);
         }
 
@@ -70,7 +70,7 @@ namespace gcn
 
         if (surface == NULL)
         {
-            throw GCN_EXCEPTION(
+            throw FCN_EXCEPTION(
                     std::string("Not enough memory to load: ") + filename);
         }
 

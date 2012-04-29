@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
-#define GCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
+#ifndef FCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
+#define FCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
 struct GLYPH_FACE;
 struct GLYPH_REND;
 struct GLYPH_KEEP;
 
-namespace gcn
+namespace fcn
 {
     class Graphics;
 
@@ -70,7 +70,7 @@ namespace gcn
          *
          * @author Tobias Scheuer. 
          */
-        class GCN_EXTENSION_DECLSPEC AllegroGlyphKeeperFont : public Font
+        class FCN_EXTENSION_DECLSPEC AllegroGlyphKeeperFont : public Font
         {
         public:
             /**

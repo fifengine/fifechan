@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DEATHLISTENER_HPP
-#define GCN_DEATHLISTENER_HPP
+#ifndef FCN_DEATHLISTENER_HPP
+#define FCN_DEATHLISTENER_HPP
 
 #include <string>
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for death events from widgets.
@@ -58,7 +58,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.6.0
      */
-    class GCN_CORE_DECLSPEC DeathListener
+    class FCN_CORE_DECLSPEC DeathListener
     {
     public:
 
@@ -87,4 +87,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DEATHLISTENER_HPP
+#endif // end FCN_DEATHLISTENER_HPP

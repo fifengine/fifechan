@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYERINPUT_HPP
-#define GCN_OPENLAYERINPUT_HPP
+#ifndef FCN_OPENLAYERINPUT_HPP
+#define FCN_OPENLAYERINPUT_HPP
 
 #include <map>
 #include <queue>
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenLayer implementation of the Input.
      */
-    class GCN_EXTENSION_DECLSPEC OpenLayerInput : public Input
+    class FCN_EXTENSION_DECLSPEC OpenLayerInput : public Input
     {
     public:
 
@@ -115,4 +115,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENLAYERINPUT_HPP
+#endif // end FCN_OPENLAYERINPUT_HPP

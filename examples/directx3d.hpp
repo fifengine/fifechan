@@ -3,8 +3,8 @@
  * Guichan DirectX back end.
  */
 
-#include <guichan.hpp>
-#include <guichan/directx3d.hpp>
+#include <fifechan.hpp>
+#include <fifechan/directx3d.hpp>
 #include <windows.h>
 #include <windowsx.h>
 #include <d3d9.h>
@@ -23,9 +23,9 @@ namespace directx3d
     // able to draw itself using DirectX, an input objec to make 
     // Guichan able to get user input using DirectX and an ImageLoader 
     // object to make Guichan able to load images using DirectX.
-    gcn::DirectX3DGraphics* graphics;
-    gcn::DirectX3DInput* input = NULL;
-    gcn::DirectX3DImageLoader* imageLoader;
+    fcn::DirectX3DGraphics* graphics;
+    fcn::DirectX3DInput* input = NULL;
+    fcn::DirectX3DImageLoader* imageLoader;
 
     LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
     {
@@ -47,18 +47,18 @@ namespace directx3d
             /*
             if (!input->isMouseQueueEmpty())
             {
-                gcn::MouseInput mouseInput = input->dequeueMouseInput();
+                fcn::MouseInput mouseInput = input->dequeueMouseInput();
                 std::string str;
                 std::ostringstream os(str);
-                if (mouseInput.getType() == gcn::MouseInput::Pressed)
+                if (mouseInput.getType() == fcn::MouseInput::Pressed)
                 {
                     os << "Mouse pressed: ";
                 }
-                else if (mouseInput.getType() == gcn::MouseInput::Released)
+                else if (mouseInput.getType() == fcn::MouseInput::Released)
                 {
                     os << "Mouse released: ";
                 }
-                else if (mouseInput.getType() == gcn::MouseInput::Moved)
+                else if (mouseInput.getType() == fcn::MouseInput::Moved)
                 {
                     os << "Mouse moved: ";
                 }
@@ -72,11 +72,11 @@ namespace directx3d
            /*
             if (!input->isKeyQueueEmpty())
             {
-                gcn::KeyInput keyInput = input->dequeueKeyInput();
+                fcn::KeyInput keyInput = input->dequeueKeyInput();
                 std::string str;
                 std::ostringstream os(str);
  
-                if (keyInput.getType() == gcn::KeyInput::Pressed)
+                if (keyInput.getType() == fcn::KeyInput::Pressed)
                 {
                     os << "Key pressed: " << (char)keyInput.getKey().getValue() << " " << keyInput.getKey().isCharacter() << std::endl;
                 }
@@ -159,19 +159,19 @@ namespace directx3d
 
         // Now it's time to initialise the Guichan DirectX 3D back end.
 
-        imageLoader = new gcn::DirectX3DImageLoader(d3ddev);
+        imageLoader = new fcn::DirectX3DImageLoader(d3ddev);
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::DirectX3DGraphics(d3ddev);
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::DirectX3DGraphics(d3ddev);
         // We need to tell the DirectX Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
         graphics->setDevice(d3ddev);
-        input = new gcn::DirectX3DInput();
+        input = new fcn::DirectX3DInput();
 
         // Now we create the Gui object to be used with this DirectX
         // application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with DirectX implementations of these objects hence 
@@ -232,8 +232,8 @@ namespace directx3d
                 
                 /*
                 graphics->_beginDraw();
-                graphics->pushClipArea(gcn::Rectangle(2,2,25,25));
-                graphics->setColor(gcn::Color(0xff0000));
+                graphics->pushClipArea(fcn::Rectangle(2,2,25,25));
+                graphics->setColor(fcn::Color(0xff0000));
                 graphics->fillRectangle(2,2,100,100);
                 graphics->popClipArea();
                 graphics->drawLine(32, 30, 28, 30);

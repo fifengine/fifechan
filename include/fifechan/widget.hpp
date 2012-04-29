@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_WIDGET_HPP
-#define GCN_WIDGET_HPP
+#ifndef FCN_WIDGET_HPP
+#define FCN_WIDGET_HPP
 
 #include <list>
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/rectangle.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/rectangle.hpp"
 
-namespace gcn
+namespace fcn
 {
     class ActionListener;
     class DeathListener;
@@ -76,7 +76,7 @@ namespace gcn
      * @author Per Larsson
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC Widget
+    class FCN_CORE_DECLSPEC Widget
     {
     public:
         /**
@@ -1264,4 +1264,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_WIDGET_HPP
+#endif // end FCN_WIDGET_HPP

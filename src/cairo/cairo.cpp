@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/cairo.hpp"
+#include "fifechan/cairo.hpp"
 
 extern "C"
 {
-    void gcnCairo() { }
+    void fcnCairo() { }
 }

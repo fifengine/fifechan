@@ -41,14 +41,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_LISTMODEL_HPP
-#define GCN_LISTMODEL_HPP
+#ifndef FCN_LISTMODEL_HPP
+#define FCN_LISTMODEL_HPP
 
 #include <string>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An interface for a model that represents a list. It is 
@@ -57,7 +57,7 @@ namespace gcn
      * like ListBox, make a derived class from this class that 
      * represents your list.
      */
-    class GCN_CORE_DECLSPEC ListModel
+    class FCN_CORE_DECLSPEC ListModel
     {
 
     public:
@@ -83,4 +83,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_LISTMODEL_HPP
+#endif // end FCN_LISTMODEL_HPP

@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IRRLICHTGRAPHICS_HPP
-#define GCN_IRRLICHTGRAPHICS_HPP
+#ifndef FCN_IRRLICHTGRAPHICS_HPP
+#define FCN_IRRLICHTGRAPHICS_HPP
 
 #include "irrlicht.h"
 
-#include "guichan/color.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Image;
     class Rectangle;
@@ -61,11 +61,11 @@ namespace gcn
     * @author Aaron Andersen
     * @since 0.9.0
     */
-    class GCN_EXTENSION_DECLSPEC IrrlichtGraphics : public Graphics
+    class FCN_EXTENSION_DECLSPEC IrrlichtGraphics : public Graphics
     {
     public:
 
-        // Needed so that drawImage(gcn::Image *, int, int) is visible.
+        // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**
@@ -117,4 +117,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IRRLICHTGRAPHICS_HPP
+#endif // end FCN_IRRLICHTGRAPHICS_HPP

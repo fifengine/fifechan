@@ -45,16 +45,16 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/button.hpp"
+#include "fifechan/widgets/button.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/mouseevent.hpp"
-#include "guichan/mouseinput.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/mouseevent.hpp"
+#include "fifechan/mouseinput.hpp"
 
-namespace gcn
+namespace fcn
 {
     Button::Button()
         : mHasMouse(false),
@@ -170,7 +170,7 @@ namespace gcn
               textX = getWidth() - mSpacing;
               break;
           default:
-              throw GCN_EXCEPTION("Unknown alignment.");
+              throw FCN_EXCEPTION("Unknown alignment.");
         }
 
         graphics->setFont(getFont());

@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_FONT_HPP
-#define GCN_FONT_HPP
+#ifndef FCN_FONT_HPP
+#define FCN_FONT_HPP
 
 #include <string>
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Graphics;
 
@@ -56,7 +56,7 @@ namespace gcn
      *
      * @see ImageFont
      */
-    class GCN_CORE_DECLSPEC Font
+    class FCN_CORE_DECLSPEC Font
     {
     public:
 
@@ -108,4 +108,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_FONT_HPP
+#endif // end FCN_FONT_HPP

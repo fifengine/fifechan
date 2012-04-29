@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENGLALLEGROIMAGELOADER_HPP
-#define GCN_OPENGLALLEGROIMAGELOADER_HPP
+#ifndef FCN_OPENGLALLEGROIMAGELOADER_HPP
+#define FCN_OPENGLALLEGROIMAGELOADER_HPP
 
 #include <allegro.h>
 #include <alleggl.h>
 
-#include <guichan/imageloader.hpp>
-#include <guichan/exception.hpp>
-#include <guichan/opengl/openglimage.hpp>
+#include <fifechan/imageloader.hpp>
+#include <fifechan/exception.hpp>
+#include <fifechan/opengl/openglimage.hpp>
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenGL ImageLoader that loads images with Allegro.
@@ -70,7 +70,7 @@ namespace gcn
             
             if (bmp == NULL)
             {
-                throw GCN_EXCEPTION(
+                throw FCN_EXCEPTION(
                         std::string("Unable to load image file: ") + filename);
             }
 
@@ -127,4 +127,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENGLALLEGROIMAGELOADER_HPP
+#endif // end FCN_OPENGLALLEGROIMAGELOADER_HPP

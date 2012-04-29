@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/image.hpp"
+#include "fifechan/image.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/imageloader.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/imageloader.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     ImageLoader* Image::mImageLoader = NULL;
@@ -77,7 +77,7 @@ namespace gcn
     {
         if (mImageLoader == NULL)
         {
-            throw GCN_EXCEPTION("Trying to load an image but no image loader is set.");
+            throw FCN_EXCEPTION("Trying to load an image but no image loader is set.");
         }
 
         return mImageLoader->load(filename, convertToDisplayFormat);

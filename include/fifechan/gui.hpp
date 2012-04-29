@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GUI_HPP
-#define GCN_GUI_HPP
+#ifndef FCN_GUI_HPP
+#define FCN_GUI_HPP
 
 #include <list>
 #include <set>
 
-#include "guichan/keyevent.hpp"
-#include "guichan/mouseevent.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/keyevent.hpp"
+#include "fifechan/mouseevent.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class FocusHandler;
     class Graphics;
@@ -88,7 +88,7 @@ namespace gcn
      *
      * @see Graphics, Input, Image
      */
-    class GCN_CORE_DECLSPEC Gui
+    class FCN_CORE_DECLSPEC Gui
     {
     public:
 
@@ -498,4 +498,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_GUI_HPP
+#endif // end FCN_GUI_HPP

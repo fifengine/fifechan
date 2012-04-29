@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/selectionevent.hpp"
+#include "fifechan/selectionevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     SelectionEvent::SelectionEvent(Widget* source)
             :Event(source)

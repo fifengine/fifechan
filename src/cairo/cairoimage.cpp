@@ -41,11 +41,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/cairo/cairoimage.hpp"
+#include "fifechan/cairo/cairoimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     CairoImage::CairoImage(cairo_surface_t* surface)
     {
@@ -64,7 +64,7 @@ namespace gcn
     {
         if (!mCairoSurface)
         {
-            throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
         int i=cairo_image_surface_get_width(mCairoSurface);
         return i;
@@ -74,7 +74,7 @@ namespace gcn
     {
         if (!mCairoSurface)
         {
-            throw GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
         int i=cairo_image_surface_get_height(mCairoSurface);
         return i;
@@ -84,7 +84,7 @@ namespace gcn
     {
         if (!mCairoSurface)
         {
-            throw GCN_EXCEPTION("Trying to free a non loaded image.");
+            throw FCN_EXCEPTION("Trying to free a non loaded image.");
         }
         cairo_surface_destroy(mCairoSurface);
         mCairoSurface=NULL;
@@ -133,7 +133,7 @@ namespace gcn
     {
         if (!mCairoSurface)
         {
-            throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
         int stride=cairo_image_surface_get_stride(mCairoSurface);
@@ -141,7 +141,7 @@ namespace gcn
         unsigned char *imagePixels=cairo_image_surface_get_data(mCairoSurface);
         if (!imagePixels)
         {
-            throw GCN_EXCEPTION("Surface data are not available (surface is not of type cairo_image_surface or has been finished)");
+            throw FCN_EXCEPTION("Surface data are not available (surface is not of type cairo_image_surface or has been finished)");
         }
         // deal differently with each surface format
         switch(cairo_image_surface_get_format(mCairoSurface))
@@ -166,14 +166,14 @@ namespace gcn
     {
         if (!mCairoSurface)
         {
-            throw GCN_EXCEPTION("Trying to write a pixel on a non loaded image.");
+            throw FCN_EXCEPTION("Trying to write a pixel on a non loaded image.");
         }
 
         int stride=cairo_image_surface_get_stride(mCairoSurface);
         unsigned char *imagePixels=cairo_image_surface_get_data(mCairoSurface);
         if (!imagePixels)
         {
-            throw GCN_EXCEPTION("Surface data are not available (surface is not of type Image or has been finished)");
+            throw FCN_EXCEPTION("Surface data are not available (surface is not of type Image or has been finished)");
         }
         // deal differently with each surface format
         switch(cairo_image_surface_get_format(mCairoSurface))

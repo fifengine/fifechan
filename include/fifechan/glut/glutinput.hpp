@@ -41,25 +41,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// #ifndef GCN_GLUTINPUT_HPP
-// #define GCN_GLUTINPUT_HPP
+// #ifndef FCN_GLUTINPUT_HPP
+// #define FCN_GLUTINPUT_HPP
 
 // #include <queue>
 
 // #include <GL/glut.h>
 
-// #include "guichan/input.hpp"
-// #include "guichan/key.hpp"
-// #include "guichan/keyinput.hpp"
-// #include "guichan/mouseinput.hpp"
-// #include "guichan/platform.hpp"
+// #include "fifechan/input.hpp"
+// #include "fifechan/key.hpp"
+// #include "fifechan/keyinput.hpp"
+// #include "fifechan/mouseinput.hpp"
+// #include "fifechan/platform.hpp"
 
-// namespace gcn
+// namespace fcn
 // {
 //     /**
 //      * GLUT implementation of Input.
 //      */
-//     class GCN_EXTENSION_DECLSPEC GLUTInput : public Input
+//     class FCN_EXTENSION_DECLSPEC GLUTInput : public Input
 //     {
 //     public:
 
@@ -178,4 +178,4 @@
 //     };
 // }
 
-// #endif // end GCN_GLUTINPUT_HPP
+// #endif // end FCN_GLUTINPUT_HPP

@@ -1,6 +1,6 @@
-libguichanincludedir = $(includedir)/guichan/allegro
+libfifechanincludedir = $(includedir)/fifechan/allegro
 
-libguichaninclude_HEADERS =	\
+libfifechaninclude_HEADERS =	\
 	allegrofont.hpp		\
 	allegrographics.hpp	\
 	allegroimage.hpp	\

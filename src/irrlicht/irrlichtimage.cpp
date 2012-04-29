@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/irrlicht/irrlichtimage.hpp"
+#include "fifechan/irrlicht/irrlichtimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     IrrlichtImage::IrrlichtImage(irr::video::IImage* image,
                                  irr::video::IVideoDriver* driver,
@@ -103,7 +103,7 @@ namespace gcn
             return mImage->getDimension().Width;
         }
 
-        throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+        throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
     }
 
     int IrrlichtImage::getHeight() const
@@ -117,14 +117,14 @@ namespace gcn
             return mImage->getDimension().Height;
         }
 
-        throw GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+        throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
     }
 
     Color IrrlichtImage::getPixel(int x, int y)
     {
         if (mImage == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format.");
+            throw FCN_EXCEPTION("Image has been converted to display format.");
         }
 
         irr::video::SColor color = mImage->getPixel(x, y);
@@ -135,7 +135,7 @@ namespace gcn
     {
         if (mImage == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format.");
+            throw FCN_EXCEPTION("Image has been converted to display format.");
         }
 
         mImage->setPixel(x, y, irr::video::SColor(color.a, color.r, color.g, color.b));
@@ -150,7 +150,7 @@ namespace gcn
 
         if (mImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
         bool hasPink = false;
@@ -172,7 +172,7 @@ namespace gcn
 
         if (mTexture == NULL)
         {
-            throw GCN_EXCEPTION("Unable to convert image to display format!");
+            throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
         if(hasPink == true)

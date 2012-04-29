@@ -44,10 +44,10 @@
 #ifndef __STRINGLISTMODEL_HPP
 #define __STRINGLISTMODEL_HPP
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <vector>
 
-class StringListModel : public gcn::ListModel
+class StringListModel : public fcn::ListModel
 {
 public:
     StringListModel() {}

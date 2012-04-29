@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/scrollarea.hpp"
+#include "fifechan/widgets/scrollarea.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     ScrollArea::ScrollArea()
     {
@@ -258,7 +258,7 @@ namespace gcn
     void ScrollArea::setScrollbarWidth(int width)
     {
         if (width <= 0)
-            throw GCN_EXCEPTION("Width should be greater then 0.");
+            throw FCN_EXCEPTION("Width should be greater then 0.");
         
         mScrollbarWidth = width;
     }
@@ -848,7 +848,7 @@ namespace gcn
               break;
 
           default:
-              throw GCN_EXCEPTION("Horizontal scroll policy invalid.");
+              throw FCN_EXCEPTION("Horizontal scroll policy invalid.");
         }
 
         switch (mVPolicy)
@@ -872,7 +872,7 @@ namespace gcn
               }
               break;
           default:
-              throw GCN_EXCEPTION("Vertical scroll policy invalid.");
+              throw FCN_EXCEPTION("Vertical scroll policy invalid.");
         }
     }
 
@@ -1074,7 +1074,7 @@ namespace gcn
     void ScrollArea::showWidgetPart(Widget* widget, Rectangle area)
     {
         if (widget != getContent())
-            throw GCN_EXCEPTION("Widget not content widget");
+            throw FCN_EXCEPTION("Widget not content widget");
 
         Widget::showWidgetPart(widget, area);
 

@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/font.hpp"
+#include "fifechan/font.hpp"
 
 #include <string>
 
-namespace gcn
+namespace fcn
 {
     int Font::getStringIndexAt(const std::string& text, int x) const
     {

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/mouseinput.hpp"
+#include "fifechan/mouseinput.hpp"
 
-namespace gcn
+namespace fcn
 {
     MouseInput::MouseInput(unsigned int button,
                            unsigned int type,

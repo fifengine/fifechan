@@ -45,7 +45,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/opengl/openglgraphics.hpp"
+#include "fifechan/opengl/openglgraphics.hpp"
 
 #if defined (_WIN32)
 #define WIN32_LEAN_AND_MEAN
@@ -61,11 +61,11 @@
 #include <GL/gl.h>
 #endif
 
-#include "guichan/exception.hpp"
-#include "guichan/image.hpp"
-#include "guichan/opengl/openglimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/opengl/openglimage.hpp"
 
-namespace gcn
+namespace fcn
 {
     OpenGLGraphics::OpenGLGraphics()
     {
@@ -199,12 +199,12 @@ namespace gcn
 
         if (srcImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenGLImage.");
+            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenGLImage.");
         }
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -255,7 +255,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -272,7 +272,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -304,7 +304,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();
@@ -325,7 +325,7 @@ namespace gcn
     {
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
         const ClipRectangle& top = mClipStack.top();

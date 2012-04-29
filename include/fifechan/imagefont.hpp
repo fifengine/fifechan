@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IMAGEFONT_HPP
-#define GCN_IMAGEFONT_HPP
+#ifndef FCN_IMAGEFONT_HPP
+#define FCN_IMAGEFONT_HPP
 
 #include <string>
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/rectangle.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/rectangle.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Color;
     class Graphics;
@@ -70,7 +70,7 @@ namespace gcn
      *
      * To create an ImageFont from the first image example above the following
      * constructor call should be made:
-     * @code gcn::ImageFont imageFont("fixedfont_big.bmp"," abcdefghijklmno\
+     * @code fcn::ImageFont imageFont("fixedfont_big.bmp"," abcdefghijklmno\
 pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
      *
      * Noteworthy is that the first glyph actually gives the width of space.
@@ -79,7 +79,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!
      */
-    class GCN_CORE_DECLSPEC ImageFont: public Font
+    class FCN_CORE_DECLSPEC ImageFont: public Font
     {
     public:
 
@@ -254,4 +254,4 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
     };
 }
 
-#endif // end GCN_IMAGEFONT_HPP
+#endif // end FCN_IMAGEFONT_HPP

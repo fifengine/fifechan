@@ -5,35 +5,35 @@
 
 namespace widgets
 {
-    gcn::ImageFont* font;
-    gcn::Container* top;
-    gcn::Label* label;
-    gcn::Icon* icon;
-    gcn::Button* button;
-    gcn::TextField* textField;
-    gcn::TextBox* textBox;
-    gcn::ScrollArea* textBoxScrollArea;
-    gcn::ListBox* listBox;
-    gcn::DropDown* dropDown;
-    gcn::CheckBox* checkBox1;
-    gcn::CheckBox* checkBox2;
-    gcn::RadioButton* radioButton1;
-    gcn::RadioButton* radioButton2;
-    gcn::RadioButton* radioButton3;
-    gcn::Slider* slider;
-    gcn::Image *image;
-    gcn::Window *window;
-    gcn::Image *darkbitsImage;
-    gcn::Icon* darkbitsIcon;
-    gcn::TabbedArea* tabbedArea;
-    gcn::Button* tabOneButton;
-    gcn::CheckBox* tabTwoCheckBox;
+    fcn::ImageFont* font;
+    fcn::Container* top;
+    fcn::Label* label;
+    fcn::Icon* icon;
+    fcn::Button* button;
+    fcn::TextField* textField;
+    fcn::TextBox* textBox;
+    fcn::ScrollArea* textBoxScrollArea;
+    fcn::ListBox* listBox;
+    fcn::DropDown* dropDown;
+    fcn::CheckBox* checkBox1;
+    fcn::CheckBox* checkBox2;
+    fcn::RadioButton* radioButton1;
+    fcn::RadioButton* radioButton2;
+    fcn::RadioButton* radioButton3;
+    fcn::Slider* slider;
+    fcn::Image *image;
+    fcn::Window *window;
+    fcn::Image *darkbitsImage;
+    fcn::Icon* darkbitsIcon;
+    fcn::TabbedArea* tabbedArea;
+    fcn::Button* tabOneButton;
+    fcn::CheckBox* tabTwoCheckBox;
 
     /*
      * List boxes and drop downs need an instance of a list model
      * in order to display a list.
      */
-    class DemoListModel : public gcn::ListModel
+    class DemoListModel : public fcn::ListModel
     {
     public:
         int getNumberOfElements()
@@ -73,62 +73,62 @@ namespace widgets
         // The top widget in Guichan can be any kind of widget, but
         // in order to make the Gui contain more than one widget we
         // make the top widget a container.
-        top = new gcn::Container();
+        top = new fcn::Container();
         // We set the dimension of the top container to match the screen.
-        top->setDimension(gcn::Rectangle(0, 0, 640, 480));
+        top->setDimension(fcn::Rectangle(0, 0, 640, 480));
         // Finally we pass the top widget to the Gui object.
         globals::gui->setTop(top);
 
         // Now we load the font used in this example.
-        font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
         // Widgets may have a global font so we don't need to pass the
         // font object to every created widget. The global font is static.
-        gcn::Widget::setGlobalFont(font);
+        fcn::Widget::setGlobalFont(font);
 
         // Now we create the widgets
 
-        label = new gcn::Label("Label");
+        label = new fcn::Label("Label");
 
-        image = gcn::Image::load("gui-chan.bmp");
-        icon = new gcn::Icon(image);
+        image = fcn::Image::load("gui-chan.bmp");
+        icon = new fcn::Icon(image);
 
-        button = new gcn::Button("Button");
+        button = new fcn::Button("Button");
 
-        textField = new gcn::TextField("Text field");
+        textField = new fcn::TextField("Text field");
 
-        textBox = new gcn::TextBox("Multiline\nText box");
-        textBoxScrollArea = new gcn::ScrollArea(textBox);
+        textBox = new fcn::TextBox("Multiline\nText box");
+        textBoxScrollArea = new fcn::ScrollArea(textBox);
         textBoxScrollArea->setWidth(200);
         textBoxScrollArea->setHeight(100);
         textBoxScrollArea->setFrameSize(1);
 
-        listBox = new gcn::ListBox(&demoListModel);
+        listBox = new fcn::ListBox(&demoListModel);
         listBox->setFrameSize(1);
-        dropDown = new gcn::DropDown(&demoListModel);
+        dropDown = new fcn::DropDown(&demoListModel);
         
-        checkBox1 = new gcn::CheckBox("Checkbox 1");
-        checkBox2 = new gcn::CheckBox("Checkbox 2");
+        checkBox1 = new fcn::CheckBox("Checkbox 1");
+        checkBox2 = new fcn::CheckBox("Checkbox 2");
 
-        radioButton1 = new gcn::RadioButton("RadioButton 1", "radiogroup", true);
-        radioButton2 = new gcn::RadioButton("RadioButton 2", "radiogroup");
-        radioButton3 = new gcn::RadioButton("RadioButton 3", "radiogroup");
+        radioButton1 = new fcn::RadioButton("RadioButton 1", "radiogroup", true);
+        radioButton2 = new fcn::RadioButton("RadioButton 2", "radiogroup");
+        radioButton3 = new fcn::RadioButton("RadioButton 3", "radiogroup");
 
-        slider = new gcn::Slider(0, 10);
+        slider = new fcn::Slider(0, 10);
         slider->setSize(100, 10);
 
-        window = new gcn::Window("I am a window  Drag me");
-        window->setBaseColor(gcn::Color(255, 150, 200, 190));
+        window = new fcn::Window("I am a window  Drag me");
+        window->setBaseColor(fcn::Color(255, 150, 200, 190));
 
-        darkbitsImage = gcn::Image::load("darkbitslogo_by_haiko.bmp");
-        darkbitsIcon = new gcn::Icon(darkbitsImage);
+        darkbitsImage = fcn::Image::load("darkbitslogo_by_haiko.bmp");
+        darkbitsIcon = new fcn::Icon(darkbitsImage);
         window->add(darkbitsIcon);
         window->resizeToContent();
 
-        tabbedArea = new gcn::TabbedArea();
+        tabbedArea = new fcn::TabbedArea();
         tabbedArea->setSize(200, 100);
-        tabOneButton = new gcn::Button("A button in tab 1");
+        tabOneButton = new fcn::Button("A button in tab 1");
         tabbedArea->addTab("Tab 1", tabOneButton);
-        tabTwoCheckBox = new gcn::CheckBox("A check box in tab 2");
+        tabTwoCheckBox = new fcn::CheckBox("A check box in tab 2");
         tabbedArea->addTab("Tab 2", tabTwoCheckBox);
 
         // Now it's time to add the widgets to the top container

@@ -1,6 +1,6 @@
-libguichanincludedir = $(includedir)/guichan/widgets/
+libfifechanincludedir = $(includedir)/fifechan/widgets/
 
-libguichaninclude_HEADERS =	\
+libfifechaninclude_HEADERS =	\
 	button.hpp		\
 	checkbox.hpp		\
 	container.hpp		\

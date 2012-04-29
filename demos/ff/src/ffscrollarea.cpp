@@ -41,7 +41,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 
 #include "ffscrollarea.hpp"
 
@@ -54,7 +54,7 @@ FFScrollArea::FFScrollArea()
     setFrameSize(0);
 }
 
-void FFScrollArea::draw(gcn::Graphics *graphics)
+void FFScrollArea::draw(fcn::Graphics *graphics)
 {
     graphics->pushClipArea(getContent()->getDimension());
     getContent()->draw(graphics);
@@ -75,18 +75,18 @@ void FFScrollArea::draw(gcn::Graphics *graphics)
     }
 }
 
-void FFScrollArea::keyPressed(gcn::KeyEvent &keyEvent)
+void FFScrollArea::keyPressed(fcn::KeyEvent &keyEvent)
 {
     if (keyEvent.isConsumed())
     {
         return;
     }
     
-    if (keyEvent.getKey().getValue() == gcn::Key::Down)
+    if (keyEvent.getKey().getValue() == fcn::Key::Down)
     {
         setVerticalScrollAmount(getVerticalScrollAmount() + 16);
     }
-    else if (keyEvent.getKey().getValue() == gcn::Key::Up)
+    else if (keyEvent.getKey().getValue() == fcn::Key::Up)
     {
         setVerticalScrollAmount(getVerticalScrollAmount() - 16);
     }

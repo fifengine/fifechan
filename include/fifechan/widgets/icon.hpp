@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ICON_HPP
-#define GCN_ICON_HPP
+#ifndef FCN_ICON_HPP
+#define FCN_ICON_HPP
 
-#include "guichan/image.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Implements an icon capable of displaying an image.
      */
-    class GCN_CORE_DECLSPEC Icon: public Widget
+    class FCN_CORE_DECLSPEC Icon: public Widget
     {
     public:
         /**
@@ -115,4 +115,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_ICON_HPP
+#endif // end FCN_ICON_HPP

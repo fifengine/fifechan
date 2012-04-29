@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_TEXT_HPP
-#define GCN_TEXT_HPP
+#ifndef FCN_TEXT_HPP
+#define FCN_TEXT_HPP
 
-#include "guichan/platform.hpp"
-#include "guichan/rectangle.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/rectangle.hpp"
 
 #include <string>
 #include <vector>
 
-namespace gcn
+namespace fcn
 {
     class Font;
 
@@ -61,7 +61,7 @@ namespace gcn
      *
      * @since 0.9.0
      */
-    class GCN_CORE_DECLSPEC Text
+    class FCN_CORE_DECLSPEC Text
     {
     public:
         /**

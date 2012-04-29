@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTAINER_HPP
-#define GCN_CONTAINER_HPP
+#ifndef FCN_CONTAINER_HPP
+#define FCN_CONTAINER_HPP
 
 #include <list>
 
-#include "guichan/containerlistener.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/containerlistener.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An implementation of a container able to contain other widgets. A widget's 
@@ -61,7 +61,7 @@ namespace gcn
      *
      * @see Gui::setTop
      */
-    class GCN_CORE_DECLSPEC Container: public Widget
+    class FCN_CORE_DECLSPEC Container: public Widget
     {
     public:
 
@@ -225,4 +225,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_CONTAINER_HPP
+#endif // end FCN_CONTAINER_HPP

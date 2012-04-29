@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/openlayer/openlayerimage.hpp"
+#include "fifechan/openlayer/openlayerimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     OpenLayerImage::OpenLayerImage(BITMAP* allegroBitmap, bool autoFree)
             : mOpenLayerBitmap(NULL),
@@ -59,7 +59,7 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load bitmap."));
+            throw FCN_EXCEPTION(std::string("Unable to load bitmap."));
         }
     }
 
@@ -95,7 +95,7 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
 
         if (mOpenLayerBitmap == NULL)
@@ -110,7 +110,7 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
         
         if (mOpenLayerBitmap == NULL)
@@ -125,7 +125,7 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
         if (mOpenLayerBitmap == NULL)
@@ -142,7 +142,7 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
         {
-            throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
+            throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
 
         if (mAllegroBitmap == NULL)
@@ -159,12 +159,12 @@ namespace gcn
     {
         if (mAllegroBitmap == NULL)
         {
-            throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
         if (mOpenLayerBitmap != NULL)
         {
-            throw GCN_EXCEPTION("Trying to convert an image to display format which has already been converted.");
+            throw FCN_EXCEPTION("Trying to convert an image to display format which has already been converted.");
         }
 
         mOpenLayerBitmap = new ol::Bitmap(mAllegroBitmap, false, true);

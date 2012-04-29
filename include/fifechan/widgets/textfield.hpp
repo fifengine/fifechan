@@ -41,24 +41,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_TEXTFIELD_HPP
-#define GCN_TEXTFIELD_HPP
+#ifndef FCN_TEXTFIELD_HPP
+#define FCN_TEXTFIELD_HPP
 
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
 #include <string>
 
-namespace gcn
+namespace fcn
 {
     class Text;
 
     /**
      * An implementation of a text field where a user can enter a line of text.
      */
-    class GCN_CORE_DECLSPEC TextField:
+    class FCN_CORE_DECLSPEC TextField:
         public Widget,
         public MouseListener,
         public KeyListener
@@ -191,4 +191,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_TEXTFIELD_HPP
+#endif // end FCN_TEXTFIELD_HPP

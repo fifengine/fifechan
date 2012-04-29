@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/sdl/sdlimage.hpp"
+#include "fifechan/sdl/sdlimage.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/sdl/sdlpixel.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/sdl/sdlpixel.hpp"
 
-namespace gcn
+namespace fcn
 {
     SDLImage::SDLImage(SDL_Surface* surface, bool autoFree)
     {
@@ -75,7 +75,7 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
 
         return mSurface->w;
@@ -85,7 +85,7 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
 
         return mSurface->h;
@@ -95,7 +95,7 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
         return SDLgetPixel(mSurface, x, y);
@@ -105,7 +105,7 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
+            throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
 
         SDLputPixel(mSurface, x, y, color);
@@ -115,7 +115,7 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
         int i;
@@ -162,7 +162,7 @@ namespace gcn
 
         if (tmp == NULL)
         {
-            throw GCN_EXCEPTION("Unable to convert image to display format.");
+            throw FCN_EXCEPTION("Unable to convert image to display format.");
         }
 
         if (hasPink)

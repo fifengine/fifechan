@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_WIDGETLISTENER_HPP
-#define GCN_WIDGETLISTENER_HPP
+#ifndef FCN_WIDGETLISTENER_HPP
+#define FCN_WIDGETLISTENER_HPP
 
 #include <string>
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for events from widgets. When a widget's size,
@@ -60,7 +60,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.8.0
      */
-    class GCN_CORE_DECLSPEC WidgetListener
+    class FCN_CORE_DECLSPEC WidgetListener
     {
     public:
 
@@ -115,4 +115,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_WIDGETLISTENER_HPP
+#endif // end FCN_WIDGETLISTENER_HPP

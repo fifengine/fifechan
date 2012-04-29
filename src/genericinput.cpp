@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/genericinput.hpp"
+#include "fifechan/genericinput.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     GenericInput::GenericInput()
     {
@@ -129,7 +129,7 @@ namespace gcn
 
         if (mKeyInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         keyInput = mKeyInputQueue.front();
@@ -149,7 +149,7 @@ namespace gcn
         
         if (mMouseInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
         
         mouseInput = mMouseInputQueue.front();

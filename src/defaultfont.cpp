@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/defaultfont.hpp"
+#include "fifechan/defaultfont.hpp"
 
 #include <string>
 
-#include "guichan/graphics.hpp"
-#include "guichan/rectangle.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/rectangle.hpp"
 
-namespace gcn
+namespace fcn
 {
     int DefaultFont::getHeight() const
     {

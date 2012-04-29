@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_WINDOW_HPP
-#define GCN_WINDOW_HPP
+#ifndef FCN_WINDOW_HPP
+#define FCN_WINDOW_HPP
 
 #include <string>
 
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widgets/container.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widgets/container.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An implementation of a movable window that can contain other widgets.
      */
-    class GCN_CORE_DECLSPEC Window : public Container,
+    class FCN_CORE_DECLSPEC Window : public Container,
                                      public MouseListener
     {
     public:
@@ -252,4 +252,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_WINDOW_HPP
+#endif // end FCN_WINDOW_HPP

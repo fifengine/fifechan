@@ -45,19 +45,19 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/tabbedarea.hpp"
+#include "fifechan/widgets/tabbedarea.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/focushandler.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/focushandler.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
 
-#include "guichan/widgets/container.hpp"
-#include "guichan/widgets/tab.hpp"
+#include "fifechan/widgets/container.hpp"
+#include "fifechan/widgets/tab.hpp"
 
 #include <algorithm>
 
-namespace gcn
+namespace fcn
 {
     TabbedArea::TabbedArea()
             :mSelectedTab(NULL),
@@ -119,7 +119,7 @@ namespace gcn
     {
         if (index >= mTabs.size())
         {
-            throw GCN_EXCEPTION("No such tab index.");
+            throw FCN_EXCEPTION("No such tab index.");
         }
 
         removeTab(mTabs[index].first);
@@ -194,7 +194,7 @@ namespace gcn
     {
         if (index >= mTabs.size())
         {
-            throw GCN_EXCEPTION("No such tab index.");
+            throw FCN_EXCEPTION("No such tab index.");
         }
 
         return mSelectedTab == mTabs[index].first;
@@ -209,7 +209,7 @@ namespace gcn
     {
         if (index >= mTabs.size())
         {
-            throw GCN_EXCEPTION("No such tab index.");
+            throw FCN_EXCEPTION("No such tab index.");
         }
 
         setSelectedTab(mTabs[index].first);
@@ -366,7 +366,7 @@ namespace gcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setWidth as
         // Widget::setWidth might distribute a resize event.
-        gcn::Rectangle dim = mDimension;
+        fcn::Rectangle dim = mDimension;
         mDimension.width = width;
         adjustSize();
         mDimension = dim;
@@ -378,7 +378,7 @@ namespace gcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setHeight as
         // Widget::setHeight might distribute a resize event.
-        gcn::Rectangle dim = mDimension;
+        fcn::Rectangle dim = mDimension;
         mDimension.height = height;
         adjustSize();
         mDimension = dim;
@@ -390,7 +390,7 @@ namespace gcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setSize as
         // Widget::setSize might distribute a resize event.
-        gcn::Rectangle dim = mDimension;
+        fcn::Rectangle dim = mDimension;
         mDimension.width = width;
         mDimension.height = height;
         adjustSize();
@@ -403,7 +403,7 @@ namespace gcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setDimension as
         // Widget::setDimension might distribute a resize event.
-        gcn::Rectangle dim = mDimension;
+        fcn::Rectangle dim = mDimension;
         mDimension = dimension;
         adjustSize();
         mDimension = dim;
@@ -500,7 +500,7 @@ namespace gcn
 
         if (tab == NULL)
         {
-            throw GCN_EXCEPTION("Received an action from a widget that's not a tab!");
+            throw FCN_EXCEPTION("Received an action from a widget that's not a tab!");
         }
 
         setSelectedTab(tab);

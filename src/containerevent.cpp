@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/containerevent.hpp"
+#include "fifechan/containerevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     ContainerEvent::ContainerEvent(Widget* source, Container* container)
             :Event(source),

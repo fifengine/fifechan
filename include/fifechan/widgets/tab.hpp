@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_TAB_HPP
-#define GCN_TAB_HPP
+#ifndef FCN_TAB_HPP
+#define FCN_TAB_HPP
 
 #include <map>
 #include <string>
 
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Label;
     class TabbedArea;
@@ -62,7 +62,7 @@ namespace gcn
      * @see TabbedArea
      * @since 0.8.0
      */
-    class GCN_CORE_DECLSPEC Tab:
+    class FCN_CORE_DECLSPEC Tab:
         public MouseListener,
         public Widget
     {
@@ -148,4 +148,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_TABBEDAREA_HPP
+#endif // end FCN_TABBEDAREA_HPP

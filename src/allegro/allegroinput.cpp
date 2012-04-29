@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/allegro/allegroinput.hpp"
+#include "fifechan/allegro/allegroinput.hpp"
 
 #include <allegro.h>
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     AllegroInput::AllegroInput()
     {
@@ -70,7 +70,7 @@ namespace gcn
     {
         if (isKeyQueueEmpty())
         {
-            throw GCN_EXCEPTION("Key queue is empty.");
+            throw FCN_EXCEPTION("Key queue is empty.");
         }
 
         KeyInput ki = mKeyQueue.front();
@@ -88,7 +88,7 @@ namespace gcn
     {
         if (isMouseQueueEmpty())
         {
-            throw GCN_EXCEPTION("Mouse queue is empty.");
+            throw FCN_EXCEPTION("Mouse queue is empty.");
         }
 
         MouseInput mi = mMouseQueue.front();

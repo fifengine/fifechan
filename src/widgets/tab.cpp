@@ -45,15 +45,15 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/tab.hpp"
+#include "fifechan/widgets/tab.hpp"
 
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/widgets/button.hpp"
-#include "guichan/widgets/label.hpp"
-#include "guichan/widgets/tabbedarea.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/widgets/button.hpp"
+#include "fifechan/widgets/label.hpp"
+#include "fifechan/widgets/tabbedarea.hpp"
 
-namespace gcn
+namespace fcn
 {
     Tab::Tab()
             :mHasMouse(false),

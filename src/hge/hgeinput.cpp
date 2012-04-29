@@ -45,10 +45,10 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/hge/hgeinput.hpp"
-#include "guichan/exception.hpp"
+#include "fifechan/hge/hgeinput.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     HGE *HGEInput::mHGE = NULL;
 
@@ -83,7 +83,7 @@ namespace gcn
     {
         if (isKeyQueueEmpty())
         {
-            throw GCN_EXCEPTION("Key queue is empty.");
+            throw FCN_EXCEPTION("Key queue is empty.");
         }
 
         KeyInput keyInput;
@@ -99,7 +99,7 @@ namespace gcn
     {
         if (isMouseQueueEmpty())
         {
-            throw GCN_EXCEPTION("Mouse queue is empty.");
+            throw FCN_EXCEPTION("Mouse queue is empty.");
         }
 
         MouseInput mouseInput;

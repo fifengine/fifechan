@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GENERICINPUT_HPP
-#define GCN_GENERICINPUT_HPP
+#ifndef FCN_GENERICINPUT_HPP
+#define FCN_GENERICINPUT_HPP
 
 #include <queue>
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Key;
     
@@ -59,7 +59,7 @@ namespace gcn
      * Implementation of a generic input which can be used with any 
      * back end.
      */
-    class GCN_CORE_DECLSPEC GenericInput: public Input
+    class FCN_CORE_DECLSPEC GenericInput: public Input
     {
     public:
 
@@ -160,4 +160,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_INPUT_HPP
+#endif // end FCN_INPUT_HPP

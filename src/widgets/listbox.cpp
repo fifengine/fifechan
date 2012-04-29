@@ -45,16 +45,16 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/listbox.hpp"
+#include "fifechan/widgets/listbox.hpp"
 
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/listmodel.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/selectionlistener.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/listmodel.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/selectionlistener.hpp"
 
-namespace gcn
+namespace fcn
 {
     ListBox::ListBox()
         : mSelected(-1),

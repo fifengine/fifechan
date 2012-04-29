@@ -44,7 +44,7 @@
 #ifndef __fpsbutton_hpp__
 #define __fpsbutton_hpp__
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <string>
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
@@ -57,7 +57,7 @@
  * effect.
  * Oh yes, we also want our button to play a sound on mouse hover.
  */
-class FPSButton : public gcn::Button
+class FPSButton : public fcn::Button
 {
 public:
     FPSButton(const std::string& caption);
@@ -66,17 +66,17 @@ public:
     /* 
      * Just sets the font to by used on mouse hover.
      */
-    void setHighLightFont(gcn::Font* font);
+    void setHighLightFont(fcn::Font* font);
 	
     /*
      * Inherited from Widget
      */
-    void draw(gcn::Graphics* graphics);
-    void mouseEntered(gcn::MouseEvent& mouseEvent);
-    void mouseExited(gcn::MouseEvent& mouseEvent);
+    void draw(fcn::Graphics* graphics);
+    void mouseEntered(fcn::MouseEvent& mouseEvent);
+    void mouseExited(fcn::MouseEvent& mouseEvent);
  
 private:
-    gcn::Font* mHighLightFont;
+    fcn::Font* mHighLightFont;
     bool mHasMouse;
     // The sound (see SDL_mixer docs)
     static Mix_Chunk* mHoverSound;

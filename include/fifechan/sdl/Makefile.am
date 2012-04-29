@@ -1,6 +1,6 @@
-libguichanincludedir = $(includedir)/guichan/sdl
+libfifechanincludedir = $(includedir)/fifechan/sdl
 
-libguichaninclude_HEADERS =	\
+libfifechaninclude_HEADERS =	\
 	sdlgraphics.hpp		\
 	sdlimage.hpp		\
 	sdlimageloader.hpp	\

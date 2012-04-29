@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_EVENT_HPP
-#define GCN_EVENT_HPP
+#ifndef FCN_EVENT_HPP
+#define FCN_EVENT_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Widget;
 
@@ -57,7 +57,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.6.0
      */
-    class GCN_CORE_DECLSPEC Event
+    class FCN_CORE_DECLSPEC Event
     {
     public:
 
@@ -91,4 +91,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_EVENT_HPP
+#endif // end FCN_EVENT_HPP

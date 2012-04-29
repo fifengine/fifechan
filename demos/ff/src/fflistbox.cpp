@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <SDL/SDL.h>
 
 #include "fflistbox.hpp"
 
 int FFListBox::mInstances = 0;
-gcn::Image *FFListBox::mHand = NULL;
+fcn::Image *FFListBox::mHand = NULL;
 
 FFListBox::FFListBox()
 {
     if (mInstances == 0)
     {
-        mHand = gcn::Image::load("images/hand.png");
+        mHand = fcn::Image::load("images/hand.png");
     }
 
     mInstances++;
@@ -71,7 +71,7 @@ FFListBox::~FFListBox()
     }
 }
 
-void FFListBox::draw(gcn::Graphics* graphics)
+void FFListBox::draw(fcn::Graphics* graphics)
 {
 		if (mListModel == NULL)
 		{

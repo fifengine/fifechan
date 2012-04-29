@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/openlayer/openlayerimageloader.hpp"
+#include "fifechan/openlayer/openlayerimageloader.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/openlayer/openlayerimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/openlayer/openlayerimage.hpp"
 
-namespace gcn
+namespace fcn
 {
     Image* OpenLayerImageLoader::load(const std::string& filename, bool convertToDisplayFormat)
     {
@@ -65,14 +65,14 @@ namespace gcn
         
         if (bmp == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
+            throw FCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
         BITMAP *bmp2 = create_bitmap_ex(32, bmp->w, bmp->h);
         
         if (bmp2 == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
+            throw FCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
         }
 
         set_palette(pal);

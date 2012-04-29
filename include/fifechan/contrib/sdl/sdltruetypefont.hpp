@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTRIB_SDLTRUETYPEFONT_HPP
-#define GCN_CONTRIB_SDLTRUETYPEFONT_HPP
+#ifndef FCN_CONTRIB_SDLTRUETYPEFONT_HPP
+#define FCN_CONTRIB_SDLTRUETYPEFONT_HPP
 
 #include <map>
 #include <string>
 
 #include <SDL/SDL_ttf.h>
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -69,7 +69,7 @@ namespace gcn
          * @author Walluce Pinkham
          * @author Olof Naessén
          */
-        class GCN_EXTENSION_DECLSPEC SDLTrueTypeFont: public Font
+        class FCN_EXTENSION_DECLSPEC SDLTrueTypeFont: public Font
         {
         public:
 

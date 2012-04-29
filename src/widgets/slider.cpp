@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/slider.hpp"
+#include "fifechan/widgets/slider.hpp"
 
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/mouseinput.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/mouseinput.hpp"
 
-namespace gcn
+namespace fcn
 {
     Slider::Slider(double scaleEnd)
     {
@@ -115,7 +115,7 @@ namespace gcn
         mScaleEnd = scaleEnd;
     }
 
-    void Slider::draw(gcn::Graphics* graphics)
+    void Slider::draw(fcn::Graphics* graphics)
     {
         Color shadowColor = getBaseColor() - 0x101010;
         int alpha = getBaseColor().a;
@@ -127,9 +127,9 @@ namespace gcn
         drawMarker(graphics);
     }
 
-    void Slider::drawMarker(gcn::Graphics* graphics)
+    void Slider::drawMarker(fcn::Graphics* graphics)
     {
-        gcn::Color faceColor = getBaseColor();
+        fcn::Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
         highlightColor = faceColor + 0x303030;
@@ -177,7 +177,7 @@ namespace gcn
 
     void Slider::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == gcn::MouseEvent::Left
+        if (mouseEvent.getButton() == fcn::MouseEvent::Left
             && mouseEvent.getX() >= 0
             && mouseEvent.getX() <= getWidth()
             && mouseEvent.getY() >= 0

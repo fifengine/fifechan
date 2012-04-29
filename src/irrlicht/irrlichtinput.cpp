@@ -45,11 +45,11 @@
 * For comments regarding functions please see the header file.
 */
 
-#include "guichan/irrlicht/irrlichtinput.hpp"
+#include "fifechan/irrlicht/irrlichtinput.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     IrrlichtInput::IrrlichtInput(irr::IrrlichtDevice* device) : mIrrlichtDevice(device),
     mAltKeyDown(false), mMetaKeyDown(false)
@@ -67,7 +67,7 @@ namespace gcn
 
         if (mKeyInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         keyInput = mKeyInputQueue.front();
@@ -87,7 +87,7 @@ namespace gcn
 
         if (mMouseInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         mouseInput = mMouseInputQueue.front();

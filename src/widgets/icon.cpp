@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/icon.hpp"
+#include "fifechan/widgets/icon.hpp"
 
-#include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
-#include "guichan/rectangle.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/rectangle.hpp"
 
-namespace gcn
+namespace fcn
 {
     Icon::Icon()
         : mImage(0)

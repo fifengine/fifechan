@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SCROLLAREA_HPP
-#define GCN_SCROLLAREA_HPP
+#ifndef FCN_SCROLLAREA_HPP
+#define FCN_SCROLLAREA_HPP
 
 #include <string>
 
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Implementation if a scrollable area used to view widgets larger than the scroll area.
      * A scroll area can be customized to always show scroll bars or to show them only when
      * necessary.
      */
-    class GCN_CORE_DECLSPEC ScrollArea:
+    class FCN_CORE_DECLSPEC ScrollArea:
         public MouseListener,
         public Widget
     {
@@ -587,4 +587,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_SCROLLAREA_HPP
+#endif // end FCN_SCROLLAREA_HPP

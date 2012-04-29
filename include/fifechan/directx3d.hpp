@@ -54,13 +54,13 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_D3D_HPP
-#define GCN_D3D_HPP
+#ifndef FCN_D3D_HPP
+#define FCN_D3D_HPP
 
-#include <guichan/directx3d/directx3dgraphics.hpp>
-#include <guichan/directx3d/directx3dimage.hpp>
-#include <guichan/directx3d/directx3dimageloader.hpp>
-#include <guichan/directx3d/directx3dinput.hpp>
+#include <fifechan/directx3d/directx3dgraphics.hpp>
+#include <fifechan/directx3d/directx3dimage.hpp>
+#include <fifechan/directx3d/directx3dimageloader.hpp>
+#include <fifechan/directx3d/directx3dinput.hpp>
 
 #include "platform.hpp"
 
@@ -69,7 +69,7 @@ extern "C"
     /**
      * Exists to be able to check for Guichan Directx 3D with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnD3D();
+    FCN_EXTENSION_DECLSPEC extern void fcnD3D();
 }
 
-#endif // end GCN_D3D_HPP
+#endif // end FCN_D3D_HPP

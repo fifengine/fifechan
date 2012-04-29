@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_COLOR_HPP
-#define GCN_COLOR_HPP
+#ifndef FCN_COLOR_HPP
+#define FCN_COLOR_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 #include <iostream>
 
-namespace gcn
+namespace fcn
 {
     /**
      * Represents a color with red, green, blue and alpha components.
      */
-    class GCN_CORE_DECLSPEC Color
+    class FCN_CORE_DECLSPEC Color
     {
     public:
 
@@ -170,4 +170,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_COLOR_HPP
+#endif // end FCN_COLOR_HPP

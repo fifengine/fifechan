@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/hge/hgeimagefont.hpp"
+#include "fifechan/hge/hgeimagefont.hpp"
 
-#include "guichan/color.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/graphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     HGEImageFont::HGEImageFont(const std::string& filename)
     {

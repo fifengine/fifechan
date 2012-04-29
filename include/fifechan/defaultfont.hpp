@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DEFAULTFONT_HPP
-#define GCN_DEFAULTFONT_HPP
+#ifndef FCN_DEFAULTFONT_HPP
+#define FCN_DEFAULTFONT_HPP
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * A font only capable of drawing rectangles. It is used by default
      * in Guichan if no font has been set merely to show that no font has 
      * been set.
      */
-    class GCN_CORE_DECLSPEC DefaultFont : public Font
+    class FCN_CORE_DECLSPEC DefaultFont : public Font
     {
     public:
 
@@ -92,4 +92,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DEFAULTFONT_HPP
+#endif // end FCN_DEFAULTFONT_HPP

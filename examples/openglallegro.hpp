@@ -7,10 +7,10 @@
 
 // The openglallegroimageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and Allegro.
-#include <guichan/opengl/openglallegroimageloader.hpp>
-#include <guichan.hpp>
-#include <guichan/opengl.hpp>
-#include <guichan/allegro.hpp>
+#include <fifechan/opengl/openglallegroimageloader.hpp>
+#include <fifechan.hpp>
+#include <fifechan/opengl.hpp>
+#include <fifechan/allegro.hpp>
 
 namespace openglallegro
 {
@@ -19,9 +19,9 @@ namespace openglallegro
     // able to draw itself using OpenGL, an input objec to make 
     // Guichan able to get user input using Allegro and an ImageLoader 
     // object to make Guichan able to load images using OpenGL and Allegro.
-    gcn::OpenGLGraphics* graphics;
-    gcn::AllegroInput* input;
-    gcn::OpenGLAllegroImageLoader* imageLoader;
+    fcn::OpenGLGraphics* graphics;
+    fcn::AllegroInput* input;
+    fcn::OpenGLAllegroImageLoader* imageLoader;
 
     /**
      * Initialises the OpenGL and Allegro application. This function creates the global
@@ -54,18 +54,18 @@ namespace openglallegro
         // Now it's time to initialise the Guichan OpenGL back end
         // and the Guichan Allegro back end.
 
-        imageLoader = new gcn::OpenGLAllegroImageLoader();
+        imageLoader = new fcn::OpenGLAllegroImageLoader();
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::OpenGLGraphics();
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::OpenGLGraphics();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
-        input = new gcn::AllegroInput();
+        input = new fcn::AllegroInput();
 
         // Now we create the Gui object to be used with this OpenGL
         // and Allegro application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with OpenGL and Allegro implementations of these objects hence 

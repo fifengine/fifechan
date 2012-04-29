@@ -46,8 +46,8 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
-#include <guichan.hpp>
-#include <guichan/sdl.hpp>
+#include <fifechan.hpp>
+#include <fifechan/sdl.hpp>
 
 #include "ffcharacterchooser.hpp"
 #include "ffcontainer.hpp"
@@ -55,14 +55,14 @@
 #include "ffscrollarea.hpp"
 #include "stringlistmodel.hpp"
 
-class FFDemo : public gcn::ActionListener, public gcn::KeyListener
+class FFDemo : public fcn::ActionListener, public fcn::KeyListener
 {
 public:
     FFDemo();
     ~FFDemo();
     void run();
-    void action(const gcn::ActionEvent& actionEvent);
-    void keyPressed(gcn::KeyEvent& keyEvent);
+    void action(const fcn::ActionEvent& actionEvent);
+    void keyPressed(fcn::KeyEvent& keyEvent);
 
 private:
     void input();
@@ -84,12 +84,12 @@ private:
     Mix_Chunk* mChooseSound;
     Mix_Chunk* mEscapeSound;
 
-    gcn::SDLGraphics* mSDLGraphics;
-    gcn::SDLInput* mSDLInput;
-    gcn::SDLImageLoader* mSDLImageLoader;
-    gcn::Gui* mGui;
+    fcn::SDLGraphics* mSDLGraphics;
+    fcn::SDLInput* mSDLInput;
+    fcn::SDLImageLoader* mSDLImageLoader;
+    fcn::Gui* mGui;
 
-    gcn::Container* mTop;
+    fcn::Container* mTop;
     FFContainer* mMain;
     FFContainer* mStatus;
     FFContainer* mItems;
@@ -100,15 +100,15 @@ private:
     FFContainer* mAbout;
     FFContainer* mItemsInfo;
 
-    gcn::Icon* mPerIcon;
-    gcn::Icon* mOlofIcon;
-    gcn::Icon* mTomasIcon;
-    gcn::Image* mPerImage;
-    gcn::Image* mOlofImage;
-    gcn::Image* mTomasImage;
-    gcn::Image* mSplashImage;
-    gcn::Font* mFontWhite;
-    gcn::Font* mFontCyan;
+    fcn::Icon* mPerIcon;
+    fcn::Icon* mOlofIcon;
+    fcn::Icon* mTomasIcon;
+    fcn::Image* mPerImage;
+    fcn::Image* mOlofImage;
+    fcn::Image* mTomasImage;
+    fcn::Image* mSplashImage;
+    fcn::Font* mFontWhite;
+    fcn::Font* mFontCyan;
 
     FFListBox *mMenuList;
 
@@ -122,28 +122,28 @@ private:
     StringListModel *mTomasSkills;
     StringListModel *mTomasMagic;
 
-    gcn::TextBox* mPerInfo1;
-    gcn::TextBox* mOlofInfo1;
-    gcn::TextBox* mTomasInfo1;
-    gcn::TextBox* mPerInfo2;
-    gcn::TextBox* mOlofInfo2;
-    gcn::TextBox* mTomasInfo2;
-    gcn::TextBox* mItemsInfoInfo;
-    gcn::TextBox* mOlofStatus1;
-    gcn::TextBox* mOlofStatus2;
-    gcn::TextBox* mPerStatus1;
-    gcn::TextBox* mPerStatus2;
-    gcn::TextBox* mTomasStatus1;
-    gcn::TextBox* mTomasStatus2;
+    fcn::TextBox* mPerInfo1;
+    fcn::TextBox* mOlofInfo1;
+    fcn::TextBox* mTomasInfo1;
+    fcn::TextBox* mPerInfo2;
+    fcn::TextBox* mOlofInfo2;
+    fcn::TextBox* mTomasInfo2;
+    fcn::TextBox* mItemsInfoInfo;
+    fcn::TextBox* mOlofStatus1;
+    fcn::TextBox* mOlofStatus2;
+    fcn::TextBox* mPerStatus1;
+    fcn::TextBox* mPerStatus2;
+    fcn::TextBox* mTomasStatus1;
+    fcn::TextBox* mTomasStatus2;
 
-    gcn::TextBox* mGoldFootstepsInfo1;
-    gcn::TextBox* mGoldFootstepsInfo2;
-    gcn::Label* mTimeLabel1;
-    gcn::Label* mTimeLabel2;
+    fcn::TextBox* mGoldFootstepsInfo1;
+    fcn::TextBox* mGoldFootstepsInfo2;
+    fcn::Label* mTimeLabel1;
+    fcn::Label* mTimeLabel2;
 
-    gcn::Label* mNavigationLabel;
+    fcn::Label* mNavigationLabel;
 
-    gcn::TextBox* mAboutInfo;
+    fcn::TextBox* mAboutInfo;
     FFScrollArea *mAboutScrollArea;
 
     FFListBox *mItemsList;

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/cliprectangle.hpp"
+#include "fifechan/cliprectangle.hpp"
 
-namespace gcn
+namespace fcn
 {
     ClipRectangle::ClipRectangle()
     {

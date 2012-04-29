@@ -3,6 +3,6 @@ AUTOMAKE_OPTIONS = 1.4
 SUBDIRS = examples include src
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = guichan.pc
+pkgconfig_DATA = fifechan.pc
 
-EXTRA_DIST = guichan.pc.in
+EXTRA_DIST = fifechan.pc.in

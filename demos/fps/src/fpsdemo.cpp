@@ -117,30 +117,30 @@ FPSDemo::~FPSDemo()
 
 void FPSDemo::initGui()
 {
-    mOpenGLImageLoader = new gcn::OpenGLSDLImageLoader();
-    gcn::Image::setImageLoader(mOpenGLImageLoader); 
-    mOpenGLGraphics = new gcn::OpenGLGraphics();
+    mOpenGLImageLoader = new fcn::OpenGLSDLImageLoader();
+    fcn::Image::setImageLoader(mOpenGLImageLoader); 
+    mOpenGLGraphics = new fcn::OpenGLGraphics();
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
-    mSDLInput = new gcn::SDLInput();
+    mSDLInput = new fcn::SDLInput();
 
-    mTop = new gcn::Container();
+    mTop = new fcn::Container();
     mTop->setOpaque(false);
-    mGui = new gcn::Gui();
+    mGui = new fcn::Gui();
     mGui->setTabbingEnabled(false);
     mGui->setGraphics(mOpenGLGraphics);
     mGui->setInput(mSDLInput);
 	
-    mFont = new gcn::ImageFont(          "images/techyfontbig2.png",        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");	
-    mHighLightFont = new gcn::ImageFont( "images/techyfontbighighlight.png"," abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mSmallBlackFont = new gcn::ImageFont("images/techyfontblack.png",       " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mWhiteFont = new gcn::ImageFont(     "images/techyfontwhite.png",       " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    gcn::Widget::setGlobalFont(mWhiteFont);
+    mFont = new fcn::ImageFont(          "images/techyfontbig2.png",        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");	
+    mHighLightFont = new fcn::ImageFont( "images/techyfontbighighlight.png"," abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+    mSmallBlackFont = new fcn::ImageFont("images/techyfontblack.png",       " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+    mWhiteFont = new fcn::ImageFont(     "images/techyfontwhite.png",       " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+    fcn::Widget::setGlobalFont(mWhiteFont);
 	
-    mTitleImage = gcn::Image::load("images/title2.png");
-    mTitle = new gcn::Icon(mTitleImage);
+    mTitleImage = fcn::Image::load("images/title2.png");
+    mTitle = new fcn::Icon(mTitleImage);
     mTop->add(mTitle);
 	
-    mDemoInfo = new gcn::TextBox("     Copyright 2004, 2005, 2006 (c) Darkbits. This is a Demo demonstrating Guichan with SDL and OpenGL.\n"
+    mDemoInfo = new fcn::TextBox("     Copyright 2004, 2005, 2006 (c) Darkbits. This is a Demo demonstrating Guichan with SDL and OpenGL.\n"
                                  "Guichan is licensed under BSD. For more information about Guichan and visit http://guichan.sourceforge.net\n"
                                  "            Code Yakslem (Olof Nassen). Art Finalman (Per Larsson). Darkbits logo Haiko (Henrik Vahlgren).");
     mDemoInfo->setFont(mSmallBlackFont);
@@ -150,14 +150,14 @@ void FPSDemo::initGui()
     mDemoInfo->setFrameSize(0);
     mTop->add(mDemoInfo);
 
-    mVersionLabel = new gcn::Label("Version 1.00");
+    mVersionLabel = new fcn::Label("Version 1.00");
     mVersionLabel->setFont(mSmallBlackFont);
     mTop->add(mVersionLabel);
 	
-    mBoxImage = gcn::Image::load("images/box.png");
+    mBoxImage = fcn::Image::load("images/box.png");
 	
-    mSplashImage = gcn::Image::load("images/splash.png");
-    mSplashIcon = new gcn::Icon(mSplashImage);
+    mSplashImage = fcn::Image::load("images/splash.png");
+    mSplashIcon = new fcn::Icon(mSplashImage);
 
     if (mInit)
     {
@@ -203,7 +203,7 @@ void FPSDemo::cleanGui()
  */
 void FPSDemo::initMain()
 {
-    mMain = new gcn::Container();
+    mMain = new fcn::Container();
     mMain->setOpaque(false);
     mTop->add(mMain);
 	
@@ -262,20 +262,20 @@ void FPSDemo::cleanMain()
  */
 void FPSDemo::initSingleplay()
 {
-    mSingleplay = new gcn::Container();
+    mSingleplay = new fcn::Container();
     mSingleplay->setVisible(false);
     mSingleplay->setOpaque(false);		
     mTop->add(mSingleplay);
 
-    mSingleplayBoxIcon = new gcn::Icon(mBoxImage);
+    mSingleplayBoxIcon = new fcn::Icon(mBoxImage);
     mSingleplay->add(mSingleplayBoxIcon);
 	
-    mSingleplayLabel = new gcn::Label("Singleplayer");
+    mSingleplayLabel = new fcn::Label("Singleplayer");
     mSingleplayLabel->setFont(mWhiteFont);
     mSingleplayLabel->adjustSize();
     mSingleplay->add(mSingleplayLabel);
 
-    mSingleplayText = new gcn::TextBox("I'm verry sorry but this is not an actual game.\n"
+    mSingleplayText = new fcn::TextBox("I'm verry sorry but this is not an actual game.\n"
                                        "It's a demonstration of the GUI library Guichan.\n"
                                        "But who knows...\n"
                                        "Maybe it will be a game here someday.\n");
@@ -309,20 +309,20 @@ void FPSDemo::cleanSingleplay()
  */
 void FPSDemo::initMultiplay()
 {
-    mMultiplay = new gcn::Container();
+    mMultiplay = new fcn::Container();
     mMultiplay->setVisible(false);
     mMultiplay->setOpaque(false);
     mTop->add(mMultiplay);
 
-    mMultiplayBoxIcon = new gcn::Icon(mBoxImage);
+    mMultiplayBoxIcon = new fcn::Icon(mBoxImage);
     mMultiplay->add(mMultiplayBoxIcon);
  
-    mMultiplayLabel = new gcn::Label("Multiplayer");
+    mMultiplayLabel = new fcn::Label("Multiplayer");
     mMultiplayLabel->setFont(mWhiteFont);
     mMultiplayLabel->adjustSize();  
     mMultiplay->add(mMultiplayLabel);
 	
-    mMultiplayText = new gcn::TextBox("I'm verry sorry but this is not an actuall game.\n"
+    mMultiplayText = new fcn::TextBox("I'm verry sorry but this is not an actuall game.\n"
                                       "It's a demonstration of the GUI library Guichan.\n"
                                       "But who knows...\n"
                                       "Maybe it will be a game here someday.\n");
@@ -358,15 +358,15 @@ void FPSDemo::cleanMultiplay()
  */ 
 void FPSDemo::initOptions()
 {
-    mOptions = new gcn::Container();
+    mOptions = new fcn::Container();
     mOptions->setVisible(false);
     mOptions->setOpaque(false);
     mTop->add(mOptions);
 	
-    mOptionsBoxIcon = new gcn::Icon(mBoxImage);
+    mOptionsBoxIcon = new fcn::Icon(mBoxImage);
     mOptions->add(mOptionsBoxIcon);
 	
-    mOptionsLabel = new gcn::Label("Options");
+    mOptionsLabel = new fcn::Label("Options");
     mOptionsLabel->setFont(mWhiteFont);
     mOptionsLabel->adjustSize();
     mOptions->add(mOptionsLabel);
@@ -382,19 +382,19 @@ void FPSDemo::initOptions()
     mFullScreen->setSelected(mHaveFullscreen);
     mOptions->add(mFullScreen);
 
-    mResolutionScrollArea = new gcn::ScrollArea();
+    mResolutionScrollArea = new fcn::ScrollArea();
     mResolutionScrollArea->setBackgroundColor(0x331010);
     mResolutionScrollArea->setForegroundColor(0x331010);
     mResolutionScrollArea->setBaseColor(0x771010);
 
-    mResolutionListBox = new gcn::ListBox();
+    mResolutionListBox = new fcn::ListBox();
     mResolutionListBox->setBackgroundColor(0x331010);
     mResolutionListBox->setForegroundColor(0x331010);
     mResolutionListBox->setBaseColor(0x771010);
     mResolutionListBox->setSelectionColor(0x552020);
 	
     mResolutionListModel = new ResolutionListModel();
-    mResolution = new gcn::DropDown(mResolutionListModel,
+    mResolution = new fcn::DropDown(mResolutionListModel,
                                     mResolutionScrollArea,
                                     mResolutionListBox);
     mResolution->setWidth(200);
@@ -415,7 +415,7 @@ void FPSDemo::initOptions()
     mResolution->addActionListener(this);
     mOptions->add(mResolution);
 
-    mVolume = new gcn::Slider(0.0, 1.0);
+    mVolume = new fcn::Slider(0.0, 1.0);
     mVolume->setWidth(200);
     mVolume->setHeight(20);
     mVolume->setValue(0.7);
@@ -427,13 +427,13 @@ void FPSDemo::initOptions()
     mVolume->setMarkerLength(20);
     mOptions->add(mVolume);
 
-    mVolumePercent = new gcn::Label("70%");
+    mVolumePercent = new fcn::Label("70%");
     mOptions->add(mVolumePercent);
 
-    mVolumeLabel = new gcn::Label("Volume");
+    mVolumeLabel = new fcn::Label("Volume");
     mOptions->add(mVolumeLabel);
 
-    mResolutionLabel = new gcn::Label("Resolution");
+    mResolutionLabel = new fcn::Label("Resolution");
     mOptions->add(mResolutionLabel);
 
     mOptionsBackButton = new FPSButton("Back");
@@ -465,26 +465,26 @@ void FPSDemo::cleanOptions()
 
 void FPSDemo::loadTextures()
 {
-    gcn::OpenGLImage* image;
+    fcn::OpenGLImage* image;
     // Load textures with the OpenGLImageLoader from Guichan
-    mCloudImage = gcn::Image::load("images/cloudsblackwhite.png");
-    image = (gcn::OpenGLImage*)mCloudImage;
+    mCloudImage = fcn::Image::load("images/cloudsblackwhite.png");
+    image = (fcn::OpenGLImage*)mCloudImage;
     mCloudTexture = image->getTextureHandle();
 
-    mPlanetImage = gcn::Image::load("images/planet.png");
-    image = (gcn::OpenGLImage*)mPlanetImage;
+    mPlanetImage = fcn::Image::load("images/planet.png");
+    image = (fcn::OpenGLImage*)mPlanetImage;
     mPlanetTexture = image->getTextureHandle();
 
-    mStarsImage = gcn::Image::load("images/background.png");
-    image = (gcn::OpenGLImage*)mStarsImage;
+    mStarsImage = fcn::Image::load("images/background.png");
+    image = (fcn::OpenGLImage*)mStarsImage;
     mStarsTexture = image->getTextureHandle();
 
-    mMoonImage = gcn::Image::load("images/moon.png");
-    image = (gcn::OpenGLImage*)mMoonImage;
+    mMoonImage = fcn::Image::load("images/moon.png");
+    image = (fcn::OpenGLImage*)mMoonImage;
     mMoonTexture = image->getTextureHandle();
 	
-    mMoonRedImage = gcn::Image::load("images/moonred.png");
-    image = (gcn::OpenGLImage*)mMoonRedImage;
+    mMoonRedImage = fcn::Image::load("images/moonred.png");
+    image = (fcn::OpenGLImage*)mMoonRedImage;
     mMoonRedTexture = image->getTextureHandle();
 }
 
@@ -733,7 +733,7 @@ void FPSDemo::input()
 /**
  * The action funcion from ActionListener
  */
-void FPSDemo::action(const gcn::ActionEvent& actionEvent)
+void FPSDemo::action(const fcn::ActionEvent& actionEvent)
 {
     if (actionEvent.getId() == "quit")
     {
@@ -871,11 +871,11 @@ void FPSDemo::resize()
     mDemoInfo->setPosition(mWidth/2 - 390, mHeight - 50);
     mVersionLabel->setPosition(mWidth - 100, mHeight - 80);
 
-    mTop->setDimension(gcn::Rectangle(0, 0, mWidth, mHeight));
-    mMain->setDimension(gcn::Rectangle(0, 0, mWidth, mHeight));
-    mSingleplay->setDimension(gcn::Rectangle(0, 0, mWidth, mHeight));
-    mMultiplay->setDimension(gcn::Rectangle(0, 0, mWidth, mHeight));
-    mOptions->setDimension(gcn::Rectangle(0, 0, mWidth, mHeight));	
+    mTop->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
+    mMain->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
+    mSingleplay->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
+    mMultiplay->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
+    mOptions->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));	
 
     mSingleplayButton->setPosition(mWidth/2 - 100, mHeight/2 - 100);
     mMultiplayButton->setPosition(mWidth/2 - 100, mHeight/2 - 60);

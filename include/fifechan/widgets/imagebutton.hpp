@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IMAGEBUTTON_HPP
-#define GCN_IMAGEBUTTON_HPP
+#ifndef FCN_IMAGEBUTTON_HPP
+#define FCN_IMAGEBUTTON_HPP
 
-#include "guichan/platform.hpp"
-#include "guichan/widgets/button.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widgets/button.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
@@ -59,7 +59,7 @@ namespace gcn
      *
      * @see Button
      */
-    class GCN_CORE_DECLSPEC ImageButton : public gcn::Button
+    class FCN_CORE_DECLSPEC ImageButton : public fcn::Button
     {
     public:
         /**
@@ -104,7 +104,7 @@ namespace gcn
 
         // Inherited from Widget
 
-        void draw(gcn::Graphics* graphics);
+        void draw(fcn::Graphics* graphics);
 
     protected:
         /**

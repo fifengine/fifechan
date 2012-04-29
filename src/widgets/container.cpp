@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/container.hpp"
+#include "fifechan/widgets/container.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     Container::Container()
     {

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/actionevent.hpp"
+#include "fifechan/actionevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     ActionEvent::ActionEvent(Widget* source, const std::string& id)
             :Event(source),

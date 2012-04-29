@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_RECTANGLE_HPP
-#define GCN_RECTANGLE_HPP
+#ifndef FCN_RECTANGLE_HPP
+#define FCN_RECTANGLE_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 #include <iostream>
 
-namespace gcn
+namespace fcn
 {
     /**
      * Represents a rectangle.
      *
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC Rectangle
+    class FCN_CORE_DECLSPEC Rectangle
     {
     public:
 
@@ -183,4 +183,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_RECTANGEL_HPP
+#endif // end FCN_RECTANGEL_HPP

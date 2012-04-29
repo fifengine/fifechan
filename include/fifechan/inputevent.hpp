@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_INPUTEVENT_HPP
-#define GCN_INPUTEVENT_HPP
+#ifndef FCN_INPUTEVENT_HPP
+#define FCN_INPUTEVENT_HPP
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Base class for all events concerning input.
@@ -55,7 +55,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.6.0
      */
-    class GCN_CORE_DECLSPEC InputEvent: public Event
+    class FCN_CORE_DECLSPEC InputEvent: public Event
     {
     public:
 
@@ -180,4 +180,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_INPUTEVENT_HPP
+#endif // end FCN_INPUTEVENT_HPP

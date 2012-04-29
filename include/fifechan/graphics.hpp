@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GRAPHICS_HPP
-#define GCN_GRAPHICS_HPP
+#ifndef FCN_GRAPHICS_HPP
+#define FCN_GRAPHICS_HPP
 
 #include <iosfwd>
 #include <stack>
 
-#include "guichan/cliprectangle.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/cliprectangle.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Color;
     class Font;
@@ -91,7 +91,7 @@ namespace gcn
      *      SDLGraphics, Image
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC Graphics
+    class FCN_CORE_DECLSPEC Graphics
     {
     public:
         /**
@@ -318,4 +318,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_GRAPHICS_HPP
+#endif // end FCN_GRAPHICS_HPP

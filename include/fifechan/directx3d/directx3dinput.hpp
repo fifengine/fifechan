@@ -54,27 +54,27 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DIRECTX3DINPUT_HPP
-#define GCN_DIRECTX3DINPUT_HPP
+#ifndef FCN_DIRECTX3DINPUT_HPP
+#define FCN_DIRECTX3DINPUT_HPP
 
 #include <queue>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Key;
 
     /**
      * DirectX 3D implementation of Input.
      */
-    class GCN_EXTENSION_DECLSPEC DirectX3DInput : public Input
+    class FCN_EXTENSION_DECLSPEC DirectX3DInput : public Input
     {
     public:
 
@@ -137,4 +137,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DIRECTX3DINPUT_HPP
+#endif // end FCN_DIRECTX3DINPUT_HPP

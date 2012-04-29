@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IRRLICHTINPUT_HPP
-#define GCN_IRRLICHTINPUT_HPP
+#ifndef FCN_IRRLICHTINPUT_HPP
+#define FCN_IRRLICHTINPUT_HPP
 
 #include <queue>
 
 #include "irrlicht.h"
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Key;
 
@@ -63,7 +63,7 @@ namespace gcn
     * @author Aaron Andersen
     * @since 0.9.0
     */
-    class GCN_EXTENSION_DECLSPEC IrrlichtInput : public Input
+    class FCN_EXTENSION_DECLSPEC IrrlichtInput : public Input
     {
     public:
 
@@ -117,4 +117,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IRRLICHTINPUT_HPP
+#endif // end FCN_IRRLICHTINPUT_HPP

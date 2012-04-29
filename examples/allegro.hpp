@@ -3,8 +3,8 @@
  * Guichan Allegro back end.
  */
 
-#include <guichan.hpp>
-#include <guichan/allegro.hpp>
+#include <fifechan.hpp>
+#include <fifechan/allegro.hpp>
 
 namespace allegro
 {
@@ -16,9 +16,9 @@ namespace allegro
     // input objec to make Gopenglsdluichan able to get user input using Allegro
     // and an ImageLoader object to make Guichan able to load images
     // using Allegro.
-    gcn::AllegroGraphics* graphics;
-    gcn::AllegroInput* input;
-    gcn::AllegroImageLoader* imageLoader;
+    fcn::AllegroGraphics* graphics;
+    fcn::AllegroInput* input;
+    fcn::AllegroImageLoader* imageLoader;
 
     /**
      * Initialises the Allegro application. This function creates the global
@@ -41,7 +41,7 @@ namespace allegro
         {
             if (set_gfx_mode(GFX_AUTODETECT, 640, 480, 0, 0))
             {
-                throw GCN_EXCEPTION("Unable to set graphics mode");
+                throw FCN_EXCEPTION("Unable to set graphics mode");
             }
         }
 
@@ -49,7 +49,7 @@ namespace allegro
 
         if (screenBuffer == NULL)
         {
-            throw GCN_EXCEPTION("Unable to create a screen buffer");
+            throw FCN_EXCEPTION("Unable to create a screen buffer");
         }
 
         install_keyboard();
@@ -58,19 +58,19 @@ namespace allegro
 
         // Now it's time to initialise the Guichan Allegro back end.
 
-        imageLoader = new gcn::AllegroImageLoader();
+        imageLoader = new fcn::AllegroImageLoader();
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::AllegroGraphics();
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::AllegroGraphics();
         // Set the target for the graphics object to be the doublebuffer
         // for the screen. Drawing to the screen directly is not a good
         // idea, as it will produce flicker, unless you use page flipping.
         graphics->setTarget(screenBuffer);
-        input = new gcn::AllegroInput();
+        input = new fcn::AllegroInput();
 
         // Now we create the Gui object to be used with this Allegro application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with Allegro implementations of these objects hence making Guichan

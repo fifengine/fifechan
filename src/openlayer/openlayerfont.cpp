@@ -41,19 +41,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/openlayer/openlayerfont.hpp"
-#include "guichan/openlayer/openlayergraphics.hpp"
+#include "fifechan/openlayer/openlayerfont.hpp"
+#include "fifechan/openlayer/openlayergraphics.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     OpenLayerTTFont::OpenLayerTTFont(const std::string& filename, int size)
       : mTextRenderer(filename.c_str(), size, size)
     {
         if (!mTextRenderer.IsValid())
         {
-            throw GCN_EXCEPTION("Unable to load font.");
+            throw FCN_EXCEPTION("Unable to load font.");
         }
     }
 
@@ -62,7 +62,7 @@ namespace gcn
     {
         if (!mTextRenderer.IsValid())
         {
-            throw GCN_EXCEPTION("Unable to load font.");
+            throw FCN_EXCEPTION("Unable to load font.");
         }
     }
 
@@ -85,10 +85,10 @@ namespace gcn
     {
         const ClipRectangle& rec = graphics->getCurrentClipArea();
 
-        OpenLayerGraphics* const openLayerGraphics = dynamic_cast<gcn::OpenLayerGraphics*>(graphics);
+        OpenLayerGraphics* const openLayerGraphics = dynamic_cast<fcn::OpenLayerGraphics*>(graphics);
         if (!openLayerGraphics)
         {
-            throw GCN_EXCEPTION("Graphics is not of type OpenLayerGraphics");
+            throw FCN_EXCEPTION("Graphics is not of type OpenLayerGraphics");
         }
         
         mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());

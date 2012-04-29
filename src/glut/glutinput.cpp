@@ -45,10 +45,10 @@
 //  * For comments regarding functions please see the header file.
 //  */
 
-// #include "guichan/glut/glutinput.hpp"
-// #include "guichan/exception.hpp"
+// #include "fifechan/glut/glutinput.hpp"
+// #include "fifechan/exception.hpp"
 
-// namespace gcn
+// namespace fcn
 // {
 
 //     GLUTInput::GLUTInput()
@@ -66,7 +66,7 @@
 
 //         if (mKeyInputQueue.empty())
 //         {
-//             throw GCN_EXCEPTION("The queue is empty.");
+//             throw FCN_EXCEPTION("The queue is empty.");
 //         }
 
 //         keyInput = mKeyInputQueue.front();
@@ -86,7 +86,7 @@
 
 //         if (mMouseInputQueue.empty())
 //         {
-//             throw GCN_EXCEPTION("The queue is empty.");
+//             throw FCN_EXCEPTION("The queue is empty.");
 //         }
 
 //         mouseInput = mMouseInputQueue.front();
@@ -165,7 +165,7 @@
 //     Key GLUTInput::convertKeyCharacter(unsigned char key)
 //     {
 //         int value = 0;
-//         Key gcnKey;
+//         Key fcnKey;
 
 //         value = (int)key;
 
@@ -186,19 +186,19 @@
 //         }
 
 //         int modifiers = glutGetModifiers();
-//         gcnKey.setShiftPressed(modifiers & GLUT_ACTIVE_SHIFT);
-//         gcnKey.setControlPressed(modifiers & GLUT_ACTIVE_CTRL);
-//         gcnKey.setAltPressed(modifiers & GLUT_ACTIVE_ALT);
+//         fcnKey.setShiftPressed(modifiers & GLUT_ACTIVE_SHIFT);
+//         fcnKey.setControlPressed(modifiers & GLUT_ACTIVE_CTRL);
+//         fcnKey.setAltPressed(modifiers & GLUT_ACTIVE_ALT);
 
-//         gcnKey.setValue(value);
+//         fcnKey.setValue(value);
 
-//         return gcnKey;
+//         return fcnKey;
 //     }
 
 //     Key GLUTInput::convertSpecialCharacter(unsigned char key)
 //     {
 //         int value = 0;
-//         Key gcnKey;
+//         Key fcnKey;
 
 //         value = (int)key;
 
@@ -272,13 +272,13 @@
 //         }
 
 //         int modifiers = glutGetModifiers();
-//         gcnKey.setShiftPressed(modifiers & GLUT_ACTIVE_SHIFT);
-//         gcnKey.setControlPressed(modifiers & GLUT_ACTIVE_CTRL);
-//         gcnKey.setAltPressed(modifiers & GLUT_ACTIVE_ALT);
+//         fcnKey.setShiftPressed(modifiers & GLUT_ACTIVE_SHIFT);
+//         fcnKey.setControlPressed(modifiers & GLUT_ACTIVE_CTRL);
+//         fcnKey.setAltPressed(modifiers & GLUT_ACTIVE_ALT);
 
-//         gcnKey.setValue(value);
+//         fcnKey.setValue(value);
 
-//         return gcnKey;
+//         return fcnKey;
 //     }
 
 //     int GLUTInput::convertMouseButton(int button)
@@ -296,7 +296,7 @@
 //                 break;
 //         }
 
-//         throw GCN_EXCEPTION("Unknown GLUT mouse type.");
+//         throw FCN_EXCEPTION("Unknown GLUT mouse type.");
 
 //         return 0;
 //     }

@@ -1,18 +1,18 @@
-SUBDIRS = widgets @GUICHAN_EXTRADIRS@ hge openlayer contrib
+SUBDIRS = widgets @FIFECHAN_EXTRADIRS@ hge openlayer contrib
 
 INCLUDES = -I$(top_srcdir)/include
 
-lib_LTLIBRARIES = libguichan.la
+lib_LTLIBRARIES = libfifechan.la
 
-libguichan_la_LIBADD = widgets/libguichan_widgets.la
+libfifechan_la_LIBADD = widgets/libfifechan_widgets.la
 
-libguichan_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 
+libfifechan_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 
 
-libguichan_la_DEPENDENCIES = \
-	widgets/libguichan_widgets.la
+libfifechan_la_DEPENDENCIES = \
+	widgets/libfifechan_widgets.la
 
 # The Gui-chan library sources
-libguichan_la_SOURCES = 	\
+libfifechan_la_SOURCES = 	\
 	actionevent.cpp		\
 	cliprectangle.cpp	\
 	color.cpp		\
@@ -25,7 +25,7 @@ libguichan_la_SOURCES = 	\
 	genericinput.cpp	\
 	graphics.cpp		\
 	gui.cpp			\
-	guichan.cpp		\
+	fifechan.cpp		\
 	image.cpp		\
 	imagefont.cpp		\
 	inputevent.cpp		\

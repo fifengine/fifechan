@@ -41,26 +41,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_TEXTBOX_HPP
-#define GCN_TEXTBOX_HPP
+#ifndef FCN_TEXTBOX_HPP
+#define FCN_TEXTBOX_HPP
 
 #include <ctime>
 #include <string>
 #include <vector>
 
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Text;
 
     /**
      * An implementation of a text box where a user can enter text that contains of many lines.
      */
-    class GCN_CORE_DECLSPEC TextBox:
+    class FCN_CORE_DECLSPEC TextBox:
         public Widget,
         public MouseListener,
         public KeyListener
@@ -278,4 +278,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_TEXTBOX_HPP
+#endif // end FCN_TEXTBOX_HPP

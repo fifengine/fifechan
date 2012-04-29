@@ -41,10 +41,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GLUT_HPP
-#define GCN_GLUT_HPP
+#ifndef FCN_GLUT_HPP
+#define FCN_GLUT_HPP
 
-#include <guichan/glut/glutinput.hpp>
+#include <fifechan/glut/glutinput.hpp>
 
 #include "platform.hpp"
 
@@ -53,7 +53,7 @@ extern "C"
     /**
      * Exists to be able to check for Guichan GLUT with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnGLUT();
+    FCN_EXTENSION_DECLSPEC extern void fcnGLUT();
 }
 
-#endif // end GCN_GLUT_HPP
+#endif // end FCN_GLUT_HPP

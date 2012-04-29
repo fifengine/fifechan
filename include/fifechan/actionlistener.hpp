@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ACTIONLISTENER_HPP
-#define GCN_ACTIONLISTENER_HPP
+#ifndef FCN_ACTIONLISTENER_HPP
+#define FCN_ACTIONLISTENER_HPP
 
 #include <string>
 
-#include "guichan/actionevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/actionevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for action events from widgets.
@@ -59,7 +59,7 @@ namespace gcn
      * @author Olof Naessén
      * @author Per Larsson
      */
-    class GCN_CORE_DECLSPEC ActionListener
+    class FCN_CORE_DECLSPEC ActionListener
     {
     public:
 
@@ -90,4 +90,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_ACTIONLISTENER_HPP
+#endif // end FCN_ACTIONLISTENER_HPP

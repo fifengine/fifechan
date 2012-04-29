@@ -45,16 +45,16 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/imagefont.hpp"
+#include "fifechan/imagefont.hpp"
 
 #include <sstream>
 
-#include "guichan/color.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     ImageFont::ImageFont(const std::string& filename,
                          const std::string& glyphs)
@@ -73,7 +73,7 @@ namespace gcn
 
         if (i >= mImage->getWidth())
         {
-            throw GCN_EXCEPTION("Corrupt image.");
+            throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
@@ -110,7 +110,7 @@ namespace gcn
         mFilename = "Image*";
         if (image == NULL)
         {
-                GCN_EXCEPTION("Font image is NULL");
+                FCN_EXCEPTION("Font image is NULL");
         }
         mImage = image;
 
@@ -125,7 +125,7 @@ namespace gcn
 
         if (i >= mImage->getWidth())
         {
-            throw GCN_EXCEPTION("Corrupt image.");
+            throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
@@ -173,7 +173,7 @@ namespace gcn
 
         if (i >= mImage->getWidth())
         {
-            throw GCN_EXCEPTION("Corrupt image.");
+            throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
@@ -309,7 +309,7 @@ namespace gcn
                     os << " with font is corrupt near character '";
                     os << glyph;
                     os << "'";
-                    throw GCN_EXCEPTION(os.str());
+                    throw FCN_EXCEPTION(os.str());
                 }
             }
 
@@ -332,7 +332,7 @@ namespace gcn
                 os << " with font is corrupt near character '";
                 os << glyph;
                 os << "'";
-                throw GCN_EXCEPTION(os.str());
+                throw FCN_EXCEPTION(os.str());
             }
 
             color = mImage->getPixel(x + width, y);

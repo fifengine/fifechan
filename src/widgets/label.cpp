@@ -45,13 +45,13 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/label.hpp"
+#include "fifechan/widgets/label.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     Label::Label()
     {
@@ -104,7 +104,7 @@ namespace gcn
               textX = getWidth();
               break;
           default:
-              throw GCN_EXCEPTION("Unknown alignment.");
+              throw FCN_EXCEPTION("Unknown alignment.");
         }
 
         graphics->setFont(getFont());

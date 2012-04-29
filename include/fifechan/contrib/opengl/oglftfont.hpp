@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTRIB_OGLFTFONT_HPP
-#define GCN_CONTRIB_OGLFTFONT_HPP
+#ifndef FCN_CONTRIB_OGLFTFONT_HPP
+#define FCN_CONTRIB_OGLFTFONT_HPP
 
 #include <string>
 
 #include <oglft.h>
 
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -62,7 +62,7 @@ namespace gcn
          *
          * @author Verneuil Julien
          */
-        class GCN_EXTENSION_DECLSPEC OGLFTFont: public Font
+        class FCN_EXTENSION_DECLSPEC OGLFTFont: public Font
         {
         public:
 
@@ -99,14 +99,14 @@ namespace gcn
              *
              * @return color the actual color of the font.
              */
-            virtual gcn::Color getColor();
+            virtual fcn::Color getColor();
 
             /**
              * Sets the actual color of the font.
              *
              * @param color the color of the font.
              */
-            virtual void setColor(gcn::Color color);
+            virtual void setColor(fcn::Color color);
 
         
             // Inherited from Font
@@ -120,7 +120,7 @@ namespace gcn
         protected:
             OGLFT::TranslucentTexture* mFont;
             std::string mFilename;
-            gcn::Color mFontColor;
+            fcn::Color mFontColor;
             int mSize;
             int mRowSpacing;
         };

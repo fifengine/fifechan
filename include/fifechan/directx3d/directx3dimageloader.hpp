@@ -54,22 +54,22 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_DIRECTX3DIMAGELOADER_HPP
-#define GCN_DIRECTX3DIMAGELOADER_HPP
+#ifndef FCN_DIRECTX3DIMAGELOADER_HPP
+#define FCN_DIRECTX3DIMAGELOADER_HPP
 
-#include "guichan/imageloader.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/imageloader.hpp"
+#include "fifechan/platform.hpp"
 
 #include <d3d9.h>
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
     /**
      * DirectX ImageLoader.
      */
-    class GCN_EXTENSION_DECLSPEC DirectX3DImageLoader : public ImageLoader
+    class FCN_EXTENSION_DECLSPEC DirectX3DImageLoader : public ImageLoader
     {
     public:
         /**
@@ -100,4 +100,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_DIRECTX3DIMAGELOADER_HPP
+#endif // end FCN_DIRECTX3DIMAGELOADER_HPP

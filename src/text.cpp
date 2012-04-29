@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/text.hpp"
+#include "fifechan/text.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
 
-namespace gcn
+namespace fcn
 {
     Text::Text()
         :mCaretPosition(0),
@@ -126,7 +126,7 @@ namespace gcn
     void Text::setRow(unsigned int row, const std::string& content)
     {
         if (row >= mRows.size())
-            throw GCN_EXCEPTION("Row out of bounds!");
+            throw FCN_EXCEPTION("Row out of bounds!");
 
         mRows[row] = content;
     }
@@ -137,7 +137,7 @@ namespace gcn
         for (i = 0; i < row.size(); i++)
         {
             if (row[i] == '\n')
-                throw GCN_EXCEPTION("Line feed not allowed in the row to be added!");
+                throw FCN_EXCEPTION("Line feed not allowed in the row to be added!");
         }
 
         mRows.push_back(row);
@@ -155,7 +155,7 @@ namespace gcn
             }
             else
             {
-                throw GCN_EXCEPTION("Position out of bounds!");
+                throw FCN_EXCEPTION("Position out of bounds!");
             }
         }
         
@@ -163,7 +163,7 @@ namespace gcn
         for(i = 0; i < row.size(); i++)
         {
             if(row[i] == '\n')
-                throw GCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
+                throw FCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
         }
 
         mRows.insert(mRows.begin() + position, row);
@@ -172,7 +172,7 @@ namespace gcn
     void Text::eraseRow(unsigned int row)
     {
         if(row >= mRows.size())
-            throw GCN_EXCEPTION("Row to be erased out of bounds!");
+            throw FCN_EXCEPTION("Row to be erased out of bounds!");
         
         mRows.erase(mRows.begin() + row);
     }
@@ -180,7 +180,7 @@ namespace gcn
     std::string& Text::getRow(unsigned int row)
     {
         if (row >= mRows.size())
-            throw GCN_EXCEPTION("Row out of bounds!");
+            throw FCN_EXCEPTION("Row out of bounds!");
 
         return mRows[row];
     }

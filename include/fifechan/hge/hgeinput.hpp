@@ -41,8 +41,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGEINPUT_HPP
-#define GCN_HGEINPUT_HPP
+#ifndef FCN_HGEINPUT_HPP
+#define FCN_HGEINPUT_HPP
 
 #include <queue>
 #include <hge.h>
@@ -51,12 +51,12 @@
 #undef DELETE
 #endif
 
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * HGE implementation of Input.
@@ -64,7 +64,7 @@ namespace gcn
      * @author Kevin Lynx
      * @since 0.6.1
      */
-    class GCN_EXTENSION_DECLSPEC HGEInput : public Input
+    class FCN_EXTENSION_DECLSPEC HGEInput : public Input
     {
     public:
 
@@ -137,4 +137,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_HGEINPUT_HPP
+#endif // end FCN_HGEINPUT_HPP

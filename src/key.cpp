@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/key.hpp"
+#include "fifechan/key.hpp"
 
-namespace gcn
+namespace fcn
 {
     Key::Key(int value)
             :mValue(value)

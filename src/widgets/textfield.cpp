@@ -45,15 +45,15 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/textfield.hpp"
+#include "fifechan/widgets/textfield.hpp"
 
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/text.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/text.hpp"
 
-namespace gcn
+namespace fcn
 {
     TextField::TextField():
         mEditable(true),

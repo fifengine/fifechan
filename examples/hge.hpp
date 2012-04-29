@@ -3,8 +3,8 @@
  * Guichan HGE back end.
  */
 
-#include <guichan.hpp>
-#include <guichan/hge.hpp>
+#include <fifechan.hpp>
+#include <fifechan/hge.hpp>
 #include <string>
 
 namespace hge
@@ -18,9 +18,9 @@ namespace hge
     // input objec to make Guichan able to get user input using HGE
     // and an ImageLoader object to make Guichan able to load images
     // using SDL.
-    gcn::HGEGraphics* graphics;
-    gcn::HGEInput* input;
-    gcn::HGEImageLoader* imageLoader;
+    fcn::HGEGraphics* graphics;
+    fcn::HGEInput* input;
+    fcn::HGEImageLoader* imageLoader;
 
     /**
      * The frame function for the HGE application.
@@ -65,20 +65,20 @@ namespace hge
 
         if (!hge->System_Initiate())
         {
-             throw GCN_EXCEPTION("Unable to initialse HGE: " + std::string(hge->System_GetErrorMessage()));
+             throw FCN_EXCEPTION("Unable to initialse HGE: " + std::string(hge->System_GetErrorMessage()));
         }
 
         // Now it's time to initialise the Guichan HGE back end.
 
-        imageLoader = new gcn::HGEImageLoader();
+        imageLoader = new fcn::HGEImageLoader();
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::HGEGraphics();
-        input = new gcn::HGEInput();
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::HGEGraphics();
+        input = new fcn::HGEInput();
 
         // Now we create the Gui object to be used with this HGE application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with HGE implementations of these objects hence making Guichan

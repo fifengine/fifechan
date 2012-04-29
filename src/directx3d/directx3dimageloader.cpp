@@ -58,14 +58,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/directx3d/directx3dimageloader.hpp"
+#include "fifechan/directx3d/directx3dimageloader.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/directx3d/directx3dimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/directx3d/directx3dimage.hpp"
 
 #include <d3dx9.h>
 
-namespace gcn
+namespace fcn
 {
     DirectX3DImageLoader::DirectX3DImageLoader(LPDIRECT3DDEVICE9 device)
         : mDevice(device)
@@ -82,7 +82,7 @@ namespace gcn
         
         if (result != D3D_OK)
         {
-            throw GCN_EXCEPTION("Unable to load image " + filename);
+            throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
         result = mDevice->CreateOffscreenPlainSurface(imageInfo.Width,
@@ -94,7 +94,7 @@ namespace gcn
 
         if (result != D3D_OK)
         {
-            throw GCN_EXCEPTION("Unable to load image " + filename);
+            throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
         result = D3DXLoadSurfaceFromFile(surface, 
@@ -108,7 +108,7 @@ namespace gcn
 
         if (result != D3D_OK)
         {
-            throw GCN_EXCEPTION("Unable to load image " + filename);
+            throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
         return new DirectX3DImage(surface, mDevice, imageInfo.Width, imageInfo.Height, convertToDisplayFormat);

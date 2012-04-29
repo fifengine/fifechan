@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/openlayer.hpp"
+#include "fifechan/openlayer.hpp"
 
 extern "C"
 {
-    void gcnOpenLayer() { }
+    void fcnOpenLayer() { }
 }

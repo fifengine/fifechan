@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENGLSDLIMAGELOADER_HPP
-#define GCN_OPENGLSDLIMAGELOADER_HPP
+#ifndef FCN_OPENGLSDLIMAGELOADER_HPP
+#define FCN_OPENGLSDLIMAGELOADER_HPP
 
-#include <guichan/sdl/sdlimageloader.hpp>
+#include <fifechan/sdl/sdlimageloader.hpp>
 
-#include <guichan/exception.hpp>
-#include <guichan/opengl/openglimage.hpp>
+#include <fifechan/exception.hpp>
+#include <fifechan/opengl/openglimage.hpp>
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
@@ -69,7 +69,7 @@ namespace gcn
 
             if (loadedSurface == NULL)
             {
-                throw GCN_EXCEPTION(
+                throw FCN_EXCEPTION(
                         std::string("Unable to load image file: ") + filename);
             }
 
@@ -78,7 +78,7 @@ namespace gcn
 
             if (surface == NULL)
             {
-                throw GCN_EXCEPTION(
+                throw FCN_EXCEPTION(
                         std::string("Not enough memory to load: ") + filename);
             }
 
@@ -93,4 +93,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENGLSDLIMAGELOADER_HPP
+#endif // end FCN_OPENGLSDLIMAGELOADER_HPP

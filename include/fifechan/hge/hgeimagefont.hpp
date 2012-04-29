@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGEIMAGEFONT_HPP
-#define GCN_HGEIMAGEFONT_HPP
+#ifndef FCN_HGEIMAGEFONT_HPP
+#define FCN_HGEIMAGEFONT_HPP
 
 #include <string>
 #include <hgefont.h>
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Graphics;
 
@@ -61,7 +61,7 @@ namespace gcn
      * @author Kevin Lynx
      * @since 0.6.1
      */
-    class GCN_EXTENSION_DECLSPEC HGEImageFont : public Font
+    class FCN_EXTENSION_DECLSPEC HGEImageFont : public Font
     {
     public:
         /**
@@ -107,4 +107,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_HGEIMAGEFONT_HPP
+#endif // end FCN_HGEIMAGEFONT_HPP

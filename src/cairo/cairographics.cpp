@@ -41,20 +41,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/cairo/cairographics.hpp"
+#include "fifechan/cairo/cairographics.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/cairo/cairofont.hpp"
-#include "guichan/cairo/cairoimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/cairo/cairofont.hpp"
+#include "fifechan/cairo/cairoimage.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     CairoGraphics::CairoGraphics(cairo_surface_t* TargetSurface,int Width,int Height)
     {
         if (!TargetSurface)
         {
-            GCN_EXCEPTION("Specified reference to target cairo surface is null!");
+            FCN_EXCEPTION("Specified reference to target cairo surface is null!");
         }
         mCairoContext=cairo_create(TargetSurface);
         mTargetSurface=TargetSurface;
@@ -115,7 +115,7 @@ namespace gcn
         const CairoImage *srcImage=dynamic_cast<const CairoImage*>(image);
         if (!srcImage)
         {
-            throw GCN_EXCEPTION("Passed image reference is null or not of type gcn::CairoImage*.");
+            throw FCN_EXCEPTION("Passed image reference is null or not of type fcn::CairoImage*.");
         }
         const ClipRectangle& top=mClipStack.top();
 

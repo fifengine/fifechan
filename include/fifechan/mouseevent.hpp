@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_MOUSEEVENT_HPP
-#define GCN_MOUSEEVENT_HPP
+#ifndef FCN_MOUSEEVENT_HPP
+#define FCN_MOUSEEVENT_HPP
 
-#include "guichan/inputevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/inputevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Gui;
     class Widget;
@@ -58,7 +58,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.6.0
      */
-    class GCN_CORE_DECLSPEC MouseEvent: public InputEvent
+    class FCN_CORE_DECLSPEC MouseEvent: public InputEvent
     {
     public:
 
@@ -199,4 +199,4 @@ namespace gcn
     };
 }
 
-#endif // GCN_MOUSEEVENT_HPP
+#endif // FCN_MOUSEEVENT_HPP

@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGEIMAGELOADER_HPP
-#define GCN_HGEIMAGELOADER_HPP
+#ifndef FCN_HGEIMAGELOADER_HPP
+#define FCN_HGEIMAGELOADER_HPP
 
 #include <hge.h>
 #include <hgeresource.h>
 
-#include "guichan/platform.hpp"
-#include "guichan/imageloader.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/imageloader.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
@@ -60,7 +60,7 @@ namespace gcn
      * @author Kevin Lynx
      * @since 0.6.1
      */
-    class GCN_EXTENSION_DECLSPEC HGEImageLoader : public ImageLoader
+    class FCN_EXTENSION_DECLSPEC HGEImageLoader : public ImageLoader
     {
     public:
 
@@ -99,4 +99,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_HGEIMAGELOADER_HPP
+#endif // end FCN_HGEIMAGELOADER_HPP

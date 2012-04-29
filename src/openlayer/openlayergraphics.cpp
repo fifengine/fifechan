@@ -45,16 +45,16 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/openlayer/openlayergraphics.hpp"
+#include "fifechan/openlayer/openlayergraphics.hpp"
 
 #include <OpenLayer.hpp>
 
 #include <string>
 
-#include "guichan/exception.hpp"
-#include "guichan/openlayer/openlayerimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/openlayer/openlayerimage.hpp"
 
-namespace gcn
+namespace fcn
 {
     OpenLayerGraphics::OpenLayerGraphics()
     {
@@ -135,7 +135,7 @@ namespace gcn
 
         if (srcImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenLayerImage.");
+            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenLayerImage.");
         }
         
         srcImage->getBitmap()->Blit(dstX - srcX,

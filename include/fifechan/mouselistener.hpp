@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_MOUSELISTENER_HPP
-#define GCN_MOUSELISTENER_HPP
+#ifndef FCN_MOUSELISTENER_HPP
+#define FCN_MOUSELISTENER_HPP
 
-#include "guichan/mouseevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/mouseevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for mouse events from widgets.
@@ -55,7 +55,7 @@ namespace gcn
      * @see Widget::addMouseListener, Widget::removeMouseListener
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC MouseListener
+    class FCN_CORE_DECLSPEC MouseListener
     {
     public:
 
@@ -180,4 +180,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_MOUSELISTENER_HPP
+#endif // end FCN_MOUSELISTENER_HPP

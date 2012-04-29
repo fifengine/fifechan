@@ -1,4 +1,4 @@
-libguichanincludedir = $(includedir)/guichan/glut
+libfifechanincludedir = $(includedir)/fifechan/glut
 
-libguichaninclude_HEADERS =	\
+libfifechaninclude_HEADERS =	\
 	glutinput.hpp

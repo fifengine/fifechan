@@ -41,16 +41,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_HGEGRAPHICS_HPP
-#define GCN_HGEGRAPHICS_HPP
+#ifndef FCN_HGEGRAPHICS_HPP
+#define FCN_HGEGRAPHICS_HPP
 
 #include <hge.h>
 
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/color.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/color.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Color;
 
@@ -60,7 +60,7 @@ namespace gcn
      * @author Kevin Lynx
      * @since 0.6.1
      */
-    class GCN_EXTENSION_DECLSPEC HGEGraphics : public Graphics
+    class FCN_EXTENSION_DECLSPEC HGEGraphics : public Graphics
     {
     public:
         /**
@@ -114,4 +114,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_HGEGRAPHICS_HPP
+#endif // end FCN_HGEGRAPHICS_HPP

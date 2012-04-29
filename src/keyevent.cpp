@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/keyevent.hpp"
+#include "fifechan/keyevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     KeyEvent::KeyEvent(Widget* source,
                        Widget* distributor,

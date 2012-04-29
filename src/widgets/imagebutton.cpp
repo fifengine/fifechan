@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/imagebutton.hpp"
+#include "fifechan/widgets/imagebutton.hpp"
 
-#include "guichan/graphics.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     ImageButton::ImageButton()
         : mImage(0), 
@@ -104,8 +104,8 @@ namespace gcn
 
     void ImageButton::draw(Graphics* graphics)
     {
-        gcn::Color faceColor = getBaseColor();
-        gcn::Color highlightColor, shadowColor;
+        fcn::Color faceColor = getBaseColor();
+        fcn::Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
 
         if (isPressed())

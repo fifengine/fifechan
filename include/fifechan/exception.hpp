@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_EXCEPTION_HPP
-#define GCN_EXCEPTION_HPP
+#ifndef FCN_EXCEPTION_HPP
+#define FCN_EXCEPTION_HPP
 
 #include <string>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 #ifndef __FUNCTION__
 #define __FUNCTION__ "?"
@@ -58,12 +58,12 @@
  * and automatically sets the filename and line number where
  * the exception occured by using other compiler macros.
  */
-#define GCN_EXCEPTION(mess) gcn::Exception(mess,   \
+#define FCN_EXCEPTION(mess) fcn::Exception(mess,   \
                             __FUNCTION__,          \
                             __FILE__,              \
                             __LINE__)
 
-namespace gcn
+namespace fcn
 {
 
     /**
@@ -79,10 +79,10 @@ namespace gcn
      * which automatically sets the filename and line number.
      *
      * EXAMPLE: @code
-     *          throw GCN_EXCEPTION("my error message");
+     *          throw FCN_EXCEPTION("my error message");
      *          @endcode
      */
-    class GCN_CORE_DECLSPEC Exception
+    class FCN_CORE_DECLSPEC Exception
     {
     public:
 
@@ -101,8 +101,8 @@ namespace gcn
         /**
          * Constructor.
          *
-         * NOTE: Don't use this constructor. Use the GCN_EXCEPTION macro instead.
-         *       This constructor merely exists for the GCN_EXCEPTION macro to
+         * NOTE: Don't use this constructor. Use the FCN_EXCEPTION macro instead.
+         *       This constructor merely exists for the FCN_EXCEPTION macro to
          *       use.
          *
          * @param message The error message of the exception.
@@ -168,7 +168,7 @@ namespace gcn
     };
 }
 
-#endif // end GCN_EXCEPTION_HPP
+#endif // end FCN_EXCEPTION_HPP
 
 /*
  * "Final Fantasy XI is the BEST!... It's even better then water!"

@@ -41,14 +41,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGRO_HPP
-#define GCN_ALLEGRO_HPP
+#ifndef FCN_ALLEGRO_HPP
+#define FCN_ALLEGRO_HPP
 
-#include <guichan/allegro/allegrofont.hpp>
-#include <guichan/allegro/allegrographics.hpp>
-#include <guichan/allegro/allegroimage.hpp>
-#include <guichan/allegro/allegroimageloader.hpp>
-#include <guichan/allegro/allegroinput.hpp>
+#include <fifechan/allegro/allegrofont.hpp>
+#include <fifechan/allegro/allegrographics.hpp>
+#include <fifechan/allegro/allegroimage.hpp>
+#include <fifechan/allegro/allegroimageloader.hpp>
+#include <fifechan/allegro/allegroinput.hpp>
 
 extern "C"
 {
@@ -57,7 +57,7 @@ extern "C"
      *
      * @bug Autotools is incapable of finding this function.
      */
-    extern void gcnAllegro();
+    extern void fcnAllegro();
 }
 
-#endif // end GCN_ALLEGRO_HPP
+#endif // end FCN_ALLEGRO_HPP

@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/allegro/allegrographics.hpp"
-#include "guichan/allegro/allegroimage.hpp"
-#include "guichan/rectangle.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/cliprectangle.hpp"
-#include "guichan/color.hpp"
+#include "fifechan/allegro/allegrographics.hpp"
+#include "fifechan/allegro/allegroimage.hpp"
+#include "fifechan/rectangle.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/cliprectangle.hpp"
+#include "fifechan/color.hpp"
 
-namespace gcn
+namespace fcn
 {
     AllegroGraphics::AllegroGraphics()
     {
@@ -83,7 +83,7 @@ namespace gcn
     {
         if (mTarget == NULL)
         {
-            throw GCN_EXCEPTION("Target BITMAP is null, set it with setTarget first.");
+            throw FCN_EXCEPTION("Target BITMAP is null, set it with setTarget first.");
         }
 
         // push a clip area the size of the target bitmap
@@ -182,7 +182,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
                                 "outside of _beginDraw() and _endDraw()?");
         }
 
@@ -193,7 +193,7 @@ namespace gcn
 
         if (srcImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
+            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
         }
 
         masked_blit(srcImage->getBitmap(),
@@ -215,7 +215,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
                                 "outside of _beginDraw() and _endDraw()?");
         }
 
@@ -237,7 +237,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion "
                                 "outside of _beginDraw() and _endDraw()?");
         }
 
@@ -261,7 +261,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
                                 "outside of _beginDraw() and _endDraw()?");
         }
 
@@ -285,7 +285,7 @@ namespace gcn
 
         if (mClipStack.empty())
         {
-            throw GCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
+            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion " 
                                 "outside of _beginDraw() and _endDraw()?");
         }
 

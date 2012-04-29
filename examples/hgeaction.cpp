@@ -3,7 +3,7 @@
  * in Guichan. The example uses the HGE back end.
  */
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <iostream>
 
 // Here we store a global Gui object.  We make it global
@@ -14,7 +14,7 @@
 // that shows how to use Guichan.
 namespace globals
 {
-    gcn::Gui* gui;
+    fcn::Gui* gui;
 }
 
 // Include code to set up an HGE application with Guichan.
@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
         hge::halt();
     }
     // Catch all Guichan exceptions.
-    catch (gcn::Exception e)
+    catch (fcn::Exception e)
     {
         MessageBox(NULL,  
                    e.getMessage().c_str(),

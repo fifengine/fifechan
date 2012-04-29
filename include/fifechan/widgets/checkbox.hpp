@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CHECKBOX_HPP
-#define GCN_CHECKBOX_HPP
+#ifndef FCN_CHECKBOX_HPP
+#define FCN_CHECKBOX_HPP
 
 #include <string>
 
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An implementation of a check box where a user can select or deselect
@@ -61,7 +61,7 @@ namespace gcn
      * If a check box's state changes an action event will be sent to all action 
      * listeners of the check box.
      */
-    class GCN_CORE_DECLSPEC CheckBox :
+    class FCN_CORE_DECLSPEC CheckBox :
         public Widget,
         public MouseListener,
         public KeyListener
@@ -170,4 +170,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_CHECKBOX_HPP
+#endif // end FCN_CHECKBOX_HPP

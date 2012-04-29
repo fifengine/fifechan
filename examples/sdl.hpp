@@ -3,8 +3,8 @@
  * Guichan SDL back end.
  */
 
-#include <guichan.hpp>
-#include <guichan/sdl.hpp>
+#include <fifechan.hpp>
+#include <fifechan/sdl.hpp>
 
 namespace sdl
 {
@@ -17,9 +17,9 @@ namespace sdl
     // input objec to make Guichan able to get user input using SDL
     // and an ImageLoader object to make Guichan able to load images
     // using SDL.
-    gcn::SDLGraphics* graphics;
-    gcn::SDLInput* input;
-    gcn::SDLImageLoader* imageLoader;
+    fcn::SDLGraphics* graphics;
+    fcn::SDLInput* input;
+    fcn::SDLImageLoader* imageLoader;
 
     /**
      * Initialises the SDL application. This function creates the global
@@ -37,18 +37,18 @@ namespace sdl
 
         // Now it's time to initialise the Guichan SDL back end.
 
-        imageLoader = new gcn::SDLImageLoader();
+        imageLoader = new fcn::SDLImageLoader();
         // The ImageLoader Guichan should use needs to be passed to the Image object
         // using a static function.
-        gcn::Image::setImageLoader(imageLoader);
-        graphics = new gcn::SDLGraphics();
+        fcn::Image::setImageLoader(imageLoader);
+        graphics = new fcn::SDLGraphics();
         // The Graphics object needs a target to draw to, in this case it's the
         // screen surface, but any surface will do, it doesn't have to be the screen.
         graphics->setTarget(screen);
-        input = new gcn::SDLInput();
+        input = new fcn::SDLInput();
 
         // Now we create the Gui object to be used with this SDL application.
-        globals::gui = new gcn::Gui();
+        globals::gui = new fcn::Gui();
         // The Gui object needs a Graphics to be able to draw itself and an Input
         // object to be able to check for user input. In this case we provide the
         // Gui object with SDL implementations of these objects hence making Guichan

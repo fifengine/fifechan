@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/allegro/allegroimage.hpp"
+#include "fifechan/allegro/allegroimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     AllegroImage::AllegroImage(BITMAP* bitmap, bool autoFree)
     {
@@ -83,7 +83,7 @@ namespace gcn
     {
         if (!mBitmap)
         {
-            throw GCN_EXCEPTION("Trying to get the width of a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
 
         return mBitmap->w;
@@ -93,7 +93,7 @@ namespace gcn
     {
         if (!mBitmap)
         {
-            GCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
 
         return mBitmap->h;
@@ -103,7 +103,7 @@ namespace gcn
     {
         if (!mBitmap)
         {
-            throw GCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+            throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
         int c = getpixel(mBitmap, x, y);
@@ -115,7 +115,7 @@ namespace gcn
     {
         if (!mBitmap)
         {
-            throw GCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
+            throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
 
         int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
@@ -127,7 +127,7 @@ namespace gcn
     {
         if (!mBitmap)
         {
-            GCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
         BITMAP *bmp = create_bitmap(mBitmap->w, mBitmap->h);

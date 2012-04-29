@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYER_HPP
-#define GCN_OPENLAYER_HPP
+#ifndef FCN_OPENLAYER_HPP
+#define FCN_OPENLAYER_HPP
 
-#include <guichan/openlayer/openlayerinput.hpp>
-#include <guichan/openlayer/openlayerfont.hpp>
-#include <guichan/openlayer/openlayerimageloader.hpp>
-#include <guichan/openlayer/openlayergraphics.hpp>
+#include <fifechan/openlayer/openlayerinput.hpp>
+#include <fifechan/openlayer/openlayerfont.hpp>
+#include <fifechan/openlayer/openlayerimageloader.hpp>
+#include <fifechan/openlayer/openlayergraphics.hpp>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 
 extern "C"
@@ -58,7 +58,7 @@ extern "C"
      * Exists to be able to check for Guichan Open Layer
      * with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnOpenLayer();
+    FCN_EXTENSION_DECLSPEC extern void fcnOpenLayer();
 }
 
-#endif // end GCN_OPENLAYER_HPP
+#endif // end FCN_OPENLAYER_HPP

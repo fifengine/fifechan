@@ -58,11 +58,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/directx3d/directx3dinput.hpp"
+#include "fifechan/directx3d/directx3dinput.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     DirectX3DInput::DirectX3DInput()
         : mLastMouseZ(0),
@@ -82,7 +82,7 @@ namespace gcn
 
         if (mKeyInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         keyInput = mKeyInputQueue.front();
@@ -102,7 +102,7 @@ namespace gcn
 
         if (mMouseInputQueue.empty())
         {
-            throw GCN_EXCEPTION("The queue is empty.");
+            throw FCN_EXCEPTION("The queue is empty.");
         }
 
         mouseInput = mMouseInputQueue.front();

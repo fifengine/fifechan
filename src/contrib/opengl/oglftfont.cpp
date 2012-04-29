@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file. 
  */
 
-#include "guichan/contrib/opengl/oglftfont.hpp"
+#include "fifechan/contrib/opengl/oglftfont.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/opengl/openglgraphics.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/opengl/openglgraphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -65,12 +65,12 @@ namespace gcn
 
             if(mFont == NULL || !mFont->isValid())
             {
-                throw GCN_EXCEPTION("Invalid True Type Font.");
+                throw FCN_EXCEPTION("Invalid True Type Font.");
             }
 
             glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 
-            mFontColor = gcn::Color(0, 0, 0, 0);
+            mFontColor = fcn::Color(0, 0, 0, 0);
         }
 
         OGLFTFont::~OGLFTFont()
@@ -100,31 +100,31 @@ namespace gcn
             return mRowSpacing;
         }
 
-        gcn::Color OGLFTFont::getColor()
+        fcn::Color OGLFTFont::getColor()
         {
             return mFontColor;
         }
 
-        void OGLFTFont::setColor(gcn::Color color)
+        void OGLFTFont::setColor(fcn::Color color)
         {
             mFontColor = color;
         }
 
-        void OGLFTFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
+        void OGLFTFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
         {
             if (text == "")
             {
                 return;
             }
 
-            gcn::OpenGLGraphics* glGraphics = dynamic_cast<gcn::OpenGLGraphics *>(graphics);
+            fcn::OpenGLGraphics* glGraphics = dynamic_cast<fcn::OpenGLGraphics *>(graphics);
 
             if(glGraphics == NULL)
             {
-                throw GCN_EXCEPTION("Graphics object not an OpenGL graphics object!");
+                throw FCN_EXCEPTION("Graphics object not an OpenGL graphics object!");
             }
 
-            const gcn::ClipRectangle& top = glGraphics->getCurrentClipArea();
+            const fcn::ClipRectangle& top = glGraphics->getCurrentClipArea();
 
             mFont->setForegroundColor(mFontColor.r/255, mFontColor.g/255, mFontColor.b/255);
 

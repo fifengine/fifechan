@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENGLGRAPHICS_HPP
-#define GCN_OPENGLGRAPHICS_HPP
+#ifndef FCN_OPENGLGRAPHICS_HPP
+#define FCN_OPENGLGRAPHICS_HPP
 
-#include "guichan/color.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenGL implementation of the Graphics.
      */
-    class GCN_EXTENSION_DECLSPEC OpenGLGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC OpenGLGraphics: public Graphics
     {
     public:
 
-        // Needed so that drawImage(gcn::Image *, int, int) is visible.
+        // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**
@@ -143,4 +143,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_OPENGLGRAPHICS_HPP
+#endif // end FCN_OPENGLGRAPHICS_HPP

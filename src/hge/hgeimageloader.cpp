@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/hge/hgeimage.hpp"
-#include "guichan/hge/hgeimageloader.hpp"
-#include "guichan/exception.hpp"
+#include "fifechan/hge/hgeimage.hpp"
+#include "fifechan/hge/hgeimageloader.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     HGE *HGEImageLoader::mHGE = NULL;
 
@@ -69,7 +69,7 @@ namespace gcn
 
         if (texture == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load: ") + filename);
+            throw FCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
         HGEImage *image = new HGEImage(texture, true);
@@ -88,7 +88,7 @@ namespace gcn
 
         if (texture == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load: ") + name);
+            throw FCN_EXCEPTION(std::string("Unable to load: ") + name);
         }
 
         HGEImage *image = new HGEImage(texture, true);

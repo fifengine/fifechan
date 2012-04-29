@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_KEYINPUT_HPP
-#define GCN_KEYINPUT_HPP
+#ifndef FCN_KEYINPUT_HPP
+#define FCN_KEYINPUT_HPP
 
-#include "guichan/key.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Internal class that represents key input. Generally you won't have to
@@ -56,7 +56,7 @@ namespace gcn
      *
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC KeyInput
+    class FCN_CORE_DECLSPEC KeyInput
     {
     public:
 
@@ -260,4 +260,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_KEYINPUT_HPP
+#endif // end FCN_KEYINPUT_HPP

@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_RADIOBUTTON_HPP
-#define GCN_RADIOBUTTON_HPP
+#ifndef FCN_RADIOBUTTON_HPP
+#define FCN_RADIOBUTTON_HPP
 
 #include <map>
 #include <string>
 
-#include "guichan/keylistener.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/widget.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * An implementation of a radio button where a user can select or deselect
@@ -64,7 +64,7 @@ namespace gcn
      * If a radio button's state changes an action event will be sent to all action 
      * listeners of the check box.
      */
-    class GCN_CORE_DECLSPEC RadioButton :
+    class FCN_CORE_DECLSPEC RadioButton :
         public Widget,
         public MouseListener,
         public KeyListener
@@ -208,4 +208,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_RADIOBUTTON_HPP
+#endif // end FCN_RADIOBUTTON_HPP

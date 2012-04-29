@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/widgets/dropdown.hpp"
+#include "fifechan/widgets/dropdown.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/listmodel.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/widgets/listbox.hpp"
-#include "guichan/widgets/scrollarea.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/listmodel.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/widgets/listbox.hpp"
+#include "fifechan/widgets/scrollarea.hpp"
 
-namespace gcn
+namespace fcn
 {
     DropDown::DropDown(ListModel *listModel,
                        ScrollArea *scrollArea,
@@ -408,12 +408,12 @@ namespace gcn
     {
         if (mScrollArea == NULL)
         {
-            throw GCN_EXCEPTION("Scroll area has been deleted.");
+            throw FCN_EXCEPTION("Scroll area has been deleted.");
         }
 
         if (mListBox == NULL)
         {
-            throw GCN_EXCEPTION("List box has been deleted.");
+            throw FCN_EXCEPTION("List box has been deleted.");
         }
 
         int listBoxHeight = mListBox->getHeight();

@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SDL_HPP
-#define GCN_SDL_HPP
+#ifndef FCN_SDL_HPP
+#define FCN_SDL_HPP
 
-#include <guichan/sdl/sdlgraphics.hpp>
-#include <guichan/sdl/sdlimage.hpp>
-#include <guichan/sdl/sdlimageloader.hpp>
-#include <guichan/sdl/sdlinput.hpp>
+#include <fifechan/sdl/sdlgraphics.hpp>
+#include <fifechan/sdl/sdlimage.hpp>
+#include <fifechan/sdl/sdlimageloader.hpp>
+#include <fifechan/sdl/sdlinput.hpp>
 
 #include "platform.hpp"
 
@@ -56,7 +56,7 @@ extern "C"
     /**
      * Exists to be able to check for Guichan SDL with autotools.
      */
-    GCN_EXTENSION_DECLSPEC extern void gcnSDL();
+    FCN_EXTENSION_DECLSPEC extern void fcnSDL();
 }
 
-#endif // end GCN_SDL_HPP
+#endif // end FCN_SDL_HPP

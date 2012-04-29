@@ -41,12 +41,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/allegro/allegrofont.hpp"
-#include "guichan/allegro/allegrographics.hpp"
+#include "fifechan/allegro/allegrofont.hpp"
+#include "fifechan/allegro/allegrographics.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     AllegroFont::AllegroFont(FONT* font)
@@ -56,7 +56,7 @@ namespace gcn
     {
         if (font == NULL)
         {
-            throw GCN_EXCEPTION("Allegro font is not usable. Have you forgotten to load it?");
+            throw FCN_EXCEPTION("Allegro font is not usable. Have you forgotten to load it?");
         }
     }
 
@@ -67,7 +67,7 @@ namespace gcn
     {
         if (mAllegroFont == NULL)
         {
-            throw GCN_EXCEPTION("Unable to load Allegro font from file.");
+            throw FCN_EXCEPTION("Unable to load Allegro font from file.");
         }
     }
 
@@ -94,17 +94,17 @@ namespace gcn
         return text_height(mAllegroFont);
     }
 
-    void AllegroFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
+    void AllegroFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
     {
-        gcn::AllegroGraphics* const allegroGraphics = dynamic_cast<gcn::AllegroGraphics*>(graphics);
+        fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
         if (!allegroGraphics)
         {
-            throw GCN_EXCEPTION("Graphics is not of type AllegroGraphics");
+            throw FCN_EXCEPTION("Graphics is not of type AllegroGraphics");
         }
 
         BITMAP* const db = allegroGraphics->getTarget();
         
-        const gcn::ClipRectangle& rec = graphics->getCurrentClipArea();
+        const fcn::ClipRectangle& rec = graphics->getCurrentClipArea();
         
         textout_ex(db, 
                    mAllegroFont, 

@@ -41,23 +41,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CAIROIMAGE_HPP
-#define GCN_CAIROIMAGE_HPP
+#ifndef FCN_CAIROIMAGE_HPP
+#define FCN_CAIROIMAGE_HPP
 
 
 #include <string>
 #include <cairo.h>
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     /**
      * Cairo implementation of Image.
      */
-    class GCN_EXTENSION_DECLSPEC CairoImage : public Image
+    class FCN_EXTENSION_DECLSPEC CairoImage : public Image
     {
 
     friend class CairoGraphics;

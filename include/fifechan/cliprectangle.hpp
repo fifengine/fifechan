@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CLIPRECTANGLE_HPP
-#define GCN_CLIPRECTANGLE_HPP
+#ifndef FCN_CLIPRECTANGLE_HPP
+#define FCN_CLIPRECTANGLE_HPP
 
-#include "guichan/rectangle.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/rectangle.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * A rectangle used when dealing with clipping. A clip rectangle is
@@ -55,7 +55,7 @@ namespace gcn
      * offsets. The offsets are used for calculations from relative
      * screen coordinates to actual screen coordinates.
      */
-    class GCN_CORE_DECLSPEC ClipRectangle : public Rectangle
+    class FCN_CORE_DECLSPEC ClipRectangle : public Rectangle
     {
     public:
 
@@ -106,4 +106,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_CLIPRECTANGLE_HPP
+#endif // end FCN_CLIPRECTANGLE_HPP

@@ -9,11 +9,11 @@ directory=`dirname $0`
 touch $directory/*
 touch $directory/examples/*
 touch $directory/include/*
-touch $directory/include/guichan/*
-touch $directory/include/guichan/allegro/*
-touch $directory/include/guichan/opengl/*
-touch $directory/include/guichan/sdl/*
-touch $directory/include/guichan/widgets/*
+touch $directory/include/fifechan/*
+touch $directory/include/fifechan/allegro/*
+touch $directory/include/fifechan/opengl/*
+touch $directory/include/fifechan/sdl/*
+touch $directory/include/fifechan/widgets/*
 touch $directory/src/*
 touch $directory/src/allegro/*
 touch $directory/src/opengl/*

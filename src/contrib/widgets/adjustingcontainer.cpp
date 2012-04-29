@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/contrib/widgets/adjustingcontainer.hpp"
+#include "fifechan/contrib/widgets/adjustingcontainer.hpp"
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -152,7 +152,7 @@ namespace gcn
         void AdjustingContainer::remove(Widget *widget)
         {
             Container::remove(widget);
-            std::vector<gcn::Widget *>::iterator it;
+            std::vector<fcn::Widget *>::iterator it;
             for(it = mContainedWidgets.begin(); it != mContainedWidgets.end(); it++)
             {
                 if(*it == widget)
@@ -261,7 +261,7 @@ namespace gcn
                         mContainedWidgets[i]->setX(basex + mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth());
                         break;
                     default:
-                        throw GCN_EXCEPTION("Unknown alignment.");
+                        throw FCN_EXCEPTION("Unknown alignment.");
                 }
 
                 mContainedWidgets[i]->setY(y);

@@ -1,11 +1,11 @@
 AC_PREREQ(2.57)
 
-AC_INIT(guichanffdemo, 0.8.2, olof@darkbits.org, guichanffdemo)
+AC_INIT(fifechanffdemo, 0.8.2, olof@darkbits.org, fifechanffdemo)
 
 AC_CANONICAL_SYSTEM
 AC_SUBST(target)
 
-AM_INIT_AUTOMAKE(guichanffdemo, 0.8.2)
+AM_INIT_AUTOMAKE(fifechanffdemo, 0.8.2)
 AM_CONFIG_HEADER([include/config.hpp])
 
 AC_PROG_CXX
@@ -23,13 +23,13 @@ fi
 CPPFLAGS="$CFLAGS `sdl-config --cflags`"
 LDFLAGS="$LDFLAGS `sdl-config --libs`"
 
-AC_CHECK_LIB(SDL_image, IMG_Load, GUICHANFFDEMO_LIBS="$GUICHANFFDEMO_LIBS -lSDL_image",AC_MSG_ERROR([Could not find lib SDL_image!]))
+AC_CHECK_LIB(SDL_image, IMG_Load, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lSDL_image",AC_MSG_ERROR([Could not find lib SDL_image!]))
 
-AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, GUICHANFFDEMO_LIBS="$GUICHANFFDEMO_LIBS -lSDL_mixer",AC_MSG_ERROR([Could not find lib SDL_mixer!]))
+AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lSDL_mixer",AC_MSG_ERROR([Could not find lib SDL_mixer!]))
 
-AC_CHECK_LIB(guichan, gcnGuichanVersion, GUICHANFFDEMO_LIBS="$GUICHANFFDEMO_LIBS -lguichan -lguichan_sdl",AC_MSG_ERROR([Could not find lib Guichan!]))
+AC_CHECK_LIB(fifechan, gcnGuichanVersion, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lfifechan -lfifechan_sdl",AC_MSG_ERROR([Could not find lib Guichan!]))
 
-AC_SUBST([GUICHANFFDEMO_LIBS])
+AC_SUBST([FIFECHANFFDEMO_LIBS])
 
 AC_OUTPUT([
 Makefile

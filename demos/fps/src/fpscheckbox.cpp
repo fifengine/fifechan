@@ -43,7 +43,7 @@
 
 #include "fpscheckbox.hpp"
 
-void FPSCheckBox::draw(gcn::Graphics* graphics)
+void FPSCheckBox::draw(fcn::Graphics* graphics)
 {
     graphics->setFont(getFont());
     graphics->setColor(getForegroundColor());
@@ -55,7 +55,7 @@ void FPSCheckBox::draw(gcn::Graphics* graphics)
     int x = getFont()->getWidth(mCaption) + getHeight() / 2;
 
     // Push a clip area where the box should draw itself
-    graphics->pushClipArea(gcn::Rectangle(x, 0, getWidth() - x, getHeight())); 
+    graphics->pushClipArea(fcn::Rectangle(x, 0, getWidth() - x, getHeight())); 
     drawBox(graphics);
     // Pop the cliparea. VERY IMPORTANT!
     graphics->popClipArea();

@@ -45,12 +45,12 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/irrlicht/irrlichtimageloader.hpp"
+#include "fifechan/irrlicht/irrlichtimageloader.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/irrlicht/irrlichtimage.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/irrlicht/irrlichtimage.hpp"
 
-namespace gcn
+namespace fcn
 {
     IrrlichtImageLoader::IrrlichtImageLoader(irr::video::IVideoDriver* driver) : mDriver(driver)
     {
@@ -74,7 +74,7 @@ namespace gcn
 
         if (image == NULL)
         {
-            throw GCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
+            throw FCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
         }
 
         return new IrrlichtImage(image, mDriver, filename, true, convertToDisplayFormat);

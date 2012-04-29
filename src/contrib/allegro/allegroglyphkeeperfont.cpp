@@ -45,15 +45,15 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/contrib/allegro/allegroglyphkeeperfont.hpp"
+#include "fifechan/contrib/allegro/allegroglyphkeeperfont.hpp"
 
-#include "guichan/allegro.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/allegro.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
 
 #include <glyph.h>
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -63,21 +63,21 @@ namespace gcn
 
             if (mKeeper == NULL)
             {
-                throw GCN_EXCEPTION("Can't create keeper.");
+                throw FCN_EXCEPTION("Can't create keeper.");
             }
 
             mFace = gk_load_face_from_file(filename.c_str(), 0);
 
             if (mFace == NULL)
             {
-                throw GCN_EXCEPTION("Can't load font from file.");
+                throw FCN_EXCEPTION("Can't load font from file.");
             }
 
             mRend = gk_create_renderer(mFace,mKeeper);
         
             if (mRend == NULL)
             {
-                throw GCN_EXCEPTION("Can't create renderer.");
+                throw FCN_EXCEPTION("Can't create renderer.");
             }
 
             gk_rend_set_hinting_off(mRend);
@@ -135,13 +135,13 @@ namespace gcn
             return gk_rend_height_pixels(mRend);
         }
 
-        void AllegroGlyphKeeperFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
+        void AllegroGlyphKeeperFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
         {
-            gcn::AllegroGraphics* const allegroGraphics = dynamic_cast<gcn::AllegroGraphics*>(graphics);
+            fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
 
             if (!allegroGraphics)
             {
-                throw GCN_EXCEPTION("Graphics is not of type AllegroGraphics");
+                throw FCN_EXCEPTION("Graphics is not of type AllegroGraphics");
             }
 
             BITMAP* const target = allegroGraphics->getTarget();
@@ -149,7 +149,7 @@ namespace gcn
             gk_rend_set_text_color_combined(mRend, allegroGraphics->getAllegroColor());
             gk_rend_set_text_alpha(mRend, allegroGraphics->getColor().a);
         
-            const gcn::ClipRectangle& rec = graphics->getCurrentClipArea();
+            const fcn::ClipRectangle& rec = graphics->getCurrentClipArea();
         
             gk_render_line_utf8(target,
                                 mRend, 

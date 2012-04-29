@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/checkbox.hpp"
+#include "fifechan/widgets/checkbox.hpp"
 
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/key.hpp"
-#include "guichan/mouseinput.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/mouseinput.hpp"
 
-namespace gcn
+namespace fcn
 {
 
     CheckBox::CheckBox()

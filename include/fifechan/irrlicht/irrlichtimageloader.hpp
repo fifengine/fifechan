@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IRRLICHTIMAGELOADER_HPP
-#define GCN_IRRLICHTIMAGELOADER_HPP
+#ifndef FCN_IRRLICHTIMAGELOADER_HPP
+#define FCN_IRRLICHTIMAGELOADER_HPP
 
-#include "guichan/imageloader.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/imageloader.hpp"
+#include "fifechan/platform.hpp"
 
 #include "irrlicht.h"
 
-namespace gcn
+namespace fcn
 {
     class Image;
 
@@ -59,7 +59,7 @@ namespace gcn
      * @author Aaron Andersen
      * @since 0.9.0
      */
-    class GCN_EXTENSION_DECLSPEC IrrlichtImageLoader : public ImageLoader
+    class FCN_EXTENSION_DECLSPEC IrrlichtImageLoader : public ImageLoader
     {
     public:
         /**
@@ -86,4 +86,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IRRLICHTIMAGELOADER_HPP
+#endif // end FCN_IRRLICHTIMAGELOADER_HPP

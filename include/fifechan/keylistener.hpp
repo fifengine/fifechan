@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_KEYLISTENER_HPP
-#define GCN_KEYLISTENER_HPP
+#ifndef FCN_KEYLISTENER_HPP
+#define FCN_KEYLISTENER_HPP
 
-#include "guichan/keyevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/keyevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Key;
 
@@ -56,7 +56,7 @@ namespace gcn
      *
      * @see Widget::addKeyListener, Widget::removeKeyListener
      */
-    class GCN_CORE_DECLSPEC KeyListener
+    class FCN_CORE_DECLSPEC KeyListener
     {
     public:
 
@@ -92,4 +92,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_KEYLISTENER_HPP
+#endif // end FCN_KEYLISTENER_HPP

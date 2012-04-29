@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_FOCUSLISTENER_HPP
-#define GCN_FOCUSLISTENER_HPP
+#ifndef FCN_FOCUSLISTENER_HPP
+#define FCN_FOCUSLISTENER_HPP
 
 #include <string>
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for focus events from widgets.
@@ -58,7 +58,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.7.0
      */
-    class GCN_CORE_DECLSPEC FocusListener
+    class FCN_CORE_DECLSPEC FocusListener
     {
     public:
 
@@ -92,4 +92,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_FOCUSLISTENER_HPP
+#endif // end FCN_FOCUSLISTENER_HPP

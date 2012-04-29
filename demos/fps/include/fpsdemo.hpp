@@ -58,17 +58,17 @@
 #include <GL/glu.h>
 #endif
 
-#include <guichan.hpp>
-#include <guichan/sdl.hpp>
-#include <guichan/opengl.hpp>
-#include <guichan/opengl/openglsdlimageloader.hpp>
+#include <fifechan.hpp>
+#include <fifechan/sdl.hpp>
+#include <fifechan/opengl.hpp>
+#include <fifechan/opengl/openglsdlimageloader.hpp>
 #include "fpsbutton.hpp"
 #include "fpscheckbox.hpp"
 
 /*
  * This is a ListModel we will use for resultion.
  */
-class ResolutionListModel : public gcn::ListModel
+class ResolutionListModel : public fcn::ListModel
 {
 public:
     int getNumberOfElements()
@@ -90,13 +90,13 @@ public:
     }
 };
 
-class FPSDemo : public gcn::ActionListener
+class FPSDemo : public fcn::ActionListener
 {
 public:
     FPSDemo();
     ~FPSDemo();
     void run();
-    void action(const gcn::ActionEvent& actionEvent);
+    void action(const fcn::ActionEvent& actionEvent);
 	
 private:
     void runIntro();
@@ -143,40 +143,40 @@ private:
     Mix_Chunk* mOptionsSound;
     Mix_Music* mMusic;
 	
-    gcn::OpenGLGraphics* mOpenGLGraphics;
-    gcn::SDLInput* mSDLInput;
-    gcn::OpenGLSDLImageLoader* mOpenGLImageLoader;
-    gcn::Gui* mGui;
-    gcn::Container* mTop;
-    gcn::ImageFont* mFont;
-    gcn::ImageFont* mSmallBlackFont;
-    gcn::ImageFont* mWhiteFont;
-    gcn::ImageFont* mHighLightFont;
-    gcn::Image* mTitleImage;
-    gcn::Icon* mTitle;
-    gcn::Image* mCloudImage;
-    gcn::Image* mPlanetImage;
-    gcn::Image* mStarsImage;
-    gcn::Image* mMoonImage;
-    gcn::Image* mMoonRedImage;
+    fcn::OpenGLGraphics* mOpenGLGraphics;
+    fcn::SDLInput* mSDLInput;
+    fcn::OpenGLSDLImageLoader* mOpenGLImageLoader;
+    fcn::Gui* mGui;
+    fcn::Container* mTop;
+    fcn::ImageFont* mFont;
+    fcn::ImageFont* mSmallBlackFont;
+    fcn::ImageFont* mWhiteFont;
+    fcn::ImageFont* mHighLightFont;
+    fcn::Image* mTitleImage;
+    fcn::Icon* mTitle;
+    fcn::Image* mCloudImage;
+    fcn::Image* mPlanetImage;
+    fcn::Image* mStarsImage;
+    fcn::Image* mMoonImage;
+    fcn::Image* mMoonRedImage;
 
-    gcn::Image* mBoxImage;
-    gcn::Icon* mSingleplayBoxIcon;
-    gcn::Icon* mMultiplayBoxIcon;
-    gcn::Icon* mOptionsBoxIcon;
+    fcn::Image* mBoxImage;
+    fcn::Icon* mSingleplayBoxIcon;
+    fcn::Icon* mMultiplayBoxIcon;
+    fcn::Icon* mOptionsBoxIcon;
 	
-    gcn::Label* mVersionLabel;
-    gcn::Label* mSingleplayLabel;
-    gcn::Label* mMultiplayLabel;
-    gcn::Label* mOptionsLabel;
-    gcn::TextBox* mSingleplayText;
-    gcn::TextBox* mMultiplayText;
+    fcn::Label* mVersionLabel;
+    fcn::Label* mSingleplayLabel;
+    fcn::Label* mMultiplayLabel;
+    fcn::Label* mOptionsLabel;
+    fcn::TextBox* mSingleplayText;
+    fcn::TextBox* mMultiplayText;
 	
-    gcn::Container* mMain;
-    gcn::Container* mSingleplay;
-    gcn::Container* mMultiplay;
-    gcn::Container* mOptions;
-    gcn::TextBox* mDemoInfo;
+    fcn::Container* mMain;
+    fcn::Container* mSingleplay;
+    fcn::Container* mMultiplay;
+    fcn::Container* mOptions;
+    fcn::TextBox* mDemoInfo;
 	
     GLuint mPlanetTexture;
     GLuint mCloudTexture;
@@ -207,17 +207,17 @@ private:
     FPSButton* mOptionsBackButton;
 	
     FPSCheckBox* mFullScreen;
-    gcn::DropDown* mResolution;	
+    fcn::DropDown* mResolution;	
     ResolutionListModel* mResolutionListModel;
-    gcn::ScrollArea* mResolutionScrollArea;
-    gcn::ListBox* mResolutionListBox;
+    fcn::ScrollArea* mResolutionScrollArea;
+    fcn::ListBox* mResolutionListBox;
 
-    gcn::Slider* mVolume;
-    gcn::Label* mVolumePercent;
-    gcn::Label* mVolumeLabel;
-    gcn::Label* mResolutionLabel;
-    gcn::Image* mSplashImage;
-    gcn::Icon* mSplashIcon;
+    fcn::Slider* mVolume;
+    fcn::Label* mVolumePercent;
+    fcn::Label* mVolumeLabel;
+    fcn::Label* mResolutionLabel;
+    fcn::Image* mSplashImage;
+    fcn::Icon* mSplashIcon;
 };
 
 #endif

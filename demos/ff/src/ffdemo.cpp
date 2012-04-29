@@ -60,60 +60,60 @@ FFDemo::FFDemo()
     mChooseSound = Mix_LoadWAV("sound/sound1.wav");
     mEscapeSound = Mix_LoadWAV("sound/sound2.wav");
 
-    mSDLImageLoader = new gcn::SDLImageLoader();
-    gcn::Image::setImageLoader(mSDLImageLoader); 
-    mSDLGraphics = new gcn::SDLGraphics();
+    mSDLImageLoader = new fcn::SDLImageLoader();
+    fcn::Image::setImageLoader(mSDLImageLoader); 
+    mSDLGraphics = new fcn::SDLGraphics();
     mSDLGraphics->setTarget(mScreen);
-    mSDLInput = new gcn::SDLInput();
+    mSDLInput = new fcn::SDLInput();
 	
-    mSplashImage = gcn::Image::load("images/splash.png");	
+    mSplashImage = fcn::Image::load("images/splash.png");	
 
-    mTop = new gcn::Container();
-    mTop->setBaseColor(gcn::Color(0x000000));
-    mTop->setDimension(gcn::Rectangle(0, 0, 320, 240));
-    mGui = new gcn::Gui();
+    mTop = new fcn::Container();
+    mTop->setBaseColor(fcn::Color(0x000000));
+    mTop->setDimension(fcn::Rectangle(0, 0, 320, 240));
+    mGui = new fcn::Gui();
     mGui->setTabbingEnabled(false);
     mGui->setGraphics(mSDLGraphics);
     mGui->setInput(mSDLInput);	
     mGui->setTop(mTop);
-    mFontWhite = new gcn::ImageFont("images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\""); 	
-    mFontCyan = new gcn::ImageFont("images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");	
-    gcn::Widget::setGlobalFont(mFontWhite);
+    mFontWhite = new fcn::ImageFont("images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\""); 	
+    mFontCyan = new fcn::ImageFont("images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");	
+    fcn::Widget::setGlobalFont(mFontWhite);
 	
     initMain();
 
     mMenu = new FFContainer();
-    mMenu->setDimension(gcn::Rectangle(230, 0, 90, 130));
+    mMenu->setDimension(fcn::Rectangle(230, 0, 90, 130));
     mMenu->setOpaque(false);
     mTop->add(mMenu);
 	
     mGoldFootsteps = new FFContainer();
-    mGoldFootsteps->setDimension(gcn::Rectangle(210, 170, 110, 70));
+    mGoldFootsteps->setDimension(fcn::Rectangle(210, 170, 110, 70));
     mGoldFootsteps->setOpaque(false);
     mGoldFootsteps->setFrameSize(0);
     mTop->add(mGoldFootsteps);
 
     mTime = new FFContainer();
-    mTime->setDimension(gcn::Rectangle(230, 130, 90, 40));
+    mTime->setDimension(fcn::Rectangle(230, 130, 90, 40));
     mTime->setOpaque(false);
     mTop->add(mTime);
 																	 
-    mGoldFootstepsInfo1 = new gcn::TextBox("Steps\n\nGP");
+    mGoldFootstepsInfo1 = new fcn::TextBox("Steps\n\nGP");
     mGoldFootstepsInfo1->setFont(mFontCyan);
     mGoldFootstepsInfo1->setOpaque(false);
     mGoldFootstepsInfo1->setEditable(false);
     mGoldFootstepsInfo1->setFocusable(false);
     mGoldFootstepsInfo1->setFrameSize(0);
 		
-    mGoldFootstepsInfo2 = new gcn::TextBox("\n    9119092\n\n    1009213");
+    mGoldFootstepsInfo2 = new fcn::TextBox("\n    9119092\n\n    1009213");
     mGoldFootstepsInfo2->setOpaque(false);
     mGoldFootstepsInfo2->setEditable(false);
     mGoldFootstepsInfo2->setFocusable(false);
     mGoldFootstepsInfo2->setFrameSize(0);
 	
-    mTimeLabel1 = new gcn::Label("Time");
+    mTimeLabel1 = new fcn::Label("Time");
     mTimeLabel1->setFont(mFontCyan);
-    mTimeLabel2 = new gcn::Label();
+    mTimeLabel2 = new fcn::Label();
     mTime->add(mTimeLabel1, 5, 5);	
     mTime->add(mTimeLabel2, 22, 20);
 
@@ -188,51 +188,51 @@ FFDemo::~FFDemo()
 void FFDemo::initMain()
 {
     mMain = new FFContainer();
-    mMain->setDimension(gcn::Rectangle(0, 0, 320, 240));
+    mMain->setDimension(fcn::Rectangle(0, 0, 320, 240));
     mTop->add(mMain);
 
-    mPerImage = gcn::Image::load("images/finalman.png");
-    mOlofImage = gcn::Image::load("images/yakslem.png");
-    mTomasImage = gcn::Image::load("images/peak.png");
+    mPerImage = fcn::Image::load("images/finalman.png");
+    mOlofImage = fcn::Image::load("images/yakslem.png");
+    mTomasImage = fcn::Image::load("images/peak.png");
 
-    mPerIcon = new gcn::Icon(mPerImage);
-    mOlofIcon = new gcn::Icon(mOlofImage);
-    mTomasIcon = new gcn::Icon(mTomasImage);
+    mPerIcon = new fcn::Icon(mPerImage);
+    mOlofIcon = new fcn::Icon(mOlofImage);
+    mTomasIcon = new fcn::Icon(mTomasImage);
 
-    mPerInfo1 = new gcn::TextBox("\n  LV\n  HP\n  MP");
+    mPerInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
     mPerInfo1->setFont(mFontCyan);
     mPerInfo1->setOpaque(false);
     mPerInfo1->setEditable(false);
     mPerInfo1->setFocusable(false);
     mPerInfo1->setFrameSize(0);
 	
-    mPerInfo2 = new gcn::TextBox("FINALMAN\n     13\n       12/ 336\n       33/  40");
+    mPerInfo2 = new fcn::TextBox("FINALMAN\n     13\n       12/ 336\n       33/  40");
     mPerInfo2->setOpaque(false);
     mPerInfo2->setEditable(false);
     mPerInfo2->setFocusable(false);
     mPerInfo2->setFrameSize(0);
 		 
-    mOlofInfo1 = new gcn::TextBox("\n  LV\n  HP\n  MP");
+    mOlofInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
     mOlofInfo1->setFont(mFontCyan);
     mOlofInfo1->setOpaque(false);
     mOlofInfo1->setEditable(false);
     mOlofInfo1->setFocusable(false);
     mOlofInfo1->setFrameSize(0);
 	
-    mOlofInfo2 = new gcn::TextBox("YAKSLEM\n     41\n     1304/2932\n      298/ 300");
+    mOlofInfo2 = new fcn::TextBox("YAKSLEM\n     41\n     1304/2932\n      298/ 300");
     mOlofInfo2->setOpaque(false);
     mOlofInfo2->setEditable(false);
     mOlofInfo2->setFocusable(false);
     mOlofInfo2->setFrameSize(0);
 	
-    mTomasInfo1 = new gcn::TextBox("\n  LV\n  HP\n  MP");
+    mTomasInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
     mTomasInfo1->setFont(mFontCyan);
     mTomasInfo1->setOpaque(false);
     mTomasInfo1->setEditable(false);
     mTomasInfo1->setFocusable(false);
     mTomasInfo1->setFrameSize(0);
 	
-    mTomasInfo2 = new gcn::TextBox("PEAK\n      6\n      101/ 101\n        0/   0");
+    mTomasInfo2 = new fcn::TextBox("PEAK\n      6\n      101/ 101\n        0/   0");
     mTomasInfo2->setOpaque(false);
     mTomasInfo2->setEditable(false);
     mTomasInfo2->setFocusable(false);
@@ -257,7 +257,7 @@ void FFDemo::initMain()
 
     mMain->add(mCharacterChooser, 5, 25);
 
-    mNavigationLabel = new gcn::Label("STATUS ");
+    mNavigationLabel = new fcn::Label("STATUS ");
     mNavigationLabel->setVisible(false);
     mMain->add(mNavigationLabel, 230, 20);
 
@@ -289,11 +289,11 @@ void FFDemo::cleanMain()
 void FFDemo::initStatus()
 {
     mStatus = new FFContainer();
-    mStatus->setDimension(gcn::Rectangle(0, 80, 320, 160));
+    mStatus->setDimension(fcn::Rectangle(0, 80, 320, 160));
     mStatus->setVisible(false);
     mTop->add(mStatus);
 
-    mPerStatus1 = new gcn::TextBox("  STR           EXP\n"
+    mPerStatus1 = new fcn::TextBox("  STR           EXP\n"
                                    "  INT           NEXT\n"
                                    "  DEF\n"
                                    "  MAGDEF\n");
@@ -304,7 +304,7 @@ void FFDemo::initStatus()
     mPerStatus1->setVisible(false);
     mPerStatus1->setFrameSize(0);
 	
-    mPerStatus2 = new gcn::TextBox("         32          12382\n"
+    mPerStatus2 = new fcn::TextBox("         32          12382\n"
                                    "         56          13872\n"
                                    "         12\n"
                                    "         11\n\n"
@@ -317,7 +317,7 @@ void FFDemo::initStatus()
     mPerStatus2->setVisible(false);	
     mPerStatus2->setFrameSize(0);
 	
-    mOlofStatus1 = new gcn::TextBox("  STR           EXP\n"
+    mOlofStatus1 = new fcn::TextBox("  STR           EXP\n"
                                     "  INT           NEXT\n"
                                     "  DEF\n"
                                     "  MAGDEF\n");
@@ -328,7 +328,7 @@ void FFDemo::initStatus()
     mOlofStatus1->setVisible(false);
     mOlofStatus1->setFrameSize(0);
 	
-    mOlofStatus2 = new gcn::TextBox("          2          412382\n"
+    mOlofStatus2 = new fcn::TextBox("          2          412382\n"
                                     "         72          513872\n"
                                     "          4\n"
                                     "         34\n\n"
@@ -341,7 +341,7 @@ void FFDemo::initStatus()
     mOlofStatus2->setVisible(false);	
     mOlofStatus2->setFrameSize(0);
 	
-    mTomasStatus1 = new gcn::TextBox("  STR           EXP\n"
+    mTomasStatus1 = new fcn::TextBox("  STR           EXP\n"
                                      "  INT           NEXT\n"
                                      "  DEF\n"
                                      "  MAGDEF\n");
@@ -352,7 +352,7 @@ void FFDemo::initStatus()
     mTomasStatus1->setVisible(false);
     mTomasStatus1->setFrameSize(0);
 	
-    mTomasStatus2 = new gcn::TextBox("          1          412382\n"
+    mTomasStatus2 = new fcn::TextBox("          1          412382\n"
                                      "          3          513872\n"
                                      "          9\n"
                                      "         24\n\n"
@@ -376,11 +376,11 @@ void FFDemo::initStatus()
 void FFDemo::initMagicSkills()
 {
     mMagicSkills = new FFContainer();
-    mMagicSkills->setDimension(gcn::Rectangle(0, 80, 320, 160));
+    mMagicSkills->setDimension(fcn::Rectangle(0, 80, 320, 160));
     mMagicSkills->setVisible(false);
 	
     mMagicSkillsScroll = new FFScrollArea();
-    mMagicSkillsScroll->setDimension(gcn::Rectangle(5, 5, 310, 150));
+    mMagicSkillsScroll->setDimension(fcn::Rectangle(5, 5, 310, 150));
 
     mMagicSkillsList = new FFListBox();
     mMagicSkillsList->setWidth(300);
@@ -495,14 +495,14 @@ void FFDemo::initItems()
     mItemsInfoListModel->add("Unknown Pleasures and Closer");
 	
     mItemsInfo = new FFContainer;
-    mItemsInfo->setDimension(gcn::Rectangle(0, 0, 320, 50));
+    mItemsInfo->setDimension(fcn::Rectangle(0, 0, 320, 50));
     mItemsInfo->setVisible(false);
 	
-    mItemsInfoInfo = new gcn::TextBox();
+    mItemsInfoInfo = new fcn::TextBox();
     mItemsInfoInfo->setOpaque(false);
     mItemsInfoInfo->setEditable(false);
     mItemsInfoInfo->setFocusable(false);
-    mItemsInfoInfo->setDimension(gcn::Rectangle(5, 5, 310, 40));
+    mItemsInfoInfo->setDimension(fcn::Rectangle(5, 5, 310, 40));
     mItemsInfoInfo->setFrameSize(0);
     mItemsInfo->add(mItemsInfoInfo);
 	
@@ -513,9 +513,9 @@ void FFDemo::initItems()
     mItemsList->setListModel(mItemsListModel);
     mItemsScrollArea = new FFScrollArea();
     mItemsScrollArea->setContent(mItemsList);
-    mItemsScrollArea->setDimension(gcn::Rectangle(5, 5, 310, 180));
+    mItemsScrollArea->setDimension(fcn::Rectangle(5, 5, 310, 180));
     mItems = new FFContainer();
-    mItems->setDimension(gcn::Rectangle(0, 50, 320, 190));
+    mItems->setDimension(fcn::Rectangle(0, 50, 320, 190));
     mItems->setVisible(false);
     mItems->add(mItemsScrollArea);
     mTop->add(mItems);	
@@ -534,11 +534,11 @@ void FFDemo::cleanItems()
 void FFDemo::initAbout()
 {
     mAbout = new FFContainer();
-    mAbout->setDimension(gcn::Rectangle(0, 0, 320, 240));
+    mAbout->setDimension(fcn::Rectangle(0, 0, 320, 240));
     mAbout->setVisible(false);
     mTop->add(mAbout);
  
-    mAboutInfo = new gcn::TextBox();
+    mAboutInfo = new fcn::TextBox();
     mAboutInfo->setOpaque(false);
     mAboutInfo->setEditable(false);
     mAboutInfo->setFocusable(false);
@@ -582,7 +582,7 @@ void FFDemo::initAbout()
     mAboutScrollArea = new FFScrollArea();
     mAboutScrollArea->setContent(mAboutInfo);
     mAboutScrollArea->setFocusable(true);
-    mAboutScrollArea->setDimension(gcn::Rectangle(5, 5, 310, 230));
+    mAboutScrollArea->setDimension(fcn::Rectangle(5, 5, 310, 230));
     mAboutScrollArea->setFrameSize(0);
     mAbout->add(mAboutScrollArea);
     mAbout->setFrameSize(0);
@@ -637,7 +637,7 @@ void FFDemo::run()
             src.h = dst.h = mSplashImage->getHeight();
             dst.x = 10;
             dst.y = 50;
-            gcn::SDLImage* image = (gcn::SDLImage*) mSplashImage;
+            fcn::SDLImage* image = (fcn::SDLImage*) mSplashImage;
             SDL_BlitSurface(image->getSurface(), &src, mScreen, &dst);
         }
         else		
@@ -651,7 +651,7 @@ void FFDemo::run()
     }		
 }
 
-void FFDemo::action(const gcn::ActionEvent& actionEvent)
+void FFDemo::action(const fcn::ActionEvent& actionEvent)
 {
     if (actionEvent.getId() == "menu")		
     {
@@ -797,7 +797,7 @@ void FFDemo::input()
             {  
                 Mix_PlayChannel(-1, mEscapeSound, 0);
 				
-                action(gcn::ActionEvent(NULL, "escape"));
+                action(fcn::ActionEvent(NULL, "escape"));
             }
             else if (mEvent.key.keysym.sym == SDLK_RETURN
                      || mEvent.key.keysym.sym == SDLK_UP
@@ -823,7 +823,7 @@ void FFDemo::input()
     }
 }
 
-void FFDemo::keyPressed(gcn::KeyEvent& keyEvent)
+void FFDemo::keyPressed(fcn::KeyEvent& keyEvent)
 {		
     mItemsInfoInfo->setText(mItemsInfoListModel->getElementAt(mItemsList->getSelected()));		
 }

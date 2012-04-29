@@ -41,17 +41,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_KEY_HPP
-#define GCN_KEY_HPP
+#ifndef FCN_KEY_HPP
+#define FCN_KEY_HPP
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Represents a key or a character.
      */
-    class GCN_CORE_DECLSPEC Key
+    class FCN_CORE_DECLSPEC Key
     {
     public:
 
@@ -173,4 +173,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_KEY_HPP
+#endif // end FCN_KEY_HPP

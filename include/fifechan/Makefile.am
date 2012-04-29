@@ -1,8 +1,8 @@
-SUBDIRS = @GUICHAN_EXTRADIRS@ widgets hge openlayer contrib
+SUBDIRS = @FIFECHAN_EXTRADIRS@ widgets hge openlayer contrib
 
-libguichanincludedir = $(includedir)/guichan
+libfifechanincludedir = $(includedir)/fifechan
 
-libguichaninclude_HEADERS =	\
+libfifechaninclude_HEADERS =	\
 	actionevent.hpp		\
 	actionlistener.hpp	\
 	allegro.hpp		\

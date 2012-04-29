@@ -1,9 +1,9 @@
-noinst_LTLIBRARIES = libguichan_widgets.la
+noinst_LTLIBRARIES = libfifechan_widgets.la
 
 INCLUDES = -I$(top_srcdir)/include
 
 # The Gui-chan library sources
-libguichan_widgets_la_SOURCES = \
+libfifechan_widgets_la_SOURCES = \
 	button.cpp		\
 	checkbox.cpp		\
 	container.cpp		\

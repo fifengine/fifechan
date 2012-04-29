@@ -44,14 +44,14 @@
 #ifndef __FFSCROLLAREA_HPP
 #define __FFSCROLLAREA_HPP
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 
-class FFScrollArea : public gcn::ScrollArea, public gcn::KeyListener
+class FFScrollArea : public fcn::ScrollArea, public fcn::KeyListener
 {
 public:
     FFScrollArea();
-    void draw(gcn::Graphics *graphics);
-    void keyPressed(gcn::KeyEvent &keyEvent);
+    void draw(fcn::Graphics *graphics);
+    void keyPressed(fcn::KeyEvent &keyEvent);
 };
 
 #endif

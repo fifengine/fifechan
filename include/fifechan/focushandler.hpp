@@ -41,15 +41,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_FOCUSHANDLER_HPP
-#define GCN_FOCUSHANDLER_HPP
+#ifndef FCN_FOCUSHANDLER_HPP
+#define FCN_FOCUSHANDLER_HPP
 
 #include <vector>
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Widget;
 
@@ -68,7 +68,7 @@ namespace gcn
      *
      * @since 0.1.0
      */
-    class GCN_CORE_DECLSPEC FocusHandler
+    class FCN_CORE_DECLSPEC FocusHandler
     {
     public:
 
@@ -395,4 +395,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_FOCUSHANDLER_HPP
+#endif // end FCN_FOCUSHANDLER_HPP

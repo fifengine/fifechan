@@ -58,11 +58,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/directx3d/directx3dimage.hpp"
+#include "fifechan/directx3d/directx3dimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     DirectX3DImage::DirectX3DImage(LPDIRECT3DSURFACE9 surface,   
                                    LPDIRECT3DDEVICE9 device,
@@ -131,12 +131,12 @@ namespace gcn
     {
         if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format");
+            throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
 		{
-			throw GCN_EXCEPTION("Coordinates outside of the image");
+			throw FCN_EXCEPTION("Coordinates outside of the image");
 		}
 
         D3DLOCKED_RECT lockedRect;
@@ -155,12 +155,12 @@ namespace gcn
     {
        if (mSurface == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format");
+            throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
 		{
-			throw GCN_EXCEPTION("Coordinates outside of the image");
+			throw FCN_EXCEPTION("Coordinates outside of the image");
 		}
 
         D3DLOCKED_RECT lockedRect;
@@ -183,7 +183,7 @@ namespace gcn
                                    &mTexture);
         if (result != D3D_OK)
         {
-            throw GCN_EXCEPTION("Unable to convert image to display format!");
+            throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
         LPDIRECT3DSURFACE9 textureSurface;
@@ -204,7 +204,7 @@ namespace gcn
                                             0);
         if (result != D3D_OK)
         {
-            throw GCN_EXCEPTION("Unable to convert image to display format!");
+            throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
         mSurface->Release();

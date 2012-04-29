@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/mouseevent.hpp"
+#include "fifechan/mouseevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     MouseEvent::MouseEvent(Widget* source,
                            Widget* distributor,

@@ -3,18 +3,18 @@
  * use actions in Guichan.
  */
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <iostream>
 #include <sstream>
 
 namespace action
 {
-    gcn::Container* top;
-    gcn::ImageFont* font;
-    gcn::Button* button1; 
-    gcn::Button* button2;
-    gcn::Label* label1;
-    gcn::Label* label2;
+    fcn::Container* top;
+    fcn::ImageFont* font;
+    fcn::Button* button1; 
+    fcn::Button* button2;
+    fcn::Label* label1;
+    fcn::Label* label2;
 
     int clickCountButton1 = 0; // Holds clicks for button1
     int clickCountButton2 = 0; // Holds clicks for button2
@@ -26,12 +26,12 @@ namespace action
      * that widget calls the action function for all its action listeners.
      * Below we make a class to be able to recieve our buttons actions.
      */
-    class ButtonActionListener : public gcn::ActionListener
+    class ButtonActionListener : public fcn::ActionListener
     {
     public:
         // Implement the action function in ActionListener to recieve actions
         // The eventId tells us which widget called the action function.
-        void action(const gcn::ActionEvent& actionEvent)
+        void action(const fcn::ActionEvent& actionEvent)
         {
             std::string str;
             std::ostringstream os(str);
@@ -72,21 +72,21 @@ namespace action
         // The top widget in Guichan can be any kind of widget, but
         // in order to make the Gui contain more than one widget we
         // make the top widget a container.
-        top = new gcn::Container();
+        top = new fcn::Container();
          // We set the dimension of the top container to match the screen.
-        top->setDimension(gcn::Rectangle(0, 0, 640, 480));
+        top->setDimension(fcn::Rectangle(0, 0, 640, 480));
         // Finally we pass the top widget to the Gui object.
         globals::gui->setTop(top);
 
         // Now we load the font used in this example.
-        font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
         // Widgets may have a global font so we don't need to pass the
         // font object to every created widget. The global font is static.
-        gcn::Widget::setGlobalFont(font);
+        fcn::Widget::setGlobalFont(font);
 
         // Now we create the buttons.
-        button1 = new gcn::Button("Button 1");
-        button2 = new gcn::Button("Button 2");
+        button1 = new fcn::Button("Button 1");
+        button2 = new fcn::Button("Button 2");
         button1->setPosition(120, 230);
         button2->setPosition(420, 230);
         // We add the buttons to the top container.
@@ -94,8 +94,8 @@ namespace action
         top->add(button2);
 
         // Now we create the labels.
-        label1 = new gcn::Label("Button1 clicks 0");
-        label2 = new gcn::Label("Button2 clicks 0");
+        label1 = new fcn::Label("Button1 clicks 0");
+        label2 = new fcn::Label("Button2 clicks 0");
         label1->setPosition(100, 200);
         label2->setPosition(400, 200);
         // We add the labels to the top container.

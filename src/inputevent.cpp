@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/inputevent.hpp"
+#include "fifechan/inputevent.hpp"
 
-namespace gcn
+namespace fcn
 {
     InputEvent::InputEvent(Widget* source,
                            Widget* distributor,

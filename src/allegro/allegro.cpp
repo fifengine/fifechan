@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/allegro.hpp"
+#include "fifechan/allegro.hpp"
 
 extern "C"
 {
-    void gcnAllegro() { }
+    void fcnAllegro() { }
 }

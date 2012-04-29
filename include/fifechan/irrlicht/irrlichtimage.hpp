@@ -41,18 +41,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_IRRLICHTIMAGE_HPP
-#define GCN_IRRLICHTIMAGE_HPP
+#ifndef FCN_IRRLICHTIMAGE_HPP
+#define FCN_IRRLICHTIMAGE_HPP
 
 #include "irrlicht.h"
 
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/platform.hpp"
-#include "guichan/image.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/platform.hpp"
+#include "fifechan/image.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Irrlicht implementation of Image.
@@ -60,7 +60,7 @@ namespace gcn
      * @author Aaron Andersen
      * @since 0.9.0
      */
-    class GCN_EXTENSION_DECLSPEC IrrlichtImage : public Image
+    class FCN_EXTENSION_DECLSPEC IrrlichtImage : public Image
     {
     public:
         /**
@@ -137,4 +137,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_IRRLICHTIMAGE_HPP
+#endif // end FCN_IRRLICHTIMAGE_HPP

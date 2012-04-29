@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTAINERLISTENER_HPP
-#define GCN_CONTAINERLISTENER_HPP
+#ifndef FCN_CONTAINERLISTENER_HPP
+#define FCN_CONTAINERLISTENER_HPP
 
-#include "guichan/containerevent.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/containerevent.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Interface for listening for action from a container, such as BasicContainer.
@@ -57,7 +57,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.9.0
      */
-    class GCN_CORE_DECLSPEC ContainerListener
+    class FCN_CORE_DECLSPEC ContainerListener
     {
     public:
 
@@ -94,4 +94,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_ACTIONLISTENER_HPP
+#endif // end FCN_ACTIONLISTENER_HPP

@@ -41,14 +41,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_CONTRIB_ADJUSTINGCONTAINER_HPP
-#define GCN_CONTRIB_ADJUSTINGCONTAINER_HPP
+#ifndef FCN_CONTRIB_ADJUSTINGCONTAINER_HPP
+#define FCN_CONTRIB_ADJUSTINGCONTAINER_HPP
 
-#include "guichan/widgets/container.hpp"
+#include "fifechan/widgets/container.hpp"
 
 #include <vector>
 
-namespace gcn
+namespace fcn
 {
     namespace contrib
     {
@@ -82,14 +82,14 @@ namespace gcn
          *
          * for(int j = 0; j < 9; j++)
          * {
-         *   gcn::Label *l;
+         *   fcn::Label *l;
          *   int r = rand() % 3;
          *   if(r == 0)
-         *     l = new gcn::Label("Short");
+         *     l = new fcn::Label("Short");
          *   else if(r == 1)
-         *     l = new gcn::Label("A longer phrase");
+         *     l = new fcn::Label("A longer phrase");
          *   else
-         *     l = new gcn::Label("Extravagent and wordy text");
+         *     l = new fcn::Label("Extravagent and wordy text");
          *   adjust->add(l);
          * @endcode
          *
@@ -119,7 +119,7 @@ namespace gcn
          *
          * @author Josh Matthews
          */
-        class AdjustingContainer : public gcn::Container
+        class AdjustingContainer : public fcn::Container
         {
         public:
             /**

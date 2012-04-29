@@ -49,7 +49,7 @@ FFCharacterChooser::FFCharacterChooser()
     setHeight(240);
     mSelected = 0;
     mDistance = 76;
-    mHand = gcn::Image::load("images/hand.png");
+    mHand = fcn::Image::load("images/hand.png");
     setFocusable(true);
     addKeyListener(this);
     setFrameSize(0);
@@ -60,7 +60,7 @@ FFCharacterChooser::~FFCharacterChooser()
     delete mHand;
 }
 
-void FFCharacterChooser::draw(gcn::Graphics* graphics)
+void FFCharacterChooser::draw(fcn::Graphics* graphics)
 {
     if (isFocused())
     {
@@ -83,9 +83,9 @@ void FFCharacterChooser::setDistance(int distance)
     mDistance = distance;
 }
 
-void FFCharacterChooser::keyPressed(gcn::KeyEvent& keyEvent)
+void FFCharacterChooser::keyPressed(fcn::KeyEvent& keyEvent)
 {
-    if (keyEvent.getKey().getValue() == gcn::Key::Up)
+    if (keyEvent.getKey().getValue() == fcn::Key::Up)
     {
         mSelected--;
         if (mSelected < 0)
@@ -93,7 +93,7 @@ void FFCharacterChooser::keyPressed(gcn::KeyEvent& keyEvent)
             mSelected = 0;
         }
     }
-    else if (keyEvent.getKey().getValue() == gcn::Key::Down)
+    else if (keyEvent.getKey().getValue() == fcn::Key::Down)
     {
         mSelected++;
         if (mSelected > 2)
@@ -101,7 +101,7 @@ void FFCharacterChooser::keyPressed(gcn::KeyEvent& keyEvent)
             mSelected = 2;
         }
     }
-    else if (keyEvent.getKey().getValue() == gcn::Key::Enter)
+    else if (keyEvent.getKey().getValue() == fcn::Key::Enter)
     {
         distributeActionEvent();
     }

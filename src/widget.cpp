@@ -45,25 +45,25 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widget.hpp"
+#include "fifechan/widget.hpp"
 
-#include "guichan/actionevent.hpp"
-#include "guichan/actionlistener.hpp"
-#include "guichan/deathlistener.hpp"
-#include "guichan/defaultfont.hpp"
-#include "guichan/event.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/focushandler.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/widgetlistener.hpp"
+#include "fifechan/actionevent.hpp"
+#include "fifechan/actionlistener.hpp"
+#include "fifechan/deathlistener.hpp"
+#include "fifechan/defaultfont.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/focushandler.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/widgetlistener.hpp"
 
 #include <algorithm>
 
-namespace gcn
+namespace fcn
 {
     Font* Widget::mGlobalFont = NULL;
     DefaultFont Widget::mDefaultFont;
@@ -275,7 +275,7 @@ namespace gcn
     void Widget::requestFocus()
     {
         if (mFocusHandler == NULL)
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
 
         if (isFocusable())
             mFocusHandler->requestFocus(this);
@@ -546,7 +546,7 @@ namespace gcn
     void Widget::requestModalFocus()
     {
         if (mFocusHandler == NULL)
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
 
         mFocusHandler->requestModalFocus(this);
     }
@@ -554,7 +554,7 @@ namespace gcn
     void Widget::requestModalMouseInputFocus()
     {
         if (mFocusHandler == NULL)
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
 
         mFocusHandler->requestModalMouseInputFocus(this);
     }
@@ -578,7 +578,7 @@ namespace gcn
     bool Widget::isModalFocused() const
     {
         if (mFocusHandler == NULL)
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
 
         if (getParent() != NULL)
         {
@@ -592,7 +592,7 @@ namespace gcn
     bool Widget::isModalMouseInputFocused() const
     {
         if (mFocusHandler == NULL)
-            throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
 
         if (getParent() != NULL)
         {
@@ -845,7 +845,7 @@ namespace gcn
             }
         }
 
-        throw GCN_EXCEPTION("There is no such widget in this container.");
+        throw FCN_EXCEPTION("There is no such widget in this container.");
     }
 
     void Widget::add(Widget* widget)
@@ -866,7 +866,7 @@ namespace gcn
         iter = std::find(mChildren.begin(), mChildren.end(), widget);
 
         if (iter == mChildren.end())
-            throw GCN_EXCEPTION("There is no such widget in this widget.");
+            throw FCN_EXCEPTION("There is no such widget in this widget.");
 
         mChildren.remove(widget);
         mChildren.push_back(widget);
@@ -878,7 +878,7 @@ namespace gcn
         iter = find(mChildren.begin(), mChildren.end(), widget);
 
         if (iter == mChildren.end())
-            throw GCN_EXCEPTION("There is no such widget in this widget.");
+            throw FCN_EXCEPTION("There is no such widget in this widget.");
 
         mChildren.remove(widget);
         mChildren.push_front(widget);

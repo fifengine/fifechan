@@ -41,8 +41,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_OPENLAYERGRAPHICS_HPP
-#define GCN_OPENLAYERGRAPHICS_HPP
+#ifndef FCN_OPENLAYERGRAPHICS_HPP
+#define FCN_OPENLAYERGRAPHICS_HPP
 
 #include <OpenLayer.hpp>
 #if defined (DELETE)
@@ -50,19 +50,19 @@
 #endif
 #include <string>
 
-#include "guichan/color.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/graphics.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * OpenLayer implementation of Graphics.
      */
-    class GCN_EXTENSION_DECLSPEC OpenLayerGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC OpenLayerGraphics: public Graphics
     {
     public:
-        // Needed so that drawImage(gcn::Image *, int, int) is visible.
+        // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**
@@ -136,4 +136,4 @@ namespace gcn
     };
 }
 
-#endif // GCN_OPENLAYERGRAPHICS_HPP
+#endif // FCN_OPENLAYERGRAPHICS_HPP

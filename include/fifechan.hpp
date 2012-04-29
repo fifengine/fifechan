@@ -41,60 +41,60 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_GUICHAN_HPP
-#define GCN_GUICHAN_HPP
+#ifndef FCN_GUICHAN_HPP
+#define FCN_GUICHAN_HPP
 
-#include <guichan/actionevent.hpp>
-#include <guichan/actionlistener.hpp>
-#include <guichan/cliprectangle.hpp>
-#include <guichan/color.hpp>
-#include <guichan/containerevent.hpp>
-#include <guichan/containerlistener.hpp>
-#include <guichan/deathlistener.hpp>
-#include <guichan/event.hpp>
-#include <guichan/exception.hpp>
-#include <guichan/focushandler.hpp>
-#include <guichan/focuslistener.hpp>
-#include <guichan/font.hpp>
-#include <guichan/genericinput.hpp>
-#include <guichan/graphics.hpp>
-#include <guichan/gui.hpp>
-#include <guichan/image.hpp>
-#include <guichan/imagefont.hpp>
-#include <guichan/imageloader.hpp>
-#include <guichan/input.hpp>
-#include <guichan/inputevent.hpp>
-#include <guichan/key.hpp>
-#include <guichan/keyevent.hpp>
-#include <guichan/keyinput.hpp>
-#include <guichan/keylistener.hpp>
-#include <guichan/listmodel.hpp>
-#include <guichan/mouseevent.hpp>
-#include <guichan/mouseinput.hpp>
-#include <guichan/mouselistener.hpp>
-#include <guichan/rectangle.hpp>
-#include <guichan/selectionevent.hpp>
-#include <guichan/selectionlistener.hpp>
-#include <guichan/widget.hpp>
-#include <guichan/widgetlistener.hpp>
-#include <guichan/widgets/button.hpp>
-#include <guichan/widgets/checkbox.hpp>
-#include <guichan/widgets/container.hpp>
-#include <guichan/widgets/dropdown.hpp>
-#include <guichan/widgets/icon.hpp>
-#include <guichan/widgets/imagebutton.hpp>
-#include <guichan/widgets/label.hpp>
-#include <guichan/widgets/listbox.hpp>
-#include <guichan/widgets/scrollarea.hpp>
-#include <guichan/widgets/slider.hpp>
-#include <guichan/widgets/radiobutton.hpp>
-#include <guichan/widgets/tab.hpp>
-#include <guichan/widgets/tabbedarea.hpp>
-#include <guichan/widgets/textbox.hpp>
-#include <guichan/widgets/textfield.hpp>
-#include <guichan/widgets/window.hpp>
+#include <fifechan/actionevent.hpp>
+#include <fifechan/actionlistener.hpp>
+#include <fifechan/cliprectangle.hpp>
+#include <fifechan/color.hpp>
+#include <fifechan/containerevent.hpp>
+#include <fifechan/containerlistener.hpp>
+#include <fifechan/deathlistener.hpp>
+#include <fifechan/event.hpp>
+#include <fifechan/exception.hpp>
+#include <fifechan/focushandler.hpp>
+#include <fifechan/focuslistener.hpp>
+#include <fifechan/font.hpp>
+#include <fifechan/genericinput.hpp>
+#include <fifechan/graphics.hpp>
+#include <fifechan/gui.hpp>
+#include <fifechan/image.hpp>
+#include <fifechan/imagefont.hpp>
+#include <fifechan/imageloader.hpp>
+#include <fifechan/input.hpp>
+#include <fifechan/inputevent.hpp>
+#include <fifechan/key.hpp>
+#include <fifechan/keyevent.hpp>
+#include <fifechan/keyinput.hpp>
+#include <fifechan/keylistener.hpp>
+#include <fifechan/listmodel.hpp>
+#include <fifechan/mouseevent.hpp>
+#include <fifechan/mouseinput.hpp>
+#include <fifechan/mouselistener.hpp>
+#include <fifechan/rectangle.hpp>
+#include <fifechan/selectionevent.hpp>
+#include <fifechan/selectionlistener.hpp>
+#include <fifechan/widget.hpp>
+#include <fifechan/widgetlistener.hpp>
+#include <fifechan/widgets/button.hpp>
+#include <fifechan/widgets/checkbox.hpp>
+#include <fifechan/widgets/container.hpp>
+#include <fifechan/widgets/dropdown.hpp>
+#include <fifechan/widgets/icon.hpp>
+#include <fifechan/widgets/imagebutton.hpp>
+#include <fifechan/widgets/label.hpp>
+#include <fifechan/widgets/listbox.hpp>
+#include <fifechan/widgets/scrollarea.hpp>
+#include <fifechan/widgets/slider.hpp>
+#include <fifechan/widgets/radiobutton.hpp>
+#include <fifechan/widgets/tab.hpp>
+#include <fifechan/widgets/tabbedarea.hpp>
+#include <fifechan/widgets/textbox.hpp>
+#include <fifechan/widgets/textfield.hpp>
+#include <fifechan/widgets/window.hpp>
 
-#include "guichan/platform.hpp"
+#include "fifechan/platform.hpp"
 
 
 class Widget;
@@ -107,7 +107,7 @@ extern "C"
      *
      * @return the version of Guichan.
      */
-    GCN_CORE_DECLSPEC extern const char* gcnGuichanVersion();
+    FCN_CORE_DECLSPEC extern const char* fcnGuichanVersion();
 }
 
-#endif // end GCN_GUICHAN_HPP
+#endif // end FCN_GUICHAN_HPP

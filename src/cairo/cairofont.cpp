@@ -41,11 +41,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "guichan/cairo/cairofont.hpp"
-#include "guichan/cairo/cairographics.hpp"
-#include "guichan/exception.hpp"
+#include "fifechan/cairo/cairofont.hpp"
+#include "fifechan/cairo/cairographics.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     CairoFont::CairoFont(cairo_scaled_font_t* fontface)
     {
@@ -61,12 +61,12 @@ namespace gcn
 
     }*/
 
-    void CairoFont::drawString(gcn::Graphics* graphics, const std::string& text, int x, int y)
+    void CairoFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
     {
         CairoGraphics* gr=dynamic_cast<CairoGraphics*>(graphics);
         if (gr==NULL)
         {
-            GCN_EXCEPTION("The graphics object passed as parameter is not of type CairoGraphics");
+            FCN_EXCEPTION("The graphics object passed as parameter is not of type CairoGraphics");
         }
         cairo_t* target=gr->GetContext();
         ClipRectangle r=gr->getCurrentClipArea();

@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/event.hpp"
+#include "fifechan/event.hpp"
 
-namespace gcn
+namespace fcn
 {
     Event::Event(Widget* source)
             :mSource(source)

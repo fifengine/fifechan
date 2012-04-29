@@ -44,7 +44,7 @@
 #ifndef __fpscheckbox_hpp__
 #define __fpscheckbox_hpp__
 
-#include <guichan.hpp>
+#include <fifechan.hpp>
 #include <string>
 
 /*
@@ -56,7 +56,7 @@
  * a label next to the CheckBox. But we wanted to show how to overload
  * widgets to be able to change the apperance of a widget.
  */
-class FPSCheckBox : public gcn::CheckBox
+class FPSCheckBox : public fcn::CheckBox
 {
 public:
     /**
@@ -79,7 +79,7 @@ public:
     /*
      * Inherited from Widget
      */
-    void draw(gcn::Graphics* graphics);
+    void draw(fcn::Graphics* graphics);
 };
 
 #endif

@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/hge/hgeimage.hpp"
+#include "fifechan/hge/hgeimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     HGE *HGEImage::mHGE = NULL;
 
@@ -102,7 +102,7 @@ namespace gcn
 
         if (pLockPtr == NULL)
         {
-            throw GCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
+            throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
         DWORD color = pLockPtr[x + y * mHGE->Texture_GetWidth(mTexture, true)];
@@ -123,7 +123,7 @@ namespace gcn
 
         if (pLockPtr == NULL)
         {
-            throw GCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
+            throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
         pLockPtr[x + y * mHGE->Texture_GetWidth(mTexture, true)] = hardwareColor;
@@ -137,7 +137,7 @@ namespace gcn
 
         if (pLockPtr == NULL)
         {
-            throw GCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
+            throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
         int i;

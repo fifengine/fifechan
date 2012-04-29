@@ -1,6 +1,6 @@
-SUBDIRS = guichan
+SUBDIRS = fifechan
 
-libguichanincludedir = $(includedir)/
+libfifechanincludedir = $(includedir)/
 
-libguichaninclude_HEADERS =	\
-	guichan.hpp
+libfifechaninclude_HEADERS =	\
+	fifechan.hpp

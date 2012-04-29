@@ -41,13 +41,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_SELECTIONEVENT_HPP
-#define GCN_SELECTIONEVENT_HPP
+#ifndef FCN_SELECTIONEVENT_HPP
+#define FCN_SELECTIONEVENT_HPP
 
-#include "guichan/event.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/event.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     class Widget;
 
@@ -57,7 +57,7 @@ namespace gcn
      * @author Olof Naessén
      * @since 0.8.0
      */
-    class GCN_CORE_DECLSPEC SelectionEvent: public Event
+    class FCN_CORE_DECLSPEC SelectionEvent: public Event
     {
     public:
 
@@ -75,4 +75,4 @@ namespace gcn
     };
 }
 
-#endif // end GCN_SELECTIONEVENT_HPP
+#endif // end FCN_SELECTIONEVENT_HPP

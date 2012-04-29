@@ -45,21 +45,21 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/gui.hpp"
+#include "fifechan/gui.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/focushandler.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/input.hpp"
-#include "guichan/keyinput.hpp"
-#include "guichan/keylistener.hpp"
-#include "guichan/mouseinput.hpp"
-#include "guichan/mouselistener.hpp"
-#include "guichan/widget.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/focushandler.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/input.hpp"
+#include "fifechan/keyinput.hpp"
+#include "fifechan/keylistener.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/mouselistener.hpp"
+#include "fifechan/widget.hpp"
 
 #include <algorithm>
 
-namespace gcn
+namespace fcn
 {
     Gui::Gui()
             :mTop(NULL),
@@ -132,7 +132,7 @@ namespace gcn
     void Gui::logic()
     {
         if (mTop == NULL)
-            throw GCN_EXCEPTION("No top widget set");
+            throw FCN_EXCEPTION("No top widget set");
 
         handleModalFocus();
         handleModalMouseInputFocus();
@@ -151,10 +151,10 @@ namespace gcn
     void Gui::draw()
     {
         if (mTop == NULL)
-            throw GCN_EXCEPTION("No top widget set");
+            throw FCN_EXCEPTION("No top widget set");
 
         if (mGraphics == NULL)
-            throw GCN_EXCEPTION("No graphics set");
+            throw FCN_EXCEPTION("No graphics set");
 
         if (!mTop->isVisible())
             return;
@@ -213,7 +213,7 @@ namespace gcn
                handleMouseWheelMovedUp(mouseInput);
                break;
             default:
-               throw GCN_EXCEPTION("Unknown mouse input type.");
+               throw FCN_EXCEPTION("Unknown mouse input type.");
                break;
             }
             
@@ -664,7 +664,7 @@ namespace gcn
                           (*it)->mouseClicked(mouseEvent);
                           break;
                       default:
-                          throw GCN_EXCEPTION("Unknown mouse event type.");
+                          throw FCN_EXCEPTION("Unknown mouse event type.");
                     }                    
                 }
                 
@@ -734,7 +734,7 @@ namespace gcn
                           (*it)->keyReleased(keyEvent);
                           break;
                       default:
-                          throw GCN_EXCEPTION("Unknown key event type.");
+                          throw FCN_EXCEPTION("Unknown key event type.");
                     }                
                 }
             }
@@ -766,7 +766,7 @@ namespace gcn
                   (*it)->keyReleased(keyEvent);
                   break;
               default:
-                  throw GCN_EXCEPTION("Unknown key event type.");
+                  throw FCN_EXCEPTION("Unknown key event type.");
             }
 
             if (keyEvent.isConsumed())

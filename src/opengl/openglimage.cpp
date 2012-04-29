@@ -45,11 +45,11 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/opengl/openglimage.hpp"
+#include "fifechan/opengl/openglimage.hpp"
 
-#include "guichan/exception.hpp"
+#include "fifechan/exception.hpp"
 
-namespace gcn
+namespace fcn
 {
     OpenGLImage::OpenGLImage(const unsigned int* pixels, int width, int height,
                              bool convertToDisplayFormat)
@@ -179,12 +179,12 @@ namespace gcn
     {
         if (mPixels == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format");
+            throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
         {
-            throw GCN_EXCEPTION("Coordinates outside of the image");
+            throw FCN_EXCEPTION("Coordinates outside of the image");
         }
 
         unsigned int c = mPixels[x + y * mTextureWidth];
@@ -208,12 +208,12 @@ namespace gcn
     {
         if (mPixels == NULL)
         {
-            throw GCN_EXCEPTION("Image has been converted to display format");
+            throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
         {
-            throw GCN_EXCEPTION("Coordinates outside of the image");
+            throw FCN_EXCEPTION("Coordinates outside of the image");
         }
 
 #ifdef __BIG_ENDIAN__
@@ -229,7 +229,7 @@ namespace gcn
     {
         if (mPixels == NULL)
         {
-            throw GCN_EXCEPTION("Image has already been converted to display format");
+            throw FCN_EXCEPTION("Image has already been converted to display format");
         }
 
         glGenTextures(1, &mTextureHandle);
@@ -282,7 +282,7 @@ namespace gcn
                   break;
             }
 
-            throw GCN_EXCEPTION(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
+            throw FCN_EXCEPTION(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
         }
     }
 }

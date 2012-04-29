@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/widgets/window.hpp"
+#include "fifechan/widgets/window.hpp"
 
-#include "guichan/exception.hpp"
-#include "guichan/font.hpp"
-#include "guichan/graphics.hpp"
-#include "guichan/mouseinput.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/mouseinput.hpp"
 
-namespace gcn
+namespace fcn
 {
     Window::Window()
             :mMoved(false)
@@ -208,7 +208,7 @@ namespace gcn
               textX = getWidth() - 4;
               break;
           default:
-              throw GCN_EXCEPTION("Unknown alignment.");
+              throw FCN_EXCEPTION("Unknown alignment.");
         }
 
         graphics->setColor(getForegroundColor());

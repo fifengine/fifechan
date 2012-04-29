@@ -45,9 +45,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/color.hpp"
+#include "fifechan/color.hpp"
 
-namespace gcn
+namespace fcn
 {
     Color::Color()
         : r(0), 

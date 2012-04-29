@@ -41,21 +41,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef GCN_ALLEGROFONT_HPP
-#define GCN_ALLEGROFONT_HPP
+#ifndef FCN_ALLEGROFONT_HPP
+#define FCN_ALLEGROFONT_HPP
 
 #include <allegro.h>
 
-#include "guichan/font.hpp"
-#include "guichan/platform.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
-namespace gcn
+namespace fcn
 {
     /**
      * Allegro font implementation of Font that uses the native
      * Allegro font.     
      */
-    class GCN_EXTENSION_DECLSPEC AllegroFont : public Font
+    class FCN_EXTENSION_DECLSPEC AllegroFont : public Font
     {
     public:
 
@@ -85,7 +85,7 @@ namespace gcn
 
         virtual int getHeight() const;
 
-        virtual void drawString(gcn::Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(fcn::Graphics* graphics, const std::string& text, int x, int y);
 
     protected:
         bool mAutoFree;
@@ -93,4 +93,4 @@ namespace gcn
     };
 }
 
-#endif // GCN_ALLEGROFONT_HPP
+#endif // FCN_ALLEGROFONT_HPP

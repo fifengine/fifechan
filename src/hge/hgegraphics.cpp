@@ -45,14 +45,14 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "guichan/hge/hgegraphics.hpp"
+#include "fifechan/hge/hgegraphics.hpp"
 
-#include "guichan/cliprectangle.hpp"
-#include "guichan/exception.hpp"
-#include "guichan/rectangle.hpp"
-#include "guichan/hge/hgeimage.hpp"
+#include "fifechan/cliprectangle.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/rectangle.hpp"
+#include "fifechan/hge/hgeimage.hpp"
 
-namespace gcn
+namespace fcn
 {
     HGE *HGEGraphics::mHGE = NULL;
 
@@ -160,7 +160,7 @@ namespace gcn
 
         if (hgeImage == NULL)
         {
-            throw GCN_EXCEPTION("Trying to draw an image of unknown format, must be an HGEImage.");
+            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an HGEImage.");
         }
 
         ClipRectangle const top = mClipStack.top();
