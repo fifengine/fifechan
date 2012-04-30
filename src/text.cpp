@@ -89,6 +89,11 @@ namespace fcn
 
     void Text::setContent(const std::string& content)
     {
+        //reset caret
+        mCaretPosition = 0;
+	mCaretRow = 0;
+	mCaretColumn = 0;
+      
         mRows.clear();
         std::string::size_type pos, lastPos = 0;
         int length;
