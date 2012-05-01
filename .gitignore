@@ -24,9 +24,6 @@ missing
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-libfifechan.so
-libfifechan.so.0.9.0
-libfifechan_opengl.so
-libfifechan_opengl.so.0.9.0
-libfifechan_sdl.so
-libfifechan_sdl.so.0.9.0
+libfifechan.so*
+libfifechan_opengl.so*
+libfifechan_sdl.so*
