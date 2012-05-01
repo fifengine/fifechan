@@ -106,7 +106,7 @@ namespace fcn
         {
           case SDL_KEYDOWN:
           {
-              int value = convertSDLEventToGuichanKeyValue(event);
+              int value = convertSDLEventToFifechanKeyValue(event);
 
               if (value == -1)
               {
@@ -128,7 +128,7 @@ namespace fcn
 
           case SDL_KEYUP:
           {
-              int value = convertSDLEventToGuichanKeyValue(event);
+              int value = convertSDLEventToFifechanKeyValue(event);
 
               if (value == -1)
               {
@@ -238,7 +238,7 @@ namespace fcn
         }
     }
 
-    int SDLInput::convertSDLEventToGuichanKeyValue(SDL_Event event)
+    int SDLInput::convertSDLEventToFifechanKeyValue(SDL_Event event)
     {
         int value = -1;
 

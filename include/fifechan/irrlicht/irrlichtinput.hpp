@@ -103,10 +103,10 @@ namespace fcn
         * Converts an Irrlicht event to a Guichan key value.
         *
         * @param keysym The Irrlicht event to convert.
-        * @return A Guichan key value. -1 if no conversion took place.
+        * @return A Fifechan key value. -1 if no conversion took place.
         * @see Key
         */
-        int convertIrrlichtEventToGuichanKeyValue(const irr::SEvent& event);
+        int convertIrrlichtEventToFifechanKeyValue(const irr::SEvent& event);
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;

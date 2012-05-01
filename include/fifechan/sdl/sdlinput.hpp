@@ -112,7 +112,7 @@ namespace fcn
          * @return A Guichan key value. -1 if no conversion took place.
          * @see Key
          */
-        int convertSDLEventToGuichanKeyValue(SDL_Event event);
+        int convertSDLEventToFifechanKeyValue(SDL_Event event);
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;

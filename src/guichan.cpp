@@ -47,7 +47,7 @@
 
 extern "C"
 {
-    const char* fcnGuichanVersion()
+    const char* fcnFifechanVersion()
     {
         return "0.9.0";
     }

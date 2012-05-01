@@ -173,7 +173,7 @@ namespace fcn
 
         else if(event.EventType == irr::EET_KEY_INPUT_EVENT)
         {
-            int value = convertIrrlichtEventToGuichanKeyValue(event);
+            int value = convertIrrlichtEventToFifechanKeyValue(event);
 
             if (value == -1)
             {
@@ -192,7 +192,7 @@ namespace fcn
         }
     }
 
-    int IrrlichtInput::convertIrrlichtEventToGuichanKeyValue(const irr::SEvent& event)
+    int IrrlichtInput::convertIrrlichtEventToFifechanKeyValue(const irr::SEvent& event)
     {
         int value = -1;
 
