@@ -41,8 +41,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FCN_GUICHAN_HPP
-#define FCN_GUICHAN_HPP
+#ifndef FCN_FIFECHAN_HPP
+#define FCN_FIFECAHN_HPP
 
 #include <fifechan/actionevent.hpp>
 #include <fifechan/actionlistener.hpp>
@@ -107,7 +107,7 @@ extern "C"
      *
      * @return the version of Guichan.
      */
-    FCN_CORE_DECLSPEC extern const char* fcnGuichanVersion();
+    FCN_CORE_DECLSPEC extern const char* fcnFifechanVersion();
 }
 
-#endif // end FCN_GUICHAN_HPP
+#endif // end FCN_FIFECHAN_HPP
