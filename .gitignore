@@ -2,6 +2,8 @@
 *.lo
 *.o
 *.pc
+*.so
+*.so*
 .deps
 .libs
 Makefile
@@ -24,6 +26,3 @@ missing
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-libfifechan.so*
-libfifechan_opengl.so*
-libfifechan_sdl.so*
