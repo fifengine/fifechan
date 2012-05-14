@@ -91,8 +91,8 @@ namespace fcn
     {
         //reset caret
         mCaretPosition = 0;
-	mCaretRow = 0;
-	mCaretColumn = 0;
+        mCaretRow = 0;
+        mCaretColumn = 0;
       
         mRows.clear();
         std::string::size_type pos, lastPos = 0;
@@ -157,6 +157,7 @@ namespace fcn
             if(position == totalRows)
             {
                 addRow(row);
+                return;
             }
             else
             {
