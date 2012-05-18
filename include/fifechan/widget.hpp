@@ -49,6 +49,7 @@
 
 #include "fifechan/color.hpp"
 #include "fifechan/rectangle.hpp"
+#include "fifechan/widgetlistener.hpp"
 
 namespace fcn
 {
@@ -76,7 +77,7 @@ namespace fcn
      * @author Per Larsson
      * @since 0.1.0
      */
-    class FCN_CORE_DECLSPEC Widget
+    class FCN_CORE_DECLSPEC Widget : public WidgetListener
     {
     public:
         /**
@@ -1024,7 +1025,30 @@ namespace fcn
          * @since 0.8.0
          */
         virtual void showPart(Rectangle rectangle);
+        
+        /**
+         * Checks if parent was moved, if true, the widget notifies its
+         * listeners that it was moved too.
+         * 
+         * @Param event A widget event.
+         */
+        virtual void widgetMoved(const Event& event);
+        
+        /**
+         * Checks if parent was shown, if true, the widget notifies
+         * its listeners that it was shown too.
+         * 
+         * @param event A widget event.
+         */
+        virtual void widgetShown(const Event& event);
 
+        /**
+         * Checks if parent was hidden, if true, the widget notifies
+         * its listeners that it was hidden too.
+         * 
+         * @param event A widget event.
+         */
+        virtual void widgetHidden(const Event& event);
     protected:
         /**
          * Distributes an action event to all action listeners

@@ -826,6 +826,7 @@ namespace fcn
             Widget* widget = (*iter);
             widget->_setFocusHandler(NULL);
             widget->_setParent(NULL);
+            removeWidgetListener(widget);
         }
 
         mChildren.clear();
@@ -841,6 +842,7 @@ namespace fcn
                 mChildren.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
+                removeWidgetListener(widget);
                 return;
             }
         }
@@ -858,6 +860,7 @@ namespace fcn
             widget->_setFocusHandler(mInternalFocusHandler);
 
         widget->_setParent(this);
+        addWidgetListener(widget);
     }
 
     void Widget::moveToTop(Widget* widget)
@@ -989,5 +992,29 @@ namespace fcn
     const std::list<Widget*>& Widget::getChildren() const
     {
         return mChildren;
+    }
+    
+    void Widget::widgetMoved(const Event& event)
+    {
+        if(event.getSource() == mParent)
+        {
+            distributeMovedEvent();
+        }
+    }
+    
+    void Widget::widgetShown(const Event& event)
+    {
+        if(event.getSource() == mParent)
+        {
+            distributeShownEvent();
+        }
+    }
+    
+    void Widget::widgetHidden(const Event& event)
+    {
+        if(event.getSource() == mParent)
+        {
+            distributeHiddenEvent();
+        }
     }
 }
