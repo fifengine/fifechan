@@ -219,6 +219,14 @@ namespace fcn
             || mDimension.y != oldDimension.y)
         {
             distributeMovedEvent();
+            
+            std::list<Widget*>::iterator currChild(mChildren.begin());
+            std::list<Widget*>::iterator endChildren(mChildren.end());
+            
+            for(; currChild != endChildren; ++currChild)
+            {
+                (*currChild)->distributeAncestorMovedEvent(this);
+            }
         }
     }
 
@@ -299,9 +307,29 @@ namespace fcn
             mFocusHandler->focusNone();
         
         if (visible)
+        {
             distributeShownEvent();
+            
+            std::list<Widget*>::iterator currChild(mChildren.begin());
+            std::list<Widget*>::iterator endChildren(mChildren.end());
+            
+            for(; currChild != endChildren; ++currChild)
+            {
+                (*currChild)->distributeAncestorShownEvent(this);
+            }
+        }
         else if(!visible)
+        {
             distributeHiddenEvent();
+            
+            std::list<Widget*>::iterator currChild(mChildren.begin());
+            std::list<Widget*>::iterator endChildren(mChildren.end());
+            
+            for(; currChild != endChildren; ++currChild)
+            {
+                (*currChild)->distributeAncestorHiddenEvent(this);
+            }
+        }
 
         mVisible = visible;
     }
@@ -702,6 +730,66 @@ namespace fcn
             (*iter)->widgetHidden(event);
         }
     }
+    
+    void Widget::distributeAncestorMovedEvent(Widget* ancestor)
+    {
+        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
+        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
+        Event event(ancestor);
+        
+        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
+        {
+            (*currWidgetListener)->ancestorMoved(event);
+        }
+        
+        std::list<Widget*>::iterator currChild(mChildren.begin());
+        std::list<Widget*>::iterator endChildren(mChildren.end());
+        
+        for(; currChild != endChildren; ++currChild)
+        {
+            (*currChild)->distributeAncestorMovedEvent(ancestor);
+        }
+    }
+    
+    void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
+    {
+        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
+        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
+        Event event(ancestor);
+        
+        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
+        {
+            (*currWidgetListener)->ancestorHidden(event);
+        }
+        
+        std::list<Widget*>::iterator currChild(mChildren.begin());
+        std::list<Widget*>::iterator endChildren(mChildren.end());
+        
+        for(; currChild != endChildren; ++currChild)
+        {
+            (*currChild)->distributeAncestorHiddenEvent(ancestor);
+        }
+    }
+    
+    void Widget::distributeAncestorShownEvent(Widget* ancestor)
+    {
+        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
+        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
+        Event event(ancestor);
+        
+        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
+        {
+            (*currWidgetListener)->ancestorShown(event);
+        }
+        
+        std::list<Widget*>::iterator currChild(mChildren.begin());
+        std::list<Widget*>::iterator endChildren(mChildren.end());
+        
+        for(; currChild != endChildren; ++currChild)
+        {
+            (*currChild)->distributeAncestorShownEvent(ancestor);
+        }
+    }
 
     void Widget::distributeActionEvent()
     {
@@ -826,7 +914,6 @@ namespace fcn
             Widget* widget = (*iter);
             widget->_setFocusHandler(NULL);
             widget->_setParent(NULL);
-            removeWidgetListener(widget);
         }
 
         mChildren.clear();
@@ -842,7 +929,6 @@ namespace fcn
                 mChildren.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
-                removeWidgetListener(widget);
                 return;
             }
         }
@@ -860,7 +946,6 @@ namespace fcn
             widget->_setFocusHandler(mInternalFocusHandler);
 
         widget->_setParent(this);
-        addWidgetListener(widget);
     }
 
     void Widget::moveToTop(Widget* widget)
@@ -992,29 +1077,5 @@ namespace fcn
     const std::list<Widget*>& Widget::getChildren() const
     {
         return mChildren;
-    }
-    
-    void Widget::widgetMoved(const Event& event)
-    {
-        if(event.getSource() == mParent)
-        {
-            distributeMovedEvent();
-        }
-    }
-    
-    void Widget::widgetShown(const Event& event)
-    {
-        if(event.getSource() == mParent)
-        {
-            distributeShownEvent();
-        }
-    }
-    
-    void Widget::widgetHidden(const Event& event)
-    {
-        if(event.getSource() == mParent)
-        {
-            distributeHiddenEvent();
-        }
     }
 }

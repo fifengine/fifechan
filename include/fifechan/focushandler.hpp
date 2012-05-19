@@ -316,7 +316,15 @@ namespace fcn
          * @see getLastWidgetPressed
          */
         virtual void setLastWidgetPressed(Widget* lastWidgetPressed);
-
+        
+        /**
+         * Informs the focus handler that a widget was hidden. This is needed because
+         * the focus handler must determine which widget has the mouse now.
+         * 
+         * @param widget Widget that was hidden
+         */
+        virtual void widgetHidden(Widget* widget);
+        
     protected:
         /**
          * Distributes a focus lost event.

@@ -102,7 +102,30 @@ namespace fcn
          * @since 0.8.0
          */
         virtual void widgetShown(const Event& event) { }
+        
+        /**
+         * Invoked when an ancestor of a widget is moved.
+         * 
+         * @Param event Describes the event.
+         */
+        virtual void ancestorMoved(const Event& event) { }
+        
+        /**
+         * Invoked when an ancestor of a widget is hidden, i.e its
+         * set to be not visible.
+         * 
+         * @param event Describes the event.
+         */
+        virtual void ancestorHidden(const Event& event) { }
 
+        /**
+         * Invoked when an ancestor of a widget is shown, i.e its
+         * set to be visible.
+         * 
+         * @param event Describes the event.
+         */
+        virtual void ancestorShown(const Event& event) { }
+        
     protected:
         /**
          * Constructor.

@@ -584,4 +584,9 @@ namespace fcn
     {
         mLastWidgetPressed = lastWidgetPressed;
     }
+    
+    void FocusHandler::widgetHidden(Widget* widget)
+    {
+        
+    }
 }
