@@ -55,6 +55,8 @@
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/mouselistener.hpp"
+#include "fifechan/rectangle.hpp"
+#include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widget.hpp"
 
 #include <algorithm>
@@ -78,6 +80,9 @@ namespace fcn
              mLastMouseDragButton(0)
     {
         mFocusHandler = new FocusHandler();
+        mVisibilityEventHandler = new VisibilityEventHandler(this);
+        
+        Widget::_setVisibilityEventHandler(mVisibilityEventHandler);
     }
 
     Gui::~Gui()
@@ -88,6 +93,7 @@ namespace fcn
         }
 
         delete mFocusHandler;
+        delete mVisibilityEventHandler;
     }
 
     void Gui::setTop(Widget* top)
@@ -100,7 +106,7 @@ namespace fcn
         {
             top->_setFocusHandler(mFocusHandler);
         }
-
+        
         mTop = top;
     }
 
@@ -146,6 +152,9 @@ namespace fcn
         }
 
         mTop->_logic();
+        
+        handleHiddenWidgets();
+        handleShownWidgets();
     }
 
     void Gui::draw()
@@ -187,6 +196,16 @@ namespace fcn
     void Gui::removeGlobalKeyListener(KeyListener* keyListener)
     {
         mKeyListeners.remove(keyListener);
+    }
+    
+    void Gui::enqueueHiddenWidget(Widget* hidden)
+    {
+        mHiddenWidgets.push(hidden);
+    }
+    
+    void Gui::enqueueShownWidget(Widget* shown)
+    {
+        mShownWidgets.push(shown);
     }
 
     void Gui::handleMouseInput()
@@ -518,7 +537,7 @@ namespace fcn
             mFocusHandler->setDraggedWidget(NULL);
     }
 
-    Widget* Gui::getWidgetAt(int x, int y)
+    Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)
     {
         // If the widget's parent has no child then we have found the widget..
         Widget* parent = mTop;
@@ -529,7 +548,7 @@ namespace fcn
             Widget* swap = child;
             int parentX, parentY;
             parent->getAbsolutePosition(parentX, parentY);
-            child = parent->getWidgetAt(x - parentX, y - parentY);
+            child = parent->getWidgetAt(x - parentX, y - parentY, exclude);
             parent = swap;
         }
 
@@ -856,5 +875,87 @@ namespace fcn
                                  false,
                                  true);   
         }
+    }
+    
+    void Gui::handleHiddenWidgets()
+    { 
+        //process each hidden widget in queue
+        while(!mHiddenWidgets.empty())
+        {
+            //if the hidden widget had the mouse cursor inside
+            Widget* hiddenWidget = mHiddenWidgets.front();
+            
+            //make sure that the widget wasn't freed after hiding
+            if(Widget::widgetExists(hiddenWidget))
+            {
+                int hiddenWidgetX, hiddenWidgetY;
+                hiddenWidget->getAbsolutePosition(hiddenWidgetX, hiddenWidgetY);
+            
+                Rectangle r(hiddenWidgetX, hiddenWidgetY, hiddenWidget->getWidth(), hiddenWidget->getHeight());
+                
+                if(r.isContaining(mLastMouseX, mLastMouseY))
+                {
+                    //get the widget that has the cursor now and distribute that the mouse entered it
+                    Widget* underMouseCursor = getWidgetAt(mLastMouseX, mLastMouseY);
+                
+                    distributeMouseEvent(underMouseCursor,
+                                         MouseEvent::Entered,
+                                         MouseEvent::Empty,
+                                         mLastMouseX,
+                                         mLastMouseY,
+                                         true,
+                                         true);
+                }
+            }
+            
+            mHiddenWidgets.pop();
+        }
+        
+    }
+    
+    void Gui::handleShownWidgets()
+    {
+        //process each shown widget in queue
+        while(!mShownWidgets.empty())
+        {
+            Widget* shownWidget = mShownWidgets.front();
+            
+            //if the shown widget has the mouse cursor inside it        
+            int shownWidgetX, shownWidgetY;
+            shownWidget->getAbsolutePosition(shownWidgetX, shownWidgetY);
+            
+            Rectangle r(shownWidgetX, shownWidgetY, shownWidget->getWidth(), shownWidget->getHeight());
+            
+            if(r.isContaining(mLastMouseX, mLastMouseY))
+            {
+                //find which widget had the mouse before and distribute that the mouse exited it
+                Widget* underMouseCursorBefore = getWidgetAt(mLastMouseX, mLastMouseY, shownWidget);
+                
+                distributeMouseEvent(underMouseCursorBefore,
+                                     MouseEvent::Exited,
+                                     MouseEvent::Empty,
+                                     mLastMouseX,
+                                     mLastMouseY,
+                                     true,
+                                     true
+                                    );
+                
+                //find which specific widget in the shown widget had the mouse before
+                //and distribute that the mouse exited it
+                Widget* underMouseCursorNow = getWidgetAt(mLastMouseX, mLastMouseY);
+                
+                distributeMouseEvent(underMouseCursorNow,
+                                     MouseEvent::Entered,
+                                     MouseEvent::Empty,
+                                     mLastMouseX,
+                                     mLastMouseY,
+                                     true,
+                                     true
+                                    );                
+            }
+            
+            mShownWidgets.pop();
+        }
+        
     }
 }

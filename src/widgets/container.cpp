@@ -59,7 +59,6 @@ namespace fcn
 
     Container::~Container()
     {
-
     }
 
     void Container::draw(Graphics* graphics)

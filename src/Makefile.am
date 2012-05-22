@@ -12,29 +12,30 @@ libfifechan_la_DEPENDENCIES = \
 	widgets/libfifechan_widgets.la
 
 # The Gui-chan library sources
-libfifechan_la_SOURCES = 	\
-	actionevent.cpp		\
-	cliprectangle.cpp	\
-	color.cpp		\
-	containerevent.cpp	\
-	defaultfont.cpp		\
-	event.cpp		\
-	exception.cpp		\
-	focushandler.cpp	\
-	font.cpp		\
-	genericinput.cpp	\
-	graphics.cpp		\
-	gui.cpp			\
-	fifechan.cpp		\
-	image.cpp		\
-	imagefont.cpp		\
-	inputevent.cpp		\
-	key.cpp			\
-	keyevent.cpp		\
-	keyinput.cpp		\
-	mouseevent.cpp		\
-	mouseinput.cpp		\
-	rectangle.cpp		\
-	selectionevent.cpp	\
-	text.cpp		\
+libfifechan_la_SOURCES = 	   \
+	actionevent.cpp		   \
+	cliprectangle.cpp	   \
+	color.cpp		   \
+	containerevent.cpp	   \
+	defaultfont.cpp		   \
+	event.cpp		   \
+	exception.cpp		   \
+	focushandler.cpp	   \
+	font.cpp		   \
+	genericinput.cpp	   \
+	graphics.cpp		   \
+	gui.cpp			   \
+	fifechan.cpp		   \
+	image.cpp		   \
+	imagefont.cpp		   \
+	inputevent.cpp		   \
+	key.cpp			   \
+	keyevent.cpp		   \
+	keyinput.cpp		   \
+	mouseevent.cpp		   \
+	mouseinput.cpp		   \
+	rectangle.cpp		   \
+	selectionevent.cpp	   \
+	text.cpp		   \
+	visibilityeventhandler.cpp \
 	widget.cpp

@@ -59,6 +59,7 @@
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/mouselistener.hpp"
+#include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widgetlistener.hpp"
 
 #include <algorithm>
@@ -68,6 +69,7 @@ namespace fcn
     Font* Widget::mGlobalFont = NULL;
     DefaultFont Widget::mDefaultFont;
     std::list<Widget*> Widget::mWidgetInstances;
+    VisibilityEventHandler* Widget::mVisibilityEventHandler = NULL;
 
     Widget::Widget()
             : mForegroundColor(0x000000),
@@ -302,12 +304,15 @@ namespace fcn
     }
 
     void Widget::setVisible(bool visible)
-    {
+    {   
+        VisibilityEventHandler *visibilityEventHandler = _getVisibilityEventHandler();
+        
         if (!visible && isFocused())
             mFocusHandler->focusNone();
         
         if (visible)
         {
+            visibilityEventHandler->widgetShown(Event(this));
             distributeShownEvent();
             
             std::list<Widget*>::iterator currChild(mChildren.begin());
@@ -320,6 +325,7 @@ namespace fcn
         }
         else if(!visible)
         {
+            visibilityEventHandler->widgetHidden(Event(this));
             distributeHiddenEvent();
             
             std::list<Widget*>::iterator currChild(mChildren.begin());
@@ -330,7 +336,7 @@ namespace fcn
                 (*currChild)->distributeAncestorHiddenEvent(this);
             }
         }
-
+        
         mVisible = visible;
     }
 
@@ -409,6 +415,16 @@ namespace fcn
     FocusHandler* Widget::_getFocusHandler()
     {
         return mFocusHandler;
+    }
+    
+    void Widget::_setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler)
+    { 
+        mVisibilityEventHandler = visibilityEventHandler;    
+    }
+    
+    VisibilityEventHandler* Widget::_getVisibilityEventHandler()
+    {
+        return mVisibilityEventHandler;
     }
 
     void Widget::addActionListener(ActionListener* actionListener)
@@ -631,7 +647,7 @@ namespace fcn
         return mFocusHandler->getModalMouseInputFocused() == this;
     }
 
-    Widget *Widget::getWidgetAt(int x, int y)
+    Widget *Widget::getWidgetAt(int x, int y, Widget* exclude)
     {
         Rectangle r = getChildrenArea();
 
@@ -645,7 +661,8 @@ namespace fcn
         for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++)
         {
             Widget* widget = (*iter);
-            if (widget->isVisible() && widget->getDimension().isContaining(x, y))
+            
+            if (widget != exclude && widget->isVisible() && widget->getDimension().isContaining(x, y))
                 return widget;
         }
 

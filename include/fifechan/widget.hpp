@@ -64,6 +64,7 @@ namespace fcn
     class KeyListener;
     class MouseInput;
     class MouseListener;
+    class VisibilityEventHandler;
     class WidgetListener;
 
     /**
@@ -507,7 +508,7 @@ namespace fcn
          * @since 0.1.0
          */
         virtual void _setFocusHandler(FocusHandler* focusHandler);
-
+        
         /**
          * Gets the focus handler used.
          *
@@ -520,7 +521,7 @@ namespace fcn
          * @since 0.1.0
          */
         virtual FocusHandler* _getFocusHandler();
-
+        
         /**
          * Adds an action listener to the widget. When an action event 
          * is fired by the widget the action listeners of the widget 
@@ -851,11 +852,13 @@ namespace fcn
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
+         * @param exclude Widget to exclude from search, if NULL
+         *            no widgets get excluded.
          * @return The widget at the specified coodinate, NULL
          *         if no widget is found.
          * @since 0.6.0
          */
-        virtual Widget *getWidgetAt(int x, int y);
+        virtual Widget *getWidgetAt(int x, int y, Widget* exclude = NULL);
 
         /**
          * Gets all widgets inside a certain area of the widget.
@@ -1026,6 +1029,34 @@ namespace fcn
          */
         virtual void showPart(Rectangle rectangle);
     
+        /**
+         * Sets the visibility event handler to be used.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you
+         *          are doing.
+         * 
+         * FIXME We don't like the visibility handler being static
+         *        but we leave it as is for the moment, until we
+         *        come up a better solution.
+         * 
+         * @param visibilityEventHandler The visibility event handler to be used.
+         */
+        static void _setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler);
+        
+        /**
+         * Gets the visibility event handler of this widget.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you
+         *          are doing.
+         * 
+         * FIXME We don't like the visibility handler being static
+         *        but we leave it as is for the moment, until we
+         *        come up a better solution.
+         */
+        static VisibilityEventHandler* _getVisibilityEventHandler();
+        
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1210,7 +1241,7 @@ namespace fcn
          * if no internal focus handler is used.
          */
         FocusHandler* mInternalFocusHandler;
-
+        
         /**
          * Holds the parent of the widget. NULL if the widget
          * has no parent.
@@ -1281,6 +1312,15 @@ namespace fcn
          * Holds a list of all instances of widgets.
          */
         static std::list<Widget*> mWidgetInstances;
+        
+        /**
+         * Holds the visibility event handler used by the widgets.
+         * 
+         * FIXME We don't like the visibility handler being static
+         *        but we leave it as is for the moment, until we
+         *        come up a better solution.
+         */
+        static VisibilityEventHandler* mVisibilityEventHandler;
 
         /**
          * Holds all children of the widget.

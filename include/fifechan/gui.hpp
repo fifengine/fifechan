@@ -46,6 +46,7 @@
 
 #include <list>
 #include <set>
+#include <queue>
 
 #include "fifechan/keyevent.hpp"
 #include "fifechan/mouseevent.hpp"
@@ -58,6 +59,7 @@ namespace fcn
     class Graphics;
     class Input;
     class KeyListener;
+    class VisibilityEventHandler;
     class Widget;
 
     // The following comment will appear in the doxygen main page.
@@ -234,6 +236,20 @@ namespace fcn
          */
         virtual void removeGlobalKeyListener(KeyListener* keyListener);
 
+        /**
+         * Inform gui that a widget was hidden.
+         * 
+         * @param widget Hidden widget.
+         */
+        void enqueueHiddenWidget(Widget* widget);
+        
+        /**
+         * Inform gui that a widget was shown.
+         * 
+         * @param widget Shown widget.
+         */
+        void enqueueShownWidget(Widget* widget);
+        
     protected:
         /**
          * Handles all mouse input.
@@ -324,6 +340,16 @@ namespace fcn
          * @since 0.8.0
          */
         virtual void handleModalFocusReleased();
+        
+        /**
+         * Handles hidden widgets.
+         */
+        virtual void handleHiddenWidgets();
+        
+        /**
+         * Handles shown widgets.
+         */
+        virtual void handleShownWidgets();
 
         /**
          * Distributes a mouse event.
@@ -375,7 +401,7 @@ namespace fcn
          * @return The widget at a certain position.
          * @since 0.6.0
          */
-        virtual Widget* getWidgetAt(int x, int y);
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = NULL);
 
         /**
          * Gets the source of the mouse event.
@@ -409,6 +435,16 @@ namespace fcn
         Widget* mTop;
 
         /**
+         * Holds hidden widgets.
+         */
+        std::queue<Widget*> mHiddenWidgets;
+        
+        /**
+         * Holds shown widgets.
+         */
+        std::queue<Widget*> mShownWidgets;
+        
+        /**
          * Holds the graphics implementation used.
          */
         Graphics* mGraphics;
@@ -422,6 +458,11 @@ namespace fcn
          * Holds the focus handler for the Gui.
          */
         FocusHandler* mFocusHandler;
+        
+        /**
+         * Holds the visibility event handler for the Gui.
+         */
+        VisibilityEventHandler *mVisibilityEventHandler;
 
         /**
          * True if tabbing is enabled, false otherwise.

@@ -57,6 +57,7 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/selectionevent.hpp	
   include/fifechan/selectionlistener.hpp	
   include/fifechan/text.hpp
+  include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp
 )
