@@ -4,6 +4,7 @@
 *.pc
 *.so
 *.so*
+*.dylib
 .deps
 .libs
 Makefile
