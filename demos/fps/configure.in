@@ -31,7 +31,7 @@ AC_CHECK_LIB(GL, glAccum, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lGL",AC_M
 
 AC_CHECK_LIB(GLU, gluBeginCurve, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lGLU",AC_MSG_ERROR([Could not find lib OpenGL Utils (GLU)!]))
 
-AC_CHECK_LIB(fifechan, gcnGuichanVersion, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lfifechan -lfifechan_sdl -lfifechan_opengl",AC_MSG_ERROR([Could not find lib Guichan (fifechan)!]))
+AC_CHECK_LIB(fifechan, fcnFifechanVersion, FIFECHANFPSDEMO_LIBS="$FIFECHANFPSDEMO_LIBS -lfifechan -lfifechan_sdl -lfifechan_opengl",AC_MSG_ERROR([Could not find lib Fifechan (fifechan)!]))
 
 AC_SUBST([FIFECHANFPSDEMO_LIBS])
 

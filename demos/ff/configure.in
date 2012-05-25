@@ -27,7 +27,7 @@ AC_CHECK_LIB(SDL_image, IMG_Load, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lSD
 
 AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lSDL_mixer",AC_MSG_ERROR([Could not find lib SDL_mixer!]))
 
-AC_CHECK_LIB(fifechan, gcnGuichanVersion, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lfifechan -lfifechan_sdl",AC_MSG_ERROR([Could not find lib Guichan!]))
+AC_CHECK_LIB(fifechan, fcnFifechanVersion, FIFECHANFFDEMO_LIBS="$FIFECHANFFDEMO_LIBS -lfifechan -lfifechan_sdl",AC_MSG_ERROR([Could not find lib Fifechan!]))
 
 AC_SUBST([FIFECHANFFDEMO_LIBS])
 
