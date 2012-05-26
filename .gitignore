@@ -5,6 +5,7 @@
 *.so
 *.so*
 *.dylib
+.DS_Store
 .deps
 .libs
 Makefile
