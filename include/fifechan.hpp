@@ -53,6 +53,7 @@
 #include <fifechan/deathlistener.hpp>
 #include <fifechan/event.hpp>
 #include <fifechan/exception.hpp>
+#include <fifechan/fixedsizeconstraint.hpp>
 #include <fifechan/focushandler.hpp>
 #include <fifechan/focuslistener.hpp>
 #include <fifechan/font.hpp>
@@ -72,9 +73,11 @@
 #include <fifechan/mouseevent.hpp>
 #include <fifechan/mouseinput.hpp>
 #include <fifechan/mouselistener.hpp>
+#include <fifechan/nonesizeconstraint.hpp>
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
 #include <fifechan/selectionlistener.hpp>
+#include <fifechan/sizeconstraint.hpp>
 #include <fifechan/widget.hpp>
 #include <fifechan/widgetlistener.hpp>
 #include <fifechan/widgets/button.hpp>
@@ -92,6 +95,7 @@
 #include <fifechan/widgets/tabbedarea.hpp>
 #include <fifechan/widgets/textbox.hpp>
 #include <fifechan/widgets/textfield.hpp>
+#include <fifechan/widgets/vbox.hpp>
 #include <fifechan/widgets/window.hpp>
 
 #include "fifechan/platform.hpp"

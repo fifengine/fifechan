@@ -64,6 +64,7 @@ namespace fcn
     class KeyListener;
     class MouseInput;
     class MouseListener;
+    class SizeConstraint;
     class VisibilityEventHandler;
     class WidgetListener;
 
@@ -1030,6 +1031,24 @@ namespace fcn
         virtual void showPart(Rectangle rectangle);
     
         /**
+         * Sets the size constraint of this widget.
+         * 
+         * @param sizeConstraint The size constraint. WARNING: The
+         *         widget owns this object after calling this method.
+         */
+        void setSizeConstraint(SizeConstraint* sizeConstraint);
+        
+        /**
+         * @return The widget's size constraint.
+         */    
+        SizeConstraint* getSizeConstraint() const;
+        
+        /**
+         * @return Whether the widget has a size constraint or not.
+         */
+        bool hasSizeConstraint() const;
+        
+        /**
          * Sets the visibility event handler to be used.
          * 
          * WARNING: This function is used internally and should not
@@ -1128,7 +1147,7 @@ namespace fcn
          * @see remove, clear
          * @since 0.9.0
          */
-        void add(Widget* widget);
+        virtual void add(Widget* widget);
 
         /**
          * Removes a child from the widget.
@@ -1166,6 +1185,12 @@ namespace fcn
          */
         virtual Widget* findWidgetById(const std::string& id);
 
+        /**
+         * Enforces a size constraint by applying it to the width and
+         * the height of the Widget.
+         */
+        void enforceSizeConstraint();
+        
         /**
          * Resizes the widget to fit it's children exactly.
          *
@@ -1252,6 +1277,11 @@ namespace fcn
          * Holds the dimension of the widget.
          */
         Rectangle mDimension;
+        
+        /**
+         * Holds the size constraint of the widget.
+         */
+        SizeConstraint* mSizeConstraint;
 
         /** 
          * Holds the frame size of the widget.

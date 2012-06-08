@@ -19,7 +19,7 @@ SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 ADD_DEFINITIONS("-DFIFECHAN_BUILD -DFIFECHAN_EXTENSION_BUILD")
 
-# The Guichan core library 
+# The fifechan core library 
 FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
 FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/actionevent.hpp		
@@ -31,7 +31,8 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/deathlistener.hpp	
   include/fifechan/defaultfont.hpp		
   include/fifechan/event.hpp		
-  include/fifechan/exception.hpp		
+  include/fifechan/exception.hpp
+  include/fifechan/fixedsizeconstraint.hpp  
   include/fifechan/focushandler.hpp	
   include/fifechan/focuslistener.hpp	
   include/fifechan/font.hpp		
@@ -56,6 +57,8 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
   include/fifechan/selectionlistener.hpp	
+  include/fifechan/size.hpp
+  include/fifechan/sizeconstraint.hpp
   include/fifechan/text.hpp
   include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
@@ -248,7 +251,7 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
   INSTALL(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/opengl/)   
 ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
 
-# The Guichan SDL extension library
+# The fifechan SDL extension library
 OPTION(ENABLE_SDL "Enable the Guichan SDL extension" ON)
 OPTION(BUILD_FIFECHAN_SDL_SHARED "Build the Guichan SDL extension library as a shared library." ON)
 FIND_PACKAGE(SDL)
@@ -264,7 +267,7 @@ IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
  
   INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
  
-  # The Guichan SDL extension source
+  # The fifechan SDL extension source
   FILE(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
   FILE(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
   FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)
@@ -318,7 +321,7 @@ ENDIF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
 #ADD_CUSTOM_TARGET(uninstall
 #  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-MESSAGE(STATUS "Guichan has been built, hooray!")
+MESSAGE(STATUS "Fifechan has been built, hooray!")
 # MESSAGE( STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}" )
 # MESSAGE( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 # MESSAGE( STATUS "CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}" )
