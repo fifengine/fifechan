@@ -1,26 +1,75 @@
 #include "fifechan/sizeconstraint.hpp"
-#include "fifechan/widgets/vbox.hpp"
-
-#include <iostream>
+#include "fifechan/widgets/hbox.hpp"
 
 namespace fcn
 {
-    VBox::VBox(SizeConstraint* sizeConstraint)
+    HBox::HBox(fcn::SizeConstraint *sizeConstraint)
     :
     AxisLayoutContainer(sizeConstraint)
     {
     }
     
-    VBox::~VBox()
+    HBox::~HBox()
     {
     }
     
-    void VBox::relayoutChildren()
+    void HBox::relayoutChildren()
     {
         std::list<Widget*>::iterator currChild(mChildren.begin());
         std::list<Widget*>::iterator endChildren(mChildren.end());
         
-        int height = 0;
+        int width = 0;
+        for(; currChild != endChildren; ++currChild)
+        {
+            Widget* child = (*currChild);
+            
+            if(child->isVisible())
+            {
+                child->setPosition(width, mChildrenOffset);
+                width += child->getWidth() + mPadding;
+            }
+        }
+    }
+    
+    void HBox::adjustSize()
+    {
+        int newWidth = getVisibleChildrenWidth() + getTotalPadding();
+        
+        int newHeight = getMaxVisibleChildHeight() + mChildrenOffset;
+        
+        setSize(newWidth, newHeight);
+    }
+    
+    void HBox::layoutAddedChild(Widget* added)
+    {
+        int childrenWidth = getVisibleChildrenWidth() - added->getWidth();
+        int totalPadding = getTotalPadding();
+        int newChildPosition = childrenWidth + totalPadding;
+        
+        std::cerr << "New child at " << newChildPosition << ", " << mChildrenOffset << std::endl;
+        
+        added->setPosition(newChildPosition, mChildrenOffset);
+    }
+
+    void HBox::fitChildrenToAxis()
+    {
+        std::list<Widget*>::iterator currChild(mChildren.begin());
+        std::list<Widget*>::iterator endChildren(mChildren.end());
+        
+        int containerHeight = getHeight() - mChildrenOffset;
+        
+        for(; currChild != endChildren; ++currChild)
+        {
+            (*currChild)->setHeight(containerHeight);
+        }
+    }
+    
+    int HBox::getVisibleChildrenWidth() const
+    {
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        
+        int width = 0;
         
         for(; currChild != endChildren; ++currChild)
         {
@@ -28,64 +77,14 @@ namespace fcn
             
             if(child->isVisible())
             {
-                child->setPosition(mChildrenOffset, height);
-                height += child->getHeight() + mPadding;
-            }
-        }
-    }
-    
-    void VBox::adjustSize()
-    {
-        int newWidth = getMaxVisibleChildWidth() + mChildrenOffset;
-
-        int newHeight = getVisibleChildrenHeight() + getTotalPadding();
-        
-        setSize(newWidth, newHeight);
-    }
-    
-    void VBox::layoutAddedChild(Widget *added)
-    {
-        int childrenHeight = getVisibleChildrenHeight() - added->getHeight();
-        int totalPadding = getTotalPadding();
-        int newChildPosition = childrenHeight + totalPadding;
-        
-        added->setPosition(mChildrenOffset, newChildPosition);
-    }
-    
-    void VBox::fitChildrenToAxis()
-    {
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
-        
-        int containerWidth = getWidth() - mChildrenOffset;
-        
-        for(; currChild != endChildren; ++currChild)
-        {
-            (*currChild)->setWidth(containerWidth);
-        }
-    }
-    
-    int VBox::getVisibleChildrenHeight() const 
-    {
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
-        
-        int height = 0;
-        
-        for(; currChild != endChildren; ++currChild)
-        {
-            Widget *child = (*currChild);
-            
-            if(child->isVisible())
-            {
-                height += child->getHeight();
+                width += child->getWidth();
             }
         }
         
-        return height;    
+        return width;
     }
     
-    int VBox:: getMaxVisibleChildWidth() const
+    int HBox::getMaxVisibleChildHeight() const
     {
         std::list<Widget*>::const_iterator currChild(mChildren.begin());
         std::list<Widget*>::const_iterator endChildren(mChildren.end());
@@ -94,11 +93,11 @@ namespace fcn
         
         for(; currChild != endChildren; ++currChild)
         {
-            Widget *child = (*currChild);
+            Widget* child = (*currChild);
             
             if(child->isVisible())
             {
-                max = std::max(child->getWidth(), max);
+                max = std::max(child->getHeight(), max);
             }
         }
         

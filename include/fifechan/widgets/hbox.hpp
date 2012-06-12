@@ -1,21 +1,20 @@
-#ifndef FCN_VBOX_HPP
-#define FCN_VBOX_HPP
+#ifndef FCN_HBOX_HPP
+#define FCN_HBOX_HPP
 
 #include "fifechan/sizeconstraint.hpp"
 #include "fifechan/widgets/axislayoutcontainer.hpp"
 
 namespace fcn
 {
-    class FCN_CORE_DECLSPEC VBox : public AxisLayoutContainer
+    class FCN_CORE_DECLSPEC HBox : public AxisLayoutContainer
     {
     public:
+        HBox(SizeConstraint *sizeConstraint);
         
-        VBox(SizeConstraint *sizeConstraint);
+        virtual ~HBox();
+    
+    private:
         
-        virtual ~VBox();
-        
-    protected:
-                 
         /**
          * Relayouts all children.
          */
@@ -25,7 +24,7 @@ namespace fcn
          * Expands or shrinks the container based on content.
          */
         virtual void adjustSize();
-        
+
         /**
          * Sets position of the added child in this container.
          * 
@@ -34,19 +33,19 @@ namespace fcn
         virtual void layoutAddedChild(Widget* added);
         
         /**
-         * Sets all children to have the same width as this container.
+         * Sets all children to have the same height as this container.
          */
         virtual void fitChildrenToAxis();
         
         /**
-         * @return Total height for all visible children.
+         * @return Total width of all visible children.
          */
-        int getVisibleChildrenHeight() const;
+        int getVisibleChildrenWidth() const;
         
         /**
-         * @return Width of widest child.
+         * @return Height of highest child.
          */
-        int getMaxVisibleChildWidth() const;
+        int getMaxVisibleChildHeight() const;
     };
 };
 

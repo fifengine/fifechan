@@ -84,6 +84,7 @@
 #include <fifechan/widgets/checkbox.hpp>
 #include <fifechan/widgets/container.hpp>
 #include <fifechan/widgets/dropdown.hpp>
+#include <fifechan/widgets/hbox.hpp>
 #include <fifechan/widgets/icon.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
 #include <fifechan/widgets/label.hpp>

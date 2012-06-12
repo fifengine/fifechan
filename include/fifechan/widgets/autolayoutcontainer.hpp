@@ -16,7 +16,7 @@ namespace fcn
     {
     public:
         
-        AutoLayoutContainer(SizeConstraint* sizeConstraint);
+        AutoLayoutContainer();
         
         virtual ~AutoLayoutContainer();
         
@@ -44,25 +44,6 @@ namespace fcn
          * the container.
          */
         virtual void relayout() = 0;
-        
-    protected:
-        
-        /**
-         * @return Width of all children inside the container excluding
-         *           hidden widgets.
-         */
-        int getVisibleChildrenWidth() const;
-        
-        /**
-         * @return Height of all children inside the container excluding
-         *           hidden widgets.
-         */
-        int getVisibleChildrenHeight() const;
-        
-        /**
-         * @return Count of visible children in this container.
-         */
-        int getVisibleChildrenCount() const;
     };
 };
 
