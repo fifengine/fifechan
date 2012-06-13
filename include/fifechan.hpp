@@ -73,7 +73,6 @@
 #include <fifechan/mouseevent.hpp>
 #include <fifechan/mouseinput.hpp>
 #include <fifechan/mouselistener.hpp>
-#include <fifechan/nonesizeconstraint.hpp>
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
 #include <fifechan/selectionlistener.hpp>

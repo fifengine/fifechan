@@ -45,9 +45,7 @@ namespace fcn
         int childrenWidth = getVisibleChildrenWidth() - added->getWidth();
         int totalPadding = getTotalPadding();
         int newChildPosition = childrenWidth + totalPadding;
-        
-        std::cerr << "New child at " << newChildPosition << ", " << mChildrenOffset << std::endl;
-        
+            
         added->setPosition(newChildPosition, mChildrenOffset);
     }
 
