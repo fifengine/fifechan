@@ -59,7 +59,7 @@
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/mouselistener.hpp"
-#include "fifechan/nonesizeconstraint.hpp"
+#include "fifechan/sizeconstraint.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widgetlistener.hpp"
 
