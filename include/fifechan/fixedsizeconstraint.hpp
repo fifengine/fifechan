@@ -20,6 +20,14 @@ namespace fcn
          */
         FixedSizeConstraint(const Size& minimum, const Size& maximum);
         
+        /**
+         * Constructor sets the constraint's size. Minimum and maximum size
+         * are both set to the same value.
+         * 
+         * @param size Size of the constraint.
+         */
+        FixedSizeConstraint(const Size& size);
+        
         virtual ~FixedSizeConstraint();
         
         /**

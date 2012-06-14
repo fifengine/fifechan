@@ -14,6 +14,13 @@ namespace fcn
         }
     }
     
+    FixedSizeConstraint::FixedSizeConstraint(const Size& size)
+    :
+    mMinimum(size),
+    mMaximum(size)
+    {
+    }
+    
     FixedSizeConstraint::~FixedSizeConstraint()
     {
     }
