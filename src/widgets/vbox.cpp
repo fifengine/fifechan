@@ -61,7 +61,7 @@ namespace fcn
         
         for(; currChild != endChildren; ++currChild)
         {
-            (*currChild)->setWidth(containerWidth);
+            (*currChild)->_setWidthWithoutNotifying(containerWidth);
         }
     }
     

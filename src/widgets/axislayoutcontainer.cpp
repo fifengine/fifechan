@@ -52,6 +52,7 @@ namespace fcn
     
     void AxisLayoutContainer::widgetResized(const Event& event)
     {
+        relayout();
     }
     
     void AxisLayoutContainer::widgetShown(const Event& event)

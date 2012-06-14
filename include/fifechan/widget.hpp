@@ -1049,6 +1049,43 @@ namespace fcn
         bool hasSizeConstraint() const;
         
         /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param width The width of the widget.
+         */
+        void _setWidthWithoutNotifying(int width);
+        
+        /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param height The height of the widget.
+         */
+        void _setHeightWithoutNotifying(int height);
+        
+        /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param width The width of the widget.
+         * @param height The height of the widget.
+         */
+        void _setSizeWithoutNotifying(int width, int height);
+        
+        /**
          * Sets the visibility event handler to be used.
          * 
          * WARNING: This function is used internally and should not

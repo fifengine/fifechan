@@ -426,6 +426,22 @@ namespace fcn
         return mFocusHandler;
     }
     
+    void Widget::_setWidthWithoutNotifying(int width)
+    {
+        mDimension.width = width;
+    }
+    
+    void Widget::_setHeightWithoutNotifying(int height)
+    {
+        mDimension.height = height;
+    }
+    
+    void Widget::_setSizeWithoutNotifying(int width, int height)
+    {
+        mDimension.width = width;
+        mDimension.height = height;
+    }
+    
     void Widget::_setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler)
     { 
         mVisibilityEventHandler = visibilityEventHandler;    

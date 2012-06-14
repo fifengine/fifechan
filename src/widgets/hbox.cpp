@@ -58,7 +58,7 @@ namespace fcn
         
         for(; currChild != endChildren; ++currChild)
         {
-            (*currChild)->setHeight(containerHeight);
+            (*currChild)->_setHeightWithoutNotifying(containerHeight);
         }
     }
     
