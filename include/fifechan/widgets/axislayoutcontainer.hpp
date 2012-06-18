@@ -98,6 +98,17 @@ namespace fcn
         virtual void fitChildrenToAxis() = 0;
         
         /**
+         * Checks if the size constraint passed is smaller than the
+         * size of this containers size constraint in both width and
+         * height.
+         * 
+         * @param checkAgainst Size constraint to do the check against.
+         * @throw Exception If checkAgainst is bigger in width or height
+         *                  than this container's size constraint.
+         */
+        void checkSizeConstraint(SizeConstraint* checkAgainst);
+        
+        /**
          * @return Count of visible children in this container.
          */
         int getVisibleChildrenCount() const;

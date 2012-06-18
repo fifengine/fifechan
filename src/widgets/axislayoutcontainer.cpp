@@ -1,3 +1,4 @@
+#include "fifechan/exception.hpp"
 #include "fifechan/widgets/axislayoutcontainer.hpp"
 
 #include <algorithm>
@@ -31,11 +32,13 @@ namespace fcn
             {
                 added->setSizeConstraint(mSizeConstraint->clone());
             }
+            else
+            {
+                checkSizeConstraint(added->getSizeConstraint());
+            }
             
             layoutAddedChild(added);
-            
             adjustSize();
-            
             fitChildrenToAxis();
         }
     }
@@ -80,6 +83,19 @@ namespace fcn
     void AxisLayoutContainer::setChildrenOffset(int childrenOffset)
     {
         mChildrenOffset = childrenOffset;
+    }
+    
+    void AxisLayoutContainer::checkSizeConstraint(SizeConstraint* checkAgainst)
+    {
+        int addedMaxWidth = checkAgainst->getMaxWidth();
+        int addedMaxHeight = checkAgainst->getMaxHeight();
+        
+        SizeConstraint* mySizeConstraint = getSizeConstraint();
+        int myMaxWidth = mySizeConstraint->getMaxWidth();
+        int myMaxHeight = mySizeConstraint->getMaxHeight();
+        
+        if(addedMaxWidth > myMaxWidth || addedMaxHeight > myMaxHeight)
+            throw FCN_EXCEPTION("Child widget cannot have a bigger size constraint than its axis auto-layouting parent in either width or height");        
     }
     
     int AxisLayoutContainer::getVisibleChildrenCount() const
