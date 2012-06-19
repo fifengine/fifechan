@@ -17,8 +17,8 @@ namespace fcn
     
     void VBox::relayoutChildren()
     {
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
+        std::list<Widget*>::iterator currChild(mAddedOrder.begin());
+        std::list<Widget*>::iterator endChildren(mAddedOrder.end());
         
         int height = 0;
         
@@ -67,8 +67,8 @@ namespace fcn
     
     int VBox::getVisibleChildrenHeight() const 
     {
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        std::list<Widget*>::const_iterator currChild(mAddedOrder.begin());
+        std::list<Widget*>::const_iterator endChildren(mAddedOrder.end());
         
         int height = 0;
         

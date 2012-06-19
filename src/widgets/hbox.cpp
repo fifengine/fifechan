@@ -15,8 +15,8 @@ namespace fcn
     
     void HBox::relayoutChildren()
     {
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
+        std::list<Widget*>::iterator currChild(mAddedOrder.begin());
+        std::list<Widget*>::iterator endChildren(mAddedOrder.end());
         
         int width = 0;
         for(; currChild != endChildren; ++currChild)
@@ -84,8 +84,8 @@ namespace fcn
     
     int HBox::getMaxVisibleChildHeight() const
     {
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        std::list<Widget*>::const_iterator currChild(mAddedOrder.begin());
+        std::list<Widget*>::const_iterator endChildren(mAddedOrder.end());
         
         int max = 0;
         

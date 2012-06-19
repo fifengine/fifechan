@@ -127,6 +127,11 @@ namespace fcn
          * Starting children position.
          */
         int mChildrenOffset;
+        
+        /**
+         * A list of children in the order they were added.
+         */
+         std::list<Widget*> mAddedOrder;
 };
 
 }

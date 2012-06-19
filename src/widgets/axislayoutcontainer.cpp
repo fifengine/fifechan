@@ -28,6 +28,8 @@ namespace fcn
         {
             Widget* added = containerEvent.getSource();
          
+            mAddedOrder.push_back(added);
+            
             if(!added->hasSizeConstraint())
             {
                 added->setSizeConstraint(mSizeConstraint->clone());
@@ -45,10 +47,14 @@ namespace fcn
     
     void AxisLayoutContainer::widgetRemoved(const ContainerEvent& containerEvent)
     {
-        AutoLayoutContainer::widgetAdded(containerEvent);
+        AutoLayoutContainer::widgetRemoved(containerEvent);
         
         if(containerEvent.getContainer() == this)
         {
+            Widget* removed = containerEvent.getSource();
+            
+            mAddedOrder.remove(removed);
+            
             relayout();
         }
     }
