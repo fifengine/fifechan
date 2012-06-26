@@ -34,6 +34,16 @@ namespace fcn
     private:
         
         /**
+         * @return Caret position of the actual text.
+         */
+        unsigned int getActualTextCaretPosition() const;
+        
+        /**
+         * Sets the caret position of the actual text.
+         */
+        void setActualTextCaretPosition(unsigned int position);
+        
+        /**
          * Holds the actual text of the password field. The standard text
          * will hold asterisks instead.
          */
