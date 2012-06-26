@@ -83,7 +83,7 @@ namespace fcn
          * @param text The text of the text field.
          * @see getText
          */
-        void setText(const std::string& text);
+        virtual void setText(const std::string& text);
 
         /**
          * Gets the text of the text field.
@@ -91,7 +91,7 @@ namespace fcn
          * @return The text of the text field.
          * @see setText
          */
-        std::string getText() const;
+        virtual std::string getText() const;
 
         /**
          * Adjusts the size of the text field to fit the text.

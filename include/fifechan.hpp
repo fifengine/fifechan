@@ -85,6 +85,7 @@
 #include <fifechan/widgets/imagebutton.hpp>
 #include <fifechan/widgets/label.hpp>
 #include <fifechan/widgets/listbox.hpp>
+#include <fifechan/widgets/passwordfield.hpp>
 #include <fifechan/widgets/scrollarea.hpp>
 #include <fifechan/widgets/slider.hpp>
 #include <fifechan/widgets/radiobutton.hpp>
