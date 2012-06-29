@@ -56,6 +56,7 @@
 namespace fcn
 {
     class Text;
+    class UTF8StringEditor;
 
     /**
      * An implementation of a text box where a user can enter text that contains of many lines.
@@ -68,16 +69,13 @@ namespace fcn
     public:
         /**
          * Constructor.
-         */
-        TextBox();
-
-        /**
-         * Constructor.
          *
          * @param text The default text of the text box.
          */
-        TextBox(const std::string& text);
+        TextBox(const std::string& text = "");
 
+        ~TextBox();
+        
         /**
          * Sets the text of the text box.
          *
@@ -246,6 +244,23 @@ namespace fcn
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
     protected:
+        
+        /**
+         * Sets caret column (UTF-8 aware).
+         * @param column Caret column.
+         */
+        void setCaretColumnUTF8(int column);
+        
+        
+        /**
+         * Sets caret row (UTF-8 aware).
+         * @param row Caret row.
+         */
+        void setCaretRowUTF8(int row);
+        
+        
+        void setCaretRowColumnUTF8(int row, int column);
+        
         /**
          * Draws the caret. Overloaded this method if you want to
          * change the style of the caret.
@@ -275,6 +290,11 @@ namespace fcn
          * True if the text box is editable, false otherwise.
          */
         bool mOpaque;
+        
+        /**
+         * UTF8StringEditor for UTF8 support.
+         */
+        UTF8StringEditor* mStringEditor;
     };
 }
 
