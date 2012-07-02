@@ -82,6 +82,7 @@
 #include <fifechan/widgets/container.hpp>
 #include <fifechan/widgets/dropdown.hpp>
 #include <fifechan/widgets/icon.hpp>
+#include <fifechan/widgets/iconprogressbar.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
 #include <fifechan/widgets/label.hpp>
 #include <fifechan/widgets/listbox.hpp>
