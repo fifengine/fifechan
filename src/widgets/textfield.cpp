@@ -61,7 +61,8 @@ namespace fcn
         mXScroll(0)
     {
         mText = new Text();
-
+        mText->addRow("");
+        
         setFocusable(true);
 
         addMouseListener(this);
