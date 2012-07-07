@@ -81,6 +81,7 @@
 #include <fifechan/widgetlistener.hpp>
 #include <fifechan/widgets/button.hpp>
 #include <fifechan/widgets/checkbox.hpp>
+#include <fifechan/widgets/circularcontainer.hpp>
 #include <fifechan/widgets/container.hpp>
 #include <fifechan/widgets/dropdown.hpp>
 #include <fifechan/widgets/hbox.hpp>

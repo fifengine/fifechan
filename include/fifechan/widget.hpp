@@ -202,7 +202,7 @@ namespace fcn
          *      setDimension, getDimensi
          * @since 0.1.0
          */
-        void setWidth(int width);
+        virtual void setWidth(int width);
 
         /**
          * Gets the width of the widget.
@@ -222,7 +222,7 @@ namespace fcn
          *      setDimension, getDimension
          * @since 0.1.0
          */
-        void setHeight(int height);
+        virtual void setHeight(int height);
 
         /**
          * Gets the height of the widget.
