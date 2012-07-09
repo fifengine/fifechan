@@ -86,6 +86,11 @@ namespace fcn
         mContents->setOpaque(opaque);
     }
     
+    bool IconProgressBar::isOpaque() const
+    {
+        return mContents->isOpaque();
+    }
+    
     void IconProgressBar::setImage(Image* image)
     {
         if(mInternalImage)

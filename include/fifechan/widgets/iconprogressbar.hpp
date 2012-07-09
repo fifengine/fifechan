@@ -65,6 +65,11 @@ namespace fcn
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
+
+        /**
+         * @return Whether this IconProgressBar is opaque or not.
+         */
+        bool isOpaque() const;
         
         /**
          * Sets the IconProgressBar's image. The image passed is not owned by
