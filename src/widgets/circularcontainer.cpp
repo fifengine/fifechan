@@ -46,10 +46,10 @@ namespace fcn
         
         if(containerEvent.getContainer() == this)
         {
+            relayout();
+
             if(!mQueuedWidgets.empty())
             {   
-                relayout();
-                
                 Widget* widget = mQueuedWidgets.front();
                         
                 add(widget);
