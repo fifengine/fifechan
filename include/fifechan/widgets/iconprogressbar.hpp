@@ -110,8 +110,6 @@ namespace fcn
          */
         void reset();
         
-        virtual void _draw(Graphics* graphics);
-        
     protected:
         
         /**

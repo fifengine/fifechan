@@ -211,9 +211,4 @@ namespace fcn
         mContents->resizeToContent();
         resizeToChildren();
     }
-    
-    void IconProgressBar::_draw(Graphics* g)
-    {
-        Widget::_draw(g);
-    }
 };
