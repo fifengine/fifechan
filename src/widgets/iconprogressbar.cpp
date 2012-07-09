@@ -81,6 +81,11 @@ namespace fcn
         return mContents->getChildrenArea();
     }
     
+    void IconProgressBar::setOpaque(bool opaque)
+    {
+        mContents->setOpaque(opaque);
+    }
+    
     void IconProgressBar::setImage(Image* image)
     {
         if(mInternalImage)

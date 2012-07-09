@@ -58,6 +58,13 @@ namespace fcn
          * Returns children area of this IconProgressBar.
          */
         virtual Rectangle getChildrenArea();
+
+        /**
+         * Sets the opacity of the IconProgressBar.
+         * 
+         * @param opaque True if opaque, false otherwise.
+         */
+        void setOpaque(bool opaque);
         
         /**
          * Sets the IconProgressBar's image. The image passed is not owned by
