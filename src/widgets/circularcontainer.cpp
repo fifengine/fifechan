@@ -13,7 +13,7 @@ namespace fcn
         
         setSize(diameter, diameter);
         
-        calculateAvailableSlots();
+        calculateAvailableSlots(mRadius);
     }
     
     CircularContainer::~CircularContainer()
@@ -23,8 +23,10 @@ namespace fcn
     void CircularContainer::setRadius(int radius)
     {
         int diameter = 2 * radius;
+        mRadius = radius;
         
         setSize(diameter, diameter);
+        calculateAvailableSlots(mRadius);
         relayout();
     }
     
@@ -72,9 +74,9 @@ namespace fcn
         mUsedSlots = 0;
         
         std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChdilren(mChildren.end());
+        std::list<Widget*>::iterator endChildren(mChildren.end());
         
-        for(; currChild != endChdilren; ++currChild)
+        for(; currChild != endChildren; ++currChild)
         {
             layoutAddedChild(*currChild);
         }   
@@ -102,10 +104,13 @@ namespace fcn
         setRadius(height);
     }
     
-    void CircularContainer::calculateAvailableSlots()
+    void CircularContainer::calculateAvailableSlots(int radius)
     {
-        int centerX = mRadius;
-        int centerY = mRadius;
+        std::vector<Position> temp;
+        mAvailableSlots.swap(temp);
+        
+        int centerX = radius;
+        int centerY = radius;
         int totalSlots = static_cast<int>(2 * PI / mSpacing);
         
         float angle;
@@ -114,8 +119,8 @@ namespace fcn
         for(int i = 0; i < totalSlots; i++)
         {
             angle = mSpacing * i;
-            x = centerX + mRadius * cos(angle - PI / 2.0);
-            y = centerY + mRadius * sin(angle - PI / 2.0);
+            x = centerX + radius * cos(angle - PI / 2.0);
+            y = centerY + radius * sin(angle - PI / 2.0);
             mAvailableSlots.push_back(Position(x, y));
         }
     }

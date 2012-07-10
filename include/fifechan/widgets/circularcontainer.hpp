@@ -70,7 +70,7 @@ namespace fcn
         /**
          * Calculates the available slots on the circular container's circumference.
          */
-        void calculateAvailableSlots();
+        void calculateAvailableSlots(int radius);
         
         /**
          * Sets position of the added child in this container.
