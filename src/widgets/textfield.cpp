@@ -52,6 +52,7 @@
 #include "fifechan/key.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/text.hpp"
+#include "fifechan/utf8stringeditor.hpp"
 
 namespace fcn
 {
@@ -60,11 +61,14 @@ namespace fcn
         mXScroll(0)
     {
         mText = new Text();
-
+        mText->addRow("");
+        
         setFocusable(true);
 
         addMouseListener(this);
         addKeyListener(this);
+        
+        mStringEditor = new UTF8StringEditor;
     }
 
     TextField::TextField(const std::string& text):
@@ -79,6 +83,14 @@ namespace fcn
 
         addMouseListener(this);
         addKeyListener(this);
+        
+        mStringEditor = new UTF8StringEditor;
+    }
+    
+    TextField::~TextField()
+    {
+        delete mText;
+        delete mStringEditor;
     }
 
     void TextField::setText(const std::string& text)
@@ -161,38 +173,58 @@ namespace fcn
 
     void TextField::keyPressed(KeyEvent& keyEvent)
     {
+        
         Key key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Left)
-            mText->setCaretPosition(mText->getCaretPosition() - 1);
-
-        else if (key.getValue() == Key::Right)
-            mText->setCaretPosition(mText->getCaretPosition() + 1);
-
-        else if (key.getValue() == Key::Delete && mEditable)
-            mText->remove(1);
-
-        else if (key.getValue() == Key::Backspace && mEditable)
-            mText->remove(-1);
-
+        if (key.getValue() == Key::Left && getCaretPosition() > 0)
+        {
+            setCaretPosition(mStringEditor->prevChar(getText(), static_cast<int>(getCaretPosition())));
+        }
+        else if (key.getValue() == Key::Right && getCaretPosition() < getText().size())
+        {
+            setCaretPosition(mStringEditor->nextChar(getText(), static_cast<int>(getCaretPosition())));
+        }
+        else if (key.getValue() == Key::Delete && getCaretPosition() < getText().size() && mText->getNumberOfRows() > 0)
+        {
+            setCaretPosition(mStringEditor->eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+        }
+        else if (key.getValue() == Key::Backspace && getCaretPosition() > 0 && mText->getNumberOfRows() > 0)
+        {
+            setCaretPosition(mStringEditor->prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(mStringEditor->eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+        }
         else if (key.getValue() == Key::Enter)
+        {
             distributeActionEvent();
-
+        }
         else if (key.getValue() == Key::Home)
-            mText->setCaretColumn(0);
+        {
+            setCaretPosition(0);
+        }
 
         else if (key.getValue() == Key::End)
-            mText->setCaretColumn(mText->getNumberOfCharacters(0));
+        {
+            setCaretPosition(getText().size());
+        }
 
-        else if (key.isCharacter()
-                 && key.getValue() != Key::Tab
-                 && mEditable)
-            mText->insert(key.getValue());
+        // Add character to text, if key is realy a ASCII character
+        // or is greater than 8bits long and the character is not
+        // the tab key.
+
+        else if ((key.isCharacter() || key.getValue() > 255 && mText->getNumberOfRows() > 0)
+            && key.getValue() != Key::Tab)
+        {
+            setCaretPosition(mStringEditor->insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));
+        }
 
         if (key.getValue() != Key::Tab)
+        {
+            // consume all characters except TAB which is needed
+            // for traversing through widgets in a container.
             keyEvent.consume();
+        }
 
-        fixScroll();
+        fixScroll();    
     }
 
     void TextField::adjustSize()

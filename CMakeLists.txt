@@ -19,7 +19,7 @@ SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 ADD_DEFINITIONS("-DFIFECHAN_BUILD -DFIFECHAN_EXTENSION_BUILD")
 
-# The fifechan core library 
+# The Fifechan core library 
 FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
 FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/actionevent.hpp		
@@ -60,6 +60,7 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/size.hpp
   include/fifechan/sizeconstraint.hpp
   include/fifechan/text.hpp
+  include/fifechan/utf8stringeditor.hpp
   include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp
@@ -75,7 +76,7 @@ SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
 SOURCE_GROUP(src/fifechan/widgets FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
 SOURCE_GROUP(src/fifechan/contrib/widgets FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS})
 
-OPTION(BUILD_FIFECHAN_SHARED "Build the Guichan core library as a shared library." ON)
+OPTION(BUILD_FIFECHAN_SHARED "Build the Fifechan core library as a shared library." ON)
 IF(BUILD_FIFECHAN_SHARED)
   SET(FIFECHAN_LIBRARY_TYPE SHARED)
 ELSE(BUILD_FIFECHAN_SHARED)
@@ -103,15 +104,15 @@ INSTALL(FILES ${FIFECHAN_HEADERS} DESTINATION include/fifechan/)
 INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS} DESTINATION include/fifechan/widgets/)
 INSTALL(FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS} DESTINATION include/fifechan/contrib/widgets/)
 
-# The Guichan Allegro extension library
-OPTION(ENABLE_ALLEGRO "Enable the Guichan Allegro extension" ON)
-OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED "Build the Guichan Allegro extension library as a shared library." ON)
+# The Fifechan Allegro extension library
+OPTION(ENABLE_ALLEGRO "Enable the Fifechan Allegro extension" ON)
+OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED "Build the Fifechan Allegro extension library as a shared library." ON)
 FIND_PACKAGE(Allegro)
 IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)  
 
   INCLUDE_DIRECTORIES(${ALLEGRO_INCLUDE_DIR})
 
-  # The Guichan Allegro extension source
+  # The Fifechan Allegro extension source
   FILE(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
   FILE(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
   FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS include/fifechan/contrib/allegro/*.hpp)
@@ -150,15 +151,15 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
    INSTALL(FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/allegro/)   
 ENDIF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 
-# The Guichan Irrlicht extension library
-OPTION(ENABLE_IRRLICHT "Enable the Guichan Irrlicht extension" ON)
-OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED "Build the Guichan Irrlicht extension library as a shared library." ON)
+# The Fifechan Irrlicht extension library
+OPTION(ENABLE_IRRLICHT "Enable the Fifechan Irrlicht extension" ON)
+OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED "Build the Fifechan Irrlicht extension library as a shared library." ON)
 FIND_PACKAGE(Irrlicht)
 IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
   INCLUDE_DIRECTORIES(${IRRLICHT_INCLUDE_DIR})
 
-  # The Guichan Irrlicht extension source
+  # The Fifechan Irrlicht extension source
   FILE(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
   FILE(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
   FILE(GLOB FIFECHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
@@ -193,9 +194,9 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
    INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADERS} DESTINATION include/fifechan/irrlicht/)
 ENDIF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
-# The Guichan OpenGL extension library
-OPTION(ENABLE_OPENGL "Enable the Guichan OpenGL extension" ON)
-OPTION(BUILD_FIFECHAN_OPENGL_SHARED "Build the Guichan OpenGL extension library as a shared library." ON)
+# The Fifechan OpenGL extension library
+OPTION(ENABLE_OPENGL "Enable the Fifechan OpenGL extension" ON)
+OPTION(BUILD_FIFECHAN_OPENGL_SHARED "Build the Fifechan OpenGL extension library as a shared library." ON)
 FIND_PACKAGE(OpenGL)
 
 IF(APPLE AND ENABLE_OPENGL)
@@ -251,9 +252,9 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
   INSTALL(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/opengl/)   
 ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
 
-# The fifechan SDL extension library
-OPTION(ENABLE_SDL "Enable the Guichan SDL extension" ON)
-OPTION(BUILD_FIFECHAN_SDL_SHARED "Build the Guichan SDL extension library as a shared library." ON)
+# The Fifechan SDL extension library
+OPTION(ENABLE_SDL "Enable the Fifechan SDL extension" ON)
+OPTION(BUILD_FIFECHAN_SDL_SHARED "Build the Fifechan SDL extension library as a shared library." ON)
 FIND_PACKAGE(SDL)
 FIND_PACKAGE(SDL_image)
 
@@ -267,7 +268,7 @@ IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
  
   INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
  
-  # The fifechan SDL extension source
+  # The Fifechan SDL extension source
   FILE(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
   FILE(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
   FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)

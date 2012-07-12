@@ -400,7 +400,7 @@ namespace fcn
     Rectangle Text::getCaretDimension(Font* font) const
     {
         Rectangle dim;
-        dim.x = font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn));
+        dim.x = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
         dim.y = font->getHeight() * mCaretRow;
         dim.width = font->getWidth(" ");
         // We add two for some extra spacing to be sure the whole caret is visible.

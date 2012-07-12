@@ -54,6 +54,7 @@
 namespace fcn
 {
     class Text;
+    class UTF8StringEditor;
 
     /**
      * An implementation of a text field where a user can enter a line of text.
@@ -76,6 +77,11 @@ namespace fcn
          * @param text The default text of the text field.
          */
         TextField(const std::string& text);
+        
+        /**
+         * Destructor.
+         */
+        ~TextField();
 
         /**
          * Sets the text of the text field.
@@ -83,7 +89,7 @@ namespace fcn
          * @param text The text of the text field.
          * @see getText
          */
-        void setText(const std::string& text);
+        virtual void setText(const std::string& text);
 
         /**
          * Gets the text of the text field.
@@ -91,7 +97,7 @@ namespace fcn
          * @return The text of the text field.
          * @see setText
          */
-        std::string getText() const;
+        virtual std::string getText() const;
 
         /**
          * Adjusts the size of the text field to fit the text.
@@ -188,6 +194,11 @@ namespace fcn
          * text needs to scroll in order to show the last type character.
          */
         int mXScroll;
+        
+        /**
+         * String editor for UTF8 support.
+         */
+        UTF8StringEditor* mStringEditor;
     };
 }
 

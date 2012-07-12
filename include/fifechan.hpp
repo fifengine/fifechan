@@ -86,9 +86,11 @@
 #include <fifechan/widgets/dropdown.hpp>
 #include <fifechan/widgets/hbox.hpp>
 #include <fifechan/widgets/icon.hpp>
+#include <fifechan/widgets/iconprogressbar.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
 #include <fifechan/widgets/label.hpp>
 #include <fifechan/widgets/listbox.hpp>
+#include <fifechan/widgets/passwordfield.hpp>
 #include <fifechan/widgets/scrollarea.hpp>
 #include <fifechan/widgets/slider.hpp>
 #include <fifechan/widgets/spacer.hpp>
