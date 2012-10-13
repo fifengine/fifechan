@@ -80,7 +80,6 @@ namespace fcn
      * TextBox and TextField. The class wraps common text operations
      * such as inserting and deleting text.
      *
-     * @since 0.9.0
      */
     class FCN_CORE_DECLSPEC Text
     {
@@ -94,13 +93,11 @@ namespace fcn
          * Constructor.
          *
          * @param content The content of the text.
-         * @since 0.9.0
          */
         Text(const std::string& content);
 
         /**
          * Destructor.
-         * @since 0.9.0
          */
         virtual ~Text();
 
@@ -109,7 +106,6 @@ namespace fcn
          * any previous text and reset the caret position.
          *
          * @param content The content of the text.
-         * @since 0.9.0
          */
         virtual void setContent(const std::string& text);
 
@@ -117,7 +113,6 @@ namespace fcn
          * Gets the content of the text.
          *
          * @return The content of the text.
-         * @since 0.9.0
          */
         virtual std::string getContent() const;
 
@@ -126,7 +121,6 @@ namespace fcn
          *
          * @param row The row to set the text of.
          * @throws Exception when the row does not exist.
-         * @since 0.9.0
          */
         virtual void setRow(unsigned int row, const std::string& content);
 
@@ -135,7 +129,6 @@ namespace fcn
          * not change the current caret position.
          *
          * @param row The row to add.
-         * @since 0.9.0
          */
         virtual void addRow(const std::string& row);
         
@@ -162,7 +155,6 @@ namespace fcn
          * @param row The row to get the content of.
          * @return The reference to a row.
          * @throws Exception when no such row exists.
-         * @since 0.9.0
          */
         virtual std::string& getRow(unsigned int row);
 
@@ -170,7 +162,6 @@ namespace fcn
          * Inserts a character at the current caret position.
          *
          * @parameter character The character to insert.
-         * @since 0.9.0
          */
         virtual void insert(int character);
 
@@ -186,7 +177,6 @@ namespace fcn
          * with the row above the line feed.
          *
          * @param numberOfCharacters The number of characters to remove.
-         * @since 0.9.0
          */
         virtual void remove(int numberOfCharacters);
 
@@ -194,7 +184,6 @@ namespace fcn
          * Gets the caret position.
          *
          * @return The caret position.
-         * @since 0.9.0
          */
         virtual int getCaretPosition() const;
 
@@ -203,7 +192,6 @@ namespace fcn
          * clamp to the dimension of the content.
          *
          * @param position The position of the caret.
-         * @since 0.9.0
          */
         virtual void setCaretPosition(int position);
         
@@ -214,7 +202,6 @@ namespace fcn
          * @param x The x coordinate of the caret.
          * @param y The y coordinate of the caret.
          * @param font The font to use when calculating the position.
-         * @since 0.9.0
          */
         virtual void setCaretPosition(int x, int y, Font* font);
 
@@ -222,7 +209,6 @@ namespace fcn
          * Gets the column the caret is currently in.
          *
          * @return The column the caret is currently in.
-         * @since 0.9.0
          */
         virtual int getCaretColumn() const;
 
@@ -230,7 +216,6 @@ namespace fcn
          * Gets the row the caret is currently in.
          *
          * @return The row the caret is currently in.
-         * @since 0.9.0
          */
         virtual int getCaretRow() const;
 
@@ -239,7 +224,6 @@ namespace fcn
          * will be clamp to the current row.
          *
          * @param column The column the caret should be in.
-         * @since 0.9.0
          */
         virtual void setCaretColumn(int column);
 
@@ -253,7 +237,6 @@ namespace fcn
          * column.
          *
          * @param row The row the caret should be in.
-         * @since 0.9.0
          */
         virtual void setCaretRow(int row);
 
@@ -262,7 +245,6 @@ namespace fcn
          *
          * @param font The font to use when calculating the x coordinate.
          * @return The x coorinate of the caret in pixels.
-         * @since 0.9.0
          */
         virtual int getCaretX(Font* font) const;
 
@@ -271,7 +253,6 @@ namespace fcn
          *
          * @param font The font to use when calculating the y coordinate.
          * @return The y coorinate of the caret in pixels.
-         * @since 0.9.0
          */
         virtual int getCaretY(Font* font) const;
 
@@ -281,7 +262,6 @@ namespace fcn
          *
          * @param font The font to use when calculating the dimension.
          * @return The dimension in pixels of the text given a font.
-         * @since 0.9.0
          */
         virtual Rectangle getDimension(Font* font) const;
 
@@ -292,7 +272,6 @@ namespace fcn
          *
          * @param font The font to use when calculating the dimension.
          * @return The dimension of the caret.
-         * @since 0.9.0
          */
         virtual Rectangle getCaretDimension(Font* font) const;
 
@@ -302,7 +281,6 @@ namespace fcn
          *
          * @param row The row to get the width of.
          * @return The width in pixels of a row.
-         * @since 0.9.0
          */ 
         virtual int getWidth(int row, Font* font) const;
 
@@ -310,7 +288,6 @@ namespace fcn
          * Gets the maximum row the caret can be in.
          * 
          * @return The maximum row the caret can be in.
-         * @since 0.9.0
          */
         virtual unsigned int getMaximumCaretRow() const;
 
@@ -319,7 +296,6 @@ namespace fcn
          * 
          * @param row The row of the caret.
          * @return The maximum column of a row the caret can be in.
-         * @since 0.9.0
          */
         virtual unsigned int getMaximumCaretRow(unsigned int row) const;
 
@@ -327,7 +303,6 @@ namespace fcn
          * Gets the number of rows in the text.
          *
          * @return The number of rows in the text.
-         * @since 0.9.0
          */
         virtual unsigned int getNumberOfRows() const;
 
@@ -335,7 +310,6 @@ namespace fcn
          * Gets the number of characters in the text.
          *
          * @return The number of characters in the text.
-         * @since 0.9.0
          */
         virtual unsigned int getNumberOfCharacters() const;
 
@@ -346,7 +320,6 @@ namespace fcn
          * @param row The row to get the number of characters in.
          * @return The number of characters in a certain row, or zero
          *         if the row does not exist.
-         * @since 0.9.0
          */
         virtual unsigned int getNumberOfCharacters(unsigned int row) const;
 

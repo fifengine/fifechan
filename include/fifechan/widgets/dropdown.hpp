@@ -171,7 +171,6 @@ namespace fcn
          * using removeSelectionListener().
          *
          * @param selectionListener the selection listener to add.
-         * @since 0.8.0
          */
         void addSelectionListener(SelectionListener* selectionListener);
 
@@ -179,7 +178,6 @@ namespace fcn
          * Removes a selection listener from the drop down.
          *
          * @param selectionListener the selection listener to remove.
-         * @since 0.8.0
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
@@ -263,7 +261,6 @@ namespace fcn
          * Distributes a value changed event to all selection listeners
          * of the drop down.
          *
-         * @since 0.8.0
          */
         void distributeValueChangedEvent();
 

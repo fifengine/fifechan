@@ -74,7 +74,6 @@ namespace fcn
      * Base class for all events concerning input.
      *
      * @author Olof Naessén
-     * @since 0.6.0
      */
     class FCN_CORE_DECLSPEC InputEvent: public Event
     {

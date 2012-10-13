@@ -84,7 +84,6 @@ namespace fcn
      * An implementation of a tabbed area where a user can display a widget by
      * selecting a tab.
      *
-     * @since 0.8.0
      */
     class FCN_CORE_DECLSPEC TabbedArea:
         public ActionListener,
@@ -168,7 +167,6 @@ namespace fcn
         /**
          * Returns the number of tabs in this tabbed area.
          *
-         * @since 0.9.0
          */
         int getNumberOfTabs() const;
 

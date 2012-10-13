@@ -82,7 +82,6 @@ namespace fcn
     * Irrlicht implementation of Input.
     *
     * @author Aaron Andersen
-    * @since 0.9.0
     */
     class FCN_EXTENSION_DECLSPEC IrrlichtInput : public Input
     {

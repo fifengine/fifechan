@@ -80,7 +80,6 @@ namespace fcn
     * Irrlicht implementation of the Graphics.
     *
     * @author Aaron Andersen
-    * @since 0.9.0
     */
     class FCN_EXTENSION_DECLSPEC IrrlichtGraphics : public Graphics
     {

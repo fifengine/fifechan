@@ -97,7 +97,6 @@ namespace fcn
      *
      * @author Olof Naessén
      * @author Per Larsson
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC Widget
     {
@@ -129,7 +128,6 @@ namespace fcn
          *
          * @param graphics A graphics object to draw with.
          * @see getChildrenArea
-         * @since 0.1.0
          */
         virtual void draw(Graphics* graphics) = 0;
 
@@ -151,7 +149,6 @@ namespace fcn
          *
          * @param graphics A graphics object to draw with.
          * @see setFrameSize, getFrameSize
-         * @since 0.8.0
          */
         virtual void drawFrame(Graphics* graphics);
 
@@ -167,7 +164,6 @@ namespace fcn
          *
          * @param frameSize The size of the widget's frame.
          * @see getFrameSize, drawFrame
-         * @since 0.8.0
          */
         void setFrameSize(unsigned int frameSize);
 
@@ -183,7 +179,6 @@ namespace fcn
          *
          * @return The size of the widget's frame.
          * @see setFrameSize, drawFrame
-         * @since 0.8.0
          */
         unsigned int getFrameSize() const;
 
@@ -192,7 +187,6 @@ namespace fcn
          * You can do logic stuff here like playing an animation.
          *
          * @see Gui::logic
-         * @since 0.1.0
          */
         virtual void logic() { }
 
@@ -201,7 +195,6 @@ namespace fcn
          *
          * @return The widget's parent container. NULL if the widget
          *         has no parent.
-         * @since 0.1.0
          */
         virtual Widget* getParent() const;
 
@@ -210,7 +203,6 @@ namespace fcn
          *
          * @return The top widget, or top parent, for this widget. NULL if no top widget
          *         exists (that is this widget doesn't have a parent).
-         * @since 0.9.0
          */
         virtual Widget* getTop() const;
 
@@ -220,7 +212,6 @@ namespace fcn
          * @param width The width of the widget.
          * @see getWidth, setHeight, getHeight, setSize,
          *      setDimension, getDimensi
-         * @since 0.1.0
          */
         void setWidth(int width);
 
@@ -230,7 +221,6 @@ namespace fcn
          * @return The width of the widget.
          * @see setWidth, setHeight, getHeight, setSize,
          *      setDimension, getDimension
-         * @since 0.1.0
          */
         int getWidth() const;
 
@@ -240,7 +230,6 @@ namespace fcn
          * @param height The height of the widget.
          * @see getHeight, setWidth, getWidth, setSize,
          *      setDimension, getDimension
-         * @since 0.1.0
          */
         void setHeight(int height);
 
@@ -250,7 +239,6 @@ namespace fcn
          * @return The height of the widget.
          * @see setHeight, setWidth, getWidth, setSize,
          *      setDimension, getDimension
-         * @since 0.1.0
          */
         int getHeight() const;
 
@@ -261,7 +249,6 @@ namespace fcn
          * @param height The height of the widget.
          * @see setWidth, setHeight, getWidth, getHeight,
          *      setDimension, getDimension
-         * @since 0.1.0
          */
         void setSize(int width, int height);
 
@@ -271,7 +258,6 @@ namespace fcn
          *
          * @param x The x coordinate of the widget.
          * @see getX, setY, getY, setPosition, setDimension, getDimension
-         * @since 0.1.0
          */
         void setX(int x);
 
@@ -281,7 +267,6 @@ namespace fcn
          *
          * @return The x coordinate of the widget.
          * @see setX, setY, getY, setPosition, setDimension, getDimension
-         * @since 0.1.0
          */
         int getX() const;
 
@@ -291,7 +276,6 @@ namespace fcn
          *
          * @param y The y coordinate of the widget.
          * @see setY, setX, getX, setPosition, setDimension, getDimension
-         * @since 0.1.0
          */
         void setY(int y);
 
@@ -301,7 +285,6 @@ namespace fcn
          *
          * @return The y coordinate of the widget.
          * @see setY, setX, getX, setPosition, setDimension, getDimension
-         * @since 0.1.0
          */
         int getY() const;
 
@@ -312,7 +295,6 @@ namespace fcn
          * @param x The x coordinate of the widget.
          * @param y The y coordinate of the widget.
          * @see setX, getX, setY, getY, setDimension, getDimension
-         * @since 0.1.0
          */
         void setPosition(int x, int y);
 
@@ -322,7 +304,6 @@ namespace fcn
          *
          * @param dimension The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
-         * @since 0.1.0
          */
         void setDimension(const Rectangle& dimension);
 
@@ -332,7 +313,6 @@ namespace fcn
          *
          * @return The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
-         * @since 0.1.0
          */
         const Rectangle& getDimension() const;
 
@@ -342,7 +322,6 @@ namespace fcn
          * @param focusable True if the widget should be focusable,
          *                  false otherwise.
          * @see isFocusable
-         * @since 0.1.0
          */
         void setFocusable(bool focusable);
 
@@ -351,7 +330,6 @@ namespace fcn
          *
          * @return True if the widget should be focusable, false otherwise.
          * @see setFocusable
-         * @since 0.1.0
          */
         bool isFocusable() const;
 
@@ -359,7 +337,6 @@ namespace fcn
          * Checks if the widget is focused.
          *
          * @return True if the widget is focused, false otherwise.
-         * @since 0.1.0
          */
         virtual bool isFocused() const;
 
@@ -370,7 +347,6 @@ namespace fcn
          * @param enabled True if widget should be enabled,
          *                false otherwise.
          * @see isEnabled
-         * @since 0.1.0
          */
         void setEnabled(bool enabled);
 
@@ -380,7 +356,6 @@ namespace fcn
          *
          * @return True if widget is enabled, false otherwise.
          * @see setEnabled
-         * @since 0.1.0
          */
         bool isEnabled() const;
 
@@ -389,7 +364,6 @@ namespace fcn
          *
          * @param visible True if widget should be visible, false otherwise.
          * @see isVisible
-         * @since 0.1.0
          */
         void setVisible(bool visible);
 
@@ -398,7 +372,6 @@ namespace fcn
          *
          * @return True if widget is be visible, false otherwise.
          * @see setVisible
-         * @since 0.1.0
          */
         bool isVisible() const;
 
@@ -407,7 +380,6 @@ namespace fcn
          *
          * @param color The baseground color.
          * @see getBaseColor
-         * @since 0.1.0
          */
         void setBaseColor(const Color& color);
 
@@ -416,7 +388,6 @@ namespace fcn
          *
          * @return The base color.
          * @see setBaseColor
-         * @since 0.1.0
          */
         const Color& getBaseColor() const;
 
@@ -425,7 +396,6 @@ namespace fcn
          *
          * @param color The foreground color.
          * @see getForegroundColor
-         * @since 0.1.0
          */
         void setForegroundColor(const Color& color);
 
@@ -433,7 +403,6 @@ namespace fcn
          * Gets the foreground color.
          *
          * @see setForegroundColor
-         * @since 0.1.0
          */
         const Color& getForegroundColor() const;
 
@@ -442,7 +411,6 @@ namespace fcn
          *
          * @param color The background Color.
          * @see setBackgroundColor
-         * @since 0.1.0
          */
         void setBackgroundColor(const Color& color);
 
@@ -450,7 +418,6 @@ namespace fcn
          * Gets the background color.
          *
          * @see setBackgroundColor
-         * @since 0.1.0
          */
         const Color& getBackgroundColor() const;
 
@@ -459,7 +426,6 @@ namespace fcn
          *
          * @param color The selection color.
          * @see getSelectionColor
-         * @since 0.6.0
          */
         void setSelectionColor(const Color& color);
 
@@ -468,7 +434,6 @@ namespace fcn
          *
          * @return The selection color.
          * @see setSelectionColor
-         * @since 0.6.0
          */
         const Color& getSelectionColor() const;
         
@@ -476,21 +441,18 @@ namespace fcn
          * Requests focus for the widget. A widget will only recieve focus
          * if it is focusable.
          *
-         * @since 0.1.0
          */
         virtual void requestFocus();
 
         /**
          * Requests a move to the top in the parent widget.
          *
-         * @since 0.1.0
          */
         virtual void requestMoveToTop();
 
         /**
          * Requests a move to the bottom in the parent widget.
          *
-         * @since 0.1.0
          */
         virtual void requestMoveToBottom();
 
@@ -502,7 +464,6 @@ namespace fcn
          * WARNING: This function is used internally and should not
          *          be called or overloaded unless you know what you
          *          are doing.
-         * @since 0.9.0
          */
         virtual void _draw(Graphics* graphics);
 
@@ -513,7 +474,6 @@ namespace fcn
          * WARNING: This function is used internally and should not
          *          be called or overloaded unless you know what you
          *          are doing.
-         * @since 0.9.0
          */
         virtual void _logic();
 
@@ -526,7 +486,6 @@ namespace fcn
          *
          * @param focusHandler The focus handler to use.
          * @see _getFocusHandler
-         * @since 0.1.0
          */
         virtual void _setFocusHandler(FocusHandler* focusHandler);
         
@@ -539,7 +498,6 @@ namespace fcn
          *
          * @return The focus handler used.
          * @see _setFocusHandler
-         * @since 0.1.0
          */
         virtual FocusHandler* _getFocusHandler();
         
@@ -550,7 +508,6 @@ namespace fcn
          *
          * @param actionListener The action listener to add.
          * @see removeActionListener
-         * @since 0.1.0
          */
         void addActionListener(ActionListener* actionListener);
 
@@ -559,7 +516,6 @@ namespace fcn
          *
          * @param actionListener The action listener to remove.
          * @see addActionListener
-         * @since 0.1.0
          */
         void removeActionListener(ActionListener* actionListener);
 
@@ -570,7 +526,6 @@ namespace fcn
          *
          * @param deathListener The death listener to add.
          * @see removeDeathListener
-         * @since 0.1.0
          */
         void addDeathListener(DeathListener* deathListener);
 
@@ -579,7 +534,6 @@ namespace fcn
          *
          * @param deathListener The death listener to remove.
          * @see addDeathListener
-         * @since 0.1.0
          */
         void removeDeathListener(DeathListener* deathListener);
 
@@ -590,7 +544,6 @@ namespace fcn
          *
          * @param mouseListener The mouse listener to add.
          * @see removeMouseListener
-         * @since 0.1.0
          */
         void addMouseListener(MouseListener* mouseListener);
 
@@ -599,7 +552,6 @@ namespace fcn
          *
          * @param mouseListener The mouse listener to remove.
          * @see addMouseListener
-         * @since 0.1.0
          */
         void removeMouseListener(MouseListener* mouseListener);
 
@@ -610,7 +562,6 @@ namespace fcn
          *
          * @param keyListener The key listener to add.
          * @see removeKeyListener
-         * @since 0.1.0
          */
         void addKeyListener(KeyListener* keyListener);
 
@@ -619,7 +570,6 @@ namespace fcn
          *
          * @param keyListener The key listener to remove.
          * @see addKeyListener
-         * @since 0.1.0
          */
         void removeKeyListener(KeyListener* keyListener);
 
@@ -630,7 +580,6 @@ namespace fcn
          *
          * @param focusListener The focus listener to add.
          * @see removeFocusListener
-         * @since 0.7.0
          */
         void addFocusListener(FocusListener* focusListener);
 
@@ -639,7 +588,6 @@ namespace fcn
          *
          * @param focusListener The focus listener to remove.
          * @see addFocusListener
-         * @since 0.7.0
          */
         void removeFocusListener(FocusListener* focusListener);
 
@@ -650,7 +598,6 @@ namespace fcn
          *
          * @param widgetListener The widget listener to add.
          * @see removeWidgetListener
-         * @since 0.8.0
          */
         void addWidgetListener(WidgetListener* widgetListener);
 
@@ -659,7 +606,6 @@ namespace fcn
          *
          * @param widgetListener The widget listener to remove.
          * @see addWidgetListener
-         * @since 0.8.0
          */
         void removeWidgetListener(WidgetListener* widgetListener);
 
@@ -673,7 +619,6 @@ namespace fcn
          *
          * @param actionEventId The action event identifier.
          * @see getActionEventId
-         * @since 0.6.0
          */
         void setActionEventId(const std::string& actionEventId);
 
@@ -682,7 +627,6 @@ namespace fcn
          *
          * @return The action event identifier of the widget.
          * @see setActionEventId
-         * @since 0.6.0
          */
         const std::string& getActionEventId() const;
 
@@ -691,7 +635,6 @@ namespace fcn
          *
          * @param x The absolute x coordinate will be stored in this parameter.
          * @param y The absolute y coordinate will be stored in this parameter.
-         * @since 0.1.0
          */
         virtual void getAbsolutePosition(int& x, int& y) const;
 
@@ -704,7 +647,6 @@ namespace fcn
          *
          * @param parent The parent of the widget.
          * @see getParent
-         * @since 0.1.0
          */
         virtual void _setParent(Widget* parent);
 
@@ -715,7 +657,6 @@ namespace fcn
          *
          * @return The font set for the widget.
          * @see setFont, setGlobalFont
-         * @since 0.1.0
          */
         Font *getFont() const;
 
@@ -724,7 +665,6 @@ namespace fcn
          *
          * @param font The global font.
          * @see getGlobalFont
-         * @since 0.1.0
          */
         static void setGlobalFont(Font* font);
 
@@ -734,7 +674,6 @@ namespace fcn
          *
          * @param font The font to set for the widget.
          * @see getFont
-         * @since 0.1.0
          */
         void setFont(Font* font);
 
@@ -743,7 +682,6 @@ namespace fcn
          * this function will only be called if the widget doesn't have a
          * font already set.
          *
-         * @since 0.1.0
          */
         virtual void fontChanged() { }
 
@@ -753,7 +691,6 @@ namespace fcn
          *
          * @param widget The widget to check.
          * @return True if an instance of the widget exists, false otherwise.
-         * @since 0.1.0
          */
         static bool widgetExists(const Widget* widget);
 
@@ -765,7 +702,6 @@ namespace fcn
          *
          * @return True if tab in is enabled, false otherwise.
          * @see setTabInEnabled
-         * @since 0.1.0
          */
         bool isTabInEnabled() const;
 
@@ -777,7 +713,6 @@ namespace fcn
          *
          * @param enabled True if tab in should be enabled, false otherwise.
          * @see isTabInEnabled
-         * @since 0.1.0
          */
         void setTabInEnabled(bool enabled);
 
@@ -789,7 +724,6 @@ namespace fcn
          *
          * @return True if tab out is enabled, false otherwise.
          * @see setTabOutEnabled
-         * @since 0.1.0
          */
         bool isTabOutEnabled() const;
 
@@ -801,7 +735,6 @@ namespace fcn
          *
          * @param enabled True if tab out should be enabled, false otherwise.
          * @see isTabOutEnabled
-         * @since 0.1.0
          */
         void setTabOutEnabled(bool enabled);
 
@@ -811,7 +744,6 @@ namespace fcn
          *
          * @throws Exception if another widget already has modal focus.
          * @see releaseModalFocus, isModalFocused
-         * @since 0.4.0
          */
         virtual void requestModalFocus();
 
@@ -822,7 +754,6 @@ namespace fcn
          *
          * @throws Exception if another widget already has modal focus.
          * @see releaseModalMouseInputFocus, isModalMouseInputFocused
-         * @since 0.6.0
          */
         virtual void requestModalMouseInputFocus();
 
@@ -831,7 +762,6 @@ namespace fcn
          * widget has modal focus.
          *
          * @see requestModalFocus, isModalFocused
-         * @since 0.4.0
          */
         virtual void releaseModalFocus();
 
@@ -840,7 +770,6 @@ namespace fcn
          * be released if the widget has modal mouse input focus.
          *
          * @see requestModalMouseInputFocus, isModalMouseInputFocused
-         * @since 0.6.0
          */
         virtual void releaseModalMouseInputFocus();
 
@@ -849,7 +778,6 @@ namespace fcn
          *
          * @return True if the widget has modal focus, false otherwise.
          * @see requestModalFocus, releaseModalFocus
-         * @since 0.8.0
          */
         virtual bool isModalFocused() const;
 
@@ -859,7 +787,6 @@ namespace fcn
          * @return True if the widget has modal mouse input focus, false
          *         otherwise.
          * @see requestModalMouseInputFocus, releaseModalMouseInputFocus
-         * @since 0.8.0
          */
         virtual bool isModalMouseInputFocused() const;
 
@@ -877,7 +804,6 @@ namespace fcn
          *            no widgets get excluded.
          * @return The widget at the specified coodinate, NULL
          *         if no widget is found.
-         * @since 0.6.0
          */
         virtual Widget *getWidgetAt(int x, int y, Widget* exclude = NULL);
 
@@ -890,7 +816,6 @@ namespace fcn
          * @param area The area to check.
          * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
-         * @since 0.9.0
          */
         virtual std::list<Widget*> getWidgetsIn(const Rectangle& area, 
                                                 Widget* ignore = NULL);
@@ -899,7 +824,6 @@ namespace fcn
          * Gets the mouse listeners of the widget.
          *
          * @return The mouse listeners of the widget.
-         * @since 0.6.0
          */
         virtual const std::list<MouseListener*>& _getMouseListeners();
 
@@ -907,7 +831,6 @@ namespace fcn
          * Gets the key listeners of the widget.
          *
          * @return The key listeners of the widget.
-         * @since 0.6.0
          */
         virtual const std::list<KeyListener*>& _getKeyListeners();
 
@@ -915,7 +838,6 @@ namespace fcn
          * Gets the focus listeners of the widget.
          *
          * @return The focus listeners of the widget.
-         * @since 0.7.0
          */
         virtual const std::list<FocusListener*>& _getFocusListeners();
 
@@ -939,7 +861,6 @@ namespace fcn
          * or not.
          *
          * @return The area of the widget occupied by the widget's children.
-         * @since 0.5.0
          */
         virtual Rectangle getChildrenArea();
 
@@ -949,7 +870,6 @@ namespace fcn
          * @return the internalFocusHandler used. If no internal focus handler
          *         is used, NULL will be returned.
          * @see setInternalFocusHandler
-         * @since 0.1.0
          */
         virtual FocusHandler* _getInternalFocusHandler();
 
@@ -960,7 +880,6 @@ namespace fcn
          *
          * @param focusHandler The internal focus handler to be used.
          * @see getInternalFocusHandler
-         * @since 0.1.0
          */
         void setInternalFocusHandler(FocusHandler* internalFocusHandler);
 
@@ -972,7 +891,6 @@ namespace fcn
          *
          * @param widget The widget to move to the top.
          * @see moveToBottom
-         * @since 0.1.0
          */
         virtual void moveToTop(Widget* widget);
 
@@ -984,7 +902,6 @@ namespace fcn
          *
          * @param widget The widget to move to the bottom.
          * @see moveToTop
-         * @since 0.1.0
          */
         virtual void moveToBottom(Widget* widget);
 
@@ -992,7 +909,6 @@ namespace fcn
          * Focuses the next widget in the widget.
          * 
          * @see moveToBottom
-         * @since 0.1.0
          */
         virtual void focusNext();
 
@@ -1000,7 +916,6 @@ namespace fcn
          * Focuses the previous widget in the widget.
          *
          * @see moveToBottom
-         * @since 0.1.0
          */
         virtual void focusPrevious();
 
@@ -1010,7 +925,6 @@ namespace fcn
          *
          * @param widget The target widget.
          * @param area The area to show.
-         * @since 0.1.0
          */
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
@@ -1022,7 +936,6 @@ namespace fcn
          *
          * @param id The id to set to the widget.
          * @see getId, BasicContainer::findWidgetById
-         * @since 0.8.0
          */
         void setId(const std::string& id);
 
@@ -1034,7 +947,6 @@ namespace fcn
          *
          * @param id The id to set to the widget.
          * @see setId, BasicContainer::findWidgetById
-         * @since 0.8.0
          */
         const std::string& getId() const;
 
@@ -1046,7 +958,6 @@ namespace fcn
          * of a ScrollArea.
          *
          * @param rectangle The rectangle to be shown.
-         * @since 0.8.0
          */
         virtual void showPart(Rectangle rectangle);
     
@@ -1072,7 +983,7 @@ namespace fcn
          *          be called unless you know what you
          *          are doing.
          * 
-         * FIXME We don't like the visibility handler being static
+         * FIXME  We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.
          */
@@ -1083,35 +994,30 @@ namespace fcn
          * Distributes an action event to all action listeners
          * of the widget.
          *
-         * @since 0.8.0
          */
         void distributeActionEvent();
 
         /**
          * Distributes resized events to all of the widget's listeners.
          *
-         * @since 0.8.0
          */
         void distributeResizedEvent();
 
         /**
          * Distributes moved events to all of the widget's listeners.
          *
-         * @since 0.8.0
          */
         void distributeMovedEvent();
 
         /**
          * Distributes hidden events to all of the widget's listeners.
          *
-         * @since 0.8.0
          */
         void distributeHiddenEvent();
 
         /**
          * Distributes shown events to all of the widget's listeners.
          *
-         * @since 0.8.0
          */
         void distributeShownEvent();
         
@@ -1147,7 +1053,6 @@ namespace fcn
          *
          * @param widget The widget to add.
          * @see remove, clear
-         * @since 0.9.0
          */
         void add(Widget* widget);
 
@@ -1159,7 +1064,6 @@ namespace fcn
          *
          * @param widget The widget to remove.
          * @see add, clear
-         * @since 0.9.0
          */
         virtual void remove(Widget* widget);
 
@@ -1170,7 +1074,6 @@ namespace fcn
          * INSIDE ANY LISTER FUNCTIONS!
          *
          * @see remove, clear
-         * @since 0.9.0
          */
         virtual void clear();
 
@@ -1183,14 +1086,12 @@ namespace fcn
          * @return The widget with the corrosponding id, 
          *         NULL of no widget is found.
          *
-         * @since 0.8.0
          */
         virtual Widget* findWidgetById(const std::string& id);
 
         /**
          * Resizes the widget to fit it's children exactly.
          *
-         * @since 0.9.0
          */
         void resizeToChildren();
 
@@ -1198,7 +1099,6 @@ namespace fcn
          * Gets the children of the widget.
          *
          * @return A list of the widgets children.
-         * @since 0.9.0
          */
         const std::list<Widget*>& getChildren() const;
 

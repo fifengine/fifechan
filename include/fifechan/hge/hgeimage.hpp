@@ -79,7 +79,6 @@ namespace fcn
      * HGE implementation of Image.
      *
      * @author Kevin Lynx
-     * @since  0.6.1
      */
     class FCN_EXTENSION_DECLSPEC HGEImage : public Image
     {

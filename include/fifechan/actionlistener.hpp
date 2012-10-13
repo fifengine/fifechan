@@ -95,7 +95,6 @@ namespace fcn
          * occured.
          *
          * @param actionEvent The event of the action.
-         * @since 0.6.0
          */
         virtual void action(const ActionEvent& actionEvent) = 0;
     

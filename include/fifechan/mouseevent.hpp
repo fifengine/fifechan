@@ -77,7 +77,6 @@ namespace fcn
      * Represents a mouse event.
      *
      * @author Olof Naessén
-     * @since 0.6.0
      */
     class FCN_CORE_DECLSPEC MouseEvent: public InputEvent
     {

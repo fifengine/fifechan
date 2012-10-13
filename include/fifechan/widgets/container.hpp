@@ -174,7 +174,6 @@ namespace fcn
          * listeners of the container
          *
          * @param containerListener The container listener to add.
-         * @since 0.9.0
          */
         void addContainerListener(ContainerListener* containerListener);
 
@@ -182,7 +181,6 @@ namespace fcn
          * Removes a container listener from the container.
          *
          * @param containerListener The container listener to remove.
-         * @since 0.9.0
          */
         void removeContainerListener(ContainerListener* containerListener);
 
@@ -211,7 +209,6 @@ namespace fcn
          * of the container.
          * 
          * @param source The source widget of the event.
-         * @since 0.9.0
          */
         void distributeWidgetAddedEvent(Widget* source);
 
@@ -220,7 +217,6 @@ namespace fcn
          * of the container.
          * 
          * @param source The source widget of the event.
-         * @since 0.9.0
          */
         void distributeWidgetRemovedEvent(Widget* source);
 

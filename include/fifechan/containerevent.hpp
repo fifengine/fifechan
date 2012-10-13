@@ -84,7 +84,6 @@ namespace fcn
      * @see Container::addContainerListener, Container::removeContainerListener,
      *      Container::distributeContainerEvent
      * @author Olof Naessén
-     * @since 0.9.0
      */
     class FCN_CORE_DECLSPEC ContainerEvent: public Event
     {

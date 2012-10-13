@@ -110,7 +110,6 @@ namespace fcn
      *
      * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics, 
      *      SDLGraphics, Image
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC Graphics
     {
@@ -262,7 +261,6 @@ namespace fcn
          * @param width  The width of the rectangle
          * @param height The height of the rectangle
          *
-         * @since 0.9.0
          */
         inline void drawRectangle(int x, int y, int width, int height)
         { drawRectangle(Rectangle(x, y, width, height)); }
@@ -284,7 +282,6 @@ namespace fcn
          * @param width  The width of the rectangle
          * @param height The height of the rectangle
          *
-         * @since 0.9.0
          */
         inline void fillRectangle(int x, int y, int width, int height)
         { fillRectangle(Rectangle(x, y, width, height)); }

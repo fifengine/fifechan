@@ -75,7 +75,6 @@ namespace fcn
      * bother using this class unless you implement an Input class for
      * a back end.
      *
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC KeyInput
     {
@@ -132,7 +131,6 @@ namespace fcn
          * @return True if shift was pressed at the same 
          *         time as the key, false otherwise.
          * @see setShiftPressed
-         * @since 0.6.0
          */
         bool isShiftPressed() const;
 
@@ -142,7 +140,6 @@ namespace fcn
          *
          * @param pressed True if shift is pressed, false otherwise.
          * @see isShiftPressed
-         * @since 0.6.0
          */
         void setShiftPressed(bool pressed);
 
@@ -152,7 +149,6 @@ namespace fcn
          * @return True if control was pressed at the same 
          *         time as the key, false otherwise.
          * @see setControlPressed
-         * @since 0.6.0
          */
         bool isControlPressed() const;
 
@@ -162,7 +158,6 @@ namespace fcn
          *
          * @param pressed True if control is pressed, false otherwise.
          * @see isControlPressed
-         * @since 0.6.0
          */
         void setControlPressed(bool pressed);
 
@@ -172,7 +167,6 @@ namespace fcn
          * @return True if alt was pressed at the same 
          *         time as the key, false otherwise.
          * @see setAltPressed
-         * @since 0.6.0
          */
         bool isAltPressed() const;
 
@@ -183,7 +177,6 @@ namespace fcn
          * @param pressed True if alt is pressed at the same 
          *                time as the key, , false otherwise.
          * @see isAltPressed
-         * @since 0.6.0
          */
         void setAltPressed(bool pressed);
 
@@ -193,7 +186,6 @@ namespace fcn
          * @return True if meta was pressed at the same 
          *         time as the key, false otherwise.
          * @see setMetaPressed
-         * @since 0.6.0
          */
         bool isMetaPressed() const;
 
@@ -204,7 +196,6 @@ namespace fcn
          * @param pressed True if meta is pressed at the same
          *                time as the key, false otherwise.
          * @see isMetaPressed
-         * @since 0.6.0
          */
         void setMetaPressed(bool pressed);
 
@@ -214,7 +205,6 @@ namespace fcn
          * @return True if key pressed at the numeric pad,
          *         false otherwise.
          * @setNumericPad
-         * @since 0.6.0
          */
         bool isNumericPad() const;
 
@@ -224,7 +214,6 @@ namespace fcn
          * @param numpad True if the key was pressed at the numeric
          *               pad, false otherwise.
          * @see isNumericPad
-         * @since 0.6.0
          */
         void setNumericPad(bool numpad);
 

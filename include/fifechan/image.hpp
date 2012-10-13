@@ -86,7 +86,6 @@ namespace fcn
      *          Otherwise your program might crash in a most bizarre way.
      * @see AllegroImageLoader, HGEImageLoader, OpenLayerImageLoader,
      *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader, SDLImageLoader
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC Image
     {
@@ -113,7 +112,6 @@ namespace fcn
          * @param filename The file to load.
          * @param convertToDisplayFormat True if the image should be converted
          *                               to display, false otherwise.
-         * @since 0.5.0
          */
         static Image* load(const std::string& filename, bool convertToDisplayFormat = true);
 
@@ -124,7 +122,6 @@ namespace fcn
          * @see setImageLoader, AllegroImageLoader, HGEImageLoader, 
          *      OpenLayerImageLoader, OpenGLAllegroImageLoader, 
          *      OpenGLSDLImageLoader, SDLImageLoader
-         * @since 0.1.0
          */
         static ImageLoader* getImageLoader();
 
@@ -138,14 +135,12 @@ namespace fcn
          * @see getImageLoader, AllegroImageLoader, HGEImageLoader, 
          *      OpenLayerImageLoader, OpenGLAllegroImageLoader, 
          *      OpenGLSDLImageLoader, SDLImageLoader
-         * @since 0.1.0
          */
         static void setImageLoader(ImageLoader* imageLoader);
 
         /**
          * Frees an image.
          *
-         * @since 0.5.0
          */
         virtual void free() = 0;
 
@@ -154,7 +149,6 @@ namespace fcn
          *
          * @return The width of the image.
          *
-         * @since 0.1.0
          */
         virtual int getWidth() const = 0;
 
@@ -163,7 +157,6 @@ namespace fcn
          *
          * @return The height of the image.
          *
-         * @since 0.1.0
          */
         virtual int getHeight() const = 0;
 
@@ -177,7 +170,6 @@ namespace fcn
          * @param y The y coordinate.
          * @return The color of the pixel.
          *
-         * @since 0.5.0
          */
         virtual Color getPixel(int x, int y) = 0;
 
@@ -187,7 +179,6 @@ namespace fcn
          * @param x The x coordinate.
          * @param y The y coordinate.
          * @param color The color of the pixel to put.
-         * @since 0.5.0
          */
         virtual void putPixel(int x, int y, const Color& color) = 0;
 
@@ -196,7 +187,6 @@ namespace fcn
          *
          * IMPORTANT: Only guaranteed to work before the image has been
          *            converted to display format.
-         * @since 0.5.0
          */
         virtual void convertToDisplayFormat() = 0;
 

@@ -79,7 +79,6 @@ namespace fcn
      * Irrlicht implementation of Image.
      *
      * @author Aaron Andersen
-     * @since 0.9.0
      */
     class FCN_EXTENSION_DECLSPEC IrrlichtImage : public Image
     {

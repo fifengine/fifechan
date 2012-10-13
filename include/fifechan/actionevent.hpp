@@ -94,7 +94,6 @@ namespace fcn
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      Widget::distributeActionEvent
      * @author Olof Naessén
-     * @since 0.6.0
      */
     class FCN_CORE_DECLSPEC ActionEvent: public Event
     {

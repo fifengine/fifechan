@@ -81,7 +81,6 @@ namespace fcn
      * An implementation of a simple tab to be used in a tabbed area.
      *
      * @see TabbedArea
-     * @since 0.8.0
      */
     class FCN_CORE_DECLSPEC Tab:
         public MouseListener,

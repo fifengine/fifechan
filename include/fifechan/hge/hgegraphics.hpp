@@ -79,7 +79,6 @@ namespace fcn
      * HGE implementation of Graphics.
      *
      * @author Kevin Lynx
-     * @since 0.6.1
      */
     class FCN_EXTENSION_DECLSPEC HGEGraphics : public Graphics
     {

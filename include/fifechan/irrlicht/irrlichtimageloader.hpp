@@ -78,7 +78,6 @@ namespace fcn
      * Irrlicht implementation of ImageLoader.
      *
      * @author Aaron Andersen
-     * @since 0.9.0
      */
     class FCN_EXTENSION_DECLSPEC IrrlichtImageLoader : public ImageLoader
     {

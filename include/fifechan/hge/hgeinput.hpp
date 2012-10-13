@@ -83,7 +83,6 @@ namespace fcn
      * HGE implementation of Input.
      *
      * @author Kevin Lynx
-     * @since 0.6.1
      */
     class FCN_EXTENSION_DECLSPEC HGEInput : public Input
     {

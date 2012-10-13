@@ -76,7 +76,6 @@ namespace fcn
      * inherit from this class.
      *
      * @author Olof Naessén
-     * @since 0.6.0
      */
     class FCN_CORE_DECLSPEC Event
     {

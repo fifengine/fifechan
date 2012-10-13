@@ -74,7 +74,6 @@ namespace fcn
     /**
      * Represents a rectangle.
      *
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC Rectangle
     {
@@ -93,7 +92,6 @@ namespace fcn
          * @param y The y coordinate of the rectangle.
          * @param width The width of the rectangle.
          * @param height The height of the rectangle.
-         * @since 0.1.0
          */
         Rectangle(int x, int y, int width, int height);
 
@@ -104,7 +102,6 @@ namespace fcn
          * @param y The y coordinate of the rectangle.
          * @param width The width of the rectangle.
          * @param height The height of the rectangle.
-         * @since 0.1.0
          */
         void setAll(int x, int y, int width, int height);
 
@@ -113,7 +110,6 @@ namespace fcn
          *
          * @param rectangle Another rectangle to check for intersection.
          * @return True if the rectangles intersect, false otherwise.
-         * @since 0.1.0
          */
         bool isIntersecting(const Rectangle& rectangle) const;
 
@@ -124,7 +120,6 @@ namespace fcn
          * @param y The y coordinate of the point.
          * @return True if the rectangle contains the point,
          *         false otherwise.
-         * @since 0.9.0
          */
         bool isContaining(int x, int y) const;
 
@@ -134,7 +129,6 @@ namespace fcn
          * @param other The rectangle to check.
          * @return True if the rectangle contains the rectangle,
          *         false otherwise.
-         * @since 0.9.0
          */
         bool isContaining(const Rectangle& other) const;
 

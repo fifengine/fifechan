@@ -185,7 +185,6 @@ namespace fcn
          * using removeSelectionListener().
          *
          * @param selectionListener The selection listener to add.
-         * @since 0.8.0
          */
         void addSelectionListener(SelectionListener* selectionListener);
 
@@ -193,7 +192,6 @@ namespace fcn
          * Removes a selection listener from the list box.
          *
          * @param selectionListener The selection listener to remove.
-         * @since 0.8.0
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
@@ -202,7 +200,6 @@ namespace fcn
          * height than the font height is preferred.
          *
          * @return The height of a row.
-         * @since 0.8.0
          */
         virtual unsigned int getRowHeight() const;
 
@@ -235,7 +232,6 @@ namespace fcn
          * Distributes a value changed event to all selection listeners
          * of the list box.
          *
-         * @since 0.8.0
          */
         void distributeValueChangedEvent();
 

@@ -77,7 +77,6 @@ namespace fcn
      *
      * @see Widget::addDeathListener, Widget::removeDeathListener
      * @author Olof Naessén
-     * @since 0.6.0
      */
     class FCN_CORE_DECLSPEC DeathListener
     {

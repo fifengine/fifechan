@@ -87,7 +87,6 @@ namespace fcn
      *      Widget::releaseModalFocus, Widget::relaseModalMouseInputFocus, 
      *      Widget::setFocusable, Widget::isFocusable, FocusListener
      *
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC FocusHandler
     {
@@ -351,7 +350,6 @@ namespace fcn
          * Distributes a focus lost event.
          *
          * @param focusEvent the event to distribute.
-         * @since 0.7.0
          */
         virtual void distributeFocusLostEvent(const Event& focusEvent);
 
@@ -359,7 +357,6 @@ namespace fcn
          * Distributes a focus gained event.
          *
          * @param focusEvent the event to distribute.
-         * @since 0.7.0
          */
         virtual void distributeFocusGainedEvent(const Event& focusEvent);
 

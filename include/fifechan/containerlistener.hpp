@@ -76,7 +76,6 @@ namespace fcn
      * @see BasicContainer::addContainerListener, BasicContainer::removeContainerListener,
      *      ContainerEvent
      * @author Olof Naessén
-     * @since 0.9.0
      */
     class FCN_CORE_DECLSPEC ContainerListener
     {
@@ -91,7 +90,6 @@ namespace fcn
          * Called when a widget is added to a container.
          *
          * @param containerEvent The event of the action.
-         * @since 0.9.0
          */
         virtual void widgetAdded(const ContainerEvent& containerEvent) = 0;
     
@@ -99,7 +97,6 @@ namespace fcn
          * Called when a widget is removed from a container.
          *
          * @param containerEvent The event of the action.
-         * @since 0.9.0
          */
         virtual void widgetRemoved(const ContainerEvent& containerEvent) = 0;
 

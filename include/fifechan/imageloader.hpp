@@ -90,7 +90,6 @@ namespace fcn
      *      AllegroImageLoader, HGEImageLoader, OpenLayerImageLoader, 
      *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader,
      *      SDLImageLoader     
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC ImageLoader
     {

@@ -132,7 +132,6 @@ namespace fcn
          *
          * @param top The top widget.
          * @see Container
-         * @since 0.1.0
          */
         virtual void setTop(Widget* top);
 
@@ -141,7 +140,6 @@ namespace fcn
          * of the GUI.
          *
          * @return The top widget. NULL if no top widget has been set.
-         * @since 0.1.0
          */
         virtual Widget* getTop() const;
 
@@ -151,7 +149,6 @@ namespace fcn
          * @param graphics The graphics object to use for drawing.
          * @see getGraphics, AllegroGraphics, HGEGraphics, 
          *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
-         * @since 0.1.0
          */
         virtual void setGraphics(Graphics* graphics);
 
@@ -162,7 +159,6 @@ namespace fcn
          *          graphics object has been set.
          * @see setGraphics, AllegroGraphics, HGEGraphics, 
          *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
-         * @since 0.1.0
          */
         virtual Graphics* getGraphics() const;
 
@@ -172,7 +168,6 @@ namespace fcn
          * @param input The input object to use for input handling.
          * @see getInput, AllegroInput, HGEInput, OpenLayerInput,
          *      SDLInput
-         * @since 0.1.0
          */
         virtual void setInput(Input* input);
 
@@ -183,7 +178,6 @@ namespace fcn
          *          input object has been set.
          * @see setInput, AllegroInput, HGEInput, OpenLayerInput,
          *      SDLInput
-         * @since 0.1.0
          */
         virtual Input* getInput() const;
 
@@ -193,7 +187,6 @@ namespace fcn
          * is called for Gui, user input will be handled.
          *
          * @see Widget::logic
-         * @since 0.1.0
          */
         virtual void logic();
 
@@ -204,14 +197,12 @@ namespace fcn
          * the top widget will commence.
          *
          * @see Widget::draw
-         * @since 0.1.0
          */
         virtual void draw();
 
         /**
          * Focuses none of the widgets in the Gui.
          *
-         * @since 0.1.0
          */
         virtual void focusNone();
 
@@ -222,7 +213,6 @@ namespace fcn
          * @param tabbing True if tabbing should be enabled, false
          *                otherwise.
          * @see isTabbingEnabled
-         * @since 0.1.0
          */
         virtual void setTabbingEnabled(bool tabbing);
 
@@ -231,7 +221,6 @@ namespace fcn
          *
          * @return True if tabbing is enabled, false otherwise.
          * @see setTabbingEnabled
-         * @since 0.1.0
          */
         virtual bool isTabbingEnabled();
 
@@ -243,7 +232,6 @@ namespace fcn
          *
          * @param keyListener The key listener to add.
          * @see removeGlobalKeyListener
-         * @since 0.5.0
          */
         virtual void addGlobalKeyListener(KeyListener* keyListener);
 
@@ -253,7 +241,6 @@ namespace fcn
          * @param keyListener The key listener to remove.
          * @throws Exception if the key listener hasn't been added.
          * @see addGlobalKeyListener
-         * @since 0.5.0
          */
         virtual void removeGlobalKeyListener(KeyListener* keyListener);
 
@@ -275,14 +262,12 @@ namespace fcn
         /**
          * Handles all mouse input.
          *
-         * @since 0.6.0
          */
         virtual void handleMouseInput();
 
         /**
          * Handles key input.
          *
-         * @since 0.6.0
          */
         virtual void handleKeyInput();
 
@@ -290,7 +275,6 @@ namespace fcn
          * Handles mouse moved input.
          *
          * @param mouseInput The mouse input to handle.
-         * @since 0.6.0
          */
         virtual void handleMouseMoved(const MouseInput& mouseInput);
 
@@ -298,7 +282,6 @@ namespace fcn
          * Handles mouse pressed input.
          *
          * @param mouseInput The mouse input to handle.
-         * @since 0.6.0
          */
         virtual void handleMousePressed(const MouseInput& mouseInput);
 
@@ -307,7 +290,6 @@ namespace fcn
          * Handles mouse wheel moved down input.
          *
          * @param mouseInput The mouse input to handle.
-         * @since 0.6.0
          */
         virtual void handleMouseWheelMovedDown(const MouseInput& mouseInput);
 
@@ -315,7 +297,6 @@ namespace fcn
          * Handles mouse wheel moved up input.
          *
          * @param mouseInput The mouse input to handle.
-         * @since 0.6.0
          */
         virtual void handleMouseWheelMovedUp(const MouseInput& mouseInput);
 
@@ -323,7 +304,6 @@ namespace fcn
          * Handles mouse released input.
          *
          * @param mouseInput The mouse input to handle.
-         * @since 0.6.0
          */
         virtual void handleMouseReleased(const MouseInput& mouseInput);
 
@@ -332,7 +312,6 @@ namespace fcn
          * each logic iteration as it might be necessary to distribute
          * mouse entered or mouse exited events.
          *
-         * @since 0.8.0
          */
         virtual void handleModalFocus();
 
@@ -341,7 +320,6 @@ namespace fcn
          * to be checked at each logic iteration as it might be necessary to 
          * distribute mouse entered or mouse exited events.
          *
-         * @since 0.8.0
          */
         virtual void handleModalMouseInputFocus();
 
@@ -349,7 +327,6 @@ namespace fcn
          * Handles modal focus gained. If modal focus has been gained it might
          * be necessary to distribute mouse entered or mouse exited events.
          *
-         * @since 0.8.0
          */
         virtual void handleModalFocusGained();
 
@@ -358,7 +335,6 @@ namespace fcn
          * gained it might be necessary to distribute mouse entered or mouse
          * exited events.
          *
-         * @since 0.8.0
          */
         virtual void handleModalFocusReleased();
         
@@ -388,7 +364,6 @@ namespace fcn
          *                     source widget only or to it's parent's mouse listeners
          *                     as well.
          *
-         * @since 0.6.0
          */
         virtual void distributeMouseEvent(Widget* source,
                                           int type,
@@ -403,7 +378,6 @@ namespace fcn
          *
          * @param keyEvent The key event to distribute.
 
-         * @since 0.6.0
          */
         virtual void distributeKeyEvent(KeyEvent& keyEvent);
 
@@ -412,7 +386,6 @@ namespace fcn
          *
          * @param keyEvent The key event to distribute.
          *
-         * @since 0.6.0
          */
         virtual void distributeKeyEventToGlobalKeyListeners(KeyEvent& keyEvent);
 
@@ -420,7 +393,6 @@ namespace fcn
          * Gets the widget at a certain position.
          *
          * @return The widget at a certain position.
-         * @since 0.6.0
          */
         virtual Widget* getWidgetAt(int x, int y, Widget* exclude = NULL);
 
@@ -428,7 +400,6 @@ namespace fcn
          * Gets the source of the mouse event.
          *
          * @return The source widget of the mouse event.
-         * @since 0.6.0
          */
         virtual Widget* getMouseEventSource(int x, int y);
 
@@ -436,7 +407,6 @@ namespace fcn
          * Gets the source of the key event.
          *
          * @return The source widget of the key event.
-         * @since 0.6.0
          */
         virtual Widget* getKeyEventSource();
 
@@ -446,7 +416,6 @@ namespace fcn
          * @param x The x coordinate.
          * @param y The y coordinate.
          * @return A set of all widgets at the specified coordinate.
-         * @since 0.9.0
          */
         virtual std::set<Widget*> getWidgetsAt(int x, int y);
 

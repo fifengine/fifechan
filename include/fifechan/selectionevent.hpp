@@ -76,7 +76,6 @@ namespace fcn
      * Represents a selection event.
      *
      * @author Olof Naessén
-     * @since 0.8.0
      */
     class FCN_CORE_DECLSPEC SelectionEvent: public Event
     {

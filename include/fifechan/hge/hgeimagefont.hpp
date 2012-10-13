@@ -80,7 +80,6 @@ namespace fcn
      * to use HGE's internal font in Guichan.
      *
      * @author Kevin Lynx
-     * @since 0.6.1
      */
     class FCN_EXTENSION_DECLSPEC HGEImageFont : public Font
     {

@@ -77,7 +77,6 @@ namespace fcn
      *
      * @see Widget::addFocusListener, Widget::removeFocusListener
      * @author Olof Naessén
-     * @since 0.7.0
      */
     class FCN_CORE_DECLSPEC FocusListener
     {
