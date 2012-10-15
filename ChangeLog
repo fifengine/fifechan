@@ -1,10 +1,14 @@
 Version 0.1.0
 =============
-*Added PasswordField widget. A text field that receives text input but it's visual
- counterpart is replaced with asterisks instead of the actual text.
+*Added PasswordField widget. A text field that receives text input but it's 
+visual counterpart is replaced with asterisks instead of the actual text.
 *Added IconProgressBar widget. A progress bar that fills itself with icons.
 *Added UTF-8 support for text input widgets.
-*Fixed an input problem, where widgets underneath the cursor that had lower z-order
- wouldn't receive a mouse entered event if widgets with higher z-order got hidden.
-*Fixed a bug where empty TextField's were trying to access text rows that didn't exist.
-*New distributable events for Widgets indicating that an ancestor of them got shown/hidden.
+*Fixed an input problem, where widgets underneath the cursor that had lower 
+z-order wouldn't receive a mouse entered event if widgets with higher z-order 
+got hidden.
+*Fixed a bug where empty TextField's were trying to access text rows that didn't
+exist.
+*New distributable events for Widgets indicating that an ancestor of them got 
+shown/hidden.
+
