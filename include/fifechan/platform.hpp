@@ -65,21 +65,21 @@
 #ifndef FCN_PLATFORM_HPP
 #define FCN_PLATFORM_HPP
 
-#if defined (__MINGW32__) && defined(GUICHAN_BUILD)
+#if defined (__MINGW32__) && defined(FIFECHAN_BUILD)
 #define FCN_CORE_DECLSPEC __declspec(dllexport)
 
-#elif defined (__MINGW32__) && defined(GUICHAN_EXTENSION_BUILD)
+#elif defined (__MINGW32__) && defined(FIFECHAN_EXTENSION_BUILD)
 #define FCN_EXTENSION_DECLSPEC __declspec(dllexport)
 #define FCN_CORE_DECLSPEC __declspec(dllimport)
 
-#elif defined (__MINGW32__) && defined(GUICHAN_DLL_IMPORT)
+#elif defined (__MINGW32__) && defined(FIFECHAN_DLL_IMPORT)
 #define FCN_CORE_DECLSPEC __declspec(dllimport)
 #define FCN_EXTENSION_DECLSPEC __declspec(dllimport)
 
-#elif defined(_MSC_VER) && defined(GUICHAN_BUILD)
+#elif defined(_MSC_VER) && defined(FIFECHAN_BUILD)
 #define FCN_CORE_DECLSPEC _declspec(dllexport)
 
-#elif defined(_MSC_VER) && defined(GUICHAN_EXTENSION_BUILD)
+#elif defined(_MSC_VER) && defined(FIFECHAN_EXTENSION_BUILD)
 #define FCN_CORE_DECLSPEC _declspec(dllimport)
 #define FCN_EXTENSION_DECLSPEC _declspec(dllexport)
 
