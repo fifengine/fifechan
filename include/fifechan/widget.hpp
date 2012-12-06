@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2012 by the fifechan team                               *
- *   https://github.com/fifechan                                           *
+ *   http://fifechan.github.com/fifechan                                   *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
