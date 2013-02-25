@@ -1,6 +1,6 @@
 Gnu/Linux:
 ---------
-Run ./configure followed with make and make install.
+Run cmake followed with make and make install.
 
 If configure is not present run ./autogen to generate the configure script.
 
