@@ -1,5 +1,5 @@
-INTRODUCTON TO FIFECHAN
-======================
+INTRODUCTION TO FIFECHAN
+========================
 Fifechan is a lightweight cross platform GUI library written in C++ specifically
 designed for games. It has a small yet powerful built in set of extendable GUI 
 Widgets allowing users to create virtually unlimited types of widgets. Fifechan
@@ -16,7 +16,7 @@ For more general information about fifechan and/or downloads related to fifechan
 please visit the fifechan homepage at http://fifengine.github.com/fifechan/.
 
 GETTING INVOLVED
-=========================================
+================
 If you want to get involved with fifechan development come check out the 
-official IRC channel #fife on freenode.  Drop us a line there and we can help
+official IRC channel #fife on freenode. Drop us a line there and we can help
 you get started!
