@@ -1,6 +1,6 @@
-Gnu/Linux:
+GNU/Linux:
 ---------
-Execite the following lines:
+Execute the following lines:
 
 ```
 cmake .
