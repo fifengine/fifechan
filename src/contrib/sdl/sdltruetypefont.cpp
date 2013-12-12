@@ -111,7 +111,7 @@ namespace fcn
             return TTF_FontHeight(mFont) + mRowSpacing;
         }
     
-        void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, const std::string& text, const int x, const int y)
+        void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
         {
             if (text == "")
             {
