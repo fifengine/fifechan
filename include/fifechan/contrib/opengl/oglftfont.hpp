@@ -93,12 +93,12 @@ namespace fcn
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
-            GLFont (const std::string& filename, int size);
+            OGLFTFont (const std::string& filename, int size);
 
             /**
              * Destructor.
              */
-            virtual ~GLFont();
+            virtual ~OGLFTFont();
 
             /**
              * Sets the spacing between rows in pixels. Default is 0 pixels.
@@ -115,21 +115,6 @@ namespace fcn
              */
             virtual int getRowSpacing();
 
-            /**
-             * Gets the actual color of the font.
-             *
-             * @return color the actual color of the font.
-             */
-            virtual fcn::Color getColor();
-
-            /**
-             * Sets the actual color of the font.
-             *
-             * @param color the color of the font.
-             */
-            virtual void setColor(fcn::Color color);
-
-        
             // Inherited from Font
 
             virtual int getWidth(const std::string& text) const;
@@ -141,7 +126,6 @@ namespace fcn
         protected:
             OGLFT::TranslucentTexture* mFont;
             std::string mFilename;
-            fcn::Color mFontColor;
             int mSize;
             int mRowSpacing;
         };

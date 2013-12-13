@@ -90,8 +90,6 @@ namespace fcn
             }
 
             glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-
-            mFontColor = fcn::Color(0, 0, 0, 0);
         }
 
         OGLFTFont::~OGLFTFont()
@@ -121,16 +119,6 @@ namespace fcn
             return mRowSpacing;
         }
 
-        fcn::Color OGLFTFont::getColor()
-        {
-            return mFontColor;
-        }
-
-        void OGLFTFont::setColor(fcn::Color color)
-        {
-            mFontColor = color;
-        }
-
         void OGLFTFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
         {
             if (text == "")
@@ -147,7 +135,8 @@ namespace fcn
 
             const fcn::ClipRectangle& top = glGraphics->getCurrentClipArea();
 
-            mFont->setForegroundColor(mFontColor.r/255, mFontColor.g/255, mFontColor.b/255);
+            Color col = glGraphics->getColor();
+            mFont->setForegroundColor(col.r/255, col.g/255, col.b/255);
 
             glPushMatrix();
             glEnable(GL_TEXTURE_2D);
