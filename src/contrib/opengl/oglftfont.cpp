@@ -70,6 +70,7 @@
 
 #include "fifechan/exception.hpp"
 #include "fifechan/opengl/openglgraphics.hpp"
+#include <math.h>
 
 namespace fcn
 {
@@ -101,12 +102,12 @@ namespace fcn
         {
             OGLFT::BBox bbox = mFont->measure(text.c_str());
 
-            return (int)bbox.x_max_ + (int)bbox.x_min_;
+            return (int)ceil(bbox.x_max_) + (int)ceil(bbox.x_min_);
         }
 
         int OGLFTFont::getHeight() const
         {
-            return mSize - 1 + mRowSpacing;
+            return mSize + mRowSpacing;
         }
 
         void OGLFTFont::setRowSpacing(int spacing)
