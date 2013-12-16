@@ -26,6 +26,13 @@ For Allegro support you need the following libraries installed:
 For OpenGL support you need the following libraries installed:
 * OpenGL - check with your graphics card vendor
 
+Optional OpenGL Contrib Dependencies (Set ENABLE_OPENGL_CONTRIB to Off if you don't need them)
+* OpenGL-FreeType Library - http://oglft.sourceforge.net/
+
+
 For SDL support you need the following libraries installed:
 * SDL - http://www.libsdl.org
 * SDL_image - http://www.libsdl.org
+
+Optional SDL Contrib Dependencies (Set ENABLE_SDL_CONTRIB to Off if you don't need them)
+* SDL_ttf - http://www.libsdl.org
