@@ -193,7 +193,7 @@ ENDIF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
 # The Fifechan OpenGL extension library
 OPTION(ENABLE_OPENGL "Enable the Fifechan OpenGL extension" ON)
-OPTION(ENABLE_OPENGL_CONTRIB "Enabled the Fifechan OpenGL Contrib extension" ON)
+OPTION(ENABLE_OPENGL_CONTRIB "Enabled the Fifechan OpenGL Contrib extension" OFF)
 OPTION(BUILD_FIFECHAN_OPENGL_SHARED "Build the Fifechan OpenGL extension library as a shared library." ON)
 FIND_PACKAGE(OpenGL)
 
@@ -271,7 +271,7 @@ ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
 
 # The Fifechan SDL extension library
 OPTION(ENABLE_SDL "Enable the Fifechan SDL extension" ON)
-OPTION(ENABLE_SDL_CONTRIB "Enable the Fifechan SDL contrib extension" ON)
+OPTION(ENABLE_SDL_CONTRIB "Enable the Fifechan SDL contrib extension" OFF)
 OPTION(BUILD_FIFECHAN_SDL_SHARED "Build the Fifechan SDL extension library as a shared library." ON)
 FIND_PACKAGE(SDL)
 FIND_PACKAGE(SDL_image)
