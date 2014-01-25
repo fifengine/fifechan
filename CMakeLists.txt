@@ -17,7 +17,6 @@ SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 #ENDIF()
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
-ADD_DEFINITIONS("-DFIFECHAN_BUILD -DFIFECHAN_EXTENSION_BUILD")
 
 # The Fifechan core library 
 FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
@@ -91,7 +90,9 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
    VERSION ${${PROJECT_NAME}_VERSION}
    SOVERSION ${${PROJECT_NAME}_SOVERSION}
    CLEAN_DIRECT_OUTPUT 1 # Allow creating static and shared libraries without conflict
-   OUTPUT_NAME ${PROJECT_NAME}) # Avoid conflicts between library and binary target names 
+   OUTPUT_NAME ${PROJECT_NAME}  # Avoid conflicts between library and binary target names 
+   COMPILE_DEFINITIONS "FIFECHAN_BUILD"
+   )
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib PERMISSIONS
   OWNER_READ OWNER_WRITE OWNER_EXECUTE
   GROUP_READ GROUP_EXECUTE
@@ -100,6 +101,9 @@ INSTALL(FILES ${FIFECHAN_HEADER} DESTINATION include/)
 INSTALL(FILES ${FIFECHAN_HEADERS} DESTINATION include/fifechan/)
 INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS} DESTINATION include/fifechan/widgets/)
 INSTALL(FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS} DESTINATION include/fifechan/contrib/widgets/)
+
+#REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
+#ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")
 
 # The Fifechan Allegro extension library
 OPTION(ENABLE_ALLEGRO "Enable the Fifechan Allegro extension" ON)
@@ -138,7 +142,10 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
      VERSION ${${PROJECT_NAME}_VERSION}
      SOVERSION ${${PROJECT_NAME}_SOVERSION}
      CLEAN_DIRECT_OUTPUT 1 # Allow creating static and shared libraries without conflict
-     OUTPUT_NAME ${PROJECT_NAME}_allegro) # Avoid conflicts between library and binary target names 
+     OUTPUT_NAME ${PROJECT_NAME}_allegro # Avoid conflicts between library and binary target names 
+     COMPILE_DEFINITIONS "FIFECHAN_EXTENSION_BUILD"
+     )
+
    INSTALL(TARGETS ${PROJECT_NAME}_allegro DESTINATION lib PERMISSIONS
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
@@ -182,7 +189,10 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
      VERSION ${${PROJECT_NAME}_VERSION}
      SOVERSION ${${PROJECT_NAME}_SOVERSION}
      CLEAN_DIRECT_OUTPUT 1 # Allow creating static and shared libraries without conflict
-     OUTPUT_NAME ${PROJECT_NAME}_irrlicht) # Avoid conflicts between library and binary target names
+     OUTPUT_NAME ${PROJECT_NAME}_irrlicht # Avoid conflicts between library and binary target names
+     COMPILE_DEFINITIONS "FIFECHAN_EXTENSION_BUILD"
+     )
+
    INSTALL(TARGETS ${PROJECT_NAME}_irrlicht DESTINATION lib PERMISSIONS
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
@@ -259,7 +269,10 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
     VERSION ${${PROJECT_NAME}_VERSION}
     SOVERSION ${${PROJECT_NAME}_SOVERSION}
     CLEAN_DIRECT_OUTPUT 1 # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME ${PROJECT_NAME}_opengl) # Avoid conflicts between library and binary target names 
+    OUTPUT_NAME ${PROJECT_NAME}_opengl # Avoid conflicts between library and binary target names 
+    COMPILE_DEFINITIONS "FIFECHAN_EXTENSION_BUILD"
+    )
+
   INSTALL(TARGETS ${PROJECT_NAME}_opengl DESTINATION lib PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
@@ -329,7 +342,10 @@ IF(ENABLE_SDL AND SDL_FOUND AND SDLIMAGE_FOUND)
     VERSION ${${PROJECT_NAME}_VERSION}
     SOVERSION ${${PROJECT_NAME}_SOVERSION}
     CLEAN_DIRECT_OUTPUT 1 # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME ${PROJECT_NAME}_sdl) # Avoid conflicts between library and binary target names 
+    OUTPUT_NAME ${PROJECT_NAME}_sdl # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS "FIFECHAN_EXTENSION_BUILD"
+    )
+
   INSTALL(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
