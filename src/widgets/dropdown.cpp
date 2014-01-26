@@ -116,11 +116,6 @@ namespace fcn
 
         setListModel(listModel);
 
-        if (mListBox->getSelected() < 0)
-        {
-            mListBox->setSelected(0);
-        }
-
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener(this);
@@ -203,6 +198,14 @@ namespace fcn
             graphics->setFont(getFont());
 
             graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 1, 0);
+        }
+        else if (mListBox->getListModel() 
+            && mListBox->getSelected() < 0)
+        {
+            graphics->setColor(getForegroundColor());
+            graphics->setFont(getFont());
+
+            graphics->drawText("", 1, 0);
         }
         
         // Push a clip area before drawing the button.
@@ -301,10 +304,7 @@ namespace fcn
 
     void DropDown::setSelected(int selected)
     {
-        if (selected >= 0)
-        {
-            mListBox->setSelected(selected);
-        }
+        mListBox->setSelected(selected);
     }
 
     void DropDown::keyPressed(KeyEvent& keyEvent)
@@ -411,11 +411,6 @@ namespace fcn
     void DropDown::setListModel(ListModel *listModel)
     {
         mListBox->setListModel(listModel);
-
-        if (mListBox->getSelected() < 0)
-        {
-            mListBox->setSelected(0);
-        }
 
         adjustHeight();
     }
