@@ -205,13 +205,14 @@ namespace fcn
         /**
          * Mouse button types.
          */
-        enum
-        {
-            Empty = 0,
-            Left,
-            Right,
-            Middle
-        };
+		enum {
+			Empty = 0,
+			Left,
+			Right,
+			Middle,
+			X1,
+			X2
+		};
 
     protected:
         /**
