@@ -2,6 +2,7 @@
 == 0.1.1 (February 23th, 2014)                                                ==
 ================================================================================
 
+* Correct CMake SDL_ttf module name by Christopher Meng
 * Setting the selected property of dropdowns to a value < 0 now
 	will make them deselect the current item.
 * Fixed extensions not being built with the correct export definition.
