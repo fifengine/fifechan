@@ -1,4 +1,23 @@
 ================================================================================
+== 0.1.1 (February 23th, 2014)                                                ==
+================================================================================
+
+* Setting the selected property of dropdowns to a value < 0 now
+	will make them deselect the current item.
+* Fixed extensions not being built with the correct export definition.
+	This will fix undefined references when linking
+	with the created shared libraries.
+* Changed cmake options to enable contrib extensions for sdl and opengl
+	to be OFF by default.
+* OGLFTFone is now compiled into fifechan. It can be enabled or disabled
+	by setting the cmake option ENABLE_OPENGL_CONTRIB to ON or OFF.
+	It is enabled by default.
+* Fixed SDLTrueTypeFont not included by CMake. It can be disabled by setting
+	ENABLE_SDL_CONTRIB to OFF, which defaults to ON.
+* Add SDLIMAGE_INCLUDE_DIR to CMake by Nicolás Alvarez
+
+
+================================================================================
 == 0.1.0 (December 5th, 2012)                                                 ==
 ================================================================================
 
