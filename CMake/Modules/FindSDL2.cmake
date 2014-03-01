@@ -34,19 +34,19 @@ if (SDL_LIBRARY AND SDL_INCLUDE_DIR)
 else (SDL_LIBRARY AND SDL_INCLUDE_DIR)
   find_path(SDL_INCLUDE_DIR
     NAMES
-      sdl.h
+      SDL.h
     PATHS
       /usr/include
       /usr/local/include
       /opt/local/include
       /usr/include/x86_64-linux-gnu
     PATH_SUFFIXES
-      sdl2
+      SDL2
   )
 
   find_library(SDL_LIBRARY
     NAMES
-      SDL2
+      libSDL2
     PATHS
       /usr/lib
       /usr/local/lib

@@ -41,12 +41,12 @@ else (SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
       /opt/local/include
       /usr/include/x86_64-linux-gnu
     PATH_SUFFIXES
-      sdl_image2
+      SDL_image2
   )
 
   find_library(SDLIMAGE_LIBRARY
     NAMES
-      SDL2_image
+      libSDL2_image
     PATHS
       /usr/lib
       /usr/local/lib
