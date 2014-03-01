@@ -39,7 +39,7 @@ else (SDL_LIBRARY AND SDL_INCLUDE_DIR)
       /usr/include
       /usr/local/include
       /opt/local/include
-      /sw/include
+      /usr/include/x86_64-linux-gnu
     PATH_SUFFIXES
       sdl2
   )
@@ -51,6 +51,7 @@ else (SDL_LIBRARY AND SDL_INCLUDE_DIR)
       /usr/lib
       /usr/local/lib
       /opt/local/lib
+      /usr/lib/x86_64-linux-gnu
   )
 
   set(SDL_INCLUDE_DIR
@@ -65,17 +66,12 @@ else (SDL_LIBRARY AND SDL_INCLUDE_DIR)
   endif (SDL_INCLUDE_DIR AND SDL_LIBRARY)
 
   if (SDL_FOUND)
-    if (NOT SDL_FIND_QUIETLY)
-      message(STATUS "Found SDL2: ${SDL_LIBRARY}")
-    endif (NOT SDL_FIND_QUIETLY)
+    message(STATUS "Found SDL2: ${SDL_LIBRARY}")
   else (SDL_FOUND)
     if (SDL_FIND_REQUIRED)
       message(FATAL_ERROR "Could not find SDL2")
     endif (SDL_FIND_REQUIRED)
   endif (SDL_FOUND)
-
-  # show the SDL_INCLUDE_DIRS and SDL_LIBRARIES variables only in the advanced view
-  mark_as_advanced(SDL_LIBRARY AND SDL_INCLUDE_DIR)
 
 endif (SDL_LIBRARY AND SDL_INCLUDE_DIR)
 

@@ -39,7 +39,7 @@ else (SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
       /usr/include
       /usr/local/include
       /opt/local/include
-      /sw/include
+      /usr/include/x86_64-linux-gnu
     PATH_SUFFIXES
       sdl_image2
   )
@@ -51,6 +51,7 @@ else (SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
       /usr/lib
       /usr/local/lib
       /opt/local/lib
+      /usr/lib/x86_64-linux-gnu
   )
 
   set(SDLIMAGE_INCLUDE_DIR
@@ -65,17 +66,12 @@ else (SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
   endif (SDLIMAGE_INCLUDE_DIR AND SDLIMAGE_LIBRARY)
 
   if (SDLIMAGE_FOUND)
-    if (NOT SDLIMAGE_FIND_QUIETLY)
-      message(STATUS "Found SDL2 image: ${SDLIMAGE_LIBRARY}")
-    endif (NOT SDLIMAGE_FIND_QUIETLY)
+    message(STATUS "Found SDL2 image: ${SDLIMAGE_LIBRARY}")
   else (SDLIMAGE_FOUND)
     if (SDLIMAGE_FIND_REQUIRED)
       message(FATAL_ERROR "Could not find SDL2 image")
     endif (SDLIMAGE_FIND_REQUIRED)
   endif (SDLIMAGE_FOUND)
-
-  # show the SDLIMAGE_INCLUDE_DIRS and SDLIMAGE_LIBRARIES variables only in the advanced view
-  mark_as_advanced(SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
 
 endif (SDLIMAGE_LIBRARY AND SDLIMAGE_INCLUDE_DIR)
 
