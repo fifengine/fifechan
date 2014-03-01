@@ -1,0 +1,81 @@
+# - Try to find SDL2
+# Once done this will define
+#
+#  SDL_FOUND - system has SDL2
+#  SDL_INCLUDE_DIR - the SDL2 include directory
+#  SDL_LIBRARY - Link these to use SDL2
+#
+#/***************************************************************************
+# *   Copyright (C) 2014 by the fifechan team                               *
+# *   http://fifechan.github.com/fifechan                                   *
+# *   This file is part of fifechan.                                        *
+# *                                                                         *
+# *   fifechan is free software; you can redistribute it and/or             *
+# *   modify it under the terms of the GNU Lesser General Public            *
+# *   License as published by the Free Software Foundation; either          *
+# *   version 2.1 of the License, or (at your option) any later version.    *
+# *                                                                         *
+# *   This library is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+# *   Lesser General Public License for more details.                       *
+# *                                                                         *
+# *   You should have received a copy of the GNU Lesser General Public      *
+# *   License along with this library; if not, write to the                 *
+# *   Free Software Foundation, Inc.,                                       *
+# *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+# ***************************************************************************/
+#
+
+
+if (SDL_LIBRARY AND SDL_INCLUDE_DIR)
+  # in cache already
+  set(SDL_FOUND TRUE)
+else (SDL_LIBRARY AND SDL_INCLUDE_DIR)
+  find_path(SDL_INCLUDE_DIR
+    NAMES
+      sdl.h
+    PATHS
+      /usr/include
+      /usr/local/include
+      /opt/local/include
+      /sw/include
+    PATH_SUFFIXES
+      sdl2
+  )
+
+  find_library(SDL_LIBRARY
+    NAMES
+      SDL2
+    PATHS
+      /usr/lib
+      /usr/local/lib
+      /opt/local/lib
+  )
+
+  set(SDL_INCLUDE_DIR
+    ${SDL_INCLUDE_DIR}
+  )
+  set(SDL_LIBRARY
+    ${SDL_LIBRARY}
+)
+
+  if (SDL_INCLUDE_DIR AND SDL_LIBRARY)
+     set(SDL_FOUND TRUE)
+  endif (SDL_INCLUDE_DIR AND SDL_LIBRARY)
+
+  if (SDL_FOUND)
+    if (NOT SDL_FIND_QUIETLY)
+      message(STATUS "Found SDL2: ${SDL_LIBRARY}")
+    endif (NOT SDL_FIND_QUIETLY)
+  else (SDL_FOUND)
+    if (SDL_FIND_REQUIRED)
+      message(FATAL_ERROR "Could not find SDL2")
+    endif (SDL_FIND_REQUIRED)
+  endif (SDL_FOUND)
+
+  # show the SDL_INCLUDE_DIRS and SDL_LIBRARIES variables only in the advanced view
+  mark_as_advanced(SDL_LIBRARY AND SDL_INCLUDE_DIR)
+
+endif (SDL_LIBRARY AND SDL_INCLUDE_DIR)
+
