@@ -369,6 +369,10 @@ namespace fcn
             return mVisible && getParent()->isVisible();
     }
 
+    bool Widget::isSetVisible() const {
+        return mVisible;
+    }
+
     void Widget::setBaseColor(const Color& color)
     {
         mBaseColor = color;
