@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="guichan_sdl"
-	ProjectGUID="{2FA104E5-D8D1-4F4F-87B3-F5F9272109ED}"
+	Name="fifechan_hge"
+	ProjectGUID="{0DF13737-DFF1-41CC-83F1-CC4FB098F921}"
 	>
 	<Platforms>
 		<Platform
@@ -13,96 +13,6 @@
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration
-			Name="DLL Release|Win32"
-			OutputDirectory="..\..\..\lib\msvc"
-			IntermediateDirectory="..\..\..\obj\msvc\dll_release"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_sdl.tlb"
-				HeaderFileName=""
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_SDL_EXPORTS;GUICHAN_EXTENSION_BUILD"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="true"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				CompileAs="0"
-				DisableSpecificWarnings="4251"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1053"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib sdl.lib sdlmain.lib sdl_image.lib guichan.lib"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../../lib/msvc"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
 		<Configuration
 			Name="DLL Debug|Win32"
 			OutputDirectory="..\..\..\lib\msvc"
@@ -131,14 +41,14 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_sdl.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_SDL_EXPORTS;GUICHAN_EXTENSION_BUILD"
+				AdditionalIncludeDirectories="../../../include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS;FIFECHAN_EXTENSION_BUILD"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -161,13 +71,104 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib sdl.lib sdlmain.lib sdl_image.lib guichand.lib"
+				AdditionalDependencies="hge.lib hgehelp.lib fifechand.lib"
 				OutputFile="$(OutDir)\$(ProjectName)d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\lib\msvc"
-				IgnoreDefaultLibraryNames="libc"
+				AdditionalLibraryDirectories="../../../lib/msvc"
+				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="DLL Release|Win32"
+			OutputDirectory="..\..\..\lib\msvc"
+			IntermediateDirectory="..\..\..\obj\msvc\dll_release"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="../../../include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS;FIFECHAN_EXTENSION_BUILD"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				RuntimeTypeInfo="true"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				CompileAs="0"
+				DisableSpecificWarnings="4251"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1053"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="hge.lib hgehelp.lib fifechan.lib"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="../../../lib/msvc"
+				IgnoreDefaultLibraryNames="libc.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -223,15 +224,15 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_sdl.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_SDL_EXPORTS"
+				AdditionalIncludeDirectories="../../../include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FIFECHAN_HGE_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -299,14 +300,14 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_sdl.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;GUICHAN_SDL_EXPORTS"
+				AdditionalIncludeDirectories="../../../include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FIFECHAN_HGE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -356,23 +357,23 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\..\src\sdl\sdl.cpp"
+				RelativePath="..\..\..\src\hge\hgegraphics.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\sdl\sdlgraphics.cpp"
+				RelativePath="..\..\..\src\hge\hgeimage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\sdl\sdlimage.cpp"
+				RelativePath="..\..\..\src\hge\hgeimagefont.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\sdl\sdlimageloader.cpp"
+				RelativePath="..\..\..\src\hge\hgeimageloader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\sdl\sdlinput.cpp"
+				RelativePath="..\..\..\src\hge\hgeinput.cpp"
 				>
 			</File>
 		</Filter>
@@ -381,23 +382,23 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl\sdlgraphics.hpp"
+				RelativePath="..\..\..\include\fifechan\hge\hgegraphics.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl\sdlimage.hpp"
+				RelativePath="..\..\..\include\fifechan\hge\hgeimage.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl\sdlimageloader.hpp"
+				RelativePath="..\..\..\include\fifechan\hge\hgeimagefont.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl\sdlinput.hpp"
+				RelativePath="..\..\..\include\fifechan\hge\hgeimageloader.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl\sdlpixel.hpp"
+				RelativePath="..\..\..\include\fifechan\hge\hgeinput.hpp"
 				>
 			</File>
 		</Filter>

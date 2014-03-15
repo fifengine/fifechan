@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -44,21 +65,21 @@
 #ifndef FCN_PLATFORM_HPP
 #define FCN_PLATFORM_HPP
 
-#if defined (__MINGW32__) && defined(GUICHAN_BUILD)
+#if defined (__MINGW32__) && defined(FIFECHAN_BUILD)
 #define FCN_CORE_DECLSPEC __declspec(dllexport)
 
-#elif defined (__MINGW32__) && defined(GUICHAN_EXTENSION_BUILD)
+#elif defined (__MINGW32__) && defined(FIFECHAN_EXTENSION_BUILD)
 #define FCN_EXTENSION_DECLSPEC __declspec(dllexport)
 #define FCN_CORE_DECLSPEC __declspec(dllimport)
 
-#elif defined (__MINGW32__) && defined(GUICHAN_DLL_IMPORT)
+#elif defined (__MINGW32__) && defined(FIFECHAN_DLL_IMPORT)
 #define FCN_CORE_DECLSPEC __declspec(dllimport)
 #define FCN_EXTENSION_DECLSPEC __declspec(dllimport)
 
-#elif defined(_MSC_VER) && defined(GUICHAN_BUILD)
+#elif defined(_MSC_VER) && defined(FIFECHAN_BUILD)
 #define FCN_CORE_DECLSPEC _declspec(dllexport)
 
-#elif defined(_MSC_VER) && defined(GUICHAN_EXTENSION_BUILD)
+#elif defined(_MSC_VER) && defined(FIFECHAN_EXTENSION_BUILD)
 #define FCN_CORE_DECLSPEC _declspec(dllimport)
 #define FCN_EXTENSION_DECLSPEC _declspec(dllexport)
 

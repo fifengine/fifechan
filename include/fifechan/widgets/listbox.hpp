@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -164,7 +185,6 @@ namespace fcn
          * using removeSelectionListener().
          *
          * @param selectionListener The selection listener to add.
-         * @since 0.8.0
          */
         void addSelectionListener(SelectionListener* selectionListener);
 
@@ -172,7 +192,6 @@ namespace fcn
          * Removes a selection listener from the list box.
          *
          * @param selectionListener The selection listener to remove.
-         * @since 0.8.0
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
@@ -181,7 +200,6 @@ namespace fcn
          * height than the font height is preferred.
          *
          * @return The height of a row.
-         * @since 0.8.0
          */
         virtual unsigned int getRowHeight() const;
 
@@ -214,7 +232,6 @@ namespace fcn
          * Distributes a value changed event to all selection listeners
          * of the list box.
          *
-         * @since 0.8.0
          */
         void distributeValueChangedEvent();
 

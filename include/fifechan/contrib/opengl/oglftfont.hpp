@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -72,12 +93,12 @@ namespace fcn
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
-            GLFont (const std::string& filename, int size);
+            OGLFTFont (const std::string& filename, int size);
 
             /**
              * Destructor.
              */
-            virtual ~GLFont();
+            virtual ~OGLFTFont();
 
             /**
              * Sets the spacing between rows in pixels. Default is 0 pixels.
@@ -94,21 +115,6 @@ namespace fcn
              */
             virtual int getRowSpacing();
 
-            /**
-             * Gets the actual color of the font.
-             *
-             * @return color the actual color of the font.
-             */
-            virtual fcn::Color getColor();
-
-            /**
-             * Sets the actual color of the font.
-             *
-             * @param color the color of the font.
-             */
-            virtual void setColor(fcn::Color color);
-
-        
             // Inherited from Font
 
             virtual int getWidth(const std::string& text) const;
@@ -120,7 +126,6 @@ namespace fcn
         protected:
             OGLFT::TranslucentTexture* mFont;
             std::string mFilename;
-            fcn::Color mFontColor;
             int mSize;
             int mRowSpacing;
         };

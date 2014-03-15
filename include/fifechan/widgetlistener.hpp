@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -58,7 +79,6 @@ namespace fcn
      *
      * @see Widget::addWidgetListener, Widget::removeWidgetListener
      * @author Olof Naessén
-     * @since 0.8.0
      */
     class FCN_CORE_DECLSPEC WidgetListener
     {
@@ -73,7 +93,6 @@ namespace fcn
          * Invoked when a widget changes its size.
          *
          * @param event Describes the event.
-         * @since 0.8.0
          */
         virtual void widgetResized(const Event& event) { }
 
@@ -81,7 +100,6 @@ namespace fcn
          * Invoked when a widget is moved.
          *
          * @param event Describes the event.
-         * @since 0.8.0
          */
         virtual void widgetMoved(const Event& event) { }
 
@@ -90,7 +108,6 @@ namespace fcn
          * not visible.
          *
          * @param event Describes the event.
-         * @since 0.8.0
          */
         virtual void widgetHidden(const Event& event) { }
 
@@ -99,7 +116,6 @@ namespace fcn
          * visible.
          *
          * @param event Describes the event.
-         * @since 0.8.0
          */
         virtual void widgetShown(const Event& event) { }
         

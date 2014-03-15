@@ -1,24 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guichan", "guichan\guichan.vcproj", "{97388518-672D-491A-8606-E29366CE1FDE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fifechan", "fifechan\fifechan.vcproj", "{97388518-672D-491A-8606-E29366CE1FDE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guichan_sdl", "guichan_sdl\guichan_sdl.vcproj", "{2FA104E5-D8D1-4F4F-87B3-F5F9272109ED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fifechan_sdl", "fifechan_sdl\fifechan_sdl.vcproj", "{2FA104E5-D8D1-4F4F-87B3-F5F9272109ED}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97388518-672D-491A-8606-E29366CE1FDE} = {97388518-672D-491A-8606-E29366CE1FDE}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guichan_hge", "guichan_hge\guichan_hge.vcproj", "{0DF13737-DFF1-41CC-83F1-CC4FB098F921}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fifechan_hge", "fifechan_hge\fifechan_hge.vcproj", "{0DF13737-DFF1-41CC-83F1-CC4FB098F921}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97388518-672D-491A-8606-E29366CE1FDE} = {97388518-672D-491A-8606-E29366CE1FDE}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guichan_opengl", "guichan_opengl\guichan_opengl.vcproj", "{A1063FFE-A864-4D87-A375-17AC9808BF20}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fifechan_opengl", "fifechan_opengl\fifechan_opengl.vcproj", "{A1063FFE-A864-4D87-A375-17AC9808BF20}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97388518-672D-491A-8606-E29366CE1FDE} = {97388518-672D-491A-8606-E29366CE1FDE}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guichan_allegro", "guichan_allegro\guichan_allegro.vcproj", "{3121D468-E663-4104-827B-BC5A667218EF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fifechan_allegro", "fifechan_allegro\fifechan_allegro.vcproj", "{3121D468-E663-4104-827B-BC5A667218EF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97388518-672D-491A-8606-E29366CE1FDE} = {97388518-672D-491A-8606-E29366CE1FDE}
 	EndProjectSection

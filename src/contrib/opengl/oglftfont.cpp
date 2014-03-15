@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -49,6 +70,7 @@
 
 #include "fifechan/exception.hpp"
 #include "fifechan/opengl/openglgraphics.hpp"
+#include <math.h>
 
 namespace fcn
 {
@@ -69,8 +91,6 @@ namespace fcn
             }
 
             glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-
-            mFontColor = fcn::Color(0, 0, 0, 0);
         }
 
         OGLFTFont::~OGLFTFont()
@@ -82,12 +102,12 @@ namespace fcn
         {
             OGLFT::BBox bbox = mFont->measure(text.c_str());
 
-            return (int)bbox.x_max_ + (int)bbox.x_min_;
+            return (int)ceil(bbox.x_max_) + (int)ceil(bbox.x_min_);
         }
 
         int OGLFTFont::getHeight() const
         {
-            return mSize - 1 + mRowSpacing;
+            return mSize + mRowSpacing;
         }
 
         void OGLFTFont::setRowSpacing(int spacing)
@@ -98,16 +118,6 @@ namespace fcn
         int OGLFTFont::getRowSpacing()
         {
             return mRowSpacing;
-        }
-
-        fcn::Color OGLFTFont::getColor()
-        {
-            return mFontColor;
-        }
-
-        void OGLFTFont::setColor(fcn::Color color)
-        {
-            mFontColor = color;
         }
 
         void OGLFTFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
@@ -126,7 +136,8 @@ namespace fcn
 
             const fcn::ClipRectangle& top = glGraphics->getCurrentClipArea();
 
-            mFont->setForegroundColor(mFontColor.r/255, mFontColor.g/255, mFontColor.b/255);
+            Color col = glGraphics->getColor();
+            mFont->setForegroundColor(col.r/255, col.g/255, col.b/255);
 
             glPushMatrix();
             glEnable(GL_TEXTURE_2D);

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="guichan"
+	Name="fifechan"
 	ProjectGUID="{97388518-672D-491A-8606-E29366CE1FDE}"
 	>
 	<Platforms>
@@ -38,11 +38,11 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\include include ../include ../../include guichan/include ../include/guichan"
+				AdditionalIncludeDirectories="..\include include ../include ../../include fifechan/include ../include/fifechan"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan.tlb"
+				TypeLibraryName=".\lib/fifechan.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -50,7 +50,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="GUICHAN_BUILD"
+				PreprocessorDefinitions="FIFECHAN_BUILD"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -134,14 +134,14 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan.tlb"
+				TypeLibraryName=".\lib/fifechan.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="GUICHAN_BUILD"
+				PreprocessorDefinitions="FIFECHAN_BUILD"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -224,11 +224,11 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\include include ../include ../../include guichan/include ../include/guichan"
+				AdditionalIncludeDirectories="..\include include ../include ../../include fifechan/include ../include/fifechan"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan.tlb"
+				TypeLibraryName=".\lib/fifechan.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -306,7 +306,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan.tlb"
+				TypeLibraryName=".\lib/fifechan.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -413,7 +413,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\guichan.cpp"
+				RelativePath="..\..\..\src\fifechan.cpp"
 				>
 			</File>
 			<File
@@ -534,230 +534,230 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\..\..\include\guichan\actionevent.hpp"
+				RelativePath="..\..\..\include\fifechan\actionevent.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\actionlistener.hpp"
+				RelativePath="..\..\..\include\fifechan\actionlistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\allegro.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\basiccontainer.hpp"
+				RelativePath="..\..\..\include\fifechan\basiccontainer.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\cliprectangle.hpp"
+				RelativePath="..\..\..\include\fifechan\cliprectangle.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\color.hpp"
+				RelativePath="..\..\..\include\fifechan\color.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\deathlistener.hpp"
+				RelativePath="..\..\..\include\fifechan\deathlistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\defaultfont.hpp"
+				RelativePath="..\..\..\include\fifechan\defaultfont.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\event.hpp"
+				RelativePath="..\..\..\include\fifechan\event.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\exception.hpp"
+				RelativePath="..\..\..\include\fifechan\exception.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\focushandler.hpp"
+				RelativePath="..\..\..\include\fifechan\focushandler.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\focuslistener.hpp"
+				RelativePath="..\..\..\include\fifechan\focuslistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\font.hpp"
+				RelativePath="..\..\..\include\fifechan\font.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\genericinput.hpp"
+				RelativePath="..\..\..\include\fifechan\genericinput.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\glut.hpp"
+				RelativePath="..\..\..\include\fifechan\glut.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\graphics.hpp"
+				RelativePath="..\..\..\include\fifechan\graphics.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\gui.hpp"
+				RelativePath="..\..\..\include\fifechan\gui.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\hge.hpp"
+				RelativePath="..\..\..\include\fifechan\hge.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\image.hpp"
+				RelativePath="..\..\..\include\fifechan\image.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\imagefont.hpp"
+				RelativePath="..\..\..\include\fifechan\imagefont.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\imageloader.hpp"
+				RelativePath="..\..\..\include\fifechan\imageloader.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\input.hpp"
+				RelativePath="..\..\..\include\fifechan\input.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\inputevent.hpp"
+				RelativePath="..\..\..\include\fifechan\inputevent.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\key.hpp"
+				RelativePath="..\..\..\include\fifechan\key.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\keyevent.hpp"
+				RelativePath="..\..\..\include\fifechan\keyevent.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\keyinput.hpp"
+				RelativePath="..\..\..\include\fifechan\keyinput.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\keylistener.hpp"
+				RelativePath="..\..\..\include\fifechan\keylistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\listmodel.hpp"
+				RelativePath="..\..\..\include\fifechan\listmodel.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\mouseevent.hpp"
+				RelativePath="..\..\..\include\fifechan\mouseevent.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\mouseinput.hpp"
+				RelativePath="..\..\..\include\fifechan\mouseinput.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\mouselistener.hpp"
+				RelativePath="..\..\..\include\fifechan\mouselistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\opengl.hpp"
+				RelativePath="..\..\..\include\fifechan\opengl.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\openlayer.hpp"
+				RelativePath="..\..\..\include\fifechan\openlayer.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\platform.hpp"
+				RelativePath="..\..\..\include\fifechan\platform.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\rectangle.hpp"
+				RelativePath="..\..\..\include\fifechan\rectangle.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\sdl.hpp"
+				RelativePath="..\..\..\include\fifechan\sdl.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\selectionevent.hpp"
+				RelativePath="..\..\..\include\fifechan\selectionevent.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\selectionlistener.hpp"
+				RelativePath="..\..\..\include\fifechan\selectionlistener.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\widget.hpp"
+				RelativePath="..\..\..\include\fifechan\widget.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\widgetlistener.hpp"
+				RelativePath="..\..\..\include\fifechan\widgetlistener.hpp"
 				>
 			</File>
 			<Filter
 				Name="widgets"
 				>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\button.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\button.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\checkbox.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\checkbox.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\container.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\container.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\dropdown.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\dropdown.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\icon.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\icon.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\imagebutton.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\imagebutton.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\label.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\label.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\listbox.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\listbox.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\radiobutton.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\radiobutton.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\scrollarea.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\scrollarea.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\slider.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\slider.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\tab.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\tab.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\tabbedarea.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\tabbedarea.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\textbox.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\textbox.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\textfield.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\textfield.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\guichan\widgets\window.hpp"
+					RelativePath="..\..\..\include\fifechan\widgets\window.hpp"
 					>
 				</File>
 			</Filter>

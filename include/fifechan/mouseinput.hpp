@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -56,7 +77,6 @@ namespace fcn
      *
      * @author Olof Naessén
      * @author Per Larsson
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC MouseInput
     {
@@ -89,7 +109,6 @@ namespace fcn
          * @param type The type of the mouse input. Should be a value from the
          *             mouse event type enum
          * @see getType
-         * @since 0.1.0
          */
         void setType(unsigned int type);
 
@@ -99,7 +118,6 @@ namespace fcn
          * @return The type of the mouse input. A value from the mouse event
          *         type enum.
          * @see setType
-         * @since 0.1.0
          */
         unsigned int getType() const;
 
@@ -109,7 +127,6 @@ namespace fcn
          * @param button The button pressed. Should be one of the values
          *               in the mouse event button enum.
          * @see getButton.
-         * @since 0.1.0
          */
         void setButton(unsigned int button);
 
@@ -119,7 +136,6 @@ namespace fcn
          * @return The button pressed. A value from the mouse event
          *         button enum.
          * @see setButton
-         * @since 0.1.0
          */
         unsigned int getButton() const;
 
@@ -129,7 +145,6 @@ namespace fcn
          *
          * @param timeStamp The timestamp of the mouse input.
          * @see getTimeStamp
-         * @since 0.1.0
          */
         void setTimeStamp(int timeStamp);
 
@@ -139,7 +154,6 @@ namespace fcn
          *
          * @return The time stamp of the mouse input.
          * @see setTimeStamp
-         * @since 0.1.0
          */
         int getTimeStamp() const;
 
@@ -148,7 +162,6 @@ namespace fcn
          *
          * @param x The x coordinate of the mouse input.
          * @see getX
-         * @since 0.6.0
          */
         void setX(int x);
 
@@ -157,7 +170,6 @@ namespace fcn
          *
          * @return The x coordinate of the mouse input.
          * @see setX
-         * @since 0.6.0
          */
         int getX() const;
 
@@ -166,7 +178,6 @@ namespace fcn
          *
          * @param y The y coordinate of the mouse input.
          * @see getY
-         * @since 0.6.0
          */
         void setY(int y);
 
@@ -175,7 +186,6 @@ namespace fcn
          *
          * @return The y coordinate of the mouse input.
          * @see setY
-         * @since 0.6.0
          */
         int getY() const;
 

@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
+ *   This file is part of fifechan.                                        *
+ *                                                                         *
+ *   fifechan is free software; you can redistribute it and/or             *
+ *   modify it under the terms of the GNU Lesser General Public            *
+ *   License as published by the Free Software Foundation; either          *
+ *   version 2.1 of the License, or (at your option) any later version.    *
+ *                                                                         *
+ *   This library is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this library; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 /*      _______   __   __   __   ______   __   __   _______   __   __
  *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
  *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
@@ -53,7 +74,6 @@ namespace fcn
     /**
      * Represents a rectangle.
      *
-     * @since 0.1.0
      */
     class FCN_CORE_DECLSPEC Rectangle
     {
@@ -72,7 +92,6 @@ namespace fcn
          * @param y The y coordinate of the rectangle.
          * @param width The width of the rectangle.
          * @param height The height of the rectangle.
-         * @since 0.1.0
          */
         Rectangle(int x, int y, int width, int height);
 
@@ -83,7 +102,6 @@ namespace fcn
          * @param y The y coordinate of the rectangle.
          * @param width The width of the rectangle.
          * @param height The height of the rectangle.
-         * @since 0.1.0
          */
         void setAll(int x, int y, int width, int height);
 
@@ -92,7 +110,6 @@ namespace fcn
          *
          * @param rectangle Another rectangle to check for intersection.
          * @return True if the rectangles intersect, false otherwise.
-         * @since 0.1.0
          */
         bool isIntersecting(const Rectangle& rectangle) const;
 
@@ -103,7 +120,6 @@ namespace fcn
          * @param y The y coordinate of the point.
          * @return True if the rectangle contains the point,
          *         false otherwise.
-         * @since 0.9.0
          */
         bool isContaining(int x, int y) const;
 
@@ -113,7 +129,6 @@ namespace fcn
          * @param other The rectangle to check.
          * @return True if the rectangle contains the rectangle,
          *         false otherwise.
-         * @since 0.9.0
          */
         bool isContaining(const Rectangle& other) const;
 

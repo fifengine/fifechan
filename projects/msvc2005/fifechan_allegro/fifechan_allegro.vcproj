@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="guichan_hge"
-	ProjectGUID="{0DF13737-DFF1-41CC-83F1-CC4FB098F921}"
+	Name="fifechan_allegro"
+	ProjectGUID="{3121D468-E663-4104-827B-BC5A667218EF}"
 	>
 	<Platforms>
 		<Platform
@@ -41,14 +41,14 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_allegro.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GUICHAN_ALLEGRO_EXPORTS;GUICHAN_EXTENSION_BUILD"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS;FIFECHAN_EXTENSION_BUILD"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -71,12 +71,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hge.lib hgehelp.lib guichand.lib"
+				AdditionalDependencies="alld.lib fifechand.lib"
 				OutputFile="$(OutDir)\$(ProjectName)d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../lib/msvc"
-				IgnoreDefaultLibraryNames="libc.lib"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -133,15 +132,15 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_allegro.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../../../include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GUICHAN_ALLEGRO_EXPORTS;GUICHAN_EXTENSION_BUILD"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS;FIFECHAN_EXTENSION_BUILD"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -164,11 +163,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="hge.lib hgehelp.lib guichan.lib"
+				AdditionalDependencies="alleg.lib fifechan.lib"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../lib/msvc"
-				IgnoreDefaultLibraryNames="libc.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -224,15 +222,15 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_allegro.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../../../include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GUICHAN_HGE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -300,14 +298,14 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\lib/guichan_allegro.tlb"
+				TypeLibraryName=".\lib/fifechan_allegro.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GUICHAN_HGE_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FIFECHAN_ALLEGRO_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -357,23 +355,27 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\..\src\hge\hgegraphics.cpp"
+				RelativePath="..\..\..\src\allegro\allegro.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\hge\hgeimage.cpp"
+				RelativePath="..\..\..\src\allegro\allegrofont.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\hge\hgeimagefont.cpp"
+				RelativePath="..\..\..\src\allegro\allegrographics.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\hge\hgeimageloader.cpp"
+				RelativePath="..\..\..\src\allegro\allegroimage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\hge\hgeinput.cpp"
+				RelativePath="..\..\..\src\allegro\allegroimageloader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\allegro\allegroinput.cpp"
 				>
 			</File>
 		</Filter>
@@ -382,23 +384,23 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\..\..\include\guichan\hge\hgegraphics.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro\allegrofont.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\hge\hgeimage.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro\allegrographics.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\hge\hgeimagefont.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro\allegroimage.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\hge\hgeimageloader.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro\allegroimageloader.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\guichan\hge\hgeinput.hpp"
+				RelativePath="..\..\..\include\fifechan\allegro\allegroinput.hpp"
 				>
 			</File>
 		</Filter>
