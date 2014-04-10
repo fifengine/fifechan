@@ -111,6 +111,7 @@
 #include <fifechan/widgets/passwordfield.hpp>
 #include <fifechan/widgets/scrollarea.hpp>
 #include <fifechan/widgets/slider.hpp>
+#include <fifechan/widgets/spacer.hpp>
 #include <fifechan/widgets/radiobutton.hpp>
 #include <fifechan/widgets/tab.hpp>
 #include <fifechan/widgets/tabbedarea.hpp>
