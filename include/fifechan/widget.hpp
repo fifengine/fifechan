@@ -128,30 +128,9 @@ namespace fcn
          *       area is considered relative to the widget's position.
          *
          * @param graphics A graphics object to draw with.
-         * @see getChildrenArea
+         * @see getChildrenArea, drawOutline, drawBorder
          */
         virtual void draw(Graphics* graphics) = 0;
-
-        /**
-         * Called when a widget is given a chance to draw a frame around itself.
-         * The frame is not considered a part of the widget, it only allows a frame
-         * to be drawn around the widget, thus a frame will never be included when
-         * calculating if a widget should receive events from user input. Also
-         * a widget's frame will never be included when calculating a widget's 
-         * position.
-         * 
-         * The size of the frame is calculated using the widget's frame size. 
-         * If a widget has a frame size of 10 pixels than the area the drawFrame 
-         * function can draw to will be the size of the widget with an additional 
-         * extension of 10 pixels in each direction.
-         *
-         * An example when drawFrame is a useful function is if a widget needs
-         * a glow around itself.
-         *
-         * @param graphics A graphics object to draw with.
-         * @see drawOutline, drawBorder
-         */
-        virtual void drawFrame(Graphics* graphics);
 
         /**
          * Called when a widget is given a chance to draw a outline around itself.
