@@ -97,10 +97,21 @@ namespace fcn
               mBackgroundColor(0xffffff),
               mBaseColor(0x808090),
               mSelectionColor(0xc3d9ff),
+              mOutlineColor(0x808090),
+              mBorderColor(0x808090),
               mFocusHandler(NULL),
               mInternalFocusHandler(NULL),
               mParent(NULL),
-              mFrameSize(0),
+              mOutlineSize(0),
+              mBorderSize(0),
+              mMarginTop(0),
+              mMarginRight(0),
+              mMarginBottom(0),
+              mMarginLeft(0),
+              mPaddingTop(0),
+              mPaddingRight(0),
+              mPaddingBottom(0),
+              mPaddingLeft(0),
               mFocusable(false),
               mVisible(true),
               mTabIn(true),
@@ -138,20 +149,20 @@ namespace fcn
         mWidgetInstances.remove(this);
     }
 
-    void Widget::drawFrame(Graphics* graphics)
+    void Widget::drawOutline(Graphics* graphics)
     {
-        Color faceColor = getBaseColor();
+        Color outlineColor = getOutlineColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
-        int width = getWidth() + getFrameSize() * 2 - 1;
-        int height = getHeight() + getFrameSize() * 2 - 1;
-        highlightColor = faceColor + 0x303030;
+        int width = getWidth() + getOutlineSize() * 2 - 1;
+        int height = getHeight() + getOutlineSize() * 2 - 1;
+        highlightColor = outlineColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
+        shadowColor = outlineColor - 0x303030;
         shadowColor.a = alpha;
 
         unsigned int i;
-        for (i = 0; i < getFrameSize(); ++i)
+        for (i = 0; i < getOutlineSize(); ++i)
         {
             graphics->setColor(shadowColor);
             graphics->drawLine(i,i, width - i, i);
@@ -159,6 +170,32 @@ namespace fcn
             graphics->setColor(highlightColor);
             graphics->drawLine(width - i,i + 1, width - i, height - i);
             graphics->drawLine(i,height - i, width - i - 1, height - i);
+        }
+    }
+
+    void Widget::drawBorder(Graphics* graphics)
+    {
+        Color borderColor = getBorderColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int x = getMarginLeft();
+        int y = getMarginTop();
+        int width = getWidth() - getMarginRight() - 1;
+        int height = getHeight() - getMarginBottom() - 1;
+        highlightColor = borderColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = borderColor - 0x303030;
+        shadowColor.a = alpha;
+
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(x+i, y+i, width-i, y+i);
+            graphics->drawLine(x+i, y+i+1, x+i, height-i-1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width-i, y+i+1, width-i, height-i);
+            graphics->drawLine(x+i, height-i, width-i-1, height-i);
         }
     }
 
@@ -378,14 +415,120 @@ namespace fcn
         widget->expandContent();
     }
 
-    void Widget::setFrameSize(unsigned int frameSize)
+    void Widget::setOutlineSize(unsigned int size)
     {
-        mFrameSize = frameSize;
+        mOutlineSize = size;
     }
 
-    unsigned int Widget::getFrameSize() const
+    unsigned int Widget::getOutlineSize() const
     {
-        return mFrameSize;
+        return mOutlineSize;
+    }
+
+    void Widget::setBorderSize(unsigned int size)
+    {
+        mBorderSize = size;
+    }
+
+    unsigned int Widget::getBorderSize() const
+    {
+        return mBorderSize;
+    }
+
+    void Widget::setMargin(int margin)
+    {
+        mMarginTop = margin;
+        mMarginRight = margin;
+        mMarginBottom = margin;
+        mMarginLeft = margin;
+    }
+
+    void Widget::setMarginTop(int margin)
+    {
+        mMarginTop = margin;
+    }
+
+    int Widget::getMarginTop() const
+    {
+        return mMarginTop;
+    }
+
+    void Widget::setMarginRight(int margin)
+    {
+        mMarginRight = margin;
+    }
+
+    int Widget::getMarginRight() const
+    {
+        return mMarginRight;
+    }
+
+    void Widget::setMarginBottom(int margin)
+    {
+        mMarginBottom = margin;
+    }
+
+    int Widget::getMarginBottom() const
+    {
+        return mMarginBottom;
+    }
+
+    void Widget::setMarginLeft(int margin)
+    {
+        mMarginLeft = margin;
+    }
+
+    int Widget::getMarginLeft() const
+    {
+        return mMarginLeft;
+    }
+
+    void Widget::setPadding(unsigned int padding)
+    {
+        mPaddingTop = padding;
+        mPaddingRight = padding;
+        mPaddingBottom = padding;
+        mPaddingLeft = padding;
+    }
+
+    void Widget::setPaddingTop(unsigned int padding)
+    {
+        mPaddingTop = padding;
+    }
+
+    unsigned int Widget::getPaddingTop() const
+    {
+        return mPaddingTop;
+    }
+
+    void Widget::setPaddingRight(unsigned int padding)
+    {
+        mPaddingRight = padding;
+    }
+
+    unsigned int Widget::getPaddingRight() const
+    {
+        return mPaddingRight;
+    }
+
+    void Widget::setPaddingBottom(unsigned int padding)
+    {
+        mPaddingBottom = padding;
+    }
+
+    unsigned int Widget::getPaddingBottom() const
+    {
+        return mPaddingBottom;
+    }
+
+    void Widget::setPaddingLeft(unsigned int padding)
+    {
+        mPaddingLeft = padding;
+    }
+
+    unsigned int Widget::getPaddingLeft() const
+    {
+        return mPaddingLeft;
     }
 
     const Rectangle& Widget::getDimension() const
@@ -538,6 +681,26 @@ namespace fcn
         return mSelectionColor;
     }    
     
+    void Widget::setOutlineColor(const Color& color)
+    {
+        mOutlineColor = color;
+    }
+
+    const Color& Widget::getOutlineColor() const
+    {
+        return mOutlineColor;
+    }
+
+    void Widget::setBorderColor(const Color& color)
+    {
+        mBorderColor = color;
+    }
+
+    const Color& Widget::getBorderColor() const
+    {
+        return mBorderColor;
+    }
+
     void Widget::_setFocusHandler(FocusHandler* focusHandler)
     {
         if (mFocusHandler)
@@ -1200,15 +1363,15 @@ namespace fcn
 
     void Widget::_draw(Graphics* graphics)
     {
-        if (mFrameSize > 0)
+        if (mOutlineSize > 0)
         {
             Rectangle rec = mDimension;
-            rec.x -= mFrameSize;
-            rec.y -= mFrameSize;
-            rec.width += 2 * mFrameSize;
-            rec.height += 2 * mFrameSize;
+            rec.x -= mOutlineSize;
+            rec.y -= mOutlineSize;
+            rec.width += 2 * mOutlineSize;
+            rec.height += 2 * mOutlineSize;
             graphics->pushClipArea(rec);
-            drawFrame(graphics);
+            drawOutline(graphics);
             graphics->popClipArea();
         }
 

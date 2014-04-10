@@ -149,39 +149,281 @@ namespace fcn
          * a glow around itself.
          *
          * @param graphics A graphics object to draw with.
-         * @see setFrameSize, getFrameSize
+         * @see drawOutline, drawBorder
          */
         virtual void drawFrame(Graphics* graphics);
 
         /**
-         * Sets the size of the widget's frame. The frame is not considered a part of 
-         * the widget, it only allows a frame to be drawn around the widget, thus a frame 
-         * will never be included when calculating if a widget should receive events 
-         * from user input. Also a widget's frame will never be included when calculating
-         * a widget's position.
+         * Called when a widget is given a chance to draw a outline around itself.
+         * The outline is not considered as part of the widget, it only allows a outline
+         * to be drawn around the widget, thus a outline will never be included when
+         * calculating if a widget should receive events from user input. Also
+         * a widget's outline will never be included when calculating a widget's 
+         * position.
+         * 
+         * The size of the outline is calculated using the widget's outline size. 
+         * If a widget has a outline size of 10 pixels than the area the drawOutline 
+         * function can draw to will be the size of the widget with an additional 
+         * extension of 10 pixels in each direction.
          *
-         * A frame size of 0 means that the widget has no frame. The default frame size
-         * is 0.
+         * An example when drawOutline is a useful function is if a widget needs
+         * a glow around itself.
          *
-         * @param frameSize The size of the widget's frame.
-         * @see getFrameSize, drawFrame
+         * @param graphics A graphics object to draw with.
+         * @see setOutlineSize, getOutlineSize
          */
-        void setFrameSize(unsigned int frameSize);
+        virtual void drawOutline(Graphics* graphics);
 
         /**
-         * Gets the size of the widget's frame. The frame is not considered a part of 
-         * the widget, it only allows a frame to be drawn around the widget, thus a frame 
+         * Called when a widget have a border.
+         *
+         * @param graphics A graphics object to draw with.
+         * @see setBorderSize, getBorderSize
+         */
+        virtual void drawBorder(Graphics* graphics);
+
+        /**
+         * Sets the size of the widget's outline. The outline is not considered as part of 
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
          * will never be included when calculating if a widget should receive events 
-         * from user input. Also a widget's frame will never be included when calculating
+         * from user input. Also a widget's outline will never be included when calculating
          * a widget's position.
          *
-         * A frame size of 0 means that the widget has no frame. The default frame size
+         * A outline size of 0 means that the widget has no outline. The default outline size
          * is 0.
          *
-         * @return The size of the widget's frame.
-         * @see setFrameSize, drawFrame
+         * @param size The size of the widget's outline.
+         * @see getOutlineSize, drawOutline
          */
-        unsigned int getFrameSize() const;
+        void setOutlineSize(unsigned int size);
+
+        /**
+         * Gets the size of the widget's outline. The outline is not considered as part of 
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
+         * will never be included when calculating if a widget should receive events 
+         * from user input. Also a widget's outline will never be included when calculating
+         * a widget's position.
+         *
+         * A outline size of 0 means that the widget has no outline. The default outline size
+         * is 0.
+         *
+         * @return The size of the widget's outline.
+         * @see setOutlineSize, drawOutline
+         */
+        unsigned int getOutlineSize() const;
+
+        /**
+         * Sets the size of the widget's border. The border is considered as part of 
+         * the widget.
+         *
+         * A border size of 0 means that the widget has no border. The default border size
+         * is 0.
+         *
+         * @param size The size of the widget's border.
+         * @see getBorderSize, drawBorder
+         */
+        void setBorderSize(unsigned int size);
+
+        /**
+         * Gets the size of the widget's border. The border is considered as part of 
+         * the widget.
+         *
+         * A border size of 0 means that the widget has no border. The default border size
+         * is 0.
+         *
+         * @return The size of the widget's border.
+         * @see setBorderSize, drawBorder
+         */
+        unsigned int getBorderSize() const;
+
+        /**
+         * Sets all 4 margins to one value.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @param margin The margin of the widget.
+         * @see setMarginTop, setMarginRight, setMarginBottom, setMarginRight
+         */
+        void setMargin(int margin);
+
+        /**
+         * Sets the top margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @param margin The top margin of the widget.
+         * @see getMarginTop
+         */
+        void setMarginTop(int margin);
+        
+        /**
+         * Gets the top margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @return The top margin of the widget.
+         * @see setMarginTop
+         */
+        int getMarginTop() const;
+
+        /**
+         * Sets the right margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @param margin The right margin of the widget.
+         * @see getMarginRight
+         */
+        void setMarginRight(int margin);
+
+        /**
+         * Gets the right margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @return The right margin of the widget.
+         * @see setMarginRight
+         */
+        int getMarginRight() const;
+
+        /**
+         * Sets the bottom margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @param margin The bottom margin of the widget.
+         * @see getMarginBottom
+         */
+        void setMarginBottom(int margin);
+
+        /**
+         * Gets the bottom margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @return The bottom margin of the widget.
+         * @see setMarginBottom
+         */
+        int getMarginBottom() const;
+
+        /**
+         * Sets the left margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @param margin The left margin of the widget.
+         * @see getMarginLeft
+         */
+        void setMarginLeft(int margin);
+
+        /**
+         * Gets the left margin.
+         * The margin clears an area around an element (outside the border).
+         * The margin does not have a background color, and is completely transparent.
+         * It is also possible to use negative values, to overlap content.
+
+         * @return The left margin of the widget.
+         * @see setMarginLeft
+         */
+        int getMarginLeft() const;
+
+        /**
+         * Sets all 4 paddings to one value.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @param padding The top padding of the widget.
+         * @see setPaddingTop, setPaddingRight, setPaddingBottom, setPaddingLeft
+         */
+        void setPadding(unsigned int padding);
+
+        /**
+         * Sets the top padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @param padding The top padding of the widget.
+         * @see getPaddingTop
+         */
+        void setPaddingTop(unsigned int padding);
+
+        /**
+         * Gets the top padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @return The top padding of the widget.
+         * @see setPaddingTop
+         */
+        unsigned int getPaddingTop() const;
+
+        /**
+         * Sets the right padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @param padding The right padding of the widget.
+         * @see getPaddingRight
+         */
+        void setPaddingRight(unsigned int padding);
+
+        /**
+         * Gets the right padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @return The right padding of the widget.
+         * @see setPaddingRight
+         */
+        unsigned int getPaddingRight() const;
+
+        /**
+         * Sets the bottom padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @param padding The bottom padding of the widget.
+         * @see getPaddingBottom
+         */
+        void setPaddingBottom(unsigned int padding);
+
+        /**
+         * Gets the bottom padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @return The bottom padding of the widget.
+         * @see setPaddingBottom
+         */
+        unsigned int getPaddingBottom() const;
+
+        /**
+         * Sets the left padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @param padding The left padding of the widget.
+         * @see getPaddingLeft
+         */
+        void setPaddingLeft(unsigned int padding);
+
+        /**
+         * Gets the left padding.
+         * The padding clears an area around the content (inside the border) of
+         * an element. The padding is affected by the background color of the element.
+
+         * @return The left padding of the widget.
+         * @see setPaddingLeft
+         */
+        unsigned int getPaddingLeft() const;
 
         /**
          * Called for all widgets in the gui each time Gui::logic is called.
@@ -515,6 +757,38 @@ namespace fcn
          */
         const Color& getSelectionColor() const;
         
+        /**
+         * Sets the outline color.
+         *
+         * @param color The outline color.
+         * @see getOutlineColor
+         */
+        void setOutlineColor(const Color& color);
+
+        /**
+         * Gets the outline color.
+         *
+         * @return The outline color.
+         * @see setOutlineColor
+         */
+        const Color& getOutlineColor() const;
+
+        /**
+         * Sets the border color.
+         *
+         * @param color The border color.
+         * @see getBorderColor
+         */
+        void setBorderColor(const Color& color);
+
+        /**
+         * Gets the border color.
+         *
+         * @return The border color.
+         * @see setBorderColor
+         */
+        const Color& getBorderColor() const;
+
         /**
          * Requests focus for the widget. A widget will only recieve focus
          * if it is focusable.
@@ -1298,6 +1572,16 @@ namespace fcn
         Color mSelectionColor;
 
         /**
+         * Holds the outline color of the widget.
+         */
+        Color mOutlineColor;
+
+        /**
+         * Holds the border color of the widget.
+         */
+        Color mBorderColor;
+
+        /**
          * Holds the focus handler used by the widget.
          */
         FocusHandler* mFocusHandler;
@@ -1320,9 +1604,54 @@ namespace fcn
         Rectangle mDimension;
 
         /** 
-         * Holds the frame size of the widget.
+         * Holds the outline size of the widget.
          */
-        unsigned int mFrameSize;
+        unsigned int mOutlineSize;
+
+        /** 
+         * Holds the border size of the widget.
+         */
+        unsigned int mBorderSize;
+
+        /** 
+         * Holds the top margin of the widget.
+         */
+        int mMarginTop;
+
+        /** 
+         * Holds the top right of the widget.
+         */
+        int mMarginRight;
+
+        /** 
+         * Holds the bottom margin of the widget.
+         */
+        int mMarginBottom;
+
+        /** 
+         * Holds the left margin of the widget.
+         */
+        int mMarginLeft;
+
+        /** 
+         * Holds the top padding of the widget.
+         */
+        unsigned int mPaddingTop;
+
+        /** 
+         * Holds the right padding of the widget.
+         */
+        unsigned int mPaddingRight;
+
+        /** 
+         * Holds the bottom padding of the widget.
+         */
+        unsigned int mPaddingBottom;
+
+        /** 
+         * Holds the left padding of the widget.
+         */
+        unsigned int mPaddingLeft;
 
         /**
          * Holds the action event of the widget.
