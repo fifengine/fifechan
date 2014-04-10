@@ -96,6 +96,7 @@
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
 #include <fifechan/selectionlistener.hpp>
+#include <fifechan/size.hpp>
 #include <fifechan/widget.hpp>
 #include <fifechan/widgetlistener.hpp>
 #include <fifechan/widgets/button.hpp>

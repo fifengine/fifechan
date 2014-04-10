@@ -54,7 +54,8 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/platform.hpp		
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
-  include/fifechan/selectionlistener.hpp	
+  include/fifechan/selectionlistener.hpp
+  include/fifechan/size.hpp
   include/fifechan/text.hpp
   include/fifechan/utf8stringeditor.hpp
   include/fifechan/visibilityeventhandler.hpp
