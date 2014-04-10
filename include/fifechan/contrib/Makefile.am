@@ -1,1 +1,1 @@
-SUBDIRS = allegro opengl sdl widgets
+SUBDIRS = allegro opengl sdl

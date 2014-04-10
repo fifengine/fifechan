@@ -99,6 +99,7 @@
 #include <fifechan/size.hpp>
 #include <fifechan/widget.hpp>
 #include <fifechan/widgetlistener.hpp>
+#include <fifechan/widgets/adjustingcontainer.hpp>
 #include <fifechan/widgets/button.hpp>
 #include <fifechan/widgets/checkbox.hpp>
 #include <fifechan/widgets/container.hpp>
