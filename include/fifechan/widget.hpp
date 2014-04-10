@@ -70,6 +70,7 @@
 
 #include "fifechan/color.hpp"
 #include "fifechan/rectangle.hpp"
+#include "fifechan/size.hpp"
 #include "fifechan/widgetlistener.hpp"
 
 namespace fcn
@@ -315,6 +316,62 @@ namespace fcn
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
         const Rectangle& getDimension() const;
+
+        /**
+         * Sets the minimal dimension of the widget.
+         *
+         * @param size The minimal size of the widget.
+         * @see getMinSize
+         */
+        void setMinSize(const Size& size);
+
+        /**
+         * Gets the minimal dimension of the widget.
+         *
+         * @return The minimal size of the widget.
+         * @see setMinSize
+         */
+        const Size& getMinSize() const;
+
+        /**
+         * Sets the maximal dimension of the widget.
+         *
+         * @param size The maximal size of the widget.
+         * @see getMaxSize
+         */
+        void setMaxSize(const Size& size);
+
+        /**
+         * Gets the maximal dimension of the widget.
+         *
+         * @return The maximal size of the widget.
+         * @see setMaxSize
+         */
+        const Size& getMaxSize() const;
+
+        /**
+         * Sets the dimension of the widget to a fixed size.
+         *
+         * @param size The fixed size of the widget.
+         * @see getFixedSize, isFixedSize
+         */
+        void setFixedSize(const Size& size);
+
+        /**
+         * Gets the fixed size of the widget.
+         *
+         * @return The fixed size of the widget.
+         * @see setFixedSize, isFixedSize
+         */
+        const Size& getFixedSize() const;
+
+        /**
+         * Gets if the widget use a fixed size.
+         *
+         * @return True if the widget use a fixed size, otherwise false.
+         * @see setFixedSize, getFixedSize
+         */
+        bool isFixedSize() const;
 
         /**
          * Sets the widget to be fosusable, or not.
