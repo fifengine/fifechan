@@ -1053,6 +1053,38 @@ namespace fcn
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
         
+        /**
+         * Sets the widget to vertical expandable.
+         *
+         * @param expand True if the widget can be vertical expanded, otherwise false.
+         * @see isVerticalExpand
+         */
+        void setVerticalExpand(bool expand);
+
+        /**
+         * Gets if widget is vertical expandable.
+         *
+         * @return True if the widget can be vertical expanded, otherwise false.
+         * @see setVerticalExpand
+         */
+        bool isVerticalExpand() const;
+
+        /**
+         * Sets the widget to horizontal expandable.
+         *
+         * @param expand True if the widget can be horizontal expanded, otherwise false.
+         * @see isHorizontalExpand
+         */
+        void setHorizontalExpand(bool expand);
+
+        /**
+         * Gets if widget is horizontal expandable.
+         *
+         * @return True if the widget can be horizontal expanded, otherwise false.
+         * @see setHorizontalExpand
+         */
+        bool isHorizontalExpand() const;
+
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1158,6 +1190,12 @@ namespace fcn
          *
          */
         void resizeToChildren();
+
+        /**
+         * Checks the size against the size constraints. Used by setDimension.
+         *
+         */
+        void calculateSize();
 
         /**
          * Gets the children of the widget.
@@ -1283,6 +1321,35 @@ namespace fcn
          */
         Font* mCurrentFont;
 
+        /**
+         * Holds the min size.
+         */
+        Size mMinSize;
+
+        /**
+         * Holds the min size.
+         */
+        Size mMaxSize;
+
+        /**
+         * Holds the fixed size.
+         */
+        Size mFixedSize;
+
+        /**
+         * True if the widget used a fixed size.
+         */
+        bool mIsFixedSize;
+
+        /**
+         * True if the widget can be vertical expanded.
+         */
+        bool mVExpand;
+
+        /**
+         * True if the widget can be horizontal expanded.
+         */
+        bool mHExpand;
         /**
          * Holds the default font used by the widget.
          */

@@ -110,7 +110,9 @@ namespace fcn
               mMinSize(0, 0),
               mMaxSize(50000, 50000),
               mFixedSize(0, 0),
-              mIsFixedSize(false)
+              mIsFixedSize(false),
+              mVExpand(false),
+              mHExpand(false)
     {
         mWidgetInstances.push_back(this);
     }
@@ -300,7 +302,8 @@ namespace fcn
         return mIsFixedSize;
     }
 
-    void Widget::calculateSize() {
+    void Widget::calculateSize()
+    {
         if (isFixedSize()) {
             mDimension.width = mFixedSize.getWidth();
             mDimension.height = mFixedSize.getHeight();
@@ -315,6 +318,26 @@ namespace fcn
         
         mDimension.width = std::max(std::min(currWidth, maxWidth), minWidth);
         mDimension.height = std::max(std::min(currHeight, maxHeight), minHeight);
+    }
+
+    void Widget::setVerticalExpand(bool expand)
+    {
+        mVExpand = expand;
+    }
+
+    bool Widget::isVerticalExpand() const
+    {
+        return mVExpand;
+    }
+
+    void Widget::setHorizontalExpand(bool expand)
+    {
+        mHExpand = expand;
+    }
+
+    bool Widget::isHorizontalExpand() const
+    {
+        return mHExpand;
     }
 
     void Widget::setFrameSize(unsigned int frameSize)
