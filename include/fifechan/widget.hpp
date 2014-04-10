@@ -318,6 +318,20 @@ namespace fcn
         const Rectangle& getDimension() const;
 
         /**
+         * Gets how many childs the widget have.
+         *
+         * @return The children count of the widget.
+         */
+        unsigned int getChildrenCount() const;
+
+        /**
+         * Gets how many visible childs the widget have.
+         *
+         * @return The visible children count of the widget.
+         */
+        unsigned int getVisibleChildrenCount() const;
+
+        /**
          * Sets the minimal dimension of the widget.
          *
          * @param size The minimal size of the widget.

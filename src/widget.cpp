@@ -264,6 +264,30 @@ namespace fcn
         }
     }
 
+    unsigned int Widget::getChildrenCount() const
+    {
+        unsigned int childs = 0;
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            ++childs;
+        }
+        return childs;
+    }
+
+    unsigned int Widget::getVisibleChildrenCount() const
+    {
+        unsigned int childs = 0;
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            if (isVisible()) {
+                ++childs;
+            }
+        }
+        return childs;
+    }
+
     void Widget::setMinSize(const Size& size)
     {
         mIsFixedSize = false;
