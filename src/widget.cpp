@@ -364,6 +364,20 @@ namespace fcn
         return mHExpand;
     }
 
+    void Widget::adaptLayout()
+    {
+        Widget* widget = this;
+        while (widget->getParent()) {
+            Widget* parent = widget->getParent();
+            if (!parent->isLayouted()) {
+                break;
+            }
+            widget = parent;
+        }
+        widget->resizeToContent();
+        widget->expandContent();
+    }
+
     void Widget::setFrameSize(unsigned int frameSize)
     {
         mFrameSize = frameSize;

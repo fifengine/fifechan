@@ -1099,6 +1099,35 @@ namespace fcn
          */
         bool isHorizontalExpand() const;
 
+        /**
+         * Execute the layouting. 
+         * In case you want to relayout a visible widget. This function will
+         * automatically perform the layout adaption from the top-most layouted widget.
+         */
+        virtual void adaptLayout();
+
+        /**
+         * Resizes the widget's size to fit the content exactly,
+         * calls recursively all childs.
+         */
+        virtual void resizeToContent() {}
+
+        /**
+         * Resizes the widget's size to fit the content exactly.
+         */
+        virtual void adjustSize() {}
+
+        /**
+         * Expands the child widgets to the size of this widget,
+         * calls recursively all childs.
+         */
+        virtual void expandContent() {}
+
+        /**
+         * Helper function to decide if we need to layout.
+         */
+        virtual bool isLayouted() { return false; }
+
     protected:
         /**
          * Distributes an action event to all action listeners
