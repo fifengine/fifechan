@@ -125,6 +125,8 @@ namespace fcn
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         void draw(fcn::Graphics* graphics);
 
     protected:

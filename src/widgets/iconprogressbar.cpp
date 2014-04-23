@@ -242,4 +242,12 @@ namespace fcn
         mContents->resizeToContent();
         resizeToChildren();
     }
+
+    void IconProgressBar::resizeToContent(bool recursiv) {
+        arrangeIcons();
+    }
+
+    void IconProgressBar::adjustSize() {
+        arrangeIcons();
+    }
 };

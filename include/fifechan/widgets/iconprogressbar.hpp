@@ -143,6 +143,11 @@ namespace fcn
          */
         void reset();
         
+        // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
+
     protected:
         
         /**

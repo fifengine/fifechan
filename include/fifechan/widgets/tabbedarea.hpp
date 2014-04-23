@@ -224,6 +224,15 @@ namespace fcn
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+
+        /**
+         * Adjusts the size of the tab container and the widget container.
+         */
+        virtual void adjustSize();
+
+        virtual Rectangle getChildrenArea();
+
         virtual void draw(Graphics *graphics);
 
         void setWidth(int width);
@@ -258,11 +267,6 @@ namespace fcn
 
 
     protected:
-        /**
-         * Adjusts the size of the tab container and the widget container.
-         */
-        void adjustSize();
-
         /**
          * Adjusts the positions of the tabs.
          */

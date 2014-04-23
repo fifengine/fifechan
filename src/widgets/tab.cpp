@@ -92,6 +92,10 @@ namespace fcn
         delete mLabel;
     }
 
+    void Tab::resizeToContent(bool recursiv) {
+        adjustSize(); // or without the adjustTabPositions()?
+    }
+
     void Tab::adjustSize()
     {
         setSize(mLabel->getWidth() + 8,
@@ -99,6 +103,8 @@ namespace fcn
 
         if (mTabbedArea != NULL)
             mTabbedArea->adjustTabPositions();
+        std::cout << "Tab adjust size " << getDimension() << "\n";
+        std::cout << "Tab adjust label size " << mLabel->getDimension() << "\n";
     }
 
     void Tab::setTabbedArea(TabbedArea* tabbedArea)
@@ -121,6 +127,15 @@ namespace fcn
     const std::string& Tab::getCaption() const
     {
         return mLabel->getCaption();
+    }
+
+    Rectangle Tab::getChildrenArea() {
+        Rectangle rec;
+        rec.x = getXOffset() + getPaddingLeft();
+        rec.y = getYOffset() + getPaddingTop();
+        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom();
+        return rec;
     }
 
     void Tab::draw(Graphics *graphics)

@@ -178,10 +178,11 @@ namespace fcn
         Color borderColor = getBorderColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
-        int x = getMarginLeft();
-        int y = getMarginTop();
-        int width = getWidth() - getMarginRight() - 1;
-        int height = getHeight() - getMarginBottom() - 1;
+        int x = mMarginLeft;
+        int y = mMarginTop;
+        int width = getWidth() - mMarginRight - 1;
+        int height = getHeight() - mMarginBottom - 1;
+
         highlightColor = borderColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor = borderColor - 0x303030;
@@ -401,10 +402,10 @@ namespace fcn
         return mHExpand;
     }
 
-    void Widget::adaptLayout()
+    void Widget::adaptLayout(bool top)
     {
         Widget* widget = this;
-        while (widget->getParent()) {
+        while (widget->getParent() && top) {
             Widget* parent = widget->getParent();
             if (!parent->isLayouted()) {
                 break;
@@ -428,6 +429,7 @@ namespace fcn
     void Widget::setBorderSize(unsigned int size)
     {
         mBorderSize = size;
+        calculateStartOffsets();
     }
 
     unsigned int Widget::getBorderSize() const
@@ -441,11 +443,13 @@ namespace fcn
         mMarginRight = margin;
         mMarginBottom = margin;
         mMarginLeft = margin;
+        calculateStartOffsets();
     }
 
     void Widget::setMarginTop(int margin)
     {
         mMarginTop = margin;
+        calculateStartOffsets();
     }
 
     int Widget::getMarginTop() const
@@ -456,6 +460,7 @@ namespace fcn
     void Widget::setMarginRight(int margin)
     {
         mMarginRight = margin;
+        calculateStartOffsets();
     }
 
     int Widget::getMarginRight() const
@@ -466,6 +471,7 @@ namespace fcn
     void Widget::setMarginBottom(int margin)
     {
         mMarginBottom = margin;
+        calculateStartOffsets();
     }
 
     int Widget::getMarginBottom() const
@@ -476,6 +482,7 @@ namespace fcn
     void Widget::setMarginLeft(int margin)
     {
         mMarginLeft = margin;
+        calculateStartOffsets();
     }
 
     int Widget::getMarginLeft() const
@@ -529,6 +536,45 @@ namespace fcn
     unsigned int Widget::getPaddingLeft() const
     {
         return mPaddingLeft;
+    }
+
+    void Widget::calculateStartOffsets()
+    {
+        Rectangle rec(mBorderSize, mBorderSize, -(2*mBorderSize), -(2*mBorderSize));
+
+        rec.x += mMarginLeft;
+        rec.y += mMarginTop;
+        rec.width -= mMarginLeft;
+        rec.width -= mMarginRight;
+        rec.height -= mMarginTop;
+        rec.height -= mMarginBottom;
+
+        mOffsetRect = rec;
+    }
+
+    int Widget::getXOffset() const
+    {
+        return mOffsetRect.x;
+    }
+
+    int Widget::getYOffset() const
+    {
+        return mOffsetRect.y;
+    }
+
+    int Widget::getWOffset() const
+    {
+        return mOffsetRect.width;
+    }
+
+    int Widget::getHOffset() const
+    {
+        return mOffsetRect.height;
+    }
+
+    const Rectangle& Widget::getOffsetDimension() const
+    {
+        return mOffsetRect;
     }
 
     const Rectangle& Widget::getDimension() const
@@ -1378,20 +1424,22 @@ namespace fcn
         graphics->pushClipArea(mDimension);
         draw(graphics);
 
-        const Rectangle& childrenArea = getChildrenArea();
-        graphics->pushClipArea(childrenArea);
+        if (!mChildren.empty()) {
+            const Rectangle& childrenArea = getChildrenArea();
+            graphics->pushClipArea(childrenArea);
 
-        std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            Widget* widget = (*iter);
-            // Only draw a widget if it's visible and if it visible
-            // inside the children area.
-            if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
-                widget->_draw(graphics);
+            std::list<Widget*>::const_iterator iter;
+            for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
+            {
+                Widget* widget = (*iter);
+                // Only draw a widget if it's visible and if it visible
+                // inside the children area.
+                //if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
+                if (widget->isVisible())
+                    widget->_draw(graphics);
+            }
+            graphics->popClipArea();
         }
-
-        graphics->popClipArea();
         graphics->popClipArea();
     }
 

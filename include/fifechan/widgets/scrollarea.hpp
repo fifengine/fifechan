@@ -366,6 +366,11 @@ namespace fcn
 
         void setDimension(const Rectangle& dimension);
 
+        virtual void resizeToContent(bool recursiv=true);
+
+        virtual void adjustSize();
+
+        virtual void expandContent(bool recursiv=true);
 
         // Inherited from MouseListener
 

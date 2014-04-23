@@ -139,31 +139,11 @@ namespace fcn
          */
         Graphics::Alignment getAlignment() const;
 
-        /**
-         * Sets the spacing between the border of the button and its caption.
-         *
-         * @param spacing The default value for spacing is 4 and can be changed 
-         *                using this method.
-         * @see getSpacing
-         */
-        void setSpacing(unsigned int spacing);
-
-        /**
-         * Gets the spacing between the border of the button and its caption.
-         *
-         * @return spacing.
-         * @see setSpacing
-         */
-        unsigned int getSpacing() const;
-
-        /**
-         * Adjusts the button's size to fit the caption.
-         */
-        void adjustSize();
-
 
         //Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
 
@@ -224,11 +204,6 @@ namespace fcn
          * Holds the alignment of the caption.
          */
         Graphics::Alignment mAlignment;
-
-        /**
-         * Holds the spacing between the border and the caption.
-         */
-        unsigned int mSpacing;
     };
 }
 

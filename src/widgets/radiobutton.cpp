@@ -309,6 +309,10 @@ namespace fcn
         return mGroup;
     }
 
+    void RadioButton::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
     void RadioButton::adjustSize()
     {
         int height = getFont()->getHeight();

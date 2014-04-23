@@ -87,16 +87,14 @@ namespace fcn
     {
         mImage = Image::load(filename);
         mInternalImage = true;
-        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
-        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
+        adjustSize();
     }
 
     ImageButton::ImageButton(const Image* image)
         : mImage(image), 
           mInternalImage(false)
     {
-        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
-        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
+        adjustSize();
     }
 
     ImageButton::~ImageButton()
@@ -121,6 +119,17 @@ namespace fcn
     const Image* ImageButton::getImage() const
     {
         return mImage;
+    }
+
+    void ImageButton::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
+    void ImageButton::adjustSize() {
+        if (mImage) {
+            setSize(mImage->getWidth() + mImage->getWidth() / 2,
+                mImage->getHeight() + mImage->getHeight() / 2);
+        }
     }
 
     void ImageButton::draw(Graphics* graphics)

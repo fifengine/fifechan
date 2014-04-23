@@ -424,7 +424,7 @@ namespace fcn
          * Gets the top widget, or top parent, of this widget.
          *
          * @return The top widget, or top parent, for this widget. NULL if no top widget
-         *         exists (that is this widget doesn't have a parent).
+         *         exists (this widget doesn't have a parent).
          */
         virtual Widget* getTop() const;
 
@@ -1355,15 +1355,19 @@ namespace fcn
         /**
          * Execute the layouting. 
          * In case you want to relayout a visible widget. This function will
-         * automatically perform the layout adaption from the top-most layouted widget.
+         * automatically perform the layout adaption from the widget.
+         *
+         * @param top If true the layout adaption starts from the top-most layouted widget.
          */
-        virtual void adaptLayout();
+        virtual void adaptLayout(bool top=true);
 
         /**
          * Resizes the widget's size to fit the content exactly,
          * calls recursively all childs.
+         *
+         * @param recursiv If true all child widgets also get the call.
          */
-        virtual void resizeToContent() {}
+        virtual void resizeToContent(bool recursiv=true) {}
 
         /**
          * Resizes the widget's size to fit the content exactly.
@@ -1373,13 +1377,23 @@ namespace fcn
         /**
          * Expands the child widgets to the size of this widget,
          * calls recursively all childs.
+         *
+         * @param recursiv If true all child widgets also get the call.
          */
-        virtual void expandContent() {}
+        virtual void expandContent(bool recursiv=true) {}
 
         /**
          * Helper function to decide if we need to layout.
          */
         virtual bool isLayouted() { return false; }
+
+        virtual void calculateStartOffsets();
+
+        int getXOffset() const;
+        int getYOffset() const;
+        int getWOffset() const;
+        int getHOffset() const;
+        const Rectangle& getOffsetDimension() const;
 
     protected:
         /**
@@ -1582,6 +1596,11 @@ namespace fcn
          */
         Rectangle mDimension;
 
+		/**
+         * Holds the offset dimension of the widget.
+         */
+        Rectangle mOffsetRect;
+
         /** 
          * Holds the outline size of the widget.
          */
@@ -1701,6 +1720,7 @@ namespace fcn
          * True if the widget can be horizontal expanded.
          */
         bool mHExpand;
+
         /**
          * Holds the default font used by the widget.
          */

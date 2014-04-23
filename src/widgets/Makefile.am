@@ -4,6 +4,7 @@ INCLUDES = -I$(top_srcdir)/include
 
 # The Gui-chan library sources
 libfifechan_widgets_la_SOURCES = \
+	adjustingcontainer.cpp	\
 	button.cpp		\
 	checkbox.cpp		\
 	container.cpp		\

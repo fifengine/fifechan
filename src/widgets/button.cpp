@@ -81,12 +81,12 @@ namespace fcn
         : mHasMouse(false),
           mKeyPressed(false),
           mMousePressed(false),
-          mAlignment(Graphics::Center),
-          mSpacing(4)
+          mAlignment(Graphics::Center)
     {
         setFocusable(true);
+        setBorderSize(1);
+        setPadding(4);
         adjustSize();
-        setFrameSize(1);
 
         addMouseListener(this);
         addKeyListener(this);
@@ -98,12 +98,12 @@ namespace fcn
               mHasMouse(false),
               mKeyPressed(false),
               mMousePressed(false),
-              mAlignment(Graphics::Center),
-              mSpacing(4)
+              mAlignment(Graphics::Center)
     {
         setFocusable(true);
+        setBorderSize(1);
+        setPadding(4);
         adjustSize();
-        setFrameSize(1);
 
         addMouseListener(this);
         addKeyListener(this);
@@ -130,16 +130,6 @@ namespace fcn
         return mAlignment;
     }
 
-    void Button::setSpacing(unsigned int spacing)
-    {
-        mSpacing = spacing;
-    }
-
-    unsigned int Button::getSpacing() const
-    {
-      return mSpacing;
-    }
-
     void Button::draw(Graphics* graphics)
     {
         Color faceColor = getBaseColor();
@@ -164,31 +154,38 @@ namespace fcn
         }
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(1, 1, getDimension().width-1, getHeight() - 1);
+        //graphics->fillRectangle(1, 1, getDimension().width-1, getHeight() - 1);
+        const Rectangle& offsetRec = getOffsetDimension();
+        graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() + offsetRec.width - 1, getHeight() + offsetRec.height - 1);
 
-        graphics->setColor(highlightColor);
+        if (getBorderSize() > 0) {
+            drawBorder(graphics);
+        }
+
+        /*graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, getWidth() - 1, 0);
         graphics->drawLine(0, 1, 0, getHeight() - 1);
 
         graphics->setColor(shadowColor);
         graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
-        graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
+        graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);*/
 
         graphics->setColor(getForegroundColor());
 
         int textX;
-        int textY = getHeight() / 2 - getFont()->getHeight() / 2;
-
+        //int textY = getHeight() / 2 - getFont()->getHeight() / 2;
+        //int textY = ((getHeight() - (getMarginTop() + getMarginBottom() + getPaddingTop() + getPaddingBottom() + 2*getBorderSize())) - getFont()->getHeight()) / 2;
+        int textY = (getHeight() - getFont()->getHeight()) / 2;
         switch (getAlignment())
         {
           case Graphics::Left:
-              textX = mSpacing;
+              textX = getMarginLeft() + getBorderSize() + getPaddingLeft();
               break;
           case Graphics::Center:
-              textX = getWidth() / 2;
+              textX = getWidth()  / 2;
               break;
           case Graphics::Right:
-              textX = getWidth() - mSpacing;
+              textX = getWidth() - (getMarginRight() + getBorderSize() + getPaddingRight());
               break;
           default:
               throw FCN_EXCEPTION("Unknown alignment.");
@@ -204,18 +201,30 @@ namespace fcn
         {
             graphics->drawText(getCaption(), textX, textY, getAlignment());
 
-            if (isFocused())
+            /*if (isFocused())
             {
-                graphics->drawRectangle(2, 2, getWidth() - 4,
-                                        getHeight() - 4);
-            }
+                graphics->drawRectangle(getMarginLeft(), getMarginTop(),
+                    getWidth() - (getMarginLeft()+getMarginRight()),
+                    getHeight() - (getMarginTop()+getMarginBottom()));
+            }*/
         }
+    }
+    void Button::resizeToContent(bool recursiv) {
+        adjustSize();
     }
 
     void Button::adjustSize()
     {
-        setWidth(getFont()->getWidth(mCaption) + 2*mSpacing);
-        setHeight(getFont()->getHeight() + 2*mSpacing);
+        /*int w = getFont()->getWidth(mCaption) + 2*mSpacing + 2*getMargins().getWidth() + 2*getFrameSize();
+        int h = getFont()->getHeight() + 2*mSpacing + 2*getMargins().getHeight() + 2*getFrameSize();*/
+        
+        //int w = getFont()->getWidth(mCaption) + 2*mSpacing + 2*getMargins().getWidth();
+        //int h = getFont()->getHeight() + 2*mSpacing + 2*getMargins().getHeight();
+        //std::cout << "w " << w << "  h " << h << "\n";
+
+        int w = getFont()->getWidth(mCaption) + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getFont()->getHeight() + getMarginTop() + getMarginBottom() + 2*getBorderSize() + getPaddingTop() + getPaddingBottom();
+        setSize(w, h);
     }
 
     bool Button::isPressed() const

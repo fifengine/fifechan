@@ -71,11 +71,18 @@
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
 
+#include <algorithm>
+#include <cmath>
+
 namespace fcn
 {
     Container::Container()
     {
         mOpaque = true;
+        mLayout = Absolute;
+        mVerticalSpacing = 2;
+        mHorizontalSpacing = 2;
+        mBackgroundWidget = NULL;
     }
 
     Container::~Container()
@@ -87,7 +94,14 @@ namespace fcn
         if (isOpaque())
         {
             graphics->setColor(getBaseColor());
-            graphics->fillRectangle(0, 0, getWidth(), getHeight());
+            graphics->fillRectangle(getXOffset(), getYOffset(),
+                getWidth() + getWOffset(), getHeight() + getHOffset());
+        }
+        if (mBackgroundWidget) {
+            mBackgroundWidget->_draw(graphics);
+        }
+        if (getBorderSize() > 0) {
+            drawBorder(graphics);
         }
     }
 
@@ -167,13 +181,420 @@ namespace fcn
         return Widget::getChildren();
     }
 
-    void Container::resizeToContent()
-    {
-        Widget::resizeToChildren();
+    void Container::resizeToContent(bool recursiv) {
+        if (mLayout == Absolute) {
+            if (recursiv) {
+                std::list<Widget*>::const_iterator currChild(mChildren.begin());
+                std::list<Widget*>::const_iterator endChildren(mChildren.end());
+                for(; currChild != endChildren; ++currChild) {
+                    if (!(*currChild)->isVisible()) {
+                        continue;
+                    }
+                    (*currChild)->resizeToContent(recursiv);
+                }
+            }
+            return;
+        }
+
+        int childMaxW = 0;
+        int childMaxH = 0;
+        int totalW = 0;
+        int totalH = 0;
+        int visibleChilds = 0;
+
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            if (!(*currChild)->isVisible()) {
+                continue;
+            }
+            if (recursiv) {
+                (*currChild)->resizeToContent(recursiv);
+            }
+            const Rectangle& rec = (*currChild)->getDimension();
+            childMaxW = std::max(childMaxW, rec.width);
+            childMaxH = std::max(childMaxH, rec.height);
+            ++visibleChilds;
+        }
+
+        // diff means e.g. margin, border, padding, ...
+        int diffW = getDimension().width - getChildrenArea().width;
+        int diffH = getDimension().height - getChildrenArea().height;
+        Rectangle dimensions(0, 0, childMaxW, childMaxH);
+
+        if (mLayout == Vertical && visibleChilds > 0) {
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                dimensions.height = (*currChild)->getHeight();
+                (*currChild)->setDimension(dimensions);
+                dimensions.y += (*currChild)->getHeight() + getVerticalSpacing();
+            }
+            // remove last spacing
+            dimensions.y -= getVerticalSpacing();
+            totalW = childMaxW + diffW;
+            totalH = dimensions.y + diffH;
+        } else if (mLayout == Horizontal && visibleChilds > 0) {
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                dimensions.width = (*currChild)->getWidth();
+                (*currChild)->setDimension(dimensions);
+                dimensions.x += (*currChild)->getWidth() + getHorizontalSpacing();
+            }
+            // remove last spacing
+            dimensions.x -= getHorizontalSpacing();
+            totalW = dimensions.x + diffW;
+            totalH = childMaxH + diffH;
+        } else if (mLayout == Circular && visibleChilds > 0) {
+            const float pi = 3.141592653589793;
+            const float angle = 360.0 / visibleChilds;
+            float xRadius = (childMaxW) * visibleChilds / pi;
+            float yRadius = (childMaxH) * visibleChilds / pi;
+            // this forces a uniform circle
+            //xRadius = std::max(xRadius, yRadius);
+            //yRadius = xRadius;
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            int w = 0;
+            int h = 0;
+            int i = 0;
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / pi);
+                int x = xRadius + xRadius * cos(tmpAngle);
+                int y = yRadius + yRadius * sin(tmpAngle);
+                x -= childMaxW / 2;
+                y -= childMaxH / 2;
+                x += (*currChild)->getWidth() / 2 + getHorizontalSpacing();
+                y += (*currChild)->getHeight() / 2 + getVerticalSpacing();
+
+                w = std::max(w, x + (*currChild)->getWidth());
+                h = std::max(h, y + (*currChild)->getHeight());
+                    
+                (*currChild)->setPosition(x, y);
+                ++i;
+            }
+            w += getHorizontalSpacing();
+            h += getVerticalSpacing();
+            totalW = w + diffW;
+            totalH = h + diffH;
+        }
+        if (mBackgroundWidget) {
+            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            mBackgroundWidget->setDimension(rec);
+        }
+        setSize(totalW, totalH);
     }
 
-    Rectangle Container::getChildrenArea()
-    {
-        return Rectangle(0, 0, getWidth(), getHeight());
+    void Container::adjustSize() {
+        resizeToChildren();
+        if (mBackgroundWidget) {
+            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            mBackgroundWidget->setDimension(rec);
+        }
+        int w = getWidth() + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getHeight() + getMarginTop() + getMarginBottom() + 2+getBorderSize() + getPaddingTop() + getPaddingBottom();
+        setSize(w, h);
+    }
+
+    void Container::expandContent(bool recursiv) {
+        if (mLayout == Absolute) {
+            if (recursiv) {
+                std::list<Widget*>::const_iterator currChild(mChildren.begin());
+                std::list<Widget*>::const_iterator endChildren(mChildren.end());
+                for(; currChild != endChildren; ++currChild) {
+                    if (!(*currChild)->isVisible()) {
+                        continue;
+                    }
+                    (*currChild)->expandContent(recursiv);
+                }
+            }
+            return;
+        }
+
+        Rectangle childrenArea = getChildrenArea();
+        int spaceW = childrenArea.width;
+        int spaceH = childrenArea.height;
+        int neededSpaceW = 0;
+        int neededSpaceH = 0;
+        int maxMinW = 0;
+        int maxMinH = 0;
+        int minMaxW = 50000;
+        int minMaxH = 50000;
+        int maxHExpander = 0;
+        int maxVExpander = 0;
+        int expanderNeededSpaceW = 0;
+        int expanderNeededSpaceH = 0;
+        unsigned int visibleChilds = 0;
+        std::list<Widget*> hExpander;
+        std::list<Widget*> vExpander;
+
+        if (mBackgroundWidget) {
+            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            mBackgroundWidget->setDimension(rec);
+        }
+
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            if (!(*currChild)->isVisible()) {
+                continue;
+            }
+            ++visibleChilds;
+            // get needed space
+            neededSpaceW += (*currChild)->getWidth() + getHorizontalSpacing();
+            neededSpaceH += (*currChild)->getHeight() + getVerticalSpacing();
+            // get expander and expander max/min size
+            if ((*currChild)->isVerticalExpand()) {
+                maxVExpander = std::max(maxVExpander, (*currChild)->getHeight());
+                maxMinH = std::max(maxMinH, (*currChild)->getMinSize().getHeight());
+                minMaxH = std::min(minMaxH, (*currChild)->getMaxSize().getHeight());
+                expanderNeededSpaceH += (*currChild)->getHeight() + getVerticalSpacing();
+                vExpander.push_back((*currChild));
+            }
+            if ((*currChild)->isHorizontalExpand()) {
+                maxHExpander = std::max(maxHExpander, (*currChild)->getWidth());
+                maxMinW = std::max(maxMinW, (*currChild)->getMinSize().getWidth());
+                minMaxW = std::min(minMaxW, (*currChild)->getMaxSize().getWidth());
+                expanderNeededSpaceW += (*currChild)->getWidth() + getHorizontalSpacing();
+                hExpander.push_back((*currChild));
+            }
+        }
+
+        if (mLayout == Vertical && visibleChilds > 0) {
+            bool hexpand = !(!isHorizontalExpand() && getParent());
+            neededSpaceH -= getVerticalSpacing();
+            int freeSpace = spaceH - neededSpaceH;
+            if (freeSpace > 0) {
+                if (vExpander.size() > 0) {
+                    expanderNeededSpaceH -= getVerticalSpacing();
+                }
+                // check against the smallest maximal height
+                if (minMaxH < maxVExpander) {
+                    maxVExpander = minMaxH;
+                }
+                // check against the largest minimal height
+                if (maxMinH > maxVExpander) {
+                    maxVExpander = maxMinH;
+                }
+                int h = 0;
+                // calculate maximal height if all expanders get this max height
+                int maxNeeded = ((maxVExpander + getVerticalSpacing()) * vExpander.size()) - getVerticalSpacing();
+                int tmpSpace = (freeSpace + expanderNeededSpaceH) - maxNeeded;
+                if (tmpSpace > 0) {
+                    h = maxVExpander;
+                    freeSpace = tmpSpace;
+                }
+                // distribute space
+                if (freeSpace > 0 || h > 0) {
+                    std::list<Widget*>::iterator it = vExpander.begin();
+                    int expanders = vExpander.size();
+                    for (; it != vExpander.end(); ++it) {
+                        // divide the space so that all expanders get the same size
+                        int diff = h > 0 ? 0 : maxVExpander - (*it)->getHeight();
+                        int delta = ((freeSpace-diff) / expanders) + diff;
+                        if (delta == 0) {
+                            delta = 1;
+                        }
+                        if (delta > freeSpace) {
+                            delta = freeSpace;
+                        }
+                        int oldH = h > 0 ? h : (*it)->getHeight();
+                        int tmpH = oldH + delta;
+                        (*it)->setHeight(tmpH);
+                        tmpH = (*it)->getHeight();
+                        delta = tmpH - oldH;
+                        freeSpace -= delta;
+                        --expanders;
+                    }
+                }
+            }
+            // adapt position
+            if (!hExpander.empty() || !vExpander.empty() || hexpand) {
+                Rectangle rec(0, 0, spaceW, 0);
+                currChild = mChildren.begin();
+                endChildren = mChildren.end();
+                for(; currChild != endChildren; ++currChild) {
+                    if (!(*currChild)->isVisible()) {
+                        continue;
+                    }
+                    if (hexpand || (*currChild)->isHorizontalExpand()) {
+                        rec.width = spaceW;
+                    } else {
+                        rec.width = (*currChild)->getWidth();
+                    }
+                    rec.height = (*currChild)->getHeight();
+                    (*currChild)->setDimension(rec);
+                    rec.y += rec.height + getVerticalSpacing();
+                }
+            }
+        } else if (mLayout == Horizontal && visibleChilds > 0) {
+            bool vexpand = !(!isVerticalExpand() && getParent());
+            neededSpaceW -= getHorizontalSpacing();
+            int freeSpace = spaceW - neededSpaceW;
+            if (freeSpace > 0) {
+                if (hExpander.size() > 0) {
+                    expanderNeededSpaceW -= getHorizontalSpacing();
+                }
+                // check against the smallest maximal width
+                if (minMaxW < maxHExpander) {
+                    maxHExpander = minMaxW;
+                }
+                // check against the largest minimal width
+                if (maxMinW > maxHExpander) {
+                    maxHExpander = maxMinW;
+                }
+                int w = 0;
+                // calculate maximal width if all expanders get this max width
+                int maxNeeded = ((maxHExpander + getHorizontalSpacing()) * hExpander.size()) - getHorizontalSpacing();
+                int tmpSpace = (freeSpace + expanderNeededSpaceW) - maxNeeded;
+                if (tmpSpace > 0) {
+                    w = maxHExpander;
+                    freeSpace = tmpSpace;
+                }
+                // distribute space
+                if (freeSpace > 0 || w > 0) {
+                    std::list<Widget*>::iterator it = hExpander.begin();
+                    int expanders = hExpander.size();
+                    for (; it != hExpander.end(); ++it) {
+                        // divide the space so that all expanders get the same size
+                        int diff = w > 0 ? 0 : maxHExpander - (*it)->getWidth();
+                        int delta = ((freeSpace-diff) / expanders) + diff;
+                        if (delta == 0) {
+                            delta = 1;
+                        }
+                        if (delta > freeSpace) {
+                            delta = freeSpace;
+                        }
+                        int oldW = w > 0 ? w : (*it)->getWidth();
+                        int tmpW = oldW + delta;
+                        (*it)->setWidth(tmpW);
+                        tmpW = (*it)->getWidth();
+                        delta = tmpW - oldW;
+                        freeSpace -= delta;
+                        --expanders;
+                    }
+                }
+            }
+            // adapt position
+            if (!hExpander.empty() || !vExpander.empty() || vexpand) {
+                Rectangle rec(0, 0, 0, spaceH);
+                currChild = mChildren.begin();
+                endChildren = mChildren.end();
+                for(; currChild != endChildren; ++currChild) {
+                    if (!(*currChild)->isVisible()) {
+                        continue;
+                    }
+                    if (vexpand || (*currChild)->isVerticalExpand()) {
+                        rec.height = spaceH;
+                    } else {
+                        rec.height = (*currChild)->getHeight();
+                    }
+                    rec.width = (*currChild)->getWidth();
+                    (*currChild)->setDimension(rec);
+                    rec.x += rec.width + getHorizontalSpacing();
+                }
+            }
+        }else if (mLayout == Circular && visibleChilds > 0) {
+            const float pi = 3.141592653589793;
+            const float angle = 360.0 / visibleChilds;
+            float xRadius = spaceW/2;
+            float yRadius = spaceH/2;
+            // this forces a uniform circle
+            //xRadius = std::max(xRadius, yRadius);
+            //yRadius = xRadius;
+            // check if we can create the widget size with iterating over the angles and fetch the min/max size with x,y
+            int i = 0;
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / pi);
+                int x = xRadius + xRadius * cos(tmpAngle);
+                int y = yRadius + yRadius * sin(tmpAngle);
+                x -= (*currChild)->getWidth() / 2 - getHorizontalSpacing();
+                y -= (*currChild)->getHeight() / 2 - getVerticalSpacing();
+                
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                if (x + (*currChild)->getWidth() > spaceW) {
+                    x = spaceW - (*currChild)->getWidth();
+                }
+                if (y + (*currChild)->getHeight() > spaceH) {
+                    y = spaceH - (*currChild)->getHeight();
+                }
+                (*currChild)->setPosition(x, y);
+                ++i;
+            }
+        }
+
+        if (recursiv) {
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                (*currChild)->expandContent(recursiv);
+            }
+        }
+    }
+
+    void Container::setLayout(LayoutPolicy policy) {
+        mLayout = policy;
+    }
+
+    Container::LayoutPolicy Container::getLayout() const {
+        return mLayout;
+    }
+
+    Rectangle Container::getChildrenArea() {
+        Rectangle rec;
+        rec.x = getXOffset() + getPaddingLeft();
+        rec.y = getYOffset() + getPaddingTop();
+        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom();
+        return rec;
+    }
+
+    void Container::setVerticalSpacing(unsigned int spacing) {
+        mVerticalSpacing = spacing;
+    }
+    
+    unsigned int Container::getVerticalSpacing() const {
+        return mVerticalSpacing;
+    }
+
+    void Container::setHorizontalSpacing(unsigned int spacing) {
+        mHorizontalSpacing = spacing;
+    }
+
+    unsigned int Container::getHorizontalSpacing() const {
+        return mHorizontalSpacing;
+    }
+
+    void Container::setBackgroundWidget(Widget* widget) {
+        if (mBackgroundWidget != widget) {
+            mBackgroundWidget = widget;
+        }
+    }
+
+    Widget* Container::getBackgroundWidget() {
+        return mBackgroundWidget;
     }
 }

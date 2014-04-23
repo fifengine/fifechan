@@ -167,14 +167,11 @@ namespace fcn
          */
         const std::string &getGroup() const;
 
-        /**
-         * Adjusts the radio button's size to fit the caption.
-         */
-        void adjustSize();
-
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
 

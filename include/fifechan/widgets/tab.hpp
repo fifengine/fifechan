@@ -99,12 +99,6 @@ namespace fcn
         virtual ~Tab();
 
         /**
-         * Adjusts the size of the tab to fit the caption. If this tab was
-         * added to a TabbedArea, it will also adjust the tab positions.
-         */
-        void adjustSize();
-
-        /**
          * Sets the tabbed area the tab should be a part of.
          *
          * @param tabbedArea The tabbed area the tab should be a part of.
@@ -140,6 +134,16 @@ namespace fcn
 
 
         // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+
+        /**
+         * Adjusts the size of the tab to fit the caption. If this tab was
+         * added to a TabbedArea, it will also adjust the tab positions.
+         */
+        virtual void adjustSize();
+
+        virtual Rectangle getChildrenArea();
 
         virtual void draw(Graphics *graphics);
 

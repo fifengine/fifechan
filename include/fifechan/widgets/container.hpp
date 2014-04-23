@@ -85,6 +85,12 @@ namespace fcn
     class FCN_CORE_DECLSPEC Container: public Widget
     {
     public:
+        enum LayoutPolicy {
+            Absolute,
+            Vertical,
+            Horizontal,
+            Circular
+        };
 
         /**
          * Constructor. A container is opauqe as default, if you want a
@@ -191,17 +197,67 @@ namespace fcn
          */
         const std::list<Widget*>& getChildren() const;
 
-        /**
-         * Resizes the Container's size to fit te content exactly.
-         */
-        void resizeToContent();
-
-
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
+        virtual void expandContent(bool recursiv=true);
         virtual void draw(Graphics* graphics);
-
         virtual Rectangle getChildrenArea();
+        virtual bool isLayouted() { return mLayout != Absolute; };
+
+        /**
+         * Sets the layout of the container.
+         * @see LayoutPolicy
+         *
+         * @param policy The LayoutPolicy of the container.
+         * @see getLayout
+         */
+        void setLayout(LayoutPolicy policy);
+
+        /**
+         * Gets the layout of the container.
+         * @see LayoutPolicy
+         *
+         * @return The LayoutPolicy of the container.
+         * @see setLayout
+         */
+        LayoutPolicy getLayout() const;
+
+        /**
+         * Set the vertical spacing between rows.
+         *
+         * @param verticalSpacing spacing in pixels.
+         * @see getVerticalSpacing
+         */
+        virtual void setVerticalSpacing(unsigned int spacing);
+
+        /**
+         * Get the vertical spacing between rows.
+         *
+         * @return vertical spacing in pixels.
+         * @see setVerticalSpacing
+         */
+        virtual unsigned int getVerticalSpacing() const;
+
+        /**
+         * Set the horizontal spacing between columns.
+         *
+         * @param horizontalSpacing spacing in pixels.
+         * @see getHorizontalSpacing
+         */
+        virtual void setHorizontalSpacing(unsigned int spacing);
+
+        /**
+         * Get the horizontal spacing between rows.
+         *
+         * @return horizontal spacing in pixels.
+         * @see setHorizontalSpacing
+         */
+        virtual unsigned int getHorizontalSpacing() const;
+
+        void setBackgroundWidget(Widget* widget);
+        Widget* getBackgroundWidget();
 
     protected:
         /**
@@ -239,6 +295,23 @@ namespace fcn
          * Typedef.
          */
         typedef ContainerListenerList::iterator ContainerListenerIterator;
+
+        /**
+         * Layout
+         */
+        LayoutPolicy mLayout;
+
+        /**
+         * VerticalSpacing
+         */
+        unsigned int mVerticalSpacing;
+
+        /**
+         * HorizontalSpacing
+         */
+        unsigned int mHorizontalSpacing;
+
+        Widget* mBackgroundWidget;
     };
 }
 

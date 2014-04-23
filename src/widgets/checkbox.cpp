@@ -133,10 +133,10 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        if (isFocused())
+        /*if (isFocused())
         {
             graphics->drawRectangle(0, 0, h + 2, h + 2);
-        }
+        }*/
 
         if (mSelected)
         {
@@ -193,12 +193,23 @@ namespace fcn
         mouseEvent.consume();
     }
 
+    void CheckBox::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
     void CheckBox::adjustSize()
     {
-        int height = getFont()->getHeight();
+        //int height = getFont()->getHeight();
 
-        setHeight(height);
-        setWidth(getFont()->getWidth(mCaption) + height + height / 2);
+        //setHeight(height);
+        //setWidth(getFont()->getWidth(mCaption) + height + height / 2);
+
+        //int w = getFont()->getWidth(mCaption) + 2*getMargins().getWidth() + 2*getFrameSize();
+        //int h = getFont()->getHeight() + 2*getMargins().getHeight() + 2*getFrameSize();
+
+        int w = getFont()->getWidth(mCaption) + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getFont()->getHeight() + getMarginTop() + getMarginBottom() + 2*getBorderSize() + getPaddingTop() + getPaddingBottom();
+        setSize(w, h);
     }
 
     void CheckBox::toggleSelected()

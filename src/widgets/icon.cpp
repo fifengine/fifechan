@@ -87,16 +87,14 @@ namespace fcn
     {
         mImage = Image::load(filename);
         mInternalImage = true;
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+        adjustSize();
     }
 
     Icon::Icon(const Image* image)
         : mImage(image),
           mInternalImage(false)
     {
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+        adjustSize();
     }
 
     Icon::~Icon()
@@ -116,13 +114,22 @@ namespace fcn
 
         mImage = image;
         mInternalImage = false;
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+        adjustSize();
     }
 
     const Image* Icon::getImage() const
     {
         return mImage;
+    }
+
+    void Icon::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
+    void Icon::adjustSize() {
+        if (mImage != NULL) {
+            setSize(mImage->getWidth(), mImage->getHeight());
+        }
     }
 
     void Icon::draw(Graphics* graphics)

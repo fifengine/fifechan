@@ -131,24 +131,6 @@ namespace fcn
         Graphics::Alignment getAlignment() const;
 
         /**
-         * Sets the padding of the window. The padding is the distance between the
-         * window border and the content.
-         *
-         * @param padding The padding of the window.
-         * @see getPadding
-         */
-        void setPadding(unsigned int padding);
-
-        /**
-         * Gets the padding of the window. The padding is the distance between the
-         * window border and the content.
-         *
-         * @return The padding of the window.
-         * @see setPadding
-         */
-        unsigned int getPadding() const;
-
-        /**
          * Sets the title bar height.
          *
          * @param height The title height value.
@@ -163,6 +145,10 @@ namespace fcn
          * @see setTitleBarHeight
          */
         unsigned int getTitleBarHeight() const;
+
+        void setInnerBorderSize(unsigned int border);
+
+        unsigned int getInnerBorderSize() const;
 
         /**
          * Sets the window to be moveble or not.
@@ -197,16 +183,14 @@ namespace fcn
          */
         bool isOpaque() const;
 
-        /**
-         * Resizes the window to fit the content.
-         */
-        virtual void resizeToContent();
-
+        virtual void drawInnerBorder(Graphics* graphics);
 
         // Inherited from BasicContainer
 
+        //virtual void resizeToContent();
+        virtual void adjustSize();
+        //virtual void expandContent();
         virtual Rectangle getChildrenArea();
-
 
         // Inherited from Widget
 
@@ -233,14 +217,14 @@ namespace fcn
         Graphics::Alignment mAlignment;
 
         /**
-         * Holds the padding of the window.
-         */ 
-        unsigned int mPadding;
-
-        /**
          * Holds the title bar height of the window.
          */
         unsigned int mTitleBarHeight;
+
+        /**
+         * Holds the size of the inner border.
+         */
+        unsigned int mInnerBorder;
 
         /**
          * True if the window is movable, false otherwise.

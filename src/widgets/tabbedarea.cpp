@@ -157,7 +157,7 @@ namespace fcn
             if (index == (int)mTabs.size() - 1
                 && mTabs.size() >= 2)
             {
-                tabIndexToBeSelected = index--;
+                tabIndexToBeSelected = index-1;
             }
             else if (index == (int)mTabs.size() - 1
                      && mTabs.size() == 1)
@@ -199,9 +199,9 @@ namespace fcn
         }
         else
         {
+            mWidgetContainer->clear();
             setSelectedTab(tabIndexToBeSelected);
         }
-
         adjustSize();
         adjustTabPositions();
     }
@@ -238,6 +238,9 @@ namespace fcn
 
     void TabbedArea::setSelectedTab(Tab* tab)
     {
+        if (tab == mSelectedTab) {
+            return;
+        }
         unsigned int i;
         for (i = 0; i < mTabs.size(); i++)
         {
@@ -340,6 +343,20 @@ namespace fcn
 
         //drawChildren(graphics);
     }
+    
+    Rectangle TabbedArea::getChildrenArea() {
+        Rectangle rec;
+        rec.x = getXOffset() + getPaddingLeft();
+        rec.y = getYOffset() + getPaddingTop();
+        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom();
+        return rec;
+    }
+
+    void TabbedArea::resizeToContent(bool recursiv) {
+        adjustSize();
+        adjustTabPositions();
+    }
 
     void TabbedArea::adjustSize()
     {
@@ -359,6 +376,9 @@ namespace fcn
         mWidgetContainer->setPosition(1, maxTabHeight + 1);
         mWidgetContainer->setSize(getWidth() - 2,
                                   getHeight() - maxTabHeight - 2);
+        std::cout << "maxTabHeight " << maxTabHeight << "\n";
+        std::cout << "mTabContainer " << mTabContainer->getDimension() << "\n";
+        std::cout << "mWidgetContainer " << mWidgetContainer->getDimension() << "\n";
     }
 
     void TabbedArea::adjustTabPositions()

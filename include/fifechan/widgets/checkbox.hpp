@@ -142,14 +142,11 @@ namespace fcn
          */
         void setCaption(const std::string& caption);
 
-        /**
-         * Adjusts the check box's size to fit the caption.
-         */
-        void adjustSize();
-
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
 

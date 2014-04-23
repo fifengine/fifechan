@@ -464,6 +464,21 @@ namespace fcn
         mScrollArea->setPosition(0, 0);
     }
 
+    void DropDown::resizeToContent(bool recursiv) {
+        if (mScrollArea != NULL) {
+            mScrollArea->resizeToContent();
+        }
+
+        if (mListBox != NULL) {
+            mScrollArea->resizeToContent();
+        }
+        adjustHeight();
+    }
+
+    void DropDown::adjustSize() {
+        adjustHeight();
+    }
+
     void DropDown::dropDown()
     {
         if (!mDroppedDown)
@@ -572,9 +587,9 @@ namespace fcn
         Widget::setForegroundColor(color);
     }
 
-	void DropDown::setFont(Font *font)
-	{
-		if (mInternalScrollArea)
+    void DropDown::setFont(Font *font)
+    {
+        if (mInternalScrollArea)
         {
             mScrollArea->setFont(font);
         }
@@ -585,10 +600,10 @@ namespace fcn
         }
 
         Widget::setFont(font);
-	}
+    }
 
-	void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
-	{
+    void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
+    {
         if (isFocused() && mouseEvent.getSource() == this)
         {                   
             mouseEvent.consume();

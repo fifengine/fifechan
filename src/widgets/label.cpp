@@ -108,6 +108,15 @@ namespace fcn
         return mAlignment;
     }
 
+    void Label::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+    
+    void Label::adjustSize() {
+        setSize(getFont()->getWidth(getCaption()),
+            getFont()->getHeight() );
+    }
+
     void Label::draw(Graphics* graphics)
     {
         int textX;
@@ -131,11 +140,5 @@ namespace fcn
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
         graphics->drawText(getCaption(), textX, textY, getAlignment());
-    }
-
-    void Label::adjustSize()
-    {
-        setWidth(getFont()->getWidth(getCaption()));
-        setHeight(getFont()->getHeight());
     }
 }
