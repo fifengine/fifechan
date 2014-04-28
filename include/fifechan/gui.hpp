@@ -77,6 +77,7 @@
 namespace fcn
 {
     class FocusHandler;
+    class GuiDeathListener;
     class Graphics;
     class Input;
     class KeyListener;
@@ -257,7 +258,14 @@ namespace fcn
          * @param widget Shown widget.
          */
         void enqueueShownWidget(Widget* widget);
-        
+
+        /**
+         * Inform gui that a widget was deleted.
+         * 
+         * @param widget Deleted widget.
+         */
+        void widgetDied(Widget* widget);
+
     protected:
         /**
          * Handles all mouse input.
@@ -526,6 +534,8 @@ namespace fcn
          * when the same button is released.
          */
         int mLastMouseDragButton;
+
+        GuiDeathListener* mDeathListener;
     };
 }
 

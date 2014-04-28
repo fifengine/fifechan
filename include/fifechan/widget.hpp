@@ -1320,6 +1320,8 @@ namespace fcn
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
         
+        static void _setGuiDeathListener(DeathListener* deathListener);
+        static DeathListener* _getGuiDeathListener();
         /**
          * Sets the widget to vertical expandable.
          *
@@ -1394,7 +1396,6 @@ namespace fcn
         int getWOffset() const;
         int getHOffset() const;
         const Rectangle& getOffsetDimension() const;
-
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1744,6 +1745,8 @@ namespace fcn
          *        come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
+
+        static DeathListener* mGuiDeathListener;
 
         /**
          * Holds all children of the widget.
