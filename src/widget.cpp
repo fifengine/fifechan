@@ -181,10 +181,8 @@ namespace fcn
         Color borderColor = getBorderColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
-        int x = mMarginLeft;
-        int y = mMarginTop;
-        int width = getWidth() - mMarginRight - 1;
-        int height = getHeight() - mMarginBottom - 1;
+        int width = getWidth() - 1;
+        int height = getHeight() - 1;
 
         highlightColor = borderColor + 0x303030;
         highlightColor.a = alpha;
@@ -195,11 +193,11 @@ namespace fcn
         for (i = 0; i < getBorderSize(); ++i)
         {
             graphics->setColor(shadowColor);
-            graphics->drawLine(x+i, y+i, width-i, y+i);
-            graphics->drawLine(x+i, y+i+1, x+i, height-i-1);
+            graphics->drawLine(i, i, width-i, i);
+            graphics->drawLine(i, i+1, i, height-i-1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width-i, y+i+1, width-i, height-i);
-            graphics->drawLine(x+i, height-i, width-i-1, height-i);
+            graphics->drawLine(width-i, i+1, width-i, height-i);
+            graphics->drawLine(i, height-i, width-i-1, height-i);
         }
     }
 
@@ -432,7 +430,6 @@ namespace fcn
     void Widget::setBorderSize(unsigned int size)
     {
         mBorderSize = size;
-        calculateStartOffsets();
     }
 
     unsigned int Widget::getBorderSize() const
@@ -446,13 +443,11 @@ namespace fcn
         mMarginRight = margin;
         mMarginBottom = margin;
         mMarginLeft = margin;
-        calculateStartOffsets();
     }
 
     void Widget::setMarginTop(int margin)
     {
         mMarginTop = margin;
-        calculateStartOffsets();
     }
 
     int Widget::getMarginTop() const
@@ -463,7 +458,6 @@ namespace fcn
     void Widget::setMarginRight(int margin)
     {
         mMarginRight = margin;
-        calculateStartOffsets();
     }
 
     int Widget::getMarginRight() const
@@ -474,7 +468,6 @@ namespace fcn
     void Widget::setMarginBottom(int margin)
     {
         mMarginBottom = margin;
-        calculateStartOffsets();
     }
 
     int Widget::getMarginBottom() const
@@ -485,7 +478,6 @@ namespace fcn
     void Widget::setMarginLeft(int margin)
     {
         mMarginLeft = margin;
-        calculateStartOffsets();
     }
 
     int Widget::getMarginLeft() const
@@ -539,45 +531,6 @@ namespace fcn
     unsigned int Widget::getPaddingLeft() const
     {
         return mPaddingLeft;
-    }
-
-    void Widget::calculateStartOffsets()
-    {
-        Rectangle rec(mBorderSize, mBorderSize, -(2*mBorderSize), -(2*mBorderSize));
-
-        rec.x += mMarginLeft;
-        rec.y += mMarginTop;
-        rec.width -= mMarginLeft;
-        rec.width -= mMarginRight;
-        rec.height -= mMarginTop;
-        rec.height -= mMarginBottom;
-
-        mOffsetRect = rec;
-    }
-
-    int Widget::getXOffset() const
-    {
-        return mOffsetRect.x;
-    }
-
-    int Widget::getYOffset() const
-    {
-        return mOffsetRect.y;
-    }
-
-    int Widget::getWOffset() const
-    {
-        return mOffsetRect.width;
-    }
-
-    int Widget::getHOffset() const
-    {
-        return mOffsetRect.height;
-    }
-
-    const Rectangle& Widget::getOffsetDimension() const
-    {
-        return mOffsetRect;
     }
 
     const Rectangle& Widget::getDimension() const

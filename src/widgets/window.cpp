@@ -153,10 +153,10 @@ namespace fcn
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
 
-        int x = getXOffset() + getPaddingLeft();
-        int y = getYOffset() + getPaddingTop() + getTitleBarHeight();
-        int width = getWidth() - getMarginRight() - getBorderSize() - getPaddingRight() - 1;
-        int height = getHeight() - getMarginBottom() - getBorderSize() - getPaddingBottom() - 1;
+        int x = getBorderSize() + getPaddingLeft();
+        int y = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        int width = getWidth() - getBorderSize() - getPaddingRight() - 1;
+        int height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
 
         unsigned int i;
         for (i = 0; i < getInnerBorderSize(); ++i) {
@@ -181,7 +181,8 @@ namespace fcn
         if (isOpaque()) {
             // Fill the background around the content
             graphics->setColor(faceColor);
-            graphics->fillRectangle(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            graphics->fillRectangle(getBorderSize(), getBorderSize(),
+                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         if (mBackgroundWidget) {
             mBackgroundWidget->_draw(graphics);
@@ -202,19 +203,21 @@ namespace fcn
         switch (getAlignment())
         {
           case Graphics::Left:
-              textX = getPaddingLeft();
+              textX = 0;
               break;
           case Graphics::Center:
-              textX = (getWidth() + getWOffset()) / 2;
+              textX = (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight()) / 2;
               break;
           case Graphics::Right:
-              textX = (getWidth() + getWOffset()) - getPaddingRight();
+              textX = getWidth() - getBorderSize() - getPaddingRight();
               break;
           default:
               throw FCN_EXCEPTION("Unknown alignment.");
         }
         // text clip area
-        Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getTitleBarHeight() - 1);
+        Rectangle rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(),
+            getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
+            getTitleBarHeight() - 1);
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
@@ -238,7 +241,7 @@ namespace fcn
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
-        int height = getMarginTop() + getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        int height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
         mMoved = mouseEvent.getY() <= height;
     }
 
@@ -266,21 +269,21 @@ namespace fcn
     void Window::adjustSize() {
         resizeToChildren();
         if (mBackgroundWidget) {
-            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
             mBackgroundWidget->setDimension(rec);
         }
-        int w = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight() - 2*getInnerBorderSize();
-        int h = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom() - 2*getInnerBorderSize() - getTitleBarHeight();
+        int w = getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 2 * getInnerBorderSize();
+        int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + 2 * getInnerBorderSize() + getTitleBarHeight();
         setSize(w, h);
     }
 
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;
-        rec.x = getXOffset() + getPaddingLeft() + getInnerBorderSize();
-        rec.y = getYOffset() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
-        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight() - 2*getInnerBorderSize();
-        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom() - 2*getInnerBorderSize() - getTitleBarHeight();
+        rec.x = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
+        rec.y = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
+        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight() - 2*getInnerBorderSize();
+        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() - 2*getInnerBorderSize() - getTitleBarHeight();
         return rec;
     }
 

@@ -131,10 +131,10 @@ namespace fcn
 
     Rectangle Tab::getChildrenArea() {
         Rectangle rec;
-        rec.x = getXOffset() + getPaddingLeft();
-        rec.y = getYOffset() + getPaddingTop();
-        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom();
+        rec.x = getBorderSize() + getPaddingLeft();
+        rec.y = getBorderSize() + getPaddingTop();
+        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 

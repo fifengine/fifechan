@@ -154,38 +154,27 @@ namespace fcn
         }
 
         graphics->setColor(faceColor);
-        //graphics->fillRectangle(1, 1, getDimension().width-1, getHeight() - 1);
-        const Rectangle& offsetRec = getOffsetDimension();
-        graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() + offsetRec.width - 1, getHeight() + offsetRec.height - 1);
+        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
 
         if (getBorderSize() > 0) {
             drawBorder(graphics);
         }
 
-        /*graphics->setColor(highlightColor);
-        graphics->drawLine(0, 0, getWidth() - 1, 0);
-        graphics->drawLine(0, 1, 0, getHeight() - 1);
-
-        graphics->setColor(shadowColor);
-        graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
-        graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);*/
-
         graphics->setColor(getForegroundColor());
 
         int textX;
-        //int textY = getHeight() / 2 - getFont()->getHeight() / 2;
-        //int textY = ((getHeight() - (getMarginTop() + getMarginBottom() + getPaddingTop() + getPaddingBottom() + 2*getBorderSize())) - getFont()->getHeight()) / 2;
-        int textY = (getHeight() - getFont()->getHeight()) / 2;
+        int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
         switch (getAlignment())
         {
           case Graphics::Left:
-              textX = getMarginLeft() + getBorderSize() + getPaddingLeft();
+              textX = offsetRec.x + getPaddingLeft();
               break;
           case Graphics::Center:
-              textX = getWidth()  / 2;
+              textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
               break;
           case Graphics::Right:
-              textX = getWidth() - (getMarginRight() + getBorderSize() + getPaddingRight());
+              textX = getWidth() - offsetRec.x - getPaddingRight();
               break;
           default:
               throw FCN_EXCEPTION("Unknown alignment.");
@@ -215,15 +204,8 @@ namespace fcn
 
     void Button::adjustSize()
     {
-        /*int w = getFont()->getWidth(mCaption) + 2*mSpacing + 2*getMargins().getWidth() + 2*getFrameSize();
-        int h = getFont()->getHeight() + 2*mSpacing + 2*getMargins().getHeight() + 2*getFrameSize();*/
-        
-        //int w = getFont()->getWidth(mCaption) + 2*mSpacing + 2*getMargins().getWidth();
-        //int h = getFont()->getHeight() + 2*mSpacing + 2*getMargins().getHeight();
-        //std::cout << "w " << w << "  h " << h << "\n";
-
-        int w = getFont()->getWidth(mCaption) + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = getFont()->getHeight() + getMarginTop() + getMarginBottom() + 2*getBorderSize() + getPaddingTop() + getPaddingBottom();
+        int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 

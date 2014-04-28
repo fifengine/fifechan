@@ -39,6 +39,9 @@ namespace fcn
     {
         mContents = new Container;
         mContents->setPosition(0, 0);
+        mContents->setLayout(Container::Horizontal);
+        mContents->setHorizontalSpacing(0);
+        mContents->setVerticalSpacing(0);
         add(mContents);
     }
     
@@ -53,6 +56,9 @@ namespace fcn
     {
         mContents = new Container;
         mContents->setPosition(0, 0);
+        mContents->setLayout(Container::Horizontal);
+        mContents->setHorizontalSpacing(0);
+        mContents->setVerticalSpacing(0);
         add(mContents);
         
         mIcons.reserve(maxIcons);
@@ -73,6 +79,9 @@ namespace fcn
         
         mContents = new Container;
         mContents->setPosition(0, 0);
+        mContents->setLayout(Container::Horizontal);
+        mContents->setHorizontalSpacing(0);
+        mContents->setVerticalSpacing(0);
         add(mContents);
         
         mIcons.reserve(maxIcons);
@@ -94,12 +103,12 @@ namespace fcn
     
     void IconProgressBar::draw(Graphics* graphics)
     {
-        mContents->draw(graphics);
+        //mContents->draw(graphics);
     }
     
     Rectangle IconProgressBar::getChildrenArea()
     {
-        return mContents->getChildrenArea();
+        return mContents->getDimension();
     }
     
     void IconProgressBar::setOpaque(bool opaque)
@@ -152,7 +161,11 @@ namespace fcn
     void IconProgressBar::setOrientation(Orientation orientation)
     {
         mOrientation = orientation;
-        
+        if (mOrientation == HORIZONTAL) {
+            mContents->setLayout(Container::Horizontal);
+        } else if (mOrientation == VERTICAL) {
+            mContents->setLayout(Container::Vertical);
+        }
         arrangeIcons();
     }
     
@@ -219,28 +232,18 @@ namespace fcn
     
     void IconProgressBar::arrangeIcons()
     {
-        int lastPos = 0;
-        
-        for(int i = 0; i < mMaxIcons; i++)
-        {            
-            if(mOrientation == HORIZONTAL)
-            {
-                mIcons[i]->setPosition(lastPos, 0);
-                lastPos = lastPos + mIcons[i]->getWidth();
-            }
-            else if(mOrientation == VERTICAL)
-            {
-                mIcons[i]->setPosition(0, lastPos);
-                lastPos = lastPos + mIcons[i]->getHeight();
-            }
-            else
-            {
-                throw FCN_EXCEPTION("Unknown orientation type in IconProgressBar object");
-            }
-        }
-        
+        // FIXME
+        mContents->setBorderSize(getBorderSize());
+        mContents->setMarginTop(getMarginTop());
+        mContents->setMarginRight(getMarginRight());
+        mContents->setMarginBottom(getMarginBottom());
+        mContents->setMarginLeft(getMarginLeft());
+        mContents->setPaddingTop(getPaddingTop());
+        mContents->setPaddingRight(getPaddingRight());
+        mContents->setPaddingBottom(getPaddingBottom());
+        mContents->setPaddingLeft(getPaddingLeft());
         mContents->resizeToContent();
-        resizeToChildren();
+        setSize(mContents->getWidth(), mContents->getHeight());
     }
 
     void IconProgressBar::resizeToContent(bool recursiv) {

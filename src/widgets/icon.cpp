@@ -128,7 +128,8 @@ namespace fcn
 
     void Icon::adjustSize() {
         if (mImage != NULL) {
-            setSize(mImage->getWidth(), mImage->getHeight());
+            setSize(mImage->getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight(),
+                mImage->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom());
         }
     }
 
@@ -136,8 +137,8 @@ namespace fcn
     {
         if (mImage != NULL)
         {
-            const int x = (getWidth() - mImage->getWidth()) / 2;
-            const int y = (getHeight() - mImage->getHeight()) / 2;
+            const int x = getBorderSize() + getPaddingLeft() + (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight() - mImage->getWidth()) / 2;
+            const int y = getBorderSize() + getPaddingTop() + (getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() - mImage->getHeight()) / 2;
             graphics->drawImage(mImage, x, y);
         }
     }

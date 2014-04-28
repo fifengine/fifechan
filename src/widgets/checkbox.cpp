@@ -199,16 +199,8 @@ namespace fcn
 
     void CheckBox::adjustSize()
     {
-        //int height = getFont()->getHeight();
-
-        //setHeight(height);
-        //setWidth(getFont()->getWidth(mCaption) + height + height / 2);
-
-        //int w = getFont()->getWidth(mCaption) + 2*getMargins().getWidth() + 2*getFrameSize();
-        //int h = getFont()->getHeight() + 2*getMargins().getHeight() + 2*getFrameSize();
-
-        int w = getFont()->getWidth(mCaption) + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = getFont()->getHeight() + getMarginTop() + getMarginBottom() + 2*getBorderSize() + getPaddingTop() + getPaddingBottom();
+        int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 

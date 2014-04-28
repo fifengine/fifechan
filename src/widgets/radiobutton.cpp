@@ -315,9 +315,10 @@ namespace fcn
 
     void RadioButton::adjustSize()
     {
-        int height = getFont()->getHeight();
-
+        int height = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        // because of the radio button we need the additional 1.5 height
+        int width = getFont()->getWidth(getCaption()) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 1.5 * height;
+        setWidth(width);
         setHeight(height);
-        setWidth(getFont()->getWidth(getCaption()) + height + height/2);
     }
 }

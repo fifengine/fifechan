@@ -94,8 +94,8 @@ namespace fcn
         if (isOpaque())
         {
             graphics->setColor(getBaseColor());
-            graphics->fillRectangle(getXOffset(), getYOffset(),
-                getWidth() + getWOffset(), getHeight() + getHOffset());
+            graphics->fillRectangle(getBorderSize(), getBorderSize(),
+                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         if (mBackgroundWidget) {
             mBackgroundWidget->_draw(graphics);
@@ -198,6 +198,8 @@ namespace fcn
 
         int childMaxW = 0;
         int childMaxH = 0;
+        int layoutMaxW = 0;
+        int layoutMaxH = 0;
         int totalW = 0;
         int totalH = 0;
         int visibleChilds = 0;
@@ -214,10 +216,12 @@ namespace fcn
             const Rectangle& rec = (*currChild)->getDimension();
             childMaxW = std::max(childMaxW, rec.width);
             childMaxH = std::max(childMaxH, rec.height);
+            layoutMaxW = std::max(layoutMaxW, rec.width + (*currChild)->getMarginLeft() + (*currChild)->getMarginRight());
+            layoutMaxH = std::max(layoutMaxH, rec.height + (*currChild)->getMarginTop() + (*currChild)->getMarginBottom());
             ++visibleChilds;
         }
 
-        // diff means e.g. margin, border, padding, ...
+        // diff means border, padding, ...
         int diffW = getDimension().width - getChildrenArea().width;
         int diffH = getDimension().height - getChildrenArea().height;
         Rectangle dimensions(0, 0, childMaxW, childMaxH);
@@ -229,13 +233,17 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
+                dimensions.x = (*currChild)->getMarginLeft();
+                dimensions.y += (*currChild)->getMarginTop();
+                int layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() + ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
+                dimensions.width = (*currChild)->getWidth() + (layoutMaxW  - layoutW);
                 dimensions.height = (*currChild)->getHeight();
                 (*currChild)->setDimension(dimensions);
-                dimensions.y += (*currChild)->getHeight() + getVerticalSpacing();
+                dimensions.y += (*currChild)->getHeight() + (*currChild)->getMarginBottom() + getVerticalSpacing();
             }
             // remove last spacing
             dimensions.y -= getVerticalSpacing();
-            totalW = childMaxW + diffW;
+            totalW = std::max(layoutMaxW, childMaxW) + diffW;
             totalH = dimensions.y + diffH;
         } else if (mLayout == Horizontal && visibleChilds > 0) {
             currChild = mChildren.begin();
@@ -244,14 +252,18 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
+                dimensions.x += (*currChild)->getMarginLeft();
+                dimensions.y = (*currChild)->getMarginTop();
                 dimensions.width = (*currChild)->getWidth();
+                int layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() + ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
+                dimensions.height = (*currChild)->getHeight() + (layoutMaxH  - layoutH);
                 (*currChild)->setDimension(dimensions);
-                dimensions.x += (*currChild)->getWidth() + getHorizontalSpacing();
+                dimensions.x += (*currChild)->getWidth() + (*currChild)->getMarginRight() + getHorizontalSpacing();
             }
             // remove last spacing
             dimensions.x -= getHorizontalSpacing();
             totalW = dimensions.x + diffW;
-            totalH = childMaxH + diffH;
+            totalH = std::max(layoutMaxH, childMaxH) + diffH;
         } else if (mLayout == Circular && visibleChilds > 0) {
             const float pi = 3.141592653589793;
             const float angle = 360.0 / visibleChilds;
@@ -289,7 +301,7 @@ namespace fcn
             totalH = h + diffH;
         }
         if (mBackgroundWidget) {
-            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
             mBackgroundWidget->setDimension(rec);
         }
         setSize(totalW, totalH);
@@ -298,11 +310,11 @@ namespace fcn
     void Container::adjustSize() {
         resizeToChildren();
         if (mBackgroundWidget) {
-            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
             mBackgroundWidget->setDimension(rec);
         }
-        int w = getWidth() + getMarginLeft() + getMarginRight() + 2*getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = getHeight() + getMarginTop() + getMarginBottom() + 2+getBorderSize() + getPaddingTop() + getPaddingBottom();
+        int w = getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 
@@ -334,12 +346,14 @@ namespace fcn
         int maxVExpander = 0;
         int expanderNeededSpaceW = 0;
         int expanderNeededSpaceH = 0;
+        int expanderMarginW = 0;
+        int expanderMarginH = 0;
         unsigned int visibleChilds = 0;
         std::list<Widget*> hExpander;
         std::list<Widget*> vExpander;
 
         if (mBackgroundWidget) {
-            Rectangle rec(getXOffset(), getYOffset(), getWidth() + getWOffset(), getHeight() + getHOffset());
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
             mBackgroundWidget->setDimension(rec);
         }
 
@@ -351,14 +365,15 @@ namespace fcn
             }
             ++visibleChilds;
             // get needed space
-            neededSpaceW += (*currChild)->getWidth() + getHorizontalSpacing();
-            neededSpaceH += (*currChild)->getHeight() + getVerticalSpacing();
+            neededSpaceW += (*currChild)->getWidth() + (*currChild)->getMarginLeft() + (*currChild)->getMarginRight() + getHorizontalSpacing();
+            neededSpaceH += (*currChild)->getHeight() + (*currChild)->getMarginTop() + (*currChild)->getMarginBottom() + getVerticalSpacing();
             // get expander and expander max/min size
             if ((*currChild)->isVerticalExpand()) {
                 maxVExpander = std::max(maxVExpander, (*currChild)->getHeight());
                 maxMinH = std::max(maxMinH, (*currChild)->getMinSize().getHeight());
                 minMaxH = std::min(minMaxH, (*currChild)->getMaxSize().getHeight());
                 expanderNeededSpaceH += (*currChild)->getHeight() + getVerticalSpacing();
+                expanderMarginH += (*currChild)->getMarginTop() + (*currChild)->getMarginBottom();
                 vExpander.push_back((*currChild));
             }
             if ((*currChild)->isHorizontalExpand()) {
@@ -366,6 +381,7 @@ namespace fcn
                 maxMinW = std::max(maxMinW, (*currChild)->getMinSize().getWidth());
                 minMaxW = std::min(minMaxW, (*currChild)->getMaxSize().getWidth());
                 expanderNeededSpaceW += (*currChild)->getWidth() + getHorizontalSpacing();
+                expanderMarginW += (*currChild)->getMarginLeft() + (*currChild)->getMarginRight();
                 hExpander.push_back((*currChild));
             }
         }
@@ -399,8 +415,9 @@ namespace fcn
                     std::list<Widget*>::iterator it = vExpander.begin();
                     int expanders = vExpander.size();
                     for (; it != vExpander.end(); ++it) {
+                        int layoutH = (*it)->getHeight() + (*it)->getMarginTop() + ((*it)->getMarginBottom() > 0 ? (*it)->getMarginBottom() : 0);
                         // divide the space so that all expanders get the same size
-                        int diff = h > 0 ? 0 : maxVExpander - (*it)->getHeight();
+                        int diff = h > 0 ? 0 : (*it)->getHeight() + (maxVExpander  - layoutH);
                         int delta = ((freeSpace-diff) / expanders) + diff;
                         if (delta == 0) {
                             delta = 1;
@@ -428,13 +445,16 @@ namespace fcn
                         continue;
                     }
                     if (hexpand || (*currChild)->isHorizontalExpand()) {
-                        rec.width = spaceW;
+                        int layoutW = (*currChild)->getMarginLeft() + ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
+                        rec.width = spaceW-layoutW;
                     } else {
                         rec.width = (*currChild)->getWidth();
                     }
+                    rec.x = (*currChild)->getMarginLeft();
+                    rec.y += (*currChild)->getMarginTop();
                     rec.height = (*currChild)->getHeight();
                     (*currChild)->setDimension(rec);
-                    rec.y += rec.height + getVerticalSpacing();
+                    rec.y += rec.height + (*currChild)->getMarginBottom() + getVerticalSpacing();
                 }
             }
         } else if (mLayout == Horizontal && visibleChilds > 0) {
@@ -467,7 +487,8 @@ namespace fcn
                     int expanders = hExpander.size();
                     for (; it != hExpander.end(); ++it) {
                         // divide the space so that all expanders get the same size
-                        int diff = w > 0 ? 0 : maxHExpander - (*it)->getWidth();
+                        int layoutW = (*it)->getWidth() + (*it)->getMarginLeft() + ((*it)->getMarginRight() > 0 ? (*it)->getMarginRight() : 0);
+                        int diff = w > 0 ? 0 : (*it)->getWidth() + (maxHExpander  - layoutW);
                         int delta = ((freeSpace-diff) / expanders) + diff;
                         if (delta == 0) {
                             delta = 1;
@@ -495,13 +516,16 @@ namespace fcn
                         continue;
                     }
                     if (vexpand || (*currChild)->isVerticalExpand()) {
-                        rec.height = spaceH;
+                        int layoutH = (*currChild)->getMarginTop() + ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
+                        rec.height= spaceH-layoutH;
                     } else {
                         rec.height = (*currChild)->getHeight();
                     }
+                    rec.x += (*currChild)->getMarginLeft();
+                    rec.y = (*currChild)->getMarginTop();
                     rec.width = (*currChild)->getWidth();
                     (*currChild)->setDimension(rec);
-                    rec.x += rec.width + getHorizontalSpacing();
+                    rec.x += rec.width + (*currChild)->getMarginRight() + getHorizontalSpacing();
                 }
             }
         }else if (mLayout == Circular && visibleChilds > 0) {
@@ -565,10 +589,10 @@ namespace fcn
 
     Rectangle Container::getChildrenArea() {
         Rectangle rec;
-        rec.x = getXOffset() + getPaddingLeft();
-        rec.y = getYOffset() + getPaddingTop();
-        rec.width = getWidth() + getWOffset() - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() + getHOffset() - getPaddingTop() - getPaddingBottom();
+        rec.x = getBorderSize() + getPaddingLeft();
+        rec.y = getBorderSize() + getPaddingTop();
+        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 

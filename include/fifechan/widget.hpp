@@ -1322,6 +1322,7 @@ namespace fcn
         
         static void _setGuiDeathListener(DeathListener* deathListener);
         static DeathListener* _getGuiDeathListener();
+
         /**
          * Sets the widget to vertical expandable.
          *
@@ -1389,13 +1390,6 @@ namespace fcn
          */
         virtual bool isLayouted() { return false; }
 
-        virtual void calculateStartOffsets();
-
-        int getXOffset() const;
-        int getYOffset() const;
-        int getWOffset() const;
-        int getHOffset() const;
-        const Rectangle& getOffsetDimension() const;
     protected:
         /**
          * Distributes an action event to all action listeners

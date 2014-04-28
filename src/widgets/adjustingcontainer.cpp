@@ -117,10 +117,8 @@ namespace fcn
     void AdjustingContainer::setColumnAlignment(unsigned int column,
                                                 unsigned int alignment)
     {
-        std::cout << "setColumnAlignment 1 \n";
         if (column < mColumnAlignment.size())
         {
-            std::cout << "setColumnAlignment column " << column << "  alignment " << alignment << "\n";
             mColumnAlignment[column] = alignment;
         }
     }
@@ -143,10 +141,10 @@ namespace fcn
 
     Rectangle AdjustingContainer::getChildrenArea() {
         Rectangle rec;
-        rec.x = getXOffset();
-        rec.y = getYOffset();
-        rec.width = getWidth() + getWOffset();
-        rec.height = getHeight() + getHOffset();
+        rec.x = getBorderSize();
+        rec.y = getBorderSize();
+        rec.width = getWidth() - 2 * getBorderSize();
+        rec.height = getHeight() - 2 * getBorderSize();
         return rec;
     }
 
@@ -242,8 +240,8 @@ namespace fcn
         
         mHeight -= mVerticalSpacing;
         mHeight += mPaddingBottom;
-        setHeight(mHeight);
-        setWidth(mWidth);
+        setHeight(mHeight + 2 * getBorderSize());
+        setWidth(mWidth + 2 * getBorderSize());
     }
 
     void AdjustingContainer::adjustContent()
