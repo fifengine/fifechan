@@ -1390,6 +1390,10 @@ namespace fcn
          */
         virtual bool isLayouted() { return false; }
 
+        void getLastPosition(int& x, int& y) const;
+        void setLastPosition(int x, int y);
+        bool isLastPositionSet() const;
+
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1591,7 +1595,7 @@ namespace fcn
          */
         Rectangle mDimension;
 
-		/**
+        /**
          * Holds the offset dimension of the widget.
          */
         Rectangle mOffsetRect;
@@ -1746,6 +1750,9 @@ namespace fcn
          * Holds all children of the widget.
          */
         std::list<Widget*> mChildren;
+
+        int mLastX;
+        int mLastY;
     };
 }
 

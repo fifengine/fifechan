@@ -124,7 +124,9 @@ namespace fcn
               mFixedSize(0, 0),
               mIsFixedSize(false),
               mVExpand(false),
-              mHExpand(false)
+              mHExpand(false),
+              mLastX(0),
+              mLastY(0)
     {
         mWidgetInstances.push_back(this);
     }
@@ -816,8 +818,13 @@ namespace fcn
     {
         if (getParent() == NULL)
         {
-            x = mDimension.x;
-            y = mDimension.y;
+            if (isLastPositionSet()) {
+                x = mLastX;
+                y = mLastY;
+            } else {
+                x = mDimension.x;
+                y = mDimension.y;
+            }
             return;
         }
 
@@ -1254,8 +1261,15 @@ namespace fcn
         for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
         {
             Widget* widget = (*iter);
+            int x = 0;
+            int y = 0;
+            widget->getAbsolutePosition(x, y);
+            widget->setLastPosition(x, y);
             widget->_setFocusHandler(NULL);
             widget->_setParent(NULL);
+            // thats more a hack but needed
+            if (_getVisibilityEventHandler())
+                _getVisibilityEventHandler()->widgetHidden(Event(widget));
         }
 
         mChildren.clear();
@@ -1268,9 +1282,16 @@ namespace fcn
         {
             if (*iter == widget)
             {
+                int x = 0;
+                int y = 0;
+                widget->getAbsolutePosition(x, y);
+                widget->setLastPosition(x, y);
                 mChildren.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
+                // thats more a hack but needed
+                if (_getVisibilityEventHandler())
+                    _getVisibilityEventHandler()->widgetHidden(Event(widget));
                 return;
             }
         }
@@ -1288,6 +1309,10 @@ namespace fcn
             widget->_setFocusHandler(mInternalFocusHandler);
 
         widget->_setParent(this);
+        setLastPosition(0, 0);
+        // thats more a hack but needed
+        if (_getVisibilityEventHandler())
+            _getVisibilityEventHandler()->widgetShown(Event(widget));
     }
 
     void Widget::moveToTop(Widget* widget)
@@ -1421,5 +1446,19 @@ namespace fcn
     const std::list<Widget*>& Widget::getChildren() const
     {
         return mChildren;
+    }
+
+    void Widget::getLastPosition(int& x, int& y) const {
+        x = mLastX;
+        y = mLastY;
+    }
+
+    void Widget::setLastPosition(int x, int y) {
+        mLastX = x;
+        mLastY = y;
+    }
+
+    bool Widget::isLastPositionSet() const {
+        return mLastX != 0 || mLastY != 0;
     }
 }
