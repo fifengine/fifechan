@@ -1071,6 +1071,10 @@ namespace fcn
         static void _setGuiDeathListener(DeathListener* deathListener);
         static DeathListener* _getGuiDeathListener();
 
+		void getLastPosition(int& x, int& y) const;
+        void setLastPosition(int x, int y);
+        bool isLastPositionSet() const;
+
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1342,6 +1346,9 @@ namespace fcn
          * Holds all children of the widget.
          */
         std::list<Widget*> mChildren;
+
+        int mLastX;
+        int mLastY;
     };
 }
 
