@@ -110,7 +110,7 @@ namespace fcn
         }
     }
 
-    unsigned int AdjustingContainer::getNumberOfColums() const {
+    unsigned int AdjustingContainer::getNumberOfColumns() const {
         return mNumberOfColumns;
     }
 
@@ -123,7 +123,7 @@ namespace fcn
         }
     }
 
-    unsigned int AdjustingContainer::getColumAlignment(unsigned int column) const {
+    unsigned int AdjustingContainer::getColumnAlignment(unsigned int column) const {
         if (column < mColumnAlignment.size()){
             return mColumnAlignment[column];
         }

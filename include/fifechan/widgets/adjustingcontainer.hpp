@@ -168,7 +168,7 @@ namespace fcn
          *
          * @return The number of columns.
          */
-        virtual unsigned int getNumberOfColums() const;
+        virtual unsigned int getNumberOfColumns() const;
 
         /**
          * Set a specific column's alignment.
@@ -184,7 +184,7 @@ namespace fcn
          * @param column the column number, starting from 0.
          * @return The column's alignment. See enum with alignments.
          */
-        virtual unsigned int getColumAlignment(unsigned int column) const;
+        virtual unsigned int getColumnAlignment(unsigned int column) const;
 
         /**
          * Rearrange the widgets and resize the container.
