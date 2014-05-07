@@ -1102,6 +1102,9 @@ namespace fcn
     
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
+        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        _getVisibilityEventHandler()->widgetHidden(Event(this));
+
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
         std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
         Event event(ancestor);
@@ -1122,6 +1125,9 @@ namespace fcn
     
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
+        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        _getVisibilityEventHandler()->widgetShown(Event(this));
+
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
         std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
         Event event(ancestor);
