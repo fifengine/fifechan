@@ -74,10 +74,10 @@
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
+#include "fifechan/widgets/container.hpp"
 
 namespace fcn
 {
-    class Container;
     class Tab;
 
     /**
@@ -127,16 +127,6 @@ namespace fcn
          * @see setOpaque
          */
         bool isOpaque() const;
-
-        /**
-         * Adds a tab to the tabbed area. The newly created tab will be
-         * automatically deleted by the tabbed area when it is removed.
-         *
-         * @param caption The caption of the tab to add.
-         * @param widget The widget to view when the tab is selected.
-         * @see removeTab, removeTabWithIndex
-         */
-        virtual void addTab(const std::string& caption, Widget* widget);
 
         /**
          * Adds a tab to the tabbed area. The tab will not be deleted by the
@@ -221,10 +211,11 @@ namespace fcn
          */
         Tab* getSelectedTab() const;
 
-
         // Inherited from Widget
 
         virtual void resizeToContent(bool recursiv=true);
+
+        virtual void expandContent(bool recursiv=true);
 
         /**
          * Adjusts the size of the tab container and the widget container.
@@ -245,6 +236,26 @@ namespace fcn
 
         void setBaseColor(const Color& color);
 
+        void setBackgroundWidget(Widget* widget);
+        Widget* getBackgroundWidget();
+
+        /**
+         * Sets the layout of the tabbedarea.
+         * @see LayoutPolicy
+         *
+         * @param policy The LayoutPolicy of the tabbedarea.
+         * @see getLayout
+         */
+        void setLayout(Container::LayoutPolicy policy);
+
+        /**
+         * Gets the layout of the tabbedarea.
+         * @see LayoutPolicy
+         *
+         * @return The LayoutPolicy of the tabbedarea.
+         * @see setLayout
+         */
+        Container::LayoutPolicy getLayout() const;
 
         // Inherited from ActionListener
 
