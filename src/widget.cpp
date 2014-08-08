@@ -127,8 +127,11 @@ namespace fcn
             Event event(this);
             (*deathIter)->death(event);
         }
-        Event event(this);
-        mGuiDeathListener->death(event);
+        
+        if (mGuiDeathListener) {
+            Event event(this);
+            mGuiDeathListener->death(event);
+        }
         
         _setFocusHandler(NULL);
 
