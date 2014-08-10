@@ -10,6 +10,7 @@ SET(MINOR_VERSION 1)
 SET(PATCH_LEVEL 2)
 SET(${PROJECT_NAME}_SOVERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
+SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 
 # set default cmake build type to RelWithDebInfo (None Debug Release RelWithDebInfo MinSizeRel)
 #IF( NOT CMAKE_BUILD_TYPE )
