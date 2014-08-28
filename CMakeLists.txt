@@ -59,6 +59,7 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/size.hpp
   include/fifechan/text.hpp
   include/fifechan/utf8stringeditor.hpp
+  include/fifechan/version.hpp
   include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp

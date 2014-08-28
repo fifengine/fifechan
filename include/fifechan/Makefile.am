@@ -41,6 +41,7 @@ libfifechaninclude_HEADERS =	   \
 	selectionlistener.hpp	   \
 	sdl.hpp			   \
 	text.hpp		   \
+	version.hpp		   \
 	visibilityeventhandler.hpp \
 	widget.hpp		   \
 	widgetlistener.hpp
