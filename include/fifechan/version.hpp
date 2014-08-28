@@ -1,9 +1,9 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
+ *   Copyright (C) 2012 by the FCNchan team                               *
+ *   http://FCNchan.github.com/FCNchan                                   *
+ *   This file is part of FCNchan.                                        *
  *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
+ *   FCNchan is free software; you can redistribute it and/or             *
  *   modify it under the terms of the GNU Lesser General Public            *
  *   License as published by the Free Software Foundation; either          *
  *   version 2.1 of the License, or (at your option) any later version.    *
@@ -62,79 +62,155 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FCN_FIFECHAN_HPP
-#define FCN_FIFECAHN_HPP
+#ifndef FCN_VERSION_HPP
+#define FCN_VERSION_HPP
 
-#include <fifechan/actionevent.hpp>
-#include <fifechan/actionlistener.hpp>
-#include <fifechan/cliprectangle.hpp>
-#include <fifechan/color.hpp>
-#include <fifechan/containerevent.hpp>
-#include <fifechan/containerlistener.hpp>
-#include <fifechan/deathlistener.hpp>
-#include <fifechan/event.hpp>
-#include <fifechan/exception.hpp>
-#include <fifechan/focushandler.hpp>
-#include <fifechan/focuslistener.hpp>
-#include <fifechan/font.hpp>
-#include <fifechan/genericinput.hpp>
-#include <fifechan/graphics.hpp>
-#include <fifechan/gui.hpp>
-#include <fifechan/image.hpp>
-#include <fifechan/imagefont.hpp>
-#include <fifechan/imageloader.hpp>
-#include <fifechan/input.hpp>
-#include <fifechan/inputevent.hpp>
-#include <fifechan/key.hpp>
-#include <fifechan/keyevent.hpp>
-#include <fifechan/keyinput.hpp>
-#include <fifechan/keylistener.hpp>
-#include <fifechan/listmodel.hpp>
-#include <fifechan/mouseevent.hpp>
-#include <fifechan/mouseinput.hpp>
-#include <fifechan/mouselistener.hpp>
-#include <fifechan/rectangle.hpp>
-#include <fifechan/selectionevent.hpp>
-#include <fifechan/selectionlistener.hpp>
-#include <fifechan/size.hpp>
-#include <fifechan/widget.hpp>
-#include <fifechan/widgetlistener.hpp>
-#include <fifechan/widgets/adjustingcontainer.hpp>
-#include <fifechan/widgets/button.hpp>
-#include <fifechan/widgets/checkbox.hpp>
-#include <fifechan/widgets/container.hpp>
-#include <fifechan/widgets/dropdown.hpp>
-#include <fifechan/widgets/icon.hpp>
-#include <fifechan/widgets/iconprogressbar.hpp>
-#include <fifechan/widgets/imagebutton.hpp>
-#include <fifechan/widgets/label.hpp>
-#include <fifechan/widgets/listbox.hpp>
-#include <fifechan/widgets/passwordfield.hpp>
-#include <fifechan/widgets/scrollarea.hpp>
-#include <fifechan/widgets/slider.hpp>
-#include <fifechan/widgets/spacer.hpp>
-#include <fifechan/widgets/radiobutton.hpp>
-#include <fifechan/widgets/tab.hpp>
-#include <fifechan/widgets/tabbedarea.hpp>
-#include <fifechan/widgets/textbox.hpp>
-#include <fifechan/widgets/textfield.hpp>
-#include <fifechan/widgets/window.hpp>
+/** These version numbers should be checked and updated
+ * as part of the release process for Fifechan.
+ */
+#ifndef FCN_MAJOR_VERSION
+	#define FCN_MAJOR_VERSION 0
+#endif
+#ifndef FCN_MINOR_VERSION
+	#define FCN_MINOR_VERSION 2
+#endif
+#ifndef FCN_PATCH_VERSION
+	#define FCN_PATCH_VERSION 0
+#endif
 
-#include "fifechan/platform.hpp"
-#include "fifechan/version.hpp"
+/** Types
+ *  0 = none (pre-release info is not appended to the version in this case)
+ *  1 = alpha
+ *  2 = beta
+ *  3 = rc
+ */
+#ifndef FCN_PRERELEASE_TYPE
+	#define FCN_PRERELEASE_TYPE 0
+#endif
+#ifndef FCN_PRERELEASE_VERSION
+	#define FCN_PRERELEASE_VERSION 0
+#endif
+
+/***************************************************************************
+ * Do not update anything below this line!
+ ***************************************************************************/
+
+#define FCN_STR(s)			# s
+#define FCN_XSTR(s)		FCN_STR(s)
+
+#define FCN_DOT(a,b)		a.b
+#define FCN_XDOT(a,b)		FCN_DOT(a,b)
+
+#define FCN_PLUS(a,b)		a+b
+#define FCN_XPLUS(a,b)		FCN_PLUS(a,b)
+
+#define FCN_MINUS(a,b)		a-b
+#define FCN_XMINUS(a,b)	FCN_MINUS(a,b)
+
+#if FCN_PRERELEASE_TYPE==1
+	#define FCN_PRERELEASE alpha
+#elif FCN_PRERELEASE_TYPE==2
+ 	#define FCN_PRERELEASE beta
+#elif FCN_PRERELEASE_TYPE==3
+	#define FCN_PRERELEASE rc
+#endif
+
+#if FCN_PRERELEASE_VERSION>0
+	#ifdef FCN_PRERELEASE
+		#define FCN_PRERELEASE_STR \
+			FCN_XDOT( \
+				FCN_PRERELEASE, \
+				FCN_PRERELEASE_VERSION \
+			)
+	#endif
+#endif
+
+#define FCN_VERSION \
+	FCN_XDOT( \
+		FCN_XDOT(FCN_MAJOR_VERSION, FCN_MINOR_VERSION), \
+		FCN_PATCH_VERSION \
+	)
+
+#ifdef FCN_PRERELEASE_STR
+	#define FCN_VERSION_STRING \
+		FCN_XMINUS( \
+			FCN_VERSION, \
+			FCN_PRERELEASE_STR \
+		)
+#endif
+#ifdef FCN_GIT_HASH
+	#ifndef FCN_VERSION_STRING
+		#define FCN_VERSION_STRING \
+			FCN_XPLUS( \
+				FCN_VERSION, \
+				FCN_GIT_HASH \
+			)
+	#else
+		#undef FCN_VERSION_STRING
+		#ifdef FCN_PRERELEASE_STR
+			#define FCN_VERSION_STRING \
+				FCN_XMINUS( \
+					FCN_VERSION, \
+					FCN_XPLUS( \
+						FCN_PRERELEASE_STR, \
+						FCN_GIT_HASH \
+					) \
+				)
+		#else
+			#define FCN_VERSION_STRING \
+				FCN_XPLUS( \
+					FCN_VERSION, \
+					FCN_GIT_HASH \
+				)
+		#endif
+	#endif
+#else
+	#define FCN_GIT_HASH ""
+#endif
 
 
-class Widget;
+// This is an actual release
+#ifndef FCN_VERSION_STRING
+	#define FCN_VERSION_STRING FCN_VERSION
+#endif
 
-extern "C"
-{
-    /**
-     * Gets the the version of Fifechan. As it is a C function
-     * it can be used to check for Fifechan with autotools.
-     *
-     * @return the version of Fifechan.
-     */
-    FCN_CORE_DECLSPEC extern const char* fcnFifechanVersion();
-}
+/** All Fifechan related code is in this namespace.
+ */
+namespace fcn {
+	inline const char* getVersion() {
+		return FCN_XSTR(FCN_VERSION_STRING);
+	}
 
-#endif // end FCN_FIFECHAN_HPP
+	inline int getMajor() {
+		return FCN_MAJOR_VERSION;
+	}
+
+	inline int getMinor() {
+		return FCN_MINOR_VERSION;
+	}
+
+	inline int getPatch() {
+		return FCN_PATCH_VERSION;
+	}
+
+	inline const char* getHash() {
+		return FCN_XSTR(FCN_GIT_HASH);
+	}
+} //fcn
+
+//cleanup
+#undef FCN_STR
+#undef FCN_XSTR
+#undef FCN_DOT
+#undef FCN_XDOT
+#undef FCN_PLUS
+#undef FCN_XPLUS
+#undef FCN_MINUS
+#undef FCN_XMINUS
+#undef FCN_VERSION_STRING
+#undef FCN_VERSION
+#undef FCN_PRERELEASE
+#undef FCN_PRERELEASE_STR
+
+#endif //FCN_VERSION_HPP
+
