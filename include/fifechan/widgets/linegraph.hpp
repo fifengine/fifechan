@@ -22,8 +22,8 @@
 #ifndef FCN_LINEGRAPH_HPP
 #define FCN_LINEGRAPH_HPP
 
-#include <fifechan/point.hpp>
-#include <fifechan/widget.hpp>
+#include "fifechan/point.hpp"
+#include "fifechan/widget.hpp"
 
 
 namespace fcn

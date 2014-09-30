@@ -36,7 +36,7 @@
 // These includes are split up in two parts, separated by one empty line
 // First block: files included from the FCN root src directory
 // Second block: files included from the same folder
-#include <fifechan/util/fcn_math.hpp>
+#include "fifechan/util/fcn_math.hpp"
 
 namespace fcn {
 

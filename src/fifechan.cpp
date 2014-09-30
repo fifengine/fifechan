@@ -66,7 +66,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "fifechan/version.hpp"
+#include <fifechan/version.hpp>
 
 extern "C"
 {

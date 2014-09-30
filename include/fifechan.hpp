@@ -63,7 +63,7 @@
  */
 
 #ifndef FCN_FIFECHAN_HPP
-#define FCN_FIFECAHN_HPP
+#define FCN_FIFECHAN_HPP
 
 #include <fifechan/actionevent.hpp>
 #include <fifechan/actionlistener.hpp>

@@ -22,8 +22,8 @@
 #ifndef FCN_BARGRAPH_HPP
 #define FCN_BARGRAPH_HPP
 
-#include <fifechan/point.hpp>
-#include <fifechan/widget.hpp>
+#include "fifechan/point.hpp"
+#include "fifechan/widget.hpp"
 
 
 namespace fcn
