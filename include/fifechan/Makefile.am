@@ -36,6 +36,7 @@ libfifechaninclude_HEADERS =	   \
 	mouselistener.hpp	   \
 	opengl.hpp		   \
 	platform.hpp		   \
+	point.hpp		   \
 	rectangle.hpp		   \
 	selectionevent.hpp	   \
 	selectionlistener.hpp	   \

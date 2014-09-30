@@ -52,7 +52,8 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/mouseevent.hpp		
   include/fifechan/mouseinput.hpp		
   include/fifechan/mouselistener.hpp	
-  include/fifechan/platform.hpp		
+  include/fifechan/platform.hpp
+  include/fifechan/point.hpp
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
   include/fifechan/selectionlistener.hpp
