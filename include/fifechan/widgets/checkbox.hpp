@@ -90,6 +90,16 @@ namespace fcn
     public:
 
         /**
+         * Marker mode.
+         */
+        enum MarkerMode
+        {
+            Checkmark = 0,
+            Cross,
+            Dot
+        };
+
+        /**
          * Contructor.
          */
         CheckBox();
@@ -101,7 +111,7 @@ namespace fcn
          * @param caption The caption of the check box.
          * @param marked True if the check box is selected, false otherwise.
          */
-        CheckBox(const std::string &caption, bool selected = false);
+        CheckBox(const std::string& caption, bool selected = false);
 
         /**
          * Destructor.
@@ -130,7 +140,7 @@ namespace fcn
          * @return The caption of the check box.
          * @see setCaption
          */
-        const std::string &getCaption() const;
+        const std::string& getCaption() const;
 
         /**
          * Sets the caption of the check box. It's advisable to call
@@ -141,6 +151,20 @@ namespace fcn
          * @see getCaption, adjustSize
          */
         void setCaption(const std::string& caption);
+
+        /**
+         * Gets the marker mode of the check box.
+         * @return The mode of the check box.
+         * @see setMarkerMode, MarkerMode
+         */
+        MarkerMode getMarkerMode() const;
+
+        /**
+         * Set the marker mode of the check box.
+         * @param mode The mode of the check box.
+         * @see getMarkerMode, MarkerMode
+         */
+        void setMarkerMode(MarkerMode mode);
 
 
         // Inherited from Widget
@@ -171,6 +195,30 @@ namespace fcn
         virtual void drawBox(Graphics *graphics);
 
         /**
+         * Draws the checkmark. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawCheckmark(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the cross. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawCross(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the dot. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawDot(Graphics* graphics, const Rectangle& rec);
+
+        /**
          * Toggles the check box between being selected and
          * not being selected.
          */
@@ -180,6 +228,11 @@ namespace fcn
          * True if the check box is selected, false otherwise.
          */
         bool mSelected;
+
+        /**
+         * Holds the marker mode of the check box.
+         */
+        MarkerMode mMode;
 
         /**
          * Holds the caption of the check box.

@@ -28,19 +28,11 @@ namespace fcn {
 
     BarGraph::BarGraph():
         m_opaque(false),
-        m_color(0x000000),
         m_rec() {
     }
 
     BarGraph::BarGraph(int x, int y, int w, int h):
         m_opaque(false),
-        m_color(0x000000),
-        m_rec(Rectangle(x, y, w, h)) {
-    }
-
-    BarGraph::BarGraph(int x, int y, int w, int h, const Color& color):
-        m_opaque(false),
-        m_color(color),
         m_rec(Rectangle(x, y, w, h)) {
     }
 
@@ -91,14 +83,6 @@ namespace fcn {
         m_rec.height = h;
     }
 
-    void BarGraph::setColor(const Color& color) {
-        m_color = color;
-    }
-
-    const Color& BarGraph::getColor() const {
-        return m_color;
-    }
-
     void BarGraph::setOpaque(bool opaque) {
         m_opaque = opaque;
     }
@@ -108,21 +92,29 @@ namespace fcn {
     }
 
     void BarGraph::draw(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
+        bool active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            graphics->setColor(faceColor);
+            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                graphics->setColor(getSelectionColor());
+            } else {
+                graphics->setColor(getBackgroundColor());
+            }
             graphics->fillRectangle(getBorderSize(), getBorderSize(),
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
-        // draw border
+        // draw border or frame
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
 
         // draw bar
-        graphics->setColor(m_color);
+        graphics->setColor(getBaseColor());
         // top left, bottom left, bottom right, top right
         graphics->fillRectangle(m_rec);
     }

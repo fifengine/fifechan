@@ -92,8 +92,8 @@ namespace fcn
     
     IconProgressBar::~IconProgressBar()
     {
-        delete mContents;
         destroyIcons();
+        delete mContents;
         
         if(mInternalImage)
         {
@@ -103,7 +103,7 @@ namespace fcn
     
     void IconProgressBar::draw(Graphics* graphics)
     {
-        //mContents->draw(graphics);
+        mContents->draw(graphics);
     }
     
     Rectangle IconProgressBar::getChildrenArea()
@@ -186,7 +186,6 @@ namespace fcn
         }
         
         mIcons[mIconCounter]->setVisible(true);
-        
         mIconCounter = (mIconCounter + 1) % (mMaxIcons);
         
         if(mIconCounter == 0)

@@ -34,7 +34,6 @@ namespace fcn {
         m_acp(true),
         m_needUpdate(false),
         m_thickness(1),
-        m_color(0x000000),
         m_data() {
     }
 
@@ -43,16 +42,6 @@ namespace fcn {
         m_acp(true),
         m_needUpdate(true),
         m_thickness(1),
-        m_color(0x000000),
-        m_data(data) {
-    }
-
-    CurveGraph::CurveGraph(const PointVector& data, const Color& color):
-        m_opaque(false),
-        m_acp(true),
-        m_needUpdate(true),
-        m_thickness(1),
-        m_color(color),
         m_data(data) {
     }
 
@@ -68,14 +57,6 @@ namespace fcn {
     void CurveGraph::resetPointVector() {
         m_needUpdate = true;
         m_data.clear();
-    }
-
-    void CurveGraph::setColor(const Color& color) {
-        m_color = color;
-    }
-
-    const Color& CurveGraph::getColor() const {
-        return m_color;
     }
 
     void CurveGraph::setThickness(unsigned int thickness) {
@@ -105,17 +86,25 @@ namespace fcn {
     }
 
     void CurveGraph::draw(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
+        bool active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            graphics->setColor(faceColor);
+            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                graphics->setColor(getSelectionColor());
+            } else {
+                graphics->setColor(getBackgroundColor());
+            }
             graphics->fillRectangle(getBorderSize(), getBorderSize(),
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
-        // draw border
+        // draw border or frame
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
 
         if (m_needUpdate) {
@@ -125,7 +114,7 @@ namespace fcn {
             return;
         }
         // draw bezier curve
-        graphics->setColor(m_color);
+        graphics->setColor(getBaseColor());
         graphics->drawPolyLine(m_curveData, m_thickness);
     }
 

@@ -38,7 +38,6 @@ namespace fcn
          */
         CurveGraph();
         CurveGraph(const PointVector& data);
-        CurveGraph(const PointVector& data, const Color& color);
         
         /**
          * Destructor.
@@ -48,9 +47,6 @@ namespace fcn
         void setPointVector(const PointVector& data);
         const PointVector& getPointVector() const;
         void resetPointVector();
-
-        void setColor(const Color& color);
-        const Color& getColor() const;
 
         void setThickness(unsigned int thickness);
         unsigned int getThickness() const;
@@ -92,7 +88,6 @@ namespace fcn
         bool m_acp;
         bool m_needUpdate;
         unsigned int m_thickness;
-        Color m_color;
         PointVector m_data;
         PointVector m_curveData;
     };

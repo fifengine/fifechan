@@ -38,7 +38,6 @@ namespace fcn
          */
         BarGraph();
         BarGraph(int x, int y, int w, int h);
-        BarGraph(int x, int y, int w, int h, const Color& color);
         
         /**
          * Destructor.
@@ -56,9 +55,6 @@ namespace fcn
         void setBarHeight(int h);
         int getBarHeight() const;
         void setBarSize(int w, int h);
-
-        void setColor(const Color& color);
-        const Color& getColor() const;
 
         /**
          * Sets the opacity of the graph.
@@ -79,7 +75,6 @@ namespace fcn
 
     protected:
         bool m_opaque;
-        Color m_color;
         Rectangle m_rec;
     };
 };

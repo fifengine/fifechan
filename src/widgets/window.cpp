@@ -185,6 +185,8 @@ namespace fcn
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         if (mBackgroundWidget) {
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
         if (getBorderSize() > 0) {
@@ -268,10 +270,6 @@ namespace fcn
 
     void Window::adjustSize() {
         resizeToChildren();
-        if (mBackgroundWidget) {
-            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
-            mBackgroundWidget->setDimension(rec);
-        }
         int w = getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 2 * getInnerBorderSize();
         int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + 2 * getInnerBorderSize() + getTitleBarHeight();
         setSize(w, h);

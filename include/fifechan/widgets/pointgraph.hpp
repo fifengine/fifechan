@@ -38,7 +38,6 @@ namespace fcn
          */
         PointGraph();
         PointGraph(const PointVector& data);
-        PointGraph(const PointVector& data, const Color& color);
         
         /**
          * Destructor.
@@ -48,9 +47,6 @@ namespace fcn
         void setPointVector(const PointVector& data);
         const PointVector& getPointVector() const;
         void resetPointVector();
-
-        void setColor(const Color& color);
-        const Color& getColor() const;
 
         void setThickness(unsigned int thickness);
         unsigned int getThickness() const;
@@ -75,7 +71,6 @@ namespace fcn
     protected:
         bool m_opaque;
         unsigned int m_thickness;
-        Color m_color;
         PointVector m_data;
     };
 };

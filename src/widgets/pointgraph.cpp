@@ -29,21 +29,12 @@ namespace fcn {
     PointGraph::PointGraph():
         m_opaque(false),
         m_thickness(1),
-        m_color(0x000000),
         m_data() {
     }
 
     PointGraph::PointGraph(const PointVector& data):
         m_opaque(false),
         m_thickness(1),
-        m_color(0x000000),
-        m_data(data) {
-    }
-
-    PointGraph::PointGraph(const PointVector& data, const Color& color):
-        m_opaque(false),
-        m_thickness(1),
-        m_color(color),
         m_data(data) {
     }
 
@@ -57,14 +48,6 @@ namespace fcn {
 
     void PointGraph::resetPointVector() {
         m_data.clear();
-    }
-
-    void PointGraph::setColor(const Color& color) {
-        m_color = color;
-    }
-
-    const Color& PointGraph::getColor() const {
-        return m_color;
     }
 
     void PointGraph::setThickness(unsigned int thickness) {
@@ -84,24 +67,32 @@ namespace fcn {
     }
 
     void PointGraph::draw(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
+        bool active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            graphics->setColor(faceColor);
+            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                graphics->setColor(getSelectionColor());
+            } else {
+                graphics->setColor(getBackgroundColor());
+            }
             graphics->fillRectangle(getBorderSize(), getBorderSize(),
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
-        // draw border
+        // draw border or frame
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
 
         if (m_data.empty()) {
             return;
         }
         // draw points
-        graphics->setColor(m_color);
+        graphics->setColor(getBaseColor());
         bool thick = m_thickness > 1;
         PointVector::iterator pit = m_data.begin();
         if (thick) {

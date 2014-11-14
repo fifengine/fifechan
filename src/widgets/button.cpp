@@ -132,25 +132,17 @@ namespace fcn
 
     void Button::draw(Graphics* graphics)
     {
+        bool active = isFocused();
         Color faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
+        if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            faceColor = getSelectionColor();
+        }
+        int alpha = faceColor.a;
 
         if (isPressed())
         {
             faceColor = faceColor - 0x303030;
             faceColor.a = alpha;
-            highlightColor = faceColor - 0x303030;
-            highlightColor.a = alpha;
-            shadowColor = faceColor + 0x303030;
-            shadowColor.a = alpha;
-        }
-        else
-        {
-            highlightColor = faceColor + 0x303030;
-            highlightColor.a = alpha;
-            shadowColor = faceColor - 0x303030;
-            shadowColor.a = alpha;
         }
 
         graphics->setColor(faceColor);
@@ -158,7 +150,11 @@ namespace fcn
         graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
 
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
 
         graphics->setColor(getForegroundColor());
@@ -189,15 +185,9 @@ namespace fcn
         else
         {
             graphics->drawText(getCaption(), textX, textY, getAlignment());
-
-            /*if (isFocused())
-            {
-                graphics->drawRectangle(getMarginLeft(), getMarginTop(),
-                    getWidth() - (getMarginLeft()+getMarginRight()),
-                    getHeight() - (getMarginTop()+getMarginBottom()));
-            }*/
         }
     }
+
     void Button::resizeToContent(bool recursiv) {
         adjustSize();
     }

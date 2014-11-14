@@ -103,6 +103,16 @@ namespace fcn
     {
     public:
         /**
+         * Selection mode.
+         */
+        enum SelectionMode
+        {
+            Selection_None = 0,
+            Selection_Border = 1,
+            Selection_Background = 2
+        };
+
+        /**
          * Constructor. Resets member variables. Noteable, a widget is not
          * focusable as default, therefore, widgets that are supposed to be
          * focusable should overide this default in their own constructor.
@@ -160,6 +170,15 @@ namespace fcn
          * @see setBorderSize, getBorderSize
          */
         virtual void drawBorder(Graphics* graphics);
+
+        /**
+         * Called when a widget is "active" and the selection mode is Frame or FrameWithBackground.
+         * Currently the size of the border is used, so it will replace the border with the frame.
+         *
+         * @param graphics A graphics object to draw with.
+         * @see setSelectionMode, getSelectionMode, setSelectionColor, getSelectionColor
+         */
+        virtual void drawSelectionFrame(Graphics* graphics);
 
         /**
          * Sets the size of the widget's outline. The outline is not considered as part of 
@@ -433,7 +452,7 @@ namespace fcn
          *
          * @param width The width of the widget.
          * @see getWidth, setHeight, getHeight, setSize,
-         *      setDimension, getDimensi
+         *      setDimension, getDimension
          */
         void setWidth(int width);
 
@@ -767,6 +786,22 @@ namespace fcn
          * @see setBorderColor
          */
         const Color& getBorderColor() const;
+
+        /**
+         * Sets the selection mode.
+         *
+         * @param mode The selection mode that is used when the widget is "active".
+         * @see getSelectionMode
+         */
+        void setSelectionMode(SelectionMode mode);
+
+        /**
+         * Gets the selection mode.
+         *
+         * @return The selection mode that is used when the widget is "active".
+         * @see setSelectionMode
+         */
+        SelectionMode getSelectionMode() const;
 
         /**
          * Requests focus for the widget. A widget will only recieve focus
@@ -1609,6 +1644,11 @@ namespace fcn
          * Holds the border size of the widget.
          */
         unsigned int mBorderSize;
+
+        /** 
+         * Holds the selection mode.
+         */
+        SelectionMode mSelectionMode;
 
         /** 
          * Holds the top margin of the widget.

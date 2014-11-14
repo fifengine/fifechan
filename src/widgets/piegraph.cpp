@@ -96,23 +96,31 @@ namespace fcn {
     }
 
     void PieGraph::draw(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
+        bool active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            graphics->setColor(faceColor);
+            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                graphics->setColor(getSelectionColor());
+            } else {
+                graphics->setColor(getBackgroundColor());
+            }
             graphics->fillRectangle(getBorderSize(), getBorderSize(),
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
-        // draw border
+        // draw border or frame
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
 
         if (m_segments.empty() || m_radius < 1) {
             return;
         }
-
+        // draw circle segments
         std::vector<PieGraphSegment>::iterator it = m_segments.begin();
         for (; it != m_segments.end(); ++it) {
             graphics->setColor((*it).color);

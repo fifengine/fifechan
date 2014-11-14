@@ -105,6 +105,7 @@ namespace fcn
               mParent(NULL),
               mOutlineSize(0),
               mBorderSize(0),
+              mSelectionMode(Selection_None),
               mMarginTop(0),
               mMarginRight(0),
               mMarginBottom(0),
@@ -201,6 +202,25 @@ namespace fcn
             graphics->drawLine(i, i, width-i, i);
             graphics->drawLine(i, i+1, i, height-i-1);
             graphics->setColor(highlightColor);
+            graphics->drawLine(width-i, i+1, width-i, height-i);
+            graphics->drawLine(i, height-i, width-i-1, height-i);
+        }
+    }
+
+    void Widget::drawSelectionFrame(Graphics* graphics)
+    {
+        int width = getWidth() - 1;
+        int height = getHeight() - 1;
+        graphics->setColor(getSelectionColor());
+
+        unsigned int i;
+        // currently border size is used here too, not sure an extra frame size is really needed.
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            // would be better but causes problems with OpenGL
+            //graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
+            graphics->drawLine(i, i, width-i, i);
+            graphics->drawLine(i, i+1, i, height-i-1);
             graphics->drawLine(width-i, i+1, width-i, height-i);
             graphics->drawLine(i, height-i, width-i-1, height-i);
         }
@@ -336,6 +356,7 @@ namespace fcn
     {
         mIsFixedSize = false;
         mMinSize = size;
+        calculateSize();
     }
 
     const Size& Widget::getMinSize() const
@@ -347,6 +368,7 @@ namespace fcn
     {
         mIsFixedSize = false;
         mMaxSize = size;
+        calculateSize();
     }
 
     const Size& Widget::getMaxSize() const
@@ -358,6 +380,7 @@ namespace fcn
     {
         mIsFixedSize = true;
         mFixedSize = size;
+        calculateSize();
     }
 
     const Size& Widget::getFixedSize() const
@@ -706,6 +729,16 @@ namespace fcn
     const Color& Widget::getBorderColor() const
     {
         return mBorderColor;
+    }
+
+    void Widget::setSelectionMode(SelectionMode mode)
+    {
+        mSelectionMode = mode;
+    }
+    
+    Widget::SelectionMode Widget::getSelectionMode() const
+    {
+        return mSelectionMode;
     }
 
     void Widget::_setFocusHandler(FocusHandler* focusHandler)

@@ -91,17 +91,28 @@ namespace fcn
 
     void Container::draw(Graphics* graphics)
     {
+        bool active = isFocused();
         if (isOpaque())
         {
-            graphics->setColor(getBaseColor());
+            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                graphics->setColor(getSelectionColor());
+            } else {
+                graphics->setColor(getBaseColor());
+            }
             graphics->fillRectangle(getBorderSize(), getBorderSize(),
                 getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         if (mBackgroundWidget) {
+            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
         if (getBorderSize() > 0) {
-            drawBorder(graphics);
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
     }
 
@@ -300,19 +311,12 @@ namespace fcn
             totalW = w + diffW;
             totalH = h + diffH;
         }
-        if (mBackgroundWidget) {
-            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
-            mBackgroundWidget->setDimension(rec);
-        }
+
         setSize(totalW, totalH);
     }
 
     void Container::adjustSize() {
         resizeToChildren();
-        if (mBackgroundWidget) {
-            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
-            mBackgroundWidget->setDimension(rec);
-        }
         int w = getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
@@ -351,11 +355,6 @@ namespace fcn
         unsigned int visibleChilds = 0;
         std::list<Widget*> hExpander;
         std::list<Widget*> vExpander;
-
-        if (mBackgroundWidget) {
-            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
-            mBackgroundWidget->setDimension(rec);
-        }
 
         std::list<Widget*>::const_iterator currChild(mChildren.begin());
         std::list<Widget*>::const_iterator endChildren(mChildren.end());

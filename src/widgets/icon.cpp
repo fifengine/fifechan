@@ -141,5 +141,12 @@ namespace fcn
             const int y = getBorderSize() + getPaddingTop() + (getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() - mImage->getHeight()) / 2;
             graphics->drawImage(mImage, x, y);
         }
+        if (getBorderSize() > 0) {
+            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
+        }
     }
 }

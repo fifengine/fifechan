@@ -68,6 +68,7 @@
 
 #include "fifechan/widgets/checkbox.hpp"
 
+#include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/key.hpp"
@@ -79,6 +80,7 @@ namespace fcn
     CheckBox::CheckBox()
     {
         setSelected(false);
+        setMarkerMode(Checkmark);
 
         setFocusable(true);
         addMouseListener(this);
@@ -89,6 +91,7 @@ namespace fcn
     {
         setCaption(caption);
         setSelected(selected);
+        setMarkerMode(Checkmark);
 
         setFocusable(true);
         addMouseListener(this);
@@ -104,16 +107,38 @@ namespace fcn
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
 
-        const int h = getHeight() + getHeight() / 2;
-
-        graphics->drawText(getCaption(), h - 2, 0);
+        int h = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        int textX = getBorderSize() + getPaddingLeft() + h;
+        int textY = getBorderSize() + getPaddingTop() + (h - getFont()->getHeight()) / 2;
+        graphics->drawText(getCaption(), textX, textY);
     }
 
     void CheckBox::drawBox(Graphics *graphics)
     {
-        const int h = getHeight() - 2;
-        const int alpha = getBaseColor().a;
+        bool active = isFocused();
+        int h = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        // rec for inner box
+        Rectangle rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
+        // draw background
         Color faceColor = getBaseColor();
+        if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            faceColor = getSelectionColor();
+        }
+        graphics->setColor(faceColor);
+        graphics->fillRectangle(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+        // draw inner box background
+        graphics->setColor(getBackgroundColor());
+        graphics->fillRectangle(rec.x, rec.y, h, h);
+        // draw border
+        if (getBorderSize() > 0) {
+            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
+        }
+        // border around the inner box background
+        int alpha = getBaseColor().a;
         faceColor.a = alpha;
         Color highlightColor = faceColor + 0x303030;
         highlightColor.a = alpha;
@@ -121,31 +146,49 @@ namespace fcn
         shadowColor.a = alpha;
 
         graphics->setColor(shadowColor);
-        graphics->drawLine(1, 1, h, 1);
-        graphics->drawLine(1, 1, 1, h);
+        graphics->drawLine(rec.x, rec.y, h-1, rec.y);
+        graphics->drawLine(rec.x, rec.y, rec.x, h-1);
 
         graphics->setColor(highlightColor);
-        graphics->drawLine(h, 1, h, h);
-        graphics->drawLine(1, h, h - 1, h);
+        graphics->drawLine(h-1, rec.x, h-1, h-1);
+        graphics->drawLine(rec.y, h-1, h-1, h-1);
 
-        graphics->setColor(getBackgroundColor());
-        graphics->fillRectangle(2, 2, h - 2, h - 2);
-
-        graphics->setColor(getForegroundColor());
-
-        /*if (isFocused())
-        {
-            graphics->drawRectangle(0, 0, h + 2, h + 2);
-        }*/
-
-        if (mSelected)
-        {
-            graphics->drawLine(3, 5, 3, h - 2);
-            graphics->drawLine(4, 5, 4, h - 2);
-
-            graphics->drawLine(5, h - 3, h - 2, 4);
-            graphics->drawLine(5, h - 4, h - 4, 5);
+        // draws marker
+        if (mSelected) {
+            graphics->setColor(getForegroundColor());
+            switch(mMode) {
+                case Checkmark:
+                    drawCheckmark(graphics, rec);
+                    break;
+                case Cross:
+                    drawCross(graphics, rec);
+                    break;
+                case Dot:
+                    drawDot(graphics, rec);
+                    break;
+                default:
+                    throw FCN_EXCEPTION("Unknown marker.");
+            }
         }
+    }
+
+    void CheckBox::drawCheckmark(Graphics* graphics, const Rectangle& rec) {
+        graphics->drawLine(rec.x+3, rec.y+3, rec.x+3, rec.height-3);
+        graphics->drawLine(rec.x+4, rec.y+4, rec.x+4, rec.height-2);
+        graphics->drawLine(rec.x+5, rec.height-3, rec.width-2, rec.y+4);
+        graphics->drawLine(rec.x+5, rec.height-4, rec.width-4, rec.y+5);
+    }
+
+    void CheckBox::drawCross(Graphics* graphics, const Rectangle& rec) {
+        graphics->drawLine(rec.x+2, rec.y+2, rec.width-3, rec.height-3);
+        graphics->drawLine(rec.x+2, rec.y+3, rec.width-4, rec.height-3);
+        graphics->drawLine(rec.x+2, rec.height-3, rec.width-3, rec.y+2);
+        graphics->drawLine(rec.x+3, rec.height-3, rec.width-3, rec.y+3);
+    }
+
+    void CheckBox::drawDot(Graphics* graphics, const Rectangle& rec) {
+        Point p(rec.x+rec.width/2, rec.y+rec.height/2);
+        graphics->drawFillCircle(p, (rec.width-3)/2);
     }
 
     bool CheckBox::isSelected() const
@@ -166,6 +209,14 @@ namespace fcn
     void CheckBox::setCaption(const std::string& caption)
     {
         mCaption = caption;
+    }
+
+    CheckBox::MarkerMode CheckBox::getMarkerMode() const {
+        return mMode;
+    }
+
+    void CheckBox::setMarkerMode(CheckBox::MarkerMode mode) {
+        mMode = mode;
     }
 
     void CheckBox::keyPressed(KeyEvent& keyEvent)
@@ -199,6 +250,7 @@ namespace fcn
 
     void CheckBox::adjustSize()
     {
+        // w + getFont()->getHeight() ???
         int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
