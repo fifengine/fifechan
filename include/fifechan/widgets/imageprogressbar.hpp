@@ -19,8 +19,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef FCN_ICONPROGRESSBAR_HPP
-#define FCN_ICONPROGRESSBAR_HPP
+#ifndef FCN_IMAGEPROGRESSBAR_HPP
+#define FCN_IMAGEPROGRESSBAR_HPP
 
 #include <fifechan/widget.hpp>
 
@@ -31,7 +31,7 @@ namespace fcn
     class Graphics;
     class Image;
     
-    class FCN_CORE_DECLSPEC IconProgressBar : public Widget
+    class FCN_CORE_DECLSPEC ImageProgressBar : public Widget
     {
     public:
         
@@ -44,108 +44,112 @@ namespace fcn
         /**
          * Default constructor.
          */
-        IconProgressBar();
+        ImageProgressBar();
 
         /**
          * Constructor. The image passed is not owned by this object.
          * 
-         * @param image Image used by the progress bar's icons.
-         * @param maxIcons Count of icons when the progress bar is full.
+         * @param image Image used by the progress bar.
+         * @param maxValue Value when the progress bar is full.
          */
-        IconProgressBar(Image* image, int maxIcons);
+        ImageProgressBar(Image* image, int maxValue);
         
         /**
          * Constructor. The image indicated by filename is opened and it's
          * owned by this object.
          * 
-         * @param filename Filename of the image to be used by the progress bar's icons.
-         * @param maxIcons Count of icons when the progress bar is full.
+         * @param filename Filename of the image to be used by the progress bar.
+         * @param maxValue Value when the progress bar is full.
          */
-        IconProgressBar(const std::string& filename, int maxIcons);
+        ImageProgressBar(const std::string& filename, int maxValue);
         
         /**
          * Destructor.
          */
-        virtual ~IconProgressBar();
+        virtual ~ImageProgressBar();
 
         /**
-         * Draws this IconProgressBar.
+         * Draws this ImageProgressBar.
          */
         virtual void draw(Graphics* graphics);
         
         /**
-         * Sets the opacity of the IconProgressBar.
+         * Sets the opacity of the ImageProgressBar.
          * 
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
 
         /**
-         * @return Whether this IconProgressBar is opaque or not.
+         * @return Whether this ImageProgressBar is opaque or not.
          */
         bool isOpaque() const;
         
         /**
-         * Sets the IconProgressBar's image. The image passed is not owned by
+         * Sets the Bar image. The image passed is not owned by
          * this object.
          * 
-         * @param image Image used by the progress bar's icons. 
-         * @see setMaxIcons
+         * @param image Image used by the progress bar. 
          */
-        void setImage(Image* image);
+        void setBarImage(Image* image);
 
         /**
-         * @return The image used by this IconProgressBar.
+         * @return The image used by this Bar.
          */
-        const Image* getImage() const;
-        
+        const Image* getBarImage() const;
+
         /**
-         * Sets count of icons when the progress bar is full.
-         * Also creates enough icons to represent that.
+         * Sets the foreground image. The image passed is not owned by
+         * this object.
          * 
-         * @param maxIcons desired maximum count of icons.
+         * @param image Image used as overlay by the progress bar. 
          */
-        void setMaxIcons(int maxIcons);
-        
+        void setForegroundImage(Image* image);
+
         /**
-         * @return Maximum count of icons for this IconProgressBar.
+         * @return The image used as overlay by this Bar.
          */
-        int getMaxIcons() const;
-        
+        const Image* getForegroundImage() const;
+         
         /**
-         * Sets the IconProgressBar's orientation.
+         * Sets the ImageProgressBar's orientation.
          * 
          * @param orientation Desired orientation.
          */
         void setOrientation(Orientation orientation);
         
         /**
-         * @return Orientation of this IconProgressBar.
+         * @return Orientation of this ImageProgressBar.
          */
         Orientation getOrientation() const;
         
         /**
-         * Advances the progress bar to use one more icon. If there can be no advancement
-         * (maxIcons is reached), then the counter is reset to 0, useful if client wishes
-         * to make the IconProgressBar looping.
+         * Gets the max value of the bar
+         *
+         * @return The max value of the bar.
          */
-        void advance();
-        
-        /**
-         * Resets the progress bar.
-         */
-        void reset();
+        int32_t getMaxValue() const;
 
         /**
-         * Sets count of icons.
-         * @param counter The count of the active icons.
+         * Sets the max value of the bar
+         *
+         * @param value The max value of the bar.
          */
-        void setIconCount(int icons);
+        void setMaxValue(int32_t value);
 
         /**
-         * @return Current count of icons for this IconProgressBar.
+         * Gets the value of the bar
+         *
+         * @return The value of the bar.
          */
-        int getIconCount() const;
+        int32_t getValue() const;
+
+        /**
+         * Sets the value of the bar
+         *
+         * @param value In the range of 0-max.
+         */
+        void setValue(int32_t value);
         
         // Inherited from Widget
 
@@ -155,9 +159,14 @@ namespace fcn
     protected:
         
         /**
-         * Image used by the progress bar.
+         * Bar image.
          */
-        const Image* mImage;
+        const Image* mBarImage;
+
+        /**
+         * Foreground image.
+         */
+        const Image* mForegroundImage;
         
         /**
          * True if the image has been loaded internally, false otherwise.
@@ -167,17 +176,17 @@ namespace fcn
         bool mInternalImage;
         
         /**
-         * Count of icons when progress bar is full.
+         * Value when progress bar is full.
          */
-        int mMaxIcons;
+        int mMaxValue;
         
         /**
-         * Holds how many icons are currently displayed.
+         * Holds the current progress bar value.
          */
-        int mIconCounter;
+        int mValue;
         
         /**
-         * IconProgressBar's orientation.
+         * ImageProgressBar's orientation.
          */
         Orientation mOrientation;
  
@@ -188,4 +197,4 @@ namespace fcn
     };
 };
 
-#endif //FCN_ICONPROGRESSBAR_HPP
+#endif //FCN_IMAGEPROGRESSBAR_HPP

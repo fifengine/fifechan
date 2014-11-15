@@ -11,6 +11,7 @@ libfifechaninclude_HEADERS =	\
 	icon.hpp		\
 	iconprogressbar.hpp	\
 	imagebutton.hpp		\
+	imageprogressbar.hpp	\
 	label.hpp		\
 	linegraph.hpp		\
 	listbox.hpp		\

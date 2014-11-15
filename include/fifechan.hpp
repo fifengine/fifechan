@@ -110,6 +110,7 @@
 #include <fifechan/widgets/icon.hpp>
 #include <fifechan/widgets/iconprogressbar.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
+#include <fifechan/widgets/imageprogressbar.hpp>
 #include <fifechan/widgets/label.hpp>
 #include <fifechan/widgets/linegraph.hpp>
 #include <fifechan/widgets/listbox.hpp>

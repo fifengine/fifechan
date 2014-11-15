@@ -22,53 +22,54 @@
 #include <fifechan/image.hpp>
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
-#include <fifechan/widgets/iconprogressbar.hpp>
+#include <fifechan/rectangle.hpp>
+#include <fifechan/widgets/imageprogressbar.hpp>
 
 namespace fcn
 {
-    IconProgressBar::IconProgressBar()
+    ImageProgressBar::ImageProgressBar()
     :
-    mImage(NULL),
+    mBarImage(NULL),
+    mForegroundImage(NULL),
     mInternalImage(false),
-    mMaxIcons(0),
-    mIconCounter(0),
+    mMaxValue(100),
+    mValue(0),
     mOrientation(HORIZONTAL),
     mOpaque(true) {
     }
     
-    IconProgressBar::IconProgressBar(Image* image, int maxIcons)
+    ImageProgressBar::ImageProgressBar(Image* image, int maxValue)
     :
-    mImage(image),
+    mBarImage(image),
+    mForegroundImage(NULL),
     mInternalImage(false),
-    mMaxIcons(maxIcons),
-    mIconCounter(0),
+    mMaxValue(maxValue),
+    mValue(0),
     mOrientation(HORIZONTAL),
     mOpaque(true) {
         adjustSize();
     }
     
-    IconProgressBar::IconProgressBar(const std::string& filename, int maxIcons)
+    ImageProgressBar::ImageProgressBar(const std::string& filename, int maxValue)
     :
-    mImage(NULL),
+    mBarImage(NULL),
+    mForegroundImage(NULL),
     mInternalImage(true),
-    mMaxIcons(maxIcons),
-    mIconCounter(0),
+    mMaxValue(maxValue),
+    mValue(0),
     mOrientation(HORIZONTAL),
     mOpaque(true) {
-        mImage = Image::load(filename);
+        mBarImage = Image::load(filename);
         adjustSize();
     }
     
-    IconProgressBar::~IconProgressBar()
-    {        
-        if(mInternalImage)
-        {
-            delete mImage;
+    ImageProgressBar::~ImageProgressBar() {        
+        if(mInternalImage) {
+            delete mBarImage;
         }
     }
     
-    void IconProgressBar::draw(Graphics* graphics)
-    {
+    void ImageProgressBar::draw(Graphics* graphics) {
         bool active = isFocused();
 
         if (isOpaque()) {
@@ -89,114 +90,108 @@ namespace fcn
                 drawBorder(graphics);
             }
         }
-        if (!mImage) {
-            return;
+        if (mBarImage) {
+            if (getOrientation() == HORIZONTAL) {
+                Rectangle rec = Rectangle(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(),
+                    mBarImage->getWidth() * mValue/mMaxValue, mBarImage->getHeight());
+                graphics->pushClipArea(rec);
+                graphics->drawImage(mBarImage, 0, 0);
+                graphics->popClipArea();
+            } else {
+                Rectangle rec = Rectangle(getBorderSize() + getPaddingLeft(),
+                    getBorderSize() + getPaddingTop() + (mBarImage->getHeight() - mBarImage->getHeight() * mValue/mMaxValue),
+                    mBarImage->getWidth(), mBarImage->getHeight() * mValue/mMaxValue);
+                graphics->pushClipArea(rec);
+                graphics->drawImage(mBarImage, 0, 0);
+                graphics->popClipArea();
+            }
         }
-        // draw "icons"
-        int x = getBorderSize() + getPaddingLeft();
-        int y = getBorderSize() + getPaddingTop();
-        if (mOrientation == HORIZONTAL) {
-            for (int i = 0; i < mIconCounter; i++) {
-                graphics->drawImage(mImage, x, y);
-                x += mImage->getWidth();
-            }
-        } else {
-            for (int i = 0; i < mIconCounter; i++) {
-                graphics->drawImage(mImage, x, y);
-                y += mImage->getHeight();
-            }
+
+        if (mForegroundImage) {
+            int x = getBorderSize() + getPaddingLeft();
+            int y = getBorderSize() + getPaddingTop();
+            graphics->drawImage(mForegroundImage, x, y);
         }
     }
         
-    void IconProgressBar::setOpaque(bool opaque)
-    {
+    void ImageProgressBar::setOpaque(bool opaque) {
         mOpaque = opaque;
     }
     
-    bool IconProgressBar::isOpaque() const
-    {
+    bool ImageProgressBar::isOpaque() const {
         return mOpaque;
     }
     
-    void IconProgressBar::setImage(Image* image)
-    {
-        if(mInternalImage)
-        {
-            delete mImage;
+    void ImageProgressBar::setBarImage(Image* image) {
+        if(mInternalImage) {
+            delete mBarImage;
         }
         
         mInternalImage = false;
-        mImage = image;
+        mBarImage = image;
         
         adjustSize();
     }
     
-    const Image* IconProgressBar::getImage() const
-    {
-        return mImage;
+    const Image* ImageProgressBar::getBarImage() const {
+        return mBarImage;
     }
-    
-    void IconProgressBar::setMaxIcons(int maxIcons)
-    {
-        mMaxIcons = maxIcons;
+
+    void ImageProgressBar::setForegroundImage(Image* image) {
+        mForegroundImage = image;
         adjustSize();
     }
     
-    int IconProgressBar::getMaxIcons() const
-    {
-        return mMaxIcons;
+    const Image* ImageProgressBar::getForegroundImage() const {
+        return mForegroundImage;
     }
     
-    void IconProgressBar::setOrientation(Orientation orientation)
-    {
+    void ImageProgressBar::setOrientation(Orientation orientation) {
         if (mOrientation != orientation) {
             if (orientation != HORIZONTAL && orientation != VERTICAL) {
-                throw FCN_EXCEPTION("Unknown orientation type in IconProgressBar object");
+                throw FCN_EXCEPTION("Unknown orientation type in ImageProgressBar object");
                 return;
             }
             mOrientation = orientation;
-            adjustSize();
         }
     }
     
-    IconProgressBar::Orientation IconProgressBar::getOrientation() const
-    {
+    ImageProgressBar::Orientation ImageProgressBar::getOrientation() const {
         return mOrientation;
     }
-    
-    void IconProgressBar::advance()
-    {
-        mIconCounter = (mIconCounter + 1) % (mMaxIcons+1);
+
+    void ImageProgressBar::setMaxValue(int32_t value) {
+        mMaxValue = value;
     }
     
-    void IconProgressBar::reset()
-    {
-        mIconCounter = 0;
-    }
-    
-    void IconProgressBar::setIconCount(int icons) {
-        mIconCounter = icons % (mMaxIcons+1);
+    int ImageProgressBar::getMaxValue() const {
+        return mMaxValue;
     }
 
-    int IconProgressBar::getIconCount() const {
-        return mIconCounter;
+    void ImageProgressBar::setValue(int32_t value) {
+        if (value > mMaxValue) {
+            mValue = mMaxValue;
+        } else if (value < 0) {
+            mValue = 0;
+        } else {
+            mValue = value;
+        }
+    }
+    
+    int ImageProgressBar::getValue() const {
+        return mValue;
     }
 
-    void IconProgressBar::resizeToContent(bool recursiv) {
+    void ImageProgressBar::resizeToContent(bool recursiv) {
         adjustSize();
     }
 
-    void IconProgressBar::adjustSize() {
+    void ImageProgressBar::adjustSize() {
         int w = 0;
         int h = 0;
-        if (mImage) {
-            w = mImage->getWidth();
-            h = mImage->getHeight();
-            if (mOrientation == HORIZONTAL) {
-                w *= mMaxIcons;
-            } else {
-                h *= mMaxIcons;
-            }
+        if (mBarImage) {
+            w = mBarImage->getWidth();
+            h = mBarImage->getHeight();
         }
         w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
