@@ -128,28 +128,28 @@ namespace fcn
          *
          * @return The max value of the bar.
          */
-        int32_t getMaxValue() const;
+        int getMaxValue() const;
 
         /**
          * Sets the max value of the bar
          *
          * @param value The max value of the bar.
          */
-        void setMaxValue(int32_t value);
+        void setMaxValue(int value);
 
         /**
          * Gets the value of the bar
          *
          * @return The value of the bar.
          */
-        int32_t getValue() const;
+        int getValue() const;
 
         /**
          * Sets the value of the bar
          *
          * @param value In the range of 0-max.
          */
-        void setValue(int32_t value);
+        void setValue(int value);
         
         // Inherited from Widget
 

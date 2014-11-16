@@ -160,7 +160,7 @@ namespace fcn
         return mOrientation;
     }
 
-    void ImageProgressBar::setMaxValue(int32_t value) {
+    void ImageProgressBar::setMaxValue(int value) {
         mMaxValue = value;
     }
     
@@ -168,7 +168,7 @@ namespace fcn
         return mMaxValue;
     }
 
-    void ImageProgressBar::setValue(int32_t value) {
+    void ImageProgressBar::setValue(int value) {
         if (value > mMaxValue) {
             mValue = mMaxValue;
         } else if (value < 0) {
