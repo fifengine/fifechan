@@ -107,6 +107,14 @@ namespace fcn
          *
          * @param image The image to display. 
          */
+        void setImage(const std::string& filename);
+
+        /**
+         * Sets the image to display. Existing image is freed automatically
+         * if it was loaded internally.
+         *
+         * @param image The image to display. 
+         */
         void setImage(const Image* image);
 
         /**
@@ -115,6 +123,46 @@ namespace fcn
          * @return The current image.
          */
         const Image* getImage() const;
+
+        /**
+         * Sets if the image should be scaled to widget size.
+         *
+         * @param scale True if the image should be scaled.
+         */
+        void setScaling(bool scale);
+
+        /**
+         * Gets if the image is scaled to widget size.
+         *
+         * @return True if the image is scaled to widget size, otherwise false.
+         */
+        bool isScaling() const;
+
+        /**
+         * Sets if the image should be tiled to widget size.
+         *
+         * @param tile True if the image should be tiled.
+         */
+        void setTiling(bool tile);
+
+        /**
+         * Gets if the image is tiled to widget size.
+         *
+         * @return True if the image is tiled to widget size, otherwise false.
+         */
+        bool isTiling() const;
+
+        /**
+         * Sets the opacity of the background.
+         * 
+         * @param opaque True if opaque, false otherwise.
+         */
+        void setOpaque(bool opaque);
+
+        /**
+         * @return Whether this icons background is opaque or not.
+         */
+        bool isOpaque() const;
 
 
         // Inherited from Widget
@@ -135,6 +183,15 @@ namespace fcn
          * destructor.
          */
         bool mInternalImage;
+
+        // True if scaling is enabled, otherwise false.
+        bool mScale;
+
+        // True if tiling is enabled, otherwise false.
+        bool mTile;
+
+        // True if opaque, otherwise false.
+        bool mOpaque;
     };
 }
 
