@@ -81,16 +81,19 @@ namespace fcn
         : mHasMouse(false),
           mKeyPressed(false),
           mMousePressed(false),
-          mAlignment(Graphics::Center)
-    {
+          mState(true),
+          mAlignment(Graphics::Center),
+          mXOffset(1),
+          mYOffset(1) {
         setFocusable(true);
-        setBorderSize(1);
-        setPadding(4);
+        //setBorderSize(1);
+        //setPadding(4);
         adjustSize();
 
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener(this);
+        addWidgetListener(this);
     }
 
     Button::Button(const std::string& caption)
@@ -98,40 +101,76 @@ namespace fcn
               mHasMouse(false),
               mKeyPressed(false),
               mMousePressed(false),
-              mAlignment(Graphics::Center)
-    {
+              mState(true),
+              mAlignment(Graphics::Center),
+              mXOffset(1),
+              mYOffset(1) {
         setFocusable(true);
-        setBorderSize(1);
-        setPadding(4);
+        //setBorderSize(1);
+        //setPadding(4);
         adjustSize();
 
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener(this);
+        addWidgetListener(this);
     }
 
-    void Button::setCaption(const std::string& caption)
-    {
+    void Button::setCaption(const std::string& caption) {
         mCaption = caption;
+        adjustSize();
     }
 
-    const std::string& Button::getCaption() const
-    {
+    const std::string& Button::getCaption() const {
         return mCaption;
     }
 
-    void Button::setAlignment(Graphics::Alignment alignment)
-    {
+    void Button::setActive(bool state) {
+        mState = state;
+    }
+
+    bool Button::isActive() const {
+        return mState;
+    }
+
+    void Button::setAlignment(Graphics::Alignment alignment) {
         mAlignment = alignment;
     }
 
-    Graphics::Alignment Button::getAlignment() const
-    {
+    Graphics::Alignment Button::getAlignment() const {
         return mAlignment;
     }
 
-    void Button::draw(Graphics* graphics)
-    {
+    void Button::setDownXOffset(int offset) {
+        mXOffset = offset;
+    }
+
+    int Button::getDownXOffset() const {
+        return mXOffset;
+    }
+
+    void Button::setDownYOffset(int offset) {
+        mYOffset = offset;
+    }
+
+    int Button::getDownYOffset() const {
+        return mYOffset;
+    }
+
+    void Button::setDownOffset(int x, int y) {
+        mXOffset = x;
+        mYOffset = y;
+    }
+
+    void Button::fontChanged() {
+        int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        if (w > getWidth() || h > getHeight()) {
+            adjustSize();
+        }
+    }
+
+    void Button::draw(Graphics* graphics) {
         bool active = isFocused();
         Color faceColor = getBaseColor();
         if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
@@ -139,10 +178,15 @@ namespace fcn
         }
         int alpha = faceColor.a;
 
-        if (isPressed())
-        {
+        if (isPressed()) {
             faceColor = faceColor - 0x303030;
             faceColor.a = alpha;
+        }
+        if (!isActive()) {
+            int color = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
+            faceColor.r = color;
+            faceColor.g = color;
+            faceColor.b = color;
         }
 
         graphics->setColor(faceColor);
@@ -157,12 +201,9 @@ namespace fcn
             }
         }
 
-        graphics->setColor(getForegroundColor());
-
         int textX;
         int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
-        switch (getAlignment())
-        {
+        switch (getAlignment()) {
           case Graphics::Left:
               textX = offsetRec.x + getPaddingLeft();
               break;
@@ -176,14 +217,12 @@ namespace fcn
               throw FCN_EXCEPTION("Unknown alignment.");
         }
 
+        // set font and color
         graphics->setFont(getFont());
-
-        if (isPressed())
-        {
-            graphics->drawText(getCaption(), textX + 1, textY + 1, getAlignment());
-        }
-        else
-        {
+        graphics->setColor(getForegroundColor());
+        if (isPressed()) {
+            graphics->drawText(getCaption(), textX + getDownXOffset(), textY + getDownYOffset(), getAlignment());
+        } else {
             graphics->drawText(getCaption(), textX, textY, getAlignment());
         }
     }
@@ -192,95 +231,77 @@ namespace fcn
         adjustSize();
     }
 
-    void Button::adjustSize()
-    {
+    void Button::adjustSize() {
         int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 
-    bool Button::isPressed() const
-    {
-        if (mMousePressed)
-        {
+    bool Button::isPressed() const {
+        if (mMousePressed) {
             return mHasMouse;
         }
-        else
-        {
-            return mKeyPressed;
-        }
+        return mKeyPressed;
     }
 
-    void Button::mousePressed(MouseEvent& mouseEvent)
-    {
-        if (mouseEvent.getButton() == MouseEvent::Left)
-        {
+    void Button::mousePressed(MouseEvent& mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent::Left) {
             mMousePressed = true;
             mouseEvent.consume();
         }
     }
 
-    void Button::mouseExited(MouseEvent& mouseEvent)
-    {
+    void Button::mouseExited(MouseEvent& mouseEvent) {
         mHasMouse = false;
     }
 
-    void Button::mouseEntered(MouseEvent& mouseEvent)
-    {
+    void Button::mouseEntered(MouseEvent& mouseEvent) {
         mHasMouse = true;
     }
 
-    void Button::mouseReleased(MouseEvent& mouseEvent)
-    {
-        if (mouseEvent.getButton() == MouseEvent::Left
-            && mMousePressed
-            && mHasMouse)
-        {
+    void Button::mouseReleased(MouseEvent& mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
             mMousePressed = false;
             distributeActionEvent();
             mouseEvent.consume();
-        }
-        else if (mouseEvent.getButton() == MouseEvent::Left)
-        {
+        } else if (mouseEvent.getButton() == MouseEvent::Left) {
             mMousePressed = false;
             mouseEvent.consume();
         }
     }
 
-    void Button::mouseDragged(MouseEvent& mouseEvent)
-    {
+    void Button::mouseDragged(MouseEvent& mouseEvent) {
         mouseEvent.consume();
     }
 
-    void Button::keyPressed(KeyEvent& keyEvent)
-    {
+    void Button::keyPressed(KeyEvent& keyEvent) {
         Key key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Enter
-            || key.getValue() == Key::Space)
-        {
+        if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             mKeyPressed = true;
             keyEvent.consume();
         }
     }
 
-    void Button::keyReleased(KeyEvent& keyEvent)
-    {
+    void Button::keyReleased(KeyEvent& keyEvent) {
         Key key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::Enter
-             || key.getValue() == Key::Space)
-            && mKeyPressed)
-        {
+        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
             mKeyPressed = false;
             distributeActionEvent();
             keyEvent.consume();
         }
     }
 
-    void Button::focusLost(const Event& event)
-    {
+    void Button::focusLost(const Event& event) {
         mMousePressed = false;
         mKeyPressed = false;
+        mHasMouse = false;
+    }
+
+    void Button::ancestorHidden(const Event& e) {
+        mMousePressed = false;
+        mKeyPressed = false;
+        mHasMouse = false;
     }
 }

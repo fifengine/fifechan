@@ -73,7 +73,7 @@ namespace fcn
 {
     /**
      * Self-adjusting Container class. AdjustingContainers are an easy way to
-     * have Guichan position a group of widgets for you. It organizes elements
+     * have Fifechan position a group of widgets for you. It organizes elements
      * in a table layout, with fixed columns and variable rows.  The user specifies
      *
      * @verbitam
