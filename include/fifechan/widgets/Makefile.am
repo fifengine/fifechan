@@ -26,4 +26,5 @@ libfifechaninclude_HEADERS =	\
 	tabbedarea.hpp		\
 	textbox.hpp		\
 	textfield.hpp		\
+	togglebutton.hpp	\
 	window.hpp

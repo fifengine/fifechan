@@ -62,87 +62,102 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FCN_FIFECHAN_HPP
-#define FCN_FIFECHAN_HPP
+/*
+ * For comments regarding functions please see the header file.
+ */
 
-#include <fifechan/actionevent.hpp>
-#include <fifechan/actionlistener.hpp>
-#include <fifechan/cliprectangle.hpp>
-#include <fifechan/color.hpp>
-#include <fifechan/containerevent.hpp>
-#include <fifechan/containerlistener.hpp>
-#include <fifechan/deathlistener.hpp>
-#include <fifechan/event.hpp>
-#include <fifechan/exception.hpp>
-#include <fifechan/focushandler.hpp>
-#include <fifechan/focuslistener.hpp>
-#include <fifechan/font.hpp>
-#include <fifechan/genericinput.hpp>
-#include <fifechan/graphics.hpp>
-#include <fifechan/gui.hpp>
-#include <fifechan/image.hpp>
-#include <fifechan/imagefont.hpp>
-#include <fifechan/imageloader.hpp>
-#include <fifechan/input.hpp>
-#include <fifechan/inputevent.hpp>
-#include <fifechan/key.hpp>
-#include <fifechan/keyevent.hpp>
-#include <fifechan/keyinput.hpp>
-#include <fifechan/keylistener.hpp>
-#include <fifechan/listmodel.hpp>
-#include <fifechan/mouseevent.hpp>
-#include <fifechan/mouseinput.hpp>
-#include <fifechan/mouselistener.hpp>
-#include <fifechan/point.hpp>
-#include <fifechan/rectangle.hpp>
-#include <fifechan/selectionevent.hpp>
-#include <fifechan/selectionlistener.hpp>
-#include <fifechan/size.hpp>
-#include <fifechan/widget.hpp>
-#include <fifechan/widgetlistener.hpp>
-#include <fifechan/widgets/adjustingcontainer.hpp>
-#include <fifechan/widgets/bargraph.hpp>
-#include <fifechan/widgets/button.hpp>
-#include <fifechan/widgets/checkbox.hpp>
-#include <fifechan/widgets/container.hpp>
-#include <fifechan/widgets/curvegraph.hpp>
-#include <fifechan/widgets/dropdown.hpp>
-#include <fifechan/widgets/icon.hpp>
-#include <fifechan/widgets/iconprogressbar.hpp>
-#include <fifechan/widgets/imagebutton.hpp>
-#include <fifechan/widgets/imageprogressbar.hpp>
-#include <fifechan/widgets/label.hpp>
-#include <fifechan/widgets/linegraph.hpp>
-#include <fifechan/widgets/listbox.hpp>
-#include <fifechan/widgets/passwordfield.hpp>
-#include <fifechan/widgets/piegraph.hpp>
-#include <fifechan/widgets/pointgraph.hpp>
-#include <fifechan/widgets/scrollarea.hpp>
-#include <fifechan/widgets/slider.hpp>
-#include <fifechan/widgets/spacer.hpp>
-#include <fifechan/widgets/radiobutton.hpp>
-#include <fifechan/widgets/tab.hpp>
-#include <fifechan/widgets/tabbedarea.hpp>
-#include <fifechan/widgets/textbox.hpp>
-#include <fifechan/widgets/textfield.hpp>
-#include <fifechan/widgets/togglebutton.hpp>
-#include <fifechan/widgets/window.hpp>
+#include "fifechan/widgets/togglebutton.hpp"
 
-#include "fifechan/platform.hpp"
-#include "fifechan/version.hpp"
-
-
-class Widget;
-
-extern "C"
+namespace fcn
 {
-    /**
-     * Gets the the version of Fifechan. As it is a C function
-     * it can be used to check for Fifechan with autotools.
-     *
-     * @return the version of Fifechan.
-     */
-    FCN_CORE_DECLSPEC extern const char* fcnFifechanVersion();
-}
+    ToggleButton::GroupMap ToggleButton::mGroupMap;
 
-#endif // end FCN_FIFECHAN_HPP
+    ToggleButton::ToggleButton() {
+        setSelected(false);
+        adjustSize();
+    }
+
+    ToggleButton::ToggleButton(const std::string &caption, const std::string &group, bool selected) {
+        setCaption(caption);
+        setGroup(group);
+        setSelected(selected);
+        adjustSize();
+    }
+
+    ToggleButton::~ToggleButton() {
+        // Remove us from the group list
+        setGroup("");
+    }
+
+    bool ToggleButton::isSelected() const {
+        return mSelected;
+    }
+
+    void ToggleButton::setSelected(bool selected) {
+        if (selected && mGroup != "") {
+            // deselect all buttons in group
+            GroupIterator iter, iterEnd;
+            iterEnd = mGroupMap.upper_bound(mGroup);
+
+            for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
+                if (iter->second->isSelected()) {
+                    iter->second->setSelected(false);
+                }
+            }
+        }
+
+        mSelected = selected;
+    }
+
+    void ToggleButton::toggleSelected() {
+        setSelected(!isSelected());
+        distributeActionEvent();
+    }
+
+    void ToggleButton::setGroup(const std::string& group) {
+        // Remove button from previous group
+        if (mGroup != "") {
+            GroupIterator iter, iterEnd;
+            iterEnd = mGroupMap.upper_bound(mGroup);
+
+            for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
+                if (iter->second == this) {
+                    mGroupMap.erase(iter);
+                    break;
+                }
+            }
+        }
+        // Add button to new group
+        if (group != "") {
+            mGroupMap.insert(std::pair<std::string, ToggleButton*>(group, this));
+        }
+
+        mGroup = group;
+    }
+
+    const std::string& ToggleButton::getGroup() const {
+        return mGroup;
+    }
+
+    void ToggleButton::keyReleased(KeyEvent& keyEvent) {
+        Key key = keyEvent.getKey();
+
+        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
+            mKeyPressed = false;
+            toggleSelected();
+            keyEvent.consume();
+        }
+    }
+
+    void ToggleButton::mouseReleased(MouseEvent& mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
+            mMousePressed = false;
+            toggleSelected();
+            mouseEvent.consume();
+        } else if (mouseEvent.getButton() == MouseEvent::Left) {
+            mMousePressed = false;
+            mouseEvent.consume();
+        }
+    }
+
+}
