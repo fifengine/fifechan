@@ -116,6 +116,10 @@ namespace fcn
         addWidgetListener(this);
     }
 
+    Button::~Button() {
+
+    }
+
     void Button::setCaption(const std::string& caption) {
         mCaption = caption;
         adjustSize();
@@ -163,11 +167,7 @@ namespace fcn
     }
 
     void Button::fontChanged() {
-        int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
-        if (w > getWidth() || h > getHeight()) {
-            adjustSize();
-        }
+        adjustSize();
     }
 
     void Button::draw(Graphics* graphics) {

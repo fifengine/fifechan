@@ -77,9 +77,9 @@ namespace fcn
     /**
      * An implementation of a regular clickable button. Unlike a normal button an image 
      * button is capable of displaying images instead of only a simple text caption.
-     * It is possible to define images for button up, down, hover and a background.
-     * Also the same 4 images for a inactive button so that it's possible to visualize the inactivity.
-     * As minimum the button up image should be set. All other 7 images are optional.
+     * It is possible to define images for button up, down and hover.
+     * Also the same 3 images for a inactive button so that it's possible to visualize the inactivity.
+     * As minimum the button up image should be set. All other 5 images are optional.
      * Whenever an image button is clicked an action event will be sent to the action 
      * listener's of the image button.
      *

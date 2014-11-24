@@ -68,7 +68,7 @@
 
 #include "fifechan/widgets/adjustingcontainer.hpp"
 
-#include <fifechan.hpp>
+#include "fifechan/exception.hpp"
 
 namespace fcn
 {

@@ -108,6 +108,11 @@ namespace fcn
         Button(const std::string& caption);
 
         /**
+         * Destructor.
+         */
+        virtual ~Button();
+
+        /**
          * Sets the caption of the button.
          *
          * @param caption The caption of the button.
