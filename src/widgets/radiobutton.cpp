@@ -73,11 +73,13 @@ namespace fcn
     RadioButton::GroupMap RadioButton::mGroupMap;
 
     RadioButton::RadioButton() {
+        setMarkerStyle(Marker_Rhombus);
         setSelected(false);
         adjustSize();
     }
 
     RadioButton::RadioButton(const std::string &caption, const std::string &group, bool selected) {
+        setMarkerStyle(Marker_Rhombus);
         setCaption(caption);
         setGroup(group);
         setSelected(selected);

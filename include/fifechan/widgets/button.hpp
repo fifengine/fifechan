@@ -237,7 +237,7 @@ namespace fcn
          *
          * @return True if the button is pressed, false otherwise.
          */
-        bool isPressed() const;
+        virtual bool isPressed() const;
 
         /**
          * Holds the caption of the button.

@@ -86,8 +86,6 @@ namespace fcn
           mXOffset(1),
           mYOffset(1) {
         setFocusable(true);
-        //setBorderSize(1);
-        //setPadding(4);
         adjustSize();
 
         addMouseListener(this);
@@ -106,8 +104,6 @@ namespace fcn
               mXOffset(1),
               mYOffset(1) {
         setFocusable(true);
-        //setBorderSize(1);
-        //setPadding(4);
         adjustSize();
 
         addMouseListener(this);

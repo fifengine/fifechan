@@ -115,6 +115,9 @@ namespace fcn
 
 
     protected:
+        // Inherited from Button
+
+        virtual bool isPressed() const;
 
         /**
          * True if the check box is selected, false otherwise.

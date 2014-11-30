@@ -165,6 +165,10 @@ namespace fcn
     }
 
     void Icon::adjustSize() {
+        // workaround to avoid resizing
+        if (mScale || mTile) {
+            return;
+        }
         int w = 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         int h = 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         if (mImage) {

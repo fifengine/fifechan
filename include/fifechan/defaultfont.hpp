@@ -72,7 +72,7 @@ namespace fcn
 {
     /**
      * A font only capable of drawing rectangles. It is used by default
-     * in Guichan if no font has been set merely to show that no font has 
+     * in Fifechan if no font has been set merely to show that no font has 
      * been set.
      */
     class FCN_CORE_DECLSPEC DefaultFont : public Font

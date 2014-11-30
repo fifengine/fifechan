@@ -139,6 +139,10 @@ namespace fcn
         return mGroup;
     }
 
+    bool ToggleButton::isPressed() const {
+        return isSelected();
+    }
+
     void ToggleButton::keyReleased(KeyEvent& keyEvent) {
         Key key = keyEvent.getKey();
 
