@@ -8,6 +8,7 @@ libfifechaninclude_HEADERS =	\
 	container.hpp		\
 	curvegraph.hpp		\
 	dropdown.hpp		\
+	flowcontainer.hpp	\
 	icon.hpp		\
 	iconprogressbar.hpp	\
 	imagebutton.hpp		\

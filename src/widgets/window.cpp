@@ -270,7 +270,7 @@ namespace fcn
 
     void Window::adjustSize() {
         resizeToChildren();
-        int w = getWidth() + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 2 * getInnerBorderSize();
+        int w = std::max(getFont()->getWidth(mCaption), getWidth()) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 2 * getInnerBorderSize();
         int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + 2 * getInnerBorderSize() + getTitleBarHeight();
         setSize(w, h);
     }
