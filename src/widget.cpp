@@ -122,7 +122,7 @@ namespace fcn
               mCurrentFont(NULL),
               mMinSize(0, 0),
               mMaxSize(50000, 50000),
-              mFixedSize(0, 0),
+              mFixedSize(-1, -1),
               mIsFixedSize(false),
               mVExpand(false),
               mHExpand(false),
@@ -354,7 +354,6 @@ namespace fcn
 
     void Widget::setMinSize(const Size& size)
     {
-        mIsFixedSize = false;
         mMinSize = size;
         calculateSize();
     }
@@ -366,7 +365,6 @@ namespace fcn
 
     void Widget::setMaxSize(const Size& size)
     {
-        mIsFixedSize = false;
         mMaxSize = size;
         calculateSize();
     }
@@ -378,9 +376,13 @@ namespace fcn
 
     void Widget::setFixedSize(const Size& size)
     {
-        mIsFixedSize = true;
         mFixedSize = size;
-        calculateSize();
+        if (mFixedSize.getWidth() < 0 || mFixedSize.getHeight() < 0) {
+            mIsFixedSize = false;
+        } else {
+            mIsFixedSize = true;
+            calculateSize();
+        }
     }
 
     const Size& Widget::getFixedSize() const

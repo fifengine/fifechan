@@ -117,7 +117,7 @@ namespace fcn
          * @param opaque True if the container should be opaque, false otherwise.
          * @see isOpaque
          */
-        void setOpaque(bool opaque);
+        virtual void setOpaque(bool opaque);
 
         /**
          * Checks if the container is opaque or not.
@@ -125,7 +125,7 @@ namespace fcn
          * @return True if the container is opaque, false otherwise.
          * @see setOpaque
          */
-        bool isOpaque() const;
+        virtual bool isOpaque() const;
 
         /**
          * Adds a widget to the container.
@@ -213,7 +213,7 @@ namespace fcn
          * @param policy The LayoutPolicy of the container.
          * @see getLayout
          */
-        void setLayout(LayoutPolicy policy);
+        virtual void setLayout(LayoutPolicy policy);
 
         /**
          * Gets the layout of the container.
@@ -222,7 +222,7 @@ namespace fcn
          * @return The LayoutPolicy of the container.
          * @see setLayout
          */
-        LayoutPolicy getLayout() const;
+        virtual LayoutPolicy getLayout() const;
 
         /**
          * Set the vertical spacing between rows.

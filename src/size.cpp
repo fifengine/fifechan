@@ -23,10 +23,9 @@
 
 namespace fcn
 {
-    Size::Size(int width, int height)
-    : mWidth(width),
-    mHeight(height)
-    {
+    Size::Size(int width, int height):
+        mWidth(width),
+        mHeight(height) {
     }
     
     Size::~Size()

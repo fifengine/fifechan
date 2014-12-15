@@ -605,6 +605,7 @@ namespace fcn
 
         /**
          * Sets the dimension of the widget to a fixed size.
+         * To disable it, provide a size with negative values.
          *
          * @param size The fixed size of the widget.
          * @see getFixedSize, isFixedSize

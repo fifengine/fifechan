@@ -252,9 +252,29 @@ namespace fcn
                 img = getHoverImage() ? getHoverImage() : getUpImage();
             }
         }
-        // render foreground image
+        // render foreground image or color rectangle
         if (img) {
             graphics->drawImage(img, 0, 0, offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
+        } else {
+            Color faceColor = getBaseColor();
+            if (isFocused() && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                faceColor = getSelectionColor();
+            }
+            int alpha = faceColor.a;
+
+            if (isPressed()) {
+                faceColor = faceColor - 0x303030;
+                faceColor.a = alpha;
+            }
+            if (!isActive()) {
+                int color = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
+                faceColor.r = color;
+                faceColor.g = color;
+                faceColor.b = color;
+            }
+
+            graphics->setColor(faceColor);
+            graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
         }
 
         // render caption if it exits

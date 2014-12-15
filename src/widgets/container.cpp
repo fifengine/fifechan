@@ -92,8 +92,7 @@ namespace fcn
     void Container::draw(Graphics* graphics)
     {
         bool active = isFocused();
-        if (isOpaque())
-        {
+        if (isOpaque()) {
             if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
