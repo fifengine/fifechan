@@ -257,6 +257,39 @@ namespace fcn
          */
         Container::LayoutPolicy getLayout() const;
 
+        /**
+         * Set the vertical spacing between rows.
+         *
+         * @param verticalSpacing spacing in pixels.
+         * @see getVerticalSpacing
+         */
+        virtual void setVerticalSpacing(unsigned int spacing);
+
+        /**
+         * Get the vertical spacing between rows.
+         *
+         * @return vertical spacing in pixels.
+         * @see setVerticalSpacing
+         */
+        virtual unsigned int getVerticalSpacing() const;
+
+        /**
+         * Set the horizontal spacing between columns.
+         *
+         * @param horizontalSpacing spacing in pixels.
+         * @see getHorizontalSpacing
+         */
+        virtual void setHorizontalSpacing(unsigned int spacing);
+
+        /**
+         * Get the horizontal spacing between rows.
+         *
+         * @return horizontal spacing in pixels.
+         * @see setHorizontalSpacing
+         */
+        virtual unsigned int getHorizontalSpacing() const;
+
+
         // Inherited from ActionListener
 
         void action(const ActionEvent& actionEvent);

@@ -601,4 +601,20 @@ namespace fcn
     Container::LayoutPolicy TabbedArea::getLayout() const {
         return mTabContainer->getLayout();
     }
+
+    void TabbedArea::setVerticalSpacing(unsigned int spacing) {
+        mTabContainer->setVerticalSpacing(spacing);
+    }
+    
+    unsigned int TabbedArea::getVerticalSpacing() const {
+        return mTabContainer->getVerticalSpacing();
+    }
+
+    void TabbedArea::setHorizontalSpacing(unsigned int spacing) {
+        mTabContainer->setHorizontalSpacing(spacing);
+    }
+
+    unsigned int TabbedArea::getHorizontalSpacing() const {
+        return mTabContainer->getHorizontalSpacing();
+    }
 }
