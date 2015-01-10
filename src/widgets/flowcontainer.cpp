@@ -31,8 +31,6 @@ namespace fcn {
 
     FlowContainer::FlowContainer():
         mAlignment(Center) {
-        //setBorderSize(1);
-        //setPadding(2);
         setOpaque(true);
     }
 
@@ -49,40 +47,11 @@ namespace fcn {
 
     void FlowContainer::adjustContent() {
         // diff means border, padding, ...
-        int diffW = getDimension().width - getChildrenArea().width;
-        int diffH = getDimension().height - getChildrenArea().height;
+        int diffW = ABS(getDimension().width - getChildrenArea().width);
+        int diffH = ABS(getDimension().height - getChildrenArea().height);
 
-        // max size that can be used for layouting
-        // if no size is set the parent or max size is used
-        int containerW = getWidth();
-        int containerH = getHeight();
-        if (getParent()) {
-            // width
-            if (containerW - diffW < 1) {
-                containerW = getParent()->getChildrenArea().width;
-            } else {
-                containerW = std::min(containerW, getParent()->getChildrenArea().width);
-            }
-            containerW = std::max(containerW, getMinSize().getWidth());
-            containerW = std::min(containerW, getMaxSize().getWidth()) - diffW;;
-            // height
-            if (containerH - diffH < 1) {
-                containerH = getParent()->getChildrenArea().height;
-            } else {
-                containerH = std::min(containerH, getParent()->getChildrenArea().height);
-            }
-            containerH = std::max(containerH, getMinSize().getHeight());
-            containerH = std::min(containerH, getMaxSize().getHeight()) - diffH;
-        } else {
-            containerW -= diffW;
-            containerH -= diffH;
-            if (containerW < 1) {
-                containerW = getMaxSize().getWidth() - diffW;
-            }
-            if (containerH < 1) {
-                containerH = getMaxSize().getHeight() - diffH;
-            }
-        }
+        int containerW = getChildrenArea().width;
+        int containerH = getChildrenArea().height;
 
         // calculates max layout size per column or row
         std::vector<int> layoutMax;
@@ -106,7 +75,6 @@ namespace fcn {
                     y = 0;
                     layoutMax.push_back(tmpSize);
                     tmpSize = 0;
-                    continue;
                 }
                 y += rec.height + child->getMarginTop() + child->getMarginBottom() + getVerticalSpacing();
                 tmpSize = std::max(tmpSize, rec.width + child->getMarginLeft() + (child->getMarginRight() > 0 ? child->getMarginRight() : 0));
@@ -117,7 +85,6 @@ namespace fcn {
                     x = 0;
                     layoutMax.push_back(tmpSize);
                     tmpSize = 0;
-                    continue;
                 }
                 x += rec.width + child->getMarginLeft() + child->getMarginRight() + getHorizontalSpacing();
                 tmpSize = std::max(tmpSize, rec.height + child->getMarginTop() + (child->getMarginBottom() > 0 ? child->getMarginBottom() : 0));
@@ -175,6 +142,11 @@ namespace fcn {
             }
             // remove last spacing
             totalH -= getVerticalSpacing();
+            // always expand height but width only if horizontal expand is enabled
+            totalH = std::max(totalH, containerH);
+            if (isHorizontalExpand()) {
+                totalW = std::max(totalW, containerW);
+            }
         } else if (mLayout == Horizontal && visibleChilds > 0) {
             currChild = mChildren.begin();
             endChildren = mChildren.end();
@@ -213,11 +185,16 @@ namespace fcn {
                 (*currChild)->setDimension(dim);
                 x += (*currChild)->getWidth() + (*currChild)->getMarginLeft() + (*currChild)->getMarginRight() + getHorizontalSpacing();
                 totalW = std::max(totalW, x);
-                totalH = std::max(totalH, dim.y + dim.width);
+                totalH = std::max(totalH, dim.y + dim.height);
 
             }
             // remove last spacing
             totalW -= getHorizontalSpacing();
+            // always expand width but height only if vertical expand is enabled
+            totalW = std::max(totalW, containerW);
+            if (isVerticalExpand()) {
+                totalH = std::max(totalH, containerH);
+            }
         }
 
         // resize container
@@ -245,8 +222,11 @@ namespace fcn {
                 (*currChild)->resizeToContent(recursiv);
             }
         }
+
         if (mLayout != Absolute) {
-            adjustContent();
+            if (getParent()) {
+                setSize(getMinSize().getWidth(), getMinSize().getHeight());		
+            }
         }
     }
 
