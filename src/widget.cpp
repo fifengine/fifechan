@@ -748,6 +748,9 @@ namespace fcn
         if (mFocusHandler)
         {
             releaseModalFocus();
+            if (mFocusHandler->getModalMouseInputFocused() == this) {
+                releaseModalMouseInputFocus();
+            }
             mFocusHandler->remove(this);
         }
 
