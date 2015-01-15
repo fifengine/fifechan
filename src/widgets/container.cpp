@@ -80,6 +80,7 @@ namespace fcn
     {
         mOpaque = true;
         mLayout = Absolute;
+        mUniform = false;
         mVerticalSpacing = 2;
         mHorizontalSpacing = 2;
         mBackgroundWidget = NULL;
@@ -349,8 +350,6 @@ namespace fcn
         int maxVExpander = 0;
         int expanderNeededSpaceW = 0;
         int expanderNeededSpaceH = 0;
-        int expanderMarginW = 0;
-        int expanderMarginH = 0;
         unsigned int visibleChilds = 0;
         std::list<Widget*> hExpander;
         std::list<Widget*> vExpander;
@@ -371,7 +370,6 @@ namespace fcn
                 maxMinH = std::max(maxMinH, (*currChild)->getMinSize().getHeight());
                 minMaxH = std::min(minMaxH, (*currChild)->getMaxSize().getHeight());
                 expanderNeededSpaceH += (*currChild)->getHeight() + getVerticalSpacing();
-                expanderMarginH += (*currChild)->getMarginTop() + (*currChild)->getMarginBottom();
                 vExpander.push_back((*currChild));
             }
             if ((*currChild)->isHorizontalExpand()) {
@@ -379,7 +377,6 @@ namespace fcn
                 maxMinW = std::max(maxMinW, (*currChild)->getMinSize().getWidth());
                 minMaxW = std::min(minMaxW, (*currChild)->getMaxSize().getWidth());
                 expanderNeededSpaceW += (*currChild)->getWidth() + getHorizontalSpacing();
-                expanderMarginW += (*currChild)->getMarginLeft() + (*currChild)->getMarginRight();
                 hExpander.push_back((*currChild));
             }
         }
@@ -389,47 +386,67 @@ namespace fcn
             neededSpaceH -= getVerticalSpacing();
             int freeSpace = spaceH - neededSpaceH;
             if (freeSpace > 0) {
-                if (vExpander.size() > 0) {
-                    expanderNeededSpaceH -= getVerticalSpacing();
-                }
-                // check against the smallest maximal height
-                if (minMaxH < maxVExpander) {
-                    maxVExpander = minMaxH;
-                }
-                // check against the largest minimal height
-                if (maxMinH > maxVExpander) {
-                    maxVExpander = maxMinH;
-                }
-                int h = 0;
-                // calculate maximal height if all expanders get this max height
-                int maxNeeded = ((maxVExpander + getVerticalSpacing()) * vExpander.size()) - getVerticalSpacing();
-                int tmpSpace = (freeSpace + expanderNeededSpaceH) - maxNeeded;
-                if (tmpSpace > 0) {
-                    h = maxVExpander;
-                    freeSpace = tmpSpace;
-                }
-                // distribute space
-                if (freeSpace > 0 || h > 0) {
-                    std::list<Widget*>::iterator it = vExpander.begin();
-                    int expanders = vExpander.size();
-                    for (; it != vExpander.end(); ++it) {
-                        int layoutH = (*it)->getHeight() + (*it)->getMarginTop() + ((*it)->getMarginBottom() > 0 ? (*it)->getMarginBottom() : 0);
-                        // divide the space so that all expanders get the same size
-                        int diff = h > 0 ? 0 : (*it)->getHeight() + (maxVExpander  - layoutH);
-                        int delta = ((freeSpace-diff) / expanders) + diff;
-                        if (delta == 0) {
-                            delta = 1;
+                if (mUniform) {
+                    if (vExpander.size() > 0) {
+                        expanderNeededSpaceH -= getVerticalSpacing();
+                    }
+                    // check against the smallest maximal height
+                    if (minMaxH < maxVExpander) {
+                        maxVExpander = minMaxH;
+                    }
+                    // check against the largest minimal height
+                    if (maxMinH > maxVExpander) {
+                        maxVExpander = maxMinH;
+                    }
+                    int h = 0;
+                    // calculate maximal height if all expanders get this max height
+                    int maxNeeded = ((maxVExpander + getVerticalSpacing()) * vExpander.size()) - getVerticalSpacing();
+                    int tmpSpace = (freeSpace + expanderNeededSpaceH) - maxNeeded;
+                    if (tmpSpace > 0) {
+                        h = maxVExpander;
+                        freeSpace = tmpSpace;
+                    }
+                    // distribute space
+                    if (freeSpace > 0 || h > 0) {
+                        std::list<Widget*>::iterator it = vExpander.begin();
+                        int expanders = vExpander.size();
+                        for (; it != vExpander.end(); ++it) {
+                            int layoutH = (*it)->getHeight() + (*it)->getMarginTop() + ((*it)->getMarginBottom() > 0 ? (*it)->getMarginBottom() : 0);
+                            // divide the space so that all expanders get the same size
+                            int diff = h > 0 ? 0 : (*it)->getHeight() + (maxVExpander  - layoutH);
+                            int delta = ((freeSpace-diff) / expanders) + diff;
+                            if (delta == 0) {
+                                delta = 1;
+                            }
+                            if (delta > freeSpace) {
+                                delta = freeSpace;
+                            }
+                            int oldH = h > 0 ? h : (*it)->getHeight();
+                            int tmpH = oldH + delta;
+                            (*it)->setHeight(tmpH);
+                            tmpH = (*it)->getHeight();
+                            delta = tmpH - oldH;
+                            freeSpace -= delta;
+                            --expanders;
                         }
-                        if (delta > freeSpace) {
-                            delta = freeSpace;
+                    }
+
+                } else {
+                    if (vExpander.size() > 0) {
+                        // simply add one to each expander until free space is empty
+                        while (freeSpace) {
+                            std::list<Widget*>::iterator it = vExpander.begin();
+                            for (; it != vExpander.end(); ++it) {
+                                int h = (*it)->getHeight();
+                                (*it)->setHeight(h+1);
+                                if (h != (*it)->getHeight()) {
+                                    --freeSpace;
+                                    if (freeSpace == 0) {
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        int oldH = h > 0 ? h : (*it)->getHeight();
-                        int tmpH = oldH + delta;
-                        (*it)->setHeight(tmpH);
-                        tmpH = (*it)->getHeight();
-                        delta = tmpH - oldH;
-                        freeSpace -= delta;
-                        --expanders;
                     }
                 }
             }
@@ -460,47 +477,65 @@ namespace fcn
             neededSpaceW -= getHorizontalSpacing();
             int freeSpace = spaceW - neededSpaceW;
             if (freeSpace > 0) {
-                if (hExpander.size() > 0) {
-                    expanderNeededSpaceW -= getHorizontalSpacing();
-                }
-                // check against the smallest maximal width
-                if (minMaxW < maxHExpander) {
-                    maxHExpander = minMaxW;
-                }
-                // check against the largest minimal width
-                if (maxMinW > maxHExpander) {
-                    maxHExpander = maxMinW;
-                }
-                int w = 0;
-                // calculate maximal width if all expanders get this max width
-                int maxNeeded = ((maxHExpander + getHorizontalSpacing()) * hExpander.size()) - getHorizontalSpacing();
-                int tmpSpace = (freeSpace + expanderNeededSpaceW) - maxNeeded;
-                if (tmpSpace > 0) {
-                    w = maxHExpander;
-                    freeSpace = tmpSpace;
-                }
-                // distribute space
-                if (freeSpace > 0 || w > 0) {
-                    std::list<Widget*>::iterator it = hExpander.begin();
-                    int expanders = hExpander.size();
-                    for (; it != hExpander.end(); ++it) {
-                        // divide the space so that all expanders get the same size
-                        int layoutW = (*it)->getWidth() + (*it)->getMarginLeft() + ((*it)->getMarginRight() > 0 ? (*it)->getMarginRight() : 0);
-                        int diff = w > 0 ? 0 : (*it)->getWidth() + (maxHExpander  - layoutW);
-                        int delta = ((freeSpace-diff) / expanders) + diff;
-                        if (delta == 0) {
-                            delta = 1;
+                if (mUniform) {
+                    if (hExpander.size() > 0) {
+                        expanderNeededSpaceW -= getHorizontalSpacing();
+                    }
+                    // check against the smallest maximal width
+                    if (minMaxW < maxHExpander) {
+                        maxHExpander = minMaxW;
+                    }
+                    // check against the largest minimal width
+                    if (maxMinW > maxHExpander) {
+                        maxHExpander = maxMinW;
+                    }
+                    int w = 0;
+                    // calculate maximal width if all expanders get this max width
+                    int maxNeeded = ((maxHExpander + getHorizontalSpacing()) * hExpander.size()) - getHorizontalSpacing();
+                    int tmpSpace = (freeSpace + expanderNeededSpaceW) - maxNeeded;
+                    if (tmpSpace > 0) {
+                        w = maxHExpander;
+                        freeSpace = tmpSpace;
+                    }
+                    // distribute space
+                    if (freeSpace > 0 || w > 0) {
+                        std::list<Widget*>::iterator it = hExpander.begin();
+                        int expanders = hExpander.size();
+                        for (; it != hExpander.end(); ++it) {
+                            // divide the space so that all expanders get the same size
+                            int layoutW = (*it)->getWidth() + (*it)->getMarginLeft() + ((*it)->getMarginRight() > 0 ? (*it)->getMarginRight() : 0);
+                            int diff = w > 0 ? 0 : (*it)->getWidth() + (maxHExpander  - layoutW);
+                            int delta = ((freeSpace-diff) / expanders) + diff;
+                            if (delta == 0) {
+                                delta = 1;
+                            }
+                            if (delta > freeSpace) {
+                                delta = freeSpace;
+                            }
+                            int oldW = w > 0 ? w : (*it)->getWidth();
+                            int tmpW = oldW + delta;
+                            (*it)->setWidth(tmpW);
+                            tmpW = (*it)->getWidth();
+                            delta = tmpW - oldW;
+                            freeSpace -= delta;
+                            --expanders;
                         }
-                        if (delta > freeSpace) {
-                            delta = freeSpace;
+                    }
+                } else {
+                    if (hExpander.size() > 0) {
+                        while (freeSpace) {
+                            std::list<Widget*>::iterator it = hExpander.begin();
+                            for (; it != hExpander.end(); ++it) {
+                                int w = (*it)->getWidth();
+                                (*it)->setWidth(w+1);
+                                if (w != (*it)->getWidth()) {
+                                    --freeSpace;
+                                    if (freeSpace == 0) {
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        int oldW = w > 0 ? w : (*it)->getWidth();
-                        int tmpW = oldW + delta;
-                        (*it)->setWidth(tmpW);
-                        tmpW = (*it)->getWidth();
-                        delta = tmpW - oldW;
-                        freeSpace -= delta;
-                        --expanders;
                     }
                 }
             }
@@ -583,6 +618,14 @@ namespace fcn
 
     Container::LayoutPolicy Container::getLayout() const {
         return mLayout;
+    }
+
+    void Container::setUniformSize(bool uniform) {
+        mUniform = uniform;
+    }
+
+    bool Container::isUniformSize() const {
+        return mUniform;
     }
 
     Rectangle Container::getChildrenArea() {
