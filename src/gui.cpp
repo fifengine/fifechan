@@ -788,10 +788,6 @@ namespace fcn
             && !widget->isModalFocused())
             return;
 
-        if (mFocusHandler->getModalMouseInputFocused() != NULL
-            && !widget->isModalMouseInputFocused())
-            return;
-
         while (parent != NULL)
         {
             // If the widget has been removed due to input
@@ -867,16 +863,14 @@ namespace fcn
                 != mFocusHandler->getModalMouseInputFocused())
              && (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == NULL))
         {
-            handleModalFocusGained();
-            mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getModalMouseInputFocused());
+            handleModalMouseInputFocusGained();
         }
         // Check if modal mouse input focus has been released.
         else if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus()
                     != mFocusHandler->getModalMouseInputFocused())
                     && (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != NULL))
         {
-            handleModalFocusReleased();
-            mFocusHandler->setLastWidgetWithModalMouseInputFocus(NULL);
+            handleModalMouseInputFocusReleased();
         }
     }
 
@@ -888,7 +882,6 @@ namespace fcn
              && (mFocusHandler->getLastWidgetWithModalFocus() == NULL))
         {
             handleModalFocusGained();
-            mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getModalFocused());
         }
         // Check if modal focus has been released.
         else if ((mFocusHandler->getLastWidgetWithModalFocus()
@@ -896,7 +889,6 @@ namespace fcn
                     && (mFocusHandler->getLastWidgetWithModalFocus() != NULL))
         {
             handleModalFocusReleased();
-            mFocusHandler->setLastWidgetWithModalFocus(NULL);
         }
     }
 
@@ -911,6 +903,9 @@ namespace fcn
              iter != mWidgetsWithMouse.end();
              iter++)
         {
+            if ((*iter)->isModalFocused() || (*iter)->isModalMouseInputFocused()) {
+                continue;
+            }
             distributeMouseEvent((*iter),
                                  MouseEvent::Exited,
                                  mLastMousePressButton,
@@ -919,8 +914,7 @@ namespace fcn
                                  true,
                                  true);   
         }
-
-        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getModalMouseInputFocused());
+        mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getModalFocused());
     }
 
     void Gui::handleModalFocusReleased()
@@ -942,6 +936,54 @@ namespace fcn
                                  false,
                                  true);   
         }
+        mFocusHandler->setLastWidgetWithModalFocus(NULL);
+    }
+
+    void Gui::handleModalMouseInputFocusGained()
+    {
+        // Get all widgets at the last known mouse position
+        // and send them a mouse exited event.
+        std::set<Widget*> mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+       
+        std::set<Widget*>::const_iterator iter;
+        for (iter = mWidgetsWithMouse.begin(); 
+             iter != mWidgetsWithMouse.end();
+             iter++)
+        {
+            if ((*iter)->isModalMouseInputFocused()) {
+                continue;
+            }
+            distributeMouseEvent((*iter),
+                                 MouseEvent::Exited,
+                                 mLastMousePressButton,
+                                 mLastMouseX,
+                                 mLastMouseY,
+                                 true,
+                                 true);   
+        }
+        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getModalMouseInputFocused());
+    }
+
+    void Gui::handleModalMouseInputFocusReleased()
+    {
+        // Get all widgets at the last known mouse position
+        // and send them a mouse entered event.
+        std::set<Widget*> mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+       
+        std::set<Widget*>::const_iterator iter;
+        for (iter = mWidgetsWithMouse.begin(); 
+             iter != mWidgetsWithMouse.end();
+             iter++)
+        {
+            distributeMouseEvent((*iter),
+                                 MouseEvent::Entered,
+                                 mLastMousePressButton,
+                                 mLastMouseX,
+                                 mLastMouseY,
+                                 false,
+                                 true);   
+        }
+        mFocusHandler->setLastWidgetWithModalMouseInputFocus(NULL);
     }
     
     void Gui::handleHiddenWidgets()
