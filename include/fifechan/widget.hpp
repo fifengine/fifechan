@@ -1106,6 +1106,22 @@ namespace fcn
         void setTabOutEnabled(bool enabled);
 
         /**
+         * Checks if a widget is modal focusable.
+         *
+         * @return True if no other widget is modal focused, false otherwise.
+         * @see requestModalFocus, releaseModalFocus
+         */
+        virtual bool isModalFocusable() const;
+
+        /**
+         * Checks if a widget is modal mouse input focusable.
+         *
+         * @return True if no other widget is modal mouse input focused, false otherwise.
+         * @see requestModalMouseInputFocus, releaseModalMouseInputFocus
+         */
+        virtual bool isModalMouseInputFocusable() const;
+
+        /**
          * Requests modal focus. When a widget has modal focus, only that
          * widget and it's children may recieve input.
          *

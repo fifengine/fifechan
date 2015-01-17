@@ -960,6 +960,22 @@ namespace fcn
         return mEnabled && isVisible();
     }
 
+    bool Widget::isModalFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalFocused() == NULL;
+    }
+
+    bool Widget::isModalMouseInputFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalMouseInputFocused() == NULL;
+    }
+
     void Widget::requestModalFocus()
     {
         if (mFocusHandler == NULL)
