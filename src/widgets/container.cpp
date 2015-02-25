@@ -66,13 +66,15 @@
  * For comments regarding functions please see the header file.
  */
 
+#include <set>
+
 #include "fifechan/widgets/container.hpp"
 
 #include "fifechan/exception.hpp"
+#include "fifechan/util/fcn_math.hpp"
 #include "fifechan/graphics.hpp"
 
 #include <algorithm>
-#include <cmath>
 
 namespace fcn
 {
@@ -276,38 +278,52 @@ namespace fcn
             totalW = dimensions.x + diffW;
             totalH = std::max(layoutMaxH, childMaxH) + diffH;
         } else if (mLayout == Circular && visibleChilds > 0) {
-            const float pi = 3.141592653589793;
             const float angle = 360.0 / visibleChilds;
-            float xRadius = (childMaxW) * visibleChilds / pi;
-            float yRadius = (childMaxH) * visibleChilds / pi;
-            // this forces a uniform circle
-            //xRadius = std::max(xRadius, yRadius);
-            //yRadius = xRadius;
+            float xRadius = childMaxW * 2 + getHorizontalSpacing();
+            float yRadius = childMaxH * 2 + getVerticalSpacing();
             currChild = mChildren.begin();
             endChildren = mChildren.end();
             int w = 0;
             int h = 0;
             int i = 0;
+            int minW = 50000;
+            int minH = 50000;
+            int maxW = -50000;
+            int maxH = -50000;
+            for (; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                const float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / Mathf::pi());
+                int x = xRadius * cos(tmpAngle) - (*currChild)->getWidth() / 2;
+                int y = yRadius * sin(tmpAngle) - (*currChild)->getHeight() / 2;
+                minW = std::min(minW, x);
+                maxW = std::max(maxW, x + (*currChild)->getWidth());
+                minH = std::min(minH, y);
+                maxH = std::max(maxH, y + (*currChild)->getHeight());
+                
+                (*currChild)->setPosition(x, y);
+                ++i;
+            }
+
+            w = ABS(minW)+ABS(maxW);
+            h = ABS(minH)+ABS(maxH);
+
+            int centerX = w / 2;
+            int centerY = h / 2;
+
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
             for(; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / pi);
-                int x = xRadius + xRadius * cos(tmpAngle);
-                int y = yRadius + yRadius * sin(tmpAngle);
-                x -= childMaxW / 2;
-                y -= childMaxH / 2;
-                x += (*currChild)->getWidth() / 2 + getHorizontalSpacing();
-                y += (*currChild)->getHeight() / 2 + getVerticalSpacing();
+                int x = (*currChild)->getX() + centerX;
+                int y = (*currChild)->getY() + centerY;
 
-                w = std::max(w, x + (*currChild)->getWidth());
-                h = std::max(h, y + (*currChild)->getHeight());
-                    
                 (*currChild)->setPosition(x, y);
-                ++i;
             }
-            w += getHorizontalSpacing();
-            h += getVerticalSpacing();
+
             totalW = w + diffW;
             totalH = h + diffH;
         }
@@ -386,10 +402,10 @@ namespace fcn
             neededSpaceH -= getVerticalSpacing();
             int freeSpace = spaceH - neededSpaceH;
             if (freeSpace > 0) {
+                if (vExpander.size() > 0) {
+                    expanderNeededSpaceH -= getVerticalSpacing();
+                }
                 if (mUniform) {
-                    if (vExpander.size() > 0) {
-                        expanderNeededSpaceH -= getVerticalSpacing();
-                    }
                     // check against the smallest maximal height
                     if (minMaxH < maxVExpander) {
                         maxVExpander = minMaxH;
@@ -434,7 +450,9 @@ namespace fcn
                 } else {
                     if (vExpander.size() > 0) {
                         // simply add one to each expander until free space is empty
-                        while (freeSpace) {
+                        // or all expanders reached the max height
+                        std::set<Widget*> maxExpanders;
+                        while (freeSpace && maxExpanders.size() < vExpander.size()) {
                             std::list<Widget*>::iterator it = vExpander.begin();
                             for (; it != vExpander.end(); ++it) {
                                 int h = (*it)->getHeight();
@@ -444,6 +462,8 @@ namespace fcn
                                     if (freeSpace == 0) {
                                         break;
                                     }
+                                } else {
+                                    maxExpanders.insert(*it);
                                 }
                             }
                         }
@@ -523,7 +543,10 @@ namespace fcn
                     }
                 } else {
                     if (hExpander.size() > 0) {
-                        while (freeSpace) {
+                        // simply add one to each expander until free space is empty
+                        // or all expanders reached the max width
+                        std::set<Widget*> maxExpanders;
+                        while (freeSpace && maxExpanders.size() < hExpander.size()) {
                             std::list<Widget*>::iterator it = hExpander.begin();
                             for (; it != hExpander.end(); ++it) {
                                 int w = (*it)->getWidth();
@@ -533,6 +556,8 @@ namespace fcn
                                     if (freeSpace == 0) {
                                         break;
                                     }
+                                } else {
+                                    maxExpanders.insert(*it);
                                 }
                             }
                         }
@@ -562,14 +587,33 @@ namespace fcn
                 }
             }
         }else if (mLayout == Circular && visibleChilds > 0) {
-            const float pi = 3.141592653589793;
             const float angle = 360.0 / visibleChilds;
-            float xRadius = spaceW/2;
-            float yRadius = spaceH/2;
+            int childMaxW = 0;
+            int childMaxH = 0;
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for(; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                childMaxW = std::max(childMaxW, (*currChild)->getWidth());
+                childMaxH = std::max(childMaxH, (*currChild)->getHeight());
+            }
+            //childMaxW += getHorizontalSpacing();
+            //childMaxH += getVerticalSpacing();
+            float xRadius = (spaceW-childMaxW)/2.0;
+            float yRadius = (spaceH-childMaxH)/2.0;
+            float centerX = spaceW/2.0;
+            float centerY = spaceH/2.0;
+            if (xRadius < 1) {
+                xRadius = childMaxW;
+            }
+            if (yRadius < 1) {
+                yRadius = childMaxH;
+            }
             // this forces a uniform circle
             //xRadius = std::max(xRadius, yRadius);
             //yRadius = xRadius;
-            // check if we can create the widget size with iterating over the angles and fetch the min/max size with x,y
             int i = 0;
             currChild = mChildren.begin();
             endChildren = mChildren.end();
@@ -577,24 +621,12 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / pi);
-                int x = xRadius + xRadius * cos(tmpAngle);
-                int y = yRadius + yRadius * sin(tmpAngle);
-                x -= (*currChild)->getWidth() / 2 - getHorizontalSpacing();
-                y -= (*currChild)->getHeight() / 2 - getVerticalSpacing();
-                
-                if (x < 0) {
-                    x = 0;
-                }
-                if (y < 0) {
-                    y = 0;
-                }
-                if (x + (*currChild)->getWidth() > spaceW) {
-                    x = spaceW - (*currChild)->getWidth();
-                }
-                if (y + (*currChild)->getHeight() > spaceH) {
-                    y = spaceH - (*currChild)->getHeight();
-                }
+                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / Mathf::pi());
+                int x = centerX + xRadius * cos(tmpAngle);
+                int y = centerY + yRadius * sin(tmpAngle);
+                x -= (*currChild)->getWidth() / 2;
+                y -= (*currChild)->getHeight() / 2;
+
                 (*currChild)->setPosition(x, y);
                 ++i;
             }
