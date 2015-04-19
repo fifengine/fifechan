@@ -258,6 +258,25 @@ namespace fcn
         Container::LayoutPolicy getLayout() const;
 
         /**
+         * If enabled, the free space is distributed in a way that the size of the
+         * childrens will be equal (if possible).
+         * Otherwise the free space will evenly distributed.
+         *
+         * @param uniform Indicates if uniform size is enabled or not.
+         * @see isUniformSize
+         */
+        virtual void setUniformSize(bool uniform);
+
+        /**
+         * True if the tab container tries to expand the childs
+         * to a uniform size.
+         *
+         * @return True if uniform size is set, otherwise false.
+         * @see setUniformSize
+         */
+        virtual bool isUniformSize() const;
+
+        /**
          * Set the vertical spacing between rows.
          *
          * @param verticalSpacing spacing in pixels.

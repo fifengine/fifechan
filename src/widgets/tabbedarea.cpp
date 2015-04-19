@@ -602,6 +602,14 @@ namespace fcn
         return mTabContainer->getLayout();
     }
 
+    void TabbedArea::setUniformSize(bool uniform) {
+        mTabContainer->setUniformSize(uniform);
+    }
+
+    bool TabbedArea::isUniformSize() const {
+        return mTabContainer->isUniformSize();
+    }
+
     void TabbedArea::setVerticalSpacing(unsigned int spacing) {
         mTabContainer->setVerticalSpacing(spacing);
     }
