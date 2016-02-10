@@ -376,6 +376,13 @@ namespace fcn
         bool isVisible() const;
 
         /**
+         * Checks if the widget setting is visible.
+         *
+         * @return True if widget setting is be visible, false otherwise.
+         */
+        bool isSetVisible() const;
+
+        /**
          * Sets the base color of the widget.
          *
          * @param color The baseground color.
@@ -989,6 +996,9 @@ namespace fcn
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
         
+        static void _setGuiDeathListener(DeathListener* deathListener);
+        static DeathListener* _getGuiDeathListener();
+
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1242,6 +1252,8 @@ namespace fcn
          *        come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
+
+        static DeathListener* mGuiDeathListener;
 
         /**
          * Holds all children of the widget.

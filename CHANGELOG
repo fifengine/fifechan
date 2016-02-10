@@ -1,4 +1,17 @@
 ================================================================================
+== 0.1.2 (August 10th, 2014)                                                  ==
+================================================================================
+
+* Added the possibility for horizontal scrolling.
+* Added isSetVisible() to the Widget class. It's very similar to isVisible()
+	but ignores the parent.
+* Added GuiDeathListener. That should prevent crashes if the widget is hidden
+  and removed on the same pump.
+* Added ${LIB_SUFFIX} for CMake lib path. Can be used via -DLIB_SUFFIX argument.
+* Fixed a segfault that could happen if the Widgets are destroyed after the Gui.
+
+
+================================================================================
 == 0.1.1 (February 23th, 2014)                                                ==
 ================================================================================
 

@@ -68,6 +68,7 @@
 
 #include "fifechan/gui.hpp"
 
+#include "fifechan/deathlistener.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"
@@ -84,6 +85,20 @@
 
 namespace fcn
 {
+    class GuiDeathListener : public DeathListener {
+    public:
+        GuiDeathListener(Gui* gui)	{
+            mGui = gui;
+        }
+        virtual ~GuiDeathListener() {
+        }
+        virtual void death(const Event& event) {
+            mGui->widgetDied(event.getSource());
+        }
+    private:
+        Gui* mGui;
+    };
+
     Gui::Gui()
             :mTop(NULL),
              mGraphics(NULL),
@@ -102,8 +117,11 @@ namespace fcn
     {
         mFocusHandler = new FocusHandler();
         mVisibilityEventHandler = new VisibilityEventHandler(this);
+        mDeathListener = new GuiDeathListener(this);
         
         Widget::_setVisibilityEventHandler(mVisibilityEventHandler);
+        
+        Widget::_setGuiDeathListener(mDeathListener);
     }
 
     Gui::~Gui()
@@ -112,9 +130,11 @@ namespace fcn
         {
             setTop(NULL);
         }
+        Widget::_setGuiDeathListener(NULL);
 
         delete mFocusHandler;
         delete mVisibilityEventHandler;
+        delete mDeathListener;
     }
 
     void Gui::setTop(Widget* top)
@@ -227,6 +247,31 @@ namespace fcn
     void Gui::enqueueShownWidget(Widget* shown)
     {
         mShownWidgets.push(shown);
+    }
+
+    void Gui::widgetDied(Widget* widget)
+    {
+        std::queue<Widget*> tmp;
+        while(!mShownWidgets.empty())
+        {
+            Widget* shownWidget = mShownWidgets.front();
+            if (shownWidget != widget) {
+                tmp.push(shownWidget);
+            }
+            mShownWidgets.pop();
+        }
+        mShownWidgets = tmp;
+
+        tmp = std::queue<Widget*>();
+        while(!mHiddenWidgets.empty())
+        {
+            Widget* hiddenWidget = mHiddenWidgets.front();
+            if (hiddenWidget != widget) {
+                tmp.push(hiddenWidget);
+            }
+            mHiddenWidgets.pop();
+        }
+        mHiddenWidgets = tmp;
     }
 
     void Gui::handleMouseInput()
