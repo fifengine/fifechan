@@ -92,6 +92,7 @@ namespace fcn
     DefaultFont Widget::mDefaultFont;
     std::list<Widget*> Widget::mWidgetInstances;
     VisibilityEventHandler* Widget::mVisibilityEventHandler = NULL;
+    DeathListener* Widget::mGuiDeathListener = NULL;
 
     Widget::Widget()
             : mForegroundColor(0x000000),
@@ -130,7 +131,12 @@ namespace fcn
             Event event(this);
             (*deathIter)->death(event);
         }
-
+        
+        if (mGuiDeathListener) {
+            Event event(this);
+            mGuiDeathListener->death(event);
+        }
+        
         _setFocusHandler(NULL);
 
         mWidgetInstances.remove(this);
@@ -475,6 +481,16 @@ namespace fcn
     VisibilityEventHandler* Widget::_getVisibilityEventHandler()
     {
         return mVisibilityEventHandler;
+    }
+
+    void Widget::_setGuiDeathListener(DeathListener* deathListener)
+    { 
+        mGuiDeathListener = deathListener;
+    }
+    
+    DeathListener* Widget::_getGuiDeathListener()
+    {
+        return mGuiDeathListener;
     }
 
     void Widget::addActionListener(ActionListener* actionListener)

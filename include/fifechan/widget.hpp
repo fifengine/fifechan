@@ -1052,6 +1052,9 @@ namespace fcn
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
         
+        static void _setGuiDeathListener(DeathListener* deathListener);
+        static DeathListener* _getGuiDeathListener();
+
     protected:
         /**
          * Distributes an action event to all action listeners
@@ -1316,6 +1319,8 @@ namespace fcn
          *        come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
+
+        static DeathListener* mGuiDeathListener;
 
         /**
          * Holds all children of the widget.

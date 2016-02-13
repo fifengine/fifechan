@@ -1116,7 +1116,19 @@ namespace fcn
         if (mouseEvent.isConsumed())
             return;
 
-        setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
+        if (!mVBarVisible && !mHBarVisible) {
+            mouseEvent.consume();
+            return;
+        }
+        bool scrollV = mVBarVisible;
+        if (mVBarVisible && mHBarVisible) {
+            scrollV = getVerticalMaxScroll() > getHorizontalMaxScroll();
+        }
+        if (scrollV) {
+            setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
+        } else {
+            setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
+        }
 
         mouseEvent.consume();
     }
@@ -1126,7 +1138,19 @@ namespace fcn
         if (mouseEvent.isConsumed())
             return;
 
-        setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
+        if (!mVBarVisible && !mHBarVisible) {
+            mouseEvent.consume();
+            return;
+        }
+        bool scrollV = mVBarVisible;
+        if (mVBarVisible && mHBarVisible) {
+            scrollV = getVerticalMaxScroll() > getHorizontalMaxScroll();
+        }
+        if (scrollV) {
+            setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
+        } else {
+            setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
+        }
 
         mouseEvent.consume();
     }
