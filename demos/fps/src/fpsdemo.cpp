@@ -80,13 +80,9 @@ FPSDemo::FPSDemo()
          mMusic(NULL)
 {
     // Init SDL
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    mScreen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_HWACCEL);	
-
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-    SDL_WM_SetCaption("Guichan FPS demo", NULL);
+    SDL_Init(SDL_INIT_EVERYTHING);
+    window = SDL_CreateWindow("Fifechan FPS demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL);
+    glcontext = SDL_GL_CreateContext(window);
 	
     // Init SDL_Mixer
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024);
@@ -132,7 +128,8 @@ FPSDemo::~FPSDemo()
     Mix_FreeChunk(mOptionsSound);
     Mix_FreeMusic(mMusic);
     Mix_CloseAudio();
-
+    SDL_GL_DeleteContext(glcontext);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
@@ -161,9 +158,9 @@ void FPSDemo::initGui()
     mTitle = new fcn::Icon(mTitleImage);
     mTop->add(mTitle);
 	
-    mDemoInfo = new fcn::TextBox("     Copyright 2004, 2005, 2006 (c) Darkbits. This is a Demo demonstrating Guichan with SDL and OpenGL.\n"
-                                 "Guichan is licensed under BSD. For more information about Guichan and visit http://guichan.sourceforge.net\n"
-                                 "            Code Yakslem (Olof Nassen). Art Finalman (Per Larsson). Darkbits logo Haiko (Henrik Vahlgren).");
+    mDemoInfo = new fcn::TextBox("Copyright 2004, 2005, 2006, 2016 (c) Darkbits. This is a Demo demonstrating Fifechan with SDL and OpenGL.\n"
+                                 "Fifechan is licensed under BSD. For more information visit http://fifengine.github.io/fifechan/\n"
+                                 "Code Yakslem (Olof Nassen) & Fifechan team. Art Finalman (Per Larsson). Darkbits logo Haiko (Henrik Vahlgren).");
     mDemoInfo->setFont(mSmallBlackFont);
     mDemoInfo->setOpaque(false);
     mDemoInfo->setEditable(false);
@@ -171,7 +168,7 @@ void FPSDemo::initGui()
     mDemoInfo->setFrameSize(0);
     mTop->add(mDemoInfo);
 
-    mVersionLabel = new fcn::Label("Version 1.00");
+    mVersionLabel = new fcn::Label("Version 1.01");
     mVersionLabel->setFont(mSmallBlackFont);
     mTop->add(mVersionLabel);
 	
@@ -297,7 +294,7 @@ void FPSDemo::initSingleplay()
     mSingleplay->add(mSingleplayLabel);
 
     mSingleplayText = new fcn::TextBox("I'm verry sorry but this is not an actual game.\n"
-                                       "It's a demonstration of the GUI library Guichan.\n"
+                                       "It's a demonstration of the GUI library Fifechan.\n"
                                        "But who knows...\n"
                                        "Maybe it will be a game here someday.\n");
     mSingleplayText->setFont(mWhiteFont);
@@ -344,7 +341,7 @@ void FPSDemo::initMultiplay()
     mMultiplay->add(mMultiplayLabel);
 	
     mMultiplayText = new fcn::TextBox("I'm verry sorry but this is not an actuall game.\n"
-                                      "It's a demonstration of the GUI library Guichan.\n"
+                                      "It's a demonstration of the GUI library Fifechan.\n"
                                       "But who knows...\n"
                                       "Maybe it will be a game here someday.\n");
     mMultiplayText->setFont(mWhiteFont);
@@ -431,7 +428,7 @@ void FPSDemo::initOptions()
     else
     {
         mResolution->setSelected(0);
-    }	
+    }
     mResolution->setActionEventId("resolution");
     mResolution->addActionListener(this);
     mOptions->add(mResolution);
@@ -656,14 +653,14 @@ void FPSDemo::runIntro()
             mTime = SDL_GetTicks();
         }
         mDeltaTime = SDL_GetTicks() - mTime;
-        mTime = SDL_GetTicks();	
+        mTime = SDL_GetTicks();
 
         input();
 		
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         mGui->draw();
-        SDL_GL_SwapBuffers();
-        SDL_Delay(10);		
+        SDL_GL_SwapWindow(window);
+        SDL_Delay(10);
     }
 	
     mGui->setTop(mTop);
@@ -685,10 +682,9 @@ void FPSDemo::runMain()
         {
             // Clear the screen before remaking the Gui
             glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            SDL_GL_SwapBuffers();
-			
+            SDL_GL_SwapWindow(window);
             cleanGui();
-            initGui();		
+            initGui();
             resize();
             mResolutionChange = false;
         }
@@ -699,7 +695,7 @@ void FPSDemo::runMain()
         }
 		
         mDeltaTime = SDL_GetTicks() - mTime;
-        mTime = SDL_GetTicks();	
+        mTime = SDL_GetTicks();
 		
         input();
         mGui->logic();
@@ -711,15 +707,15 @@ void FPSDemo::runMain()
         drawSpace();
         gluLookAt(0.0,-1.8,-2.9,
                   0.0,-1.2,1.0,
-                  0.0,-1.0,0.0);		
+                  0.0,-1.0,0.0);
 		
         drawBackground();
         glPushMatrix();
         mGui->draw();
         glPopMatrix();
 		
-        SDL_GL_SwapBuffers();
-        SDL_Delay(10);		
+        SDL_GL_SwapWindow(window);
+        SDL_Delay(10);
     }
 }
 
@@ -741,7 +737,7 @@ void FPSDemo::input()
         {
             mRunning = false;
         }
-        // We ignore keyboard input and just sends mouse input to Guichan
+        // We ignore keyboard input and just sends mouse input to Fifechan
         else if (mEvent.type == SDL_MOUSEMOTION
                  || mEvent.type == SDL_MOUSEBUTTONDOWN
                  || mEvent.type == SDL_MOUSEBUTTONUP)
@@ -752,7 +748,7 @@ void FPSDemo::input()
 }
 
 /**
- * The action funcion from ActionListener
+ * The action function from ActionListener
  */
 void FPSDemo::action(const fcn::ActionEvent& actionEvent)
 {
@@ -811,7 +807,7 @@ void FPSDemo::action(const fcn::ActionEvent& actionEvent)
 }
 
 void FPSDemo::initVideo()
-{		
+{
     if (mResolution->getSelected() == 0)
     {
         mWidth = 1024;
@@ -826,13 +822,15 @@ void FPSDemo::initVideo()
     }
     if (mFullScreen->isSelected())
     {
-        mScreen = SDL_SetVideoMode(mWidth, mHeight, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_HWACCEL | SDL_FULLSCREEN);
+        SDL_SetWindowSize(window, mWidth, mHeight);
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
         mHaveFullscreen = true;
     }
     else
     {
         mHaveFullscreen = false;
-        mScreen = SDL_SetVideoMode(mWidth, mHeight, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_HWACCEL);
+        SDL_SetWindowFullscreen(window, 0);
+        SDL_SetWindowSize(window, mWidth, mHeight);
     }
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
     initOpenGL();
@@ -841,7 +839,7 @@ void FPSDemo::initVideo()
 void FPSDemo::initOpenGL()
 {
     // Init OpenGL
-    glViewport(0, 0, mWidth, mHeight);		
+    glViewport(0, 0, mWidth, mHeight);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	
     glShadeModel(GL_SMOOTH);

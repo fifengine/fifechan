@@ -1,3 +1,6 @@
 This is a demo demonstrating Fifechan and overloading of widgets to get an FPS
 look alike menu system.
 
+=== BUILD ===
+This demo can be build with GNU Make by running make.
+

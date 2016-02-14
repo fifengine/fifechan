@@ -65,8 +65,8 @@
 #ifndef __fpsdemo_hpp__
 #define __fpsdemo_hpp__
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #if defined (__amigaos4__)
 #include <mgl/gl.h>
@@ -156,7 +156,8 @@ private:
     float mDeltaTime;
     float mTime;
 	
-    SDL_Surface* mScreen;
+    SDL_Window *window = NULL;
+    SDL_GLContext glcontext = NULL;
     SDL_Event mEvent;
 
     Mix_Chunk* mChooseSound;
