@@ -303,8 +303,8 @@ namespace fcn
 
         adjustSize();
         scrollToCaret();
-        //assert( utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).end()) );
-        //assert( utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).begin() + getCaretColumn()) );
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).end()) == utf8::internal::UTF8_OK);
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).begin() + getCaretColumn()) == utf8::internal::UTF8_OK);
         keyEvent.consume();
     }
 
