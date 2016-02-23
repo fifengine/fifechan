@@ -21,15 +21,19 @@ else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
   find_path(OpenGL-FT_INCLUDE_DIR
     NAMES
       OpenGL-FT.h
+      OGLFT.h
     PATHS
       /usr/include
       /usr/local/include
       /opt/local/include
+    PATH_SUFFIXES
+      oglft
   )
 
   find_library(OpenGL-FT_LIBRARY
     NAMES
       OpenGL-FT
+      OGLFT
     PATHS
       /usr/lib
       /usr/local/lib

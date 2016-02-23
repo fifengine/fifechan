@@ -67,7 +67,7 @@
 
 #include <string>
 
-#include <oglft.h>
+#include <OGLFT.h>
 
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
