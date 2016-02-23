@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan)
 INTRODUCTION TO FIFECHAN
 ========================
 Fifechan is a lightweight cross platform GUI library written in C++ specifically
