@@ -8,6 +8,8 @@ os:
   - linux
   - osx
 
+dist: trusty
+
 git:
   depth: 1
 
