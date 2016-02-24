@@ -18,7 +18,7 @@ if (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
   # in cache already
   set(OpenGL-FT_FOUND TRUE)
 else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
-  find_path(OpenGL-FT_INCLUDE_DIR
+  find_path(OpenGL-FT_INCLUDE_DIRS
     NAMES
       OpenGL-FT.h
       OGLFT.h
@@ -30,7 +30,7 @@ else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
       oglft
   )
 
-  find_library(OpenGL-FT_LIBRARY
+  find_library(OpenGL-FT_LIBRARIES
     NAMES
       OpenGL-FT
       OGLFT
@@ -40,13 +40,11 @@ else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
       /opt/local/lib
   )
 
-  add_definitions( -DOGLFT_NO_QT)
+  add_definitions(-DOGLFT_NO_QT)
 
   include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 
   FIND_PACKAGE_HANDLE_STANDARD_ARGS(OpenGL-FT
-                                  REQUIRED_VARS OpenGL-FT_LIBRARY OpenGL-FT_INCLUDE_DIR)
-
-
+                                  REQUIRED_VARS OpenGL-FT_LIBRARIES OpenGL-FT_INCLUDE_DIRS)
 endif (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
 
