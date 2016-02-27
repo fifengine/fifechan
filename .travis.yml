@@ -17,7 +17,7 @@ before_install:
   # download oglft
   - wget http://downloads.sourceforge.net/project/oglft/oglft/Version%200.9/oglft-0.9.tar.gz && tar -xvf oglft-0.9.tar.gz
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y mesa-common-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev liballegro5-dev libfreetype6-dev && cd oglft-0.9 && ./configure --prefix=/usr && make && sudo make install && cd ..; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y mesa-common-dev libgle3-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev liballegro5-dev libfreetype6-dev && cd oglft-0.9 && ./configure --prefix=/usr && make && sudo make install && cd ..; fi
 
 before_script:
   - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
