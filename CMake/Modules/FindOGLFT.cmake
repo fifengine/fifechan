@@ -1,10 +1,10 @@
-# - Try to find OpenGL-FT
+# - Try to find OGLFT
 # Once done this will define
 #
-#  OpenGL-FT_FOUND - system has OpenGL-FT
-#  OpenGL-FT_INCLUDE_DIRS - the OpenGL-FT include directory
-#  OpenGL-FT_LIBRARIES - Link these to use OpenGL-FT
-#  OpenGL-FT_DEFINITIONS - Compiler switches required for using OpenGL-FT
+#  OGLFT_FOUND - system has OGLFT
+#  OGLFT_INCLUDE_DIRS - the OGLFT include directory
+#  OGLFT_LIBRARIES - Link these to use OGLFT
+#  OGLFT_DEFINITIONS - Compiler switches required for using OGLFT
 #
 #  Copyright (c) 2008 Olof Naessen <olof.naessen@gmail.com>
 #
@@ -14,11 +14,11 @@
 #
 
 
-if (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
+if (OGLFT_LIBRARIES AND OGLFT_INCLUDE_DIRS)
   # in cache already
-  set(OpenGL-FT_FOUND TRUE)
-else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
-  find_path(OpenGL-FT_INCLUDE_DIRS
+  set(OGLFT_FOUND TRUE)
+else (OGLFT_LIBRARIES AND OGLFT_INCLUDE_DIRS)
+  find_path(OGLFT_INCLUDE_DIRS
     NAMES
       OpenGL-FT.h
       OGLFT.h
@@ -30,7 +30,7 @@ else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
       oglft
   )
 
-  find_library(OpenGL-FT_LIBRARIES
+  find_library(OGLFT_LIBRARIES
     NAMES
       OpenGL-FT
       OGLFT
@@ -44,7 +44,7 @@ else (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
 
   include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 
-  FIND_PACKAGE_HANDLE_STANDARD_ARGS(OpenGL-FT
-                                  REQUIRED_VARS OpenGL-FT_LIBRARIES OpenGL-FT_INCLUDE_DIRS)
-endif (OpenGL-FT_LIBRARIES AND OpenGL-FT_INCLUDE_DIRS)
+  FIND_PACKAGE_HANDLE_STANDARD_ARGS(OGLFT
+                                  REQUIRED_VARS OGLFT_LIBRARIES OGLFT_INCLUDE_DIRS)
+endif (OGLFT_LIBRARIES AND OGLFT_INCLUDE_DIRS)
 
