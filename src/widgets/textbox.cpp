@@ -261,9 +261,12 @@ namespace fcn
             {
                 int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
                 int chars = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
-                setCaretRow(getCaretRow() - rowsPerPage);
-
-                if (getCaretRow() < 0)
+                int newCaretRow = getCaretRow() - rowsPerPage;
+                if (newCaretRow >= 0)
+                {
+                    setCaretRow(newCaretRow);
+                }
+                else
                 {
                     setCaretRow(0);
                 }
