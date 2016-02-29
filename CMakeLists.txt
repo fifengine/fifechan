@@ -12,11 +12,6 @@ SET(${PROJECT_NAME}_SOVERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 
-# set default cmake build type to RelWithDebInfo (None Debug Release RelWithDebInfo MinSizeRel)
-#IF( NOT CMAKE_BUILD_TYPE )
-#  SET( CMAKE_BUILD_TYPE "RelWithDebInfo" )
-#ENDIF()
-
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 
 # The Fifechan core library 
@@ -359,37 +354,4 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/sdl/)   
 ENDIF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
-# Make uninstall target
-#CONFIGURE_FILE(
-#  "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-#  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-#  IMMEDIATE @ONLY)
-#ADD_CUSTOM_TARGET(uninstall
-#  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-
 MESSAGE(STATUS "Fifechan has been built, hooray!")
-# MESSAGE( STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}" )
-# MESSAGE( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
-# MESSAGE( STATUS "CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}" )
-# MESSAGE( STATUS "${PROJECT_NAME}_DEPENDS = \"${${PROJECT_NAME}_DEPENDS}\"" )
-# MESSAGE( STATUS "BUILD_WITH = \"${BUILD_WITH}\"" )
-# MESSAGE( STATUS "INSTALL_DOC = ${INSTALL_DOC}" )
-# MESSAGE( STATUS "Change a value with: cmake -D<Variable>=<Value>" )
-# MESSAGE( STATUS "-------------------------------------------------------------------------------" )
-# MESSAGE( STATUS )
-
-# # force some variables that could be defined in the command line to be written to cache
-#SET(BUILD_SHARED_LIBS "${BUILD_SHARED_LIBS}" CACHE BOOL "Set to OFF to build static libraries" FORCE)
-# SET( CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE PATH
-#   "Where to install ${PROJECT_NAME}" FORCE )
-# SET( CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING
-#   "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
-# SET( CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" CACHE PATH
-#   "Path to custom CMake Modules" FORCE )
-# SET( INSTALL_DOC "${INSTALL_DOC}" CACHE BOOL
-#   "Set to OFF to skip build/install Documentation" FORCE )
-# # export build settings
-# INCLUDE( CMakeExportBuildSettings )
-# CMAKE_EXPORT_BUILD_SETTINGS( "${PROJECT_NAME}BuildSettings.cmake" )
-# # export library dependencies (keep this as the last line in the file)
-# EXPORT_LIBRARY_DEPENDENCIES( "${PROJECT_NAME}LibDeps.cmake" )
