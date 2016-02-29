@@ -28,12 +28,14 @@ else (OGLFT_LIBRARIES AND OGLFT_INCLUDE_DIRS)
       /opt/local/include
     PATH_SUFFIXES
       oglft
+      OGLFT
   )
 
   find_library(OGLFT_LIBRARIES
     NAMES
       OpenGL-FT
       OGLFT
+      oglft
     PATHS
       /usr/lib
       /usr/local/lib
