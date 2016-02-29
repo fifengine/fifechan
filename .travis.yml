@@ -30,7 +30,6 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
   - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
-  - if [ $TRAVIS_OS_NAME == osx ]; then cd oglft-0.9 && ./configure CPPFLAGS="$(freetype-config --cflags)" && make && sudo make install && cd ..; fi
   - cd oglft-code
   # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
   - sed -in '4d' CMakeLists.txt
