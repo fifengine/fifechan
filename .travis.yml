@@ -39,8 +39,10 @@ before_install:
   - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
   - cmake -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
 
-install:
+before_script:
   - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
+
+script:
   - make
   - sudo make install
 
