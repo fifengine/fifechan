@@ -34,9 +34,9 @@ before_install:
   # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
   - sed -i.bak '4d' CMakeLists.txt
   # Also include Freetype
-  - sed -i.bak '6aif(FREETYPE_FOUND)' CMakeLists.txt
-  - sed -i.bak '7aINCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
-  - sed -i.bak '8aendif(FREETYPE_FOUND)' CMakeLists.txt
+  - sed -i.bak '6a\if(FREETYPE_FOUND)' CMakeLists.txt
+  - sed -i.bak '7a\INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
+  - sed -i.bak '8a\endif(FREETYPE_FOUND)' CMakeLists.txt
   - cmake -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
 
 install:
