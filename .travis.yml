@@ -37,7 +37,7 @@ before_install:
   - sed -i '6aif(FREETYPE_FOUND)' CMakeLists.txt
   - sed -i '7aINCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
   - sed -i '8aendif(FREETYPE_FOUND)' CMakeLists.txt
-  - cmake . && make && sudo make install && cd ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
 
 before_script:
   - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
