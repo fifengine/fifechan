@@ -355,4 +355,4 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/sdl/)   
 ENDIF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
-MESSAGE(STATUS "Fifechan has been built, hooray!")
+MESSAGE(STATUS "Fifechan Makefiles have been generated, hooray!")
