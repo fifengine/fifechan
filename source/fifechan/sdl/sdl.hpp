@@ -70,7 +70,7 @@
 #include <fifechan/sdl/sdlimageloader.hpp>
 #include <fifechan/sdl/sdlinput.hpp>
 
-#include "platform.hpp"
+#include "fifechan/platform.hpp"
 
 extern "C"
 {

@@ -66,9 +66,9 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "fifechan/sdl.hpp"
+#include "fifechan/opengl/opengl.hpp"
 
 extern "C"
 {
-    void fcnSDL() { }
+    void fcnOpenGL() { }
 }

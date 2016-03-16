@@ -12,62 +12,63 @@ SET(${PROJECT_NAME}_SOVERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/source")
 
 # The Fifechan core library 
-FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
+FILE(GLOB FIFECHAN_HEADER source/fifechan.hpp)
 FILE(GLOB FIFECHAN_HEADERS
-  include/fifechan/actionevent.hpp		
-  include/fifechan/actionlistener.hpp		
-  include/fifechan/cliprectangle.hpp	
-  include/fifechan/color.hpp		
-  include/fifechan/containerevent.hpp		
-  include/fifechan/containerlistener.hpp		
-  include/fifechan/deathlistener.hpp	
-  include/fifechan/defaultfont.hpp		
-  include/fifechan/event.hpp		
-  include/fifechan/exception.hpp		
-  include/fifechan/focushandler.hpp	
-  include/fifechan/focuslistener.hpp	
-  include/fifechan/font.hpp		
-  include/fifechan/genericinput.hpp	
-  include/fifechan/glut.hpp		
-  include/fifechan/graphics.hpp		
-  include/fifechan/gui.hpp			
-  include/fifechan/image.hpp		
-  include/fifechan/imagefont.hpp		
-  include/fifechan/imageloader.hpp		
-  include/fifechan/input.hpp		
-  include/fifechan/inputevent.hpp		
-  include/fifechan/key.hpp			
-  include/fifechan/keyevent.hpp		
-  include/fifechan/keyinput.hpp		
-  include/fifechan/keylistener.hpp		
-  include/fifechan/listmodel.hpp		
-  include/fifechan/mouseevent.hpp		
-  include/fifechan/mouseinput.hpp		
-  include/fifechan/mouselistener.hpp	
-  include/fifechan/platform.hpp		
-  include/fifechan/rectangle.hpp		
-  include/fifechan/selectionevent.hpp	
-  include/fifechan/selectionlistener.hpp	
-  include/fifechan/text.hpp
-  include/fifechan/utf8stringeditor.hpp
-  include/fifechan/visibilityeventhandler.hpp
-  include/fifechan/widget.hpp		
-  include/fifechan/widgetlistener.hpp
-  include/fifechan/opengl.hpp
+  source/fifechan/actionevent.hpp		
+  source/fifechan/actionlistener.hpp		
+  source/fifechan/cliprectangle.hpp	
+  source/fifechan/color.hpp		
+  source/fifechan/containerevent.hpp		
+  source/fifechan/containerlistener.hpp		
+  source/fifechan/deathlistener.hpp	
+  source/fifechan/defaultfont.hpp		
+  source/fifechan/event.hpp		
+  source/fifechan/exception.hpp		
+  source/fifechan/focushandler.hpp	
+  source/fifechan/focuslistener.hpp	
+  source/fifechan/font.hpp		
+  source/fifechan/genericinput.hpp	
+  source/fifechan/glut.hpp		
+  source/fifechan/graphics.hpp		
+  source/fifechan/gui.hpp			
+  source/fifechan/image.hpp		
+  source/fifechan/imagefont.hpp		
+  source/fifechan/imageloader.hpp		
+  source/fifechan/input.hpp		
+  source/fifechan/inputevent.hpp		
+  source/fifechan/key.hpp			
+  source/fifechan/keyevent.hpp		
+  source/fifechan/keyinput.hpp		
+  source/fifechan/keylistener.hpp		
+  source/fifechan/listmodel.hpp		
+  source/fifechan/mouseevent.hpp		
+  source/fifechan/mouseinput.hpp		
+  source/fifechan/mouselistener.hpp	
+  source/fifechan/platform.hpp		
+  source/fifechan/rectangle.hpp		
+  source/fifechan/selectionevent.hpp	
+  source/fifechan/selectionlistener.hpp	
+  source/fifechan/text.hpp
+  source/fifechan/utf8stringeditor.hpp
+  source/fifechan/visibilityeventhandler.hpp
+  source/fifechan/widget.hpp		
+  source/fifechan/widgetlistener.hpp
+  source/fifechan/opengl.hpp
 )
-FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
-FILE(GLOB FIFECHAN_CONTRIB_WIDGET_HEADERS include/fifechan/contrib/widgets/*.hpp)
-FILE(GLOB FIFECHAN_SRC src/*.cpp)
-FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
+FILE(GLOB FIFECHAN_WIDGET_HEADERS source/fifechan/widgets/*.hpp)
+FILE(GLOB FIFECHAN_CONTRIB_WIDGET_HEADERS source/fifechan/contrib/widgets/*.hpp)
+FILE(GLOB FIFECHAN_SRC source/fifechan/*.cpp)
+FILE(GLOB FIFECHAN_WIDGET_SRC source/fifechan/widgets/*.cpp)
+FILE(GLOB FIFECHAN_CONTRIB_WIDGET_SRC source/fifechan/contrib/widgets/*.cpp)
 
 # Grouping of the source for nicer display in IDEs such as Visual Studio
-SOURCE_GROUP(src FILES ${FIFECHAN_HEADER})
-SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
-SOURCE_GROUP(src/fifechan/widgets FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
-SOURCE_GROUP(src/fifechan/contrib/widgets FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS})
+SOURCE_GROUP(source FILES ${FIFECHAN_HEADER})
+SOURCE_GROUP(source/fifechan FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
+SOURCE_GROUP(source/fifechan/widgets FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
+SOURCE_GROUP(source/fifechan/contrib/widgets FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS} ${FIFECHAN_CONTRIB_WIDGET_SRC})
 
 OPTION(BUILD_FIFECHAN_SHARED "Build the Fifechan core library as a shared library." ON)
 IF(BUILD_FIFECHAN_SHARED)
@@ -80,6 +81,7 @@ ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE}
 	${FIFECHAN_HEADERS} 
 	${FIFECHAN_WIDGET_HEADERS} 
 	${FIFECHAN_CONTRIB_WIDGET_HEADERS}
+	${FIFECHAN_CONTRIB_WIDGET_SRC}
 	${FIFECHAN_SRC} 
 	${FIFECHAN_WIDGET_SRC})
 ADD_CUSTOM_TARGET(lib DEPENDS ${PROJECT_NAME}) # Create symlink
@@ -111,15 +113,14 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   INCLUDE_DIRECTORIES(${ALLEGRO_INCLUDE_DIR})
 
   # The Fifechan Allegro extension source
-  FILE(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS include/fifechan/contrib/allegro/*.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_SRC src/allegro/*.cpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_HEADERS source/fifechan/allegro/*.hpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS source/fifechan/contrib/allegro/*.hpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_SRC source/fifechan/allegro/*.cpp)
+  FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_SRC source/fifechan/contrib/allegro/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
-  SOURCE_GROUP(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/allegro FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS})
+  SOURCE_GROUP(source/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
+  SOURCE_GROUP(source/fifechan/contrib/allegro FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS} ${FIFECHAN_ALLEGRO_CONTRIB_SRC})
 
   IF(BUILD_FIFECHAN_ALLEGRO_SHARED)
     SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE SHARED)
@@ -127,7 +128,6 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
      SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE STATIC)
    ENDIF(BUILD_FIFECHAN_ALLEGRO_SHARED)
    ADD_LIBRARY(${PROJECT_NAME}_allegro ${FIFECHAN_ALLEGRO_LIBRARY_TYPE} 
-	${FIFECHAN_ALLEGRO_HEADER}
 	${FIFECHAN_ALLEGRO_HEADERS}
 	${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}
 	${FIFECHAN_ALLEGRO_SRC})
@@ -147,7 +147,6 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
      WORLD_READ WORLD_EXECUTE)
-   INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADER} DESTINATION include/fifechan/)
    INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADERS} DESTINATION include/fifechan/allegro/)
    INSTALL(FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/allegro/)   
 ENDIF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
@@ -161,13 +160,11 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
   INCLUDE_DIRECTORIES(${IRRLICHT_INCLUDE_DIR})
 
   # The Fifechan Irrlicht extension source
-  FILE(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
-  FILE(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
-  FILE(GLOB FIFECHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
+  FILE(GLOB FIFECHAN_IRRLICHT_HEADERS source/fifechan/irrlicht/*.hpp)
+  FILE(GLOB FIFECHAN_IRRLICHT_SRC source/fifechan/irrlicht/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_IRRLICHT_HEADER})
-  SOURCE_GROUP(src/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
+  SOURCE_GROUP(source/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
 
   IF(BUILD_FIFECHAN_IRRLICHT_SHARED)
     SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE SHARED)
@@ -175,7 +172,6 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
      SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE STATIC)
    ENDIF(BUILD_FIFECHAN_IRRLICHT_SHARED)
    ADD_LIBRARY(${PROJECT_NAME}_irrlicht ${FIFECHAN_IRRLICHT_LIBRARY_TYPE}
-        ${FIFECHAN_IRRLICHT_HEADER}
         ${FIFECHAN_IRRLICHT_HEADERS}
         ${FIFECHAN_IRRLICHT_SRC})
    IF(WIN32)
@@ -194,7 +190,6 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
      OWNER_READ OWNER_WRITE OWNER_EXECUTE
      GROUP_READ GROUP_EXECUTE
      WORLD_READ WORLD_EXECUTE)
-   INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADER} DESTINATION include/fifechan/)
    INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADERS} DESTINATION include/fifechan/irrlicht/)
 ENDIF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
@@ -224,18 +219,17 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
   ENDIF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND AND FREETYPE_FOUND)
 
   # The OpenGL extension source
-  FILE(GLOB OGLFT_FOUNDFIFECHAN_OPENGL_HEADER include/fifechan/opengl.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_HEADERS include/fifechan/contrib/opengl/*.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
+#  FILE(GLOB OGLFT_FOUNDFIFECHAN_OPENGL_HEADER source/fifechan/opengl.hpp)
+  FILE(GLOB FIFECHAN_OPENGL_HEADERS source/fifechan/opengl/*.hpp)
+  FILE(GLOB FIFECHAN_OPENGL_SRC source/fifechan/opengl/*.cpp)
   IF(ENABLE_OPENGL_CONTRIB)
-  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_SRC src/contrib/opengl/*.cpp)
+  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_SRC source/fifechan/contrib/opengl/*.cpp)
+  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_HEADERS source/fifechan/contrib/opengl/*.hpp)
   ENDIF(ENABLE_OPENGL_CONTRIB)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_OPENGL_HEADER})
-  SOURCE_GROUP(src/fifechan/opengl FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/opengl FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} ${FIFECHAN_OPENGL_CONTRIB_SRC})
+  SOURCE_GROUP(source/fifechan/opengl FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
+  SOURCE_GROUP(source/fifechan/contrib/opengl FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} ${FIFECHAN_OPENGL_CONTRIB_SRC})
 
   IF(BUILD_FIFECHAN_OPENGL_SHARED)
     SET(FIFECHAN_OPENGL_LIBRARY_TYPE SHARED)
@@ -243,7 +237,6 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
     SET(FIFECHAN_OPENGL_LIBRARY_TYPE STATIC)
   ENDIF(BUILD_FIFECHAN_OPENGL_SHARED)
   ADD_LIBRARY(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE} 
-	${FIFECHAN_OPENGL_HEADER}
 	${FIFECHAN_OPENGL_HEADERS}
 	${FIFECHAN_OPENGL_CONTRIB_HEADERS}
 	${FIFECHAN_OPENGL_SRC}
@@ -276,7 +269,6 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-  INSTALL(FILES ${FIFECHAN_OPENGL_HEADER} DESTINATION include/fifechan/)
   INSTALL(FILES ${FIFECHAN_OPENGL_HEADERS} DESTINATION include/fifechan/opengl/)
   INSTALL(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/opengl/)   
 ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
@@ -302,19 +294,17 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR})
  
   # The Fifechan SDL extension source
-  FILE(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
-  FILE(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
-  FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)
-  FILE(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
+  FILE(GLOB FIFECHAN_SDL_HEADERS source/fifechan/sdl/*.hpp)
+  FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS source/fifechan/contrib/sdl/*.hpp)
+  FILE(GLOB FIFECHAN_SDL_SRC source/fifechan/sdl/*.cpp)
   IF(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
   INCLUDE_DIRECTORIES(${SDL_TTF_INCLUDE_DIRS})
-  FILE(GLOB FIFECHAN_CONTRIB_SRC src/contrib/sdl/*.cpp)
+  FILE(GLOB FIFECHAN_CONTRIB_SRC source/fifechan/contrib/sdl/*.cpp)
   ENDIF(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
   
   # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_SDL_HEADER})
-  SOURCE_GROUP(src/fifechan/sdl FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/sdl FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} ${FIFECHAN_CONTRIB_SRC})
+  SOURCE_GROUP(source/fifechan/sdl FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
+  SOURCE_GROUP(souce/fifechan/contrib/sdl FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} ${FIFECHAN_CONTRIB_SRC})
  
   IF(BUILD_FIFECHAN_SDL_SHARED)
     SET(FIFECHAN_SDL_LIBRARY_TYPE SHARED)
@@ -322,7 +312,6 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     SET(FIFECHAN_SDL_LIBRARY_TYPE STATIC)
   ENDIF(BUILD_FIFECHAN_SDL_SHARED)
   ADD_LIBRARY(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE} 
-	${FIFECHAN_SDL_HEADER}
 	${FIFECHAN_SDL_HEADERS}
 	${FIFECHAN_SDL_CONTRIB_HEADERS}
 	${FIFECHAN_SDL_SRC}
@@ -350,7 +339,6 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-  INSTALL(FILES ${FIFECHAN_SDL_HEADER} DESTINATION include/fifechan/)
   INSTALL(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION include/fifechan/sdl/)
   INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} DESTINATION include/fifechan/contrib/sdl/)   
 ENDIF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
