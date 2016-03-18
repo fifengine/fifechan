@@ -74,6 +74,7 @@
 #include <fifechan/deathlistener.hpp>
 #include <fifechan/event.hpp>
 #include <fifechan/exception.hpp>
+#include <fifechan/fixedsizeconstraint.hpp>
 #include <fifechan/focushandler.hpp>
 #include <fifechan/focuslistener.hpp>
 #include <fifechan/font.hpp>
@@ -96,12 +97,15 @@
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
 #include <fifechan/selectionlistener.hpp>
+#include <fifechan/sizeconstraint.hpp>
 #include <fifechan/widget.hpp>
 #include <fifechan/widgetlistener.hpp>
 #include <fifechan/widgets/button.hpp>
 #include <fifechan/widgets/checkbox.hpp>
+#include <fifechan/widgets/circularcontainer.hpp>
 #include <fifechan/widgets/container.hpp>
 #include <fifechan/widgets/dropdown.hpp>
+#include <fifechan/widgets/hbox.hpp>
 #include <fifechan/widgets/icon.hpp>
 #include <fifechan/widgets/iconprogressbar.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
@@ -110,11 +114,13 @@
 #include <fifechan/widgets/passwordfield.hpp>
 #include <fifechan/widgets/scrollarea.hpp>
 #include <fifechan/widgets/slider.hpp>
+#include <fifechan/widgets/spacer.hpp>
 #include <fifechan/widgets/radiobutton.hpp>
 #include <fifechan/widgets/tab.hpp>
 #include <fifechan/widgets/tabbedarea.hpp>
 #include <fifechan/widgets/textbox.hpp>
 #include <fifechan/widgets/textfield.hpp>
+#include <fifechan/widgets/vbox.hpp>
 #include <fifechan/widgets/window.hpp>
 
 #include "fifechan/platform.hpp"
