@@ -3,6 +3,8 @@
 
 namespace fcn
 {
+    const float CircularContainer::PI = 3.141592;
+
     CircularContainer::CircularContainer(int radius, float spacing)
     :
     mRadius(radius),

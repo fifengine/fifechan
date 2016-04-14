@@ -19,7 +19,7 @@ namespace fcn
     {
     public:
         
-        static const float PI = 3.141592;
+        static const float PI;
         
         /**
          * Constructor.
