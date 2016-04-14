@@ -182,7 +182,8 @@ namespace fcn
             Left,
             Right,
             Up,
-            Down
+            Down,
+            At
         };
 
     protected:
