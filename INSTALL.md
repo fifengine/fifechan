@@ -31,8 +31,8 @@ Optional OpenGL Contrib Dependencies (Set ENABLE_OPENGL_CONTRIB to ON if you nee
 
 
 For SDL support you need the following libraries installed:
-* SDL - http://www.libsdl.org
-* SDL_image - http://www.libsdl.org
+* SDL2 - http://www.libsdl.org
+* SDL2_image - http://www.libsdl.org
 
 Optional SDL Contrib Dependencies (Set ENABLE_SDL_CONTRIB to ON if you need them)
-* SDL_ttf - http://www.libsdl.org
+* SDL2_ttf - http://www.libsdl.org
