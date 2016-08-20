@@ -1,0 +1,51 @@
+language: cpp
+
+compiler:
+  - clang
+  - gcc
+
+os:
+  - linux
+  - osx
+
+dist: trusty
+
+git:
+  depth: 1
+
+addons:
+    apt:
+      packages:
+        - subversion
+        - mesa-common-dev
+        - libsdl2-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libfreetype6-dev
+        # Disallowed, have to be installed manually
+        #- liballegro5-dev
+        #- libgle3-dev
+
+before_install:
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
+  - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
+  - cd oglft-code
+  # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
+  - sed -i.bak '4d' CMakeLists.txt
+  # Also include Freetype
+  - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
+  - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
+  - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
+  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
+
+before_script:
+  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
+
+script:
+  - make
+  - sudo make install
+
+notifications:
+  irc: "irc.freenode.org#fife"
+  email: false

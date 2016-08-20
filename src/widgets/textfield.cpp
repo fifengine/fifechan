@@ -228,11 +228,11 @@ namespace fcn
             setCaretPosition(getText().size());
         }
 
-        // Add character to text, if key is realy a ASCII character
+        // Add character to text, if key is really an ASCII character
         // or is greater than 8bits long and the character is not
         // the tab key.
 
-        else if ((key.isCharacter() || key.getValue() > 255 && mText->getNumberOfRows() > 0)
+        else if ((key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0))
             && key.getValue() != Key::Tab)
         {
             setCaretPosition(mStringEditor->insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));

@@ -80,6 +80,7 @@
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/mouselistener.hpp"
+#include "fifechan/sizeconstraint.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widgetlistener.hpp"
 
@@ -134,6 +135,8 @@ namespace fcn
 
     Widget::~Widget()
     {
+        delete mSizeConstraint;
+        
         if (mParent != NULL)
             mParent->remove(this);
 
@@ -301,7 +304,7 @@ namespace fcn
     { 
         Rectangle oldDimension = mDimension;
         mDimension = dimension;
-
+        
         if (mDimension.width != oldDimension.width
             || mDimension.height != oldDimension.height)
         {
@@ -631,6 +634,8 @@ namespace fcn
         if (!visible && isFocused())
             mFocusHandler->focusNone();
         
+        mVisible = visible;
+        
         if (visible)
         {
             visibilityEventHandler->widgetShown(Event(this));
@@ -657,8 +662,6 @@ namespace fcn
                 (*currChild)->distributeAncestorHiddenEvent(this);
             }
         }
-        
-        mVisible = visible;
     }
 
     bool Widget::isVisible() const
@@ -773,6 +776,22 @@ namespace fcn
     FocusHandler* Widget::_getFocusHandler()
     {
         return mFocusHandler;
+    }
+    
+    void Widget::_setWidthWithoutNotifying(int width)
+    {
+        mDimension.width = width;
+    }
+    
+    void Widget::_setHeightWithoutNotifying(int height)
+    {
+        mDimension.height = height;
+    }
+    
+    void Widget::_setSizeWithoutNotifying(int width, int height)
+    {
+        mDimension.width = width;
+        mDimension.height = height;
     }
     
     void Widget::_setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler)
@@ -1222,11 +1241,28 @@ namespace fcn
             (*iter)->widgetShown(event);
         }
     }
-
+    
     void Widget::showPart(Rectangle rectangle)
     {
         if (mParent != NULL)
             mParent->showWidgetPart(this, rectangle);               
+    }
+    
+    void Widget::setSizeConstraint(SizeConstraint* sizeConstraint)
+    {
+        delete mSizeConstraint;
+        mSizeConstraint = sizeConstraint;
+        enforceSizeConstraint();
+    }
+    
+    SizeConstraint* Widget::getSizeConstraint() const
+    {
+        return mSizeConstraint;
+    }
+    
+    bool Widget::hasSizeConstraint() const
+    {
+        return mSizeConstraint != NULL;
     }
 
     Widget* Widget::getTop() const
@@ -1269,14 +1305,33 @@ namespace fcn
         for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
         {
             Widget* widget = (*iter);
-            if (widget->getX() + widget->getWidth() > w)
-                w = widget->getX() + widget->getWidth();
+            if(widget->isVisible())
+            {
+                if (widget->getX() + widget->getWidth() > w)
+                    w = widget->getX() + widget->getWidth();
 
-            if (widget->getY() + widget->getHeight() > h)
-                h = widget->getY() + widget->getHeight();
+                if (widget->getY() + widget->getHeight() > h)
+                    h = widget->getY() + widget->getHeight();
+            }
         }
-
+        
         setSize(w, h);
+    }
+    
+    void Widget::enforceSizeConstraint()
+    {
+        if(mSizeConstraint == NULL)
+            throw FCN_EXCEPTION("Enforcing a non-existent size constraint");
+        
+        int minWidth = mSizeConstraint->getMinWidth();
+        int minHeight = mSizeConstraint->getMinHeight();
+        int maxWidth = mSizeConstraint->getMaxWidth();
+        int maxHeight = mSizeConstraint->getMaxHeight();
+        int currWidth = mDimension.width;
+        int currHeight = mDimension.height;
+        
+        mDimension.width = std::max(std::min(currWidth, maxWidth), minWidth);
+        mDimension.height = std::max(std::min(currHeight, maxHeight), minHeight);
     }
 
     Widget* Widget::findWidgetById(const std::string& id)

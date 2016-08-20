@@ -86,6 +86,7 @@ namespace fcn
     class KeyListener;
     class MouseInput;
     class MouseListener;
+    class SizeConstraint;
     class VisibilityEventHandler;
     class WidgetListener;
 
@@ -454,7 +455,7 @@ namespace fcn
          * @see getWidth, setHeight, getHeight, setSize,
          *      setDimension, getDimension
          */
-        void setWidth(int width);
+        virtual void setWidth(int width);
 
         /**
          * Gets the width of the widget.
@@ -472,7 +473,7 @@ namespace fcn
          * @see getHeight, setWidth, getWidth, setSize,
          *      setDimension, getDimension
          */
-        void setHeight(int height);
+        virtual void setHeight(int height);
 
         /**
          * Gets the height of the widget.
@@ -1345,6 +1346,61 @@ namespace fcn
         virtual void showPart(Rectangle rectangle);
     
         /**
+         * Sets the size constraint of this widget.
+         * 
+         * @param sizeConstraint The size constraint. WARNING: The
+         *         widget owns this object after calling this method.
+         */
+        void setSizeConstraint(SizeConstraint* sizeConstraint);
+        
+        /**
+         * @return The widget's size constraint.
+         */    
+        SizeConstraint* getSizeConstraint() const;
+        
+        /**
+         * @return Whether the widget has a size constraint or not.
+         */
+        bool hasSizeConstraint() const;
+        
+        /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param width The width of the widget.
+         */
+        void _setWidthWithoutNotifying(int width);
+        
+        /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param height The height of the widget.
+         */
+        void _setHeightWithoutNotifying(int height);
+        
+        /**
+         * Sets widgets' width without notifying widget listeners for 
+         * the resizing. This is used by auto-layouting containers because 
+         * sometimes they resize widgets themselves.
+         * 
+         * WARNING: This function is used internally and should not
+         *          be called unless you know what you are doing.
+         * 
+         * @param width The width of the widget.
+         * @param height The height of the widget.
+         */
+        void _setSizeWithoutNotifying(int width, int height);
+        
+        /**
          * Sets the visibility event handler to be used.
          * 
          * WARNING: This function is used internally and should not
@@ -1511,7 +1567,7 @@ namespace fcn
          * @param widget The widget to add.
          * @see remove, clear
          */
-        void add(Widget* widget);
+        virtual void add(Widget* widget);
 
         /**
          * Removes a child from the widget.
@@ -1546,6 +1602,12 @@ namespace fcn
          */
         virtual Widget* findWidgetById(const std::string& id);
 
+        /**
+         * Enforces a size constraint by applying it to the width and
+         * the height of the Widget.
+         */
+        void enforceSizeConstraint();
+        
         /**
          * Resizes the widget to fit it's children exactly.
          *
@@ -1646,6 +1708,11 @@ namespace fcn
          * Holds the dimension of the widget.
          */
         Rectangle mDimension;
+        
+        /**
+         * Holds the size constraint of the widget.
+         */
+        SizeConstraint* mSizeConstraint;
 
         /**
          * Holds the offset dimension of the widget.

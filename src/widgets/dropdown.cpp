@@ -437,7 +437,7 @@ namespace fcn
         // We add 2 for the border
         int h2 = getFont()->getHeight() + 2;
 
-        setHeight(h2);
+        _setHeightWithoutNotifying(h2);
 
         // The addition/subtraction of 2 compensates for the seperation lines
         // seperating the selected element view and the scroll area.
@@ -449,11 +449,11 @@ namespace fcn
             if (listBoxHeight > h - h2 - 2)
             {
                 mScrollArea->setHeight(h - h2 - 2);
-                setHeight(h);
+                _setHeightWithoutNotifying(h);
             }
             else
             {
-                setHeight(listBoxHeight + h2 + 2);
+                _setHeightWithoutNotifying(listBoxHeight + h2 + 2);
                 mScrollArea->setHeight(listBoxHeight);
             }
         }
@@ -486,6 +486,7 @@ namespace fcn
             mDroppedDown = true;
             mFoldedUpHeight = getHeight();
             adjustHeight();
+            
 
             if (getParent())
             {

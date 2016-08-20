@@ -27,11 +27,11 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  *
  * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Olof NaessÃ©n a.k.a jansem/yakslem
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -74,6 +74,7 @@
 #include <fifechan/deathlistener.hpp>
 #include <fifechan/event.hpp>
 #include <fifechan/exception.hpp>
+#include <fifechan/fixedsizeconstraint.hpp>
 #include <fifechan/focushandler.hpp>
 #include <fifechan/focuslistener.hpp>
 #include <fifechan/font.hpp>
@@ -104,6 +105,7 @@
 #include <fifechan/widgets/bargraph.hpp>
 #include <fifechan/widgets/button.hpp>
 #include <fifechan/widgets/checkbox.hpp>
+#include <fifechan/widgets/circularcontainer.hpp>
 #include <fifechan/widgets/container.hpp>
 #include <fifechan/widgets/curvegraph.hpp>
 #include <fifechan/widgets/dropdown.hpp>

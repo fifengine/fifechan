@@ -82,6 +82,7 @@
 #include "fifechan/widget.hpp"
 
 #include <algorithm>
+#include <iterator>
 
 namespace fcn
 {
