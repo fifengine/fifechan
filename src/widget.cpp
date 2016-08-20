@@ -109,7 +109,11 @@ namespace fcn
               mTabIn(true),
               mTabOut(true),
               mEnabled(true),
-              mCurrentFont(NULL)
+              mCurrentFont(NULL),
+              mMinSize(0, 0),
+              mMaxSize(50000, 50000),
+              mFixedSize(0, 0),
+              mIsFixedSize(false)
     {
         mWidgetInstances.push_back(this);
     }
@@ -245,12 +249,12 @@ namespace fcn
         if (mDimension.width != oldDimension.width
             || mDimension.height != oldDimension.height)
         {
-            if(hasSizeConstraint())
+            calculateSize();
+            if (mDimension.width != oldDimension.width
+                || mDimension.height != oldDimension.height)
             {
-                enforceSizeConstraint();   
+                distributeResizedEvent();
             }
-            
-            distributeResizedEvent();
         }
 
         if (mDimension.x != oldDimension.x
@@ -266,6 +270,61 @@ namespace fcn
                 (*currChild)->distributeAncestorMovedEvent(this);
             }
         }
+    }
+
+    void Widget::setMinSize(const Size& size)
+    {
+        mIsFixedSize = false;
+        mMinSize = size;
+    }
+
+    const Size& Widget::getMinSize() const
+    {
+        return mMinSize;
+    }
+
+    void Widget::setMaxSize(const Size& size)
+    {
+        mIsFixedSize = false;
+        mMaxSize = size;
+    }
+
+    const Size& Widget::getMaxSize() const
+    {
+        return mMaxSize;
+    }
+
+    void Widget::setFixedSize(const Size& size)
+    {
+        mIsFixedSize = true;
+        mFixedSize = size;
+    }
+
+    const Size& Widget::getFixedSize() const
+    {
+        return mFixedSize;
+    }
+
+    bool Widget::isFixedSize() const
+    {
+        return mIsFixedSize;
+    }
+
+    void Widget::calculateSize() {
+        if (isFixedSize()) {
+            mDimension.width = mFixedSize.getWidth();
+            mDimension.height = mFixedSize.getHeight();
+            return;
+        }
+        int minWidth = mMinSize.getWidth();
+        int minHeight = mMinSize.getHeight();
+        int maxWidth = mMaxSize.getWidth();
+        int maxHeight = mMaxSize.getHeight();
+        int currWidth = mDimension.width;
+        int currHeight = mDimension.height;
+        
+        mDimension.width = std::max(std::min(currWidth, maxWidth), minWidth);
+        mDimension.height = std::max(std::min(currHeight, maxHeight), minHeight);
     }
 
     void Widget::setFrameSize(unsigned int frameSize)
@@ -433,6 +492,9 @@ namespace fcn
         if (mFocusHandler)
         {
             releaseModalFocus();
+            if (mFocusHandler->getModalMouseInputFocused() == this) {
+                releaseModalMouseInputFocus();
+            }
             mFocusHandler->remove(this);
         }
 
