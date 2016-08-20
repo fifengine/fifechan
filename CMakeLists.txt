@@ -6,8 +6,8 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 PROJECT(fifechan)
 
 SET(MAJOR_VERSION 0)
-SET(MINOR_VERSION 1)
-SET(PATCH_LEVEL 2)
+SET(MINOR_VERSION 2)
+SET(PATCH_LEVEL 0)
 SET(${PROJECT_NAME}_SOVERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(${PROJECT_NAME}_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL})
 SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
@@ -48,21 +48,22 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/mouseevent.hpp		
   include/fifechan/mouseinput.hpp		
   include/fifechan/mouselistener.hpp	
-  include/fifechan/platform.hpp		
+  include/fifechan/platform.hpp
+  include/fifechan/point.hpp
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
-  include/fifechan/selectionlistener.hpp	
+  include/fifechan/selectionlistener.hpp
   include/fifechan/size.hpp
-  include/fifechan/sizeconstraint.hpp
   include/fifechan/text.hpp
   include/fifechan/utf8stringeditor.hpp
+  include/fifechan/version.hpp
   include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp
   include/fifechan/opengl.hpp
 )
 FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
-FILE(GLOB FIFECHAN_CONTRIB_WIDGET_HEADERS include/fifechan/contrib/widgets/*.hpp)
+FILE(GLOB FIFECHAN_UTIL_HEADERS include/fifechan/util/*.hpp)
 FILE(GLOB FIFECHAN_SRC src/*.cpp)
 FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
 
@@ -70,7 +71,6 @@ FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
 SOURCE_GROUP(src FILES ${FIFECHAN_HEADER})
 SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
 SOURCE_GROUP(src/fifechan/widgets FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
-SOURCE_GROUP(src/fifechan/contrib/widgets FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS})
 
 OPTION(BUILD_FIFECHAN_SHARED "Build the Fifechan core library as a shared library." ON)
 IF(BUILD_FIFECHAN_SHARED)
@@ -81,8 +81,8 @@ ENDIF(BUILD_FIFECHAN_SHARED)
 ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE} 
 	${FIFECHAN_HEADER} 
 	${FIFECHAN_HEADERS} 
-	${FIFECHAN_WIDGET_HEADERS} 
-	${FIFECHAN_CONTRIB_WIDGET_HEADERS}
+	${FIFECHAN_WIDGET_HEADERS}
+	${FIFECHAN_UTIL_HEADERS}
 	${FIFECHAN_SRC} 
 	${FIFECHAN_WIDGET_SRC})
 ADD_CUSTOM_TARGET(lib DEPENDS ${PROJECT_NAME}) # Create symlink
@@ -100,7 +100,7 @@ INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
 INSTALL(FILES ${FIFECHAN_HEADER} DESTINATION include/)
 INSTALL(FILES ${FIFECHAN_HEADERS} DESTINATION include/fifechan/)
 INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS} DESTINATION include/fifechan/widgets/)
-INSTALL(FILES ${FIFECHAN_CONTRIB_WIDGET_HEADERS} DESTINATION include/fifechan/contrib/widgets/)
+INSTALL(FILES ${FIFECHAN_UTIL_HEADERS} DESTINATION include/fifechan/util/)
 
 #REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
 #ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")

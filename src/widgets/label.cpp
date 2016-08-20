@@ -77,6 +77,8 @@ namespace fcn
     Label::Label()
     {
         mAlignment = Graphics::Left;
+
+		adjustSize();
     }
 
     Label::Label(const std::string& caption)
@@ -84,8 +86,7 @@ namespace fcn
         mCaption = caption;
         mAlignment = Graphics::Left;
 
-        setWidth(getFont()->getWidth(caption));
-        setHeight(getFont()->getHeight());
+        adjustSize();
     }
 
     const std::string &Label::getCaption() const
@@ -96,6 +97,7 @@ namespace fcn
     void Label::setCaption(const std::string& caption)
     {
         mCaption = caption;
+		adjustSize();
     }
 
     void Label::setAlignment(Graphics::Alignment alignment)
@@ -108,21 +110,39 @@ namespace fcn
         return mAlignment;
     }
 
+    void Label::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+    
+    void Label::adjustSize() {
+        setSize(2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
+            2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + getFont()->getHeight());
+    }
+
     void Label::draw(Graphics* graphics)
     {
+		// draw border or frame
+        if (getBorderSize() > 0) {
+            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
+        }
+		Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
         int textX;
-        int textY = getHeight() / 2 - getFont()->getHeight() / 2;
+		int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
 
         switch (getAlignment())
         {
           case Graphics::Left:
-              textX = 0;
+              textX = offsetRec.x + getPaddingLeft();
               break;
           case Graphics::Center:
-              textX = getWidth() / 2;
+              textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
               break;
           case Graphics::Right:
-              textX = getWidth();
+              textX = getWidth() - offsetRec.x - getPaddingRight();
               break;
           default:
               throw FCN_EXCEPTION("Unknown alignment.");
@@ -131,11 +151,5 @@ namespace fcn
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
         graphics->drawText(getCaption(), textX, textY, getAlignment());
-    }
-
-    void Label::adjustSize()
-    {
-        setWidth(getFont()->getWidth(getCaption()));
-        setHeight(getFont()->getHeight());
     }
 }

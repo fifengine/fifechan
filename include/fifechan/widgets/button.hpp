@@ -74,6 +74,7 @@
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
+#include "fifechan/widgetlistener.hpp"
 
 namespace fcn
 {
@@ -89,7 +90,8 @@ namespace fcn
     class FCN_CORE_DECLSPEC Button : public Widget,
                                      public MouseListener,
                                      public KeyListener,
-                                     public FocusListener
+                                     public FocusListener,
+                                     public WidgetListener
     {
     public:
         /**
@@ -106,9 +108,12 @@ namespace fcn
         Button(const std::string& caption);
 
         /**
-         * Sets the caption of the button. It's advisable to call
-         * adjustSize after setting of the caption to adjust the
-         * button's size to fit the caption.
+         * Destructor.
+         */
+        virtual ~Button();
+
+        /**
+         * Sets the caption of the button.
          *
          * @param caption The caption of the button.
          * @see getCaption, adjustSize
@@ -121,6 +126,21 @@ namespace fcn
          * @return The caption of the button.
          */
         const std::string& getCaption() const;
+
+        /**
+         * Sets the button state.
+         * If the button is inactiv it looks gray.
+         *
+         * @param state True to activate the button or false to deactivate it.
+         */
+        void setActive(bool state);
+
+        /**
+         * Returns the button state.
+         *
+         * @return True if the button is active otherwise false.
+         */
+        bool isActive() const;
 
         /**
          * Sets the alignment of the caption. The alignment is relative
@@ -140,31 +160,50 @@ namespace fcn
         Graphics::Alignment getAlignment() const;
 
         /**
-         * Sets the spacing between the border of the button and its caption.
+         * Sets the number of pixels the image or text will be offset from
+         * the top left corner of button when the button is pressed or toggled.
          *
-         * @param spacing The default value for spacing is 4 and can be changed 
-         *                using this method.
-         * @see getSpacing
+         * @param offset The x offset.
          */
-        void setSpacing(unsigned int spacing);
+        void setDownXOffset(int offset);
 
         /**
-         * Gets the spacing between the border of the button and its caption.
+         * Gets the number of pixels the image or text will be offset.
          *
-         * @return spacing.
-         * @see setSpacing
+         * @return The x offset.
          */
-        unsigned int getSpacing() const;
+        int getDownXOffset() const;
 
         /**
-         * Adjusts the button's size to fit the caption.
+         * Sets the number of pixels the image or text will be offset from
+         * the top left corner of button when the button is pressed or toggled.
+         *
+         * @param offset The y offset.
          */
-        void adjustSize();
+        void setDownYOffset(int offset);
 
+        /**
+         * Gets the number of pixels the image or text will be offset.
+         *
+         * @return The y offset.
+         */
+        int getDownYOffset() const;
 
-        //Inherited from Widget
+        /**
+         * Sets the number of pixels the image or text will be offset from
+         * the top left corner of button when the button is pressed or toggled.
+         *
+         * @param x The x offset.
+         * @param y The y offset.
+         */
+        void setDownOffset(int x, int y);
 
+        // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
+        virtual void fontChanged();
 
 
         // Inherited from FocusListener
@@ -175,21 +214,21 @@ namespace fcn
         // Inherited from MouseListener
 
         virtual void mousePressed(MouseEvent& mouseEvent);
-
         virtual void mouseReleased(MouseEvent& mouseEvent);
-
         virtual void mouseEntered(MouseEvent& mouseEvent);
-
         virtual void mouseExited(MouseEvent& mouseEvent);
-
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
 
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
-
         virtual void keyReleased(KeyEvent& keyEvent);
+
+
+        // Inherited from WidgetListener
+
+        virtual void ancestorHidden(const Event& e);
 
     protected:
         /**
@@ -198,7 +237,7 @@ namespace fcn
          *
          * @return True if the button is pressed, false otherwise.
          */
-        bool isPressed() const;
+        virtual bool isPressed() const;
 
         /**
          * Holds the caption of the button.
@@ -221,14 +260,24 @@ namespace fcn
         bool mMousePressed;
 
         /**
+         * True if the button is active.
+         */
+        bool mState;
+
+        /**
          * Holds the alignment of the caption.
          */
         Graphics::Alignment mAlignment;
 
         /**
-         * Holds the spacing between the border and the caption.
+         * Holds the x down offset of the caption.
          */
-        unsigned int mSpacing;
+        int mXOffset;
+
+        /**
+         * Holds the y down offset of the caption.
+         */
+        int mYOffset;
     };
 }
 

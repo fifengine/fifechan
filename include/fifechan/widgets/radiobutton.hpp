@@ -68,10 +68,8 @@
 #include <map>
 #include <string>
 
-#include "fifechan/keylistener.hpp"
-#include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/widget.hpp"
+#include "fifechan/widgets/checkbox.hpp"
 
 namespace fcn
 {
@@ -83,13 +81,9 @@ namespace fcn
      * capable of displaying a caption.
      * 
      * If a radio button's state changes an action event will be sent to all action 
-     * listeners of the check box.
+     * listeners of the radio button.
      */
-    class FCN_CORE_DECLSPEC RadioButton :
-        public Widget,
-        public MouseListener,
-        public KeyListener
-    {
+    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox {
     public:
 
         /**
@@ -115,41 +109,6 @@ namespace fcn
         virtual ~RadioButton();
 
         /**
-         * Checks if the radio button is selected.
-         *
-         * @return True if the radio button is selecte, false otherwise.
-         * @see setSelected
-         */
-        bool isSelected() const;
-
-        /**
-         * Sets the radio button to selected or not.
-         *
-         * @param selected True if the radio button should be selected,
-         *                 false otherwise.
-         * @see isSelected
-         */
-        void setSelected(bool selected);
-
-        /**
-         * Gets the caption of the radio button.
-         *
-         * @return The caption of the radio button.
-         * @see setCaption
-         */
-        const std::string &getCaption() const;
-
-        /**
-         * Sets the caption of the radio button. It's advisable to call
-         * adjustSize after setting of the caption to adjust the
-         * radio button's size to fit the caption.
-         *
-         * @param caption The caption of the radio button.
-         * @see getCaption, adjustSize
-         */
-        void setCaption(const std::string caption);
-
-        /**
          * Sets the group the radio button should belong to. Note that
          * a radio button group is unique per application, not per Gui object
          * as the group is stored in a static map.
@@ -167,45 +126,14 @@ namespace fcn
          */
         const std::string &getGroup() const;
 
-        /**
-         * Adjusts the radio button's size to fit the caption.
-         */
-        void adjustSize();
 
+        // Inherited from CheckBox
 
-        // Inherited from Widget
+        virtual void setSelected(bool selected);
+        virtual void toggleSelected();
 
-        virtual void draw(Graphics* graphics);
-
-
-        // Inherited from KeyListener
-
-        virtual void keyPressed(KeyEvent& keyEvent);
-
-
-        // Inherited from MouseListener
-
-        virtual void mouseClicked(MouseEvent& mouseEvent);
-
-        virtual void mouseDragged(MouseEvent& mouseEvent);
 
     protected:
-        /**
-         * Draws the box.
-         *
-         * @param graphics a Graphics object to draw with.
-         */
-        virtual void drawBox(Graphics *graphics);
-
-        /**
-         * True if the radio button is selected, false otherwise.
-         */
-        bool mSelected;
-
-        /**
-         * Holds the caption of the radio button.
-         */ 
-        std::string mCaption;
 
         /**
          * Holds the group of the radio button.

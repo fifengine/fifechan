@@ -82,7 +82,7 @@ namespace fcn
         mScaleEnd = scaleEnd;
 
         setFocusable(true);
-        setFrameSize(1);
+        setBorderSize(1);
         setOrientation(Horizontal);
         setValue(0);
         setStepLength(scaleEnd / 10);
@@ -100,7 +100,7 @@ namespace fcn
         mScaleEnd = scaleEnd;
 
         setFocusable(true);
-        setFrameSize(1);
+        setBorderSize(1);
         setOrientation(Horizontal);
         setValue(scaleStart);
         setStepLength((scaleEnd  - scaleStart)/ 10);
@@ -114,6 +114,12 @@ namespace fcn
     {
         mScaleStart = scaleStart;
         mScaleEnd = scaleEnd;
+        if (mScaleStart > mValue) {
+            mValue = mScaleStart;
+        }
+        if (mScaleEnd < mValue) {
+            mValue = mScaleEnd;
+        }
     }
 
     double Slider::getScaleStart() const
@@ -124,6 +130,9 @@ namespace fcn
     void Slider::setScaleStart(double scaleStart)
     {
         mScaleStart = scaleStart;
+        if (mScaleStart > mValue) {
+            mValue = mScaleStart;
+        }
     }
 
     double Slider::getScaleEnd() const
@@ -134,6 +143,9 @@ namespace fcn
     void Slider::setScaleEnd(double scaleEnd)
     {
         mScaleEnd = scaleEnd;
+        if (mScaleEnd < mValue) {
+            mValue = mScaleEnd;
+        }
     }
 
     void Slider::draw(fcn::Graphics* graphics)

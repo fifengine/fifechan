@@ -99,17 +99,36 @@ namespace fcn
               mBackgroundColor(0xffffff),
               mBaseColor(0x808090),
               mSelectionColor(0xc3d9ff),
+              mOutlineColor(0x808090),
+              mBorderColor(0x808090),
               mFocusHandler(NULL),
               mInternalFocusHandler(NULL),
               mParent(NULL),
-              mFrameSize(0),
-              mSizeConstraint(NULL),
+              mOutlineSize(0),
+              mBorderSize(0),
+              mSelectionMode(Selection_None),
+              mMarginTop(0),
+              mMarginRight(0),
+              mMarginBottom(0),
+              mMarginLeft(0),
+              mPaddingTop(0),
+              mPaddingRight(0),
+              mPaddingBottom(0),
+              mPaddingLeft(0),
               mFocusable(false),
               mVisible(true),
               mTabIn(true),
               mTabOut(true),
               mEnabled(true),
-              mCurrentFont(NULL)
+              mCurrentFont(NULL),
+              mMinSize(0, 0),
+              mMaxSize(50000, 50000),
+              mFixedSize(-1, -1),
+              mIsFixedSize(false),
+              mVExpand(false),
+              mHExpand(false),
+              mLastX(0),
+              mLastY(0)
     {
         mWidgetInstances.push_back(this);
     }
@@ -142,20 +161,20 @@ namespace fcn
         mWidgetInstances.remove(this);
     }
 
-    void Widget::drawFrame(Graphics* graphics)
+    void Widget::drawOutline(Graphics* graphics)
     {
-        Color faceColor = getBaseColor();
+        Color outlineColor = getOutlineColor();
         Color highlightColor, shadowColor;
         int alpha = getBaseColor().a;
-        int width = getWidth() + getFrameSize() * 2 - 1;
-        int height = getHeight() + getFrameSize() * 2 - 1;
-        highlightColor = faceColor + 0x303030;
+        int width = getWidth() + getOutlineSize() * 2 - 1;
+        int height = getHeight() + getOutlineSize() * 2 - 1;
+        highlightColor = outlineColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
+        shadowColor = outlineColor - 0x303030;
         shadowColor.a = alpha;
 
         unsigned int i;
-        for (i = 0; i < getFrameSize(); ++i)
+        for (i = 0; i < getOutlineSize(); ++i)
         {
             graphics->setColor(shadowColor);
             graphics->drawLine(i,i, width - i, i);
@@ -163,6 +182,50 @@ namespace fcn
             graphics->setColor(highlightColor);
             graphics->drawLine(width - i,i + 1, width - i, height - i);
             graphics->drawLine(i,height - i, width - i - 1, height - i);
+        }
+    }
+
+    void Widget::drawBorder(Graphics* graphics)
+    {
+        Color borderColor = getBorderColor();
+        Color highlightColor, shadowColor;
+        int alpha = getBaseColor().a;
+        int width = getWidth() - 1;
+        int height = getHeight() - 1;
+
+        highlightColor = borderColor + 0x303030;
+        highlightColor.a = alpha;
+        shadowColor = borderColor - 0x303030;
+        shadowColor.a = alpha;
+
+        unsigned int i;
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            graphics->setColor(shadowColor);
+            graphics->drawLine(i, i, width-i, i);
+            graphics->drawLine(i, i+1, i, height-i-1);
+            graphics->setColor(highlightColor);
+            graphics->drawLine(width-i, i+1, width-i, height-i);
+            graphics->drawLine(i, height-i, width-i-1, height-i);
+        }
+    }
+
+    void Widget::drawSelectionFrame(Graphics* graphics)
+    {
+        int width = getWidth() - 1;
+        int height = getHeight() - 1;
+        graphics->setColor(getSelectionColor());
+
+        unsigned int i;
+        // currently border size is used here too, not sure an extra frame size is really needed.
+        for (i = 0; i < getBorderSize(); ++i)
+        {
+            // would be better but causes problems with OpenGL
+            //graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
+            graphics->drawLine(i, i, width-i, i);
+            graphics->drawLine(i, i+1, i, height-i-1);
+            graphics->drawLine(width-i, i+1, width-i, height-i);
+            graphics->drawLine(i, height-i, width-i-1, height-i);
         }
     }
 
@@ -245,12 +308,12 @@ namespace fcn
         if (mDimension.width != oldDimension.width
             || mDimension.height != oldDimension.height)
         {
-            if(hasSizeConstraint())
+            calculateSize();
+            if (mDimension.width != oldDimension.width
+                || mDimension.height != oldDimension.height)
             {
-                enforceSizeConstraint();   
+                distributeResizedEvent();
             }
-            
-            distributeResizedEvent();
         }
 
         if (mDimension.x != oldDimension.x
@@ -268,14 +331,239 @@ namespace fcn
         }
     }
 
-    void Widget::setFrameSize(unsigned int frameSize)
+    unsigned int Widget::getChildrenCount() const
     {
-        mFrameSize = frameSize;
+        unsigned int childs = 0;
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            ++childs;
+        }
+        return childs;
     }
 
-    unsigned int Widget::getFrameSize() const
+    unsigned int Widget::getVisibleChildrenCount() const
     {
-        return mFrameSize;
+        unsigned int childs = 0;
+        std::list<Widget*>::const_iterator currChild(mChildren.begin());
+        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        for(; currChild != endChildren; ++currChild) {
+            if (isVisible()) {
+                ++childs;
+            }
+        }
+        return childs;
+    }
+
+    void Widget::setMinSize(const Size& size)
+    {
+        mMinSize = size;
+        calculateSize();
+    }
+
+    const Size& Widget::getMinSize() const
+    {
+        return mMinSize;
+    }
+
+    void Widget::setMaxSize(const Size& size)
+    {
+        mMaxSize = size;
+        calculateSize();
+    }
+
+    const Size& Widget::getMaxSize() const
+    {
+        return mMaxSize;
+    }
+
+    void Widget::setFixedSize(const Size& size)
+    {
+        mFixedSize = size;
+        if (mFixedSize.getWidth() < 0 || mFixedSize.getHeight() < 0) {
+            mIsFixedSize = false;
+        } else {
+            mIsFixedSize = true;
+            calculateSize();
+        }
+    }
+
+    const Size& Widget::getFixedSize() const
+    {
+        return mFixedSize;
+    }
+
+    bool Widget::isFixedSize() const
+    {
+        return mIsFixedSize;
+    }
+
+    void Widget::calculateSize()
+    {
+        if (isFixedSize()) {
+            mDimension.width = mFixedSize.getWidth();
+            mDimension.height = mFixedSize.getHeight();
+            return;
+        }
+        int minWidth = mMinSize.getWidth();
+        int minHeight = mMinSize.getHeight();
+        int maxWidth = mMaxSize.getWidth();
+        int maxHeight = mMaxSize.getHeight();
+        int currWidth = mDimension.width;
+        int currHeight = mDimension.height;
+        
+        mDimension.width = std::max(std::min(currWidth, maxWidth), minWidth);
+        mDimension.height = std::max(std::min(currHeight, maxHeight), minHeight);
+    }
+
+    void Widget::setVerticalExpand(bool expand)
+    {
+        mVExpand = expand;
+    }
+
+    bool Widget::isVerticalExpand() const
+    {
+        return mVExpand;
+    }
+
+    void Widget::setHorizontalExpand(bool expand)
+    {
+        mHExpand = expand;
+    }
+
+    bool Widget::isHorizontalExpand() const
+    {
+        return mHExpand;
+    }
+
+    void Widget::adaptLayout(bool top)
+    {
+        Widget* widget = this;
+        while (widget->getParent() && top) {
+            Widget* parent = widget->getParent();
+            if (!parent->isLayouted()) {
+                break;
+            }
+            widget = parent;
+        }
+        widget->resizeToContent();
+        widget->expandContent();
+    }
+
+    void Widget::setOutlineSize(unsigned int size)
+    {
+        mOutlineSize = size;
+    }
+
+    unsigned int Widget::getOutlineSize() const
+    {
+        return mOutlineSize;
+    }
+
+    void Widget::setBorderSize(unsigned int size)
+    {
+        mBorderSize = size;
+    }
+
+    unsigned int Widget::getBorderSize() const
+    {
+        return mBorderSize;
+    }
+
+    void Widget::setMargin(int margin)
+    {
+        mMarginTop = margin;
+        mMarginRight = margin;
+        mMarginBottom = margin;
+        mMarginLeft = margin;
+    }
+
+    void Widget::setMarginTop(int margin)
+    {
+        mMarginTop = margin;
+    }
+
+    int Widget::getMarginTop() const
+    {
+        return mMarginTop;
+    }
+
+    void Widget::setMarginRight(int margin)
+    {
+        mMarginRight = margin;
+    }
+
+    int Widget::getMarginRight() const
+    {
+        return mMarginRight;
+    }
+
+    void Widget::setMarginBottom(int margin)
+    {
+        mMarginBottom = margin;
+    }
+
+    int Widget::getMarginBottom() const
+    {
+        return mMarginBottom;
+    }
+
+    void Widget::setMarginLeft(int margin)
+    {
+        mMarginLeft = margin;
+    }
+
+    int Widget::getMarginLeft() const
+    {
+        return mMarginLeft;
+    }
+
+    void Widget::setPadding(unsigned int padding)
+    {
+        mPaddingTop = padding;
+        mPaddingRight = padding;
+        mPaddingBottom = padding;
+        mPaddingLeft = padding;
+    }
+
+    void Widget::setPaddingTop(unsigned int padding)
+    {
+        mPaddingTop = padding;
+    }
+
+    unsigned int Widget::getPaddingTop() const
+    {
+        return mPaddingTop;
+    }
+
+    void Widget::setPaddingRight(unsigned int padding)
+    {
+        mPaddingRight = padding;
+    }
+
+    unsigned int Widget::getPaddingRight() const
+    {
+        return mPaddingRight;
+    }
+
+    void Widget::setPaddingBottom(unsigned int padding)
+    {
+        mPaddingBottom = padding;
+    }
+
+    unsigned int Widget::getPaddingBottom() const
+    {
+        return mPaddingBottom;
+    }
+
+    void Widget::setPaddingLeft(unsigned int padding)
+    {
+        mPaddingLeft = padding;
+    }
+
+    unsigned int Widget::getPaddingLeft() const
+    {
+        return mPaddingLeft;
     }
 
     const Rectangle& Widget::getDimension() const
@@ -428,11 +716,44 @@ namespace fcn
         return mSelectionColor;
     }    
     
+    void Widget::setOutlineColor(const Color& color)
+    {
+        mOutlineColor = color;
+    }
+
+    const Color& Widget::getOutlineColor() const
+    {
+        return mOutlineColor;
+    }
+
+    void Widget::setBorderColor(const Color& color)
+    {
+        mBorderColor = color;
+    }
+
+    const Color& Widget::getBorderColor() const
+    {
+        return mBorderColor;
+    }
+
+    void Widget::setSelectionMode(SelectionMode mode)
+    {
+        mSelectionMode = mode;
+    }
+    
+    Widget::SelectionMode Widget::getSelectionMode() const
+    {
+        return mSelectionMode;
+    }
+
     void Widget::_setFocusHandler(FocusHandler* focusHandler)
     {
         if (mFocusHandler)
         {
             releaseModalFocus();
+            if (mFocusHandler->getModalMouseInputFocused() == this) {
+                releaseModalMouseInputFocus();
+            }
             mFocusHandler->remove(this);
         }
 
@@ -557,8 +878,13 @@ namespace fcn
     {
         if (getParent() == NULL)
         {
-            x = mDimension.x;
-            y = mDimension.y;
+            if (isLastPositionSet()) {
+                x = mLastX;
+                y = mLastY;
+            } else {
+                x = mDimension.x;
+                y = mDimension.y;
+            }
             return;
         }
 
@@ -651,6 +977,22 @@ namespace fcn
     bool Widget::isEnabled() const
     {
         return mEnabled && isVisible();
+    }
+
+    bool Widget::isModalFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalFocused() == NULL;
+    }
+
+    bool Widget::isModalMouseInputFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalMouseInputFocused() == NULL;
     }
 
     void Widget::requestModalFocus()
@@ -836,6 +1178,9 @@ namespace fcn
     
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
+        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        _getVisibilityEventHandler()->widgetHidden(Event(this));
+
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
         std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
         Event event(ancestor);
@@ -856,6 +1201,9 @@ namespace fcn
     
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
+        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        _getVisibilityEventHandler()->widgetShown(Event(this));
+
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
         std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
         Event event(ancestor);
@@ -1031,8 +1379,15 @@ namespace fcn
         for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
         {
             Widget* widget = (*iter);
+            int x = 0;
+            int y = 0;
+            widget->getAbsolutePosition(x, y);
+            widget->setLastPosition(x, y);
             widget->_setFocusHandler(NULL);
             widget->_setParent(NULL);
+            // thats more a hack but needed
+            if (_getVisibilityEventHandler())
+                _getVisibilityEventHandler()->widgetHidden(Event(widget));
         }
 
         mChildren.clear();
@@ -1045,9 +1400,16 @@ namespace fcn
         {
             if (*iter == widget)
             {
+                int x = 0;
+                int y = 0;
+                widget->getAbsolutePosition(x, y);
+                widget->setLastPosition(x, y);
                 mChildren.erase(iter);
                 widget->_setFocusHandler(NULL);
                 widget->_setParent(NULL);
+                // thats more a hack but needed
+                if (_getVisibilityEventHandler())
+                    _getVisibilityEventHandler()->widgetHidden(Event(widget));
                 return;
             }
         }
@@ -1065,6 +1427,10 @@ namespace fcn
             widget->_setFocusHandler(mInternalFocusHandler);
 
         widget->_setParent(this);
+        setLastPosition(0, 0);
+        // thats more a hack but needed
+        if (_getVisibilityEventHandler())
+            _getVisibilityEventHandler()->widgetShown(Event(widget));
     }
 
     void Widget::moveToTop(Widget* widget)
@@ -1152,35 +1518,37 @@ namespace fcn
 
     void Widget::_draw(Graphics* graphics)
     {
-        if (mFrameSize > 0)
+        if (mOutlineSize > 0)
         {
             Rectangle rec = mDimension;
-            rec.x -= mFrameSize;
-            rec.y -= mFrameSize;
-            rec.width += 2 * mFrameSize;
-            rec.height += 2 * mFrameSize;
+            rec.x -= mOutlineSize;
+            rec.y -= mOutlineSize;
+            rec.width += 2 * mOutlineSize;
+            rec.height += 2 * mOutlineSize;
             graphics->pushClipArea(rec);
-            drawFrame(graphics);
+            drawOutline(graphics);
             graphics->popClipArea();
         }
 
         graphics->pushClipArea(mDimension);
         draw(graphics);
 
-        const Rectangle& childrenArea = getChildrenArea();
-        graphics->pushClipArea(childrenArea);
+        if (!mChildren.empty()) {
+            const Rectangle& childrenArea = getChildrenArea();
+            graphics->pushClipArea(childrenArea);
 
-        std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            Widget* widget = (*iter);
-            // Only draw a widget if it's visible and if it visible
-            // inside the children area.
-            if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
-                widget->_draw(graphics);
+            std::list<Widget*>::const_iterator iter;
+            for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
+            {
+                Widget* widget = (*iter);
+                // Only draw a widget if it's visible and if it visible
+                // inside the children area.
+                //if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
+                if (widget->isVisible())
+                    widget->_draw(graphics);
+            }
+            graphics->popClipArea();
         }
-
-        graphics->popClipArea();
         graphics->popClipArea();
     }
 
@@ -1196,5 +1564,19 @@ namespace fcn
     const std::list<Widget*>& Widget::getChildren() const
     {
         return mChildren;
+    }
+
+    void Widget::getLastPosition(int& x, int& y) const {
+        x = mLastX;
+        y = mLastY;
+    }
+
+    void Widget::setLastPosition(int x, int y) {
+        mLastX = x;
+        mLastY = y;
+    }
+
+    bool Widget::isLastPositionSet() const {
+        return mLastX != 0 || mLastY != 0;
     }
 }

@@ -250,7 +250,7 @@ namespace fcn
             return 0;
 
         int value = getContent()->getWidth() - getChildrenArea().width +
-            2 * getContent()->getFrameSize();
+            2 * getContent()->getBorderSize();
 
         if (value < 0)
             return 0;
@@ -268,7 +268,7 @@ namespace fcn
         int value;
 
         value = getContent()->getHeight() - getChildrenArea().height +
-            2 * getContent()->getFrameSize();
+            2 * getContent()->getBorderSize();
 
         if (value < 0)
             return 0;
@@ -801,8 +801,8 @@ namespace fcn
 
         if (getContent() != NULL)
         {
-            getContent()->setPosition(-mHScroll + getContent()->getFrameSize(),
-                                      -mVScroll + getContent()->getFrameSize());
+            getContent()->setPosition(-mHScroll + getContent()->getBorderSize(),
+                                      -mVScroll + getContent()->getBorderSize());
             getContent()->logic();
         }
     }
@@ -1099,8 +1099,8 @@ namespace fcn
 
         Widget::showWidgetPart(widget, area);
 
-        setHorizontalScrollAmount(getContent()->getFrameSize() - getContent()->getX());
-        setVerticalScrollAmount(getContent()->getFrameSize() - getContent()->getY());
+        setHorizontalScrollAmount(getContent()->getBorderSize() - getContent()->getX());
+        setVerticalScrollAmount(getContent()->getBorderSize() - getContent()->getY());
     }
 
     Widget *ScrollArea::getWidgetAt(int x, int y)
@@ -1158,18 +1158,67 @@ namespace fcn
     void ScrollArea::setWidth(int width)
     {
         Widget::setWidth(width);
+        Widget* content = getContent();
+        if (content) {
+            int contW = std::max(getWidth(), content->getWidth());
+            content->setWidth(contW);
+        }
         checkPolicies();
     }
 
     void ScrollArea::setHeight(int height)
     {
         Widget::setHeight(height);
+        Widget* content = getContent();
+        if (content) {
+            int contH = std::max(getHeight(), content->getHeight());
+            content->setHeight(contH);
+        }
         checkPolicies();
     }
 
     void ScrollArea::setDimension(const Rectangle& dimension)
     {
         Widget::setDimension(dimension);
+        Widget* content = getContent();
+        if (content) {
+            int contW = std::max(getWidth(), content->getWidth());
+            content->setWidth(contW);
+            int contH = std::max(getHeight(), content->getHeight());
+            content->setHeight(contH);
+        }
+        checkPolicies();
+    }
+
+    void ScrollArea::resizeToContent(bool recursiv) {
+        Widget* content = getContent();
+        if (content) {
+            content->resizeToContent();
+        }
+        const Size& min = getMinSize();
+        setWidth(min.getWidth());
+        setHeight(min.getHeight());
+    }
+
+    void ScrollArea::adjustSize() {
+        Widget* content = getContent();
+        if (content) {
+            content->adjustSize();
+        }
+        const Size& min = getMinSize();
+        setWidth(min.getWidth());
+        setHeight(min.getHeight());
+    }
+
+    void ScrollArea::expandContent(bool recursiv) {
+        // remove that hack
+        setWidth(getWidth());
+        setHeight(getHeight());
+
+        Widget* content = getContent();
+        if (content) {
+            content->expandContent();
+        }
         checkPolicies();
     }
 

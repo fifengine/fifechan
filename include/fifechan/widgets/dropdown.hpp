@@ -184,6 +184,8 @@ namespace fcn
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
         void setBaseColor(const Color& color);

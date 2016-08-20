@@ -94,24 +94,32 @@
 #include <fifechan/mouseevent.hpp>
 #include <fifechan/mouseinput.hpp>
 #include <fifechan/mouselistener.hpp>
+#include <fifechan/point.hpp>
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
 #include <fifechan/selectionlistener.hpp>
-#include <fifechan/sizeconstraint.hpp>
+#include <fifechan/size.hpp>
 #include <fifechan/widget.hpp>
 #include <fifechan/widgetlistener.hpp>
+#include <fifechan/widgets/adjustingcontainer.hpp>
+#include <fifechan/widgets/bargraph.hpp>
 #include <fifechan/widgets/button.hpp>
 #include <fifechan/widgets/checkbox.hpp>
 #include <fifechan/widgets/circularcontainer.hpp>
 #include <fifechan/widgets/container.hpp>
+#include <fifechan/widgets/curvegraph.hpp>
 #include <fifechan/widgets/dropdown.hpp>
-#include <fifechan/widgets/hbox.hpp>
+#include <fifechan/widgets/flowcontainer.hpp>
 #include <fifechan/widgets/icon.hpp>
 #include <fifechan/widgets/iconprogressbar.hpp>
 #include <fifechan/widgets/imagebutton.hpp>
+#include <fifechan/widgets/imageprogressbar.hpp>
 #include <fifechan/widgets/label.hpp>
+#include <fifechan/widgets/linegraph.hpp>
 #include <fifechan/widgets/listbox.hpp>
 #include <fifechan/widgets/passwordfield.hpp>
+#include <fifechan/widgets/piegraph.hpp>
+#include <fifechan/widgets/pointgraph.hpp>
 #include <fifechan/widgets/scrollarea.hpp>
 #include <fifechan/widgets/slider.hpp>
 #include <fifechan/widgets/spacer.hpp>
@@ -120,10 +128,11 @@
 #include <fifechan/widgets/tabbedarea.hpp>
 #include <fifechan/widgets/textbox.hpp>
 #include <fifechan/widgets/textfield.hpp>
-#include <fifechan/widgets/vbox.hpp>
+#include <fifechan/widgets/togglebutton.hpp>
 #include <fifechan/widgets/window.hpp>
 
 #include "fifechan/platform.hpp"
+#include "fifechan/version.hpp"
 
 
 class Widget;
@@ -131,10 +140,10 @@ class Widget;
 extern "C"
 {
     /**
-     * Gets the the version of Guichan. As it is a C function
-     * it can be used to check for Guichan with autotools.
+     * Gets the the version of Fifechan. As it is a C function
+     * it can be used to check for Fifechan with autotools.
      *
-     * @return the version of Guichan.
+     * @return the version of Fifechan.
      */
     FCN_CORE_DECLSPEC extern const char* fcnFifechanVersion();
 }

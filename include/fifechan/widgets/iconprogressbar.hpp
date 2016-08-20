@@ -28,9 +28,7 @@
 
 namespace fcn
 {
-    class Container;
     class Graphics;
-    class Icon;
     class Image;
     
     class FCN_CORE_DECLSPEC IconProgressBar : public Widget
@@ -75,11 +73,6 @@ namespace fcn
          */
         virtual void draw(Graphics* graphics);
         
-        /**
-         * Returns children area of this IconProgressBar.
-         */
-        virtual Rectangle getChildrenArea();
-
         /**
          * Sets the opacity of the IconProgressBar.
          * 
@@ -142,27 +135,24 @@ namespace fcn
          * Resets the progress bar.
          */
         void reset();
+
+        /**
+         * Sets count of icons.
+         * @param counter The count of the active icons.
+         */
+        void setIconCount(int icons);
+
+        /**
+         * @return Current count of icons for this IconProgressBar.
+         */
+        int getIconCount() const;
         
+        // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
+
     protected:
-        
-        /**
-         * Creates icons needed by this progress bar.
-         * Makes them invisible.
-         * 
-         * @param iconCount How many icons to create.
-         */
-        void createIcons(int iconCount);
-     
-        /**
-         * Destroys icons created for this progress bar.
-         */
-        void destroyIcons();
-     
-        /**
-         * Arranges icon positions in their container and
-         * resizes the container to fit them.
-         */
-        void arrangeIcons();
         
         /**
          * Image used by the progress bar.
@@ -190,21 +180,11 @@ namespace fcn
          * IconProgressBar's orientation.
          */
         Orientation mOrientation;
-        
+ 
         /**
-         * Holds if the progress bar should be reset during the next advancement.
+         * True if the widget is opaque, false otherwise.
          */
-        bool mShouldReset;
-        
-        /**
-         * Container holding the icon objects.
-         */
-        Container* mContents;
-        
-        /**
-         * Vector holding the icons used for fast access.
-         */
-        std::vector<Icon*> mIcons;
+        bool mOpaque;
     };
 };
 

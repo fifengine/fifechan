@@ -70,8 +70,7 @@
 
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/widgets/button.hpp"
-#include "fifechan/widgets/label.hpp"
+
 #include "fifechan/widgets/tabbedarea.hpp"
 
 namespace fcn
@@ -80,23 +79,18 @@ namespace fcn
             :mHasMouse(false),
             mTabbedArea(NULL)
     {
-        mLabel = new Label();
-        mLabel->setPosition(4, 4);
-        add(mLabel);
-
         addMouseListener(this);
+        setLayout(Container::Horizontal);
     }
 
     Tab::~Tab()
     {
-        delete mLabel;
+
     }
 
     void Tab::adjustSize()
     {
-        setSize(mLabel->getWidth() + 8,
-                mLabel->getHeight() + 8);
-
+        Container::adjustSize();
         if (mTabbedArea != NULL)
             mTabbedArea->adjustTabPositions();
     }
@@ -111,16 +105,14 @@ namespace fcn
         return mTabbedArea;
     }
 
-    void Tab::setCaption(const std::string& caption)
-    {
-        mLabel->setCaption(caption);
-        mLabel->adjustSize();
-        adjustSize();
-    }
 
-    const std::string& Tab::getCaption() const
-    {
-        return mLabel->getCaption();
+    Rectangle Tab::getChildrenArea() {
+        Rectangle rec;
+        rec.x = getBorderSize() + getPaddingLeft();
+        rec.y = getBorderSize() + getPaddingTop();
+        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        return rec;
     }
 
     void Tab::draw(Graphics *graphics)

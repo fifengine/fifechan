@@ -68,120 +68,236 @@
 
 #include "fifechan/widgets/imagebutton.hpp"
 
+#include "fifechan/exception.hpp"
+#include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
 
 namespace fcn
 {
-    ImageButton::ImageButton()
-        : mImage(0), 
-          mInternalImage(false)
-    {
-        setWidth(0);
-        setHeight(0);
+    ImageButton::ImageButton() {
+        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
+        mInternalImages = std::vector<bool>(6, false);
+        adjustSize();
     }
 
-    ImageButton::ImageButton(const std::string& filename)
-        : mImage(0), 
-          mInternalImage(false)
-    {
-        mImage = Image::load(filename);
-        mInternalImage = true;
-        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
-        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
+    ImageButton::ImageButton(const std::string& filename) {
+        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
+        mInternalImages = std::vector<bool>(6, false);
+        setUpImage(filename);
     }
 
-    ImageButton::ImageButton(const Image* image)
-        : mImage(image), 
-          mInternalImage(false)
-    {
-        setWidth(mImage->getWidth() + mImage->getWidth() / 2);
-        setHeight(mImage->getHeight() + mImage->getHeight() / 2);
+    ImageButton::ImageButton(const Image* image) {
+        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
+        mInternalImages = std::vector<bool>(6, false);
+        setUpImage(image);
     }
 
-    ImageButton::~ImageButton()
-    {
-        if (mInternalImage)
-        {
-            delete mImage;
-        }
-    }
-
-    void ImageButton::setImage(const Image* image)
-    {
-        if (mInternalImage)
-        {
-            delete mImage;
-        }
-
-        mImage = image;
-        mInternalImage = false;
-    }
-
-    const Image* ImageButton::getImage() const
-    {
-        return mImage;
-    }
-
-    void ImageButton::draw(Graphics* graphics)
-    {
-        fcn::Color faceColor = getBaseColor();
-        fcn::Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-
-        if (isPressed())
-        {
-            faceColor = faceColor - 0x303030;
-            faceColor.a = alpha;
-            highlightColor = faceColor - 0x303030;
-            highlightColor.a = alpha;
-            shadowColor = faceColor + 0x303030;
-            shadowColor.a = alpha;
-        }
-        else
-        {
-            highlightColor = faceColor + 0x303030;
-            highlightColor.a = alpha;
-            shadowColor = faceColor - 0x303030;
-            shadowColor.a = alpha;
-        }
-
-        graphics->setColor(faceColor);
-        graphics->fillRectangle(1,
-                                1,
-                                getWidth() - 1,
-                                getHeight() - 1);
-
-        graphics->setColor(highlightColor);
-        graphics->drawLine(0, 0, getWidth() - 1, 0);
-        graphics->drawLine(0, 1, 0, getHeight() - 1);
-
-        graphics->setColor(shadowColor);
-        graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
-        graphics->drawLine(1, getHeight() - 1, getWidth() - 1, getHeight() - 1);
-
-        graphics->setColor(getForegroundColor());
-
-        const int textX = (getWidth() - (mImage ? mImage->getWidth() : 0) ) / 2;
-        const int textY = (getHeight() - (mImage ? mImage->getHeight() : 0) ) / 2;
-
-        if (isPressed())
-        {
-            if(mImage)
-                graphics->drawImage(mImage, textX + 1, textY + 1);
-        }
-        else
-        {
-            if(mImage)
-                graphics->drawImage(mImage, textX, textY);
-
-            if (isFocused())
-            {
-                graphics->drawRectangle(2,
-                                        2,
-                                        getWidth() - 4,
-                                        getHeight() - 4);
+    ImageButton::~ImageButton() {
+        for (unsigned int i = 0; i < 6; ++i) {
+            if (mInternalImages[i]) {
+                delete mImages[i];
             }
+        }
+    }
+
+    void ImageButton::setImage(const std::string& filename, ImageType type) {
+        if (mInternalImages[type]) {
+            delete mImages[type];
+        }
+        const Image* image = Image::load(filename);
+        if (image) {
+            mImages[type] = image;
+            mInternalImages[type] = true;
+        } else {
+            mImages[type] = 0;
+            mInternalImages[type] = false;
+        }
+        adjustSize();
+    }
+
+    void ImageButton::setImage(const Image* image, ImageType type) {
+        if (mInternalImages[type]) {
+            delete mImages[type];
+        }
+        mImages[type] = image;
+        mInternalImages[type] = false;
+        adjustSize();
+    }
+
+    void ImageButton::setUpImage(const std::string& filename) {
+        setImage(filename, Image_Up);
+    }
+    
+    void ImageButton::setUpImage(const Image* image) {
+        setImage(image, Image_Up);
+    }
+
+    const Image* ImageButton::getUpImage() const {
+        return mImages[Image_Up];
+    }
+
+    void ImageButton::setDownImage(const std::string& filename) {
+        setImage(filename, Image_Down);
+    }
+
+    void ImageButton::setDownImage(const Image* image) {
+        setImage(image, Image_Down);
+    }
+
+    const Image* ImageButton::getDownImage() const {
+        return mImages[Image_Down];
+    }
+
+    void ImageButton::setHoverImage(const std::string& filename) {
+        setImage(filename, Image_Hover);
+    }
+
+    void ImageButton::setHoverImage(const Image* image) {
+        setImage(image, Image_Hover);
+    }
+
+    const Image* ImageButton::getHoverImage() const {
+        return mImages[Image_Hover];
+    }
+
+    void ImageButton::setInactiveUpImage(const std::string& filename) {
+        setImage(filename, Image_Up_De);
+    }
+
+    void ImageButton::setInactiveUpImage(const Image* image) {
+        setImage(image, Image_Up_De);
+    }
+
+    const Image* ImageButton::getInactiveUpImage() const {
+        return mImages[Image_Up_De];
+    }
+
+    void ImageButton::setInactiveDownImage(const std::string& filename) {
+        setImage(filename, Image_Down_De);
+    }
+
+    void ImageButton::setInactiveDownImage(const Image* image) {
+        setImage(image, Image_Down_De);
+    }
+
+    const Image* ImageButton::getInactiveDownImage() const {
+        return mImages[Image_Down_De];
+    }
+
+    void ImageButton::setInactiveHoverImage(const std::string& filename) {
+        setImage(filename, Image_Hover_De);
+    }
+
+    void ImageButton::setInactiveHoverImage(const Image* image) {
+        setImage(image, Image_Hover_De);
+    }
+
+    const Image* ImageButton::getInactiveHoverImage() const {
+        return mImages[Image_Hover_De];
+    }
+
+    void ImageButton::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
+    void ImageButton::adjustSize() {
+        int w = 0;
+        int h = 0;
+        for (unsigned int i = 0; i < 6; ++i) {
+            const Image* img = mImages[i];
+            if (img) {
+                w = std::max(w, img->getWidth());
+                h = std::max(h, img->getHeight());
+            }
+        }
+        if (!getCaption().empty()) {
+            w = std::max(getFont()->getWidth(getCaption()), w);
+            h = std::max(getFont()->getHeight(), h);
+        }
+        w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        setSize(w, h);
+    }
+
+    void ImageButton::draw(Graphics* graphics) {
+        // draw border or frame
+        if (getBorderSize() > 0) {
+            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
+        }
+
+        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        // fetch the image, down, hover or up
+        const Image* img = !isActive() && getInactiveUpImage() ? getInactiveUpImage() : getUpImage();
+        if (isPressed()) {
+            offsetRec.x += getDownXOffset();
+            offsetRec.y += getDownYOffset();
+            if (!isActive()) {
+                if (getInactiveDownImage()) {
+                    img = getInactiveDownImage();
+                }
+            } else {
+                img = getDownImage() ? getDownImage() : getUpImage();
+            }
+        } else if(mHasMouse) {
+            if (!isActive()) {
+                if (getInactiveHoverImage()) {
+                    img = getInactiveHoverImage();
+                }
+            } else {
+                img = getHoverImage() ? getHoverImage() : getUpImage();
+            }
+        }
+        // render foreground image or color rectangle
+        if (img) {
+            graphics->drawImage(img, 0, 0, offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
+        } else {
+            Color faceColor = getBaseColor();
+            if (isFocused() && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                faceColor = getSelectionColor();
+            }
+            int alpha = faceColor.a;
+
+            if (isPressed()) {
+                faceColor = faceColor - 0x303030;
+                faceColor.a = alpha;
+            }
+            if (!isActive()) {
+                int color = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
+                faceColor.r = color;
+                faceColor.g = color;
+                faceColor.b = color;
+            }
+
+            graphics->setColor(faceColor);
+            graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
+        }
+
+        // render caption if it exits
+        if (!getCaption().empty()) {
+            int textX;
+            int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+            switch (getAlignment()) {
+                case Graphics::Left:
+                    textX = offsetRec.x + getPaddingLeft();
+                    break;
+                case Graphics::Center:
+                    textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+                    break;
+                case Graphics::Right:
+                    textX = getWidth() - offsetRec.x - getPaddingRight();
+                    break;
+                default:
+                    throw FCN_EXCEPTION("Unknown alignment.");
+            }
+            // set font and color
+            graphics->setFont(getFont());
+            graphics->setColor(getForegroundColor());
+            graphics->drawText(getCaption(), textX, textY, getAlignment());
         }
     }
 }

@@ -252,6 +252,11 @@ namespace fcn
 
         virtual void fontChanged();
 
+        virtual void resizeToContent(bool recursiv=true);
+        /**
+         * Adjusts the text box's size to fit the text.
+         */
+        virtual void adjustSize();
 
         // Inherited from KeyListener
 
@@ -291,11 +296,6 @@ namespace fcn
          * @param y the y position.
          */
         virtual void drawCaret(Graphics* graphics, int x, int y);
-
-        /**
-         * Adjusts the text box's size to fit the text.
-         */
-        virtual void adjustSize();
         
         /**
          * Holds the text of the text box.

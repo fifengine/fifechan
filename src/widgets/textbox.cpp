@@ -311,6 +311,10 @@ namespace fcn
         keyEvent.consume();
     }
 
+    void TextBox::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
     void TextBox::adjustSize()
     {
         const Rectangle& dim = mText->getDimension(getFont());

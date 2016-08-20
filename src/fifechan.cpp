@@ -66,10 +66,12 @@
  * For comments regarding functions please see the header file.
  */
 
+#include <fifechan/version.hpp>
+
 extern "C"
 {
     const char* fcnFifechanVersion()
     {
-        return "0.9.0";
+        return fcn::getVersion();
     }
 }
