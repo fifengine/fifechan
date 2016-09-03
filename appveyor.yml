@@ -65,4 +65,5 @@ build_script:
   - cmake --build . --target ALL_BUILD --config %configuration% 
 
 after_build:
-  - dir c:\fifechan\install /s
+  #- dir c:\fifechan\install /s
+  - dir C:\projects\build\Release /s
