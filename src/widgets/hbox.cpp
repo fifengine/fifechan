@@ -1,6 +1,8 @@
 #include "fifechan/sizeconstraint.hpp"
 #include "fifechan/widgets/hbox.hpp"
 
+#include <algorithm>
+
 namespace fcn
 {
     HBox::HBox(fcn::SizeConstraint *sizeConstraint)
