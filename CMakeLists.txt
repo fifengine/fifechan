@@ -58,8 +58,8 @@ if(WIN32)
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/bin"
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include"
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include/SDL2"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib/x86"
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"    
   )
 endif(WIN32)
 
