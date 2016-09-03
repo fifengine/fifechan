@@ -1,0 +1,68 @@
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - date /T & time /T
+  - git config --global core.autocrlf input
+  - cmake --version 
+  # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
+  - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+
+branches:
+  only:
+  - master
+
+clone_depth: 5
+
+version: '{build}'
+
+platform:
+  - x86
+
+configuration:
+  - Release
+  - Debug
+
+environment:
+  matrix:
+    - generator: "Visual Studio 14"        
+    #- generator: "MinGW Makefiles"
+
+matrix:
+  fast_finish: true
+
+cache:
+  - C:\projects\fifechan-dependencies\downloads
+#  - C:\projects\fifengine-dependencies\includes
+
+install:
+  # get dependencies
+  - cmake dependencies -G "%generator%" -B../fifechan-dependencies/build
+  - cmake --build ../fifechan-dependencies/build --target ALL_BUILD --config %configuration% 
+  # show dependency folders
+  - dir ..\fifechan-dependencies
+  - dir ..\fifechan-dependencies\downloads
+  - dir ..\fifechan-dependencies\includes /s
+  
+#before_build:
+  # git sh.exe conflicts with MinGW makefiles
+  #- if "%generator%"=="MinGW Makefiles" (set "PATH=%PATH:C:\Program Files\Git\usr\bin;=%")
+
+build_script:
+  - dir
+  # create folder for an out-of-source-tree build: "c:\projects\build"
+  - cd.. 
+  - mkdir build
+  - cd build
+  # generate build script
+  - >
+    cmake ..\fifechan
+    -G "%generator%" 
+    -DCMAKE_BUILD_TYPE=%configuration% 
+    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install" 
+  # build
+  - cmake --build . --target ALL_BUILD --config %configuration% 
+
+after_build:
+  - dir c:\fifechan\install /s
