@@ -21,21 +21,21 @@ SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 #                                 Options                                          
 #------------------------------------------------------------------------------
 
-OPTION(BUILD_FIFECHAN_SHARED            "Build the Fifechan core library as a shared library."                ON)
+OPTION(BUILD_FIFECHAN_SHARED            "Build the Fifechan core library as a shared library"                ON)
 
-OPTION(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                               ON)
-OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library."   ON)
+OPTION(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                              ON)
+OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library"   ON)
 
-OPTION(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                              ON)
-OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library."  ON)
+OPTION(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                             ON)
+OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  ON)
 
-OPTION(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                                ON)
-OPTION(ENABLE_OPENGL_CONTRIB            "Enabled the Fifechan OpenGL contrib extension (freetype, oglft)"     OFF)
-OPTION(BUILD_FIFECHAN_OPENGL_SHARED     "Build the Fifechan OpenGL extension library as a shared library."    ON)
+OPTION(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                               ON)
+OPTION(ENABLE_OPENGL_CONTRIB            "Enable the Fifechan OpenGL contrib extension (freetype, oglft)"     OFF)
+OPTION(BUILD_FIFECHAN_OPENGL_SHARED     "Build the Fifechan OpenGL extension library as a shared library"    ON)
 
-OPTION(ENABLE_SDL                       "Enable the Fifechan SDL extension"                                   ON)
-OPTION(ENABLE_SDL_CONTRIB               "Enable the Fifechan SDL contrib extension (SDL2_ttf)"                OFF)
-OPTION(BUILD_FIFECHAN_SDL_SHARED        "Build the Fifechan SDL extension library as a shared library."       ON)
+OPTION(ENABLE_SDL                       "Enable the Fifechan SDL extension"                                  ON)
+OPTION(ENABLE_SDL_CONTRIB               "Enable the Fifechan SDL contrib extension (SDL2_ttf)"               OFF)
+OPTION(BUILD_FIFECHAN_SDL_SHARED        "Build the Fifechan SDL extension library as a shared library"       ON)
 
 #------------------------------------------------------------------------------
 #                                 Display Status                                         
@@ -329,7 +329,7 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
   ENDIF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
 
   ADD_CUSTOM_TARGET(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
-  
+
   SET_TARGET_PROPERTIES(${PROJECT_NAME}_opengl PROPERTIES
     VERSION                 ${${PROJECT_NAME}_VERSION}
     SOVERSION               ${${PROJECT_NAME}_VERSION}
