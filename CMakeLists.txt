@@ -49,6 +49,21 @@ message(STATUS "    Installation path is '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_
 message("")
 
 #------------------------------------------------------------------------------
+#                           Find Dependencies - Windows                                        
+#------------------------------------------------------------------------------
+
+# Tell CMake where to search for binaries (dlls), includes and libs on Windows
+if(WIN32)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/bin"
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include"
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include/SDL2"
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"
+    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib/x86"
+  )
+endif(WIN32)
+
+#------------------------------------------------------------------------------
 #                                 Configure                                          
 #------------------------------------------------------------------------------
 
