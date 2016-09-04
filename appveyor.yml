@@ -71,6 +71,7 @@ after_build:
   - copy ..\fifechan\README.md C:\projects\build\Release\README.md
   - copy ..\fifechan\LICENSE.md C:\projects\build\Release\LICENSE.md
   - copy ..\fifechan\CHANGELOG.md C:\projects\build\Release\CHANGELOG.md 
+  - mkdir C:\projects\build\Release\include
   - xcopy /Y /S "..\fifechan\include" "C:\projects\build\Release\include"
   - mkdir C:\projects\build\Release\lib
   - copy C:\projects\build\Release\*.lib C:\projects\build\Release\lib
@@ -78,12 +79,12 @@ after_build:
   - mkdir C:\projects\build\Release\bin
   - copy C:\projects\build\Release\*.dll C:\projects\build\Release\bin
   # package artifact folder
-  - 7z a -tzip -mx9 C:\projects\build\fifechan-%configuration%-$(APPVEYOR_REPO_TAG_NAME).zip C:\projects\build\Release\
-
-# push only the "zip” to artifacts
+  - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip" C:\projects\build\Release\
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%../build/fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
+  
 artifacts:
-  - path: C:\projects\build\fifechan-%configuration%-$(APPVEYOR_REPO_TAG_NAME).zip
-    name: ReleaseArtifacts
+  - path: $(APPVEYOR_BUILD_FOLDER)\..\build\fifechan-$(APPVEYOR_REPO_TAG_NAME).zip
+    name: ReleaseArtifact
 
 # deploy to Github Releases on tag push
 deploy:
@@ -91,11 +92,11 @@ deploy:
   release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
   tag: $(APPVEYOR_REPO_TAG_NAME)
   description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
-  artifact: ReleaseArtifacts
+  artifact: ReleaseArtifact
   draft: false
   prerelease: false
   on:
-    branch: master                 # release from master branch only
+    branch: master                 # release from master branch only 
     appveyor_repo_tag: true        # deploy on tag push only
-  auth_token:                      # encrypted token from GitHub 
-    secure: CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H 
+  auth_token:                      # encrypted token from GitHub
+    secure: CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H
