@@ -1,4 +1,4 @@
-![FIFE LOGO](https://raw.githubusercontent.com/fifengine/fifengine/master/doc/logo/FIFE_small_c3.png)
+![FIFEGUI LOGO](https://raw.githubusercontent.com/jakoch/fifechan/master/docs/logo/FIFEgui_small_c3.png)
 
 ## FIFECHAN
 
