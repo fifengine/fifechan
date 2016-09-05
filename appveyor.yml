@@ -98,7 +98,7 @@ after_build:
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
   # publish an additional unversionized artifact (for being able to directly link the latest build)
   - copy "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip" "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan.zip"
 
 # deploy to Github Releases on tag push
 deploy:
