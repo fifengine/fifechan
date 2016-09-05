@@ -80,10 +80,10 @@ after_build:
   - copy C:\projects\build\Release\*.dll C:\projects\build\Release\bin
   # package artifact folder
   - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip" C:\projects\build\Release\
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%../build/fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
   
 artifacts:
-  - path: $(APPVEYOR_BUILD_FOLDER)\..\build\fifechan-$(APPVEYOR_REPO_TAG_NAME).zip
+  - path: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
     name: ReleaseArtifact
 
 # deploy to Github Releases on tag push
