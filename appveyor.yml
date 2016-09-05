@@ -100,13 +100,17 @@ after_build:
   - copy "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip" "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan.zip"
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan.zip"
 
+artifacts:
+  - path: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
+    name: ReleaseArtifact
+
 # deploy to Github Releases on tag push
 deploy:
   provider: GitHub
   release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
   tag: $(APPVEYOR_REPO_TAG_NAME)
   description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
-  artifact: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
+  artifact: ReleaseArtifact
   draft: false
   prerelease: false
   on:
