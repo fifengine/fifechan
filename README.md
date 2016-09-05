@@ -2,11 +2,11 @@
 
 ## FIFECHAN
 
-| [Website](http://fifengine.net/) | [Forum](http://forums.fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Source Code](https://github.com/fifengine/fifechan/archive/master.zip) | [Releases](https://github.com/fifengine/fifechan/releases) |
-|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| [Website](http://fifengine.net/) | [Forum](http://forums.fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Changelog](https://github.com/jakoch/fifechan/blob/master/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [Source Code (zip)](https://github.com/fifengine/fifechan/archive/master.zip) |
+|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 
-| Continous Integration | Linux |   Mac    | Windows |
-|:---------------------:|:-----:|:--------:|:-------:|
+| Continuous Integration | Linux |   Mac    | Windows |
+|:----------------------:|:-----:|:--------:|:-------:|
 | **Build Status** | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/7laap81568c93x4p?svg=true)](https://ci.appveyor.com/project/jakoch/fifengine) | 
 | **Development Releases**  |   -    |    -     | [fifechan.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan.zip?all=successful) |
 
