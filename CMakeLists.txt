@@ -152,8 +152,8 @@ ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE}
 ADD_CUSTOM_TARGET(lib DEPENDS ${PROJECT_NAME}) # Create symlink
 
 SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
-  VERSION                 ${${PROJECT_NAME}_VERSION}
-  SOVERSION               ${${PROJECT_NAME}_VERSION}
+  VERSION                 ${FIFECHAN_VERSION}
+  SOVERSION               ${FIFECHAN_VERSION}
   CLEAN_DIRECT_OUTPUT     1                             # Allow creating static and shared libraries without conflict
   OUTPUT_NAME             ${PROJECT_NAME}               # Avoid conflicts between library and binary target names 
   COMPILE_DEFINITIONS     "FIFECHAN_BUILD"
@@ -212,8 +212,8 @@ IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   ADD_CUSTOM_TARGET(allegrolib DEPENDS ${PROJECT_NAME}_allegro) # Create symlink
   
   SET_TARGET_PROPERTIES(${PROJECT_NAME}_allegro PROPERTIES
-    VERSION                   ${${PROJECT_NAME}_VERSION}
-    SOVERSION                 ${${PROJECT_NAME}_VERSION}
+    VERSION                   ${FIFECHAN_VERSION}
+    SOVERSION                 ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT       1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME               ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names 
     COMPILE_DEFINITIONS       "FIFECHAN_EXTENSION_BUILD"
@@ -266,8 +266,8 @@ IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
   ADD_CUSTOM_TARGET(irrlichtlib DEPENDS ${PROJECT_NAME}_irrlicht) # Create symlink
 
   SET_TARGET_PROPERTIES(${PROJECT_NAME}_irrlicht PROPERTIES
-    VERSION                  ${${PROJECT_NAME}_VERSION}
-    SOVERSION                ${${PROJECT_NAME}_VERSION}
+    VERSION                  ${FIFECHAN_VERSION}
+    SOVERSION                ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT      1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME              ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS      "FIFECHAN_EXTENSION_BUILD"
@@ -346,8 +346,8 @@ IF(ENABLE_OPENGL AND OPENGL_FOUND)
   ADD_CUSTOM_TARGET(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
 
   SET_TARGET_PROPERTIES(${PROJECT_NAME}_opengl PROPERTIES
-    VERSION                 ${${PROJECT_NAME}_VERSION}
-    SOVERSION               ${${PROJECT_NAME}_VERSION}
+    VERSION                 ${FIFECHAN_VERSION}
+    SOVERSION               ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME             ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names 
     COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
@@ -426,14 +426,14 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
       TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${SDL2_LIBRARY_DIR}/SDL2main.lib ${PROJECT_NAME})
     ENDIF(MINGW)
   ELSE(WIN32)
-    TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_LIBRARY_DIR}/SDL2main.lib ${PROJECT_NAME})
+    TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} SDL2main ${PROJECT_NAME})
   ENDIF(WIN32)
 
   ADD_CUSTOM_TARGET(sdllib DEPENDS ${PROJECT_NAME}_sdl) # Create symlink
 
   SET_TARGET_PROPERTIES(${PROJECT_NAME}_sdl PROPERTIES
-    VERSION                 ${${PROJECT_NAME}_VERSION}
-    SOVERSION               ${${PROJECT_NAME}_VERSION}
+    VERSION                 ${FIFECHAN_VERSION}
+    SOVERSION               ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME             ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
