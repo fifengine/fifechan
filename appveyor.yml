@@ -8,6 +8,16 @@ init:
   - cmake --version 
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
   - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+  # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
+  - ps: >-
+      if ($env:APPVEYOR_REPO_TAG -eq "true")
+      {
+        Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+      }
+      else
+      {
+        Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
+      }
 
 branches:
   only:
@@ -83,8 +93,9 @@ after_build:
   - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
   # package artifact folder
   - cd C:\projects\build\Release
-  - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
+  - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
+  - set 
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
   
 artifacts:
   - path: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
