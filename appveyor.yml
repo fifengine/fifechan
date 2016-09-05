@@ -96,10 +96,9 @@ after_build:
   - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
   - set 
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
-  
-artifacts:
-  - path: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
-    name: ReleaseArtifact
+  # publish an additional unversionized artifact (for being able to directly link the latest build)
+  - copy "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip" "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
 
 # deploy to Github Releases on tag push
 deploy:
@@ -107,7 +106,7 @@ deploy:
   release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
   tag: $(APPVEYOR_REPO_TAG_NAME)
   description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
-  artifact: ReleaseArtifact
+  artifact: fifechan-%APPVEYOR_REPO_TAG_NAME%.zip
   draft: false
   prerelease: false
   on:
