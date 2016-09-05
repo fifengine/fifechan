@@ -22,7 +22,7 @@ platform:
 
 configuration:
   - Release
-  - Debug
+  #- Debug
 
 environment:
   matrix:
