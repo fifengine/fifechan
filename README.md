@@ -2,12 +2,13 @@
 
 ## FIFECHAN
 
-| [Website](http://fifengine.net/) | [Forum](http://forums.fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) |
-|-----|-----|-----|
+| [Website](http://fifengine.net/) | [Forum](http://forums.fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Source Code](https://github.com/fifengine/fifechan/archive/master.zip) | [Releases](https://github.com/fifengine/fifechan/releases) |
+|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 
-|    :ghost:   | Linux |   Mac    | Windows |
-|:------------:|:-----:|:--------:|:-------:|
-| Build Status | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/7laap81568c93x4p?svg=true)](https://ci.appveyor.com/project/jakoch/fifengine) | 
+| Continous Integration | Linux |   Mac    | Windows |
+|:---------------------:|:-----:|:--------:|:-------:|
+| **Build Status** | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/7laap81568c93x4p?svg=true)](https://ci.appveyor.com/project/jakoch/fifengine) | 
+| **Development Releases**  |   -    |    -     | [fifechan.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan.zip?all=successful) |
 
 ## Introduction to Fifechan
 
@@ -25,7 +26,15 @@ powerful enough to use in all types of games out of the box.
 
 ## Downloads
 
-You find the latest downloads on Github Releases: https://github.com/fifengine/fifechan/releases
+#### Latest Releases
+
+You find the latest releases on [Github Releases](https://github.com/fifengine/fifechan/releases).
+
+#### Development Releases
+
+We also provide releases for the latest successful build:
+
+- Windows: [fifechan.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan.zip?all=successful)
 
 ## Getting involved
 
