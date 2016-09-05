@@ -68,18 +68,22 @@ after_build:
   #- dir c:\fifechan\install /s
   - dir C:\projects\build\Release /s
   # prepare artifact folder
+  - mkdir C:\projects\build\Release\bin
+  - mkdir C:\projects\build\Release\include
+  - mkdir C:\projects\build\Release\lib
+  # copy additional files
   - copy ..\fifechan\README.md C:\projects\build\Release\README.md
   - copy ..\fifechan\LICENSE.md C:\projects\build\Release\LICENSE.md
-  - copy ..\fifechan\CHANGELOG.md C:\projects\build\Release\CHANGELOG.md 
-  - mkdir C:\projects\build\Release\include
+  - copy ..\fifechan\CHANGELOG.md C:\projects\build\Release\CHANGELOG.md
+  # copy includes
   - xcopy /Y /S "..\fifechan\include" "C:\projects\build\Release\include"
-  - mkdir C:\projects\build\Release\lib
-  - copy C:\projects\build\Release\*.lib C:\projects\build\Release\lib
-  - copy C:\projects\build\Release\*.exp C:\projects\build\Release\lib
-  - mkdir C:\projects\build\Release\bin
-  - copy C:\projects\build\Release\*.dll C:\projects\build\Release\bin
+  # move binaries (dlls) and libs
+  - move C:\projects\build\Release\*.dll C:\projects\build\Release\bin\
+  - move C:\projects\build\Release\*.lib C:\projects\build\Release\lib\
+  - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
   # package artifact folder
-  - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip" C:\projects\build\Release\
+  - cd C:\projects\build\Release
+  - 7z a -tzip -mx9 "C:\projects\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\..\build\fifechan-%APPVEYOR_REPO_TAG_NAME%.zip"
   
 artifacts:
