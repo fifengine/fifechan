@@ -95,11 +95,13 @@ after_build:
   - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
   # package artifact folder
   - cd C:\projects\build\Release
-  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%.zip"
+  - if "%generator%"=="Visual Studio 14" (set COMPILER="VS")
+  - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
   # publish an additional unversionized artifact (for being able to directly link the latest build)
-  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan.zip"
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
 
 artifacts:
   - path: '\*.zip'
