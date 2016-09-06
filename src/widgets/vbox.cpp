@@ -2,6 +2,7 @@
 #include "fifechan/widgets/vbox.hpp"
 
 #include <iostream>
+#include <algorithm>
 
 namespace fcn
 {

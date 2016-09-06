@@ -1,0 +1,123 @@
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - date /T & time /T
+  - git config --global core.autocrlf input
+  - cmake --version
+  # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
+  - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+  # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
+  - ps: >-
+      if ($env:APPVEYOR_REPO_TAG -eq "true")
+      {
+        Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+      }
+      else
+      {
+        Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
+      }
+
+branches:
+  only:
+  - master
+
+clone_depth: 5
+
+version: '{build}'
+
+platform:
+  - x86
+
+configuration:
+  - Release
+  #- Debug
+
+environment:
+  matrix:
+    - generator: "Visual Studio 14"
+    #- generator: "MinGW Makefiles"
+
+matrix:
+  fast_finish: true
+
+cache:
+  - C:\projects\fifechan-dependencies\downloads
+#  - C:\projects\fifengine-dependencies\includes
+
+install:
+  # get dependencies
+  - cmake dependencies -G "%generator%" -B../fifechan-dependencies/build
+  - cmake --build ../fifechan-dependencies/build --target ALL_BUILD --config %configuration%
+  # show dependency folders
+  - dir ..\fifechan-dependencies
+  - dir ..\fifechan-dependencies\downloads
+  - dir ..\fifechan-dependencies\includes /s
+
+#before_build:
+  # git sh.exe conflicts with MinGW makefiles
+  #- if "%generator%"=="MinGW Makefiles" (set "PATH=%PATH:C:\Program Files\Git\usr\bin;=%")
+
+build_script:
+  - dir
+  # create folder for an out-of-source-tree build: "c:\projects\build"
+  - cd..
+  - mkdir build
+  - cd build
+  # generate build script
+  - >
+    cmake ..\fifechan
+    -G "%generator%"
+    -DCMAKE_BUILD_TYPE=%configuration%
+    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install"
+  # build
+  - cmake --build . --target ALL_BUILD --config %configuration%
+
+after_build:
+  # show defined env variables
+  #- set
+  # show release folder
+  - dir C:\projects\build\Release /s
+  # prepare artifact folder
+  - mkdir C:\projects\build\Release\bin
+  - mkdir C:\projects\build\Release\include
+  - mkdir C:\projects\build\Release\lib
+  # copy additional files
+  - copy ..\fifechan\README.md C:\projects\build\Release\README.md
+  - copy ..\fifechan\LICENSE.md C:\projects\build\Release\LICENSE.md
+  - copy ..\fifechan\CHANGELOG.md C:\projects\build\Release\CHANGELOG.md
+  # copy includes
+  - xcopy /Y /S "..\fifechan\include" "C:\projects\build\Release\include"
+  # move binaries (dlls) and libs
+  - move C:\projects\build\Release\*.dll C:\projects\build\Release\bin\
+  - move C:\projects\build\Release\*.lib C:\projects\build\Release\lib\
+  - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
+  # package artifact folder
+  - cd C:\projects\build\Release
+  - if "%generator%"=="Visual Studio 14" (set COMPILER="VS")
+  - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  # publish an additional unversionized artifact (for being able to directly link the latest build)
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
+
+artifacts:
+  - path: '\*.zip'
+    name: ReleaseArtifact
+
+# deploy to Github Releases on tag push
+deploy:
+  provider: GitHub
+  release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
+  artifact: ReleaseArtifact
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
+  auth_token:                      # encrypted token from GitHub
+    secure: CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H

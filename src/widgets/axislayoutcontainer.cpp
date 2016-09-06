@@ -2,6 +2,7 @@
 #include "fifechan/widgets/axislayoutcontainer.hpp"
 
 #include <algorithm>
+#include <functional>
 
 static const int DEFAULT_PADDING = 2;
 static const int DEFAULT_CHILDREN_OFFSET = 1;
