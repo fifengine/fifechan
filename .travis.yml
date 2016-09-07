@@ -16,6 +16,8 @@ git:
 addons:
     apt:
       packages:
+        # 7z is used for packaging (see before_deploy)
+        - p7zip-full 
         - subversion
         - mesa-common-dev
         - libsdl2-dev
@@ -37,7 +39,8 @@ before_install:
   - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
   - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
   - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
-  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
+  - mkdir fifechan
+  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/fifechan . && make && sudo make install && cd ..
 
 before_script:
   - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
@@ -45,6 +48,22 @@ before_script:
 script:
   - make
   - sudo make install
+
+before_deploy:
+  # let's package for linux
+  - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan.tar.gz; fi
+
+deploy:
+  provider: releases
+  api_key: 
+    # encrypted Github OAuth token
+    secure: "CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H" 
+  file:
+    - "fifechan.tar.gz"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
 
 notifications:
   irc: "irc.freenode.org#fife"
