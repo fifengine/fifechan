@@ -52,7 +52,7 @@ script:
 
 before_deploy:
   # let's package for linux
-  - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan.tar.gz; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
 
 deploy:
   provider: releases
@@ -60,7 +60,7 @@ deploy:
     # encrypted Github OAuth token
     secure: "CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H" 
   file:
-    - "fifechan.tar.gz"
+    - "fifechan-$TRAVIS_TAG.tar.gz"
   skip_cleanup: true
   overwrite: true
   on:
