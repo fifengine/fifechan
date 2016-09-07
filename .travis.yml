@@ -43,12 +43,12 @@ before_install:
   - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
 
 before_script:
-  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
+  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan .
 
 script:
   - make
   - sudo make install
-  - sudo ls -alh /usr/*
+  - sudo ls -alh /fifechan/*
 
 before_deploy:
   # let's package for linux
