@@ -51,14 +51,13 @@ script:
 
 before_deploy:
   - sudo ls -alh /fifechan/*
-  # let's package for linux
+  # let's package for Linux
   - if [ $TRAVIS_OS_NAME == linux ] && [ $CC == gcc ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
 
 deploy:
   provider: releases
   api_key: 
-    # encrypted Github OAuth token
-    secure: "CAk9K6hUe6pEb6RFG5A49s790UFJibphWpeRsCm2itrxS1KDn1jTmwObE4/cyL/H" 
+    secure: "EXN1Q+iXC9acOgUujeCxCQywzDCLQUWQbAa8GMxnqF1nBAvSDeXnTIBQnfDsuQZkWtSMz34zyC4ZN/eta9Lytq4yKMP4XvKVBP5bXQNanDzck+CuUFbnYKE8bVbON6mksN09H5/qt0QHWxjE/vlxCXdoD7Kaek3coWET9s82yXg="
   file:
     - "fifechan-$TRAVIS_TAG.tar.gz"
   skip_cleanup: true
