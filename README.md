@@ -8,7 +8,7 @@
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
 | **Build Status** | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/7laap81568c93x4p?svg=true)](https://ci.appveyor.com/project/fifengine/fifengine) | 
-| **Development Releases**  |   -    |    -     | [fifechan-VS.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan-VS.zip) |
+| **Development Releases**  |   -    |    -     | [fifechan-VC14.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan-VC14.zip) |
 
 ## Introduction to Fifechan
 
@@ -32,9 +32,7 @@ You find the latest releases on [Github Releases](https://github.com/fifengine/f
 
 #### Development Releases
 
-We also provide releases for the latest successful build:
-
-- Windows: [fifechan.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan.zip?all=successful)
+We also provide releases for the latest successful build. You find them listed in the Continous Integration table above.
 
 ## Getting involved
 

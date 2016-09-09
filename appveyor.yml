@@ -95,7 +95,7 @@ after_build:
   - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
   # package artifact folder
   - cd C:\projects\build\Release
-  - if "%generator%"=="Visual Studio 14" (set COMPILER="VS")
+  - if "%generator%"=="Visual Studio 14" (set COMPILER="VC14")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
   - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
