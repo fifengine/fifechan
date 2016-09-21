@@ -65,43 +65,49 @@ build_script:
   - cd..
   - mkdir build
   - cd build
-  # generate build script
+  # generate build script - SHARED
   - >
     cmake ..\fifechan
     -G "%generator%"
     -DCMAKE_BUILD_TYPE=%configuration%
-    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install"
+    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install-shared"
   # build
   - cmake --build . --target ALL_BUILD --config %configuration%
+  # install
+  - cmake --build . --target INSTALL --config %configuration%
+  # generate build script - STATIC
+  - >
+    cmake ..\fifechan
+    -G "%generator%"
+    -DCMAKE_BUILD_TYPE=%configuration%
+    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install-static"
+    -DBUILD_FIFECHAN_SHARED=OFF
+    -DBUILD_FIFECHAN_OPENGL_SHARED=OFF
+    -DBUILD_FIFECHAN_SDL_SHARED=OFF
+  # build
+  - cmake --build . --target ALL_BUILD --config %configuration%
+  # install
+  - cmake --build . --target INSTALL --config %configuration%
 
 after_build:
   # show defined env variables
   #- set
-  # show release folder
-  - dir C:\projects\build\Release /s
-  # prepare artifact folder
-  - mkdir C:\projects\build\Release\bin
-  - mkdir C:\projects\build\Release\include
-  - mkdir C:\projects\build\Release\lib
-  # copy additional files
-  - copy ..\fifechan\README.md C:\projects\build\Release\README.md
-  - copy ..\fifechan\LICENSE.md C:\projects\build\Release\LICENSE.md
-  - copy ..\fifechan\CHANGELOG.md C:\projects\build\Release\CHANGELOG.md
-  # copy includes
-  - xcopy /Y /S "..\fifechan\include" "C:\projects\build\Release\include"
-  # move binaries (dlls) and libs
-  - move C:\projects\build\Release\*.dll C:\projects\build\Release\bin\
-  - move C:\projects\build\Release\*.lib C:\projects\build\Release\lib\
-  - move C:\projects\build\Release\*.exp C:\projects\build\Release\lib\
-  # package artifact folder
-  - cd C:\projects\build\Release
   - if "%generator%"=="Visual Studio 14" (set COMPILER="VC14")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
-  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  # package artifact folder - shared
+  - cd c:\fifechan\install-shared
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
   # publish an additional unversionized artifact (for being able to directly link the latest build)
-  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-%COMPILER%.zip"
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
+  # package artifact folder - static
+  - cd c:\fifechan\install-static
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  # publish an additional unversionized artifact (for being able to directly link the latest build)
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%.zip"
 
 artifacts:
   - path: '\*.zip'

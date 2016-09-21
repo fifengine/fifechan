@@ -16,6 +16,8 @@ git:
 addons:
     apt:
       packages:
+        # 7z is used for packaging (see before_deploy)
+        - p7zip-full 
         - subversion
         - mesa-common-dev
         - libsdl2-dev
@@ -37,14 +39,31 @@ before_install:
   - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
   - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
   - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
+  - mkdir fifechan
   - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
 
 before_script:
-  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON .
+  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan .
 
 script:
   - make
   - sudo make install
+
+before_deploy:
+  - sudo ls -alh /fifechan/*
+  # let's package for Linux
+  - if [ $TRAVIS_OS_NAME == linux ] && [ $CC == gcc ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
+
+deploy:
+  provider: releases
+  api_key: 
+    secure: "EXN1Q+iXC9acOgUujeCxCQywzDCLQUWQbAa8GMxnqF1nBAvSDeXnTIBQnfDsuQZkWtSMz34zyC4ZN/eta9Lytq4yKMP4XvKVBP5bXQNanDzck+CuUFbnYKE8bVbON6mksN09H5/qt0QHWxjE/vlxCXdoD7Kaek3coWET9s82yXg="
+  file:
+    - "fifechan-$TRAVIS_TAG.tar.gz"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
 
 notifications:
   irc: "irc.freenode.org#fife"
