@@ -65,7 +65,7 @@ build_script:
   - cd..
   - mkdir build
   - cd build
-  # generate build script
+  # generate build script - SHARED
   - >
     cmake ..\fifechan
     -G "%generator%"
@@ -73,6 +73,21 @@ build_script:
     -DCMAKE_INSTALL_PREFIX="c:/fifechan/install"
   # build
   - cmake --build . --target ALL_BUILD --config %configuration%
+  # install
+  - cmake --build . --target INSTALL --config %configuration%
+  # generate build script - STATIC
+  - >
+    cmake ..\fifechan
+    -G "%generator%"
+    -DCMAKE_BUILD_TYPE=%configuration%
+    -DCMAKE_INSTALL_PREFIX="c:/fifechan/install"
+    -DBUILD_FIFECHAN_SHARED=OFF
+    -DBUILD_FIFECHAN_OPENGL_SHARED=OFF
+    -DBUILD_FIFECHAN_SDL_SHARED=OFF
+  # build
+  - cmake --build . --target ALL_BUILD --config %configuration%
+  # install
+  - cmake --build . --target INSTALL --config %configuration%
 
 after_build:
   # show defined env variables
