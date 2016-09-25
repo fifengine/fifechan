@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2016 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -27,11 +27,11 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naess�n and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
  *
  *
  * Per Larsson a.k.a finalman
- * Olof Naess�n a.k.a jansem/yakslem
+ * Olof Naessén a.k.a jansem/yakslem
  *
  * Visit: http://guichan.sourceforge.net
  *
