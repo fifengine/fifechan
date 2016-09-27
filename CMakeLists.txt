@@ -70,6 +70,22 @@ endif(WIN32)
 # Path to local modules
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
+# Do not allow an in-source-tree build, request an out-of-source-tree build.
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+  message(FATAL_ERROR "#Please build outside of the source tree!\n                        
+                       Make a separate folder for building and run CMake there:\n
+                       mkdir _build; cd _build; cmake ..\n
+                       Before that, cleanup:\nrm -rf CMakeCache.txt CMakeFiles")
+endif()
+
+# Disable in-source builds and modifications to the source tree.
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
+#------------------------------------------------------------------------------
+#                                 Source Files                                             
+#------------------------------------------------------------------------------
+
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 
 # The Fifechan core library 
