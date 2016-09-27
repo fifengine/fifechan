@@ -31,6 +31,7 @@ addons:
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
+  # build OGLFT
   - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
   - cd oglft-code
   # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
@@ -39,14 +40,24 @@ before_install:
   - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
   - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
   - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
-  - mkdir fifechan
-  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
-
-before_script:
-  - cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan .
-
-script:
+  # configure oglft - install into /usr folder
+  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr . 
+  # make oglft
   - make
+  # install oglft
+  - sudo make install
+  - cd ..
+   
+script:
+  # create folder for an out-of-source-tree build
+  - mkdir _build
+  # switch to build folder
+  - cd _build
+  # call cmake to configure the build env
+  - cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
+  # finally, make
+  - make
+  # then install
   - sudo make install
 
 before_deploy:
