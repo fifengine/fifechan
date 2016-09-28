@@ -7,8 +7,9 @@
 
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
-| **Build Status** | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build status](https://travis-ci.org/fifengine/fifechan.png?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/7laap81568c93x4p?svg=true)](https://ci.appveyor.com/project/fifengine/fifengine) | 
-| **Development Releases**  |   -    |    -     | [fifechan-VC14.zip](https://ci.appveyor.com/api/projects/fifengine/fifechan/artifacts/fifechan-VC14.zip) |
+| **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/bl7s1fi48kpndvrl?svg=true)](https://ci.appveyor.com/project/jakoch/fifechan) | 
+| **Development Releases**  |   -    |    -     | [All artifacts](https://ci.appveyor.com/project/jakoch/fifechan/build/artifacts) <br> [fifechan-shared-VC14.zip](https://ci.appveyor.com/api/projects/jakoch/fifechan/artifacts/fifechan-shared-VC14.zip) <br> [fifechan-static-VC14.zip](https://ci.appveyor.com/api/projects/jakoch/fifechan/artifacts/fifechan-static-VC14.zip) |
+
 
 ## Introduction to Fifechan
 
