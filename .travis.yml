@@ -11,7 +11,7 @@ os:
 dist: trusty
 
 git:
-  depth: 1
+  depth: 5
 
 addons:
     apt:
@@ -29,7 +29,7 @@ addons:
         #- libgle3-dev
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev cppcheck; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
   # build OGLFT
   - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
@@ -59,6 +59,10 @@ script:
   - make
   # then install
   - sudo make install
+
+after_script: 
+   - cd /home/travis/build/fifengine/fifechan
+   - cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src
 
 before_deploy:
   - sudo ls -alh /fifechan/*
