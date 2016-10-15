@@ -66,7 +66,7 @@
  * For comments regarding functions please see the header file.
  */
 
-#include "fifechan/contrib/widgets/adjustingcontainer.hpp"
+#include "fifechan/widgets/adjustingcontainer.hpp"
 
 #include <fifechan.hpp>
 
