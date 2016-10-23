@@ -109,7 +109,7 @@ namespace fcn
               mTabIn(true),
               mTabOut(true),
               mEnabled(true),
-              mCurrentFont(NULL)
+              mCurrentFont(NULL),
               mLastX(0),
               mLastY(0)
     {
