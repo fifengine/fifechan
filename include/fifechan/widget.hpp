@@ -82,7 +82,7 @@ namespace fcn
     class Font;
     class Graphics;
     class KeyInput;
-    class KeyListener;
+    class KeyListener;Fixed the focus bug and the getAbsolutePosition bug.
     class MouseInput;
     class MouseListener;
     class SizeConstraint;
@@ -1071,7 +1071,7 @@ namespace fcn
         static void _setGuiDeathListener(DeathListener* deathListener);
         static DeathListener* _getGuiDeathListener();
 
-		void getLastPosition(int& x, int& y) const;
+        void getLastPosition(int& x, int& y) const;
         void setLastPosition(int x, int y);
         bool isLastPositionSet() const;
 
