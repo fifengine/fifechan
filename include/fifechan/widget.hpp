@@ -82,7 +82,7 @@ namespace fcn
     class Font;
     class Graphics;
     class KeyInput;
-    class KeyListener;Fixed the focus bug and the getAbsolutePosition bug.
+    class KeyListener;
     class MouseInput;
     class MouseListener;
     class SizeConstraint;
