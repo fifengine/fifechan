@@ -56,7 +56,7 @@ script:
   # call cmake to configure the build env
   - cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
   # finally, make
-  - make
+  - make -j2 VERBOSE=1
   # then install
   - sudo make install
 
