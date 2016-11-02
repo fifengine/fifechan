@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2016 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -433,6 +433,9 @@ namespace fcn
         if (mFocusHandler)
         {
             releaseModalFocus();
+            if (mFocusHandler->getModalMouseInputFocused() == this) {
+                releaseModalMouseInputFocus();
+            }
             mFocusHandler->remove(this);
         }
 
@@ -651,6 +654,22 @@ namespace fcn
     bool Widget::isEnabled() const
     {
         return mEnabled && isVisible();
+    }
+
+    bool Widget::isModalFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalFocused() == NULL;
+    }
+
+    bool Widget::isModalMouseInputFocusable() const {
+        if (mFocusHandler == NULL) {
+            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+            return false;
+        }
+        return mFocusHandler->getModalMouseInputFocused() == NULL;
     }
 
     void Widget::requestModalFocus()

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2016 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -745,6 +745,22 @@ namespace fcn
          * @see isTabOutEnabled
          */
         void setTabOutEnabled(bool enabled);
+
+        /**
+         * Checks if a widget is modal focusable.
+         *
+         * @return True if no other widget is modal focused, false otherwise.
+         * @see requestModalFocus, releaseModalFocus
+         */
+        virtual bool isModalFocusable() const;
+
+        /**
+         * Checks if a widget is modal mouse input focusable.
+         *
+         * @return True if no other widget is modal mouse input focused, false otherwise.
+         * @see requestModalMouseInputFocus, releaseModalMouseInputFocus
+         */
+        virtual bool isModalMouseInputFocusable() const;
 
         /**
          * Requests modal focus. When a widget has modal focus, only that

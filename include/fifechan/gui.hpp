@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2016 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -339,12 +339,27 @@ namespace fcn
         virtual void handleModalFocusGained();
 
         /**
-         * Handles modal mouse input focus gained. If modal focus has been
-         * gained it might be necessary to distribute mouse entered or mouse
+         * Handles modal focus released. If modal focus has been
+         * released it might be necessary to distribute mouse entered or mouse
          * exited events.
          *
          */
         virtual void handleModalFocusReleased();
+
+        /**
+         * Handles modal mouse input focus gained. If modal focus has been gained it might
+         * be necessary to distribute mouse entered or mouse exited events.
+         *
+         */
+        virtual void handleModalMouseInputFocusGained();
+
+        /**
+         * Handles modal mouse input focus released. If modal focus has been
+         * released it might be necessary to distribute mouse entered or mouse
+         * exited events.
+         *
+         */
+        virtual void handleModalMouseInputFocusReleased();
         
         /**
          * Handles hidden widgets.
