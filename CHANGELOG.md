@@ -2,8 +2,18 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2016-11-05
+
 - Requires CMake 2.6.0 to use Freetype find_package function. Freetype is
   required by oglft.
+- Updated so use SDL2
+- Updated fps demo for SDL2
+- Bug fixes
+- travis build fixes
+- added Auto layouting
+- fixes some possible segfaults
+- Enhanced modal focus handling
+- added an new logo
 
 ## [0.1.2] - 2014-08-10
 
