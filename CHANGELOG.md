@@ -4,16 +4,17 @@
 
 ## [0.1.3] - 2016-11-05
 
-- Requires CMake 2.6.0 to use Freetype find_package function. Freetype is
-  required by oglft.
-- Updated so use SDL2
-- Updated fps demo for SDL2
+- Requires CMake 2.6.0 to use Freetype find_package function. 
+  Freetype is required by oglft.
+- Updated to SDL2
+- Updated FPS demo for SDL2
 - Bug fixes
 - travis build fixes
+- added Appveyor build configuration
 - added Auto layouting
 - fixes some possible segfaults
 - Enhanced modal focus handling
-- added an new logo
+- added a new logo
 
 ## [0.1.2] - 2014-08-10
 
@@ -60,7 +61,8 @@ There are already some important bug fixes and new features such as:
       progress.
     - PasswordField, which implements password input.
 
-[Unreleased]: https://github.com/fifengine/fifechan/compare/0.1.2...HEAD
+[Unreleased]: https://github.com/fifengine/fifechan/compare/0.1.3...HEAD
+[0.1.3]: https://github.com/fifengine/fifechan/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/fifengine/fifechan/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/fifengine/fifechan/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/jakoch/phantomjs-installer/releases/tag/0.1.0
