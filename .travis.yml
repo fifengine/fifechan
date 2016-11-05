@@ -72,7 +72,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key: 
-    secure: "EXN1Q+iXC9acOgUujeCxCQywzDCLQUWQbAa8GMxnqF1nBAvSDeXnTIBQnfDsuQZkWtSMz34zyC4ZN/eta9Lytq4yKMP4XvKVBP5bXQNanDzck+CuUFbnYKE8bVbON6mksN09H5/qt0QHWxjE/vlxCXdoD7Kaek3coWET9s82yXg="
+    secure: "pWuM+6g5NjLo0mIyanHpNSWgs8f99fAqWb8ttY3YGNkiKWPmtTMZxktGdONp3dIOYykK8fHuCX2fuXNGhfv3wYllNAqbHgZ2Z6718q57xbjIplvJwdJ1+iAmmMGs1UDNyNLlMVr9y+hXzJLfIhd5/mp4+Wb3JqSDXtk+9ScV2JE="
   file:
     - "fifechan-$TRAVIS_TAG.tar.gz"
   skip_cleanup: true
