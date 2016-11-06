@@ -2,7 +2,6 @@ language: cpp
 
 compiler:
   - clang
-  - gcc
 
 os:
   - linux
@@ -67,7 +66,7 @@ after_script:
 before_deploy:
   - sudo ls -alh /fifechan/*
   # let's package for Linux
-  - if [ $TRAVIS_OS_NAME == linux ] && [ $CC == gcc ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar ./fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
 
 deploy:
   provider: releases
