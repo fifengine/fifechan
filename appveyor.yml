@@ -124,6 +124,7 @@ deploy:
   artifact: ReleaseArtifact
   draft: false
   prerelease: false
+  force_update: true               # overwrite files of existing release on GitHub
   on:
     branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
