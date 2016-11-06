@@ -60,8 +60,9 @@ script:
   - sudo make install
 
 after_script: 
-   - cd /home/travis/build/fifengine/fifechan
-   - cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src
+   # run cppcheck only on Linux
+   - if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan; fi
+   - if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src; fi
 
 before_deploy:
   - sudo ls -alh /fifechan/*
