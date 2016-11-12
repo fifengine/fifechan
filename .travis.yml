@@ -1,87 +1,61 @@
 language: cpp
-
 compiler:
-  - clang
-
+- clang
 os:
-  - linux
-  - osx
-
+- linux
+- osx
 dist: trusty
-
 git:
   depth: 5
-
 addons:
-    apt:
-      packages:
-        # 7z is used for packaging (see before_deploy)
-        - p7zip-full 
-        - subversion
-        - mesa-common-dev
-        - libsdl2-dev
-        - libsdl2-image-dev
-        - libsdl2-ttf-dev
-        - libfreetype6-dev
-        # Disallowed, have to be installed manually
-        #- liballegro5-dev
-        #- libgle3-dev
-
+  apt:
+    packages:
+    - p7zip-full
+    - subversion
+    - mesa-common-dev
+    - libsdl2-dev
+    - libsdl2-image-dev
+    - libsdl2-ttf-dev
+    - libfreetype6-dev
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev cppcheck; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
-  # build OGLFT
-  - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
-  - cd oglft-code
-  # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
-  - sed -i.bak '4d' CMakeLists.txt
-  # Also include Freetype
-  - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
-  - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
-  - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
-  # configure oglft - install into /usr folder
-  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local . 
-  # make oglft
-  - make
-  # install oglft
-  - sudo make install
-  - cd ..
-   
+- if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install
+  -y libgle3-dev liballegro5-dev cppcheck; fi
+- if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image
+  sdl2_ttf allegro freetype; fi
+- svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
+- cd oglft-code
+- sed -i.bak '4d' CMakeLists.txt
+- sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
+- sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
+- sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
+- cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local .
+- make
+- sudo make install
+- cd ..
 script:
-  # create folder for an out-of-source-tree build
-  - mkdir _build
-  # switch to build folder
-  - cd _build
-  # call cmake to configure the build env
-  - cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
-  # finally, make
-  - make -j2 VERBOSE=1
-  # then install
-  - sudo make install
-
-after_script: 
-   # run cppcheck only on Linux
-   - if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan; fi
-   - if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src; fi
-
+- mkdir _build
+- cd _build
+- cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
+- make -j2 VERBOSE=1
+- sudo make install
+after_script:
+- if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan;
+  fi
+- if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix
+  --std=c++11 --quiet -I include src; fi
 before_deploy:
-  - sudo ls -alh /fifechan/*
-  # let's package for Linux
-  - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
-  # let's package for Mac
-  - if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
-
+- sudo ls -alh /fifechan/*
+- if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar /fifechan/* |
+  7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
+- if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z
+  a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
 deploy:
   provider: releases
-  api_key: 
-    secure: "pWuM+6g5NjLo0mIyanHpNSWgs8f99fAqWb8ttY3YGNkiKWPmtTMZxktGdONp3dIOYykK8fHuCX2fuXNGhfv3wYllNAqbHgZ2Z6718q57xbjIplvJwdJ1+iAmmMGs1UDNyNLlMVr9y+hXzJLfIhd5/mp4+Wb3JqSDXtk+9ScV2JE="
-  file: fifechan*.tar.gz          # wildcard for "fifechan-1.2.3.tar.gz" and "fifechan-mac-1.2.3.tar.gz"
-  file_glob: true
-  skip_cleanup: true
-  overwrite: true
+  api_key:
+    secure: ZVffMFp82HRugjjmwr+K7a7797JscryURPmd1NUrFaF54FMfTtGWBqDO5UT4RWScR/46F8+6idKciQTvAct0muf1qzwnXcxhMZXnZaJiJHyRGjuKm4EamtmtdYbycrkVA9NvH7EIyciUz7nEawGv3IiAoz3Y8pvWH7JApTeRxiY=
+  file: Fifechan $(APPVEYOR_REPO_TAG_NAME)
   on:
-    tags: true
-
+    repo: fifengine/fifechan
 notifications:
-  irc: "irc.freenode.org#fife"
+  irc: irc.freenode.org#fife
   email: false
