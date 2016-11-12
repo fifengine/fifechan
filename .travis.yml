@@ -53,7 +53,7 @@ deploy:
   provider: releases
   api_key:
     secure: ZVffMFp82HRugjjmwr+K7a7797JscryURPmd1NUrFaF54FMfTtGWBqDO5UT4RWScR/46F8+6idKciQTvAct0muf1qzwnXcxhMZXnZaJiJHyRGjuKm4EamtmtdYbycrkVA9NvH7EIyciUz7nEawGv3IiAoz3Y8pvWH7JApTeRxiY=
-  file: Fifechan $(APPVEYOR_REPO_TAG_NAME)
+  file: Fifechan*.tar.gz
   on:
     repo: fifengine/fifechan
 notifications:
