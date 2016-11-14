@@ -65,4 +65,4 @@ There are already some important bug fixes and new features such as:
 [0.1.3]: https://github.com/fifengine/fifechan/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/fifengine/fifechan/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/fifengine/fifechan/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/jakoch/phantomjs-installer/releases/tag/0.1.0
+[0.1.0]: https://github.com/fifengine/fifechan/releases/tag/0.1.0
