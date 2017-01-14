@@ -52,7 +52,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: ZVffMFp82HRugjjmwr+K7a7797JscryURPmd1NUrFaF54FMfTtGWBqDO5UT4RWScR/46F8+6idKciQTvAct0muf1qzwnXcxhMZXnZaJiJHyRGjuKm4EamtmtdYbycrkVA9NvH7EIyciUz7nEawGv3IiAoz3Y8pvWH7JApTeRxiY=
+    secure: PklA532IBf2s4paPOoYBviN4cz1Dew9+Bce0aO6VaINDMCxDLRiNGeg3Jchaw03C
   file: Fifechan*.tar.gz
   on:
     repo: fifengine/fifechan
