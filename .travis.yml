@@ -1,0 +1,61 @@
+language: cpp
+compiler:
+- clang
+os:
+- linux
+- osx
+dist: trusty
+git:
+  depth: 5
+addons:
+  apt:
+    packages:
+    - p7zip-full
+    - subversion
+    - mesa-common-dev
+    - libsdl2-dev
+    - libsdl2-image-dev
+    - libsdl2-ttf-dev
+    - libfreetype6-dev
+before_install:
+- if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install
+  -y libgle3-dev liballegro5-dev cppcheck; fi
+- if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image
+  sdl2_ttf allegro freetype; fi
+- svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
+- cd oglft-code
+- sed -i.bak '4d' CMakeLists.txt
+- sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
+- sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
+- sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
+- cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local .
+- make
+- sudo make install
+- cd ..
+script:
+- mkdir _build
+- cd _build
+- cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
+- make -j2 VERBOSE=1
+- sudo make install
+after_script:
+- if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan;
+  fi
+- if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix
+  --std=c++11 --quiet -I include src; fi
+before_deploy:
+- sudo ls -alh /fifechan/*
+- if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar /fifechan/* |
+  7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
+- if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z
+  a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
+deploy:
+  provider: releases
+  api_key:
+    secure: PklA532IBf2s4paPOoYBviN4cz1Dew9+Bce0aO6VaINDMCxDLRiNGeg3Jchaw03C
+  file: Fifechan*.tar.gz
+  on:
+    repo: fifengine/fifechan
+notifications:
+  irc: irc.freenode.org#fife
+  email: false

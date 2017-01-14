@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2017 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -27,7 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
-* Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
+ * Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
  *
  *
  * Per Larsson a.k.a finalman

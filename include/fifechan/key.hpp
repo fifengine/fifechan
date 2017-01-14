@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2017 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -182,7 +182,8 @@ namespace fcn
             Left,
             Right,
             Up,
-            Down
+            Down,
+            At
         };
 
     protected:

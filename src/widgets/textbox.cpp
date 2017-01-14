@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2017 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -261,9 +261,12 @@ namespace fcn
             {
                 int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
                 int chars = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
-                setCaretRow(getCaretRow() - rowsPerPage);
-
-                if (getCaretRow() < 0)
+                int newCaretRow = getCaretRow() - rowsPerPage;
+                if (newCaretRow >= 0)
+                {
+                    setCaretRow(newCaretRow);
+                }
+                else
                 {
                     setCaretRow(0);
                 }
@@ -303,8 +306,8 @@ namespace fcn
 
         adjustSize();
         scrollToCaret();
-        //assert( utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).end()) );
-        //assert( utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).begin() + getCaretColumn()) );
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).end()) == utf8::internal::UTF8_OK);
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(),getTextRow(getCaretRow()).begin() + getCaretColumn()) == utf8::internal::UTF8_OK);
         keyEvent.consume();
     }
 

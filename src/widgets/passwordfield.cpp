@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
+ *   Copyright (c) 2017 by the fifechan team                               *
+ *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -84,7 +84,7 @@ namespace fcn
         // or is greater than 8bits long and the character is not
         // the tab key.
 
-        else if ((key.isCharacter() || key.getValue() > 255 && mText->getNumberOfRows() > 0)
+        else if ((key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0))
             && key.getValue() != Key::Tab)
         {
             mText->insert('*');
