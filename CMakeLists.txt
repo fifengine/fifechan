@@ -100,8 +100,7 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/deathlistener.hpp	
   include/fifechan/defaultfont.hpp		
   include/fifechan/event.hpp		
-  include/fifechan/exception.hpp
-  include/fifechan/fixedsizeconstraint.hpp  
+  include/fifechan/exception.hpp 
   include/fifechan/focushandler.hpp	
   include/fifechan/focuslistener.hpp	
   include/fifechan/font.hpp		
@@ -126,8 +125,6 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
   include/fifechan/selectionlistener.hpp	
-  include/fifechan/size.hpp
-  include/fifechan/sizeconstraint.hpp
   include/fifechan/text.hpp
   include/fifechan/utf8stringeditor.hpp
   include/fifechan/visibilityeventhandler.hpp

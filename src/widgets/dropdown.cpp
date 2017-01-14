@@ -437,7 +437,7 @@ namespace fcn
         // We add 2 for the border
         int h2 = getFont()->getHeight() + 2;
 
-        _setHeightWithoutNotifying(h2);
+        setHeight(h2);
 
         // The addition/subtraction of 2 compensates for the seperation lines
         // seperating the selected element view and the scroll area.
@@ -449,11 +449,11 @@ namespace fcn
             if (listBoxHeight > h - h2 - 2)
             {
                 mScrollArea->setHeight(h - h2 - 2);
-                _setHeightWithoutNotifying(h);
+                setHeight(h);
             }
             else
             {
-                _setHeightWithoutNotifying(listBoxHeight + h2 + 2);
+                setHeight(listBoxHeight + h2 + 2);
                 mScrollArea->setHeight(listBoxHeight);
             }
         }
@@ -573,9 +573,9 @@ namespace fcn
         Widget::setForegroundColor(color);
     }
 
-	void DropDown::setFont(Font *font)
-	{
-		if (mInternalScrollArea)
+    void DropDown::setFont(Font *font)
+    {
+        if (mInternalScrollArea)
         {
             mScrollArea->setFont(font);
         }
@@ -586,10 +586,10 @@ namespace fcn
         }
 
         Widget::setFont(font);
-	}
+    }
 
-	void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
-	{
+    void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
+    {
         if (isFocused() && mouseEvent.getSource() == this)
         {                   
             mouseEvent.consume();
