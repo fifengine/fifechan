@@ -22,6 +22,7 @@ init:
 branches:
   only:
   - master
+  - pychan_port
 
 clone_depth: 5
 
