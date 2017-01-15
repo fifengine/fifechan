@@ -134,6 +134,7 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp
   include/fifechan/opengl.hpp
+  include/fifechan/util/fcn_math.hpp
 )
 FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
 FILE(GLOB FIFECHAN_SRC src/*.cpp)
