@@ -86,7 +86,7 @@ build_script:
     -DBUILD_FIFECHAN_OPENGL_SHARED=OFF
     -DBUILD_FIFECHAN_SDL_SHARED=OFF
   # build
-  - cmake --build . --target ALL_BUILD --config %configuration%
+  - cmake --build . --target ALL_BUILD --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install
   - cmake --build . --target INSTALL --config %configuration%
 
