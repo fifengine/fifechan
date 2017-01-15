@@ -23,6 +23,8 @@
  * For comments regarding functions please see the header file.
  */
 
+#include <algorithm>
+
 #include "fifechan/widgets/flowcontainer.hpp"
 
 #include "fifechan/exception.hpp"

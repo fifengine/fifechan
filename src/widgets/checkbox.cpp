@@ -66,6 +66,8 @@
  * For comments regarding functions please see the header file.
  */
 
+#include <algorithm>
+
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
