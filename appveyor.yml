@@ -94,7 +94,7 @@ after_build:
   #- set
   - if "%generator%"=="Visual Studio 14" (set COMPILER="VC14")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
-  # package artifact folder - shared
+  # package artifact folder (shared library)
   - cd c:\fifechan\install-shared
   - mkdir bin
   - move c:\fifechan\install-shared\lib\*.dll c:\fifechan\install-shared\bin
@@ -103,7 +103,7 @@ after_build:
   # publish an additional unversionized artifact (for being able to directly link the latest build)
   - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
-  # package artifact folder - static
+  # package artifact folder (static library)
   - cd c:\fifechan\install-static
   - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
@@ -113,7 +113,7 @@ after_build:
 
 artifacts:
   - path: '\*.zip'
-    name: ReleaseArtifact
+    name: ReleaseArtifacts
 
 # deploy to Github Releases on tag push
 deploy:
@@ -121,7 +121,7 @@ deploy:
   release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
   tag: $(APPVEYOR_REPO_TAG_NAME)
   description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
-  artifact: ReleaseArtifact
+  artifact: ReleaseArtifacts
   draft: false
   prerelease: false
   force_update: true               # overwrite files of existing release on GitHub
