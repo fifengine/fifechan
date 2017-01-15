@@ -83,6 +83,18 @@ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 #------------------------------------------------------------------------------
+#                                 Compiler Options                                         
+#------------------------------------------------------------------------------
+
+if(WIN32)
+  if(MSVC)
+    # ensure we use minimal "windows.h" lib without the crazy min max macros    
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
+  endif(MSVC)
+endif(WIN32)
+
+#------------------------------------------------------------------------------
 #                                 Source Files                                             
 #------------------------------------------------------------------------------
 
