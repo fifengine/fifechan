@@ -112,8 +112,10 @@ after_build:
   - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%.zip"
 
 artifacts:
-  - path: '\*.zip'
-    name: ReleaseArtifacts
+  - path: '\fifechan-static-*.zip'
+    name: Static-Library
+  - path: '\fifechan-shared-*.zip'
+    name: Shared-Library
 
 # deploy to Github Releases on tag push
 deploy:
@@ -121,7 +123,7 @@ deploy:
   release: 'Fifechan $(APPVEYOR_REPO_TAG_NAME)'
   tag: $(APPVEYOR_REPO_TAG_NAME)
   description: '[**Changelog**](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md)'
-  artifact: ReleaseArtifacts
+  artifact: Static-Library, Shared-Library
   draft: false
   prerelease: false
   force_update: true               # overwrite files of existing release on GitHub
