@@ -42,14 +42,15 @@
 
 #endif
 
+
+namespace fcn {
+
 // Sort out the missing round function in MSVC:
 #if defined( WIN32 ) && defined( _MSC_VER )
 inline double round(const double x) {
     return x < 0.0 ? ceil(x - 0.5) : floor(x + 0.5);
 }
 #endif
-
-namespace fcn {
 
     static const float FLT_STD_EPSILON = std::numeric_limits<float>::epsilon();
     static const float FLT_STD_MAX = std::numeric_limits<float>::max();
