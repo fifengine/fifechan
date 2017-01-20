@@ -278,9 +278,9 @@ namespace fcn
             totalW = dimensions.x + diffW;
             totalH = std::max(layoutMaxH, childMaxH) + diffH;
         } else if (mLayout == Circular && visibleChilds > 0) {
-            const float angle = 360.0 / visibleChilds;
-            float xRadius = childMaxW * 2 + getHorizontalSpacing();
-            float yRadius = childMaxH * 2 + getVerticalSpacing();
+            const float angle = 360.0f / visibleChilds;
+            float xRadius = static_cast<float>(childMaxW * 2 + getHorizontalSpacing());
+            float yRadius = static_cast<float>(childMaxH * 2 + getVerticalSpacing());
             currChild = mChildren.begin();
             endChildren = mChildren.end();
             int w = 0;
@@ -294,9 +294,9 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                const float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / Mathf::pi());
-                int x = xRadius * cos(tmpAngle) - (*currChild)->getWidth() / 2;
-                int y = yRadius * sin(tmpAngle) - (*currChild)->getHeight() / 2;
+                const float tmpAngle = static_cast<float>(int(angle * i + 270) % 360) / (180.0f / Mathf::pi());
+                int x = static_cast<int>(xRadius * cos(tmpAngle) - (*currChild)->getWidth() / 2);
+                int y = static_cast<int>(yRadius * sin(tmpAngle) - (*currChild)->getHeight() / 2);
                 minW = std::min(minW, x);
                 maxW = std::max(maxW, x + (*currChild)->getWidth());
                 minH = std::min(minH, y);
@@ -587,7 +587,7 @@ namespace fcn
                 }
             }
         }else if (mLayout == Circular && visibleChilds > 0) {
-            const float angle = 360.0 / visibleChilds;
+            const float angle = 360.0f / visibleChilds;
             int childMaxW = 0;
             int childMaxH = 0;
             currChild = mChildren.begin();
@@ -601,15 +601,15 @@ namespace fcn
             }
             //childMaxW += getHorizontalSpacing();
             //childMaxH += getVerticalSpacing();
-            float xRadius = (spaceW-childMaxW)/2.0;
-            float yRadius = (spaceH-childMaxH)/2.0;
-            float centerX = spaceW/2.0;
-            float centerY = spaceH/2.0;
+            float xRadius = (spaceW-childMaxW)/2.0f;
+            float yRadius = (spaceH-childMaxH)/2.0f;
+            float centerX = spaceW/2.0f;
+            float centerY = spaceH/2.0f;
             if (xRadius < 1) {
-                xRadius = childMaxW;
+                xRadius = static_cast<float>(childMaxW);
             }
             if (yRadius < 1) {
-                yRadius = childMaxH;
+                yRadius = static_cast<float>(childMaxH);
             }
             // this forces a uniform circle
             //xRadius = std::max(xRadius, yRadius);
@@ -621,9 +621,9 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                float tmpAngle = (int(angle * i + 270) % 360) / (180.0 / Mathf::pi());
-                int x = centerX + xRadius * cos(tmpAngle);
-                int y = centerY + yRadius * sin(tmpAngle);
+                float tmpAngle = static_cast<float>(int(angle * i + 270) % 360) / (180.0f / Mathf::pi());
+                int x = static_cast<int>(centerX + xRadius * cos(tmpAngle));
+                int y = static_cast<int>(centerY + yRadius * sin(tmpAngle));
                 x -= (*currChild)->getWidth() / 2;
                 y -= (*currChild)->getHeight() / 2;
 

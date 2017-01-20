@@ -123,11 +123,11 @@ namespace fcn {
 
 				keyInput.setKey(Key(value));
 				keyInput.setType(KeyInput::Pressed);
-				keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-				keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-				keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-				keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-				keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+				keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+				keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+				keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+				keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+				keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
 				mKeyInputQueue.push(keyInput);
 				break;
 			}
@@ -141,11 +141,11 @@ namespace fcn {
 
 				keyInput.setKey(Key(value));
 				keyInput.setType(KeyInput::Released);
-				keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-				keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-				keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-				keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-				keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+				keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+				keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+				keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+				keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+				keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
 				mKeyInputQueue.push(keyInput);
 				break;
 			}
@@ -209,11 +209,11 @@ namespace fcn {
 
 					keyInput.setKey(Key(value));
 					keyInput.setType(KeyInput::Pressed);
-					keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-					keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-					keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-					keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-					keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+					keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+					keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+					keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+					keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+					keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
 					mKeyInputQueue.push(keyInput);
 				}
 				break;
