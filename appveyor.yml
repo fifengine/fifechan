@@ -23,6 +23,7 @@ branches:
   only:
   - master
   - pychan_port
+  - appveyor-x64
 
 clone_depth: 5
 
