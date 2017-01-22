@@ -145,7 +145,9 @@ namespace fcn
 
     ScrollArea::~ScrollArea()
     {
-        setContent(NULL);
+		// Is this really needed? Commented out for the moment, because it tends to segmentation faults.
+		// See widget.cpp clear()
+        //setContent(NULL);
     }
 
     void ScrollArea::setContent(Widget* widget)
