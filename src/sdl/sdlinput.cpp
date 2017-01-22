@@ -183,9 +183,14 @@ namespace fcn {
 			}
 
 			case SDL_MOUSEWHEEL: {
-				if (event.wheel.y > 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.y < 0)) {
+				/*if (event.wheel.y > 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.y < 0)) {
 					mouseInput.setType(MouseInput::WheelMovedUp);
 				} else if (event.wheel.y < 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.y > 0)) {
+					mouseInput.setType(MouseInput::WheelMovedDown);
+				}*/
+				if (event.wheel.y > 0) {
+					mouseInput.setType(MouseInput::WheelMovedUp);
+				} else if (event.wheel.y < 0) {
 					mouseInput.setType(MouseInput::WheelMovedDown);
 				}
 				int x, y;
