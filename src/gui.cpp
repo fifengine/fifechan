@@ -131,6 +131,7 @@ namespace fcn
         {
             setTop(NULL);
         }
+        Widget::_setVisibilityEventHandler(NULL);
         Widget::_setGuiDeathListener(NULL);
 
         delete mFocusHandler;
