@@ -386,17 +386,41 @@ namespace fcn
 
     void Slider::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        setValue(getValue() + getStepLength());
-        distributeActionEvent();
+        if (getOrientation() == Vertical) {
+            setValue(getValue() + getStepLength());
+            distributeActionEvent();
 
-        mouseEvent.consume();
+            mouseEvent.consume();
+        }
     }
 
     void Slider::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        setValue(getValue() - getStepLength());
-        distributeActionEvent();
+        if (getOrientation() == Vertical) {
+            setValue(getValue() - getStepLength());
+            distributeActionEvent();
 
-        mouseEvent.consume();
+            mouseEvent.consume();
+        }
+    }
+
+    void Slider::mouseWheelMovedRight(MouseEvent& mouseEvent)
+    {
+        if (getOrientation() == Horizontal) {
+            setValue(getValue() + getStepLength());
+            distributeActionEvent();
+
+            mouseEvent.consume();
+        }
+    }
+
+    void Slider::mouseWheelMovedLeft(MouseEvent& mouseEvent)
+    {
+        if (getOrientation() == Horizontal) {
+            setValue(getValue() - getStepLength());
+            distributeActionEvent();
+
+            mouseEvent.consume();
+        }
     }
 }

@@ -30,6 +30,7 @@ version: '{build}'
 
 platform:
   - x86
+  - x64
 
 configuration:
   - Release
@@ -86,7 +87,7 @@ build_script:
     -DBUILD_FIFECHAN_OPENGL_SHARED=OFF
     -DBUILD_FIFECHAN_SDL_SHARED=OFF
   # build
-  - cmake --build . --target ALL_BUILD --config %configuration%
+  - cmake --build . --target ALL_BUILD --config %configuration% -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install
   - cmake --build . --target INSTALL --config %configuration%
 
@@ -99,18 +100,18 @@ after_build:
   - cd c:\fifechan\install-shared
   - mkdir bin
   - move c:\fifechan\install-shared\lib\*.dll c:\fifechan\install-shared\bin
-  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip"
   # publish an additional unversionized artifact (for being able to directly link the latest build)
-  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%.zip"
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%-%platform%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-shared-%COMPILER%-%platform%.zip"
   # package artifact folder (static library)
   - cd c:\fifechan\install-static
-  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip"
+  - 7z a -tzip -mx9 "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip"
   # publish an additional unversionized artifact (for being able to directly link the latest build)
-  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%.zip"
-  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%.zip"
+  - copy "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%APPVEYOR_BUILD_VERSION%-%COMPILER%-%platform%.zip" "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%-%platform%.zip"
+  - appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\fifechan-static-%COMPILER%-%platform%.zip"
 
 artifacts:
   - path: '\fifechan-static-*.zip'

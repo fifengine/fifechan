@@ -384,6 +384,10 @@ namespace fcn
 
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
+        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
+
+        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
+
     protected:
         /**
          * Draws the background of the scroll area, that is
