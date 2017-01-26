@@ -309,6 +309,20 @@ namespace fcn
         virtual void handleMouseWheelMovedUp(const MouseInput& mouseInput);
 
         /**
+         * Handles mouse wheel moved right input.
+         *
+         * @param mouseInput The mouse input to handle.
+         */
+        virtual void handleMouseWheelMovedRight(const MouseInput& mouseInput);
+
+        /**
+         * Handles mouse wheel moved left input.
+         *
+         * @param mouseInput The mouse input to handle.
+         */
+        virtual void handleMouseWheelMovedLeft(const MouseInput& mouseInput);
+
+        /**
          * Handles mouse released input.
          *
          * @param mouseInput The mouse input to handle.

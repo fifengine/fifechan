@@ -1116,19 +1116,12 @@ namespace fcn
         if (mouseEvent.isConsumed())
             return;
 
-        if (!mVBarVisible && !mHBarVisible) {
+        if (!mHBarVisible) {
             mouseEvent.consume();
             return;
         }
-        bool scrollV = mVBarVisible;
-        if (mVBarVisible && mHBarVisible) {
-            scrollV = getVerticalMaxScroll() > getHorizontalMaxScroll();
-        }
-        if (scrollV) {
-            setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
-        } else {
-            setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
-        }
+
+        setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
 
         mouseEvent.consume();
     }
@@ -1138,19 +1131,42 @@ namespace fcn
         if (mouseEvent.isConsumed())
             return;
 
-        if (!mVBarVisible && !mHBarVisible) {
+        if (!mHBarVisible) {
             mouseEvent.consume();
             return;
         }
-        bool scrollV = mVBarVisible;
-        if (mVBarVisible && mHBarVisible) {
-            scrollV = getVerticalMaxScroll() > getHorizontalMaxScroll();
+
+        setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
+
+        mouseEvent.consume();
+    }
+
+    void ScrollArea::mouseWheelMovedRight(MouseEvent& mouseEvent)
+    {
+        if (mouseEvent.isConsumed())
+            return;
+
+        if (!mVBarVisible) {
+            mouseEvent.consume();
+            return;
         }
-        if (scrollV) {
-            setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
-        } else {
-            setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
+
+        setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
+
+        mouseEvent.consume();
+    }
+
+    void ScrollArea::mouseWheelMovedLeft(MouseEvent& mouseEvent)
+    {
+        if (mouseEvent.isConsumed())
+            return;
+
+        if (!mVBarVisible) {
+            mouseEvent.consume();
+            return;
         }
+
+        setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
 
         mouseEvent.consume();
     }

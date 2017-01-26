@@ -299,6 +299,12 @@ namespace fcn
             case MouseInput::WheelMovedUp:
                handleMouseWheelMovedUp(mouseInput);
                break;
+            case MouseInput::WheelMovedRight:
+               handleMouseWheelMovedRight(mouseInput);
+               break;
+            case MouseInput::WheelMovedLeft:
+               handleMouseWheelMovedLeft(mouseInput);
+               break;
             default:
                throw FCN_EXCEPTION("Unknown mouse input type.");
                break;
@@ -563,6 +569,40 @@ namespace fcn
                              mouseInput.getY());
     }
 
+    void Gui::handleMouseWheelMovedRight(const MouseInput& mouseInput)
+    {
+        Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != NULL)
+            sourceWidget = mFocusHandler->getDraggedWidget();
+
+        int sourceWidgetX, sourceWidgetY;
+        sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
+
+        distributeMouseEvent(sourceWidget,
+                             MouseEvent::WheelMovedRight,
+                             mouseInput.getButton(),
+                             mouseInput.getX(),
+                             mouseInput.getY());
+    }
+
+    void Gui::handleMouseWheelMovedLeft(const MouseInput& mouseInput)
+    {
+        Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != NULL)
+            sourceWidget = mFocusHandler->getDraggedWidget();
+
+        int sourceWidgetX, sourceWidgetY;
+        sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
+
+        distributeMouseEvent(sourceWidget,
+                             MouseEvent::WheelMovedLeft,
+                             mouseInput.getButton(),
+                             mouseInput.getX(),
+                             mouseInput.getY());
+    }
+
     void Gui::handleMouseReleased(const MouseInput& mouseInput)
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
@@ -743,6 +783,12 @@ namespace fcn
                           break;
                       case MouseEvent::WheelMovedDown:
                           (*it)->mouseWheelMovedDown(mouseEvent);
+                          break;
+                      case MouseEvent::WheelMovedRight:
+                          (*it)->mouseWheelMovedRight(mouseEvent);
+                          break;
+                      case MouseEvent::WheelMovedLeft:
+                          (*it)->mouseWheelMovedLeft(mouseEvent);
                           break;
                       case MouseEvent::Dragged:
                           (*it)->mouseDragged(mouseEvent);

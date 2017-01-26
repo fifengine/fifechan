@@ -159,6 +159,26 @@ namespace fcn
         }
 
         /**
+         * Called when the mouse wheel has moved right on the widget area.
+         *
+         * @param mousEvent Describes the event.
+         */
+        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent)
+        {
+
+        }
+
+        /**
+         * Called when the mouse wheel has moved left on the widget area.
+         *
+         * @param mousEvent Describes the event.
+         */
+        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent)
+        {
+
+        }
+
+        /**
          * Called when the mouse has moved in the widget area and no mouse button
          * has been pressed (i.e no widget is being dragged).
          *

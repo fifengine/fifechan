@@ -148,6 +148,22 @@ namespace fcn
         void pushMouseWheelMovedDown(int x, int y);
 
         /**
+         * Pushes a mouse wheel moved right event.
+         *
+         * @param x The x coordinate of the mouse event.
+         * @param y The y coordinate of the mouse event.
+         */
+        void pushMouseWheelMovedRight(int x, int y);
+
+        /**
+         * Pushes a mouse wheel moved left event.
+         *
+         * @param x The x coordinate of the mouse event.
+         * @param y The y coordinate of the mouse event.
+         */
+        void pushMouseWheelMovedLeft(int x, int y);
+
+        /**
          * Pushes a mouse moved event.
          *
          * @param x The x coordinate of the mouse event.

@@ -128,6 +128,26 @@ namespace fcn
 
         mMouseInputQueue.push(mouseInput);
     }
+
+    void GenericInput::pushMouseWheelMovedRight(int x, int y)
+    {
+        MouseInput mouseInput;
+        mouseInput.setX(x);
+        mouseInput.setY(y);
+        mouseInput.setType(MouseInput::WheelMovedRight);
+
+        mMouseInputQueue.push(mouseInput);
+    }
+
+    void GenericInput::pushMouseWheelMovedLeft(int x, int y)
+    {
+        MouseInput mouseInput;
+        mouseInput.setX(x);
+        mouseInput.setY(y);
+        mouseInput.setType(MouseInput::WheelMovedLeft);
+
+        mMouseInputQueue.push(mouseInput);
+    }
     
     void GenericInput::pushMouseMoved(int x, int y)
     {

@@ -199,20 +199,22 @@ namespace fcn
             Pressed,
             Released,
             WheelMovedDown,
-            WheelMovedUp
+            WheelMovedUp,
+            WheelMovedRight,
+            WheelMovedLeft
         };
 
         /**
          * Mouse button types.
          */
-		enum {
-			Empty = 0,
-			Left,
-			Right,
-			Middle,
-			X1,
-			X2
-		};
+        enum {
+            Empty = 0,
+            Left,
+            Right,
+            Middle,
+            X1,
+            X2
+        };
 
     protected:
         /**

@@ -241,6 +241,10 @@ namespace fcn
 
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
+        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
+
+        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
+
 
         // Inherited from KeyListener
 

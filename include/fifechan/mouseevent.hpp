@@ -162,6 +162,8 @@ namespace fcn
             Released,
             WheelMovedDown,
             WheelMovedUp,
+            WheelMovedRight,
+            WheelMovedLeft,
             Clicked,
             Entered,
             Exited,
@@ -177,7 +179,9 @@ namespace fcn
             Empty = 0,
             Left,
             Right,
-            Middle
+            Middle,
+            X1,
+            X2
         };
 
     protected:
