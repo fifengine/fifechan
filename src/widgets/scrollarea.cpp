@@ -1116,32 +1116,17 @@ namespace fcn
         if (mouseEvent.isConsumed())
             return;
 
-        if (!mHBarVisible) {
+        if (!mVBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
+        setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
 
         mouseEvent.consume();
     }
 
     void ScrollArea::mouseWheelMovedDown(MouseEvent& mouseEvent)
-    {
-        if (mouseEvent.isConsumed())
-            return;
-
-        if (!mHBarVisible) {
-            mouseEvent.consume();
-            return;
-        }
-
-        setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
-
-        mouseEvent.consume();
-    }
-
-    void ScrollArea::mouseWheelMovedRight(MouseEvent& mouseEvent)
     {
         if (mouseEvent.isConsumed())
             return;
@@ -1156,17 +1141,32 @@ namespace fcn
         mouseEvent.consume();
     }
 
+    void ScrollArea::mouseWheelMovedRight(MouseEvent& mouseEvent)
+    {
+        if (mouseEvent.isConsumed())
+            return;
+
+        if (!mHBarVisible) {
+            mouseEvent.consume();
+            return;
+        }
+
+        setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
+
+        mouseEvent.consume();
+    }
+
     void ScrollArea::mouseWheelMovedLeft(MouseEvent& mouseEvent)
     {
         if (mouseEvent.isConsumed())
             return;
 
-        if (!mVBarVisible) {
+        if (!mHBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
+        setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
 
         mouseEvent.consume();
     }

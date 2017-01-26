@@ -386,7 +386,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal) {
+        if (getOrientation() == Vertical) {
             setValue(getValue() + getStepLength());
             distributeActionEvent();
 
@@ -396,7 +396,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal) {
+        if (getOrientation() == Vertical) {
             setValue(getValue() - getStepLength());
             distributeActionEvent();
 
@@ -406,7 +406,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedRight(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Vertical) {
+        if (getOrientation() == Horizontal) {
             setValue(getValue() + getStepLength());
             distributeActionEvent();
 
@@ -416,7 +416,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedLeft(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Vertical) {
+        if (getOrientation() == Horizontal) {
             setValue(getValue() - getStepLength());
             distributeActionEvent();
 
