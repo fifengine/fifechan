@@ -134,3 +134,4 @@ deploy:
     appveyor_repo_tag: true        # deploy on tag push only
   auth_token:                      # encrypted token from GitHub
     secure: PklA532IBf2s4paPOoYBviN4cz1Dew9+Bce0aO6VaINDMCxDLRiNGeg3Jchaw03C
+    
