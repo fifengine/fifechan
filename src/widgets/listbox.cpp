@@ -66,6 +66,8 @@
  * For comments regarding functions please see the header file.
  */
 
+#include <algorithm>
+
 #include "fifechan/widgets/listbox.hpp"
 
 #include "fifechan/font.hpp"
@@ -119,36 +121,36 @@ namespace fcn
         const ClipRectangle currentClipArea = graphics->getCurrentClipArea();
         int rowHeight = getRowHeight();
         
-		// Calculate the number of rows to draw by checking the clip area.
-		// The addition of two makes covers a partial visible row at the top
-		// and a partial visible row at the bottom.
-		int numberOfRows = currentClipArea.height / rowHeight + 2;
+        // Calculate the number of rows to draw by checking the clip area.
+        // The addition of two makes covers a partial visible row at the top
+        // and a partial visible row at the bottom.
+        int numberOfRows = currentClipArea.height / rowHeight + 2;
 
         if (numberOfRows > mListModel->getNumberOfElements())
         {
             numberOfRows = mListModel->getNumberOfElements();
         }
 
-		// Calculate which row to start drawing. If the list box 
-		// has a negative y coordinate value we should check if
-		// we should drop rows in the begining of the list as
-		// they might not be visible. A negative y value is very
-		// common if the list box for instance resides in a scroll
-		// area and the user has scrolled the list box downwards.
-		int startRow;    	
-		if (getY() < 0)
-		{
-			startRow = -1 * (getY() / rowHeight);
-		}
-		else
-		{
-			startRow = 0;
-		}
+        // Calculate which row to start drawing. If the list box 
+        // has a negative y coordinate value we should check if
+        // we should drop rows in the begining of the list as
+        // they might not be visible. A negative y value is very
+        // common if the list box for instance resides in a scroll
+        // area and the user has scrolled the list box downwards.
+        int startRow;    	
+        if (getY() < 0)
+        {
+            startRow = -1 * (getY() / rowHeight);
+        }
+        else
+        {
+            startRow = 0;
+        }
 
-		int i;
-		// The y coordinate where we start to draw the text is
-		// simply the y coordinate multiplied with the font height.
-		int y = rowHeight * startRow;
+        int i;
+        // The y coordinate where we start to draw the text is
+        // simply the y coordinate multiplied with the font height.
+        int y = rowHeight * startRow;
         for (i = startRow; i < startRow + numberOfRows; ++i)
         {
             if (i == mSelected)
@@ -157,7 +159,7 @@ namespace fcn
                 graphics->fillRectangle(0, y, getWidth(), rowHeight);
                 graphics->setColor(getForegroundColor());
             }
-			
+            
             // If the row height is greater than the font height we
             // draw the text with a center vertical alignment.
             if (rowHeight > getFont()->getHeight())
@@ -324,10 +326,22 @@ namespace fcn
         return mListModel;
     }
 
+    void ListBox::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
     void ListBox::adjustSize()
     {
         if (mListModel != NULL)
         {
+            // min width in case the lit contains no element
+            int w = getRowHeight();
+            int elements = mListModel->getNumberOfElements();
+            for (int i = 0; i < elements; ++i) {
+                //std::string element = mListModel->getElementAt(i);
+                w = std::max(w, getFont()->getWidth(mListModel->getElementAt(i)));
+            }
+            setWidth(w);
             setHeight(getRowHeight() * mListModel->getNumberOfElements());
         }
     }
@@ -363,8 +377,8 @@ namespace fcn
         }
     }
 
-	unsigned int ListBox::getRowHeight() const
-	{
-		return getFont()->getHeight();
-	}
+    unsigned int ListBox::getRowHeight() const
+    {
+        return getFont()->getHeight();
+    }
 }

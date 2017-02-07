@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (c) 2017 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
+ *   Copyright (C) 2012 by the fifechan team                               *
+ *   http://fifechan.github.com/fifechan                                   *
  *   This file is part of fifechan.                                        *
  *                                                                         *
  *   fifechan is free software; you can redistribute it and/or             *
@@ -62,99 +62,106 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FCN_RADIOBUTTON_HPP
-#define FCN_RADIOBUTTON_HPP
+/*
+ * For comments regarding functions please see the header file.
+ */
 
-#include <map>
-#include <string>
-
-#include "fifechan/platform.hpp"
-#include "fifechan/widgets/checkbox.hpp"
+#include "fifechan/widgets/togglebutton.hpp"
 
 namespace fcn
 {
-    /**
-     * An implementation of a radio button where a user can select or deselect
-     * the radio button and where the status of the radio button is displayed to the user.
-     * A radio button can belong to a group and when a radio button belongs to a
-     * group only one radio button can be selected in the group. A radio button is
-     * capable of displaying a caption.
-     * 
-     * If a radio button's state changes an action event will be sent to all action 
-     * listeners of the radio button.
-     */
-    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox {
-    public:
+    ToggleButton::GroupMap ToggleButton::mGroupMap;
 
-        /**
-         * Constructor.
-         */
-        RadioButton();
+    ToggleButton::ToggleButton() {
+        setSelected(false);
+        adjustSize();
+    }
 
-        /**
-         * Constructor. The radio button will be automatically resized
-         * to fit the caption.
-         *
-         * @param caption The caption of the radio button.
-         * @param group The group the radio button should belong to.
-         * @param selected True if the radio button should be selected.
-         */
-        RadioButton(const std::string &caption,
-                    const std::string &group,
-                    bool selected = false);
+    ToggleButton::ToggleButton(const std::string &caption, const std::string &group, bool selected) {
+        setCaption(caption);
+        setGroup(group);
+        setSelected(selected);
+        adjustSize();
+    }
 
-        /**
-         * Destructor.
-         */
-        virtual ~RadioButton();
+    ToggleButton::~ToggleButton() {
+        // Remove us from the group list
+        setGroup("");
+    }
 
-        /**
-         * Sets the group the radio button should belong to. Note that
-         * a radio button group is unique per application, not per Gui object
-         * as the group is stored in a static map.
-         *
-         * @param group The name of the group.
-         * @see getGroup
-         */
-        void setGroup(const std::string &group);
+    bool ToggleButton::isSelected() const {
+        return mSelected;
+    }
 
-        /**
-         * Gets the group the radio button belongs to.
-         *
-         * @return The group the radio button belongs to.
-         * @see setGroup
-         */
-        const std::string &getGroup() const;
+    void ToggleButton::setSelected(bool selected) {
+        if (selected && mGroup != "") {
+            // deselect all buttons in group
+            GroupIterator iter, iterEnd;
+            iterEnd = mGroupMap.upper_bound(mGroup);
 
+            for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
+                if (iter->second->isSelected()) {
+                    iter->second->setSelected(false);
+                }
+            }
+        }
 
-        // Inherited from CheckBox
+        mSelected = selected;
+    }
 
-        virtual void setSelected(bool selected);
-        virtual void toggleSelected();
+    void ToggleButton::toggleSelected() {
+        setSelected(!isSelected());
+        distributeActionEvent();
+    }
 
+    void ToggleButton::setGroup(const std::string& group) {
+        // Remove button from previous group
+        if (mGroup != "") {
+            GroupIterator iter, iterEnd;
+            iterEnd = mGroupMap.upper_bound(mGroup);
 
-    protected:
+            for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
+                if (iter->second == this) {
+                    mGroupMap.erase(iter);
+                    break;
+                }
+            }
+        }
+        // Add button to new group
+        if (group != "") {
+            mGroupMap.insert(std::pair<std::string, ToggleButton*>(group, this));
+        }
 
-        /**
-         * Holds the group of the radio button.
-         */
-        std::string mGroup;
+        mGroup = group;
+    }
 
-        /**
-         * Typdef.
-         */
-        typedef std::multimap<std::string, RadioButton *> GroupMap;
+    const std::string& ToggleButton::getGroup() const {
+        return mGroup;
+    }
 
-        /**
-         * Typdef.
-         */
-        typedef GroupMap::iterator GroupIterator;
+    bool ToggleButton::isPressed() const {
+        return isSelected();
+    }
 
-        /**
-         * Holds all available radio button groups.
-         */
-        static GroupMap mGroupMap;
-    };
+    void ToggleButton::keyReleased(KeyEvent& keyEvent) {
+        Key key = keyEvent.getKey();
+
+        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
+            mKeyPressed = false;
+            toggleSelected();
+            keyEvent.consume();
+        }
+    }
+
+    void ToggleButton::mouseReleased(MouseEvent& mouseEvent) {
+        if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
+            mMousePressed = false;
+            toggleSelected();
+            mouseEvent.consume();
+        } else if (mouseEvent.getButton() == MouseEvent::Left) {
+            mMousePressed = false;
+            mouseEvent.consume();
+        }
+    }
+
 }
-
-#endif // end FCN_RADIOBUTTON_HPP

@@ -145,11 +145,6 @@ namespace fcn
         ListModel *getListModel() const;
 
         /**
-         * Adjusts the size of the list box to fit it's list model.
-         */
-        void adjustSize();
-
-        /**
          * Checks whether the list box wraps when selecting items with a
          * keyboard.
          *
@@ -206,6 +201,8 @@ namespace fcn
 
         // Inherited from Widget
 
+        virtual void resizeToContent(bool recursiv=true);
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
         virtual void logic();

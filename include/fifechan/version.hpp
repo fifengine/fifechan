@@ -1,9 +1,9 @@
 /***************************************************************************
- *   Copyright (c) 2017 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
+ *   Copyright (C) 2012 by the FCNchan team                               *
+ *   http://FCNchan.github.com/FCNchan                                   *
+ *   This file is part of FCNchan.                                        *
  *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
+ *   FCNchan is free software; you can redistribute it and/or             *
  *   modify it under the terms of the GNU Lesser General Public            *
  *   License as published by the Free Software Foundation; either          *
  *   version 2.1 of the License, or (at your option) any later version.    *
@@ -62,99 +62,155 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FCN_RADIOBUTTON_HPP
-#define FCN_RADIOBUTTON_HPP
+#ifndef FCN_VERSION_HPP
+#define FCN_VERSION_HPP
 
-#include <map>
-#include <string>
+/** These version numbers should be checked and updated
+ * as part of the release process for Fifechan.
+ */
+#ifndef FCN_MAJOR_VERSION
+	#define FCN_MAJOR_VERSION 0
+#endif
+#ifndef FCN_MINOR_VERSION
+	#define FCN_MINOR_VERSION 2
+#endif
+#ifndef FCN_PATCH_VERSION
+	#define FCN_PATCH_VERSION 0
+#endif
 
-#include "fifechan/platform.hpp"
-#include "fifechan/widgets/checkbox.hpp"
+/** Types
+ *  0 = none (pre-release info is not appended to the version in this case)
+ *  1 = alpha
+ *  2 = beta
+ *  3 = rc
+ */
+#ifndef FCN_PRERELEASE_TYPE
+	#define FCN_PRERELEASE_TYPE 0
+#endif
+#ifndef FCN_PRERELEASE_VERSION
+	#define FCN_PRERELEASE_VERSION 0
+#endif
 
-namespace fcn
-{
-    /**
-     * An implementation of a radio button where a user can select or deselect
-     * the radio button and where the status of the radio button is displayed to the user.
-     * A radio button can belong to a group and when a radio button belongs to a
-     * group only one radio button can be selected in the group. A radio button is
-     * capable of displaying a caption.
-     * 
-     * If a radio button's state changes an action event will be sent to all action 
-     * listeners of the radio button.
-     */
-    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox {
-    public:
+/***************************************************************************
+ * Do not update anything below this line!
+ ***************************************************************************/
 
-        /**
-         * Constructor.
-         */
-        RadioButton();
+#define FCN_STR(s)			# s
+#define FCN_XSTR(s)		FCN_STR(s)
 
-        /**
-         * Constructor. The radio button will be automatically resized
-         * to fit the caption.
-         *
-         * @param caption The caption of the radio button.
-         * @param group The group the radio button should belong to.
-         * @param selected True if the radio button should be selected.
-         */
-        RadioButton(const std::string &caption,
-                    const std::string &group,
-                    bool selected = false);
+#define FCN_DOT(a,b)		a.b
+#define FCN_XDOT(a,b)		FCN_DOT(a,b)
 
-        /**
-         * Destructor.
-         */
-        virtual ~RadioButton();
+#define FCN_PLUS(a,b)		a+b
+#define FCN_XPLUS(a,b)		FCN_PLUS(a,b)
 
-        /**
-         * Sets the group the radio button should belong to. Note that
-         * a radio button group is unique per application, not per Gui object
-         * as the group is stored in a static map.
-         *
-         * @param group The name of the group.
-         * @see getGroup
-         */
-        void setGroup(const std::string &group);
+#define FCN_MINUS(a,b)		a-b
+#define FCN_XMINUS(a,b)	FCN_MINUS(a,b)
 
-        /**
-         * Gets the group the radio button belongs to.
-         *
-         * @return The group the radio button belongs to.
-         * @see setGroup
-         */
-        const std::string &getGroup() const;
+#if FCN_PRERELEASE_TYPE==1
+	#define FCN_PRERELEASE alpha
+#elif FCN_PRERELEASE_TYPE==2
+ 	#define FCN_PRERELEASE beta
+#elif FCN_PRERELEASE_TYPE==3
+	#define FCN_PRERELEASE rc
+#endif
+
+#if FCN_PRERELEASE_VERSION>0
+	#ifdef FCN_PRERELEASE
+		#define FCN_PRERELEASE_STR \
+			FCN_XDOT( \
+				FCN_PRERELEASE, \
+				FCN_PRERELEASE_VERSION \
+			)
+	#endif
+#endif
+
+#define FCN_VERSION \
+	FCN_XDOT( \
+		FCN_XDOT(FCN_MAJOR_VERSION, FCN_MINOR_VERSION), \
+		FCN_PATCH_VERSION \
+	)
+
+#ifdef FCN_PRERELEASE_STR
+	#define FCN_VERSION_STRING \
+		FCN_XMINUS( \
+			FCN_VERSION, \
+			FCN_PRERELEASE_STR \
+		)
+#endif
+#ifdef FCN_GIT_HASH
+	#ifndef FCN_VERSION_STRING
+		#define FCN_VERSION_STRING \
+			FCN_XPLUS( \
+				FCN_VERSION, \
+				FCN_GIT_HASH \
+			)
+	#else
+		#undef FCN_VERSION_STRING
+		#ifdef FCN_PRERELEASE_STR
+			#define FCN_VERSION_STRING \
+				FCN_XMINUS( \
+					FCN_VERSION, \
+					FCN_XPLUS( \
+						FCN_PRERELEASE_STR, \
+						FCN_GIT_HASH \
+					) \
+				)
+		#else
+			#define FCN_VERSION_STRING \
+				FCN_XPLUS( \
+					FCN_VERSION, \
+					FCN_GIT_HASH \
+				)
+		#endif
+	#endif
+#else
+	#define FCN_GIT_HASH ""
+#endif
 
 
-        // Inherited from CheckBox
+// This is an actual release
+#ifndef FCN_VERSION_STRING
+	#define FCN_VERSION_STRING FCN_VERSION
+#endif
 
-        virtual void setSelected(bool selected);
-        virtual void toggleSelected();
+/** All Fifechan related code is in this namespace.
+ */
+namespace fcn {
+	inline const char* getVersion() {
+		return FCN_XSTR(FCN_VERSION_STRING);
+	}
 
+	inline int getMajor() {
+		return FCN_MAJOR_VERSION;
+	}
 
-    protected:
+	inline int getMinor() {
+		return FCN_MINOR_VERSION;
+	}
 
-        /**
-         * Holds the group of the radio button.
-         */
-        std::string mGroup;
+	inline int getPatch() {
+		return FCN_PATCH_VERSION;
+	}
 
-        /**
-         * Typdef.
-         */
-        typedef std::multimap<std::string, RadioButton *> GroupMap;
+	inline const char* getHash() {
+		return FCN_XSTR(FCN_GIT_HASH);
+	}
+} //fcn
 
-        /**
-         * Typdef.
-         */
-        typedef GroupMap::iterator GroupIterator;
+//cleanup
+#undef FCN_STR
+#undef FCN_XSTR
+#undef FCN_DOT
+#undef FCN_XDOT
+#undef FCN_PLUS
+#undef FCN_XPLUS
+#undef FCN_MINUS
+#undef FCN_XMINUS
+#undef FCN_VERSION_STRING
+#undef FCN_VERSION
+#undef FCN_PRERELEASE
+#undef FCN_PRERELEASE_STR
 
-        /**
-         * Holds all available radio button groups.
-         */
-        static GroupMap mGroupMap;
-    };
-}
+#endif //FCN_VERSION_HPP
 
-#endif // end FCN_RADIOBUTTON_HPP

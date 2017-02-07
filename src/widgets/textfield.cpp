@@ -248,6 +248,10 @@ namespace fcn
         fixScroll();    
     }
 
+    void TextField::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
     void TextField::adjustSize()
     {
         const Rectangle& dim = mText->getDimension(getFont());

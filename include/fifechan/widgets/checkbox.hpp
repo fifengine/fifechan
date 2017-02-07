@@ -67,13 +67,13 @@
 
 #include <string>
 
-#include "fifechan/keylistener.hpp"
-#include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/widget.hpp"
+#include "fifechan/widgets/imagebutton.hpp"
 
 namespace fcn
 {
+    class Image;
+
     /**
      * An implementation of a check box where a user can select or deselect
      * the check box and where the status of the check box is displayed to the user.
@@ -82,12 +82,20 @@ namespace fcn
      * If a check box's state changes an action event will be sent to all action 
      * listeners of the check box.
      */
-    class FCN_CORE_DECLSPEC CheckBox :
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FCN_CORE_DECLSPEC CheckBox : public fcn::ImageButton
     {
     public:
+
+        /**
+         * Marker style.
+         */
+        enum MarkerStyle {
+            Marker_Checkmark = 0,
+            Marker_Cross,
+            Marker_Dot,
+            Marker_Rhombus,
+            Marker_Image
+        };
 
         /**
          * Contructor.
@@ -101,12 +109,12 @@ namespace fcn
          * @param caption The caption of the check box.
          * @param marked True if the check box is selected, false otherwise.
          */
-        CheckBox(const std::string &caption, bool selected = false);
+        CheckBox(const std::string& caption, bool selected = false);
 
         /**
          * Destructor.
          */
-        virtual ~CheckBox() { }
+        virtual ~CheckBox();
 
         /**
          * Checks if the check box is selected.
@@ -114,7 +122,7 @@ namespace fcn
          * @return True if the check box is selected, false otherwise.
          * @see setSelected
          */
-        bool isSelected() const;
+        virtual bool isSelected() const;
 
         /**
          * Sets the check box to be selected or not.
@@ -122,48 +130,69 @@ namespace fcn
          * @param selected True if the check box should be set as selected.
          * @see isSelected
          */
-        void setSelected(bool selected);
+        virtual void setSelected(bool selected);
 
         /**
-         * Gets the caption of the check box.
+         * Toggles the check box between being selected and
+         * not being selected. It distribute a ActionEvent.
+         */
+        virtual void toggleSelected();
+
+        /**
+         * Sets the background image to display, that includes the caption region.
+         * Existing Image is freed automatically, if it was loaded internally.
          *
-         * @return The caption of the check box.
-         * @see setCaption
+         * @param filename The filename of the up image to display.
          */
-        const std::string &getCaption() const;
+        void setBackgroundImage(const std::string& filename);
 
         /**
-         * Sets the caption of the check box. It's advisable to call
-         * adjustSize after setting of the caption to adjust the
-         * check box's size to fit the caption.
+         * Sets the background image to display, that includes the caption region.
+         * Existing Image is freed automatically, if it was loaded internally.
          *
-         * @param caption The caption of the check box.
-         * @see getCaption, adjustSize
+         * @param image The up image to display.
          */
-        void setCaption(const std::string& caption);
+        void setBackgroundImage(const Image* image);
 
         /**
-         * Adjusts the check box's size to fit the caption.
+         * Gets background image.
+         *
+         * @return The background image.
          */
-        void adjustSize();
+        const Image* getBackgroundImage() const;
+
+        /**
+         * Gets the marker mode of the check box.
+         * @return The mode of the check box.
+         * @see setMarkerStyle, MarkerStyle
+         */
+        MarkerStyle getMarkerStyle() const;
+
+        /**
+         * Set the marker style of the check box.
+         * @param mode The style of the check box.
+         * @see getMarkerStyle, MarkerStyle
+         */
+        void setMarkerStyle(MarkerStyle mode);
 
 
         // Inherited from Widget
 
+        virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
 
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
+        virtual void keyReleased(KeyEvent& keyEvent);
 
 
         // Inherited from MouseListener
 
+        virtual void mousePressed(MouseEvent& mouseEvent);
+        virtual void mouseReleased(MouseEvent& mouseEvent);
         virtual void mouseClicked(MouseEvent& mouseEvent);
-
-        virtual void mouseDragged(MouseEvent& mouseEvent);
-
 
     protected:
         /**
@@ -174,10 +203,53 @@ namespace fcn
         virtual void drawBox(Graphics *graphics);
 
         /**
-         * Toggles the check box between being selected and
-         * not being selected.
+         * Draws the checkmark. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
          */
-        virtual void toggleSelected();
+        void drawCheckmark(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the cross. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawCross(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the dot. 
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawDot(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the marker image.
+         *
+         * @param graphics A Graphics object to draw with.
+         * @param rec The rectangle that defines the position and size.
+         */
+        void drawMarkerImage(Graphics* graphics, const Rectangle& rec);
+
+        /**
+         * Draws the rhombus. Box, marker and selection.
+         *
+         * @param graphics A Graphics object to draw with.
+         */
+        void drawRhombus(Graphics* graphics);
+
+        /**
+         * Holds the background image, that includes the caption region.
+         */
+        const Image* mBackgroundImage;
+
+        /**
+         * True if the image has been loaded internally.
+         */
+        bool mInternalBackgroundImage;
 
         /**
          * True if the check box is selected, false otherwise.
@@ -185,9 +257,10 @@ namespace fcn
         bool mSelected;
 
         /**
-         * Holds the caption of the check box.
+         * Holds the marker style of the check box.
          */
-        std::string mCaption;
+        MarkerStyle mMode;
+
     };
 }
 

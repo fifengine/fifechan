@@ -74,64 +74,153 @@
 
 namespace fcn
 {
-    Icon::Icon()
-        : mImage(0)
-        , mInternalImage(false)
-    {
-        setSize(0, 0);
+    Icon::Icon() :
+        mImage(0),
+        mInternalImage(false),
+        mScale(false),
+        mTile(false),
+        mOpaque(true) {
+
+        adjustSize();
     }
 
-    Icon::Icon(const std::string& filename)
-        : mImage(0),
-          mInternalImage(false)
-    {
+    Icon::Icon(const std::string& filename) :
+        mImage(0),
+        mInternalImage(false),
+        mScale(false),
+        mTile(false),
+        mOpaque(true) {
+
         mImage = Image::load(filename);
         mInternalImage = true;
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+        adjustSize();
     }
 
-    Icon::Icon(const Image* image)
-        : mImage(image),
-          mInternalImage(false)
-    {
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+    Icon::Icon(const Image* image) :
+        mImage(image),
+        mInternalImage(false),
+        mScale(false),
+        mTile(false),
+        mOpaque(true) {
+
+        adjustSize();
     }
 
-    Icon::~Icon()
-    {
-        if (mInternalImage)
-        {
+    Icon::~Icon() {
+        if (mInternalImage) {
             delete mImage;
         }
     }
 
-    void Icon::setImage(const Image* image)
-    {
-        if (mInternalImage)
-        {
+    void Icon::setImage(const std::string& filename) {
+        if (mInternalImage) {
+            delete mImage;
+        }
+
+        mImage = Image::load(filename);
+        mInternalImage = true;
+        adjustSize();
+    }
+
+    void Icon::setImage(const Image* image) {
+        if (mInternalImage) {
             delete mImage;
         }
 
         mImage = image;
         mInternalImage = false;
-        setSize(mImage->getWidth(),
-                mImage->getHeight());
+        adjustSize();
     }
 
-    const Image* Icon::getImage() const
-    {
+    const Image* Icon::getImage() const {
         return mImage;
     }
 
-    void Icon::draw(Graphics* graphics)
-    {
-        if (mImage != NULL)
-        {
-            const int x = (getWidth() - mImage->getWidth()) / 2;
-            const int y = (getHeight() - mImage->getHeight()) / 2;
-            graphics->drawImage(mImage, x, y);
+    bool Icon::isScaling() const {
+        return mScale;
+    }
+
+    void Icon::setScaling(bool scale) {
+        mScale = scale;
+    }
+
+    bool Icon::isTiling() const {
+        return mTile;
+    }
+
+    void Icon::setTiling(bool tile) {
+        mTile = tile;
+    }
+
+    void Icon::setOpaque(bool opaque) {
+        mOpaque = opaque;
+    }
+
+    bool Icon::isOpaque() const {
+        return mOpaque;
+    }
+
+    void Icon::resizeToContent(bool recursiv) {
+        adjustSize();
+    }
+
+    void Icon::adjustSize() {
+        // workaround to avoid resizing
+        if (mScale || mTile) {
+            return;
+        }
+        int w = 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
+        int h = 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        if (mImage) {
+            w += mImage->getWidth();
+            h += mImage->getHeight();
+        }
+        setSize(w, h);
+    }
+
+    void Icon::draw(Graphics* graphics) {
+        // draw icon background
+        if (mOpaque) {
+            Color color = getBackgroundColor();
+            if (isFocused() && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+                color = getSelectionColor();
+            }
+            graphics->setColor(color);
+            graphics->fillRectangle(Rectangle(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize()));
+        }
+        // draw icon image
+        if (mImage) {
+            Rectangle contentRect(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(),
+                getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
+                getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom());
+
+            // draw with widget or image size
+            int w = mScale ? contentRect.width : mImage->getWidth();
+            int h = mScale ? contentRect.height : mImage->getHeight();
+
+            if (mTile && !mScale) {
+                Rectangle rect(contentRect.x, contentRect.y, w, h);
+                int tmpW = getWidth() - getBorderSize() - getPaddingRight();
+                int tmpH = getHeight() - getBorderSize() - getPaddingBottom();
+                while (rect.x < tmpW) {
+                    rect.y = contentRect.y;
+                    while (rect.y < tmpH) {
+                        graphics->drawImage(mImage, 0, 0, rect.x, rect.y, rect.width, rect.height);
+                        rect.y += rect.height;
+                    }
+                    rect.x += rect.width;
+                }
+            } else {
+                graphics->drawImage(mImage, 0, 0, contentRect.x, contentRect.y, w, h);
+            }
+        }
+        // draw border or frame
+        if (getBorderSize() > 0) {
+            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                drawSelectionFrame(graphics);
+            } else {
+                drawBorder(graphics);
+            }
         }
     }
 }

@@ -70,6 +70,7 @@
 
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/platform.hpp"
+#include "fifechan/point.hpp"
 
 namespace fcn
 {
@@ -235,7 +236,7 @@ namespace fcn
         virtual void drawPoint(int x, int y) = 0;
 
         /**
-         * Ddraws a line.
+         * Draws a line.
          *
          * @param x1 The first x coordinate.
          * @param y1 The first y coordinate.
@@ -243,6 +244,34 @@ namespace fcn
          * @param y2 The second y coordinate.
          */
         virtual void drawLine(int x1, int y1, int x2, int y2) = 0;
+
+        /**
+         * Draws a thick line.
+         *
+         * @param x1    The first x coordinate.
+         * @param y1    The first y coordinate.
+         * @param x2    The second x coordinate.
+         * @param y2    The second y coordinate.
+         * @param width	The line width.
+         */
+        virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width) = 0;
+
+        /**
+         * Draws lines between points with given width.
+         *
+         * @param points Contains the points that are used for drawing.
+         * @param width  The line width.
+         */
+        virtual void drawPolyLine(const PointVector& points, unsigned int width) = 0;
+
+        /**
+         * Draws a bezier curve.
+         *
+         * @param points The coordinates as points in a vector.
+         * @param steps  The steps for each line between two points.
+         * @param width  The line width.
+         */
+        virtual void drawBezier(const PointVector& points, int steps, unsigned int width) = 0;
 
         /**
          * Draws a simple, non-filled rectangle with a one pixel width.
@@ -285,6 +314,48 @@ namespace fcn
          */
         inline void fillRectangle(int x, int y, int width, int height)
         { fillRectangle(Rectangle(x, y, width, height)); }
+
+        /**
+         * Draws a simple, non-filled circle with a one pixel width.
+         *
+         * @param p      The circle center coordinate as point.
+         * @param radius The circle radius.
+         *
+         */
+        virtual void drawCircle(const Point& p, unsigned int radius) = 0;
+
+        /**
+         * Draws a filled circle.
+         *
+         * @param p      The circle center coordinate as point.
+         * @param radius The circle radius.
+         *
+         */
+        virtual void drawFillCircle(const Point& p, unsigned int radius) = 0;
+
+        /**
+         * Draws a simple, non-filled circle segment with a one pixel width.
+         * Note: The start angle must be less than the end angle. 0 angle is right side.
+         *
+         * @param p      The circle center coordinate as point.
+         * @param radius The circle radius.
+         * @param sangle The start angle of the segment.
+         * @param eangle The end angle of the segment.
+         *
+         */
+        virtual void drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
+
+        /**
+         * Draws a filled circle segment.
+         * Note: The start angle must be less than the end angle. 0 angle is right side.
+         *
+         * @param p      The circle center coordinate as point.
+         * @param radius The circle radius.
+         * @param sangle The start angle of the segment.
+         * @param eangle The end angle of the segment.
+         *
+         */
+        virtual void drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Sets the color to use when drawing.

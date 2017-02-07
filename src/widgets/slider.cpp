@@ -82,7 +82,7 @@ namespace fcn
         mScaleEnd = scaleEnd;
 
         setFocusable(true);
-        setFrameSize(1);
+        setBorderSize(1);
         setOrientation(Horizontal);
         setValue(0);
         setStepLength(scaleEnd / 10);
@@ -100,7 +100,7 @@ namespace fcn
         mScaleEnd = scaleEnd;
 
         setFocusable(true);
-        setFrameSize(1);
+        setBorderSize(1);
         setOrientation(Horizontal);
         setValue(scaleStart);
         setStepLength((scaleEnd  - scaleStart)/ 10);

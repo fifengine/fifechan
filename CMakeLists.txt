@@ -83,6 +83,18 @@ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 #------------------------------------------------------------------------------
+#                                 Compiler Options                                         
+#------------------------------------------------------------------------------
+
+if(WIN32)
+  if(MSVC)
+    # ensure we use minimal "windows.h" lib without the crazy min max macros    
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
+  endif(MSVC)
+endif(WIN32)
+
+#------------------------------------------------------------------------------
 #                                 Source Files                                             
 #------------------------------------------------------------------------------
 
@@ -121,18 +133,22 @@ FILE(GLOB FIFECHAN_HEADERS
   include/fifechan/mouseevent.hpp		
   include/fifechan/mouseinput.hpp		
   include/fifechan/mouselistener.hpp	
-  include/fifechan/platform.hpp		
+  include/fifechan/platform.hpp
+  include/fifechan/point.hpp		
   include/fifechan/rectangle.hpp		
   include/fifechan/selectionevent.hpp	
-  include/fifechan/selectionlistener.hpp	
+  include/fifechan/selectionlistener.hpp
+  include/fifechan/size.hpp	
   include/fifechan/text.hpp
   include/fifechan/utf8stringeditor.hpp
+  include/fifechan/version.hpp
   include/fifechan/visibilityeventhandler.hpp
   include/fifechan/widget.hpp		
   include/fifechan/widgetlistener.hpp
   include/fifechan/opengl.hpp
 )
 FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
+FILE(GLOB FIFECHAN_UTIL_HEADERS include/fifechan/util/*.hpp)
 FILE(GLOB FIFECHAN_SRC src/*.cpp)
 FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
 
@@ -152,10 +168,11 @@ ELSE(BUILD_FIFECHAN_SHARED)
 ENDIF(BUILD_FIFECHAN_SHARED)
 
 ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE} 
-	${FIFECHAN_HEADER} 
-	${FIFECHAN_HEADERS} 
-	${FIFECHAN_WIDGET_HEADERS} 
-	${FIFECHAN_SRC} 
+	${FIFECHAN_HEADER}
+	${FIFECHAN_HEADERS}
+	${FIFECHAN_WIDGET_HEADERS}
+	${FIFECHAN_UTIL_HEADERS}
+	${FIFECHAN_SRC}
 	${FIFECHAN_WIDGET_SRC}
 )
 
@@ -178,6 +195,7 @@ INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
 INSTALL(FILES ${FIFECHAN_HEADER}                  DESTINATION include/)
 INSTALL(FILES ${FIFECHAN_HEADERS}                 DESTINATION include/fifechan/)
 INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS}          DESTINATION include/fifechan/widgets/)
+INSTALL(FILES ${FIFECHAN_UTIL_HEADERS}            DESTINATION include/fifechan/util/)
 
 #REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
 #ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")

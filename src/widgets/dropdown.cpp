@@ -464,6 +464,21 @@ namespace fcn
         mScrollArea->setPosition(0, 0);
     }
 
+    void DropDown::resizeToContent(bool recursiv) {
+        if (mScrollArea != NULL) {
+            mScrollArea->resizeToContent();
+        }
+
+        if (mListBox != NULL) {
+            mScrollArea->resizeToContent();
+        }
+        adjustHeight();
+    }
+
+    void DropDown::adjustSize() {
+        adjustHeight();
+    }
+
     void DropDown::dropDown()
     {
         if (!mDroppedDown)

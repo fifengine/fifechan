@@ -70,11 +70,10 @@
 
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/widget.hpp"
+#include "fifechan/widgets/container.hpp"
 
 namespace fcn
 {
-    class Label;
     class TabbedArea;
 
     /**
@@ -84,7 +83,7 @@ namespace fcn
      */
     class FCN_CORE_DECLSPEC Tab:
         public MouseListener,
-        public Widget
+        public Container
     {
     public:
 
@@ -97,12 +96,6 @@ namespace fcn
          * Destructor.
          */
         virtual ~Tab();
-
-        /**
-         * Adjusts the size of the tab to fit the caption. If this tab was
-         * added to a TabbedArea, it will also adjust the tab positions.
-         */
-        void adjustSize();
 
         /**
          * Sets the tabbed area the tab should be a part of.
@@ -120,26 +113,15 @@ namespace fcn
          */
         TabbedArea* getTabbedArea();
 
-        /**
-         * Sets the caption of the tab. It's advisable to call
-         * adjustSize after setting the caption to make the tab
-         * fit the caption.
-         *
-         * @param caption The caption of the tab.
-         * @see getCaption, adjustSize
-         */
-        void setCaption(const std::string& caption);
-
-        /**
-         * Gets the caption of the tab.
-         *
-         * @return The caption of the tab.
-         * @see setCaption
-         */
-        const std::string& getCaption() const;
-
-
         // Inherited from Widget
+
+        /**
+         * Adjusts the size of the tab to fit the caption. If this tab was
+         * added to a TabbedArea, it will also adjust the tab positions.
+         */
+        virtual void adjustSize();
+
+        virtual Rectangle getChildrenArea();
 
         virtual void draw(Graphics *graphics);
 
@@ -151,11 +133,6 @@ namespace fcn
         virtual void mouseExited(MouseEvent& mouseEvent);
 
     protected:
-        /**
-         * Holds the label of the tab.
-         */
-        Label* mLabel;
-
         /**
          * True if the tab has the mouse, false otherwise.
          */

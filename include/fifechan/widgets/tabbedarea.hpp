@@ -74,10 +74,10 @@
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
+#include "fifechan/widgets/container.hpp"
 
 namespace fcn
 {
-    class Container;
     class Tab;
 
     /**
@@ -127,16 +127,6 @@ namespace fcn
          * @see setOpaque
          */
         bool isOpaque() const;
-
-        /**
-         * Adds a tab to the tabbed area. The newly created tab will be
-         * automatically deleted by the tabbed area when it is removed.
-         *
-         * @param caption The caption of the tab to add.
-         * @param widget The widget to view when the tab is selected.
-         * @see removeTab, removeTabWithIndex
-         */
-        virtual void addTab(const std::string& caption, Widget* widget);
 
         /**
          * Adds a tab to the tabbed area. The tab will not be deleted by the
@@ -221,8 +211,18 @@ namespace fcn
          */
         Tab* getSelectedTab() const;
 
-
         // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+
+        virtual void expandContent(bool recursiv=true);
+
+        /**
+         * Adjusts the size of the tab container and the widget container.
+         */
+        virtual void adjustSize();
+
+        virtual Rectangle getChildrenArea();
 
         virtual void draw(Graphics *graphics);
 
@@ -235,6 +235,78 @@ namespace fcn
         void setDimension(const Rectangle& dimension);
 
         void setBaseColor(const Color& color);
+
+        void setBackgroundWidget(Widget* widget);
+        Widget* getBackgroundWidget();
+
+        /**
+         * Sets the layout of the tabbedarea.
+         * @see LayoutPolicy
+         *
+         * @param policy The LayoutPolicy of the tabbedarea.
+         * @see getLayout
+         */
+        void setLayout(Container::LayoutPolicy policy);
+
+        /**
+         * Gets the layout of the tabbedarea.
+         * @see LayoutPolicy
+         *
+         * @return The LayoutPolicy of the tabbedarea.
+         * @see setLayout
+         */
+        Container::LayoutPolicy getLayout() const;
+
+        /**
+         * If enabled, the free space is distributed in a way that the size of the
+         * childrens will be equal (if possible).
+         * Otherwise the free space will evenly distributed.
+         *
+         * @param uniform Indicates if uniform size is enabled or not.
+         * @see isUniformSize
+         */
+        virtual void setUniformSize(bool uniform);
+
+        /**
+         * True if the tab container tries to expand the childs
+         * to a uniform size.
+         *
+         * @return True if uniform size is set, otherwise false.
+         * @see setUniformSize
+         */
+        virtual bool isUniformSize() const;
+
+        /**
+         * Set the vertical spacing between rows.
+         *
+         * @param verticalSpacing spacing in pixels.
+         * @see getVerticalSpacing
+         */
+        virtual void setVerticalSpacing(unsigned int spacing);
+
+        /**
+         * Get the vertical spacing between rows.
+         *
+         * @return vertical spacing in pixels.
+         * @see setVerticalSpacing
+         */
+        virtual unsigned int getVerticalSpacing() const;
+
+        /**
+         * Set the horizontal spacing between columns.
+         *
+         * @param horizontalSpacing spacing in pixels.
+         * @see getHorizontalSpacing
+         */
+        virtual void setHorizontalSpacing(unsigned int spacing);
+
+        /**
+         * Get the horizontal spacing between rows.
+         *
+         * @return horizontal spacing in pixels.
+         * @see setHorizontalSpacing
+         */
+        virtual unsigned int getHorizontalSpacing() const;
 
 
         // Inherited from ActionListener
@@ -258,11 +330,6 @@ namespace fcn
 
 
     protected:
-        /**
-         * Adjusts the size of the tab container and the widget container.
-         */
-        void adjustSize();
-
         /**
          * Adjusts the positions of the tabs.
          */

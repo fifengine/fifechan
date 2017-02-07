@@ -121,11 +121,6 @@ namespace fcn
         virtual std::string getText() const;
 
         /**
-         * Adjusts the size of the text field to fit the text.
-         */
-        void adjustSize();
-
-        /**
          * Adjusts the height of the text field to fit caption.
          */
         void adjustHeight();
@@ -167,6 +162,13 @@ namespace fcn
 
 
         // Inherited from Widget
+
+        virtual void resizeToContent(bool recursiv=true);
+
+        /**
+         * Adjusts the size of the text field to fit the text.
+         */
+        virtual void adjustSize();
 
         virtual void draw(Graphics* graphics);
 
