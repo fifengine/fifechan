@@ -1,6 +1,11 @@
-# ChangeLog
+﻿# ChangeLog
 
 ## [Unreleased]
+
+## [0.1.4] - 2017-02-07
+
+- Added mouse wheel left and right events
+- Fixed another possible segfault situation, issue #45
 
 ## [0.1.3] - 2016-11-05
 

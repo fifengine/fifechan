@@ -30,7 +30,7 @@ version: '{build}'
 
 platform:
   - x86
-  - x64
+ # - x64
 
 configuration:
   - Release
@@ -44,8 +44,8 @@ environment:
 matrix:
   fast_finish: true
 
-cache:
-  - C:\projects\fifechan-dependencies\downloads
+#cache:
+#  - C:\projects\fifechan-dependencies\downloads
 #  - C:\projects\fifengine-dependencies\includes
 
 install:
@@ -134,3 +134,4 @@ deploy:
     appveyor_repo_tag: true        # deploy on tag push only
   auth_token:                      # encrypted token from GitHub
     secure: PklA532IBf2s4paPOoYBviN4cz1Dew9+Bce0aO6VaINDMCxDLRiNGeg3Jchaw03C
+    
