@@ -342,7 +342,6 @@ namespace fcn
 
     void CheckBox::toggleSelected() {
         mSelected = !mSelected;
-        distributeActionEvent();
     }
 
     void CheckBox::setBackgroundImage(const std::string& filename) {
@@ -380,6 +379,7 @@ namespace fcn
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             toggleSelected();
             keyEvent.consume();
+            distributeActionEvent();
         }
     }
 
@@ -406,6 +406,7 @@ namespace fcn
         if (mHasMouse && mouseEvent.getButton() == MouseEvent::Left) {
             toggleSelected();
             mouseEvent.consume();
+            distributeActionEvent();
         }
     }
 
