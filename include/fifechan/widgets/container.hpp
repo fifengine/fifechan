@@ -87,6 +87,7 @@ namespace fcn
     public:
         enum LayoutPolicy {
             Absolute,
+            AutoSize,
             Vertical,
             Horizontal,
             Circular

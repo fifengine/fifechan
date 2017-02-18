@@ -239,7 +239,22 @@ namespace fcn
         int diffH = getDimension().height - getChildrenArea().height;
         Rectangle dimensions(0, 0, childMaxW, childMaxH);
 
-        if (mLayout == Vertical && visibleChilds > 0) {
+        if (mLayout == AutoSize && visibleChilds > 0) {
+            currChild = mChildren.begin();
+            endChildren = mChildren.end();
+            for (; currChild != endChildren; ++currChild) {
+                if (!(*currChild)->isVisible()) {
+                    continue;
+                }
+                const Rectangle& rec = (*currChild)->getDimension();
+                int childW = rec.x + rec.width + (*currChild)->getMarginLeft() + (*currChild)->getMarginRight();
+                int childH = rec.y + rec.height + (*currChild)->getMarginTop() + (*currChild)->getMarginBottom();
+                totalW = std::max(totalW, childW);
+                totalH = std::max(totalH, childH);
+            }
+            totalW += diffW;
+            totalH += diffH;
+        } else if (mLayout == Vertical && visibleChilds > 0) {
             currChild = mChildren.begin();
             endChildren = mChildren.end();
             for(; currChild != endChildren; ++currChild) {
@@ -350,6 +365,8 @@ namespace fcn
                     (*currChild)->expandContent(recursiv);
                 }
             }
+            return;
+        } else if (mLayout == AutoSize) {
             return;
         }
 
