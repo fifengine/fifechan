@@ -23,11 +23,11 @@ SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 
 OPTION(BUILD_FIFECHAN_SHARED            "Build the Fifechan core library as a shared library"                ON)
 
-OPTION(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                              ON)
-OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library"   ON)
+OPTION(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                              OFF)
+OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library"   OFF)
 
-OPTION(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                             ON)
-OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  ON)
+OPTION(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                             OFF)
+OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  OFF)
 
 OPTION(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                               ON)
 OPTION(ENABLE_OPENGL_CONTRIB            "Enable the Fifechan OpenGL contrib extension (freetype, oglft)"     OFF)
