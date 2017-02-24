@@ -10,6 +10,13 @@
 | **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) | 
 | **Development Releases**  |   -    |    -     | [All artifacts](https://ci.appveyor.com/project/LinuxDonald/fifechan/build/artifacts) <br> [fifechan-shared-VC14.zip](https://ci.appveyor.com/api/projects/LinuxDonald/fifechan/artifacts/fifechan-shared-VC14.zip) <br> [fifechan-static-VC14.zip](https://ci.appveyor.com/api/projects/LinuxDonald/fifechan/artifacts/fifechan-static-VC14.zip) |
 
+Fifengine is also already available from the following package repositories:
+
+<a href="https://repology.org/metapackage/fifechan"><img src="https://repology.org/badge/vertical-allrepos/fifechan.svg" alt="Packaging status" align="right"></a>
+
+* [SlackBuilds](https://slackbuilds.org/repository/14.2/libraries/fifechan/)
+* ...
+* ...
 
 ## Introduction to Fifechan
 
