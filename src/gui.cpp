@@ -1042,7 +1042,7 @@ namespace fcn
             Widget* hiddenWidget = mHiddenWidgets.front();
             
             //make sure that the widget wasn't freed after hiding
-            if(Widget::widgetExists(hiddenWidget))
+            if(Widget::widgetExists(hiddenWidget) && hiddenWidget->isEnabled())
             {
                 int hiddenWidgetX, hiddenWidgetY;
                 hiddenWidget->getAbsolutePosition(hiddenWidgetX, hiddenWidgetY);
@@ -1082,7 +1082,7 @@ namespace fcn
             
             Rectangle r(shownWidgetX, shownWidgetY, shownWidget->getWidth(), shownWidget->getHeight());
             
-            if(r.isContaining(mLastMouseX, mLastMouseY))
+            if(r.isContaining(mLastMouseX, mLastMouseY) && shownWidget->isEnabled())
             {
                 //find which widget had the mouse before and distribute that the mouse exited it
                 Widget* underMouseCursorBefore = getWidgetAt(mLastMouseX, mLastMouseY, shownWidget);
