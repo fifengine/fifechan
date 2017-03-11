@@ -22,13 +22,10 @@ addons:
         - libsdl2-image-dev
         - libsdl2-ttf-dev
         - libfreetype6-dev
-        # Disallowed, have to be installed manually
-        #- liballegro5-dev
-        #- libgle3-dev
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev liballegro5-dev cppcheck; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf allegro freetype; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev cppcheck; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf freetype; fi
   # build OGLFT
   - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
   - cd oglft-code
