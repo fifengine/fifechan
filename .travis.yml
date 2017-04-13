@@ -38,7 +38,7 @@ before_install:
   # configure oglft - install into /usr folder
   - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local . 
   # make oglft
-  - make
+  - make -j3
   # install oglft
   - sudo make install
   - cd ..
@@ -51,7 +51,7 @@ script:
   # call cmake to configure the build env
   - cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
   # finally, make
-  - make -j2 VERBOSE=1
+  - make -j3 VERBOSE=1
   # then install
   - sudo make install
 
