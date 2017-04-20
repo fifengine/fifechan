@@ -16,6 +16,14 @@ SET(PATCH_VERSION 4)
 SET(FIFECHAN_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
+SET(ConfigPackageLocation lib/cmake/fifechan)
+
+INCLUDE(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
+  VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_LEVEL}
+  COMPATIBILITY AnyNewerVersion
+)
 
 #------------------------------------------------------------------------------
 #                                 Options                                          
@@ -197,6 +205,11 @@ INSTALL(FILES ${FIFECHAN_HEADERS}                 DESTINATION include/fifechan/)
 INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS}          DESTINATION include/fifechan/widgets/)
 INSTALL(FILES ${FIFECHAN_UTIL_HEADERS}            DESTINATION include/fifechan/util/)
 
+  INSTALL(EXPORT ${PROJECT_NAME}_targets
+    FILE ${PROJECT_NAME}_targets.cmake
+    NAMESPACE Upstream::
+    DESTINATION ${ConfigPackageLocation})
+    
 #REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
 #ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")
 
@@ -466,16 +479,30 @@ IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
   )
 
-  INSTALL(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
-    OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE
-    WORLD_READ WORLD_EXECUTE
+  INSTALL(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib${LIB_SUFFIX}
+    EXPORT ${PROJECT_NAME}_sdl_targets
+    PERMISSIONS
+      OWNER_READ OWNER_WRITE OWNER_EXECUTE
+      GROUP_READ GROUP_EXECUTE
+      WORLD_READ WORLD_EXECUTE
   )
 
   INSTALL(FILES ${FIFECHAN_SDL_HEADER}            DESTINATION include/fifechan/)
   INSTALL(FILES ${FIFECHAN_SDL_HEADERS}           DESTINATION include/fifechan/sdl/)
-  INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/sdl/)   
-
+  INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/sdl/)  
+  INSTALL(EXPORT ${PROJECT_NAME}_sdl_targets
+    FILE ${PROJECT_NAME}_sdl_targets.cmake
+    NAMESPACE Upstream::
+    DESTINATION ${ConfigPackageLocation})
 ENDIF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
-MESSAGE(STATUS "Fifechan Makefiles have been generated!")
+INSTALL(
+  FILES
+    cmake/fifechan-config.cmake
+    "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
+  DESTINATION
+    ${ConfigPackageLocation}
+  COMPONENT
+    Devel
+)
+MESSAGE(STATUS "Fifechan has been built, hooray!")
