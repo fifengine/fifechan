@@ -16,7 +16,6 @@ addons:
       packages:
         # 7z is used for packaging (see before_deploy)
         - p7zip-full 
-        - subversion
         - mesa-common-dev
         - libsdl2-dev
         - libsdl2-image-dev
