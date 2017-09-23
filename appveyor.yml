@@ -19,11 +19,6 @@ init:
         Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
       }
 
-branches:
-  only:
-  - master
-  - pychan_port
-
 clone_depth: 5
 
 version: '{build}'
