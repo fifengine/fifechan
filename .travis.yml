@@ -1,3 +1,20 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+    matrix:
+      - OS=ubuntu DIST=trusty
+      - OS=ubuntu DIST=precise
+      - OS=ubuntu DIST=xenial
+      - OS=ubuntu DIST=yakkety
+      - OS=debian DIST=jessie
+      - OS=debian DIST=wheezy
+      - OS=debian DIST=stretch
+      - OS=ubuntu DIST=xenial ARCH=i386
+      - OS=debian DIST=jessie ARCH=i386
+
 language: cpp
 
 compiler: clang
@@ -28,6 +45,9 @@ addons:
         - libclang-5.0-dev
 
 before_install:
+# install packpack
+  curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash
+
 # change clang to version 5.0
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 20; sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 20; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo rm -f /usr/local/clang-3.9.0/bin/clang; sudo rm -f /usr/local/clang-3.9.0/bin/clang++; sudo update-alternatives --config clang; sudo update-alternatives --config clang++; fi
@@ -74,6 +94,8 @@ before_deploy:
   - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
   # let's package for Mac
   - if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
+  # build deb packages via packpack
+  - packpack
 
 deploy:
   provider: releases
