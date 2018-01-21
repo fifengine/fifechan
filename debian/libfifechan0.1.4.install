@@ -1,0 +1,3 @@
+usr/lib/*/libfifechan.so.*
+usr/lib/*/libfifechan_opengl.so.*
+usr/lib/*/libfifechan_sdl.so.*

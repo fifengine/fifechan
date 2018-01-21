@@ -1,0 +1,35 @@
+fifechan (0.1.4-1) UNRELEASED; urgency=medium
+
+  * New upstream version 0.1.4
+  * Drop segfault-quit-game.patch
+  * Upstream dropped Allegro
+
+ -- MasterofJOKers <joker@someserver.de>  Sat, 29 Apr 2017 22:44:34 +0200
+
+fifechan (0.1.3-3) unstable; urgency=medium
+
+  * Add segfault-quit-game.patch and fix a segmentation fault when exiting
+    unknown-horizons. Thanks to Petter Reinholdtsen for the report.
+    (Closes: #852247)
+
+ -- Markus Koschany <apo@debian.org>  Mon, 23 Jan 2017 19:36:17 +0100
+
+fifechan (0.1.3-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Markus Koschany <apo@debian.org>  Thu, 19 Jan 2017 23:23:07 +0100
+
+fifechan (0.1.3-1) experimental; urgency=medium
+
+  * New upstream version 0.1.3.
+  * Add get-orig-source target.
+  * Rename binary package to libfifechan0.1.3 because of the SONAME change.
+
+ -- Markus Koschany <apo@debian.org>  Mon, 07 Nov 2016 18:54:27 +0100
+
+fifechan (0.1.2+git160920-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #838489)
+
+ -- Markus Koschany <apo@debian.org>  Wed, 21 Sep 2016 21:25:06 +0200

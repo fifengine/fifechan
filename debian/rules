@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DLIB_SUFFIX=/$(DEB_HOST_MULTIARCH) \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+override_dh_install:
+	dh_install --fail-missing
+
+get-orig-source:
+	uscan --download-current-version --force-download

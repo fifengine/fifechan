@@ -1,0 +1,5 @@
+usr/include/fifechan.hpp
+usr/include/fifechan/*
+usr/lib/*/libfifechan.so
+usr/lib/*/libfifechan_opengl.so
+usr/lib/*/libfifechan_sdl.so
