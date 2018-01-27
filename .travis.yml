@@ -42,7 +42,8 @@ addons:
 
 before_install:
   # install packpack
-  - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; apt-get install packpack; packpack; ls ./build; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; apt-get install packpack; packpack; fi
 
   # change clang to version 5.0
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 20; sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 20; fi
