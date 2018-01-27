@@ -3,6 +3,7 @@ sudo: required
 services:
   - docker
 
+
 env:
     matrix:
       - OS=ubuntu DIST=trusty
@@ -14,16 +15,11 @@ env:
       - OS=debian DIST=stretch
       - OS=ubuntu DIST=xenial ARCH=i386
       - OS=debian DIST=jessie ARCH=i386
+      - OS=osx
 
 language: cpp
 
 compiler: clang
-
-os:
-  - linux
-  - osx
-
-dist: trusty
 
 git:
   depth: 5
@@ -46,7 +42,7 @@ addons:
 
 before_install:
   # install packpack
-  - curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash
+  - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; apt-get install packpack; packpack; ls ./build; fi
 
   # change clang to version 5.0
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 20; sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 20; fi
