@@ -81,7 +81,7 @@ after_script:
    - if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan; fi
    - if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src; fi
      # build deb packages via packpack
-  - if [ $TRAVIS_OS_NAME == linux ]; then packpack; fi
+   - if [ $TRAVIS_OS_NAME == linux ]; then packpack; fi
 
 before_deploy:
   - sudo ls -alh /fifechan/*
