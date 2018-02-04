@@ -80,6 +80,8 @@ after_script:
    # run cppcheck only on Linux
    - if [ $TRAVIS_OS_NAME == linux ]; then cd /home/travis/build/fifengine/fifechan; fi
    - if [ $TRAVIS_OS_NAME == linux ]; then cppcheck --verbose --enable=all --std=posix --std=c++11 --quiet -I include src; fi
+     # build deb packages via packpack
+  - if [ $TRAVIS_OS_NAME == linux ]; then packpack; fi
 
 before_deploy:
   - sudo ls -alh /fifechan/*
@@ -87,8 +89,6 @@ before_deploy:
   - if [ $TRAVIS_OS_NAME == linux ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-$TRAVIS_TAG.tar.gz; fi
   # let's package for Mac
   - if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
-  # build deb packages via packpack
-  - if [ $TRAVIS_OS_NAME == linux ]; then packpack; fi
 
 deploy:
   provider: releases
