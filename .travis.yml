@@ -4,14 +4,14 @@ services:
   - docker
 
 os:
-        - linux
-        - osx
-env:
-    matrix:
-      - DIST=trusty
-      - DIST=precise
-      exclude:
-        - os: osx
+    - osx
+
+matrix:
+  include:
+    - os: ubuntu
+      dist: trusty
+    - os: debian
+      dist: wheezy
 
 language: cpp
 
@@ -39,7 +39,7 @@ addons:
 before_install:
   # install packpack
   - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; sudo apt-get update && sudo apt-get install packpack; packpack; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install packpack; fi
 
   # change clang to version 5.0
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 20; sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 20; fi
@@ -88,7 +88,7 @@ before_deploy:
   # let's package for Mac
   - if [ $TRAVIS_OS_NAME == osx ]; then 7z a -ttar -so fifechan.tar /fifechan/* | 7z a -si fifechan-mac-$TRAVIS_TAG.tar.gz; fi
   # build deb packages via packpack
-  - packpack
+  - if [ $TRAVIS_OS_NAME == linux ]; then packpack; fi
 
 deploy:
   provider: releases
