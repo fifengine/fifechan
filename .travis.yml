@@ -10,6 +10,8 @@ env:
     matrix:
       - DIST=trusty
       - DIST=precise
+      exclude:
+        - os: osx
 
 language: cpp
 
