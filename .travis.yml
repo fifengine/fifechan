@@ -5,9 +5,9 @@ services:
 
 matrix:
   include:
-    - os: ubuntu
+    - os: linux
       dist: trusty
-    - os: debian
+    - os: linux
       dist: wheezy
     - os: osx
 
@@ -97,6 +97,20 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
+    tags: true
+
+deploy:
+  # Deploy packages to PackageCloud
+  provider: packagecloud
+  username: ${PACKAGECLOUD_USER}
+  repository: ${PACKAGECLOUD_REPO}
+  token: ${PACKAGECLOUD_TOKEN}
+  dist: ${OS}/${DIST}
+  package_glob: build/*.{deb}
+  skip_cleanup: true
+  on:
+    branch: master
+    condition: -n "${OS}" && -n "${DIST}" && -n "${PACKAGECLOUD_TOKEN}"
     tags: true
 
 notifications:
