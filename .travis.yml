@@ -5,9 +5,9 @@ services:
 
 matrix:
   include:
-    - os: linux
+    - os: ubuntu
       dist: trusty
-    - os: linux
+    - os: debian
       dist: wheezy
     - os: osx
 
