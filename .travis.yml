@@ -3,15 +3,13 @@ sudo: required
 services:
   - docker
 
-os:
-    - osx
-
 matrix:
   include:
     - os: ubuntu
       dist: trusty
     - os: debian
       dist: wheezy
+    - os: osx
 
 language: cpp
 
