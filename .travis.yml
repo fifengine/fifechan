@@ -7,10 +7,48 @@ matrix:
   include:
     - os: ubuntu
       dist: trusty
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            # 7z is used for packaging (see before_deploy)
+            - p7zip-full 
+            - mesa-common-dev
+            - libsdl2-dev
+            - libsdl2-image-dev
+            - libsdl2-ttf-dev
+            - libfreetype6-dev
+            - clang-5.0
+            - llvm-5.0-dev
+            - libclang-5.0-dev
+            - libgle3-dev
+            - cppcheck
+       env:
+            - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
     - os: debian
       dist: wheezy
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-wheezy-5.0
+          packages:
+            # 7z is used for packaging (see before_deploy)
+            - p7zip-full 
+            - mesa-common-dev
+            - libsdl2-dev
+            - libsdl2-image-dev
+            - libsdl2-ttf-dev
+            - libfreetype6-dev
+            - clang-5.0
+            - llvm-5.0-dev
+            - libclang-5.0-dev
+            - libgle3-dev
+            - cppcheck
+       env:
+            - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
     - os: osx
-
+ 
 language: cpp
 
 compiler: clang
@@ -18,32 +56,12 @@ compiler: clang
 git:
   depth: 5
 
-addons:
-    apt:
-      sources:
-        - llvm-toolchain-trusty-5.0
-      packages:
-        # 7z is used for packaging (see before_deploy)
-        - p7zip-full 
-        - mesa-common-dev
-        - libsdl2-dev
-        - libsdl2-image-dev
-        - libsdl2-ttf-dev
-        - libfreetype6-dev
-        - clang-5.0
-        - llvm-5.0-dev
-        - libclang-5.0-dev
-
 before_install:
+  - eval "${MATRIX_EVAL}"
   # install packpack
   - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install packpack; fi
-
-  # change clang to version 5.0
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-5.0 20; sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-5.0 20; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo rm -f /usr/local/clang-3.9.0/bin/clang; sudo rm -f /usr/local/clang-3.9.0/bin/clang++; sudo update-alternatives --config clang; sudo update-alternatives --config clang++; fi
-
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev cppcheck; fi
+  
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf freetype; fi
   # build OGLFT
   - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
