@@ -3,37 +3,27 @@ sudo: required
 services:
   - docker
 
-matrix:
-  include:
-    - os: ubuntu
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
-          packages:
-            # 7z is used for packaging (see before_deploy)
-            - p7zip-full 
-            - mesa-common-dev
-            - libsdl2-dev
-            - libsdl2-image-dev
-            - libsdl2-ttf-dev
-            - libfreetype6-dev
-            - clang-5.0
-            - llvm-5.0-dev
-            - libclang-5.0-dev
-            - libgle3-dev
-            - cppcheck
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-    - os: osx
- 
 language: cpp
 
 compiler: clang
 
 git:
   depth: 5
+
+addons:
+    apt:
+      packages:
+        # 7z is used for packaging (see before_deploy)
+        - p7zip-full 
+        - mesa-common-dev
+        - libsdl2-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libfreetype6-dev
+        # Disallowed, have to be installed manually
+        #- liballegro5-dev
+        - libgle3-dev
+        - cppcheck
 
 env:
     matrix:
@@ -44,9 +34,9 @@ env:
       - OS=debian DIST=jessie
       - OS=debian DIST=wheezy
       - OS=debian DIST=stretch
+      - OS=osx
 
 before_install:
-  - eval "${MATRIX_EVAL}"
   # install packpack
   - if [ $TRAVIS_OS_NAME == linux ]; then curl -s https://packagecloud.io/install/repositories/packpack/packpack/script.deb.sh | sudo bash; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install packpack; fi
