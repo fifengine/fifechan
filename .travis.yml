@@ -24,8 +24,8 @@ matrix:
             - libclang-5.0-dev
             - libgle3-dev
             - cppcheck
-       env:
-            - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
     - os: debian
       dist: wheezy
       addons:
@@ -45,8 +45,8 @@ matrix:
             - libclang-5.0-dev
             - libgle3-dev
             - cppcheck
-       env:
-            - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+     env:
+       - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
     - os: osx
  
 language: cpp
@@ -116,8 +116,6 @@ deploy:
   overwrite: true
   on:
     tags: true
-
-deploy:
   # Deploy packages to PackageCloud
   provider: packagecloud
   username: ${PACKAGECLOUD_USER}
