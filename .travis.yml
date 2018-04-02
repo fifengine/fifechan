@@ -57,7 +57,8 @@ script:
   # switch to build folder
   - cd _build
   # call cmake to configure the build env
-  - cmake .. -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan
+  - if [ $TRAVIS_OS_NAME == linux ]; then cmake -DCMAKE_INSTALL_PREFIX=/fifechan ..; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then cmake -DENABLE_SDL_CONTRIB=ON -DENABLE_OPENGL_CONTRIB=ON -DCMAKE_INSTALL_PREFIX=/fifechan ..; fi
   # finally, make
   - make -j3 VERBOSE=1
   # then install
