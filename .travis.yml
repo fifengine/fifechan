@@ -35,21 +35,21 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get -qq update && sudo apt-get install -y libgle3-dev cppcheck; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install sdl2 sdl2_image sdl2_ttf freetype; fi
   # build OGLFT
-  - svn checkout svn://svn.code.sf.net/p/oglft/code/trunk oglft-code
-  - cd oglft-code
+  - if [ $TRAVIS_OS_NAME == osx ]; then svn checkout https://svn.code.sf.net/p/oglft/code/trunk oglft-code; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then cd oglft-code; fi
   # Patch CMakeLists.txt dont load shipped CMake Modul to load FreeType, its provided by CMake and able to find FreeType.
-  - sed -i.bak '4d' CMakeLists.txt
+  - if [ $TRAVIS_OS_NAME == osx ]; then sed -i.bak '4d' CMakeLists.txt; fi
   # Also include Freetype
-  - sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt
-  - sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt
-  - sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt
+  - if [ $TRAVIS_OS_NAME == osx ]; then sed -i.bak -e '6a\'$'\n''if(FREETYPE_FOUND)' CMakeLists.txt; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then sed -i.bak -e '7a\'$'\n''INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})' CMakeLists.txt; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then sed -i.bak -e '8a\'$'\n''endif(FREETYPE_FOUND)' CMakeLists.txt; fi
   # configure oglft - install into /usr folder
-  - cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local . 
+  - if [ $TRAVIS_OS_NAME == osx ]; then cmake -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX=/usr/local . ; fi
   # make oglft
-  - make -j3
+  - if [ $TRAVIS_OS_NAME == osx ]; then make -j3; fi
   # install oglft
-  - sudo make install
-  - cd ..
+  - if [ $TRAVIS_OS_NAME == osx ]; then sudo make install; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then cd ..; fi
    
 script:
   # create folder for an out-of-source-tree build
