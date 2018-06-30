@@ -1,5 +1,5 @@
 # Build worker image (VM template)
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -7,7 +7,7 @@ init:
   - git config --global core.autocrlf input
   - cmake --version
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
-  - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+  # - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
   # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
   - ps: >-
       if ($env:APPVEYOR_REPO_TAG -eq "true")
@@ -18,11 +18,6 @@ init:
       {
         Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
       }
-
-branches:
-  only:
-  - master
-  - pychan_port
 
 clone_depth: 5
 
@@ -38,7 +33,7 @@ configuration:
 
 environment:
   matrix:
-    - generator: "Visual Studio 14"
+    - generator: "Visual Studio 15"
     #- generator: "MinGW Makefiles"
 
 matrix:
@@ -94,7 +89,7 @@ build_script:
 after_build:
   # show defined env variables
   #- set
-  - if "%generator%"=="Visual Studio 14" (set COMPILER="VC14")
+  - if "%generator%"=="Visual Studio 15" (set COMPILER="VC15")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
   # package artifact folder (shared library)
   - cd c:\fifechan\install-shared
