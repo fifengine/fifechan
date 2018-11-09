@@ -6,7 +6,7 @@ os:
   - linux
   - osx
 
-dist: trusty
+dist: xenial
 
 git:
   depth: 5
@@ -14,7 +14,7 @@ git:
 addons:
     apt:
       sources:
-        #- llvm-toolchain-trusty-5.0
+        #- llvm-toolchain-xenial-7
       packages:
         # 7z is used for packaging (see before_deploy)
         - p7zip-full 
@@ -23,9 +23,9 @@ addons:
         - libsdl2-image-dev
         - libsdl2-ttf-dev
         - libfreetype6-dev
-        #- clang-5.0
-        #- llvm-5.0-dev
-        #- libclang-5.0-dev
+        #- clang-7.0
+        #- llvm-7.0-dev
+        #- libclang-7.0-dev
 
 before_install:
   # change clang to version 5.0
