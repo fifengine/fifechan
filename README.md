@@ -2,8 +2,8 @@
 
 ## FIFECHAN
 
-| [Website](http://fifengine.net/) | [Forum](http://forums.fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Changelog](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [Source Code (zip)](https://github.com/fifengine/fifechan/archive/master.zip) |
-|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| [Website](http://fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Changelog](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [Source Code (zip)](https://github.com/fifengine/fifechan/archive/master.zip) |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
 
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
