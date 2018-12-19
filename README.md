@@ -12,10 +12,6 @@
 
 Fifechan is also already available from the following package repositories:
 
-* [SlackBuilds](https://slackbuilds.org/repository/14.2/libraries/fifechan/)
-* ...
-* ...
-
 [![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
 
 ## Introduction to Fifechan
