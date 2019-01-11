@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by the fifechan team                          *
+ *   Copyright (C) 2012-2019 by the fifechan team                          *
  *   http://fifechan.github.com/fifechan                                   *
  *   This file is part of fifechan.                                        *
  *                                                                         *

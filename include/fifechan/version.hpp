@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by the FCNchan team                               *
+ *   Copyright (C) 2012-2019 by the FCNchan team                               *
  *   http://FCNchan.github.com/FCNchan                                   *
  *   This file is part of FCNchan.                                        *
  *                                                                         *
@@ -72,10 +72,10 @@
 	#define FCN_MAJOR_VERSION 0
 #endif
 #ifndef FCN_MINOR_VERSION
-	#define FCN_MINOR_VERSION 2
+	#define FCN_MINOR_VERSION 1
 #endif
 #ifndef FCN_PATCH_VERSION
-	#define FCN_PATCH_VERSION 0
+	#define FCN_PATCH_VERSION 5
 #endif
 
 /** Types

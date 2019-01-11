@@ -1,6 +1,11 @@
 ﻿# ChangeLog
 
-## [Unreleased]
+## [0.1.5] - 2019-01-11
+
+- Added AT Key
+- Added Auto layouting
+- Fixed compile problems
+- Fixed some more bugs
 
 ## [0.1.4] - 2017-02-07
 

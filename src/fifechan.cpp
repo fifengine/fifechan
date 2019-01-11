@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2017 by the fifechan team                               *
+ *   Copyright (c) 2017-2019 by the fifechan team                               *
  *   https://github.com/fifengine/fifechan                                 *
  *   This file is part of fifechan.                                        *
  *                                                                         *
@@ -70,6 +70,6 @@ extern "C"
 {
     const char* fcnFifechanVersion()
     {
-        return "0.1.4";
+        return "0.1.5";
     }
 }
