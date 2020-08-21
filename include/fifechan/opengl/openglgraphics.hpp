@@ -149,9 +149,23 @@ namespace fcn
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
+        virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width);
+
+        virtual void drawPolyLine(const PointVector& points, unsigned int width);
+
+        virtual void drawBezier(const PointVector& points, int steps, unsigned int width);
+
         virtual void drawRectangle(const Rectangle& rectangle);
 
         virtual void fillRectangle(const Rectangle& rectangle);
+
+        virtual void drawCircle(const Point& p, unsigned int radius);
+
+        virtual void drawFillCircle(const Point& p, unsigned int radius);
+
+        virtual void drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle);
+
+        virtual void drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle);
 
         virtual void setColor(const Color& color);
 

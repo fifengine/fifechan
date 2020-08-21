@@ -321,6 +321,21 @@ namespace fcn
         glEnd();
     }
 
+    void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawPolyLine(const PointVector& points, unsigned int width)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawBezier(const PointVector& points, int steps, unsigned int width)
+    {
+        // TODO
+    }
+
     void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
     {
         if (mClipStack.empty())
@@ -361,6 +376,26 @@ namespace fcn
         glVertex2i(rectangle.x + top.xOffset,
                    rectangle.y + rectangle.height + top.yOffset);
         glEnd();
+    }
+
+    void OpenGLGraphics::drawCircle(const Point& p, unsigned int radius)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawFillCircle(const Point& p, unsigned int radius)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle)
+    {
+        // TODO
     }
 
     void OpenGLGraphics::setColor(const Color& color)
