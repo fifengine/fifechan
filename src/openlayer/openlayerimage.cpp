@@ -69,7 +69,8 @@ namespace fcn
 
     {
         if (mAllegroBitmap == NULL) {
-            fcn::throwException((std::string("Unable to load bitmap.")), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Unable to load bitmap.")), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
     }
 
@@ -101,7 +102,11 @@ namespace fcn
     int OpenLayerImage::getWidth() const
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
-            fcn::throwException(("Trying to get the width of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get the width of a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mOpenLayerBitmap == NULL) {
@@ -114,7 +119,11 @@ namespace fcn
     int OpenLayerImage::getHeight() const
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
-            fcn::throwException(("Trying to get the height of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get the height of a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mOpenLayerBitmap == NULL) {
@@ -127,7 +136,11 @@ namespace fcn
     Color OpenLayerImage::getPixel(int x, int y)
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
-            fcn::throwException(("Trying to get a pixel from a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get a pixel from a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mOpenLayerBitmap == NULL) {
@@ -141,7 +154,11 @@ namespace fcn
     void OpenLayerImage::putPixel(int x, int y, Color const & color)
     {
         if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
-            fcn::throwException(("Trying to put a pixel in a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to put a pixel in a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mAllegroBitmap == NULL) {
@@ -156,11 +173,19 @@ namespace fcn
     void OpenLayerImage::convertToDisplayFormat()
     {
         if (mAllegroBitmap == NULL) {
-            fcn::throwException(("Trying to convert a non loaded image to display format."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to convert a non loaded image to display format."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mOpenLayerBitmap != NULL) {
-            fcn::throwException(("Trying to convert an image to display format which has already been converted."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to convert an image to display format which has already been converted."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         mOpenLayerBitmap = new ol::Bitmap(mAllegroBitmap, false, true);

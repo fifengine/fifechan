@@ -97,7 +97,8 @@ namespace fcn
         }
 
         if (toBeFocusedIndex < 0) {
-            fcn::throwException("Trying to focus a none existing widget.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Trying to focus a none existing widget.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         Widget* oldFocused = mFocusedWidget;
@@ -118,7 +119,8 @@ namespace fcn
     void FocusHandler::requestModalFocus(Widget* widget)
     {
         if (mModalFocusedWidget != nullptr && mModalFocusedWidget != widget) {
-            fcn::throwException("Another widget already has modal focus.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Another widget already has modal focus.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mModalFocusedWidget = widget;
@@ -131,7 +133,11 @@ namespace fcn
     void FocusHandler::requestModalMouseInputFocus(Widget* widget)
     {
         if (mModalMouseInputFocusedWidget != nullptr && mModalMouseInputFocusedWidget != widget) {
-            fcn::throwException("Another widget already has modal input focus.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Another widget already has modal input focus.",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         mModalMouseInputFocusedWidget = widget;
@@ -168,10 +174,10 @@ namespace fcn
 
     void FocusHandler::focusNext()
     {
-        int i = 0;
+        int i             = 0;
         int focusedWidget = -1;
 
-        for (i = 0; i < (int) mWidgets.size(); ++i) {
+        for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -181,12 +187,12 @@ namespace fcn
 
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
-        i = (int) mWidgets.size();
+        i = (int)mWidgets.size();
 
         for (; i > 0; --i) {
             ++focusedWidget;
 
-            if (focusedWidget >= (int) mWidgets.size()) {
+            if (focusedWidget >= (int)mWidgets.size()) {
                 focusedWidget = 0;
             }
 
@@ -223,7 +229,7 @@ namespace fcn
             return;
         }
 
-        int i = 0;
+        int i             = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
@@ -345,7 +351,7 @@ namespace fcn
             return;
         }
 
-        int i = 0;
+        int i             = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
@@ -354,7 +360,7 @@ namespace fcn
         }
         int const focused = focusedWidget;
 
-        i = (int) mWidgets.size();
+        i = (int)mWidgets.size();
 
         while (i > 0) {
             ++focusedWidget;
@@ -405,7 +411,7 @@ namespace fcn
             return;
         }
 
-        int i = 0;
+        int i             = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {

@@ -149,12 +149,12 @@ namespace fcn
             return rh;
         }
 
-        x      = x < rh.x ? x : rh.x;
-        y      = y < rh.y ? y : rh.y;
+        x            = x < rh.x ? x : rh.x;
+        y            = y < rh.y ? y : rh.y;
         int const x2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
         int const y2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
-        width  = x2 - x;
-        height = y2 - y;
+        width        = x2 - x;
+        height       = y2 - y;
         return *(this);
     }
 

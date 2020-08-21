@@ -65,7 +65,6 @@
 #include "fifechan/font.hpp"
 #include "fifechan/rectangle.hpp"
 
-
 namespace fcn
 {
     Text::Text() : mCaretPosition(0), mCaretRow(0), mCaretColumn(0) { }
@@ -73,10 +72,10 @@ namespace fcn
     Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
     {
         std::string::size_type lastPos = 0;
-        std::string::size_type pos = content.find("\n", lastPos);
+        std::string::size_type pos     = content.find("\n", lastPos);
 
         for (; pos != std::string::npos; pos = content.find("\n", lastPos)) {
-            const int length = pos - lastPos;
+            int const length      = pos - lastPos;
             std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
@@ -95,15 +94,15 @@ namespace fcn
     {
         // Reset caret
         mCaretPosition = 0;
-        mCaretRow = 0;
-        mCaretColumn = 0;
+        mCaretRow      = 0;
+        mCaretColumn   = 0;
 
         mRows.clear();
         std::string::size_type lastPos = 0;
-        std::string::size_type pos = 0;
+        std::string::size_type pos     = 0;
 
         for (; (pos = content.find("\n", lastPos)) != std::string::npos; lastPos = pos + 1) {
-            const int length = pos - lastPos;
+            int const length      = pos - lastPos;
             std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
         }
@@ -135,7 +134,7 @@ namespace fcn
     void Text::setRow(unsigned int row, std::string const & content)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Row out of bounds!", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mRows[row] = content;
@@ -146,7 +145,11 @@ namespace fcn
         unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                fcn::throwException("Line feed not allowed in the row to be added!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                fcn::throwException(
+                    "Line feed not allowed in the row to be added!",
+                    static_cast<char const *>(__FUNCTION__),
+                    __FILE__,
+                    __LINE__);
             }
         }
 
@@ -162,13 +165,17 @@ namespace fcn
                 addRow(row);
                 return;
             }
-            fcn::throwException("Position out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Position out of bounds!", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                fcn::throwException("Line feed not allowed in the row to be inserted!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                fcn::throwException(
+                    "Line feed not allowed in the row to be inserted!",
+                    static_cast<char const *>(__FUNCTION__),
+                    __FILE__,
+                    __LINE__);
             }
         }
 
@@ -178,7 +185,8 @@ namespace fcn
     void Text::eraseRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row to be erased out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Row to be erased out of bounds!", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mRows.erase(mRows.begin() + row);
@@ -187,7 +195,7 @@ namespace fcn
     std::string& Text::getRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Row out of bounds!", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return mRows[row];
@@ -378,7 +386,7 @@ namespace fcn
         }
 
         int width = 0;
-        for (const auto & mRow : mRows) {
+        for (auto const & mRow : mRows) {
             int const w = font->getWidth(mRow);
             if (width < w) {
                 width = w;
@@ -420,7 +428,7 @@ namespace fcn
     unsigned int Text::getNumberOfCharacters() const
     {
         unsigned int result = 0;
-        for (const auto & mRow : mRows) {
+        for (auto const & mRow : mRows) {
             result += mRow.size() + 1;
         }
 

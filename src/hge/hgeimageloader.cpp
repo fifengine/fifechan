@@ -81,7 +81,11 @@ namespace fcn
         HTEXTURE texture = mHGE->Texture_Load(filename.c_str());
 
         if (texture == NULL) {
-            fcn::throwException((std::string("Unable to load: ") + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Unable to load: ") + filename),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         HGEImage* image = new HGEImage(texture, true);
@@ -98,7 +102,8 @@ namespace fcn
         HTEXTURE texture = manager->GetTexture(name, resgroup);
 
         if (texture == NULL) {
-            fcn::throwException((std::string("Unable to load: ") + name), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Unable to load: ") + name), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         HGEImage* image = new HGEImage(texture, true);

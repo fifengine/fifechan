@@ -266,7 +266,8 @@ namespace fcn
     void ScrollArea::setScrollbarWidth(int width)
     {
         if (width <= 0) {
-            fcn::throwException("Width should be greater then 0.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Width should be greater then 0.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mScrollbarWidth = width;
@@ -773,7 +774,8 @@ namespace fcn
             break;
 
         default:
-            fcn::throwException("Horizontal scroll policy invalid.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Horizontal scroll policy invalid.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         switch (mVPolicy) {
@@ -794,7 +796,8 @@ namespace fcn
             }
             break;
         default:
-            fcn::throwException("Vertical scroll policy invalid.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Vertical scroll policy invalid.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
     }
 
@@ -955,7 +958,8 @@ namespace fcn
     void ScrollArea::showWidgetPart(Widget* widget, Rectangle area)
     {
         if (widget != getContent()) {
-            fcn::throwException("Widget not content widget", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Widget not content widget", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         Widget::showWidgetPart(widget, area);

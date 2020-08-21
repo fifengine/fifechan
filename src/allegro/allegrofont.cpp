@@ -70,7 +70,11 @@ namespace fcn
 
     {
         if (font == NULL) {
-            fcn::throwException("Allegro font is not usable. Have you forgotten to load it?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Allegro font is not usable. Have you forgotten to load it?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
     }
 
@@ -79,7 +83,8 @@ namespace fcn
 
     {
         if (mAllegroFont == NULL) {
-            fcn::throwException("Unable to load Allegro font from file.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Unable to load Allegro font from file.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
     }
 
@@ -108,7 +113,8 @@ namespace fcn
     {
         fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
         if (!allegroGraphics) {
-            fcn::throwException("Graphics is not of type AllegroGraphics", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "Graphics is not of type AllegroGraphics", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         BITMAP* const db = allegroGraphics->getTarget();

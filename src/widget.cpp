@@ -156,9 +156,9 @@ namespace fcn
 
             mWidgetInstances.remove(this);
 
-        } catch (const fcn::Exception& e) {
+        } catch (fcn::Exception const & e) {
             std::cerr << "Exception caught in Widget destructor: " << e.what() << std::endl;
-        } catch (const std::exception& e) {
+        } catch (std::exception const & e) {
             std::cerr << "Exception caught in Widget destructor: " << e.what() << std::endl;
         } catch (...) {
             std::cerr << "Unknown exception caught in Widget destructor" << std::endl;
@@ -303,7 +303,7 @@ namespace fcn
     void Widget::setDimension(Rectangle const & dimension)
     {
         Rectangle const oldDimension = mDimension;
-        mDimension             = dimension;
+        mDimension                   = dimension;
 
         if (mDimension.width != oldDimension.width || mDimension.height != oldDimension.height) {
             calculateSize();
@@ -600,7 +600,11 @@ namespace fcn
     void Widget::requestFocus()
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (isFocusable()) {
@@ -958,7 +962,11 @@ namespace fcn
     bool Widget::isModalFocusable() const
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
             return false;
         }
         return mFocusHandler->getModalFocused() == nullptr;
@@ -967,7 +975,11 @@ namespace fcn
     bool Widget::isModalMouseInputFocusable() const
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
             return false;
         }
         return mFocusHandler->getModalMouseInputFocused() == nullptr;
@@ -976,7 +988,11 @@ namespace fcn
     void Widget::requestModalFocus()
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         mFocusHandler->requestModalFocus(this);
@@ -985,7 +1001,11 @@ namespace fcn
     void Widget::requestModalMouseInputFocus()
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         mFocusHandler->requestModalMouseInputFocus(this);
@@ -1012,7 +1032,11 @@ namespace fcn
     bool Widget::isModalFocused() const
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (getParent() != nullptr) {
@@ -1025,7 +1049,11 @@ namespace fcn
     bool Widget::isModalMouseInputFocused() const
     {
         if (mFocusHandler == nullptr) {
-            fcn::throwException("No focushandler set (did you add the widget to the gui?).", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "No focushandler set (did you add the widget to the gui?).",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (getParent() != nullptr) {
@@ -1354,7 +1382,8 @@ namespace fcn
             }
         }
 
-        fcn::throwException("There is no such widget in this container.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+        fcn::throwException(
+            "There is no such widget in this container.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
     }
 
     void Widget::add(Widget* widget)
@@ -1381,7 +1410,8 @@ namespace fcn
         iter = std::find(mChildren.begin(), mChildren.end(), widget);
 
         if (iter == mChildren.end()) {
-            fcn::throwException("There is no such widget in this widget.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "There is no such widget in this widget.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mChildren.remove(widget);
@@ -1394,7 +1424,8 @@ namespace fcn
         iter = find(mChildren.begin(), mChildren.end(), widget);
 
         if (iter == mChildren.end()) {
-            fcn::throwException("There is no such widget in this widget.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                "There is no such widget in this widget.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mChildren.remove(widget);

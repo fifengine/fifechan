@@ -62,10 +62,17 @@
 
 namespace fcn
 {
-    Exception::Exception(std::string message, std::string function, std::string filename, unsigned int line)
-        : std::runtime_error(message), mFunction(std::move(function)), mMessage(std::move(message)), mFilename(std::move(filename)), mLine(line) { }
+    Exception::Exception(std::string message, std::string function, std::string filename, unsigned int line) :
+        std::runtime_error(message),
+        mFunction(std::move(function)),
+        mMessage(std::move(message)),
+        mFilename(std::move(filename)),
+        mLine(line)
+    {
+    }
 
-    const char* Exception::what() const noexcept {
+    char const * Exception::what() const noexcept
+    {
         return mMessage.c_str();
     }
 

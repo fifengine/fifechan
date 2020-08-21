@@ -78,21 +78,24 @@ namespace fcn
         result = D3DXGetImageInfoFromFile(filename.c_str(), &imageInfo);
 
         if (result != D3D_OK) {
-            fcn::throwException(("Unable to load image " + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Unable to load image " + filename), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         result = mDevice->CreateOffscreenPlainSurface(
             imageInfo.Width, imageInfo.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL);
 
         if (result != D3D_OK) {
-            fcn::throwException(("Unable to load image " + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Unable to load image " + filename), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         result = D3DXLoadSurfaceFromFile(
             surface, NULL, NULL, filename.c_str(), NULL, D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), &imageInfo);
 
         if (result != D3D_OK) {
-            fcn::throwException(("Unable to load image " + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Unable to load image " + filename), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return new DirectX3DImage(surface, mDevice, imageInfo.Width, imageInfo.Height, convertToDisplayFormat);

@@ -87,7 +87,11 @@ namespace fcn
     int SDLImage::getWidth() const
     {
         if (mSurface == NULL) {
-            fcn::throwException(("Trying to get the width of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get the width of a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         return mSurface->w;
@@ -96,7 +100,11 @@ namespace fcn
     int SDLImage::getHeight() const
     {
         if (mSurface == NULL) {
-            fcn::throwException(("Trying to get the height of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get the height of a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         return mSurface->h;
@@ -105,7 +113,11 @@ namespace fcn
     Color SDLImage::getPixel(int x, int y)
     {
         if (mSurface == NULL) {
-            fcn::throwException(("Trying to get a pixel from a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to get a pixel from a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         return SDLgetPixel(mSurface, x, y);
@@ -114,7 +126,11 @@ namespace fcn
     void SDLImage::putPixel(int x, int y, Color const & color)
     {
         if (mSurface == NULL) {
-            fcn::throwException(("Trying to put a pixel in a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to put a pixel in a non loaded image."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         SDLputPixel(mSurface, x, y, color);
@@ -123,7 +139,11 @@ namespace fcn
     void SDLImage::convertToDisplayFormat()
     {
         if (mSurface == NULL) {
-            fcn::throwException(("Trying to convert a non loaded image to display format."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to convert a non loaded image to display format."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         SDLImageLoader* loader         = static_cast<SDLImageLoader*>(mImageLoader);
@@ -156,7 +176,11 @@ namespace fcn
         mSurface = NULL;
 
         if (tmp == NULL) {
-            fcn::throwException(("Unable to convert image to display format."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Unable to convert image to display format."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (hasPink) {

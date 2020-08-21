@@ -185,12 +185,19 @@ namespace fcn
         OpenGLImage const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
         if (srcImage == NULL) {
-            fcn::throwException(("Trying to draw an image of unknown format, must be an OpenGLImage."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to draw an image of unknown format, must be an OpenGLImage."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -239,7 +246,10 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -256,7 +266,10 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -280,11 +293,29 @@ namespace fcn
         glEnd();
     }
 
+    void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawPolyLine(PointVector const & points, unsigned int width)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawBezier(PointVector const & points, int steps, unsigned int width)
+    {
+        // TODO
+    }
+
     void OpenGLGraphics::drawRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -301,7 +332,10 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -312,6 +346,26 @@ namespace fcn
         glVertex2i(rectangle.x + rectangle.width + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
         glVertex2i(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
         glEnd();
+    }
+
+    void OpenGLGraphics::drawCircle(Point const & p, unsigned int radius)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawFillCircle(Point const & p, unsigned int radius)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
+    {
+        // TODO
+    }
+
+    void OpenGLGraphics::drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
+    {
+        // TODO
     }
 
     void OpenGLGraphics::setColor(Color const & color)

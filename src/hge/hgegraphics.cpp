@@ -144,7 +144,11 @@ namespace fcn
         HGEImage const * hgeImage = static_cast<HGEImage const *>(image);
 
         if (hgeImage == NULL) {
-            fcn::throwException(("Trying to draw an image of unknown format, must be an HGEImage."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Trying to draw an image of unknown format, must be an HGEImage."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         ClipRectangle const top = mClipStack.top();

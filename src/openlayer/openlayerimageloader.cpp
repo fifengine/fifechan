@@ -77,13 +77,21 @@ namespace fcn
         BITMAP* bmp = load_bitmap(filename.c_str(), pal);
 
         if (bmp == NULL) {
-            fcn::throwException((std::string("Unable to load: ") + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Unable to load: ") + filename),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         BITMAP* bmp2 = create_bitmap_ex(32, bmp->w, bmp->h);
 
         if (bmp2 == NULL) {
-            fcn::throwException((std::string("Not enough memory to load: ") + filename), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Not enough memory to load: ") + filename),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         set_palette(pal);

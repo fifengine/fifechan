@@ -110,7 +110,11 @@ namespace fcn
         DWORD* pLockPtr = mHGE->Texture_Lock(mTexture);
 
         if (pLockPtr == NULL) {
-            fcn::throwException(("Locking of the texture failed. HGE only support locking of 32bit textures."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Locking of the texture failed. HGE only support locking of 32bit textures."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         DWORD color = pLockPtr[x + y * mHGE->Texture_GetWidth(mTexture, true)];
@@ -127,7 +131,11 @@ namespace fcn
         DWORD* pLockPtr = mHGE->Texture_Lock(mTexture, false);
 
         if (pLockPtr == NULL) {
-            fcn::throwException(("Locking of the texture failed. HGE only support locking of 32bit textures."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Locking of the texture failed. HGE only support locking of 32bit textures."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         pLockPtr[x + y * mHGE->Texture_GetWidth(mTexture, true)] = hardwareColor;
@@ -140,7 +148,11 @@ namespace fcn
         DWORD* pLockPtr = mHGE->Texture_Lock(mTexture);
 
         if (pLockPtr == NULL) {
-            fcn::throwException(("Locking of the texture failed. HGE only support locking of 32bit textures."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Locking of the texture failed. HGE only support locking of 32bit textures."),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         int i;

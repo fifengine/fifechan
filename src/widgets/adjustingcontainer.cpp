@@ -245,7 +245,7 @@ namespace fcn
                 mContainedWidgets[i]->setX(basex + mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth());
                 break;
             default:
-                fcn::throwException("Unknown alignment.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             mContainedWidgets[i]->setY(y);

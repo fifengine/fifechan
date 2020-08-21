@@ -71,10 +71,10 @@ namespace fcn
     ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset) :
         xOffset(xOffset), yOffset(yOffset)
     {
-        this->x       = x;
-        this->y       = y;
-        this->width   = width;
-        this->height  = height;
+        this->x      = x;
+        this->y      = y;
+        this->width  = width;
+        this->height = height;
     }
 
     ClipRectangle& ClipRectangle::operator=(Rectangle const & other)

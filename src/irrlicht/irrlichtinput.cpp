@@ -79,7 +79,7 @@ namespace fcn
         KeyInput keyInput;
 
         if (mKeyInputQueue.empty()) {
-            fcn::throwException(("The queue is empty."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(("The queue is empty."), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         keyInput = mKeyInputQueue.front();
@@ -98,7 +98,7 @@ namespace fcn
         MouseInput mouseInput;
 
         if (mMouseInputQueue.empty()) {
-            fcn::throwException(("The queue is empty."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(("The queue is empty."), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mouseInput = mMouseInputQueue.front();

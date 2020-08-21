@@ -87,7 +87,7 @@ namespace fcn
 
         // Check for corrupt image (all pixels are separator color)
         if (startColumn >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         // Find the height of glyphs
@@ -105,9 +105,9 @@ namespace fcn
         int y = 0;
 
         // Scan for all glyphs
-        for (const char glyph : glyphs) {
-            const unsigned char k = static_cast<unsigned char>(glyph);
-            mGlyph[k] = scanForGlyph(k, x, y, separator);
+        for (char const glyph : glyphs) {
+            unsigned char const k = static_cast<unsigned char>(glyph);
+            mGlyph[k]             = scanForGlyph(k, x, y, separator);
             // Update x and y with new coordinates.
             x = mGlyph[k].x + mGlyph[k].width;
             y = mGlyph[k].y;
@@ -115,7 +115,7 @@ namespace fcn
 
         mImage->convertToDisplayFormat();
 
-        mRowSpacing = 0;
+        mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
@@ -123,7 +123,7 @@ namespace fcn
     {
 
         if (image == nullptr) {
-            fcn::throwException("Font image is NULL", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Font image is NULL", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
         mImage = image;
 
@@ -133,7 +133,7 @@ namespace fcn
         for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) { }
 
         if (i >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int j = 0;
@@ -143,9 +143,9 @@ namespace fcn
             }
         }
 
-        mHeight = j;
-        int x   = 0;
-        int y   = 0;
+        mHeight             = j;
+        int x               = 0;
+        int y               = 0;
         unsigned char glyph = 0;
 
         for (i = 0; i < (int)glyphs.size(); ++i) {
@@ -173,7 +173,7 @@ namespace fcn
         for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) { }
 
         if (i >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int j = 0;
@@ -239,7 +239,7 @@ namespace fcn
 
     void ImageFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
-        for (const char c : text) {
+        for (char const c : text) {
             drawGlyph(graphics, c, x, y);
             x += getWidth(c);
         }
@@ -265,20 +265,20 @@ namespace fcn
         return mGlyphSpacing;
     }
 
-    Rectangle ImageFont::scanForGlyph(unsigned char glyph, int x, int y, Color const &separator)
+    Rectangle ImageFont::scanForGlyph(unsigned char glyph, int x, int y, Color const & separator)
     {
         Color color;
         bool foundGlyphStart = false;
 
         // Finding the start of the glyph
-        for ( ; !foundGlyphStart; ++x) {
+        for (; !foundGlyphStart; ++x) {
             if (x >= mImage->getWidth()) {
                 y += mHeight + 1;
                 x = 0;
                 if (y >= mImage->getHeight()) {
                     std::ostringstream os;
                     os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
-                    fcn::throwException(os.str(), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                    fcn::throwException(os.str(), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
                 }
             }
             color = mImage->getPixel(x, y);
@@ -287,15 +287,15 @@ namespace fcn
             }
         }
 
-        int width = 0;
+        int width          = 0;
         bool foundGlyphEnd = false;
 
         // Finding the width of the glyph
-        for ( ; !foundGlyphEnd; ++width) {
+        for (; !foundGlyphEnd; ++width) {
             if (x + width >= mImage->getWidth()) {
                 std::ostringstream os;
                 os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
-                fcn::throwException(os.str(), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                fcn::throwException(os.str(), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
             color = mImage->getPixel(x + width, y);
             if (color == separator) {
@@ -309,7 +309,7 @@ namespace fcn
     int ImageFont::getWidth(std::string const & text) const
     {
         unsigned int i = 0;
-        int size = 0;
+        int size       = 0;
 
         for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
@@ -321,7 +321,7 @@ namespace fcn
     int ImageFont::getStringIndexAt(std::string const & text, int x) const
     {
         unsigned int i = 0;
-        int size = 0;
+        int size       = 0;
 
         for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));

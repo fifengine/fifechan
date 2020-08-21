@@ -175,11 +175,16 @@ namespace fcn
     Color OpenGLImage::getPixel(int x, int y)
     {
         if (mPixels == NULL) {
-            fcn::throwException(("Image has been converted to display format"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Image has been converted to display format"),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            fcn::throwException(("Coordinates outside of the image"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Coordinates outside of the image"), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         unsigned int c = mPixels[x + y * mTextureWidth];
@@ -202,11 +207,16 @@ namespace fcn
     void OpenGLImage::putPixel(int x, int y, Color const & color)
     {
         if (mPixels == NULL) {
-            fcn::throwException(("Image has been converted to display format"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Image has been converted to display format"),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            fcn::throwException(("Coordinates outside of the image"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Coordinates outside of the image"), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
 #ifdef __BIG_ENDIAN__
@@ -221,7 +231,11 @@ namespace fcn
     void OpenGLImage::convertToDisplayFormat()
     {
         if (mPixels == NULL) {
-            fcn::throwException(("Image has already been converted to display format"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                ("Image has already been converted to display format"),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
 
         glGenTextures(1, &mTextureHandle);
@@ -264,7 +278,11 @@ namespace fcn
                 break;
             }
 
-            fcn::throwException((std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+            fcn::throwException(
+                (std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg),
+                static_cast<char const *>(__FUNCTION__),
+                __FILE__,
+                __LINE__);
         }
     }
 } // namespace fcn
