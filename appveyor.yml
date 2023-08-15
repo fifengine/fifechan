@@ -31,12 +31,15 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       CMAKE_GENERATOR: Visual Studio 17 2022
       COMPILER: VC17
+      CMAKE_ARCHITECTURE: Win32
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: Visual Studio 16 2019
       COMPILER: VC16
+      CMAKE_ARCHITECTURE: Win32
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017
       COMPILER: VC15
+      CMAKE_ARCHITECTURE: Win32
     #- generator: "MinGW Makefiles"
     #  COMPILER="MinGW"
 
@@ -49,7 +52,7 @@ matrix:
 
 install:
   # get dependencies
-  - cmake dependencies -G "%CMAKE_GENERATOR%" -B../fifechan-dependencies/build
+  - cmake dependencies -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCHITECTURE%" -B../fifechan-dependencies/build
   - cmake --build ../fifechan-dependencies/build --target ALL_BUILD --config %configuration%
   # show dependency folders
   - dir ..\fifechan-dependencies
@@ -70,6 +73,7 @@ build_script:
   - >
     cmake ..\fifechan
     -G "%CMAKE_GENERATOR%"
+    -A "%CMAKE_ARCHITECTURE%"
     -DCMAKE_BUILD_TYPE=%configuration%
     -DCMAKE_INSTALL_PREFIX="c:/fifechan/install-shared"
   # build
@@ -80,6 +84,7 @@ build_script:
   - >
     cmake ..\fifechan
     -G "%CMAKE_GENERATOR%"
+    -A "%CMAKE_ARCHITECTURE%"
     -DCMAKE_BUILD_TYPE=%configuration%
     -DCMAKE_INSTALL_PREFIX="c:/fifechan/install-static"
     -DBUILD_FIFECHAN_SHARED=OFF
