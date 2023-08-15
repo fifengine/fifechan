@@ -31,10 +31,9 @@ configuration:
 
 environment:
   matrix:
-    - generator: "Visual Studio 22"
-    - generator: "Visual Studio 19"
-    - generator: "Visual Studio 17"
-    #- generator: "Visual Studio 15"
+    - generator: "Visual Studio 17 2022"
+    - generator: "Visual Studio 16 2019"
+    - generator: "Visual Studio 15 2017"
     #- generator: "MinGW Makefiles"
 
 matrix:
@@ -90,10 +89,9 @@ build_script:
 after_build:
   # show defined env variables
   #- set
-  - if "%generator%"=="Visual Studio 15" (set COMPILER="VC15")
-  - if "%generator%"=="Visual Studio 17" (set COMPILER="VC17")
-  - if "%generator%"=="Visual Studio 19" (set COMPILER="VC19")
-  - if "%generator%"=="Visual Studio 22" (set COMPILER="VC22")
+  - if "%generator%"=="Visual Studio 15 2017" (set COMPILER="VC15")
+  - if "%generator%"=="Visual Studio 16 2019" (set COMPILER="VC16")
+  - if "%generator%"=="Visual Studio 17 2022" (set COMPILER="VC17")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
   # package artifact folder (shared library)
   - cd c:\fifechan\install-shared
