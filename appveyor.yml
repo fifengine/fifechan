@@ -1,5 +1,5 @@
 # Build worker image (VM template)
-image: Visual Studio 2017
+image: Visual Studio 2022
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -31,7 +31,10 @@ configuration:
 
 environment:
   matrix:
-    - generator: "Visual Studio 15"
+    - generator: "Visual Studio 22"
+    - generator: "Visual Studio 19"
+    - generator: "Visual Studio 17"
+    #- generator: "Visual Studio 15"
     #- generator: "MinGW Makefiles"
 
 matrix:
@@ -88,6 +91,9 @@ after_build:
   # show defined env variables
   #- set
   - if "%generator%"=="Visual Studio 15" (set COMPILER="VC15")
+  - if "%generator%"=="Visual Studio 17" (set COMPILER="VC17")
+  - if "%generator%"=="Visual Studio 19" (set COMPILER="VC19")
+  - if "%generator%"=="Visual Studio 22" (set COMPILER="VC22")
   - if "%generator%"=="MinGW Makefiles"  (set COMPILER="MinGW")
   # package artifact folder (shared library)
   - cd c:\fifechan\install-shared
