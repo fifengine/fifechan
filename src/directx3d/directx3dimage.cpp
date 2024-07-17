@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,45 +68,37 @@
 
 namespace fcn
 {
-    DirectX3DImage::DirectX3DImage(LPDIRECT3DSURFACE9 surface,   
-                                   LPDIRECT3DDEVICE9 device,
-                                   int width,
-                                   int height,
-                                   bool convertToDisplayFormat)
+    DirectX3DImage::DirectX3DImage(
+        LPDIRECT3DSURFACE9 surface, LPDIRECT3DDEVICE9 device, int width, int height, bool convertToDisplayFormat)
     {
-        mTexture = NULL;
-        mSurface = surface;
-        mDevice = device;
-        mWidth = width;
-        mHeight = height;
-        mTextureWidth = 1;
+        mTexture       = NULL;
+        mSurface       = surface;
+        mDevice        = device;
+        mWidth         = width;
+        mHeight        = height;
+        mTextureWidth  = 1;
         mTextureHeight = 1;
 
-        while(mTextureWidth < mWidth)
-        {
+        while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
         }
 
-        while(mTextureHeight < mHeight)
-        {
+        while (mTextureHeight < mHeight) {
             mTextureHeight *= 2;
         }
 
-        if (convertToDisplayFormat)
-        {
+        if (convertToDisplayFormat) {
             DirectX3DImage::convertToDisplayFormat();
         }
     }
 
     DirectX3DImage::~DirectX3DImage()
     {
-        if (mAutoFree)
-        {
+        if (mAutoFree) {
             free();
         }
     }
 
-    
     LPDIRECT3DTEXTURE9 DirectX3DImage::getTexture() const
     {
         return mTexture;
@@ -137,43 +125,36 @@ namespace fcn
 
     Color DirectX3DImage::getPixel(int x, int y)
     {
-        if (mSurface == NULL)
-        {
+        if (mSurface == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
-        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
-		{
-			throw FCN_EXCEPTION("Coordinates outside of the image");
-		}
+        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
+            throw FCN_EXCEPTION("Coordinates outside of the image");
+        }
 
         D3DLOCKED_RECT lockedRect;
         mSurface->LockRect(&lockedRect, NULL, D3DLOCK_READONLY);
-        DWORD* pixels = (DWORD*)lockedRect.pBits;
+        DWORD* pixels   = (DWORD*)lockedRect.pBits;
         D3DXCOLOR color = pixels[lockedRect.Pitch / sizeof(DWORD) * y + x];
         mSurface->UnlockRect();
 
-        return Color(color.r*255, 
-                     color.g*255, 
-                     color.b*255, 
-                     color.a*255);
+        return Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
     }
 
-    void DirectX3DImage::putPixel(int x, int y, const Color& color)
+    void DirectX3DImage::putPixel(int x, int y, Color const & color)
     {
-       if (mSurface == NULL)
-        {
+        if (mSurface == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
-        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
-		{
-			throw FCN_EXCEPTION("Coordinates outside of the image");
-		}
+        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
+            throw FCN_EXCEPTION("Coordinates outside of the image");
+        }
 
         D3DLOCKED_RECT lockedRect;
         mSurface->LockRect(&lockedRect, NULL, 0);
-        DWORD* pixels = (DWORD*)lockedRect.pBits;
+        DWORD* pixels                                    = (DWORD*)lockedRect.pBits;
         pixels[lockedRect.Pitch / sizeof(DWORD) * y + x] = D3DCOLOR_RGBA(color.r, color.g, color.b, color.a);
         mSurface->UnlockRect();
     }
@@ -181,16 +162,9 @@ namespace fcn
     void DirectX3DImage::convertToDisplayFormat()
     {
         HRESULT result;
-        result = D3DXCreateTexture(mDevice, 
-                                   mTextureWidth, 
-                                   mTextureHeight, 
-                                   D3DX_DEFAULT, 
-                                   0,
-                                   D3DFMT_A8R8G8B8,
-                                   D3DPOOL_MANAGED,
-                                   &mTexture);
-        if (result != D3D_OK)
-        {
+        result = D3DXCreateTexture(
+            mDevice, mTextureWidth, mTextureHeight, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture);
+        if (result != D3D_OK) {
             throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
@@ -198,20 +172,12 @@ namespace fcn
         mTexture->GetSurfaceLevel(0, &textureSurface);
 
         RECT dest;
-        dest.left = 0;
-        dest.top = 0;
-        dest.right = mWidth;
+        dest.left   = 0;
+        dest.top    = 0;
+        dest.right  = mWidth;
         dest.bottom = mHeight;
-        result = D3DXLoadSurfaceFromSurface(textureSurface, 
-                                            NULL, 
-                                            &dest, 
-                                            mSurface, 
-                                            NULL, 
-                                            NULL, 
-                                            D3DX_FILTER_NONE,
-                                            0);
-        if (result != D3D_OK)
-        {
+        result = D3DXLoadSurfaceFromSurface(textureSurface, NULL, &dest, mSurface, NULL, NULL, D3DX_FILTER_NONE, 0);
+        if (result != D3D_OK) {
             throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
@@ -228,4 +194,4 @@ namespace fcn
     {
         return mTextureHeight;
     }
-}
+} // namespace fcn

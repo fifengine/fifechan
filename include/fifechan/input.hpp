@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -73,15 +69,15 @@ namespace fcn
     class MouseInput;
 
     /**
-     * Abstract class for providing functions for user input. 
+     * Abstract class for providing functions for user input.
      *
-     * Guichan contains implementations of Input for common 
-     * libraries like the Allegro library, the HGE library, 
-     * and the SDL library. 
-     * To make Guichan usable with other libraries, an Input 
+     * Guichan contains implementations of Input for common
+     * libraries like the Allegro library, the HGE library,
+     * and the SDL library.
+     * To make Guichan usable with other libraries, an Input
      * class must be implemented.
      *
-     * @see AllegroInput, HGEInput, OpenLayerInput, 
+     * @see AllegroInput, HGEInput, OpenLayerInput,
      *      SDLInput
      */
     class FCN_CORE_DECLSPEC Input
@@ -96,7 +92,7 @@ namespace fcn
         /**
          * Checks if the key queue is empty, or not.
          *
-         * @return True if the key queue is empty, 
+         * @return True if the key queue is empty,
          *         false otherwise.
          */
         virtual bool isKeyQueueEmpty() = 0;

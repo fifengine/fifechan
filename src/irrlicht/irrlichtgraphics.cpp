@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -84,8 +80,7 @@ namespace fcn
 
     IrrlichtGraphics::~IrrlichtGraphics()
     {
-        if (mDriver)
-        {
+        if (mDriver) {
             mDriver->drop();
             mDriver = 0;
         }
@@ -94,9 +89,9 @@ namespace fcn
     void IrrlichtGraphics::_beginDraw()
     {
         Rectangle area;
-        area.x = 0;
-        area.y = 0;
-        area.width = mDriver->getScreenSize().Width;
+        area.x      = 0;
+        area.y      = 0;
+        area.width  = mDriver->getScreenSize().Width;
         area.height = mDriver->getScreenSize().Height;
         pushClipArea(area);
     }
@@ -115,31 +110,23 @@ namespace fcn
     {
         Graphics::popClipArea();
 
-        if (mClipStack.empty())
-        {
+        if (mClipStack.empty()) {
             return;
         }
     }
 
-    void IrrlichtGraphics::drawImage(const Image* image,
-                                int srcX,
-                                int srcY,
-                                int dstX,
-                                int dstY,
-                                int width,
-                                int height)
+    void IrrlichtGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
-        const IrrlichtImage* srcImage = dynamic_cast<const IrrlichtImage*>(image);
+        IrrlichtImage const * srcImage = dynamic_cast<IrrlichtImage const *>(image);
 
-        if (srcImage == NULL)
-        {
+        if (srcImage == NULL) {
             throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an IrrlichtImage.");
         }
 
@@ -151,44 +138,43 @@ namespace fcn
         mDriver->draw2DImage(srcImage->getTexture(), destPos, sourceRect, &clipRect, color, true);
     }
 
-    void IrrlichtGraphics::fillRectangle(const Rectangle& rectangle)
+    void IrrlichtGraphics::fillRectangle(Rectangle const & rectangle)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         Rectangle area = rectangle;
         area.x += top.xOffset;
         area.y += top.yOffset;
 
-        if(!area.isIntersecting(top))
-        {
+        if (!area.isIntersecting(top)) {
             return;
         }
 
         irr::video::SColor color(mColor.a, mColor.r, mColor.g, mColor.b);
         irr::core::rect<irr::s32> pos(area.x, area.y, area.x + area.width, area.y + area.height);
         irr::core::rect<irr::s32> clip(top.x, top.y, top.x + top.width, top.y + top.height);
-        
+
         mDriver->draw2DRectangle(color, pos, &clip);
     }
 
     void IrrlichtGraphics::drawPoint(int x, int y)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         x += top.xOffset;
         y += top.yOffset;
 
-        if(!top.isContaining(x,y))
+        if (!top.isContaining(x, y))
             return;
 
         irr::video::SColor color(mColor.a, mColor.r, mColor.g, mColor.b);
@@ -196,7 +182,7 @@ namespace fcn
         mDriver->drawPixel(x, y, color);
     }
 
-    void IrrlichtGraphics::drawRectangle(const Rectangle& rectangle)
+    void IrrlichtGraphics::drawRectangle(Rectangle const & rectangle)
     {
         int x1 = rectangle.x;
         int x2 = rectangle.x + rectangle.width - 1;
@@ -211,22 +197,22 @@ namespace fcn
 
     void IrrlichtGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         x1 += top.xOffset;
         y1 += top.yOffset;
         x2 += top.xOffset;
         y2 += top.yOffset;
 
-        if(x2 > top.x + top.width)
+        if (x2 > top.x + top.width)
             x2 = top.x + top.width;
 
-        if(y2 > top.y + top.height)
+        if (y2 > top.y + top.height)
             y2 = top.y + top.height;
 
         irr::core::position2d<irr::s32> start(x1, y1);
@@ -236,13 +222,13 @@ namespace fcn
         mDriver->draw2DLine(start, end, color);
     }
 
-    void IrrlichtGraphics::setColor(const Color& color)
+    void IrrlichtGraphics::setColor(Color const & color)
     {
         mColor = color;
     }
 
-    const Color& IrrlichtGraphics::getColor() const
+    Color const & IrrlichtGraphics::getColor() const
     {
         return mColor;
     }
-}
+} // namespace fcn

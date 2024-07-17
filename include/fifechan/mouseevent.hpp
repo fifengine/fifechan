@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,8 +71,6 @@ namespace fcn
 
     /**
      * Represents a mouse event.
-     *
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC MouseEvent: public InputEvent
     {
@@ -118,7 +112,7 @@ namespace fcn
         unsigned int getButton() const;
 
         /**
-         * Gets the x coordinate of the mouse event. 
+         * Gets the x coordinate of the mouse event.
          * The coordinate relative to widget the mouse listener
          * receiving the events have registered to.
          *
@@ -128,7 +122,7 @@ namespace fcn
         int getX() const;
 
         /**
-         * Gets the y coordinate of the mouse event. 
+         * Gets the y coordinate of the mouse event.
          * The coordinate relative to widget the mouse listener
          * receiving the events have registered to.
          *
@@ -216,8 +210,8 @@ namespace fcn
          * the protected member variables of this class and at the same time
          * keep the MouseEvent class as const as possible. Gui needs to
          * update the x och y coordinates for the coordinates to be relative
-         * to widget the mouse listener receiving the events have registered 
-         * to. 
+         * to widget the mouse listener receiving the events have registered
+         * to.
          */
         friend class Gui;
     };

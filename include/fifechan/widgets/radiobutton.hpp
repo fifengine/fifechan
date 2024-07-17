@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -79,8 +75,8 @@ namespace fcn
      * A radio button can belong to a group and when a radio button belongs to a
      * group only one radio button can be selected in the group. A radio button is
      * capable of displaying a caption.
-     * 
-     * If a radio button's state changes an action event will be sent to all action 
+     *
+     * If a radio button's state changes an action event will be sent to all action
      * listeners of the radio button.
      */
     class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox {

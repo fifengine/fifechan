@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,7 +68,7 @@ namespace fcn
 {
     /**
      * A rectangle used when dealing with clipping. A clip rectangle is
-     * a regular rectangle extended with variables for x offsets and y 
+     * a regular rectangle extended with variables for x offsets and y
      * offsets. The offsets are used for calculations from relative
      * screen coordinates to actual screen coordinates.
      */
@@ -99,15 +95,15 @@ namespace fcn
          *                calculating the actual screen coordinate from
          *                the relative screen coordinate.
          */
-        ClipRectangle(int x, 
-                      int y, 
-                      int width, 
+        ClipRectangle(int x,
+                      int y,
+                      int width,
                       int height,
-                      int xOffset, 
+                      int xOffset,
                       int yOffset);
 
         /**
-         * Copy constructor. Copies x, y, width and height 
+         * Copy constructor. Copies x, y, width and height
          * field from a rectangle to a clip rectangle.
          *
          * @param other The rectangle to copy data from.

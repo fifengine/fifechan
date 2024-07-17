@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,12 +68,7 @@
 
 namespace fcn
 {
-    DirectX3DInput::DirectX3DInput()
-        : mLastMouseZ(0),
-          mMouseDown(false),
-          mMouseInWindow(true)
-    {
-    }
+    DirectX3DInput::DirectX3DInput() : mLastMouseZ(0), mMouseDown(false), mMouseInWindow(true) { }
 
     bool DirectX3DInput::isKeyQueueEmpty()
     {
@@ -88,8 +79,7 @@ namespace fcn
     {
         KeyInput keyInput;
 
-        if (mKeyInputQueue.empty())
-        {
+        if (mKeyInputQueue.empty()) {
             throw FCN_EXCEPTION("The queue is empty.");
         }
 
@@ -108,8 +98,7 @@ namespace fcn
     {
         MouseInput mouseInput;
 
-        if (mMouseInputQueue.empty())
-        {
+        if (mMouseInputQueue.empty()) {
             throw FCN_EXCEPTION("The queue is empty.");
         }
 
@@ -119,396 +108,365 @@ namespace fcn
         return mouseInput;
     }
 
-    void DirectX3DInput:: dispatchMessage(HWND window, MSG message)
+    void DirectX3DInput::dispatchMessage(HWND window, MSG message)
     {
         KeyInput keyInput;
         MouseInput mouseInput;
         WPARAM wParam = message.wParam;
         LPARAM lParam = message.lParam;
 
-        switch (message.message)
-        {
-            case WM_SYSKEYDOWN:
-            case WM_KEYDOWN:
-                {
-                    unsigned char kbstate[256];
-	                GetKeyboardState(kbstate);
-                    keyInput.setKey(Key(convertKeyCharacter(wParam, lParam, kbstate)));
-                    keyInput.setType(KeyInput::Pressed);
-                    keyInput.setShiftPressed(kbstate[VK_SHIFT] & 0x80);
-	                keyInput.setControlPressed(kbstate[VK_CONTROL] & 0x80);
-	                keyInput.setAltPressed(kbstate[VK_MENU] & 0x80);
-                    keyInput.setNumericPad(wParam >= VK_NUMPAD0
-                                            && wParam <= VK_DIVIDE);
+        switch (message.message) {
+        case WM_SYSKEYDOWN:
+        case WM_KEYDOWN: {
+            unsigned char kbstate[256];
+            GetKeyboardState(kbstate);
+            keyInput.setKey(Key(convertKeyCharacter(wParam, lParam, kbstate)));
+            keyInput.setType(KeyInput::Pressed);
+            keyInput.setShiftPressed(kbstate[VK_SHIFT] & 0x80);
+            keyInput.setControlPressed(kbstate[VK_CONTROL] & 0x80);
+            keyInput.setAltPressed(kbstate[VK_MENU] & 0x80);
+            keyInput.setNumericPad(wParam >= VK_NUMPAD0 && wParam <= VK_DIVIDE);
 
-                    mKeyInputQueue.push(keyInput);
-                }
+            mKeyInputQueue.push(keyInput);
+        } break;
+        case WM_SYSKEYUP:
+        case WM_KEYUP: {
+            unsigned char kbstate[256];
+            GetKeyboardState(kbstate);
+            keyInput.setKey(Key(convertKeyCharacter(wParam, lParam, kbstate)));
+            keyInput.setType(KeyInput::Released);
+            keyInput.setShiftPressed(kbstate[VK_SHIFT] & 0x80);
+            keyInput.setControlPressed(kbstate[VK_CONTROL] & 0x80);
+            keyInput.setAltPressed(kbstate[VK_MENU] & 0x80);
+            keyInput.setNumericPad(wParam >= VK_NUMPAD0 && wParam <= VK_DIVIDE);
+
+            mKeyInputQueue.push(keyInput);
+        } break;
+        case WM_LBUTTONDOWN: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Left);
+            mouseInput.setType(MouseInput::Pressed);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = true;
+            SetCapture(window);
+            break;
+        }
+        case WM_MBUTTONDOWN: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Middle);
+            mouseInput.setType(MouseInput::Pressed);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = true;
+            SetCapture(window);
+            break;
+        }
+        case WM_RBUTTONDOWN: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Right);
+            mouseInput.setType(MouseInput::Pressed);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = true;
+            SetCapture(window);
+            break;
+        }
+        case WM_LBUTTONUP: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Left);
+            mouseInput.setType(MouseInput::Released);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = false;
+            ReleaseCapture();
+            break;
+        }
+        case WM_MBUTTONUP: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Middle);
+            mouseInput.setType(MouseInput::Released);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = false;
+            ReleaseCapture();
+            break;
+        }
+        case WM_RBUTTONUP: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Right);
+            mouseInput.setType(MouseInput::Released);
+            mouseInput.setTimeStamp(GetTickCount());
+            mMouseInputQueue.push(mouseInput);
+            mMouseDown = false;
+            ReleaseCapture();
+            break;
+        }
+        case WM_MOUSEMOVE: {
+            int x = (int)((signed short)(LOWORD(lParam)));
+            int y = (int)((signed short)(HIWORD(lParam)));
+            /*
+            POINT point = {x,y};
+            ScreenToClient(hWnd, &point);
+
+            RECT rect;
+            GetClientRect(hWnd, &rect);*/
+            /*
+            if (!mMouseDown
+                && mMouseInWindow
+                && (point.x < 0
+                    || point.y < 0
+                    || point.x > rect.right
+                    || point.y > rect.bottom))
+            {
+                mouseInput.setX(-1);
+                mouseInput.setY(-1);
+                mouseInput.setButton(MouseInput::Empty);
+                mouseInput.setType(MouseInput::Moved);
+                mouseInput.setTimeStamp(GetTickCount());
+
+                mMouseInputQueue.push(mouseInput);
+                mMouseInWindow = false;
+            }
+            else if (mMouseDown
+                      || (point.x >= 0
+                            && point.y >= 0
+                            && point.x < rect.right
+                            && point.y < rect.bottom))
+            {
+                mouseInput.setX(point.x);
+                mouseInput.setY(point.y);
+                mouseInput.setButton(MouseInput::Empty);
+                mouseInput.setType(MouseInput::Moved);
+                mouseInput.setTimeStamp(GetTickCount());
+
+                mMouseInputQueue.push(mouseInput);
+            }
+
+            mMouseInWindow = point.x >= 0
+                                && point.y >= 0
+                                && point.x < rect.right
+                                && point.y < rect.bottom;
+        */
+            mouseInput.setX(x);
+            mouseInput.setY(y);
+            mouseInput.setButton(MouseInput::Empty);
+            mouseInput.setType(MouseInput::Moved);
+            mouseInput.setTimeStamp(GetTickCount());
+
+            mMouseInputQueue.push(mouseInput);
+            break;
+        }
+        // For some reason WM_MOUSEWHEEL isn't defined at some systems
+        // (including mine), but 0x020A should be equal to the WM_MOUSEWHEEL
+        // value.
+        case 0x020A: // WM_MOUSEWHEEL
+            int mouseZ  = (short)HIWORD(wParam);
+            int x       = (int)((signed short)(LOWORD(lParam)));
+            int y       = (int)((signed short)(HIWORD(lParam)));
+            POINT point = {x, y};
+            ScreenToClient(window, &point);
+
+            RECT rect;
+            GetClientRect(window, &rect);
+
+            if (point.x < 0 || point.y < 0 || point.x > rect.right || point.y > rect.bottom) {
                 break;
-            case WM_SYSKEYUP:
-            case WM_KEYUP:
-                {
-                    unsigned char kbstate[256];
-	                GetKeyboardState(kbstate);
-                    keyInput.setKey(Key(convertKeyCharacter(wParam, lParam, kbstate)));
-                    keyInput.setType(KeyInput::Released);
-                    keyInput.setShiftPressed(kbstate[VK_SHIFT] & 0x80);
-	                keyInput.setControlPressed(kbstate[VK_CONTROL] & 0x80);
-	                keyInput.setAltPressed(kbstate[VK_MENU] & 0x80);
-                    keyInput.setNumericPad(wParam >= VK_NUMPAD0
-                                            && wParam <= VK_DIVIDE);
+            }
 
-                    mKeyInputQueue.push(keyInput);
-                }
-                break;
-            case WM_LBUTTONDOWN:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-               
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Left);
-                    mouseInput.setType(MouseInput::Pressed);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = true;
-                    SetCapture(window);
-                    break;
-                }
-            case WM_MBUTTONDOWN:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                   
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Middle);
-                    mouseInput.setType(MouseInput::Pressed);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = true;
-                    SetCapture(window);
-                    break;
-                }
-            case WM_RBUTTONDOWN:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                   
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Right);
-                    mouseInput.setType(MouseInput::Pressed);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = true;
-                    SetCapture(window);
-                    break;
-                }
-            case WM_LBUTTONUP:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                   
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Left);
-                    mouseInput.setType(MouseInput::Released);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = false;
-                    ReleaseCapture();
-                    break;
-                }
-            case WM_MBUTTONUP:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                   
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Middle);
-                    mouseInput.setType(MouseInput::Released);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = false;
-                    ReleaseCapture();
-                    break;
-                }
-            case WM_RBUTTONUP:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                  
-                    mouseInput.setX(x);
-                    mouseInput.setY(y);
-                    mouseInput.setButton(MouseInput::Right);
-                    mouseInput.setType(MouseInput::Released);
-                    mouseInput.setTimeStamp(GetTickCount());
-                    mMouseInputQueue.push(mouseInput);
-                    mMouseDown = false;
-                    ReleaseCapture();
-                    break;
-                }
-            case WM_MOUSEMOVE:
-                {
-                    int x = (int)((signed short)(LOWORD(lParam)));
-                    int y = (int)((signed short)(HIWORD(lParam)));
-                    /*
-                    POINT point = {x,y};
-                    ScreenToClient(hWnd, &point);
-                   
-                    RECT rect; 
-                    GetClientRect(hWnd, &rect);*/
-                    /*
-                    if (!mMouseDown
-                        && mMouseInWindow
-                        && (point.x < 0 
-                            || point.y < 0 
-                            || point.x > rect.right 
-                            || point.y > rect.bottom))
-                    {
-                        mouseInput.setX(-1);
-                        mouseInput.setY(-1);
-                        mouseInput.setButton(MouseInput::Empty);
-                        mouseInput.setType(MouseInput::Moved);
-                        mouseInput.setTimeStamp(GetTickCount());
-                   
-                        mMouseInputQueue.push(mouseInput);
-                        mMouseInWindow = false;
-                    }
-                    else if (mMouseDown
-                              || (point.x >= 0 
-                                    && point.y >= 0 
-                                    && point.x < rect.right 
-                                    && point.y < rect.bottom))
-                    {
-                        mouseInput.setX(point.x);
-                        mouseInput.setY(point.y);
-                        mouseInput.setButton(MouseInput::Empty);
-                        mouseInput.setType(MouseInput::Moved);
-                        mouseInput.setTimeStamp(GetTickCount());
-                   
-                        mMouseInputQueue.push(mouseInput);
-                    }
-                    
-                    mMouseInWindow = point.x >= 0 
-                                        && point.y >= 0 
-                                        && point.x < rect.right 
-                                        && point.y < rect.bottom;
-                */
-                        mouseInput.setX(x);
-                        mouseInput.setY(y);
-                        mouseInput.setButton(MouseInput::Empty);
-                        mouseInput.setType(MouseInput::Moved);
-                        mouseInput.setTimeStamp(GetTickCount());
-                   
-                        mMouseInputQueue.push(mouseInput);
-                    break;
-                }
-            // For some reason WM_MOUSEWHEEL isn't defined at some systems
-            // (including mine), but 0x020A should be equal to the WM_MOUSEWHEEL
-            // value.
-            case 0x020A: // WM_MOUSEWHEEL         
-                int mouseZ = (short)HIWORD(wParam);
-                int x = (int)((signed short)(LOWORD(lParam)));
-                int y = (int)((signed short)(HIWORD(lParam)));
-                POINT point = {x,y};
-                ScreenToClient(window, &point);
+            // Mouse wheels doesn't have to move 120 units anymore, new
+            // mouses can move less than 120, therefore we need to check
+            // that the mouse has at least moved 120 units before we push
+            // an input event.
+            if (mLastMouseZ + mouseZ >= 120) {
+                mMouseInputQueue.push(
+                    MouseInput(MouseInput::Empty, MouseInput::WheelMovedUp, point.x, point.y, GetTickCount()));
+                mLastMouseZ = 0;
+            } else if (mLastMouseZ + mouseZ <= -120) {
+                mMouseInputQueue.push(
+                    MouseInput(MouseInput::Empty, MouseInput::WheelMovedDown, point.x, point.y, GetTickCount()));
+                mLastMouseZ = 0;
+            } else {
+                mLastMouseZ += mouseZ;
+            }
 
-                RECT rect; 
-                GetClientRect(window, &rect);
-
-                if (point.x < 0 
-                    || point.y < 0 
-                    || point.x > rect.right 
-                    || point.y > rect.bottom)
-                {
-                    break;
-                }
-
-                // Mouse wheels doesn't have to move 120 units anymore, new
-                // mouses can move less than 120, therefore we need to check
-                // that the mouse has at least moved 120 units before we push
-                // an input event.
-                if (mLastMouseZ + mouseZ >= 120)
-                {
-                    mMouseInputQueue.push(MouseInput(MouseInput::Empty,
-                                                     MouseInput::WheelMovedUp,
-                                                     point.x,
-                                                     point.y,
-                                                     GetTickCount()));
-                    mLastMouseZ = 0;
-                }
-                else if (mLastMouseZ + mouseZ <= -120)
-                {     
-                    mMouseInputQueue.push(MouseInput(MouseInput::Empty,
-                                                     MouseInput::WheelMovedDown,
-                                                     point.x,
-                                                     point.y,
-                                                     GetTickCount()));
-                    mLastMouseZ = 0;
-                }
-                else
-                {
-                    mLastMouseZ += mouseZ;
-                }
-
-                break;
+            break;
         } // end switch
     }
 
-    int DirectX3DInput::convertKeyCharacter(WPARAM wParam, 
-                                            LPARAM lParam,
-                                            unsigned char* kbstate)
+    int DirectX3DInput::convertKeyCharacter(WPARAM wParam, LPARAM lParam, unsigned char* kbstate)
     {
         int value = -1;
 
-        switch (wParam)
-        {
-          //VK_CLEAR
-          //VK_EXECUTE
-          //VK_PRINT
-          //VK_HELP
-          case VK_TAB:
-              value = Key::Tab;
-              break;
-          case VK_LMENU:
-              value = Key::LeftAlt;
-              break;
-          case VK_RMENU:
-              value = Key::RightAlt;
-              break;
-          case VK_LSHIFT:
-              value = Key::LeftShift;
-              break;
-          case VK_RSHIFT:
-              value = Key::RightShift;
-              break;
-          case VK_LCONTROL:
-              value = Key::LeftControl;
-              break;
-          case VK_RCONTROL:
-              value = Key::RightControl;
-              break;
-          case VK_BACK:
-              value = Key::Backspace;
-              break;
-          case VK_PAUSE:
-              value = Key::Pause;
-              break;
-          case VK_SPACE:
-              value = Key::Space;
-              break;
-          case VK_ESCAPE:
-              value = Key::Escape;
-              break;
-          case VK_DELETE:
-              value = Key::Delete;
-              break;
-          case VK_INSERT:
-              value = Key::Insert;
-              break;
-          case VK_HOME:
-              value = Key::Home;
-              break;
-          case VK_END:
-              value = Key::End;
-              break;
-          case VK_PRIOR:
-              value = Key::PageUp;
-              break;
-          case VK_SNAPSHOT:
-              value = Key::PrintScreen;
-              break;
-          case VK_NEXT:
-              value = Key::PageDown;
-              break;
-          case VK_F1:
-              value = Key::F1;
-              break;
-          case VK_F2:
-              value = Key::F2;
-              break;
-          case VK_F3:
-              value = Key::F3;
-              break;
-          case VK_F4:
-              value = Key::F4;
-              break;
-          case VK_F5:
-              value = Key::F5;
-              break;
-          case VK_F6:
-              value = Key::F6;
-              break;
-          case VK_F7:
-              value = Key::F7;
-              break;
-          case VK_F8:
-              value = Key::F8;
-              break;
-          case VK_F9:
-              value = Key::F9;
-              break;
-          case VK_F10:
-              value = Key::F10;
-              break;
-          case VK_F11:
-              value = Key::F11;
-              break;
-          case VK_F12:
-              value = Key::F12;
-              break;
-          case VK_F13:
-              value = Key::F13;
-              break;
-          case VK_F14:
-              value = Key::F14;
-              break;
-          case VK_F15:
-              value = Key::F15;
-              break;
-          case VK_NUMLOCK:
-              value = Key::NumLock;
-              break;
-          case VK_CAPITAL:
-              value = Key::CapsLock;
-              break;
-          case VK_SCROLL:
-              value = Key::ScrollLock;
-              break;
-          case VK_RWIN:
-              value = Key::RightMeta;
-              break;
-          case VK_LWIN:
-              value = Key::LeftMeta;
-              break;
-          case VK_UP:
-              value = Key::Up;
-              break;
-          case VK_DOWN:
-              value = Key::Down;
-              break;
-          case VK_LEFT:
-              value = Key::Left;
-              break;
-          case VK_RIGHT:
-              value = Key::Right;
-              break;
-          case VK_RETURN:
-              value = Key::Enter;
-              break;
-          default:
-              ToAscii(wParam, 
-                      HIWORD(lParam) & 0xff, // Gets the scan code.
-                      kbstate, 
-                      (unsigned short*)&value, 
-                      0);
-              value = (char)value;
-              break;
+        switch (wParam) {
+        // VK_CLEAR
+        // VK_EXECUTE
+        // VK_PRINT
+        // VK_HELP
+        case VK_TAB:
+            value = Key::Tab;
+            break;
+        case VK_LMENU:
+            value = Key::LeftAlt;
+            break;
+        case VK_RMENU:
+            value = Key::RightAlt;
+            break;
+        case VK_LSHIFT:
+            value = Key::LeftShift;
+            break;
+        case VK_RSHIFT:
+            value = Key::RightShift;
+            break;
+        case VK_LCONTROL:
+            value = Key::LeftControl;
+            break;
+        case VK_RCONTROL:
+            value = Key::RightControl;
+            break;
+        case VK_BACK:
+            value = Key::Backspace;
+            break;
+        case VK_PAUSE:
+            value = Key::Pause;
+            break;
+        case VK_SPACE:
+            value = Key::Space;
+            break;
+        case VK_ESCAPE:
+            value = Key::Escape;
+            break;
+        case VK_DELETE:
+            value = Key::Delete;
+            break;
+        case VK_INSERT:
+            value = Key::Insert;
+            break;
+        case VK_HOME:
+            value = Key::Home;
+            break;
+        case VK_END:
+            value = Key::End;
+            break;
+        case VK_PRIOR:
+            value = Key::PageUp;
+            break;
+        case VK_SNAPSHOT:
+            value = Key::PrintScreen;
+            break;
+        case VK_NEXT:
+            value = Key::PageDown;
+            break;
+        case VK_F1:
+            value = Key::F1;
+            break;
+        case VK_F2:
+            value = Key::F2;
+            break;
+        case VK_F3:
+            value = Key::F3;
+            break;
+        case VK_F4:
+            value = Key::F4;
+            break;
+        case VK_F5:
+            value = Key::F5;
+            break;
+        case VK_F6:
+            value = Key::F6;
+            break;
+        case VK_F7:
+            value = Key::F7;
+            break;
+        case VK_F8:
+            value = Key::F8;
+            break;
+        case VK_F9:
+            value = Key::F9;
+            break;
+        case VK_F10:
+            value = Key::F10;
+            break;
+        case VK_F11:
+            value = Key::F11;
+            break;
+        case VK_F12:
+            value = Key::F12;
+            break;
+        case VK_F13:
+            value = Key::F13;
+            break;
+        case VK_F14:
+            value = Key::F14;
+            break;
+        case VK_F15:
+            value = Key::F15;
+            break;
+        case VK_NUMLOCK:
+            value = Key::NumLock;
+            break;
+        case VK_CAPITAL:
+            value = Key::CapsLock;
+            break;
+        case VK_SCROLL:
+            value = Key::ScrollLock;
+            break;
+        case VK_RWIN:
+            value = Key::RightMeta;
+            break;
+        case VK_LWIN:
+            value = Key::LeftMeta;
+            break;
+        case VK_UP:
+            value = Key::Up;
+            break;
+        case VK_DOWN:
+            value = Key::Down;
+            break;
+        case VK_LEFT:
+            value = Key::Left;
+            break;
+        case VK_RIGHT:
+            value = Key::Right;
+            break;
+        case VK_RETURN:
+            value = Key::Enter;
+            break;
+        default:
+            ToAscii(
+                wParam,
+                HIWORD(lParam) & 0xff, // Gets the scan code.
+                kbstate,
+                (unsigned short*)&value,
+                0);
+            value = (char)value;
+            break;
         }
 
         return value;
     }
-}
+} // namespace fcn

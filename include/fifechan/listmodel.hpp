@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,10 +68,10 @@
 namespace fcn
 {
     /**
-     * An interface for a model that represents a list. It is 
-     * used in certain widgets, like the ListBox, to handle a 
-     * lists with string elements. If you want to use widgets 
-     * like ListBox, make a derived class from this class that 
+     * An interface for a model that represents a list. It is
+     * used in certain widgets, like the ListBox, to handle a
+     * lists with string elements. If you want to use widgets
+     * like ListBox, make a derived class from this class that
      * represents your list.
      */
     class FCN_CORE_DECLSPEC ListModel

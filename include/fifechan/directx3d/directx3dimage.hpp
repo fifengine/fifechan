@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2007 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2007 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -89,7 +85,7 @@ namespace fcn
          * @param device The D3D device to use when converting the image to display format.
          * @param autoFree True if the surface should automatically be deleted.
          */
-        DirectX3DImage(LPDIRECT3DSURFACE9 surface,   
+        DirectX3DImage(LPDIRECT3DSURFACE9 surface,
                        LPDIRECT3DDEVICE9 device,
                        int width,
                        int height,
@@ -114,7 +110,7 @@ namespace fcn
          * @return The D3D texture width of the image.
          */
         virtual int getTextureWidth() const;
-        
+
         /**
          * Gets the D3D texture height of the image.
          *
@@ -140,7 +136,7 @@ namespace fcn
     protected:
         /**
          * Holds the surface image. This surface is NULL after the image
-         * has been converted to display format. 
+         * has been converted to display format.
          */
         LPDIRECT3DSURFACE9 mSurface;
 
@@ -172,7 +168,7 @@ namespace fcn
 
         /**
          * Holds the texture width of the image.
-         */ 
+         */
         int mTextureWidth;
 
         /**

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,26 +68,26 @@ namespace fcn
 {
     ClipRectangle::ClipRectangle()
     {
-        x = y = width = height = xOffset = yOffset  = 0;
+        x = y = width = height = xOffset = yOffset = 0;
     }
 
     ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset)
     {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
+        this->x       = x;
+        this->y       = y;
+        this->width   = width;
+        this->height  = height;
         this->xOffset = xOffset;
         this->yOffset = yOffset;
     }
 
-    const ClipRectangle& ClipRectangle::operator=(const Rectangle& other)
+    ClipRectangle const & ClipRectangle::operator=(Rectangle const & other)
     {
-        x = other.x;
-        y = other.y;
-        width = other.width;
+        x      = other.x;
+        y      = other.y;
+        width  = other.width;
         height = other.height;
 
         return *this;
     }
-}
+} // namespace fcn

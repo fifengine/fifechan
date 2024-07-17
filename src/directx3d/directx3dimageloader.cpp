@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,47 +71,31 @@
 
 namespace fcn
 {
-    DirectX3DImageLoader::DirectX3DImageLoader(LPDIRECT3DDEVICE9 device)
-        : mDevice(device)
-    {}
+    DirectX3DImageLoader::DirectX3DImageLoader(LPDIRECT3DDEVICE9 device) : mDevice(device) { }
 
-    Image* DirectX3DImageLoader::load(const std::string& filename,
-                                      bool convertToDisplayFormat)
+    Image* DirectX3DImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
         LPDIRECT3DSURFACE9 surface = NULL;
         D3DXIMAGE_INFO imageInfo;
         HRESULT result;
 
         result = D3DXGetImageInfoFromFile(filename.c_str(), &imageInfo);
-        
-        if (result != D3D_OK)
-        {
+
+        if (result != D3D_OK) {
             throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
-        result = mDevice->CreateOffscreenPlainSurface(imageInfo.Width,
-                                                      imageInfo.Height, 
-                                                      D3DFMT_A8R8G8B8, 
-                                                      D3DPOOL_DEFAULT,
-                                                      &surface,
-                                                      NULL);
+        result = mDevice->CreateOffscreenPlainSurface(
+            imageInfo.Width, imageInfo.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL);
 
-        if (result != D3D_OK)
-        {
+        if (result != D3D_OK) {
             throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
-        result = D3DXLoadSurfaceFromFile(surface, 
-                                         NULL, 
-                                         NULL, 
-                                         filename.c_str(), 
-                                         NULL, 
-                                         D3DX_DEFAULT, 
-                                         D3DCOLOR_XRGB(255, 0, 255), 
-                                         &imageInfo);
+        result = D3DXLoadSurfaceFromFile(
+            surface, NULL, NULL, filename.c_str(), NULL, D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), &imageInfo);
 
-        if (result != D3D_OK)
-        {
+        if (result != D3D_OK) {
             throw FCN_EXCEPTION("Unable to load image " + filename);
         }
 
@@ -126,5 +106,4 @@ namespace fcn
     {
         mDevice = device;
     }
-}
- 
+} // namespace fcn

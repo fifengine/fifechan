@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,10 +71,9 @@
 
 namespace fcn
 {
-    HGE *HGEGraphics::mHGE = NULL;
+    HGE* HGEGraphics::mHGE = NULL;
 
-    HGEGraphics::HGEGraphics()
-        :mClipNull(false)
+    HGEGraphics::HGEGraphics() : mClipNull(false)
     {
         mHGE = hgeCreate(HGE_VERSION);
 
@@ -92,10 +87,7 @@ namespace fcn
 
     void HGEGraphics::_beginDraw()
     {
-        pushClipArea(Rectangle(0, 
-                               0,
-                               mHGE->System_GetState(HGE_SCREENWIDTH), 
-                               mHGE->System_GetState(HGE_SCREENHEIGHT)));
+        pushClipArea(Rectangle(0, 0, mHGE->System_GetState(HGE_SCREENWIDTH), mHGE->System_GetState(HGE_SCREENHEIGHT)));
     }
 
     void HGEGraphics::_endDraw()
@@ -108,24 +100,17 @@ namespace fcn
     {
         bool result = Graphics::pushClipArea(area);
 
-        const ClipRectangle top = mClipStack.top();
+        ClipRectangle const top = mClipStack.top();
 
         // HGE won't let you set clip areas
         // that have zero width or height
         // so we have to check for that.
-        if (top.width == 0 || top.height == 0)
-        {
+        if (top.width == 0 || top.height == 0) {
             mClipNull = true;
-        }
-        else
-        {
+        } else {
             mClipNull = false;
-            mHGE->Gfx_SetTransform(top.xOffset,
-                                   top.yOffset);
-            mHGE->Gfx_SetClipping(top.x, 
-                                  top.y, 
-                                  top.width, 
-                                  top.height);
+            mHGE->Gfx_SetTransform(top.xOffset, top.yOffset);
+            mHGE->Gfx_SetClipping(top.x, top.y, top.width, top.height);
         }
         return result;
     }
@@ -134,53 +119,35 @@ namespace fcn
     {
         Graphics::popClipArea();
 
-        if (mClipStack.empty())
-        {
+        if (mClipStack.empty()) {
             mHGE->Gfx_SetClipping();
 
             return;
-        }
-        else
-        {
-            const ClipRectangle top = mClipStack.top();
+        } else {
+            ClipRectangle const top = mClipStack.top();
 
             // HGE won't let you set clip areas
-            //that have zero width or height
+            // that have zero width or height
             // so we have to check for that.
-            if (top.width == 0 || top.height == 0)
-            {
+            if (top.width == 0 || top.height == 0) {
                 mClipNull = true;
-            }
-            else
-            {
+            } else {
                 mClipNull = false;
-                mHGE->Gfx_SetTransform(top.xOffset,
-                                       top.yOffset);
-                mHGE->Gfx_SetClipping(top.x, 
-                                      top.y, 
-                                      top.width, 
-                                      top.height);
+                mHGE->Gfx_SetTransform(top.xOffset, top.yOffset);
+                mHGE->Gfx_SetClipping(top.x, top.y, top.width, top.height);
             }
         }
     }
 
-    void HGEGraphics::drawImage(const Image *image, 
-                                int srcX, 
-                                int srcY, 
-                                int dstX, 
-                                int dstY, 
-                                int width, 
-                                int height)
+    void HGEGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
 
-        const HGEImage *hgeImage = static_cast<const HGEImage*>(image);
+        HGEImage const * hgeImage = static_cast<HGEImage const *>(image);
 
-        if (hgeImage == NULL)
-        {
+        if (hgeImage == NULL) {
             throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an HGEImage.");
         }
 
@@ -193,20 +160,18 @@ namespace fcn
         hgeImage->getSprite()->Render(dstX, dstY);
     }
 
-    void HGEGraphics::drawImage(const Image *image, int dstX, int dstY)
+    void HGEGraphics::drawImage(Image const * image, int dstX, int dstY)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
-       
+
         drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
 
     void HGEGraphics::drawPoint(int x, int y)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
 
@@ -220,48 +185,41 @@ namespace fcn
 
     void HGEGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
 
         // As HGE omits the last pixel we need to adjust the coordinates
         // before drawing the line. If it's a vertical or horizontal line
         // all we have to do is add the omitted pixel.
-        if (y1 == y2 || x1 == x2)
-        {
+        if (y1 == y2 || x1 == x2) {
             x2++;
             y2++;
         }
         // If it's not a vertical or horizontal line it gets a little bit
         // trickier.
-        else 
-        {
+        else {
             // If y2 is greater than y1 then we know y2 will be omitted as
             // it will be a part of the last pixel coordinate.
-            if (y2 > y1)
-            {
+            if (y2 > y1) {
                 y2++;
             }
             // Else will y1 be omitted.
-            else
-            {
+            else {
                 y1++;
             }
-            // The same thing applies for the x coordinates. If x2 is greater 
+            // The same thing applies for the x coordinates. If x2 is greater
             // than x1 then we know x2 will be omitted as it will be a part of
             // the last pixel coordinate.
-            if (x2 > x1)
-            {
+            if (x2 > x1) {
                 x2++;
             }
             // Else will x1 be omitted.
-            else
-            {
+            else {
                 x1++;
             }
         }
-       
+
         ClipRectangle const top = mClipStack.top();
 
         x1 += top.xOffset;
@@ -272,10 +230,9 @@ namespace fcn
         mHGE->Gfx_RenderLine(x1, y1, x2, y2, mHardwareColor);
     }
 
-    void HGEGraphics::drawRectangle(const Rectangle &rectangle)
+    void HGEGraphics::drawRectangle(Rectangle const & rectangle)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
 
@@ -290,17 +247,16 @@ namespace fcn
         y1 += top.yOffset;
         x2 += top.xOffset;
         y2 += top.yOffset;
-     
+
         mHGE->Gfx_RenderLine(x1, y1 + 1, x2, y1, mHardwareColor);
         mHGE->Gfx_RenderLine(x2, y1 + 1, x2, y2 - 1, mHardwareColor);
         mHGE->Gfx_RenderLine(x2, y2, x1 + 1, y2, mHardwareColor);
         mHGE->Gfx_RenderLine(x1 + 1, y2, x1 + 1, y1 + 1, mHardwareColor);
     }
 
-    void HGEGraphics::fillRectangle(const Rectangle &rectangle)
+    void HGEGraphics::fillRectangle(Rectangle const & rectangle)
     {
-        if (mClipNull)
-        {
+        if (mClipNull) {
             return;
         }
 
@@ -340,8 +296,7 @@ namespace fcn
         quad.v[3].col = mHardwareColor;
 
         int i;
-        for (i = 0; i < 4; ++i)
-        {
+        for (i = 0; i < 4; ++i) {
             quad.v[i].z = 0.5f;
         }
 
@@ -350,15 +305,15 @@ namespace fcn
         mHGE->Gfx_RenderQuad(&quad);
     }
 
-    void HGEGraphics::setColor(const Color &color)
+    void HGEGraphics::setColor(Color const & color)
     {
         mColor = color;
 
-        mHardwareColor = ARGB(color.a, color.r, color.g, color.b);  
+        mHardwareColor = ARGB(color.a, color.r, color.g, color.b);
     }
 
-    const Color& HGEGraphics::getColor() const
+    Color const & HGEGraphics::getColor() const
     {
-        return  mColor;
+        return mColor;
     }
-}
+} // namespace fcn

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -74,97 +70,98 @@
 
 namespace fcn
 {
-    Icon::Icon() :
-        mImage(0),
-        mInternalImage(false),
-        mScale(false),
-        mTile(false),
-        mOpaque(true) {
+    Icon::Icon() : mImage(0), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    {
 
         adjustSize();
     }
 
-    Icon::Icon(const std::string& filename) :
-        mImage(0),
-        mInternalImage(false),
-        mScale(false),
-        mTile(false),
-        mOpaque(true) {
+    Icon::Icon(std::string const & filename) :
+        mImage(0), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    {
 
-        mImage = Image::load(filename);
+        mImage         = Image::load(filename);
         mInternalImage = true;
         adjustSize();
     }
 
-    Icon::Icon(const Image* image) :
-        mImage(image),
-        mInternalImage(false),
-        mScale(false),
-        mTile(false),
-        mOpaque(true) {
+    Icon::Icon(Image const * image) : mImage(image), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    {
 
         adjustSize();
     }
 
-    Icon::~Icon() {
+    Icon::~Icon()
+    {
         if (mInternalImage) {
             delete mImage;
         }
     }
 
-    void Icon::setImage(const std::string& filename) {
+    void Icon::setImage(std::string const & filename)
+    {
         if (mInternalImage) {
             delete mImage;
         }
 
-        mImage = Image::load(filename);
+        mImage         = Image::load(filename);
         mInternalImage = true;
         adjustSize();
     }
 
-    void Icon::setImage(const Image* image) {
+    void Icon::setImage(Image const * image)
+    {
         if (mInternalImage) {
             delete mImage;
         }
 
-        mImage = image;
+        mImage         = image;
         mInternalImage = false;
         adjustSize();
     }
 
-    const Image* Icon::getImage() const {
+    Image const * Icon::getImage() const
+    {
         return mImage;
     }
 
-    bool Icon::isScaling() const {
+    bool Icon::isScaling() const
+    {
         return mScale;
     }
 
-    void Icon::setScaling(bool scale) {
+    void Icon::setScaling(bool scale)
+    {
         mScale = scale;
     }
 
-    bool Icon::isTiling() const {
+    bool Icon::isTiling() const
+    {
         return mTile;
     }
 
-    void Icon::setTiling(bool tile) {
+    void Icon::setTiling(bool tile)
+    {
         mTile = tile;
     }
 
-    void Icon::setOpaque(bool opaque) {
+    void Icon::setOpaque(bool opaque)
+    {
         mOpaque = opaque;
     }
 
-    bool Icon::isOpaque() const {
+    bool Icon::isOpaque() const
+    {
         return mOpaque;
     }
 
-    void Icon::resizeToContent(bool recursiv) {
+    void Icon::resizeToContent(bool recursiv)
+    {
         adjustSize();
     }
 
-    void Icon::adjustSize() {
+    void Icon::adjustSize()
+    {
         // workaround to avoid resizing
         if (mScale || mTile) {
             return;
@@ -178,7 +175,8 @@ namespace fcn
         setSize(w, h);
     }
 
-    void Icon::draw(Graphics* graphics) {
+    void Icon::draw(Graphics* graphics)
+    {
         // draw icon background
         if (mOpaque) {
             Color color = getBackgroundColor();
@@ -186,11 +184,14 @@ namespace fcn
                 color = getSelectionColor();
             }
             graphics->setColor(color);
-            graphics->fillRectangle(Rectangle(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize()));
+            graphics->fillRectangle(Rectangle(
+                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize()));
         }
         // draw icon image
         if (mImage) {
-            Rectangle contentRect(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(),
+            Rectangle contentRect(
+                getBorderSize() + getPaddingLeft(),
+                getBorderSize() + getPaddingTop(),
                 getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
                 getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom());
 
@@ -223,4 +224,4 @@ namespace fcn
             }
         }
     }
-}
+} // namespace fcn

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -76,7 +72,6 @@ namespace fcn
      * Interface for listening for focus events from widgets.
      *
      * @see Widget::addFocusListener, Widget::removeFocusListener
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC FocusListener
     {
@@ -88,19 +83,19 @@ namespace fcn
         virtual ~FocusListener() { }
 
         /**
-         * Called when a widget gains focus. 
+         * Called when a widget gains focus.
          *
          * @param event Discribes the event.
          */
         virtual void focusGained(const Event& event) { };
 
         /**
-         * Called when a widget loses focus. 
+         * Called when a widget loses focus.
          *
          * @param event Discribes the event.
          */
         virtual void focusLost(const Event& event) { };
-        
+
     protected:
         /**
          * Constructor.

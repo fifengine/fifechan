@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -70,47 +66,27 @@
 
 namespace fcn
 {
-    Exception::Exception()
-        : mFunction("?"),
-          mMessage(""),
-          mFilename("?"),
-          mLine(0)
-    {
+    Exception::Exception() : mFunction("?"), mMessage(""), mFilename("?"), mLine(0) { }
 
+    Exception::Exception(std::string const & message) : mFunction("?"), mMessage(message), mFilename("?"), mLine(0) { }
+
+    Exception::Exception(
+        std::string const & message, std::string const & function, std::string const & filename, unsigned int line) :
+        mFunction(function), mMessage(message), mFilename(filename), mLine(line)
+    {
     }
 
-    Exception::Exception(const std::string& message)
-        : mFunction("?"),
-          mMessage(message),
-          mFilename("?"),
-          mLine(0)
-    {
-
-    }
-
-    Exception::Exception(const std::string& message,
-                         const std::string& function,
-                         const std::string& filename,
-                         unsigned int line)
-                         : mFunction(function),
-                           mMessage(message),
-                           mFilename(filename),
-                           mLine(line)
-    {
-
-    }
-
-    const std::string& Exception::getFunction() const
+    std::string const & Exception::getFunction() const
     {
         return mFunction;
     }
 
-    const std::string& Exception::getMessage() const
+    std::string const & Exception::getMessage() const
     {
         return mMessage;
     }
 
-    const std::string& Exception::getFilename() const
+    std::string const & Exception::getFilename() const
     {
         return mFilename;
     }
@@ -119,4 +95,4 @@ namespace fcn
     {
         return mLine;
     }
-}
+} // namespace fcn

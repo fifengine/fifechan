@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,36 +71,28 @@
 
 namespace fcn
 {
-    DropDown::DropDown(ListModel *listModel,
-                       ScrollArea *scrollArea,
-                       ListBox *listBox)
+    DropDown::DropDown(ListModel* listModel, ScrollArea* scrollArea, ListBox* listBox)
     {
         setWidth(100);
         setFocusable(true);
         mDroppedDown = false;
-        mPushed = false;
-        mIsDragged = false;
+        mPushed      = false;
+        mIsDragged   = false;
 
         setInternalFocusHandler(&mInternalFocusHandler);
 
         mInternalScrollArea = (scrollArea == NULL);
-        mInternalListBox = (listBox == NULL);
+        mInternalListBox    = (listBox == NULL);
 
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             mScrollArea = new ScrollArea();
-        }
-        else
-        {
+        } else {
             mScrollArea = scrollArea;
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             mListBox = new ListBox();
-        }
-        else
-        {
+        } else {
             mListBox = listBox;
         }
 
@@ -125,19 +113,16 @@ namespace fcn
 
     DropDown::~DropDown()
     {
-        if (widgetExists(mListBox))
-        {
+        if (widgetExists(mListBox)) {
             mListBox->removeActionListener(this);
             mListBox->removeSelectionListener(this);
         }
 
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             delete mScrollArea;
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             delete mListBox;
         }
 
@@ -148,22 +133,19 @@ namespace fcn
     {
         int h;
 
-        if (mDroppedDown)
-        {
+        if (mDroppedDown) {
             h = mFoldedUpHeight;
-        }
-        else
-        {
+        } else {
             h = getHeight();
         }
 
         Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-        highlightColor = faceColor + 0x303030;
+        int alpha        = getBaseColor().a;
+        highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = faceColor - 0x303030;
+        shadowColor.a    = alpha;
 
         // Draw a border.
         graphics->setColor(shadowColor);
@@ -173,127 +155,90 @@ namespace fcn
         graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, h - 1);
         graphics->drawLine(0, h - 1, getWidth() - 1, h - 1);
 
-         // Push a clip area so the other drawings don't need to worry
+        // Push a clip area so the other drawings don't need to worry
         // about the border.
         graphics->pushClipArea(Rectangle(1, 1, getWidth() - 2, h - 2));
-        const Rectangle currentClipArea = graphics->getCurrentClipArea();
+        Rectangle const currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);
-       
-        if (isFocused())
-        {
+
+        if (isFocused()) {
             graphics->setColor(getSelectionColor());
-            graphics->fillRectangle(0,
-                                    0,
-                                    currentClipArea.width - currentClipArea.height,
-                                    currentClipArea.height);
+            graphics->fillRectangle(0, 0, currentClipArea.width - currentClipArea.height, currentClipArea.height);
             graphics->setColor(getForegroundColor());
         }
 
-        if (mListBox->getListModel() 
-            && mListBox->getSelected() >= 0)
-        {
+        if (mListBox->getListModel() && mListBox->getSelected() >= 0) {
             graphics->setColor(getForegroundColor());
             graphics->setFont(getFont());
 
             graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 1, 0);
-        }
-        else if (mListBox->getListModel() 
-            && mListBox->getSelected() < 0)
-        {
+        } else if (mListBox->getListModel() && mListBox->getSelected() < 0) {
             graphics->setColor(getForegroundColor());
             graphics->setFont(getFont());
 
             graphics->drawText("", 1, 0);
         }
-        
+
         // Push a clip area before drawing the button.
-        graphics->pushClipArea(Rectangle(currentClipArea.width - currentClipArea.height,
-                                         0,
-                                         currentClipArea.height,
-                                         currentClipArea.height));
+        graphics->pushClipArea(Rectangle(
+            currentClipArea.width - currentClipArea.height, 0, currentClipArea.height, currentClipArea.height));
         drawButton(graphics);
         graphics->popClipArea();
         graphics->popClipArea();
 
-         if (mDroppedDown)
-         {
-             // Draw a border around the children.
-             graphics->setColor(shadowColor);
-             graphics->drawRectangle(0,
-                                     mFoldedUpHeight,
-                                     getWidth(),
-                                     getHeight() - mFoldedUpHeight);
-             //drawChildren(graphics);
-         }
+        if (mDroppedDown) {
+            // Draw a border around the children.
+            graphics->setColor(shadowColor);
+            graphics->drawRectangle(0, mFoldedUpHeight, getWidth(), getHeight() - mFoldedUpHeight);
+            // drawChildren(graphics);
+        }
     }
 
-    void DropDown::drawButton(Graphics *graphics)
+    void DropDown::drawButton(Graphics* graphics)
     {
         Color faceColor, highlightColor, shadowColor;
         int offset;
         int alpha = getBaseColor().a;
 
-        if (mPushed)
-        {
-            faceColor = getBaseColor() - 0x303030;
-            faceColor.a = alpha;
-            highlightColor = faceColor - 0x303030;
+        if (mPushed) {
+            faceColor        = getBaseColor() - 0x303030;
+            faceColor.a      = alpha;
+            highlightColor   = faceColor - 0x303030;
             highlightColor.a = alpha;
-            shadowColor = faceColor + 0x303030;
-            shadowColor.a = alpha;
-            offset = 1;
-        }
-        else
-        {
-            faceColor = getBaseColor();
-            faceColor.a = alpha;
-            highlightColor = faceColor + 0x303030;
+            shadowColor      = faceColor + 0x303030;
+            shadowColor.a    = alpha;
+            offset           = 1;
+        } else {
+            faceColor        = getBaseColor();
+            faceColor.a      = alpha;
+            highlightColor   = faceColor + 0x303030;
             highlightColor.a = alpha;
-            shadowColor = faceColor - 0x303030;
-            shadowColor.a = alpha;
-            offset = 0;
+            shadowColor      = faceColor - 0x303030;
+            shadowColor.a    = alpha;
+            offset           = 0;
         }
 
-        const Rectangle currentClipArea = graphics->getCurrentClipArea();
+        Rectangle const currentClipArea = graphics->getCurrentClipArea();
         graphics->setColor(highlightColor);
-        graphics->drawLine(0, 
-                           0, 
-                           currentClipArea.width - 1, 
-                           0);
-        graphics->drawLine(0, 
-                           1, 
-                           0, 
-                           currentClipArea.height - 1);
+        graphics->drawLine(0, 0, currentClipArea.width - 1, 0);
+        graphics->drawLine(0, 1, 0, currentClipArea.height - 1);
         graphics->setColor(shadowColor);
-        graphics->drawLine(currentClipArea.width - 1, 
-                           1, 
-                           currentClipArea.width - 1, 
-                           currentClipArea.height - 1);
-        graphics->drawLine(1, 
-                           currentClipArea.height - 1, 
-                           currentClipArea.width - 2, 
-                           currentClipArea.height - 1);
+        graphics->drawLine(currentClipArea.width - 1, 1, currentClipArea.width - 1, currentClipArea.height - 1);
+        graphics->drawLine(1, currentClipArea.height - 1, currentClipArea.width - 2, currentClipArea.height - 1);
 
         graphics->setColor(faceColor);
-        graphics->fillRectangle(1,
-                                1,
-                                currentClipArea.width - 2,
-                                currentClipArea.height - 2);
+        graphics->fillRectangle(1, 1, currentClipArea.width - 2, currentClipArea.height - 2);
 
         graphics->setColor(getForegroundColor());
 
         int i;
-        int n = currentClipArea.height / 3;
+        int n  = currentClipArea.height / 3;
         int dx = currentClipArea.height / 2;
         int dy = (currentClipArea.height * 2) / 3;
-        for (i = 0; i < n; i++)
-        {
-            graphics->drawLine(dx - i + offset,
-                               dy - i + offset,
-                               dx + i + offset,
-                               dy - i + offset);
+        for (i = 0; i < n; i++) {
+            graphics->drawLine(dx - i + offset, dy - i + offset, dx + i + offset, dy - i + offset);
         }
     }
 
@@ -311,61 +256,44 @@ namespace fcn
     {
         if (keyEvent.isConsumed())
             return;
-        
+
         Key key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space)
-            && !mDroppedDown)
-        {
+        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && !mDroppedDown) {
             dropDown();
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::Up)
-        {
+        } else if (key.getValue() == Key::Up) {
             setSelected(getSelected() - 1);
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::Down)
-        {
+        } else if (key.getValue() == Key::Down) {
             setSelected(getSelected() + 1);
             keyEvent.consume();
         }
     }
 
     void DropDown::mousePressed(MouseEvent& mouseEvent)
-    {        
+    {
         // If we have a mouse press on the widget.
-        if (0 <= mouseEvent.getY()
-            && mouseEvent.getY() < getHeight()
-            && mouseEvent.getX() >= 0
-            && mouseEvent.getX() < getWidth()
-            && mouseEvent.getButton() == MouseEvent::Left
-            && !mDroppedDown
-            && mouseEvent.getSource() == this)
-        {
+        if (0 <= mouseEvent.getY() && mouseEvent.getY() < getHeight() && mouseEvent.getX() >= 0 &&
+            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Left && !mDroppedDown &&
+            mouseEvent.getSource() == this) {
             mPushed = true;
             dropDown();
             requestModalMouseInputFocus();
         }
         // Fold up the listbox if the upper part is clicked after fold down
-        else if (0 <= mouseEvent.getY()
-                 && mouseEvent.getY() < mFoldedUpHeight
-                 && mouseEvent.getX() >= 0
-                 && mouseEvent.getX() < getWidth()
-                 && mouseEvent.getButton() == MouseEvent::Left
-                 && mDroppedDown
-                 && mouseEvent.getSource() == this)
-        {
+        else if (
+            0 <= mouseEvent.getY() && mouseEvent.getY() < mFoldedUpHeight && mouseEvent.getX() >= 0 &&
+            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Left && mDroppedDown &&
+            mouseEvent.getSource() == this) {
             mPushed = false;
             foldUp();
             releaseModalMouseInputFocus();
         }
         // If we have a mouse press outside the widget
-        else if (0 > mouseEvent.getY()
-                 || mouseEvent.getY() >= getHeight()
-                 || mouseEvent.getX() < 0
-                 || mouseEvent.getX() >= getWidth())
-        {
+        else if (
+            0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
+            mouseEvent.getX() >= getWidth()) {
             mPushed = false;
             foldUp();
         }
@@ -373,28 +301,20 @@ namespace fcn
 
     void DropDown::mouseReleased(MouseEvent& mouseEvent)
     {
-        if (mIsDragged)
-        {
+        if (mIsDragged) {
             mPushed = false;
         }
 
         // Released outside of widget. Can happen when we have modal input focus.
-        if ((0 > mouseEvent.getY()
-            || mouseEvent.getY() >= getHeight()
-            || mouseEvent.getX() < 0
-            || mouseEvent.getX() >= getWidth())
-            && mouseEvent.getButton() == MouseEvent::Left
-            && isModalMouseInputFocused())
-        {
+        if ((0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
+             mouseEvent.getX() >= getWidth()) &&
+            mouseEvent.getButton() == MouseEvent::Left && isModalMouseInputFocused()) {
             releaseModalMouseInputFocus();
 
-            if (mIsDragged)
-            {
+            if (mIsDragged) {
                 foldUp();
             }
-        }
-        else if (mouseEvent.getButton() == MouseEvent::Left)
-        {
+        } else if (mouseEvent.getButton() == MouseEvent::Left) {
             mPushed = false;
         }
 
@@ -408,32 +328,30 @@ namespace fcn
         mouseEvent.consume();
     }
 
-    void DropDown::setListModel(ListModel *listModel)
+    void DropDown::setListModel(ListModel* listModel)
     {
         mListBox->setListModel(listModel);
 
         adjustHeight();
     }
 
-    ListModel *DropDown::getListModel() const
+    ListModel* DropDown::getListModel() const
     {
         return mListBox->getListModel();
     }
 
     void DropDown::adjustHeight()
     {
-        if (mScrollArea == NULL)
-        {
+        if (mScrollArea == NULL) {
             throw FCN_EXCEPTION("Scroll area has been deleted.");
         }
 
-        if (mListBox == NULL)
-        {
+        if (mListBox == NULL) {
             throw FCN_EXCEPTION("List box has been deleted.");
         }
 
         int listBoxHeight = mListBox->getHeight();
-        
+
         // We add 2 for the border
         int h2 = getFont()->getHeight() + 2;
 
@@ -442,17 +360,13 @@ namespace fcn
         // The addition/subtraction of 2 compensates for the seperation lines
         // seperating the selected element view and the scroll area.
 
-        if (mDroppedDown && getParent())
-        {
+        if (mDroppedDown && getParent()) {
             int h = getParent()->getChildrenArea().height - getY();
 
-            if (listBoxHeight > h - h2 - 2)
-            {
+            if (listBoxHeight > h - h2 - 2) {
                 mScrollArea->setHeight(h - h2 - 2);
                 setHeight(h);
-            }
-            else
-            {
+            } else {
                 setHeight(listBoxHeight + h2 + 2);
                 mScrollArea->setHeight(listBoxHeight);
             }
@@ -464,7 +378,8 @@ namespace fcn
         mScrollArea->setPosition(0, 0);
     }
 
-    void DropDown::resizeToContent(bool recursiv) {
+    void DropDown::resizeToContent(bool recursiv)
+    {
         if (mScrollArea != NULL) {
             mScrollArea->resizeToContent();
         }
@@ -475,21 +390,19 @@ namespace fcn
         adjustHeight();
     }
 
-    void DropDown::adjustSize() {
+    void DropDown::adjustSize()
+    {
         adjustHeight();
     }
 
     void DropDown::dropDown()
     {
-        if (!mDroppedDown)
-        {
-            mDroppedDown = true;
+        if (!mDroppedDown) {
+            mDroppedDown    = true;
             mFoldedUpHeight = getHeight();
             adjustHeight();
-            
 
-            if (getParent())
-            {
+            if (getParent()) {
                 getParent()->moveToTop(this);
             }
         }
@@ -499,30 +412,27 @@ namespace fcn
 
     void DropDown::foldUp()
     {
-        if (mDroppedDown)
-        {
+        if (mDroppedDown) {
             mDroppedDown = false;
             adjustHeight();
             mInternalFocusHandler.focusNone();
         }
     }
 
-    void DropDown::focusLost(const Event& event)
+    void DropDown::focusLost(Event const & event)
     {
         foldUp();
         mInternalFocusHandler.focusNone();
     }
 
-
-    void DropDown::death(const Event& event)
-    {        
-        if (event.getSource() == mScrollArea)
-        {
+    void DropDown::death(Event const & event)
+    {
+        if (event.getSource() == mScrollArea) {
             mScrollArea = NULL;
         }
     }
 
-    void DropDown::action(const ActionEvent& actionEvent)
+    void DropDown::action(ActionEvent const & actionEvent)
     {
         foldUp();
         releaseModalMouseInputFocus();
@@ -531,72 +441,60 @@ namespace fcn
 
     Rectangle DropDown::getChildrenArea()
     {
-        if (mDroppedDown)
-        {
+        if (mDroppedDown) {
             // Calculate the children area (with the one pixel border in mind)
-            return Rectangle(1, 
-                             mFoldedUpHeight + 1, 
-                             getWidth() - 2, 
-                             getHeight() - mFoldedUpHeight - 2);
+            return Rectangle(1, mFoldedUpHeight + 1, getWidth() - 2, getHeight() - mFoldedUpHeight - 2);
         }
 
         return Rectangle();
     }
 
-    void DropDown::setBaseColor(const Color& color)
+    void DropDown::setBaseColor(Color const & color)
     {
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             mScrollArea->setBaseColor(color);
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             mListBox->setBaseColor(color);
         }
 
         Widget::setBaseColor(color);
     }
 
-    void DropDown::setBackgroundColor(const Color& color)
+    void DropDown::setBackgroundColor(Color const & color)
     {
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             mScrollArea->setBackgroundColor(color);
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             mListBox->setBackgroundColor(color);
         }
 
         Widget::setBackgroundColor(color);
     }
 
-    void DropDown::setForegroundColor(const Color& color)
+    void DropDown::setForegroundColor(Color const & color)
     {
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             mScrollArea->setForegroundColor(color);
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             mListBox->setForegroundColor(color);
         }
 
         Widget::setForegroundColor(color);
     }
 
-    void DropDown::setFont(Font *font)
+    void DropDown::setFont(Font* font)
     {
-        if (mInternalScrollArea)
-        {
+        if (mInternalScrollArea) {
             mScrollArea->setFont(font);
         }
 
-        if (mInternalListBox)
-        {
+        if (mInternalListBox) {
             mListBox->setFont(font);
         }
 
@@ -605,12 +503,10 @@ namespace fcn
 
     void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (isFocused() && mouseEvent.getSource() == this)
-        {                   
+        if (isFocused() && mouseEvent.getSource() == this) {
             mouseEvent.consume();
 
-            if (mListBox->getSelected() > 0)
-            {
+            if (mListBox->getSelected() > 0) {
                 mListBox->setSelected(mListBox->getSelected() - 1);
             }
         }
@@ -618,25 +514,23 @@ namespace fcn
 
     void DropDown::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (isFocused() && mouseEvent.getSource() == this)
-        {            
+        if (isFocused() && mouseEvent.getSource() == this) {
             mouseEvent.consume();
 
             mListBox->setSelected(mListBox->getSelected() + 1);
         }
     }
 
-    void DropDown::setSelectionColor(const Color& color)
+    void DropDown::setSelectionColor(Color const & color)
     {
         Widget::setSelectionColor(color);
-        
-        if (mInternalListBox)
-        {
+
+        if (mInternalListBox) {
             mListBox->setSelectionColor(color);
-        }       
+        }
     }
 
-    void DropDown::valueChanged(const SelectionEvent& event)
+    void DropDown::valueChanged(SelectionEvent const & event)
     {
         distributeValueChangedEvent();
     }
@@ -645,7 +539,7 @@ namespace fcn
     {
         mSelectionListeners.push_back(selectionListener);
     }
-   
+
     void DropDown::removeSelectionListener(SelectionListener* selectionListener)
     {
         mSelectionListeners.remove(selectionListener);
@@ -655,11 +549,9 @@ namespace fcn
     {
         SelectionListenerIterator iter;
 
-        for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter)
-        {
+        for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter) {
             SelectionEvent event(this);
             (*iter)->valueChanged(event);
         }
     }
-}
-
+} // namespace fcn

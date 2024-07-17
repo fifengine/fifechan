@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -81,22 +77,20 @@ namespace fcn
         /**
          * True type font support using Allegro and GlyphKeeper.
          *
-         * Note: GlyphKeeper must be compiled for allegro (define 
-         *       GLYPH_TARGET=GLYPH_TARGET_ALLEGRO) and must be 
-         *       initialized before using this class. 
+         * Note: GlyphKeeper must be compiled for allegro (define
+         *       GLYPH_TARGET=GLYPH_TARGET_ALLEGRO) and must be
+         *       initialized before using this class.
          *
-         * There's only basic functionality implemented here, so 
-         * you can add more and advanced functionality by deriving 
-         * from this class. 
-         *
-         * @author Tobias Scheuer. 
+         * There's only basic functionality implemented here, so
+         * you can add more and advanced functionality by deriving
+         * from this class.
          */
         class FCN_EXTENSION_DECLSPEC AllegroGlyphKeeperFont : public Font
         {
         public:
             /**
              * Constructor.
-             *     
+             *
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
@@ -104,7 +98,7 @@ namespace fcn
 
             /**
              * Constructor.
-             *     
+             *
              * @param filename the filename of the True Type Font.
              * @param width the width the font should be in.
              * @param height the height the font should be in.

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -105,7 +101,7 @@ namespace fcn
          * Sets the image to display. Existing image is freed automatically
          * if it was loaded internally.
          *
-         * @param image The image to display. 
+         * @param image The image to display.
          */
         void setImage(const std::string& filename);
 
@@ -113,7 +109,7 @@ namespace fcn
          * Sets the image to display. Existing image is freed automatically
          * if it was loaded internally.
          *
-         * @param image The image to display. 
+         * @param image The image to display.
          */
         void setImage(const Image* image);
 
@@ -154,7 +150,7 @@ namespace fcn
 
         /**
          * Sets the opacity of the background.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);

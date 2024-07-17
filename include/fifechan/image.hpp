@@ -27,11 +27,10 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ *
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -119,8 +118,8 @@ namespace fcn
          * Gets the image loader used for loading images.
          *
          * @return The image loader used for loading images.
-         * @see setImageLoader, AllegroImageLoader, HGEImageLoader, 
-         *      OpenLayerImageLoader, OpenGLAllegroImageLoader, 
+         * @see setImageLoader, AllegroImageLoader, HGEImageLoader,
+         *      OpenLayerImageLoader, OpenGLAllegroImageLoader,
          *      OpenGLSDLImageLoader, SDLImageLoader
          */
         static ImageLoader* getImageLoader();
@@ -128,12 +127,12 @@ namespace fcn
         /**
          * Sets the ImageLoader to be used for loading images.
          *
-         * IMPORTANT: The image loader is static and MUST be set before 
+         * IMPORTANT: The image loader is static and MUST be set before
          *            loading images!
          *
          * @param imageLoader The image loader to be used for loading images.
-         * @see getImageLoader, AllegroImageLoader, HGEImageLoader, 
-         *      OpenLayerImageLoader, OpenGLAllegroImageLoader, 
+         * @see getImageLoader, AllegroImageLoader, HGEImageLoader,
+         *      OpenLayerImageLoader, OpenGLAllegroImageLoader,
          *      OpenGLSDLImageLoader, SDLImageLoader
          */
         static void setImageLoader(ImageLoader* imageLoader);

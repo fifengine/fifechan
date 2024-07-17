@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -76,7 +72,7 @@ namespace fcn
     class Font;
 
     /**
-     * A utility class to ease working with text in widgets such as 
+     * A utility class to ease working with text in widgets such as
      * TextBox and TextField. The class wraps common text operations
      * such as inserting and deleting text.
      *
@@ -102,7 +98,7 @@ namespace fcn
         virtual ~Text();
 
         /**
-         * Sets the content of the text. Will completely remove 
+         * Sets the content of the text. Will completely remove
          * any previous text and reset the caret position.
          *
          * @param content The content of the text.
@@ -131,11 +127,11 @@ namespace fcn
          * @param row The row to add.
          */
         virtual void addRow(const std::string& row);
-        
+
         /**
          * Inserts a row before the specified row position. Calling this method
          * will not change the current caret position.
-         * 
+         *
          * @param row The row to add.
          * @param position Inserts new row before this row.
          */
@@ -144,11 +140,11 @@ namespace fcn
         /**
          * Erases the given row. Calling this method will not change the current
          * caret position.
-         * 
+         *
          * @param row Row to be erased.
          */
         virtual void eraseRow(unsigned int row);
-        
+
         /**
          * Gets a reference to a row.
          *
@@ -167,12 +163,12 @@ namespace fcn
 
         /**
          * Removes a given number of characters at starting
-         * at the current caret position. 
-         * 
-         * If the number of characters to remove is negative 
+         * at the current caret position.
+         *
+         * If the number of characters to remove is negative
          * characters will be removed left of the caret position.
          * If the number is positive characters will be removed
-         * right of the caret position. If a line feed is 
+         * right of the caret position. If a line feed is
          * removed the row with the line feed will be merged
          * with the row above the line feed.
          *
@@ -194,7 +190,7 @@ namespace fcn
          * @param position The position of the caret.
          */
         virtual void setCaretPosition(int position);
-        
+
         /**
          * Sets the caret position given an x and y coordinate in pixels
          * relative to the text. The coordinates will be clamp to the content.
@@ -229,8 +225,8 @@ namespace fcn
 
         /**
          * Sets the row the caret should be in. If the row lies o
-         * outside of the text, the row will be set to zero or the 
-         * maximum row depending on where the row lies outside of the 
+         * outside of the text, the row will be set to zero or the
+         * maximum row depending on where the row lies outside of the
          * text.
          *
          * Calling this function trigger a recalculation of the caret
@@ -281,19 +277,19 @@ namespace fcn
          *
          * @param row The row to get the width of.
          * @return The width in pixels of a row.
-         */ 
+         */
         virtual int getWidth(int row, Font* font) const;
 
         /**
          * Gets the maximum row the caret can be in.
-         * 
+         *
          * @return The maximum row the caret can be in.
          */
         virtual unsigned int getMaximumCaretRow() const;
 
         /**
          * Gets the maximum column of a row the caret can be in.
-         * 
+         *
          * @param row The row of the caret.
          * @return The maximum column of a row the caret can be in.
          */

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,8 +73,6 @@ namespace fcn
      *
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      ActionEvent
-     * @author Olof Naessén
-     * @author Per Larsson
      */
     class FCN_CORE_DECLSPEC ActionListener
     {
@@ -97,7 +91,7 @@ namespace fcn
          * @param actionEvent The event of the action.
          */
         virtual void action(const ActionEvent& actionEvent) = 0;
-    
+
     protected:
         /**
          * Constructor.

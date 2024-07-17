@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -80,15 +76,15 @@ namespace fcn
     class OpenGLAllegroImageLoader : public ImageLoader
     {
     public:
-        
+
         // Inherited from ImageLoader
 
         virtual Image* load(const std::string& filename,
                             bool convertToDisplayFormat = true)
-       
+
         {
             BITMAP *bmp = load_bitmap(filename.c_str(), NULL);
-            
+
             if (bmp == NULL)
             {
                 throw FCN_EXCEPTION(
@@ -96,7 +92,7 @@ namespace fcn
             }
 
             int bitmapBpp = bitmap_color_depth(bmp);
-            
+
             // As a BITMAP without an alpha channel in Allegro has
             // all it's alpha values set to zero we have to check
             // if the BITMAP has an alpha channel. If no alpha channel
@@ -110,14 +106,14 @@ namespace fcn
                 {
                     int pixel = getpixel(bmp, x, y);
                     if (geta_depth(bitmapBpp, pixel) != 0)
-                    {                        
-                        hasAlphaChannel = true;                
+                    {
+                        hasAlphaChannel = true;
                     }
                 }
             }
 
             unsigned int *pixels = new unsigned int[bmp->w * bmp->h];
-            
+
             for (y = 0; y < bmp->h; y++)
             {
                 for (x = 0; x < bmp->w; x++)
@@ -125,7 +121,7 @@ namespace fcn
                     int pixel = getpixel(bmp,x, y);
 
                     if (!hasAlphaChannel)
-                    {                        
+                    {
                         pixels[x + y * bmp->w] = pixel | 0xff000000;
                     }
                     else

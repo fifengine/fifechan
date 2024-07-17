@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -98,7 +94,7 @@ namespace fcn
          * @param text The default text of the text field.
          */
         TextField(const std::string& text);
-        
+
         /**
          * Destructor.
          */
@@ -217,7 +213,7 @@ namespace fcn
          * text needs to scroll in order to show the last type character.
          */
         int mXScroll;
-        
+
         /**
          * String editor for UTF8 support.
          */

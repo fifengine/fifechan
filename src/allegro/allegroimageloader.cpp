@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -73,7 +69,7 @@
 
 namespace fcn
 {
-    Image* AllegroImageLoader::load(const std::string& filename, bool convertToDisplayFormat)
+    Image* AllegroImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
 #if !(ALLEGRO_VERSION == 4 && ALLEGRO_SUB_VERSION == 0)
         int colconv = get_color_conversion();
@@ -82,17 +78,15 @@ namespace fcn
         set_color_conversion(COLORCONV_NONE);
 
         PALETTE pal;
-        BITMAP *bmp = loadBitmap(filename, pal);
+        BITMAP* bmp = loadBitmap(filename, pal);
 
-        if (bmp == NULL)
-        {
+        if (bmp == NULL) {
             throw FCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
-        BITMAP *bmp2 = create_bitmap_ex(32, bmp->w, bmp->h);
+        BITMAP* bmp2 = create_bitmap_ex(32, bmp->w, bmp->h);
 
-        if (bmp2 == NULL)
-        {
+        if (bmp2 == NULL) {
             throw FCN_EXCEPTION(std::string("Not enough memory to load: ") + filename);
         }
 
@@ -106,18 +100,17 @@ namespace fcn
         set_color_conversion(colconv);
 #endif
 
-        Image *image = new AllegroImage(bmp2, true);
+        Image* image = new AllegroImage(bmp2, true);
 
-        if (convertToDisplayFormat)
-        {
+        if (convertToDisplayFormat) {
             image->convertToDisplayFormat();
         }
 
         return image;
     }
 
-    BITMAP* AllegroImageLoader::loadBitmap(const std::string& filename, PALETTE pal)
+    BITMAP* AllegroImageLoader::loadBitmap(std::string const & filename, PALETTE pal)
     {
         return load_bitmap(filename.c_str(), pal);
     }
-}
+} // namespace fcn

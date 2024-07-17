@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -73,22 +69,13 @@
 
 namespace fcn
 {
-    Text::Text()
-        :mCaretPosition(0),
-         mCaretRow(0),
-         mCaretColumn(0)
-    {
-    }
+    Text::Text() : mCaretPosition(0), mCaretRow(0), mCaretColumn(0) { }
 
-    Text::Text(const std::string& content)
-        :mCaretPosition(0),
-         mCaretRow(0),
-         mCaretColumn(0)
+    Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
     {
         std::string::size_type pos, lastPos = 0;
         int length;
-        do
-        {
+        do {
             pos = content.find("\n", lastPos);
 
             if (pos != std::string::npos)
@@ -99,27 +86,22 @@ namespace fcn
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
-        }
-        while (pos != std::string::npos);
+        } while (pos != std::string::npos);
     }
 
-    Text::~Text()
-    {
+    Text::~Text() { }
 
-    }
-
-    void Text::setContent(const std::string& content)
+    void Text::setContent(std::string const & content)
     {
-        //reset caret
+        // reset caret
         mCaretPosition = 0;
-        mCaretRow = 0;
-        mCaretColumn = 0;
-      
+        mCaretRow      = 0;
+        mCaretColumn   = 0;
+
         mRows.clear();
         std::string::size_type pos, lastPos = 0;
         int length;
-        do
-        {
+        do {
             pos = content.find("\n", lastPos);
 
             if (pos != std::string::npos)
@@ -130,8 +112,7 @@ namespace fcn
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
-        }
-        while (pos != std::string::npos);
+        } while (pos != std::string::npos);
     }
 
     std::string Text::getContent() const
@@ -149,7 +130,7 @@ namespace fcn
         return result;
     }
 
-    void Text::setRow(unsigned int row, const std::string& content)
+    void Text::setRow(unsigned int row, std::string const & content)
     {
         if (row >= mRows.size())
             throw FCN_EXCEPTION("Row out of bounds!");
@@ -157,50 +138,44 @@ namespace fcn
         mRows[row] = content;
     }
 
-    void Text::addRow(const std::string& row)
+    void Text::addRow(std::string const & row)
     {
         unsigned int i;
-        for (i = 0; i < row.size(); i++)
-        {
+        for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n')
                 throw FCN_EXCEPTION("Line feed not allowed in the row to be added!");
         }
 
         mRows.push_back(row);
     }
-    
-    void Text::insertRow(const std::string& row, unsigned int position)
+
+    void Text::insertRow(std::string const & row, unsigned int position)
     {
         unsigned int totalRows = mRows.size();
-        
-        if(position >= totalRows)
-        {
-            if(position == totalRows)
-            {
+
+        if (position >= totalRows) {
+            if (position == totalRows) {
                 addRow(row);
                 return;
-            }
-            else
-            {
+            } else {
                 throw FCN_EXCEPTION("Position out of bounds!");
             }
         }
-        
+
         unsigned int i;
-        for(i = 0; i < row.size(); i++)
-        {
-            if(row[i] == '\n')
+        for (i = 0; i < row.size(); i++) {
+            if (row[i] == '\n')
                 throw FCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
         }
 
         mRows.insert(mRows.begin() + position, row);
     }
-    
+
     void Text::eraseRow(unsigned int row)
     {
-        if(row >= mRows.size())
+        if (row >= mRows.size())
             throw FCN_EXCEPTION("Row to be erased out of bounds!");
-        
+
         mRows.erase(mRows.begin() + row);
     }
 
@@ -216,22 +191,18 @@ namespace fcn
     {
         char c = (char)character;
 
-        if (mRows.empty())
-        {
-             if (c == '\n')
-                 mRows.push_back("");
-             else
-                 mRows.push_back(std::string(1, c));
-        }
-        else
-        {
+        if (mRows.empty()) {
             if (c == '\n')
-            {
-                mRows.insert(mRows.begin() + mCaretRow + 1,
-                             mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn));
-                mRows[mCaretRow].resize(mCaretColumn);
-            }
+                mRows.push_back("");
             else
+                mRows.push_back(std::string(1, c));
+        } else {
+            if (c == '\n') {
+                mRows.insert(
+                    mRows.begin() + mCaretRow + 1,
+                    mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn));
+                mRows[mCaretRow].resize(mCaretColumn);
+            } else
                 mRows[mCaretRow].insert(mCaretColumn, std::string(1, c));
         }
 
@@ -244,10 +215,8 @@ namespace fcn
             return;
 
         // We should remove characters left of the caret position.
-        if (numberOfCharacters < 0)
-        {
-            while (numberOfCharacters != 0)
-            {
+        if (numberOfCharacters < 0) {
+            while (numberOfCharacters != 0) {
                 // If the caret position is zero there is nothing
                 // more to do.
                 if (mCaretPosition == 0)
@@ -256,15 +225,12 @@ namespace fcn
                 // If we are at the end of the row
                 // and the row is not the first row we
                 // need to merge two rows.
-                if (mCaretColumn == 0 && mCaretRow != 0)
-                {
+                if (mCaretColumn == 0 && mCaretRow != 0) {
                     mRows[mCaretRow - 1] += mRows[mCaretRow];
                     mRows.erase(mRows.begin() + mCaretRow);
                     setCaretRow(mCaretRow - 1);
                     setCaretColumn(getNumberOfCharacters(mCaretRow));
-                }
-                else
-                {
+                } else {
                     mRows[mCaretRow].erase(mCaretColumn - 1, 1);
                     setCaretPosition(mCaretPosition - 1);
                 }
@@ -273,10 +239,8 @@ namespace fcn
             }
         }
         // We should remove characters right of the caret position.
-        else if (numberOfCharacters > 0)
-        {
-            while (numberOfCharacters != 0)
-            {
+        else if (numberOfCharacters > 0) {
+            while (numberOfCharacters != 0) {
                 // If all rows have been removed there is nothing
                 // more to do.
                 if (mRows.empty())
@@ -285,14 +249,10 @@ namespace fcn
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two
                 // rows.
-                if (mCaretColumn == mRows[mCaretRow].size()
-                    && mCaretRow < (mRows.size() - 1))
-                {
+                if (mCaretColumn == mRows[mCaretRow].size() && mCaretRow < (mRows.size() - 1)) {
                     mRows[mCaretRow] += mRows[mCaretRow + 1];
                     mRows.erase(mRows.begin() + mCaretRow + 1);
-                }
-                else
-                {
+                } else {
                     mRows[mCaretRow].erase(mCaretColumn, 1);
                 }
 
@@ -308,11 +268,10 @@ namespace fcn
 
     void Text::setCaretPosition(int position)
     {
-        if (mRows.empty() || position < 0)
-        {
+        if (mRows.empty() || position < 0) {
             mCaretPosition = 0;
-            mCaretRow = 0;
-            mCaretColumn = 0;
+            mCaretRow      = 0;
+            mCaretColumn   = 0;
             return;
         }
 
@@ -320,12 +279,10 @@ namespace fcn
         // position of the caret.
         unsigned int i;
         unsigned int total = 0;
-        for (i = 0; i < mRows.size(); i++)
-        {
-            if (position <= (int)(total + mRows[i].size()))
-            {
-                mCaretRow = i;
-                mCaretColumn = position - total;
+        for (i = 0; i < mRows.size(); i++) {
+            if (position <= (int)(total + mRows[i].size())) {
+                mCaretRow      = i;
+                mCaretColumn   = position - total;
                 mCaretPosition = position;
                 return;
             }
@@ -338,8 +295,8 @@ namespace fcn
 
         // Remove one as the last line doesn't have a line feed.
         mCaretPosition = total - 1;
-        mCaretRow = mRows.size() - 1;
-        mCaretColumn = mRows[mCaretRow].size();
+        mCaretRow      = mRows.size() - 1;
+        mCaretColumn   = mRows[mCaretRow].size();
     }
 
     void Text::setCaretPosition(int x, int y, Font* font)
@@ -395,7 +352,8 @@ namespace fcn
 
     int Text::getCaretY(Font* font) const
     {
-        return mCaretRow * font->getHeight();;
+        return mCaretRow * font->getHeight();
+        ;
     }
 
     Rectangle Text::getDimension(Font* font) const
@@ -405,24 +363,20 @@ namespace fcn
 
         int width = 0;
         unsigned int i;
-        for (i = 0; i < mRows.size(); ++i)
-        {
+        for (i = 0; i < mRows.size(); ++i) {
             int w = font->getWidth(mRows[i]);
             if (width < w)
                 width = w;
         }
 
-        return Rectangle(0,
-                         0,
-                         width + font->getWidth(" "),
-                         font->getHeight() * mRows.size());
+        return Rectangle(0, 0, width + font->getWidth(" "), font->getHeight() * mRows.size());
     }
 
     Rectangle Text::getCaretDimension(Font* font) const
     {
         Rectangle dim;
-        dim.x = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
-        dim.y = font->getHeight() * mCaretRow;
+        dim.x     = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
+        dim.y     = font->getHeight() * mCaretRow;
         dim.width = font->getWidth(" ");
         // We add two for some extra spacing to be sure the whole caret is visible.
         dim.height = font->getHeight() + 2;
@@ -462,7 +416,7 @@ namespace fcn
     unsigned int Text::getNumberOfCharacters(unsigned int row) const
     {
         if (row >= mRows.size())
-           return 0;
+            return 0;
 
         return mRows[row].size();
     }
@@ -477,4 +431,4 @@ namespace fcn
 
         mCaretPosition = total + mCaretColumn;
     }
-}
+} // namespace fcn

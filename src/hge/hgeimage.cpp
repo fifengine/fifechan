@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,19 +68,16 @@
 
 namespace fcn
 {
-    HGE *HGEImage::mHGE = NULL;
+    HGE* HGEImage::mHGE = NULL;
 
-    HGEImage::HGEImage(HTEXTURE texture, bool autoFree)
-        : mTexture(texture),
-          mAutoFree(autoFree)
+    HGEImage::HGEImage(HTEXTURE texture, bool autoFree) : mTexture(texture), mAutoFree(autoFree)
     {
         mHGE = hgeCreate(HGE_VERSION);
     }
 
     HGEImage::~HGEImage()
     {
-        if (mAutoFree)
-        { 
+        if (mAutoFree) {
             free();
         }
 
@@ -93,16 +86,15 @@ namespace fcn
 
     void HGEImage::free()
     {
-        if (mHGESprite != NULL)
-        {
+        if (mHGESprite != NULL) {
             delete mHGESprite;
-            mHGESprite =  NULL;
+            mHGESprite = NULL;
         }
 
         mHGE->Texture_Free(mTexture);
     }
 
-    hgeSprite *HGEImage::getSprite() const
+    hgeSprite* HGEImage::getSprite() const
     {
         return mHGESprite;
     }
@@ -119,10 +111,9 @@ namespace fcn
 
     Color HGEImage::getPixel(int x, int y)
     {
-        DWORD *pLockPtr = mHGE->Texture_Lock(mTexture);
+        DWORD* pLockPtr = mHGE->Texture_Lock(mTexture);
 
-        if (pLockPtr == NULL)
-        {
+        if (pLockPtr == NULL) {
             throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
@@ -130,20 +121,16 @@ namespace fcn
 
         mHGE->Texture_Unlock(mTexture);
 
-        return Color(GETR(color),
-                     GETG(color), 
-                     GETB(color), 
-                     GETA(color ));
+        return Color(GETR(color), GETG(color), GETB(color), GETA(color));
     }
 
-    void  HGEImage::putPixel(int x, int y, const Color& color)
+    void HGEImage::putPixel(int x, int y, Color const & color)
     {
         DWORD hardwareColor = ARGB(color.a, color.r, color.g, color.b);
 
-        DWORD *pLockPtr = mHGE->Texture_Lock(mTexture, false);
+        DWORD* pLockPtr = mHGE->Texture_Lock(mTexture, false);
 
-        if (pLockPtr == NULL)
-        {
+        if (pLockPtr == NULL) {
             throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
@@ -154,34 +141,25 @@ namespace fcn
 
     void HGEImage::convertToDisplayFormat()
     {
-        DWORD *pLockPtr = mHGE->Texture_Lock(mTexture);
+        DWORD* pLockPtr = mHGE->Texture_Lock(mTexture);
 
-        if (pLockPtr == NULL)
-        {
+        if (pLockPtr == NULL) {
             throw FCN_EXCEPTION("Locking of the texture failed. HGE only support locking of 32bit textures.");
         }
 
         int i;
-        int end = mHGE->Texture_GetWidth(mTexture, true) *
-            mHGE->Texture_GetHeight(mTexture, true);
+        int end = mHGE->Texture_GetWidth(mTexture, true) * mHGE->Texture_GetHeight(mTexture, true);
 
-        for (i = 0; i < end; i++)
-        {
+        for (i = 0; i < end; i++) {
             DWORD color = pLockPtr[i];
-            if (GETR(color) == 0xFF
-                && GETG(color) == 0x00
-                && GETB(color) == 0xFF)
-            {
+            if (GETR(color) == 0xFF && GETG(color) == 0x00 && GETB(color) == 0xFF) {
                 pLockPtr[i] = ARGB(0x00, 0x00, 0x00, 0x00);
             }
         }
 
         mHGE->Texture_Unlock(mTexture);
 
-        mHGESprite = new hgeSprite(mTexture,  
-                                   0, 
-                                   0, 
-                                   mHGE->Texture_GetWidth(mTexture, true),
-                                   mHGE->Texture_GetHeight(mTexture, true));
+        mHGESprite = new hgeSprite(
+            mTexture, 0, 0, mHGE->Texture_GetWidth(mTexture, true), mHGE->Texture_GetHeight(mTexture, true));
     }
-}
+} // namespace fcn

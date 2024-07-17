@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,8 +71,8 @@
 namespace fcn
 {
     /**
-     * An implementation of a container able to contain other widgets. A widget's 
-     * position in the container is relative to the container itself and not the screen. 
+     * An implementation of a container able to contain other widgets. A widget's
+     * position in the container is relative to the container itself and not the screen.
      * A container is the most common widget to use as the Gui's top widget as makes the Gui
      * able to contain more than one widget.
      *
@@ -169,7 +165,7 @@ namespace fcn
          * Finds a widget given an id.
          *
          * @param id The id to find a widget by.
-         * @return A widget with a corrosponding id, NULL if no widget 
+         * @return A widget with a corrosponding id, NULL if no widget
          *         is found.
          * @see Widget::setId
          */
@@ -177,7 +173,7 @@ namespace fcn
 
         /**
          * Adds a container listener to the container. When a widget is
-         * added or removed an event will be sent to all container 
+         * added or removed an event will be sent to all container
          * listeners of the container
          *
          * @param containerListener The container listener to add.
@@ -283,7 +279,7 @@ namespace fcn
         /**
          * Distributes a widget added container event to all container listeners
          * of the container.
-         * 
+         *
          * @param source The source widget of the event.
          */
         void distributeWidgetAddedEvent(Widget* source);
@@ -291,7 +287,7 @@ namespace fcn
         /**
          * Distributes a widget removed container event to all container listeners
          * of the container.
-         * 
+         *
          * @param source The source widget of the event.
          */
         void distributeWidgetRemovedEvent(Widget* source);
@@ -303,9 +299,9 @@ namespace fcn
 
         /**
          * Typdef.
-         */ 
+         */
         typedef std::list<ContainerListener*> ContainerListenerList;
-        
+
         /**
          * The container listeners of the container.
          */

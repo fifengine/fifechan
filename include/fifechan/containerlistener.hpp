@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,7 +71,6 @@ namespace fcn
      *
      * @see BasicContainer::addContainerListener, BasicContainer::removeContainerListener,
      *      ContainerEvent
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC ContainerListener
     {
@@ -92,7 +87,7 @@ namespace fcn
          * @param containerEvent The event of the action.
          */
         virtual void widgetAdded(const ContainerEvent& containerEvent) = 0;
-    
+
         /**
          * Called when a widget is removed from a container.
          *

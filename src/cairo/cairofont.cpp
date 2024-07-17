@@ -29,10 +29,6 @@
  *
  * Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -70,31 +66,29 @@ namespace fcn
 {
     CairoFont::CairoFont(cairo_scaled_font_t* fontface)
     {
-        mFontFace=fontface;
+        mFontFace = fontface;
         cairo_scaled_font_reference(mFontFace);
-        cairo_scaled_font_extents(mFontFace,&mFontExtents);
-        SetFontColor(Color(0,0,0,255));
+        cairo_scaled_font_extents(mFontFace, &mFontExtents);
+        SetFontColor(Color(0, 0, 0, 255));
     }
-
 
     /*void CairoFont::SetFontFace(cairo_font_face_t* fontface)
     {
 
     }*/
 
-    void CairoFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
+    void CairoFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
     {
-        CairoGraphics* gr=dynamic_cast<CairoGraphics*>(graphics);
-        if (gr==NULL)
-        {
+        CairoGraphics* gr = dynamic_cast<CairoGraphics*>(graphics);
+        if (gr == NULL) {
             FCN_EXCEPTION("The graphics object passed as parameter is not of type CairoGraphics");
         }
-        cairo_t* target=gr->GetContext();
-        ClipRectangle r=gr->getCurrentClipArea();
-        cairo_set_scaled_font(target,mFontFace);
-        cairo_move_to(target,r.xOffset+x,mFontExtents.ascent+r.yOffset+y);
-        cairo_set_source_rgba(target,mColorR,mColorG,mColorB,mColorA);
-        cairo_show_text(target,text.c_str());
+        cairo_t* target = gr->GetContext();
+        ClipRectangle r = gr->getCurrentClipArea();
+        cairo_set_scaled_font(target, mFontFace);
+        cairo_move_to(target, r.xOffset + x, mFontExtents.ascent + r.yOffset + y);
+        cairo_set_source_rgba(target, mColorR, mColorG, mColorB, mColorA);
+        cairo_show_text(target, text.c_str());
     }
 
     int CairoFont::getHeight() const
@@ -102,25 +96,24 @@ namespace fcn
         return (int)mFontExtents.height;
     }
 
-    int CairoFont::getWidth(const std::string& text) const
+    int CairoFont::getWidth(std::string const & text) const
     {
         cairo_text_extents_t textext;
-        cairo_scaled_font_text_extents(mFontFace,text.c_str(),&textext);
+        cairo_scaled_font_text_extents(mFontFace, text.c_str(), &textext);
         return (int)textext.width;
     }
-
 
     CairoFont::~CairoFont()
     {
         cairo_scaled_font_destroy(mFontFace);
     }
 
-    void CairoFont::SetFontColor(const Color& color)
+    void CairoFont::SetFontColor(Color const & color)
     {
-        mColor = color;
-        mColorR= mColor.r/255.0;
-        mColorG= mColor.g/255.0;
-        mColorB= mColor.b/255.0;
-        mColorA= mColor.a/255.0;
+        mColor  = color;
+        mColorR = mColor.r / 255.0;
+        mColorG = mColor.g / 255.0;
+        mColorB = mColor.b / 255.0;
+        mColorA = mColor.a / 255.0;
     }
-}
+} // namespace fcn

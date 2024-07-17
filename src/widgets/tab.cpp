@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,18 +71,13 @@
 
 namespace fcn
 {
-    Tab::Tab()
-            :mHasMouse(false),
-            mTabbedArea(NULL)
+    Tab::Tab() : mHasMouse(false), mTabbedArea(NULL)
     {
         addMouseListener(this);
         setLayout(Container::Horizontal);
     }
 
-    Tab::~Tab()
-    {
-
-    }
+    Tab::~Tab() { }
 
     void Tab::adjustSize()
     {
@@ -105,31 +96,29 @@ namespace fcn
         return mTabbedArea;
     }
 
-
-    Rectangle Tab::getChildrenArea() {
+    Rectangle Tab::getChildrenArea()
+    {
         Rectangle rec;
-        rec.x = getBorderSize() + getPaddingLeft();
-        rec.y = getBorderSize() + getPaddingTop();
-        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
+        rec.x      = getBorderSize() + getPaddingLeft();
+        rec.y      = getBorderSize() + getPaddingTop();
+        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
         rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 
-    void Tab::draw(Graphics *graphics)
+    void Tab::draw(Graphics* graphics)
     {
-        const Color &faceColor = getBaseColor();
-        const int alpha = getBaseColor().a;
-        Color highlightColor = faceColor + 0x303030;
-        highlightColor.a = alpha;
-        Color shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        Color const & faceColor = getBaseColor();
+        int const alpha         = getBaseColor().a;
+        Color highlightColor    = faceColor + 0x303030;
+        highlightColor.a        = alpha;
+        Color shadowColor       = faceColor - 0x303030;
+        shadowColor.a           = alpha;
 
         Color borderColor;
         Color baseColor;
 
-        if ((mTabbedArea != NULL && mTabbedArea->isTabSelected(this))
-            || mHasMouse)
-        {
+        if ((mTabbedArea != NULL && mTabbedArea->isTabSelected(this)) || mHasMouse) {
             // Draw a border.
             graphics->setColor(highlightColor);
             graphics->drawLine(0, 0, getWidth() - 1, 0);
@@ -138,40 +127,29 @@ namespace fcn
             graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
 
             borderColor = highlightColor;
-            baseColor = getBaseColor();
-        }
-        else
-        {
+            baseColor   = getBaseColor();
+        } else {
             // Draw a border.
             graphics->setColor(shadowColor);
             graphics->drawLine(0, 0, getWidth() - 1, 0);
             graphics->drawLine(0, 1, 0, getHeight() - 1);
             graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
 
-            baseColor = getBaseColor() - 0x151515;
+            baseColor   = getBaseColor() - 0x151515;
             baseColor.a = alpha;
         }
 
         // Push a clip area so the other drawings don't need to worry
         // about the border.
         graphics->pushClipArea(Rectangle(1, 1, getWidth() - 2, getHeight() - 1));
-        const Rectangle currentClipArea = graphics->getCurrentClipArea();
+        Rectangle const currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(baseColor);
-        graphics->fillRectangle(0,
-                                0,
-                                currentClipArea.width,
-                                currentClipArea.height);
+        graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);
 
-        if (mTabbedArea != NULL
-            && mTabbedArea->isFocused()
-            && mTabbedArea->isTabSelected(this))
-        {
+        if (mTabbedArea != NULL && mTabbedArea->isFocused() && mTabbedArea->isTabSelected(this)) {
             graphics->setColor(Color(0x000000));
-            graphics->drawRectangle(2,
-                                    2,
-                                    currentClipArea.width - 4,
-                                    currentClipArea.height - 4);
+            graphics->drawRectangle(2, 2, currentClipArea.width - 4, currentClipArea.height - 4);
         }
 
         graphics->popClipArea();
@@ -186,5 +164,4 @@ namespace fcn
     {
         mHasMouse = false;
     }
-}
-
+} // namespace fcn

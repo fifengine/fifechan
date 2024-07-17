@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,21 +68,19 @@
 
 namespace fcn
 {
-    int Font::getStringIndexAt(const std::string& text, int x) const
+    int Font::getStringIndexAt(std::string const & text, int x) const
     {
         unsigned int i;
         int size = 0;
 
-        for (i = 0; i < text.size(); ++i)
-        {
-            size = getWidth(text.substr(0,i));
+        for (i = 0; i < text.size(); ++i) {
+            size = getWidth(text.substr(0, i));
 
-            if (size > x)
-            {
+            if (size > x) {
                 return i;
             }
         }
 
         return text.size();
     }
-}
+} // namespace fcn

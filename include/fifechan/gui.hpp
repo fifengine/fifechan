@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -98,12 +94,12 @@ namespace fcn
      * Contains a Guichan GUI. This is the core class of Guichan to which
      * implementations of back ends are passed, to make Guichan work with
      * a specific library, and to where the top widget (root widget of GUI)
-     * is added. If you want to be able to have more then one widget in your 
+     * is added. If you want to be able to have more then one widget in your
      * GUI, the top widget should be a container.
      *
-     * A Gui object cannot work properly without passing back end 
+     * A Gui object cannot work properly without passing back end
      * implementations to it. A Gui object must have an implementation of a
-     * Graphics and an implementation of Input. 
+     * Graphics and an implementation of Input.
      *
      * NOTE: A complete GUI also must have the ability to load images.
      *       Images are loaded with the Image class, so to make Guichan
@@ -148,7 +144,7 @@ namespace fcn
          * Sets the graphics object to use for drawing.
          *
          * @param graphics The graphics object to use for drawing.
-         * @see getGraphics, AllegroGraphics, HGEGraphics, 
+         * @see getGraphics, AllegroGraphics, HGEGraphics,
          *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual void setGraphics(Graphics* graphics);
@@ -158,7 +154,7 @@ namespace fcn
          *
          *  @return The graphics object used for drawing. NULL if no
          *          graphics object has been set.
-         * @see setGraphics, AllegroGraphics, HGEGraphics, 
+         * @see setGraphics, AllegroGraphics, HGEGraphics,
          *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual Graphics* getGraphics() const;
@@ -247,21 +243,21 @@ namespace fcn
 
         /**
          * Inform gui that a widget was hidden.
-         * 
+         *
          * @param widget Hidden widget.
          */
         void enqueueHiddenWidget(Widget* widget);
-        
+
         /**
          * Inform gui that a widget was shown.
-         * 
+         *
          * @param widget Shown widget.
          */
         void enqueueShownWidget(Widget* widget);
 
         /**
          * Inform gui that a widget was deleted.
-         * 
+         *
          * @param widget Deleted widget.
          */
         void widgetDied(Widget* widget);
@@ -330,7 +326,7 @@ namespace fcn
         virtual void handleMouseReleased(const MouseInput& mouseInput);
 
         /**
-         * Handles modal focus. Modal focus needs to be checked at 
+         * Handles modal focus. Modal focus needs to be checked at
          * each logic iteration as it might be necessary to distribute
          * mouse entered or mouse exited events.
          *
@@ -338,8 +334,8 @@ namespace fcn
         virtual void handleModalFocus();
 
         /**
-         * Handles modal mouse input focus. Modal mouse input focus needs 
-         * to be checked at each logic iteration as it might be necessary to 
+         * Handles modal mouse input focus. Modal mouse input focus needs
+         * to be checked at each logic iteration as it might be necessary to
          * distribute mouse entered or mouse exited events.
          *
          */
@@ -374,12 +370,12 @@ namespace fcn
          *
          */
         virtual void handleModalMouseInputFocusReleased();
-        
+
         /**
          * Handles hidden widgets.
          */
         virtual void handleHiddenWidgets();
-        
+
         /**
          * Handles shown widgets.
          */
@@ -395,7 +391,7 @@ namespace fcn
          * @param fource indicates whether the distribution should be forced or not.
          *               A forced distribution distributes the event even if a widget
          *               is not enabled, not visible, another widget has modal
-         *               focus or another widget has modal mouse input focus. 
+         *               focus or another widget has modal mouse input focus.
          *               Default value is false.
          * @param toSourceOnly indicates whether the distribution should be to the
          *                     source widget only or to it's parent's mouse listeners
@@ -465,12 +461,12 @@ namespace fcn
          * Holds hidden widgets.
          */
         std::queue<Widget*> mHiddenWidgets;
-        
+
         /**
          * Holds shown widgets.
          */
         std::queue<Widget*> mShownWidgets;
-        
+
         /**
          * Holds the graphics implementation used.
          */
@@ -485,7 +481,7 @@ namespace fcn
          * Holds the focus handler for the Gui.
          */
         FocusHandler* mFocusHandler;
-        
+
         /**
          * Holds the visibility event handler for the Gui.
          */
@@ -510,7 +506,7 @@ namespace fcn
          * Holds the global key listeners of the Gui.
          */
         KeyListenerList mKeyListeners;
-        
+
         /**
          * True if shift is pressed, false otherwise.
          */

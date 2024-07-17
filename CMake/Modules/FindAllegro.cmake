@@ -6,7 +6,7 @@
 #  ALLEGRO_LIBRARIES - Link these to use Allegro
 #  ALLEGRO_DEFINITIONS - Compiler switches required for using Allegro
 #
-#  Copyright (c) 2008 Olof Naessen <olof.naessen@gmail.com>
+#  Copyright (c) 2008 Olof Naessén <olof.naessen@gmail.com>
 #
 #  Redistribution and use is allowed according to the terms of the New
 #  BSD license.

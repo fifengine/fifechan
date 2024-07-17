@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -128,15 +124,15 @@ namespace fcn
         /**
          * Checks if shift is pressed.
          *
-         * @return True if shift was pressed at the same 
+         * @return True if shift was pressed at the same
          *         time as the key, false otherwise.
          * @see setShiftPressed
          */
         bool isShiftPressed() const;
 
         /**
-         * Sets shift to be pressed at the same time as the key, 
-         * or not. 
+         * Sets shift to be pressed at the same time as the key,
+         * or not.
          *
          * @param pressed True if shift is pressed, false otherwise.
          * @see isShiftPressed
@@ -146,15 +142,15 @@ namespace fcn
         /**
          * Checks if control is pressed.
          *
-         * @return True if control was pressed at the same 
+         * @return True if control was pressed at the same
          *         time as the key, false otherwise.
          * @see setControlPressed
          */
         bool isControlPressed() const;
 
         /**
-         * Sets control to be pressed at the same time as the key, 
-         * or not. 
+         * Sets control to be pressed at the same time as the key,
+         * or not.
          *
          * @param pressed True if control is pressed, false otherwise.
          * @see isControlPressed
@@ -164,17 +160,17 @@ namespace fcn
         /**
          * Checks if alt is pressed.
          *
-         * @return True if alt was pressed at the same 
+         * @return True if alt was pressed at the same
          *         time as the key, false otherwise.
          * @see setAltPressed
          */
         bool isAltPressed() const;
 
         /**
-         * Sets the alt to be pressed at the same time as the key, 
-         * or not. 
+         * Sets the alt to be pressed at the same time as the key,
+         * or not.
          *
-         * @param pressed True if alt is pressed at the same 
+         * @param pressed True if alt is pressed at the same
          *                time as the key, , false otherwise.
          * @see isAltPressed
          */
@@ -183,15 +179,15 @@ namespace fcn
         /**
          * Checks if meta is pressed.
          *
-         * @return True if meta was pressed at the same 
+         * @return True if meta was pressed at the same
          *         time as the key, false otherwise.
          * @see setMetaPressed
          */
         bool isMetaPressed() const;
 
         /**
-         * Sets meta to be pressed at the same time as the key, 
-         * or not. 
+         * Sets meta to be pressed at the same time as the key,
+         * or not.
          *
          * @param pressed True if meta is pressed at the same
          *                time as the key, false otherwise.
@@ -241,31 +237,31 @@ namespace fcn
         /**
          * True if shift was pressed at the same time as the key,
          * false otherwise.
-         */ 
+         */
         bool mShiftPressed;
 
         /**
          * True if control was pressed at the same time as the key,
          * false otherwise.
-         */ 
+         */
         bool mControlPressed;
 
         /**
          * True if alt was pressed at the same time as the key,
          * false otherwise.
-         */ 
+         */
         bool mAltPressed;
 
         /**
          * True if meta was pressed at the same time as the key,
          * false otherwise.
-         */ 
+         */
         bool mMetaPressed;
 
         /**
          * True if the numeric pad was used when the key was pressed,
          * false otherwise.
-         */ 
+         */
         bool mNumericPad;
     };
 }

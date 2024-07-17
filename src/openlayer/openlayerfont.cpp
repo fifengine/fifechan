@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -69,30 +65,25 @@
 
 namespace fcn
 {
-    OpenLayerTTFont::OpenLayerTTFont(const std::string& filename, int size)
-      : mTextRenderer(filename.c_str(), size, size)
+    OpenLayerTTFont::OpenLayerTTFont(std::string const & filename, int size) :
+        mTextRenderer(filename.c_str(), size, size)
     {
-        if (!mTextRenderer.IsValid())
-        {
+        if (!mTextRenderer.IsValid()) {
             throw FCN_EXCEPTION("Unable to load font.");
         }
     }
 
-    OpenLayerTTFont::OpenLayerTTFont(const std::string& filename, int width, int height)
-        : mTextRenderer(filename.c_str(), width, height)
+    OpenLayerTTFont::OpenLayerTTFont(std::string const & filename, int width, int height) :
+        mTextRenderer(filename.c_str(), width, height)
     {
-        if (!mTextRenderer.IsValid())
-        {
+        if (!mTextRenderer.IsValid()) {
             throw FCN_EXCEPTION("Unable to load font.");
         }
     }
 
-    OpenLayerTTFont::~OpenLayerTTFont()
-    {
+    OpenLayerTTFont::~OpenLayerTTFont() { }
 
-    }
-
-    int OpenLayerTTFont::getWidth(const std::string& text) const
+    int OpenLayerTTFont::getWidth(std::string const & text) const
     {
         return mTextRenderer.Width(text);
     }
@@ -102,19 +93,16 @@ namespace fcn
         return mTextRenderer.FontTotalHeight();
     }
 
-    void OpenLayerTTFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+    void OpenLayerTTFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
-        const ClipRectangle& rec = graphics->getCurrentClipArea();
+        ClipRectangle const & rec = graphics->getCurrentClipArea();
 
         OpenLayerGraphics* const openLayerGraphics = dynamic_cast<fcn::OpenLayerGraphics*>(graphics);
-        if (!openLayerGraphics)
-        {
+        if (!openLayerGraphics) {
             throw FCN_EXCEPTION("Graphics is not of type OpenLayerGraphics");
         }
-        
+
         mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());
-        mTextRenderer.Print(text, 
-                            x + rec.xOffset, 
-                            y + rec.yOffset + mTextRenderer.Height(text));
+        mTextRenderer.Print(text, x + rec.xOffset, y + rec.yOffset + mTextRenderer.Height(text));
     }
-}
+} // namespace fcn

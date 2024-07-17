@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,12 +71,12 @@ namespace fcn
     class Image;
 
     /**
-     * An implementation of a regular clickable button. Unlike a normal button an image 
+     * An implementation of a regular clickable button. Unlike a normal button an image
      * button is capable of displaying images instead of only a simple text caption.
      * It is possible to define images for button up, down and hover.
      * Also the same 3 images for a inactive button so that it's possible to visualize the inactivity.
      * As minimum the button up image should be set. All other 5 images are optional.
-     * Whenever an image button is clicked an action event will be sent to the action 
+     * Whenever an image button is clicked an action event will be sent to the action
      * listener's of the image button.
      *
      * @see Button

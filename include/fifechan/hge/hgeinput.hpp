@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -81,8 +77,6 @@ namespace fcn
 {
     /**
      * HGE implementation of Input.
-     *
-     * @author Kevin Lynx
      */
     class FCN_EXTENSION_DECLSPEC HGEInput : public Input
     {
@@ -104,9 +98,9 @@ namespace fcn
         virtual bool isKeyQueueEmpty();
 
         virtual bool isMouseQueueEmpty();
-    
+
         virtual KeyInput dequeueKeyInput();
-    
+
         virtual MouseInput dequeueMouseInput();
 
         virtual void _pollInput();
@@ -118,11 +112,11 @@ namespace fcn
          * @param ki the hge input event to handle.
          */
         void pollKeyInput(hgeInputEvent &ki);
-    
+
         /**
          * Handles mouse input. The function is called by _pollInput.
          *
-         * This function directly deal with the mouse input , and it avoid 
+         * This function directly deal with the mouse input , and it avoid
          * the odd things in HGE.
          */
         void pollMouseInput();
@@ -134,7 +128,7 @@ namespace fcn
          * @param chr The character to convert.
          */
         Key convertToKey(int key, int chr);
-    
+
         /**
          * Checks if a keyCode is numeric.
          *

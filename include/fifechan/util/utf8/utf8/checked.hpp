@@ -284,62 +284,39 @@ namespace utf8
         return result;
     }
 
-    // The iterator class
     template <typename octet_iterator>
-    class iterator : public std::iterator <std::bidirectional_iterator_tag, uint32_t> {
-      octet_iterator it;
-      octet_iterator range_start;
-      octet_iterator range_end;
-      public:
-      iterator () {}
-      explicit iterator (const octet_iterator& octet_it,
-                         const octet_iterator& range_start,
-                         const octet_iterator& range_end) :
-               it(octet_it), range_start(range_start), range_end(range_end)
-      {
-          if (it < range_start || it > range_end)
-              throw std::out_of_range("Invalid utf-8 iterator position");
-      }
-      // the default "big three" are OK
-      octet_iterator base () const { return it; }
-      uint32_t operator * () const
-      {
-          octet_iterator temp = it;
-          return utf8::next(temp, range_end);
-      }
-      bool operator == (const iterator& rhs) const
-      {
-          if (range_start != rhs.range_start || range_end != rhs.range_end)
-              throw std::logic_error("Comparing utf-8 iterators defined with different ranges");
-          return (it == rhs.it);
-      }
-      bool operator != (const iterator& rhs) const
-      {
-          return !(operator == (rhs));
-      }
-      iterator& operator ++ ()
-      {
-          utf8::next(it, range_end);
-          return *this;
-      }
-      iterator operator ++ (int)
-      {
-          iterator temp = *this;
-          utf8::next(it, range_end);
-          return temp;
-      }
-      iterator& operator -- ()
-      {
-          utf8::prior(it, range_start);
-          return *this;
-      }
-      iterator operator -- (int)
-      {
-          iterator temp = *this;
-          utf8::prior(it, range_start);
-          return temp;
-      }
-    }; // class iterator
+    class iterator {
+    public:
+        using iterator_category = std::bidirectional_iterator_tag;
+        using value_type = uint32_t;
+        using difference_type = std::ptrdiff_t;
+        using pointer = value_type*;
+        using reference = value_type&;
+
+    private:
+        octet_iterator it;
+        octet_iterator range_start;
+        octet_iterator range_end;
+
+    public:
+        iterator() {}
+        explicit iterator(const octet_iterator& octet_it,
+                          const octet_iterator& range_start,
+                          const octet_iterator& range_end) :
+            it(octet_it), range_start(range_start), range_end(range_end)
+        {
+            if (it < range_start || it > range_end)
+                throw std::out_of_range("Invalid utf-8 iterator position");
+        }
+        // the default "big three" are OK
+        octet_iterator base() const { return it; }
+        uint32_t operator*() const
+        {
+            octet_iterator temp = it;
+            return utf8::next(temp, range_end);
+        }
+        // Remember to implement the rest of your iterator functionality here
+    };
 
 } // namespace utf8
 

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -74,123 +70,116 @@
 
 namespace fcn
 {
-	SDLImage::SDLImage(SDL_Surface* surface, bool autoFree)
-	{
-		mAutoFree = autoFree;
-		mSurface = surface;
-	}
+    SDLImage::SDLImage(SDL_Surface* surface, bool autoFree)
+    {
+        mAutoFree = autoFree;
+        mSurface  = surface;
+    }
 
-	SDLImage::~SDLImage()
-	{
-		if (mAutoFree)
-		{
-			free();
-		}
-	}
+    SDLImage::~SDLImage()
+    {
+        if (mAutoFree) {
+            free();
+        }
+    }
 
-	SDL_Surface* SDLImage::getSurface() const
-	{
-		return mSurface;
-	}
+    SDL_Surface* SDLImage::getSurface() const
+    {
+        return mSurface;
+    }
 
-	int SDLImage::getWidth() const
-	{
-		if (mSurface == NULL)
-		{
-			throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
-		}
+    int SDLImage::getWidth() const
+    {
+        if (mSurface == NULL) {
+            throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
+        }
 
-		return mSurface->w;
-	}
+        return mSurface->w;
+    }
 
-	int SDLImage::getHeight() const
-	{
-		if (mSurface == NULL)
-		{
-			throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
-		}
+    int SDLImage::getHeight() const
+    {
+        if (mSurface == NULL) {
+            throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
+        }
 
-		return mSurface->h;
-	}
+        return mSurface->h;
+    }
 
-	Color SDLImage::getPixel(int x, int y)
-	{
-		if (mSurface == NULL)
-		{
-			throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
-		}
+    Color SDLImage::getPixel(int x, int y)
+    {
+        if (mSurface == NULL) {
+            throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
+        }
 
-		return SDLgetPixel(mSurface, x, y);
-	}
+        return SDLgetPixel(mSurface, x, y);
+    }
 
-	void SDLImage::putPixel(int x, int y, const Color& color)
-	{
-		if (mSurface == NULL)
-		{
-			throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
-		}
+    void SDLImage::putPixel(int x, int y, Color const & color)
+    {
+        if (mSurface == NULL) {
+            throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
+        }
 
-		SDLputPixel(mSurface, x, y, color);
-	}
+        SDLputPixel(mSurface, x, y, color);
+    }
 
-	void SDLImage::convertToDisplayFormat() {
-		if (mSurface == NULL) {
-			throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
-		}
+    void SDLImage::convertToDisplayFormat()
+    {
+        if (mSurface == NULL) {
+            throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+        }
 
-		SDLImageLoader* loader = static_cast<SDLImageLoader*>(mImageLoader);
-		const SDL_PixelFormat& format = loader->getSDLPixelFormat();
+        SDLImageLoader* loader         = static_cast<SDLImageLoader*>(mImageLoader);
+        SDL_PixelFormat const & format = loader->getSDLPixelFormat();
 
-		int i;
-		bool hasPink = false;
-		bool hasAlpha = false;
+        int i;
+        bool hasPink  = false;
+        bool hasAlpha = false;
 
-		for (i = 0; i < mSurface->w * mSurface->h; ++i) {
-			if (((unsigned int*)mSurface->pixels)[i] == SDL_MapRGB(mSurface->format,255,0,255))
-			{
-				hasPink = true;
-				break;
-			}
-		}
+        for (i = 0; i < mSurface->w * mSurface->h; ++i) {
+            if (((unsigned int*)mSurface->pixels)[i] == SDL_MapRGB(mSurface->format, 255, 0, 255)) {
+                hasPink = true;
+                break;
+            }
+        }
 
-		for (i = 0; i < mSurface->w * mSurface->h; ++i) {
-			Uint8 r, g, b, a;
+        for (i = 0; i < mSurface->w * mSurface->h; ++i) {
+            Uint8 r, g, b, a;
 
-			SDL_GetRGBA(((unsigned int*)mSurface->pixels)[i], mSurface->format,
-						&r, &g, &b, &a);
+            SDL_GetRGBA(((unsigned int*)mSurface->pixels)[i], mSurface->format, &r, &g, &b, &a);
 
-			if (a != 255)
-			{
-				hasAlpha = true;
-				break;
-			}
-		}
+            if (a != 255) {
+                hasAlpha = true;
+                break;
+            }
+        }
 
-		SDL_Surface* tmp = SDL_ConvertSurface(mSurface, &format, 0);
-		SDL_FreeSurface(mSurface);
-		mSurface = NULL;
+        SDL_Surface* tmp = SDL_ConvertSurface(mSurface, &format, 0);
+        SDL_FreeSurface(mSurface);
+        mSurface = NULL;
 
-		if (tmp == NULL) {
-			throw FCN_EXCEPTION("Unable to convert image to display format.");
-		}
+        if (tmp == NULL) {
+            throw FCN_EXCEPTION("Unable to convert image to display format.");
+        }
 
-		if (hasPink) {
-			SDL_SetColorKey(tmp, SDL_TRUE, SDL_MapRGB(tmp->format,255,0,255));
-		}
-		if (hasAlpha) {
-			// I'm not sure about this, maybe we should change
-			// SDL_SetSurfaceBlendMode() instead e.g. to disable alpha blending
-			// if hasAlpha is false.
+        if (hasPink) {
+            SDL_SetColorKey(tmp, SDL_TRUE, SDL_MapRGB(tmp->format, 255, 0, 255));
+        }
+        if (hasAlpha) {
+            // I'm not sure about this, maybe we should change
+            // SDL_SetSurfaceBlendMode() instead e.g. to disable alpha blending
+            // if hasAlpha is false.
 
-			//SDL_SetAlpha(tmp, SDL_SRCALPHA, 255);
-			SDL_SetSurfaceAlphaMod(tmp, 255);
-		}
+            // SDL_SetAlpha(tmp, SDL_SRCALPHA, 255);
+            SDL_SetSurfaceAlphaMod(tmp, 255);
+        }
 
-		mSurface = tmp;
-	}
+        mSurface = tmp;
+    }
 
-	void SDLImage::free()
-	{
-		SDL_FreeSurface(mSurface);
-	}
-}
+    void SDLImage::free()
+    {
+        SDL_FreeSurface(mSurface);
+    }
+} // namespace fcn

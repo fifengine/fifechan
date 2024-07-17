@@ -23,50 +23,50 @@
 #include <fifechan/graphics.hpp>
 #include <fifechan/widgets/linegraph.hpp>
 
+namespace fcn
+{
 
-namespace fcn {
+    LineGraph::LineGraph() : m_opaque(false), m_thickness(1), m_data() { }
 
-    LineGraph::LineGraph():
-        m_opaque(false),
-        m_thickness(1),
-        m_data() {
-    }
+    LineGraph::LineGraph(PointVector const & data) : m_opaque(false), m_thickness(1), m_data(data) { }
 
-    LineGraph::LineGraph(const PointVector& data):
-        m_opaque(false),
-        m_thickness(1),
-        m_data(data) {
-    }
-
-    void LineGraph::setPointVector(const PointVector& data) {
+    void LineGraph::setPointVector(PointVector const & data)
+    {
         m_data = data;
     }
 
-    const PointVector& LineGraph::getPointVector() const {
+    PointVector const & LineGraph::getPointVector() const
+    {
         return m_data;
     }
 
-    void LineGraph::resetPointVector() {
+    void LineGraph::resetPointVector()
+    {
         m_data.clear();
     }
 
-    void LineGraph::setThickness(unsigned int thickness) {
+    void LineGraph::setThickness(unsigned int thickness)
+    {
         m_thickness = thickness;
     }
 
-    unsigned int LineGraph::getThickness() const {
+    unsigned int LineGraph::getThickness() const
+    {
         return m_thickness;
     }
 
-    void LineGraph::setOpaque(bool opaque) {
+    void LineGraph::setOpaque(bool opaque)
+    {
         m_opaque = opaque;
     }
 
-    bool LineGraph::isOpaque() const {
+    bool LineGraph::isOpaque() const
+    {
         return m_opaque;
     }
 
-    void LineGraph::draw(Graphics* graphics) {
+    void LineGraph::draw(Graphics* graphics)
+    {
         bool active = isFocused();
 
         if (isOpaque()) {
@@ -76,8 +76,8 @@ namespace fcn {
             } else {
                 graphics->setColor(getBackgroundColor());
             }
-            graphics->fillRectangle(getBorderSize(), getBorderSize(),
-                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            graphics->fillRectangle(
+                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         // draw border or frame
         if (getBorderSize() > 0) {
@@ -93,10 +93,10 @@ namespace fcn {
         }
         // draw lines
         graphics->setColor(getBaseColor());
-        bool thick = m_thickness > 1;
+        bool thick                = m_thickness > 1;
         PointVector::iterator pit = m_data.begin();
-        int x1 = (*pit).x;
-        int y1 = (*pit).y;
+        int x1                    = (*pit).x;
+        int y1                    = (*pit).y;
         ++pit;
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
@@ -117,4 +117,4 @@ namespace fcn {
         }
     }
 
-};
+}; // namespace fcn

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -119,7 +115,7 @@ namespace fcn
 
 
         // Inherited from Graphics.
-        
+
         virtual void _beginDraw();
 
         virtual void _endDraw();
@@ -135,21 +131,21 @@ namespace fcn
                                int dstY,
                                int width,
                                int height);
-    
+
         virtual void drawPoint(int x, int y);
-    
+
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
         virtual void drawRectangle(const Rectangle& rectangle);
-        
+
         virtual void fillRectangle(const Rectangle& rectangle);
-        
+
         virtual void setColor(const Color& color);
-        
+
         virtual const Color& getColor() const;
 
         const ol::Rgba& getOpenLayerColor() const;
-        
+
     protected:
         int mWidth, mHeight;
         ol::Rgba mRgba;

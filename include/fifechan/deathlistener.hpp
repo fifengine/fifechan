@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -76,7 +72,6 @@ namespace fcn
      * Interface for listening for death events from widgets.
      *
      * @see Widget::addDeathListener, Widget::removeDeathListener
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC DeathListener
     {
@@ -94,7 +89,7 @@ namespace fcn
          * @param event The event of the death.
          */
         virtual void death(const Event& event) = 0;
-    
+
     protected:
         /**
          * Constructor.

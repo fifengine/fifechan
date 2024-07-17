@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -78,26 +74,26 @@ namespace fcn
     {
         mAlignment = Graphics::Left;
 
-		adjustSize();
+        adjustSize();
     }
 
-    Label::Label(const std::string& caption)
+    Label::Label(std::string const & caption)
     {
-        mCaption = caption;
+        mCaption   = caption;
         mAlignment = Graphics::Left;
 
         adjustSize();
     }
 
-    const std::string &Label::getCaption() const
+    std::string const & Label::getCaption() const
     {
         return mCaption;
     }
 
-    void Label::setCaption(const std::string& caption)
+    void Label::setCaption(std::string const & caption)
     {
         mCaption = caption;
-		adjustSize();
+        adjustSize();
     }
 
     void Label::setAlignment(Graphics::Alignment alignment)
@@ -110,18 +106,21 @@ namespace fcn
         return mAlignment;
     }
 
-    void Label::resizeToContent(bool recursiv) {
+    void Label::resizeToContent(bool recursiv)
+    {
         adjustSize();
     }
-    
-    void Label::adjustSize() {
-        setSize(2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
+
+    void Label::adjustSize()
+    {
+        setSize(
+            2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
             2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + getFont()->getHeight());
     }
 
     void Label::draw(Graphics* graphics)
     {
-		// draw border or frame
+        // draw border or frame
         if (getBorderSize() > 0) {
             if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
                 drawSelectionFrame(graphics);
@@ -129,27 +128,29 @@ namespace fcn
                 drawBorder(graphics);
             }
         }
-		Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
         int textX;
-		int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+        int textY =
+            offsetRec.y + getPaddingTop() +
+            (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
 
-        switch (getAlignment())
-        {
-          case Graphics::Left:
-              textX = offsetRec.x + getPaddingLeft();
-              break;
-          case Graphics::Center:
-              textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
-              break;
-          case Graphics::Right:
-              textX = getWidth() - offsetRec.x - getPaddingRight();
-              break;
-          default:
-              throw FCN_EXCEPTION("Unknown alignment.");
+        switch (getAlignment()) {
+        case Graphics::Left:
+            textX = offsetRec.x + getPaddingLeft();
+            break;
+        case Graphics::Center:
+            textX = offsetRec.x + getPaddingLeft() +
+                    (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+            break;
+        case Graphics::Right:
+            textX = getWidth() - offsetRec.x - getPaddingRight();
+            break;
+        default:
+            throw FCN_EXCEPTION("Unknown alignment.");
         }
 
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
         graphics->drawText(getCaption(), textX, textY, getAlignment());
     }
-}
+} // namespace fcn

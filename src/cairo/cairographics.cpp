@@ -29,10 +29,6 @@
  *
  * Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -71,16 +67,15 @@
 namespace fcn
 {
 
-    CairoGraphics::CairoGraphics(cairo_surface_t* TargetSurface,int Width,int Height)
+    CairoGraphics::CairoGraphics(cairo_surface_t* TargetSurface, int Width, int Height)
     {
-        if (!TargetSurface)
-        {
+        if (!TargetSurface) {
             FCN_EXCEPTION("Specified reference to target cairo surface is null!");
         }
-        mCairoContext=cairo_create(TargetSurface);
-        mTargetSurface=TargetSurface;
-        mHeight=Height;
-        mWidth=Width;
+        mCairoContext  = cairo_create(TargetSurface);
+        mTargetSurface = TargetSurface;
+        mHeight        = Height;
+        mWidth         = Width;
     }
 
     CairoGraphics::~CairoGraphics()
@@ -89,7 +84,7 @@ namespace fcn
     }
     void CairoGraphics::_beginDraw()
     {
-        pushClipArea(Rectangle(0,0,mWidth,mHeight));
+        pushClipArea(Rectangle(0, 0, mWidth, mHeight));
         cairo_push_group(mCairoContext);
     }
 
@@ -102,18 +97,15 @@ namespace fcn
 
     bool CairoGraphics::pushClipArea(Rectangle area)
     {
-        bool result=Graphics::pushClipArea(area);
-        ClipRectangle& mCurrentDrawingArea=mClipStack.top();
+        bool result                        = Graphics::pushClipArea(area);
+        ClipRectangle& mCurrentDrawingArea = mClipStack.top();
 
-        //saves the current context options including clipping area
-        // ! Actualy saves all drawing options.
+        // saves the current context options including clipping area
+        //  ! Actualy saves all drawing options.
         cairo_save(mCairoContext);
-        //create a rectangle corresponding to the clipping area
-        cairo_rectangle(mCairoContext,
-                        mCurrentDrawingArea.xOffset,
-                        mCurrentDrawingArea.yOffset,
-                        area.width,
-                        area.height);
+        // create a rectangle corresponding to the clipping area
+        cairo_rectangle(
+            mCairoContext, mCurrentDrawingArea.xOffset, mCurrentDrawingArea.yOffset, area.width, area.height);
         cairo_clip(mCairoContext);
         return result;
     }
@@ -121,104 +113,87 @@ namespace fcn
     void CairoGraphics::popClipArea()
     {
         Graphics::popClipArea();
-        //restore drawing options
+        // restore drawing options
         cairo_restore(mCairoContext);
     }
 
-    void CairoGraphics::drawImage(const Image* image,
-                                int srcX,
-                                int srcY,
-                                int dstX,
-                                int dstY,
-                                int width,
-                                int height)
+    void CairoGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-        const CairoImage *srcImage=dynamic_cast<const CairoImage*>(image);
-        if (!srcImage)
-        {
+        CairoImage const * srcImage = dynamic_cast<CairoImage const *>(image);
+        if (!srcImage) {
             throw FCN_EXCEPTION("Passed image reference is null or not of type fcn::CairoImage*.");
         }
-        const ClipRectangle& top=mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         cairo_save(mCairoContext);
 
-        cairo_set_source_surface(mCairoContext,
-                                 srcImage->mCairoSurface,
-                                 top.xOffset + (dstX - srcX),
-                                 top.yOffset + (dstY - srcY));
-        //sets the clipping area
-        cairo_rectangle(mCairoContext,
-                        top.xOffset + dstX,
-                        top.yOffset + dstY,
-                        width,height);
+        cairo_set_source_surface(
+            mCairoContext, srcImage->mCairoSurface, top.xOffset + (dstX - srcX), top.yOffset + (dstY - srcY));
+        // sets the clipping area
+        cairo_rectangle(mCairoContext, top.xOffset + dstX, top.yOffset + dstY, width, height);
         cairo_clip(mCairoContext);
 
-        //paint and restore the context
+        // paint and restore the context
         cairo_paint(mCairoContext);
-        cairo_restore (mCairoContext);
+        cairo_restore(mCairoContext);
     }
 
-    void CairoGraphics::drawRectangle(const Rectangle& rectangle)
+    void CairoGraphics::drawRectangle(Rectangle const & rectangle)
     {
-        ClipRectangle& mCurrentDrawingArea=mClipStack.top();
-        cairo_rectangle(mCairoContext,
-                        mCurrentDrawingArea.xOffset+rectangle.x,
-                        mCurrentDrawingArea.yOffset+rectangle.y,
-                        rectangle.width,
-                        rectangle.height);
+        ClipRectangle& mCurrentDrawingArea = mClipStack.top();
+        cairo_rectangle(
+            mCairoContext,
+            mCurrentDrawingArea.xOffset + rectangle.x,
+            mCurrentDrawingArea.yOffset + rectangle.y,
+            rectangle.width,
+            rectangle.height);
         SetCurrentColorAsSource();
         cairo_stroke(mCairoContext);
     }
 
-    void CairoGraphics::fillRectangle(const Rectangle& rectangle)
+    void CairoGraphics::fillRectangle(Rectangle const & rectangle)
     {
-        ClipRectangle& mCurrentDrawingArea=mClipStack.top();
-        cairo_rectangle(mCairoContext,
-                        mCurrentDrawingArea.xOffset+rectangle.x,
-                        mCurrentDrawingArea.yOffset+rectangle.y,
-                        rectangle.width,
-                        rectangle.height);
+        ClipRectangle& mCurrentDrawingArea = mClipStack.top();
+        cairo_rectangle(
+            mCairoContext,
+            mCurrentDrawingArea.xOffset + rectangle.x,
+            mCurrentDrawingArea.yOffset + rectangle.y,
+            rectangle.width,
+            rectangle.height);
         SetCurrentColorAsSource();
         cairo_fill(mCairoContext);
     }
 
     void CairoGraphics::drawPoint(int x, int y)
     {
-        ClipRectangle& mCurrentDrawingArea=mClipStack.top();
-        cairo_rectangle(mCairoContext,
-                        mCurrentDrawingArea.xOffset+x,
-                        mCurrentDrawingArea.yOffset+y,
-                        1,1);
+        ClipRectangle& mCurrentDrawingArea = mClipStack.top();
+        cairo_rectangle(mCairoContext, mCurrentDrawingArea.xOffset + x, mCurrentDrawingArea.yOffset + y, 1, 1);
         SetCurrentColorAsSource();
         cairo_fill(mCairoContext);
     }
 
     void CairoGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        ClipRectangle& mCurrentDrawingArea=mClipStack.top();
-        cairo_move_to(mCairoContext,
-                      mCurrentDrawingArea.xOffset+x1,
-                      mCurrentDrawingArea.yOffset+y1);
+        ClipRectangle& mCurrentDrawingArea = mClipStack.top();
+        cairo_move_to(mCairoContext, mCurrentDrawingArea.xOffset + x1, mCurrentDrawingArea.yOffset + y1);
 
-        cairo_line_to(mCairoContext,
-                      mCurrentDrawingArea.xOffset+x2,
-                      mCurrentDrawingArea.yOffset+y2);
+        cairo_line_to(mCairoContext, mCurrentDrawingArea.xOffset + x2, mCurrentDrawingArea.yOffset + y2);
         SetCurrentColorAsSource();
-        cairo_set_line_width(mCairoContext,1.0f);
+        cairo_set_line_width(mCairoContext, 1.0f);
         cairo_set_line_cap(mCairoContext, CAIRO_LINE_CAP_SQUARE);
         cairo_stroke(mCairoContext);
     }
 
-    void CairoGraphics::setColor(const Color& color)
+    void CairoGraphics::setColor(Color const & color)
     {
-        mColor = color;
-        mColorR= mColor.r/255.0;
-        mColorG= mColor.g/255.0;
-        mColorB= mColor.b/255.0;
-        mColorA= mColor.a/255.0;
+        mColor  = color;
+        mColorR = mColor.r / 255.0;
+        mColorG = mColor.g / 255.0;
+        mColorB = mColor.b / 255.0;
+        mColorA = mColor.a / 255.0;
     }
 
-    const Color& CairoGraphics::getColor() const
+    Color const & CairoGraphics::getColor() const
     {
         return mColor;
     }
@@ -232,4 +207,4 @@ namespace fcn
     {
         return mCairoContext;
     }
-}
+} // namespace fcn

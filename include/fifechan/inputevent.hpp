@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,8 +68,6 @@ namespace fcn
 {
     /**
      * Base class for all events concerning input.
-     *
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC InputEvent: public Event
     {
@@ -131,9 +125,9 @@ namespace fcn
         /**
          * Marks the event as consumed. Input event listeners may discard
          * consumed input or act on consumed input. An example of a widget
-         * that discards consumed input is the ScrollArea widget that 
-         * discards consumed mouse wheel events so the ScrollArea will not 
-         * scroll if for instance a Slider's value inside the ScrollArea was 
+         * that discards consumed input is the ScrollArea widget that
+         * discards consumed mouse wheel events so the ScrollArea will not
+         * scroll if for instance a Slider's value inside the ScrollArea was
          * changed with the mouse wheel.
          *
          * @see isConsumed
@@ -143,7 +137,7 @@ namespace fcn
         /**
          * Checks if the input event is consumed.
          *
-         * @return True if the input event is consumed, 
+         * @return True if the input event is consumed,
          *         false otherwise.
          * @see consume
          */
@@ -151,10 +145,10 @@ namespace fcn
 
         /**
          * Gets the distributor of the event. The function is
-         * used to tell which widget actually distributed the 
+         * used to tell which widget actually distributed the
          * event. As input events bubbles up, the source of the event
          * may not be the same as the distributor of the event.
-         */ 
+         */
         Widget* getDistributor() const;
 
     protected:
@@ -179,7 +173,7 @@ namespace fcn
         bool mMetaPressed;
 
         /**
-         * True if the input event is consumed, 
+         * True if the input event is consumed,
          * false otherwise.
          */
         bool mIsConsumed;
@@ -188,7 +182,7 @@ namespace fcn
          * Holds the distributor of the event.
          */
         Widget* mDistributor;
-    
+
         /**
          * Gui is a friend of this class in order to be able to manipulate
          * the protected member variables of this class and at the same time

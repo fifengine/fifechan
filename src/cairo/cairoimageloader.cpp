@@ -29,10 +29,6 @@
  *
  * Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -69,22 +65,18 @@
 
 namespace fcn
 {
-    Image* CairoImageLoader::load(const std::string& filename,
-                                bool convertToDisplayFormat)
+    Image* CairoImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
         cairo_surface_t* loadedSurface = cairo_image_surface_create_from_png(filename.c_str());
 
-        if (loadedSurface == NULL)
-        {
-            throw FCN_EXCEPTION(
-                    std::string("Unable to load image file: ") + filename);
+        if (loadedSurface == NULL) {
+            throw FCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
         }
 
-        Image *image = new CairoImage(loadedSurface);
-        if ( convertToDisplayFormat )
-        {
+        Image* image = new CairoImage(loadedSurface);
+        if (convertToDisplayFormat) {
             image->convertToDisplayFormat();
         }
         return image;
     }
-}
+} // namespace fcn

@@ -53,13 +53,13 @@ DEALINGS IN THE SOFTWARE.
 
 namespace utf8
 {
-    namespace unchecked 
+    namespace unchecked
     {
         template <typename octet_iterator>
         octet_iterator append(uint32_t cp, octet_iterator result)
         {
             if (cp < 0x80)                        // one octet
-                *(result++) = static_cast<uint8_t>(cp);  
+                *(result++) = static_cast<uint8_t>(cp);
             else if (cp < 0x800) {                // two octets
                 *(result++) = static_cast<uint8_t>((cp >> 6)          | 0xc0);
                 *(result++) = static_cast<uint8_t>((cp & 0x3f)        | 0x80);
@@ -91,28 +91,28 @@ namespace utf8
                     cp = ((cp << 6) & 0x7ff) + ((*it) & 0x3f);
                     break;
                 case 3:
-                    ++it; 
+                    ++it;
                     cp = ((cp << 12) & 0xffff) + ((utf8::internal::mask8(*it) << 6) & 0xfff);
                     ++it;
                     cp += (*it) & 0x3f;
                     break;
                 case 4:
                     ++it;
-                    cp = ((cp << 18) & 0x1fffff) + ((utf8::internal::mask8(*it) << 12) & 0x3ffff);                
+                    cp = ((cp << 18) & 0x1fffff) + ((utf8::internal::mask8(*it) << 12) & 0x3ffff);
                     ++it;
                     cp += (utf8::internal::mask8(*it) << 6) & 0xfff;
                     ++it;
-                    cp += (*it) & 0x3f; 
+                    cp += (*it) & 0x3f;
                     break;
             }
             ++it;
-            return cp;        
+            return cp;
         }
 
         template <typename octet_iterator>
         uint32_t peek_next(octet_iterator it)
         {
-            return utf8::unchecked::next(it);    
+            return utf8::unchecked::next(it);
         }
 
         template <typename octet_iterator>
@@ -142,14 +142,14 @@ namespace utf8
         distance (octet_iterator first, octet_iterator last)
         {
             typename std::iterator_traits<octet_iterator>::difference_type dist;
-            for (dist = 0; first < last; ++dist) 
+            for (dist = 0; first < last; ++dist)
                 utf8::unchecked::next(first);
             return dist;
         }
 
         template <typename u16bit_iterator, typename octet_iterator>
         octet_iterator utf16to8 (u16bit_iterator start, u16bit_iterator end, octet_iterator result)
-        {       
+        {
             while (start != end) {
                 uint32_t cp = utf8::internal::mask16(*start++);
             // Take care of surrogate pairs first
@@ -159,7 +159,7 @@ namespace utf8
                 }
                 result = utf8::unchecked::append(cp, result);
             }
-            return result;         
+            return result;
         }
 
         template <typename u16bit_iterator, typename octet_iterator>
@@ -195,54 +195,61 @@ namespace utf8
             return result;
         }
 
-        // The iterator class
-        template <typename octet_iterator>
-          class iterator : public std::iterator <std::bidirectional_iterator_tag, uint32_t> { 
-            octet_iterator it;
-            public:
-            iterator () {}
-            explicit iterator (const octet_iterator& octet_it): it(octet_it) {}
-            // the default "big three" are OK
-            octet_iterator base () const { return it; }
-            uint32_t operator * () const
-            {
-                octet_iterator temp = it;
-                return utf8::unchecked::next(temp);
-            }
-            bool operator == (const iterator& rhs) const 
-            { 
-                return (it == rhs.it);
-            }
-            bool operator != (const iterator& rhs) const
-            {
-                return !(operator == (rhs));
-            }
-            iterator& operator ++ () 
-            {
-                ::std::advance(it, utf8::internal::sequence_length(it));
-                return *this;
-            }
-            iterator operator ++ (int)
-            {
-                iterator temp = *this;
-                ::std::advance(it, utf8::internal::sequence_length(it));
-                return temp;
-            }  
-            iterator& operator -- ()
-            {
-                utf8::unchecked::prior(it);
-                return *this;
-            }
-            iterator operator -- (int)
-            {
-                iterator temp = *this;
-                utf8::unchecked::prior(it);
-                return temp;
-            }
-          }; // class iterator
+// The iterator class
+template <typename octet_iterator>
+class iterator {
+    octet_iterator it;
+public:
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = uint32_t;
+    using difference_type = std::ptrdiff_t;
+    using pointer = uint32_t*;
+    using reference = uint32_t&;
+
+    iterator() {}
+    explicit iterator(const octet_iterator& octet_it): it(octet_it) {}
+
+    octet_iterator base() const { return it; }
+
+    uint32_t operator*() const {
+        octet_iterator temp = it;
+        return utf8::unchecked::next(temp);
+    }
+
+    bool operator==(const iterator& rhs) const {
+        return (it == rhs.it);
+    }
+
+    bool operator!=(const iterator& rhs) const {
+        return !(operator==(rhs));
+    }
+
+    iterator& operator++() {
+        std::advance(it, utf8::internal::sequence_length(it));
+        return *this;
+    }
+
+    iterator operator++(int) {
+        iterator temp = *this;
+        std::advance(it, utf8::internal::sequence_length(it));
+        return temp;
+    }
+
+    iterator& operator--() {
+        utf8::unchecked::prior(it);
+        return *this;
+    }
+
+    iterator operator--(int) {
+        iterator temp = *this;
+        utf8::unchecked::prior(it);
+        return temp;
+    }
+}; // class iterator
+
 
     } // namespace utf8::unchecked
-} // namespace utf8 
+} // namespace utf8
 
 
 #endif // header guard

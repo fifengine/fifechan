@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -90,14 +86,11 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract class for widgets of Guichan. It contains basic functions 
+     * Abstract class for widgets of Guichan. It contains basic functions
      * every widget should have.
      *
      * NOTE: Functions begining with underscore "_" should not
      *       be overloaded unless you know what you are doing.
-     *
-     * @author Olof Naessén
-     * @author Per Larsson
      */
     class FCN_CORE_DECLSPEC Widget
     {
@@ -126,8 +119,8 @@ namespace fcn
 
         /**
          * Draws the widget. The call to draw is initiated by the widget's
-         * parent. The graphics object is set up so that all drawing is relative 
-         * to the widget, i.e coordinate (0,0) is the top left corner of the widget. 
+         * parent. The graphics object is set up so that all drawing is relative
+         * to the widget, i.e coordinate (0,0) is the top left corner of the widget.
          * It is not possible to draw outside of a widget's dimension. If a widget
          * has children, the parent's draw function will always be called before
          * the children's draw functions are called.
@@ -147,12 +140,12 @@ namespace fcn
          * The outline is not considered as part of the widget, it only allows a outline
          * to be drawn around the widget, thus a outline will never be included when
          * calculating if a widget should receive events from user input. Also
-         * a widget's outline will never be included when calculating a widget's 
+         * a widget's outline will never be included when calculating a widget's
          * position.
-         * 
-         * The size of the outline is calculated using the widget's outline size. 
-         * If a widget has a outline size of 10 pixels than the area the drawOutline 
-         * function can draw to will be the size of the widget with an additional 
+         *
+         * The size of the outline is calculated using the widget's outline size.
+         * If a widget has a outline size of 10 pixels than the area the drawOutline
+         * function can draw to will be the size of the widget with an additional
          * extension of 10 pixels in each direction.
          *
          * An example when drawOutline is a useful function is if a widget needs
@@ -181,9 +174,9 @@ namespace fcn
         virtual void drawSelectionFrame(Graphics* graphics);
 
         /**
-         * Sets the size of the widget's outline. The outline is not considered as part of 
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
-         * will never be included when calculating if a widget should receive events 
+         * Sets the size of the widget's outline. The outline is not considered as part of
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline
+         * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
          * a widget's position.
          *
@@ -196,9 +189,9 @@ namespace fcn
         void setOutlineSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's outline. The outline is not considered as part of 
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
-         * will never be included when calculating if a widget should receive events 
+         * Gets the size of the widget's outline. The outline is not considered as part of
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline
+         * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
          * a widget's position.
          *
@@ -211,7 +204,7 @@ namespace fcn
         unsigned int getOutlineSize() const;
 
         /**
-         * Sets the size of the widget's border. The border is considered as part of 
+         * Sets the size of the widget's border. The border is considered as part of
          * the widget.
          *
          * A border size of 0 means that the widget has no border. The default border size
@@ -223,7 +216,7 @@ namespace fcn
         void setBorderSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's border. The border is considered as part of 
+         * Gets the size of the widget's border. The border is considered as part of
          * the widget.
          *
          * A border size of 0 means that the widget has no border. The default border size
@@ -255,7 +248,7 @@ namespace fcn
          * @see getMarginTop
          */
         void setMarginTop(int margin);
-        
+
         /**
          * Gets the top margin.
          * The margin clears an area around an element (outside the border).
@@ -755,7 +748,7 @@ namespace fcn
          * @see setSelectionColor
          */
         const Color& getSelectionColor() const;
-        
+
         /**
          * Sets the outline color.
          *
@@ -855,7 +848,7 @@ namespace fcn
          * @see _getFocusHandler
          */
         virtual void _setFocusHandler(FocusHandler* focusHandler);
-        
+
         /**
          * Gets the focus handler used.
          *
@@ -867,10 +860,10 @@ namespace fcn
          * @see _setFocusHandler
          */
         virtual FocusHandler* _getFocusHandler();
-        
+
         /**
-         * Adds an action listener to the widget. When an action event 
-         * is fired by the widget the action listeners of the widget 
+         * Adds an action listener to the widget. When an action event
+         * is fired by the widget the action listeners of the widget
          * will get notified.
          *
          * @param actionListener The action listener to add.
@@ -887,8 +880,8 @@ namespace fcn
         void removeActionListener(ActionListener* actionListener);
 
         /**
-         * Adds a death listener to the widget. When a death event is 
-         * fired by the widget the death listeners of the widget will 
+         * Adds a death listener to the widget. When a death event is
+         * fired by the widget the death listeners of the widget will
          * get notified.
          *
          * @param deathListener The death listener to add.
@@ -905,8 +898,8 @@ namespace fcn
         void removeDeathListener(DeathListener* deathListener);
 
         /**
-         * Adds a mouse listener to the widget. When a mouse event is 
-         * fired by the widget the mouse listeners of the widget will 
+         * Adds a mouse listener to the widget. When a mouse event is
+         * fired by the widget the mouse listeners of the widget will
          * get notified.
          *
          * @param mouseListener The mouse listener to add.
@@ -923,8 +916,8 @@ namespace fcn
         void removeMouseListener(MouseListener* mouseListener);
 
         /**
-         * Adds a key listener to the widget. When a key event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a key listener to the widget. When a key event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param keyListener The key listener to add.
@@ -941,8 +934,8 @@ namespace fcn
         void removeKeyListener(KeyListener* keyListener);
 
         /**
-         * Adds a focus listener to the widget. When a focus event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a focus listener to the widget. When a focus event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param focusListener The focus listener to add.
@@ -959,8 +952,8 @@ namespace fcn
         void removeFocusListener(FocusListener* focusListener);
 
         /**
-         * Adds a widget listener to the widget. When a widget event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a widget listener to the widget. When a widget event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param widgetListener The widget listener to add.
@@ -1018,8 +1011,8 @@ namespace fcn
         virtual void _setParent(Widget* parent);
 
         /**
-         * Gets the font set for the widget. If no font has been set, 
-         * the global font will be returned. If no global font has been set, 
+         * Gets the font set for the widget. If no font has been set,
+         * the global font will be returned. If no global font has been set,
          * the default font will be returend.
          *
          * @return The font set for the widget.
@@ -1036,7 +1029,7 @@ namespace fcn
         static void setGlobalFont(Font* font);
 
         /**
-         * Sets the font for the widget. If NULL is passed, the global font 
+         * Sets the font for the widget. If NULL is passed, the global font
          * will be used.
          *
          * @param font The font to set for the widget.
@@ -1200,7 +1193,7 @@ namespace fcn
          * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
          */
-        virtual std::list<Widget*> getWidgetsIn(const Rectangle& area, 
+        virtual std::list<Widget*> getWidgetsIn(const Rectangle& area,
                                                 Widget* ignore = NULL);
 
         /**
@@ -1234,7 +1227,7 @@ namespace fcn
          *
          * NOTE: The returned rectangle should be relative to the widget,
          *       i.e a rectangle with x and y coordinate (0,0) and with
-         *       width and height the same as the widget will let the 
+         *       width and height the same as the widget will let the
          *       children draw themselves in the whole widget.
          *
          * An example of a widget that overloads this method is ScrollArea.
@@ -1290,7 +1283,7 @@ namespace fcn
 
         /**
          * Focuses the next widget in the widget.
-         * 
+         *
          * @see moveToBottom
          */
         virtual void focusNext();
@@ -1343,35 +1336,35 @@ namespace fcn
          * @param rectangle The rectangle to be shown.
          */
         virtual void showPart(Rectangle rectangle);
-    
+
         /**
          * Sets the visibility event handler to be used.
-         * 
+         *
          * WARNING: This function is used internally and should not
          *          be called unless you know what you
          *          are doing.
-         * 
+         *
          * FIXME We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.
-         * 
+         *
          * @param visibilityEventHandler The visibility event handler to be used.
          */
         static void _setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler);
-        
+
         /**
          * Gets the visibility event handler of this widget.
-         * 
+         *
          * WARNING: This function is used internally and should not
          *          be called unless you know what you
          *          are doing.
-         * 
+         *
          * FIXME  We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
-        
+
         static void _setGuiDeathListener(DeathListener* deathListener);
         static DeathListener* _getGuiDeathListener();
 
@@ -1408,7 +1401,7 @@ namespace fcn
         bool isHorizontalExpand() const;
 
         /**
-         * Execute the layouting. 
+         * Execute the layouting.
          * In case you want to relayout a visible widget. This function will
          * automatically perform the layout adaption from the widget.
          *
@@ -1477,31 +1470,31 @@ namespace fcn
          *
          */
         void distributeShownEvent();
-        
+
         /**
          * Distributes ancestor moved events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was moved.
          */
         void distributeAncestorMovedEvent(Widget* ancestor);
-        
+
         /**
          * Distributes ancestor hidden events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was hidden.
          */
         void distributeAncestorHiddenEvent(Widget* ancestor);
-        
+
         /**
          * Distributes ancestor shown events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was shown.
          */
         void distributeAncestorShownEvent(Widget* ancestor);
-        
+
         /**
          * Adds a child to the widget.
          *
@@ -1540,7 +1533,7 @@ namespace fcn
          * the ability to create a Guichan GUI from an XML file.
          *
          * @param id The id to find a widget by.
-         * @return The widget with the corrosponding id, 
+         * @return The widget with the corrosponding id,
          *         NULL of no widget is found.
          *
          */
@@ -1575,14 +1568,14 @@ namespace fcn
          */
         std::list<KeyListener*> mKeyListeners;
 
-        /** 
+        /**
          * Holds the action listeners of the widget.
          */
         std::list<ActionListener*> mActionListeners;
 
         /**
          * Holds the death listeners of the widget.
-         */ 
+         */
         std::list<DeathListener*> mDeathListeners;
 
         /**
@@ -1635,7 +1628,7 @@ namespace fcn
          * if no internal focus handler is used.
          */
         FocusHandler* mInternalFocusHandler;
-        
+
         /**
          * Holds the parent of the widget. NULL if the widget
          * has no parent.
@@ -1652,57 +1645,57 @@ namespace fcn
          */
         Rectangle mOffsetRect;
 
-        /** 
+        /**
          * Holds the outline size of the widget.
          */
         unsigned int mOutlineSize;
 
-        /** 
+        /**
          * Holds the border size of the widget.
          */
         unsigned int mBorderSize;
 
-        /** 
+        /**
          * Holds the selection mode.
          */
         SelectionMode mSelectionMode;
 
-        /** 
+        /**
          * Holds the top margin of the widget.
          */
         int mMarginTop;
 
-        /** 
+        /**
          * Holds the top right of the widget.
          */
         int mMarginRight;
 
-        /** 
+        /**
          * Holds the bottom margin of the widget.
          */
         int mMarginBottom;
 
-        /** 
+        /**
          * Holds the left margin of the widget.
          */
         int mMarginLeft;
 
-        /** 
+        /**
          * Holds the top padding of the widget.
          */
         unsigned int mPaddingTop;
 
-        /** 
+        /**
          * Holds the right padding of the widget.
          */
         unsigned int mPaddingRight;
 
-        /** 
+        /**
          * Holds the bottom padding of the widget.
          */
         unsigned int mPaddingBottom;
 
-        /** 
+        /**
          * Holds the left padding of the widget.
          */
         unsigned int mPaddingLeft;
@@ -1791,10 +1784,10 @@ namespace fcn
          * Holds a list of all instances of widgets.
          */
         static std::list<Widget*> mWidgetInstances;
-        
+
         /**
          * Holds the visibility event handler used by the widgets.
-         * 
+         *
          * FIXME We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.

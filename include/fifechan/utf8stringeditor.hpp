@@ -29,17 +29,15 @@ namespace fcn {
 
 	/**
 	 * UTF-8 string editor.
-	 * 
+	 *
 	 * This is a helper class which allows to use UTF-8 strings in
 	 * your application.
-	 * 
-	 * @author Przemyslaw Grzywacz
 	 */
 	class UTF8StringEditor {
 	public:
 		/**
 		 * Returns byte offset of the next character.
-		 * 
+		 *
 		 * @param text UTF-8 text to navigate.
 		 * @param byteOffset Byte offset of current character.
 		 * @return Byte offset of the next character.
@@ -48,7 +46,7 @@ namespace fcn {
 
 		/**
 		 * Returns byte offset of the previous character.
-		 * 
+		 *
 		 * @param text UTF-8 text to navigate.
 		 * @param byteOffset Byte offset of current character.
 		 * @return Byte offset of the previous character.
@@ -57,7 +55,7 @@ namespace fcn {
 
 		/**
 		 * Erase character at specified byte offset.
-		 * 
+		 *
 		 * @param text UTF-8 text to modify.
 		 * @param byteOffset Byte offset of the character to erase.
 		 * @return New byte offset (is equal to byteOffset).
@@ -66,7 +64,7 @@ namespace fcn {
 
 		/**
 		 * Insert a character at specified byte offset.
-		 * 
+		 *
 		 * @param text UTF-8 text to modify.
 		 * @param byteOffset Byte offset where character will be inserted.
 		 * @param ch Unicode character to insert.

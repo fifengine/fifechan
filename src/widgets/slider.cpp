@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -79,7 +75,7 @@ namespace fcn
         mDragged = false;
 
         mScaleStart = 0;
-        mScaleEnd = scaleEnd;
+        mScaleEnd   = scaleEnd;
 
         setFocusable(true);
         setBorderSize(1);
@@ -97,13 +93,13 @@ namespace fcn
         mDragged = false;
 
         mScaleStart = scaleStart;
-        mScaleEnd = scaleEnd;
+        mScaleEnd   = scaleEnd;
 
         setFocusable(true);
         setBorderSize(1);
         setOrientation(Horizontal);
         setValue(scaleStart);
-        setStepLength((scaleEnd  - scaleStart)/ 10);
+        setStepLength((scaleEnd - scaleStart) / 10);
         setMarkerLength(10);
 
         addMouseListener(this);
@@ -113,7 +109,7 @@ namespace fcn
     void Slider::setScale(double scaleStart, double scaleEnd)
     {
         mScaleStart = scaleStart;
-        mScaleEnd = scaleEnd;
+        mScaleEnd   = scaleEnd;
         if (mScaleStart > mValue) {
             mValue = mScaleStart;
         }
@@ -151,8 +147,8 @@ namespace fcn
     void Slider::draw(fcn::Graphics* graphics)
     {
         Color shadowColor = getBaseColor() - 0x101010;
-        int alpha = getBaseColor().a;
-         shadowColor.a = alpha;
+        int alpha         = getBaseColor().a;
+        shadowColor.a     = alpha;
 
         graphics->setColor(shadowColor);
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
@@ -164,33 +160,29 @@ namespace fcn
     {
         fcn::Color faceColor = getBaseColor();
         Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-        highlightColor = faceColor + 0x303030;
+        int alpha        = getBaseColor().a;
+        highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = faceColor - 0x303030;
+        shadowColor.a    = alpha;
 
         graphics->setColor(faceColor);
 
-        if (getOrientation() == Horizontal)
-        {
+        if (getOrientation() == Horizontal) {
             int v = getMarkerPosition();
             graphics->fillRectangle(v + 1, 1, getMarkerLength() - 2, getHeight() - 2);
             graphics->setColor(highlightColor);
-            graphics->drawLine(v, 0, v + getMarkerLength() - 1,0);
+            graphics->drawLine(v, 0, v + getMarkerLength() - 1, 0);
             graphics->drawLine(v, 0, v, getHeight() - 1);
             graphics->setColor(shadowColor);
             graphics->drawLine(v + getMarkerLength() - 1, 1, v + getMarkerLength() - 1, getHeight() - 1);
             graphics->drawLine(v + 1, getHeight() - 1, v + getMarkerLength() - 1, getHeight() - 1);
 
-            if (isFocused())
-            {
+            if (isFocused()) {
                 graphics->setColor(getForegroundColor());
                 graphics->drawRectangle(v + 2, 2, getMarkerLength() - 4, getHeight() - 4);
             }
-        }
-        else
-        {
+        } else {
             int v = (getHeight() - getMarkerLength()) - getMarkerPosition();
             graphics->fillRectangle(1, v + 1, getWidth() - 2, getMarkerLength() - 2);
             graphics->setColor(highlightColor);
@@ -200,8 +192,7 @@ namespace fcn
             graphics->drawLine(1, v + getMarkerLength() - 1, getWidth() - 1, v + getMarkerLength() - 1);
             graphics->drawLine(getWidth() - 1, v + 1, getWidth() - 1, v + getMarkerLength() - 1);
 
-            if (isFocused())
-            {
+            if (isFocused()) {
                 graphics->setColor(getForegroundColor());
                 graphics->drawRectangle(2, v + 2, getWidth() - 4, getMarkerLength() - 4);
             }
@@ -210,18 +201,11 @@ namespace fcn
 
     void Slider::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == fcn::MouseEvent::Left
-            && mouseEvent.getX() >= 0
-            && mouseEvent.getX() <= getWidth()
-            && mouseEvent.getY() >= 0
-            && mouseEvent.getY() <= getHeight())
-        {
-            if (getOrientation() == Horizontal)
-            {
+        if (mouseEvent.getButton() == fcn::MouseEvent::Left && mouseEvent.getX() >= 0 &&
+            mouseEvent.getX() <= getWidth() && mouseEvent.getY() >= 0 && mouseEvent.getY() <= getHeight()) {
+            if (getOrientation() == Horizontal) {
                 setValue(markerPositionToValue(mouseEvent.getX() - getMarkerLength() / 2));
-            }
-            else
-            {
+            } else {
                 setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - getMarkerLength() / 2));
             }
 
@@ -231,12 +215,9 @@ namespace fcn
 
     void Slider::mouseDragged(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal)
-        {
+        if (getOrientation() == Horizontal) {
             setValue(markerPositionToValue(mouseEvent.getX() - getMarkerLength() / 2));
-        }
-        else
-        {
+        } else {
             setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - getMarkerLength() / 2));
         }
 
@@ -247,14 +228,12 @@ namespace fcn
 
     void Slider::setValue(double value)
     {
-        if (value > getScaleEnd())
-        {
+        if (value > getScaleEnd()) {
             mValue = getScaleEnd();
             return;
         }
 
-        if (value < getScaleStart())
-        {
+        if (value < getScaleStart()) {
             mValue = getScaleStart();
             return;
         }
@@ -281,31 +260,22 @@ namespace fcn
     {
         Key key = keyEvent.getKey();
 
-        if (getOrientation() == Horizontal)
-        {
-            if (key.getValue() == Key::Right)
-            {
+        if (getOrientation() == Horizontal) {
+            if (key.getValue() == Key::Right) {
                 setValue(getValue() + getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
-            }
-            else if (key.getValue() == Key::Left)
-            {
+            } else if (key.getValue() == Key::Left) {
                 setValue(getValue() - getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
-            }            
-        }
-        else
-        {
-            if (key.getValue() == Key::Up)
-            {
+            }
+        } else {
+            if (key.getValue() == Key::Up) {
                 setValue(getValue() + getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
-            }
-            else if (key.getValue() == Key::Down)
-            {
+            } else if (key.getValue() == Key::Down) {
                 setValue(getValue() - getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
@@ -326,43 +296,32 @@ namespace fcn
     double Slider::markerPositionToValue(int v) const
     {
         int w;
-        if (getOrientation() == Horizontal)
-        {
+        if (getOrientation() == Horizontal) {
             w = getWidth();
-        }
-        else
-        {
+        } else {
             w = getHeight();
         }
 
         double pos = v / ((double)w - getMarkerLength());
         return (1.0 - pos) * getScaleStart() + pos * getScaleEnd();
-
     }
 
     int Slider::valueToMarkerPosition(double value) const
     {
         int v;
-        if (getOrientation() == Horizontal)
-        {
+        if (getOrientation() == Horizontal) {
             v = getWidth();
-        }
-        else
-        {
+        } else {
             v = getHeight();
         }
 
-        int w =  (int)((v - getMarkerLength())
-                       * (value  - getScaleStart())
-                       / (getScaleEnd() - getScaleStart()));
+        int w = (int)((v - getMarkerLength()) * (value - getScaleStart()) / (getScaleEnd() - getScaleStart()));
 
-        if (w < 0)
-        {
+        if (w < 0) {
             return 0;
         }
 
-        if (w > v - getMarkerLength())
-        {
+        if (w > v - getMarkerLength()) {
             return v - getMarkerLength();
         }
 
@@ -423,4 +382,4 @@ namespace fcn
             mouseEvent.consume();
         }
     }
-}
+} // namespace fcn

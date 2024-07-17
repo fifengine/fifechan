@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -70,32 +66,24 @@
 
 namespace fcn
 {
-    KeyEvent::KeyEvent(Widget* source,
-                       Widget* distributor,
-                       bool isShiftPressed,
-                       bool isControlPressed,
-                       bool isAltPressed,
-                       bool isMetaPressed,
-                       unsigned int type,
-                       bool isNumericPad,
-                       const Key& key)
-            :InputEvent(source,
-                        distributor,
-                        isShiftPressed,
-                        isControlPressed,
-                        isAltPressed,
-                        isMetaPressed),
-             mType(type),
-             mIsNumericPad(isNumericPad),
-             mKey(key)
+    KeyEvent::KeyEvent(
+        Widget* source,
+        Widget* distributor,
+        bool isShiftPressed,
+        bool isControlPressed,
+        bool isAltPressed,
+        bool isMetaPressed,
+        unsigned int type,
+        bool isNumericPad,
+        Key const & key) :
+        InputEvent(source, distributor, isShiftPressed, isControlPressed, isAltPressed, isMetaPressed),
+        mType(type),
+        mIsNumericPad(isNumericPad),
+        mKey(key)
     {
-
     }
 
-    KeyEvent::~KeyEvent()
-    {
-
-    }
+    KeyEvent::~KeyEvent() { }
 
     unsigned int KeyEvent::getType() const
     {
@@ -107,8 +95,8 @@ namespace fcn
         return mIsNumericPad;
     }
 
-    const Key& KeyEvent::getKey() const
+    Key const & KeyEvent::getKey() const
     {
         return mKey;
     }
-}
+} // namespace fcn

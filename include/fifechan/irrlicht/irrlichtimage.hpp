@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,8 +73,6 @@ namespace fcn
 {
     /**
      * Irrlicht implementation of Image.
-     *
-     * @author Aaron Andersen
      */
     class FCN_EXTENSION_DECLSPEC IrrlichtImage : public Image
     {
@@ -130,7 +124,7 @@ namespace fcn
     protected:
         /**
         * Holds the Irrlicht IImage. This Irrlicht IImage is NULL after the image
-        * has been converted to display format. 
+        * has been converted to display format.
         */
         irr::video::IImage* mImage;
 
@@ -149,7 +143,7 @@ namespace fcn
         * Holds the filename of the image.
         */
         std::string mName;
-        
+
         /**
         * True if the image should be auto freed.
         */

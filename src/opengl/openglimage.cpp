@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,22 +68,19 @@
 
 namespace fcn
 {
-    OpenGLImage::OpenGLImage(const unsigned int* pixels, int width, int height,
-                             bool convertToDisplayFormat)
+    OpenGLImage::OpenGLImage(unsigned int const * pixels, int width, int height, bool convertToDisplayFormat)
     {
         mAutoFree = true;
 
-        mWidth = width;
-        mHeight = height;
+        mWidth        = width;
+        mHeight       = height;
         mTextureWidth = 1, mTextureHeight = 1;
 
-        while(mTextureWidth < mWidth)
-        {
+        while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
         }
 
-        while(mTextureHeight < mHeight)
-        {
+        while (mTextureHeight < mHeight) {
             mTextureHeight *= 2;
         }
 
@@ -95,36 +88,29 @@ namespace fcn
         mPixels = new unsigned int[mTextureWidth * mTextureHeight];
 
 #ifdef __BIG_ENDIAN__
-        const unsigned int magicPink = 0xff00ffff;
+        unsigned int const magicPink = 0xff00ffff;
 #else
-        const unsigned int magicPink = 0xffff00ff;
+        unsigned int const magicPink = 0xffff00ff;
 #endif
         int x, y;
-        for (y = 0; y < mTextureHeight; y++)
-        {
-            for (x = 0; x < mTextureWidth; x++)
-            {
-                if (x < mWidth && y < mHeight)
-                {
+        for (y = 0; y < mTextureHeight; y++) {
+            for (x = 0; x < mTextureWidth; x++) {
+                if (x < mWidth && y < mHeight) {
                     unsigned int c = pixels[x + y * mWidth];
 
                     // Magic pink to transparent
-                    if (c == magicPink)
-                    {
+                    if (c == magicPink) {
                         c = 0x00000000;
                     }
 
                     mPixels[x + y * mTextureWidth] = c;
-                }
-                else
-                {
+                } else {
                     mPixels[x + y * mTextureWidth] = 0x00000000;
                 }
             }
         }
 
-        if (convertToDisplayFormat)
-        {
+        if (convertToDisplayFormat) {
             OpenGLImage::convertToDisplayFormat();
         }
     }
@@ -132,28 +118,25 @@ namespace fcn
     OpenGLImage::OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree)
     {
         mTextureHandle = textureHandle;
-        mAutoFree = autoFree;
-        mPixels = NULL;
+        mAutoFree      = autoFree;
+        mPixels        = NULL;
 
-        mWidth = width;
-        mHeight = height;
+        mWidth        = width;
+        mHeight       = height;
         mTextureWidth = 1, mTextureHeight = 1;
 
-        while(mTextureWidth < mWidth)
-        {
+        while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
         }
 
-        while(mTextureHeight < mHeight)
-        {
+        while (mTextureHeight < mHeight) {
             mTextureHeight *= 2;
         }
     }
 
     OpenGLImage::~OpenGLImage()
     {
-        if (mAutoFree)
-        {
+        if (mAutoFree) {
             free();
         }
     }
@@ -175,12 +158,9 @@ namespace fcn
 
     void OpenGLImage::free()
     {
-        if (mPixels == NULL)
-        {
+        if (mPixels == NULL) {
             glDeleteTextures(1, &mTextureHandle);
-        }
-        else
-        {
+        } else {
             delete[] mPixels;
             mPixels = NULL;
         }
@@ -198,42 +178,38 @@ namespace fcn
 
     Color OpenGLImage::getPixel(int x, int y)
     {
-        if (mPixels == NULL)
-        {
+        if (mPixels == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
-        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
-        {
+        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
             throw FCN_EXCEPTION("Coordinates outside of the image");
         }
 
         unsigned int c = mPixels[x + y * mTextureWidth];
 
 #ifdef __BIG_ENDIAN__
-        unsigned char r = (unsigned char) ((c >> 24) & 0xff);
-        unsigned char g = (unsigned char) ((c >> 16) & 0xff);
-        unsigned char b = (unsigned char) ((c >> 8) & 0xff);
-        unsigned char a = (unsigned char) (c & 0xff);
+        unsigned char r = (unsigned char)((c >> 24) & 0xff);
+        unsigned char g = (unsigned char)((c >> 16) & 0xff);
+        unsigned char b = (unsigned char)((c >> 8) & 0xff);
+        unsigned char a = (unsigned char)(c & 0xff);
 #else
-        unsigned char a = (unsigned char) ((c >> 24) & 0xff);
-        unsigned char b = (unsigned char) ((c >> 16) & 0xff);
-        unsigned char g = (unsigned char) ((c >> 8) & 0xff);
-        unsigned char r = (unsigned char) (c & 0xff);
+        unsigned char a = (unsigned char)((c >> 24) & 0xff);
+        unsigned char b = (unsigned char)((c >> 16) & 0xff);
+        unsigned char g = (unsigned char)((c >> 8) & 0xff);
+        unsigned char r = (unsigned char)(c & 0xff);
 #endif
 
         return Color(r, g, b, a);
     }
 
-    void OpenGLImage::putPixel(int x, int y, const Color& color)
+    void OpenGLImage::putPixel(int x, int y, Color const & color)
     {
-        if (mPixels == NULL)
-        {
+        if (mPixels == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format");
         }
 
-        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
-        {
+        if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
             throw FCN_EXCEPTION("Coordinates outside of the image");
         }
 
@@ -248,23 +224,14 @@ namespace fcn
 
     void OpenGLImage::convertToDisplayFormat()
     {
-        if (mPixels == NULL)
-        {
+        if (mPixels == NULL) {
             throw FCN_EXCEPTION("Image has already been converted to display format");
         }
 
         glGenTextures(1, &mTextureHandle);
         glBindTexture(GL_TEXTURE_2D, mTextureHandle);
 
-        glTexImage2D(GL_TEXTURE_2D,
-                     0,
-                     4,
-                     mTextureWidth,
-                     mTextureHeight,
-                     0,
-                     GL_RGBA,
-                     GL_UNSIGNED_BYTE,
-                     mPixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, mTextureWidth, mTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -273,37 +240,35 @@ namespace fcn
         mPixels = NULL;
 
         GLenum error = glGetError();
-        if (error)
-        {
+        if (error) {
             std::string errmsg;
-            switch (error)
-            {
-              case GL_INVALID_ENUM:
-                  errmsg = "GL_INVALID_ENUM";
-                  break;
+            switch (error) {
+            case GL_INVALID_ENUM:
+                errmsg = "GL_INVALID_ENUM";
+                break;
 
-              case GL_INVALID_VALUE:
-                  errmsg = "GL_INVALID_VALUE";
-                  break;
+            case GL_INVALID_VALUE:
+                errmsg = "GL_INVALID_VALUE";
+                break;
 
-              case GL_INVALID_OPERATION:
-                  errmsg = "GL_INVALID_OPERATION";
-                  break;
+            case GL_INVALID_OPERATION:
+                errmsg = "GL_INVALID_OPERATION";
+                break;
 
-              case GL_STACK_OVERFLOW:
-                  errmsg = "GL_STACK_OVERFLOW";
-                  break;
+            case GL_STACK_OVERFLOW:
+                errmsg = "GL_STACK_OVERFLOW";
+                break;
 
-              case GL_STACK_UNDERFLOW:
-                  errmsg = "GL_STACK_UNDERFLOW";
-                  break;
+            case GL_STACK_UNDERFLOW:
+                errmsg = "GL_STACK_UNDERFLOW";
+                break;
 
-              case GL_OUT_OF_MEMORY:
-                  errmsg = "GL_OUT_OF_MEMORY";
-                  break;
+            case GL_OUT_OF_MEMORY:
+                errmsg = "GL_OUT_OF_MEMORY";
+                break;
             }
 
             throw FCN_EXCEPTION(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
         }
     }
-}
+} // namespace fcn

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -79,10 +75,7 @@
 
 namespace fcn
 {
-    ListBox::ListBox()
-        : mSelected(-1),
-          mListModel(NULL),
-          mWrappingEnabled(false)
+    ListBox::ListBox() : mSelected(-1), mListModel(NULL), mWrappingEnabled(false)
     {
         setWidth(100);
         setFocusable(true);
@@ -91,9 +84,7 @@ namespace fcn
         addKeyListener(this);
     }
 
-    ListBox::ListBox(ListModel *listModel)
-        : mSelected(-1),
-          mWrappingEnabled(false)
+    ListBox::ListBox(ListModel* listModel) : mSelected(-1), mWrappingEnabled(false)
     {
         setWidth(100);
         setListModel(listModel);
@@ -108,42 +99,37 @@ namespace fcn
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
-        if (mListModel == NULL)
-        {
+        if (mListModel == NULL) {
             return;
         }
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
-         
+
         // Check the current clip area so we don't draw unnecessary items
         // that are not visible.
-        const ClipRectangle currentClipArea = graphics->getCurrentClipArea();
-        int rowHeight = getRowHeight();
-        
+        ClipRectangle const currentClipArea = graphics->getCurrentClipArea();
+        int rowHeight                       = getRowHeight();
+
         // Calculate the number of rows to draw by checking the clip area.
         // The addition of two makes covers a partial visible row at the top
         // and a partial visible row at the bottom.
         int numberOfRows = currentClipArea.height / rowHeight + 2;
 
-        if (numberOfRows > mListModel->getNumberOfElements())
-        {
+        if (numberOfRows > mListModel->getNumberOfElements()) {
             numberOfRows = mListModel->getNumberOfElements();
         }
 
-        // Calculate which row to start drawing. If the list box 
+        // Calculate which row to start drawing. If the list box
         // has a negative y coordinate value we should check if
         // we should drop rows in the begining of the list as
         // they might not be visible. A negative y value is very
         // common if the list box for instance resides in a scroll
         // area and the user has scrolled the list box downwards.
-        int startRow;    	
-        if (getY() < 0)
-        {
+        int startRow;
+        if (getY() < 0) {
             startRow = -1 * (getY() / rowHeight);
-        }
-        else
-        {
+        } else {
             startRow = 0;
         }
 
@@ -151,23 +137,18 @@ namespace fcn
         // The y coordinate where we start to draw the text is
         // simply the y coordinate multiplied with the font height.
         int y = rowHeight * startRow;
-        for (i = startRow; i < startRow + numberOfRows; ++i)
-        {
-            if (i == mSelected)
-            {
+        for (i = startRow; i < startRow + numberOfRows; ++i) {
+            if (i == mSelected) {
                 graphics->setColor(getSelectionColor());
                 graphics->fillRectangle(0, y, getWidth(), rowHeight);
                 graphics->setColor(getForegroundColor());
             }
-            
+
             // If the row height is greater than the font height we
             // draw the text with a center vertical alignment.
-            if (rowHeight > getFont()->getHeight())
-            {
+            if (rowHeight > getFont()->getHeight()) {
                 graphics->drawText(mListModel->getElementAt(i), 1, y + rowHeight / 2 - getFont()->getHeight() / 2);
-            }
-            else
-            {
+            } else {
                 graphics->drawText(mListModel->getElementAt(i), 1, y);
             }
 
@@ -187,34 +168,23 @@ namespace fcn
 
     void ListBox::setSelected(int selected)
     {
-        if (mListModel == NULL)
-        {
+        if (mListModel == NULL) {
             mSelected = -1;
-        }
-        else
-        {
-            if (selected < 0)
-            {
+        } else {
+            if (selected < 0) {
                 mSelected = -1;
-            }
-            else if (selected >= mListModel->getNumberOfElements())
-            {
+            } else if (selected >= mListModel->getNumberOfElements()) {
                 mSelected = mListModel->getNumberOfElements() - 1;
-            }
-            else
-            {
+            } else {
                 mSelected = selected;
             }
         }
-        
+
         Rectangle scroll;
 
-        if (mSelected < 0)
-        {
+        if (mSelected < 0) {
             scroll.y = 0;
-        }
-        else
-        {
+        } else {
             scroll.y = getRowHeight() * mSelected;
         }
 
@@ -228,50 +198,33 @@ namespace fcn
     {
         Key key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Enter || key.getValue() == Key::Space)
-        {
+        if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             distributeActionEvent();
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::Up)
-        {
+        } else if (key.getValue() == Key::Up) {
             setSelected(mSelected - 1);
 
-            if (mSelected == -1)
-            {
-                if (mWrappingEnabled)
-                {
+            if (mSelected == -1) {
+                if (mWrappingEnabled) {
                     setSelected(getListModel()->getNumberOfElements() - 1);
-                }
-                else
-                {
+                } else {
                     setSelected(0);
                 }
             }
-            
+
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::Down)
-        {
-            if (mWrappingEnabled
-                && getSelected() == getListModel()->getNumberOfElements() - 1)
-            {
+        } else if (key.getValue() == Key::Down) {
+            if (mWrappingEnabled && getSelected() == getListModel()->getNumberOfElements() - 1) {
                 setSelected(0);
-            }
-            else
-            {
+            } else {
                 setSelected(getSelected() + 1);
             }
-            
+
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::Home)
-        {
+        } else if (key.getValue() == Key::Home) {
             setSelected(0);
             keyEvent.consume();
-        }
-        else if (key.getValue() == Key::End)
-        {
+        } else if (key.getValue() == Key::End) {
             setSelected(getListModel()->getNumberOfElements() - 1);
             keyEvent.consume();
         }
@@ -279,8 +232,7 @@ namespace fcn
 
     void ListBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left)
-        {
+        if (mouseEvent.getButton() == MouseEvent::Left) {
             setSelected(mouseEvent.getY() / getRowHeight());
             distributeActionEvent();
         }
@@ -288,10 +240,8 @@ namespace fcn
 
     void ListBox::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (isFocused())
-        {
-            if (getSelected() > 0 )
-            {
+        if (isFocused()) {
+            if (getSelected() > 0) {
                 setSelected(getSelected() - 1);
             }
 
@@ -301,8 +251,7 @@ namespace fcn
 
     void ListBox::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (isFocused())
-        {
+        if (isFocused()) {
             setSelected(getSelected() + 1);
 
             mouseEvent.consume();
@@ -314,9 +263,9 @@ namespace fcn
         mouseEvent.consume();
     }
 
-    void ListBox::setListModel(ListModel *listModel)
+    void ListBox::setListModel(ListModel* listModel)
     {
-        mSelected = -1;
+        mSelected  = -1;
         mListModel = listModel;
         adjustSize();
     }
@@ -326,19 +275,19 @@ namespace fcn
         return mListModel;
     }
 
-    void ListBox::resizeToContent(bool recursiv) {
+    void ListBox::resizeToContent(bool recursiv)
+    {
         adjustSize();
     }
 
     void ListBox::adjustSize()
     {
-        if (mListModel != NULL)
-        {
+        if (mListModel != NULL) {
             // min width in case the lit contains no element
-            int w = getRowHeight();
+            int w        = getRowHeight();
             int elements = mListModel->getNumberOfElements();
             for (int i = 0; i < elements; ++i) {
-                //std::string element = mListModel->getElementAt(i);
+                // std::string element = mListModel->getElementAt(i);
                 w = std::max(w, getFont()->getWidth(mListModel->getElementAt(i)));
             }
             setWidth(w);
@@ -355,12 +304,12 @@ namespace fcn
     {
         mWrappingEnabled = wrappingEnabled;
     }
-        
+
     void ListBox::addSelectionListener(SelectionListener* selectionListener)
     {
         mSelectionListeners.push_back(selectionListener);
     }
-   
+
     void ListBox::removeSelectionListener(SelectionListener* selectionListener)
     {
         mSelectionListeners.remove(selectionListener);
@@ -370,8 +319,7 @@ namespace fcn
     {
         SelectionListenerIterator iter;
 
-        for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter)
-        {
+        for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter) {
             SelectionEvent event(this);
             (*iter)->valueChanged(event);
         }
@@ -381,4 +329,4 @@ namespace fcn
     {
         return getFont()->getHeight();
     }
-}
+} // namespace fcn

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,9 +73,9 @@ namespace fcn
     /**
      * An implementation of a check box where a user can select or deselect
      * the check box and where the status of the check box is displayed to the user.
-     * A check box is capable of displaying a caption. 
-     * 
-     * If a check box's state changes an action event will be sent to all action 
+     * A check box is capable of displaying a caption.
+     *
+     * If a check box's state changes an action event will be sent to all action
      * listeners of the check box.
      */
     class FCN_CORE_DECLSPEC CheckBox : public fcn::ImageButton
@@ -196,14 +192,14 @@ namespace fcn
 
     protected:
         /**
-         * Draws the box of the check box. 
+         * Draws the box of the check box.
          *
          * @param graphics A Graphics object to draw with.
          */
         virtual void drawBox(Graphics *graphics);
 
         /**
-         * Draws the checkmark. 
+         * Draws the checkmark.
          *
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
@@ -211,7 +207,7 @@ namespace fcn
         void drawCheckmark(Graphics* graphics, const Rectangle& rec);
 
         /**
-         * Draws the cross. 
+         * Draws the cross.
          *
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
@@ -219,7 +215,7 @@ namespace fcn
         void drawCross(Graphics* graphics, const Rectangle& rec);
 
         /**
-         * Draws the dot. 
+         * Draws the dot.
          *
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.

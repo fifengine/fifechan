@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -78,7 +74,6 @@ namespace fcn
      * invoked.
      *
      * @see Widget::addWidgetListener, Widget::removeWidgetListener
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC WidgetListener
     {
@@ -118,18 +113,18 @@ namespace fcn
          * @param event Describes the event.
          */
         virtual void widgetShown(const Event& event) { }
-        
+
         /**
          * Invoked when an ancestor of a widget is moved.
-         * 
+         *
          * @Param event Describes the event.
          */
         virtual void ancestorMoved(const Event& event) { }
-        
+
         /**
          * Invoked when an ancestor of a widget is hidden, i.e its
          * set to be not visible.
-         * 
+         *
          * @param event Describes the event.
          */
         virtual void ancestorHidden(const Event& event) { }
@@ -137,11 +132,11 @@ namespace fcn
         /**
          * Invoked when an ancestor of a widget is shown, i.e its
          * set to be visible.
-         * 
+         *
          * @param event Describes the event.
          */
         virtual void ancestorShown(const Event& event) { }
-        
+
     protected:
         /**
          * Constructor.

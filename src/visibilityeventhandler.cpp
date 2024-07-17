@@ -28,19 +28,15 @@
 
 namespace fcn
 {
-    VisibilityEventHandler::VisibilityEventHandler(Gui *gui)
-    :
-    mGui(gui)
-    {
-    }
-    
-    void VisibilityEventHandler::widgetHidden(const Event& e)
+    VisibilityEventHandler::VisibilityEventHandler(Gui* gui) : mGui(gui) { }
+
+    void VisibilityEventHandler::widgetHidden(Event const & e)
     {
         mGui->enqueueHiddenWidget(e.getSource());
     }
-      
-    void VisibilityEventHandler::widgetShown(const Event& e)
+
+    void VisibilityEventHandler::widgetShown(Event const & e)
     {
         mGui->enqueueShownWidget(e.getSource());
-    }    
-};
+    }
+}; // namespace fcn

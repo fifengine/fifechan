@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -78,26 +74,23 @@ namespace fcn
 {
     namespace contrib
     {
-        void AllegroGlyphKeeperFont::load(const std::string& filename, int w, int h)
+        void AllegroGlyphKeeperFont::load(std::string const & filename, int w, int h)
         {
-            mKeeper = gk_create_keeper(0,0);
+            mKeeper = gk_create_keeper(0, 0);
 
-            if (mKeeper == NULL)
-            {
+            if (mKeeper == NULL) {
                 throw FCN_EXCEPTION("Can't create keeper.");
             }
 
             mFace = gk_load_face_from_file(filename.c_str(), 0);
 
-            if (mFace == NULL)
-            {
+            if (mFace == NULL) {
                 throw FCN_EXCEPTION("Can't load font from file.");
             }
 
-            mRend = gk_create_renderer(mFace,mKeeper);
-        
-            if (mRend == NULL)
-            {
+            mRend = gk_create_renderer(mFace, mKeeper);
+
+            if (mRend == NULL) {
                 throw FCN_EXCEPTION("Can't create renderer.");
             }
 
@@ -106,47 +99,40 @@ namespace fcn
             gk_rend_set_text_color_rgb(mRend, 0, 0, 0);
         }
 
-        AllegroGlyphKeeperFont::AllegroGlyphKeeperFont(const std::string& filename, int size)
-                : mFace(0), 
-                  mRend(0), 
-                  mKeeper(0)
+        AllegroGlyphKeeperFont::AllegroGlyphKeeperFont(std::string const & filename, int size) :
+            mFace(0), mRend(0), mKeeper(0)
         {
             load(filename, size, size);
         }
 
-        AllegroGlyphKeeperFont::AllegroGlyphKeeperFont(const std::string& filename, int w, int h)
-                : mFace(0), 
-                  mRend(0), 
-                  mKeeper(0)
+        AllegroGlyphKeeperFont::AllegroGlyphKeeperFont(std::string const & filename, int w, int h) :
+            mFace(0), mRend(0), mKeeper(0)
         {
             load(filename, w, h);
         }
 
         AllegroGlyphKeeperFont::~AllegroGlyphKeeperFont()
         {
-            if (mRend != NULL)
-            {
+            if (mRend != NULL) {
                 gk_done_renderer(mRend);
             }
 
             mRend = NULL;
 
-            if (mFace != NULL)
-            {
+            if (mFace != NULL) {
                 gk_unload_face(mFace);
             }
 
             mFace = NULL;
 
-            if (mKeeper != NULL)
-            {
+            if (mKeeper != NULL) {
                 gk_done_keeper(mKeeper);
             }
 
             mKeeper = NULL;
         }
 
-        int AllegroGlyphKeeperFont::getWidth(const std::string& text) const
+        int AllegroGlyphKeeperFont::getWidth(std::string const & text) const
         {
             return gk_text_width_utf8(mRend, text.c_str());
         }
@@ -156,31 +142,23 @@ namespace fcn
             return gk_rend_height_pixels(mRend);
         }
 
-        void AllegroGlyphKeeperFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
+        void AllegroGlyphKeeperFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
         {
             fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
 
-            if (!allegroGraphics)
-            {
+            if (!allegroGraphics) {
                 throw FCN_EXCEPTION("Graphics is not of type AllegroGraphics");
             }
 
             BITMAP* const target = allegroGraphics->getTarget();
-        
+
             gk_rend_set_text_color_combined(mRend, allegroGraphics->getAllegroColor());
             gk_rend_set_text_alpha(mRend, allegroGraphics->getColor().a);
-        
-            const fcn::ClipRectangle& rec = graphics->getCurrentClipArea();
-        
-            gk_render_line_utf8(target,
-                                mRend, 
-                                text.c_str(), 
-                                x + rec.xOffset, 
-                                y + rec.yOffset + gk_rend_ascender_pixels(mRend));
+
+            fcn::ClipRectangle const & rec = graphics->getCurrentClipArea();
+
+            gk_render_line_utf8(
+                target, mRend, text.c_str(), x + rec.xOffset, y + rec.yOffset + gk_rend_ascender_pixels(mRend));
         }
-    }
-}
-
-
-
-
+    } // namespace contrib
+} // namespace fcn

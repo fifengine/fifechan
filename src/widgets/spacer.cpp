@@ -24,19 +24,18 @@
 
 namespace fcn
 {
-    Spacer::Spacer() {
+    Spacer::Spacer()
+    {
         setVerticalExpand(true);
         setHorizontalExpand(true);
     }
-    
-    Spacer::~Spacer() {
-    }
-    
-    void Spacer::resizeToContent(bool recursiv) {
+
+    Spacer::~Spacer() { }
+
+    void Spacer::resizeToContent(bool recursiv)
+    {
         setSize(getMinSize().getWidth(), getMinSize().getHeight());
     }
 
-    void Spacer::draw(Graphics *graphics)
-    {
-    }
-};
+    void Spacer::draw(Graphics* graphics) { }
+}; // namespace fcn

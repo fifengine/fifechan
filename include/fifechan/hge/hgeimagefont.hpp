@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -78,8 +74,6 @@ namespace fcn
     /**
      * Font to be used with HGE. As HGE does not support colorkey blitting of images it's recommended
      * to use HGE's internal font in Guichan.
-     *
-     * @author Kevin Lynx
      */
     class FCN_EXTENSION_DECLSPEC HGEImageFont : public Font
     {
@@ -100,7 +94,7 @@ namespace fcn
          * Gets the loaded HGE font. The HGE font can be used to set certain properties like
          * setting the blend mode. Properties of the HGE font will effect the Guichan font as well.
          *
-         * @return the loaded HGE font. 
+         * @return the loaded HGE font.
          */
         virtual hgeFont *getFont() const;
 

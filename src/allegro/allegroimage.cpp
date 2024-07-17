@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,13 +71,12 @@ namespace fcn
     AllegroImage::AllegroImage(BITMAP* bitmap, bool autoFree)
     {
         mAutoFree = autoFree;
-        mBitmap = bitmap;
+        mBitmap   = bitmap;
     }
 
     AllegroImage::~AllegroImage()
     {
-        if (mAutoFree)
-        {
+        if (mAutoFree) {
             free();
         }
     }
@@ -93,8 +88,7 @@ namespace fcn
 
     void AllegroImage::free()
     {
-        if (mBitmap)
-        {
+        if (mBitmap) {
             destroy_bitmap(mBitmap);
             mBitmap = 0;
         }
@@ -102,8 +96,7 @@ namespace fcn
 
     int AllegroImage::getWidth() const
     {
-        if (!mBitmap)
-        {
+        if (!mBitmap) {
             throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
 
@@ -112,8 +105,7 @@ namespace fcn
 
     int AllegroImage::getHeight() const
     {
-        if (!mBitmap)
-        {
+        if (!mBitmap) {
             FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
 
@@ -122,8 +114,7 @@ namespace fcn
 
     Color AllegroImage::getPixel(int x, int y)
     {
-        if (!mBitmap)
-        {
+        if (!mBitmap) {
             throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
@@ -132,10 +123,9 @@ namespace fcn
         return Color(getr32(c), getg32(c), getb32(c), geta(32));
     }
 
-    void AllegroImage::putPixel(int x, int y, const Color& color)
+    void AllegroImage::putPixel(int x, int y, Color const & color)
     {
-        if (!mBitmap)
-        {
+        if (!mBitmap) {
             throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
 
@@ -146,12 +136,11 @@ namespace fcn
 
     void AllegroImage::convertToDisplayFormat()
     {
-        if (!mBitmap)
-        {
+        if (!mBitmap) {
             FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
-        BITMAP *bmp = create_bitmap(mBitmap->w, mBitmap->h);
+        BITMAP* bmp = create_bitmap(mBitmap->w, mBitmap->h);
 
         blit(mBitmap, bmp, 0, 0, 0, 0, bmp->w, bmp->h);
 
@@ -159,4 +148,4 @@ namespace fcn
 
         mBitmap = bmp;
     }
-}
+} // namespace fcn

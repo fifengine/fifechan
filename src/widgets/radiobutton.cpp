@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,13 +68,15 @@ namespace fcn
 {
     RadioButton::GroupMap RadioButton::mGroupMap;
 
-    RadioButton::RadioButton() {
+    RadioButton::RadioButton()
+    {
         setMarkerStyle(Marker_Rhombus);
         setSelected(false);
         adjustSize();
     }
 
-    RadioButton::RadioButton(const std::string &caption, const std::string &group, bool selected) {
+    RadioButton::RadioButton(std::string const & caption, std::string const & group, bool selected)
+    {
         setMarkerStyle(Marker_Rhombus);
         setCaption(caption);
         setGroup(group);
@@ -86,12 +84,14 @@ namespace fcn
         adjustSize();
     }
 
-    RadioButton::~RadioButton() {
+    RadioButton::~RadioButton()
+    {
         // Remove us from the group list
         setGroup("");
     }
 
-    void RadioButton::setSelected(bool selected) {
+    void RadioButton::setSelected(bool selected)
+    {
         if (selected && mGroup != "") {
             // deselect all buttons in group
             GroupIterator iter, iterEnd;
@@ -107,11 +107,13 @@ namespace fcn
         mSelected = selected;
     }
 
-    void RadioButton::toggleSelected() {
+    void RadioButton::toggleSelected()
+    {
         setSelected(!isSelected());
     }
 
-    void RadioButton::setGroup(const std::string& group) {
+    void RadioButton::setGroup(std::string const & group)
+    {
         // Remove button from previous group
         if (mGroup != "") {
             GroupIterator iter, iterEnd;
@@ -132,8 +134,9 @@ namespace fcn
         mGroup = group;
     }
 
-    const std::string& RadioButton::getGroup() const {
+    std::string const & RadioButton::getGroup() const
+    {
         return mGroup;
     }
 
-}
+} // namespace fcn

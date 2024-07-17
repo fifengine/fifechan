@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -84,7 +80,7 @@ namespace fcn
         Color();
 
         /**
-         * Constructor. Constructs a color from the bytes in an integer. 
+         * Constructor. Constructs a color from the bytes in an integer.
          * Call it with a hexadecimal constant for HTML-style color representation.
          * The alpha component is 255 by default.
          *
@@ -110,7 +106,7 @@ namespace fcn
 
         /**
          * Adds the RGB values of two colors together. The values will be
-         * clamped if they go out of range. 
+         * clamped if they go out of range.
          *
          * WARNING: This function will reset the alpha value of the
          *          returned color to 255.

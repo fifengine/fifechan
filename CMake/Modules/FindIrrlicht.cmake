@@ -6,7 +6,7 @@
 #  IRRLICHT_LIBRARIES - Link these to use Irrlicht
 #  IRRLICHT_DEFINITIONS - Compiler switches required for using Irrlicht
 #
-#  Copyright (c) 2008 Olof Naessen <olof.naessen@gmail.com>
+#  Copyright (c) 2008 Olof Naessén <olof.naessen@gmail.com>
 #
 #  Redistribution and use is allowed according to the terms of the New
 #  BSD license.

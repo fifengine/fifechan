@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,28 +68,33 @@ namespace fcn
 {
     ToggleButton::GroupMap ToggleButton::mGroupMap;
 
-    ToggleButton::ToggleButton() {
+    ToggleButton::ToggleButton()
+    {
         setSelected(false);
         adjustSize();
     }
 
-    ToggleButton::ToggleButton(const std::string &caption, const std::string &group, bool selected) {
+    ToggleButton::ToggleButton(std::string const & caption, std::string const & group, bool selected)
+    {
         setCaption(caption);
         setGroup(group);
         setSelected(selected);
         adjustSize();
     }
 
-    ToggleButton::~ToggleButton() {
+    ToggleButton::~ToggleButton()
+    {
         // Remove us from the group list
         setGroup("");
     }
 
-    bool ToggleButton::isSelected() const {
+    bool ToggleButton::isSelected() const
+    {
         return mSelected;
     }
 
-    void ToggleButton::setSelected(bool selected) {
+    void ToggleButton::setSelected(bool selected)
+    {
         if (selected && mGroup != "") {
             // deselect all buttons in group
             GroupIterator iter, iterEnd;
@@ -109,12 +110,14 @@ namespace fcn
         mSelected = selected;
     }
 
-    void ToggleButton::toggleSelected() {
+    void ToggleButton::toggleSelected()
+    {
         setSelected(!isSelected());
         distributeActionEvent();
     }
 
-    void ToggleButton::setGroup(const std::string& group) {
+    void ToggleButton::setGroup(std::string const & group)
+    {
         // Remove button from previous group
         if (mGroup != "") {
             GroupIterator iter, iterEnd;
@@ -135,15 +138,18 @@ namespace fcn
         mGroup = group;
     }
 
-    const std::string& ToggleButton::getGroup() const {
+    std::string const & ToggleButton::getGroup() const
+    {
         return mGroup;
     }
 
-    bool ToggleButton::isPressed() const {
+    bool ToggleButton::isPressed() const
+    {
         return isSelected();
     }
 
-    void ToggleButton::keyReleased(KeyEvent& keyEvent) {
+    void ToggleButton::keyReleased(KeyEvent& keyEvent)
+    {
         Key key = keyEvent.getKey();
 
         if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
@@ -153,7 +159,8 @@ namespace fcn
         }
     }
 
-    void ToggleButton::mouseReleased(MouseEvent& mouseEvent) {
+    void ToggleButton::mouseReleased(MouseEvent& mouseEvent)
+    {
         if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
             mMousePressed = false;
             toggleSelected();
@@ -164,4 +171,4 @@ namespace fcn
         }
     }
 
-}
+} // namespace fcn

@@ -29,10 +29,6 @@
  *
  * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -72,38 +68,35 @@
 
 namespace fcn
 {
-    IrrlichtImage::IrrlichtImage(irr::video::IImage* image,
-                                 irr::video::IVideoDriver* driver,
-                                 const std::string& name,
-                                 bool autoFree,
-                                 bool convertToDisplayFormat)
+    IrrlichtImage::IrrlichtImage(
+        irr::video::IImage* image,
+        irr::video::IVideoDriver* driver,
+        std::string const & name,
+        bool autoFree,
+        bool convertToDisplayFormat)
     {
-        mTexture = NULL;
-        mImage = image;
-        mDriver = driver;
-        mName = name;
+        mTexture  = NULL;
+        mImage    = image;
+        mDriver   = driver;
+        mName     = name;
         mAutoFree = autoFree;
 
-        if (mDriver)
-        {
+        if (mDriver) {
             driver->grab();
         }
 
-        if (convertToDisplayFormat)
-        {
+        if (convertToDisplayFormat) {
             IrrlichtImage::convertToDisplayFormat();
         }
     }
 
     IrrlichtImage::~IrrlichtImage()
     {
-        if (mAutoFree)
-        {
+        if (mAutoFree) {
             free();
         }
 
-        if (mDriver)
-        {
+        if (mDriver) {
             mDriver->drop();
         }
     }
@@ -115,12 +108,9 @@ namespace fcn
 
     int IrrlichtImage::getWidth() const
     {
-        if (mTexture)
-        {
+        if (mTexture) {
             return mTexture->getSize().Width;
-        }
-        else if (mImage)
-        {
+        } else if (mImage) {
             return mImage->getDimension().Width;
         }
 
@@ -129,12 +119,9 @@ namespace fcn
 
     int IrrlichtImage::getHeight() const
     {
-        if (mTexture)
-        {
+        if (mTexture) {
             return mTexture->getSize().Height;
-        }
-        else if (mImage)
-        {
+        } else if (mImage) {
             return mImage->getDimension().Height;
         }
 
@@ -143,8 +130,7 @@ namespace fcn
 
     Color IrrlichtImage::getPixel(int x, int y)
     {
-        if (mImage == NULL)
-        {
+        if (mImage == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format.");
         }
 
@@ -152,10 +138,9 @@ namespace fcn
         return Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 
-    void IrrlichtImage::putPixel(int x, int y, const Color& color)
+    void IrrlichtImage::putPixel(int x, int y, Color const & color)
     {
-        if (mImage == NULL)
-        {
+        if (mImage == NULL) {
             throw FCN_EXCEPTION("Image has been converted to display format.");
         }
 
@@ -164,25 +149,20 @@ namespace fcn
 
     void IrrlichtImage::convertToDisplayFormat()
     {
-        if (mTexture != NULL)
-        {
+        if (mTexture != NULL) {
             return;
         }
 
-        if (mImage == NULL)
-        {
+        if (mImage == NULL) {
             throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
         bool hasPink = false;
 
         irr::video::SColor pink(255, 255, 0, 255);
-        for (int i = 0; i < mImage->getDimension().Width; ++i)
-        {
-            for (int j = 0; j < mImage->getDimension().Height; ++j)
-            {
-                if(mImage->getPixel(i, j) == pink)
-                {
+        for (int i = 0; i < mImage->getDimension().Width; ++i) {
+            for (int j = 0; j < mImage->getDimension().Height; ++j) {
+                if (mImage->getPixel(i, j) == pink) {
                     hasPink = true;
                     break;
                 }
@@ -191,14 +171,12 @@ namespace fcn
 
         mTexture = mDriver->addTexture(mName.c_str(), mImage);
 
-        if (mTexture == NULL)
-        {
+        if (mTexture == NULL) {
             throw FCN_EXCEPTION("Unable to convert image to display format!");
         }
 
-        if(hasPink == true)
-        {
-            mDriver->makeColorKeyTexture(mTexture, irr::video::SColor(0,255,0,255));
+        if (hasPink == true) {
+            mDriver->makeColorKeyTexture(mTexture, irr::video::SColor(0, 255, 0, 255));
         }
 
         mImage->drop();
@@ -207,9 +185,8 @@ namespace fcn
 
     void IrrlichtImage::free()
     {
-        if (mImage != NULL)
-        {
+        if (mImage != NULL) {
             mImage->drop();
         }
     }
-}
+} // namespace fcn

@@ -23,75 +23,83 @@
 #include <fifechan/graphics.hpp>
 #include <fifechan/widgets/bargraph.hpp>
 
+namespace fcn
+{
 
-namespace fcn {
+    BarGraph::BarGraph() : m_opaque(false), m_rec() { }
 
-    BarGraph::BarGraph():
-        m_opaque(false),
-        m_rec() {
-    }
+    BarGraph::BarGraph(int x, int y, int w, int h) : m_opaque(false), m_rec(Rectangle(x, y, w, h)) { }
 
-    BarGraph::BarGraph(int x, int y, int w, int h):
-        m_opaque(false),
-        m_rec(Rectangle(x, y, w, h)) {
-    }
-
-    void BarGraph::setBarX(int x) {
+    void BarGraph::setBarX(int x)
+    {
         m_rec.x = x;
     }
 
-    int BarGraph::getBarX() const {
+    int BarGraph::getBarX() const
+    {
         return m_rec.x;
     }
 
-    void BarGraph::setBarY(int y) {
+    void BarGraph::setBarY(int y)
+    {
         m_rec.y = y;
     }
 
-    int BarGraph::getBarY() const {
+    int BarGraph::getBarY() const
+    {
         return m_rec.y;
     }
 
-    void BarGraph::setBarPosition(int x, int y) {
+    void BarGraph::setBarPosition(int x, int y)
+    {
         m_rec.x = x;
         m_rec.y = y;
     }
 
-    void BarGraph::setBarPosition(const Point& pos) {
+    void BarGraph::setBarPosition(Point const & pos)
+    {
         m_rec.x = pos.x;
         m_rec.y = pos.y;
     }
 
-    void BarGraph::setBarWidth(int w) {
+    void BarGraph::setBarWidth(int w)
+    {
         m_rec.width = w;
     }
 
-    int BarGraph::getBarWidth() const {
+    int BarGraph::getBarWidth() const
+    {
         return m_rec.width;
     }
 
-    void BarGraph::setBarHeight(int h) {
+    void BarGraph::setBarHeight(int h)
+    {
         m_rec.height = h;
     }
 
-    int BarGraph::getBarHeight() const {
+    int BarGraph::getBarHeight() const
+    {
         return m_rec.height;
     }
 
-    void BarGraph::setBarSize(int w, int h) {
-        m_rec.width = w;
+    void BarGraph::setBarSize(int w, int h)
+    {
+        m_rec.width  = w;
         m_rec.height = h;
     }
 
-    void BarGraph::setOpaque(bool opaque) {
+    void BarGraph::setOpaque(bool opaque)
+    {
         m_opaque = opaque;
     }
 
-    bool BarGraph::isOpaque() const {
+    bool BarGraph::isOpaque() const
+    {
         return m_opaque;
     }
 
-    void BarGraph::draw(Graphics* graphics) {
+    void BarGraph::draw(Graphics* graphics)
+    {
         bool active = isFocused();
 
         if (isOpaque()) {
@@ -101,8 +109,8 @@ namespace fcn {
             } else {
                 graphics->setColor(getBackgroundColor());
             }
-            graphics->fillRectangle(getBorderSize(), getBorderSize(),
-                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            graphics->fillRectangle(
+                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         // draw border or frame
         if (getBorderSize() > 0) {
@@ -119,4 +127,4 @@ namespace fcn {
         graphics->fillRectangle(m_rec);
     }
 
-};
+}; // namespace fcn

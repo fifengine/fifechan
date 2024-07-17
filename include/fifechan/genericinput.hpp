@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,9 +71,9 @@
 namespace fcn
 {
     class Key;
-    
+
     /**
-     * Implementation of a generic input which can be used with any 
+     * Implementation of a generic input which can be used with any
      * back end.
      */
     class FCN_CORE_DECLSPEC GenericInput: public Input
@@ -97,7 +93,7 @@ namespace fcn
          *       in the enum in Key should be pushed as the
          *       unicode value.
          *
-         * @param unicode The unicode value of the key. 
+         * @param unicode The unicode value of the key.
          */
         void pushKeyPressed(int unicode);
 
@@ -109,10 +105,10 @@ namespace fcn
          *       in the enum in Key should be pushed as the
          *       unicode value.
          *
-         * @param unicode The unicode value of the key. 
+         * @param unicode The unicode value of the key.
          */
         void pushKeyReleased(int unicode);
-        
+
         /**
          * Pushes a mouse button pressed event.
          *
@@ -130,7 +126,7 @@ namespace fcn
          * @param button The button of the mouse event.
          */
         void pushMouseButtonReleased(int x, int y, int button);
-        
+
         /**
          * Pushes a mouse wheel moved up event.
          *
@@ -138,7 +134,7 @@ namespace fcn
          * @param y The y coordinate of the mouse event.
          */
         void pushMouseWheelMovedUp(int x, int y);
-        
+
         /**
          * Pushes a mouse wheel moved down event.
          *
@@ -171,7 +167,7 @@ namespace fcn
          */
         void pushMouseMoved(int x, int y);
 
-        
+
         // Inherited from Input
 
         virtual bool isKeyQueueEmpty();

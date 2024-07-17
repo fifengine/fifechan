@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -76,24 +72,18 @@
 
 namespace fcn
 {
-    DirectX3DGraphics::DirectX3DGraphics(LPDIRECT3DDEVICE9 device)
-        : mAlpha(false), 
-          mDevice(device)
+    DirectX3DGraphics::DirectX3DGraphics(LPDIRECT3DDEVICE9 device) : mAlpha(false), mDevice(device)
     {
         DirectX3DGraphics::setTargetPlane(640, 480);
     }
 
-    DirectX3DGraphics::DirectX3DGraphics(LPDIRECT3DDEVICE9 device, int width, int height)
-        : mAlpha(false),
-          mDevice(device)
+    DirectX3DGraphics::DirectX3DGraphics(LPDIRECT3DDEVICE9 device, int width, int height) :
+        mAlpha(false), mDevice(device)
     {
         DirectX3DGraphics::setTargetPlane(width, height);
     }
 
-    DirectX3DGraphics::~DirectX3DGraphics()
-    {
-
-    }
+    DirectX3DGraphics::~DirectX3DGraphics() { }
 
     void DirectX3DGraphics::_beginDraw()
     {
@@ -103,16 +93,16 @@ namespace fcn
 
         D3DXMatrixOrthoLH(&ortho, (float)mWidth, (float)mHeight, 0.0f, 1.0f);
         mDevice->SetTransform(D3DTS_VIEW, &identity);
-        mDevice->SetTransform(D3DTS_WORLD, &identity);       
+        mDevice->SetTransform(D3DTS_WORLD, &identity);
         mDevice->SetTransform(D3DTS_PROJECTION, &ortho);
-    
+
         mDevice->SetRenderState(D3DRS_DITHERENABLE, FALSE);
         mDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
         mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
         mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
         mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
         mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        
+
         mDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
         mDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 
@@ -129,17 +119,17 @@ namespace fcn
     bool DirectX3DGraphics::pushClipArea(Rectangle area)
     {
         bool result = Graphics::pushClipArea(area);
-    
-        const ClipRectangle& carea = mClipStack.top();
+
+        ClipRectangle const & carea = mClipStack.top();
 
         RECT rect;
-        rect.left = carea.x;
-        rect.top = carea.y;
-        rect.right = carea.x + carea.width;
+        rect.left   = carea.x;
+        rect.top    = carea.y;
+        rect.right  = carea.x + carea.width;
         rect.bottom = carea.y + carea.height;
-        
+
         mDevice->SetScissorRect(&rect);
-      
+
         return result;
     }
 
@@ -147,237 +137,218 @@ namespace fcn
     {
         Graphics::popClipArea();
 
-        if (mClipStack.empty())
-        {
+        if (mClipStack.empty()) {
             return;
         }
 
-        const ClipRectangle& carea = mClipStack.top();
+        ClipRectangle const & carea = mClipStack.top();
 
         RECT rect;
-        rect.left = carea.x;
-        rect.top = carea.y;
-        rect.right = carea.x + carea.width;
+        rect.left   = carea.x;
+        rect.top    = carea.y;
+        rect.right  = carea.x + carea.width;
         rect.bottom = carea.y + carea.height;
-        
+
         mDevice->SetScissorRect(&rect);
     }
 
     void DirectX3DGraphics::setTargetPlane(int width, int height)
     {
-        mWidth = width;
+        mWidth  = width;
         mHeight = height;
     }
 
-    void DirectX3DGraphics::drawImage(const Image* image,
-                                      int srcX,
-                                      int srcY,
-                                      int dstX,
-                                      int dstY,
-                                      int width,
-                                      int height)
+    void DirectX3DGraphics::drawImage(
+        Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-		const DirectX3DImage* srcImage = dynamic_cast<const DirectX3DImage*>(image);
+        DirectX3DImage const * srcImage = dynamic_cast<DirectX3DImage const *>(image);
 
-        if (srcImage == NULL)
-        {
+        if (srcImage == NULL) {
             throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be a DirectXImage.");
         }
 
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
-        
-       
+        ClipRectangle const & top = mClipStack.top();
+
         dstX += top.xOffset;
         dstY += top.yOffset;
 
-         
         // Find DirectX texture coordinates
         float texX1 = srcX / (float)srcImage->getTextureWidth();
         float texY1 = srcY / (float)srcImage->getTextureHeight();
-        float texX2 = (srcX+width) / (float)srcImage->getTextureWidth();
-        float texY2 = (srcY+height) / (float)srcImage->getTextureHeight();
-          
-  
+        float texX2 = (srcX + width) / (float)srcImage->getTextureWidth();
+        float texY2 = (srcY + height) / (float)srcImage->getTextureHeight();
+
         // Check if blending already is enabled
-        if (!mAlpha)
-        {
+        if (!mAlpha) {
             mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
         }
 
         DWORD color = 0xFFFFFFFF;
-     
-        VertexWithTexture vertices[]=
-        {
+
+        VertexWithTexture vertices[] = {
             {(float)dstX, (float)dstY + height, 0.0f, 1.0f, color, texX1, texY2},
             {(float)dstX, (float)dstY, 0.0f, 1.0f, color, texX1, texY1},
             {(float)dstX + width, (float)dstY + height, 0.0f, 1.0f, color, texX2, texY2},
             {(float)dstX + width, (float)dstY, 0.0f, 1.0f, color, texX2, texY1},
         };
 
-        mDevice->SetFVF(D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1);
+        mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
         mDevice->SetTexture(0, srcImage->getTexture());
         mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(VertexWithTexture));
         mDevice->SetTexture(0, 0);
 
-        if (!mAlpha)
-        {
-            mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); 
+        if (!mAlpha) {
+            mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         }
     }
 
     void DirectX3DGraphics::drawPoint(int x, int y)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
-       
-        DWORD color = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[]=
-        {
-           {(float)x, (float)y, 0.0f, 1.0f, color},
-           {(float)x + 1, (float)y + 1, 0.0f, 1.0f, color}
-        };
+        ClipRectangle const & top = mClipStack.top();
 
-        mDevice->SetFVF(D3DFVF_XYZRHW|D3DFVF_DIFFUSE);
+        DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
+        Vertex vertices[] = {{(float)x, (float)y, 0.0f, 1.0f, color}, {(float)x + 1, (float)y + 1, 0.0f, 1.0f, color}};
+
+        mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, vertices, sizeof(Vertex));
     }
 
     void DirectX3DGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
-      
+        ClipRectangle const & top = mClipStack.top();
+
         x1 += top.xOffset;
         y1 += top.yOffset;
         x2 += top.xOffset;
         y2 += top.yOffset;
 
-        // Add the last point on the line as it is excluded 
-        // when drawing with DirectX 9     
-        if (x1 < x2 && y1 > y2)
-        {
+        // Add the last point on the line as it is excluded
+        // when drawing with DirectX 9
+        if (x1 < x2 && y1 > y2) {
             x2++;
             y2--;
-        }        
-        else if (x1 < x2 && y1 < y2)
-        {
+        } else if (x1 < x2 && y1 < y2) {
             x2++;
             y2++;
-        }
-        else if (x1 > x2 && y1 > y2)
-        {
+        } else if (x1 > x2 && y1 > y2) {
             x1++;
             y1++;
-        }
-        else if (x1 > x2 && y1 < y2)
-        {
+        } else if (x1 > x2 && y1 < y2) {
             x1++;
             y1--;
         }
 
-        DWORD color = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[]=
-        {
-           {(float)x1, (float)y1, 0.0f, 1.0f, color},
-           {(float)x2, (float)y2, 0.0f, 1.0f, color}
-        };
+        DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
+        Vertex vertices[] = {{(float)x1, (float)y1, 0.0f, 1.0f, color}, {(float)x2, (float)y2, 0.0f, 1.0f, color}};
 
-        mDevice->SetFVF(D3DFVF_XYZRHW|D3DFVF_DIFFUSE);
+        mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, vertices, sizeof(Vertex));
     }
 
-    void DirectX3DGraphics::drawRectangle(const Rectangle& rectangle)
+    void DirectX3DGraphics::drawRectangle(Rectangle const & rectangle)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
-       
-        DWORD color = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[]=
-        {
-           {(float)rectangle.x + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + rectangle.width - 1 + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
+        ClipRectangle const & top = mClipStack.top();
 
-           {(float)rectangle.x + rectangle.width - 1 + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + rectangle.width - 1 + top.xOffset, 
-            (float)rectangle.y + rectangle.height - 1 + top.yOffset, 0.0f, 1.0f, color},
+        DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
+        Vertex vertices[] = {
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
+             (float)rectangle.y + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
 
-           {(float)rectangle.x + rectangle.width - 1 + top.xOffset, 
-            (float)rectangle.y + rectangle.height - 1 + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + top.xOffset,
-            (float)rectangle.y + rectangle.height - 1 + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
+             (float)rectangle.y + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
+            {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
+             (float)rectangle.y + rectangle.height - 1 + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
 
-           {(float)rectangle.x + top.xOffset, 
-            (float)rectangle.y + rectangle.height - 1 + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}
-        };
+            {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
+             (float)rectangle.y + rectangle.height - 1 + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
+            {(float)rectangle.x + top.xOffset,
+             (float)rectangle.y + rectangle.height - 1 + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
 
-        mDevice->SetFVF(D3DFVF_XYZRHW|D3DFVF_DIFFUSE);
+            {(float)rectangle.x + top.xOffset,
+             (float)rectangle.y + rectangle.height - 1 + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}};
+
+        mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 4, vertices, sizeof(Vertex));
     }
 
-    void DirectX3DGraphics::fillRectangle(const Rectangle& rectangle)
+    void DirectX3DGraphics::fillRectangle(Rectangle const & rectangle)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
-       
-        DWORD color = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[]=
-        {
-           {(float)rectangle.x + top.xOffset, 
-            (float)rectangle.y + rectangle.height + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + rectangle.width + top.xOffset, 
-            (float)rectangle.y + rectangle.height + top.yOffset, 0.0f, 1.0f, color},
-           {(float)rectangle.x + rectangle.width + top.xOffset, 
-            (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}
-        };
+        ClipRectangle const & top = mClipStack.top();
 
-        mDevice->SetFVF(D3DFVF_XYZRHW|D3DFVF_DIFFUSE);
+        DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
+        Vertex vertices[] = {
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + rectangle.height + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + rectangle.width + top.xOffset,
+             (float)rectangle.y + rectangle.height + top.yOffset,
+             0.0f,
+             1.0f,
+             color},
+            {(float)rectangle.x + rectangle.width + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}};
+
+        mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(Vertex));
     }
 
-    void DirectX3DGraphics::setColor(const Color& color)
+    void DirectX3DGraphics::setColor(Color const & color)
     {
         mColor = color;
 
         mAlpha = color.a != 255;
 
-        if (mAlpha)
-        {
+        if (mAlpha) {
             mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        }
-        else
-        {
+        } else {
             mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         }
     }
 
-    const Color& DirectX3DGraphics::getColor() const
+    Color const & DirectX3DGraphics::getColor() const
     {
         return mColor;
     }
@@ -396,9 +367,9 @@ namespace fcn
     {
         return mWidth;
     }
-   
+
     int DirectX3DGraphics::getTargetPlaneHeight() const
     {
         return mHeight;
     }
-}
+} // namespace fcn

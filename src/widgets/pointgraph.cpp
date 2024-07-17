@@ -23,50 +23,50 @@
 #include <fifechan/graphics.hpp>
 #include <fifechan/widgets/pointgraph.hpp>
 
+namespace fcn
+{
 
-namespace fcn {
+    PointGraph::PointGraph() : m_opaque(false), m_thickness(1), m_data() { }
 
-    PointGraph::PointGraph():
-        m_opaque(false),
-        m_thickness(1),
-        m_data() {
-    }
+    PointGraph::PointGraph(PointVector const & data) : m_opaque(false), m_thickness(1), m_data(data) { }
 
-    PointGraph::PointGraph(const PointVector& data):
-        m_opaque(false),
-        m_thickness(1),
-        m_data(data) {
-    }
-
-    void PointGraph::setPointVector(const PointVector& data) {
+    void PointGraph::setPointVector(PointVector const & data)
+    {
         m_data = data;
     }
 
-    const PointVector& PointGraph::getPointVector() const {
+    PointVector const & PointGraph::getPointVector() const
+    {
         return m_data;
     }
 
-    void PointGraph::resetPointVector() {
+    void PointGraph::resetPointVector()
+    {
         m_data.clear();
     }
 
-    void PointGraph::setThickness(unsigned int thickness) {
+    void PointGraph::setThickness(unsigned int thickness)
+    {
         m_thickness = thickness;
     }
 
-    unsigned int PointGraph::getThickness() const {
+    unsigned int PointGraph::getThickness() const
+    {
         return m_thickness;
     }
 
-    void PointGraph::setOpaque(bool opaque) {
+    void PointGraph::setOpaque(bool opaque)
+    {
         m_opaque = opaque;
     }
 
-    bool PointGraph::isOpaque() const {
+    bool PointGraph::isOpaque() const
+    {
         return m_opaque;
     }
 
-    void PointGraph::draw(Graphics* graphics) {
+    void PointGraph::draw(Graphics* graphics)
+    {
         bool active = isFocused();
 
         if (isOpaque()) {
@@ -76,8 +76,8 @@ namespace fcn {
             } else {
                 graphics->setColor(getBackgroundColor());
             }
-            graphics->fillRectangle(getBorderSize(), getBorderSize(),
-                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            graphics->fillRectangle(
+                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
         }
         // draw border or frame
         if (getBorderSize() > 0) {
@@ -93,7 +93,7 @@ namespace fcn {
         }
         // draw points
         graphics->setColor(getBaseColor());
-        bool thick = m_thickness > 1;
+        bool thick                = m_thickness > 1;
         PointVector::iterator pit = m_data.begin();
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
@@ -106,4 +106,4 @@ namespace fcn {
         }
     }
 
-};
+}; // namespace fcn

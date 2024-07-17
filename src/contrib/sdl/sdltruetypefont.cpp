@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -63,7 +59,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "fifechan/contrib/sdl/sdltruetypefont.hpp"
@@ -77,32 +73,31 @@ namespace fcn
 {
     namespace contrib
     {
-        SDLTrueTypeFont::SDLTrueTypeFont (const std::string& filename, int size)
+        SDLTrueTypeFont::SDLTrueTypeFont(std::string const & filename, int size)
         {
-            mRowSpacing = 0;
+            mRowSpacing   = 0;
             mGlyphSpacing = 0;
-            mAntiAlias = true;        
-            mFilename = filename;
-            mFont = NULL;
-        
+            mAntiAlias    = true;
+            mFilename     = filename;
+            mFont         = NULL;
+
             mFont = TTF_OpenFont(filename.c_str(), size);
-        
-            if (mFont == NULL)
-            {
-                throw FCN_EXCEPTION("SDLTrueTypeFont::SDLTrueTypeFont. "+std::string(TTF_GetError()));
+
+            if (mFont == NULL) {
+                throw FCN_EXCEPTION("SDLTrueTypeFont::SDLTrueTypeFont. " + std::string(TTF_GetError()));
             }
         }
-    
+
         SDLTrueTypeFont::~SDLTrueTypeFont()
         {
             TTF_CloseFont(mFont);
         }
-  
-        int SDLTrueTypeFont::getWidth(const std::string& text) const
+
+        int SDLTrueTypeFont::getWidth(std::string const & text) const
         {
             int w, h;
             TTF_SizeText(mFont, text.c_str(), &w, &h);
-        
+
             return w;
         }
 
@@ -110,25 +105,23 @@ namespace fcn
         {
             return TTF_FontHeight(mFont) + mRowSpacing;
         }
-    
-        void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
+
+        void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
         {
-            if (text == "")
-            {
+            if (text == "") {
                 return;
             }
-        
-            fcn::SDLGraphics *sdlGraphics = dynamic_cast<fcn::SDLGraphics *>(graphics);
 
-            if (sdlGraphics == NULL)
-            {
+            fcn::SDLGraphics* sdlGraphics = dynamic_cast<fcn::SDLGraphics*>(graphics);
+
+            if (sdlGraphics == NULL) {
                 throw FCN_EXCEPTION("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!");
                 return;
             }
-        
+
             // This is needed for drawing the Glyph in the middle if we have spacing
             int yoffset = getRowSpacing() / 2;
-        
+
             Color col = sdlGraphics->getColor();
 
             SDL_Color sdlCol;
@@ -136,16 +129,13 @@ namespace fcn
             sdlCol.r = col.r;
             sdlCol.g = col.g;
 
-            SDL_Surface *textSurface;
-            if (mAntiAlias)
-            {
+            SDL_Surface* textSurface;
+            if (mAntiAlias) {
                 textSurface = TTF_RenderText_Blended(mFont, text.c_str(), sdlCol);
-            }
-            else
-            {
+            } else {
                 textSurface = TTF_RenderText_Solid(mFont, text.c_str(), sdlCol);
             }
-        
+
             SDL_Rect dst, src;
             dst.x = x;
             dst.y = y + yoffset;
@@ -153,11 +143,11 @@ namespace fcn
             src.h = textSurface->h;
             src.x = 0;
             src.y = 0;
-        
+
             sdlGraphics->drawSDLSurface(textSurface, src, dst);
-            SDL_FreeSurface(textSurface);        
+            SDL_FreeSurface(textSurface);
         }
-    
+
         void SDLTrueTypeFont::setRowSpacing(int spacing)
         {
             mRowSpacing = spacing;
@@ -167,12 +157,12 @@ namespace fcn
         {
             return mRowSpacing;
         }
-    
+
         void SDLTrueTypeFont::setGlyphSpacing(int spacing)
         {
             mGlyphSpacing = spacing;
         }
-    
+
         int SDLTrueTypeFont::getGlyphSpacing()
         {
             return mGlyphSpacing;
@@ -185,8 +175,7 @@ namespace fcn
 
         bool SDLTrueTypeFont::isAntiAlias()
         {
-            return mAntiAlias;        
-        }    
-    }
-}
-
+            return mAntiAlias;
+        }
+    } // namespace contrib
+} // namespace fcn

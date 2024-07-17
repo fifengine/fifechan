@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,14 +73,15 @@
 
 namespace fcn
 {
-    Button::Button()
-        : mHasMouse(false),
-          mKeyPressed(false),
-          mMousePressed(false),
-          mState(true),
-          mAlignment(Graphics::Center),
-          mXOffset(1),
-          mYOffset(1) {
+    Button::Button() :
+        mHasMouse(false),
+        mKeyPressed(false),
+        mMousePressed(false),
+        mState(true),
+        mAlignment(Graphics::Center),
+        mXOffset(1),
+        mYOffset(1)
+    {
         setFocusable(true);
         adjustSize();
 
@@ -94,15 +91,16 @@ namespace fcn
         addWidgetListener(this);
     }
 
-    Button::Button(const std::string& caption)
-            : mCaption(caption),
-              mHasMouse(false),
-              mKeyPressed(false),
-              mMousePressed(false),
-              mState(true),
-              mAlignment(Graphics::Center),
-              mXOffset(1),
-              mYOffset(1) {
+    Button::Button(std::string const & caption) :
+        mCaption(caption),
+        mHasMouse(false),
+        mKeyPressed(false),
+        mMousePressed(false),
+        mState(true),
+        mAlignment(Graphics::Center),
+        mXOffset(1),
+        mYOffset(1)
+    {
         setFocusable(true);
         adjustSize();
 
@@ -112,62 +110,73 @@ namespace fcn
         addWidgetListener(this);
     }
 
-    Button::~Button() {
+    Button::~Button() { }
 
-    }
-
-    void Button::setCaption(const std::string& caption) {
+    void Button::setCaption(std::string const & caption)
+    {
         mCaption = caption;
         adjustSize();
     }
 
-    const std::string& Button::getCaption() const {
+    std::string const & Button::getCaption() const
+    {
         return mCaption;
     }
 
-    void Button::setActive(bool state) {
+    void Button::setActive(bool state)
+    {
         mState = state;
     }
 
-    bool Button::isActive() const {
+    bool Button::isActive() const
+    {
         return mState;
     }
 
-    void Button::setAlignment(Graphics::Alignment alignment) {
+    void Button::setAlignment(Graphics::Alignment alignment)
+    {
         mAlignment = alignment;
     }
 
-    Graphics::Alignment Button::getAlignment() const {
+    Graphics::Alignment Button::getAlignment() const
+    {
         return mAlignment;
     }
 
-    void Button::setDownXOffset(int offset) {
+    void Button::setDownXOffset(int offset)
+    {
         mXOffset = offset;
     }
 
-    int Button::getDownXOffset() const {
+    int Button::getDownXOffset() const
+    {
         return mXOffset;
     }
 
-    void Button::setDownYOffset(int offset) {
+    void Button::setDownYOffset(int offset)
+    {
         mYOffset = offset;
     }
 
-    int Button::getDownYOffset() const {
+    int Button::getDownYOffset() const
+    {
         return mYOffset;
     }
 
-    void Button::setDownOffset(int x, int y) {
+    void Button::setDownOffset(int x, int y)
+    {
         mXOffset = x;
         mYOffset = y;
     }
 
-    void Button::fontChanged() {
+    void Button::fontChanged()
+    {
         adjustSize();
     }
 
-    void Button::draw(Graphics* graphics) {
-        bool active = isFocused();
+    void Button::draw(Graphics* graphics)
+    {
+        bool active     = isFocused();
         Color faceColor = getBaseColor();
         if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
             faceColor = getSelectionColor();
@@ -175,11 +184,11 @@ namespace fcn
         int alpha = faceColor.a;
 
         if (isPressed()) {
-            faceColor = faceColor - 0x303030;
+            faceColor   = faceColor - 0x303030;
             faceColor.a = alpha;
         }
         if (!isActive()) {
-            int color = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
+            int color   = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
             faceColor.r = color;
             faceColor.g = color;
             faceColor.b = color;
@@ -198,19 +207,22 @@ namespace fcn
         }
 
         int textX;
-        int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+        int textY =
+            offsetRec.y + getPaddingTop() +
+            (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
         switch (getAlignment()) {
-          case Graphics::Left:
-              textX = offsetRec.x + getPaddingLeft();
-              break;
-          case Graphics::Center:
-              textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
-              break;
-          case Graphics::Right:
-              textX = getWidth() - offsetRec.x - getPaddingRight();
-              break;
-          default:
-              throw FCN_EXCEPTION("Unknown alignment.");
+        case Graphics::Left:
+            textX = offsetRec.x + getPaddingLeft();
+            break;
+        case Graphics::Center:
+            textX = offsetRec.x + getPaddingLeft() +
+                    (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+            break;
+        case Graphics::Right:
+            textX = getWidth() - offsetRec.x - getPaddingRight();
+            break;
+        default:
+            throw FCN_EXCEPTION("Unknown alignment.");
         }
 
         // set font and color
@@ -223,39 +235,46 @@ namespace fcn
         }
     }
 
-    void Button::resizeToContent(bool recursiv) {
+    void Button::resizeToContent(bool recursiv)
+    {
         adjustSize();
     }
 
-    void Button::adjustSize() {
+    void Button::adjustSize()
+    {
         int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
         int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 
-    bool Button::isPressed() const {
+    bool Button::isPressed() const
+    {
         if (mMousePressed) {
             return mHasMouse;
         }
         return mKeyPressed;
     }
 
-    void Button::mousePressed(MouseEvent& mouseEvent) {
+    void Button::mousePressed(MouseEvent& mouseEvent)
+    {
         if (mouseEvent.getButton() == MouseEvent::Left) {
             mMousePressed = true;
             mouseEvent.consume();
         }
     }
 
-    void Button::mouseExited(MouseEvent& mouseEvent) {
+    void Button::mouseExited(MouseEvent& mouseEvent)
+    {
         mHasMouse = false;
     }
 
-    void Button::mouseEntered(MouseEvent& mouseEvent) {
+    void Button::mouseEntered(MouseEvent& mouseEvent)
+    {
         mHasMouse = true;
     }
 
-    void Button::mouseReleased(MouseEvent& mouseEvent) {
+    void Button::mouseReleased(MouseEvent& mouseEvent)
+    {
         if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
             mMousePressed = false;
             distributeActionEvent();
@@ -266,11 +285,13 @@ namespace fcn
         }
     }
 
-    void Button::mouseDragged(MouseEvent& mouseEvent) {
+    void Button::mouseDragged(MouseEvent& mouseEvent)
+    {
         mouseEvent.consume();
     }
 
-    void Button::keyPressed(KeyEvent& keyEvent) {
+    void Button::keyPressed(KeyEvent& keyEvent)
+    {
         Key key = keyEvent.getKey();
 
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
@@ -279,7 +300,8 @@ namespace fcn
         }
     }
 
-    void Button::keyReleased(KeyEvent& keyEvent) {
+    void Button::keyReleased(KeyEvent& keyEvent)
+    {
         Key key = keyEvent.getKey();
 
         if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
@@ -289,15 +311,17 @@ namespace fcn
         }
     }
 
-    void Button::focusLost(const Event& event) {
+    void Button::focusLost(Event const & event)
+    {
         mMousePressed = false;
-        mKeyPressed = false;
-        mHasMouse = false;
+        mKeyPressed   = false;
+        mHasMouse     = false;
     }
 
-    void Button::ancestorHidden(const Event& e) {
+    void Button::ancestorHidden(Event const & e)
+    {
         mMousePressed = false;
-        mKeyPressed = false;
-        mHasMouse = false;
+        mKeyPressed   = false;
+        mHasMouse     = false;
     }
-}
+} // namespace fcn

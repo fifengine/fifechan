@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -75,29 +71,26 @@ namespace fcn
 {
     IrrlichtImageLoader::IrrlichtImageLoader(irr::video::IVideoDriver* driver) : mDriver(driver)
     {
-        if (mDriver)
-        {
+        if (mDriver) {
             mDriver->grab();
         }
     }
-    
+
     IrrlichtImageLoader::~IrrlichtImageLoader()
     {
-        if (mDriver)
-        {
+        if (mDriver) {
             mDriver->drop();
         }
     }
 
-    Image* IrrlichtImageLoader::load(const std::string& filename, bool convertToDisplayFormat)
+    Image* IrrlichtImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
         irr::video::IImage* image = mDriver->createImageFromFile(filename.c_str());
 
-        if (image == NULL)
-        {
+        if (image == NULL) {
             throw FCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
         }
 
         return new IrrlichtImage(image, mDriver, filename, true, convertToDisplayFormat);
     }
-}
+} // namespace fcn

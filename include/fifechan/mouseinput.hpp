@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -74,9 +70,6 @@ namespace fcn
      * Internal class that represents mouse input. Generally you won't have to
      * bother using this class unless you implement an Input class for
      * a back end.
-     *
-     * @author Olof Naessén
-     * @author Per Larsson
      */
     class FCN_CORE_DECLSPEC MouseInput
     {
@@ -227,18 +220,18 @@ namespace fcn
          */
         unsigned int mButton;
 
-        /** 
-         * Holds the timestamp of the mouse input. Used to 
+        /**
+         * Holds the timestamp of the mouse input. Used to
          * check for double clicks.
          */
         int mTimeStamp;
 
-        /** 
+        /**
          * Holds the x coordinate of the mouse input.
          */
         int mX;
 
-        /** 
+        /**
          * Holds the y coordinate of the mouse input.
          */
         int mY;

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,31 +73,23 @@
 
 namespace fcn
 {
-    ImageFont::ImageFont(const std::string& filename,
-                         const std::string& glyphs)
+    ImageFont::ImageFont(std::string const & filename, std::string const & glyphs)
     {
         mFilename = filename;
-        mImage = Image::load(filename, false);
+        mImage    = Image::load(filename, false);
 
         Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i = 0;
-             i < mImage->getWidth() && separator == mImage->getPixel(i, 0);
-             ++i)
-        {
-        }
+        for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) { }
 
-        if (i >= mImage->getWidth())
-        {
+        if (i >= mImage->getWidth()) {
             throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
-        for (j = 0; j < mImage->getHeight(); ++j)
-        {
-            if (separator == mImage->getPixel(i, j))
-            {
+        for (j = 0; j < mImage->getHeight(); ++j) {
+            if (separator == mImage->getPixel(i, j)) {
                 break;
             }
         }
@@ -110,50 +98,40 @@ namespace fcn
         int x = 0, y = 0;
         unsigned char k;
 
-        for (i = 0; i < (int)glyphs.size(); ++i)
-        {
-            k = glyphs.at(i);
+        for (i = 0; i < (int)glyphs.size(); ++i) {
+            k         = glyphs.at(i);
             mGlyph[k] = scanForGlyph(k, x, y, separator);
             // Update x och y with new coordinates.
             x = mGlyph[k].x + mGlyph[k].width;
-            y =  mGlyph[k].y;
+            y = mGlyph[k].y;
         }
 
         mImage->convertToDisplayFormat();
 
-        mRowSpacing = 0;
+        mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
-    ImageFont::ImageFont(Image* image,
-                         const std::string& glyphs)
+    ImageFont::ImageFont(Image* image, std::string const & glyphs)
     {
         mFilename = "Image*";
-        if (image == NULL)
-        {
-                FCN_EXCEPTION("Font image is NULL");
+        if (image == NULL) {
+            FCN_EXCEPTION("Font image is NULL");
         }
         mImage = image;
 
         Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i = 0;
-             i < mImage->getWidth() && separator == mImage->getPixel(i, 0);
-             ++i)
-        {
-        }
+        for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) { }
 
-        if (i >= mImage->getWidth())
-        {
+        if (i >= mImage->getWidth()) {
             throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
-        for (j = 0; j < mImage->getHeight(); ++j)
-        {
-            if (separator == mImage->getPixel(i, j))
-            {
+        for (j = 0; j < mImage->getHeight(); ++j) {
+            if (separator == mImage->getPixel(i, j)) {
                 break;
             }
         }
@@ -162,46 +140,37 @@ namespace fcn
         int x = 0, y = 0;
         unsigned char k;
 
-        for (i = 0; i < (int)glyphs.size(); ++i)
-        {
-            k = glyphs.at(i);
+        for (i = 0; i < (int)glyphs.size(); ++i) {
+            k         = glyphs.at(i);
             mGlyph[k] = scanForGlyph(k, x, y, separator);
             // Update x och y with new coordinates.
             x = mGlyph[k].x + mGlyph[k].width;
-            y =  mGlyph[k].y;
+            y = mGlyph[k].y;
         }
 
         mImage->convertToDisplayFormat();
 
-        mRowSpacing = 0;
+        mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
-    ImageFont::ImageFont(const std::string& filename,
-                         unsigned char glyphsFrom,
-                         unsigned char glyphsTo)
+    ImageFont::ImageFont(std::string const & filename, unsigned char glyphsFrom, unsigned char glyphsTo)
     {
         mFilename = filename;
-        mImage = Image::load(filename, false);
+        mImage    = Image::load(filename, false);
 
         Color separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i=0; separator == mImage->getPixel(i, 0)
-                 && i < mImage->getWidth(); ++i)
-        {
-        }
+        for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) { }
 
-        if (i >= mImage->getWidth())
-        {
+        if (i >= mImage->getWidth()) {
             throw FCN_EXCEPTION("Corrupt image.");
         }
 
         int j = 0;
-        for (j = 0; j < mImage->getHeight(); ++j)
-        {
-            if (separator == mImage->getPixel(i, j))
-            {
+        for (j = 0; j < mImage->getHeight(); ++j) {
+            if (separator == mImage->getPixel(i, j)) {
                 break;
             }
         }
@@ -209,17 +178,16 @@ namespace fcn
         mHeight = j;
         int x = 0, y = 0;
 
-        for (i = glyphsFrom; i < glyphsTo + 1; i++)
-        {
+        for (i = glyphsFrom; i < glyphsTo + 1; i++) {
             mGlyph[i] = scanForGlyph(i, x, y, separator);
             // Update x och y with new coordinates.
             x = mGlyph[i].x + mGlyph[i].width;
-            y =  mGlyph[i].y;
+            y = mGlyph[i].y;
         }
 
         mImage->convertToDisplayFormat();
 
-        mRowSpacing = 0;
+        mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
@@ -230,8 +198,7 @@ namespace fcn
 
     int ImageFont::getWidth(unsigned char glyph) const
     {
-        if (mGlyph[glyph].width == 0)
-        {
+        if (mGlyph[glyph].width == 0) {
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
 
@@ -243,44 +210,29 @@ namespace fcn
         return mHeight + mRowSpacing;
     }
 
-    int ImageFont::drawGlyph(Graphics* graphics,
-                             unsigned char glyph,
-                             int x, int y)
+    int ImageFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
     {
         // This is needed for drawing the glyph in the middle
         // if we have spacing.
         int yoffset = getRowSpacing() / 2;
 
-        if (mGlyph[glyph].width == 0)
-        {
-            graphics->drawRectangle(x,
-                                    y + 1 + yoffset,
-                                    mGlyph[(int)(' ')].width - 1,
-                                    mGlyph[(int)(' ')].height - 2);
+        if (mGlyph[glyph].width == 0) {
+            graphics->drawRectangle(x, y + 1 + yoffset, mGlyph[(int)(' ')].width - 1, mGlyph[(int)(' ')].height - 2);
 
             return mGlyph[(int)(' ')].width + mGlyphSpacing;
         }
 
-        graphics->drawImage(mImage,
-                            mGlyph[glyph].x,
-                            mGlyph[glyph].y,
-                            x,
-                            y + yoffset,
-                            mGlyph[glyph].width,
-                            mGlyph[glyph].height);
+        graphics->drawImage(
+            mImage, mGlyph[glyph].x, mGlyph[glyph].y, x, y + yoffset, mGlyph[glyph].width, mGlyph[glyph].height);
 
         return mGlyph[glyph].width + mGlyphSpacing;
     }
 
-    void ImageFont::drawString(Graphics* graphics,
-                               const std::string& text,
-                               int x,
-                               int y)
+    void ImageFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
         unsigned int i;
 
-        for (i = 0; i < text.size(); ++i)
-        {
+        for (i = 0; i < text.size(); ++i) {
             drawGlyph(graphics, text.at(i), x, y);
             x += getWidth(text.at(i));
         }
@@ -306,23 +258,17 @@ namespace fcn
         return mGlyphSpacing;
     }
 
-    Rectangle ImageFont::scanForGlyph(unsigned char glyph,
-                                      int x,
-                                      int y,
-                                      const Color& separator)
+    Rectangle ImageFont::scanForGlyph(unsigned char glyph, int x, int y, Color const & separator)
     {
         Color color;
-        do
-        {
+        do {
             ++x;
 
-            if (x >= mImage->getWidth())
-            {
+            if (x >= mImage->getWidth()) {
                 y += mHeight + 1;
                 x = 0;
 
-                if (y >= mImage->getHeight())
-                {
+                if (y >= mImage->getHeight()) {
                     std::string str;
                     std::ostringstream os(str);
                     os << "Image ";
@@ -340,12 +286,10 @@ namespace fcn
 
         int width = 0;
 
-        do
-        {
+        do {
             ++width;
 
-            if (x + width >= mImage->getWidth())
-            {
+            if (x + width >= mImage->getWidth()) {
                 std::string str;
                 std::ostringstream os(str);
                 os << "Image ";
@@ -363,34 +307,31 @@ namespace fcn
         return Rectangle(x, y, width, mHeight);
     }
 
-    int ImageFont::getWidth(const std::string& text) const
+    int ImageFont::getWidth(std::string const & text) const
     {
         unsigned int i;
         int size = 0;
 
-        for (i = 0; i < text.size(); ++i)
-        {
+        for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
         }
 
         return size - mGlyphSpacing;
     }
 
-    int ImageFont::getStringIndexAt(const std::string& text, int x) const
+    int ImageFont::getStringIndexAt(std::string const & text, int x) const
     {
         unsigned int i;
         int size = 0;
 
-        for (i = 0; i < text.size(); ++i)
-        {
+        for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
 
-            if (size > x)
-            {
+            if (size > x) {
                 return i;
             }
         }
 
         return text.size();
     }
-}
+} // namespace fcn

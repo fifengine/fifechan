@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,53 +68,49 @@
 
 namespace fcn
 {
-    HGE *HGEImageLoader::mHGE = NULL;
+    HGE* HGEImageLoader::mHGE = NULL;
 
     HGEImageLoader::HGEImageLoader()
     {
         mHGE = hgeCreate(HGE_VERSION);
     }
-  
+
     HGEImageLoader::~HGEImageLoader()
     {
         mHGE->Release();
     }
 
-    Image *HGEImageLoader::load(const std::string &filename, bool convertToDisplayFormat)
+    Image* HGEImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
         HTEXTURE texture = mHGE->Texture_Load(filename.c_str());
 
-        if (texture == NULL)
-        {
+        if (texture == NULL) {
             throw FCN_EXCEPTION(std::string("Unable to load: ") + filename);
         }
 
-        HGEImage *image = new HGEImage(texture, true);
+        HGEImage* image = new HGEImage(texture, true);
 
-        if (convertToDisplayFormat)
-        {
-            image->convertToDisplayFormat();
-        }
-
-        return image; 
-    }
-
-    Image *HGEImageLoader::load(hgeResourceManager* manager, char* name, int resgroup, bool convertToDisplayFormat)
-    {
-        HTEXTURE texture = manager->GetTexture(name, resgroup);
-
-        if (texture == NULL)
-        {
-            throw FCN_EXCEPTION(std::string("Unable to load: ") + name);
-        }
-
-        HGEImage *image = new HGEImage(texture, true);
-
-        if (convertToDisplayFormat)
-        {
+        if (convertToDisplayFormat) {
             image->convertToDisplayFormat();
         }
 
         return image;
     }
-}
+
+    Image* HGEImageLoader::load(hgeResourceManager* manager, char* name, int resgroup, bool convertToDisplayFormat)
+    {
+        HTEXTURE texture = manager->GetTexture(name, resgroup);
+
+        if (texture == NULL) {
+            throw FCN_EXCEPTION(std::string("Unable to load: ") + name);
+        }
+
+        HGEImage* image = new HGEImage(texture, true);
+
+        if (convertToDisplayFormat) {
+            image->convertToDisplayFormat();
+        }
+
+        return image;
+    }
+} // namespace fcn

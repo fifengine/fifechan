@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -74,7 +70,7 @@ namespace fcn
 {
     /**
      * An implementation of a slider where a user can select different values by
-     * sliding between a start value and an end value of a scale. 
+     * sliding between a start value and an end value of a scale.
      *
      * If the selected value is changed an action event will be sent to all
      * action listeners of the slider.
@@ -208,7 +204,7 @@ namespace fcn
         Orientation getOrientation() const;
 
         /**
-         * Sets the step length. The step length is used when the keys LEFT 
+         * Sets the step length. The step length is used when the keys LEFT
          * and RIGHT are pressed to step in the scale.
          *
          * @param length The step length.
@@ -217,7 +213,7 @@ namespace fcn
         void setStepLength(double length);
 
         /**
-         * Gets the step length. The step length is used when the keys LEFT 
+         * Gets the step length. The step length is used when the keys LEFT
          * and RIGHT are pressed to step in the scale.
          *
          * @return the step length.
@@ -294,7 +290,7 @@ namespace fcn
         double mValue;
 
         /**
-         * Holds the step length. The step length is used when the keys LEFT 
+         * Holds the step length. The step length is used when the keys LEFT
          * and RIGHT are pressed to step in the scale.
          */
         double mStepLength;
@@ -315,7 +311,7 @@ namespace fcn
         double mScaleEnd;
 
         /**
-         * Holds the orientation of the slider. A slider can be drawn 
+         * Holds the orientation of the slider. A slider can be drawn
          * vertically or horizontally.
          */
         Orientation mOrientation;

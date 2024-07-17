@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2007 - 2008 Josh Matthews and Olof Naessén
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2007 - 2008 Josh Matthews and Olof NaessÃ©n
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -136,7 +132,6 @@ namespace fcn
      * For more help with using AdjustingContainers, try the Guichan forums
      * (http://guichan.sourceforge.net/forum/) or email mrlachatte@gmail.com.
      *
-     * @author Josh Matthews
      */
     class FCN_CORE_DECLSPEC AdjustingContainer : public Container
     {
@@ -145,12 +140,12 @@ namespace fcn
          * Constructor.
          */
         AdjustingContainer();
-        
+
         /**
          * Destructor.
          */
         virtual ~AdjustingContainer();
-        
+
         /**
          * Set the number of columns to divide the widgets into.
          * The number of rows is derived automatically from the number
@@ -160,11 +155,11 @@ namespace fcn
          * @param numberOfColumns the number of columns.
          */
         virtual void setNumberOfColumns(unsigned int numberOfColumns);
-        
+
         /**
          * Get the number of columns the widget is divided.
          * The number of rows is derived automatically from the number
-         * of widgets based on the number of columns. 
+         * of widgets based on the number of columns.
          *
          * @return The number of columns.
          */
@@ -177,7 +172,7 @@ namespace fcn
          * @param alignment the column's alignment. See enum with alignments.
          */
         virtual void setColumnAlignment(unsigned int column, unsigned int alignment);
-        
+
         /**
          * Get a specific column's alignment.
          *
@@ -203,7 +198,7 @@ namespace fcn
         virtual Rectangle getChildrenArea();
 
         //virtual void logic();
-        
+
         virtual void add(Widget *widget);
 
         virtual void add(Widget *widget, int x, int y);
@@ -211,7 +206,7 @@ namespace fcn
         virtual void remove(Widget *widget);
 
         virtual void clear();
-               
+
         /**
          * Possible alignment values for each column.
          *

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -96,7 +92,7 @@ namespace fcn
         TextBox(const std::string& text = "");
 
         ~TextBox();
-        
+
         /**
          * Sets the text of the text box.
          *
@@ -198,7 +194,7 @@ namespace fcn
 
         /**
          * Scrolls the text to the caret if the text box is in a scroll area.
-         * 
+         *
          * @see ScrollArea
          */
         virtual void scrollToCaret();
@@ -270,23 +266,23 @@ namespace fcn
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
     protected:
-        
+
         /**
          * Sets caret column (UTF-8 aware).
          * @param column Caret column.
          */
         void setCaretColumnUTF8(int column);
-        
-        
+
+
         /**
          * Sets caret row (UTF-8 aware).
          * @param row Caret row.
          */
         void setCaretRowUTF8(int row);
-        
-        
+
+
         void setCaretRowColumnUTF8(int row, int column);
-        
+
         /**
          * Draws the caret. Overloaded this method if you want to
          * change the style of the caret.
@@ -296,7 +292,7 @@ namespace fcn
          * @param y the y position.
          */
         virtual void drawCaret(Graphics* graphics, int x, int y);
-        
+
         /**
          * Holds the text of the text box.
          */
@@ -311,7 +307,7 @@ namespace fcn
          * True if the text box is editable, false otherwise.
          */
         bool mOpaque;
-        
+
         /**
          * UTF8StringEditor for UTF8 support.
          */

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,22 +68,18 @@
 
 namespace fcn
 {
-    OpenLayerImage::OpenLayerImage(BITMAP* allegroBitmap, bool autoFree)
-            : mOpenLayerBitmap(NULL),
-              mAllegroBitmap(allegroBitmap),
-              mAutoFree(autoFree)
-        
+    OpenLayerImage::OpenLayerImage(BITMAP* allegroBitmap, bool autoFree) :
+        mOpenLayerBitmap(NULL), mAllegroBitmap(allegroBitmap), mAutoFree(autoFree)
+
     {
-        if (mAllegroBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL) {
             throw FCN_EXCEPTION(std::string("Unable to load bitmap."));
         }
     }
 
     OpenLayerImage::~OpenLayerImage()
     {
-        if (mAutoFree)
-        {
+        if (mAutoFree) {
             free();
         }
     }
@@ -99,14 +91,12 @@ namespace fcn
 
     void OpenLayerImage::free()
     {
-        if (mOpenLayerBitmap != NULL)
-        {
+        if (mOpenLayerBitmap != NULL) {
             delete mOpenLayerBitmap;
             mOpenLayerBitmap = NULL;
         }
-        
-        if (mAllegroBitmap != NULL)
-        {
+
+        if (mAllegroBitmap != NULL) {
             destroy_bitmap(mAllegroBitmap);
             mAllegroBitmap = NULL;
         }
@@ -114,13 +104,11 @@ namespace fcn
 
     int OpenLayerImage::getWidth() const
     {
-        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
             throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
         }
 
-        if (mOpenLayerBitmap == NULL)
-        {
+        if (mOpenLayerBitmap == NULL) {
             return mAllegroBitmap->w;
         }
 
@@ -129,13 +117,11 @@ namespace fcn
 
     int OpenLayerImage::getHeight() const
     {
-        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
             throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
         }
-        
-        if (mOpenLayerBitmap == NULL)
-        {
+
+        if (mOpenLayerBitmap == NULL) {
             return mAllegroBitmap->h;
         }
 
@@ -144,30 +130,25 @@ namespace fcn
 
     Color OpenLayerImage::getPixel(int x, int y)
     {
-        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
             throw FCN_EXCEPTION("Trying to get a pixel from a non loaded image.");
         }
 
-        if (mOpenLayerBitmap == NULL)
-        {
+        if (mOpenLayerBitmap == NULL) {
             int color = getpixel(mAllegroBitmap, x, y);
             return Color(getr(color), getg(color), getb(color), 255);
         }
-        
-        return Color(mOpenLayerBitmap->GetPixelPacked(x, y));
 
+        return Color(mOpenLayerBitmap->GetPixelPacked(x, y));
     }
 
-    void OpenLayerImage::putPixel(int x, int y, const Color& color)
+    void OpenLayerImage::putPixel(int x, int y, Color const & color)
     {
-        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL && mOpenLayerBitmap == NULL) {
             throw FCN_EXCEPTION("Trying to put a pixel in a non loaded image.");
         }
 
-        if (mAllegroBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL) {
             return;
         }
 
@@ -178,20 +159,18 @@ namespace fcn
 
     void OpenLayerImage::convertToDisplayFormat()
     {
-        if (mAllegroBitmap == NULL)
-        {
+        if (mAllegroBitmap == NULL) {
             throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
         }
 
-        if (mOpenLayerBitmap != NULL)
-        {
+        if (mOpenLayerBitmap != NULL) {
             throw FCN_EXCEPTION("Trying to convert an image to display format which has already been converted.");
         }
 
         mOpenLayerBitmap = new ol::Bitmap(mAllegroBitmap, false, true);
         mOpenLayerBitmap->SendToGPU();
-        
+
         destroy_bitmap(mAllegroBitmap);
         mAllegroBitmap = NULL;
     }
-}
+} // namespace fcn

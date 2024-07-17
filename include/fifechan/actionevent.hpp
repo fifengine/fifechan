@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -86,14 +82,13 @@ namespace fcn
      * Any object can listen for actions from widgets by implementing
      * the ActionListener interface.
      *
-     * If you have implement a widget of your own it's a good idea to 
+     * If you have implement a widget of your own it's a good idea to
      * let the widget fire action events whenever you feel an action
      * has occured so action listeners of the widget can be informed
      * of the state of the widget.
      *
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      Widget::distributeActionEvent
-     * @author Olof Naessén
      */
     class FCN_CORE_DECLSPEC ActionEvent: public Event
     {

@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -70,34 +66,27 @@
 namespace fcn
 {
 
-    AllegroFont::AllegroFont(FONT* font)
-            :mAutoFree(false),
-             mAllegroFont(font)
-          
+    AllegroFont::AllegroFont(FONT* font) : mAutoFree(false), mAllegroFont(font)
+
     {
-        if (font == NULL)
-        {
+        if (font == NULL) {
             throw FCN_EXCEPTION("Allegro font is not usable. Have you forgotten to load it?");
         }
     }
 
-    AllegroFont::AllegroFont(const std::string& filename)
-            :mAutoFree(true),
-             mAllegroFont(load_font(filename.c_str(), 0, 0))
-          
+    AllegroFont::AllegroFont(std::string const & filename) :
+        mAutoFree(true), mAllegroFont(load_font(filename.c_str(), 0, 0))
+
     {
-        if (mAllegroFont == NULL)
-        {
+        if (mAllegroFont == NULL) {
             throw FCN_EXCEPTION("Unable to load Allegro font from file.");
         }
     }
 
     AllegroFont::~AllegroFont()
     {
-        if (mAutoFree)
-        {
-            if (mAllegroFont != NULL)
-            {
+        if (mAutoFree) {
+            if (mAllegroFont != NULL) {
                 destroy_font(mAllegroFont);
             }
 
@@ -105,7 +94,7 @@ namespace fcn
         }
     }
 
-    int AllegroFont::getWidth(const std::string& text) const
+    int AllegroFont::getWidth(std::string const & text) const
     {
         return text_length(mAllegroFont, text.c_str());
     }
@@ -115,24 +104,17 @@ namespace fcn
         return text_height(mAllegroFont);
     }
 
-    void AllegroFont::drawString(fcn::Graphics* graphics, const std::string& text, int x, int y)
+    void AllegroFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
     {
         fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
-        if (!allegroGraphics)
-        {
+        if (!allegroGraphics) {
             throw FCN_EXCEPTION("Graphics is not of type AllegroGraphics");
         }
 
         BITMAP* const db = allegroGraphics->getTarget();
-        
-        const fcn::ClipRectangle& rec = graphics->getCurrentClipArea();
-        
-        textout_ex(db, 
-                   mAllegroFont, 
-                   text.c_str(), 
-                   x + rec.x, 
-                   y + rec.y, 
-                   allegroGraphics->getAllegroColor(),
-                   -1);
+
+        fcn::ClipRectangle const & rec = graphics->getCurrentClipArea();
+
+        textout_ex(db, mAllegroFont, text.c_str(), x + rec.x, y + rec.y, allegroGraphics->getAllegroColor(), -1);
     }
-}
+} // namespace fcn

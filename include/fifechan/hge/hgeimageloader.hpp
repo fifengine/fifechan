@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -77,8 +73,6 @@ namespace fcn
 
     /**
      * HGE implementation of ImageLoader.
-     * 
-     * @author Kevin Lynx
      */
     class FCN_EXTENSION_DECLSPEC HGEImageLoader : public ImageLoader
     {
@@ -97,8 +91,8 @@ namespace fcn
         /**
          * Loads an image with the HGE resource manager.
          *
-         * NOTE: The functions Image::getPixel and Image::putPixel 
-         *       are only guaranteed to work before an image has 
+         * NOTE: The functions Image::getPixel and Image::putPixel
+         *       are only guaranteed to work before an image has
          *       been converted to display format.
          *
          * @param manager The manager to use.

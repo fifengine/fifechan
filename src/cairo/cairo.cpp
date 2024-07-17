@@ -29,10 +29,6 @@
  *
  * Copyright (c) 2008 Mehdi Abbad a.k.a slyf0x
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -68,7 +64,6 @@
 
 #include "fifechan/cairo.hpp"
 
-extern "C"
-{
-    void fcnCairo() { }
+extern "C" {
+void fcnCairo() { }
 }

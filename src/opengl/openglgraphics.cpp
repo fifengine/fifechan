@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof Naessï¿½n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -68,12 +64,12 @@
 
 #include "fifechan/opengl/openglgraphics.hpp"
 
-#if defined (_WIN32)
+#if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
-#if defined (__amigaos4__)
+#if defined(__amigaos4__)
 #include <mgl/gl.h>
 #define glVertex3i glVertex3f
 #elif defined(__APPLE__)
@@ -99,30 +95,14 @@ namespace fcn
         setTargetPlane(width, height);
     }
 
-    OpenGLGraphics::~OpenGLGraphics()
-    {
-
-    }
+    OpenGLGraphics::~OpenGLGraphics() { }
 
     void OpenGLGraphics::_beginDraw()
     {
         glPushAttrib(
-            GL_COLOR_BUFFER_BIT |
-            GL_CURRENT_BIT |
-            GL_DEPTH_BUFFER_BIT |
-            GL_ENABLE_BIT |
-            GL_FOG_BIT |
-            GL_LIGHTING_BIT |
-            GL_LINE_BIT |
-            GL_POINT_BIT |
-            GL_POLYGON_BIT |
-            GL_SCISSOR_BIT |
-            GL_STENCIL_BUFFER_BIT |
-            GL_TEXTURE_BIT |
-            GL_TRANSFORM_BIT |
-            GL_POINT_BIT |
-            GL_LINE_BIT
-            );
+            GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT | GL_FOG_BIT | GL_LIGHTING_BIT |
+            GL_LINE_BIT | GL_POINT_BIT | GL_POLYGON_BIT | GL_SCISSOR_BIT | GL_STENCIL_BUFFER_BIT | GL_TEXTURE_BIT |
+            GL_TRANSFORM_BIT | GL_POINT_BIT | GL_LINE_BIT);
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -135,13 +115,8 @@ namespace fcn
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        
-        glOrtho(0.0,
-                (double)mWidth,
-                (double)mHeight,
-                0.0,
-                -1.0,
-                1.0);
+
+        glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
 
         glDisable(GL_LIGHTING);
         glDisable(GL_CULL_FACE);
@@ -179,10 +154,11 @@ namespace fcn
     {
         bool result = Graphics::pushClipArea(area);
 
-        glScissor(mClipStack.top().x,
-                  mHeight - mClipStack.top().y - mClipStack.top().height,
-                  mClipStack.top().width,
-                  mClipStack.top().height);
+        glScissor(
+            mClipStack.top().x,
+            mHeight - mClipStack.top().y - mClipStack.top().height,
+            mClipStack.top().width,
+            mClipStack.top().height);
 
         return result;
     }
@@ -191,44 +167,37 @@ namespace fcn
     {
         Graphics::popClipArea();
 
-        if (mClipStack.empty())
-        {
+        if (mClipStack.empty()) {
             return;
         }
 
-        glScissor(mClipStack.top().x,
-                  mHeight - mClipStack.top().y - mClipStack.top().height,
-                  mClipStack.top().width,
-                  mClipStack.top().height);
+        glScissor(
+            mClipStack.top().x,
+            mHeight - mClipStack.top().y - mClipStack.top().height,
+            mClipStack.top().width,
+            mClipStack.top().height);
     }
 
     void OpenGLGraphics::setTargetPlane(int width, int height)
     {
-        mWidth = width;
+        mWidth  = width;
         mHeight = height;
     }
 
-    void OpenGLGraphics::drawImage(const Image* image,
-                                   int srcX,
-                                   int srcY,
-                                   int dstX,
-                                   int dstY,
-                                   int width,
-                                   int height)
+    void OpenGLGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-		const OpenGLImage* srcImage = dynamic_cast<const OpenGLImage*>(image);
+        OpenGLImage const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
-        if (srcImage == NULL)
-        {
+        if (srcImage == NULL) {
             throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenGLImage.");
         }
 
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         dstX += top.xOffset;
         dstY += top.yOffset;
@@ -236,16 +205,15 @@ namespace fcn
         // Find OpenGL texture coordinates
         float texX1 = srcX / (float)srcImage->getTextureWidth();
         float texY1 = srcY / (float)srcImage->getTextureHeight();
-        float texX2 = (srcX+width) / (float)srcImage->getTextureWidth();
-        float texY2 = (srcY+height) / (float)srcImage->getTextureHeight();
+        float texX2 = (srcX + width) / (float)srcImage->getTextureWidth();
+        float texY2 = (srcY + height) / (float)srcImage->getTextureHeight();
 
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
         glEnable(GL_TEXTURE_2D);
 
         // Check if blending already is enabled
-        if (!mAlpha)
-        {
+        if (!mAlpha) {
             glEnable(GL_BLEND);
         }
 
@@ -266,20 +234,19 @@ namespace fcn
         glDisable(GL_TEXTURE_2D);
 
         // Don't disable blending if the color has alpha
-        if (!mAlpha)
-        {
+        if (!mAlpha) {
             glDisable(GL_BLEND);
         }
     }
 
     void OpenGLGraphics::drawPoint(int x, int y)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         x += top.xOffset;
         y += top.yOffset;
@@ -291,12 +258,12 @@ namespace fcn
 
     void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         x1 += top.xOffset;
         y1 += top.yOffset;
@@ -304,82 +271,66 @@ namespace fcn
         y2 += top.yOffset;
 
         glBegin(GL_LINES);
-        glVertex2f(x1 + 0.375f,
-                   y1 + 0.375f);
-        glVertex2f(x2 + 1.0f - 0.375f,
-                   y2 + 1.0f - 0.375f);
+        glVertex2f(x1 + 0.375f, y1 + 0.375f);
+        glVertex2f(x2 + 1.0f - 0.375f, y2 + 1.0f - 0.375f);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x2 + 1.0f - 0.375f,
-                   y2 + 1.0f - 0.375f);
+        glVertex2f(x2 + 1.0f - 0.375f, y2 + 1.0f - 0.375f);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x1 + 0.375f,
-                   y1 + 0.375f);
+        glVertex2f(x1 + 0.375f, y1 + 0.375f);
         glEnd();
     }
 
-    void OpenGLGraphics::drawRectangle(const Rectangle& rectangle)
+    void OpenGLGraphics::drawRectangle(Rectangle const & rectangle)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         glBegin(GL_LINE_LOOP);
-        glVertex2f(rectangle.x + top.xOffset,
-                   rectangle.y + top.yOffset);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f,
-                   rectangle.y + top.yOffset + 0.375f);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f,
-                   rectangle.y + rectangle.height + top.yOffset);
-        glVertex2f(rectangle.x + top.xOffset,
-                   rectangle.y + rectangle.height + top.yOffset);
+        glVertex2f(rectangle.x + top.xOffset, rectangle.y + top.yOffset);
+        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f, rectangle.y + top.yOffset + 0.375f);
+        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f, rectangle.y + rectangle.height + top.yOffset);
+        glVertex2f(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
         glEnd();
     }
 
-    void OpenGLGraphics::fillRectangle(const Rectangle& rectangle)
+    void OpenGLGraphics::fillRectangle(Rectangle const & rectangle)
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+        if (mClipStack.empty()) {
+            throw FCN_EXCEPTION(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
-        const ClipRectangle& top = mClipStack.top();
+        ClipRectangle const & top = mClipStack.top();
 
         glBegin(GL_QUADS);
-        glVertex2i(rectangle.x + top.xOffset,
-                   rectangle.y + top.yOffset);
-        glVertex2i(rectangle.x + rectangle.width + top.xOffset,
-                   rectangle.y + top.yOffset);
-        glVertex2i(rectangle.x + rectangle.width + top.xOffset,
-                   rectangle.y + rectangle.height + top.yOffset);
-        glVertex2i(rectangle.x + top.xOffset,
-                   rectangle.y + rectangle.height + top.yOffset);
+        glVertex2i(rectangle.x + top.xOffset, rectangle.y + top.yOffset);
+        glVertex2i(rectangle.x + rectangle.width + top.xOffset, rectangle.y + top.yOffset);
+        glVertex2i(rectangle.x + rectangle.width + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
+        glVertex2i(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
         glEnd();
     }
 
-    void OpenGLGraphics::setColor(const Color& color)
+    void OpenGLGraphics::setColor(Color const & color)
     {
         mColor = color;
-        glColor4ub((GLubyte) color.r,
-                   (GLubyte) color.g,
-                   (GLubyte) color.b,
-                   (GLubyte) color.a);
+        glColor4ub((GLubyte)color.r, (GLubyte)color.g, (GLubyte)color.b, (GLubyte)color.a);
 
         mAlpha = color.a != 255;
 
-        if (mAlpha)
-        {
+        if (mAlpha) {
             glEnable(GL_BLEND);
         }
     }
 
-    const Color& OpenGLGraphics::getColor() const
+    Color const & OpenGLGraphics::getColor() const
     {
         return mColor;
     }
@@ -393,4 +344,4 @@ namespace fcn
     {
         return mHeight;
     }
-}
+} // namespace fcn

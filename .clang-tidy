@@ -1,0 +1,4 @@
+Checks: >
+  modernize-use-nullptr
+# Use our .clang-format file when applying fixes.
+FormatStyle: file

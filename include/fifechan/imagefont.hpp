@@ -27,12 +27,9 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
+
  * Visit: http://guichan.sourceforge.net
  *
  * License: (BSD)
@@ -85,7 +82,7 @@ namespace fcn
      *  \image html imagefontexample.bmp
      *  \image html imagefontexample2.bmp
      *
-     * The first pixel at coordinate (0,0) tells which color the image font 
+     * The first pixel at coordinate (0,0) tells which color the image font
      * looks for when seperating glyphs. The glyphs in the image is provided
      * to the image font's constructor in the order they appear in the image.
      *
@@ -143,7 +140,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, 
+        ImageFont(const std::string& filename,
                   unsigned char glyphsFrom=32,
                   unsigned char glyphsTo=126);
 
@@ -238,9 +235,9 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          *         with the font.
          * @throws Exception when no glyph is found.
          */
-         Rectangle scanForGlyph(unsigned char glyph, 
-                                int x, 
-                                int y, 
+         Rectangle scanForGlyph(unsigned char glyph,
+                                int x,
+                                int y,
                                 const Color& separator);
 
         /**

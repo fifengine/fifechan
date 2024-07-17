@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -73,7 +69,7 @@
 
 namespace fcn
 {
-    HGEImageFont::HGEImageFont(const std::string& filename)
+    HGEImageFont::HGEImageFont(std::string const & filename)
     {
         mHGEFont = new hgeFont(filename.c_str());
     }
@@ -83,16 +79,16 @@ namespace fcn
         delete mHGEFont;
     }
 
-    hgeFont *HGEImageFont::getFont() const
+    hgeFont* HGEImageFont::getFont() const
     {
         return mHGEFont;
     }
 
-    int HGEImageFont::getWidth(const std::string &text) const
+    int HGEImageFont::getWidth(std::string const & text) const
     {
         return static_cast<int>(mHGEFont->GetStringWidth(text.c_str())) + 1;
     }
-  
+
     int HGEImageFont::getWidth(char character) const
     {
         char buf[2];
@@ -104,20 +100,18 @@ namespace fcn
 
     int HGEImageFont::getHeight() const
     {
-        return  static_cast<int>(mHGEFont->GetHeight());
+        return static_cast<int>(mHGEFont->GetHeight());
     }
 
-    int HGEImageFont::getStringIndexAt(const std::string& text, int x) const
+    int HGEImageFont::getStringIndexAt(std::string const & text, int x) const
     {
         unsigned int i;
         int size = 0;
 
-        for (i = 0; i < text.size(); ++i)
-        {
+        for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
 
-            if (size > x)
-            {
+            if (size > x) {
                 return i;
             }
         }
@@ -125,9 +119,9 @@ namespace fcn
         return text.size();
     }
 
-    void HGEImageFont::drawString(Graphics *graphics, const std::string &text, int x, int y)
+    void HGEImageFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
-        ClipRectangle const &top = graphics->getCurrentClipArea();
+        ClipRectangle const & top = graphics->getCurrentClipArea();
 
         x += top.xOffset;
         y += top.yOffset;
@@ -137,4 +131,4 @@ namespace fcn
         mHGEFont->SetColor(ARGB(color.a, color.r, color.g, color.b));
         mHGEFont->Render(x, y, HGETEXT_LEFT, text.c_str());
     }
-}
+} // namespace fcn

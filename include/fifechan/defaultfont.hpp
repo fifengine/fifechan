@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -72,7 +68,7 @@ namespace fcn
 {
     /**
      * A font only capable of drawing rectangles. It is used by default
-     * in Fifechan if no font has been set merely to show that no font has 
+     * in Fifechan if no font has been set merely to show that no font has
      * been set.
      */
     class FCN_CORE_DECLSPEC DefaultFont : public Font

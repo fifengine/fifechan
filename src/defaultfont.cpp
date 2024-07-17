@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2008 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -80,7 +76,7 @@ namespace fcn
         return 8;
     }
 
-    int DefaultFont::getWidth(const std::string& text) const
+    int DefaultFont::getWidth(std::string const & text) const
     {
         return 8 * text.size();
     }
@@ -92,24 +88,22 @@ namespace fcn
         return 8;
     }
 
-    void DefaultFont::drawString(Graphics* graphics, const std::string& text, int x, int y)
+    void DefaultFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
         unsigned int i;
 
-        for (i = 0; i< text.size(); ++i)
-        {
+        for (i = 0; i < text.size(); ++i) {
             drawGlyph(graphics, text.at(i), x, y);
             x += getWidth(text);
         }
     }
 
-    int DefaultFont::getStringIndexAt(const std::string& text, int x) const
+    int DefaultFont::getStringIndexAt(std::string const & text, int x) const
     {
-        if (x > (int)text.size() * 8)
-        {
+        if (x > (int)text.size() * 8) {
             return text.size();
         }
 
         return x / 8;
     }
-}
+} // namespace fcn

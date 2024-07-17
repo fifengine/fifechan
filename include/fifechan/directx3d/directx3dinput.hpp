@@ -27,11 +27,7 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2007 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Copyright (c) 2004 - 2007 Olof NaessÃ©n and Per Larsson
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -123,16 +119,16 @@ namespace fcn
         /**
          * Converts a character to a key value.
          *
-         * @param wParam Windows parameter to retreive 
+         * @param wParam Windows parameter to retreive
          *               character information from.
-         * @param lParam Windows parameter to retreive 
+         * @param lParam Windows parameter to retreive
          *               character information from.
          * @param kbstate The keybord state retreived from
          *                GetKeyboardState.
          * @return A key value.
          * @see Key
          */
-        int convertKeyCharacter(WPARAM wParam, 
+        int convertKeyCharacter(WPARAM wParam,
                                 LPARAM lParam,
                                 unsigned char * kbstate);
 
