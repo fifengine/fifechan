@@ -58,15 +58,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/selectionevent.hpp"
+#include "fifechan/event.hpp"
 
 namespace fcn
 {
     SelectionEvent::SelectionEvent(Widget* source) : Event(source) { }
 
-    SelectionEvent::~SelectionEvent() { }
+    SelectionEvent::~SelectionEvent() = default;
 } // namespace fcn

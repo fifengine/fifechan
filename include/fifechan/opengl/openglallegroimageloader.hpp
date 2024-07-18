@@ -87,8 +87,8 @@ namespace fcn
 
             if (bmp == NULL)
             {
-                throw FCN_EXCEPTION(
-                        std::string("Unable to load image file: ") + filename);
+                std::string msg = "Unable to load image file: " + filename;
+                fcn::throwException(msg, __FUNCTION__, __FILE__, __LINE__);
             }
 
             int bitmapBpp = bitmap_color_depth(bmp);

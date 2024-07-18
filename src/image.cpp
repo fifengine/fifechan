@@ -58,9 +58,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <string>
 
 #include "fifechan/image.hpp"
 
@@ -72,9 +70,9 @@ namespace fcn
 
     ImageLoader* Image::mImageLoader = nullptr;
 
-    Image::Image() { }
+    Image::Image() = default;
 
-    Image::~Image() { }
+    Image::~Image() = default;
 
     void Image::setImageLoader(ImageLoader* imageLoader)
     {
@@ -89,7 +87,7 @@ namespace fcn
     Image* Image::load(std::string const & filename, bool convertToDisplayFormat)
     {
         if (mImageLoader == nullptr) {
-            throw FCN_EXCEPTION("Trying to load an image but no image loader is set.");
+            fcn::throwException("Trying to load an image but no image loader is set.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         return mImageLoader->load(filename, convertToDisplayFormat);

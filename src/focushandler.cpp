@@ -58,12 +58,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <list>
 
 #include "fifechan/focushandler.hpp"
 
+#include "fifechan/event.hpp"
 #include "fifechan/focuslistener.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/widget.hpp"
@@ -98,7 +97,7 @@ namespace fcn
         }
 
         if (toBeFocusedIndex < 0) {
-            throw FCN_EXCEPTION("Trying to focus a none existing widget.");
+            fcn::throwException("Trying to focus a none existing widget.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         Widget* oldFocused = mFocusedWidget;
@@ -107,11 +106,11 @@ namespace fcn
             mFocusedWidget = mWidgets.at(toBeFocusedIndex);
 
             if (oldFocused != nullptr) {
-                Event focusEvent(oldFocused);
+                Event const focusEvent(oldFocused);
                 distributeFocusLostEvent(focusEvent);
             }
 
-            Event focusEvent(mWidgets.at(toBeFocusedIndex));
+            Event const focusEvent(mWidgets.at(toBeFocusedIndex));
             distributeFocusGainedEvent(focusEvent);
         }
     }
@@ -119,7 +118,7 @@ namespace fcn
     void FocusHandler::requestModalFocus(Widget* widget)
     {
         if (mModalFocusedWidget != nullptr && mModalFocusedWidget != widget) {
-            throw FCN_EXCEPTION("Another widget already has modal focus.");
+            fcn::throwException("Another widget already has modal focus.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mModalFocusedWidget = widget;
@@ -132,7 +131,7 @@ namespace fcn
     void FocusHandler::requestModalMouseInputFocus(Widget* widget)
     {
         if (mModalMouseInputFocusedWidget != nullptr && mModalMouseInputFocusedWidget != widget) {
-            throw FCN_EXCEPTION("Another widget already has modal input focus.");
+            fcn::throwException("Another widget already has modal input focus.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mModalMouseInputFocusedWidget = widget;
@@ -169,46 +168,50 @@ namespace fcn
 
     void FocusHandler::focusNext()
     {
-        int i;
+        int i = 0;
         int focusedWidget = -1;
-        for (i = 0; i < (int)mWidgets.size(); ++i) {
+
+        for (i = 0; i < (int) mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;
+
+        int const focused = focusedWidget;
 
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
-        i = (int)mWidgets.size();
-        do {
+        i = (int) mWidgets.size();
+
+        for (; i > 0; --i) {
             ++focusedWidget;
 
-            if (i == 0) {
-                focusedWidget = -1;
-                break;
-            }
-
-            --i;
-
-            if (focusedWidget >= (int)mWidgets.size()) {
+            if (focusedWidget >= (int) mWidgets.size()) {
                 focusedWidget = 0;
             }
 
             if (focusedWidget == focused) {
                 return;
             }
-        } while (!mWidgets.at(focusedWidget)->isFocusable());
+
+            if (mWidgets.at(focusedWidget)->isFocusable()) {
+                break;
+            }
+
+            if (i == 1) {
+                focusedWidget = -1;
+                break;
+            }
+        }
 
         if (focusedWidget >= 0) {
             mFocusedWidget = mWidgets.at(focusedWidget);
-
-            Event focusEvent(mFocusedWidget);
+            Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(focused));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -220,45 +223,49 @@ namespace fcn
             return;
         }
 
-        int i;
+        int i = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;
+        int const focused = focusedWidget;
 
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
         i = (int)mWidgets.size();
-        do {
+        while (i > 0) {
             --focusedWidget;
 
-            if (i == 0) {
+            if (i == 1) {
                 focusedWidget = -1;
                 break;
             }
 
             --i;
 
-            if (focusedWidget <= 0) {
+            if (focusedWidget < 0) {
                 focusedWidget = mWidgets.size() - 1;
             }
 
             if (focusedWidget == focused) {
                 return;
             }
-        } while (!mWidgets.at(focusedWidget)->isFocusable());
+
+            if (mWidgets.at(focusedWidget)->isFocusable()) {
+                break;
+            }
+        }
 
         if (focusedWidget >= 0) {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            Event focusEvent(mFocusedWidget);
+            Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(focused));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -320,7 +327,7 @@ namespace fcn
             Widget* focused = mFocusedWidget;
             mFocusedWidget  = nullptr;
 
-            Event focusEvent(focused);
+            Event const focusEvent(focused);
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -338,23 +345,21 @@ namespace fcn
             return;
         }
 
-        int i;
+        int i = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;
-        bool done   = false;
+        int const focused = focusedWidget;
 
-        // i is a counter that ensures that the following loop
-        // won't get stuck in an infinite loop
-        i = (int)mWidgets.size();
-        do {
+        i = (int) mWidgets.size();
+
+        while (i > 0) {
             ++focusedWidget;
 
-            if (i == 0) {
+            if (i == 1) {
                 focusedWidget = -1;
                 break;
             }
@@ -371,18 +376,18 @@ namespace fcn
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
                 (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
-                done = true;
+                break;
             }
-        } while (!done);
+        }
 
         if (focusedWidget >= 0) {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            Event focusEvent(mFocusedWidget);
+            Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(focused));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -400,23 +405,21 @@ namespace fcn
             return;
         }
 
-        int i;
+        int i = 0;
         int focusedWidget = -1;
         for (i = 0; i < (int)mWidgets.size(); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
-        int focused = focusedWidget;
-        bool done   = false;
+        int const focused = focusedWidget;
 
-        // i is a counter that ensures that the following loop
-        // won't get stuck in an infinite loop
         i = (int)mWidgets.size();
-        do {
+
+        while (i > 0) {
             --focusedWidget;
 
-            if (i == 0) {
+            if (i == 1) {
                 focusedWidget = -1;
                 break;
             }
@@ -433,18 +436,18 @@ namespace fcn
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
                 (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
-                done = true;
+                break;
             }
-        } while (!done);
+        }
 
         if (focusedWidget >= 0) {
             mFocusedWidget = mWidgets.at(focusedWidget);
-            Event focusEvent(mFocusedWidget);
+            Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(focused));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -456,8 +459,8 @@ namespace fcn
         std::list<FocusListener*> focusListeners = sourceWidget->_getFocusListeners();
 
         // Send the event to all focus listeners of the widget.
-        for (std::list<FocusListener*>::iterator it = focusListeners.begin(); it != focusListeners.end(); ++it) {
-            (*it)->focusLost(focusEvent);
+        for (auto& focusListener : focusListeners) {
+            focusListener->focusLost(focusEvent);
         }
     }
 
@@ -468,8 +471,8 @@ namespace fcn
         std::list<FocusListener*> focusListeners = sourceWidget->_getFocusListeners();
 
         // Send the event to all focus listeners of the widget.
-        for (std::list<FocusListener*>::iterator it = focusListeners.begin(); it != focusListeners.end(); ++it) {
-            (*it)->focusGained(focusEvent);
+        for (auto& focusListener : focusListeners) {
+            focusListener->focusGained(focusEvent);
         }
     }
 

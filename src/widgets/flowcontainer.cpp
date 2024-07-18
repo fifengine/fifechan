@@ -19,10 +19,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include <algorithm>
 
 #include "fifechan/widgets/flowcontainer.hpp"
@@ -149,7 +145,7 @@ namespace fcn
                     dim.x += x + (columnW - layoutW);
                     break;
                 default:
-                    throw FCN_EXCEPTION("Unknown alignment.");
+                    fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
                 }
 
                 (*currChild)->setDimension(dim);
@@ -201,7 +197,7 @@ namespace fcn
                     dim.y += y + (rowH - layoutH);
                     break;
                 default:
-                    throw FCN_EXCEPTION("Unknown alignment.");
+                    fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
                 }
 
                 (*currChild)->setDimension(dim);
@@ -228,7 +224,7 @@ namespace fcn
     void FlowContainer::setLayout(Container::LayoutPolicy policy)
     {
         if (policy == Circular) {
-            throw FCN_EXCEPTION("Circular layout is not implemented for the FlowContainer.");
+            fcn::throwException("Circular layout is not implemented for the FlowContainer.", __FUNCTION__, __FILE__, __LINE__);
         } else {
             Container::setLayout(policy);
         }

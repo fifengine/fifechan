@@ -58,11 +58,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/keyevent.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/inputevent.hpp"
 
 namespace fcn
 {
@@ -83,7 +81,7 @@ namespace fcn
     {
     }
 
-    KeyEvent::~KeyEvent() { }
+    KeyEvent::~KeyEvent() = default;
 
     unsigned int KeyEvent::getType() const
     {

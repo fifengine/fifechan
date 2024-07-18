@@ -58,22 +58,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/exception.hpp"
 
 namespace fcn
 {
-    Exception::Exception() : mFunction("?"), mFilename("?"), mLine(0) { }
+    Exception::Exception(std::string message, std::string function, std::string filename, unsigned int line)
+        : std::runtime_error(message), mFunction(std::move(function)), mMessage(std::move(message)), mFilename(std::move(filename)), mLine(line) { }
 
-    Exception::Exception(std::string const & message) : mFunction("?"), mMessage(message), mFilename("?"), mLine(0) { }
-
-    Exception::Exception(
-        std::string const & message, std::string const & function, std::string const & filename, unsigned int line) :
-        mFunction(function), mMessage(message), mFilename(filename), mLine(line)
-    {
+    const char* Exception::what() const noexcept {
+        return mMessage.c_str();
     }
 
     std::string const & Exception::getFunction() const

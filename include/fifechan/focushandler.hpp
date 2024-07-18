@@ -96,7 +96,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~FocusHandler() { };
+        virtual ~FocusHandler() = default;
 
         /**
          * Requests focus for a widget. Focus will only be granted to a widget
@@ -359,12 +359,12 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef std::vector<Widget*> WidgetVector;
+        using WidgetVector = std::vector<Widget *>;
 
         /**
          * Typedef.
          */
-        typedef WidgetVector::iterator WidgetIterator;
+        using WidgetIterator = WidgetVector::iterator;
 
         /**
          * Holds the widgets currently being handled by the

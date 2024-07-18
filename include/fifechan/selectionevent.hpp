@@ -80,12 +80,12 @@ namespace fcn
          *
          * @param source source The widget of the selection event.
          */
-        SelectionEvent(Widget* source);
+        explicit SelectionEvent(Widget* source);
 
         /**
          * Destructor.
          */
-        virtual ~SelectionEvent();
+        ~SelectionEvent() override;
     };
 }
 

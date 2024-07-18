@@ -58,17 +58,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/genericinput.hpp"
 
 #include "fifechan/exception.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/keyinput.hpp"
 
 namespace fcn
 {
-    GenericInput::GenericInput() { }
+    GenericInput::GenericInput() = default;
 
     void GenericInput::pushKeyPressed(int unicode)
     {
@@ -82,7 +80,7 @@ namespace fcn
 
     void GenericInput::pushMouseButtonPressed(int x, int y, int button)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setButton(button);
@@ -93,7 +91,7 @@ namespace fcn
 
     void GenericInput::pushMouseButtonReleased(int x, int y, int button)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setButton(button);
@@ -104,7 +102,7 @@ namespace fcn
 
     void GenericInput::pushMouseWheelMovedUp(int x, int y)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setType(MouseInput::WheelMovedUp);
@@ -114,7 +112,7 @@ namespace fcn
 
     void GenericInput::pushMouseWheelMovedDown(int x, int y)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setType(MouseInput::WheelMovedDown);
@@ -124,7 +122,7 @@ namespace fcn
 
     void GenericInput::pushMouseWheelMovedRight(int x, int y)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setType(MouseInput::WheelMovedRight);
@@ -134,7 +132,7 @@ namespace fcn
 
     void GenericInput::pushMouseWheelMovedLeft(int x, int y)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setType(MouseInput::WheelMovedLeft);
@@ -144,7 +142,7 @@ namespace fcn
 
     void GenericInput::pushMouseMoved(int x, int y)
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
         mouseInput.setType(MouseInput::Moved);
@@ -162,7 +160,7 @@ namespace fcn
         KeyInput keyInput;
 
         if (mKeyInputQueue.empty()) {
-            throw FCN_EXCEPTION("The queue is empty.");
+            fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         keyInput = mKeyInputQueue.front();
@@ -178,10 +176,10 @@ namespace fcn
 
     MouseInput GenericInput::dequeueMouseInput()
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
 
         if (mMouseInputQueue.empty()) {
-            throw FCN_EXCEPTION("The queue is empty.");
+            fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mouseInput = mMouseInputQueue.front();

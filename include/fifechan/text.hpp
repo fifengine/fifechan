@@ -90,7 +90,7 @@ namespace fcn
          *
          * @param content The content of the text.
          */
-        Text(const std::string& content);
+        explicit Text(const std::string& content);
 
         /**
          * Destructor.
@@ -103,7 +103,7 @@ namespace fcn
          *
          * @param content The content of the text.
          */
-        virtual void setContent(const std::string& text);
+        virtual void setContent(const std::string& content);
 
         /**
          * Gets the content of the text.

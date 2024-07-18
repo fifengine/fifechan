@@ -51,9 +51,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include "core.hpp"
 
-namespace utf8
-{
-    namespace unchecked
+namespace utf8::unchecked
     {
         template <typename octet_iterator>
         octet_iterator append(uint32_t cp, octet_iterator result)
@@ -210,7 +208,7 @@ public:
     using pointer = uint32_t*;
     using reference = uint32_t&;
 
-    iterator() {}
+    iterator() = default;
     explicit iterator(const octet_iterator& octet_it): it(octet_it) {}
 
     octet_iterator base() const { return it; }
@@ -251,10 +249,7 @@ public:
     }
 }; // class iterator
 
-
-    } // namespace utf8::unchecked
-} // namespace utf8
-
+} // namespace utf8::unchecked
 
 #endif // header guard
 

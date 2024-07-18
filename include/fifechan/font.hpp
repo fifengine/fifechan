@@ -80,7 +80,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~Font(){ }
+        virtual ~Font() = default;
 
         /**
          * Gets the width of a string. The width of a string is not necesserily

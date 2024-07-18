@@ -58,22 +58,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <string>
 
 #include "fifechan/graphics.hpp"
 
+#include "fifechan/cliprectangle.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/rectangle.hpp"
+
 
 namespace fcn
 {
-    Graphics::Graphics()
-    {
-        mFont = nullptr;
-    }
+    Graphics::Graphics() = default;
 
     bool Graphics::pushClipArea(Rectangle area)
     {
@@ -81,7 +79,7 @@ namespace fcn
         // by simple pushing an empty clip area
         // to the stack.
         if (area.isEmpty()) {
-            ClipRectangle carea;
+            ClipRectangle const carea;
             mClipStack.push(carea);
             return true;
         }
@@ -117,7 +115,7 @@ namespace fcn
     {
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION("Tried to pop clip area from empty stack.");
+            fcn::throwException("Tried to pop clip area from empty stack.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mClipStack.pop();
@@ -126,7 +124,7 @@ namespace fcn
     ClipRectangle const & Graphics::getCurrentClipArea()
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION("The clip area stack is empty.");
+            fcn::throwException("The clip area stack is empty.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         return mClipStack.top();
@@ -145,7 +143,7 @@ namespace fcn
     void Graphics::drawText(std::string const & text, int x, int y, Alignment alignment)
     {
         if (mFont == nullptr) {
-            throw FCN_EXCEPTION("No font set.");
+            fcn::throwException("No font set.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         switch (alignment) {
@@ -159,7 +157,7 @@ namespace fcn
             mFont->drawString(this, text, x - mFont->getWidth(text), y);
             break;
         default:
-            throw FCN_EXCEPTION("Unknown alignment.");
+            fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
         }
     }
 } // namespace fcn

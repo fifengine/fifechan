@@ -94,7 +94,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~ImageLoader() { }
+        virtual ~ImageLoader() = default;
 
         /**
          * Loads an image.

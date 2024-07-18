@@ -189,7 +189,7 @@ namespace fcn {
         }
     };
 
-    typedef std::vector<Point> PointVector;
+    using PointVector = std::vector<Point>;
 }
 
 #endif

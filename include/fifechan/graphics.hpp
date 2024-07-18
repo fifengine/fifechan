@@ -129,7 +129,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~Graphics() { }
+        virtual ~Graphics() = default;
 
         /**
          * Initializes drawing. Called by the Gui when Gui::draw() is called.
@@ -399,7 +399,7 @@ namespace fcn
         /**
          * Holds the current font.
          */
-        Font* mFont;
+        Font* mFont{nullptr};
     };
 }
 

@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/openlayer/openlayerimage.hpp"
 
 #include "fifechan/exception.hpp"

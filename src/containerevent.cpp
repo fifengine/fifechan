@@ -58,17 +58,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/containerevent.hpp"
+#include "fifechan/event.hpp"
 
 namespace fcn
 {
     ContainerEvent::ContainerEvent(Widget* source, Container* container) : Event(source), mContainer(container) { }
 
-    ContainerEvent::~ContainerEvent() { }
+    ContainerEvent::~ContainerEvent() = default;
 
     Container* ContainerEvent::getContainer() const
     {

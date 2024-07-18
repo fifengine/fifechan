@@ -58,11 +58,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/keyinput.hpp"
+#include "fifechan/key.hpp"
 
 namespace fcn
 {

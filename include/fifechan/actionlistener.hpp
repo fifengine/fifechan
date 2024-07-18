@@ -81,7 +81,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~ActionListener() { }
+        virtual ~ActionListener() = default;
 
         /**
          * Called when an action is recieved from a widget. It is used

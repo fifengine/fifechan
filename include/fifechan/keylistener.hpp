@@ -80,7 +80,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~KeyListener() { }
+        virtual ~KeyListener() = default;
 
         /**
          * Called if a key is pressed when the widget has keyboard focus.

@@ -82,7 +82,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~WidgetListener() { }
+        virtual ~WidgetListener() = default;
 
         /**
          * Invoked when a widget changes its size.

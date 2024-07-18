@@ -77,7 +77,7 @@ namespace fcn
          *
          * @param value The ascii or enum value for the key.
          */
-        Key(int value = 0);
+        explicit Key(int value = 0);
 
         /**
          * Checks if a key is a character.

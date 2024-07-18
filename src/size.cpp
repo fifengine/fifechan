@@ -25,7 +25,7 @@ namespace fcn
 {
     Size::Size(int width, int height) : mWidth(width), mHeight(height) { }
 
-    Size::~Size() { }
+    Size::~Size() = default;
 
     int Size::getWidth() const
     {

@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/widgets/adjustingcontainer.hpp"
 
 #include "fifechan/exception.hpp"
@@ -249,7 +245,7 @@ namespace fcn
                 mContainedWidgets[i]->setX(basex + mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth());
                 break;
             default:
-                throw FCN_EXCEPTION("Unknown alignment.");
+                fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
             }
 
             mContainedWidgets[i]->setY(y);

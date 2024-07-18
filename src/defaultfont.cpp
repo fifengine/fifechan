@@ -58,16 +58,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
-#include "fifechan/defaultfont.hpp"
-
 #include <string>
 
+#include "fifechan/defaultfont.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {
@@ -81,7 +75,7 @@ namespace fcn
         return 8 * text.size();
     }
 
-    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
+    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char /*glyph*/, int x, int y)
     {
         graphics->drawRectangle(x, y, 8, 8);
 
@@ -90,9 +84,7 @@ namespace fcn
 
     void DefaultFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
-        unsigned int i;
-
-        for (i = 0; i < text.size(); ++i) {
+        for (int i = 0; i < text.size(); ++i) {
             drawGlyph(graphics, text.at(i), x, y);
             x += getWidth(text);
         }

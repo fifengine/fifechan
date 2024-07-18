@@ -58,17 +58,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/event.hpp"
 
 namespace fcn
 {
     Event::Event(Widget* source) : mSource(source) { }
 
-    Event::~Event() { }
+    Event::~Event() = default;
 
     Widget* Event::getSource() const
     {

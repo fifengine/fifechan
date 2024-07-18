@@ -19,9 +19,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <fifechan/utf8stringeditor.hpp>
+#include <string>
 #include <fifechan/util/utf8/utf8.hpp>
-#include <iostream>
+#include <fifechan/utf8stringeditor.hpp>
 
 namespace fcn
 {
@@ -66,7 +66,7 @@ namespace fcn
     {
         std::string newText;
         std::string::iterator cut;
-        int newOffset;
+        int newOffset = 0;
 
         // make a temp string from left part of the caret (+6 extra chars)
         newText = text.substr(0, byteOffset) + "        ";
@@ -93,8 +93,8 @@ namespace fcn
     {
         std::string::const_iterator cur;
         std::string::const_iterator end;
-        int bytes = 0;
-        int i;
+        int const bytes = 0;
+        int i           = 0;
 
         if (charIndex < 0) {
             return 0;

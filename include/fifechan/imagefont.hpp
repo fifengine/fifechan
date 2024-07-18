@@ -63,6 +63,7 @@
 #define FCN_IMAGEFONT_HPP
 
 #include <string>
+#include <array>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
@@ -140,14 +141,14 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename,
+        explicit ImageFont(const std::string& filename,
                   unsigned char glyphsFrom=32,
                   unsigned char glyphsTo=126);
 
         /**
          * Destructor.
          */
-        virtual ~ImageFont();
+        ~ImageFont() override;
 
         /**
          * Draws a glyph.
@@ -210,14 +211,14 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
 
         // Inherited from Font
 
-        virtual int getWidth(const std::string& text) const;
+        int getWidth(const std::string& text) const override;
 
-        virtual void drawString(Graphics* graphics, const std::string& text,
-                                int x, int y);
+        void drawString(Graphics* graphics, const std::string& text,
+                                int x, int y) override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual int getStringIndexAt(const std::string& text, int x) const;
+        int getStringIndexAt(const std::string& text, int x) const override;
 
     protected:
         /**

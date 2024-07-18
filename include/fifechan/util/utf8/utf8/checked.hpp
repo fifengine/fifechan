@@ -62,16 +62,16 @@ namespace utf8
     class invalid_code_point : public exception {
         uint32_t cp;
     public:
-        invalid_code_point(uint32_t cp) : cp(cp) {}
-        virtual const char* what() const throw() { return "Invalid code point"; }
+        explicit invalid_code_point(uint32_t cp) : cp(cp) {}
+        const char* what() const throw() override { return "Invalid code point"; }
         uint32_t code_point() const {return cp;}
     };
 
     class invalid_utf8 : public exception {
         uint8_t u8;
     public:
-        invalid_utf8 (uint8_t u) : u8(u) {}
-        virtual const char* what() const throw() { return "Invalid UTF-8"; }
+        explicit invalid_utf8 (uint8_t u) : u8(u) {}
+        const char* what() const throw() override { return "Invalid UTF-8"; }
         uint8_t utf8_octet() const {return u8;}
     };
 
@@ -79,13 +79,13 @@ namespace utf8
         uint16_t u16;
     public:
         invalid_utf16 (uint16_t u) : u16(u) {}
-        virtual const char* what() const throw() { return "Invalid UTF-16"; }
+        const char* what() const throw() override { return "Invalid UTF-16"; }
         uint16_t utf16_word() const {return u16;}
     };
 
     class not_enough_room : public exception {
     public:
-        virtual const char* what() const throw() { return "Not enough space"; }
+        const char* what() const throw() override { return "Not enough space"; }
     };
 
     /// The library API - functions intended to be called by the users
@@ -311,7 +311,7 @@ namespace utf8
         octet_iterator range_end;
 
     public:
-        iterator() {}
+        iterator() = default;
         explicit iterator(const octet_iterator& octet_it,
                           const octet_iterator& range_start,
                           const octet_iterator& range_end) :

@@ -57,9 +57,9 @@ namespace utf8
     // The typedefs for 8-bit, 16-bit and 32-bit unsigned integers
     // You may need to change them to match your system.
     // These typedefs have the same names as ones from cstdint, or boost/cstdint
-    typedef unsigned char   uint8_t;
-    typedef unsigned short  uint16_t;
-    typedef unsigned int    uint32_t;
+    using uint8_t = unsigned char;
+    using uint16_t = unsigned short;
+    using uint32_t = unsigned int;
 
 // Helper code - not intended to be directly called by the library users. May be changed at any time
 namespace internal
@@ -305,7 +305,7 @@ namespace internal
 
     template <typename octet_iterator>
     inline utf_error validate_next(octet_iterator& it, octet_iterator end) {
-        uint32_t ignored;
+        uint32_t ignored = 0;
         return utf8::internal::validate_next(it, end, ignored);
     }
 

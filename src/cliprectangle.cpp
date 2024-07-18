@@ -58,11 +58,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/cliprectangle.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {
@@ -71,17 +68,16 @@ namespace fcn
         x = y = width = height = xOffset = yOffset = 0;
     }
 
-    ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset)
+    ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset) :
+        xOffset(xOffset), yOffset(yOffset)
     {
         this->x       = x;
         this->y       = y;
         this->width   = width;
         this->height  = height;
-        this->xOffset = xOffset;
-        this->yOffset = yOffset;
     }
 
-    ClipRectangle const & ClipRectangle::operator=(Rectangle const & other)
+    ClipRectangle& ClipRectangle::operator=(Rectangle const & other)
     {
         x      = other.x;
         y      = other.y;

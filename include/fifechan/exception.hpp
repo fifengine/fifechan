@@ -61,24 +61,15 @@
 #ifndef FCN_EXCEPTION_HPP
 #define FCN_EXCEPTION_HPP
 
+#include <stdexcept>
 #include <string>
+#include <utility>  // For std::move
 
 #include "fifechan/platform.hpp"
 
 #ifndef __FUNCTION__
-#define __FUNCTION__ "?"
+#define __FUNCTION__ "?" // NOLINT
 #endif
-
-/*
- * A macro used to create a standard exception object.
- * What it basicly does is that it creates a new exception
- * and automatically sets the filename and line number where
- * the exception occured by using other compiler macros.
- */
-#define FCN_EXCEPTION(mess) fcn::Exception(mess,   \
-                            __FUNCTION__,          \
-                            __FILE__,              \
-                            __LINE__)
 
 namespace fcn
 {
@@ -99,21 +90,9 @@ namespace fcn
      *          throw FCN_EXCEPTION("my error message");
      *          @endcode
      */
-    class FCN_CORE_DECLSPEC Exception
+    class FCN_CORE_DECLSPEC Exception : public std::runtime_error
     {
     public:
-
-        /**
-         * Constructor.
-         */
-        Exception();
-
-        /**
-         * Constructor.
-         *
-         * @param message The error message of the exception.
-         */
-        Exception(const std::string& message);
 
         /**
          * Constructor.
@@ -128,10 +107,14 @@ namespace fcn
          * @param line The line number in the source code where the exception
          *             occured.
          */
-        Exception(const std::string& message,
-                  const std::string& function,
-                  const std::string& filename,
-                  unsigned int line);
+        Exception(std::string message, std::string function, std::string filename, unsigned int line);
+
+        /**
+         * Returns a pointer to a null-terminated string with a description of the exception.
+         *
+         * @return const char* A pointer to a null-terminated string with a description of the exception.
+         */
+        const char* what() const noexcept override;
 
         /**
          * Gets the function name where the exception occured.
@@ -161,10 +144,9 @@ namespace fcn
          */
         unsigned int getLine() const;
 
-    protected:
+    private:
         /**
-         * Holds the name of the function name where the
-         * exception occured.
+         * Holds the name of the function name where the exception occured.
          */
         std::string mFunction;
 
@@ -183,12 +165,10 @@ namespace fcn
          */
         unsigned int mLine;
     };
+
+    inline void throwException(const std::string& message, const std::string& function, const std::string& filename, unsigned int line) {
+        throw Exception(message, function, filename, line);
+    }
 }
 
 #endif // end FCN_EXCEPTION_HPP
-
-/*
- * "Final Fantasy XI is the BEST!... It's even better then water!"
- *  - Astrolite
- * I believe it's WoW now days.
- */

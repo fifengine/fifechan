@@ -87,7 +87,7 @@ inline double round(const double x) {
 
     template <>
     struct float_traits<float> {
-        typedef float float_type;
+        using float_type = float;
         static inline float_type epsilon() { return FLT_STD_EPSILON; }
         static inline float_type zeroTolerance() { return FLT_ZERO_TOLERANCE; }
         static inline float_type max() { return FLT_STD_MAX; }
@@ -106,7 +106,7 @@ inline double round(const double x) {
 
     template <>
     struct float_traits<double> {
-        typedef double float_type;
+        using float_type = double;
         static inline float_type epsilon() { return DBL_STD_EPSILON; }
         static inline float_type zeroTolerance() { return DBL_ZERO_TOLERANCE; }
         static inline float_type max() { return DBL_STD_MAX; }
@@ -126,8 +126,8 @@ inline double round(const double x) {
     template <typename T>
     class Math {
     public:
-        typedef T num_type;
-        typedef float_traits<num_type> traits_type;
+        using num_type = T;
+        using traits_type = float_traits<num_type>;
 
         static inline num_type epsilon() { return traits_type::epsilon(); }
         static inline num_type zeroTolerance() { return traits_type::zeroTolerance(); }
@@ -166,8 +166,8 @@ inline double round(const double x) {
         static bool Equal(T _val1, T _val2);
     };
 
-    typedef Math<float> Mathf;
-    typedef Math<double> Mathd;
+    using Mathf = Math<float>;
+    using Mathd = Math<double>;
 
     template<typename T>
     inline T Math<T>::ACos(T _val) {

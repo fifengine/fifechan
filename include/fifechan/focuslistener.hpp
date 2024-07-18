@@ -80,7 +80,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~FocusListener() { }
+        virtual ~FocusListener() = default;
 
         /**
          * Called when a widget gains focus.

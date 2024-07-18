@@ -58,16 +58,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-#include "fifechan/sdl/sdlinput.hpp"
-
-#include "fifechan/exception.hpp"
-#include "fifechan/util/utf8/utf8.hpp"
 
 #include <string>
 #include <vector>
+
+#include "fifechan/sdl/sdlinput.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/util/utf8/utf8.hpp"
 
 namespace fcn
 {

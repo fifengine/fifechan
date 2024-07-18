@@ -83,6 +83,9 @@ endif()
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
+# Create compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 #------------------------------------------------------------------------------
 # Compiler Options
 #------------------------------------------------------------------------------
@@ -99,7 +102,8 @@ endif(WIN32)
 # Source Files
 #------------------------------------------------------------------------------
 
-include_directories("${PROJECT_SOURCE_DIR}/include")
+# Add the include directory to the compiler's search path
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # The Fifechan core library
 file(GLOB FIFECHAN_HEADER include/fifechan.hpp)

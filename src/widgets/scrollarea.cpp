@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include <algorithm>
 
 #include "fifechan/widgets/scrollarea.hpp"
@@ -269,8 +265,9 @@ namespace fcn
 
     void ScrollArea::setScrollbarWidth(int width)
     {
-        if (width <= 0)
-            throw FCN_EXCEPTION("Width should be greater then 0.");
+        if (width <= 0) {
+            fcn::throwException("Width should be greater then 0.", __FUNCTION__, __FILE__, __LINE__);
+        }
 
         mScrollbarWidth = width;
     }
@@ -776,7 +773,7 @@ namespace fcn
             break;
 
         default:
-            throw FCN_EXCEPTION("Horizontal scroll policy invalid.");
+            fcn::throwException("Horizontal scroll policy invalid.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         switch (mVPolicy) {
@@ -797,7 +794,7 @@ namespace fcn
             }
             break;
         default:
-            throw FCN_EXCEPTION("Vertical scroll policy invalid.");
+            fcn::throwException("Vertical scroll policy invalid.", __FUNCTION__, __FILE__, __LINE__);
         }
     }
 
@@ -957,8 +954,9 @@ namespace fcn
 
     void ScrollArea::showWidgetPart(Widget* widget, Rectangle area)
     {
-        if (widget != getContent())
-            throw FCN_EXCEPTION("Widget not content widget");
+        if (widget != getContent()) {
+            fcn::throwException("Widget not content widget", __FUNCTION__, __FILE__, __LINE__);
+        }
 
         Widget::showWidgetPart(widget, area);
 

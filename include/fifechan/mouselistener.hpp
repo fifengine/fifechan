@@ -78,7 +78,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~MouseListener() { }
+        virtual ~MouseListener() = default;
 
         /**
          * Called when the mouse has entered into the widget area.

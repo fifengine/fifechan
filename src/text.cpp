@@ -58,14 +58,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <string>
 
 #include "fifechan/text.hpp"
-
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
+#include "fifechan/rectangle.hpp"
+
 
 namespace fcn
 {
@@ -73,60 +72,57 @@ namespace fcn
 
     Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
     {
-        std::string::size_type pos;
         std::string::size_type lastPos = 0;
-        int length;
-        do {
-            pos = content.find("\n", lastPos);
+        std::string::size_type pos = content.find("\n", lastPos);
 
-            if (pos != std::string::npos) {
-                length = pos - lastPos;
-            } else {
-                length = content.size() - lastPos;
-            }
-
-            std::string sub = content.substr(lastPos, length);
+        for (; pos != std::string::npos; pos = content.find("\n", lastPos)) {
+            const int length = pos - lastPos;
+            std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
-        } while (pos != std::string::npos);
+        }
+
+        // Add the last part after the last newline or the entire string if no newline is found
+        std::string const sub = content.substr(lastPos);
+        if (!sub.empty()) {
+            mRows.push_back(sub);
+        }
     }
 
-    Text::~Text() { }
+    Text::~Text() = default;
 
     void Text::setContent(std::string const & content)
     {
-        // reset caret
+        // Reset caret
         mCaretPosition = 0;
-        mCaretRow      = 0;
-        mCaretColumn   = 0;
+        mCaretRow = 0;
+        mCaretColumn = 0;
 
         mRows.clear();
-        std::string::size_type pos;
         std::string::size_type lastPos = 0;
-        int length;
-        do {
-            pos = content.find("\n", lastPos);
+        std::string::size_type pos = 0;
 
-            if (pos != std::string::npos) {
-                length = pos - lastPos;
-            } else {
-                length = content.size() - lastPos;
-            }
-
-            std::string sub = content.substr(lastPos, length);
+        for (; (pos = content.find("\n", lastPos)) != std::string::npos; lastPos = pos + 1) {
+            const int length = pos - lastPos;
+            std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
-            lastPos = pos + 1;
-        } while (pos != std::string::npos);
+        }
+
+        // Add the last part after the last newline or the entire string if no newline is found
+        std::string const sub = content.substr(lastPos);
+        if (!sub.empty()) {
+            mRows.push_back(sub);
+        }
     }
 
     std::string Text::getContent() const
     {
         if (mRows.empty()) {
-            return std::string("");
+            return {};
         }
 
         std::string result;
-        unsigned int i;
+        int i = 0;
         for (i = 0; i < mRows.size() - 1; ++i) {
             result = result + mRows[i] + "\n";
         }
@@ -139,7 +135,7 @@ namespace fcn
     void Text::setRow(unsigned int row, std::string const & content)
     {
         if (row >= mRows.size()) {
-            throw FCN_EXCEPTION("Row out of bounds!");
+            fcn::throwException("Row out of bounds!", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mRows[row] = content;
@@ -147,10 +143,10 @@ namespace fcn
 
     void Text::addRow(std::string const & row)
     {
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                throw FCN_EXCEPTION("Line feed not allowed in the row to be added!");
+                fcn::throwException("Line feed not allowed in the row to be added!", __FUNCTION__, __FILE__, __LINE__);
             }
         }
 
@@ -159,20 +155,20 @@ namespace fcn
 
     void Text::insertRow(std::string const & row, unsigned int position)
     {
-        unsigned int totalRows = mRows.size();
+        unsigned int const totalRows = mRows.size();
 
         if (position >= totalRows) {
             if (position == totalRows) {
                 addRow(row);
                 return;
             }
-            throw FCN_EXCEPTION("Position out of bounds!");
+            fcn::throwException("Position out of bounds!", __FUNCTION__, __FILE__, __LINE__);
         }
 
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                throw FCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
+                fcn::throwException("Line feed not allowed in the row to be inserted!", __FUNCTION__, __FILE__, __LINE__);
             }
         }
 
@@ -182,7 +178,7 @@ namespace fcn
     void Text::eraseRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            throw FCN_EXCEPTION("Row to be erased out of bounds!");
+            fcn::throwException("Row to be erased out of bounds!", __FUNCTION__, __FILE__, __LINE__);
         }
 
         mRows.erase(mRows.begin() + row);
@@ -191,7 +187,7 @@ namespace fcn
     std::string& Text::getRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            throw FCN_EXCEPTION("Row out of bounds!");
+            fcn::throwException("Row out of bounds!", __FUNCTION__, __FILE__, __LINE__);
         }
 
         return mRows[row];
@@ -199,13 +195,13 @@ namespace fcn
 
     void Text::insert(int character)
     {
-        char c = (char)character;
+        char const c = (char)character;
 
         if (mRows.empty()) {
             if (c == '\n') {
-                mRows.push_back("");
+                mRows.emplace_back("");
             } else {
-                mRows.push_back(std::string(1, c));
+                mRows.emplace_back(1, c);
             }
         } else {
             if (c == '\n') {
@@ -292,7 +288,7 @@ namespace fcn
 
         // Loop through all rows until we find the
         // position of the caret.
-        unsigned int i;
+        unsigned int i     = 0;
         unsigned int total = 0;
         for (i = 0; i < mRows.size(); i++) {
             if (position <= (int)(total + mRows[i].size())) {
@@ -378,19 +374,21 @@ namespace fcn
     Rectangle Text::getDimension(Font* font) const
     {
         if (mRows.empty()) {
-            return Rectangle(0, 0, font->getWidth(" "), font->getHeight());
+            return {0, 0, font->getWidth(" "), font->getHeight()};
         }
 
         int width = 0;
-        unsigned int i;
-        for (i = 0; i < mRows.size(); ++i) {
-            int w = font->getWidth(mRows[i]);
+        for (const auto & mRow : mRows) {
+            int const w = font->getWidth(mRow);
             if (width < w) {
                 width = w;
             }
         }
 
-        return Rectangle(0, 0, width + font->getWidth(" "), font->getHeight() * mRows.size());
+        auto h = static_cast<int>(font->getHeight() * mRows.size());
+        auto w = width + font->getWidth(" ");
+
+        return {0, 0, w, h};
     }
 
     Rectangle Text::getCaretDimension(Font* font) const
@@ -404,7 +402,7 @@ namespace fcn
         return dim;
     }
 
-    int Text::getWidth(int row, Font* font) const
+    int Text::getWidth(int /*row*/, Font* /*font*/) const
     {
         return 0;
     }
@@ -414,7 +412,7 @@ namespace fcn
         return 0;
     }
 
-    unsigned int Text::getMaximumCaretRow(unsigned int row) const
+    unsigned int Text::getMaximumCaretRow(unsigned int /*row*/) const
     {
         return 0;
     }
@@ -422,9 +420,8 @@ namespace fcn
     unsigned int Text::getNumberOfCharacters() const
     {
         unsigned int result = 0;
-        unsigned int i;
-        for (i = 0; i < mRows.size(); ++i) {
-            result += mRows[i].size() + 1;
+        for (const auto & mRow : mRows) {
+            result += mRow.size() + 1;
         }
 
         return result;
@@ -446,9 +443,8 @@ namespace fcn
 
     void Text::calculateCaretPositionFromRowAndColumn()
     {
-        unsigned int i;
         unsigned int total = 0;
-        for (i = 0; i < mCaretRow; i++) {
+        for (auto i = 0; i < mCaretRow; i++) {
             // Add one for the line feed.
             total += mRows[i].size() + 1;
         }

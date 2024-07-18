@@ -79,7 +79,7 @@ namespace fcn
         /**
          * Constructor.
          */
-        KeyInput() { };
+        KeyInput() = default;
 
         /**
          * Constructor.

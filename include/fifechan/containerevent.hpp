@@ -95,7 +95,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~ContainerEvent();
+        ~ContainerEvent() override;
 
         /**
          * Gets the container the event concerns.

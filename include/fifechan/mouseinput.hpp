@@ -78,7 +78,7 @@ namespace fcn
         /**
          * Constructor.
          */
-        MouseInput() { };
+        MouseInput() = default;
 
         /**
          * Constructor.

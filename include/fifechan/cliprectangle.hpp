@@ -109,7 +109,7 @@ namespace fcn
          * @param other The rectangle to copy data from.
          * @returns A clip rectangle with data copyied from a rectangle.
          */
-        const ClipRectangle& operator=(const Rectangle& other);
+        ClipRectangle& operator=(const Rectangle& other);
 
         /**
          * Holds the x offset of the x coordinate.

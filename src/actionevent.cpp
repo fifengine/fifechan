@@ -58,17 +58,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <string>
+#include <utility>
 
 #include "fifechan/actionevent.hpp"
+#include "fifechan/event.hpp"
 
 namespace fcn
 {
-    ActionEvent::ActionEvent(Widget* source, std::string const & id) : Event(source), mId(id) { }
+    ActionEvent::ActionEvent(Widget* source, std::string id) : Event(source), mId(std::move(id)) { }
 
-    ActionEvent::~ActionEvent() { }
+    ActionEvent::~ActionEvent() = default;
 
     std::string const & ActionEvent::getId() const
     {

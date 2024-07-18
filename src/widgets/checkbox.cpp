@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include <algorithm>
 
 #include "fifechan/exception.hpp"
@@ -194,7 +190,7 @@ namespace fcn
                     drawDot(graphics, rec);
                     break;
                 default:
-                    throw FCN_EXCEPTION("Unknown marker.");
+                    fcn::throwException("Unknown marker.", __FUNCTION__, __FILE__, __LINE__);
                 }
             }
         }

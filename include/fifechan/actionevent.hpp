@@ -100,12 +100,12 @@ namespace fcn
          * @param source The source widget of the event.
          * @param id An identifier of the event.
          */
-        ActionEvent(Widget* source, const std::string& id);
+        ActionEvent(Widget* source, std::string id);
 
         /**
          * Destructor.
          */
-        virtual ~ActionEvent();
+        ~ActionEvent() override;
 
         /**
          * Gets the identifier of the event. An identifier can

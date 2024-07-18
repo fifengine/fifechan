@@ -58,9 +58,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
+#include <algorithm>
 
 #include "fifechan/widgets/tabbedarea.hpp"
 
@@ -70,8 +68,6 @@
 #include "fifechan/graphics.hpp"
 
 #include "fifechan/widgets/tab.hpp"
-
-#include <algorithm>
 
 namespace fcn
 {
@@ -123,7 +119,7 @@ namespace fcn
     void TabbedArea::removeTabWithIndex(unsigned int index)
     {
         if (index >= mTabs.size()) {
-            throw FCN_EXCEPTION("No such tab index.");
+            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         removeTab(mTabs[index].first);
@@ -181,7 +177,7 @@ namespace fcn
     bool TabbedArea::isTabSelected(unsigned int index) const
     {
         if (index >= mTabs.size()) {
-            throw FCN_EXCEPTION("No such tab index.");
+            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         return mSelectedTab == mTabs[index].first;
@@ -195,7 +191,7 @@ namespace fcn
     void TabbedArea::setSelectedTab(unsigned int index)
     {
         if (index >= mTabs.size()) {
-            throw FCN_EXCEPTION("No such tab index.");
+            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         setSelectedTab(mTabs[index].first);
@@ -513,7 +509,7 @@ namespace fcn
         Tab* tab       = dynamic_cast<Tab*>(source);
 
         if (tab == NULL) {
-            throw FCN_EXCEPTION("Received an action from a widget that's not a tab!");
+            fcn::throwException("Received an action from a widget that's not a tab!", __FUNCTION__, __FILE__, __LINE__);
         }
 
         setSelectedTab(tab);

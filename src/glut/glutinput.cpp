@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// /*
-//  * For comments regarding functions please see the header file.
-//  */
-
 // #include "fifechan/glut/glutinput.hpp"
 // #include "fifechan/exception.hpp"
 
@@ -83,7 +79,7 @@
 
 //         if (mKeyInputQueue.empty())
 //         {
-//             throw FCN_EXCEPTION("The queue is empty.");
+//             fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
 //         }
 
 //         keyInput = mKeyInputQueue.front();
@@ -103,7 +99,7 @@
 
 //         if (mMouseInputQueue.empty())
 //         {
-//             throw FCN_EXCEPTION("The queue is empty.");
+//             fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
 //         }
 
 //         mouseInput = mMouseInputQueue.front();
@@ -312,9 +308,9 @@
 //                 return MouseInput::MIDDLE;
 //                 break;
 //         }
-
-//         throw FCN_EXCEPTION("Unknown GLUT mouse type.");
-
+//
+//         fcn::throwException("Unknown GLUT mouse type.", __FUNCTION__, __FILE__, __LINE__);
+//
 //         return 0;
 //     }
 // }

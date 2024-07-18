@@ -78,7 +78,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~DefaultFont(){}
+        virtual ~DefaultFont() = default;
 
         /**
          * Draws a glyph as a rectangle. The glyphs will always be drawn as
@@ -96,16 +96,15 @@ namespace fcn
          */
         virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
-
         // Inherited from Font
 
-        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+        void drawString(Graphics* graphics, const std::string& text, int x, int y) override;
 
-        virtual int getWidth(const std::string& text) const;
+        int getWidth(const std::string& text) const override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual int getStringIndexAt(const std::string& text, int x) const;
+        int getStringIndexAt(const std::string& text, int x) const override;
     };
 }
 

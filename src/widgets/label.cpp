@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/widgets/label.hpp"
 
 #include "fifechan/exception.hpp"
@@ -146,7 +142,7 @@ namespace fcn
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
         default:
-            throw FCN_EXCEPTION("Unknown alignment.");
+            fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         graphics->setFont(getFont());

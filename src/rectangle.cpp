@@ -58,11 +58,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/rectangle.hpp"
+#include <ostream>
 
 namespace fcn
 {
@@ -132,14 +129,14 @@ namespace fcn
     Rectangle Rectangle::operator+(Rectangle const & rh) const
     {
         if (rh.isEmpty()) {
-            return Rectangle(x, y, width, height);
+            return {x, y, width, height};
         }
 
-        int nx  = x < rh.x ? x : rh.x;
-        int ny  = y < rh.y ? y : rh.y;
-        int nx2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
-        int ny2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
-        return Rectangle(nx, ny, nx2 - nx, ny2 - ny);
+        int const nx  = x < rh.x ? x : rh.x;
+        int const ny  = y < rh.y ? y : rh.y;
+        int const nx2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
+        int const ny2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
+        return {nx, ny, nx2 - nx, ny2 - ny};
     }
 
     Rectangle const & Rectangle::operator+=(Rectangle const & rh)
@@ -154,8 +151,8 @@ namespace fcn
 
         x      = x < rh.x ? x : rh.x;
         y      = y < rh.y ? y : rh.y;
-        int x2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
-        int y2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
+        int const x2 = x + width > rh.x + rh.width ? x + width : rh.x + rh.width;
+        int const y2 = y + height > rh.y + rh.height ? y + height : rh.y + rh.height;
         width  = x2 - x;
         height = y2 - y;
         return *(this);
@@ -163,19 +160,19 @@ namespace fcn
 
     Rectangle Rectangle::intersection(Rectangle const & rh) const
     {
-        int nx = x > rh.x ? x : rh.x;
-        int ny = y > rh.y ? y : rh.y;
+        int const nx = x > rh.x ? x : rh.x;
+        int const ny = y > rh.y ? y : rh.y;
 
         if (rh.isEmpty() || isEmpty()) {
-            return Rectangle(nx, ny, 0, 0);
+            return {nx, ny, 0, 0};
         }
 
-        int nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
-        int ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
+        int const nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
+        int const ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
         Rectangle result(nx, ny, nx2 - nx, ny2 - ny);
 
         if (result.isEmpty()) {
-            return Rectangle(nx, ny, 0, 0);
+            return {nx, ny, 0, 0};
         }
 
         return result;

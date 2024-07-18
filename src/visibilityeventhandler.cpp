@@ -24,8 +24,6 @@
 #include "fifechan/event.hpp"
 #include "fifechan/gui.hpp"
 
-#include <list>
-
 namespace fcn
 {
     VisibilityEventHandler::VisibilityEventHandler(Gui* gui) : mGui(gui) { }

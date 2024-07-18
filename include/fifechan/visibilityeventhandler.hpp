@@ -29,7 +29,7 @@ namespace fcn
     class Event;
     class Gui;
     class Widget;
-    
+
     /**
      * Class that handles Widget visiblity changes. Addresses input issues arised
      * when widgets are shown or hidden.
@@ -37,27 +37,27 @@ namespace fcn
     class FCN_CORE_DECLSPEC VisibilityEventHandler : public WidgetListener
     {
     public:
-        
+
         /**
          * Constructor
          */
-        VisibilityEventHandler(Gui* gui);
-        
+        explicit VisibilityEventHandler(Gui* gui);
+
         /**
          * Destructor
          */
-        virtual ~VisibilityEventHandler() {};
-        
+        ~VisibilityEventHandler() = default;
+
         /**
          * Informs gui that a widget was hidden.
          */
-        virtual void widgetHidden(const Event& e);
-        
+        void widgetHidden(const Event& e) override;
+
         /**
          * Informs gui that a widget was shown.
          */
-        virtual void widgetShown(const Event& e);
-        
+        void widgetShown(const Event& e) override;
+
     protected:
 
         Gui *mGui;

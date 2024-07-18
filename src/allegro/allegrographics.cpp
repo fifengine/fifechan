@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/allegro/allegrographics.hpp"
 #include "fifechan/allegro/allegroimage.hpp"
 #include "fifechan/rectangle.hpp"

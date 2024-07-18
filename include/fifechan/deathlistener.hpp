@@ -80,7 +80,7 @@ namespace fcn
         /**
          * Destructor.
          */
-        virtual ~DeathListener() { }
+        virtual ~DeathListener() = default;
 
         /**
          * Called when a widget dies. It is used to be able to recieve

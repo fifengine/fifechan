@@ -58,10 +58,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * For comments regarding functions please see the header file.
- */
-
 #include "fifechan/font.hpp"
 
 #include <string>
@@ -70,7 +66,7 @@ namespace fcn
 {
     int Font::getStringIndexAt(std::string const & text, int x) const
     {
-        unsigned int i;
+        unsigned int i = 0;
         int size = 0;
 
         for (i = 0; i < text.size(); ++i) {

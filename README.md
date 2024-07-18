@@ -7,7 +7,7 @@
 
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
-| **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) | 
+| **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
 | **Development Releases**  |   -    |    -     | [See Jobs for Build Artifacts](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
 
 Fifechan is also already available from the following package repositories:
@@ -17,16 +17,16 @@ Fifechan is also already available from the following package repositories:
 ## Introduction to Fifechan
 
 Fifechan is a lightweight cross platform GUI library written in C++ specifically
-designed for games. It has a small yet powerful built in set of extendable GUI 
-Widgets allowing users to create virtually unlimited types of widgets. 
+designed for games. It has a small yet powerful built in set of extendable GUI
+Widgets allowing users to create virtually unlimited types of widgets.
 
-Fifechan supports rendering in SDL, OpenGL, or Allegro out of the box or it can be 
-adapted to use any rendering engine the user requires. Events are pushed to 
+Fifechan supports rendering in SDL, OpenGL, or Allegro out of the box or it can be
+adapted to use any rendering engine the user requires. Events are pushed to
 Fifechan which allows users to use any input library they wish or they could use
-the built in input handling through either SDL input or Allegro input. 
+the built in input handling through either SDL input or Allegro input.
 
-The primary goal for Fifechan is to keep it extendable, lightweight and still be 
-powerful enough to use in all types of games out of the box. 
+The primary goal for Fifechan is to keep it extendable, lightweight and still be
+powerful enough to use in all types of games out of the box.
 
 ## Downloads
 
@@ -42,3 +42,25 @@ We also provide releases for the latest successful build. You find them listed i
 
 If you want to get involved with the development, come join our IRC channel #fife on Freenode.
 Feel free to drop us a line there and we'll help you getting started!
+
+## Build Dependencies
+
+You need the following libraries installed:
+
+For Allegro support:
+ - Allegro - https://alleg.sourceforge.net/
+
+For OpenGL support:
+ - OpenGL
+
+For optional OpenGL dependencies:
+ - Set `ENABLE_OPENGL_CONTRIB` to ON
+ - OpenGL-FreeType Library - https://oglft.sourceforge.net/
+
+For SDL support:
+ - SDL2 - https://libsdl.org
+ - SDL2_image - https://libsdl.org
+
+For optional SDL dependencies
+ - Set `ENABLE_SDL_CONTRIB` to ON
+ - SDL2_ttf - https://libsdl.org

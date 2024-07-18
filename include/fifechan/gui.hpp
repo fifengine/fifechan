@@ -495,12 +495,12 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef std::list<KeyListener*> KeyListenerList;
+        using KeyListenerList = std::list<KeyListener *>;
 
         /**
          * Typedef.
          */
-        typedef KeyListenerList::iterator KeyListenerListIterator;
+        using KeyListenerListIterator = KeyListenerList::iterator;
 
         /**
          * Holds the global key listeners of the Gui.
