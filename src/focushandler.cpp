@@ -71,20 +71,20 @@
 namespace fcn
 {
     FocusHandler::FocusHandler() :
-        mFocusedWidget(NULL),
-        mModalFocusedWidget(NULL),
-        mModalMouseInputFocusedWidget(NULL),
-        mDraggedWidget(NULL),
-        mLastWidgetWithMouse(NULL),
-        mLastWidgetWithModalFocus(NULL),
-        mLastWidgetWithModalMouseInputFocus(NULL),
-        mLastWidgetPressed(NULL)
+        mFocusedWidget(nullptr),
+        mModalFocusedWidget(nullptr),
+        mModalMouseInputFocusedWidget(nullptr),
+        mDraggedWidget(nullptr),
+        mLastWidgetWithMouse(nullptr),
+        mLastWidgetWithModalFocus(nullptr),
+        mLastWidgetWithModalMouseInputFocus(nullptr),
+        mLastWidgetPressed(nullptr)
     {
     }
 
     void FocusHandler::requestFocus(Widget* widget)
     {
-        if (widget == NULL || widget == mFocusedWidget) {
+        if (widget == nullptr || widget == mFocusedWidget) {
             return;
         }
 
@@ -106,7 +106,7 @@ namespace fcn
         if (oldFocused != widget) {
             mFocusedWidget = mWidgets.at(toBeFocusedIndex);
 
-            if (oldFocused != NULL) {
+            if (oldFocused != nullptr) {
                 Event focusEvent(oldFocused);
                 distributeFocusLostEvent(focusEvent);
             }
@@ -118,20 +118,20 @@ namespace fcn
 
     void FocusHandler::requestModalFocus(Widget* widget)
     {
-        if (mModalFocusedWidget != NULL && mModalFocusedWidget != widget) {
+        if (mModalFocusedWidget != nullptr && mModalFocusedWidget != widget) {
             throw FCN_EXCEPTION("Another widget already has modal focus.");
         }
 
         mModalFocusedWidget = widget;
 
-        if (mFocusedWidget != NULL && !mFocusedWidget->isModalFocused()) {
+        if (mFocusedWidget != nullptr && !mFocusedWidget->isModalFocused()) {
             focusNone();
         }
     }
 
     void FocusHandler::requestModalMouseInputFocus(Widget* widget)
     {
-        if (mModalMouseInputFocusedWidget != NULL && mModalMouseInputFocusedWidget != widget) {
+        if (mModalMouseInputFocusedWidget != nullptr && mModalMouseInputFocusedWidget != widget) {
             throw FCN_EXCEPTION("Another widget already has modal input focus.");
         }
 
@@ -141,14 +141,14 @@ namespace fcn
     void FocusHandler::releaseModalFocus(Widget* widget)
     {
         if (mModalFocusedWidget == widget) {
-            mModalFocusedWidget = NULL;
+            mModalFocusedWidget = nullptr;
         }
     }
 
     void FocusHandler::releaseModalMouseInputFocus(Widget* widget)
     {
         if (mModalMouseInputFocusedWidget == widget) {
-            mModalMouseInputFocusedWidget = NULL;
+            mModalMouseInputFocusedWidget = nullptr;
         }
     }
 
@@ -215,8 +215,8 @@ namespace fcn
 
     void FocusHandler::focusPrevious()
     {
-        if (mWidgets.size() == 0) {
-            mFocusedWidget = NULL;
+        if (mWidgets.empty()) {
+            mFocusedWidget = nullptr;
             return;
         }
 
@@ -276,7 +276,7 @@ namespace fcn
     void FocusHandler::remove(Widget* widget)
     {
         if (isFocused(widget)) {
-            mFocusedWidget = NULL;
+            mFocusedWidget = nullptr;
         }
 
         WidgetIterator iter;
@@ -289,36 +289,36 @@ namespace fcn
         }
 
         if (mDraggedWidget == widget) {
-            mDraggedWidget = NULL;
+            mDraggedWidget = nullptr;
             return;
         }
 
         if (mLastWidgetWithMouse == widget) {
-            mLastWidgetWithMouse = NULL;
+            mLastWidgetWithMouse = nullptr;
             return;
         }
 
         if (mLastWidgetWithModalFocus == widget) {
-            mLastWidgetWithModalFocus = NULL;
+            mLastWidgetWithModalFocus = nullptr;
             return;
         }
 
         if (mLastWidgetWithModalMouseInputFocus == widget) {
-            mLastWidgetWithModalMouseInputFocus = NULL;
+            mLastWidgetWithModalMouseInputFocus = nullptr;
             return;
         }
 
         if (mLastWidgetPressed == widget) {
-            mLastWidgetPressed = NULL;
+            mLastWidgetPressed = nullptr;
             return;
         }
     }
 
     void FocusHandler::focusNone()
     {
-        if (mFocusedWidget != NULL) {
+        if (mFocusedWidget != nullptr) {
             Widget* focused = mFocusedWidget;
-            mFocusedWidget  = NULL;
+            mFocusedWidget  = nullptr;
 
             Event focusEvent(focused);
             distributeFocusLostEvent(focusEvent);
@@ -327,14 +327,14 @@ namespace fcn
 
     void FocusHandler::tabNext()
     {
-        if (mFocusedWidget != NULL) {
+        if (mFocusedWidget != nullptr) {
             if (!mFocusedWidget->isTabOutEnabled()) {
                 return;
             }
         }
 
-        if (mWidgets.size() == 0) {
-            mFocusedWidget = NULL;
+        if (mWidgets.empty()) {
+            mFocusedWidget = nullptr;
             return;
         }
 
@@ -370,7 +370,7 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (mModalFocusedWidget == NULL || mWidgets.at(focusedWidget)->isModalFocused())) {
+                (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
                 done = true;
             }
         } while (!done);
@@ -389,14 +389,14 @@ namespace fcn
 
     void FocusHandler::tabPrevious()
     {
-        if (mFocusedWidget != NULL) {
+        if (mFocusedWidget != nullptr) {
             if (!mFocusedWidget->isTabOutEnabled()) {
                 return;
             }
         }
 
-        if (mWidgets.size() == 0) {
-            mFocusedWidget = NULL;
+        if (mWidgets.empty()) {
+            mFocusedWidget = nullptr;
             return;
         }
 
@@ -432,7 +432,7 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (mModalFocusedWidget == NULL || mWidgets.at(focusedWidget)->isModalFocused())) {
+                (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
                 done = true;
             }
         } while (!done);

@@ -72,7 +72,7 @@ namespace fcn
 {
     Graphics::Graphics()
     {
-        mFont = NULL;
+        mFont = nullptr;
     }
 
     bool Graphics::pushClipArea(Rectangle area)
@@ -144,7 +144,7 @@ namespace fcn
 
     void Graphics::drawText(std::string const & text, int x, int y, Alignment alignment)
     {
-        if (mFont == NULL) {
+        if (mFont == nullptr) {
             throw FCN_EXCEPTION("No font set.");
         }
 

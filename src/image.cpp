@@ -70,7 +70,7 @@
 namespace fcn
 {
 
-    ImageLoader* Image::mImageLoader = NULL;
+    ImageLoader* Image::mImageLoader = nullptr;
 
     Image::Image() { }
 
@@ -88,7 +88,7 @@ namespace fcn
 
     Image* Image::load(std::string const & filename, bool convertToDisplayFormat)
     {
-        if (mImageLoader == NULL) {
+        if (mImageLoader == nullptr) {
             throw FCN_EXCEPTION("Trying to load an image but no image loader is set.");
         }
 

@@ -95,7 +95,8 @@ namespace fcn
         }
 
         mHeight = j;
-        int x = 0, y = 0;
+        int x   = 0;
+        int y   = 0;
         unsigned char k;
 
         for (i = 0; i < (int)glyphs.size(); ++i) {
@@ -115,7 +116,7 @@ namespace fcn
     ImageFont::ImageFont(Image* image, std::string const & glyphs)
     {
         mFilename = "Image*";
-        if (image == NULL) {
+        if (image == nullptr) {
             FCN_EXCEPTION("Font image is NULL");
         }
         mImage = image;
@@ -137,7 +138,8 @@ namespace fcn
         }
 
         mHeight = j;
-        int x = 0, y = 0;
+        int x   = 0;
+        int y   = 0;
         unsigned char k;
 
         for (i = 0; i < (int)glyphs.size(); ++i) {
@@ -176,7 +178,8 @@ namespace fcn
         }
 
         mHeight = j;
-        int x = 0, y = 0;
+        int x   = 0;
+        int y   = 0;
 
         for (i = glyphsFrom; i < glyphsTo + 1; i++) {
             mGlyph[i] = scanForGlyph(i, x, y, separator);

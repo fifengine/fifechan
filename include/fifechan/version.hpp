@@ -97,10 +97,10 @@
 #define FCN_DOT(a,b)		a.b
 #define FCN_XDOT(a,b)		FCN_DOT(a,b)
 
-#define FCN_PLUS(a,b)		a+b
+#define FCN_PLUS(a, b)          ((a) + (b))
 #define FCN_XPLUS(a,b)		FCN_PLUS(a,b)
 
-#define FCN_MINUS(a,b)		a-b
+#define FCN_MINUS(a, b) ((a) - (b))
 #define FCN_XMINUS(a,b)	FCN_MINUS(a,b)
 
 #if FCN_PRERELEASE_TYPE==1

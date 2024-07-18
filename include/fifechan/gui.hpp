@@ -427,7 +427,7 @@ namespace fcn
          *
          * @return The widget at a certain position.
          */
-        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = NULL);
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr);
 
         /**
          * Gets the source of the mouse event.

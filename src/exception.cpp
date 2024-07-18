@@ -66,7 +66,7 @@
 
 namespace fcn
 {
-    Exception::Exception() : mFunction("?"), mMessage(""), mFilename("?"), mLine(0) { }
+    Exception::Exception() : mFunction("?"), mFilename("?"), mLine(0) { }
 
     Exception::Exception(std::string const & message) : mFunction("?"), mMessage(message), mFilename("?"), mLine(0) { }
 

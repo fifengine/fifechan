@@ -58,18 +58,16 @@ namespace utf8
         template <typename octet_iterator>
         octet_iterator append(uint32_t cp, octet_iterator result)
         {
-            if (cp < 0x80)                        // one octet
+            if (cp < 0x80) { // one octet
                 *(result++) = static_cast<uint8_t>(cp);
-            else if (cp < 0x800) {                // two octets
+            } else if (cp < 0x800) { // two octets
                 *(result++) = static_cast<uint8_t>((cp >> 6)          | 0xc0);
                 *(result++) = static_cast<uint8_t>((cp & 0x3f)        | 0x80);
-            }
-            else if (cp < 0x10000) {              // three octets
+            } else if (cp < 0x10000) { // three octets
                 *(result++) = static_cast<uint8_t>((cp >> 12)         | 0xe0);
                 *(result++) = static_cast<uint8_t>(((cp >> 6) & 0x3f) | 0x80);
                 *(result++) = static_cast<uint8_t>((cp & 0x3f)        | 0x80);
-            }
-            else {                                // four octets
+            } else { // four octets
                 *(result++) = static_cast<uint8_t>((cp >> 18)         | 0xf0);
                 *(result++) = static_cast<uint8_t>(((cp >> 12) & 0x3f)| 0x80);
                 *(result++) = static_cast<uint8_t>(((cp >> 6) & 0x3f) | 0x80);
@@ -118,7 +116,9 @@ namespace utf8
         template <typename octet_iterator>
         uint32_t prior(octet_iterator& it)
         {
-            while (utf8::internal::is_trail(*(--it))) ;
+            while (utf8::internal::is_trail(*(--it))) {
+                ;
+            }
             octet_iterator temp = it;
             return utf8::unchecked::next(temp);
         }
@@ -133,8 +133,9 @@ namespace utf8
         template <typename octet_iterator, typename distance_type>
         void advance (octet_iterator& it, distance_type n)
         {
-            for (distance_type i = 0; i < n; ++i)
+            for (distance_type i = 0; i < n; ++i) {
                 utf8::unchecked::next(it);
+            }
         }
 
         template <typename octet_iterator>
@@ -142,8 +143,9 @@ namespace utf8
         distance (octet_iterator first, octet_iterator last)
         {
             typename std::iterator_traits<octet_iterator>::difference_type dist;
-            for (dist = 0; first < last; ++dist)
+            for (dist = 0; first < last; ++dist) {
                 utf8::unchecked::next(first);
+            }
             return dist;
         }
 
@@ -170,9 +172,9 @@ namespace utf8
                 if (cp > 0xffff) { //make a surrogate pair
                     *result++ = static_cast<uint16_t>((cp >> 10)   + internal::LEAD_OFFSET);
                     *result++ = static_cast<uint16_t>((cp & 0x3ff) + internal::TRAIL_SURROGATE_MIN);
-                }
-                else
+                } else {
                     *result++ = static_cast<uint16_t>(cp);
+                }
             }
             return result;
         }
@@ -180,8 +182,9 @@ namespace utf8
         template <typename octet_iterator, typename u32bit_iterator>
         octet_iterator utf32to8 (u32bit_iterator start, u32bit_iterator end, octet_iterator result)
         {
-            while (start != end)
+            while (start != end) {
                 result = utf8::unchecked::append(*(start++), result);
+            }
 
             return result;
         }
@@ -189,8 +192,9 @@ namespace utf8
         template <typename octet_iterator, typename u32bit_iterator>
         u32bit_iterator utf8to32 (octet_iterator start, octet_iterator end, u32bit_iterator result)
         {
-            while (start < end)
+            while (start < end) {
                 (*result++) = utf8::unchecked::next(start);
+            }
 
             return result;
         }

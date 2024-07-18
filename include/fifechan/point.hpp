@@ -115,7 +115,7 @@ namespace fcn {
         /** Equality comparision
          */
         bool operator!=(const Point& p) const {
-            return !(x == p.x && y == p.y);
+            return x != p.x || y != p.y;
         }
 
         /** Return length

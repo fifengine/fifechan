@@ -73,15 +73,17 @@ namespace fcn
 
     Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
     {
-        std::string::size_type pos, lastPos = 0;
+        std::string::size_type pos;
+        std::string::size_type lastPos = 0;
         int length;
         do {
             pos = content.find("\n", lastPos);
 
-            if (pos != std::string::npos)
+            if (pos != std::string::npos) {
                 length = pos - lastPos;
-            else
+            } else {
                 length = content.size() - lastPos;
+            }
 
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
@@ -99,15 +101,17 @@ namespace fcn
         mCaretColumn   = 0;
 
         mRows.clear();
-        std::string::size_type pos, lastPos = 0;
+        std::string::size_type pos;
+        std::string::size_type lastPos = 0;
         int length;
         do {
             pos = content.find("\n", lastPos);
 
-            if (pos != std::string::npos)
+            if (pos != std::string::npos) {
                 length = pos - lastPos;
-            else
+            } else {
                 length = content.size() - lastPos;
+            }
 
             std::string sub = content.substr(lastPos, length);
             mRows.push_back(sub);
@@ -117,13 +121,15 @@ namespace fcn
 
     std::string Text::getContent() const
     {
-        if (mRows.empty())
+        if (mRows.empty()) {
             return std::string("");
+        }
 
         std::string result;
         unsigned int i;
-        for (i = 0; i < mRows.size() - 1; ++i)
+        for (i = 0; i < mRows.size() - 1; ++i) {
             result = result + mRows[i] + "\n";
+        }
 
         result = result + mRows[i];
 
@@ -132,8 +138,9 @@ namespace fcn
 
     void Text::setRow(unsigned int row, std::string const & content)
     {
-        if (row >= mRows.size())
+        if (row >= mRows.size()) {
             throw FCN_EXCEPTION("Row out of bounds!");
+        }
 
         mRows[row] = content;
     }
@@ -142,8 +149,9 @@ namespace fcn
     {
         unsigned int i;
         for (i = 0; i < row.size(); i++) {
-            if (row[i] == '\n')
+            if (row[i] == '\n') {
                 throw FCN_EXCEPTION("Line feed not allowed in the row to be added!");
+            }
         }
 
         mRows.push_back(row);
@@ -157,15 +165,15 @@ namespace fcn
             if (position == totalRows) {
                 addRow(row);
                 return;
-            } else {
-                throw FCN_EXCEPTION("Position out of bounds!");
             }
+            throw FCN_EXCEPTION("Position out of bounds!");
         }
 
         unsigned int i;
         for (i = 0; i < row.size(); i++) {
-            if (row[i] == '\n')
+            if (row[i] == '\n') {
                 throw FCN_EXCEPTION("Line feed not allowed in the row to be inserted!");
+            }
         }
 
         mRows.insert(mRows.begin() + position, row);
@@ -173,16 +181,18 @@ namespace fcn
 
     void Text::eraseRow(unsigned int row)
     {
-        if (row >= mRows.size())
+        if (row >= mRows.size()) {
             throw FCN_EXCEPTION("Row to be erased out of bounds!");
+        }
 
         mRows.erase(mRows.begin() + row);
     }
 
     std::string& Text::getRow(unsigned int row)
     {
-        if (row >= mRows.size())
+        if (row >= mRows.size()) {
             throw FCN_EXCEPTION("Row out of bounds!");
+        }
 
         return mRows[row];
     }
@@ -192,18 +202,20 @@ namespace fcn
         char c = (char)character;
 
         if (mRows.empty()) {
-            if (c == '\n')
+            if (c == '\n') {
                 mRows.push_back("");
-            else
+            } else {
                 mRows.push_back(std::string(1, c));
+            }
         } else {
             if (c == '\n') {
                 mRows.insert(
                     mRows.begin() + mCaretRow + 1,
                     mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn));
                 mRows[mCaretRow].resize(mCaretColumn);
-            } else
+            } else {
                 mRows[mCaretRow].insert(mCaretColumn, std::string(1, c));
+            }
         }
 
         setCaretPosition(getCaretPosition() + 1);
@@ -211,16 +223,18 @@ namespace fcn
 
     void Text::remove(int numberOfCharacters)
     {
-        if (mRows.empty() || numberOfCharacters == 0)
+        if (mRows.empty() || numberOfCharacters == 0) {
             return;
+        }
 
         // We should remove characters left of the caret position.
         if (numberOfCharacters < 0) {
             while (numberOfCharacters != 0) {
                 // If the caret position is zero there is nothing
                 // more to do.
-                if (mCaretPosition == 0)
+                if (mCaretPosition == 0) {
                     break;
+                }
 
                 // If we are at the end of the row
                 // and the row is not the first row we
@@ -243,8 +257,9 @@ namespace fcn
             while (numberOfCharacters != 0) {
                 // If all rows have been removed there is nothing
                 // more to do.
-                if (mRows.empty())
+                if (mRows.empty()) {
                     break;
+                }
 
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two
@@ -301,8 +316,9 @@ namespace fcn
 
     void Text::setCaretPosition(int x, int y, Font* font)
     {
-        if (mRows.empty())
+        if (mRows.empty()) {
             return;
+        }
 
         setCaretRow(y / font->getHeight());
         setCaretColumn(font->getStringIndexAt(mRows[mCaretRow], x));
@@ -320,32 +336,35 @@ namespace fcn
 
     void Text::setCaretColumn(int column)
     {
-        if (mRows.empty() || column < 0)
+        if (mRows.empty() || column < 0) {
             mCaretColumn = 0;
-        else if (column > (int)mRows[mCaretRow].size())
+        } else if (column > (int)mRows[mCaretRow].size()) {
             mCaretColumn = mRows[mCaretRow].size();
-        else
+        } else {
             mCaretColumn = column;
+        }
 
         calculateCaretPositionFromRowAndColumn();
     }
 
     void Text::setCaretRow(int row)
     {
-        if (mRows.empty() || row < 0)
+        if (mRows.empty() || row < 0) {
             mCaretRow = 0;
-        else if (row >= (int)mRows.size())
+        } else if (row >= (int)mRows.size()) {
             mCaretRow = mRows.size() - 1;
-        else
+        } else {
             mCaretRow = row;
+        }
 
         setCaretColumn(mCaretColumn);
     }
 
     int Text::getCaretX(Font* font) const
     {
-        if (mRows.empty())
+        if (mRows.empty()) {
             return 0;
+        }
 
         return font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn));
     }
@@ -358,15 +377,17 @@ namespace fcn
 
     Rectangle Text::getDimension(Font* font) const
     {
-        if (mRows.empty())
+        if (mRows.empty()) {
             return Rectangle(0, 0, font->getWidth(" "), font->getHeight());
+        }
 
         int width = 0;
         unsigned int i;
         for (i = 0; i < mRows.size(); ++i) {
             int w = font->getWidth(mRows[i]);
-            if (width < w)
+            if (width < w) {
                 width = w;
+            }
         }
 
         return Rectangle(0, 0, width + font->getWidth(" "), font->getHeight() * mRows.size());
@@ -402,8 +423,9 @@ namespace fcn
     {
         unsigned int result = 0;
         unsigned int i;
-        for (i = 0; i < mRows.size(); ++i)
+        for (i = 0; i < mRows.size(); ++i) {
             result += mRows[i].size() + 1;
+        }
 
         return result;
     }
@@ -415,8 +437,9 @@ namespace fcn
 
     unsigned int Text::getNumberOfCharacters(unsigned int row) const
     {
-        if (row >= mRows.size())
+        if (row >= mRows.size()) {
             return 0;
+        }
 
         return mRows[row].size();
     }
@@ -425,9 +448,10 @@ namespace fcn
     {
         unsigned int i;
         unsigned int total = 0;
-        for (i = 0; i < mCaretRow; i++)
+        for (i = 0; i < mCaretRow; i++) {
             // Add one for the line feed.
             total += mRows[i].size() + 1;
+        }
 
         mCaretPosition = total + mCaretColumn;
     }

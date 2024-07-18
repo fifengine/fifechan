@@ -112,7 +112,7 @@ namespace fcn
 
     bool Color::operator!=(Color const & color) const
     {
-        return !(r == color.r && g == color.g && b == color.b && a == color.a);
+        return r != color.r || g != color.g || b != color.b || a != color.a;
     }
 
     std::ostream& operator<<(std::ostream& out, Color const & color)

@@ -109,9 +109,7 @@ namespace fcn
          * @param listBox the listBox to use.
          * @see ListModel, ScrollArea, ListBox.
          */
-        DropDown(ListModel *listModel = NULL,
-                 ScrollArea *scrollArea = NULL,
-                 ListBox *listBox = NULL);
+        DropDown(ListModel* listModel = nullptr, ScrollArea* scrollArea = nullptr, ListBox* listBox = nullptr);
 
         /**
          * Destructor.

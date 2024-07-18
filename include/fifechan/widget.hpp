@@ -1181,7 +1181,7 @@ namespace fcn
          * @return The widget at the specified coodinate, NULL
          *         if no widget is found.
          */
-        virtual Widget *getWidgetAt(int x, int y, Widget* exclude = NULL);
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr);
 
         /**
          * Gets all widgets inside a certain area of the widget.
@@ -1193,8 +1193,7 @@ namespace fcn
          * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
          */
-        virtual std::list<Widget*> getWidgetsIn(const Rectangle& area,
-                                                Widget* ignore = NULL);
+        virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore = nullptr);
 
         /**
          * Gets the mouse listeners of the widget.

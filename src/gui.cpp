@@ -100,9 +100,9 @@ namespace fcn
     };
 
     Gui::Gui() :
-        mTop(NULL),
-        mGraphics(NULL),
-        mInput(NULL),
+        mTop(nullptr),
+        mGraphics(nullptr),
+        mInput(nullptr),
         mTabbing(true),
         mShiftPressed(false),
         mMetaPressed(false),
@@ -127,10 +127,10 @@ namespace fcn
     Gui::~Gui()
     {
         if (Widget::widgetExists(mTop)) {
-            setTop(NULL);
+            setTop(nullptr);
         }
-        Widget::_setVisibilityEventHandler(NULL);
-        Widget::_setGuiDeathListener(NULL);
+        Widget::_setVisibilityEventHandler(nullptr);
+        Widget::_setGuiDeathListener(nullptr);
 
         delete mFocusHandler;
         delete mVisibilityEventHandler;
@@ -139,10 +139,10 @@ namespace fcn
 
     void Gui::setTop(Widget* top)
     {
-        if (mTop != NULL) {
-            mTop->_setFocusHandler(NULL);
+        if (mTop != nullptr) {
+            mTop->_setFocusHandler(nullptr);
         }
-        if (top != NULL) {
+        if (top != nullptr) {
             top->_setFocusHandler(mFocusHandler);
         }
 
@@ -176,13 +176,14 @@ namespace fcn
 
     void Gui::logic()
     {
-        if (mTop == NULL)
+        if (mTop == nullptr) {
             throw FCN_EXCEPTION("No top widget set");
+        }
 
         handleModalFocus();
         handleModalMouseInputFocus();
 
-        if (mInput != NULL) {
+        if (mInput != nullptr) {
             mInput->_pollInput();
 
             handleKeyInput();
@@ -197,14 +198,17 @@ namespace fcn
 
     void Gui::draw()
     {
-        if (mTop == NULL)
+        if (mTop == nullptr) {
             throw FCN_EXCEPTION("No top widget set");
+        }
 
-        if (mGraphics == NULL)
+        if (mGraphics == nullptr) {
             throw FCN_EXCEPTION("No graphics set");
+        }
 
-        if (!mTop->isVisible())
+        if (!mTop->isVisible()) {
             return;
+        }
 
         mGraphics->_beginDraw();
         mTop->_draw(mGraphics);
@@ -322,8 +326,8 @@ namespace fcn
             mAltPressed     = keyInput.isAltPressed();
 
             KeyEvent keyEventToGlobalKeyListeners(
-                NULL,
-                NULL,
+                nullptr,
+                nullptr,
                 mShiftPressed,
                 mControlPressed,
                 mAltPressed,
@@ -343,7 +347,7 @@ namespace fcn
             bool keyEventConsumed = false;
 
             // Send key inputs to the focused widgets
-            if (mFocusHandler->getFocused() != NULL) {
+            if (mFocusHandler->getFocused() != nullptr) {
                 Widget* source = getKeyEventSource();
                 KeyEvent keyEvent(
                     source,
@@ -356,10 +360,11 @@ namespace fcn
                     keyInput.isNumericPad(),
                     keyInput.getKey());
 
-                if (!mFocusHandler->getFocused()->isFocusable())
+                if (!mFocusHandler->getFocused()->isFocusable()) {
                     mFocusHandler->focusNone();
-                else
+                } else {
                     distributeKeyEvent(keyEvent);
+                }
 
                 keyEventConsumed = keyEvent.isConsumed();
             }
@@ -369,10 +374,11 @@ namespace fcn
             // change focus.
             if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == Key::Tab &&
                 keyInput.getType() == KeyInput::Pressed) {
-                if (keyInput.isShiftPressed())
+                if (keyInput.isShiftPressed()) {
                     mFocusHandler->tabPrevious();
-                else
+                } else {
                     mFocusHandler->tabNext();
+                }
             }
         }
     }
@@ -441,8 +447,8 @@ namespace fcn
                 // If a widget has modal mouse input focus we
                 // only want to send entered events to that widget
                 // and the widget's parents.
-                if ((mFocusHandler->getModalMouseInputFocused() != NULL && widget->isModalMouseInputFocused()) ||
-                    mFocusHandler->getModalMouseInputFocused() == NULL) {
+                if ((mFocusHandler->getModalMouseInputFocused() != nullptr && widget->isModalMouseInputFocused()) ||
+                    mFocusHandler->getModalMouseInputFocused() == nullptr) {
                     distributeMouseEvent(
                         widget,
                         MouseEvent::Entered,
@@ -455,7 +461,7 @@ namespace fcn
             }
         }
 
-        if (mFocusHandler->getDraggedWidget() != NULL) {
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             distributeMouseEvent(
                 mFocusHandler->getDraggedWidget(),
                 MouseEvent::Dragged,
@@ -473,22 +479,25 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             sourceWidget = mFocusHandler->getDraggedWidget();
+        }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
-        if ((mFocusHandler->getModalFocused() != NULL && sourceWidget->isModalFocused()) ||
-            mFocusHandler->getModalFocused() == NULL) {
+        if ((mFocusHandler->getModalFocused() != nullptr && sourceWidget->isModalFocused()) ||
+            mFocusHandler->getModalFocused() == nullptr) {
             sourceWidget->requestFocus();
         }
 
         if (mouseInput.getTimeStamp() - mLastMousePressTimeStamp < 250 &&
-            mLastMousePressButton == mouseInput.getButton())
+            mLastMousePressButton == mouseInput.getButton()) {
             mClickCount++;
-        else
+        } else {
             mClickCount = 1;
+        }
 
         distributeMouseEvent(
             sourceWidget, MouseEvent::Pressed, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
@@ -506,10 +515,12 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             sourceWidget = mFocusHandler->getDraggedWidget();
+        }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
@@ -520,10 +531,12 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             sourceWidget = mFocusHandler->getDraggedWidget();
+        }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
@@ -534,10 +547,12 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             sourceWidget = mFocusHandler->getDraggedWidget();
+        }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
@@ -548,10 +563,12 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
             sourceWidget = mFocusHandler->getDraggedWidget();
+        }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
@@ -562,14 +579,16 @@ namespace fcn
     {
         Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
 
-        if (mFocusHandler->getDraggedWidget() != NULL) {
-            if (sourceWidget != mFocusHandler->getLastWidgetPressed())
-                mFocusHandler->setLastWidgetPressed(NULL);
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            if (sourceWidget != mFocusHandler->getLastWidgetPressed()) {
+                mFocusHandler->setLastWidgetPressed(nullptr);
+            }
 
             sourceWidget = mFocusHandler->getDraggedWidget();
         }
 
-        int sourceWidgetX, sourceWidgetY;
+        int sourceWidgetX;
+        int sourceWidgetY;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
@@ -579,14 +598,15 @@ namespace fcn
             distributeMouseEvent(
                 sourceWidget, MouseEvent::Clicked, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
 
-            mFocusHandler->setLastWidgetPressed(NULL);
+            mFocusHandler->setLastWidgetPressed(nullptr);
         } else {
             mLastMousePressButton = 0;
             mClickCount           = 0;
         }
 
-        if (mFocusHandler->getDraggedWidget() != NULL)
-            mFocusHandler->setDraggedWidget(NULL);
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            mFocusHandler->setDraggedWidget(nullptr);
+        }
     }
 
     Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)
@@ -595,9 +615,10 @@ namespace fcn
         Widget* parent = mTop;
         Widget* child  = mTop;
 
-        while (child != NULL) {
+        while (child != nullptr) {
             Widget* swap = child;
-            int parentX, parentY;
+            int parentX;
+            int parentY;
             parent->getAbsolutePosition(parentX, parentY);
             child  = parent->getWidgetAt(x - parentX, y - parentY, exclude);
             parent = swap;
@@ -612,9 +633,10 @@ namespace fcn
 
         Widget* widget = mTop;
 
-        while (widget != NULL) {
+        while (widget != nullptr) {
             result.insert(widget);
-            int absoluteX, absoluteY;
+            int absoluteX;
+            int absoluteY;
             widget->getAbsolutePosition(absoluteX, absoluteY);
             widget = widget->getWidgetAt(x - absoluteX, y - absoluteY);
         }
@@ -626,8 +648,9 @@ namespace fcn
     {
         Widget* widget = getWidgetAt(x, y);
 
-        if (mFocusHandler->getModalMouseInputFocused() != NULL && !widget->isModalMouseInputFocused())
+        if (mFocusHandler->getModalMouseInputFocused() != nullptr && !widget->isModalMouseInputFocused()) {
             return mFocusHandler->getModalMouseInputFocused();
+        }
 
         return widget;
     }
@@ -636,7 +659,8 @@ namespace fcn
     {
         Widget* widget = mFocusHandler->getFocused();
 
-        while (widget->_getInternalFocusHandler() != NULL && widget->_getInternalFocusHandler()->getFocused() != NULL) {
+        while (widget->_getInternalFocusHandler() != nullptr &&
+               widget->_getInternalFocusHandler()->getFocused() != nullptr) {
             widget = widget->_getInternalFocusHandler()->getFocused();
         }
 
@@ -648,25 +672,29 @@ namespace fcn
         Widget* parent = source;
         Widget* widget = source;
 
-        if (mFocusHandler->getModalFocused() != NULL && !widget->isModalFocused() && !force)
+        if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused() && !force) {
             return;
+        }
 
-        if (mFocusHandler->getModalMouseInputFocused() != NULL && !widget->isModalMouseInputFocused() && !force)
+        if (mFocusHandler->getModalMouseInputFocused() != nullptr && !widget->isModalMouseInputFocused() && !force) {
             return;
+        }
 
         MouseEvent mouseEvent(
             source, source, mShiftPressed, mControlPressed, mAltPressed, mMetaPressed, type, button, x, y, mClickCount);
 
-        while (parent != NULL) {
+        while (parent != nullptr) {
             // If the widget has been removed due to input
             // cancel the distribution.
-            if (!Widget::widgetExists(widget))
+            if (!Widget::widgetExists(widget)) {
                 break;
+            }
 
             parent = widget->getParent();
 
             if (widget->isEnabled() || force) {
-                int widgetX, widgetY;
+                int widgetX;
+                int widgetY;
                 widget->getAbsolutePosition(widgetX, widgetY);
 
                 mouseEvent.mX                            = x - widgetX;
@@ -716,8 +744,9 @@ namespace fcn
                     }
                 }
 
-                if (toSourceOnly)
+                if (toSourceOnly) {
                     break;
+                }
             }
 
             Widget* swap = widget;
@@ -726,14 +755,16 @@ namespace fcn
 
             // If a non modal focused widget has been reach
             // and we have modal focus cancel the distribution.
-            if (mFocusHandler->getModalFocused() != NULL && widget != NULL && !widget->isModalFocused())
+            if (mFocusHandler->getModalFocused() != nullptr && widget != nullptr && !widget->isModalFocused()) {
                 break;
+            }
 
             // If a non modal mouse input focused widget has been reach
             // and we have modal mouse input focus cancel the distribution.
-            if (mFocusHandler->getModalMouseInputFocused() != NULL && widget != NULL &&
-                !widget->isModalMouseInputFocused())
+            if (mFocusHandler->getModalMouseInputFocused() != nullptr && widget != nullptr &&
+                !widget->isModalMouseInputFocused()) {
                 break;
+            }
         }
     }
 
@@ -742,14 +773,16 @@ namespace fcn
         Widget* parent = keyEvent.getSource();
         Widget* widget = keyEvent.getSource();
 
-        if (mFocusHandler->getModalFocused() != NULL && !widget->isModalFocused())
+        if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused()) {
             return;
+        }
 
-        while (parent != NULL) {
+        while (parent != nullptr) {
             // If the widget has been removed due to input
             // cancel the distribution.
-            if (!Widget::widgetExists(widget))
+            if (!Widget::widgetExists(widget)) {
                 break;
+            }
 
             parent = widget->getParent();
 
@@ -778,8 +811,9 @@ namespace fcn
 
             // If a non modal focused widget has been reach
             // and we have modal focus cancel the distribution.
-            if (mFocusHandler->getModalFocused() != NULL && !widget->isModalFocused())
+            if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused()) {
                 break;
+            }
         }
     }
 
@@ -799,8 +833,9 @@ namespace fcn
                 throw FCN_EXCEPTION("Unknown key event type.");
             }
 
-            if (keyEvent.isConsumed())
+            if (keyEvent.isConsumed()) {
                 break;
+            }
         }
     }
 
@@ -808,13 +843,13 @@ namespace fcn
     {
         // Check if modal mouse input focus has been gained by a widget.
         if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
-            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == NULL)) {
+            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == nullptr)) {
             handleModalMouseInputFocusGained();
         }
         // Check if modal mouse input focus has been released.
         else if (
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
-            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != NULL)) {
+            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != nullptr)) {
             handleModalMouseInputFocusReleased();
         }
     }
@@ -823,13 +858,13 @@ namespace fcn
     {
         // Check if modal focus has been gained by a widget.
         if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
-            (mFocusHandler->getLastWidgetWithModalFocus() == NULL)) {
+            (mFocusHandler->getLastWidgetWithModalFocus() == nullptr)) {
             handleModalFocusGained();
         }
         // Check if modal focus has been released.
         else if (
             (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
-            (mFocusHandler->getLastWidgetWithModalFocus() != NULL)) {
+            (mFocusHandler->getLastWidgetWithModalFocus() != nullptr)) {
             handleModalFocusReleased();
         }
     }
@@ -862,7 +897,7 @@ namespace fcn
             distributeMouseEvent(
                 (*iter), MouseEvent::Entered, mLastMousePressButton, mLastMouseX, mLastMouseY, false, true);
         }
-        mFocusHandler->setLastWidgetWithModalFocus(NULL);
+        mFocusHandler->setLastWidgetWithModalFocus(nullptr);
     }
 
     void Gui::handleModalMouseInputFocusGained()
@@ -893,7 +928,7 @@ namespace fcn
             distributeMouseEvent(
                 (*iter), MouseEvent::Entered, mLastMousePressButton, mLastMouseX, mLastMouseY, false, true);
         }
-        mFocusHandler->setLastWidgetWithModalMouseInputFocus(NULL);
+        mFocusHandler->setLastWidgetWithModalMouseInputFocus(nullptr);
     }
 
     void Gui::handleHiddenWidgets()
@@ -905,7 +940,8 @@ namespace fcn
 
             // make sure that the widget wasn't freed after hiding
             if (Widget::widgetExists(hiddenWidget) && hiddenWidget->isEnabled()) {
-                int hiddenWidgetX, hiddenWidgetY;
+                int hiddenWidgetX;
+                int hiddenWidgetY;
                 hiddenWidget->getAbsolutePosition(hiddenWidgetX, hiddenWidgetY);
 
                 Rectangle r(hiddenWidgetX, hiddenWidgetY, hiddenWidget->getWidth(), hiddenWidget->getHeight());
@@ -930,7 +966,8 @@ namespace fcn
             Widget* shownWidget = mShownWidgets.front();
 
             // if the shown widget has the mouse cursor inside it
-            int shownWidgetX, shownWidgetY;
+            int shownWidgetX;
+            int shownWidgetY;
             shownWidget->getAbsolutePosition(shownWidgetX, shownWidgetY);
 
             Rectangle r(shownWidgetX, shownWidgetY, shownWidget->getWidth(), shownWidget->getHeight());

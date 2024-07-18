@@ -116,8 +116,9 @@ namespace fcn
 
     bool Rectangle::isContaining(Rectangle const & other) const
     {
-        if (other.isEmpty())
+        if (other.isEmpty()) {
             return false;
+        }
 
         return other.x >= x && other.y >= y && other.x + other.width <= x + width &&
                other.y + other.height <= y + height;
@@ -130,8 +131,9 @@ namespace fcn
 
     Rectangle Rectangle::operator+(Rectangle const & rh) const
     {
-        if (rh.isEmpty())
+        if (rh.isEmpty()) {
             return Rectangle(x, y, width, height);
+        }
 
         int nx  = x < rh.x ? x : rh.x;
         int ny  = y < rh.y ? y : rh.y;
@@ -142,11 +144,13 @@ namespace fcn
 
     Rectangle const & Rectangle::operator+=(Rectangle const & rh)
     {
-        if (rh.isEmpty())
+        if (rh.isEmpty()) {
             return *(this);
+        }
 
-        if (isEmpty())
+        if (isEmpty()) {
             return rh;
+        }
 
         x      = x < rh.x ? x : rh.x;
         y      = y < rh.y ? y : rh.y;
@@ -162,15 +166,17 @@ namespace fcn
         int nx = x > rh.x ? x : rh.x;
         int ny = y > rh.y ? y : rh.y;
 
-        if (rh.isEmpty() || isEmpty())
+        if (rh.isEmpty() || isEmpty()) {
             return Rectangle(nx, ny, 0, 0);
+        }
 
         int nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
         int ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
         Rectangle result(nx, ny, nx2 - nx, ny2 - ny);
 
-        if (result.isEmpty())
+        if (result.isEmpty()) {
             return Rectangle(nx, ny, 0, 0);
+        }
 
         return result;
     }
