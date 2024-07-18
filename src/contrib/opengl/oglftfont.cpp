@@ -78,7 +78,7 @@ namespace fcn
             mFont = new OGLFT::TranslucentTexture(filename.c_str(), size, 72);
 
             if (mFont == NULL || !mFont->isValid()) {
-                throw FCN_EXCEPTION("Invalid True Type Font.");
+                fcn::throwException(("Invalid True Type Font."), __FUNCTION__, __FILE__, __LINE__);
             }
 
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -120,7 +120,7 @@ namespace fcn
             fcn::OpenGLGraphics* glGraphics = dynamic_cast<fcn::OpenGLGraphics*>(graphics);
 
             if (glGraphics == NULL) {
-                throw FCN_EXCEPTION("Graphics object not an OpenGL graphics object!");
+                fcn::throwException(("Graphics object not an OpenGL graphics object!"), __FUNCTION__, __FILE__, __LINE__);
             }
 
             fcn::ClipRectangle const & top = glGraphics->getCurrentClipArea();

@@ -70,7 +70,7 @@ namespace fcn
         cairo_surface_t* loadedSurface = cairo_image_surface_create_from_png(filename.c_str());
 
         if (loadedSurface == NULL) {
-            throw FCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
+            fcn::throwException((std::string("Unable to load image file: ") + filename), __FUNCTION__, __FILE__, __LINE__);
         }
 
         Image* image = new CairoImage(loadedSurface);

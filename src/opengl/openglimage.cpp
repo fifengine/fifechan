@@ -175,11 +175,11 @@ namespace fcn
     Color OpenGLImage::getPixel(int x, int y)
     {
         if (mPixels == NULL) {
-            throw FCN_EXCEPTION("Image has been converted to display format");
+            fcn::throwException(("Image has been converted to display format"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            throw FCN_EXCEPTION("Coordinates outside of the image");
+            fcn::throwException(("Coordinates outside of the image"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         unsigned int c = mPixels[x + y * mTextureWidth];
@@ -202,11 +202,11 @@ namespace fcn
     void OpenGLImage::putPixel(int x, int y, Color const & color)
     {
         if (mPixels == NULL) {
-            throw FCN_EXCEPTION("Image has been converted to display format");
+            fcn::throwException(("Image has been converted to display format"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            throw FCN_EXCEPTION("Coordinates outside of the image");
+            fcn::throwException(("Coordinates outside of the image"), __FUNCTION__, __FILE__, __LINE__);
         }
 
 #ifdef __BIG_ENDIAN__
@@ -221,7 +221,7 @@ namespace fcn
     void OpenGLImage::convertToDisplayFormat()
     {
         if (mPixels == NULL) {
-            throw FCN_EXCEPTION("Image has already been converted to display format");
+            fcn::throwException(("Image has already been converted to display format"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         glGenTextures(1, &mTextureHandle);
@@ -264,7 +264,7 @@ namespace fcn
                 break;
             }
 
-            throw FCN_EXCEPTION(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
+            fcn::throwException((std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg), __FUNCTION__, __FILE__, __LINE__);
         }
     }
 } // namespace fcn

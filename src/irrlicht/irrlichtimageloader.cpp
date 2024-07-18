@@ -84,7 +84,7 @@ namespace fcn
         irr::video::IImage* image = mDriver->createImageFromFile(filename.c_str());
 
         if (image == NULL) {
-            throw FCN_EXCEPTION(std::string("Unable to load image file: ") + filename);
+            fcn::throwException((std::string("Unable to load image file: ") + filename), __FUNCTION__, __FILE__, __LINE__);
         }
 
         return new IrrlichtImage(image, mDriver, filename, true, convertToDisplayFormat);

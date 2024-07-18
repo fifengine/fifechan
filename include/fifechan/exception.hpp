@@ -67,10 +67,6 @@
 
 #include "fifechan/platform.hpp"
 
-#ifndef __FUNCTION__
-#define __FUNCTION__ "?" // NOLINT
-#endif
-
 namespace fcn
 {
 
@@ -87,7 +83,7 @@ namespace fcn
      * which automatically sets the filename and line number.
      *
      * EXAMPLE: @code
-     *          throw FCN_EXCEPTION("my error message");
+     *          fcn::throwException(("my error message"), __FUNCTION__, __FILE__, __LINE__);
      *          @endcode
      */
     class FCN_CORE_DECLSPEC Exception : public std::runtime_error

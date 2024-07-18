@@ -80,7 +80,7 @@ namespace fcn
             mFont = TTF_OpenFont(filename.c_str(), size);
 
             if (mFont == NULL) {
-                throw FCN_EXCEPTION("SDLTrueTypeFont::SDLTrueTypeFont. " + std::string(TTF_GetError()));
+                fcn::throwException(("SDLTrueTypeFont::SDLTrueTypeFont. " + std::string(TTF_GetError())), __FUNCTION__, __FILE__, __LINE__);
             }
         }
 
@@ -111,7 +111,7 @@ namespace fcn
             fcn::SDLGraphics* sdlGraphics = dynamic_cast<fcn::SDLGraphics*>(graphics);
 
             if (sdlGraphics == NULL) {
-                throw FCN_EXCEPTION("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!");
+                fcn::throwException(("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!"), __FUNCTION__, __FILE__, __LINE__);
                 return;
             }
 

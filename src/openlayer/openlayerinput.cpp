@@ -82,7 +82,7 @@ namespace fcn
     KeyInput OpenLayerInput::dequeueKeyInput()
     {
         if (isKeyQueueEmpty()) {
-            throw FCN_EXCEPTION("Key queue is empty.");
+            fcn::throwException("Key queue is empty.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         KeyInput ki = mKeyQueue.front();
@@ -99,7 +99,8 @@ namespace fcn
     MouseInput OpenLayerInput::dequeueMouseInput()
     {
         if (isMouseQueueEmpty()) {
-            throw FCN_EXCEPTION("Mouse queue is empty.");
+            fcn::throwException("Mouse queue is empty.", __FUNCTION__, __FILE__, __LINE__);
+
         }
 
         MouseInput mi = mMouseQueue.front();

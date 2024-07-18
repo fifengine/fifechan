@@ -114,8 +114,8 @@ namespace fcn
     void IrrlichtGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -123,7 +123,7 @@ namespace fcn
         IrrlichtImage const * srcImage = dynamic_cast<IrrlichtImage const *>(image);
 
         if (srcImage == NULL) {
-            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an IrrlichtImage.");
+            fcn::throwException(("Trying to draw an image of unknown format, must be an IrrlichtImage."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         irr::core::position2d<irr::s32> destPos(dstX + top.xOffset, dstY + top.yOffset);
@@ -137,8 +137,8 @@ namespace fcn
     void IrrlichtGraphics::fillRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -161,8 +161,8 @@ namespace fcn
     void IrrlichtGraphics::drawPoint(int x, int y)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -194,8 +194,8 @@ namespace fcn
     void IrrlichtGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();

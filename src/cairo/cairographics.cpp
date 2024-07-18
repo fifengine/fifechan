@@ -121,7 +121,7 @@ namespace fcn
     {
         CairoImage const * srcImage = dynamic_cast<CairoImage const *>(image);
         if (!srcImage) {
-            throw FCN_EXCEPTION("Passed image reference is null or not of type fcn::CairoImage*.");
+            fcn::throwException(("Passed image reference is null or not of type fcn::CairoImage*."), __FUNCTION__, __FILE__, __LINE__);
         }
         ClipRectangle const & top = mClipStack.top();
 

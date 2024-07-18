@@ -69,7 +69,7 @@ namespace fcn
         mTextRenderer(filename.c_str(), size, size)
     {
         if (!mTextRenderer.IsValid()) {
-            throw FCN_EXCEPTION("Unable to load font.");
+            fcn::throwException(("Unable to load font."), __FUNCTION__, __FILE__, __LINE__);
         }
     }
 
@@ -77,7 +77,7 @@ namespace fcn
         mTextRenderer(filename.c_str(), width, height)
     {
         if (!mTextRenderer.IsValid()) {
-            throw FCN_EXCEPTION("Unable to load font.");
+            fcn::throwException(("Unable to load font."), __FUNCTION__, __FILE__, __LINE__);
         }
     }
 
@@ -99,7 +99,7 @@ namespace fcn
 
         OpenLayerGraphics* const openLayerGraphics = dynamic_cast<fcn::OpenLayerGraphics*>(graphics);
         if (!openLayerGraphics) {
-            throw FCN_EXCEPTION("Graphics is not of type OpenLayerGraphics");
+            fcn::throwException(("Graphics is not of type OpenLayerGraphics"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         mTextRenderer.SetColor(openLayerGraphics->getOpenLayerColor());

@@ -160,12 +160,12 @@ namespace fcn
         DirectX3DImage const * srcImage = dynamic_cast<DirectX3DImage const *>(image);
 
         if (srcImage == NULL) {
-            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be a DirectXImage.");
+            fcn::throwException(("Trying to draw an image of unknown format, must be a DirectXImage."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -206,7 +206,7 @@ namespace fcn
     void DirectX3DGraphics::drawPoint(int x, int y)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
         }
 
@@ -222,8 +222,8 @@ namespace fcn
     void DirectX3DGraphics::drawLine(int x1, int y1, int x2, int y2)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -259,8 +259,8 @@ namespace fcn
     void DirectX3DGraphics::drawRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -310,8 +310,8 @@ namespace fcn
     void DirectX3DGraphics::fillRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?");
+            fcn::throwException(
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();

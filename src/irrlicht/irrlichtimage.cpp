@@ -110,7 +110,7 @@ namespace fcn
             return mImage->getDimension().Width;
         }
 
-        throw FCN_EXCEPTION("Trying to get the width of a non loaded image.");
+        fcn::throwException(("Trying to get the width of a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
     }
 
     int IrrlichtImage::getHeight() const
@@ -121,13 +121,13 @@ namespace fcn
             return mImage->getDimension().Height;
         }
 
-        throw FCN_EXCEPTION("Trying to get the height of a non loaded image.");
+        fcn::throwException(("Trying to get the height of a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
     }
 
     Color IrrlichtImage::getPixel(int x, int y)
     {
         if (mImage == NULL) {
-            throw FCN_EXCEPTION("Image has been converted to display format.");
+            fcn::throwException(("Image has been converted to display format."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         irr::video::SColor color = mImage->getPixel(x, y);
@@ -137,7 +137,7 @@ namespace fcn
     void IrrlichtImage::putPixel(int x, int y, Color const & color)
     {
         if (mImage == NULL) {
-            throw FCN_EXCEPTION("Image has been converted to display format.");
+            fcn::throwException(("Image has been converted to display format."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         mImage->setPixel(x, y, irr::video::SColor(color.a, color.r, color.g, color.b));
@@ -150,7 +150,7 @@ namespace fcn
         }
 
         if (mImage == NULL) {
-            throw FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            fcn::throwException(("Trying to convert a non loaded image to display format."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         bool hasPink = false;
@@ -168,7 +168,7 @@ namespace fcn
         mTexture = mDriver->addTexture(mName.c_str(), mImage);
 
         if (mTexture == NULL) {
-            throw FCN_EXCEPTION("Unable to convert image to display format!");
+            fcn::throwException(("Unable to convert image to display format!"), __FUNCTION__, __FILE__, __LINE__);
         }
 
         if (hasPink == true) {

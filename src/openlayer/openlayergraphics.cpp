@@ -129,7 +129,7 @@ namespace fcn
         OpenLayerImage const * srcImage = dynamic_cast<OpenLayerImage const *>(image);
 
         if (srcImage == NULL) {
-            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an OpenLayerImage.");
+            fcn::throwEXCEPTION("Trying to draw an image of unknown format, must be an OpenLayerImage.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         srcImage->getBitmap()->Blit(dstX - srcX, dstY - srcY, ol::ClippedMode(srcX, srcY, width, height), 1.0f);

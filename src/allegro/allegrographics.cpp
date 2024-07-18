@@ -93,7 +93,7 @@ namespace fcn
     void AllegroGraphics::_beginDraw()
     {
         if (mTarget == NULL) {
-            throw FCN_EXCEPTION("Target BITMAP is null, set it with setTarget first.");
+            fcn::throwEXCEPTION("Target BITMAP is null, set it with setTarget first.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         // push a clip area the size of the target bitmap
@@ -161,9 +161,9 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwEXCEPTION(
                 "Clip stack is empty, perhaps you called a draw funtion "
-                "outside of _beginDraw() and _endDraw()?");
+                "outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         int const xOffset = mClipStack.top().xOffset;
@@ -172,7 +172,7 @@ namespace fcn
         AllegroImage const * srcImage = dynamic_cast<AllegroImage const *>(image);
 
         if (srcImage == NULL) {
-            throw FCN_EXCEPTION("Trying to draw an image of unknown format, must be an AllegroImage.");
+            fcn::throwException(("Trying to draw an image of unknown format, must be an AllegroImage."), __FUNCTION__, __FILE__, __LINE__);
         }
 
         masked_blit(srcImage->getBitmap(), mTarget, srcX, srcY, dstX + xOffset, dstY + yOffset, width, height);
@@ -185,7 +185,7 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion "
                 "outside of _beginDraw() and _endDraw()?");
         }
@@ -203,9 +203,9 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion "
-                "outside of _beginDraw() and _endDraw()?");
+                "outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         int const xOffset = mClipStack.top().xOffset;
@@ -221,9 +221,9 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion "
-                "outside of _beginDraw() and _endDraw()?");
+                "outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         int const xOffset = mClipStack.top().xOffset;
@@ -245,9 +245,9 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            throw FCN_EXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion "
-                "outside of _beginDraw() and _endDraw()?");
+                "outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
         }
 
         int const xOffset = mClipStack.top().xOffset;
