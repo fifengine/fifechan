@@ -97,7 +97,7 @@ namespace fcn
         }
 
         if (toBeFocusedIndex < 0) {
-            fcn::throwException("Trying to focus a none existing widget.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Trying to focus a none existing widget.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         Widget* oldFocused = mFocusedWidget;
@@ -118,7 +118,7 @@ namespace fcn
     void FocusHandler::requestModalFocus(Widget* widget)
     {
         if (mModalFocusedWidget != nullptr && mModalFocusedWidget != widget) {
-            fcn::throwException("Another widget already has modal focus.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Another widget already has modal focus.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mModalFocusedWidget = widget;
@@ -131,7 +131,7 @@ namespace fcn
     void FocusHandler::requestModalMouseInputFocus(Widget* widget)
     {
         if (mModalMouseInputFocusedWidget != nullptr && mModalMouseInputFocusedWidget != widget) {
-            fcn::throwException("Another widget already has modal input focus.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Another widget already has modal input focus.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mModalMouseInputFocusedWidget = widget;

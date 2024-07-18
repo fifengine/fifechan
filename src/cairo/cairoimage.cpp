@@ -79,7 +79,7 @@ namespace fcn
     int CairoImage::getWidth() const
     {
         if (!mCairoSurface) {
-            fcn::throwException(("Trying to get the width of a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to get the width of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         int i = cairo_image_surface_get_width(mCairoSurface);
         return i;
@@ -88,7 +88,7 @@ namespace fcn
     int CairoImage::getHeight() const
     {
         if (!mCairoSurface) {
-            fcn::throwException(("Trying to get the height of a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to get the height of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         int i = cairo_image_surface_get_height(mCairoSurface);
         return i;
@@ -97,7 +97,7 @@ namespace fcn
     void CairoImage::free()
     {
         if (!mCairoSurface) {
-            fcn::throwException(("Trying to free a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to free a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         cairo_surface_destroy(mCairoSurface);
         mCairoSurface = NULL;
@@ -140,7 +140,7 @@ namespace fcn
     Color CairoImage::getPixel(int x, int y)
     {
         if (!mCairoSurface) {
-            fcn::throwException(("Trying to get a pixel from a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to get a pixel from a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int stride                 = cairo_image_surface_get_stride(mCairoSurface);
@@ -148,7 +148,7 @@ namespace fcn
         unsigned char* imagePixels = cairo_image_surface_get_data(mCairoSurface);
         if (!imagePixels) {
             fcn::throwException(
-                "Surface data are not available (surface is not of type cairo_image_surface or has been finished)", __FUNCTION__, __FILE__, __LINE__);
+                "Surface data are not available (surface is not of type cairo_image_surface or has been finished)", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         // deal differently with each surface format
         switch (cairo_image_surface_get_format(mCairoSurface)) {
@@ -171,13 +171,13 @@ namespace fcn
     void CairoImage::putPixel(int x, int y, Color const & color)
     {
         if (!mCairoSurface) {
-            fcn::throwException(("Trying to write a pixel on a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to write a pixel on a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int stride                 = cairo_image_surface_get_stride(mCairoSurface);
         unsigned char* imagePixels = cairo_image_surface_get_data(mCairoSurface);
         if (!imagePixels) {
-            fcn::throwException(("Surface data are not available (surface is not of type Image or has been finished)"), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Surface data are not available (surface is not of type Image or has been finished)"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         // deal differently with each surface format
         switch (cairo_image_surface_get_format(mCairoSurface)) {

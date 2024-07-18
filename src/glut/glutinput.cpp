@@ -79,7 +79,7 @@
 
 //         if (mKeyInputQueue.empty())
 //         {
-//             fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
+//             fcn::throwException("The queue is empty.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
 //         }
 
 //         keyInput = mKeyInputQueue.front();
@@ -99,7 +99,7 @@
 
 //         if (mMouseInputQueue.empty())
 //         {
-//             fcn::throwException("The queue is empty.", __FUNCTION__, __FILE__, __LINE__);
+//             fcn::throwException("The queue is empty.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
 //         }
 
 //         mouseInput = mMouseInputQueue.front();
@@ -309,7 +309,7 @@
 //                 break;
 //         }
 //
-//         fcn::throwException("Unknown GLUT mouse type.", __FUNCTION__, __FILE__, __LINE__);
+//         fcn::throwException("Unknown GLUT mouse type.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
 //
 //         return 0;
 //     }

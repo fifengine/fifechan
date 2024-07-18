@@ -83,7 +83,7 @@ namespace fcn
      * which automatically sets the filename and line number.
      *
      * EXAMPLE: @code
-     *          fcn::throwException(("my error message"), __FUNCTION__, __FILE__, __LINE__);
+     *          fcn::throwException(("my error message"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
      *          @endcode
      */
     class FCN_CORE_DECLSPEC Exception : public std::runtime_error

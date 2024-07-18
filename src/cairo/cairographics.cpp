@@ -70,7 +70,7 @@ namespace fcn
     CairoGraphics::CairoGraphics(cairo_surface_t* TargetSurface, int Width, int Height)
     {
         if (!TargetSurface) {
-            fcn::throwException("Specified reference to target cairo surface is null!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Specified reference to target cairo surface is null!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         mCairoContext  = cairo_create(TargetSurface);
         mTargetSurface = TargetSurface;
@@ -121,7 +121,7 @@ namespace fcn
     {
         CairoImage const * srcImage = dynamic_cast<CairoImage const *>(image);
         if (!srcImage) {
-            fcn::throwException(("Passed image reference is null or not of type fcn::CairoImage*."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Passed image reference is null or not of type fcn::CairoImage*."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
         ClipRectangle const & top = mClipStack.top();
 

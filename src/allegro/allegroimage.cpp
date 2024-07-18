@@ -93,7 +93,7 @@ namespace fcn
     int AllegroImage::getWidth() const
     {
         if (!mBitmap) {
-            fcn::throwException(("Trying to get the width of a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to get the width of a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return mBitmap->w;
@@ -102,7 +102,7 @@ namespace fcn
     int AllegroImage::getHeight() const
     {
         if (!mBitmap) {
-            fcn::throwException("Trying to get the height of a non loaded image.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Trying to get the height of a non loaded image.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return mBitmap->h;
@@ -111,7 +111,7 @@ namespace fcn
     Color AllegroImage::getPixel(int x, int y)
     {
         if (!mBitmap) {
-            fcn::throwException(("Trying to get a pixel from a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to get a pixel from a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int c = getpixel(mBitmap, x, y);
@@ -122,7 +122,7 @@ namespace fcn
     void AllegroImage::putPixel(int x, int y, Color const & color)
     {
         if (!mBitmap) {
-            fcn::throwException(("Trying to put a pixel in a non loaded image."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to put a pixel in a non loaded image."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int c = makeacol_depth(32, color.r, color.g, color.b, color.a);
@@ -133,7 +133,7 @@ namespace fcn
     void AllegroImage::convertToDisplayFormat()
     {
         if (!mBitmap) {
-            fcn::throwException("Trying to convert a non loaded image to display format.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Trying to convert a non loaded image to display format.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         BITMAP* bmp = create_bitmap(mBitmap->w, mBitmap->h);

@@ -75,19 +75,19 @@ namespace fcn
             mKeeper = gk_create_keeper(0, 0);
 
             if (mKeeper == NULL) {
-                fcn::throwException(("Can't create keeper."), __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException(("Can't create keeper."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             mFace = gk_load_face_from_file(filename.c_str(), 0);
 
             if (mFace == NULL) {
-                fcn::throwException(("Can't load font from file."), __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException(("Can't load font from file."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             mRend = gk_create_renderer(mFace, mKeeper);
 
             if (mRend == NULL) {
-                fcn::throwException(("Can't create renderer."), __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException(("Can't create renderer."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             gk_rend_set_hinting_off(mRend);
@@ -143,7 +143,7 @@ namespace fcn
             fcn::AllegroGraphics* const allegroGraphics = dynamic_cast<fcn::AllegroGraphics*>(graphics);
 
             if (!allegroGraphics) {
-                fcn::throwException(("Graphics is not of type AllegroGraphics"), __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException(("Graphics is not of type AllegroGraphics"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             BITMAP* const target = allegroGraphics->getTarget();

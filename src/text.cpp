@@ -135,7 +135,7 @@ namespace fcn
     void Text::setRow(unsigned int row, std::string const & content)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row out of bounds!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Row out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mRows[row] = content;
@@ -146,7 +146,7 @@ namespace fcn
         unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                fcn::throwException("Line feed not allowed in the row to be added!", __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException("Line feed not allowed in the row to be added!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
         }
 
@@ -162,13 +162,13 @@ namespace fcn
                 addRow(row);
                 return;
             }
-            fcn::throwException("Position out of bounds!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Position out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         unsigned int i = 0;
         for (i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
-                fcn::throwException("Line feed not allowed in the row to be inserted!", __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException("Line feed not allowed in the row to be inserted!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
         }
 
@@ -178,7 +178,7 @@ namespace fcn
     void Text::eraseRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row to be erased out of bounds!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Row to be erased out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         mRows.erase(mRows.begin() + row);
@@ -187,7 +187,7 @@ namespace fcn
     std::string& Text::getRow(unsigned int row)
     {
         if (row >= mRows.size()) {
-            fcn::throwException("Row out of bounds!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Row out of bounds!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return mRows[row];

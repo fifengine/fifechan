@@ -142,7 +142,7 @@ namespace fcn
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
         default:
-            fcn::throwException("Unknown alignment.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Unknown alignment.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         graphics->setFont(getFont());

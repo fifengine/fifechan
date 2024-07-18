@@ -119,7 +119,7 @@ namespace fcn
     void TabbedArea::removeTabWithIndex(unsigned int index)
     {
         if (index >= mTabs.size()) {
-            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No such tab index.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         removeTab(mTabs[index].first);
@@ -177,7 +177,7 @@ namespace fcn
     bool TabbedArea::isTabSelected(unsigned int index) const
     {
         if (index >= mTabs.size()) {
-            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No such tab index.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         return mSelectedTab == mTabs[index].first;
@@ -191,7 +191,7 @@ namespace fcn
     void TabbedArea::setSelectedTab(unsigned int index)
     {
         if (index >= mTabs.size()) {
-            fcn::throwException("No such tab index.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No such tab index.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         setSelectedTab(mTabs[index].first);
@@ -509,7 +509,7 @@ namespace fcn
         Tab* tab       = dynamic_cast<Tab*>(source);
 
         if (tab == NULL) {
-            fcn::throwException("Received an action from a widget that's not a tab!", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Received an action from a widget that's not a tab!", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         setSelectedTab(tab);

@@ -183,7 +183,7 @@ namespace fcn
     void Gui::logic()
     {
         if (mTop == nullptr) {
-            fcn::throwException("No top widget set", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No top widget set", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         handleModalFocus();
@@ -205,11 +205,11 @@ namespace fcn
     void Gui::draw()
     {
         if (mTop == nullptr) {
-            fcn::throwException("No top widget set", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No top widget set", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         if (mGraphics == nullptr) {
-            fcn::throwException("No graphics set", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("No graphics set", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         if (!mTop->isVisible()) {
@@ -307,7 +307,7 @@ namespace fcn
                 handleMouseWheelMovedLeft(mouseInput);
                 break;
             default:
-                fcn::throwException("Unknown mouse input type.", __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException("Unknown mouse input type.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
                 break;
             }
 
@@ -745,7 +745,7 @@ namespace fcn
                         mouseListener->mouseClicked(mouseEvent);
                         break;
                     default:
-                        fcn::throwException("Unknown mouse event type.", __FUNCTION__, __FILE__, __LINE__);
+                        fcn::throwException("Unknown mouse event type.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
                     }
                 }
 
@@ -805,7 +805,7 @@ namespace fcn
                         keyListener->keyReleased(keyEvent);
                         break;
                     default:
-                        fcn::throwException("Unknown key event type.", __FUNCTION__, __FILE__, __LINE__);
+                        fcn::throwException("Unknown key event type.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
                     }
                 }
             }
@@ -835,7 +835,7 @@ namespace fcn
                 (*it)->keyReleased(keyEvent);
                 break;
             default:
-                fcn::throwException("Unknown key event type.", __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException("Unknown key event type.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             if (keyEvent.isConsumed()) {

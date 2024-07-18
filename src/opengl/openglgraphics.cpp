@@ -185,12 +185,12 @@ namespace fcn
         OpenGLImage const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
         if (srcImage == NULL) {
-            fcn::throwException(("Trying to draw an image of unknown format, must be an OpenGLImage."), __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException(("Trying to draw an image of unknown format, must be an OpenGLImage."), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -239,7 +239,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -256,7 +256,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -284,7 +284,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -301,7 +301,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", __FUNCTION__, __FILE__, __LINE__);
+                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         ClipRectangle const & top = mClipStack.top();

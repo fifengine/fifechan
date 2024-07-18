@@ -343,11 +343,11 @@ namespace fcn
     void DropDown::adjustHeight()
     {
         if (mScrollArea == NULL) {
-            fcn::throwException("Scroll area has been deleted.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("Scroll area has been deleted.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         if (mListBox == NULL) {
-            fcn::throwException("List box has been deleted.", __FUNCTION__, __FILE__, __LINE__);
+            fcn::throwException("List box has been deleted.", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
         }
 
         int listBoxHeight = mListBox->getHeight();

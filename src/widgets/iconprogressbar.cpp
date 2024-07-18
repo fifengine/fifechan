@@ -144,7 +144,7 @@ namespace fcn
     {
         if (mOrientation != orientation) {
             if (orientation != HORIZONTAL && orientation != VERTICAL) {
-                fcn::throwException("Unknown orientation type in IconProgressBar object", __FUNCTION__, __FILE__, __LINE__);
+                fcn::throwException("Unknown orientation type in IconProgressBar object", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
                 return;
             }
             mOrientation = orientation;
