@@ -93,10 +93,6 @@ namespace fcn
         /**
          * Constructor.
          *
-         * NOTE: Don't use this constructor. Use the FCN_EXCEPTION macro instead.
-         *       This constructor merely exists for the FCN_EXCEPTION macro to
-         *       use.
-         *
          * @param message The error message of the exception.
          * @param function The function name where the exception occured.
          * @param filename The name of the file where the exception occured.

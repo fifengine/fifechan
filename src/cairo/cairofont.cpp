@@ -81,7 +81,7 @@ namespace fcn
     {
         CairoGraphics* gr = dynamic_cast<CairoGraphics*>(graphics);
         if (gr == NULL) {
-            FCN_EXCEPTION("The graphics object passed as parameter is not of type CairoGraphics");
+             fcn::throwException("The graphics object passed as parameter is not of type CairoGraphics", __FUNCTION__, __FILE__, __LINE__);
         }
         cairo_t* target = gr->GetContext();
         ClipRectangle r = gr->getCurrentClipArea();

@@ -70,7 +70,7 @@ namespace fcn
     CairoGraphics::CairoGraphics(cairo_surface_t* TargetSurface, int Width, int Height)
     {
         if (!TargetSurface) {
-            FCN_EXCEPTION("Specified reference to target cairo surface is null!");
+            fcn::throwException("Specified reference to target cairo surface is null!", __FUNCTION__, __FILE__, __LINE__);
         }
         mCairoContext  = cairo_create(TargetSurface);
         mTargetSurface = TargetSurface;

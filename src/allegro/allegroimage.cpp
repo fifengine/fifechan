@@ -102,7 +102,7 @@ namespace fcn
     int AllegroImage::getHeight() const
     {
         if (!mBitmap) {
-            FCN_EXCEPTION("Trying to get the height of a non loaded image.");
+            fcn::throwException("Trying to get the height of a non loaded image.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         return mBitmap->h;
@@ -133,7 +133,7 @@ namespace fcn
     void AllegroImage::convertToDisplayFormat()
     {
         if (!mBitmap) {
-            FCN_EXCEPTION("Trying to convert a non loaded image to display format.");
+            fcn::throwException("Trying to convert a non loaded image to display format.", __FUNCTION__, __FILE__, __LINE__);
         }
 
         BITMAP* bmp = create_bitmap(mBitmap->w, mBitmap->h);
