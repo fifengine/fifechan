@@ -173,22 +173,23 @@ else(BUILD_FIFECHAN_SHARED)
 endif(BUILD_FIFECHAN_SHARED)
 
 add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE}
-	${FIFECHAN_HEADER}
-	${FIFECHAN_HEADERS}
-	${FIFECHAN_WIDGET_HEADERS}
-	${FIFECHAN_UTIL_HEADERS}
-	${FIFECHAN_SRC}
-	${FIFECHAN_WIDGET_SRC}
+    ${FIFECHAN_HEADER}
+    ${FIFECHAN_HEADERS}
+    ${FIFECHAN_WIDGET_HEADERS}
+    ${FIFECHAN_UTIL_HEADERS}
+    ${FIFECHAN_SRC}
+    ${FIFECHAN_WIDGET_SRC}
 )
 
 add_custom_target(lib DEPENDS ${PROJECT_NAME}) # Create symlink
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-  VERSION                 ${FIFECHAN_VERSION}
-  SOVERSION               ${FIFECHAN_VERSION}
-  CLEAN_DIRECT_OUTPUT     1                             # Allow creating static and shared libraries without conflict
-  OUTPUT_NAME             ${PROJECT_NAME}               # Avoid conflicts between library and binary target names
-  COMPILE_DEFINITIONS     "FIFECHAN_BUILD"
+  VERSION                ${FIFECHAN_VERSION}
+  SOVERSION              ${FIFECHAN_VERSION}
+  CLEAN_DIRECT_OUTPUT    1                             # Allow creating static and shared libraries without conflict
+  OUTPUT_NAME            ${PROJECT_NAME}               # Avoid conflicts between library and binary target names
+  COMPILE_DEFINITIONS    "FIFECHAN_BUILD"
+  CXX_STANDARD           17
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -244,11 +245,12 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   add_custom_target(allegrolib DEPENDS ${PROJECT_NAME}_allegro) # Create symlink
 
   set_target_properties(${PROJECT_NAME}_allegro PROPERTIES
-    VERSION                   ${FIFECHAN_VERSION}
-    SOVERSION                 ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT       1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME               ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS       "FIFECHAN_EXTENSION_BUILD"
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    CXX_STANDARD           17
   )
 
   install(TARGETS ${PROJECT_NAME}_allegro DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -298,11 +300,12 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
   add_custom_target(irrlichtlib DEPENDS ${PROJECT_NAME}_irrlicht) # Create symlink
 
   set_target_properties(${PROJECT_NAME}_irrlicht PROPERTIES
-    VERSION                  ${FIFECHAN_VERSION}
-    SOVERSION                ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT      1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME              ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS      "FIFECHAN_EXTENSION_BUILD"
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    CXX_STANDARD           17
   )
 
   install(TARGETS ${PROJECT_NAME}_irrlicht DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -363,11 +366,11 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
 
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE}
 
-	${FIFECHAN_OPENGL_HEADER}
-	${FIFECHAN_OPENGL_HEADERS}
-	${FIFECHAN_OPENGL_CONTRIB_HEADERS}
-	${FIFECHAN_OPENGL_SRC}
-	${FIFECHAN_OPENGL_CONTRIB_SRC})
+    ${FIFECHAN_OPENGL_HEADER}
+    ${FIFECHAN_OPENGL_HEADERS}
+    ${FIFECHAN_OPENGL_CONTRIB_HEADERS}
+    ${FIFECHAN_OPENGL_SRC}
+    ${FIFECHAN_OPENGL_CONTRIB_SRC})
 
   if(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
     target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
@@ -378,11 +381,12 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
   add_custom_target(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
 
   set_target_properties(${PROJECT_NAME}_opengl PROPERTIES
-    VERSION                 ${FIFECHAN_VERSION}
-    SOVERSION               ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME             ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    CXX_STANDARD           17
   )
 
   install(TARGETS ${PROJECT_NAME}_opengl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -442,11 +446,11 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   endif(BUILD_FIFECHAN_SDL_SHARED)
 
   add_library(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE}
-  	${FIFECHAN_SDL_HEADER}
-  	${FIFECHAN_SDL_HEADERS}
-  	${FIFECHAN_SDL_CONTRIB_HEADERS}
-  	${FIFECHAN_SDL_SRC}
-  	${FIFECHAN_CONTRIB_SRC}
+    ${FIFECHAN_SDL_HEADER}
+    ${FIFECHAN_SDL_HEADERS}
+    ${FIFECHAN_SDL_CONTRIB_HEADERS}
+    ${FIFECHAN_SDL_SRC}
+    ${FIFECHAN_CONTRIB_SRC}
   )
 
   if(WIN32)
@@ -464,11 +468,12 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   add_custom_target(sdllib DEPENDS ${PROJECT_NAME}_sdl) # Create symlink
 
   set_target_properties(${PROJECT_NAME}_sdl PROPERTIES
-    VERSION                 ${FIFECHAN_VERSION}
-    SOVERSION               ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME             ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    CXX_STANDARD           17
   )
 
   install(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
