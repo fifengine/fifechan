@@ -9,6 +9,5 @@ VERSION=$("$CLANG_FORMAT" --version)
 # Scan the top-level directory and subdirectories for .h and .cpp files
 # first convert line endings to Unix format
 # then apply clang-format
-find . -type f \( -name "*.h" -o -name "*.cpp" \) -exec dos2unix {} \;
+#find . -type f \( -name "*.h" -o -name "*.cpp" \) -exec dos2unix {} \;
 find . -type f \( -name "*.h" -o -name "*.cpp" \) -print0 | xargs -0 $CLANG_FORMAT -i -style=file
-
