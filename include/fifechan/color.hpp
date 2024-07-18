@@ -114,7 +114,6 @@ namespace fcn
          * @return The added colors with an alpha value set to 255.
          */
         Color operator+(Color const & color) const;
-        Color operator+(int value) const;
 
         /**
          * Subtracts the RGB values of one color from another.
@@ -127,7 +126,6 @@ namespace fcn
          * @return The subtracted colors with an alpha value set to 255.
          */
         Color operator-(Color const & color) const;
-        Color operator-(int value) const;
 
         /**
          * Multiplies the RGB values of a color with a float value.
