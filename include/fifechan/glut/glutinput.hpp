@@ -153,7 +153,6 @@
 //          */
 //         virtual void _pollInput() { }
 
-
 //         // Inherited from Input
 
 //         virtual bool isKeyQueueEmpty();

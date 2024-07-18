@@ -75,7 +75,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC ClipRectangle : public Rectangle
     {
     public:
-
         /**
          * Constructor.
          */
@@ -95,12 +94,7 @@ namespace fcn
          *                calculating the actual screen coordinate from
          *                the relative screen coordinate.
          */
-        ClipRectangle(int x,
-                      int y,
-                      int width,
-                      int height,
-                      int xOffset,
-                      int yOffset);
+        ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset);
 
         /**
          * Copy constructor. Copies x, y, width and height
@@ -109,7 +103,7 @@ namespace fcn
          * @param other The rectangle to copy data from.
          * @returns A clip rectangle with data copyied from a rectangle.
          */
-        ClipRectangle& operator=(const Rectangle& other);
+        ClipRectangle& operator=(Rectangle const & other);
 
         /**
          * Holds the x offset of the x coordinate.
@@ -121,6 +115,6 @@ namespace fcn
          */
         int yOffset;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_CLIPRECTANGLE_HPP

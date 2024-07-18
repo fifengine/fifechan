@@ -102,8 +102,7 @@ namespace fcn
          *
          * @return the HGE sprite of the image.
          */
-        virtual hgeSprite *getSprite() const;
-
+        virtual hgeSprite* getSprite() const;
 
         // Inherited from Image
 
@@ -115,16 +114,16 @@ namespace fcn
 
         virtual Color getPixel(int x, int y);
 
-        virtual void putPixel(int x, int y, const Color &color);
+        virtual void putPixel(int x, int y, Color const & color);
 
         virtual void convertToDisplayFormat();
 
     protected:
-        static HGE *mHGE;
+        static HGE* mHGE;
         bool mAutoFree;
-        hgeSprite *mHGESprite;
+        hgeSprite* mHGESprite;
         HTEXTURE mTexture;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_HGEIMAGE_HPP

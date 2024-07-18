@@ -94,7 +94,7 @@ namespace fcn
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
-            AllegroGlyphKeeperFont(const std::string& filename, int size);
+            AllegroGlyphKeeperFont(std::string const & filename, int size);
 
             /**
              * Constructor.
@@ -103,28 +103,27 @@ namespace fcn
              * @param width the width the font should be in.
              * @param height the height the font should be in.
              */
-            AllegroGlyphKeeperFont(const std::string& filename, int width, int height);
+            AllegroGlyphKeeperFont(std::string const & filename, int width, int height);
 
             /**
              * Destructor.
              */
             ~AllegroGlyphKeeperFont();
 
-
             // Inherited from Font
 
-            virtual int getWidth(const std::string& text) const;
+            virtual int getWidth(std::string const & text) const;
 
             virtual int getHeight() const;
 
-            virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+            virtual void drawString(Graphics* graphics, std::string const & text, int x, int y);
 
         protected:
-            void load(const std::string& filename, int w, int h);
+            void load(std::string const & filename, int w, int h);
             GLYPH_FACE* mFace;
             GLYPH_REND* mRend;
             GLYPH_KEEP* mKeeper;
         };
-    }
-}
+    } // namespace contrib
+} // namespace fcn
 #endif

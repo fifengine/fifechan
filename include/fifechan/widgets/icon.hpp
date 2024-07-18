@@ -70,7 +70,7 @@ namespace fcn
     /**
      * Implements an icon capable of displaying an image.
      */
-    class FCN_CORE_DECLSPEC Icon: public Widget
+    class FCN_CORE_DECLSPEC Icon : public Widget
     {
     public:
         /**
@@ -83,14 +83,14 @@ namespace fcn
          *
          * @param filename The filename of the image to display.
          */
-        Icon(const std::string& filename);
+        Icon(std::string const & filename);
 
         /**
          * Constructor.
          *
          * @param image The image to display.
          */
-        Icon(const Image* image);
+        Icon(Image const * image);
 
         /**
          * Descructor.
@@ -103,7 +103,7 @@ namespace fcn
          *
          * @param image The image to display.
          */
-        void setImage(const std::string& filename);
+        void setImage(std::string const & filename);
 
         /**
          * Sets the image to display. Existing image is freed automatically
@@ -111,14 +111,14 @@ namespace fcn
          *
          * @param image The image to display.
          */
-        void setImage(const Image* image);
+        void setImage(Image const * image);
 
         /**
          * Gets the current image.
          *
          * @return The current image.
          */
-        const Image* getImage() const;
+        Image const * getImage() const;
 
         /**
          * Sets if the image should be scaled to widget size.
@@ -160,10 +160,9 @@ namespace fcn
          */
         bool isOpaque() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
@@ -171,7 +170,7 @@ namespace fcn
         /**
          * The image to display.
          */
-        const Image* mImage;
+        Image const * mImage;
 
         /**
          * True if the image has been loaded internally, false otherwise.
@@ -189,6 +188,6 @@ namespace fcn
         // True if opaque, otherwise false.
         bool mOpaque;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ICON_HPP

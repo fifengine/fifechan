@@ -79,9 +79,9 @@ namespace fcn
      * If a radio button's state changes an action event will be sent to all action
      * listeners of the radio button.
      */
-    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox {
+    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox
+    {
     public:
-
         /**
          * Constructor.
          */
@@ -95,9 +95,7 @@ namespace fcn
          * @param group The group the radio button should belong to.
          * @param selected True if the radio button should be selected.
          */
-        RadioButton(const std::string &caption,
-                    const std::string &group,
-                    bool selected = false);
+        RadioButton(std::string const & caption, std::string const & group, bool selected = false);
 
         /**
          * Destructor.
@@ -112,7 +110,7 @@ namespace fcn
          * @param group The name of the group.
          * @see getGroup
          */
-        void setGroup(const std::string &group);
+        void setGroup(std::string const & group);
 
         /**
          * Gets the group the radio button belongs to.
@@ -120,17 +118,14 @@ namespace fcn
          * @return The group the radio button belongs to.
          * @see setGroup
          */
-        const std::string &getGroup() const;
-
+        std::string const & getGroup() const;
 
         // Inherited from CheckBox
 
         virtual void setSelected(bool selected);
         virtual void toggleSelected();
 
-
     protected:
-
         /**
          * Holds the group of the radio button.
          */
@@ -139,7 +134,7 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::multimap<std::string, RadioButton *> GroupMap;
+        typedef std::multimap<std::string, RadioButton*> GroupMap;
 
         /**
          * Typdef.
@@ -151,6 +146,6 @@ namespace fcn
          */
         static GroupMap mGroupMap;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_RADIOBUTTON_HPP

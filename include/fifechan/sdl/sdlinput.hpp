@@ -80,7 +80,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC SDLInput : public Input
     {
     public:
-
         /**
          * Constructor.
          */
@@ -100,7 +99,6 @@ namespace fcn
          * function as it in the SDL case does nothing.
          */
         virtual void _pollInput() { }
-
 
         // Inherited from Input
 
@@ -137,6 +135,6 @@ namespace fcn
         bool mMouseDown;
         bool mMouseInWindow;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SDLINPUT_HPP

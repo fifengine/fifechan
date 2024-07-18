@@ -76,7 +76,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Font
     {
     public:
-
         /**
          * Destructor.
          */
@@ -89,7 +88,7 @@ namespace fcn
          * @param text The string to return the width of.
          * @return The width of a string.
          */
-        virtual int getWidth(const std::string& text) const = 0;
+        virtual int getWidth(std::string const & text) const = 0;
 
         /**
          * Gets the height of the glyphs in the font.
@@ -107,7 +106,7 @@ namespace fcn
          *
          * @return A string index in a string providing an x coordinate.
          */
-        virtual int getStringIndexAt(const std::string& text, int x) const;
+        virtual int getStringIndexAt(std::string const & text, int x) const;
 
         /**
          * Draws a string.
@@ -120,9 +119,8 @@ namespace fcn
          * @param x The x coordinate where to draw the string.
          * @param y The y coordinate where to draw the string.
          */
-        virtual void drawString(Graphics* graphics, const std::string& text,
-                                int x, int y) = 0;
+        virtual void drawString(Graphics* graphics, std::string const & text, int x, int y) = 0;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_FONT_HPP

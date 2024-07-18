@@ -76,7 +76,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC FocusListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -87,14 +86,14 @@ namespace fcn
          *
          * @param event Discribes the event.
          */
-        virtual void focusGained(const Event& event) { };
+        virtual void focusGained(Event const & event){};
 
         /**
          * Called when a widget loses focus.
          *
          * @param event Discribes the event.
          */
-        virtual void focusLost(const Event& event) { };
+        virtual void focusLost(Event const & event){};
 
     protected:
         /**
@@ -105,6 +104,6 @@ namespace fcn
          */
         FocusListener() { }
     };
-}
+} // namespace fcn
 
 #endif // end FCN_FOCUSLISTENER_HPP

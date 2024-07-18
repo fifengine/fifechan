@@ -77,12 +77,9 @@ namespace fcn
      *
      * @see TabbedArea
      */
-    class FCN_CORE_DECLSPEC Tab:
-        public MouseListener,
-        public Container
+    class FCN_CORE_DECLSPEC Tab : public MouseListener, public Container
     {
     public:
-
         /**
          * Constructor.
          */
@@ -119,8 +116,7 @@ namespace fcn
 
         virtual Rectangle getChildrenArea();
 
-        virtual void draw(Graphics *graphics);
-
+        virtual void draw(Graphics* graphics);
 
         // Inherited from MouseListener
 
@@ -139,6 +135,6 @@ namespace fcn
          */
         TabbedArea* mTabbedArea;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_TABBEDAREA_HPP

@@ -89,7 +89,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Image
     {
     public:
-
         /**
          * Constructor.
          */
@@ -112,7 +111,7 @@ namespace fcn
          * @param convertToDisplayFormat True if the image should be converted
          *                               to display, false otherwise.
          */
-        static Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+        static Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
         /**
          * Gets the image loader used for loading images.
@@ -179,7 +178,7 @@ namespace fcn
          * @param y The y coordinate.
          * @param color The color of the pixel to put.
          */
-        virtual void putPixel(int x, int y, const Color& color) = 0;
+        virtual void putPixel(int x, int y, Color const & color) = 0;
 
         /**
          * Converts the image, if possible, to display format.
@@ -195,6 +194,6 @@ namespace fcn
          */
         static ImageLoader* mImageLoader;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IMAGE_HPP

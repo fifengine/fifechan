@@ -62,7 +62,7 @@
 #define FCN_OPENLAYERFONT_HPP
 
 #include <OpenLayer.hpp>
-#if defined (DELETE)
+#if defined(DELETE)
 #undef DELETE
 #endif
 #include "fifechan/font.hpp"
@@ -77,14 +77,13 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
     {
     public:
-
         /**
          * Constructor. The font loaded with this constructor will be freed in the destructor.
          *
          * @param filename The filename of the font to load.
          * @param size The size of the font.
          */
-        OpenLayerTTFont(const std::string& filename, int size);
+        OpenLayerTTFont(std::string const & filename, int size);
 
         /**
          * Constructor. The font loaded with this constructor will be freed in the destructor.
@@ -93,25 +92,24 @@ namespace fcn
          * @param width The width of the font.
          * @param height The height of the font.
          */
-        OpenLayerTTFont(const std::string& filename, int width, int height);
+        OpenLayerTTFont(std::string const & filename, int width, int height);
 
         /**
          * Destructor.
          */
         ~OpenLayerTTFont();
 
-
         // Inherited from Font
 
-        virtual int getWidth(const std::string& text) const;
+        virtual int getWidth(std::string const & text) const;
 
         virtual int getHeight() const;
 
-        virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(Graphics* graphics, std::string const & text, int x, int y);
 
     protected:
         ol::TextRenderer mTextRenderer;
     };
-}
+} // namespace fcn
 
 #endif // FCN_OPENLAYERFONT_HPP

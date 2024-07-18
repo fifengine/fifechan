@@ -81,11 +81,7 @@ namespace fcn
      * selecting a tab.
      *
      */
-    class FCN_CORE_DECLSPEC TabbedArea:
-        public ActionListener,
-        public KeyListener,
-        public MouseListener,
-        public Widget
+    class FCN_CORE_DECLSPEC TabbedArea : public ActionListener, public KeyListener, public MouseListener, public Widget
     {
         friend class Tab;
 
@@ -209,9 +205,9 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
 
-        virtual void expandContent(bool recursiv=true);
+        virtual void expandContent(bool recursiv = true);
 
         /**
          * Adjusts the size of the tab container and the widget container.
@@ -220,7 +216,7 @@ namespace fcn
 
         virtual Rectangle getChildrenArea();
 
-        virtual void draw(Graphics *graphics);
+        virtual void draw(Graphics* graphics);
 
         void setWidth(int width);
 
@@ -228,9 +224,9 @@ namespace fcn
 
         void setSize(int width, int height);
 
-        void setDimension(const Rectangle& dimension);
+        void setDimension(Rectangle const & dimension);
 
-        void setBaseColor(const Color& color);
+        void setBaseColor(Color const & color);
 
         void setBackgroundWidget(Widget* widget);
         Widget* getBackgroundWidget();
@@ -304,26 +300,21 @@ namespace fcn
          */
         virtual unsigned int getHorizontalSpacing() const;
 
-
         // Inherited from ActionListener
 
-        void action(const ActionEvent& actionEvent);
-
+        void action(ActionEvent const & actionEvent);
 
         // Inherited from DeathListener
 
-        virtual void death(const Event& event);
-
+        virtual void death(Event const & event);
 
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
 
-
         // Inherited from MouseListener
 
         virtual void mousePressed(MouseEvent& mouseEvent);
-
 
     protected:
         /**
@@ -357,13 +348,13 @@ namespace fcn
          * A map between a tab and a widget to display when the
          * tab is selected.
          */
-        std::vector<std::pair<Tab*, Widget*> > mTabs;
+        std::vector<std::pair<Tab*, Widget*>> mTabs;
 
         /**
          * True if the tabbed area is opaque, false otherwise.
          */
         bool mOpaque;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_TABBEDAREA_HPP

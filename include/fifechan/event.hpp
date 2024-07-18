@@ -73,7 +73,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Event
     {
     public:
-
         /**
          * Constructor.
          *
@@ -94,14 +93,12 @@ namespace fcn
          */
         Widget* getSource() const;
 
-
     protected:
-
         /**
          * Holds the source widget of the event.
          */
         Widget* mSource;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_EVENT_HPP

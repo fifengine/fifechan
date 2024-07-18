@@ -62,7 +62,7 @@
 #define FCN_OPENLAYERIMAGE_HPP
 
 #include <OpenLayer.hpp>
-#if defined (DELETE)
+#if defined(DELETE)
 #undef DELETE
 #endif
 #include <string>
@@ -79,7 +79,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC OpenLayerImage : public Image
     {
     public:
-
         /**
          * Constructor. Load an image from an Allegro BITMAP.
          *
@@ -100,7 +99,6 @@ namespace fcn
          */
         virtual ol::Bitmap* getBitmap() const;
 
-
         // Inherited from Image
 
         virtual void free();
@@ -111,7 +109,7 @@ namespace fcn
 
         virtual Color getPixel(int x, int y);
 
-        virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, Color const & color);
 
         virtual void convertToDisplayFormat();
 
@@ -120,6 +118,6 @@ namespace fcn
         BITMAP* mAllegroBitmap;
         bool mAutoFree;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_OPENLAYERIMAGE_HPP

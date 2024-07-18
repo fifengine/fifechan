@@ -99,7 +99,6 @@ namespace fcn
          */
         virtual BITMAP* getBitmap() const;
 
-
         // Inherited from Image
 
         virtual void free();
@@ -110,7 +109,7 @@ namespace fcn
 
         virtual Color getPixel(int x, int y);
 
-        virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, Color const & color);
 
         virtual void convertToDisplayFormat();
 
@@ -118,6 +117,6 @@ namespace fcn
         BITMAP* mBitmap;
         bool mAutoFree;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ALLEGROIMAGE_HPP

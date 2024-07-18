@@ -72,10 +72,9 @@ namespace fcn
     /**
      * Represents a mouse event.
      */
-    class FCN_CORE_DECLSPEC MouseEvent: public InputEvent
+    class FCN_CORE_DECLSPEC MouseEvent : public InputEvent
     {
     public:
-
         /**
          * Constructor.
          *
@@ -92,17 +91,18 @@ namespace fcn
          * @param clickCount The number of clicks generated with the same button.
          *                   It's set to zero if another button is used.
          */
-        MouseEvent(Widget* source,
-                   Widget* distributor,
-                   bool isShiftPressed,
-                   bool isControlPressed,
-                   bool isAltPressed,
-                   bool isMetaPressed,
-                   unsigned int type,
-                   unsigned int button,
-                   int x,
-                   int y,
-                   int clickCount);
+        MouseEvent(
+            Widget* source,
+            Widget* distributor,
+            bool isShiftPressed,
+            bool isControlPressed,
+            bool isAltPressed,
+            bool isMetaPressed,
+            unsigned int type,
+            unsigned int button,
+            int x,
+            int y,
+            int clickCount);
 
         /**
          * Gets the button of the mouse event.
@@ -215,6 +215,6 @@ namespace fcn
          */
         friend class Gui;
     };
-}
+} // namespace fcn
 
 #endif // FCN_MOUSEEVENT_HPP

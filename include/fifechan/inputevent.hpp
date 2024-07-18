@@ -69,10 +69,9 @@ namespace fcn
     /**
      * Base class for all events concerning input.
      */
-    class FCN_CORE_DECLSPEC InputEvent: public Event
+    class FCN_CORE_DECLSPEC InputEvent : public Event
     {
     public:
-
         /**
          * Constructor.
          *
@@ -83,12 +82,13 @@ namespace fcn
          * @param isAltPressed True if alt is pressed, false otherwise.
          * @param isMetaPressed True if meta is pressed, false otherwise.
          */
-        InputEvent(Widget* source,
-                   Widget* distributor,
-                   bool isShiftPressed,
-                   bool isControlPressed,
-                   bool isAltPressed,
-                   bool isMetaPressed);
+        InputEvent(
+            Widget* source,
+            Widget* distributor,
+            bool isShiftPressed,
+            bool isControlPressed,
+            bool isAltPressed,
+            bool isMetaPressed);
 
         /**
          * Checks if shift is pressed.
@@ -192,6 +192,6 @@ namespace fcn
          */
         friend class Gui;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_INPUTEVENT_HPP

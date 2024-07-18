@@ -19,7 +19,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef FCN_FLOWCONTAINER_HPP
 #define FCN_FLOWCONTAINER_HPP
 
@@ -33,14 +32,16 @@ namespace fcn
      * The widgets can be sorted vertical per row or horizontal per column. If the space in the container
      * is too small to put all the components in one row or column, it uses multiple rows or columns.
      */
-    class FCN_CORE_DECLSPEC FlowContainer : public Container {
+    class FCN_CORE_DECLSPEC FlowContainer : public Container
+    {
     public:
         /**
          * Alignments for widgets. Useful if widgets with different sizes
          * are in the same row or column. For horizontal layout top, center
          * and bottom can be used, for vertical left, center and right.
          */
-        enum Alignment {
+        enum Alignment
+        {
             Left = 0,
             Right,
             Top,
@@ -81,16 +82,15 @@ namespace fcn
          */
         virtual void adjustContent();
 
-
         // Inherited from Container
 
         virtual void setLayout(Container::LayoutPolicy policy);
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void expandContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
+        virtual void expandContent(bool recursiv = true);
 
     protected:
         Alignment mAlignment;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_FLOWCONTAINER_HPP

@@ -63,7 +63,7 @@
 
 #include <stdexcept>
 #include <string>
-#include <utility>  // For std::move
+#include <utility> // For std::move
 
 #include "fifechan/platform.hpp"
 
@@ -89,7 +89,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Exception : public std::runtime_error
     {
     public:
-
         /**
          * Constructor.
          *
@@ -106,28 +105,28 @@ namespace fcn
          *
          * @return const char* A pointer to a null-terminated string with a description of the exception.
          */
-        const char* what() const noexcept override;
+        char const * what() const noexcept override;
 
         /**
          * Gets the function name where the exception occured.
          *
          * @return The function name where the exception occured.
          */
-        const std::string& getFunction() const;
+        std::string const & getFunction() const;
 
         /**
          * Gets the error message of the exception.
          *
          * @return The error message of the exception.
          */
-        const std::string& getMessage() const;
+        std::string const & getMessage() const;
 
         /**
          * Gets the filename where the exception occured.
          *
          * @return The filename where the exception occured.
          */
-        const std::string& getFilename() const;
+        std::string const & getFilename() const;
 
         /**
          * Gets the line number where the exception occured.
@@ -158,9 +157,11 @@ namespace fcn
         unsigned int mLine;
     };
 
-    inline void throwException(const std::string& message, const std::string& function, const std::string& filename, unsigned int line) {
+    inline void throwException(
+        std::string const & message, std::string const & function, std::string const & filename, unsigned int line)
+    {
         throw Exception(message, function, filename, line);
     }
-}
+} // namespace fcn
 
 #endif // end FCN_EXCEPTION_HPP

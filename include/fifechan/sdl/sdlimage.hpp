@@ -100,7 +100,6 @@ namespace fcn
          */
         virtual SDL_Surface* getSurface() const;
 
-
         // Inherited from Image
 
         virtual void free();
@@ -111,7 +110,7 @@ namespace fcn
 
         virtual Color getPixel(int x, int y);
 
-        virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, Color const & color);
 
         virtual void convertToDisplayFormat();
 
@@ -119,6 +118,6 @@ namespace fcn
         SDL_Surface* mSurface;
         bool mAutoFree;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SDLIMAGE_HPP

@@ -98,6 +98,6 @@ namespace fcn
          */
         virtual std::string getElementAt(int i) = 0;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_LISTMODEL_HPP

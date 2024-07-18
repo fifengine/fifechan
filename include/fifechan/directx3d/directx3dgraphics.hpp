@@ -72,10 +72,9 @@ namespace fcn
     /**
      * DirectX 3D implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC DirectX3DGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC DirectX3DGraphics : public Graphics
     {
     public:
-
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
@@ -88,27 +87,27 @@ namespace fcn
 
         /**
          * Constructor.
-		 *
+         *
          * @param device The D3D device to use when drawing.
-		 * @param width The width of the logical drawing surface. Should be the
+         * @param width The width of the logical drawing surface. Should be the
          *              same as the screen resolution.
-		 * @param height The height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
-		 */
+         * @param height The height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
+         */
         DirectX3DGraphics(LPDIRECT3DDEVICE9 device, int width, int height);
 
-		/**
-		 * Destructor.
-		 */
+        /**
+         * Destructor.
+         */
         virtual ~DirectX3DGraphics();
 
         /**
          * Sets the target plane on where to draw.
-		 *
-		 * @param width The width of the logical drawing surface. Should be the
-		 *              same as the screen resolution.
-		 * @param height The height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
+         *
+         * @param width The width of the logical drawing surface. Should be the
+         *              same as the screen resolution.
+         * @param height The height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
          */
         virtual void setTargetPlane(int width, int height);
 
@@ -159,8 +158,7 @@ namespace fcn
             float u, v;
         };
 
-
-		// Inherited from Graphics
+        // Inherited from Graphics
 
         virtual void _beginDraw();
 
@@ -170,28 +168,21 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-		virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
     protected:
-
         /**
          * Hold the width of the target plane.
          */
@@ -217,6 +208,6 @@ namespace fcn
          */
         LPDIRECT3DDEVICE9 mDevice;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DIRECTX3DGRAPHICS_HPP

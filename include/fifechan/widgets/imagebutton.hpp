@@ -94,14 +94,14 @@ namespace fcn
          *
          * @param filename The filename of the up image to display.
          */
-        ImageButton(const std::string& filename);
+        ImageButton(std::string const & filename);
 
         /**
          * Constructor.
          *
          * @param image The up image to display.
          */
-        ImageButton(const Image* image);
+        ImageButton(Image const * image);
 
         /**
          * Destructor.
@@ -115,7 +115,7 @@ namespace fcn
          *
          * @param filename The filename of the up image to display.
          */
-        void setUpImage(const std::string& filename);
+        void setUpImage(std::string const & filename);
 
         /**
          * Sets the up image to display. That is the basic image that is also used if other images are not set.
@@ -123,14 +123,14 @@ namespace fcn
          *
          * @param image The up image to display.
          */
-        void setUpImage(const Image* image);
+        void setUpImage(Image const * image);
 
         /**
          * Gets current up image.
          *
          * @return The current up image.
          */
-        const Image* getUpImage() const;
+        Image const * getUpImage() const;
 
         /**
          * Sets the down image to display. That is the image that is used if the button is pressed.
@@ -138,7 +138,7 @@ namespace fcn
          *
          * @param filename The filename of the down image to display.
          */
-        void setDownImage(const std::string& filename);
+        void setDownImage(std::string const & filename);
 
         /**
          * Sets the down image to display. That is the image that is used if the button is pressed.
@@ -146,14 +146,14 @@ namespace fcn
          *
          * @param image The down image to display.
          */
-        void setDownImage(const Image* image);
+        void setDownImage(Image const * image);
 
         /**
          * Gets current down image.
          *
          * @return The current down image.
          */
-        const Image* getDownImage() const;
+        Image const * getDownImage() const;
 
         /**
          * Sets the hover image to display. That is the image that is used if the mouse is over the button.
@@ -161,7 +161,7 @@ namespace fcn
          *
          * @param filename The filename of the hover image to display.
          */
-        void setHoverImage(const std::string& filename);
+        void setHoverImage(std::string const & filename);
 
         /**
          * Sets the hover image to display. That is the image that is used if the mouse is over the button.
@@ -169,14 +169,14 @@ namespace fcn
          *
          * @param image The hover image to display.
          */
-        void setHoverImage(const Image* image);
+        void setHoverImage(Image const * image);
 
         /**
          * Gets current hover image.
          *
          * @return The current hover image.
          */
-        const Image* getHoverImage() const;
+        Image const * getHoverImage() const;
 
         /**
          * Sets the up image to display if the button is inactive. If not provided the active up image is used.
@@ -184,7 +184,7 @@ namespace fcn
          *
          * @param filename The filename of the inactive up image to display.
          */
-        void setInactiveUpImage(const std::string& filename);
+        void setInactiveUpImage(std::string const & filename);
 
         /**
          * Sets the up image to display if the button is inactive. If not provided the active up image is used.
@@ -192,14 +192,14 @@ namespace fcn
          *
          * @param image The inactive up image to display.
          */
-        void setInactiveUpImage(const Image* image);
+        void setInactiveUpImage(Image const * image);
 
         /**
          * Gets inactive up image.
          *
          * @return The inactive up image.
          */
-        const Image* getInactiveUpImage() const;
+        Image const * getInactiveUpImage() const;
 
         /**
          * Sets the down image to display if the button is inactive.
@@ -207,7 +207,7 @@ namespace fcn
          *
          * @param filename The filename of the inactive down image to display.
          */
-        void setInactiveDownImage(const std::string& filename);
+        void setInactiveDownImage(std::string const & filename);
 
         /**
          * Sets the down image to display if the button is inactive.
@@ -215,14 +215,14 @@ namespace fcn
          *
          * @param image The inactive down image to display.
          */
-        void setInactiveDownImage(const Image* image);
+        void setInactiveDownImage(Image const * image);
 
         /**
          * Gets inactive down image.
          *
          * @return The inactive down image.
          */
-        const Image* getInactiveDownImage() const;
+        Image const * getInactiveDownImage() const;
 
         /**
          * Sets the hover image to display if the button is inactive.
@@ -230,7 +230,7 @@ namespace fcn
          *
          * @param filename The filename of the inactive hover image to display.
          */
-        void setInactiveHoverImage(const std::string& filename);
+        void setInactiveHoverImage(std::string const & filename);
 
         /**
          * Sets the hover image to display if the button is inactive.
@@ -238,39 +238,40 @@ namespace fcn
          *
          * @param image The inactive hover image to display.
          */
-        void setInactiveHoverImage(const Image* image);
+        void setInactiveHoverImage(Image const * image);
 
         /**
          * Gets inactive hover image.
          *
          * @return The inactive hover image.
          */
-        const Image* getInactiveHoverImage() const;
+        Image const * getInactiveHoverImage() const;
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(fcn::Graphics* graphics);
 
     protected:
         // enum for easy image access
-        enum ImageType {
-            Image_Up = 0,
-            Image_Down = 1,
-            Image_Hover = 2,
-            Image_Up_De = 3,
-            Image_Down_De = 4,
+        enum ImageType
+        {
+            Image_Up       = 0,
+            Image_Down     = 1,
+            Image_Hover    = 2,
+            Image_Up_De    = 3,
+            Image_Down_De  = 4,
             Image_Hover_De = 5
         };
 
-        void setImage(const std::string& filename, ImageType type);
-        void setImage(const Image* image, ImageType type);
+        void setImage(std::string const & filename, ImageType type);
+        void setImage(Image const * image, ImageType type);
 
         /**
          * The images to display.
          */
-        std::vector<const Image*> mImages;
+        std::vector<Image const *> mImages;
 
         /**
          * True if the image has been loaded internally, false otherwise.
@@ -279,5 +280,5 @@ namespace fcn
          */
         std::vector<bool> mInternalImages;
     };
-}
+} // namespace fcn
 #endif

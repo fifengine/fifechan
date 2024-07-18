@@ -71,7 +71,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Key
     {
     public:
-
         /**
          * Constructor.
          *
@@ -117,7 +116,7 @@ namespace fcn
          * @param key The key to compare this key with.
          * @return True if the keys are equal, false otherwise.
          */
-        bool operator==(const Key& key) const;
+        bool operator==(Key const & key) const;
 
         /**
          * Compares two keys.
@@ -125,18 +124,18 @@ namespace fcn
          * @param key The key to compare this key with.
          * @return True if the keys are not equal, false otherwise.
          */
-        bool operator!=(const Key& key) const;
+        bool operator!=(Key const & key) const;
 
         /**
          * An enum with key values.
          */
         enum
         {
-            Space              = ' ',
-            Tab                = '\t',
-            Enter              = '\n',
+            Space = ' ',
+            Tab   = '\t',
+            Enter = '\n',
             // Negative values, to avoid conflicts with higher character codes
-            LeftAlt            = -1000,
+            LeftAlt = -1000,
             RightAlt,
             LeftShift,
             RightShift,
@@ -189,6 +188,6 @@ namespace fcn
          */
         int mValue;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_KEY_HPP

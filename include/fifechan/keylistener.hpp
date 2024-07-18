@@ -76,7 +76,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC KeyListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -107,6 +106,6 @@ namespace fcn
          */
         KeyListener() { }
     };
-}
+} // namespace fcn
 
 #endif // end FCN_KEYLISTENER_HPP

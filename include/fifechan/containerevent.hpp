@@ -80,10 +80,9 @@ namespace fcn
      * @see Container::addContainerListener, Container::removeContainerListener,
      *      Container::distributeContainerEvent
      */
-    class FCN_CORE_DECLSPEC ContainerEvent: public Event
+    class FCN_CORE_DECLSPEC ContainerEvent : public Event
     {
     public:
-
         /**
          * Constructor.
          *
@@ -104,14 +103,12 @@ namespace fcn
          */
         Container* getContainer() const;
 
-
     protected:
         /**
          * Holds the container the event concerns.
          */
         Container* mContainer;
     };
-}
+} // namespace fcn
 
 #endif // FCN_ACTIONEVENT_HPP
-

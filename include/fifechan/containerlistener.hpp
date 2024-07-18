@@ -75,7 +75,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC ContainerListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -86,14 +85,14 @@ namespace fcn
          *
          * @param containerEvent The event of the action.
          */
-        virtual void widgetAdded(const ContainerEvent& containerEvent) = 0;
+        virtual void widgetAdded(ContainerEvent const & containerEvent) = 0;
 
         /**
          * Called when a widget is removed from a container.
          *
          * @param containerEvent The event of the action.
          */
-        virtual void widgetRemoved(const ContainerEvent& containerEvent) = 0;
+        virtual void widgetRemoved(ContainerEvent const & containerEvent) = 0;
 
     protected:
         /**
@@ -103,8 +102,7 @@ namespace fcn
          * therefore its constructor is protected.
          */
         ContainerListener() { }
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ACTIONLISTENER_HPP

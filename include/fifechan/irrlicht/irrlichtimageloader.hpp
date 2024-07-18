@@ -77,27 +77,27 @@ namespace fcn
     {
     public:
         /**
-        * Constructor.
-        *
-        * @param device The Irrlicht IVideoDriver device to use when loading images.
-        */
+         * Constructor.
+         *
+         * @param device The Irrlicht IVideoDriver device to use when loading images.
+         */
         IrrlichtImageLoader(irr::video::IVideoDriver* driver);
 
         /**
-        * Destructor.
-        */
+         * Destructor.
+         */
         ~IrrlichtImageLoader();
 
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
     protected:
         /**
-        * Holds the Irrlicht IVideoDriver to use when loading images.
-        */
+         * Holds the Irrlicht IVideoDriver to use when loading images.
+         */
         irr::video::IVideoDriver* mDriver;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IRRLICHTIMAGELOADER_HPP

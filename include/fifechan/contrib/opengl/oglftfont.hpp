@@ -77,17 +77,16 @@ namespace fcn
          * OpenGL True Type Font implementation of Font. It uses the OGLFT library
          * to display True Type Fonts with OpenGL.
          */
-        class FCN_EXTENSION_DECLSPEC OGLFTFont: public Font
+        class FCN_EXTENSION_DECLSPEC OGLFTFont : public Font
         {
         public:
-
             /**
              * Constructor.
              *
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
-            OGLFTFont (const std::string& filename, int size);
+            OGLFTFont(std::string const & filename, int size);
 
             /**
              * Destructor.
@@ -100,7 +99,7 @@ namespace fcn
              *
              * @param spacing the spacing in pixels.
              */
-            virtual void setRowSpacing (int spacing);
+            virtual void setRowSpacing(int spacing);
 
             /**
              * Gets the spacing between rows in pixels.
@@ -111,11 +110,11 @@ namespace fcn
 
             // Inherited from Font
 
-            virtual int getWidth(const std::string& text) const;
+            virtual int getWidth(std::string const & text) const;
 
             virtual int getHeight() const;
 
-            virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+            virtual void drawString(Graphics* graphics, std::string const & text, int x, int y);
 
         protected:
             OGLFT::TranslucentTexture* mFont;
@@ -123,7 +122,7 @@ namespace fcn
             int mSize;
             int mRowSpacing;
         };
-    }
-}
+    } // namespace contrib
+} // namespace fcn
 
 #endif

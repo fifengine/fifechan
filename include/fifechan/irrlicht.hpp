@@ -68,12 +68,11 @@
 
 #include <fifechan/platform.hpp>
 
-extern "C"
-{
-    /**
-     * Exists to be able to check for Guichan Irrlicht with autotools.
-     */
-    FCN_EXTENSION_DECLSPEC extern void fcnIrrlicht();
+extern "C" {
+/**
+ * Exists to be able to check for Guichan Irrlicht with autotools.
+ */
+FCN_EXTENSION_DECLSPEC extern void fcnIrrlicht();
 }
 
 #endif // end FCN_IRRLICHT_HPP

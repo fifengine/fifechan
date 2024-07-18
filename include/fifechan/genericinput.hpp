@@ -76,10 +76,9 @@ namespace fcn
      * Implementation of a generic input which can be used with any
      * back end.
      */
-    class FCN_CORE_DECLSPEC GenericInput: public Input
+    class FCN_CORE_DECLSPEC GenericInput : public Input
     {
     public:
-
         /**
          * Constructor.
          */
@@ -167,7 +166,6 @@ namespace fcn
          */
         void pushMouseMoved(int x, int y);
 
-
         // Inherited from Input
 
         bool isKeyQueueEmpty() override;
@@ -191,6 +189,6 @@ namespace fcn
          */
         std::queue<MouseInput> mMouseInputQueue;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_INPUT_HPP

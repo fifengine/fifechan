@@ -75,7 +75,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC CairoFont : public Font
     {
     public:
-
         /**
          * Constructor.
          * The new created object will hold a reference to the passed fontface.
@@ -89,25 +88,24 @@ namespace fcn
          */
         ~CairoFont();
 
-        //void SetFontFace(cairo_font_face_t* fontface);
+        // void SetFontFace(cairo_font_face_t* fontface);
 
-        void SetFontColor(const Color& color);
+        void SetFontColor(Color const & color);
 
         // Inherited from Font
 
-        virtual int getWidth(const std::string& text) const;
+        virtual int getWidth(std::string const & text) const;
 
         virtual int getHeight() const;
 
-        virtual void drawString(fcn::Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y);
 
-        private :
-
+    private:
         cairo_scaled_font_t* mFontFace;
         cairo_font_extents_t mFontExtents;
         Color mColor;
-        double mColorR,mColorG,mColorB,mColorA;
+        double mColorR, mColorG, mColorB, mColorA;
     };
-}
+} // namespace fcn
 
 #endif

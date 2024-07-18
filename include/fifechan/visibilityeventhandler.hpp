@@ -37,7 +37,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC VisibilityEventHandler : public WidgetListener
     {
     public:
-
         /**
          * Constructor
          */
@@ -51,17 +50,16 @@ namespace fcn
         /**
          * Informs gui that a widget was hidden.
          */
-        void widgetHidden(const Event& e) override;
+        void widgetHidden(Event const & e) override;
 
         /**
          * Informs gui that a widget was shown.
          */
-        void widgetShown(const Event& e) override;
+        void widgetShown(Event const & e) override;
 
     protected:
-
-        Gui *mGui;
+        Gui* mGui;
     };
-}
+} // namespace fcn
 
-#endif //FCN_VISIBILITYEVENTHANDLER_HPP
+#endif // FCN_VISIBILITYEVENTHANDLER_HPP

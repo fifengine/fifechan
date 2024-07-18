@@ -90,7 +90,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC ImageLoader
     {
     public:
-
         /**
          * Destructor.
          */
@@ -107,8 +106,8 @@ namespace fcn
          * @param convertToDisplayFormat True if the image should be converted
          *                               to display, false otherwise.
          */
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true) = 0;
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true) = 0;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IMAGELOADER_HPP

@@ -25,31 +25,30 @@
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 
-
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC BarGraph : public Widget {
+    class FCN_CORE_DECLSPEC BarGraph : public Widget
+    {
     public:
-
         /**
          * Default constructor.
          */
         BarGraph();
         BarGraph(int x, int y, int w, int h);
-        
+
         /**
          * Destructor.
          */
-        virtual ~BarGraph() { };
+        virtual ~BarGraph(){};
 
         void setBarX(int x);
         int getBarX() const;
         void setBarY(int y);
         int getBarY() const;
         void setBarPosition(int x, int y);
-        void setBarPosition(const Point& pos);
+        void setBarPosition(Point const & pos);
         void setBarWidth(int w);
         int getBarWidth() const;
         void setBarHeight(int h);
@@ -58,7 +57,7 @@ namespace fcn
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -77,6 +76,6 @@ namespace fcn
         bool m_opaque;
         Rectangle m_rec;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_BARGRAPH_HPP
+#endif // FCN_BARGRAPH_HPP

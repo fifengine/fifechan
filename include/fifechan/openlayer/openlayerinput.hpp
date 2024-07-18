@@ -77,7 +77,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC OpenLayerInput : public Input
     {
     public:
-
         /**
          * Constructor.
          */
@@ -87,7 +86,6 @@ namespace fcn
          * Destructor.
          */
         virtual ~OpenLayerInput() { }
-
 
         // Inherited from Input
 
@@ -130,6 +128,6 @@ namespace fcn
         bool mMouseButton1, mMouseButton2, mMouseButton3;
         int mLastMouseX, mLastMouseY, mLastMouseZ;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_OPENLAYERINPUT_HPP

@@ -72,8 +72,7 @@ namespace fcn
     /**
      * An implementation of a movable window that can contain other widgets.
      */
-    class FCN_CORE_DECLSPEC Window : public Container,
-                                     public MouseListener
+    class FCN_CORE_DECLSPEC Window : public Container, public MouseListener
     {
     public:
         /**
@@ -87,7 +86,7 @@ namespace fcn
          *
          * @param caption the caption of the window.
          */
-        Window(const std::string& caption);
+        Window(std::string const & caption);
 
         /**
          * Destructor.
@@ -100,7 +99,7 @@ namespace fcn
          * @param caption The caption of the window.
          * @see getCaption
          */
-        void setCaption(const std::string& caption);
+        void setCaption(std::string const & caption);
 
         /**
          * Gets the caption of the window.
@@ -108,7 +107,7 @@ namespace fcn
          * @return the caption of the window.
          * @see setCaption
          */
-        const std::string& getCaption() const;
+        std::string const & getCaption() const;
 
         /**
          * Sets the alignment of the caption.
@@ -183,15 +182,14 @@ namespace fcn
 
         // Inherited from BasicContainer
 
-        //virtual void resizeToContent();
+        // virtual void resizeToContent();
         virtual void adjustSize();
-        //virtual void expandContent();
+        // virtual void expandContent();
         virtual Rectangle getChildrenArea();
 
         // Inherited from Widget
 
         virtual void draw(Graphics* graphics);
-
 
         // Inherited from MouseListener
 
@@ -251,6 +249,6 @@ namespace fcn
          */
         bool mMoved;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_WINDOW_HPP

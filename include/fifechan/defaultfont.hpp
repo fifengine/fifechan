@@ -74,7 +74,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC DefaultFont : public Font
     {
     public:
-
         /**
          * Destructor.
          */
@@ -98,14 +97,14 @@ namespace fcn
 
         // Inherited from Font
 
-        void drawString(Graphics* graphics, const std::string& text, int x, int y) override;
+        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
-        int getWidth(const std::string& text) const override;
+        int getWidth(std::string const & text) const override;
 
         int getHeight() const override;
 
-        int getStringIndexAt(const std::string& text, int x) const override;
+        int getStringIndexAt(std::string const & text, int x) const override;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DEFAULTFONT_HPP

@@ -25,27 +25,26 @@
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 
-
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC PointGraph : public Widget {
+    class FCN_CORE_DECLSPEC PointGraph : public Widget
+    {
     public:
-
         /**
          * Default constructor.
          */
         PointGraph();
-        PointGraph(const PointVector& data);
-        
+        PointGraph(PointVector const & data);
+
         /**
          * Destructor.
          */
-        virtual ~PointGraph() { };
+        virtual ~PointGraph(){};
 
-        void setPointVector(const PointVector& data);
-        const PointVector& getPointVector() const;
+        void setPointVector(PointVector const & data);
+        PointVector const & getPointVector() const;
         void resetPointVector();
 
         void setThickness(unsigned int thickness);
@@ -53,7 +52,7 @@ namespace fcn
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -73,6 +72,6 @@ namespace fcn
         unsigned int m_thickness;
         PointVector m_data;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_POINTGRAPH_HPP
+#endif // FCN_POINTGRAPH_HPP

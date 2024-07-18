@@ -27,7 +27,7 @@
 namespace fcn
 {
     class Graphics;
-    
+
     class FCN_CORE_DECLSPEC Spacer : public Widget
     {
     public:
@@ -37,18 +37,18 @@ namespace fcn
         Spacer();
 
         ~Spacer();
-        
+
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
 
         /**
          * Overrides this so that the spacer doesn't draw nothing.
-         * 
+         *
          * @param graphics A graphics object to draw with.
          */
-        virtual void draw(Graphics *graphics);
+        virtual void draw(Graphics* graphics);
     };
-};
+}; // namespace fcn
 
 #endif

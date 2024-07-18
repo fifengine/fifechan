@@ -72,7 +72,7 @@ namespace fcn
     /**
      * Represents a key event.
      */
-    class FCN_CORE_DECLSPEC KeyEvent: public InputEvent
+    class FCN_CORE_DECLSPEC KeyEvent : public InputEvent
     {
     public:
         /**
@@ -98,15 +98,16 @@ namespace fcn
          *                     false otherwise.
          * @param key The key of the event.
          */
-        KeyEvent(Widget* source,
-                 Widget* distributor,
-                 bool isShiftPressed,
-                 bool isControlPressed,
-                 bool isAltPressed,
-                 bool isMetaPressed,
-                 unsigned int type,
-                 bool isNumericPad,
-                 const Key& key);
+        KeyEvent(
+            Widget* source,
+            Widget* distributor,
+            bool isShiftPressed,
+            bool isControlPressed,
+            bool isAltPressed,
+            bool isMetaPressed,
+            unsigned int type,
+            bool isNumericPad,
+            Key const & key);
 
         /**
          * Destructor.
@@ -118,7 +119,7 @@ namespace fcn
          *
          * @return The type of the event.
          */
-         unsigned int getType() const;
+        unsigned int getType() const;
 
         /**
          * Checks if the key event occured on the numeric pad.
@@ -134,7 +135,7 @@ namespace fcn
          *
          * @return The key of the event.
          */
-        const Key& getKey() const;
+        Key const & getKey() const;
 
     protected:
         /**
@@ -152,6 +153,6 @@ namespace fcn
          */
         Key mKey;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_KEYEVENT_HPP

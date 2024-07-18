@@ -76,7 +76,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC DeathListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -88,7 +87,7 @@ namespace fcn
          *
          * @param event The event of the death.
          */
-        virtual void death(const Event& event) = 0;
+        virtual void death(Event const & event) = 0;
 
     protected:
         /**
@@ -98,8 +97,7 @@ namespace fcn
          * therefore its constructor is protected.
          */
         DeathListener() { }
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DEATHLISTENER_HPP

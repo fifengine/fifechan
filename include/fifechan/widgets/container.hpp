@@ -78,10 +78,11 @@ namespace fcn
      *
      * @see Gui::setTop
      */
-    class FCN_CORE_DECLSPEC Container: public Widget
+    class FCN_CORE_DECLSPEC Container : public Widget
     {
     public:
-        enum LayoutPolicy {
+        enum LayoutPolicy
+        {
             Absolute,
             AutoSize,
             Vertical,
@@ -169,7 +170,7 @@ namespace fcn
          *         is found.
          * @see Widget::setId
          */
-        virtual Widget* findWidgetById(const std::string &id);
+        virtual Widget* findWidgetById(std::string const & id);
 
         /**
          * Adds a container listener to the container. When a widget is
@@ -192,16 +193,19 @@ namespace fcn
          *
          * @return The children of the container.
          */
-        const std::list<Widget*>& getChildren() const;
+        std::list<Widget*> const & getChildren() const;
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
-        virtual void expandContent(bool recursiv=true);
+        virtual void expandContent(bool recursiv = true);
         virtual void draw(Graphics* graphics);
         virtual Rectangle getChildrenArea();
-        virtual bool isLayouted() { return mLayout != Absolute; };
+        virtual bool isLayouted()
+        {
+            return mLayout != Absolute;
+        };
 
         /**
          * Sets the layout of the container.
@@ -334,6 +338,6 @@ namespace fcn
 
         Widget* mBackgroundWidget;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_CONTAINER_HPP

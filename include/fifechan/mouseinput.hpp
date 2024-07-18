@@ -74,7 +74,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC MouseInput
     {
     public:
-
         /**
          * Constructor.
          */
@@ -90,11 +89,7 @@ namespace fcn
          * @param timeStamp The timestamp of the mouse input. Used to
          *                  check for double clicks.
          */
-        MouseInput(unsigned int button,
-                   unsigned int type,
-                   int x,
-                   int y,
-                   int timeStamp);
+        MouseInput(unsigned int button, unsigned int type, int x, int y, int timeStamp);
 
         /**
          * Sets the type of the mouse input.
@@ -200,7 +195,8 @@ namespace fcn
         /**
          * Mouse button types.
          */
-        enum {
+        enum
+        {
             Empty = 0,
             Left,
             Right,
@@ -236,6 +232,6 @@ namespace fcn
          */
         int mY;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_MOUSEINPUT_HPP

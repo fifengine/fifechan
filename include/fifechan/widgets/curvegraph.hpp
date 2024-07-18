@@ -25,27 +25,26 @@
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 
-
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC CurveGraph : public Widget {
+    class FCN_CORE_DECLSPEC CurveGraph : public Widget
+    {
     public:
-
         /**
          * Default constructor.
          */
         CurveGraph();
-        CurveGraph(const PointVector& data);
-        
+        CurveGraph(PointVector const & data);
+
         /**
          * Destructor.
          */
-        virtual ~CurveGraph() { };
+        virtual ~CurveGraph(){};
 
-        void setPointVector(const PointVector& data);
-        const PointVector& getPointVector() const;
+        void setPointVector(PointVector const & data);
+        PointVector const & getPointVector() const;
         void resetPointVector();
 
         void setThickness(unsigned int thickness);
@@ -56,7 +55,7 @@ namespace fcn
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -78,11 +77,11 @@ namespace fcn
 
         /** Helper that returns an interpolated Point
          */
-        Point getBezierPoint(const PointVector& points, int elements, float t);
+        Point getBezierPoint(PointVector const & points, int elements, float t);
 
         /** Helper that adds the control points for bezier curves.
          */
-        void addControlPoints(const PointVector& points, PointVector& newPoints);
+        void addControlPoints(PointVector const & points, PointVector& newPoints);
 
         bool m_opaque;
         bool m_acp;
@@ -91,6 +90,6 @@ namespace fcn
         PointVector m_data;
         PointVector m_curveData;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_CURVEGRAPH_HPP
+#endif // FCN_CURVEGRAPH_HPP

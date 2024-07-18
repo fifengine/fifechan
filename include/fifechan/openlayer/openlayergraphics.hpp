@@ -62,7 +62,7 @@
 #define FCN_OPENLAYERGRAPHICS_HPP
 
 #include <OpenLayer.hpp>
-#if defined (DELETE)
+#if defined(DELETE)
 #undef DELETE
 #endif
 #include <string>
@@ -76,7 +76,7 @@ namespace fcn
     /**
      * OpenLayer implementation of Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC OpenLayerGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC OpenLayerGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
@@ -92,9 +92,9 @@ namespace fcn
          *
          * @param width the width of the logical drawing surface. Should be the
          *              same as the screen resolution.
-		 *
-		 * @param height the height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
+         *
+         * @param height the height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
          */
         OpenLayerGraphics(int width, int height);
 
@@ -105,14 +105,13 @@ namespace fcn
 
         /**
          * Sets the target plane on where to draw.
-		 *
-		 * @param width the width of the logical drawing surface. Should be the
-		 *              same as the screen resolution.
-		 * @param height the height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
+         *
+         * @param width the width of the logical drawing surface. Should be the
+         *              same as the screen resolution.
+         * @param height the height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
          */
         virtual void setTargetPlane(int width, int height);
-
 
         // Inherited from Graphics.
 
@@ -124,33 +123,27 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-        virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
-        const ol::Rgba& getOpenLayerColor() const;
+        ol::Rgba const & getOpenLayerColor() const;
 
     protected:
         int mWidth, mHeight;
         ol::Rgba mRgba;
         Color mColor;
     };
-}
+} // namespace fcn
 
 #endif // FCN_OPENLAYERGRAPHICS_HPP

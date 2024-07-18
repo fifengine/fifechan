@@ -100,8 +100,8 @@ namespace fcn
          */
         enum SelectionMode
         {
-            Selection_None = 0,
-            Selection_Border = 1,
+            Selection_None       = 0,
+            Selection_Border     = 1,
             Selection_Background = 2
         };
 
@@ -539,7 +539,7 @@ namespace fcn
          * @param dimension The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
-        void setDimension(const Rectangle& dimension);
+        void setDimension(Rectangle const & dimension);
 
         /**
          * Gets the dimension of the widget. The dimension is
@@ -548,7 +548,7 @@ namespace fcn
          * @return The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
-        const Rectangle& getDimension() const;
+        Rectangle const & getDimension() const;
 
         /**
          * Gets how many childs the widget have.
@@ -570,7 +570,7 @@ namespace fcn
          * @param size The minimal size of the widget.
          * @see getMinSize
          */
-        void setMinSize(const Size& size);
+        void setMinSize(Size const & size);
 
         /**
          * Gets the minimal dimension of the widget.
@@ -578,7 +578,7 @@ namespace fcn
          * @return The minimal size of the widget.
          * @see setMinSize
          */
-        const Size& getMinSize() const;
+        Size const & getMinSize() const;
 
         /**
          * Sets the maximal dimension of the widget.
@@ -586,7 +586,7 @@ namespace fcn
          * @param size The maximal size of the widget.
          * @see getMaxSize
          */
-        void setMaxSize(const Size& size);
+        void setMaxSize(Size const & size);
 
         /**
          * Gets the maximal dimension of the widget.
@@ -594,7 +594,7 @@ namespace fcn
          * @return The maximal size of the widget.
          * @see setMaxSize
          */
-        const Size& getMaxSize() const;
+        Size const & getMaxSize() const;
 
         /**
          * Sets the dimension of the widget to a fixed size.
@@ -603,7 +603,7 @@ namespace fcn
          * @param size The fixed size of the widget.
          * @see getFixedSize, isFixedSize
          */
-        void setFixedSize(const Size& size);
+        void setFixedSize(Size const & size);
 
         /**
          * Gets the fixed size of the widget.
@@ -611,7 +611,7 @@ namespace fcn
          * @return The fixed size of the widget.
          * @see setFixedSize, isFixedSize
          */
-        const Size& getFixedSize() const;
+        Size const & getFixedSize() const;
 
         /**
          * Gets if the widget use a fixed size.
@@ -630,7 +630,7 @@ namespace fcn
          */
         void setFocusable(bool focusable);
 
-         /**
+        /**
          * Checks if a widget is focsable.
          *
          * @return True if the widget should be focusable, false otherwise.
@@ -693,7 +693,7 @@ namespace fcn
          * @param color The baseground color.
          * @see getBaseColor
          */
-        void setBaseColor(const Color& color);
+        void setBaseColor(Color const & color);
 
         /**
          * Gets the base color.
@@ -701,7 +701,7 @@ namespace fcn
          * @return The base color.
          * @see setBaseColor
          */
-        const Color& getBaseColor() const;
+        Color const & getBaseColor() const;
 
         /**
          * Sets the foreground color.
@@ -709,14 +709,14 @@ namespace fcn
          * @param color The foreground color.
          * @see getForegroundColor
          */
-        void setForegroundColor(const Color& color);
+        void setForegroundColor(Color const & color);
 
         /**
          * Gets the foreground color.
          *
          * @see setForegroundColor
          */
-        const Color& getForegroundColor() const;
+        Color const & getForegroundColor() const;
 
         /**
          * Sets the background color.
@@ -724,14 +724,14 @@ namespace fcn
          * @param color The background Color.
          * @see setBackgroundColor
          */
-        void setBackgroundColor(const Color& color);
+        void setBackgroundColor(Color const & color);
 
         /**
          * Gets the background color.
          *
          * @see setBackgroundColor
          */
-        const Color& getBackgroundColor() const;
+        Color const & getBackgroundColor() const;
 
         /**
          * Sets the selection color.
@@ -739,7 +739,7 @@ namespace fcn
          * @param color The selection color.
          * @see getSelectionColor
          */
-        void setSelectionColor(const Color& color);
+        void setSelectionColor(Color const & color);
 
         /**
          * Gets the selection color.
@@ -747,7 +747,7 @@ namespace fcn
          * @return The selection color.
          * @see setSelectionColor
          */
-        const Color& getSelectionColor() const;
+        Color const & getSelectionColor() const;
 
         /**
          * Sets the outline color.
@@ -755,7 +755,7 @@ namespace fcn
          * @param color The outline color.
          * @see getOutlineColor
          */
-        void setOutlineColor(const Color& color);
+        void setOutlineColor(Color const & color);
 
         /**
          * Gets the outline color.
@@ -763,7 +763,7 @@ namespace fcn
          * @return The outline color.
          * @see setOutlineColor
          */
-        const Color& getOutlineColor() const;
+        Color const & getOutlineColor() const;
 
         /**
          * Sets the border color.
@@ -771,7 +771,7 @@ namespace fcn
          * @param color The border color.
          * @see getBorderColor
          */
-        void setBorderColor(const Color& color);
+        void setBorderColor(Color const & color);
 
         /**
          * Gets the border color.
@@ -779,7 +779,7 @@ namespace fcn
          * @return The border color.
          * @see setBorderColor
          */
-        const Color& getBorderColor() const;
+        Color const & getBorderColor() const;
 
         /**
          * Sets the selection mode.
@@ -827,7 +827,7 @@ namespace fcn
          */
         virtual void _draw(Graphics* graphics);
 
-         /**
+        /**
          * Called whenever a widget should perform logic. The function will
          * call the logic function for this widget and for all its children.
          *
@@ -980,7 +980,7 @@ namespace fcn
          * @param actionEventId The action event identifier.
          * @see getActionEventId
          */
-        void setActionEventId(const std::string& actionEventId);
+        void setActionEventId(std::string const & actionEventId);
 
         /**
          * Gets the action event identifier of the widget.
@@ -988,7 +988,7 @@ namespace fcn
          * @return The action event identifier of the widget.
          * @see setActionEventId
          */
-        const std::string& getActionEventId() const;
+        std::string const & getActionEventId() const;
 
         /**
          * Gets the absolute position on the screen for the widget.
@@ -1018,7 +1018,7 @@ namespace fcn
          * @return The font set for the widget.
          * @see setFont, setGlobalFont
          */
-        Font *getFont() const;
+        Font* getFont() const;
 
         /**
          * Sets the global font to be used by default for all widgets.
@@ -1052,7 +1052,7 @@ namespace fcn
          * @param widget The widget to check.
          * @return True if an instance of the widget exists, false otherwise.
          */
-        static bool widgetExists(const Widget* widget);
+        static bool widgetExists(Widget const * widget);
 
         /**
          * Checks if tab in is enabled. Tab in means that you can set focus
@@ -1200,21 +1200,21 @@ namespace fcn
          *
          * @return The mouse listeners of the widget.
          */
-        virtual const std::list<MouseListener*>& _getMouseListeners();
+        virtual std::list<MouseListener*> const & _getMouseListeners();
 
         /**
          * Gets the key listeners of the widget.
          *
          * @return The key listeners of the widget.
          */
-        virtual const std::list<KeyListener*>& _getKeyListeners();
+        virtual std::list<KeyListener*> const & _getKeyListeners();
 
         /**
          * Gets the focus listeners of the widget.
          *
          * @return The focus listeners of the widget.
          */
-        virtual const std::list<FocusListener*>& _getFocusListeners();
+        virtual std::list<FocusListener*> const & _getFocusListeners();
 
         /**
          * Gets the area of the widget occupied by the widget's children.
@@ -1312,7 +1312,7 @@ namespace fcn
          * @param id The id to set to the widget.
          * @see getId, BasicContainer::findWidgetById
          */
-        void setId(const std::string& id);
+        void setId(std::string const & id);
 
         /**
          * Gets the id of a widget. An id can be useful if a widget needs to be
@@ -1323,7 +1323,7 @@ namespace fcn
          * @param id The id to set to the widget.
          * @see setId, BasicContainer::findWidgetById
          */
-        const std::string& getId() const;
+        std::string const & getId() const;
 
         /**
          * Shows a certain part of a widget in the widget's parent.
@@ -1406,7 +1406,7 @@ namespace fcn
          *
          * @param top If true the layout adaption starts from the top-most layouted widget.
          */
-        virtual void adaptLayout(bool top=true);
+        virtual void adaptLayout(bool top = true);
 
         /**
          * Resizes the widget's size to fit the content exactly,
@@ -1414,12 +1414,12 @@ namespace fcn
          *
          * @param recursiv If true all child widgets also get the call.
          */
-        virtual void resizeToContent(bool recursiv=true) {}
+        virtual void resizeToContent(bool recursiv = true) { }
 
         /**
          * Resizes the widget's size to fit the content exactly.
          */
-        virtual void adjustSize() {}
+        virtual void adjustSize() { }
 
         /**
          * Expands the child widgets to the size of this widget,
@@ -1427,12 +1427,15 @@ namespace fcn
          *
          * @param recursiv If true all child widgets also get the call.
          */
-        virtual void expandContent(bool recursiv=true) {}
+        virtual void expandContent(bool recursiv = true) { }
 
         /**
          * Helper function to decide if we need to layout.
          */
-        virtual bool isLayouted() { return false; }
+        virtual bool isLayouted()
+        {
+            return false;
+        }
 
         void getLastPosition(int& x, int& y) const;
         void setLastPosition(int x, int y);
@@ -1536,7 +1539,7 @@ namespace fcn
          *         NULL of no widget is found.
          *
          */
-        virtual Widget* findWidgetById(const std::string& id);
+        virtual Widget* findWidgetById(std::string const & id);
 
         /**
          * Resizes the widget to fit it's children exactly.
@@ -1555,7 +1558,7 @@ namespace fcn
          *
          * @return A list of the widgets children.
          */
-        const std::list<Widget*>& getChildren() const;
+        std::list<Widget*> const & getChildren() const;
 
         /**
          * Holds the mouse listeners of the widget.
@@ -1803,6 +1806,6 @@ namespace fcn
         int mLastX;
         int mLastY;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_WIDGET_HPP

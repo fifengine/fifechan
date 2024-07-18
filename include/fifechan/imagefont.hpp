@@ -98,10 +98,9 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!
      */
-    class FCN_CORE_DECLSPEC ImageFont: public Font
+    class FCN_CORE_DECLSPEC ImageFont : public Font
     {
     public:
-
         /**
          * Constructor. Takes an image file containing the font and
          * a string containing the glyphs. The glyphs in the string should
@@ -112,7 +111,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph list is incorrect or the font file is
          *                   corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, const std::string& glyphs);
+        ImageFont(std::string const & filename, std::string const & glyphs);
 
         /**
          * Constructor. Takes an image containing the font and
@@ -125,7 +124,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph list is incorrect or the font image is
          *                   is missing.
          */
-        ImageFont(Image* image, const std::string& glyphs);
+        ImageFont(Image* image, std::string const & glyphs);
 
         /**
          * Constructor. Takes an image file containing the font and
@@ -141,9 +140,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        explicit ImageFont(const std::string& filename,
-                  unsigned char glyphsFrom=32,
-                  unsigned char glyphsTo=126);
+        explicit ImageFont(std::string const & filename, unsigned char glyphsFrom = 32, unsigned char glyphsTo = 126);
 
         /**
          * Destructor.
@@ -163,8 +160,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @param y The y coordinate where to draw the glyph.
          * @return The width of the glyph in pixels.
          */
-        virtual int drawGlyph(Graphics* graphics, unsigned char glyph,
-                              int x, int y);
+        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
         /**
          * Sets the space between rows in pixels. Default is 0 pixels.
@@ -208,17 +204,15 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          */
         virtual int getWidth(unsigned char glyph) const;
 
-
         // Inherited from Font
 
-        int getWidth(const std::string& text) const override;
+        int getWidth(std::string const & text) const override;
 
-        void drawString(Graphics* graphics, const std::string& text,
-                                int x, int y) override;
+        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
         int getHeight() const override;
 
-        int getStringIndexAt(const std::string& text, int x) const override;
+        int getStringIndexAt(std::string const & text, int x) const override;
 
     protected:
         /**
@@ -236,10 +230,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          *         with the font.
          * @throws Exception when no glyph is found.
          */
-         Rectangle scanForGlyph(unsigned char glyph,
-                                int x,
-                                int y,
-                                const Color& separator);
+        Rectangle scanForGlyph(unsigned char glyph, int x, int y, Color const & separator);
 
         /**
          * Holds the glyphs areas in the image.
@@ -271,6 +262,6 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          */
         std::string mFilename;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IMAGEFONT_HPP

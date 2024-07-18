@@ -7,6 +7,7 @@ Checks: >
   -clang-analyzer-*,
   cert-err34-c,
   cppcoreguidelines-*,
+  cppcoreguidelines-rvalue-reference-param-not-moved,
   -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-avoid-non-const-global-variables,
   -cppcoreguidelines-avoid-magic-numbers,
@@ -15,20 +16,21 @@ Checks: >
   -cppcoreguidelines-non-private-member-variables-in-classes,
   -cppcoreguidelines-pro-type-union-access,
   google-explicit-constructor,
-  cppcoreguidelines-rvalue-reference-param-not-moved,
+  misc*,
+  -misc-no-recursion,
+  -misc-include-cleaner,
+  -misc-non-private-member-variables-in-classes
   modernize*,
   modernize-use-nullptr,
   -modernize-use-auto,
   -modernize-use-trailing-return-type,
   -modernize-use-nodiscard,
+  portability-*,
   readability-*,
   -readability-identifier-length,
   -readability-magic-numbers,
   -readability-function-cognitive-complexity,
-  portability-*,
-  misc*,
-  -misc-no-recursion,
-  -misc-include-cleaner
+
 WarningsAsErrors: >
   clang-analyzer-security.*
 #HeaderFilterRegex: '.*include/fifechan.*\.hpp'

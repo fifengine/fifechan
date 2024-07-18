@@ -76,14 +76,13 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
     {
     public:
-
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
     protected:
-        virtual BITMAP* loadBitmap(const std::string& filename, PALETTE pal);
+        virtual BITMAP* loadBitmap(std::string const & filename, PALETTE pal);
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ALLEGROIMAGELOADER_HPP

@@ -72,7 +72,7 @@ namespace fcn
     /**
      * Implementation of a label capable of displaying a caption.
      */
-    class FCN_CORE_DECLSPEC Label: public Widget
+    class FCN_CORE_DECLSPEC Label : public Widget
     {
     public:
         /**
@@ -86,7 +86,7 @@ namespace fcn
          *
          * @param caption The caption of the label.
          */
-        Label(const std::string& caption);
+        Label(std::string const & caption);
 
         /**
          * Gets the caption of the label.
@@ -94,7 +94,7 @@ namespace fcn
          * @return The caption of the label.
          * @see setCaption
          */
-        const std::string &getCaption() const;
+        std::string const & getCaption() const;
 
         /**
          * Sets the caption of the label. It's advisable to call
@@ -104,7 +104,7 @@ namespace fcn
          * @param caption The caption of the label.
          * @see getCaption, adjustSize
          */
-        void setCaption(const std::string& caption);
+        void setCaption(std::string const & caption);
 
         /**
          * Sets the alignment of the caption. The alignment is relative
@@ -124,10 +124,9 @@ namespace fcn
          */
         Graphics::Alignment getAlignment() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
@@ -142,6 +141,6 @@ namespace fcn
          */
         Graphics::Alignment mAlignment;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_LABEL_HPP

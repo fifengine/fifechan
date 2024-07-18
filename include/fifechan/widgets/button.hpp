@@ -83,11 +83,12 @@ namespace fcn
      *
      * @see ImageButton
      */
-    class FCN_CORE_DECLSPEC Button : public Widget,
-                                     public MouseListener,
-                                     public KeyListener,
-                                     public FocusListener,
-                                     public WidgetListener
+    class FCN_CORE_DECLSPEC Button :
+        public Widget,
+        public MouseListener,
+        public KeyListener,
+        public FocusListener,
+        public WidgetListener
     {
     public:
         /**
@@ -101,7 +102,7 @@ namespace fcn
          *
          * @param caption The caption of the button.
          */
-        Button(const std::string& caption);
+        Button(std::string const & caption);
 
         /**
          * Destructor.
@@ -114,14 +115,14 @@ namespace fcn
          * @param caption The caption of the button.
          * @see getCaption, adjustSize
          */
-        void setCaption(const std::string& caption);
+        void setCaption(std::string const & caption);
 
         /**
          * Gets the caption of the button.
          *
          * @return The caption of the button.
          */
-        const std::string& getCaption() const;
+        std::string const & getCaption() const;
 
         /**
          * Sets the button state.
@@ -196,16 +197,14 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
         virtual void fontChanged();
 
-
         // Inherited from FocusListener
 
-        virtual void focusLost(const Event& event);
-
+        virtual void focusLost(Event const & event);
 
         // Inherited from MouseListener
 
@@ -215,16 +214,14 @@ namespace fcn
         virtual void mouseExited(MouseEvent& mouseEvent);
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
-
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
         virtual void keyReleased(KeyEvent& keyEvent);
 
-
         // Inherited from WidgetListener
 
-        virtual void ancestorHidden(const Event& e);
+        virtual void ancestorHidden(Event const & e);
 
     protected:
         /**
@@ -275,6 +272,6 @@ namespace fcn
          */
         int mYOffset;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_BUTTON_HPP

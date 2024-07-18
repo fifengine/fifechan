@@ -84,10 +84,12 @@ namespace fcn
     /**
      * @mainpage
      * @section Introduction
-     * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
+     * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we
+     * suggest you check out the programs in the examples directory of the Guichan release.
      * @n
      * @n
-     * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
+     * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or
+     * if you feel something needs to be explained in more detail - don't hesitate to tell us.
      */
 
     /**
@@ -111,7 +113,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Gui
     {
     public:
-
         /**
          * Constructor.
          */
@@ -280,14 +281,14 @@ namespace fcn
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseMoved(const MouseInput& mouseInput);
+        virtual void handleMouseMoved(MouseInput const & mouseInput);
 
         /**
          * Handles mouse pressed input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMousePressed(const MouseInput& mouseInput);
+        virtual void handleMousePressed(MouseInput const & mouseInput);
 
         /**
          *
@@ -295,35 +296,35 @@ namespace fcn
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedDown(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedDown(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved up input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedUp(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedUp(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved right input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedRight(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedRight(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved left input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedLeft(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedLeft(MouseInput const & mouseInput);
 
         /**
          * Handles mouse released input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseReleased(const MouseInput& mouseInput);
+        virtual void handleMouseReleased(MouseInput const & mouseInput);
 
         /**
          * Handles modal focus. Modal focus needs to be checked at
@@ -398,13 +399,8 @@ namespace fcn
          *                     as well.
          *
          */
-        virtual void distributeMouseEvent(Widget* source,
-                                          int type,
-                                          int button,
-                                          int x,
-                                          int y,
-                                          bool force = false,
-                                          bool toSourceOnly = false);
+        virtual void distributeMouseEvent(
+            Widget* source, int type, int button, int x, int y, bool force = false, bool toSourceOnly = false);
 
         /**
          * Distributes a key event.
@@ -485,7 +481,7 @@ namespace fcn
         /**
          * Holds the visibility event handler for the Gui.
          */
-        VisibilityEventHandler *mVisibilityEventHandler;
+        VisibilityEventHandler* mVisibilityEventHandler;
 
         /**
          * True if tabbing is enabled, false otherwise.
@@ -495,7 +491,7 @@ namespace fcn
         /**
          * Typedef.
          */
-        using KeyListenerList = std::list<KeyListener *>;
+        using KeyListenerList = std::list<KeyListener*>;
 
         /**
          * Typedef.
@@ -562,6 +558,6 @@ namespace fcn
 
         GuiDeathListener* mDeathListener;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_GUI_HPP

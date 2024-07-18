@@ -87,45 +87,38 @@ namespace fcn
          */
         ~HGEGraphics();
 
-
-        //Inherited from Graphics
+        // Inherited from Graphics
 
         void _beginDraw();
 
         void _endDraw();
 
-        void drawImage(const Image *image,
-                       int srcX,
-                       int srcY,
-                       int dstX,
-                       int dstY,
-                       int width,
-                       int height);
+        void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
-        void drawImage(const Image* image, int dstX, int dstY);
+        void drawImage(Image const * image, int dstX, int dstY);
 
         void drawPoint(int x, int y);
 
         void drawLine(int x1, int y1, int x2, int y2);
 
-        void drawRectangle(const Rectangle &rectangle);
+        void drawRectangle(Rectangle const & rectangle);
 
-        void fillRectangle(const Rectangle &rectangle);
+        void fillRectangle(Rectangle const & rectangle);
 
-        void setColor(const Color &color);
+        void setColor(Color const & color);
 
-        const Color &getColor() const;
+        Color const & getColor() const;
 
         bool pushClipArea(Rectangle area);
 
         void popClipArea();
 
     protected:
-        static  HGE *mHGE;
+        static HGE* mHGE;
         Color mColor;
         DWORD mHardwareColor;
         bool mClipNull;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_HGEGRAPHICS_HPP

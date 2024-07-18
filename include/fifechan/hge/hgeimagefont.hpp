@@ -83,7 +83,7 @@ namespace fcn
          *
          * @param filename the filename of the HGE font.
          */
-        HGEImageFont(const std::string& filename);
+        HGEImageFont(std::string const & filename);
 
         /**
          * Destructor.
@@ -96,7 +96,7 @@ namespace fcn
          *
          * @return the loaded HGE font.
          */
-        virtual hgeFont *getFont() const;
+        virtual hgeFont* getFont() const;
 
         /**
          * Gets the width from a character.
@@ -105,20 +105,19 @@ namespace fcn
          */
         int getWidth(char character) const;
 
+        // Inherited from Font
 
-        //Inherited from Font
-
-        int getWidth(const std::string &text) const;
+        int getWidth(std::string const & text) const;
 
         int getHeight() const;
 
-        int getStringIndexAt(const std::string &text, int x) const;
+        int getStringIndexAt(std::string const & text, int x) const;
 
-        void drawString(Graphics *graphics, const std::string &text, int x, int y);
+        void drawString(Graphics* graphics, std::string const & text, int x, int y);
 
     protected:
-        hgeFont *mHGEFont;
+        hgeFont* mHGEFont;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_HGEIMAGEFONT_HPP

@@ -75,32 +75,30 @@ namespace fcn
     class Key;
 
     /**
-    * Irrlicht implementation of Input.
-    */
+     * Irrlicht implementation of Input.
+     */
     class FCN_EXTENSION_DECLSPEC IrrlichtInput : public Input
     {
     public:
-
         /**
-        * Constructor.
-        */
+         * Constructor.
+         */
         IrrlichtInput(irr::IrrlichtDevice* device);
 
         /**
-        * Pushes an Irrlicht event. It should be called at least once per frame to
-        * update input with user input.
-        *
-        * @param event an event from Irrlicht.
-        */
-        virtual void pushInput(const irr::SEvent& event);
+         * Pushes an Irrlicht event. It should be called at least once per frame to
+         * update input with user input.
+         *
+         * @param event an event from Irrlicht.
+         */
+        virtual void pushInput(irr::SEvent const & event);
 
         /**
-        * Polls all input. It exists for input driver compatibility. If you
-        * only use Irrlicht and plan sticking with Irrlicht you can safely ignore this
-        * function as it in the Irrlicht case does nothing.
-        */
+         * Polls all input. It exists for input driver compatibility. If you
+         * only use Irrlicht and plan sticking with Irrlicht you can safely ignore this
+         * function as it in the Irrlicht case does nothing.
+         */
         virtual void _pollInput() { }
-
 
         // Inherited from Input
 
@@ -114,13 +112,13 @@ namespace fcn
 
     protected:
         /**
-        * Converts an Irrlicht event to a Guichan key value.
-        *
-        * @param keysym The Irrlicht event to convert.
-        * @return A Fifechan key value. -1 if no conversion took place.
-        * @see Key
-        */
-        int convertIrrlichtEventToFifechanKeyValue(const irr::SEvent& event);
+         * Converts an Irrlicht event to a Guichan key value.
+         *
+         * @param keysym The Irrlicht event to convert.
+         * @return A Fifechan key value. -1 if no conversion took place.
+         * @see Key
+         */
+        int convertIrrlichtEventToFifechanKeyValue(irr::SEvent const & event);
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;
@@ -129,6 +127,6 @@ namespace fcn
         bool mAltKeyDown;
         bool mMetaKeyDown;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IRRLICHTINPUT_HPP

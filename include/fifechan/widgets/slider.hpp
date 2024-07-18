@@ -75,13 +75,9 @@ namespace fcn
      * If the selected value is changed an action event will be sent to all
      * action listeners of the slider.
      */
-    class FCN_CORE_DECLSPEC Slider :
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FCN_CORE_DECLSPEC Slider : public Widget, public MouseListener, public KeyListener
     {
     public:
-
         /**
          * Draw orientations for the slider. A slider can be drawn vertically or
          * horizontally.
@@ -221,11 +217,9 @@ namespace fcn
          */
         double getStepLength() const;
 
-
         // Inherited from Widget
 
         virtual void draw(Graphics* graphics);
-
 
         // Inherited from MouseListener.
 
@@ -240,7 +234,6 @@ namespace fcn
         virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
 
         virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
-
 
         // Inherited from KeyListener
 
@@ -316,6 +309,6 @@ namespace fcn
          */
         Orientation mOrientation;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SLIDER_HPP

@@ -68,12 +68,11 @@
 
 #include "platform.hpp"
 
-extern "C"
-{
-    /**
-     * Exists to be able to check for Guichan Directx 3D with autotools.
-     */
-    FCN_EXTENSION_DECLSPEC extern void fcnD3D();
+extern "C" {
+/**
+ * Exists to be able to check for Guichan Directx 3D with autotools.
+ */
+FCN_EXTENSION_DECLSPEC extern void fcnD3D();
 }
 
 #endif // end FCN_D3D_HPP

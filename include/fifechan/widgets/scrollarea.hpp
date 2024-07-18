@@ -74,12 +74,9 @@ namespace fcn
      * A scroll area can be customized to always show scroll bars or to show them only when
      * necessary.
      */
-    class FCN_CORE_DECLSPEC ScrollArea:
-        public MouseListener,
-        public Widget
+    class FCN_CORE_DECLSPEC ScrollArea : public MouseListener, public Widget
     {
     public:
-
         /**
          * Scrollpolicies for the horizontal and vertical scrollbar.
          * The policies are:
@@ -106,7 +103,7 @@ namespace fcn
          *
          * @param content The content of the scroll area.
          */
-        ScrollArea(Widget *content);
+        ScrollArea(Widget* content);
 
         /**
          * Constructor.
@@ -117,9 +114,7 @@ namespace fcn
          * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
          */
-        ScrollArea(Widget *content,
-                   ScrollPolicy hPolicy,
-                   ScrollPolicy vPolicy);
+        ScrollArea(Widget* content, ScrollPolicy hPolicy, ScrollPolicy vPolicy);
 
         /**
          * Destructor.
@@ -340,19 +335,17 @@ namespace fcn
          */
         bool isOpaque() const;
 
-
         // Inherited from BasicContainer
 
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
         virtual Rectangle getChildrenArea();
 
-        virtual Widget *getWidgetAt(int x, int y);
-
+        virtual Widget* getWidgetAt(int x, int y);
 
         // Inherited from Widget
 
-        virtual void draw(Graphics *graphics);
+        virtual void draw(Graphics* graphics);
 
         virtual void logic();
 
@@ -360,13 +353,13 @@ namespace fcn
 
         void setHeight(int height);
 
-        void setDimension(const Rectangle& dimension);
+        void setDimension(Rectangle const & dimension);
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
 
         virtual void adjustSize();
 
-        virtual void expandContent(bool recursiv=true);
+        virtual void expandContent(bool recursiv = true);
 
         // Inherited from MouseListener
 
@@ -391,35 +384,35 @@ namespace fcn
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawBackground(Graphics *graphics);
+        virtual void drawBackground(Graphics* graphics);
 
         /**
          * Draws the up button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawUpButton(Graphics *graphics);
+        virtual void drawUpButton(Graphics* graphics);
 
         /**
          * Draws the down button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawDownButton(Graphics *graphics);
+        virtual void drawDownButton(Graphics* graphics);
 
         /**
          * Draws the left button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawLeftButton(Graphics *graphics);
+        virtual void drawLeftButton(Graphics* graphics);
 
         /**
          * Draws the right button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawRightButton(Graphics *graphics);
+        virtual void drawRightButton(Graphics* graphics);
 
         /**
          * Draws the vertical scroll bar.
@@ -611,6 +604,6 @@ namespace fcn
          */
         bool mOpaque;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SCROLLAREA_HPP

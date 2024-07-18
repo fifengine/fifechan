@@ -75,7 +75,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC AllegroFont : public Font
     {
     public:
-
         /**
          * Constructor.
          *
@@ -88,26 +87,25 @@ namespace fcn
          *
          * @param filename The filename of the Allegro font to load.
          */
-        AllegroFont(const std::string& filename);
+        AllegroFont(std::string const & filename);
 
         /**
          * Destructor.
          */
         ~AllegroFont();
 
-
         // Inherited from Font
 
-        virtual int getWidth(const std::string& text) const;
+        virtual int getWidth(std::string const & text) const;
 
         virtual int getHeight() const;
 
-        virtual void drawString(fcn::Graphics* graphics, const std::string& text, int x, int y);
+        virtual void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y);
 
     protected:
         bool mAutoFree;
         FONT* mAllegroFont;
     };
-}
+} // namespace fcn
 
 #endif // FCN_ALLEGROFONT_HPP

@@ -71,7 +71,7 @@
 
 namespace fcn
 {
-	class Graphics;
+    class Graphics;
     namespace contrib
     {
 
@@ -83,17 +83,16 @@ namespace fcn
          *       class. Also, remember to call the SDL_ttf libraries quit
          *       function.
          */
-        class FCN_EXTENSION_DECLSPEC SDLTrueTypeFont: public Font
+        class FCN_EXTENSION_DECLSPEC SDLTrueTypeFont : public Font
         {
         public:
-
             /**
              * Constructor.
              *
              * @param filename the filename of the True Type Font.
              * @param size the size the font should be in.
              */
-            SDLTrueTypeFont (const std::string& filename, int size);
+            SDLTrueTypeFont(std::string const & filename, int size);
 
             /**
              * Destructor.
@@ -106,7 +105,7 @@ namespace fcn
              *
              * @param spacing the spacing in pixels.
              */
-            virtual void setRowSpacing (int spacing);
+            virtual void setRowSpacing(int spacing);
 
             /**
              * Gets the spacing between rows in pixels.
@@ -144,17 +143,16 @@ namespace fcn
              */
             virtual bool isAntiAlias();
 
-
             // Inherited from Font
 
-            virtual int getWidth(const std::string& text) const;
+            virtual int getWidth(std::string const & text) const;
 
             virtual int getHeight() const;
 
-            virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+            virtual void drawString(Graphics* graphics, std::string const & text, int x, int y);
 
         protected:
-            TTF_Font *mFont;
+            TTF_Font* mFont;
 
             int mHeight;
             int mGlyphSpacing;
@@ -163,8 +161,7 @@ namespace fcn
             std::string mFilename;
             bool mAntiAlias;
         };
-    }
-}
+    } // namespace contrib
+} // namespace fcn
 
 #endif
-

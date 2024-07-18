@@ -67,14 +67,13 @@
 #include <fifechan/allegro/allegroimageloader.hpp>
 #include <fifechan/allegro/allegroinput.hpp>
 
-extern "C"
-{
-    /**
-     * Exists to be able to check for Guichan Allegro with autotools.
-     *
-     * @bug Autotools is incapable of finding this function.
-     */
-    extern void fcnAllegro();
+extern "C" {
+/**
+ * Exists to be able to check for Guichan Allegro with autotools.
+ *
+ * @bug Autotools is incapable of finding this function.
+ */
+extern void fcnAllegro();
 }
 
 #endif // end FCN_ALLEGRO_HPP

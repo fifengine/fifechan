@@ -74,7 +74,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC MouseListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -85,20 +84,14 @@ namespace fcn
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseEntered(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseEntered(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse has exited the widget area.
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseExited(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseExited(MouseEvent& mouseEvent) { }
 
         /**
          * Called when a mouse button has been pressed on the widget area.
@@ -108,20 +101,14 @@ namespace fcn
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mousePressed(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mousePressed(MouseEvent& mouseEvent) { }
 
         /**
          * Called when a mouse button has been released on the widget area.
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseReleased(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseReleased(MouseEvent& mouseEvent) { }
 
         /**
          * Called when a mouse button is pressed and released (clicked) on
@@ -129,50 +116,35 @@ namespace fcn
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseClicked(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseClicked(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved up on the widget area.
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved down on the widget area.
          *
          * @param mousEvent Describes the event.
          */
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved right on the widget area.
          *
          * @param mousEvent Describes the event.
          */
-        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved left on the widget area.
          *
          * @param mousEvent Describes the event.
          */
-        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse has moved in the widget area and no mouse button
@@ -180,10 +152,7 @@ namespace fcn
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseMoved(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseMoved(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse has moved and the mouse has previously been
@@ -191,10 +160,7 @@ namespace fcn
          *
          * @param mouseEvent Describes the event.
          */
-        virtual void mouseDragged(MouseEvent& mouseEvent)
-        {
-
-        }
+        virtual void mouseDragged(MouseEvent& mouseEvent) { }
 
     protected:
         /**
@@ -205,6 +171,6 @@ namespace fcn
          */
         MouseListener() { }
     };
-}
+} // namespace fcn
 
 #endif // end FCN_MOUSELISTENER_HPP

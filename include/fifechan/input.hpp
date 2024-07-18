@@ -83,7 +83,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Input
     {
     public:
-
         /**
          * Destructor.
          */
@@ -127,6 +126,6 @@ namespace fcn
          */
         virtual void _pollInput() = 0;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_INPUT_HPP

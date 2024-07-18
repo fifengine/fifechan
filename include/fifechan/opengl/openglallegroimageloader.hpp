@@ -76,19 +76,16 @@ namespace fcn
     class OpenGLAllegroImageLoader : public ImageLoader
     {
     public:
-
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string& filename,
-                            bool convertToDisplayFormat = true)
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true)
 
         {
-            BITMAP *bmp = load_bitmap(filename.c_str(), NULL);
+            BITMAP* bmp = load_bitmap(filename.c_str(), NULL);
 
-            if (bmp == NULL)
-            {
+            if (bmp == NULL) {
                 std::string msg = "Unable to load image file: " + filename;
-                fcn::throwException(msg, static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+                fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
 
             int bitmapBpp = bitmap_color_depth(bmp);
@@ -100,41 +97,30 @@ namespace fcn
             // before creating the OpenGL image.
             bool hasAlphaChannel = false;
             int x, y;
-            for (y = 0; y < bmp->h; y++)
-            {
-                for (x = 0; x < bmp->w; x++)
-                {
+            for (y = 0; y < bmp->h; y++) {
+                for (x = 0; x < bmp->w; x++) {
                     int pixel = getpixel(bmp, x, y);
-                    if (geta_depth(bitmapBpp, pixel) != 0)
-                    {
+                    if (geta_depth(bitmapBpp, pixel) != 0) {
                         hasAlphaChannel = true;
                     }
                 }
             }
 
-            unsigned int *pixels = new unsigned int[bmp->w * bmp->h];
+            unsigned int* pixels = new unsigned int[bmp->w * bmp->h];
 
-            for (y = 0; y < bmp->h; y++)
-            {
-                for (x = 0; x < bmp->w; x++)
-                {
-                    int pixel = getpixel(bmp,x, y);
+            for (y = 0; y < bmp->h; y++) {
+                for (x = 0; x < bmp->w; x++) {
+                    int pixel = getpixel(bmp, x, y);
 
-                    if (!hasAlphaChannel)
-                    {
+                    if (!hasAlphaChannel) {
                         pixels[x + y * bmp->w] = pixel | 0xff000000;
-                    }
-                    else
-                    {
+                    } else {
                         pixels[x + y * bmp->w] = pixel;
                     }
                 }
             }
 
-            OpenGLImage *image = new OpenGLImage(pixels,
-                                                 bmp->w,
-                                                 bmp->h,
-                                                 convertToDisplayFormat);
+            OpenGLImage* image = new OpenGLImage(pixels, bmp->w, bmp->h, convertToDisplayFormat);
 
             delete[] pixels;
             destroy_bitmap(bmp);
@@ -142,6 +128,6 @@ namespace fcn
             return image;
         }
     };
-}
+} // namespace fcn
 
 #endif // end FCN_OPENGLALLEGROIMAGELOADER_HPP

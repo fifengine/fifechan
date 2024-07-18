@@ -30,17 +30,16 @@ namespace fcn
 {
     class Graphics;
     class Image;
-    
+
     class FCN_CORE_DECLSPEC ImageProgressBar : public Widget
     {
     public:
-        
-        enum Orientation 
+        enum Orientation
         {
             HORIZONTAL = 0,
             VERTICAL
         };
-        
+
         /**
          * Default constructor.
          */
@@ -48,21 +47,21 @@ namespace fcn
 
         /**
          * Constructor. The image passed is not owned by this object.
-         * 
+         *
          * @param image Image used by the progress bar.
          * @param maxValue Value when the progress bar is full.
          */
         ImageProgressBar(Image* image, int maxValue);
-        
+
         /**
          * Constructor. The image indicated by filename is opened and it's
          * owned by this object.
-         * 
+         *
          * @param filename Filename of the image to be used by the progress bar.
          * @param maxValue Value when the progress bar is full.
          */
-        ImageProgressBar(const std::string& filename, int maxValue);
-        
+        ImageProgressBar(std::string const & filename, int maxValue);
+
         /**
          * Destructor.
          */
@@ -72,10 +71,10 @@ namespace fcn
          * Draws this ImageProgressBar.
          */
         virtual void draw(Graphics* graphics);
-        
+
         /**
          * Sets the opacity of the ImageProgressBar.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -84,45 +83,45 @@ namespace fcn
          * @return Whether this ImageProgressBar is opaque or not.
          */
         bool isOpaque() const;
-        
+
         /**
          * Sets the Bar image. The image passed is not owned by
          * this object.
-         * 
-         * @param image Image used by the progress bar. 
+         *
+         * @param image Image used by the progress bar.
          */
         void setBarImage(Image* image);
 
         /**
          * @return The image used by this Bar.
          */
-        const Image* getBarImage() const;
+        Image const * getBarImage() const;
 
         /**
          * Sets the foreground image. The image passed is not owned by
          * this object.
-         * 
-         * @param image Image used as overlay by the progress bar. 
+         *
+         * @param image Image used as overlay by the progress bar.
          */
         void setForegroundImage(Image* image);
 
         /**
          * @return The image used as overlay by this Bar.
          */
-        const Image* getForegroundImage() const;
-         
+        Image const * getForegroundImage() const;
+
         /**
          * Sets the ImageProgressBar's orientation.
-         * 
+         *
          * @param orientation Desired orientation.
          */
         void setOrientation(Orientation orientation);
-        
+
         /**
          * @return Orientation of this ImageProgressBar.
          */
         Orientation getOrientation() const;
-        
+
         /**
          * Gets the max value of the bar
          *
@@ -150,51 +149,50 @@ namespace fcn
          * @param value In the range of 0-max.
          */
         void setValue(int value);
-        
+
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
 
     protected:
-        
         /**
          * Bar image.
          */
-        const Image* mBarImage;
+        Image const * mBarImage;
 
         /**
          * Foreground image.
          */
-        const Image* mForegroundImage;
-        
+        Image const * mForegroundImage;
+
         /**
          * True if the image has been loaded internally, false otherwise.
          * An image not loaded internally should not be deleted in the
          * destructor.
          */
         bool mInternalImage;
-        
+
         /**
          * Value when progress bar is full.
          */
         int mMaxValue;
-        
+
         /**
          * Holds the current progress bar value.
          */
         int mValue;
-        
+
         /**
          * ImageProgressBar's orientation.
          */
         Orientation mOrientation;
- 
+
         /**
          * True if the widget is opaque, false otherwise.
          */
         bool mOpaque;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_IMAGEPROGRESSBAR_HPP
+#endif // FCN_IMAGEPROGRESSBAR_HPP

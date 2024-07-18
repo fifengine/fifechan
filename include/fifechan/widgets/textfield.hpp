@@ -76,10 +76,7 @@ namespace fcn
     /**
      * An implementation of a text field where a user can enter a line of text.
      */
-    class FCN_CORE_DECLSPEC TextField:
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FCN_CORE_DECLSPEC TextField : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**
@@ -93,7 +90,7 @@ namespace fcn
          *
          * @param text The default text of the text field.
          */
-        TextField(const std::string& text);
+        TextField(std::string const & text);
 
         /**
          * Destructor.
@@ -106,7 +103,7 @@ namespace fcn
          * @param text The text of the text field.
          * @see getText
          */
-        virtual void setText(const std::string& text);
+        virtual void setText(std::string const & text);
 
         /**
          * Gets the text of the text field.
@@ -156,10 +153,9 @@ namespace fcn
          */
         unsigned int getCaretPosition() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
 
         /**
          * Adjusts the size of the text field to fit the text.
@@ -168,13 +164,11 @@ namespace fcn
 
         virtual void draw(Graphics* graphics);
 
-
         // Inherited from MouseListener
 
         virtual void mousePressed(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
-
 
         // Inherited from KeyListener
 
@@ -219,6 +213,6 @@ namespace fcn
          */
         UTF8StringEditor* mStringEditor;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_TEXTFIELD_HPP

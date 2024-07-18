@@ -68,28 +68,27 @@
 
 namespace fcn
 {
-	class Image;
+    class Image;
 
-	/**
-	 * SDL implementation of ImageLoader.
-	 */
-	class FCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
-	{
-	public:
+    /**
+     * SDL implementation of ImageLoader.
+     */
+    class FCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
+    {
+    public:
+        // Inherited from ImageLoader
 
-		// Inherited from ImageLoader
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
+        SDL_PixelFormat const & getSDLPixelFormat();
+        void setSDLPixelFormat(SDL_PixelFormat const & format);
 
-		virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
-		const SDL_PixelFormat& getSDLPixelFormat();
-		void setSDLPixelFormat(const SDL_PixelFormat& format);
+    protected:
+        virtual SDL_Surface* loadSDLSurface(std::string const & filename);
+        virtual SDL_Surface* convertToStandardFormat(SDL_Surface* surface);
 
-	protected:
-		virtual SDL_Surface* loadSDLSurface(const std::string& filename);
-		virtual SDL_Surface* convertToStandardFormat(SDL_Surface* surface);
-
-	private:
-		SDL_PixelFormat mPixelFormat;
-	};
-}
+    private:
+        SDL_PixelFormat mPixelFormat;
+    };
+} // namespace fcn
 
 #endif // end FCN_SDLIMAGELOADER_HPP

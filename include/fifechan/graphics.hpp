@@ -183,7 +183,7 @@ namespace fcn
          *
          * @return The current clip area.
          */
-        virtual const ClipRectangle& getCurrentClipArea();
+        virtual ClipRectangle const & getCurrentClipArea();
 
         /**
          * Draws a part of an image.
@@ -207,13 +207,7 @@ namespace fcn
          * @param width The width of the piece.
          * @param height The height of the piece.
          */
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height) = 0;
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) = 0;
         /**
          * Draws an image. A simplified version of the other drawImage.
          * It will draw a whole image at the coordinate you specify.
@@ -221,7 +215,7 @@ namespace fcn
          * @code drawImage(myImage, 0, 0, dstX, dstY, image->getWidth(), \
          image->getHeight()); @endcode
          */
-        virtual void drawImage(const Image* image, int dstX, int dstY);
+        virtual void drawImage(Image const * image, int dstX, int dstY);
 
         /**
          * Draws a single point/pixel.
@@ -258,7 +252,7 @@ namespace fcn
          * @param points Contains the points that are used for drawing.
          * @param width  The line width.
          */
-        virtual void drawPolyLine(const PointVector& points, unsigned int width) = 0;
+        virtual void drawPolyLine(PointVector const & points, unsigned int width) = 0;
 
         /**
          * Draws a bezier curve.
@@ -267,14 +261,14 @@ namespace fcn
          * @param steps  The steps for each line between two points.
          * @param width  The line width.
          */
-        virtual void drawBezier(const PointVector& points, int steps, unsigned int width) = 0;
+        virtual void drawBezier(PointVector const & points, int steps, unsigned int width) = 0;
 
         /**
          * Draws a simple, non-filled rectangle with a one pixel width.
          *
          * @param rectangle The rectangle to draw.
          */
-        virtual void drawRectangle(const Rectangle& rectangle) = 0;
+        virtual void drawRectangle(Rectangle const & rectangle) = 0;
 
         /**
          * Draws a simple, non-filled rectangle with a one pixel width.
@@ -288,14 +282,16 @@ namespace fcn
          *
          */
         inline void drawRectangle(int x, int y, int width, int height)
-        { drawRectangle(Rectangle(x, y, width, height)); }
+        {
+            drawRectangle(Rectangle(x, y, width, height));
+        }
 
         /**
          * Draws a filled rectangle.
          *
          * @param rectangle The filled rectangle to draw.
          */
-        virtual void fillRectangle(const Rectangle& rectangle) = 0;
+        virtual void fillRectangle(Rectangle const & rectangle) = 0;
 
         /**
          * Draws a filled rectangle.
@@ -309,7 +305,9 @@ namespace fcn
          *
          */
         inline void fillRectangle(int x, int y, int width, int height)
-        { fillRectangle(Rectangle(x, y, width, height)); }
+        {
+            fillRectangle(Rectangle(x, y, width, height));
+        }
 
         /**
          * Draws a simple, non-filled circle with a one pixel width.
@@ -318,7 +316,7 @@ namespace fcn
          * @param radius The circle radius.
          *
          */
-        virtual void drawCircle(const Point& p, unsigned int radius) = 0;
+        virtual void drawCircle(Point const & p, unsigned int radius) = 0;
 
         /**
          * Draws a filled circle.
@@ -327,7 +325,7 @@ namespace fcn
          * @param radius The circle radius.
          *
          */
-        virtual void drawFillCircle(const Point& p, unsigned int radius) = 0;
+        virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
 
         /**
          * Draws a simple, non-filled circle segment with a one pixel width.
@@ -339,7 +337,7 @@ namespace fcn
          * @param eangle The end angle of the segment.
          *
          */
-        virtual void drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
+        virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Draws a filled circle segment.
@@ -351,7 +349,7 @@ namespace fcn
          * @param eangle The end angle of the segment.
          *
          */
-        virtual void drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
+        virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Sets the color to use when drawing.
@@ -359,7 +357,7 @@ namespace fcn
          * @param color A color.
          * @see getColor
          */
-        virtual void setColor(const Color& color) = 0;
+        virtual void setColor(Color const & color) = 0;
 
         /**
          * Gets the color to use when drawing.
@@ -367,7 +365,7 @@ namespace fcn
          * @return The color used when drawing.
          * @see setColor
          */
-        virtual const Color& getColor() const = 0;
+        virtual Color const & getColor() const = 0;
 
         /**
          * Sets the font to use when drawing text.
@@ -385,10 +383,7 @@ namespace fcn
          * @param alignment The alignemnt to use when drawing.
          * @throws Exception when no font has been set.
          */
-        virtual void drawText(const std::string& text,
-                              int x,
-                              int y,
-                              Alignment alignment = Left);
+        virtual void drawText(std::string const & text, int x, int y, Alignment alignment = Left);
 
     protected:
         /**
@@ -401,6 +396,6 @@ namespace fcn
          */
         Font* mFont{nullptr};
     };
-}
+} // namespace fcn
 
 #endif // end FCN_GRAPHICS_HPP

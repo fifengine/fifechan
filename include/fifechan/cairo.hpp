@@ -66,14 +66,13 @@
 #include <fifechan/cairo/cairoimage.hpp>
 #include <fifechan/cairo/cairoimageloader.hpp>
 
-extern "C"
-{
-    /**
-     * Exists to be able to check for Guichan Cairo with autotools.
-     *
-     * @bug Autotools is incapable of finding this function.
-     */
-    extern void fcnCairo();
+extern "C" {
+/**
+ * Exists to be able to check for Guichan Cairo with autotools.
+ *
+ * @bug Autotools is incapable of finding this function.
+ */
+extern void fcnCairo();
 }
 
 #endif // end FCN_CAIRO_HPP

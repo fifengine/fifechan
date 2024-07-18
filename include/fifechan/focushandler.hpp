@@ -87,7 +87,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC FocusHandler
     {
     public:
-
         /**
          * Constructor.
          */
@@ -163,7 +162,7 @@ namespace fcn
          * @return True if the widget is focused, false otherwise.
          * @see Widget::isFocused
          */
-        virtual bool isFocused(const Widget* widget) const;
+        virtual bool isFocused(Widget const * widget) const;
 
         /**
          * Gets the widget with focus.
@@ -347,19 +346,19 @@ namespace fcn
          *
          * @param focusEvent the event to distribute.
          */
-        virtual void distributeFocusLostEvent(const Event& focusEvent);
+        virtual void distributeFocusLostEvent(Event const & focusEvent);
 
         /**
          * Distributes a focus gained event.
          *
          * @param focusEvent the event to distribute.
          */
-        virtual void distributeFocusGainedEvent(const Event& focusEvent);
+        virtual void distributeFocusGainedEvent(Event const & focusEvent);
 
         /**
          * Typedef.
          */
-        using WidgetVector = std::vector<Widget *>;
+        using WidgetVector = std::vector<Widget*>;
 
         /**
          * Typedef.
@@ -415,6 +414,6 @@ namespace fcn
          */
         Widget* mLastWidgetPressed;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_FOCUSHANDLER_HPP

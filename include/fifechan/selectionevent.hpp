@@ -71,10 +71,9 @@ namespace fcn
     /**
      * Represents a selection event.
      */
-    class FCN_CORE_DECLSPEC SelectionEvent: public Event
+    class FCN_CORE_DECLSPEC SelectionEvent : public Event
     {
     public:
-
         /**
          * Constructor.
          *
@@ -87,6 +86,6 @@ namespace fcn
          */
         ~SelectionEvent() override;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SELECTIONEVENT_HPP

@@ -81,7 +81,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC HGEInput : public Input
     {
     public:
-
         /**
          *  Constructor.
          */
@@ -92,8 +91,7 @@ namespace fcn
          */
         virtual ~HGEInput();
 
-
-        //Inherited from Input
+        // Inherited from Input
 
         virtual bool isKeyQueueEmpty();
 
@@ -111,7 +109,7 @@ namespace fcn
          *
          * @param ki the hge input event to handle.
          */
-        void pollKeyInput(hgeInputEvent &ki);
+        void pollKeyInput(hgeInputEvent& ki);
 
         /**
          * Handles mouse input. The function is called by _pollInput.
@@ -137,7 +135,7 @@ namespace fcn
         bool isNumericPad(int keyCode);
 
     protected:
-        static HGE *mHGE;
+        static HGE* mHGE;
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;
@@ -149,6 +147,6 @@ namespace fcn
         bool mRightMouseButtonDown;
         bool mMiddleMouseButtonDown;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_HGEINPUT_HPP

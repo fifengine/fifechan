@@ -74,11 +74,10 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC CairoImageLoader : public ImageLoader
     {
     public:
-
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
     };
-}
+} // namespace fcn
 
 #endif

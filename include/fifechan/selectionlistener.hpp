@@ -79,7 +79,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC SelectionListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -92,7 +91,7 @@ namespace fcn
          *
          * @param event The event of the value change.
          */
-        virtual void valueChanged(const SelectionEvent& event) { };
+        virtual void valueChanged(SelectionEvent const & event){};
 
     protected:
         /**
@@ -102,8 +101,7 @@ namespace fcn
          * therefore its constructor is protected.
          */
         SelectionListener() { }
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_SELECTIONLISTENER_HPP

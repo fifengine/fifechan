@@ -84,10 +84,7 @@ namespace fcn
      * a mouse click or by using the enter or space key an action event will be
      * sent to all action listeners of the list box.
      */
-    class FCN_CORE_DECLSPEC ListBox :
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FCN_CORE_DECLSPEC ListBox : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**
@@ -100,7 +97,7 @@ namespace fcn
          *
          * @param listModel the list model to use.
          */
-        ListBox(ListModel *listModel);
+        ListBox(ListModel* listModel);
 
         /**
          * Destructor.
@@ -115,7 +112,7 @@ namespace fcn
          */
         int getSelected() const;
 
-         /**
+        /**
          * Sets the selected item. The selected item is represented by
          * an index from the list model.
          *
@@ -130,7 +127,7 @@ namespace fcn
          * @param listModel the list model to use.
          * @see getListModel
          */
-        void setListModel(ListModel *listModel);
+        void setListModel(ListModel* listModel);
 
         /**
          * Gets the list model used.
@@ -138,7 +135,7 @@ namespace fcn
          * @return the list model used.
          * @see setListModel
          */
-        ListModel *getListModel() const;
+        ListModel* getListModel() const;
 
         /**
          * Checks whether the list box wraps when selecting items with a
@@ -194,20 +191,17 @@ namespace fcn
          */
         virtual unsigned int getRowHeight() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
         virtual void logic();
 
-
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
-
 
         // Inherited from MouseListener
 
@@ -218,7 +212,6 @@ namespace fcn
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
-
 
     protected:
         /**
@@ -236,7 +229,7 @@ namespace fcn
         /**
          * The list model to use.
          */
-        ListModel *mListModel;
+        ListModel* mListModel;
 
         /**
          * True if wrapping is enabled, false otherwise.
@@ -258,6 +251,6 @@ namespace fcn
          */
         typedef SelectionListenerList::iterator SelectionListenerIterator;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_LISTBOX_HPP

@@ -78,7 +78,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC CairoGraphics : public Graphics
     {
     public:
-
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
@@ -89,7 +88,7 @@ namespace fcn
          * @param TargetSurface a cairo_surface_t* where the drawings are made. It can
          * be any surface type (png, Xlib, Win32).
          */
-         CairoGraphics(cairo_surface_t* TargetSurface,int Width,int Height);
+        CairoGraphics(cairo_surface_t* TargetSurface, int Width, int Height);
 
         /**
          * Destructor.
@@ -103,7 +102,6 @@ namespace fcn
          */
         cairo_t* GetContext();
 
-
         // Inherited from Graphics
 
         virtual void _beginDraw();
@@ -114,28 +112,21 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-        virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
     private:
-
         void SetCurrentColorAsSource();
 
         cairo_t* mCairoContext;
@@ -145,8 +136,8 @@ namespace fcn
 
         bool FinalizeTargetSurface;
         Color mColor;
-        double mColorR,mColorG,mColorB,mColorA;
+        double mColorR, mColorG, mColorB, mColorA;
     };
-}
+} // namespace fcn
 
 #endif

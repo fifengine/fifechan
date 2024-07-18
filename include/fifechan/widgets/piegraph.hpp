@@ -25,42 +25,41 @@
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 
-
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC PieGraph : public Widget {
+    class FCN_CORE_DECLSPEC PieGraph : public Widget
+    {
     public:
-
         /**
          * Default constructor.
          */
         PieGraph();
-        PieGraph(const Point& center);
-        
+        PieGraph(Point const & center);
+
         /**
          * Destructor.
          */
-        virtual ~PieGraph() { };
+        virtual ~PieGraph(){};
 
         void setCenterX(int x);
         void setCenterY(int y);
         void setCenter(int x, int y);
         int getCenterX() const;
         int getCenterY() const;
-        void setCenter(const Point& center);
-        const Point& getCenter() const;
+        void setCenter(Point const & center);
+        Point const & getCenter() const;
 
         void setRadius(int radius);
         int getRadius() const;
 
-        void addSegment(int startAngle, int stopAngle, const Color& color);
+        void addSegment(int startAngle, int stopAngle, Color const & color);
         void clearSegments();
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -80,7 +79,8 @@ namespace fcn
         Point m_center;
         int m_radius;
 
-        struct PieGraphSegment {
+        struct PieGraphSegment
+        {
             int startAngle;
             int stopAngle;
             Color color;
@@ -88,6 +88,6 @@ namespace fcn
 
         std::vector<PieGraphSegment> m_segments;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_PieGraph_HPP
+#endif // FCN_PieGraph_HPP

@@ -139,7 +139,7 @@ namespace fcn
          * @param listModel the list model to use.
          * @see getListModel
          */
-        void setListModel(ListModel *listModel);
+        void setListModel(ListModel* listModel);
 
         /**
          * Gets the list model used.
@@ -147,7 +147,7 @@ namespace fcn
          * @return the ListModel used.
          * @see setListModel
          */
-        ListModel *getListModel() const;
+        ListModel* getListModel() const;
 
         /**
          * Adjusts the height of the drop down to fit the height of the
@@ -175,48 +175,41 @@ namespace fcn
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
-        void setBaseColor(const Color& color);
+        void setBaseColor(Color const & color);
 
-        void setBackgroundColor(const Color& color);
+        void setBackgroundColor(Color const & color);
 
-        void setForegroundColor(const Color& color);
+        void setForegroundColor(Color const & color);
 
-        void setFont(Font *font);
+        void setFont(Font* font);
 
-        void setSelectionColor(const Color& color);
-
+        void setSelectionColor(Color const & color);
 
         // Inherited from BasicContainer
 
         virtual Rectangle getChildrenArea();
 
-
         // Inherited from FocusListener
 
-        virtual void focusLost(const Event& event);
-
+        virtual void focusLost(Event const & event);
 
         // Inherited from ActionListener
 
-        virtual void action(const ActionEvent& actionEvent);
-
+        virtual void action(ActionEvent const & actionEvent);
 
         // Inherited from DeathListener
 
-        virtual void death(const Event& event);
-
+        virtual void death(Event const & event);
 
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
-
 
         // Inherited from MouseListener
 
@@ -230,10 +223,9 @@ namespace fcn
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
-
         // Inherited from SelectionListener
 
-        virtual void valueChanged(const SelectionEvent& event);
+        virtual void valueChanged(SelectionEvent const & event);
 
     protected:
         /**
@@ -241,7 +233,7 @@ namespace fcn
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawButton(Graphics *graphics);
+        virtual void drawButton(Graphics* graphics);
 
         /**
          * Sets the drop down to be dropped down.
@@ -328,6 +320,6 @@ namespace fcn
          */
         typedef SelectionListenerList::iterator SelectionListenerIterator;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DROPDOWN_HPP

@@ -77,7 +77,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC ActionListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -90,7 +89,7 @@ namespace fcn
          *
          * @param actionEvent The event of the action.
          */
-        virtual void action(const ActionEvent& actionEvent) = 0;
+        virtual void action(ActionEvent const & actionEvent) = 0;
 
     protected:
         /**
@@ -100,8 +99,7 @@ namespace fcn
          * therefore its constructor is protected.
          */
         ActionListener() { }
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ACTIONLISTENER_HPP

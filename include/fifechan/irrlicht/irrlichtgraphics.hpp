@@ -73,25 +73,24 @@ namespace fcn
     class Rectangle;
 
     /**
-    * Irrlicht implementation of the Graphics.
-    */
+     * Irrlicht implementation of the Graphics.
+     */
     class FCN_EXTENSION_DECLSPEC IrrlichtGraphics : public Graphics
     {
     public:
-
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
         /**
-        * Constructor.
-        *
-        * @param driver the Irrlicht video driver to draw to.
-        */
+         * Constructor.
+         *
+         * @param driver the Irrlicht video driver to draw to.
+         */
         IrrlichtGraphics(irr::video::IVideoDriver* driver);
 
         /**
-        * Destructor.
-        */
+         * Destructor.
+         */
         ~IrrlichtGraphics();
 
         // Inherited from Graphics
@@ -104,31 +103,24 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                                int srcX,
-                                int srcY,
-                                int dstX,
-                                int dstY,
-                                int width,
-                                int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-        virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
     protected:
-
         Color mColor;
         irr::video::IVideoDriver* mDriver;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_IRRLICHTGRAPHICS_HPP

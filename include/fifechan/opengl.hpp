@@ -66,12 +66,11 @@
 
 #include "fifechan/platform.hpp"
 
-extern "C"
-{
-    /**
-     * Exists to be able to check for Guichan OpenGL with autotools.
-     */
-    FCN_EXTENSION_DECLSPEC extern void fcnOpenGL();
+extern "C" {
+/**
+ * Exists to be able to check for Guichan OpenGL with autotools.
+ */
+FCN_EXTENSION_DECLSPEC extern void fcnOpenGL();
 }
 
 #endif // end FCN_OPENGL_HPP

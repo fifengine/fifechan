@@ -78,10 +78,7 @@ namespace fcn
     /**
      * An implementation of a text box where a user can enter text that contains of many lines.
      */
-    class FCN_CORE_DECLSPEC TextBox:
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FCN_CORE_DECLSPEC TextBox : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**
@@ -89,7 +86,7 @@ namespace fcn
          *
          * @param text The default text of the text box.
          */
-        TextBox(const std::string& text = "");
+        TextBox(std::string const & text = "");
 
         ~TextBox();
 
@@ -99,7 +96,7 @@ namespace fcn
          * @param text The text of the text box.
          * @see getText
          */
-        void setText(const std::string& text);
+        void setText(std::string const & text);
 
         /**
          * Gets the text of the text box.
@@ -125,7 +122,7 @@ namespace fcn
          * @param text The text to set in the given row number.
          * @see getTextRow
          */
-        void setTextRow(int row, const std::string& text);
+        void setTextRow(int row, std::string const & text);
 
         /**
          * Gets the number of rows in the text.
@@ -219,7 +216,7 @@ namespace fcn
          *
          * @param row The row to add.
          */
-        virtual void addRow(const std::string &row);
+        virtual void addRow(std::string const & row);
 
         /**
          * Checks if the text box is opaque. An opaque text box will draw
@@ -241,14 +238,13 @@ namespace fcn
          */
         void setOpaque(bool opaque);
 
-
         // Inherited from Widget
 
         virtual void draw(Graphics* graphics);
 
         virtual void fontChanged();
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
         /**
          * Adjusts the text box's size to fit the text.
          */
@@ -258,7 +254,6 @@ namespace fcn
 
         virtual void keyPressed(KeyEvent& keyEvent);
 
-
         // Inherited from MouseListener
 
         virtual void mousePressed(MouseEvent& mouseEvent);
@@ -266,20 +261,17 @@ namespace fcn
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
     protected:
-
         /**
          * Sets caret column (UTF-8 aware).
          * @param column Caret column.
          */
         void setCaretColumnUTF8(int column);
 
-
         /**
          * Sets caret row (UTF-8 aware).
          * @param row Caret row.
          */
         void setCaretRowUTF8(int row);
-
 
         void setCaretRowColumnUTF8(int row, int column);
 
@@ -313,6 +305,6 @@ namespace fcn
          */
         UTF8StringEditor* mStringEditor;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_TEXTBOX_HPP

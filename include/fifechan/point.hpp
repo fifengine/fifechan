@@ -19,7 +19,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef FCN_POINT_H
 #define FCN_POINT_H
 
@@ -38,19 +37,23 @@
 // Second block: files included from the same folder
 #include "fifechan/util/fcn_math.hpp"
 
-namespace fcn {
+namespace fcn
+{
 
     /** A 2D Point
      *
      * This is a small helper class to aid in 2d vector arithmetics.
      * @see Rect
      */
-    class Point {
+    class Point
+    {
     public:
-        union {
+        union
+        {
             int val[2];
-            struct {
-                int x,y;
+            struct
+            {
+                int x, y;
             };
         };
 
@@ -58,29 +61,30 @@ namespace fcn {
          *
          * Creates a with 0 as default values.
          */
-        explicit Point(int _x = 0, int _y = 0): x(_x), y(_y) {
-        }
+        explicit Point(int _x = 0, int _y = 0) : x(_x), y(_y) { }
 
         /** Copy Constructor
          */
-        Point(const Point& rhs): x(rhs.x), y(rhs.y) {
-        }
+        Point(Point const & rhs) : x(rhs.x), y(rhs.y) { }
 
         /** Vector addition
          */
-        Point operator+(const Point& p) const {
+        Point operator+(Point const & p) const
+        {
             return Point(x + p.x, y + p.y);
         }
 
         /** Vector substraction
          */
-        Point operator-(const Point& p) const {
+        Point operator-(Point const & p) const
+        {
             return Point(x - p.x, y - p.y);
         }
 
         /** Vector inplace addition
          */
-        Point& operator+=(const Point& p) {
+        Point& operator+=(Point const & p)
+        {
             x += p.x;
             y += p.y;
             return *this;
@@ -88,7 +92,8 @@ namespace fcn {
 
         /** Vector inplace substraction
          */
-        Point& operator-=(const Point& p) {
+        Point& operator-=(Point const & p)
+        {
             x -= p.x;
             y -= p.y;
             return *this;
@@ -96,47 +101,52 @@ namespace fcn {
 
         /** Scalar multiplication with an integer value
          */
-        Point operator*(const int& i) const {
+        Point operator*(int const & i) const
+        {
             return Point(x * i, y * i);
         }
 
         /** Scalar division with an integer value
          */
-        Point operator/(const int& i) const {
+        Point operator/(int const & i) const
+        {
             return Point(x / i, y / i);
         }
 
         /** Equality comparision
          */
-        bool operator==(const Point& p) const {
+        bool operator==(Point const & p) const
+        {
             return x == p.x && y == p.y;
         }
 
         /** Equality comparision
          */
-        bool operator!=(const Point& p) const {
+        bool operator!=(Point const & p) const
+        {
             return x != p.x || y != p.y;
         }
 
         /** Return length
          */
-        int length() const {
+        int length() const
+        {
             double sq;
-            sq = x*x + y*y;
+            sq = x * x + y * y;
             return static_cast<int>(Mathf::Sqrt(sq));
         }
 
         /** Normalizes the point
          */
-        void normalize() {
-            int invLength = static_cast<int>(1.0/length());
+        void normalize()
+        {
+            int invLength = static_cast<int>(1.0 / length());
 
-            //TODO: get rid of this static cast
+            // TODO: get rid of this static cast
             if (invLength > static_cast<int>(Mathf::zeroTolerance())) {
                 x = x * invLength;
                 y = y * invLength;
-            }
-            else {
+            } else {
                 x = 0;
                 y = 0;
             }
@@ -144,9 +154,10 @@ namespace fcn {
 
         /** Rotates the point around the origin
          */
-        void rotate(int angle){
-            //TODO: get rid of this static cast
-            int theta = (angle * static_cast<int>(Mathd::pi()))/180;
+        void rotate(int angle)
+        {
+            // TODO: get rid of this static cast
+            int theta    = (angle * static_cast<int>(Mathd::pi())) / 180;
             int costheta = static_cast<int>(Mathd::Cos(theta));
             int sintheta = static_cast<int>(Mathd::Sin(theta));
 
@@ -159,9 +170,10 @@ namespace fcn {
 
         /** Rotates the point around an origin
          */
-        void rotate(const Point& origin, int angle){
-            //TODO: get rid of this static cast
-            int theta = (angle * static_cast<int>(Mathd::pi()))/180;
+        void rotate(Point const & origin, int angle)
+        {
+            // TODO: get rid of this static cast
+            int theta    = (angle * static_cast<int>(Mathd::pi())) / 180;
             int costheta = static_cast<int>(Mathd::Cos(theta));
             int sintheta = static_cast<int>(Mathd::Sin(theta));
 
@@ -174,22 +186,25 @@ namespace fcn {
 
         /** Sets the x and y coordinate of the 2D point
          */
-        void set(int _x, int _y) {
+        void set(int _x, int _y)
+        {
             x = _x;
             y = _y;
         }
 
-        inline int& operator[] (int ind) {
+        inline int& operator[](int ind)
+        {
             assert(ind > -1 && ind < 2);
             return val[ind];
         }
 
-        friend std::ostream& operator<<(std::ostream& os, const Point& p) {
+        friend std::ostream& operator<<(std::ostream& os, Point const & p)
+        {
             return os << "(" << p.x << ":" << p.y << ")";
         }
     };
 
     using PointVector = std::vector<Point>;
-}
+} // namespace fcn
 
 #endif

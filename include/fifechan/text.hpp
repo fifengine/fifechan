@@ -90,7 +90,7 @@ namespace fcn
          *
          * @param content The content of the text.
          */
-        explicit Text(const std::string& content);
+        explicit Text(std::string const & content);
 
         /**
          * Destructor.
@@ -103,7 +103,7 @@ namespace fcn
          *
          * @param content The content of the text.
          */
-        virtual void setContent(const std::string& content);
+        virtual void setContent(std::string const & content);
 
         /**
          * Gets the content of the text.
@@ -118,7 +118,7 @@ namespace fcn
          * @param row The row to set the text of.
          * @throws Exception when the row does not exist.
          */
-        virtual void setRow(unsigned int row, const std::string& content);
+        virtual void setRow(unsigned int row, std::string const & content);
 
         /**
          * Adds a row to the content. Calling this method will
@@ -126,7 +126,7 @@ namespace fcn
          *
          * @param row The row to add.
          */
-        virtual void addRow(const std::string& row);
+        virtual void addRow(std::string const & row);
 
         /**
          * Inserts a row before the specified row position. Calling this method
@@ -135,7 +135,7 @@ namespace fcn
          * @param row The row to add.
          * @param position Inserts new row before this row.
          */
-        virtual void insertRow(const std::string& row, unsigned int position);
+        virtual void insertRow(std::string const & row, unsigned int position);
 
         /**
          * Erases the given row. Calling this method will not change the current
@@ -320,7 +320,6 @@ namespace fcn
         virtual unsigned int getNumberOfCharacters(unsigned int row) const;
 
     protected:
-
         /**
          * Calculates the caret position from the caret row and caret column.
          */
@@ -349,5 +348,5 @@ namespace fcn
          */
         unsigned int mCaretColumn;
     };
-}
+} // namespace fcn
 #endif

@@ -85,11 +85,7 @@ namespace fcn
          * @param device The D3D device to use when converting the image to display format.
          * @param autoFree True if the surface should automatically be deleted.
          */
-        DirectX3DImage(LPDIRECT3DSURFACE9 surface,
-                       LPDIRECT3DDEVICE9 device,
-                       int width,
-                       int height,
-                       bool autoFree);
+        DirectX3DImage(LPDIRECT3DSURFACE9 surface, LPDIRECT3DDEVICE9 device, int width, int height, bool autoFree);
 
         /**
          * Destructor.
@@ -118,7 +114,6 @@ namespace fcn
          */
         virtual int getTextureHeight() const;
 
-
         // Inherited from Image
 
         virtual void free();
@@ -129,7 +124,7 @@ namespace fcn
 
         virtual Color getPixel(int x, int y);
 
-        virtual void putPixel(int x, int y, const Color& color);
+        virtual void putPixel(int x, int y, Color const & color);
 
         virtual void convertToDisplayFormat();
 
@@ -176,6 +171,6 @@ namespace fcn
          */
         int mTextureHeight;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DIRECTX3DIMAGE_HPP

@@ -78,7 +78,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC WidgetListener
     {
     public:
-
         /**
          * Destructor.
          */
@@ -89,14 +88,14 @@ namespace fcn
          *
          * @param event Describes the event.
          */
-        virtual void widgetResized(const Event& event) { }
+        virtual void widgetResized(Event const & event) { }
 
         /**
          * Invoked when a widget is moved.
          *
          * @param event Describes the event.
          */
-        virtual void widgetMoved(const Event& event) { }
+        virtual void widgetMoved(Event const & event) { }
 
         /**
          * Invoked when a widget is hidden, i.e it's set to be
@@ -104,7 +103,7 @@ namespace fcn
          *
          * @param event Describes the event.
          */
-        virtual void widgetHidden(const Event& event) { }
+        virtual void widgetHidden(Event const & event) { }
 
         /**
          * Invoked when a widget is shown, i.e it's set to be
@@ -112,14 +111,14 @@ namespace fcn
          *
          * @param event Describes the event.
          */
-        virtual void widgetShown(const Event& event) { }
+        virtual void widgetShown(Event const & event) { }
 
         /**
          * Invoked when an ancestor of a widget is moved.
          *
          * @Param event Describes the event.
          */
-        virtual void ancestorMoved(const Event& event) { }
+        virtual void ancestorMoved(Event const & event) { }
 
         /**
          * Invoked when an ancestor of a widget is hidden, i.e its
@@ -127,7 +126,7 @@ namespace fcn
          *
          * @param event Describes the event.
          */
-        virtual void ancestorHidden(const Event& event) { }
+        virtual void ancestorHidden(Event const & event) { }
 
         /**
          * Invoked when an ancestor of a widget is shown, i.e its
@@ -135,7 +134,7 @@ namespace fcn
          *
          * @param event Describes the event.
          */
-        virtual void ancestorShown(const Event& event) { }
+        virtual void ancestorShown(Event const & event) { }
 
     protected:
         /**
@@ -145,8 +144,7 @@ namespace fcn
          * therefore its constructor is protected.
          */
         WidgetListener() { }
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_WIDGETLISTENER_HPP

@@ -70,10 +70,9 @@ namespace fcn
     /**
      * OpenGL implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC OpenGLGraphics: public Graphics
+    class FCN_EXTENSION_DECLSPEC OpenGLGraphics : public Graphics
     {
     public:
-
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
@@ -84,27 +83,27 @@ namespace fcn
 
         /**
          * Constructor.
-		 *
-		 * @param width the width of the logical drawing surface. Should be the
+         *
+         * @param width the width of the logical drawing surface. Should be the
          *              same as the screen resolution.
-		 *
-		 * @param height the height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
-		 */
+         *
+         * @param height the height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
+         */
         OpenGLGraphics(int width, int height);
 
-		/**
-		 * Destructor.
-		 */
+        /**
+         * Destructor.
+         */
         virtual ~OpenGLGraphics();
 
         /**
          * Sets the target plane on where to draw.
-		 *
-		 * @param width the width of the logical drawing surface. Should be the
-		 *              same as the screen resolution.
-		 * @param height the height ot the logical drawing surface. Should be
-		 *               the same as the screen resolution.
+         *
+         * @param width the width of the logical drawing surface. Should be the
+         *              same as the screen resolution.
+         * @param height the height ot the logical drawing surface. Should be
+         *               the same as the screen resolution.
          */
         virtual void setTargetPlane(int width, int height);
 
@@ -122,8 +121,7 @@ namespace fcn
          */
         virtual int getTargetPlaneHeight() const;
 
-
-		// Inherited from Graphics
+        // Inherited from Graphics
 
         virtual void _beginDraw();
 
@@ -133,13 +131,7 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
@@ -147,31 +139,31 @@ namespace fcn
 
         virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width);
 
-        virtual void drawPolyLine(const PointVector& points, unsigned int width);
+        virtual void drawPolyLine(PointVector const & points, unsigned int width);
 
-        virtual void drawBezier(const PointVector& points, int steps, unsigned int width);
+        virtual void drawBezier(PointVector const & points, int steps, unsigned int width);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void drawCircle(const Point& p, unsigned int radius);
+        virtual void drawCircle(Point const & p, unsigned int radius);
 
-        virtual void drawFillCircle(const Point& p, unsigned int radius);
+        virtual void drawFillCircle(Point const & p, unsigned int radius);
 
-        virtual void drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle);
+        virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle);
 
-        virtual void drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle);
+        virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-		virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
     protected:
         int mWidth, mHeight;
-		bool mAlpha;
+        bool mAlpha;
         Color mColor;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_OPENGLGRAPHICS_HPP

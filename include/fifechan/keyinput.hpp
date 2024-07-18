@@ -75,7 +75,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC KeyInput
     {
     public:
-
         /**
          * Constructor.
          */
@@ -87,7 +86,7 @@ namespace fcn
          * @param key The key of the key input.
          * @param type The type of key input.
          */
-        KeyInput(const Key& key, unsigned int type);
+        KeyInput(Key const & key, unsigned int type);
 
         /**
          * Sets the type of the key input.
@@ -111,7 +110,7 @@ namespace fcn
          * @param key The key of the key input.
          * @see getKey
          */
-        void setKey(const Key& key);
+        void setKey(Key const & key);
 
         /**
          * Gets the key of the key input.
@@ -119,7 +118,7 @@ namespace fcn
          * @return The key of the key input.
          * @see setKey
          */
-        const Key& getKey() const;
+        Key const & getKey() const;
 
         /**
          * Checks if shift is pressed.
@@ -264,6 +263,6 @@ namespace fcn
          */
         bool mNumericPad;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_KEYINPUT_HPP

@@ -81,7 +81,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC DirectX3DInput : public Input
     {
     public:
-
         /**
          * Constructor.
          */
@@ -103,7 +102,6 @@ namespace fcn
          */
         virtual void _pollInput() { }
 
-
         // Inherited from Input
 
         virtual bool isKeyQueueEmpty();
@@ -115,7 +113,6 @@ namespace fcn
         virtual MouseInput dequeueMouseInput();
 
     protected:
-
         /**
          * Converts a character to a key value.
          *
@@ -128,9 +125,7 @@ namespace fcn
          * @return A key value.
          * @see Key
          */
-        int convertKeyCharacter(WPARAM wParam,
-                                LPARAM lParam,
-                                unsigned char * kbstate);
+        int convertKeyCharacter(WPARAM wParam, LPARAM lParam, unsigned char* kbstate);
 
         std::queue<KeyInput> mKeyInputQueue;
         std::queue<MouseInput> mMouseInputQueue;
@@ -139,6 +134,6 @@ namespace fcn
         bool mMouseDown;
         bool mMouseInWindow;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DIRECTX3DINPUT_HPP

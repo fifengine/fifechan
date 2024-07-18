@@ -81,11 +81,11 @@ namespace fcn
     class FCN_CORE_DECLSPEC CheckBox : public fcn::ImageButton
     {
     public:
-
         /**
          * Marker style.
          */
-        enum MarkerStyle {
+        enum MarkerStyle
+        {
             Marker_Checkmark = 0,
             Marker_Cross,
             Marker_Dot,
@@ -105,7 +105,7 @@ namespace fcn
          * @param caption The caption of the check box.
          * @param marked True if the check box is selected, false otherwise.
          */
-        CheckBox(const std::string& caption, bool selected = false);
+        CheckBox(std::string const & caption, bool selected = false);
 
         /**
          * Destructor.
@@ -140,7 +140,7 @@ namespace fcn
          *
          * @param filename The filename of the up image to display.
          */
-        void setBackgroundImage(const std::string& filename);
+        void setBackgroundImage(std::string const & filename);
 
         /**
          * Sets the background image to display, that includes the caption region.
@@ -148,14 +148,14 @@ namespace fcn
          *
          * @param image The up image to display.
          */
-        void setBackgroundImage(const Image* image);
+        void setBackgroundImage(Image const * image);
 
         /**
          * Gets background image.
          *
          * @return The background image.
          */
-        const Image* getBackgroundImage() const;
+        Image const * getBackgroundImage() const;
 
         /**
          * Gets the marker mode of the check box.
@@ -171,18 +171,15 @@ namespace fcn
          */
         void setMarkerStyle(MarkerStyle mode);
 
-
         // Inherited from Widget
 
         virtual void adjustSize();
         virtual void draw(Graphics* graphics);
 
-
         // Inherited from KeyListener
 
         virtual void keyPressed(KeyEvent& keyEvent);
         virtual void keyReleased(KeyEvent& keyEvent);
-
 
         // Inherited from MouseListener
 
@@ -196,7 +193,7 @@ namespace fcn
          *
          * @param graphics A Graphics object to draw with.
          */
-        virtual void drawBox(Graphics *graphics);
+        virtual void drawBox(Graphics* graphics);
 
         /**
          * Draws the checkmark.
@@ -204,7 +201,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawCheckmark(Graphics* graphics, const Rectangle& rec);
+        void drawCheckmark(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the cross.
@@ -212,7 +209,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawCross(Graphics* graphics, const Rectangle& rec);
+        void drawCross(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the dot.
@@ -220,7 +217,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawDot(Graphics* graphics, const Rectangle& rec);
+        void drawDot(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the marker image.
@@ -228,7 +225,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawMarkerImage(Graphics* graphics, const Rectangle& rec);
+        void drawMarkerImage(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the rhombus. Box, marker and selection.
@@ -240,7 +237,7 @@ namespace fcn
         /**
          * Holds the background image, that includes the caption region.
          */
-        const Image* mBackgroundImage;
+        Image const * mBackgroundImage;
 
         /**
          * True if the image has been loaded internally.
@@ -256,8 +253,7 @@ namespace fcn
          * Holds the marker style of the check box.
          */
         MarkerStyle mMode;
-
     };
-}
+} // namespace fcn
 
 #endif // end FCN_CHECKBOX_HPP

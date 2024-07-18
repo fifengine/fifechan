@@ -77,7 +77,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
     {
     public:
-
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
@@ -91,7 +90,7 @@ namespace fcn
          *
          * @param target the target to draw to.
          */
-        AllegroGraphics(BITMAP *target);
+        AllegroGraphics(BITMAP* target);
 
         /**
          * Destructor.
@@ -105,14 +104,14 @@ namespace fcn
          *
          * @param target the bitmap to draw to.
          */
-        virtual void setTarget(BITMAP *target);
+        virtual void setTarget(BITMAP* target);
 
         /**
          * Gets the target bitmap.
          *
          * @return the target bitmap.
          */
-        virtual BITMAP *getTarget();
+        virtual BITMAP* getTarget();
 
         /**
          * Gets the color in Allegro format.
@@ -130,7 +129,6 @@ namespace fcn
          */
         virtual void drawBitmap(BITMAP* bitmap, int dstX, int dstY);
 
-
         // Inherited from Graphics
 
         virtual void _beginDraw();
@@ -141,33 +139,26 @@ namespace fcn
 
         virtual void popClipArea();
 
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height);
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         virtual void drawPoint(int x, int y);
 
         virtual void drawLine(int x1, int y1, int x2, int y2);
 
-        virtual void drawRectangle(const Rectangle& rectangle);
+        virtual void drawRectangle(Rectangle const & rectangle);
 
-        virtual void fillRectangle(const Rectangle& rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
 
-        virtual void setColor(const Color& color);
+        virtual void setColor(Color const & color);
 
-        virtual const Color& getColor() const;
+        virtual Color const & getColor() const;
 
     protected:
-        BITMAP *mTarget;
+        BITMAP* mTarget;
         bool mClipNull;
         int mAllegroColor;
         Color mColor;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_ALLEGROGRAPHICS_HPP
-

@@ -90,11 +90,9 @@ namespace fcn
          */
         virtual void setDevice(LPDIRECT3DDEVICE9 device);
 
-
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string& filename,
-                            bool convertToDisplayFormat = true);
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
     protected:
         /**
@@ -102,6 +100,6 @@ namespace fcn
          */
         LPDIRECT3DDEVICE9 mDevice;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_DIRECTX3DIMAGELOADER_HPP

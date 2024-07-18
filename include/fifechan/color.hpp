@@ -73,7 +73,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Color
     {
     public:
-
         /**
          * Constructor. Initializes the color to black.
          */
@@ -114,7 +113,8 @@ namespace fcn
          * @param color A color to add to this color.
          * @return The added colors with an alpha value set to 255.
          */
-        Color operator+(const Color& color) const;
+        Color operator+(Color const & color) const;
+        Color operator+(int value) const;
 
         /**
          * Subtracts the RGB values of one color from another.
@@ -126,7 +126,8 @@ namespace fcn
          * @param color A color to subtract from this color.
          * @return The subtracted colors with an alpha value set to 255.
          */
-        Color operator-(const Color& color) const;
+        Color operator-(Color const & color) const;
+        Color operator-(int value) const;
 
         /**
          * Multiplies the RGB values of a color with a float value.
@@ -145,7 +146,7 @@ namespace fcn
          * @return True if the two colors have the same RGBA components
          *         false otherwise.
          */
-        bool operator==(const Color& color) const;
+        bool operator==(Color const & color) const;
 
         /**
          * Compares two colors.
@@ -153,16 +154,15 @@ namespace fcn
          * @return True if the two colors have different RGBA components,
          *         false otherwise.
          */
-        bool operator!=(const Color& color) const;
+        bool operator!=(Color const & color) const;
 
-		/**
+        /**
          * Output operator for output.
          *
          * @param out The stream to output to.
          * @param color The color to output.
          */
-        friend std::ostream& operator<<(std::ostream& out,
-                                        const Color& Color);
+        friend std::ostream& operator<<(std::ostream& out, Color const & Color);
 
         /**
          * Holds the red color component (range 0-255).
@@ -185,6 +185,6 @@ namespace fcn
          */
         int a;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_COLOR_HPP

@@ -29,7 +29,6 @@ namespace fcn
     class FCN_CORE_DECLSPEC Size
     {
     public:
-
         /**
          * Constructor initializes size values.
          *
@@ -70,6 +69,6 @@ namespace fcn
         // height of the size
         int mHeight;
     };
-};
+}; // namespace fcn
 
 #endif

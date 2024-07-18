@@ -186,24 +186,23 @@ namespace fcn
          */
         virtual void adjustContent();
 
-
         // Inherited from Container
 
-        virtual void resizeToContent(bool recursiv=true);
+        virtual void resizeToContent(bool recursiv = true);
 
         virtual void adjustSize();
 
-        virtual void expandContent(bool recursiv=true);
+        virtual void expandContent(bool recursiv = true);
 
         virtual Rectangle getChildrenArea();
 
-        //virtual void logic();
+        // virtual void logic();
 
-        virtual void add(Widget *widget);
+        virtual void add(Widget* widget);
 
-        virtual void add(Widget *widget, int x, int y);
+        virtual void add(Widget* widget, int x, int y);
 
-        virtual void remove(Widget *widget);
+        virtual void remove(Widget* widget);
 
         virtual void clear();
 
@@ -231,6 +230,6 @@ namespace fcn
         unsigned int mNumberOfColumns;
         unsigned int mNumberOfRows;
     };
-}
+} // namespace fcn
 
 #endif

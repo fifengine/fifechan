@@ -90,10 +90,9 @@ namespace fcn
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      Widget::distributeActionEvent
      */
-    class FCN_CORE_DECLSPEC ActionEvent: public Event
+    class FCN_CORE_DECLSPEC ActionEvent : public Event
     {
     public:
-
         /**
          * Constructor.
          *
@@ -115,7 +114,7 @@ namespace fcn
          *
          * @return The identifier of the event.
          */
-        const std::string& getId() const;
+        std::string const & getId() const;
 
     protected:
         /**
@@ -123,7 +122,6 @@ namespace fcn
          */
         std::string mId;
     };
-}
+} // namespace fcn
 
 #endif // FCN_ACTIONEVENT_HPP
-

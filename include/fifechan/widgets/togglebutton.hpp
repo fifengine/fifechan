@@ -34,15 +34,15 @@ namespace fcn
      * An implementation of a toggleable button.
      *
      * If the button is in a group, all other buttons in that group will be untoggled
-     * when a button gets toggled. If the button is already toggled, you can untoggle 
+     * when a button gets toggled. If the button is already toggled, you can untoggle
      * it by clicking on it.
-     * 
-     * If a toggle button's state changes an action event will be sent to all action 
+     *
+     * If a toggle button's state changes an action event will be sent to all action
      * listeners of the toggle button.
      */
-    class FCN_CORE_DECLSPEC ToggleButton : public fcn::ImageButton {
+    class FCN_CORE_DECLSPEC ToggleButton : public fcn::ImageButton
+    {
     public:
-
         /**
          * Constructor.
          */
@@ -56,7 +56,7 @@ namespace fcn
          * @param group The group the toggle button should belong to.
          * @param selected True if the toggle button should be selected.
          */
-        ToggleButton(const std::string &caption, const std::string &group, bool selected = false);
+        ToggleButton(std::string const & caption, std::string const & group, bool selected = false);
 
         /**
          * Destructor.
@@ -93,7 +93,7 @@ namespace fcn
          * @param group The name of the group.
          * @see getGroup
          */
-        void setGroup(const std::string &group);
+        void setGroup(std::string const & group);
 
         /**
          * Gets the group the toggle button belongs to.
@@ -101,18 +101,15 @@ namespace fcn
          * @return The group the toggle button belongs to.
          * @see setGroup
          */
-        const std::string &getGroup() const;
-
+        std::string const & getGroup() const;
 
         // Inherited from KeyListener
 
         virtual void keyReleased(KeyEvent& keyEvent);
 
-
         // Inherited from MouseListener
 
         virtual void mouseReleased(MouseEvent& mouseEvent);
-
 
     protected:
         // Inherited from Button
@@ -132,7 +129,7 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::multimap<std::string, ToggleButton *> GroupMap;
+        typedef std::multimap<std::string, ToggleButton*> GroupMap;
 
         /**
          * Typdef.
@@ -144,6 +141,6 @@ namespace fcn
          */
         static GroupMap mGroupMap;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_TOGGLEBUTTON_HPP

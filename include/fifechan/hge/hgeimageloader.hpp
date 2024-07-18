@@ -77,7 +77,6 @@ namespace fcn
     class FCN_EXTENSION_DECLSPEC HGEImageLoader : public ImageLoader
     {
     public:
-
         /**
          * Constructor.
          */
@@ -103,14 +102,13 @@ namespace fcn
          */
         virtual Image* load(hgeResourceManager* manager, char* name, int resourceGroup, bool convertToDisplayFormat);
 
-
         // Inherited from ImageLoader
 
-        virtual Image* load(const std::string &filename, bool convertToDisplayFormat = true);
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
     protected:
-        static HGE *mHGE;
+        static HGE* mHGE;
     };
-}
+} // namespace fcn
 
 #endif // end FCN_HGEIMAGELOADER_HPP
