@@ -15,8 +15,6 @@ set(FIFECHAN_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES CXX)
 
-set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
-
 #------------------------------------------------------------------------------
 # Options
 #------------------------------------------------------------------------------
@@ -39,6 +37,8 @@ if(BUILD_SHARED_LIBS)
 else()
   set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
 endif()
+
+set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 
 #------------------------------------------------------------------------------
 # Display Status
@@ -187,6 +187,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
   OUTPUT_NAME            ${PROJECT_NAME}               # Avoid conflicts between library and binary target names
   COMPILE_DEFINITIONS    "FIFECHAN_BUILD"
   CXX_STANDARD           17
+  CXX_STANDARD_REQUIRED  ON
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -199,9 +200,6 @@ install(FILES ${FIFECHAN_HEADER}                  DESTINATION include/)
 install(FILES ${FIFECHAN_HEADERS}                 DESTINATION include/fifechan/)
 install(FILES ${FIFECHAN_WIDGET_HEADERS}          DESTINATION include/fifechan/widgets/)
 install(FILES ${FIFECHAN_UTIL_HEADERS}            DESTINATION include/fifechan/util/)
-
-#REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
-#ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")
 
 #------------------------------------------------------------------------------
 # The Fifechan Allegro extension library
@@ -239,6 +237,7 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
     OUTPUT_NAME            ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     CXX_STANDARD           17
+    CXX_STANDARD_REQUIRED  ON
   )
 
   install(TARGETS ${PROJECT_NAME}_allegro DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -288,6 +287,7 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
     OUTPUT_NAME            ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     CXX_STANDARD           17
+    CXX_STANDARD_REQUIRED  ON
   )
 
   install(TARGETS ${PROJECT_NAME}_irrlicht DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -347,6 +347,7 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
     OUTPUT_NAME            ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     CXX_STANDARD           17
+    CXX_STANDARD_REQUIRED  ON
   )
 
   install(TARGETS ${PROJECT_NAME}_opengl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
@@ -417,6 +418,7 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     OUTPUT_NAME            ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     CXX_STANDARD           17
+    CXX_STANDARD_REQUIRED  ON
   )
 
   install(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
