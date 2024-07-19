@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/contrib/opengl/oglftfont.hpp"
+#include "fifechan/opengl/opengloglftfont.hpp"
 
 #include "fifechan/exception.hpp"
 #include "fifechan/opengl/openglgraphics.hpp"
@@ -10,8 +10,6 @@
 
 namespace fcn
 {
-    namespace contrib
-    {
         OGLFTFont::OGLFTFont(std::string const & filename, int size)
         {
             mRowSpacing = 0;
@@ -91,5 +89,4 @@ namespace fcn
             glDisable(GL_TEXTURE_2D);
             glPopMatrix();
         }
-    } // namespace contrib
 } // namespace fcn

@@ -30,11 +30,9 @@ option(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"
 option(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  OFF)
 
 option(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                               ON)
-option(ENABLE_OPENGL_CONTRIB            "Enable the Fifechan OpenGL contrib extension (freetype, oglft)"     OFF)
 option(BUILD_FIFECHAN_OPENGL_SHARED     "Build the Fifechan OpenGL extension library as a shared library"    ON)
 
 option(ENABLE_SDL                       "Enable the Fifechan SDL extension"                                  ON)
-option(ENABLE_SDL_CONTRIB               "Enable the Fifechan SDL contrib extension (SDL2_ttf)"               OFF)
 option(BUILD_FIFECHAN_SDL_SHARED        "Build the Fifechan SDL extension library as a shared library"       ON)
 
 #------------------------------------------------------------------------------
@@ -219,13 +217,11 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   # The Fifechan Allegro extension source
   file(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
   file(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
-  file(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS include/fifechan/contrib/allegro/*.hpp)
   file(GLOB FIFECHAN_ALLEGRO_SRC src/allegro/*.cpp)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
   source_group(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
   source_group(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
-  source_group(src/fifechan/contrib/allegro FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS})
 
   if(BUILD_FIFECHAN_ALLEGRO_SHARED)
     set(FIFECHAN_ALLEGRO_LIBRARY_TYPE SHARED)
@@ -236,7 +232,6 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   add_library(${PROJECT_NAME}_allegro ${FIFECHAN_ALLEGRO_LIBRARY_TYPE}
   	${FIFECHAN_ALLEGRO_HEADER}
   	${FIFECHAN_ALLEGRO_HEADERS}
-  	${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}
   	${FIFECHAN_ALLEGRO_SRC}
   )
 
@@ -261,7 +256,6 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 
   install(FILES ${FIFECHAN_ALLEGRO_HEADER}            DESTINATION include/fifechan/)
   install(FILES ${FIFECHAN_ALLEGRO_HEADERS}           DESTINATION include/fifechan/allegro/)
-  install(FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/allegro/)
 
 endif(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 
@@ -270,6 +264,7 @@ endif(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 #------------------------------------------------------------------------------
 
 find_package(Irrlicht)
+
 if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
   include_directories(${IRRLICHT_INCLUDE_DIR})
@@ -324,6 +319,8 @@ endif(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 #------------------------------------------------------------------------------
 
 find_package(OpenGL)
+find_package(Freetype)
+find_package(OGLFT)
 
 if(APPLE AND ENABLE_OPENGL)
   find_library(OPENGL_LIBRARY OpenGL)
@@ -331,32 +328,20 @@ if(APPLE AND ENABLE_OPENGL)
   set(EXTRA_LIBS ${OPENGL_LIBRARY})
 endif(APPLE AND ENABLE_OPENGL)
 
-if(ENABLE_OPENGL_CONTRIB)
-  find_package(Freetype)
-  find_package(OGLFT)
-endif(ENABLE_OPENGL_CONTRIB)
-
 if(ENABLE_OPENGL AND OPENGL_FOUND)
 
   include_directories(${OPENGL_INCLUDE_DIR})
-  if(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND AND FREETYPE_FOUND)
-    include_directories(${FREETYPE_INCLUDE_DIRS})
-    include_directories(${OGLFT_INCLUDE_DIRS})
-  endif(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND AND FREETYPE_FOUND)
+  include_directories(${FREETYPE_INCLUDE_DIRS})
+  include_directories(${OGLFT_INCLUDE_DIRS})
 
   # The OpenGL extension source
   file(GLOB OGLFT_FOUNDFIFECHAN_OPENGL_HEADER include/fifechan/opengl.hpp)
   file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
-  file(GLOB FIFECHAN_OPENGL_CONTRIB_HEADERS include/fifechan/contrib/opengl/*.hpp)
   file(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
-  if(ENABLE_OPENGL_CONTRIB)
-    file(GLOB FIFECHAN_OPENGL_CONTRIB_SRC src/contrib/opengl/*.cpp)
-  endif(ENABLE_OPENGL_CONTRIB)
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
   source_group(src/fifechan                FILES ${FIFECHAN_OPENGL_HEADER})
   source_group(src/fifechan/opengl         FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
-  source_group(src/fifechan/contrib/opengl FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} ${FIFECHAN_OPENGL_CONTRIB_SRC})
 
   if(BUILD_FIFECHAN_OPENGL_SHARED)
     set(FIFECHAN_OPENGL_LIBRARY_TYPE SHARED)
@@ -365,18 +350,12 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
   endif(BUILD_FIFECHAN_OPENGL_SHARED)
 
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE}
-
     ${FIFECHAN_OPENGL_HEADER}
     ${FIFECHAN_OPENGL_HEADERS}
-    ${FIFECHAN_OPENGL_CONTRIB_HEADERS}
     ${FIFECHAN_OPENGL_SRC}
-    ${FIFECHAN_OPENGL_CONTRIB_SRC})
+  )
 
-  if(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
-    target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
-  else(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
-    target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${PROJECT_NAME})
-  endif(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
+  target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
 
   add_custom_target(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
 
@@ -397,7 +376,6 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
 
   install(FILES ${FIFECHAN_OPENGL_HEADER}           DESTINATION include/fifechan/)
   install(FILES ${FIFECHAN_OPENGL_HEADERS}          DESTINATION include/fifechan/opengl/)
-  install(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS}  DESTINATION include/fifechan/contrib/opengl/)
 
 endif(ENABLE_OPENGL AND OPENGL_FOUND)
 
@@ -407,10 +385,7 @@ endif(ENABLE_OPENGL AND OPENGL_FOUND)
 
 find_package(SDL2)
 find_package(SDL2_image)
-
-if(ENABLE_SDL_CONTRIB)
-  find_package(SDL2_ttf)
-endif(ENABLE_SDL_CONTRIB)
+find_package(SDL2_ttf)
 
 if(APPLE AND ENABLE_SDL)
   find_library(SDL2_LIBRARY SDL2)
@@ -426,18 +401,13 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   # The Fifechan SDL extension source
   file(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
   file(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
-  file(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)
   file(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
 
-  if(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
-    include_directories(${SDL_TTF_INCLUDE_DIRS})
-    file(GLOB FIFECHAN_CONTRIB_SRC src/contrib/sdl/*.cpp)
-  endif(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
+  include_directories(${SDL_TTF_INCLUDE_DIRS})
 
   # Grouping of the source for nicer display in IDEs such as Visual Studio
   source_group(src/fifechan               FILES ${FIFECHAN_SDL_HEADER})
   source_group(src/fifechan/sdl           FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
-  source_group(src/fifechan/contrib/sdl   FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} ${FIFECHAN_CONTRIB_SRC})
 
   if(BUILD_FIFECHAN_SDL_SHARED)
     set(FIFECHAN_SDL_LIBRARY_TYPE SHARED)
@@ -448,9 +418,7 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   add_library(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE}
     ${FIFECHAN_SDL_HEADER}
     ${FIFECHAN_SDL_HEADERS}
-    ${FIFECHAN_SDL_CONTRIB_HEADERS}
     ${FIFECHAN_SDL_SRC}
-    ${FIFECHAN_CONTRIB_SRC}
   )
 
   if(WIN32)
@@ -484,7 +452,6 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
   install(FILES ${FIFECHAN_SDL_HEADER}            DESTINATION include/fifechan/)
   install(FILES ${FIFECHAN_SDL_HEADERS}           DESTINATION include/fifechan/sdl/)
-  install(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/sdl/)
 
 endif(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 

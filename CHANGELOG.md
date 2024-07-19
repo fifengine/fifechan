@@ -11,6 +11,10 @@
 - FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
 - removed all extern "c" helper functions for extension detection by autotools
 - fix WIN32_LEAN_AND_MEAN redeclaration errors
+- integrate "contributions" to allegro, opengl, sdl into the main folders
+  - removed ENABLE_OPENGL_CONTRIB, ENABLE_SDL_CONTRIB, ENABLE_ALLEGRO_CONTRIB
+  - opengl has now a dependency on oglft, freetype
+  - sdl has now a dependency on sdl_ttf
 
 ## [0.1.5] - 2019-01-11
 

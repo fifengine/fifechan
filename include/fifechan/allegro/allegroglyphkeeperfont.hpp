@@ -16,8 +16,6 @@ namespace fcn
 {
     class Graphics;
 
-    namespace contrib
-    {
         /**
          * True type font support using Allegro and GlyphKeeper.
          *
@@ -68,6 +66,5 @@ namespace fcn
             GLYPH_REND* mRend;
             GLYPH_KEEP* mKeeper;
         };
-    } // namespace contrib
 } // namespace fcn
 #endif

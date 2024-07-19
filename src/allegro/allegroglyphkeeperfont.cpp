@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/contrib/allegro/allegroglyphkeeperfont.hpp"
+#include "fifechan/allegro/allegroglyphkeeperfont.hpp"
 
 #include "fifechan/allegro.hpp"
 #include "fifechan/exception.hpp"
@@ -12,8 +12,6 @@
 
 namespace fcn
 {
-    namespace contrib
-    {
         void AllegroGlyphKeeperFont::load(std::string const & filename, int w, int h)
         {
             mKeeper = gk_create_keeper(0, 0);
@@ -107,5 +105,4 @@ namespace fcn
             gk_render_line_utf8(
                 target, mRend, text.c_str(), x + rec.xOffset, y + rec.yOffset + gk_rend_ascender_pixels(mRend));
         }
-    } // namespace contrib
 } // namespace fcn

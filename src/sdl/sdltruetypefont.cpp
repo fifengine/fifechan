@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/contrib/sdl/sdltruetypefont.hpp"
+#include "fifechan/sdl/sdltruetypefont.hpp"
 
 #include "fifechan/exception.hpp"
 #include "fifechan/image.hpp"
@@ -11,8 +11,6 @@
 
 namespace fcn
 {
-    namespace contrib
-    {
         SDLTrueTypeFont::SDLTrueTypeFont(std::string const & filename, int size)
         {
             mRowSpacing   = 0;
@@ -125,5 +123,4 @@ namespace fcn
         {
             return mAntiAlias;
         }
-    } // namespace contrib
 } // namespace fcn

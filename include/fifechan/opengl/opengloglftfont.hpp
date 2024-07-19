@@ -15,13 +15,11 @@
 
 namespace fcn
 {
-    namespace contrib
-    {
         /**
          * OpenGL True Type Font implementation of Font. It uses the OGLFT library
          * to display True Type Fonts with OpenGL.
          */
-        class FIFEGUI_EXT_API OGLFTFont : public Font
+        class FIFEGUI_EXT_API OpenGLOGLFTFont : public Font
         {
         public:
             /**
@@ -66,7 +64,6 @@ namespace fcn
             int mSize;
             int mRowSpacing;
         };
-    } // namespace contrib
 } // namespace fcn
 
 #endif

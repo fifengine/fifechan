@@ -16,8 +16,6 @@
 namespace fcn
 {
     class Graphics;
-    namespace contrib
-    {
 
         /**
          * SDL True Type Font implementation of Font. It uses the SDL_ttf library
@@ -105,7 +103,6 @@ namespace fcn
             std::string mFilename;
             bool mAntiAlias;
         };
-    } // namespace contrib
 } // namespace fcn
 
 #endif
