@@ -64,7 +64,7 @@ if(WIN32)
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib/x86"
     "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"
   )
-endif(WIN32)
+endif()
 
 #------------------------------------------------------------------------------
 # Configure
@@ -98,8 +98,8 @@ if(WIN32)
     # ensure we use minimal "windows.h" lib without the crazy min max macros
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
-  endif(MSVC)
-endif(WIN32)
+  endif()
+endif()
 
 #------------------------------------------------------------------------------
 # Source Files
@@ -155,10 +155,10 @@ file(GLOB FIFECHAN_HEADERS
   include/fifechan/widgetlistener.hpp
   include/fifechan/opengl.hpp
 )
-file(GLOB FIFECHAN_WIDGET_HEADERS   include/fifechan/widgets/*.hpp)
-file(GLOB FIFECHAN_UTIL_HEADERS     include/fifechan/util/*.hpp)
-file(GLOB FIFECHAN_SRC              src/*.cpp)
-file(GLOB FIFECHAN_WIDGET_SRC       src/widgets/*.cpp)
+file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
+file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
+file(GLOB FIFECHAN_SRC             src/*.cpp)
+file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
 
 #------------------------------------------------------------------------------
 # Fifechan core library as a shared library
@@ -172,8 +172,6 @@ add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SRC}
     ${FIFECHAN_WIDGET_SRC}
 )
-
-add_custom_target(lib DEPENDS ${PROJECT_NAME}) # Create symlink
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION                ${FIFECHAN_VERSION}
@@ -191,10 +189,10 @@ install(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
   WORLD_READ WORLD_EXECUTE
 )
 
-install(FILES ${FIFECHAN_HEADER}                  DESTINATION include/)
-install(FILES ${FIFECHAN_HEADERS}                 DESTINATION include/fifechan/)
-install(FILES ${FIFECHAN_WIDGET_HEADERS}          DESTINATION include/fifechan/widgets/)
-install(FILES ${FIFECHAN_UTIL_HEADERS}            DESTINATION include/fifechan/util/)
+install(FILES ${FIFECHAN_HEADER}          DESTINATION include/)
+install(FILES ${FIFECHAN_HEADERS}         DESTINATION include/fifechan/)
+install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION include/fifechan/widgets/)
+install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION include/fifechan/util/)
 
 #------------------------------------------------------------------------------
 # The Fifechan Allegro extension library
@@ -219,8 +217,6 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
 
   target_link_libraries(${PROJECT_NAME}_allegro ${ALLEG_LIBRARY} ${PROJECT_NAME})
 
-  add_custom_target(allegrolib DEPENDS ${PROJECT_NAME}_allegro) # Create symlink
-
   set_target_properties(${PROJECT_NAME}_allegro PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
     SOVERSION              ${FIFECHAN_VERSION}
@@ -237,10 +233,10 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
     WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_ALLEGRO_HEADER}            DESTINATION include/fifechan/)
-  install(FILES ${FIFECHAN_ALLEGRO_HEADERS}           DESTINATION include/fifechan/allegro/)
+  install(FILES ${FIFECHAN_ALLEGRO_HEADER}   DESTINATION include/fifechan/)
+  install(FILES ${FIFECHAN_ALLEGRO_HEADERS}  DESTINATION include/fifechan/allegro/)
 
-endif(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
+endif()
 
 #------------------------------------------------------------------------------
 # Fifechan Irrlicht extension library
@@ -265,8 +261,6 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
   target_link_libraries(${PROJECT_NAME}_irrlicht ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
 
-  add_custom_target(irrlichtlib DEPENDS ${PROJECT_NAME}_irrlicht) # Create symlink
-
   set_target_properties(${PROJECT_NAME}_irrlicht PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
     SOVERSION              ${FIFECHAN_VERSION}
@@ -283,10 +277,10 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
     WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_IRRLICHT_HEADER}    DESTINATION include/fifechan/)
-  install(FILES ${FIFECHAN_IRRLICHT_HEADERS}   DESTINATION include/fifechan/irrlicht/)
+  install(FILES ${FIFECHAN_IRRLICHT_HEADER}   DESTINATION include/fifechan/)
+  install(FILES ${FIFECHAN_IRRLICHT_HEADERS}  DESTINATION include/fifechan/irrlicht/)
 
-endif(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
+endif()
 
 #------------------------------------------------------------------------------
 # The Fifechan OpenGL extension library
@@ -300,7 +294,7 @@ if(APPLE AND ENABLE_OPENGL)
   find_library(OPENGL_LIBRARY OpenGL)
   mark_as_advanced(OPENGL_LIBRARY)
   set(EXTRA_LIBS ${OPENGL_LIBRARY})
-endif(APPLE AND ENABLE_OPENGL)
+endif()
 
 if(ENABLE_OPENGL AND OPENGL_FOUND)
 
@@ -321,8 +315,6 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
 
   target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
 
-  add_custom_target(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
-
   set_target_properties(${PROJECT_NAME}_opengl PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
     SOVERSION              ${FIFECHAN_VERSION}
@@ -339,10 +331,10 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
     WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_OPENGL_HEADER}           DESTINATION include/fifechan/)
-  install(FILES ${FIFECHAN_OPENGL_HEADERS}          DESTINATION include/fifechan/opengl/)
+  install(FILES ${FIFECHAN_OPENGL_HEADER}   DESTINATION include/fifechan/)
+  install(FILES ${FIFECHAN_OPENGL_HEADERS}  DESTINATION include/fifechan/opengl/)
 
-endif(ENABLE_OPENGL AND OPENGL_FOUND)
+endif()
 
 #------------------------------------------------------------------------------
 # The Fifechan SDL extension library
@@ -357,7 +349,7 @@ if(APPLE AND ENABLE_SDL)
   find_library(SDL2_IMAGE_LIBRARY SDL2_image)
   mark_as_advanced(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
   set(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
-endif(APPLE AND ENABLE_SDL)
+endif()
 
 if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
@@ -381,14 +373,13 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
     if(MINGW)
       target_link_libraries(${PROJECT_NAME}_sdl ${MINGW32_LIBRARY} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    else(MINGW)
+    else()
       target_link_libraries(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    endif(MINGW)
-  else(WIN32)
-    target_link_libraries(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${PROJECT_NAME})
-  endif(WIN32)
+    endif()
 
-  add_custom_target(sdllib DEPENDS ${PROJECT_NAME}_sdl) # Create symlink
+  else()
+    target_link_libraries(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${PROJECT_NAME})
+  endif()
 
   set_target_properties(${PROJECT_NAME}_sdl PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
@@ -406,9 +397,7 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_SDL_HEADER}            DESTINATION include/fifechan/)
-  install(FILES ${FIFECHAN_SDL_HEADERS}           DESTINATION include/fifechan/sdl/)
+  install(FILES ${FIFECHAN_SDL_HEADER}   DESTINATION include/fifechan/)
+  install(FILES ${FIFECHAN_SDL_HEADERS}  DESTINATION include/fifechan/sdl/)
 
-endif(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
-
-message(STATUS "Fifechan Makefiles have been generated!")
+endif()
