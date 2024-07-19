@@ -53,18 +53,21 @@ You need the following libraries installed:
 
 For Allegro support:
  - Allegro - https://alleg.sourceforge.net/
+ - `apt install libx11-dev libxft-dev libxext-dev libxcursor-dev libgl1-mesa-dev libglu-dev python3-jinja2`
 
 For OpenGL support:
  - OpenGL
 
-For optional OpenGL dependencies:
- - Set `ENABLE_OPENGL_CONTRIB` to ON
- - OpenGL-FreeType Library - https://oglft.sourceforge.net/
-
 For SDL support:
  - SDL2 - https://libsdl.org
- - SDL2_image - https://libsdl.org
+ - SDL2_image
+ - SDL2_ttf
 
-For optional SDL dependencies
- - Set `ENABLE_SDL_CONTRIB` to ON
- - SDL2_ttf - https://libsdl.org
+For Irrlicht support:
+ - `apt install libxxf86vm-dev`
+ - Remove from `vcpkg.json`. Irrlicht doesn't compile with C++17. Upstream issue.
+
+ ```
+ irrlicht-1-633b25421b.clean/source/source/Irrlicht/CColorConverter.cpp:168:2: error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
+  168 | register u32 c;
+ ```

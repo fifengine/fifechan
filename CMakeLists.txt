@@ -5,7 +5,15 @@
 cmake_minimum_required(VERSION 3.0...3.30)
 
 #-------------------------------------------------------------------
-# Project
+# CMake Includes
+#-------------------------------------------------------------------
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+
+include(setup-vcpkg)
+
+#-------------------------------------------------------------------
+# Version
 #-------------------------------------------------------------------
 
 set(MAJOR_VERSION 0)
@@ -13,16 +21,20 @@ set(MINOR_VERSION 1)
 set(PATCH_VERSION 5)
 set(FIFECHAN_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
+#-------------------------------------------------------------------
+# Project
+#-------------------------------------------------------------------
+
 project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES CXX)
 
 #------------------------------------------------------------------------------
 # Options
 #------------------------------------------------------------------------------
 
-option(BUILD_SHARED_LIBS     "Build using shared libraries"                     ON)
+option(BUILD_SHARED_LIBS     "Build using shared libraries"                     OFF)
 
 option(ENABLE_ALLEGRO        "Enable the Fifechan Allegro extension"            OFF)
-option(ENABLE_IRRLICHT       "Enable the Fifechan Irrlicht extension"           OFF)
+option(ENABLE_IRRLICHT       "Enable the Fifechan Irrlicht extension"           OFF) # removed from vcpkg, doesnt compile with C++17
 option(ENABLE_OPENGL         "Enable the Fifechan OpenGL extension"             ON)
 option(ENABLE_SDL            "Enable the Fifechan SDL extension"                ON)
 
@@ -38,7 +50,9 @@ else()
   set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
 endif()
 
-set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
+# On some platforms, we need to append a suffix to the lib folder.
+# You can set this to 64 to get "lib64" or to an empty string to get "lib".
+set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system `lib` folder, e.g. '64'")
 
 #------------------------------------------------------------------------------
 # Display Status
@@ -105,9 +119,6 @@ endif()
 # Source Files
 #------------------------------------------------------------------------------
 
-# Add the include directory to the compiler's search path
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
 # The Fifechan core library
 file(GLOB FIFECHAN_HEADER include/fifechan.hpp)
 file(GLOB FIFECHAN_HEADERS
@@ -173,6 +184,9 @@ add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_WIDGET_SRC}
 )
 
+# Add the include directory to the compiler's search path
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION                ${FIFECHAN_VERSION}
   SOVERSION              ${FIFECHAN_VERSION}
@@ -211,7 +225,13 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   	${FIFECHAN_ALLEGRO_SRC}
   )
 
-  target_link_libraries(${PROJECT_NAME}_allegro ${ALLEG_LIBRARY} ${PROJECT_NAME})
+  target_link_libraries(${PROJECT_NAME}_allegro PRIVATE
+   #${ALLEG_LIBRARY}
+   # Allegro
+   Allegro::allegro Allegro::allegro_ttf Allegro::allegro_font Allegro::allegro_main
+   # Fifechan
+   ${PROJECT_NAME}
+  )
 
   set_target_properties(${PROJECT_NAME}_allegro PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
@@ -238,8 +258,6 @@ find_package(Irrlicht)
 
 if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
 
-  include_directories(${IRRLICHT_INCLUDE_DIR})
-
   # The Fifechan Irrlicht extension source
   file(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
   file(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
@@ -251,7 +269,9 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
     ${FIFECHAN_IRRLICHT_SRC}
   )
 
-  target_link_libraries(${PROJECT_NAME}_irrlicht ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
+  target_include_directories(${PROJECT_NAME}_irrlicht PUBLIC ${IRRLICHT_INCLUDE_DIR})
+
+  target_link_libraries(${PROJECT_NAME}_irrlicht PRIVATE ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
 
   set_target_properties(${PROJECT_NAME}_irrlicht PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
@@ -275,8 +295,8 @@ endif()
 #------------------------------------------------------------------------------
 
 find_package(OpenGL)
-find_package(Freetype)
-find_package(OGLFT)
+find_package(Freetype REQUIRED)
+
 
 if(APPLE AND ENABLE_OPENGL)
   find_library(OPENGL_LIBRARY OpenGL)
@@ -286,14 +306,10 @@ endif()
 
 if(ENABLE_OPENGL AND OPENGL_FOUND)
 
-  include_directories(${OPENGL_INCLUDE_DIR})
-  include_directories(${FREETYPE_INCLUDE_DIRS})
-  include_directories(${OGLFT_INCLUDE_DIRS})
-
   # The OpenGL extension source
-  file(GLOB OGLFT_FOUNDFIFECHAN_OPENGL_HEADER include/fifechan/opengl.hpp)
+  file(GLOB FIFECHAN_OPENGL_HEADER  include/fifechan/opengl.hpp)
   file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
-  file(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
+  file(GLOB FIFECHAN_OPENGL_SRC     src/opengl/*.cpp)
 
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_OPENGL_HEADER}
@@ -301,7 +317,10 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
     ${FIFECHAN_OPENGL_SRC}
   )
 
-  target_link_libraries(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
+  target_include_directories(${PROJECT_NAME}_opengl PUBLIC ${OPENGL_INCLUDE_DIR})
+  target_include_directories(${PROJECT_NAME}_opengl PUBLIC ${FREETYPE_INCLUDE_DIRS})
+
+  target_link_libraries(${PROJECT_NAME}_opengl PRIVATE ${OPENGL_LIBRARY} Freetype::Freetype ${PROJECT_NAME})
 
   set_target_properties(${PROJECT_NAME}_opengl PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
@@ -325,8 +344,8 @@ endif()
 #------------------------------------------------------------------------------
 
 find_package(SDL2)
-find_package(SDL2_image)
-find_package(SDL2_ttf)
+find_package(SDL2_image CONFIG REQUIRED)
+find_package(SDL2_ttf CONFIG REQUIRED)
 
 if(APPLE AND ENABLE_SDL)
   find_library(SDL2_LIBRARY SDL2)
@@ -337,14 +356,10 @@ endif()
 
 if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
 
-  include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR})
-
   # The Fifechan SDL extension source
   file(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
   file(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
   file(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
-
-  include_directories(${SDL_TTF_INCLUDE_DIRS})
 
   add_library(${PROJECT_NAME}_sdl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SDL_HEADER}
@@ -352,18 +367,23 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
     ${FIFECHAN_SDL_SRC}
   )
 
-  if(WIN32)
-    get_filename_component(SDL2_LIBRARY_DIR ${SDL2_LIBRARY} DIRECTORY)
+  target_include_directories(${PROJECT_NAME}_sdl PUBLIC
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2_IMAGE_INCLUDE_DIR}
+    ${SDL2_TTF_INCLUDE_DIRS}
+  )
 
-    if(MINGW)
-      target_link_libraries(${PROJECT_NAME}_sdl ${MINGW32_LIBRARY} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    else()
-      target_link_libraries(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    endif()
-
-  else()
-    target_link_libraries(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${PROJECT_NAME})
-  endif()
+    target_link_libraries(${PROJECT_NAME}_sdl PRIVATE
+        # SDL2::SDL2
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+        # SDL2::SDL2_image
+        $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+        # SDL2::SDL2_ttf
+        $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+        # Fifechan
+        ${PROJECT_NAME}
+    )
 
   set_target_properties(${PROJECT_NAME}_sdl PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
