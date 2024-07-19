@@ -43,6 +43,10 @@ We also provide releases for the latest successful build. You find them listed i
 If you want to get involved with the development, come join our IRC channel #fife on Freenode.
 Feel free to drop us a line there and we'll help you getting started!
 
+## License
+
+Fifechan is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
+
 ## Build Dependencies
 
 You need the following libraries installed:
