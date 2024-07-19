@@ -21,19 +21,24 @@ set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
 # Options
 #------------------------------------------------------------------------------
 
-option(BUILD_FIFECHAN_SHARED            "Build the Fifechan core library as a shared library"                ON)
+option(BUILD_SHARED_LIBS     "Build using shared libraries"                     ON)
 
-option(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                              OFF)
-option(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library"   OFF)
+option(ENABLE_ALLEGRO        "Enable the Fifechan Allegro extension"            OFF)
+option(ENABLE_IRRLICHT       "Enable the Fifechan Irrlicht extension"           OFF)
+option(ENABLE_OPENGL         "Enable the Fifechan OpenGL extension"             ON)
+option(ENABLE_SDL            "Enable the Fifechan SDL extension"                ON)
 
-option(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                             OFF)
-option(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  OFF)
+#------------------------------------------------------------------------------
+# Default build type
+#------------------------------------------------------------------------------
 
-option(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                               ON)
-option(BUILD_FIFECHAN_OPENGL_SHARED     "Build the Fifechan OpenGL extension library as a shared library"    ON)
-
-option(ENABLE_SDL                       "Enable the Fifechan SDL extension"                                  ON)
-option(BUILD_FIFECHAN_SDL_SHARED        "Build the Fifechan SDL extension library as a shared library"       ON)
+# The default build type is based on BUILD_SHARED_LIBS.
+# FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls to set it.
+if(BUILD_SHARED_LIBS)
+  set(FIFECHAN_LIBRARY_BUILD_TYPE SHARED)
+else()
+  set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
+endif()
 
 #------------------------------------------------------------------------------
 # Display Status
@@ -150,10 +155,10 @@ file(GLOB FIFECHAN_HEADERS
   include/fifechan/widgetlistener.hpp
   include/fifechan/opengl.hpp
 )
-file(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
-file(GLOB FIFECHAN_UTIL_HEADERS include/fifechan/util/*.hpp)
-file(GLOB FIFECHAN_SRC src/*.cpp)
-file(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
+file(GLOB FIFECHAN_WIDGET_HEADERS   include/fifechan/widgets/*.hpp)
+file(GLOB FIFECHAN_UTIL_HEADERS     include/fifechan/util/*.hpp)
+file(GLOB FIFECHAN_SRC              src/*.cpp)
+file(GLOB FIFECHAN_WIDGET_SRC       src/widgets/*.cpp)
 
 # Grouping of the source for nicer display in IDEs such as Visual Studio
 source_group(src                          FILES ${FIFECHAN_HEADER})
@@ -164,13 +169,7 @@ source_group(src/fifechan/widgets         FILES ${FIFECHAN_WIDGET_HEADERS} ${FIF
 # Fifechan core library as a shared library
 #------------------------------------------------------------------------------
 
-if(BUILD_FIFECHAN_SHARED)
-  set(FIFECHAN_LIBRARY_TYPE SHARED)
-else(BUILD_FIFECHAN_SHARED)
-  set(FIFECHAN_LIBRARY_TYPE STATIC)
-endif(BUILD_FIFECHAN_SHARED)
-
-add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE}
+add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_HEADER}
     ${FIFECHAN_HEADERS}
     ${FIFECHAN_WIDGET_HEADERS}
@@ -223,13 +222,7 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   source_group(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
   source_group(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
 
-  if(BUILD_FIFECHAN_ALLEGRO_SHARED)
-    set(FIFECHAN_ALLEGRO_LIBRARY_TYPE SHARED)
-  else(BUILD_FIFECHAN_ALLEGRO_SHARED)
-     set(FIFECHAN_ALLEGRO_LIBRARY_TYPE STATIC)
-  endif(BUILD_FIFECHAN_ALLEGRO_SHARED)
-
-  add_library(${PROJECT_NAME}_allegro ${FIFECHAN_ALLEGRO_LIBRARY_TYPE}
+  add_library(${PROJECT_NAME}_allegro ${FIFECHAN_LIBRARY_BUILD_TYPE}
   	${FIFECHAN_ALLEGRO_HEADER}
   	${FIFECHAN_ALLEGRO_HEADERS}
   	${FIFECHAN_ALLEGRO_SRC}
@@ -278,13 +271,7 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
   source_group(src/fifechan FILES ${FIFECHAN_IRRLICHT_HEADER})
   source_group(src/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
 
-  if(BUILD_FIFECHAN_IRRLICHT_SHARED)
-    set(FIFECHAN_IRRLICHT_LIBRARY_TYPE SHARED)
-  else(BUILD_FIFECHAN_IRRLICHT_SHARED)
-    set(FIFECHAN_IRRLICHT_LIBRARY_TYPE STATIC)
-  endif(BUILD_FIFECHAN_IRRLICHT_SHARED)
-
-  add_library(${PROJECT_NAME}_irrlicht ${FIFECHAN_IRRLICHT_LIBRARY_TYPE}
+  add_library(${PROJECT_NAME}_irrlicht ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_IRRLICHT_HEADER}
     ${FIFECHAN_IRRLICHT_HEADERS}
     ${FIFECHAN_IRRLICHT_SRC}
@@ -343,13 +330,7 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
   source_group(src/fifechan                FILES ${FIFECHAN_OPENGL_HEADER})
   source_group(src/fifechan/opengl         FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
 
-  if(BUILD_FIFECHAN_OPENGL_SHARED)
-    set(FIFECHAN_OPENGL_LIBRARY_TYPE SHARED)
-  else(BUILD_FIFECHAN_OPENGL_SHARED)
-    set(FIFECHAN_OPENGL_LIBRARY_TYPE STATIC)
-  endif(BUILD_FIFECHAN_OPENGL_SHARED)
-
-  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE}
+  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_OPENGL_HEADER}
     ${FIFECHAN_OPENGL_HEADERS}
     ${FIFECHAN_OPENGL_SRC}
@@ -409,13 +390,7 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   source_group(src/fifechan               FILES ${FIFECHAN_SDL_HEADER})
   source_group(src/fifechan/sdl           FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
 
-  if(BUILD_FIFECHAN_SDL_SHARED)
-    set(FIFECHAN_SDL_LIBRARY_TYPE SHARED)
-  else(BUILD_FIFECHAN_SDL_SHARED)
-    set(FIFECHAN_SDL_LIBRARY_TYPE STATIC)
-  endif(BUILD_FIFECHAN_SDL_SHARED)
-
-  add_library(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE}
+  add_library(${PROJECT_NAME}_sdl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SDL_HEADER}
     ${FIFECHAN_SDL_HEADERS}
     ${FIFECHAN_SDL_SRC}
