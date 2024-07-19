@@ -10,6 +10,7 @@
 - modernised license headers and copyright notices
 - FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
 - removed all extern "c" helper functions for extension detection by autotools
+- fix WIN32_LEAN_AND_MEAN redeclaration errors
 
 ## [0.1.5] - 2019-01-11
 
