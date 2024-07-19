@@ -15,7 +15,7 @@ namespace fcn
      * in Fifechan if no font has been set merely to show that no font has
      * been set.
      */
-    class FCN_CORE_DECLSPEC DefaultFont : public Font
+    class FIFEGUI_API DefaultFont : public Font
     {
     public:
         /**

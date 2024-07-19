@@ -12,7 +12,7 @@ namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC CurveGraph : public Widget
+    class FIFEGUI_API CurveGraph : public Widget
     {
     public:
         /**

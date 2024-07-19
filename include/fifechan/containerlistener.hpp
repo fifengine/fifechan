@@ -16,7 +16,7 @@ namespace fcn
      * @see BasicContainer::addContainerListener, BasicContainer::removeContainerListener,
      *      ContainerEvent
      */
-    class FCN_CORE_DECLSPEC ContainerListener
+    class FIFEGUI_API ContainerListener
     {
     public:
         /**

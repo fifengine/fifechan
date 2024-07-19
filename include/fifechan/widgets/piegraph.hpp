@@ -11,7 +11,7 @@ namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC PieGraph : public Widget
+    class FIFEGUI_API PieGraph : public Widget
     {
     public:
         /**

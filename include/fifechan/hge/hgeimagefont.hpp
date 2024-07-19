@@ -19,7 +19,7 @@ namespace fcn
      * Font to be used with HGE. As HGE does not support colorkey blitting of images it's recommended
      * to use HGE's internal font in Guichan.
      */
-    class FCN_EXTENSION_DECLSPEC HGEImageFont : public Font
+    class FIFEGUI_EXT_API HGEImageFont : public Font
     {
     public:
         /**

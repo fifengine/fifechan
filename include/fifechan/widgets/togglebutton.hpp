@@ -23,7 +23,7 @@ namespace fcn
      * If a toggle button's state changes an action event will be sent to all action
      * listeners of the toggle button.
      */
-    class FCN_CORE_DECLSPEC ToggleButton : public fcn::ImageButton
+    class FIFEGUI_API ToggleButton : public fcn::ImageButton
     {
     public:
         /**

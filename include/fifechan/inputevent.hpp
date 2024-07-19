@@ -13,7 +13,7 @@ namespace fcn
     /**
      * Base class for all events concerning input.
      */
-    class FCN_CORE_DECLSPEC InputEvent : public Event
+    class FIFEGUI_API InputEvent : public Event
     {
     public:
         /**

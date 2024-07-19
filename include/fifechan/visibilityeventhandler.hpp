@@ -17,7 +17,7 @@ namespace fcn
      * Class that handles Widget visiblity changes. Addresses input issues arised
      * when widgets are shown or hidden.
      */
-    class FCN_CORE_DECLSPEC VisibilityEventHandler : public WidgetListener
+    class FIFEGUI_API VisibilityEventHandler : public WidgetListener
     {
     public:
         /**

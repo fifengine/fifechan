@@ -15,7 +15,7 @@ namespace fcn
      * Represents a rectangle.
      *
      */
-    class FCN_CORE_DECLSPEC Rectangle
+    class FIFEGUI_API Rectangle
     {
     public:
         /**

@@ -22,7 +22,7 @@ namespace fcn
      * If a check box's state changes an action event will be sent to all action
      * listeners of the check box.
      */
-    class FCN_CORE_DECLSPEC CheckBox : public fcn::ImageButton
+    class FIFEGUI_API CheckBox : public fcn::ImageButton
     {
     public:
         /**

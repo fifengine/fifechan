@@ -30,7 +30,7 @@ namespace fcn
      *          fcn::throwException(("my error message"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
      *          @endcode
      */
-    class FCN_CORE_DECLSPEC Exception : public std::runtime_error
+    class FIFEGUI_API Exception : public std::runtime_error
     {
     public:
         /**

@@ -19,7 +19,7 @@ namespace fcn
      *
      * @see Widget::addWidgetListener, Widget::removeWidgetListener
      */
-    class FCN_CORE_DECLSPEC WidgetListener
+    class FIFEGUI_API WidgetListener
     {
     public:
         /**

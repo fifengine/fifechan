@@ -17,7 +17,7 @@ namespace fcn
      *
      * @see Widget::addFocusListener, Widget::removeFocusListener
      */
-    class FCN_CORE_DECLSPEC FocusListener
+    class FIFEGUI_API FocusListener
     {
     public:
         /**

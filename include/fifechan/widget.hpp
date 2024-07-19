@@ -36,7 +36,7 @@ namespace fcn
      * NOTE: Functions begining with underscore "_" should not
      *       be overloaded unless you know what you are doing.
      */
-    class FCN_CORE_DECLSPEC Widget
+    class FIFEGUI_API Widget
     {
     public:
         /**

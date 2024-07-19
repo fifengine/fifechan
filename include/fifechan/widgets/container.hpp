@@ -22,7 +22,7 @@ namespace fcn
      *
      * @see Gui::setTop
      */
-    class FCN_CORE_DECLSPEC Container : public Widget
+    class FIFEGUI_API Container : public Widget
     {
     public:
         enum LayoutPolicy

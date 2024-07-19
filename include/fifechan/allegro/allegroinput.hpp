@@ -18,7 +18,7 @@ namespace fcn
     /**
      * Allegro implementation of the Input.
      */
-    class FCN_EXTENSION_DECLSPEC AllegroInput : public Input
+    class FIFEGUI_EXT_API AllegroInput : public Input
     {
     public:
         /**

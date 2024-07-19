@@ -18,7 +18,7 @@ namespace fcn
     /**
      * OpenLayer implementation of the Input.
      */
-    class FCN_EXTENSION_DECLSPEC OpenLayerInput : public Input
+    class FIFEGUI_EXT_API OpenLayerInput : public Input
     {
     public:
         /**

@@ -17,7 +17,7 @@ namespace fcn
     /**
      * SDL implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC SDLImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API SDLImageLoader : public ImageLoader
     {
     public:
         // Inherited from ImageLoader

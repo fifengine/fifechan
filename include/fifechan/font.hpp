@@ -17,7 +17,7 @@ namespace fcn
      *
      * @see ImageFont
      */
-    class FCN_CORE_DECLSPEC Font
+    class FIFEGUI_API Font
     {
     public:
         /**

@@ -19,7 +19,7 @@ namespace fcn
      * If the selected value is changed an action event will be sent to all
      * action listeners of the slider.
      */
-    class FCN_CORE_DECLSPEC Slider : public Widget, public MouseListener, public KeyListener
+    class FIFEGUI_API Slider : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**

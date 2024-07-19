@@ -24,7 +24,7 @@ namespace fcn
      * @see AllegroInput, HGEInput, OpenLayerInput,
      *      SDLInput
      */
-    class FCN_CORE_DECLSPEC Input
+    class FIFEGUI_API Input
     {
     public:
         /**

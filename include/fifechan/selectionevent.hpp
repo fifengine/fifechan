@@ -15,7 +15,7 @@ namespace fcn
     /**
      * Represents a selection event.
      */
-    class FCN_CORE_DECLSPEC SelectionEvent : public Event
+    class FIFEGUI_API SelectionEvent : public Event
     {
     public:
         /**

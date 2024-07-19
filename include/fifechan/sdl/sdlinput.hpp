@@ -21,7 +21,7 @@ namespace fcn
     /**
      * SDL implementation of Input.
      */
-    class FCN_EXTENSION_DECLSPEC SDLInput : public Input
+    class FIFEGUI_EXT_API SDLInput : public Input
     {
     public:
         /**

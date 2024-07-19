@@ -15,7 +15,7 @@ namespace fcn
     /**
      * OpenLayer implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC OpenLayerImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API OpenLayerImageLoader : public ImageLoader
     {
     public:
         // Inherited from ImageLoader

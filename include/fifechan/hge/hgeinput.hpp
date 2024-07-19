@@ -22,7 +22,7 @@ namespace fcn
     /**
      * HGE implementation of Input.
      */
-    class FCN_EXTENSION_DECLSPEC HGEInput : public Input
+    class FIFEGUI_EXT_API HGEInput : public Input
     {
     public:
         /**

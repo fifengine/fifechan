@@ -17,7 +17,7 @@ namespace fcn
      *
      * @see Widget::addKeyListener, Widget::removeKeyListener
      */
-    class FCN_CORE_DECLSPEC KeyListener
+    class FIFEGUI_API KeyListener
     {
     public:
         /**

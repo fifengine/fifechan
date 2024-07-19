@@ -17,7 +17,7 @@ namespace fcn
     /**
      * Allegro implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC AllegroImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API AllegroImageLoader : public ImageLoader
     {
     public:
         // Inherited from ImageLoader

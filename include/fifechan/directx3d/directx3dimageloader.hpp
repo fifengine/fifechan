@@ -17,7 +17,7 @@ namespace fcn
     /**
      * DirectX ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC DirectX3DImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API DirectX3DImageLoader : public ImageLoader
     {
     public:
         /**

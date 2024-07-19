@@ -25,7 +25,7 @@ namespace fcn
      * selecting a tab.
      *
      */
-    class FCN_CORE_DECLSPEC TabbedArea : public ActionListener, public KeyListener, public MouseListener, public Widget
+    class FIFEGUI_API TabbedArea : public ActionListener, public KeyListener, public MouseListener, public Widget
     {
         friend class Tab;
 

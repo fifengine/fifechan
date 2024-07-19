@@ -36,7 +36,7 @@ namespace fcn
      * using a mouse click or by using the enter or space key an action event
      * will be sent to all action listeners of the drop down.
      */
-    class FCN_CORE_DECLSPEC DropDown :
+    class FIFEGUI_API DropDown :
         public ActionListener,
         public KeyListener,
         public MouseListener,

@@ -5,19 +5,11 @@
 #ifndef FCN_OPENLAYER_HPP
 #define FCN_OPENLAYER_HPP
 
+#include "platform.hpp"
+
 #include <fifechan/openlayer/openlayerinput.hpp>
 #include <fifechan/openlayer/openlayerfont.hpp>
 #include <fifechan/openlayer/openlayerimageloader.hpp>
 #include <fifechan/openlayer/openlayergraphics.hpp>
-
-#include "fifechan/platform.hpp"
-
-extern "C" {
-/**
- * Exists to be able to check for Guichan Open Layer
- * with autotools.
- */
-FCN_EXTENSION_DECLSPEC extern void fcnOpenLayer();
-}
 
 #endif // end FCN_OPENLAYER_HPP

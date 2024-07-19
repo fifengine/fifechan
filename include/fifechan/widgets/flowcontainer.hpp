@@ -15,7 +15,7 @@ namespace fcn
      * The widgets can be sorted vertical per row or horizontal per column. If the space in the container
      * is too small to put all the components in one row or column, it uses multiple rows or columns.
      */
-    class FCN_CORE_DECLSPEC FlowContainer : public Container
+    class FIFEGUI_API FlowContainer : public Container
     {
     public:
         /**

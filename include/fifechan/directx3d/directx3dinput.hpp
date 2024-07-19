@@ -22,7 +22,7 @@ namespace fcn
     /**
      * DirectX 3D implementation of Input.
      */
-    class FCN_EXTENSION_DECLSPEC DirectX3DInput : public Input
+    class FIFEGUI_EXT_API DirectX3DInput : public Input
     {
     public:
         /**

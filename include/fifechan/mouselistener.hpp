@@ -15,7 +15,7 @@ namespace fcn
      *
      * @see Widget::addMouseListener, Widget::removeMouseListener
      */
-    class FCN_CORE_DECLSPEC MouseListener
+    class FIFEGUI_API MouseListener
     {
     public:
         /**

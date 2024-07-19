@@ -18,7 +18,7 @@ namespace fcn
     /**
      * HGE implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC HGEImage : public Image
+    class FIFEGUI_EXT_API HGEImage : public Image
     {
     public:
         /**

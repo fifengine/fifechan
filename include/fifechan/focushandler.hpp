@@ -28,7 +28,7 @@ namespace fcn
      *      Widget::setFocusable, Widget::isFocusable, FocusListener
      *
      */
-    class FCN_CORE_DECLSPEC FocusHandler
+    class FIFEGUI_API FocusHandler
     {
     public:
         /**

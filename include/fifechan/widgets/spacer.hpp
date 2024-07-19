@@ -11,7 +11,7 @@ namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC Spacer : public Widget
+    class FIFEGUI_API Spacer : public Widget
     {
     public:
         /**

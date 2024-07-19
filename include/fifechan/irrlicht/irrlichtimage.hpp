@@ -18,7 +18,7 @@ namespace fcn
     /**
      * Irrlicht implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC IrrlichtImage : public Image
+    class FIFEGUI_EXT_API IrrlichtImage : public Image
     {
     public:
         /**

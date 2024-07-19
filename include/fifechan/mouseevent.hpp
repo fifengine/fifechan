@@ -16,7 +16,7 @@ namespace fcn
     /**
      * Represents a mouse event.
      */
-    class FCN_CORE_DECLSPEC MouseEvent : public InputEvent
+    class FIFEGUI_API MouseEvent : public InputEvent
     {
     public:
         /**

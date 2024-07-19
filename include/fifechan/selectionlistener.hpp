@@ -20,7 +20,7 @@ namespace fcn
      *      DropDown::addSelectionListener,
      *      DropDown::removeSelectionListener
      */
-    class FCN_CORE_DECLSPEC SelectionListener
+    class FIFEGUI_API SelectionListener
     {
     public:
         /**

@@ -16,7 +16,7 @@ namespace fcn
     /**
      * Cairo font implementation of Fonts used by Cairo.
      */
-    class FCN_EXTENSION_DECLSPEC CairoFont : public Font
+    class FIFEGUI_EXT_API CairoFont : public Font
     {
     public:
         /**

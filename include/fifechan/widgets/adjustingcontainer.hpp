@@ -77,7 +77,7 @@ namespace fcn
      * (http://guichan.sourceforge.net/forum/) or email mrlachatte@gmail.com.
      *
      */
-    class FCN_CORE_DECLSPEC AdjustingContainer : public Container
+    class FIFEGUI_API AdjustingContainer : public Container
     {
     public:
         /**

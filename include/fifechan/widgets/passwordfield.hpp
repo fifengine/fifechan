@@ -14,7 +14,7 @@ namespace fcn
     /**
      * Password input widget.
      */
-    class FCN_CORE_DECLSPEC PasswordField : public TextField
+    class FIFEGUI_API PasswordField : public TextField
     {
     public:
         /**

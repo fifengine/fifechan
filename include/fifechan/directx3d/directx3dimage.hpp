@@ -19,7 +19,7 @@ namespace fcn
     /**
      * DirectX implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC DirectX3DImage : public Image
+    class FIFEGUI_EXT_API DirectX3DImage : public Image
     {
     public:
         /**

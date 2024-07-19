@@ -19,7 +19,7 @@ namespace fcn
     /**
      * Cairo implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC CairoGraphics : public Graphics
+    class FIFEGUI_EXT_API CairoGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.

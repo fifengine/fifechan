@@ -15,7 +15,7 @@ namespace fcn
     /**
      * Cairo implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC CairoImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API CairoImageLoader : public ImageLoader
     {
     public:
         // Inherited from ImageLoader

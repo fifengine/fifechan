@@ -17,7 +17,7 @@ namespace fcn
      *
      * @see Widget::addDeathListener, Widget::removeDeathListener
      */
-    class FCN_CORE_DECLSPEC DeathListener
+    class FIFEGUI_API DeathListener
     {
     public:
         /**

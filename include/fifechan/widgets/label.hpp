@@ -16,7 +16,7 @@ namespace fcn
     /**
      * Implementation of a label capable of displaying a caption.
      */
-    class FCN_CORE_DECLSPEC Label : public Widget
+    class FIFEGUI_API Label : public Widget
     {
     public:
         /**

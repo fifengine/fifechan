@@ -9,14 +9,11 @@
 
 class Widget;
 
-extern "C" {
 /**
- * Gets the the version of Fifechan. As it is a C function
- * it can be used to check for Fifechan with autotools.
+ * Gets the the version of Fifechan.
  *
  * @return the version of Fifechan.
  */
-FCN_CORE_DECLSPEC extern char const * fcnFifechanVersion();
-}
+FIFEGUI_API extern char const * fcnFifechanVersion();
 
 #endif // end FCN_FIFECHAN_HPP

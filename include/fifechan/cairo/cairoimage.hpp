@@ -17,7 +17,7 @@ namespace fcn
     /**
      * Cairo implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC CairoImage : public Image
+    class FIFEGUI_EXT_API CairoImage : public Image
     {
 
         friend class CairoGraphics;

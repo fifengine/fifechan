@@ -18,7 +18,7 @@ namespace fcn
     /**
      * HGE implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC HGEImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API HGEImageLoader : public ImageLoader
     {
     public:
         /**

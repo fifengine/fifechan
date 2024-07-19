@@ -56,7 +56,7 @@ namespace fcn
      *
      * @see Graphics, Input, Image
      */
-    class FCN_CORE_DECLSPEC Gui
+    class FIFEGUI_API Gui
     {
     public:
         /**

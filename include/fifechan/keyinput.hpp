@@ -16,7 +16,7 @@ namespace fcn
      * a back end.
      *
      */
-    class FCN_CORE_DECLSPEC KeyInput
+    class FIFEGUI_API KeyInput
     {
     public:
         /**

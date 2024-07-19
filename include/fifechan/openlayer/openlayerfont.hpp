@@ -18,7 +18,7 @@ namespace fcn
      * OpenLayer font implementation of Font that uses the native
      * OpenLayer font.
      */
-    class FCN_EXTENSION_DECLSPEC OpenLayerTTFont : public Font
+    class FIFEGUI_EXT_API OpenLayerTTFont : public Font
     {
     public:
         /**

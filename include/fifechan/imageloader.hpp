@@ -31,7 +31,7 @@ namespace fcn
      *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader,
      *      SDLImageLoader
      */
-    class FCN_CORE_DECLSPEC ImageLoader
+    class FIFEGUI_API ImageLoader
     {
     public:
         /**

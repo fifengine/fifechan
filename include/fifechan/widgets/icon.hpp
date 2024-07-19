@@ -14,7 +14,7 @@ namespace fcn
     /**
      * Implements an icon capable of displaying an image.
      */
-    class FCN_CORE_DECLSPEC Icon : public Widget
+    class FIFEGUI_API Icon : public Widget
     {
     public:
         /**

@@ -14,7 +14,7 @@ namespace fcn
     class Graphics;
     class Image;
 
-    class FCN_CORE_DECLSPEC IconProgressBar : public Widget
+    class FIFEGUI_API IconProgressBar : public Widget
     {
     public:
         enum Orientation

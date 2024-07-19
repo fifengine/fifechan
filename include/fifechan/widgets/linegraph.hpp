@@ -12,7 +12,7 @@ namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC LineGraph : public Widget
+    class FIFEGUI_API LineGraph : public Widget
     {
     public:
         /**

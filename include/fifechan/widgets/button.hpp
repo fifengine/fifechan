@@ -27,7 +27,7 @@ namespace fcn
      *
      * @see ImageButton
      */
-    class FCN_CORE_DECLSPEC Button :
+    class FIFEGUI_API Button :
         public Widget,
         public MouseListener,
         public KeyListener,

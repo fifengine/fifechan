@@ -18,7 +18,7 @@ namespace fcn
      * A scroll area can be customized to always show scroll bars or to show them only when
      * necessary.
      */
-    class FCN_CORE_DECLSPEC ScrollArea : public MouseListener, public Widget
+    class FIFEGUI_API ScrollArea : public MouseListener, public Widget
     {
     public:
         /**

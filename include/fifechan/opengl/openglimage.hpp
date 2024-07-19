@@ -29,7 +29,7 @@ namespace fcn
     /**
      * OpenGL implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC OpenGLImage : public Image
+    class FIFEGUI_EXT_API OpenGLImage : public Image
     {
     public:
         /**

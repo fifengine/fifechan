@@ -14,7 +14,7 @@ namespace fcn
     /**
      * Base class for all events. All events in Guichan should inherit from this class.
      */
-    class FCN_CORE_DECLSPEC Event
+    class FIFEGUI_API Event
     {
     public:
         /**

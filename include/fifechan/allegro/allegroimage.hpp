@@ -17,7 +17,7 @@ namespace fcn
     /**
      * Allegro implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC AllegroImage : public Image
+    class FIFEGUI_EXT_API AllegroImage : public Image
     {
     public:
         /**

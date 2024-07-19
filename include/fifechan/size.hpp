@@ -9,7 +9,7 @@
 
 namespace fcn
 {
-    class FCN_CORE_DECLSPEC Size
+    class FIFEGUI_API Size
     {
     public:
         /**

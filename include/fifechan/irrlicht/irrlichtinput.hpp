@@ -21,7 +21,7 @@ namespace fcn
     /**
      * Irrlicht implementation of Input.
      */
-    class FCN_EXTENSION_DECLSPEC IrrlichtInput : public Input
+    class FIFEGUI_EXT_API IrrlichtInput : public Input
     {
     public:
         /**

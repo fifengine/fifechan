@@ -21,7 +21,7 @@ namespace fcn
          * OpenGL True Type Font implementation of Font. It uses the OGLFT library
          * to display True Type Fonts with OpenGL.
          */
-        class FCN_EXTENSION_DECLSPEC OGLFTFont : public Font
+        class FIFEGUI_EXT_API OGLFTFont : public Font
         {
         public:
             /**

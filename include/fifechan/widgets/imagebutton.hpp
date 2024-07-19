@@ -25,7 +25,7 @@ namespace fcn
      *
      * @see Button
      */
-    class FCN_CORE_DECLSPEC ImageButton : public fcn::Button
+    class FIFEGUI_API ImageButton : public fcn::Button
     {
     public:
         /**

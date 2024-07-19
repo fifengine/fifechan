@@ -16,7 +16,7 @@ namespace fcn
      * Allegro font implementation of Font that uses the native
      * Allegro font.
      */
-    class FCN_EXTENSION_DECLSPEC AllegroFont : public Font
+    class FIFEGUI_EXT_API AllegroFont : public Font
     {
     public:
         /**

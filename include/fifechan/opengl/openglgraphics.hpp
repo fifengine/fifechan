@@ -14,7 +14,7 @@ namespace fcn
     /**
      * OpenGL implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC OpenGLGraphics : public Graphics
+    class FIFEGUI_EXT_API OpenGLGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.

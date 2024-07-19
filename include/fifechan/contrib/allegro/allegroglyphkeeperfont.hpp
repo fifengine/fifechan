@@ -29,7 +29,7 @@ namespace fcn
          * you can add more and advanced functionality by deriving
          * from this class.
          */
-        class FCN_EXTENSION_DECLSPEC AllegroGlyphKeeperFont : public Font
+        class FIFEGUI_EXT_API AllegroGlyphKeeperFont : public Font
         {
         public:
             /**

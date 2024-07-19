@@ -16,7 +16,7 @@ namespace fcn
     /**
      * An implementation of a movable window that can contain other widgets.
      */
-    class FCN_CORE_DECLSPEC Window : public Container, public MouseListener
+    class FIFEGUI_API Window : public Container, public MouseListener
     {
     public:
         /**

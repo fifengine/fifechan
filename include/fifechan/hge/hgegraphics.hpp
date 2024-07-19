@@ -18,7 +18,7 @@ namespace fcn
     /**
      * HGE implementation of Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC HGEGraphics : public Graphics
+    class FIFEGUI_EXT_API HGEGraphics : public Graphics
     {
     public:
         /**

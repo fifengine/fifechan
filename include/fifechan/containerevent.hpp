@@ -24,7 +24,7 @@ namespace fcn
      * @see Container::addContainerListener, Container::removeContainerListener,
      *      Container::distributeContainerEvent
      */
-    class FCN_CORE_DECLSPEC ContainerEvent : public Event
+    class FIFEGUI_API ContainerEvent : public Event
     {
     public:
         /**

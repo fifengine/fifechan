@@ -11,7 +11,7 @@ namespace fcn
     /**
      * Represents a key or a character.
      */
-    class FCN_CORE_DECLSPEC Key
+    class FIFEGUI_API Key
     {
     public:
         /**

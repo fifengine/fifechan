@@ -19,7 +19,7 @@ namespace fcn
     /**
      * SDL implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC SDLGraphics : public Graphics
+    class FIFEGUI_EXT_API SDLGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.

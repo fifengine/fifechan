@@ -27,7 +27,7 @@ namespace fcn
      * @see AllegroImageLoader, HGEImageLoader, OpenLayerImageLoader,
      *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader, SDLImageLoader
      */
-    class FCN_CORE_DECLSPEC Image
+    class FIFEGUI_API Image
     {
     public:
         /**

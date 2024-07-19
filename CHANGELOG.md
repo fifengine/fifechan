@@ -2,9 +2,14 @@
 
 ## [0.1.6] - 2024-07-xx
 
-- updated CMakeLists style
+- updated CMakeLists formatting
 - added .clang-format and applied formatting
+- added .clang-tidy and applied basic rule set
 - removed usage of deprecated std::iterator
+- remove usage of do-while loops
+- modernised license headers and copyright notices
+- FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
+- removed all extern "c" helper functions for extension detection by autotools
 
 ## [0.1.5] - 2019-01-11
 

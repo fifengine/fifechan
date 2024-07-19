@@ -5,19 +5,12 @@
 #ifndef FCN_ALLEGRO_HPP
 #define FCN_ALLEGRO_HPP
 
+#include "platform.hpp"
+
 #include <fifechan/allegro/allegrofont.hpp>
 #include <fifechan/allegro/allegrographics.hpp>
 #include <fifechan/allegro/allegroimage.hpp>
 #include <fifechan/allegro/allegroimageloader.hpp>
 #include <fifechan/allegro/allegroinput.hpp>
-
-extern "C" {
-/**
- * Exists to be able to check for Guichan Allegro with autotools.
- *
- * @bug Autotools is incapable of finding this function.
- */
-extern void fcnAllegro();
-}
 
 #endif // end FCN_ALLEGRO_HPP

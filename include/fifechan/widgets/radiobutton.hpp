@@ -23,7 +23,7 @@ namespace fcn
      * If a radio button's state changes an action event will be sent to all action
      * listeners of the radio button.
      */
-    class FCN_CORE_DECLSPEC RadioButton : public fcn::CheckBox
+    class FIFEGUI_API RadioButton : public fcn::CheckBox
     {
     public:
         /**

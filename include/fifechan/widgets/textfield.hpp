@@ -20,7 +20,7 @@ namespace fcn
     /**
      * An implementation of a text field where a user can enter a line of text.
      */
-    class FCN_CORE_DECLSPEC TextField : public Widget, public MouseListener, public KeyListener
+    class FIFEGUI_API TextField : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**

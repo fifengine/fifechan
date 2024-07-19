@@ -21,7 +21,7 @@ namespace fcn
      * such as inserting and deleting text.
      *
      */
-    class FCN_CORE_DECLSPEC Text
+    class FIFEGUI_API Text
     {
     public:
         /**

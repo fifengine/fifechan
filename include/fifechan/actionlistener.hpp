@@ -18,7 +18,7 @@ namespace fcn
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      ActionEvent
      */
-    class FCN_CORE_DECLSPEC ActionListener
+    class FIFEGUI_API ActionListener
     {
     public:
         /**

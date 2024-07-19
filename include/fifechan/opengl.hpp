@@ -5,16 +5,9 @@
 #ifndef FCN_OPENGL_HPP
 #define FCN_OPENGL_HPP
 
+#include "platform.hpp"
+
 #include <fifechan/opengl/openglgraphics.hpp>
 #include <fifechan/opengl/openglimage.hpp>
-
-#include "fifechan/platform.hpp"
-
-extern "C" {
-/**
- * Exists to be able to check for Guichan OpenGL with autotools.
- */
-FCN_EXTENSION_DECLSPEC extern void fcnOpenGL();
-}
 
 #endif // end FCN_OPENGL_HPP

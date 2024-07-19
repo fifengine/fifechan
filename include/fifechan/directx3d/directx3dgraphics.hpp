@@ -16,7 +16,7 @@ namespace fcn
     /**
      * DirectX 3D implementation of the Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC DirectX3DGraphics : public Graphics
+    class FIFEGUI_EXT_API DirectX3DGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.

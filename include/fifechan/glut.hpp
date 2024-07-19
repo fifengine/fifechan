@@ -5,15 +5,8 @@
 #ifndef FCN_GLUT_HPP
 #define FCN_GLUT_HPP
 
-#include <fifechan/glut/glutinput.hpp>
-
 #include "platform.hpp"
 
-extern "C" {
-/**
- * Exists to be able to check for Guichan GLUT with autotools.
- */
-FCN_EXTENSION_DECLSPEC extern void fcnGLUT();
-}
+#include <fifechan/glut/glutinput.hpp>
 
 #endif // end FCN_GLUT_HPP

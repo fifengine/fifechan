@@ -18,7 +18,7 @@ namespace fcn
     /**
      * SDL implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC SDLImage : public Image
+    class FIFEGUI_EXT_API SDLImage : public Image
     {
     public:
         /**

@@ -20,7 +20,7 @@ namespace fcn
     /**
      * OpenLayer implementation of Image.
      */
-    class FCN_EXTENSION_DECLSPEC OpenLayerImage : public Image
+    class FIFEGUI_EXT_API OpenLayerImage : public Image
     {
     public:
         /**

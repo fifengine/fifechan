@@ -17,7 +17,7 @@ namespace fcn
     /**
      * Irrlicht implementation of ImageLoader.
      */
-    class FCN_EXTENSION_DECLSPEC IrrlichtImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API IrrlichtImageLoader : public ImageLoader
     {
     public:
         /**

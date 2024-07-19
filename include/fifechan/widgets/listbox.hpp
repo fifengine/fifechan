@@ -28,7 +28,7 @@ namespace fcn
      * a mouse click or by using the enter or space key an action event will be
      * sent to all action listeners of the list box.
      */
-    class FCN_CORE_DECLSPEC ListBox : public Widget, public MouseListener, public KeyListener
+    class FIFEGUI_API ListBox : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**

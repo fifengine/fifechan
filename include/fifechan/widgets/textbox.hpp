@@ -22,7 +22,7 @@ namespace fcn
     /**
      * An implementation of a text box where a user can enter text that contains of many lines.
      */
-    class FCN_CORE_DECLSPEC TextBox : public Widget, public MouseListener, public KeyListener
+    class FIFEGUI_API TextBox : public Widget, public MouseListener, public KeyListener
     {
     public:
         /**

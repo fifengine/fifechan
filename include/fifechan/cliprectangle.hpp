@@ -16,7 +16,7 @@ namespace fcn
      * offsets. The offsets are used for calculations from relative
      * screen coordinates to actual screen coordinates.
      */
-    class FCN_CORE_DECLSPEC ClipRectangle : public Rectangle
+    class FIFEGUI_API ClipRectangle : public Rectangle
     {
     public:
         /**

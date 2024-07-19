@@ -18,7 +18,7 @@ namespace fcn
     /**
      * Allegro implementation of Graphics.
      */
-    class FCN_EXTENSION_DECLSPEC AllegroGraphics : public Graphics
+    class FIFEGUI_EXT_API AllegroGraphics : public Graphics
     {
     public:
         // Needed so that drawImage(fcn::Image *, int, int) is visible.

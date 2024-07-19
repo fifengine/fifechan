@@ -41,7 +41,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!
      */
-    class FCN_CORE_DECLSPEC ImageFont : public Font
+    class FIFEGUI_API ImageFont : public Font
     {
     public:
         /**

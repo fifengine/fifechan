@@ -21,7 +21,7 @@ namespace fcn
      *
      * @see TabbedArea
      */
-    class FCN_CORE_DECLSPEC Tab : public MouseListener, public Container
+    class FIFEGUI_API Tab : public MouseListener, public Container
     {
     public:
         /**

@@ -15,7 +15,7 @@ namespace fcn
      * bother using this class unless you implement an Input class for
      * a back end.
      */
-    class FCN_CORE_DECLSPEC MouseInput
+    class FIFEGUI_API MouseInput
     {
     public:
         /**

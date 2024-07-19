@@ -52,7 +52,7 @@ namespace fcn
      * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics,
      *      SDLGraphics, Image
      */
-    class FCN_CORE_DECLSPEC Graphics
+    class FIFEGUI_API Graphics
     {
     public:
         /**

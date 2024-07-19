@@ -20,7 +20,7 @@
 //     /**
 //      * GLUT implementation of Input.
 //      */
-//     class FCN_EXTENSION_DECLSPEC GLUTInput : public Input
+//     class FIFEGUI_EXT_API GLUTInput : public Input
 //     {
 //     public:
 

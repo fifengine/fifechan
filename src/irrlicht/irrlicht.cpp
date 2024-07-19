@@ -3,7 +3,3 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/irrlicht.hpp"
-
-extern "C" {
-void fcnIrrlicht() { }
-}

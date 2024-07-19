@@ -14,7 +14,7 @@ namespace fcn
     /**
      * Represents a color with red, green, blue and alpha components.
      */
-    class FCN_CORE_DECLSPEC Color
+    class FIFEGUI_API Color
     {
     public:
         /**

@@ -16,7 +16,7 @@ namespace fcn
     /**
      * Represents a key event.
      */
-    class FCN_CORE_DECLSPEC KeyEvent : public InputEvent
+    class FIFEGUI_API KeyEvent : public InputEvent
     {
     public:
         /**

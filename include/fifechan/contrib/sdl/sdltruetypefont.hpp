@@ -27,7 +27,7 @@ namespace fcn
          *       class. Also, remember to call the SDL_ttf libraries quit
          *       function.
          */
-        class FCN_EXTENSION_DECLSPEC SDLTrueTypeFont : public Font
+        class FIFEGUI_EXT_API SDLTrueTypeFont : public Font
         {
         public:
             /**

@@ -6,31 +6,31 @@
 #define FCN_PLATFORM_HPP
 
 #if defined(__MINGW32__) && defined(FIFECHAN_BUILD)
-#define FCN_CORE_DECLSPEC __declspec(dllexport)
+#define FIFEGUI_API __declspec(dllexport)
 
 #elif defined(__MINGW32__) && defined(FIFECHAN_EXTENSION_BUILD)
-#define FCN_EXTENSION_DECLSPEC __declspec(dllexport)
-#define FCN_CORE_DECLSPEC      __declspec(dllimport)
+#define FIFEGUI_EXT_API __declspec(dllexport)
+#define FIFEGUI_API __declspec(dllimport)
 
 #elif defined(__MINGW32__) && defined(FIFECHAN_DLL_IMPORT)
-#define FCN_CORE_DECLSPEC      __declspec(dllimport)
-#define FCN_EXTENSION_DECLSPEC __declspec(dllimport)
+#define FIFEGUI_API __declspec(dllimport)
+#define FIFEGUI_EXT_API __declspec(dllimport)
 
 #elif defined(_MSC_VER) && defined(FIFECHAN_BUILD)
-#define FCN_CORE_DECLSPEC _declspec(dllexport)
+#define FIFEGUI_API _declspec(dllexport)
 
 #elif defined(_MSC_VER) && defined(FIFECHAN_EXTENSION_BUILD)
-#define FCN_CORE_DECLSPEC      _declspec(dllimport)
-#define FCN_EXTENSION_DECLSPEC _declspec(dllexport)
+#define FIFEGUI_API _declspec(dllimport)
+#define FIFEGUI_EXT_API _declspec(dllexport)
 
 #endif
 
-#ifndef FCN_CORE_DECLSPEC
-#define FCN_CORE_DECLSPEC
+#ifndef FIFEGUI_API
+#define FIFEGUI_API
 #endif
 
-#ifndef FCN_EXTENSION_DECLSPEC
-#define FCN_EXTENSION_DECLSPEC
+#ifndef FIFEGUI_EXT_API
+#define FIFEGUI_EXT_API
 #endif
 
 #ifndef NULL

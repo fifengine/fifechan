@@ -18,7 +18,7 @@ namespace fcn
      * like ListBox, make a derived class from this class that
      * represents your list.
      */
-    class FCN_CORE_DECLSPEC ListModel
+    class FIFEGUI_API ListModel
     {
 
     public:
