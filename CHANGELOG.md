@@ -15,6 +15,7 @@
   - removed ENABLE_OPENGL_CONTRIB, ENABLE_SDL_CONTRIB, ENABLE_ALLEGRO_CONTRIB
   - opengl has now a dependency on oglft, freetype
   - sdl has now a dependency on sdl_ttf
+- removed source_group() support for Visual Studio IDE
 
 ## [0.1.5] - 2019-01-11
 

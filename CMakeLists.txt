@@ -160,11 +160,6 @@ file(GLOB FIFECHAN_UTIL_HEADERS     include/fifechan/util/*.hpp)
 file(GLOB FIFECHAN_SRC              src/*.cpp)
 file(GLOB FIFECHAN_WIDGET_SRC       src/widgets/*.cpp)
 
-# Grouping of the source for nicer display in IDEs such as Visual Studio
-source_group(src                          FILES ${FIFECHAN_HEADER})
-source_group(src/fifechan                 FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
-source_group(src/fifechan/widgets         FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
-
 #------------------------------------------------------------------------------
 # Fifechan core library as a shared library
 #------------------------------------------------------------------------------
@@ -216,10 +211,6 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
   file(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
   file(GLOB FIFECHAN_ALLEGRO_SRC src/allegro/*.cpp)
 
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  source_group(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
-  source_group(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
-
   add_library(${PROJECT_NAME}_allegro ${FIFECHAN_LIBRARY_BUILD_TYPE}
   	${FIFECHAN_ALLEGRO_HEADER}
   	${FIFECHAN_ALLEGRO_HEADERS}
@@ -265,10 +256,6 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
   file(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
   file(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
   file(GLOB FIFECHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
-
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  source_group(src/fifechan FILES ${FIFECHAN_IRRLICHT_HEADER})
-  source_group(src/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
 
   add_library(${PROJECT_NAME}_irrlicht ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_IRRLICHT_HEADER}
@@ -326,10 +313,6 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
   file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
   file(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
 
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  source_group(src/fifechan                FILES ${FIFECHAN_OPENGL_HEADER})
-  source_group(src/fifechan/opengl         FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
-
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_OPENGL_HEADER}
     ${FIFECHAN_OPENGL_HEADERS}
@@ -386,10 +369,6 @@ if(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
   file(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
 
   include_directories(${SDL_TTF_INCLUDE_DIRS})
-
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  source_group(src/fifechan               FILES ${FIFECHAN_SDL_HEADER})
-  source_group(src/fifechan/sdl           FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
 
   add_library(${PROJECT_NAME}_sdl ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SDL_HEADER}
