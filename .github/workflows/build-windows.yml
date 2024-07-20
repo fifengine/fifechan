@@ -133,7 +133,7 @@ jobs:
            -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
-      - name: 🛠️ Build
+      - name: 🛠️ CMake ➔ Build
         working-directory: ${{env.BUILD_DIR}}
         run: |
-          cmake --build . --config ${{ matrix.config.build_type }}
+          cmake --build .
