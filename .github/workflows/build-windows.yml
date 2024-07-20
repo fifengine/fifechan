@@ -53,6 +53,7 @@ jobs:
 
     env:
       VCPKG_DISABLE_METRICS: 1
+      SOURCE_DIR:  ${{github.workspace}}
       BUILD_DIR:   ${{github.workspace}}\build
       INSTALL_DIR: ${{github.workspace}}\install
 
@@ -115,7 +116,8 @@ jobs:
         working-directory: ${{env.BUILD_DIR}}
         run: |
           cmake                                                   ^
-           -B  ${{ env.BUILD_DIR }}                               ^
+           -B ${{ env.BUILD_DIR }}                                ^
+           -S ${{ env.SOURCE_DIR }}                               ^
            -G "${{ matrix.config.generator }}"                    ^
            -A "${{ matrix.config.platform }}"                     ^
            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}     ^
