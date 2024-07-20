@@ -54,6 +54,7 @@ jobs:
             }
           - {
               job_name: "Windows VC17 x64 static Release",
+              cache_key: "win-vc17-x64-static-release",
               os: "windows-2022",
               generator: "Visual Studio 17 2022",
               compiler: "cl",
@@ -172,3 +173,28 @@ jobs:
       - name: ❔ CHECK folders, to see if everything is present (after building)
         run: |
           dir /S /B ${{ env.INSTALL_DIR }}
+
+      # Build Artifact Name: fifechan-1.2.3-0cda6a2-vc17-x64-static-dbg
+      # Scheme for CI artifacts: $NAME-$VERSION-$SHORT_HASH-$COMPILER_SHORT-$TRIPLET-$BUILD_TYPE_SHORT
+      # Scheme for Releases:     $NAME-$VERSION-$COMPILER_SHORT-$TRIPLET-$BUILD_TYPE_SHORT
+      # Release are only versionied by tag, not by hash.
+      # '-release' is removed from the cache_key, e.g.: win-vc17-x64-shared-release => vc17-x64-shared
+      - name: ✏ Build Artifact Name
+        shell: pwsh
+        run: |
+          $NAME='fifechan'
+          $VERSION=$(jq -r .version vcpkg.json)
+          $SHORT_HASH=$($env:GITHUB_SHA.substring(0,7))
+          $SUFFIX=$('${{ matrix.config.cache_key }}').replace('win-','').replace('-release','')
+          $ARTIFACT_NAME="$NAME-$VERSION-$SHORT_HASH-$SUFFIX"
+          echo "ARTIFACT_NAME:" $ARTIFACT_NAME
+          echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $env:GITHUB_ENV
+          echo "VERSION=$($VERSION)" >> $env:GITHUB_ENV
+
+      - name: 🔼 Upload Build Artifact
+        uses: actions/upload-artifact@v4 # https://github.com/actions/upload-artifact
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.INSTALL_DIR }}/**/*
+
