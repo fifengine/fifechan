@@ -1,0 +1,120 @@
+#
+# .github/workflows/build-windows.yml
+#
+# Copyright 2024 Jens A. Koch.
+# SPDX-License-Identifier: MIT
+# This file is part of fifeengine/fifechan.
+#
+
+name: "Build on Windows"
+
+on:
+ - push
+ - pull_request
+ # You can manually run this workflow.
+ - workflow_dispatch
+
+
+# improve CI concurrency by automatically cancelling outdated jobs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+# ---------------------------------------------------------------------------------------
+
+  build:
+
+# ---------------------------------------------------------------------------------------
+
+    name: ${{ matrix.config.job_name }}
+
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shared_libs:
+          - OFF
+          - ON
+        build_type:
+          -"Release
+          #- Debug
+        config:
+        #- { job_name: "Windows VC16 x86", platform: "Win32", generator: "Visual Studio 16 2019" }
+        #- { job_name: "Windows VC16 x64", platform: "x64", generator: "Visual Studio 16 2019" }
+        #- { job_name: "Windows VC17 x86", platform: "Win32", generator: "Visual Studio 17 2022" }
+        #- { job_name: "Windows VC17 x64", platform: "x64", generator: "Visual Studio 17 2022" }
+        #- { job_name: "Windows MinGW x86", platform: "Win32", generator: "MinGW Makefiles" }
+        #- { job_name: "Windows MinGW x64", platform: "x64", generator: "MinGW Makefiles" }
+        #- { job_name: "Windows Ninja x86", platform: "Win32", generator: "Ninja" }
+        - { job_name: "Windows Ninja x64", platform: "x64", generator: "Ninja", triplet: "x64-windows" }
+
+    env:
+      VCPKG_DISABLE_METRICS: 1
+      BUILD_DIR:   ${{github.workspace}}/build
+      INSTALL_DIR: ${{github.workspace}}/install
+
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+      - name: 🤘 Checkout Code
+        uses: actions/checkout@v4 # https://github.com/actions/checkout
+
+      # https://community.chocolatey.org/packages/ninja
+      - name: 🔽 Install Ninja
+        run: choco install ninja --no-progress
+
+      # https://community.chocolatey.org/packages/cmake
+      - name: 🔽 Install CMake
+        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
+
+      # WARNING
+      # ENV VCPKG_ROOT is redefined by this action
+      # and set to "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\vcpkg"
+      # instead of "c:\vcpkg", which is important for the pre-installed VCPKG on GHA.
+      - name: 🛠️ Setup Visual Studio Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1 # https://github.com/ilammy/msvc-dev-cmd
+
+      # Redefine location to "c:\vcpkg"
+      - name: 🔽 Define VCPKG_ROOT
+        run: |
+          set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
+          echo VCPKG_ROOT=%VCPKG_ROOT% >> %GITHUB_ENV%
+
+      - name: 🔽 Update VCPKG to latest TAG
+        run: |
+          cd /d "%VCPKG_ROOT%"
+          git fetch --tags
+          for /f "delims=" %%i in ('git describe --tags --abbrev=0') do set LATEST_VCPKG_TAG=%%i
+          git checkout %LATEST_VCPKG_TAG%
+
+      - name: 🔽 Bootstrap + Integrate VCPKG
+        run: |
+          bootstrap-vcpkg.bat
+          vcpkg integrate
+
+      - name: 📁 Create build directory
+        run: |
+          mkdir ${{ env.BUILD_DIR }}
+
+      - name: ✏ CMake ➔ Configure
+        working-directory: ${{env.BUILD_DIR}}
+        run: |
+          cmake                                                   ^
+           -B  ${{ env.BUILD_DIR }}                               ^
+           -G "${{ matrix.config.generator }}"                    ^
+           -A "${{ matrix.config.platform }}"                     ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}     ^
+           -DBUILD_SHARED_LIBS=${{ matrix.shared_libs }}          ^
+           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}          ^
+           -DVCPKG_TARGET_TRIPLET="${{ matrix.config.triplet }}"  ^
+           -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+
+      - name: 🛠️ Build
+        working-directory: ${{env.BUILD_DIR}}
+        run: |
+          cmake --build . --config ${{ matrix.config.build_type }}

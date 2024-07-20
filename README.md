@@ -47,6 +47,14 @@ Feel free to drop us a line there and we'll help you getting started!
 
 Fifechan is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
 
+## Dev Notes
+
+## CI
+
+This repo has a multi CI setup.
+Add this to the commit message to skip all CI services: `[skip ci]`
+Add this to the commit message to skip only Appveyor: `[skip appveyor]`
+
 ## Build Dependencies
 
 You need the following libraries installed:
