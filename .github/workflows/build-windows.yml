@@ -28,7 +28,7 @@ jobs:
 
 # ---------------------------------------------------------------------------------------
 
-    name: ${{ matrix.config.job_name }}
+    name: "${{ matrix.config.job_name }} | ${{ matrix.build_type }} | Shared ${{ matrix.shared_libs }}"
 
     runs-on: windows-latest
 
@@ -42,14 +42,14 @@ jobs:
           - "Release"
           #- Debug
         config:
-        #- { job_name: "Windows VC16 x86", platform: "Win32", generator: "Visual Studio 16 2019" }
-        #- { job_name: "Windows VC16 x64", platform: "x64", generator: "Visual Studio 16 2019" }
-        #- { job_name: "Windows VC17 x86", platform: "Win32", generator: "Visual Studio 17 2022" }
-        #- { job_name: "Windows VC17 x64", platform: "x64", generator: "Visual Studio 17 2022" }
-        #- { job_name: "Windows MinGW x86", platform: "Win32", generator: "MinGW Makefiles" }
-        #- { job_name: "Windows MinGW x64", platform: "x64", generator: "MinGW Makefiles" }
-        #- { job_name: "Windows Ninja x86", platform: "Win32", generator: "Ninja" }
-        - { job_name: "Windows Ninja x64", platform: "x64", generator: "Ninja", triplet: "x64-windows" }
+        #- { job_name: "Win | VC-16 x86", platform: "Win32", generator: "Visual Studio 16 2019" }
+        #- { job_name: "Win | VC-16 x64", platform: "x64", generator: "Visual Studio 16 2019" }
+        #- { job_name: "Win | VC-17 x86", platform: "Win32", generator: "Visual Studio 17 2022" }
+        #- { job_name: "Win | VC-17 x64", platform: "x64", generator: "Visual Studio 17 2022" }
+        #- { job_name: "Win | MinGW x86", platform: "Win32", generator: "MinGW Makefiles" }
+        #- { job_name: "Win | MinGW x64", platform: "x64", generator: "MinGW Makefiles" }
+        #- { job_name: "Win | Ninja x86", platform: "Win32", generator: "Ninja" }
+        - { job_name:  "Win | Ninja x64", platform: "x64", generator: "Ninja"}
 
     env:
       VCPKG_DISABLE_METRICS: 1
@@ -97,9 +97,17 @@ jobs:
           bootstrap-vcpkg.bat
           vcpkg integrate
 
+      - name: Set up VCPKG_TRIPLET based on shared_libs
+        run: |
+          if [ "${{ matrix.shared_libs }}" == "ON" ]; then
+            echo "VCPKG_TRIPLET=x64-windows" >> $GITHUB_ENV
+          else
+            echo "VCPKG_TRIPLET=x64-windows-static" >> $GITHUB_ENV
+          fi
+
       - name: 📁 Create build directory
         run: |
-          mkdir ${{ env.BUILD_DIR }}
+          mkdir "${{ env.BUILD_DIR }}"
 
       - name: ✏ CMake ➔ Configure
         working-directory: ${{env.BUILD_DIR}}
@@ -111,7 +119,7 @@ jobs:
            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}     ^
            -DBUILD_SHARED_LIBS=${{ matrix.shared_libs }}          ^
            -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}          ^
-           -DVCPKG_TARGET_TRIPLET="${{ matrix.config.triplet }}"  ^
+           -DVCPKG_TARGET_TRIPLET="${{ env.VCPKG_TRIPLET }}"      ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
       - name: 🛠️ Build
