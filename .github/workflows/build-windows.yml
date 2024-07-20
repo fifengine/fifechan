@@ -129,27 +129,10 @@ jobs:
           bootstrap-vcpkg.bat
           vcpkg integrate
 
-      # get latest sccache-vX.Y.Z-x86_64-pc-windows-msvc.zip, but not the zip.sha256 file
-      - name: 🔽 Install sccache (latest)
-        shell: pwsh
-        run: |
-          $latestRelease = Invoke-RestMethod -Uri https://api.github.com/repos/mozilla/sccache/releases/latest
-          $sccacheUrl = $latestRelease.assets | Where-Object { $_.name -match "sccache-.*-pc-windows-msvc.zip" -and $_.name -notmatch ".sha256" } | Select-Object -ExpandProperty browser_download_url
-          Invoke-WebRequest -Uri $sccacheUrl -OutFile sccache.zip
-          Expand-Archive -Path sccache.zip -DestinationPath sccache
-          echo sccache >> $env:GITHUB_PATH
-          sccache --version
-
       # Reminder: This step requires that the CMakePresets or settings for CI contain
       # "CMAKE_CXX_COMPILER_LAUNCHER": "sccache".
       - name: 🎯 Setup Build Cache (sccache)
-        uses: hendrikmuhs/ccache-action@v1 # https://github.com/hendrikmuhs/ccache-action
-        with:
-          variant: sccache
-          key: build-${{ matrix.config.cache_key }}-${{ github.ref }}
-          restore-keys: |
-            build-${{ matrix.config.cache_key }}-${{ github.ref }}
-            build-${{ matrix.config.cache_key }}
+        uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
 
       - name: 🛠️ Create build folder
         working-directory: ${{github.workspace}}
