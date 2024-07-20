@@ -129,13 +129,12 @@ jobs:
           bootstrap-vcpkg.bat
           vcpkg integrate
 
-      # sccache-v0.8.1-x86_64-pc-windows-msvc.zip
+      # get latest sccache-vX.Y.Z-x86_64-pc-windows-msvc.zip, but not the zip.sha256 file
       - name: 🔽 Install sccache (latest)
         shell: pwsh
         run: |
           $latestRelease = Invoke-RestMethod -Uri https://api.github.com/repos/mozilla/sccache/releases/latest
-          $sccacheUrl = $latestRelease.assets | Where-Object { $_.name -match "sccache-.*-pc-windows-msvc.zip" } | Select-Object -ExpandProperty browser_download_url
-          Invoke-WebRequest -Uri $sccacheUrl -OutFile sccache.zip
+          $sccacheUrl = $latestRelease.assets | Where-Object { $_.name -match "sccache-.*-pc-windows-msvc.zip" -and $_.name -notmatch ".sha256" } | Select-Object -ExpandProperty browser_download_url
           Expand-Archive -Path sccache.zip -DestinationPath sccache
           echo sccache >> $env:GITHUB_PATH
           sccache --version
