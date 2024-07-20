@@ -159,7 +159,7 @@ jobs:
       - name: 🙏 CMake ➔ Build
         working-directory: ${{ env.BUILD_DIR }}
         run: |
-          cmake --build .
+          cmake --build . --config ${{ matrix.build_type }}
 
       - name: 📦 CMake ➔ Install
         run: |
