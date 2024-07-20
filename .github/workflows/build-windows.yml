@@ -69,9 +69,9 @@ jobs:
 
     env:
       VCPKG_DISABLE_METRICS: 1
-      SOURCE_DIR:  ${{github.workspace}}
-      BUILD_DIR:   ${{github.workspace}}\build
-      INSTALL_DIR: ${{github.workspace}}\install
+      SOURCE_DIR:  ${{ github.workspace }}
+      BUILD_DIR:   ${{ github.workspace }}\build
+      INSTALL_DIR: ${{ github.workspace }}\install
 
     defaults:
       run:
@@ -136,12 +136,12 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
 
       - name: 📂 Create Build Folder
-        working-directory: ${{github.workspace}}
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir "${{ env.BUILD_DIR }}"
 
       - name: 🛠️ CMake ➔ Configure
-        working-directory: ${{env.BUILD_DIR}}
+        working-directory: ${{ env.BUILD_DIR }}
         run: |
           cmake                                                         ^
            -B ${{ env.BUILD_DIR }}                                      ^
@@ -150,14 +150,14 @@ jobs:
            -A "${{ matrix.config.platform }}"                           ^
            -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache                        ^
-           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}           ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}           ^
            -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
            -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
            -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
       - name: 🙏 CMake ➔ Build
-        working-directory: ${{env.BUILD_DIR}}
+        working-directory: ${{ env.BUILD_DIR }}
         run: |
           cmake --build .
 
@@ -165,7 +165,7 @@ jobs:
         run: |
           cmake                                                         ^
           --install ${{ env.BUILD_DIR }}                                ^
-          --config ${{ matrix.config.build_type }}                      ^
+          --config ${{ matrix.build_type }}                             ^
           --prefix ${{ env.INSTALL_DIR }}                               ^
           --verbose
 
