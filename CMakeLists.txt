@@ -10,16 +10,20 @@ cmake_minimum_required(VERSION 3.0...3.30)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
-include(setup-vcpkg)
+# Project local include
+include(SetupVcpkg)
+include(ShowBuildTargetProperties)
+
+# CMake provided include
+include(FeatureSummary)
 
 #-------------------------------------------------------------------
 # Version
 #-------------------------------------------------------------------
 
-set(MAJOR_VERSION 0)
-set(MINOR_VERSION 1)
-set(PATCH_VERSION 5)
-set(FIFECHAN_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
+# vcpkg.json is the primary source for version data
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON_STRING)
+string(JSON FIFECHAN_VERSION GET ${VCPKG_JSON_STRING} "version")
 
 #-------------------------------------------------------------------
 # Project
@@ -58,12 +62,12 @@ set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system `lib` folder, e.g
 # Display Status
 #------------------------------------------------------------------------------
 
-message("")
-message("== Building FIFECHAN version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
-message(STATUS "    Source directory is '${PROJECT_SOURCE_DIR}'.")
-message(STATUS "    Build  directory is '${PROJECT_BINARY_DIR}'.")
-message(STATUS "    Installation path is '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
-message("")
+message(STATUS "---------------------------------------------------------------")
+message(STATUS " == Building FIFECHAN version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
+message(STATUS "---------------------------------------------------------------")
+message(STATUS "[INFO] Source dir              -> '${PROJECT_SOURCE_DIR}'.")
+message(STATUS "[INFO] Build dir               -> '${PROJECT_BINARY_DIR}'.")
+message(STATUS "[INFO] Installation path       -> '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
 
 #------------------------------------------------------------------------------
 # Find Dependencies - Windows
@@ -197,6 +201,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
   CXX_STANDARD_REQUIRED  ON
 )
 
+show_build_target_properties(${PROJECT_NAME})
+
 install(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX})
 
 install(FILES ${FIFECHAN_HEADER}          DESTINATION include/)
@@ -211,8 +217,6 @@ install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION include/fifechan/util/)
 find_package(Allegro)
 
 if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
-
-  include_directories(${ALLEGRO_INCLUDE_DIR})
 
   # The Fifechan Allegro extension source
   file(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
@@ -242,6 +246,10 @@ if(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
     CXX_STANDARD           17
     CXX_STANDARD_REQUIRED  ON
   )
+
+  target_include_directories(${PROJECT_NAME}_allegro PUBLIC ${ALLEGRO_INCLUDE_DIR})
+
+  show_build_target_properties(${PROJECT_NAME}_allegro)
 
   install(TARGETS ${PROJECT_NAME}_allegro DESTINATION lib${LIB_SUFFIX})
 
@@ -282,6 +290,8 @@ if(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
     CXX_STANDARD           17
     CXX_STANDARD_REQUIRED  ON
   )
+
+  show_build_target_properties(${PROJECT_NAME}_irrlicht)
 
   install(TARGETS ${PROJECT_NAME}_irrlicht DESTINATION lib${LIB_SUFFIX})
 
@@ -332,6 +342,8 @@ if(ENABLE_OPENGL AND OPENGL_FOUND)
     CXX_STANDARD_REQUIRED  ON
   )
 
+  show_build_target_properties(${PROJECT_NAME}_opengl)
+
   install(TARGETS ${PROJECT_NAME}_opengl DESTINATION lib${LIB_SUFFIX})
 
   install(FILES ${FIFECHAN_OPENGL_HEADER}   DESTINATION include/fifechan/)
@@ -343,7 +355,7 @@ endif()
 # The Fifechan SDL extension library
 #------------------------------------------------------------------------------
 
-find_package(SDL2)
+find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
 

@@ -16,6 +16,9 @@
   - opengl has now a dependency on oglft, freetype
   - sdl has now a dependency on sdl_ttf
 - removed source_group() support for Visual Studio IDE
+- make vcpkg.json the source for the version number
+- add show_build_target_properties to cmakelists
+- switch from include_directories() to target_include_directories()
 
 ## [0.1.5] - 2019-01-11
 
