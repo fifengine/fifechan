@@ -53,8 +53,8 @@ jobs:
 
     env:
       VCPKG_DISABLE_METRICS: 1
-      BUILD_DIR:   ${{github.workspace}}/build
-      INSTALL_DIR: ${{github.workspace}}/install
+      BUILD_DIR:   ${{github.workspace}}\build
+      INSTALL_DIR: ${{github.workspace}}\install
 
     defaults:
       run:
@@ -94,18 +94,22 @@ jobs:
 
       - name: 🔽 Bootstrap + Integrate VCPKG
         run: |
-          bootstrap-vcpkg.bat
-          vcpkg integrate
+        - name: 🔽 Bootstrap + Integrate VCPKG
+            run: |
+                bootstrap-vcpkg.bat
+                vcpkg integrate
 
       - name: Set up VCPKG_TRIPLET based on shared_libs
+        shell: pwsh
         run: |
-          if [ "${{ matrix.shared_libs }}" == "ON" ]; then
-            echo "VCPKG_TRIPLET=x64-windows" >> $GITHUB_ENV
-          else
-            echo "VCPKG_TRIPLET=x64-windows-static" >> $GITHUB_ENV
-          fi
+          if ($env:matrix_shared_libs -eq "ON") {
+            echo "VCPKG_TRIPLET=x64-windows" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          } else {
+            echo "VCPKG_TRIPLET=x64-windows-static" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          }
 
-      - name: 📁 Create build directory
+      - name: 🛠️ Create build folder
+        working-directory: ${{github.workspace}}
         run: |
           mkdir "${{ env.BUILD_DIR }}"
 
