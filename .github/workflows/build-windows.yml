@@ -44,6 +44,7 @@ jobs:
         config:
           - {
               job_name: "Windows VC17 x64 shared Release",
+              cache_key: "win-vc17-x64-shared-release",
               os: "windows-2022",
               generator: "Visual Studio 17 2022",
               compiler: "cl",
@@ -107,10 +108,10 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1
         with:
           variant: sccache
-          key: cache-build-${{ matrix.config.preset }}-${{ github.ref }}
+          key: cache-build-${{ matrix.config.cache_key }}-${{ github.ref }}
           restore-keys: |
-            cache-build-${{ matrix.config.preset }}-${{ github.ref }}
-            cache-build-${{ matrix.config.preset }}
+            cache-build-${{ matrix.config.cache_key }}-${{ github.ref }}
+            cache-build-${{ matrix.config.cache_key }}
 
       - name: 🎯 Setup VCPKG Cache
         id: cache-vcpkg
@@ -120,10 +121,10 @@ jobs:
           path: |
             ${{ env.VCPKG_ROOT }}\packages
             ~\AppData\Local\vcpkg\archives\
-          key: cache-win-vcpkg-${{ matrix.config.preset }}-${{ github.ref }}
+          key: cache-win-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
           restore-keys: |
-            cache-vcpkg-${{ matrix.config.preset }}-${{ github.ref }}
-            cache-vcpkg-${{ matrix.config.preset }}
+            cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+            cache-vcpkg-${{ matrix.config.cache_key }}
 
       - name: 🔽 Update VCPKG to latest TAG
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
