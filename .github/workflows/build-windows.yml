@@ -28,7 +28,7 @@ jobs:
 
 # ---------------------------------------------------------------------------------------
 
-    name: "${{ matrix.config.job_name }} | ${{ matrix.build_type }} | Shared ${{ matrix.shared_libs }}"
+    name: "${{ matrix.config.job_name }}"
 
     # https://github.com/actions/runner-images#available-environments
     # https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md
