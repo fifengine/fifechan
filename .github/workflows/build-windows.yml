@@ -39,7 +39,7 @@ jobs:
           - OFF
           - ON
         build_type:
-          -"Release
+          - "Release"
           #- Debug
         config:
         #- { job_name: "Windows VC16 x86", platform: "Win32", generator: "Visual Studio 16 2019" }
