@@ -48,7 +48,7 @@ jobs:
               generator: "Visual Studio 17 2022",
               compiler: "cl",
               platform: "x64",
-              triplet: "x64-windows",
+              vcpkg_triplet: "x64-windows",
               shared_libs: "ON"
             }
           #- {
@@ -57,7 +57,7 @@ jobs:
           #    generator: "Visual Studio 17 2022",
           #    compiler: "cl",
           #    platform: "x64",
-          #    triplet: "x64-windows-static-release",
+          #    vcpkg_triplet: "x64-windows-static-release",
           #    shared_libs: "OFF"
           #  }
           #- { job_name: "Windows VC17 x86 static Release", os: "windows-2022", generator: "Visual Studio 17 2022", platform: "Win32" }
@@ -121,16 +121,16 @@ jobs:
       - name: ✏ CMake ➔ Configure
         working-directory: ${{env.BUILD_DIR}}
         run: |
-          cmake                                                   ^
-           -B ${{ env.BUILD_DIR }}                                ^
-           -S ${{ env.SOURCE_DIR }}                               ^
-           -G "${{ matrix.config.generator }}"                    ^
-           -A "${{ matrix.config.platform }}"                     ^
-           -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}     ^
-           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}     ^
-           -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}   ^
-           -DVCPKG_TARGET_TRIPLET="${{ env.VCPKG_TRIPLET }}"      ^
-           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}          ^
+          cmake                                                         ^
+           -B ${{ env.BUILD_DIR }}                                      ^
+           -S ${{ env.SOURCE_DIR }}                                     ^
+           -G "${{ matrix.config.generator }}"                          ^
+           -A "${{ matrix.config.platform }}"                           ^
+           -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}           ^
+           -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
+           -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
+           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
       - name: 🛠️ Build
