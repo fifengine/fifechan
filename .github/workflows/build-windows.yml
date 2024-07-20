@@ -10,7 +10,7 @@ name: "Build on Windows"
 
 on:
  - push
- - pull_request
+ #- pull_request                        Disabled for now, until the workflow is stable.
  # You can manually run this workflow.
  - workflow_dispatch
 
@@ -83,7 +83,7 @@ jobs:
       - name: 🔽 Define VCPKG_ROOT
         run: |
           set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
-          echo VCPKG_ROOT=%VCPKG_ROOT% >> %GITHUB_ENV%
+          echo VCPKG_ROOT=%VCPKG_ROOT%>>%GITHUB_ENV%
 
       - name: 🔽 Update VCPKG to latest TAG
         run: |
