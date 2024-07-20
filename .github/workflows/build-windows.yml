@@ -30,26 +30,32 @@ jobs:
 
     name: "${{ matrix.config.job_name }} | ${{ matrix.build_type }} | Shared ${{ matrix.shared_libs }}"
 
-    runs-on: windows-latest
+    # https://github.com/actions/runner-images#available-environments
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        shared_libs:
-          - OFF
-          - ON
         build_type:
           - "Release"
           #- Debug
         config:
-        #- { job_name: "Win | VC-16 x86", platform: "Win32", generator: "Visual Studio 16 2019" }
-        #- { job_name: "Win | VC-16 x64", platform: "x64", generator: "Visual Studio 16 2019" }
-        #- { job_name: "Win | VC-17 x86", platform: "Win32", generator: "Visual Studio 17 2022" }
-        #- { job_name: "Win | VC-17 x64", platform: "x64", generator: "Visual Studio 17 2022" }
-        #- { job_name: "Win | MinGW x86", platform: "Win32", generator: "MinGW Makefiles" }
-        #- { job_name: "Win | MinGW x64", platform: "x64", generator: "MinGW Makefiles" }
-        #- { job_name: "Win | Ninja x86", platform: "Win32", generator: "Ninja" }
-        - { job_name:  "Win | Ninja x64", platform: "x64", generator: "Ninja"}
+          - {
+              job_name: "Windows VC17 x64 static Release",
+              os: "windows-2022",
+              generator: "Visual Studio 17 2022",
+              compiler: "cl",
+              platform: "x64",
+              triplet: "x64-windows-static",
+              shared_libs: "OFF"
+            }
+          #- { job_name: "Windows VC17 x86 static Release", os: "windows-2022", generator: "Visual Studio 17 2022", platform: "Win32" }
+          #- { job_name: "Windows VC17 x64 static Release", os: "windows-2019", generator: "Visual Studio 16 2019", platform: "x64" }
+          #- { job_name: "Windows VC17 x86 static Release", os: "windows-2019", generator: "Visual Studio 16 2019", platform: "Win32" }
+          #- { job_name: "Windows MinGW x86 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "Win32" }
+          #- { job_name: "Windows MinGW x64 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "x64" }
 
     env:
       VCPKG_DISABLE_METRICS: 1
@@ -98,15 +104,6 @@ jobs:
           bootstrap-vcpkg.bat
           vcpkg integrate
 
-      - name: Set up VCPKG_TRIPLET based on shared_libs
-        shell: pwsh
-        run: |
-          if ($env:matrix_shared_libs -eq "ON") {
-            echo "VCPKG_TRIPLET=x64-windows" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          } else {
-            echo "VCPKG_TRIPLET=x64-windows-static" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
-
       - name: 🛠️ Create build folder
         working-directory: ${{github.workspace}}
         run: |
@@ -120,10 +117,11 @@ jobs:
            -S ${{ env.SOURCE_DIR }}                               ^
            -G "${{ matrix.config.generator }}"                    ^
            -A "${{ matrix.config.platform }}"                     ^
+           -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}     ^
            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}     ^
-           -DBUILD_SHARED_LIBS=${{ matrix.shared_libs }}          ^
-           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}          ^
+           -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}   ^
            -DVCPKG_TARGET_TRIPLET="${{ env.VCPKG_TRIPLET }}"      ^
+           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}          ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
       - name: 🛠️ Build
