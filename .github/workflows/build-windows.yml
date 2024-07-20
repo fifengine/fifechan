@@ -101,7 +101,32 @@ jobs:
           set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
           echo VCPKG_ROOT=%VCPKG_ROOT%>>%GITHUB_ENV%
 
+      # Reminder: This step requires that the CMakePresets or settings for CI contain
+      # "CMAKE_CXX_COMPILER_LAUNCHER": "sccache".
+      - name: 🎯 Setup Build Cache
+        uses: hendrikmuhs/ccache-action@v1
+        with:
+          variant: sccache
+          key: cache-build-${{ matrix.config.preset }}-${{ github.ref }}
+          restore-keys: |
+            cache-build-${{ matrix.config.preset }}-${{ github.ref }}
+            cache-build-${{ matrix.config.preset }}
+
+      - name: 🎯 Setup VCPKG Cache
+        id: cache-vcpkg
+        uses: actions/cache@v4 # https://github.com/actions/cache
+        with:
+          # https://github.com/microsoft/vcpkg/blob/master/docs/users/binarycaching.md#configuration
+          path: |
+            ${{ env.VCPKG_ROOT }}\packages
+            ~\AppData\Local\vcpkg\archives\
+          key: cache-win-vcpkg-${{ matrix.config.preset }}-${{ github.ref }}
+          restore-keys: |
+            cache-vcpkg-${{ matrix.config.preset }}-${{ github.ref }}
+            cache-vcpkg-${{ matrix.config.preset }}
+
       - name: 🔽 Update VCPKG to latest TAG
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd /d "%VCPKG_ROOT%"
           git fetch --tags
@@ -109,6 +134,7 @@ jobs:
           git checkout %LATEST_VCPKG_TAG%
 
       - name: 🔽 Bootstrap + Integrate VCPKG
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           bootstrap-vcpkg.bat
           vcpkg integrate
@@ -127,6 +153,7 @@ jobs:
            -G "${{ matrix.config.generator }}"                          ^
            -A "${{ matrix.config.platform }}"                           ^
            -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
+           -DCMAKE_CXX_COMPILER_LAUNCHER=sccache                        ^
            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}           ^
            -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
            -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
