@@ -102,18 +102,7 @@ jobs:
           set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
           echo VCPKG_ROOT=%VCPKG_ROOT%>>%GITHUB_ENV%
 
-      # Reminder: This step requires that the CMakePresets or settings for CI contain
-      # "CMAKE_CXX_COMPILER_LAUNCHER": "sccache".
-      - name: 🎯 Setup Build Cache
-        uses: hendrikmuhs/ccache-action@v1
-        with:
-          variant: sccache
-          key: cache-build-${{ matrix.config.cache_key }}-${{ github.ref }}
-          restore-keys: |
-            cache-build-${{ matrix.config.cache_key }}-${{ github.ref }}
-            cache-build-${{ matrix.config.cache_key }}
-
-      - name: 🎯 Setup VCPKG Cache
+      - name: 🎯 Setup Package Cache (vcpkg)
         id: cache-vcpkg
         uses: actions/cache@v4 # https://github.com/actions/cache
         with:
@@ -121,7 +110,7 @@ jobs:
           path: |
             ${{ env.VCPKG_ROOT }}\packages
             ~\AppData\Local\vcpkg\archives\
-          key: cache-win-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+          key: cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
           restore-keys: |
             cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
             cache-vcpkg-${{ matrix.config.cache_key }}
@@ -139,6 +128,18 @@ jobs:
         run: |
           bootstrap-vcpkg.bat
           vcpkg integrate
+
+      # Reminder: This step requires that the CMakePresets or settings for CI contain
+      # "CMAKE_CXX_COMPILER_LAUNCHER": "sccache".
+      - name: 🎯 Setup Build Cache (sccache)
+        uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
+        #uses: hendrikmuhs/ccache-action@v1 # https://github.com/hendrikmuhs/ccache-action
+        #with:
+        #  variant: sccache
+        #  key: build-${{ matrix.config.cache_key }}-${{ github.ref }}
+        #  restore-keys: |
+        #    build-${{ matrix.config.cache_key }}-${{ github.ref }}
+        #    build-${{ matrix.config.cache_key }}
 
       - name: 🛠️ Create build folder
         working-directory: ${{github.workspace}}
