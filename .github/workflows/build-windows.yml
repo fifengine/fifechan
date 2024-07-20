@@ -115,7 +115,7 @@ jobs:
             cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
             cache-vcpkg-${{ matrix.config.cache_key }}
 
-      - name: 🔽 Update VCPKG to latest TAG
+      - name: 🔽 Update VCPKG (latest TAG)
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd /d "%VCPKG_ROOT%"
@@ -123,7 +123,7 @@ jobs:
           for /f "delims=" %%i in ('git describe --tags --abbrev=0') do set LATEST_VCPKG_TAG=%%i
           git checkout %LATEST_VCPKG_TAG%
 
-      - name: 🔽 Bootstrap + Integrate VCPKG
+      - name: 🛠️ Setup VCPKG
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           bootstrap-vcpkg.bat
@@ -135,12 +135,12 @@ jobs:
       - name: 🎯 Setup Build Cache (sccache)
         uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
 
-      - name: 🛠️ Create build folder
+      - name: 📂 Create Build Folder
         working-directory: ${{github.workspace}}
         run: |
           mkdir "${{ env.BUILD_DIR }}"
 
-      - name: ✏ CMake ➔ Configure
+      - name: 🛠️ CMake ➔ Configure
         working-directory: ${{env.BUILD_DIR}}
         run: |
           cmake                                                         ^
@@ -156,14 +156,18 @@ jobs:
            -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
-      - name: 🛠️ CMake ➔ Build
+      - name: 🙏 CMake ➔ Build
         working-directory: ${{env.BUILD_DIR}}
         run: |
           cmake --build .
 
       - name: 📦 CMake ➔ Install
         run: |
-          cmake --install ${{ env.BUILD_DIR }} --prefix ${{ env.INSTALL_DIR }} --verbose
+          cmake                                                         ^
+          --install ${{ env.BUILD_DIR }}                                ^
+          --config ${{ matrix.config.build_type }}                      ^
+          --prefix ${{ env.INSTALL_DIR }}                               ^
+          --verbose
 
       - name: ❔ CHECK folders, to see if everything is present (after building)
         run: |
