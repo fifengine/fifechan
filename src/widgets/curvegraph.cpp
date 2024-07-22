@@ -2,12 +2,13 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <algorithm>
+#include <fifechan/widgets/curvegraph.hpp>
 
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
-#include <fifechan/util/fcn_math.hpp>
-#include <fifechan/widgets/curvegraph.hpp>
+#include <fifechan/math.hpp>
+
+#include <algorithm>
 
 namespace fcn
 {

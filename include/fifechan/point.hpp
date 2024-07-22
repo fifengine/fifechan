@@ -5,20 +5,11 @@
 #ifndef FCN_POINT_H
 #define FCN_POINT_H
 
-// Standard C++ library includes
-#include <iostream>
 #include <cassert>
+#include <iostream>
 #include <vector>
 
-// Platform specific includes
-
-// 3rd party library includes
-
-// FCN includes
-// These includes are split up in two parts, separated by one empty line
-// First block: files included from the FCN root src directory
-// Second block: files included from the same folder
-#include "fifechan/util/fcn_math.hpp"
+#include "fifechan/math.hpp"
 
 namespace fcn
 {
