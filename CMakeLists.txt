@@ -53,7 +53,7 @@ option(ENABLE_OPENGL         "Enable the Fifechan OpenGL extension"             
 option(ENABLE_SDL            "Enable the Fifechan SDL extension"                ON)
 
 option(FIFECHAN_TESTS        "Build the Fifechan tests"                         ON)
-option(FIFECHAN_EXAMPLES     "Build the Fifechan examples"                      ON)
+option(FIFECHAN_EXAMPLES     "Build the Fifechan examples"                      OFF)
 
 #------------------------------------------------------------------------------
 # Default build type
