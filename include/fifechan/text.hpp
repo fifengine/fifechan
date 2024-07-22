@@ -5,11 +5,11 @@
 #ifndef FCN_TEXT_HPP
 #define FCN_TEXT_HPP
 
-#include "fifechan/platform.hpp"
-#include "fifechan/rectangle.hpp"
-
 #include <string>
 #include <vector>
+
+#include "fifechan/platform.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {

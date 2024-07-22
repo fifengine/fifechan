@@ -5,13 +5,12 @@
 #ifndef FCN_IRRLICHTIMAGE_HPP
 #define FCN_IRRLICHTIMAGE_HPP
 
-#include "irrlicht.h"
-
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
+#include "irrlicht.h"
 
 namespace fcn
 {

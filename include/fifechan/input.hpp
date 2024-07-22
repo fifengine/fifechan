@@ -15,10 +15,10 @@ namespace fcn
     /**
      * Abstract class for providing functions for user input.
      *
-     * Guichan contains implementations of Input for common
+     * Fifechan contains implementations of Input for common
      * libraries like the Allegro library, the HGE library,
      * and the SDL library.
-     * To make Guichan usable with other libraries, an Input
+     * To make Fifechan usable with other libraries, an Input
      * class must be implemented.
      *
      * @see AllegroInput, HGEInput, OpenLayerInput,

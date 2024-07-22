@@ -7,12 +7,11 @@
 
 #include <queue>
 
-#include <windows.h>
-
 #include "fifechan/input.hpp"
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/platform.hpp"
+#include <windows.h>
 
 namespace fcn
 {

@@ -16,7 +16,7 @@ namespace fcn
 
     /**
      * An exception containing a message, a file and a line number
-     * where the exception occured. Guichan will only throw exceptions
+     * where the exception occured. Fifechan will only throw exceptions
      * of this class.
      *
      * You can use this class for your own exceptions that has
@@ -26,9 +26,10 @@ namespace fcn
      * exceptions there exists a macro for creating exceptions
      * which automatically sets the filename and line number.
      *
-     * EXAMPLE: @code
-     *          fcn::throwException(("my error message"), static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
-     *          @endcode
+     * EXAMPLE:
+     * @code
+     * fcn::throwException("my error message", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+     * @endcode
      */
     class FIFEGUI_API Exception : public std::runtime_error
     {

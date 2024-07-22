@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/mouseevent.hpp"
+
 #include "fifechan/inputevent.hpp"
 
 namespace fcn

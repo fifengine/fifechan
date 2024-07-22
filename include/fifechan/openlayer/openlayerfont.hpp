@@ -7,7 +7,7 @@
 
 #include <OpenLayer.hpp>
 #if defined(DELETE)
-#undef DELETE
+#    undef DELETE
 #endif
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"

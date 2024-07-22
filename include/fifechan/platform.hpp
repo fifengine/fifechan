@@ -4,6 +4,32 @@
 
 #ifndef FCN_PLATFORM_HPP
 #define FCN_PLATFORM_HPP
+// clang-format off
+
+// Defines for the opterating system
+#ifndef FIFEGUI_OS_WINDOWS
+    #define FIFEGUI_OS_WINDOWS      defined(_WIN32) || defined(_WIN64)
+#endif
+#ifndef FIFEGUI_OS_LINUX
+    #define FIFEGUI_OS_LINUX        defined(__linux__)
+#endif
+#ifndef FIFEGUI_OS_MACOS
+    #define FIFEGUI_OS_MACOS        defined(__APPLE__)
+#endif
+
+// Defines for the compiler
+#ifndef FIFEGUI_COMPILER_MSVC
+    #define FIFEGUI_COMPILER_MSVC   defined(_MSC_VER)
+#endif
+#ifndef FIFEGUI_COMPILER_GNU
+    #define FIFEGUI_COMPILER_GNU    defined(__GNUC__)
+#endif
+#ifndef FIFEGUI_COMPILER_CLANG
+    #define FIFEGUI_COMPILER_CLANG  defined(__clang__)
+#endif
+#ifndef FIFEGUI_COMPILER_MINGW
+    #define FIFEGUI_COMPILER_MINGW  defined(__MINGW32__)
+#endif
 
 /**
  * @brief Symbol Visibility
@@ -36,36 +62,56 @@
  * (FIFEGUI_API and FIFEGUI_EXT_API as `__declspec(dllimport)`).
  */
 
-#if defined(__MINGW32__) && defined(FIFECHAN_BUILD)
-#define FIFEGUI_API __declspec(dllexport)
+// FIFECHAN_BUILD and FIIFECHAN_EXTENSION_BUILD are defined in CMakeLists.txt.
+// FIFECHAN_BUILD is our manual definition for building the core library.
+// FIFECHAN_EXTENSION_BUILD is our manual definition for building an extension to the core library.
+// Additionally CMake automatically defines target_EXPORTS when building a shared library, e.g
+// fifechan_EXPORTS when building the fifechan library.
 
-#elif defined(__MINGW32__) && defined(FIFECHAN_EXTENSION_BUILD)
-#define FIFEGUI_API __declspec(dllimport)
-#define FIFEGUI_EXT_API __declspec(dllexport)
+#if defined(FIFEGUI_OS_LINUX)
 
-#elif defined(__MINGW32__) && defined(FIFECHAN_DLL_IMPORT)
-#define FIFEGUI_API __declspec(dllimport)
-#define FIFEGUI_EXT_API __declspec(dllimport)
-
-#elif defined(_MSC_VER) && defined(FIFECHAN_BUILD)
-#define FIFEGUI_API _declspec(dllexport)
-
-#elif defined(_MSC_VER) && defined(FIFECHAN_EXTENSION_BUILD)
-#define FIFEGUI_API _declspec(dllimport)
-#define FIFEGUI_EXT_API _declspec(dllexport)
-
+#elif defined(FIFEGUI_OS_WINDOWS)
+    #if defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
+        #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+            // Building the library
+            #define FIFEGUI_API __declspec(dllexport)
+        #elif defined(FIFECHAN_EXTENSION_BUILD)
+            // Building an extension to the library
+            #define FIFEGUI_API     __declspec(dllimport)
+            #define FIFEGUI_EXT_API __declspec(dllexport)
+        #else
+            // Using the library
+            #define FIFEGUI_API     __declspec(dllimport)
+            #define FIFEGUI_EXT_API __declspec(dllimport)
+        #endif
+    #elif defined(FIFEGUI_COMPILER_CLANG)
+        #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+            // Building the library
+            #define FIFEGUI_API __declspec(dllexport) __attribute__ ((visibility("default")))
+        #elif defined(FIFECHAN_EXTENSION_BUILD)
+            // Building an extension to the library
+            #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
+            #define FIFEGUI_EXT_API __declspec(dllexport) __attribute__ ((visibility("default")))
+        #else
+            // Using the library
+            #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
+            #define FIFEGUI_EXT_API __declspec(dllimport) __attribute__ ((visibility("default")))
+        #endif
+    #endif
 #endif
 
+// For other compilers/platforms, default visibility is assumed.
 #ifndef FIFEGUI_API
-#define FIFEGUI_API
+#define FIFEGUI_API __attribute__ ((visibility("default")))
 #endif
 
 #ifndef FIFEGUI_EXT_API
-#define FIFEGUI_EXT_API
+#define FIFEGUI_EXT_API __attribute__ ((visibility("default")))
 #endif
 
 #ifndef NULL
 #define NULL 0
 #endif
 
+// clang-format on
 #endif // end FCN_PLATFORM_HPP

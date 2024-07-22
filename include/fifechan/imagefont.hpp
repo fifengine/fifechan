@@ -5,8 +5,8 @@
 #ifndef FCN_IMAGEFONT_HPP
 #define FCN_IMAGEFONT_HPP
 
-#include <string>
 #include <array>
+#include <string>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"

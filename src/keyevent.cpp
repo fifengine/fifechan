@@ -3,8 +3,9 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/keyevent.hpp"
-#include "fifechan/key.hpp"
+
 #include "fifechan/inputevent.hpp"
+#include "fifechan/key.hpp"
 
 namespace fcn
 {

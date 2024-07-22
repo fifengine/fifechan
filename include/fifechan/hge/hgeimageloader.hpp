@@ -5,11 +5,10 @@
 #ifndef FCN_HGEIMAGELOADER_HPP
 #define FCN_HGEIMAGELOADER_HPP
 
+#include "fifechan/imageloader.hpp"
+#include "fifechan/platform.hpp"
 #include <hge.h>
 #include <hgeresource.h>
-
-#include "fifechan/platform.hpp"
-#include "fifechan/imageloader.hpp"
 
 namespace fcn
 {

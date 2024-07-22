@@ -2,10 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include "fifechan/actionevent.hpp"
+
 #include <string>
 #include <utility>
 
-#include "fifechan/actionevent.hpp"
 #include "fifechan/event.hpp"
 
 namespace fcn

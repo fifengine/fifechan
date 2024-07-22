@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <string>
-
 #include "fifechan/graphics.hpp"
+
+#include <string>
 
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/exception.hpp"

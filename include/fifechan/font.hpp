@@ -6,6 +6,7 @@
 #define FCN_FONT_HPP
 
 #include <string>
+
 #include "fifechan/platform.hpp"
 
 namespace fcn

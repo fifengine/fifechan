@@ -27,8 +27,9 @@ DEALINGS IN THE SOFTWARE.
 #ifndef UTF8_FOR_CPP_CHECKED_H_2675DCD0_9480_4c0c_B92A_CC14C027B731
 #define UTF8_FOR_CPP_CHECKED_H_2675DCD0_9480_4c0c_B92A_CC14C027B731
 
-#include "core.hpp"
 #include <stdexcept>
+
+#include "core.hpp"
 
 namespace utf8
 {

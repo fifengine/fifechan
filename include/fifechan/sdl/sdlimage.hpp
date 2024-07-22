@@ -5,13 +5,13 @@
 #ifndef FCN_SDLIMAGE_HPP
 #define FCN_SDLIMAGE_HPP
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {
@@ -30,7 +30,7 @@ namespace fcn
          * @param surface the surface from which to load.
          * @param autoFree true if the surface should automatically be deleted.
          */
-        SDLImage(SDL_Surface* surface, bool autoFree);
+        SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
 
         /**
          * Destructor.
@@ -43,6 +43,13 @@ namespace fcn
          * @return the SDL surface for the image.
          */
         virtual SDL_Surface* getSurface() const;
+
+        /**
+         * Gets the SDL texture for the image.
+         *
+         * @return the SDL texture for the image.
+         */
+        virtual SDL_Texture* getTexture() const;
 
         // Inherited from Image
 
@@ -60,6 +67,8 @@ namespace fcn
 
     protected:
         SDL_Surface* mSurface;
+        SDL_Texture* mTexture   = NULL;
+        SDL_Renderer* mRenderer = NULL;
         bool mAutoFree;
     };
 } // namespace fcn

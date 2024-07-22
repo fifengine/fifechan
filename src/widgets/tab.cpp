@@ -6,7 +6,6 @@
 
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
-
 #include "fifechan/widgets/tabbedarea.hpp"
 
 namespace fcn

@@ -5,9 +5,9 @@
 #ifndef FCN_COLOR_HPP
 #define FCN_COLOR_HPP
 
-#include "fifechan/platform.hpp"
-
 #include <iostream>
+
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

@@ -2,9 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include "fifechan/defaultfont.hpp"
+
 #include <string>
 
-#include "fifechan/defaultfont.hpp"
 #include "fifechan/graphics.hpp"
 
 namespace fcn

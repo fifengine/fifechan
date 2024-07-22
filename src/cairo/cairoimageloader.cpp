@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/cairo/cairoimage.hpp"
-
-#include "fifechan/exception.hpp"
 #include "fifechan/cairo/cairoimageloader.hpp"
+
+#include "fifechan/cairo/cairoimage.hpp"
+#include "fifechan/exception.hpp"
 
 namespace fcn
 {

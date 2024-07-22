@@ -5,14 +5,13 @@
 #ifndef FCN_DIRECTX3DIMAGE_HPP
 #define FCN_DIRECTX3DIMAGE_HPP
 
-#include <d3d9.h>
-#include <d3dx9.h>
-
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
+#include <d3d9.h>
+#include <d3dx9.h>
 
 namespace fcn
 {

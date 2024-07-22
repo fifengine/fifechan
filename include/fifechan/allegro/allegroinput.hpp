@@ -75,8 +75,3 @@ namespace fcn
 } // namespace fcn
 
 #endif // end FCN_INPUT_HPP
-
-/*
- * finalman - "A dyslectic walks in to a bra..."
- * yakslem  - "...eh...ok..."
- */

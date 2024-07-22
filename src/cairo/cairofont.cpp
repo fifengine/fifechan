@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/cairo/cairofont.hpp"
+
 #include "fifechan/cairo/cairographics.hpp"
 #include "fifechan/exception.hpp"
 

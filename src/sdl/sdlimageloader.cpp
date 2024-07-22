@@ -2,12 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/sdl/sdlimage.hpp"
+#include "fifechan/sdl/sdlimageloader.hpp"
 
 #include "SDL_image.h"
-
 #include "fifechan/exception.hpp"
-#include "fifechan/sdl/sdlimageloader.hpp"
+#include "fifechan/sdl/sdlimage.hpp"
 
 namespace fcn
 {
@@ -43,9 +42,19 @@ namespace fcn
         return image;
     }
 
+    void SDLImageLoader::setRenderer(SDL_Renderer* renderer)
+    {
+        mRenderer = renderer;
+    }
+
     SDL_Surface* SDLImageLoader::loadSDLSurface(std::string const & filename)
     {
         return IMG_Load(filename.c_str());
+    }
+
+    SDL_Texture* SDLImageLoader::loadSDLTexture(std::string const & filename)
+    {
+        return IMG_LoadTexture(mRenderer, filename.c_str());
     }
 
     SDL_Surface* SDLImageLoader::convertToStandardFormat(SDL_Surface* surface)

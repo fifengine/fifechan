@@ -5,8 +5,8 @@
 #ifndef FCN_CLIPRECTANGLE_HPP
 #define FCN_CLIPRECTANGLE_HPP
 
-#include "fifechan/rectangle.hpp"
 #include "fifechan/platform.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {

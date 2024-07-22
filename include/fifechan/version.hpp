@@ -9,13 +9,13 @@
  * as part of the release process for Fifechan.
  */
 #ifndef FCN_MAJOR_VERSION
-#define FCN_MAJOR_VERSION 0
+#    define FCN_MAJOR_VERSION 0
 #endif
 #ifndef FCN_MINOR_VERSION
-#define FCN_MINOR_VERSION 1
+#    define FCN_MINOR_VERSION 1
 #endif
 #ifndef FCN_PATCH_VERSION
-#define FCN_PATCH_VERSION 5
+#    define FCN_PATCH_VERSION 5
 #endif
 
 /** Types
@@ -25,10 +25,10 @@
  *  3 = rc
  */
 #ifndef FCN_PRERELEASE_TYPE
-#define FCN_PRERELEASE_TYPE 0
+#    define FCN_PRERELEASE_TYPE 0
 #endif
 #ifndef FCN_PRERELEASE_VERSION
-#define FCN_PRERELEASE_VERSION 0
+#    define FCN_PRERELEASE_VERSION 0
 #endif
 
 /***************************************************************************
@@ -48,42 +48,42 @@
 #define FCN_XMINUS(a, b) FCN_MINUS(a, b)
 
 #if FCN_PRERELEASE_TYPE == 1
-#define FCN_PRERELEASE alpha
+#    define FCN_PRERELEASE alpha
 #elif FCN_PRERELEASE_TYPE == 2
-#define FCN_PRERELEASE beta
+#    define FCN_PRERELEASE beta
 #elif FCN_PRERELEASE_TYPE == 3
-#define FCN_PRERELEASE rc
+#    define FCN_PRERELEASE rc
 #endif
 
 #if FCN_PRERELEASE_VERSION > 0
-#ifdef FCN_PRERELEASE
-#define FCN_PRERELEASE_STR FCN_XDOT(FCN_PRERELEASE, FCN_PRERELEASE_VERSION)
-#endif
+#    ifdef FCN_PRERELEASE
+#        define FCN_PRERELEASE_STR FCN_XDOT(FCN_PRERELEASE, FCN_PRERELEASE_VERSION)
+#    endif
 #endif
 
 #define FCN_VERSION FCN_XDOT(FCN_XDOT(FCN_MAJOR_VERSION, FCN_MINOR_VERSION), FCN_PATCH_VERSION)
 
 #ifdef FCN_PRERELEASE_STR
-#define FCN_VERSION_STRING FCN_XMINUS(FCN_VERSION, FCN_PRERELEASE_STR)
+#    define FCN_VERSION_STRING FCN_XMINUS(FCN_VERSION, FCN_PRERELEASE_STR)
 #endif
 #ifdef FCN_GIT_HASH
-#ifndef FCN_VERSION_STRING
-#define FCN_VERSION_STRING FCN_XPLUS(FCN_VERSION, FCN_GIT_HASH)
+#    ifndef FCN_VERSION_STRING
+#        define FCN_VERSION_STRING FCN_XPLUS(FCN_VERSION, FCN_GIT_HASH)
+#    else
+#        undef FCN_VERSION_STRING
+#        ifdef FCN_PRERELEASE_STR
+#            define FCN_VERSION_STRING FCN_XMINUS(FCN_VERSION, FCN_XPLUS(FCN_PRERELEASE_STR, FCN_GIT_HASH))
+#        else
+#            define FCN_VERSION_STRING FCN_XPLUS(FCN_VERSION, FCN_GIT_HASH)
+#        endif
+#    endif
 #else
-#undef FCN_VERSION_STRING
-#ifdef FCN_PRERELEASE_STR
-#define FCN_VERSION_STRING FCN_XMINUS(FCN_VERSION, FCN_XPLUS(FCN_PRERELEASE_STR, FCN_GIT_HASH))
-#else
-#define FCN_VERSION_STRING FCN_XPLUS(FCN_VERSION, FCN_GIT_HASH)
-#endif
-#endif
-#else
-#define FCN_GIT_HASH ""
+#    define FCN_GIT_HASH ""
 #endif
 
 // This is an actual release
 #ifndef FCN_VERSION_STRING
-#define FCN_VERSION_STRING FCN_VERSION
+#    define FCN_VERSION_STRING FCN_VERSION
 #endif
 
 /** All Fifechan related code is in this namespace.

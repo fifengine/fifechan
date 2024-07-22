@@ -5,12 +5,12 @@
 #ifndef FCN_ALLEGRO_HPP
 #define FCN_ALLEGRO_HPP
 
-#include "platform.hpp"
-
 #include <fifechan/allegro/allegrofont.hpp>
 #include <fifechan/allegro/allegrographics.hpp>
 #include <fifechan/allegro/allegroimage.hpp>
 #include <fifechan/allegro/allegroimageloader.hpp>
 #include <fifechan/allegro/allegroinput.hpp>
+
+#include "platform.hpp"
 
 #endif // end FCN_ALLEGRO_HPP

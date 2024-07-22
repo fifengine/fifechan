@@ -5,7 +5,7 @@
 #ifndef FCN_SDLGRAPHICS_HPP
 #define FCN_SDLGRAPHICS_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"

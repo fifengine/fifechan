@@ -3,8 +3,8 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/allegro/allegrofont.hpp"
-#include "fifechan/allegro/allegrographics.hpp"
 
+#include "fifechan/allegro/allegrographics.hpp"
 #include "fifechan/exception.hpp"
 
 namespace fcn

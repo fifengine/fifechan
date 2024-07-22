@@ -6,8 +6,8 @@
 
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/exception.hpp"
-#include "fifechan/rectangle.hpp"
 #include "fifechan/hge/hgeimage.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {

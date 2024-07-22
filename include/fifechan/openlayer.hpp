@@ -5,11 +5,11 @@
 #ifndef FCN_OPENLAYER_HPP
 #define FCN_OPENLAYER_HPP
 
-#include "platform.hpp"
-
-#include <fifechan/openlayer/openlayerinput.hpp>
 #include <fifechan/openlayer/openlayerfont.hpp>
-#include <fifechan/openlayer/openlayerimageloader.hpp>
 #include <fifechan/openlayer/openlayergraphics.hpp>
+#include <fifechan/openlayer/openlayerimageloader.hpp>
+#include <fifechan/openlayer/openlayerinput.hpp>
+
+#include "platform.hpp"
 
 #endif // end FCN_OPENLAYER_HPP

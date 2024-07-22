@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/spacer.hpp"
+
 #include "fifechan/exception.hpp"
 
 namespace fcn

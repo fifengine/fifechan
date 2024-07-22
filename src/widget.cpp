@@ -4,6 +4,10 @@
 
 #include "fifechan/widget.hpp"
 
+#include <algorithm>
+#include <list>
+#include <string>
+
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"
 #include "fifechan/deathlistener.hpp"
@@ -18,10 +22,6 @@
 #include "fifechan/size.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widgetlistener.hpp"
-
-#include <algorithm>
-#include <list>
-#include <string>
 
 namespace fcn
 {

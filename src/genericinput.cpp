@@ -5,8 +5,8 @@
 #include "fifechan/genericinput.hpp"
 
 #include "fifechan/exception.hpp"
-#include "fifechan/mouseinput.hpp"
 #include "fifechan/keyinput.hpp"
+#include "fifechan/mouseinput.hpp"
 
 namespace fcn
 {

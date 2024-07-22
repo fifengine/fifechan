@@ -42,7 +42,7 @@ namespace fcn
 
         /**
          * Loads an image by using the class' image laoder. All image loaders implemented
-         * in Guichan return a newly instantiated image which must be deleted in
+         * in Fifechan return a newly instantiated image which must be deleted in
          * order to avoid a memory leak.
          *
          * NOTE: The functions getPixel and putPixel are only guaranteed to work

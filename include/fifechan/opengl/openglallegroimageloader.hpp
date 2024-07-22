@@ -6,11 +6,12 @@
 #define FCN_OPENGLALLEGROIMAGELOADER_HPP
 
 #include <allegro.h>
-#include <alleggl.h>
 
-#include <fifechan/imageloader.hpp>
 #include <fifechan/exception.hpp>
+#include <fifechan/imageloader.hpp>
 #include <fifechan/opengl/openglimage.hpp>
+
+#include <alleggl.h>
 
 namespace fcn
 {

@@ -6,10 +6,11 @@
 #define FCN_CAIROIMAGE_HPP
 
 #include <string>
-#include <cairo.h>
+
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
+#include <cairo.h>
 
 namespace fcn
 {

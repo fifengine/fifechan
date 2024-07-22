@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/cliprectangle.hpp"
+
 #include "fifechan/rectangle.hpp"
 
 namespace fcn

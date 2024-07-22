@@ -22,10 +22,10 @@ namespace fcn
      * Abstract class for providing drawing primitve functions.
      * It contains all vital functions for drawing.
      *
-     * Guichan contains implementations of Graphics for common
+     * Fifechan contains implementations of Graphics for common
      * libraries like the Allegro library, the HGE library,
      * the OpenGL library, the OpenLayer library, and the SDL library.
-     * To make Guichan usable with other libraries, a Graphics class
+     * To make Fifechan usable with other libraries, a Graphics class
      * must be implemented.
      *
      * In Graphics you can set clip areas to limit drawing to certain
@@ -46,8 +46,8 @@ namespace fcn
      * widgets bypassing Graphics. This might however hurt portability of
      * your application.
      *
-     * If you implement a Graphics class not present in Guichan we would
-     * be very happy to add it to Guichan.
+     * If you implement a Graphics class not present in Fifechan we would
+     * be very happy to add it to Fifechan.
      *
      * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics,
      *      SDLGraphics, Image
@@ -82,7 +82,7 @@ namespace fcn
          * is the OpenGLGraphics.
          *
          * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Guichan.
+         *       you use a Graphics object outside of Fifechan.
          *
          * @see _endDraw, Gui::draw
          */
@@ -93,7 +93,7 @@ namespace fcn
          * done. It should reset any state changes made by _beginDraw().
          *
          * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Guichan.
+         *       you use a Graphics object outside of Fifechan.
          *
          * @see _beginDraw, Gui::draw
          */

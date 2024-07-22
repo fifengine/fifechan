@@ -13,7 +13,7 @@
 // For some reason an old version of MSVC did not like std::abs,
 // so we added this macro.
 #ifndef ABS
-#define ABS(x) ((x) < 0 ? -(x) : (x))
+#    define ABS(x) ((x) < 0 ? -(x) : (x))
 #endif
 
 namespace fcn

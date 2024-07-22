@@ -7,12 +7,11 @@
 
 #include <queue>
 
-#include "irrlicht.h"
-
 #include "fifechan/input.hpp"
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/platform.hpp"
+#include "irrlicht.h"
 
 namespace fcn
 {
@@ -56,7 +55,7 @@ namespace fcn
 
     protected:
         /**
-         * Converts an Irrlicht event to a Guichan key value.
+         * Converts an Irrlicht event to a Fifechan key value.
          *
          * @param keysym The Irrlicht event to convert.
          * @return A Fifechan key value. -1 if no conversion took place.

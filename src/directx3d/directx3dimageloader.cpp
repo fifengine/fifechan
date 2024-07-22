@@ -4,9 +4,8 @@
 
 #include "fifechan/directx3d/directx3dimageloader.hpp"
 
-#include "fifechan/exception.hpp"
 #include "fifechan/directx3d/directx3dimage.hpp"
-
+#include "fifechan/exception.hpp"
 #include <d3dx9.h>
 
 namespace fcn

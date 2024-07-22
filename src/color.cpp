@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/color.hpp"
+
 #include <ostream>
 
 namespace fcn

@@ -5,11 +5,11 @@
 #ifndef FCN_D3D_HPP
 #define FCN_D3D_HPP
 
-#include "platform.hpp"
-
 #include <fifechan/directx3d/directx3dgraphics.hpp>
 #include <fifechan/directx3d/directx3dimage.hpp>
 #include <fifechan/directx3d/directx3dimageloader.hpp>
 #include <fifechan/directx3d/directx3dinput.hpp>
+
+#include "platform.hpp"
 
 #endif // end FCN_D3D_HPP

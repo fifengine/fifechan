@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/include"
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/vcpkg_installed/x64-linux/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang++",

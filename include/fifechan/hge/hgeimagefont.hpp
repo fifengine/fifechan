@@ -6,10 +6,10 @@
 #define FCN_HGEIMAGEFONT_HPP
 
 #include <string>
-#include <hgefont.h>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
+#include <hgefont.h>
 
 namespace fcn
 {
@@ -17,7 +17,7 @@ namespace fcn
 
     /**
      * Font to be used with HGE. As HGE does not support colorkey blitting of images it's recommended
-     * to use HGE's internal font in Guichan.
+     * to use HGE's internal font in Fifechan.
      */
     class FIFEGUI_EXT_API HGEImageFont : public Font
     {
@@ -36,7 +36,7 @@ namespace fcn
 
         /**
          * Gets the loaded HGE font. The HGE font can be used to set certain properties like
-         * setting the blend mode. Properties of the HGE font will effect the Guichan font as well.
+         * setting the blend mode. Properties of the HGE font will effect the Fifechan font as well.
          *
          * @return the loaded HGE font.
          */

@@ -7,13 +7,13 @@
 
 #include <OpenLayer.hpp>
 #if defined(DELETE)
-#undef DELETE
+#    undef DELETE
 #endif
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

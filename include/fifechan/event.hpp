@@ -12,7 +12,7 @@ namespace fcn
     class Widget;
 
     /**
-     * Base class for all events. All events in Guichan should inherit from this class.
+     * Base class for all events. All events in Fifechan should inherit from this class.
      */
     class FIFEGUI_API Event
     {

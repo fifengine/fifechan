@@ -6,11 +6,12 @@
 #define FCN_ALLEGROIMAGE_HPP
 
 #include <allegro.h>
+
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

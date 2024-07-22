@@ -5,11 +5,10 @@
 #ifndef FCN_IRRLICHTGRAPHICS_HPP
 #define FCN_IRRLICHTGRAPHICS_HPP
 
-#include "irrlicht.h"
-
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
+#include "irrlicht.h"
 
 namespace fcn
 {

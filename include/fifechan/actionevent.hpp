@@ -5,10 +5,10 @@
 #ifndef FCN_ACTIONEVENT_HPP
 #define FCN_ACTIONEVENT_HPP
 
+#include <string>
+
 #include "fifechan/event.hpp"
 #include "fifechan/platform.hpp"
-
-#include <string>
 
 namespace fcn
 {

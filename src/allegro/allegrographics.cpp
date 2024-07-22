@@ -3,11 +3,12 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/allegro/allegrographics.hpp"
+
 #include "fifechan/allegro/allegroimage.hpp"
-#include "fifechan/rectangle.hpp"
-#include "fifechan/exception.hpp"
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/color.hpp"
+#include "fifechan/exception.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {
@@ -37,7 +38,7 @@ namespace fcn
     void AllegroGraphics::_beginDraw()
     {
         if (mTarget == NULL) {
-            fcn::throwEXCEPTION(
+            fcn::throwException(
                 "Target BITMAP is null, set it with setTarget first.",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
@@ -109,7 +110,7 @@ namespace fcn
         }
 
         if (mClipStack.empty()) {
-            fcn::throwEXCEPTION(
+            fcn::throwException(
                 "Clip stack is empty, perhaps you called a draw funtion "
                 "outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),

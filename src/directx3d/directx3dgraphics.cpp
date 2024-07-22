@@ -4,11 +4,10 @@
 
 #include "fifechan/directx3d/directx3dgraphics.hpp"
 
-#include <d3dx9.h>
-
+#include "fifechan/directx3d/directx3dimage.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/image.hpp"
-#include "fifechan/directx3d/directx3dimage.hpp"
+#include <d3dx9.h>
 
 namespace fcn
 {

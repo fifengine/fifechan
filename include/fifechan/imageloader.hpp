@@ -16,13 +16,13 @@ namespace fcn
     /**
      * Abstract class for providing functions for loading images.
      *
-     * Guichan contains implementations of ImageLoader for common
+     * Fifechan contains implementations of ImageLoader for common
      * libraries like the Allegro library, the HGE library,
      * he OpenLayer library, and the SDL library.
-     * To make Guichan usable with other libraries, an ImageLoader
+     * To make Fifechan usable with other libraries, an ImageLoader
      * class must be implemented.
      *
-     * To make Guichan use an image loader, the image loader needs
+     * To make Fifechan use an image loader, the image loader needs
      * to be passed to the Image class using the static method
      * Image::setImageLoader.
      *

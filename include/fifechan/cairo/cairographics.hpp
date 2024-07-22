@@ -5,11 +5,10 @@
 #ifndef FCN_CAIROGRAPHICS_HPP
 #define FCN_CAIROGRAPHICS_HPP
 
+#include "cairo.h"
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
-
-#include "cairo.h"
 
 namespace fcn
 {

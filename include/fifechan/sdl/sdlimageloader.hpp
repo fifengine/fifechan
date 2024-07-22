@@ -5,10 +5,10 @@
 #ifndef FCN_SDLIMAGELOADER_HPP
 #define FCN_SDLIMAGELOADER_HPP
 
+#include <SDL2/SDL.h>
+
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
-
-#include "SDL.h"
 
 namespace fcn
 {
@@ -20,18 +20,19 @@ namespace fcn
     class FIFEGUI_EXT_API SDLImageLoader : public ImageLoader
     {
     public:
-        // Inherited from ImageLoader
-
         virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
         SDL_PixelFormat const & getSDLPixelFormat();
         void setSDLPixelFormat(SDL_PixelFormat const & format);
+        void setRenderer(SDL_Renderer* renderer);
 
     protected:
         virtual SDL_Surface* loadSDLSurface(std::string const & filename);
+        virtual SDL_Texture* loadSDLTexture(std::string const & filename);
         virtual SDL_Surface* convertToStandardFormat(SDL_Surface* surface);
 
     private:
         SDL_PixelFormat mPixelFormat;
+        SDL_Renderer* mRenderer;
     };
 } // namespace fcn
 

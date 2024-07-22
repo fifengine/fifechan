@@ -4,9 +4,9 @@
 
 #include "fifechan/cairo/cairographics.hpp"
 
-#include "fifechan/exception.hpp"
 #include "fifechan/cairo/cairofont.hpp"
 #include "fifechan/cairo/cairoimage.hpp"
+#include "fifechan/exception.hpp"
 
 namespace fcn
 {

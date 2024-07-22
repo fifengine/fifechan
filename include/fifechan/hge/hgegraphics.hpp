@@ -5,11 +5,10 @@
 #ifndef FCN_HGEGRAPHICS_HPP
 #define FCN_HGEGRAPHICS_HPP
 
-#include <hge.h>
-
+#include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/color.hpp"
+#include <hge.h>
 
 namespace fcn
 {

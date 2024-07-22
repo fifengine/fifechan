@@ -2,10 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include <fifechan/widgets/passwordfield.hpp>
+
 #include <fifechan/key.hpp>
 #include <fifechan/text.hpp>
 #include <fifechan/utf8stringeditor.hpp>
-#include <fifechan/widgets/passwordfield.hpp>
 
 namespace fcn
 {

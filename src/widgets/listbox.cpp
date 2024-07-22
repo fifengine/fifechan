@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <algorithm>
-
 #include "fifechan/widgets/listbox.hpp"
+
+#include <algorithm>
 
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"

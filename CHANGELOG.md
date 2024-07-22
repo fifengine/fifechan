@@ -1,24 +1,49 @@
-﻿# ChangeLog
+﻿# Changelog
 
-## [0.1.6] - 2024-07-xx
+All changes to the project will be documented in this file.
 
-- updated CMakeLists formatting
+- The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- The date format is YYYY-MM-DD.
+- The upcoming release version is named `vNext` and links to the changes between latest version tag and git HEAD.
+
+## [vNext] - unreleased
+
+**Added**
 - added .clang-format and applied formatting
 - added .clang-tidy and applied basic rule set
-- removed usage of deprecated std::iterator
-- remove usage of do-while loops
-- modernised license headers and copyright notices
-- FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
-- removed all extern "c" helper functions for extension detection by autotools
-- fix WIN32_LEAN_AND_MEAN redeclaration errors
-- integrate "contributions" to allegro, opengl, sdl into the main folders
-  - removed ENABLE_OPENGL_CONTRIB, ENABLE_SDL_CONTRIB, ENABLE_ALLEGRO_CONTRIB
-  - opengl has now a dependency on oglft, freetype
-  - sdl has now a dependency on sdl_ttf
-- removed source_group() support for Visual Studio IDE
+- vcpkg is used for dependency management
 - make vcpkg.json the source for the version number
 - add show_build_target_properties to cmakelists
 - switch from include_directories() to target_include_directories()
+- CMake namespaced aliases for core library and extensions, e.g.
+  - fifechan::fifechan, fifechan::fifechan_sdl, etc.
+- reintegrated https://github.com/fifengine/fifechan-demos
+  - the examples are now in the `tests/integration` folder, ref. https://github.com/fifengine/fifechan/issues/37
+  - converted build scripts from autotools to cmake, closes https://github.com/fifengine/fifechan-demos/issues/1
+- Prepped a `tests/unit` folder for someone inclined to work on unit tests.
+- added SDL2Graphics
+- added support for target and package config (find_package), closes https://github.com/fifengine/fifechan/issues/19
+- added pkg-config support to CMakeLists (for pkg-config), closes https://github.com/fifengine/fifechan/issues/19
+
+
+**Changed**
+- updated CMakeLists formatting
+- modernised license headers and copyright notices using SPDX tags
+- FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
+- fix WIN32_LEAN_AND_MEAN redeclaration errors
+- integrated "contributions" to allegro, opengl, sdl into the main folders
+  - removed ENABLE_OPENGL_CONTRIB, ENABLE_SDL_CONTRIB, ENABLE_ALLEGRO_CONTRIB
+  - opengl has now a dependency on oglft, freetype
+  - sdl has now a dependency on sdl_ttf
+- move includes/util/fcn_math.hpp to includes/math.hpp
+- updated `tests/integration/sdlhelloworld` to work with SDL2
+
+**Removed**
+- removed usage of deprecated std::iterator
+- remove usage of do-while loops
+- removed all extern "c" helper functions for extension detection by autotools
+- removed source_group() support for Visual Studio IDE
 
 ## [0.1.5] - 2019-01-11
 
@@ -90,6 +115,8 @@ There are already some important bug fixes and new features such as:
     - IconProgressBar, which implements a progressbar that uses images to show
       progress.
     - PasswordField, which implements password input.
+
+<!-- Section for Reference Links -->
 
 [Unreleased]: https://github.com/fifengine/fifechan/compare/0.1.6...HEAD
 [0.1.6]: https://github.com/fifengine/fifechan/compare/0.1.4...0.1.5

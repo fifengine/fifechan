@@ -5,11 +5,11 @@
 #ifndef FCN_GUI_HPP
 #define FCN_GUI_HPP
 
-#include <set>
-#include <queue>
-#include <list>
-#include <iterator>
 #include <algorithm>
+#include <iterator>
+#include <list>
+#include <queue>
+#include <set>
 
 #include "fifechan/keyevent.hpp"
 #include "fifechan/mouseevent.hpp"
@@ -30,8 +30,8 @@ namespace fcn
     /**
      * @mainpage
      * @section Introduction
-     * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we
-     * suggest you check out the programs in the examples directory of the Guichan release.
+     * This documentation is mostly intended as a reference to the API. If you want to get started with Fifechan, we
+     * suggest you check out the programs in the examples directory of the Fifechan release.
      * @n
      * @n
      * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or
@@ -39,8 +39,8 @@ namespace fcn
      */
 
     /**
-     * Contains a Guichan GUI. This is the core class of Guichan to which
-     * implementations of back ends are passed, to make Guichan work with
+     * Contains a Fifechan GUI. This is the core class of Fifechan to which
+     * implementations of back ends are passed, to make Fifechan work with
      * a specific library, and to where the top widget (root widget of GUI)
      * is added. If you want to be able to have more then one widget in your
      * GUI, the top widget should be a container.
@@ -50,7 +50,7 @@ namespace fcn
      * Graphics and an implementation of Input.
      *
      * NOTE: A complete GUI also must have the ability to load images.
-     *       Images are loaded with the Image class, so to make Guichan
+     *       Images are loaded with the Image class, so to make Fifechan
      *       able to load images an implementation of ImageLoader must be
      *       passed to Image.
      *

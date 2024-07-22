@@ -7,7 +7,6 @@
 
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
-
 #include <d3d9.h>
 
 namespace fcn

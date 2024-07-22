@@ -73,7 +73,7 @@ namespace fcn
         OpenLayerImage const * srcImage = dynamic_cast<OpenLayerImage const *>(image);
 
         if (srcImage == NULL) {
-            fcn::throwEXCEPTION(
+            fcn::throwException(
                 "Trying to draw an image of unknown format, must be an OpenLayerImage.",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,

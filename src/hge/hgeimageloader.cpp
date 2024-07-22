@@ -2,9 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/hge/hgeimage.hpp"
 #include "fifechan/hge/hgeimageloader.hpp"
+
 #include "fifechan/exception.hpp"
+#include "fifechan/hge/hgeimage.hpp"
 
 namespace fcn
 {

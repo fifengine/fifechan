@@ -30,7 +30,7 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract class for widgets of Guichan. It contains basic functions
+     * Abstract class for widgets of Fifechan. It contains basic functions
      * every widget should have.
      *
      * NOTE: Functions begining with underscore "_" should not
@@ -1475,8 +1475,8 @@ namespace fcn
 
         /**
          * Finds a widget given an id. This function can be useful
-         * when implementing a GUI generator for Guichan, such as
-         * the ability to create a Guichan GUI from an XML file.
+         * when implementing a GUI generator for Fifechan, such as
+         * the ability to create a Fifechan GUI from an XML file.
          *
          * @param id The id to find a widget by.
          * @return The widget with the corrosponding id,

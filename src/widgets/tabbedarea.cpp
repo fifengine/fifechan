@@ -2,15 +2,14 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <algorithm>
-
 #include "fifechan/widgets/tabbedarea.hpp"
+
+#include <algorithm>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
-
 #include "fifechan/widgets/tab.hpp"
 
 namespace fcn

@@ -2,15 +2,15 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_UTIL_FCN_MATH_H
-#define FCN_UTIL_FCN_MATH_H
+#ifndef FCN_MATH_H
+#define FCN_MATH_H
 
 #include <cassert>
 #include <cmath>
 #include <limits>
 
 #ifndef ABS
-#define ABS(x) ((x) < 0 ? -(x) : (x))
+#    define ABS(x) ((x) < 0 ? -(x) : (x))
 
 #endif
 
@@ -424,4 +424,4 @@ namespace fcn
     }
 } // namespace fcn
 
-#endif // FCN_UTIL_FCN_MATH_H
+#endif // FCN_MATH_H

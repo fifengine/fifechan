@@ -5,11 +5,11 @@
 #ifndef FCN_IRRLICHT_HPP
 #define FCN_IRRLICHT_HPP
 
-#include "platform.hpp"
-
 #include <fifechan/irrlicht/irrlichtgraphics.hpp>
 #include <fifechan/irrlicht/irrlichtimage.hpp>
 #include <fifechan/irrlicht/irrlichtimageloader.hpp>
 #include <fifechan/irrlicht/irrlichtinput.hpp>
+
+#include "platform.hpp"
 
 #endif // end FCN_IRRLICHT_HPP

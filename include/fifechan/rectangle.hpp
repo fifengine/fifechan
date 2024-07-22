@@ -5,9 +5,9 @@
 #ifndef FCN_RECTANGLE_HPP
 #define FCN_RECTANGLE_HPP
 
-#include "fifechan/platform.hpp"
-
 #include <iostream>
+
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

@@ -2,14 +2,14 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include "fifechan/widgets/checkbox.hpp"
+
 #include <algorithm>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
-
-#include "fifechan/widgets/checkbox.hpp"
 
 namespace fcn
 {

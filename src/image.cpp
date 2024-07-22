@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <string>
-
 #include "fifechan/image.hpp"
+
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/imageloader.hpp"

@@ -2,11 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <fifechan/image.hpp>
+#include <fifechan/widgets/imageprogressbar.hpp>
+
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
+#include <fifechan/image.hpp>
 #include <fifechan/rectangle.hpp>
-#include <fifechan/widgets/imageprogressbar.hpp>
 
 namespace fcn
 {

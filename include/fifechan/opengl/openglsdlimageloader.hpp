@@ -5,10 +5,9 @@
 #ifndef FCN_OPENGLSDLIMAGELOADER_HPP
 #define FCN_OPENGLSDLIMAGELOADER_HPP
 
-#include <fifechan/sdl/sdlimageloader.hpp>
-
 #include <fifechan/exception.hpp>
 #include <fifechan/opengl/openglimage.hpp>
+#include <fifechan/sdl/sdlimageloader.hpp>
 
 namespace fcn
 {
@@ -27,7 +26,7 @@ namespace fcn
             SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
             if (loadedSurface == NULL) {
-                std::string msg = std::string("Unable to load image file: ") + filename);
+                std::string msg = std::string("Unable to load image file: " + filename);
                 fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
 
@@ -35,7 +34,7 @@ namespace fcn
             SDL_FreeSurface(loadedSurface);
 
             if (surface == NULL) {
-                std::string msg = std::string("Not enough memory to load: ") + filename);
+                std::string msg = std::string("Not enough memory to load: " + filename);
                 fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
 

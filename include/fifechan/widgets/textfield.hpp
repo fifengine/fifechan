@@ -5,12 +5,12 @@
 #ifndef FCN_TEXTFIELD_HPP
 #define FCN_TEXTFIELD_HPP
 
+#include <string>
+
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
-
-#include <string>
 
 namespace fcn
 {

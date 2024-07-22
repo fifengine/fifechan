@@ -6,10 +6,11 @@
 #define FCN_HGEINPUT_HPP
 
 #include <queue>
+
 #include <hge.h>
 
 #if defined(DELETE)
-#undef DELETE
+#    undef DELETE
 #endif
 
 #include "fifechan/input.hpp"

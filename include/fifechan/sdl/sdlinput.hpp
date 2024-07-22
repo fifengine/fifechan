@@ -5,9 +5,9 @@
 #ifndef FCN_SDLINPUT_HPP
 #define FCN_SDLINPUT_HPP
 
-#include <queue>
+#include <SDL2/SDL.h>
 
-#include "SDL.h"
+#include <queue>
 
 #include "fifechan/input.hpp"
 #include "fifechan/keyinput.hpp"
@@ -56,19 +56,19 @@ namespace fcn
 
     protected:
         /**
-         * Converts a mouse button from SDL to a Guichan mouse button
+         * Converts a mouse button from SDL to a Fifechan mouse button
          * representation.
          *
          * @param button an SDL mouse button.
-         * @return a Guichan mouse button.
+         * @return a Fifechan mouse button.
          */
         int convertMouseButton(int button);
 
         /**
-         * Converts an SDL event to a Guichan key value.
+         * Converts an SDL event to a Fifechan key value.
          *
          * @param keysym The SDL event to convert.
-         * @return A Guichan key value. -1 if no conversion took place.
+         * @return A Fifechan key value. -1 if no conversion took place.
          * @see Key
          */
         int convertSDLEventToFifechanKeyValue(SDL_Event event);

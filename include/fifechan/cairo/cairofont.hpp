@@ -5,11 +5,10 @@
 #ifndef FCN_CAIROFONT_HPP
 #define FCN_CAIROFONT_HPP
 
-#include "fifechan/font.hpp"
-#include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
-
 #include "cairo.h"
+#include "fifechan/color.hpp"
+#include "fifechan/font.hpp"
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

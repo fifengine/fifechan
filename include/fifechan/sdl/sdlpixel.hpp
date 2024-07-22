@@ -5,7 +5,8 @@
 #ifndef FCN_SDLPIXEL_HPP
 #define FCN_SDLPIXEL_HPP
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
+
 #include "fifechan/color.hpp"
 
 namespace fcn

@@ -5,13 +5,13 @@
 #ifndef FCN_HGEIMAGE_HPP
 #define FCN_HGEIMAGE_HPP
 
-#include <hge.h>
-#include <hgesprite.h>
 #include <string>
 
 #include "fifechan/color.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/platform.hpp"
+#include <hge.h>
+#include <hgesprite.h>
 
 namespace fcn
 {

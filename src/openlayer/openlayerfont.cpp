@@ -3,9 +3,9 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/openlayer/openlayerfont.hpp"
-#include "fifechan/openlayer/openlayergraphics.hpp"
 
 #include "fifechan/exception.hpp"
+#include "fifechan/openlayer/openlayergraphics.hpp"
 
 namespace fcn
 {

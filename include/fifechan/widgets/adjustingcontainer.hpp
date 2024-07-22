@@ -5,9 +5,9 @@
 #ifndef FCN_ADJUSTINGCONTAINER_HPP
 #define FCN_ADJUSTINGCONTAINER_HPP
 
-#include "fifechan/widgets/container.hpp"
-
 #include <vector>
+
+#include "fifechan/widgets/container.hpp"
 
 namespace fcn
 {
@@ -73,8 +73,7 @@ namespace fcn
      * allowing you to show a fixed, maximum size while not limiting the actual
      * container.
      *
-     * For more help with using AdjustingContainers, try the Guichan forums
-     * (http://guichan.sourceforge.net/forum/) or email mrlachatte@gmail.com.
+
      *
      */
     class FIFEGUI_API AdjustingContainer : public Container

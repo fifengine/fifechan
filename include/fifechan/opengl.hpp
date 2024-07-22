@@ -5,9 +5,9 @@
 #ifndef FCN_OPENGL_HPP
 #define FCN_OPENGL_HPP
 
-#include "platform.hpp"
-
 #include <fifechan/opengl/openglgraphics.hpp>
 #include <fifechan/opengl/openglimage.hpp>
+
+#include "platform.hpp"
 
 #endif // end FCN_OPENGL_HPP
