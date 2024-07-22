@@ -5,19 +5,9 @@
 #ifndef FCN_UTIL_FCN_MATH_H
 #define FCN_UTIL_FCN_MATH_H
 
-// Standard C++ library includes
 #include <cassert>
 #include <cmath>
 #include <limits>
-
-// Platform specific includes
-
-// 3rd party library includes
-
-// FCN includes
-// These includes are split up in two parts, separated by one empty line
-// First block: files included from the FCN root src directory
-// Second block: files included from the same folder
 
 #ifndef ABS
 #define ABS(x) ((x) < 0 ? -(x) : (x))
