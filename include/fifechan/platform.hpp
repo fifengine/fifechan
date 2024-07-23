@@ -6,29 +6,29 @@
 #define FCN_PLATFORM_HPP
 // clang-format off
 
-// Defines for the opterating system
-#ifndef FIFEGUI_OS_WINDOWS
-    #define FIFEGUI_OS_WINDOWS      defined(_WIN32) || defined(_WIN64)
+// Check and defines for the operating system
+#if !defined(FIFEGUI_OS_WINDOWS) && (defined(_WIN32) || defined(_WIN64))
+  #define FIFEGUI_OS_WINDOWS 1
 #endif
-#ifndef FIFEGUI_OS_LINUX
-    #define FIFEGUI_OS_LINUX        defined(__linux__)
+#if !defined(FIFEGUI_OS_LINUX) && defined(__linux__)
+  #define FIFEGUI_OS_LINUX 1
 #endif
-#ifndef FIFEGUI_OS_MACOS
-    #define FIFEGUI_OS_MACOS        defined(__APPLE__)
+#if !defined(FIFEGUI_OS_MACOS) && defined(__APPLE__)
+  #define FIFEGUI_OS_MACOS 1
 #endif
 
-// Defines for the compiler
-#ifndef FIFEGUI_COMPILER_MSVC
-    #define FIFEGUI_COMPILER_MSVC   defined(_MSC_VER)
+// Check and defines for the compiler
+#if !defined(FIFEGUI_COMPILER_MSVC) && defined(_MSC_VER)
+  #define FIFEGUI_COMPILER_MSVC 1
 #endif
-#ifndef FIFEGUI_COMPILER_GNU
-    #define FIFEGUI_COMPILER_GNU    defined(__GNUC__)
+#if !defined(FIFEGUI_COMPILER_GNU) && defined(__GNUC__)
+  #define FIFEGUI_COMPILER_GNU 1
 #endif
-#ifndef FIFEGUI_COMPILER_CLANG
-    #define FIFEGUI_COMPILER_CLANG  defined(__clang__)
+#if !defined(FIFEGUI_COMPILER_CLANG) && defined(__clang__)
+  #define FIFEGUI_COMPILER_CLANG 1
 #endif
-#ifndef FIFEGUI_COMPILER_MINGW
-    #define FIFEGUI_COMPILER_MINGW  defined(__MINGW32__)
+#if !defined(FIFEGUI_COMPILER_MINGW) && defined(__MINGW32__)
+  #define FIFEGUI_COMPILER_MINGW 1
 #endif
 
 /**
@@ -69,35 +69,49 @@
 // fifechan_EXPORTS when building the fifechan library.
 
 #if defined(FIFEGUI_OS_LINUX)
-
+  // For Linux, we only need to use __attribute__ for visibility.
+  #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+      // Building the library
+      #define FIFEGUI_API __attribute__((visibility("default")))
+  #elif defined(FIFECHAN_EXTENSION_BUILD)
+      // Building an extension to the library
+      #define FIFEGUI_API     __attribute__((visibility("default")))
+      #define FIFEGUI_EXT_API __attribute__((visibility("default")))
+  #elif defined(FIFECHAN_DLL_IMPORT)
+      // Importing symbols (not typically used on Linux, but included for completeness)
+      #define FIFEGUI_API     __attribute__((visibility("default")))
+      #define FIFEGUI_EXT_API __attribute__((visibility("default")))
+  #endif
 #elif defined(FIFEGUI_OS_WINDOWS)
-    #if defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
-        #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
-            // Building the library
-            #define FIFEGUI_API __declspec(dllexport)
-        #elif defined(FIFECHAN_EXTENSION_BUILD)
-            // Building an extension to the library
-            #define FIFEGUI_API     __declspec(dllimport)
-            #define FIFEGUI_EXT_API __declspec(dllexport)
-        #else
-            // Using the library
-            #define FIFEGUI_API     __declspec(dllimport)
-            #define FIFEGUI_EXT_API __declspec(dllimport)
-        #endif
-    #elif defined(FIFEGUI_COMPILER_CLANG)
-        #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
-            // Building the library
-            #define FIFEGUI_API __declspec(dllexport) __attribute__ ((visibility("default")))
-        #elif defined(FIFECHAN_EXTENSION_BUILD)
-            // Building an extension to the library
-            #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
-            #define FIFEGUI_EXT_API __declspec(dllexport) __attribute__ ((visibility("default")))
-        #else
-            // Using the library
-            #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
-            #define FIFEGUI_EXT_API __declspec(dllimport) __attribute__ ((visibility("default")))
-        #endif
+  #if defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
+    #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+      // Building the library
+      #define FIFEGUI_API __declspec(dllexport)
+    #elif defined(FIFECHAN_EXTENSION_BUILD)
+      // Building an extension to the library
+      #define FIFEGUI_API     __declspec(dllimport)
+      #define FIFEGUI_EXT_API __declspec(dllexport)
+    #else
+      // Using the library
+      #define FIFEGUI_API     __declspec(dllimport)
+      #define FIFEGUI_EXT_API __declspec(dllimport)
     #endif
+  #elif defined(FIFEGUI_COMPILER_CLANG)
+    #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+      // Building the library
+      #define FIFEGUI_API __declspec(dllexport) __attribute__ ((visibility("default")))
+    #elif defined(FIFECHAN_EXTENSION_BUILD)
+      // Building an extension to the library
+      #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
+      #define FIFEGUI_EXT_API __declspec(dllexport) __attribute__ ((visibility("default")))
+    #else
+      // Using the library
+      #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
+      #define FIFEGUI_EXT_API __declspec(dllimport) __attribute__ ((visibility("default")))
+    #endif
+  #endif
+#else
+  // whatever
 #endif
 
 // For other compilers/platforms, default visibility is assumed.
