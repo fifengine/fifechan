@@ -73,11 +73,11 @@ namespace fcn
         int tabIndexToBeSelected = -1;
 
         if (tab == mSelectedTab) {
-            int index = getSelectedTabIndex();
-
-            if (index == (int)mTabs.size() - 1 && mTabs.size() >= 2) {
+            int index     = getSelectedTabIndex();
+            int mTabsSize = static_cast<int>(mTabs.size());
+            if (index == (mTabsSize - 1 && mTabsSize >= 2)) {
                 tabIndexToBeSelected = index - 1;
-            } else if (index == (int)mTabs.size() - 1 && mTabs.size() == 1) {
+            } else if (index == mTabsSize - 1 && mTabsSize == 1) {
                 tabIndexToBeSelected = -1;
             } else {
                 tabIndexToBeSelected = index;
@@ -400,7 +400,7 @@ namespace fcn
             int index = getSelectedTabIndex();
             index++;
 
-            if (index >= (int)mTabs.size()) {
+            if (index >= static_cast<int>(mTabs.size())) {
                 return;
             } else {
                 setSelectedTab(mTabs[index].first);

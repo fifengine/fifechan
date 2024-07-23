@@ -348,9 +348,9 @@ namespace fcn
                     true,
                     true);
             }
-        }
-        // The mouse is in the application window.
-        else {
+        } else {
+            // The mouse is in the application window.
+
             // Calculate which widgets should receive a mouse exited event
             // and which should receive a mouse entered event by using the
             // last known mouse position and the latest mouse position.
@@ -792,9 +792,8 @@ namespace fcn
         if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == nullptr)) {
             handleModalMouseInputFocusGained();
-        }
-        // Check if modal mouse input focus has been released.
-        else if (
+        } else if (
+            // Check if modal mouse input focus has been released.
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != nullptr)) {
             handleModalMouseInputFocusReleased();
@@ -807,9 +806,8 @@ namespace fcn
         if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() == nullptr)) {
             handleModalFocusGained();
-        }
-        // Check if modal focus has been released.
-        else if (
+        } else if (
+            // Check if modal focus has been released.
             (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() != nullptr)) {
             handleModalFocusReleased();

@@ -246,13 +246,14 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                float const tmpAngle = static_cast<float>(int(angle * i + 270) % 360) / (180.0f / Mathf::pi());
-                int x                = static_cast<int>(xRadius * cos(tmpAngle) - (*currChild)->getWidth() / 2);
-                int y                = static_cast<int>(yRadius * sin(tmpAngle) - (*currChild)->getHeight() / 2);
-                minW                 = std::min(minW, x);
-                maxW                 = std::max(maxW, x + (*currChild)->getWidth());
-                minH                 = std::min(minH, y);
-                maxH                 = std::max(maxH, y + (*currChild)->getHeight());
+                float const tmpAngle =
+                    static_cast<float>(static_cast<int>(angle * i + 270) % 360) / (180.0f / Mathf::pi());
+                int x = static_cast<int>(xRadius * cos(tmpAngle) - (*currChild)->getWidth() / 2);
+                int y = static_cast<int>(yRadius * sin(tmpAngle) - (*currChild)->getHeight() / 2);
+                minW  = std::min(minW, x);
+                maxW  = std::max(maxW, x + (*currChild)->getWidth());
+                minH  = std::min(minH, y);
+                maxH  = std::max(maxH, y + (*currChild)->getHeight());
 
                 (*currChild)->setPosition(x, y);
                 ++i;
@@ -584,7 +585,7 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                float tmpAngle = static_cast<float>(int(angle * i + 270) % 360) / (180.0f / Mathf::pi());
+                float tmpAngle = static_cast<float>(static_cast<int>(angle * i + 270) % 360) / (180.0f / Mathf::pi());
                 int x          = static_cast<int>(centerX + xRadius * cos(tmpAngle));
                 int y          = static_cast<int>(centerY + yRadius * sin(tmpAngle));
                 x -= (*currChild)->getWidth() / 2;

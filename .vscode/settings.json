@@ -63,6 +63,13 @@
 		"xtr1common": "cpp",
 		"xtree": "cpp",
 		"xutility": "cpp",
-		"string_view": "cpp"
+		"string_view": "cpp",
+		"chrono": "cpp",
+		"variant": "cpp",
+		"bitset": "cpp",
+		"__hash_table": "cpp",
+		"__split_buffer": "cpp",
+		"__tree": "cpp",
+		"unordered_map": "cpp"
 	}
 }

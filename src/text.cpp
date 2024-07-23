@@ -148,7 +148,7 @@ namespace fcn
 
     void Text::insert(int character)
     {
-        char const c = (char)character;
+        char const c = static_cast<char>(character);
 
         if (mRows.empty()) {
             if (c == '\n') {
@@ -200,9 +200,8 @@ namespace fcn
 
                 numberOfCharacters++;
             }
-        }
-        // We should remove characters right of the caret position.
-        else if (numberOfCharacters > 0) {
+        } else if (numberOfCharacters > 0) {
+            // We should remove characters right of the caret position.
             while (numberOfCharacters != 0) {
                 // If all rows have been removed there is nothing
                 // more to do.
@@ -244,7 +243,7 @@ namespace fcn
         unsigned int i     = 0;
         unsigned int total = 0;
         for (i = 0; i < mRows.size(); i++) {
-            if (position <= (int)(total + mRows[i].size())) {
+            if (position <= static_cast<int>(total + mRows[i].size())) {
                 mCaretRow      = i;
                 mCaretColumn   = position - total;
                 mCaretPosition = position;
@@ -287,7 +286,7 @@ namespace fcn
     {
         if (mRows.empty() || column < 0) {
             mCaretColumn = 0;
-        } else if (column > (int)mRows[mCaretRow].size()) {
+        } else if (column > static_cast<int>(mRows[mCaretRow].size())) {
             mCaretColumn = mRows[mCaretRow].size();
         } else {
             mCaretColumn = column;
@@ -300,7 +299,7 @@ namespace fcn
     {
         if (mRows.empty() || row < 0) {
             mCaretRow = 0;
-        } else if (row >= (int)mRows.size()) {
+        } else if (row >= static_cast<int>(mRows.size())) {
             mCaretRow = mRows.size() - 1;
         } else {
             mCaretRow = row;

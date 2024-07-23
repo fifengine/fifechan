@@ -80,7 +80,7 @@ namespace fcn
             int value = convertSDLEventToFifechanKeyValue(event);
 
             if (value == -1) {
-                value = (int)event.key.keysym.sym;
+                value = static_cast<int>(event.key.keysym.sym);
             }
 
             keyInput.setKey(Key(value));
@@ -162,7 +162,7 @@ namespace fcn
             std::string text(event.text.text);
             if (!text.empty()) {
                 // hack to transport text
-                std::vector<unsigned short> result;
+                std::vector<char16_t> result;
                 utf8::utf8to16(text.begin(), text.end(), std::back_inserter(result));
                 int value = result[0];
 

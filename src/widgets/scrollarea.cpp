@@ -246,9 +246,11 @@ namespace fcn
             mVerticalMarkerDragOffset = y - getVerticalMarkerDimension().y;
         } else if (getVerticalBarDimension().isContaining(x, y)) {
             if (y < getVerticalMarkerDimension().y) {
-                setVerticalScrollAmount(getVerticalScrollAmount() - (int)(getChildrenArea().height * 0.95));
+                setVerticalScrollAmount(
+                    getVerticalScrollAmount() - static_cast<int>((getChildrenArea().height * 0.95)));
             } else {
-                setVerticalScrollAmount(getVerticalScrollAmount() + (int)(getChildrenArea().height * 0.95));
+                setVerticalScrollAmount(
+                    getVerticalScrollAmount() + static_cast<int>((getChildrenArea().height * 0.95)));
             }
         } else if (getHorizontalMarkerDimension().isContaining(x, y)) {
             mIsHorizontalMarkerDragged = true;
@@ -257,9 +259,11 @@ namespace fcn
             mHorizontalMarkerDragOffset = x - getHorizontalMarkerDimension().x;
         } else if (getHorizontalBarDimension().isContaining(x, y)) {
             if (x < getHorizontalMarkerDimension().x) {
-                setHorizontalScrollAmount(getHorizontalScrollAmount() - (int)(getChildrenArea().width * 0.95));
+                setHorizontalScrollAmount(
+                    getHorizontalScrollAmount() - static_cast<int>((getChildrenArea().width * 0.95)));
             } else {
-                setHorizontalScrollAmount(getHorizontalScrollAmount() + (int)(getChildrenArea().width * 0.95));
+                setHorizontalScrollAmount(
+                    getHorizontalScrollAmount() + static_cast<int>((getChildrenArea().width * 0.95)));
             }
         }
     }
@@ -711,8 +715,8 @@ namespace fcn
         case ShowAuto:
             if (mVPolicy == ShowNever) {
                 mHBarVisible = getContent()->getWidth() > w;
-            } else // (mVPolicy == ShowAlways)
-            {
+            } else {
+                // (mVPolicy == ShowAlways)
                 mHBarVisible = getContent()->getWidth() > w - mScrollbarWidth;
             }
             break;
@@ -734,8 +738,8 @@ namespace fcn
         case ShowAuto:
             if (mHPolicy == ShowNever) {
                 mVBarVisible = getContent()->getHeight() > h;
-            } else // (mHPolicy == ShowAlways)
-            {
+            } else {
+                // (mHPolicy == ShowAlways)
                 mVBarVisible = getContent()->getHeight() > h - mScrollbarWidth;
             }
             break;

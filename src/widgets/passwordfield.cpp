@@ -54,13 +54,10 @@ namespace fcn
         } else if (key.getValue() == Key::End) {
             mText->setCaretColumn(mText->getNumberOfCharacters(0));
             setActualTextCaretPosition(getText().size());
-        }
-
-        // Add character to text, if key is realy a ASCII character
-        // or is greater than 8bits long and the character is not
-        // the tab key.
-
-        else if (
+        } else if (
+            // Add character to text, if key is realy a ASCII character
+            // or is greater than 8bits long and the character is not
+            // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
             key.getValue() != Key::Tab) {
             mText->insert('*');

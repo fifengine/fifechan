@@ -14,12 +14,12 @@ namespace fcn
 
     void GenericInput::pushKeyPressed(int unicode)
     {
-        // TODO
+        // TODO(jakoch): Implement this method.
     }
 
     void GenericInput::pushKeyReleased(int unicode)
     {
-        // TODO
+        // TODO(jakoch): Implement this method.
     }
 
     void GenericInput::pushMouseButtonPressed(int x, int y, int button)

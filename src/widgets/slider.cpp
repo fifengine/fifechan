@@ -242,7 +242,7 @@ namespace fcn
             w = getHeight();
         }
 
-        double pos = v / ((double)w - getMarkerLength());
+        double pos = v / (static_cast<double>(w) - getMarkerLength());
         return (1.0 - pos) * getScaleStart() + pos * getScaleEnd();
     }
 
@@ -255,7 +255,8 @@ namespace fcn
             v = getHeight();
         }
 
-        int w = (int)((v - getMarkerLength()) * (value - getScaleStart()) / (getScaleEnd() - getScaleStart()));
+        int w =
+            static_cast<int>(((v - getMarkerLength()) * (value - getScaleStart()) / (getScaleEnd() - getScaleStart())));
 
         if (w < 0) {
             return 0;

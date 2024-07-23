@@ -139,7 +139,7 @@ namespace fcn
 
         // draw text
         int textX;
-        int textY = ((int)getTitleBarHeight() - getFont()->getHeight()) / 2;
+        int textY = (static_cast<int>(getTitleBarHeight()) - getFont()->getHeight()) / 2;
 
         switch (getAlignment()) {
         case Graphics::Left:

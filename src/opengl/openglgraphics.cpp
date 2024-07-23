@@ -55,7 +55,7 @@ namespace fcn
         glPushMatrix();
         glLoadIdentity();
 
-        glOrtho(0.0, (double)mWidth, (double)mHeight, 0.0, -1.0, 1.0);
+        glOrtho(0.0, static_cast<double>(mWidth), static_cast<double>(mHeight), 0.0, -1.0, 1.0);
 
         glDisable(GL_LIGHTING);
         glDisable(GL_CULL_FACE);
@@ -149,10 +149,10 @@ namespace fcn
         dstY += top.yOffset;
 
         // Find OpenGL texture coordinates
-        float texX1 = srcX / (float)srcImage->getTextureWidth();
-        float texY1 = srcY / (float)srcImage->getTextureHeight();
-        float texX2 = (srcX + width) / (float)srcImage->getTextureWidth();
-        float texY2 = (srcY + height) / (float)srcImage->getTextureHeight();
+        float texX1 = srcX / static_cast<float>(srcImage->getTextureWidth());
+        float texY1 = srcY / static_cast<float>(srcImage->getTextureHeight());
+        float texX2 = (srcX + width) / static_cast<float>(srcImage->getTextureWidth());
+        float texY2 = (srcY + height) / static_cast<float>(srcImage->getTextureHeight());
 
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
@@ -238,17 +238,17 @@ namespace fcn
 
     void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawPolyLine(PointVector const & points, unsigned int width)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawBezier(PointVector const & points, int steps, unsigned int width)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawRectangle(Rectangle const & rectangle)
@@ -293,22 +293,22 @@ namespace fcn
 
     void OpenGLGraphics::drawCircle(Point const & p, unsigned int radius)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawFillCircle(Point const & p, unsigned int radius)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
     {
-        // TODO
+        // TODO(jakoch): Implement this function
     }
 
     void OpenGLGraphics::drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
     {
-        // TODO
+        // TODO(jakoch): Implement this method.
     }
 
     void OpenGLGraphics::setColor(Color const & color)

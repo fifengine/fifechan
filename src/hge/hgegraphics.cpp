@@ -139,17 +139,16 @@ namespace fcn
         if (y1 == y2 || x1 == x2) {
             x2++;
             y2++;
-        }
-        // If it's not a vertical or horizontal line it gets a little bit
-        // trickier.
-        else {
+        } else {
+            // If it's not a vertical or horizontal line it gets a little bit
+            // trickier.
+
             // If y2 is greater than y1 then we know y2 will be omitted as
             // it will be a part of the last pixel coordinate.
             if (y2 > y1) {
                 y2++;
-            }
-            // Else will y1 be omitted.
-            else {
+            } else {
+                // Else will y1 be omitted.
                 y1++;
             }
             // The same thing applies for the x coordinates. If x2 is greater
@@ -157,9 +156,8 @@ namespace fcn
             // the last pixel coordinate.
             if (x2 > x1) {
                 x2++;
-            }
-            // Else will x1 be omitted.
-            else {
+            } else {
+                // Else will x1 be omitted.
                 x1++;
             }
         }

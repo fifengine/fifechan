@@ -105,17 +105,11 @@ namespace fcn
             }
         } else if (key.getValue() == Key::Down) {
             setCaretRowUTF8(getCaretRow() + 1);
-        }
-
-        else if (key.getValue() == Key::Up) {
+        } else if (key.getValue() == Key::Up) {
             setCaretRowUTF8(getCaretRow() - 1);
-        }
-
-        else if (key.getValue() == Key::Home) {
+        } else if (key.getValue() == Key::Home) {
             setCaretColumn(0);
-        }
-
-        else if (key.getValue() == Key::End) {
+        } else if (key.getValue() == Key::End) {
             setCaretColumn(getTextRow(getCaretRow()).size());
         } else if (key.getValue() == Key::Enter && mEditable) {
             mText->insertRow(
@@ -141,11 +135,12 @@ namespace fcn
             setCaretRow(getCaretRow() - 1);
             setCaretColumn(newCaretColumn);
         } else if (
-            key.getValue() == Key::Delete && getCaretColumn() < (int)getTextRow(getCaretRow()).size() && mEditable) {
+            key.getValue() == Key::Delete && getCaretColumn() < static_cast<int>(getTextRow(getCaretRow()).size()) &&
+            mEditable) {
             setCaretColumn(mStringEditor->eraseChar(mText->getRow(getCaretRow()), getCaretColumn()));
         } else if (
-            key.getValue() == Key::Delete && getCaretColumn() == (int)getTextRow(getCaretRow()).size() &&
-            getCaretRow() < ((int)getNumberOfRows() - 1) && mEditable) {
+            key.getValue() == Key::Delete && getCaretColumn() == static_cast<int>(getTextRow(getCaretRow()).size()) &&
+            getCaretRow() < (static_cast<int>(getNumberOfRows()) - 1) && mEditable) {
             mText->getRow(getCaretRow()) += getTextRow((getCaretRow() + 1));
             mText->eraseRow(getCaretRow() + 1);
         } else if (key.getValue() == Key::PageUp) {
@@ -170,7 +165,7 @@ namespace fcn
                 int chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
                 setCaretRow(getCaretRow() + rowsPerPage);
 
-                if (getCaretRow() >= (int)getNumberOfRows()) {
+                if (getCaretRow() >= static_cast<int>(getNumberOfRows())) {
                     setCaretRow(getNumberOfRows() - 1);
                 }
 

@@ -140,17 +140,12 @@ namespace fcn
             distributeActionEvent();
         } else if (key.getValue() == Key::Home) {
             setCaretPosition(0);
-        }
-
-        else if (key.getValue() == Key::End) {
+        } else if (key.getValue() == Key::End) {
             setCaretPosition(getText().size());
-        }
-
-        // Add character to text, if key is really an ASCII character
-        // or is greater than 8bits long and the character is not
-        // the tab key.
-
-        else if (
+        } else if (
+            // Add character to text, if key is really an ASCII character
+            // or is greater than 8bits long and the character is not
+            // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
             key.getValue() != Key::Tab) {
             setCaretPosition(mStringEditor->insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));

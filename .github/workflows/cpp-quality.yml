@@ -48,7 +48,9 @@ jobs:
           sudo apt-get install -y clang-format-18
 
       - name: 🛠️ Check Formatting
-        run: ./build-tools/format.sh && git diff --exit-code
+        run: |
+          chmod +x ./build-tools/format.sh
+          ./build-tools/format.sh && git diff --exit-code
         env:
           CLANG_FORMAT: clang-format-18
 
@@ -78,4 +80,4 @@ jobs:
         run: pip install --prefer-binary --no-cache-dir cpplint
 
       - name: 🛠️ Run cpplint
-        run: cpplint --recursive src --exclude=src/steamapi/*
+        run: cpplint --recursive src include tests examples

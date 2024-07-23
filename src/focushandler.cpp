@@ -121,7 +121,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
 
-        for (i = 0; i < (int)mWidgets.size(); ++i) {
+        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -131,12 +131,12 @@ namespace fcn
 
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
-        i = (int)mWidgets.size();
+        int num_widgets = static_cast<int>(mWidgets.size());
 
-        for (; i > 0; --i) {
+        for (; num_widgets > 0; --num_widgets) {
             ++focusedWidget;
 
-            if (focusedWidget >= (int)mWidgets.size()) {
+            if (focusedWidget >= static_cast<int>(mWidgets.size())) {
                 focusedWidget = 0;
             }
 
@@ -148,7 +148,7 @@ namespace fcn
                 break;
             }
 
-            if (i == 1) {
+            if (num_widgets == 1) {
                 focusedWidget = -1;
                 break;
             }
@@ -175,7 +175,7 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < (int)mWidgets.size(); ++i) {
+        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -184,7 +184,7 @@ namespace fcn
 
         // i is a counter that ensures that the following loop
         // won't get stuck in an infinite loop
-        i = (int)mWidgets.size();
+        i = static_cast<int>(mWidgets.size());
         while (i > 0) {
             --focusedWidget;
 
@@ -297,14 +297,14 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < (int)mWidgets.size(); ++i) {
+        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
         int const focused = focusedWidget;
 
-        i = (int)mWidgets.size();
+        i = static_cast<int>(mWidgets.size());
 
         while (i > 0) {
             ++focusedWidget;
@@ -316,7 +316,7 @@ namespace fcn
 
             --i;
 
-            if (focusedWidget >= (int)mWidgets.size()) {
+            if (focusedWidget >= static_cast<int>(mWidgets.size())) {
                 focusedWidget = 0;
             }
 
@@ -357,14 +357,14 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < (int)mWidgets.size(); ++i) {
+        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
         int const focused = focusedWidget;
 
-        i = (int)mWidgets.size();
+        i = static_cast<int>(mWidgets.size());
 
         while (i > 0) {
             --focusedWidget;

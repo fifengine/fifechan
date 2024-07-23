@@ -42,14 +42,14 @@ namespace fcn
 
     int CairoFont::getHeight() const
     {
-        return (int)mFontExtents.height;
+        return static_cast<int>(mFontExtents.height);
     }
 
     int CairoFont::getWidth(std::string const & text) const
     {
         cairo_text_extents_t textext;
         cairo_scaled_font_text_extents(mFontFace, text.c_str(), &textext);
-        return (int)textext.width;
+        return static_cast<int>(textext.width);
     }
 
     CairoFont::~CairoFont()

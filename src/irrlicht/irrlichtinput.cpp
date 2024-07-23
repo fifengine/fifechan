@@ -122,13 +122,11 @@ namespace fcn
             default:
                 break;
             }
-        }
-
-        else if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
+        } else if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
             int value = convertIrrlichtEventToFifechanKeyValue(event);
 
             if (value == -1) {
-                value = (int)event.KeyInput.Char;
+                value = static_cast<int>(event.KeyInput.Char);
             }
 
             keyInput.setKey(Key(value));

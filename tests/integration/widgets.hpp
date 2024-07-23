@@ -3,6 +3,8 @@
 
 #include <fifechan.hpp>
 
+#include <string>
+
 /**
  * Code to populate a global Gui object with all the widgets of Fifechan.
  */

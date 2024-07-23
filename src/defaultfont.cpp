@@ -37,7 +37,7 @@ namespace fcn
 
     int DefaultFont::getStringIndexAt(std::string const & text, int x) const
     {
-        if (x > (int)text.size() * 8) {
+        if (x > static_cast<int>(text.size()) * 8) {
             return text.size();
         }
 

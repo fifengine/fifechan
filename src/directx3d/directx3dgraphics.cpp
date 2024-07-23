@@ -30,7 +30,7 @@ namespace fcn
         D3DXMATRIX ortho;
         D3DXMatrixIdentity(&identity);
 
-        D3DXMatrixOrthoLH(&ortho, (float)mWidth, (float)mHeight, 0.0f, 1.0f);
+        D3DXMatrixOrthoLH(&ortho, static_cast<float>(mWidth), static_cast<float>(mHeight), 0.0f, 1.0f);
         mDevice->SetTransform(D3DTS_VIEW, &identity);
         mDevice->SetTransform(D3DTS_WORLD, &identity);
         mDevice->SetTransform(D3DTS_PROJECTION, &ortho);

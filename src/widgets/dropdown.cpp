@@ -224,18 +224,16 @@ namespace fcn
             mPushed = true;
             dropDown();
             requestModalMouseInputFocus();
-        }
-        // Fold up the listbox if the upper part is clicked after fold down
-        else if (
+        } else if (
+            // Fold up the listbox if the upper part is clicked after fold down
             0 <= mouseEvent.getY() && mouseEvent.getY() < mFoldedUpHeight && mouseEvent.getX() >= 0 &&
             mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Left && mDroppedDown &&
             mouseEvent.getSource() == this) {
             mPushed = false;
             foldUp();
             releaseModalMouseInputFocus();
-        }
-        // If we have a mouse press outside the widget
-        else if (
+        } else if (
+            // If we have a mouse press outside the widget
             0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
             mouseEvent.getX() >= getWidth()) {
             mPushed = false;

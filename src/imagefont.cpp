@@ -92,7 +92,7 @@ namespace fcn
         int y               = 0;
         unsigned char glyph = 0;
 
-        for (i = 0; i < (int)glyphs.size(); ++i) {
+        for (i = 0; i < static_cast<int>(glyphs.size()); ++i) {
             glyph = glyphs.at(i);
 
             mGlyph[glyph] = scanForGlyph(glyph, x, y, separator);
@@ -152,7 +152,7 @@ namespace fcn
     int ImageFont::getWidth(unsigned char glyph) const
     {
         if (mGlyph[glyph].width == 0) {
-            return mGlyph[(int)(' ')].width + mGlyphSpacing;
+            return mGlyph[static_cast<int>((' '))].width + mGlyphSpacing;
         }
 
         return mGlyph[glyph].width + mGlyphSpacing;
@@ -170,9 +170,13 @@ namespace fcn
         int const yoffset = getRowSpacing() / 2;
 
         if (mGlyph[glyph].width == 0) {
-            graphics->drawRectangle(x, y + 1 + yoffset, mGlyph[(int)(' ')].width - 1, mGlyph[(int)(' ')].height - 2);
+            graphics->drawRectangle(
+                x,
+                y + 1 + yoffset,
+                mGlyph[static_cast<int>((' '))].width - 1,
+                mGlyph[static_cast<int>((' '))].height - 2);
 
-            return mGlyph[(int)(' ')].width + mGlyphSpacing;
+            return mGlyph[static_cast<int>((' '))].width + mGlyphSpacing;
         }
 
         graphics->drawImage(
