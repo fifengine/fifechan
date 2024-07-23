@@ -70,6 +70,17 @@
 		"__hash_table": "cpp",
 		"__split_buffer": "cpp",
 		"__tree": "cpp",
-		"unordered_map": "cpp"
+		"unordered_map": "cpp",
+		"*.tcc": "cpp",
+		"cwctype": "cpp",
+		"functional": "cpp",
+		"memory_resource": "cpp",
+		"random": "cpp",
+		"ratio": "cpp",
+		"numbers": "cpp",
+		"__config": "cpp",
+		"__threading_support": "cpp",
+		"__verbose_abort": "cpp",
+		"execution": "cpp"
 	}
 }

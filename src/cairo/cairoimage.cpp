@@ -56,36 +56,41 @@ namespace fcn
         mCairoSurface = NULL;
     }
 
-    unsigned long CairoImage::PrecomputeAlpha(Color const & color)
+    uint32_t CairoImage::PrecomputeAlpha(Color const & color)
     {
-#warning FIXME (slyf0x#1#): Must deal with both big & little endian platforms
         double a = color.a / 255.0;
-        int r = (int)(a * color.r), g = (int)(a * color.g), b = (int)(a * color.b);
-        return (color.a << 24 + r << 16 + g << 8 + b);
+        int r    = static_cast<int>(a * color.r);
+        int g    = static_cast<int>(a * color.g);
+        int b    = static_cast<int>(a * color.b);
+        return (static_cast<uint32_t>(color.a) << 24) + (static_cast<uint32_t>(r) << 16) +
+               (static_cast<uint32_t>(g) << 8) + static_cast<uint32_t>(b);
     }
 
-    unsigned long CairoImage::GetRGB(Color const & color)
+    uint32_t CairoImage::GetRGB(Color const & color)
     {
-        return (color.r << 16 + color.g << 8 + color.b);
+        return (static_cast<uint32_t>(color.r) << 16) + (static_cast<uint32_t>(color.g) << 8) +
+               static_cast<uint32_t>(color.b);
     }
 
-    Color CairoImage::GetColorFromRGB(unsigned long color)
+    Color CairoImage::GetColorFromRGB(uint32_t color)
     {
-        return (Color(color >> 16, (color >> 8) & 0x0000FF, (color & 0xFF), 0xFF));
+        return Color(
+            static_cast<uint8_t>(color >> 16),
+            static_cast<uint8_t>((color >> 8) & 0xFF),
+            static_cast<uint8_t>(color & 0xFF),
+            0xFF);
     }
 
-    Color CairoImage::GetColorFromARGB(unsigned long color)
+    Color CairoImage::GetColorFromARGB(uint32_t color)
     {
-        // pixel data are stored with precomputed alpha values ex :
-        // red with 50% alpha is not stored 0x80FF0000 but 0x80800000
         Color c;
-        c.a = color >> 24;
+        c.a = static_cast<uint8_t>(color >> 24);
         if (c.a == 0) {
             c.b = c.r = c.g = 0;
         } else {
-            c.b = ((color & 0xFF) * 255) / c.a;
-            c.g = (((color >> 8) & 0xFF) * 255) / c.a;
-            c.r = (((color >> 16) & 0xFF) * 255) / c.a;
+            c.b = static_cast<uint8_t>((color & 0xFF) * 255 / c.a);
+            c.g = static_cast<uint8_t>(((color >> 8) & 0xFF) * 255 / c.a);
+            c.r = static_cast<uint8_t>(((color >> 16) & 0xFF) * 255 / c.a);
         }
         return c;
     }

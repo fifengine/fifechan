@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2024 Jens A. Koch.
+# This file is part of fifengine/fifechan.
+
 # Allow ENV.CLANG_FORMAT to define the path to the binary or default to clang-format
 CLANG_FORMAT=${CLANG_FORMAT:-clang-format}
 

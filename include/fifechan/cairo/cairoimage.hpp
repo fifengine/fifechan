@@ -48,10 +48,10 @@ namespace fcn
         virtual void convertToDisplayFormat();
 
     private:
-        std::int64_t PrecomputeAlpha(Color const & color);
-        std::int64_t GetRGB(Color const & color);
-        Color GetColorFromRGB(std::int64_t color);
-        Color GetColorFromARGB(std::int64_t color);
+        std::uint32_t PrecomputeAlpha(Color const & color);
+        std::uint32_t GetRGB(Color const & color);
+        Color GetColorFromRGB(std::uint32_t color);
+        Color GetColorFromARGB(std::uint32_t color);
         cairo_surface_t* mCairoSurface;
         bool mFinished;
     };

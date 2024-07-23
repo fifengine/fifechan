@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2024 Jens A. Koch.
+# This file is part of fifengine/fifechan.
+
 # Get the directory of the script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

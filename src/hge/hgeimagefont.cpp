@@ -33,7 +33,7 @@ namespace fcn
     {
         char buf[2];
 
-        sprintf(buf, "%c", character);
+        snprintf(buf, "%c", character);
 
         return mHGEFont->GetStringWidth(buf);
     }
