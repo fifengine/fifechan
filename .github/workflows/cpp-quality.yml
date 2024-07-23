@@ -82,7 +82,4 @@ jobs:
 
       - name: 🛠️ Run cpplint
         run: |
-          cpplint --recursive src include tests examples \
-            --exclude=include/fifechan/util/utf8/*.hpp \
-            --exclude=include/fifechan/sdl/sdlpixel.hpp \
-            --exclude=include/fifechan/color.hpp
+          cpplint --recursive src include tests examples

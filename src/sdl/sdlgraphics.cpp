@@ -274,7 +274,7 @@ namespace fcn
             Uint32* q = reinterpret_cast<Uint32*>(p);
             for (; x1 <= x2; ++x1) {
                 if (mAlpha) {
-                    *q = SDLBlendColor<Uint32>(pixel,*q,mColor.a,mTarget->format);
+                    *q = SDLBlendColor<Uint32>(pixel, *q, mColor.a, mTarget->format);
                     q++;
                 } else {
                     *(q++) = pixel;
@@ -374,7 +374,8 @@ namespace fcn
         case 4:
             for (; y1 <= y2; ++y1) {
                 if (mAlpha) {
-                    *(reinterpret_cast<Uint32*>(p)) = SDLBlendColor<Uint32>(pixel,*(Uint32*)p,mColor.a,mTarget->format);
+                    *(reinterpret_cast<Uint32*>(p)) =
+                        SDLBlendColor<Uint32>(pixel, *(reinterpret_cast<Uint32*>(p)), mColor.a, mTarget->format);
                 } else {
                     *(reinterpret_cast<Uint32*>(p)) = pixel;
                 }

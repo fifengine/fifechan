@@ -118,10 +118,10 @@ namespace fcn
         // deal differently with each surface format
         switch (cairo_image_surface_get_format(mCairoSurface)) {
         case CAIRO_FORMAT_ARGB32:
-            return GetColorFromARGB(*((unsigned long*)(&imagePixels[x * 4 + yindex])));
+            return GetColorFromARGB(*reinterpret_cast<uint32_t*>(&imagePixels[x * 4 + yindex]));
             break;
         case CAIRO_FORMAT_RGB24:
-            return GetColorFromRGB(*((unsigned long*)(&imagePixels[x * 4 + yindex])));
+            return GetColorFromRGB(*reinterpret_cast<uint32_t*>(&imagePixels[x * 4 + yindex]));
             break;
         case CAIRO_FORMAT_A8:
             return Color(0, 0, 0, imagePixels[x + yindex]);
@@ -155,10 +155,10 @@ namespace fcn
         // deal differently with each surface format
         switch (cairo_image_surface_get_format(mCairoSurface)) {
         case CAIRO_FORMAT_ARGB32:
-            *((unsigned long*)(&imagePixels[x * 4 + y * stride])) = PrecomputeAlpha(color);
+            *reinterpret_cast<uint32_t*>(&imagePixels[x * 4 + y * stride]) = PrecomputeAlpha(color);
             break;
         case CAIRO_FORMAT_RGB24:
-            *((unsigned long*)(&imagePixels[x * 4 + y * stride])) = GetRGB(color);
+            *reinterpret_cast<uint32_t*>(&imagePixels[x * 4 + y * stride]) = GetRGB(color);
             break;
         case CAIRO_FORMAT_A8:
             imagePixels[x + y * stride] = (unsigned char)color.a;
