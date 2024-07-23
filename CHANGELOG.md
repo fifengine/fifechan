@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Added**
 - added .clang-format and applied formatting
 - added .clang-tidy and applied basic rule set
+- added CPPLINT.cfg files to the source tree for configuration and exlusion of files from cpplint runs
+- added cpplint.sh, format.sh, tidy.sh to build-tools to reliably run C++ QA tools
 - vcpkg is used for dependency management
 - make vcpkg.json the source for the version number
 - add show_build_target_properties to cmakelists
@@ -26,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added support for target and package config (find_package), closes https://github.com/fifengine/fifechan/issues/19
 - added pkg-config support to CMakeLists (for pkg-config), closes https://github.com/fifengine/fifechan/issues/19
 
-
 **Changed**
 - updated CMakeLists formatting
 - modernised license headers and copyright notices using SPDX tags
@@ -38,6 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - sdl has now a dependency on sdl_ttf
 - move includes/util/fcn_math.hpp to includes/math.hpp
 - updated `tests/integration/sdlhelloworld` to work with SDL2
+- in sdlpixel.hpp SDLAlpha32() renamed to SDLBlend(), SDLAlpha16() renamed to SDLBlendColor()
+
 
 **Removed**
 - removed usage of deprecated std::iterator
