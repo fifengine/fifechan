@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DIRECTX3DINPUT_HPP
-#define FCN_DIRECTX3DINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DINPUT_HPP_
+#define INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DINPUT_HPP_
 
 #include <queue>
 
@@ -78,4 +78,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DIRECTX3DINPUT_HPP
+#endif // INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DINPUT_HPP_

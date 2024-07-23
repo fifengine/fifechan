@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CAIROIMAGELOADER_HPP
-#define FCN_CAIROIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_CAIRO_CAIROIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_CAIRO_CAIROIMAGELOADER_HPP_
+
+#include <string>
 
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
@@ -24,4 +26,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_CAIRO_CAIROIMAGELOADER_HPP_

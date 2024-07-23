@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_LINEGRAPH_HPP
-#define FCN_LINEGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_LINEGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_LINEGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
@@ -15,16 +15,11 @@ namespace fcn
     class FIFEGUI_API LineGraph : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         LineGraph();
-        LineGraph(PointVector const & data);
 
-        /**
-         * Destructor.
-         */
-        virtual ~LineGraph(){};
+        explicit LineGraph(PointVector const & data);
+
+        virtual ~LineGraph() { }
 
         void setPointVector(PointVector const & data);
         PointVector const & getPointVector() const;
@@ -57,4 +52,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_LINEGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_LINEGRAPH_HPP_

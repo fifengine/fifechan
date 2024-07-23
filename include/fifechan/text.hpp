@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TEXT_HPP
-#define FCN_TEXT_HPP
+#ifndef INCLUDE_FIFECHAN_TEXT_HPP_
+#define INCLUDE_FIFECHAN_TEXT_HPP_
 
 #include <string>
 #include <vector>
@@ -24,9 +24,6 @@ namespace fcn
     class FIFEGUI_API Text
     {
     public:
-        /**
-         * Constructor.
-         */
         Text();
 
         /**
@@ -36,9 +33,6 @@ namespace fcn
          */
         explicit Text(std::string const & content);
 
-        /**
-         * Destructor.
-         */
         virtual ~Text();
 
         /**
@@ -293,4 +287,5 @@ namespace fcn
         unsigned int mCaretColumn;
     };
 } // namespace fcn
-#endif
+
+#endif // INCLUDE_FIFECHAN_TEXT_HPP_

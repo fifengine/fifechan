@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGEFONT_HPP
-#define FCN_IMAGEFONT_HPP
+#ifndef INCLUDE_FIFECHAN_IMAGEFONT_HPP_
+#define INCLUDE_FIFECHAN_IMAGEFONT_HPP_
 
 #include <array>
 #include <string>
@@ -85,9 +85,6 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          */
         explicit ImageFont(std::string const & filename, unsigned char glyphsFrom = 32, unsigned char glyphsTo = 126);
 
-        /**
-         * Destructor.
-         */
         ~ImageFont() override;
 
         /**
@@ -207,4 +204,4 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
     };
 } // namespace fcn
 
-#endif // end FCN_IMAGEFONT_HPP
+#endif // INCLUDE_FIFECHAN_IMAGEFONT_HPP_

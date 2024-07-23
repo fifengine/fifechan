@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_BUTTON_HPP
-#define FCN_BUTTON_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_BUTTON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_BUTTON_HPP_
 
 #include <string>
 
@@ -35,9 +35,6 @@ namespace fcn
         public WidgetListener
     {
     public:
-        /**
-         * Constructor.
-         */
         Button();
 
         /**
@@ -46,11 +43,8 @@ namespace fcn
          *
          * @param caption The caption of the button.
          */
-        Button(std::string const & caption);
+        explicit Button(std::string const & caption);
 
-        /**
-         * Destructor.
-         */
         virtual ~Button();
 
         /**
@@ -218,4 +212,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_BUTTON_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_BUTTON_HPP_

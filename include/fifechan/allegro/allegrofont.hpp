@@ -2,10 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ALLEGROFONT_HPP
-#define FCN_ALLEGROFONT_HPP
+#ifndef INCLUDE_FIFECHAN_ALLEGRO_ALLEGROFONT_HPP_
+#define INCLUDE_FIFECHAN_ALLEGRO_ALLEGROFONT_HPP_
 
 #include <allegro.h>
+
+#include <string>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
@@ -24,18 +26,15 @@ namespace fcn
          *
          * @param font An Allegro font.
          */
-        AllegroFont(FONT* font);
+        explicit AllegroFont(FONT* font);
 
         /**
          * Constructor. The font loaded with this constructor will be freed in the destructor.
          *
          * @param filename The filename of the Allegro font to load.
          */
-        AllegroFont(std::string const & filename);
+        explicit AllegroFont(std::string const & filename);
 
-        /**
-         * Destructor.
-         */
         ~AllegroFont();
 
         // Inherited from Font
@@ -52,4 +51,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_ALLEGROFONT_HPP
+#endif // INCLUDE_FIFECHAN_ALLEGRO_ALLEGROFONT_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ALLEGROINPUT_HPP
-#define FCN_ALLEGROINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_ALLEGRO_ALLEGROINPUT_HPP_
+#define INCLUDE_FIFECHAN_ALLEGRO_ALLEGROINPUT_HPP_
 
 #include <map>
 #include <queue>
@@ -21,14 +21,8 @@ namespace fcn
     class FIFEGUI_EXT_API AllegroInput : public Input
     {
     public:
-        /**
-         * Constructor.
-         */
         AllegroInput();
 
-        /**
-         * Destructor.
-         */
         virtual ~AllegroInput() { }
 
         // Inherited from Input
@@ -74,4 +68,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_INPUT_HPP
+#endif // INCLUDE_FIFECHAN_ALLEGRO_ALLEGROINPUT_HPP_

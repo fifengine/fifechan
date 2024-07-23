@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_COLOR_HPP
-#define FCN_COLOR_HPP
+#ifndef INCLUDE_FIFECHAN_COLOR_HPP_
+#define INCLUDE_FIFECHAN_COLOR_HPP_
 
 #include <iostream>
 
@@ -34,7 +34,7 @@ namespace fcn
          *
          * @param color The color to initialise the object with.
          */
-        Color(int color);
+        /*explicit*/ Color(int color); // do not mark explicit to allow implicit conversion from int
 
         /**
          * Constructor. The default alpha value is 255.
@@ -129,4 +129,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_COLOR_HPP
+#endif // INCLUDE_FIFECHAN_COLOR_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_VERSION_HPP
-#define FCN_VERSION_HPP
+#ifndef INCLUDE_FIFECHAN_VERSION_HPP_
+#define INCLUDE_FIFECHAN_VERSION_HPP_
 
 /** These version numbers should be checked and updated
  * as part of the release process for Fifechan.
@@ -130,4 +130,4 @@ namespace fcn
 #undef FCN_PRERELEASE
 #undef FCN_PRERELEASE_STR
 
-#endif // FCN_VERSION_HPP
+#endif // INCLUDE_FIFECHAN_VERSION_HPP_

@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DEFAULTFONT_HPP
-#define FCN_DEFAULTFONT_HPP
+#ifndef INCLUDE_FIFECHAN_DEFAULTFONT_HPP_
+#define INCLUDE_FIFECHAN_DEFAULTFONT_HPP_
+
+#include <string>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
@@ -18,9 +20,6 @@ namespace fcn
     class FIFEGUI_API DefaultFont : public Font
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~DefaultFont() = default;
 
         /**
@@ -51,4 +50,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DEFAULTFONT_HPP
+#endif // INCLUDE_FIFECHAN_DEFAULTFONT_HPP_

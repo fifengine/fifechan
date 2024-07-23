@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_FOCUSHANDLER_HPP
-#define FCN_FOCUSHANDLER_HPP
+#ifndef INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
+#define INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
 
 #include <vector>
 
@@ -31,14 +31,8 @@ namespace fcn
     class FIFEGUI_API FocusHandler
     {
     public:
-        /**
-         * Constructor.
-         */
         FocusHandler();
 
-        /**
-         * Destructor.
-         */
         virtual ~FocusHandler() = default;
 
         /**
@@ -360,4 +354,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_FOCUSHANDLER_HPP
+#endif // INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_

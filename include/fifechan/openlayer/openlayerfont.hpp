@@ -2,13 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYERFONT_HPP
-#define FCN_OPENLAYERFONT_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERFONT_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERFONT_HPP_
 
 #include <OpenLayer.hpp>
+
 #if defined(DELETE)
 #    undef DELETE
 #endif
+#include <string>
+
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
 
@@ -38,9 +41,6 @@ namespace fcn
          */
         OpenLayerTTFont(std::string const & filename, int width, int height);
 
-        /**
-         * Destructor.
-         */
         ~OpenLayerTTFont();
 
         // Inherited from Font
@@ -56,4 +56,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_OPENLAYERFONT_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERFONT_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CURVEGRAPH_HPP
-#define FCN_CURVEGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
@@ -15,16 +15,11 @@ namespace fcn
     class FIFEGUI_API CurveGraph : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         CurveGraph();
-        CurveGraph(PointVector const & data);
 
-        /**
-         * Destructor.
-         */
-        virtual ~CurveGraph(){};
+        explicit CurveGraph(PointVector const & data);
+
+        virtual ~CurveGraph() { }
 
         void setPointVector(PointVector const & data);
         PointVector const & getPointVector() const;
@@ -75,4 +70,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_CURVEGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_MOUSEINPUT_HPP
-#define FCN_MOUSEINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_MOUSEINPUT_HPP_
+#define INCLUDE_FIFECHAN_MOUSEINPUT_HPP_
 
 #include "fifechan/platform.hpp"
 
@@ -18,9 +18,6 @@ namespace fcn
     class FIFEGUI_API MouseInput
     {
     public:
-        /**
-         * Constructor.
-         */
         MouseInput() = default;
 
         /**
@@ -178,4 +175,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_MOUSEINPUT_HPP
+#endif // INCLUDE_FIFECHAN_MOUSEINPUT_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_WINDOW_HPP
-#define FCN_WINDOW_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_WINDOW_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_WINDOW_HPP_
 
 #include <string>
 
@@ -19,9 +19,6 @@ namespace fcn
     class FIFEGUI_API Window : public Container, public MouseListener
     {
     public:
-        /**
-         * Constructor.
-         */
         Window();
 
         /**
@@ -30,11 +27,8 @@ namespace fcn
          *
          * @param caption the caption of the window.
          */
-        Window(std::string const & caption);
+        explicit Window(std::string const & caption);
 
-        /**
-         * Destructor.
-         */
         virtual ~Window();
 
         /**
@@ -195,4 +189,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_WINDOW_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_WINDOW_HPP_

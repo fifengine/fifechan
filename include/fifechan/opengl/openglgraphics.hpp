@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENGLGRAPHICS_HPP
-#define FCN_OPENGLGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_OPENGL_OPENGLGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_OPENGL_OPENGLGRAPHICS_HPP_
 
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
@@ -36,9 +36,6 @@ namespace fcn
          */
         OpenGLGraphics(int width, int height);
 
-        /**
-         * Destructor.
-         */
         virtual ~OpenGLGraphics();
 
         /**
@@ -110,4 +107,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENGLGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_OPENGL_OPENGLGRAPHICS_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SDLGRAPHICS_HPP
-#define FCN_SDLGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_SDL_SDLGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_SDL_SDLGRAPHICS_HPP_
 
 #include <SDL2/SDL.h>
 
@@ -104,4 +104,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_SDLGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_SDL_SDLGRAPHICS_HPP_

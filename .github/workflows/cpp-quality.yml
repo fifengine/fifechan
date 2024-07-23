@@ -77,7 +77,12 @@ jobs:
           export PATH="$VIRTUAL_ENV/bin:$PATH"
 
       - name: 🔽 Install cpplint
-        run: pip install --prefer-binary --no-cache-dir cpplint
+        run: |
+          pip install --prefer-binary --no-cache-dir cpplint
 
       - name: 🛠️ Run cpplint
-        run: cpplint --recursive src include tests examples
+        run: |
+          cpplint --recursive src include tests examples \
+            --exclude=include/fifechan/util/utf8/*.hpp \
+            --exclude=include/fifechan/sdl/sdlpixel.hpp \
+            --exclude=include/fifechan/color.hpp

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SLIDER_HPP
-#define FCN_SLIDER_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_SLIDER_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_SLIDER_HPP_
 
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouselistener.hpp"
@@ -37,7 +37,7 @@ namespace fcn
          *
          * @param scaleEnd The end value of the slider scale.
          */
-        Slider(double scaleEnd = 1.0);
+        explicit Slider(double scaleEnd = 1.0);
 
         /**
          * Constructor.
@@ -47,9 +47,6 @@ namespace fcn
          */
         Slider(double scaleStart, double scaleEnd);
 
-        /**
-         * Destructor.
-         */
         virtual ~Slider() { }
 
         /**
@@ -255,4 +252,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_SLIDER_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_SLIDER_HPP_

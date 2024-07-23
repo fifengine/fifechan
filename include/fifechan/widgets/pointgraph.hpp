@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_POINTGRAPH_HPP
-#define FCN_POINTGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
@@ -19,12 +19,9 @@ namespace fcn
          * Default constructor.
          */
         PointGraph();
-        PointGraph(PointVector const & data);
+        explicit PointGraph(PointVector const & data);
 
-        /**
-         * Destructor.
-         */
-        virtual ~PointGraph(){};
+        virtual ~PointGraph() { }
 
         void setPointVector(PointVector const & data);
         PointVector const & getPointVector() const;
@@ -57,4 +54,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_POINTGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CAIROIMAGE_HPP
-#define FCN_CAIROIMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_CAIRO_CAIROIMAGE_HPP_
+#define INCLUDE_FIFECHAN_CAIRO_CAIROIMAGE_HPP_
 
 #include <string>
 
@@ -24,11 +24,8 @@ namespace fcn
         friend class CairoGraphics;
 
     public:
-        CairoImage(cairo_surface_t* surface);
+        explicit CairoImage(cairo_surface_t* surface);
 
-        /**
-         * Destructor.
-         */
         virtual ~CairoImage();
 
         /**
@@ -51,13 +48,13 @@ namespace fcn
         virtual void convertToDisplayFormat();
 
     private:
-        unsigned long PrecomputeAlpha(Color const & color);
-        unsigned long GetRGB(Color const & color);
-        Color GetColorFromRGB(unsigned long color);
-        Color GetColorFromARGB(unsigned long color);
+        std::int64_t PrecomputeAlpha(Color const & color);
+        std::int64_t GetRGB(Color const & color);
+        Color GetColorFromRGB(std::int64_t color);
+        Color GetColorFromARGB(std::int64_t color);
         cairo_surface_t* mCairoSurface;
         bool mFinished;
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_CAIRO_CAIROIMAGE_HPP_

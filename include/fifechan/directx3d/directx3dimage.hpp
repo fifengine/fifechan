@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DIRECTX3DIMAGE_HPP
-#define FCN_DIRECTX3DIMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGE_HPP_
+#define INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGE_HPP_
 
 #include <string>
 
@@ -30,9 +30,6 @@ namespace fcn
          */
         DirectX3DImage(LPDIRECT3DSURFACE9 surface, LPDIRECT3DDEVICE9 device, int width, int height, bool autoFree);
 
-        /**
-         * Destructor.
-         */
         virtual ~DirectX3DImage();
 
         /**
@@ -116,4 +113,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DIRECTX3DIMAGE_HPP
+#endif // INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGE_HPP_

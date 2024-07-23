@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYERIMAGE_HPP
-#define FCN_OPENLAYERIMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGE_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGE_HPP_
 
 #include <OpenLayer.hpp>
 #if defined(DELETE)
@@ -29,11 +29,8 @@ namespace fcn
          * @param bitmap the bitmap from which to load.
          * @param autoFree true if the bitmap should automatically be deleted.
          */
-        OpenLayerImage(BITMAP* bitmap, bool autoFree = true);
+        explicit OpenLayerImage(BITMAP* bitmap, bool autoFree = true);
 
-        /**
-         * Destructor.
-         */
         virtual ~OpenLayerImage();
 
         /**
@@ -64,4 +61,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENLAYERIMAGE_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGE_HPP_

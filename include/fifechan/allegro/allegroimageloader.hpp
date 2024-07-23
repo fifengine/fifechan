@@ -2,10 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ALLEGROIMAGELOADER_HPP
-#define FCN_ALLEGROIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_ALLEGRO_ALLEGROIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_ALLEGRO_ALLEGROIMAGELOADER_HPP_
 
 #include <allegro.h>
+
+#include <string>
 
 #include "fifechan/image.hpp"
 #include "fifechan/imageloader.hpp"
@@ -29,4 +31,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_ALLEGROIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_ALLEGRO_ALLEGROIMAGELOADER_HPP_

@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_HGEIMAGELOADER_HPP
-#define FCN_HGEIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_HGE_HGEIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_HGE_HGEIMAGELOADER_HPP_
+
+#include <string>
 
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
@@ -20,14 +22,8 @@ namespace fcn
     class FIFEGUI_EXT_API HGEImageLoader : public ImageLoader
     {
     public:
-        /**
-         * Constructor.
-         */
         HGEImageLoader();
 
-        /**
-         * Destructor.
-         */
         ~HGEImageLoader();
 
         /**
@@ -54,4 +50,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_HGEIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_HGE_HGEIMAGELOADER_HPP_

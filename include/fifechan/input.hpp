@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_INPUT_HPP
-#define FCN_INPUT_HPP
+#ifndef INCLUDE_FIFECHAN_INPUT_HPP_
+#define INCLUDE_FIFECHAN_INPUT_HPP_
 
 #include "fifechan/platform.hpp"
 
@@ -27,9 +27,6 @@ namespace fcn
     class FIFEGUI_API Input
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~Input() = default;
 
         /**
@@ -72,4 +69,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_INPUT_HPP
+#endif // INCLUDE_FIFECHAN_INPUT_HPP_

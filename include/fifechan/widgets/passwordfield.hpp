@@ -2,10 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_PASSWORDFIELD_HPP
-#define FCN_PASSWORDFIELD_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
 
 #include <fifechan/widgets/textfield.hpp>
+
+#include <string>
 
 namespace fcn
 {
@@ -22,7 +24,7 @@ namespace fcn
          *
          * @param text Initializes password field's text.
          */
-        PasswordField(std::string const & text = "");
+        explicit PasswordField(std::string const & text = "");
 
         ~PasswordField();
 
@@ -53,4 +55,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_PASSWORDFIELD_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_

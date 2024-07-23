@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DIRECTX3DGRAPHICS_HPP
-#define FCN_DIRECTX3DGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DGRAPHICS_HPP_
 
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
@@ -26,7 +26,7 @@ namespace fcn
          *
          * @param device The D3D device to use when drawing.
          */
-        DirectX3DGraphics(LPDIRECT3DDEVICE9 device);
+        explicit DirectX3DGraphics(LPDIRECT3DDEVICE9 device);
 
         /**
          * Constructor.
@@ -39,9 +39,6 @@ namespace fcn
          */
         DirectX3DGraphics(LPDIRECT3DDEVICE9 device, int width, int height);
 
-        /**
-         * Destructor.
-         */
         virtual ~DirectX3DGraphics();
 
         /**
@@ -153,4 +150,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DIRECTX3DGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DGRAPHICS_HPP_

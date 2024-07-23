@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_GENERICINPUT_HPP
-#define FCN_GENERICINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_GENERICINPUT_HPP_
+#define INCLUDE_FIFECHAN_GENERICINPUT_HPP_
 
 #include <queue>
 
@@ -23,9 +23,6 @@ namespace fcn
     class FIFEGUI_API GenericInput : public Input
     {
     public:
-        /**
-         * Constructor.
-         */
         GenericInput();
 
         /**
@@ -135,4 +132,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_INPUT_HPP
+#endif // INCLUDE_FIFECHAN_GENERICINPUT_HPP_

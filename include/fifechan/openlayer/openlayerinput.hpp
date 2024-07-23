@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYERINPUT_HPP
-#define FCN_OPENLAYERINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERINPUT_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERINPUT_HPP_
 
 #include <map>
 #include <queue>
@@ -21,14 +21,8 @@ namespace fcn
     class FIFEGUI_EXT_API OpenLayerInput : public Input
     {
     public:
-        /**
-         * Constructor.
-         */
         OpenLayerInput();
 
-        /**
-         * Destructor.
-         */
         virtual ~OpenLayerInput() { }
 
         // Inherited from Input
@@ -74,4 +68,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENLAYERINPUT_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERINPUT_HPP_

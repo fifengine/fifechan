@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_RADIOBUTTON_HPP
-#define FCN_RADIOBUTTON_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_RADIOBUTTON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_RADIOBUTTON_HPP_
 
 #include <map>
 #include <string>
@@ -26,9 +26,6 @@ namespace fcn
     class FIFEGUI_API RadioButton : public fcn::CheckBox
     {
     public:
-        /**
-         * Constructor.
-         */
         RadioButton();
 
         /**
@@ -41,9 +38,6 @@ namespace fcn
          */
         RadioButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        /**
-         * Destructor.
-         */
         virtual ~RadioButton();
 
         /**
@@ -92,4 +86,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_RADIOBUTTON_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_RADIOBUTTON_HPP_

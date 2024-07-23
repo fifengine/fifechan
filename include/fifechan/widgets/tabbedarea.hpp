@@ -2,11 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TABBEDAREA_HPP
-#define FCN_TABBEDAREA_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_
 
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "fifechan/actionlistener.hpp"
@@ -30,14 +31,8 @@ namespace fcn
         friend class Tab;
 
     public:
-        /**
-         * Constructor.
-         */
         TabbedArea();
 
-        /**
-         * Destructor.
-         */
         virtual ~TabbedArea();
 
         /**
@@ -301,4 +296,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_TABBEDAREA_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_

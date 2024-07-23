@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ADJUSTINGCONTAINER_HPP
-#define FCN_ADJUSTINGCONTAINER_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_ADJUSTINGCONTAINER_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_ADJUSTINGCONTAINER_HPP_
 
 #include <vector>
 
@@ -79,14 +79,8 @@ namespace fcn
     class FIFEGUI_API AdjustingContainer : public Container
     {
     public:
-        /**
-         * Constructor.
-         */
         AdjustingContainer();
 
-        /**
-         * Destructor.
-         */
         virtual ~AdjustingContainer();
 
         /**
@@ -175,4 +169,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_WIDGETS_ADJUSTINGCONTAINER_HPP_

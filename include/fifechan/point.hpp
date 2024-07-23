@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_POINT_H
-#define FCN_POINT_H
+#ifndef INCLUDE_FIFECHAN_POINT_HPP_
+#define INCLUDE_FIFECHAN_POINT_HPP_
 
 #include <cassert>
 #include <iostream>
@@ -116,7 +116,7 @@ namespace fcn
         {
             int invLength = static_cast<int>(1.0 / length());
 
-            // TODO: get rid of this static cast
+            // TODO(someone): get rid of this static cast.
             if (invLength > static_cast<int>(Mathf::zeroTolerance())) {
                 x = x * invLength;
                 y = y * invLength;
@@ -130,7 +130,7 @@ namespace fcn
          */
         void rotate(int angle)
         {
-            // TODO: get rid of this static cast
+            // TODO(someone): get rid of this static cast.
             int theta    = (angle * static_cast<int>(Mathd::pi())) / 180;
             int costheta = static_cast<int>(Mathd::Cos(theta));
             int sintheta = static_cast<int>(Mathd::Sin(theta));
@@ -146,7 +146,7 @@ namespace fcn
          */
         void rotate(Point const & origin, int angle)
         {
-            // TODO: get rid of this static cast
+            // TODO(someone): get rid of this static cast.
             int theta    = (angle * static_cast<int>(Mathd::pi())) / 180;
             int costheta = static_cast<int>(Mathd::Cos(theta));
             int sintheta = static_cast<int>(Mathd::Sin(theta));
@@ -181,4 +181,4 @@ namespace fcn
     using PointVector = std::vector<Point>;
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_POINT_HPP_

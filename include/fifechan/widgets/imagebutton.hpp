@@ -2,9 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGEBUTTON_HPP
-#define FCN_IMAGEBUTTON_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 
+#include <string>
 #include <vector>
 
 #include "fifechan/platform.hpp"
@@ -28,9 +29,6 @@ namespace fcn
     class FIFEGUI_API ImageButton : public fcn::Button
     {
     public:
-        /**
-         * Default constructor.
-         */
         ImageButton();
 
         /**
@@ -38,19 +36,16 @@ namespace fcn
          *
          * @param filename The filename of the up image to display.
          */
-        ImageButton(std::string const & filename);
+        explicit ImageButton(std::string const & filename);
 
         /**
          * Constructor.
+         * Existing Images are freed automatically, if they were loaded internally.
          *
          * @param image The up image to display.
          */
-        ImageButton(Image const * image);
+        explicit ImageButton(Image const * image);
 
-        /**
-         * Destructor.
-         * Existing Images are freed automatically, if they were loaded internally.
-         */
         virtual ~ImageButton();
 
         /**
@@ -225,4 +220,5 @@ namespace fcn
         std::vector<bool> mInternalImages;
     };
 } // namespace fcn
-#endif
+
+#endif // INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_

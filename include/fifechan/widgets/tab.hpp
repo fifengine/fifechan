@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TAB_HPP
-#define FCN_TAB_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TAB_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TAB_HPP_
 
 #include <map>
 #include <string>
@@ -24,14 +24,8 @@ namespace fcn
     class FIFEGUI_API Tab : public MouseListener, public Container
     {
     public:
-        /**
-         * Constructor.
-         */
         Tab();
 
-        /**
-         * Destructor.
-         */
         virtual ~Tab();
 
         /**
@@ -81,4 +75,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_TABBEDAREA_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TAB_HPP_

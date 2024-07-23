@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_MATH_H
-#define FCN_MATH_H
+#ifndef INCLUDE_FIFECHAN_MATH_HPP_
+#define INCLUDE_FIFECHAN_MATH_HPP_
 
 #include <cassert>
 #include <cmath>
@@ -424,4 +424,4 @@ namespace fcn
     }
 } // namespace fcn
 
-#endif // FCN_MATH_H
+#endif // INCLUDE_FIFECHAN_MATH_HPP_

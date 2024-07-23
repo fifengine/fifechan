@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CAIROGRAPHICS_HPP
-#define FCN_CAIROGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_CAIRO_CAIROGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_CAIRO_CAIROGRAPHICS_HPP_
 
 #include "cairo.h"
 #include "fifechan/color.hpp"
@@ -32,10 +32,6 @@ namespace fcn
          * be any surface type (png, Xlib, Win32).
          */
         CairoGraphics(cairo_surface_t* TargetSurface, int Width, int Height);
-
-        /**
-         * Destructor.
-         */
 
         virtual ~CairoGraphics();
 
@@ -83,4 +79,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_CAIRO_CAIROGRAPHICS_HPP_

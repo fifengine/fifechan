@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DIRECTX3DIMAGELOADER_HPP
-#define FCN_DIRECTX3DIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGELOADER_HPP_
+
+#include <string>
 
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
@@ -24,7 +26,7 @@ namespace fcn
          *
          * @param device The D3D device to use when loading images.
          */
-        DirectX3DImageLoader(LPDIRECT3DDEVICE9 device);
+        explicit DirectX3DImageLoader(LPDIRECT3DDEVICE9 device);
 
         /**
          * Sets the D3D device to use when loading images.
@@ -45,4 +47,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DIRECTX3DIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_DIRECTX3D_DIRECTX3DIMAGELOADER_HPP_

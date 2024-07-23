@@ -342,4 +342,4 @@ namespace utf8
     }
 } // namespace utf8
 
-#endif // header guard
+#endif // INCLUDE_FIFECHAN_UTIL_UTF8_UTF8_CORE_HPP_

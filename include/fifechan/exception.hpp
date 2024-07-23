@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_EXCEPTION_HPP
-#define FCN_EXCEPTION_HPP
+#ifndef INCLUDE_FIFECHAN_EXCEPTION_HPP_
+#define INCLUDE_FIFECHAN_EXCEPTION_HPP_
 
 #include <stdexcept>
 #include <string>
@@ -109,4 +109,4 @@ namespace fcn
     }
 } // namespace fcn
 
-#endif // end FCN_EXCEPTION_HPP
+#endif // INCLUDE_FIFECHAN_EXCEPTION_HPP_

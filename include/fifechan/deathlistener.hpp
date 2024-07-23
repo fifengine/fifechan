@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DEATHLISTENER_HPP
-#define FCN_DEATHLISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_DEATHLISTENER_HPP_
+#define INCLUDE_FIFECHAN_DEATHLISTENER_HPP_
 
 #include <string>
 
@@ -20,9 +20,6 @@ namespace fcn
     class FIFEGUI_API DeathListener
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~DeathListener() = default;
 
         /**
@@ -44,4 +41,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DEATHLISTENER_HPP
+#endif // INCLUDE_FIFECHAN_DEATHLISTENER_HPP_

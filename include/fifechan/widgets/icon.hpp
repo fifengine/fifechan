@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ICON_HPP
-#define FCN_ICON_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
+
+#include <string>
 
 #include "fifechan/image.hpp"
 #include "fifechan/platform.hpp"
@@ -17,9 +19,6 @@ namespace fcn
     class FIFEGUI_API Icon : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         Icon();
 
         /**
@@ -27,14 +26,14 @@ namespace fcn
          *
          * @param filename The filename of the image to display.
          */
-        Icon(std::string const & filename);
+        explicit Icon(std::string const & filename);
 
         /**
          * Constructor.
          *
          * @param image The image to display.
          */
-        Icon(Image const * image);
+        explicit Icon(Image const * image);
 
         /**
          * Descructor.
@@ -134,4 +133,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_ICON_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_

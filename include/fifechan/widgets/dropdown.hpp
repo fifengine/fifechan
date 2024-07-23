@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_DROPDOWN_HPP
-#define FCN_DROPDOWN_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_
+
+#include <list>
 
 #include "fifechan/actionlistener.hpp"
 #include "fifechan/focushandler.hpp"
@@ -53,11 +55,8 @@ namespace fcn
          * @param listBox the listBox to use.
          * @see ListModel, ScrollArea, ListBox.
          */
-        DropDown(ListModel* listModel = nullptr, ScrollArea* scrollArea = nullptr, ListBox* listBox = nullptr);
+        explicit DropDown(ListModel* listModel = nullptr, ScrollArea* scrollArea = nullptr, ListBox* listBox = nullptr);
 
-        /**
-         * Destructor.
-         */
         virtual ~DropDown();
 
         /**
@@ -266,4 +265,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_DROPDOWN_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_

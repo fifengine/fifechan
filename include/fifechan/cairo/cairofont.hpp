@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CAIROFONT_HPP
-#define FCN_CAIROFONT_HPP
+#ifndef INCLUDE_FIFECHAN_CAIRO_CAIROFONT_HPP_
+#define INCLUDE_FIFECHAN_CAIRO_CAIROFONT_HPP_
+
+#include <string>
 
 #include "cairo.h"
 #include "fifechan/color.hpp"
@@ -24,11 +26,8 @@ namespace fcn
          *
          * @param fontface a Cairo scaled font face created with one of the font backends.
          */
-        CairoFont(cairo_scaled_font_t* fontface);
+        explicit CairoFont(cairo_scaled_font_t* fontface);
 
-        /**
-         * Destructor.
-         */
         ~CairoFont();
 
         // void SetFontFace(cairo_font_face_t* fontface);
@@ -51,4 +50,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_CAIRO_CAIROFONT_HPP_

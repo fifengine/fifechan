@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SDLIMAGE_HPP
-#define FCN_SDLIMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_SDL_SDLIMAGE_HPP_
+#define INCLUDE_FIFECHAN_SDL_SDLIMAGE_HPP_
 
 #include <SDL2/SDL.h>
 
@@ -32,9 +32,6 @@ namespace fcn
          */
         SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
 
-        /**
-         * Destructor.
-         */
         virtual ~SDLImage();
 
         /**
@@ -73,4 +70,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_SDLIMAGE_HPP
+#endif // INCLUDE_FIFECHAN_SDL_SDLIMAGE_HPP_

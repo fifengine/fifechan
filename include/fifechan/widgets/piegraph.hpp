@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
-#ifndef FCN_PIEGRAPH_HPP
-#define FCN_PIEGRAPH_HPP
+
+#ifndef INCLUDE_FIFECHAN_WIDGETS_PIEGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_PIEGRAPH_HPP_
+
+#include <vector>
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
@@ -14,16 +17,11 @@ namespace fcn
     class FIFEGUI_API PieGraph : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         PieGraph();
-        PieGraph(Point const & center);
 
-        /**
-         * Destructor.
-         */
-        virtual ~PieGraph(){};
+        explicit PieGraph(Point const & center);
+
+        virtual ~PieGraph() { }
 
         void setCenterX(int x);
         void setCenterY(int y);
@@ -72,4 +70,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_PieGraph_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_PIEGRAPH_HPP_

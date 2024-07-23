@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SIZE_HPP
-#define FCN_SIZE_HPP
+#ifndef INCLUDE_FIFECHAN_SIZE_HPP_
+#define INCLUDE_FIFECHAN_SIZE_HPP_
 
 #include "fifechan/platform.hpp"
 
@@ -54,4 +54,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_SIZE_HPP_

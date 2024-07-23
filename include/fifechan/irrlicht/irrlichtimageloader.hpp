@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IRRLICHTIMAGELOADER_HPP
-#define FCN_IRRLICHTIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTIMAGELOADER_HPP_
+
+#include <string>
 
 #include "fifechan/imageloader.hpp"
 #include "fifechan/platform.hpp"
@@ -24,11 +26,8 @@ namespace fcn
          *
          * @param device The Irrlicht IVideoDriver device to use when loading images.
          */
-        IrrlichtImageLoader(irr::video::IVideoDriver* driver);
+        explicit IrrlichtImageLoader(irr::video::IVideoDriver* driver);
 
-        /**
-         * Destructor.
-         */
         ~IrrlichtImageLoader();
 
         // Inherited from ImageLoader
@@ -43,4 +42,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_IRRLICHTIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTIMAGELOADER_HPP_

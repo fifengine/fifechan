@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_FOCUSLISTENER_HPP
-#define FCN_FOCUSLISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_
+#define INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_
 
 #include <string>
 
@@ -20,9 +20,6 @@ namespace fcn
     class FIFEGUI_API FocusListener
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~FocusListener() = default;
 
         /**
@@ -30,14 +27,14 @@ namespace fcn
          *
          * @param event Discribes the event.
          */
-        virtual void focusGained(Event const & event){};
+        virtual void focusGained(Event const & event) { }
 
         /**
          * Called when a widget loses focus.
          *
          * @param event Discribes the event.
          */
-        virtual void focusLost(Event const & event){};
+        virtual void focusLost(Event const & event) { }
 
     protected:
         /**
@@ -50,4 +47,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_FOCUSLISTENER_HPP
+#endif // INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_

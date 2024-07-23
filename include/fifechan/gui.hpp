@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_GUI_HPP
-#define FCN_GUI_HPP
+#ifndef INCLUDE_FIFECHAN_GUI_HPP_
+#define INCLUDE_FIFECHAN_GUI_HPP_
 
 #include <algorithm>
 #include <iterator>
@@ -59,14 +59,8 @@ namespace fcn
     class FIFEGUI_API Gui
     {
     public:
-        /**
-         * Constructor.
-         */
         Gui();
 
-        /**
-         * Destructor.
-         */
         virtual ~Gui();
 
         /**
@@ -506,4 +500,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_GUI_HPP
+#endif // INCLUDE_FIFECHAN_GUI_HPP_

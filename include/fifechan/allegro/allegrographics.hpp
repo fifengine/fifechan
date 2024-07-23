@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_ALLEGROGRAPHICS_HPP
-#define FCN_ALLEGROGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGRAPHICS_HPP_
 
 #include <allegro.h>
 
@@ -34,11 +34,8 @@ namespace fcn
          *
          * @param target the target to draw to.
          */
-        AllegroGraphics(BITMAP* target);
+        explicit AllegroGraphics(BITMAP* target);
 
-        /**
-         * Destructor.
-         */
         virtual ~AllegroGraphics();
 
         /**
@@ -105,4 +102,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_ALLEGROGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGRAPHICS_HPP_

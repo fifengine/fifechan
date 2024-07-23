@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_VISIBILITYEVENTHANDLER_HPP
-#define FCN_VISIBILITYEVENTHANDLER_HPP
+#ifndef INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
+#define INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
 
 #include "fifechan/widgetlistener.hpp"
 
@@ -20,14 +20,8 @@ namespace fcn
     class FIFEGUI_API VisibilityEventHandler : public WidgetListener
     {
     public:
-        /**
-         * Constructor
-         */
         explicit VisibilityEventHandler(Gui* gui);
 
-        /**
-         * Destructor
-         */
         ~VisibilityEventHandler() = default;
 
         /**
@@ -45,4 +39,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_VISIBILITYEVENTHANDLER_HPP
+#endif // INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_

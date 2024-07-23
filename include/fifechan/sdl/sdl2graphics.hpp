@@ -3,8 +3,8 @@
 // SPDX-FileCopyrightText: 2016, 2018, 2019 Gwilherm Baudic
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SDL2GRAPHICS_HPP
-#define FCN_SDL2GRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_SDL_SDL2GRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_SDL_SDL2GRAPHICS_HPP_
 
 #include <SDL2/SDL.h>
 
@@ -26,14 +26,8 @@ namespace fcn
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
-        /**
-         * Constructor.
-         */
         SDL2Graphics();
 
-        /**
-         * Destructor.
-         */
         ~SDL2Graphics();
 
         /**
@@ -135,4 +129,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_SDL2GRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_SDL_SDL2GRAPHICS_HPP_

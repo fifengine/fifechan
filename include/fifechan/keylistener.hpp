@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_KEYLISTENER_HPP
-#define FCN_KEYLISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_KEYLISTENER_HPP_
+#define INCLUDE_FIFECHAN_KEYLISTENER_HPP_
 
 #include "fifechan/keyevent.hpp"
 #include "fifechan/platform.hpp"
@@ -20,9 +20,6 @@ namespace fcn
     class FIFEGUI_API KeyListener
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~KeyListener() = default;
 
         /**
@@ -52,4 +49,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_KEYLISTENER_HPP
+#endif // INCLUDE_FIFECHAN_KEYLISTENER_HPP_

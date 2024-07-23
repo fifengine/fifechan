@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_HGEGRAPHICS_HPP
-#define FCN_HGEGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_HGE_HGEGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_HGE_HGEGRAPHICS_HPP_
 
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
@@ -20,14 +20,8 @@ namespace fcn
     class FIFEGUI_EXT_API HGEGraphics : public Graphics
     {
     public:
-        /**
-         * Constructor.
-         */
         HGEGraphics();
 
-        /**
-         * Destructor.
-         */
         ~HGEGraphics();
 
         // Inherited from Graphics
@@ -64,4 +58,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_HGEGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_HGE_HGEGRAPHICS_HPP_

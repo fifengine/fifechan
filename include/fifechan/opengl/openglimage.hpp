@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENGLIMAGE_HPP
-#define FCN_OPENGLIMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_OPENGL_OPENGLIMAGE_HPP_
+#define INCLUDE_FIFECHAN_OPENGL_OPENGLIMAGE_HPP_
 
 #if defined(_WIN32)
 #    include <windows.h>
@@ -60,9 +60,6 @@ namespace fcn
          */
         OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree);
 
-        /**
-         * Destructor.
-         */
         virtual ~OpenGLImage();
 
         /**
@@ -112,4 +109,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENGLIMAGE_HPP
+#endif // INCLUDE_FIFECHAN_OPENGL_OPENGLIMAGE_HPP_

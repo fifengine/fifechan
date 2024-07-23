@@ -2,11 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_GRAPHICS_HPP
-#define FCN_GRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_GRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_GRAPHICS_HPP_
 
 #include <iosfwd>
 #include <stack>
+#include <string>
 
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/platform.hpp"
@@ -65,14 +66,8 @@ namespace fcn
             Right
         };
 
-        /**
-         * Constructor.
-         */
         Graphics();
 
-        /**
-         * Destructor.
-         */
         virtual ~Graphics() = default;
 
         /**
@@ -342,4 +337,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_GRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_GRAPHICS_HPP_

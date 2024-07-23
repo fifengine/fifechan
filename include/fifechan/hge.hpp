@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_HGE_HPP
-#define FCN_HGE_HPP
+#ifndef INCLUDE_FIFECHAN_HGE_HPP_
+#define INCLUDE_FIFECHAN_HGE_HPP_
 
 #include <fifechan/hge/hgegraphics.hpp>
 #include <fifechan/hge/hgeimage.hpp>
@@ -11,4 +11,4 @@
 #include <fifechan/hge/hgeimageloader.hpp>
 #include <fifechan/hge/hgeinput.hpp>
 
-#endif // end FCN_HGE_HPP
+#endif // INCLUDE_FIFECHAN_HGE_HPP_

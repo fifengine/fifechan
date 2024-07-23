@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYER_HPP
-#define FCN_OPENLAYER_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_HPP_
 
 #include <fifechan/openlayer/openlayerfont.hpp>
 #include <fifechan/openlayer/openlayergraphics.hpp>
@@ -12,4 +12,4 @@
 
 #include "platform.hpp"
 
-#endif // end FCN_OPENLAYER_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_HPP_

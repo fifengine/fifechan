@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SCROLLAREA_HPP
-#define FCN_SCROLLAREA_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
 
 #include <string>
 
@@ -37,9 +37,6 @@ namespace fcn
             ShowAuto
         };
 
-        /**
-         * Constructor.
-         */
         ScrollArea();
 
         /**
@@ -47,7 +44,7 @@ namespace fcn
          *
          * @param content The content of the scroll area.
          */
-        ScrollArea(Widget* content);
+        explicit ScrollArea(Widget* content);
 
         /**
          * Constructor.
@@ -60,9 +57,6 @@ namespace fcn
          */
         ScrollArea(Widget* content, ScrollPolicy hPolicy, ScrollPolicy vPolicy);
 
-        /**
-         * Destructor.
-         */
         virtual ~ScrollArea();
 
         /**
@@ -550,4 +544,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_SCROLLAREA_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_

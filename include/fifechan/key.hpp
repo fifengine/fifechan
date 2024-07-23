@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
-#ifndef FCN_KEY_HPP
-#define FCN_KEY_HPP
+#ifndef INCLUDE_FIFECHAN_KEY_HPP_
+#define INCLUDE_FIFECHAN_KEY_HPP_
 
 #include "fifechan/platform.hpp"
 
@@ -133,4 +133,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_KEY_HPP
+#endif // INCLUDE_FIFECHAN_KEY_HPP_

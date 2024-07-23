@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TEXTFIELD_HPP
-#define FCN_TEXTFIELD_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
 
 #include <string>
 
@@ -23,9 +23,6 @@ namespace fcn
     class FIFEGUI_API TextField : public Widget, public MouseListener, public KeyListener
     {
     public:
-        /**
-         * Constructor.
-         */
         TextField();
 
         /**
@@ -34,11 +31,8 @@ namespace fcn
          *
          * @param text The default text of the text field.
          */
-        TextField(std::string const & text);
+        explicit TextField(std::string const & text);
 
-        /**
-         * Destructor.
-         */
         ~TextField();
 
         /**
@@ -159,4 +153,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_TEXTFIELD_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_

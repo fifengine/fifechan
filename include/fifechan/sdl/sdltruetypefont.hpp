@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CONTRIB_SDLTRUETYPEFONT_HPP
-#define FCN_CONTRIB_SDLTRUETYPEFONT_HPP
+#ifndef INCLUDE_FIFECHAN_SDL_SDLTRUETYPEFONT_HPP_
+#define INCLUDE_FIFECHAN_SDL_SDLTRUETYPEFONT_HPP_
 
 #include <SDL_ttf.h>
 
@@ -36,9 +36,6 @@ namespace fcn
          */
         SDLTrueTypeFont(std::string const & filename, int size);
 
-        /**
-         * Destructor.
-         */
         virtual ~SDLTrueTypeFont();
 
         /**
@@ -105,4 +102,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_SDL_SDLTRUETYPEFONT_HPP_

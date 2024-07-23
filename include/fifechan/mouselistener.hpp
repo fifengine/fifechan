@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_MOUSELISTENER_HPP
-#define FCN_MOUSELISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
+#define INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
 
 #include "fifechan/mouseevent.hpp"
 #include "fifechan/platform.hpp"
@@ -18,9 +18,6 @@ namespace fcn
     class FIFEGUI_API MouseListener
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~MouseListener() = default;
 
         /**
@@ -117,4 +114,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_MOUSELISTENER_HPP
+#endif // INCLUDE_FIFECHAN_MOUSELISTENER_HPP_

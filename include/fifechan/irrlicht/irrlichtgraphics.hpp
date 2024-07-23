@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IRRLICHTGRAPHICS_HPP
-#define FCN_IRRLICHTGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTGRAPHICS_HPP_
 
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
@@ -29,11 +29,8 @@ namespace fcn
          *
          * @param driver the Irrlicht video driver to draw to.
          */
-        IrrlichtGraphics(irr::video::IVideoDriver* driver);
+        explicit IrrlichtGraphics(irr::video::IVideoDriver* driver);
 
-        /**
-         * Destructor.
-         */
         ~IrrlichtGraphics();
 
         // Inherited from Graphics
@@ -66,4 +63,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_IRRLICHTGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTGRAPHICS_HPP_

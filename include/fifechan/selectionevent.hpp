@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SELECTIONEVENT_HPP
-#define FCN_SELECTIONEVENT_HPP
+#ifndef INCLUDE_FIFECHAN_SELECTIONEVENT_HPP_
+#define INCLUDE_FIFECHAN_SELECTIONEVENT_HPP_
 
 #include "fifechan/event.hpp"
 #include "fifechan/platform.hpp"
@@ -25,11 +25,8 @@ namespace fcn
          */
         explicit SelectionEvent(Widget* source);
 
-        /**
-         * Destructor.
-         */
         ~SelectionEvent() override;
     };
 } // namespace fcn
 
-#endif // end FCN_SELECTIONEVENT_HPP
+#endif // INCLUDE_FIFECHAN_SELECTIONEVENT_HPP_

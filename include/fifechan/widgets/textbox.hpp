@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TEXTBOX_HPP
-#define FCN_TEXTBOX_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TEXTBOX_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TEXTBOX_HPP_
 
 #include <ctime>
 #include <string>
@@ -30,7 +30,7 @@ namespace fcn
          *
          * @param text The default text of the text box.
          */
-        TextBox(std::string const & text = "");
+        explicit TextBox(std::string const & text = "");
 
         ~TextBox();
 
@@ -251,4 +251,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_TEXTBOX_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TEXTBOX_HPP_

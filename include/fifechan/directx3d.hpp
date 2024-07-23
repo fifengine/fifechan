@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_D3D_HPP
-#define FCN_D3D_HPP
+#ifndef INCLUDE_FIFECHAN_DIRECTX3D_HPP_
+#define INCLUDE_FIFECHAN_DIRECTX3D_HPP_
 
 #include <fifechan/directx3d/directx3dgraphics.hpp>
 #include <fifechan/directx3d/directx3dimage.hpp>
@@ -12,4 +12,4 @@
 
 #include "platform.hpp"
 
-#endif // end FCN_D3D_HPP
+#endif // INCLUDE_FIFECHAN_DIRECTX3D_HPP_

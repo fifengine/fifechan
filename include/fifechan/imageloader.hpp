@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGELOADER_HPP
-#define FCN_IMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_IMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_IMAGELOADER_HPP_
 
 #include <string>
 
@@ -34,9 +34,6 @@ namespace fcn
     class FIFEGUI_API ImageLoader
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~ImageLoader() = default;
 
         /**
@@ -54,4 +51,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_IMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_IMAGELOADER_HPP_

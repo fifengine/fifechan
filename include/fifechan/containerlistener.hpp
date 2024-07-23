@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CONTAINERLISTENER_HPP
-#define FCN_CONTAINERLISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_CONTAINERLISTENER_HPP_
+#define INCLUDE_FIFECHAN_CONTAINERLISTENER_HPP_
 
 #include "fifechan/containerevent.hpp"
 #include "fifechan/platform.hpp"
@@ -19,9 +19,6 @@ namespace fcn
     class FIFEGUI_API ContainerListener
     {
     public:
-        /**
-         * Destructor.
-         */
         virtual ~ContainerListener() { }
 
         /**
@@ -49,4 +46,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_ACTIONLISTENER_HPP
+#endif // INCLUDE_FIFECHAN_CONTAINERLISTENER_HPP_

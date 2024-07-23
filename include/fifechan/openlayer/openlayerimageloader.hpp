@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYERIMAGELOADER_HPP
-#define FCN_OPENLAYERIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGELOADER_HPP_
+
+#include <string>
 
 #include "fifechan/image.hpp"
 #include "fifechan/imageloader.hpp"
@@ -24,4 +26,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENLAYERIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERIMAGELOADER_HPP_

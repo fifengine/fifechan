@@ -2,11 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_GLUT_HPP
-#define FCN_GLUT_HPP
+#ifndef INCLUDE_FIFECHAN_GLUT_HPP_
+#define INCLUDE_FIFECHAN_GLUT_HPP_
 
 #include <fifechan/glut/glutinput.hpp>
 
 #include "platform.hpp"
 
-#endif // end FCN_GLUT_HPP
+#endif // INCLUDE_FIFECHAN_GLUT_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_BARGRAPH_HPP
-#define FCN_BARGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_BARGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_BARGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
@@ -15,16 +15,10 @@ namespace fcn
     class FIFEGUI_API BarGraph : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         BarGraph();
         BarGraph(int x, int y, int w, int h);
 
-        /**
-         * Destructor.
-         */
-        virtual ~BarGraph(){};
+        virtual ~BarGraph() { }
 
         void setBarX(int x);
         int getBarX() const;
@@ -61,4 +55,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_BARGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_BARGRAPH_HPP_

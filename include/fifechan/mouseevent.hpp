@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_MOUSEEVENT_HPP
-#define FCN_MOUSEEVENT_HPP
+#ifndef INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
+#define INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
 
 #include "fifechan/inputevent.hpp"
 #include "fifechan/platform.hpp"
@@ -161,4 +161,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_MOUSEEVENT_HPP
+#endif // INCLUDE_FIFECHAN_MOUSEEVENT_HPP_

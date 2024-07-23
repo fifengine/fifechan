@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGE_HPP
-#define FCN_IMAGE_HPP
+#ifndef INCLUDE_FIFECHAN_IMAGE_HPP_
+#define INCLUDE_FIFECHAN_IMAGE_HPP_
 
 #include <string>
 
@@ -30,14 +30,8 @@ namespace fcn
     class FIFEGUI_API Image
     {
     public:
-        /**
-         * Constructor.
-         */
         Image();
 
-        /**
-         * Destructor.
-         */
         virtual ~Image();
 
         /**
@@ -137,4 +131,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_IMAGE_HPP
+#endif // INCLUDE_FIFECHAN_IMAGE_HPP_

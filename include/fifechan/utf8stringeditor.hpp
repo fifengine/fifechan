@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_UTF8STRINGEDITOR_HPP
-#define FCN_UTF8STRINGEDITOR_HPP
+#ifndef INCLUDE_FIFECHAN_UTF8STRINGEDITOR_HPP_
+#define INCLUDE_FIFECHAN_UTF8STRINGEDITOR_HPP_
 
 // Standard C++ library includes
 #include <string>
@@ -81,4 +81,4 @@ namespace fcn
 
 }; // namespace fcn
 
-#endif // !FCN_UTF8STRINGEDITOR_HPP
+#endif // INCLUDE_FIFECHAN_UTF8STRINGEDITOR_HPP_

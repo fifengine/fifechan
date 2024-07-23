@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_RECTANGLE_HPP
-#define FCN_RECTANGLE_HPP
+#ifndef INCLUDE_FIFECHAN_RECTANGLE_HPP_
+#define INCLUDE_FIFECHAN_RECTANGLE_HPP_
 
 #include <iostream>
 
@@ -136,4 +136,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_RECTANGEL_HPP
+#endif // INCLUDE_FIFECHAN_RECTANGLE_HPP_

@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_KEYEVENT_HPP
-#define FCN_KEYEVENT_HPP
+#ifndef INCLUDE_FIFECHAN_KEYEVENT_HPP_
+#define INCLUDE_FIFECHAN_KEYEVENT_HPP_
 
 #include "fifechan/inputevent.hpp"
 #include "fifechan/key.hpp"
@@ -53,9 +53,6 @@ namespace fcn
             bool isNumericPad,
             Key const & key);
 
-        /**
-         * Destructor.
-         */
         ~KeyEvent() override;
 
         /**
@@ -99,4 +96,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_KEYEVENT_HPP
+#endif // INCLUDE_FIFECHAN_KEYEVENT_HPP_

@@ -12,8 +12,8 @@
 
 */
 
-#ifndef FCN_FIFECHAN_HPP
-#define FCN_FIFECHAN_HPP
+#ifndef INCLUDE_FIFECHAN_HPP_
+#define INCLUDE_FIFECHAN_HPP_
 
 #include <fifechan/widgets/adjustingcontainer.hpp>
 #include <fifechan/widgets/bargraph.hpp>
@@ -84,4 +84,4 @@
  */
 FIFEGUI_API extern char const * fcnFifechanVersion();
 
-#endif // end FCN_FIFECHAN_HPP
+#endif // INCLUDE_FIFECHAN_HPP_

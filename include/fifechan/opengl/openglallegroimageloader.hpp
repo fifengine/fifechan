@@ -2,14 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENGLALLEGROIMAGELOADER_HPP
-#define FCN_OPENGLALLEGROIMAGELOADER_HPP
+#ifndef INCLUDE_FIFECHAN_OPENGL_OPENGLALLEGROIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_OPENGL_OPENGLALLEGROIMAGELOADER_HPP_
 
 #include <allegro.h>
 
 #include <fifechan/exception.hpp>
 #include <fifechan/imageloader.hpp>
 #include <fifechan/opengl/openglimage.hpp>
+
+#include <string>
 
 #include <alleggl.h>
 
@@ -75,4 +77,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_OPENGLALLEGROIMAGELOADER_HPP
+#endif // INCLUDE_FIFECHAN_OPENGL_OPENGLALLEGROIMAGELOADER_HPP_

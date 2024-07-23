@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_HGEINPUT_HPP
-#define FCN_HGEINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_HGE_HGEINPUT_HPP_
+#define INCLUDE_FIFECHAN_HGE_HGEINPUT_HPP_
 
 #include <queue>
 
@@ -26,14 +26,8 @@ namespace fcn
     class FIFEGUI_EXT_API HGEInput : public Input
     {
     public:
-        /**
-         *  Constructor.
-         */
         HGEInput();
 
-        /**
-         *  Destructor.
-         */
         virtual ~HGEInput();
 
         // Inherited from Input
@@ -94,4 +88,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_HGEINPUT_HPP
+#endif // INCLUDE_FIFECHAN_HGE_HGEINPUT_HPP_

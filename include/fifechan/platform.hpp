@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_PLATFORM_HPP
-#define FCN_PLATFORM_HPP
+#ifndef INCLUDE_FIFECHAN_PLATFORM_HPP_
+#define INCLUDE_FIFECHAN_PLATFORM_HPP_
 // clang-format off
 
 // Check and defines for the operating system
@@ -128,4 +128,5 @@
 #endif
 
 // clang-format on
-#endif // end FCN_PLATFORM_HPP
+
+#endif // INCLUDE_FIFECHAN_PLATFORM_HPP_

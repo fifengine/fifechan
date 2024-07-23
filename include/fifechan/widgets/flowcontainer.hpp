@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_FLOWCONTAINER_HPP
-#define FCN_FLOWCONTAINER_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
 
 #include "fifechan/platform.hpp"
 #include "fifechan/widgets/container.hpp"
@@ -32,14 +32,8 @@ namespace fcn
             Center
         };
 
-        /**
-         * Constructor.
-         */
         FlowContainer();
 
-        /**
-         * Destructor.
-         */
         virtual ~FlowContainer();
 
         /**
@@ -76,4 +70,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_FLOWCONTAINER_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_

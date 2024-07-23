@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IRRLICHTINPUT_HPP
-#define FCN_IRRLICHTINPUT_HPP
+#ifndef INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTINPUT_HPP_
+#define INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTINPUT_HPP_
 
 #include <queue>
 
@@ -26,7 +26,7 @@ namespace fcn
         /**
          * Constructor.
          */
-        IrrlichtInput(irr::IrrlichtDevice* device);
+        explicit IrrlichtInput(irr::IrrlichtDevice* device);
 
         /**
          * Pushes an Irrlicht event. It should be called at least once per frame to
@@ -72,4 +72,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_IRRLICHTINPUT_HPP
+#endif // INCLUDE_FIFECHAN_IRRLICHT_IRRLICHTINPUT_HPP_

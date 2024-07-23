@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_EVENT_HPP
-#define FCN_EVENT_HPP
+#ifndef INCLUDE_FIFECHAN_EVENT_HPP_
+#define INCLUDE_FIFECHAN_EVENT_HPP_
 
 #include "fifechan/platform.hpp"
 
@@ -24,9 +24,6 @@ namespace fcn
          */
         explicit Event(Widget* source);
 
-        /**
-         * Destructor.
-         */
         virtual ~Event();
 
         /**
@@ -45,4 +42,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_EVENT_HPP
+#endif // INCLUDE_FIFECHAN_EVENT_HPP_

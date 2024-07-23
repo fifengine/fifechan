@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CLIPRECTANGLE_HPP
-#define FCN_CLIPRECTANGLE_HPP
+#ifndef INCLUDE_FIFECHAN_CLIPRECTANGLE_HPP_
+#define INCLUDE_FIFECHAN_CLIPRECTANGLE_HPP_
 
 #include "fifechan/platform.hpp"
 #include "fifechan/rectangle.hpp"
@@ -19,9 +19,6 @@ namespace fcn
     class FIFEGUI_API ClipRectangle : public Rectangle
     {
     public:
-        /**
-         * Constructor.
-         */
         ClipRectangle();
 
         /**
@@ -61,4 +58,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_CLIPRECTANGLE_HPP
+#endif // INCLUDE_FIFECHAN_CLIPRECTANGLE_HPP_

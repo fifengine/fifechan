@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CONTAINEREVENT_HPP
-#define FCN_CONTAINEREVENT_HPP
+#ifndef INCLUDE_FIFECHAN_CONTAINEREVENT_HPP_
+#define INCLUDE_FIFECHAN_CONTAINEREVENT_HPP_
 
 #include "fifechan/event.hpp"
 #include "fifechan/platform.hpp"
@@ -35,9 +35,6 @@ namespace fcn
          */
         ContainerEvent(Widget* source, Container* container);
 
-        /**
-         * Destructor.
-         */
         ~ContainerEvent() override;
 
         /**
@@ -55,4 +52,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_ACTIONEVENT_HPP
+#endif // INCLUDE_FIFECHAN_CONTAINEREVENT_HPP_

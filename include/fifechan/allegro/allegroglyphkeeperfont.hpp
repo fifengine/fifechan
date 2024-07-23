@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
-#define FCN_CONTRIB_ALLEGROTRUETYPEFONT_HPP
+#ifndef INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGLYPHKEEPERFONT_HPP_
+#define INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGLYPHKEEPERFONT_HPP_
+
+#include <string>
 
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
@@ -47,9 +49,6 @@ namespace fcn
          */
         AllegroGlyphKeeperFont(std::string const & filename, int width, int height);
 
-        /**
-         * Destructor.
-         */
         ~AllegroGlyphKeeperFont();
 
         // Inherited from Font
@@ -67,4 +66,5 @@ namespace fcn
         GLYPH_KEEP* mKeeper;
     };
 } // namespace fcn
-#endif
+
+#endif // INCLUDE_FIFECHAN_ALLEGRO_ALLEGROGLYPHKEEPERFONT_HPP_

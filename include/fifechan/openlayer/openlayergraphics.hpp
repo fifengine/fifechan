@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_OPENLAYERGRAPHICS_HPP
-#define FCN_OPENLAYERGRAPHICS_HPP
+#ifndef INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERGRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERGRAPHICS_HPP_
 
 #include <OpenLayer.hpp>
 #if defined(DELETE)
@@ -26,9 +26,6 @@ namespace fcn
         // Needed so that drawImage(fcn::Image *, int, int) is visible.
         using Graphics::drawImage;
 
-        /**
-         * Constructor.
-         */
         OpenLayerGraphics();
 
         /**
@@ -42,9 +39,6 @@ namespace fcn
          */
         OpenLayerGraphics(int width, int height);
 
-        /**
-         * Destructor.
-         */
         virtual ~OpenLayerGraphics();
 
         /**
@@ -90,4 +84,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // FCN_OPENLAYERGRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_OPENLAYER_OPENLAYERGRAPHICS_HPP_

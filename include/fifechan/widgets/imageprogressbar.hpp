@@ -2,11 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGEPROGRESSBAR_HPP
-#define FCN_IMAGEPROGRESSBAR_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
 
 #include <fifechan/widget.hpp>
 
+#include <string>
 #include <vector>
 
 namespace fcn
@@ -23,9 +24,6 @@ namespace fcn
             VERTICAL
         };
 
-        /**
-         * Default constructor.
-         */
         ImageProgressBar();
 
         /**
@@ -45,9 +43,6 @@ namespace fcn
          */
         ImageProgressBar(std::string const & filename, int maxValue);
 
-        /**
-         * Destructor.
-         */
         virtual ~ImageProgressBar();
 
         /**
@@ -178,4 +173,4 @@ namespace fcn
     };
 }; // namespace fcn
 
-#endif // FCN_IMAGEPROGRESSBAR_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_

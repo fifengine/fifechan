@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CHECKBOX_HPP
-#define FCN_CHECKBOX_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_CHECKBOX_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_CHECKBOX_HPP_
 
 #include <string>
 
@@ -37,9 +37,6 @@ namespace fcn
             Marker_Image
         };
 
-        /**
-         * Contructor.
-         */
         CheckBox();
 
         /**
@@ -49,11 +46,8 @@ namespace fcn
          * @param caption The caption of the check box.
          * @param marked True if the check box is selected, false otherwise.
          */
-        CheckBox(std::string const & caption, bool selected = false);
+        explicit CheckBox(std::string const & caption, bool selected = false);
 
-        /**
-         * Destructor.
-         */
         virtual ~CheckBox();
 
         /**
@@ -200,4 +194,4 @@ namespace fcn
     };
 } // namespace fcn
 
-#endif // end FCN_CHECKBOX_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_CHECKBOX_HPP_
