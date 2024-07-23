@@ -79,3 +79,5 @@ For Irrlicht support:
  irrlicht-1-633b25421b.clean/source/source/Irrlicht/CColorConverter.cpp:168:2: error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
   168 | register u32 c;
  ```
+
+For HGE support: hge - https://github.com/kvakvs/hge
