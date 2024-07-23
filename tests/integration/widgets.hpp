@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#ifndef TESTS_INTEGRATION_WIDGETS_HPP_
+#define TESTS_INTEGRATION_WIDGETS_HPP_
 
 #include <fifechan/gui.hpp>
 
@@ -187,3 +193,5 @@ namespace widgets
         delete tabTwoCheckBox;
     }
 } // namespace widgets
+
+#endif // TESTS_INTEGRATION_WIDGETS_HPP_

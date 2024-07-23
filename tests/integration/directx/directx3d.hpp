@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#ifndef TESTS_INTEGRATION_DIRECTX_DIRECTX3D_HPP_
+#define TESTS_INTEGRATION_DIRECTX_DIRECTX3D_HPP_
+
 /*
  * Code that sets up an DirectX application with Fifechan using the
  * Fifechan DirectX back end.
@@ -228,3 +235,5 @@ namespace directx3d
         }
     }
 } // namespace directx3d
+
+#endif // TESTS_INTEGRATION_DIRECTX_DIRECTX3D_HPP_

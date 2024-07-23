@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+#ifndef TESTS_INTEGRATION_IRRLICHT_IRRLICHT_HPP_
+#define TESTS_INTEGRATION_IRRLICHT_IRRLICHT_HPP_
 
 /*
  * Code that sets up an Irrlicht application with Fifechan using the
@@ -16,7 +21,7 @@ namespace irrlicht
     class MyEventReceiver : public irr::IEventReceiver
     {
     public:
-        MyEventReceiver(fcn::IrrlichtInput* input) : mInput(input) { }
+        explicit MyEventReceiver(fcn::IrrlichtInput* input) : mInput(input) { }
 
         bool OnEvent(irr::SEvent const & event)
         {
@@ -106,3 +111,5 @@ namespace irrlicht
         }
     }
 } // namespace irrlicht
+
+#endif // TESTS_INTEGRATION_IRRLICHT_IRRLICHT_HPP_

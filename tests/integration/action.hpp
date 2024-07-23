@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#ifndef TESTS_INTEGRATION_ACTION_HPP_
+#define TESTS_INTEGRATION_ACTION_HPP_
 
 /**
  * Code to populate a global Gui object with an example of how to
@@ -48,9 +54,9 @@ namespace action
                 label1->setCaption(os.str());
                 // Adjust the label to fit the new caption
                 label1->adjustSize();
-            }
-            // Here we use the event id in order to check what action occured.
-            else if (actionEvent.getId() == "button2") {
+            } else if (actionEvent.getId() == "button2") {
+                // Here we use the event id in order to check what action occured.
+
                 clickCountButton2++;
                 os << "Button2 clicks " << clickCountButton2;
                 // Change the caption to show number of clicks
@@ -129,3 +135,5 @@ namespace action
         delete top;
     }
 } // namespace action
+
+#endif // TESTS_INTEGRATION_ACTION_HPP_

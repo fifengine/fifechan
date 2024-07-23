@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#ifndef TESTS_INTEGRATION_OPENGL_ALLEGRO_OPENGLALLEGRO_HPP_
+#define TESTS_INTEGRATION_OPENGL_ALLEGRO_OPENGLALLEGRO_HPP_
+
 /*
  * Code that sets up an OpenGL application with Fifechan using the
  * Fifechan OpenGL back end and the Allegro back end (as OpenGL cannot
@@ -109,3 +116,5 @@ namespace openglallegro
         }
     }
 } // namespace openglallegro
+
+#endif // TESTS_INTEGRATION_OPENGL_ALLEGRO_OPENGLALLEGRO_HPP_

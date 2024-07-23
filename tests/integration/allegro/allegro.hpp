@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#ifndef TESTS_INTEGRATION_ALLEGRO_ALLEGRO_HPP_
+#define TESTS_INTEGRATION_ALLEGRO_ALLEGRO_HPP_
 
 /*
  * Code that sets up an Allegro application with Fifechan using the
@@ -111,3 +117,5 @@ namespace allegro
         }
     }
 } // namespace allegro
+
+#endif // TESTS_INTEGRATION_ALLEGRO_ALLEGRO_HPP_
