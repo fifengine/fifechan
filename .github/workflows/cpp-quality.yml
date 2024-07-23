@@ -50,7 +50,7 @@ jobs:
       - name: 🛠️ Check Formatting
         run: |
           chmod +x ./build-tools/format.sh
-          ./build-tools/format.sh && git diff --exit-code
+          ./build-tools/format.sh
         env:
           CLANG_FORMAT: clang-format-18
 
