@@ -46,15 +46,11 @@ jobs:
           chmod +x ./llvm.sh
           sudo ./llvm.sh 18
           sudo apt-get install -y clang-format-18
-
-      - name: 🧹 Clean Up
-        run: |
           rm llvm.sh
 
       - name: 🛠️ Check Formatting
         continue-on-error: true
         run: |
-          chmod +x ./build-tools/format.sh
           ./build-tools/format.sh
         env:
           CLANG_FORMAT: clang-format-18
