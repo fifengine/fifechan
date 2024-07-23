@@ -26,7 +26,7 @@ if [[ -z "$CI" && -z "$GITHUB_ACTION" ]]; then
 fi
 
 # then apply clang-format
-find . -type f \( -name "*.hpp" -o -name "*.cpp" \) -print0 | xargs -0 -I{} $CLANG_FORMAT -i -style=file {}
+find . -type f \( -name "*.hpp" -o -name "*.cpp" \) -print0 | xargs -0 $CLANG_FORMAT -i -style=file
 
 # In the CI context, we run `git diff --exit-code`.
 # After clang-format finishes, we check for changes with `git diff`.

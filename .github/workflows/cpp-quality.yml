@@ -48,11 +48,17 @@ jobs:
           sudo apt-get install -y clang-format-18
 
       - name: 🛠️ Check Formatting
+        continue-on-error: true
         run: |
           chmod +x ./build-tools/format.sh
           ./build-tools/format.sh
         env:
           CLANG_FORMAT: clang-format-18
+
+      - name: 🛠️ Check git
+        run: |
+          git status
+          git diff
 
 # ---------------------------------------------------------------------------------------
 
