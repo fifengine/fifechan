@@ -235,7 +235,7 @@ namespace fcn
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = (Uint8*)mTarget->pixels + y * mTarget->pitch + x1 * bpp;
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + y * mTarget->pitch + x1 * bpp;
 
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
         switch (bpp) {
@@ -246,7 +246,7 @@ namespace fcn
             break;
 
         case 2: {
-            Uint16* q = (Uint16*)p;
+            Uint16* q = reinterpret_cast<Uint16*>(p);
             for (; x1 <= x2; ++x1) {
                 *(q++) = pixel;
             }
@@ -271,10 +271,10 @@ namespace fcn
             break;
 
         case 4: {
-            Uint32* q = (Uint32*)p;
+            Uint32* q = reinterpret_cast<Uint32*>(p);
             for (; x1 <= x2; ++x1) {
                 if (mAlpha) {
-                    *q = SDLAlpha32(pixel, *q, mColor.a);
+                    *q = SDLBlendColor<Uint32>(pixel,*q,mColor.a,mTarget->format);
                     q++;
                 } else {
                     *(q++) = pixel;
@@ -334,7 +334,7 @@ namespace fcn
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = (Uint8*)mTarget->pixels + y1 * mTarget->pitch + x * bpp;
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + y1 * mTarget->pitch + x * bpp;
 
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
 
@@ -348,7 +348,7 @@ namespace fcn
 
         case 2:
             for (; y1 <= y2; ++y1) {
-                *(Uint16*)p = pixel;
+                *(reinterpret_cast<Uint16*>(p)) = pixel;
                 p += mTarget->pitch;
             }
             break;
@@ -374,9 +374,9 @@ namespace fcn
         case 4:
             for (; y1 <= y2; ++y1) {
                 if (mAlpha) {
-                    *(Uint32*)p = SDLAlpha32(pixel, *(Uint32*)p, mColor.a);
+                    *(reinterpret_cast<Uint32*>(p)) = SDLBlendColor<Uint32>(pixel,*(Uint32*)p,mColor.a,mTarget->format);
                 } else {
-                    *(Uint32*)p = pixel;
+                    *(reinterpret_cast<Uint32*>(p)) = pixel;
                 }
                 p += mTarget->pitch;
             }

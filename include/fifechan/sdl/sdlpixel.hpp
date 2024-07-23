@@ -107,35 +107,31 @@ namespace fcn
     }
 
     /**
-     * Blends two 32 bit colors together.
+     * Blends two color components together.
      *
      * @param src the source color.
      * @param dst the destination color.
      * @param a alpha.
      */
-    inline unsigned int SDLAlpha32(unsigned int src, unsigned int dst, unsigned char a)
+    template <typename T>
+    inline T SDLBlend(T source, T dest, unsigned char alpha)
     {
-        unsigned int b = ((src & 0xff) * a + (dst & 0xff) * (255 - a)) >> 8;
-        unsigned int g = ((src & 0xff00) * a + (dst & 0xff00) * (255 - a)) >> 8;
-        unsigned int r = ((src & 0xff0000) * a + (dst & 0xff0000) * (255 - a)) >> 8;
-
-        return (b & 0xff) | (g & 0xff00) | (r & 0xff0000);
+        return dest + ((source - dest) * alpha >> 8);
     }
 
     /**
-     * Blends two 16 bit colors together.
+     * Blends two colors together.
      *
      * @param src the source color.
      * @param dst the destination color.
      * @param a alpha.
      */
-    inline unsigned short SDLAlpha16(unsigned short src, unsigned short dst, unsigned char a, SDL_PixelFormat const * f)
+    template <typename T>
+    inline T SDLBlendColor(T src, T dst, unsigned char alpha, SDL_PixelFormat const * f)
     {
-        unsigned int b = ((src & f->Rmask) * a + (dst & f->Rmask) * (255 - a)) >> 8;
-        unsigned int g = ((src & f->Gmask) * a + (dst & f->Gmask) * (255 - a)) >> 8;
-        unsigned int r = ((src & f->Bmask) * a + (dst & f->Bmask) * (255 - a)) >> 8;
-
-        return (unsigned short)((b & f->Rmask) | (g & f->Gmask) | (r & f->Bmask));
+        return (SDLBlend(src & f->Rmask, dst & f->Rmask, alpha) & f->Rmask) |
+               (SDLBlend(src & f->Gmask, dst & f->Gmask, alpha) & f->Gmask) |
+               (SDLBlend(src & f->Bmask, dst & f->Bmask, alpha) & f->Bmask);
     }
 
     /*
@@ -160,49 +156,60 @@ namespace fcn
      */
     inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, Color const & color)
     {
+        // avoids overhead and truncation artefacts
+        if (color.a == 255) {
+            SDLputPixel(surface, x, y, color);
+            return;
+        }
+
         int bpp = surface->format->BytesPerPixel;
 
         SDL_LockSurface(surface);
 
         Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
 
-        Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-
         switch (bpp) {
-        case 1:
-            *p = pixel;
-            break;
+        case 1: {
+            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
 
-        case 2:
-            *(Uint16*)p = SDLAlpha16(pixel, *(Uint32*)p, color.a, surface->format);
-            break;
+            SDL_Color* colors      = surface->format->palette->colors;
+            SDL_Color& sourceColor = colors[pixel];
+            SDL_Color& destColor   = colors[*p];
 
-        case 3:
+            *p = SDL_MapRGB(
+                surface->format,
+                SDLBlend(sourceColor.r, destColor.r, color.a),
+                SDLBlend(sourceColor.g, destColor.g, color.a),
+                SDLBlend(sourceColor.b, destColor.b, color.a));
+            break;
+        }
+        case 2: {
+            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            *(Uint16*)p  = SDLBlendColor<Uint16>(pixel, *(Uint16*)p, color.a, surface->format);
+            break;
+        }
+        case 3: {
             if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                unsigned int r = (p[0] * (255 - color.a) + color.r * color.a) >> 8;
-                unsigned int g = (p[1] * (255 - color.a) + color.g * color.a) >> 8;
-                unsigned int b = (p[2] * (255 - color.a) + color.b * color.a) >> 8;
-
-                p[2] = b;
-                p[1] = g;
-                p[0] = r;
+                // watch color order rgb
+                p[0] = SDLBlend<Uint8>(color.r, p[0], color.a);
+                p[1] = SDLBlend<Uint8>(color.g, p[1], color.a);
+                p[2] = SDLBlend<Uint8>(color.b, p[2], color.a);
             } else {
-                unsigned int r = (p[2] * (255 - color.a) + color.r * color.a) >> 8;
-                unsigned int g = (p[1] * (255 - color.a) + color.g * color.a) >> 8;
-                unsigned int b = (p[0] * (255 - color.a) + color.b * color.a) >> 8;
-
-                p[0] = b;
-                p[1] = g;
-                p[2] = r;
+                // watch color order bgr
+                p[0] = SDLBlend<Uint8>(color.b, p[0], color.a);
+                p[1] = SDLBlend<Uint8>(color.g, p[1], color.a);
+                p[2] = SDLBlend<Uint8>(color.r, p[2], color.a);
             }
             break;
-
-        case 4:
-            *(Uint32*)p = SDLAlpha32(pixel, *(Uint32*)p, color.a);
+        }
+        case 4: {
+            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            *(Uint32*)p  = SDLBlendColor<Uint32>(pixel, *(Uint32*)p, color.a, surface->format);
             break;
         }
 
-        SDL_UnlockSurface(surface);
+            SDL_UnlockSurface(surface);
+        }
     }
 } // namespace fcn
 

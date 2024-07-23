@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_COLOR_HPP_
 #define INCLUDE_FIFECHAN_COLOR_HPP_
 
+#include <cstdint>
 #include <iostream>
 
 #include "fifechan/platform.hpp"
@@ -45,7 +46,8 @@ namespace fcn
          * @param a Alpha, used for transparency. A value of 0 means
          *          totaly transparent, 255 is totaly opaque.
          */
-        Color(int r, int g, int b, int a = 255);
+        Color(int r, int g, int b, int a);
+        Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
         /**
          * Adds the RGB values of two colors together. The values will be

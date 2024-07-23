@@ -4,15 +4,28 @@
 
 #include "fifechan/color.hpp"
 
+#include <cstdint>
 #include <ostream>
 
 namespace fcn
 {
+    // Default constructor
     Color::Color() : r(0), g(0), b(0), a(255) { }
 
+    // Constructor from a single integer color value
     Color::Color(int color) : r((color >> 16) & 0xFF), g((color >> 8) & 0xFF), b(color & 0xFF), a(255) { }
 
-    Color::Color(int ar, int ag, int ab, int aa) : r(ar), g(ag), b(ab), a(aa) { }
+    // Constructor with int parameters for each color component
+    Color::Color(int ar, int ag, int ab, int aa) :
+        r(static_cast<std::uint8_t>(ar)),
+        g(static_cast<std::uint8_t>(ag)),
+        b(static_cast<std::uint8_t>(ab)),
+        a(static_cast<std::uint8_t>(aa))
+    {
+    }
+
+    // Constructor with uint8_t parameters for each color component
+    Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) : r(red), g(green), b(blue), a(alpha) { }
 
     Color Color::operator+(Color const & color) const
     {
