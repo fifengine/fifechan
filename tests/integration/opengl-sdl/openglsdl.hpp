@@ -11,14 +11,14 @@
  * OPenGL cannot load images nor check for user input, so an additional backend is needed.
  */
 
+#include <fifechan/backends/opengl/opengl.hpp>
 #include <fifechan/gui.hpp>
-#include <fifechan/opengl.hpp>
 
 #include <fifechan.hpp>
 // The openglsdlimageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and SDL.
-#include <fifechan/opengl/openglsdlimageloader.hpp>
-#include <fifechan/sdl.hpp>
+#include <fifechan/backends/opengl/openglsdlimageloader.hpp>
+#include <fifechan/backends/sdl/sdl.hpp>
 
 namespace openglsdl
 {

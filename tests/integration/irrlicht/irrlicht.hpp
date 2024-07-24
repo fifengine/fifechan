@@ -8,7 +8,7 @@
  * @brief This example shows the widgets present in FifeGUI using the Irrlicht backend.
  */
 
-#include <fifechan/irrlicht.hpp>
+#include <fifechan/backends/irrlicht/irrlicht.hpp>
 
 #include <fifechan.hpp>
 
@@ -34,7 +34,6 @@ namespace irrlicht
 
     irr::IrrlichtDevice* device;
     MyEventReceiver* receiver;
-
 
     // Here the following backend objects are necessary for FifeGUI to work
     // with Irrlicht. These objects include:

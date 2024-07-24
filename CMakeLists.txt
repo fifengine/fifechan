@@ -129,56 +129,11 @@ if(WIN32)
 endif()
 
 #------------------------------------------------------------------------------
-# Source Files
+# Source Files for Fifechan core library
 #------------------------------------------------------------------------------
 
-# The Fifechan core library
-file(GLOB FIFECHAN_HEADER include/fifechan.hpp)
-file(GLOB FIFECHAN_HEADERS
-  include/fifechan/actionevent.hpp
-  include/fifechan/actionlistener.hpp
-  include/fifechan/cliprectangle.hpp
-  include/fifechan/color.hpp
-  include/fifechan/containerevent.hpp
-  include/fifechan/containerlistener.hpp
-  include/fifechan/deathlistener.hpp
-  include/fifechan/defaultfont.hpp
-  include/fifechan/event.hpp
-  include/fifechan/exception.hpp
-  include/fifechan/focushandler.hpp
-  include/fifechan/focuslistener.hpp
-  include/fifechan/font.hpp
-  include/fifechan/genericinput.hpp
-  include/fifechan/glut.hpp
-  include/fifechan/graphics.hpp
-  include/fifechan/gui.hpp
-  include/fifechan/image.hpp
-  include/fifechan/imagefont.hpp
-  include/fifechan/imageloader.hpp
-  include/fifechan/input.hpp
-  include/fifechan/inputevent.hpp
-  include/fifechan/key.hpp
-  include/fifechan/keyevent.hpp
-  include/fifechan/keyinput.hpp
-  include/fifechan/keylistener.hpp
-  include/fifechan/listmodel.hpp
-  include/fifechan/mouseevent.hpp
-  include/fifechan/mouseinput.hpp
-  include/fifechan/mouselistener.hpp
-  include/fifechan/platform.hpp
-  include/fifechan/point.hpp
-  include/fifechan/rectangle.hpp
-  include/fifechan/selectionevent.hpp
-  include/fifechan/selectionlistener.hpp
-  include/fifechan/size.hpp
-  include/fifechan/text.hpp
-  include/fifechan/utf8stringeditor.hpp
-  include/fifechan/version.hpp
-  include/fifechan/visibilityeventhandler.hpp
-  include/fifechan/widget.hpp
-  include/fifechan/widgetlistener.hpp
-  include/fifechan/opengl.hpp
-)
+file(GLOB FIFECHAN_HEADER          include/fifechan.hpp)
+file(GLOB FIFECHAN_HEADERS         include/fifechan/*.hpp)
 file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
 file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
 file(GLOB FIFECHAN_SRC             src/*.cpp)
@@ -224,10 +179,10 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAK
     WORLD_READ WORLD_EXECUTE
 )
 
-install(FILES ${FIFECHAN_HEADER}          DESTINATION ${INCLUDE_INSTALL_DIR}/)
-install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/)
-install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/widgets/)
-install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/util/)
+install(FILES ${FIFECHAN_HEADER}          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/)
+install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
+install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/widgets/)
+install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/util/)
 
 #------------------------------------------------------------------------------
 # Fifechan Allegro extension library
@@ -240,12 +195,10 @@ endif()
 if(ALLEGRO_FOUND)
 
   # The Fifechan Allegro extension source
-  file(GLOB FIFECHAN_ALLEGRO_HEADER     include/fifechan/allegro.hpp)
-  file(GLOB FIFECHAN_ALLEGRO_HEADERS    include/fifechan/allegro/*.hpp)
-  file(GLOB FIFECHAN_ALLEGRO_SRC        src/allegro/*.cpp)
+  file(GLOB FIFECHAN_ALLEGRO_HEADERS    include/fifechan/backends/allegro/*.hpp)
+  file(GLOB FIFECHAN_ALLEGRO_SRC        src/backends/allegro/*.cpp)
 
   add_library(${PROJECT_NAME}_allegro ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_ALLEGRO_HEADER}
     ${FIFECHAN_ALLEGRO_HEADERS}
     ${FIFECHAN_ALLEGRO_SRC}
   )
@@ -285,8 +238,7 @@ if(ALLEGRO_FOUND)
       WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_ALLEGRO_HEADER}   DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/)
-  install(FILES ${FIFECHAN_ALLEGRO_HEADERS}  DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/allegro/)
+  install(FILES ${FIFECHAN_ALLEGRO_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/allegro/)
 
 endif()
 
@@ -301,12 +253,10 @@ endif()
 if(IRRLICHT_FOUND)
 
   # The Fifechan Irrlicht extension source
-  file(GLOB FIFECHAN_IRRLICHT_HEADER    include/fifechan/irrlicht.hpp)
-  file(GLOB FIFECHAN_IRRLICHT_HEADERS   include/fifechan/irrlicht/*.hpp)
-  file(GLOB FIFECHAN_IRRLICHT_SRC       src/irrlicht/*.cpp)
+  file(GLOB FIFECHAN_IRRLICHT_HEADERS   include/fifechan/backends/irrlicht/*.hpp)
+  file(GLOB FIFECHAN_IRRLICHT_SRC       src/backends/irrlicht/*.cpp)
 
   add_library(${PROJECT_NAME}_irrlicht ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_IRRLICHT_HEADER}
     ${FIFECHAN_IRRLICHT_HEADERS}
     ${FIFECHAN_IRRLICHT_SRC}
   )
@@ -340,8 +290,7 @@ if(IRRLICHT_FOUND)
       WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_IRRLICHT_HEADER}   DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/)
-  install(FILES ${FIFECHAN_IRRLICHT_HEADERS}  DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/irrlicht/)
+  install(FILES ${FIFECHAN_IRRLICHT_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/irrlicht/)
 
 endif()
 
@@ -363,13 +312,11 @@ endif()
 if(OPENGL_FOUND)
 
   # set extension sources
-  file(GLOB FIFECHAN_OPENGL_HEADER  include/fifechan/opengl.hpp)
-  file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
-  file(GLOB FIFECHAN_OPENGL_SRC     src/opengl/*.cpp)
+  file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/backends/opengl/*.hpp)
+  file(GLOB FIFECHAN_OPENGL_SRC     src/backends/opengl/*.cpp)
 
   # create the extension library
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_OPENGL_HEADER}
     ${FIFECHAN_OPENGL_HEADERS}
     ${FIFECHAN_OPENGL_SRC}
   )
@@ -410,8 +357,7 @@ if(OPENGL_FOUND)
   )
 
   # setup additional files to install
-  install(FILES ${FIFECHAN_OPENGL_HEADER}   DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/)
-  install(FILES ${FIFECHAN_OPENGL_HEADERS}  DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/opengl/)
+  install(FILES ${FIFECHAN_OPENGL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/opengl/)
 
 endif()
 
@@ -435,12 +381,10 @@ endif()
 if(SDL2_FOUND AND SDL2_image_FOUND)
 
   # The Fifechan SDL extension source
-  file(GLOB FIFECHAN_SDL_HEADER     include/fifechan/sdl.hpp)
-  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/sdl/*.hpp)
-  file(GLOB FIFECHAN_SDL_SRC        src/sdl/*.cpp)
+  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl/*.hpp)
+  file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl/*.cpp)
 
   add_library(${PROJECT_NAME}_sdl ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_SDL_HEADER}
     ${FIFECHAN_SDL_HEADERS}
     ${FIFECHAN_SDL_SRC}
   )
@@ -484,8 +428,7 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
       WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_SDL_HEADER}   DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/)
-  install(FILES ${FIFECHAN_SDL_HEADERS}  DESTINATION ${INCLUDE_INSTALL_DIR}/fifechan/sdl/)
+  install(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/sdl/)
 
 endif()
 

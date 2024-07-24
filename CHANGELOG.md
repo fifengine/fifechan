@@ -29,6 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added pkg-config support to CMakeLists (for pkg-config), closes https://github.com/fifengine/fifechan/issues/19
 
 **Changed**
+- all third-party library addressing backends moved into the folder "backends"
+  - e.g. SDL backend lives now in "include/fifechan/backends/sdl" and "src/backends/sdl"
+- moved each "unified header file" of a backend from the fifechan include folder ("include/fifechan")
+  to the include folder of the backend itself
+  - "include/fifechan/opengl.hpp" -> "include/fifechan/backends/opengl/opengl.hpp"
 - updated CMakeLists formatting
 - modernised license headers and copyright notices using SPDX tags
 - FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API

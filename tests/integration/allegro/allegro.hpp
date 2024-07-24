@@ -11,7 +11,7 @@
  * The code uses FifeGUI and FifeGUI's Allegro backend to create a GUI.
  */
 
-#include <fifechan/allegro.hpp>
+#include <fifechan/backends/allegro/allegro.hpp>
 
 #include <fifechan.hpp>
 

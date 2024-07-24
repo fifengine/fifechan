@@ -9,7 +9,7 @@
  * @brief Contains the code that sets up an HGE application with FifeGUI.
  */
 
-#include <fifechan/hge.hpp>
+#include <fifechan/backends/hge/hge.hpp>
 
 #include <fifechan.hpp>
 

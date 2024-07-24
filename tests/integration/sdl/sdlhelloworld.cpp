@@ -8,8 +8,8 @@
 
 #include <SDL2/SDL.h>
 
+#include <fifechan/backends/sdl/sdl.hpp>
 #include <fifechan/gui.hpp>
-#include <fifechan/sdl.hpp>
 
 #include <fifechan.hpp>
 

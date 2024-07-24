@@ -11,7 +11,7 @@
  * The code uses FifeGUI and FifeGUI's DirectX 3D backend to create a GUI.
  */
 
-#include <fifechan/directx3d.hpp>
+#include <fifechan/backends/directx3d/directx3d.hpp>
 
 #include <fifechan.hpp>
 

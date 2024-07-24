@@ -9,7 +9,7 @@
  * @brief This example shows the widgets present in FifeGUI using the OpenLayer backend.
  */
 
-#include <fifechan/openlayer.hpp>
+#include <fifechan/backends/openlayer/openlayer.hpp>
 
 #include <fifechan.hpp>
 

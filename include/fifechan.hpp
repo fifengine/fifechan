@@ -76,6 +76,7 @@
 #include <fifechan/widgetlistener.hpp>
 
 #include "fifechan/platform.hpp"
+#include "fifechan/version.hpp"
 
 /**
  * @brief Returns the version of the library.

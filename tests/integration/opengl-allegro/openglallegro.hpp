@@ -15,9 +15,9 @@
 
 // The openglallegroimageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and Allegro.
-#include <fifechan/allegro.hpp>
-#include <fifechan/opengl.hpp>
-#include <fifechan/opengl/openglallegroimageloader.hpp>
+#include <fifechan/backends/allegro/allegro.hpp>
+#include <fifechan/backends/opengl/opengl.hpp>
+#include <fifechan/backends/opengl/openglallegroimageloader.hpp>
 
 #include <fifechan.hpp>
 
