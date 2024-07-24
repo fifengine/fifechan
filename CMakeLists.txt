@@ -35,6 +35,7 @@ project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES CXX)
 
 # Project local includes
 include(ShowBuildTargetProperties)
+include(CopyResources)
 
 # CMake provided includes
 include(FeatureSummary)
@@ -56,6 +57,14 @@ option(FIFECHAN_EXAMPLES     "Build the Fifechan examples"                      
 #------------------------------------------------------------------------------
 # Default build type
 #------------------------------------------------------------------------------
+
+# set the default build type to 'Debug' if not specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting default CMAKE_BUILD_TYPE to 'Debug'")
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui, ccmake
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 
 # The default build type is based on BUILD_SHARED_LIBS.
 # FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls.

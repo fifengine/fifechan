@@ -26,18 +26,7 @@ target_link_libraries(sdlhelloworld PRIVATE
 # Define the source and destination paths
 set(IMAGE_SOURCE      "${PROJECT_SOURCE_DIR}/tests/resources/fixedfont.bmp")
 set(IMAGE_DESTINATION "$<TARGET_FILE_DIR:sdlhelloworld>/fixedfont.bmp")
-# Add a custom command to copy the image file to the build directory
-add_custom_command(
-    TARGET sdlhelloworld POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${IMAGE_SOURCE}"
-        "${IMAGE_DESTINATION}"
-    COMMENT "Copying image file to build directory"
-)
-# Add a custom target to ensure the image file is copied before the executable is built
-add_custom_target(copy_resources ALL DEPENDS ${IMAGE_DESTINATION})
-add_dependencies(sdlhelloworld copy_resources)
-
+copy_resources(sdlhelloworld "${IMAGE_SOURCE}" "${IMAGE_DESTINATION}")
 install(FILES "${IMAGE_SOURCE}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 #------------------------------------------------------------------------------
@@ -61,4 +50,3 @@ target_link_libraries(sdlwidgets PRIVATE
   fifechan_sdl
   fifechan
 )
-
