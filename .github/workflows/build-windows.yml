@@ -72,16 +72,17 @@ jobs:
               vcpkg_triplet: "x64-windows",
               shared_libs: "ON"
             }
-          - {
-              job_name: "Windows VC16 x64 static Release",
-              cache_key: "win-vc16-x64-static-release",
-              os: "windows-2019",
-              generator: "Visual Studio 16 2019",
-              compiler: "cl",
-              platform: "Win32",
-              vcpkg_triplet: "x64-windows-static-release",
-              shared_libs: "OFF"
-            }
+          # win-vc16-x64-static-release is disabled, because freetype doesn't build static on VC16.
+          #- {
+          #    job_name: "Windows VC16 x64 static Release",
+          #    cache_key: "win-vc16-x64-static-release",
+          #    os: "windows-2019",
+          #    generator: "Visual Studio 16 2019",
+          #    compiler: "cl",
+          #    platform: "Win32",
+          #    vcpkg_triplet: "x64-windows-static-release",
+          #    shared_libs: "OFF"
+          #  }
           #- { job_name: "Windows MinGW x86 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "Win32" }
           #- { job_name: "Windows MinGW x64 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "x64" }
 
