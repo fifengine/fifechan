@@ -11,8 +11,8 @@ set(PACKAGE_CMAKE_MODULE_DIR  "${PACKAGE_INSTALL_DIR}/cmake")
 
 # Export the package configuration
 configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/fifechanConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfig.cmake" @ONLY)
+    "${CMAKE_CURRENT_LIST_DIR}/fifechan-config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake" @ONLY)
 
 # Install the package configuration
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfig.cmake" DESTINATION "${PACKAGE_CMAKE_MODULE_DIR}")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake" DESTINATION "${PACKAGE_CMAKE_MODULE_DIR}")
