@@ -1,7 +1,25 @@
 @PACKAGE_INIT@
 
-set(PACKAGE_NAME    "fifechan")
+set(PACKAGE_NAME    "@PROJECT_NAME@")
 set(PACKAGE_VERSION "@PROJECT_VERSION@")
+
+# The core library is dependency-free.
+# Dependencies on CMake-findable packages are only required
+# when building specific library backends (conditional dependencies).
+if(ENABLE_OPENGL OR ENABLE_SDL)
+
+  include(CMakeFindDependencyMacro)
+
+  if(ENABLE_OPENGL)
+    find_dependency(OpenGL REQUIRED)
+  endif()
+
+  if(ENABLE_SDL)
+    find_dependency(SDL2 REQUIRED)
+    find_dependency(SDL2_image REQUIRED)
+    find_dependency(SDL2_ttf REQUIRED)
+  endif()
+endif()
 
 # Set Install Directories
 set(PACKAGE_INSTALL_DIR       "${CMAKE_INSTALL_PREFIX}")
@@ -9,10 +27,6 @@ set(PACKAGE_INCLUDE_DIR       "${PACKAGE_INSTALL_DIR}/include")
 set(PACKAGE_LIBRARY_DIR       "${PACKAGE_INSTALL_DIR}/lib")
 set(PACKAGE_CMAKE_MODULE_DIR  "${PACKAGE_INSTALL_DIR}/cmake")
 
-# Export the package configuration
-configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/fifechan-config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake" @ONLY)
-
-# Install the package configuration
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake" DESTINATION "${PACKAGE_CMAKE_MODULE_DIR}")
+# Include "@PROJECT_NAME@-targets.cmake" to import the defined targets
+# into the current (the consumers) CMake build system.
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake")
