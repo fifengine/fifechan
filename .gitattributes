@@ -1,0 +1,5 @@
+* eol=lf
+*.png binary
+*.xcf binary
+*.bmp binary
+*.exe binary
