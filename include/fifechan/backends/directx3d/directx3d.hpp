@@ -8,10 +8,10 @@
 /**
  * Unified header for the DirectX 3D backend.
  */
-#include <fifechan/directx3d/directx3dgraphics.hpp>
-#include <fifechan/directx3d/directx3dimage.hpp>
-#include <fifechan/directx3d/directx3dimageloader.hpp>
-#include <fifechan/directx3d/directx3dinput.hpp>
+#include <fifechan/backends/directx3d/directx3dgraphics.hpp>
+#include <fifechan/backends/directx3d/directx3dimage.hpp>
+#include <fifechan/backends/directx3d/directx3dimageloader.hpp>
+#include <fifechan/backends/directx3d/directx3dinput.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_DIRECTX3D_DIRECTX3D_HPP_

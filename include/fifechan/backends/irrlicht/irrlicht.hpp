@@ -8,10 +8,10 @@
 /**
  * Unified header for the Irrlicht backend.
  */
-#include <fifechan/irrlicht/irrlichtgraphics.hpp>
-#include <fifechan/irrlicht/irrlichtimage.hpp>
-#include <fifechan/irrlicht/irrlichtimageloader.hpp>
-#include <fifechan/irrlicht/irrlichtinput.hpp>
+#include <fifechan/backends/irrlicht/irrlichtgraphics.hpp>
+#include <fifechan/backends/irrlicht/irrlichtimage.hpp>
+#include <fifechan/backends/irrlicht/irrlichtimageloader.hpp>
+#include <fifechan/backends/irrlicht/irrlichtinput.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_IRRLICHT_IRRLICHT_HPP_

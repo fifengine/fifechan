@@ -8,11 +8,11 @@
 /**
  * Unified header for the HGE backend.
  */
-#include <fifechan/hge/hgegraphics.hpp>
-#include <fifechan/hge/hgeimage.hpp>
-#include <fifechan/hge/hgeimagefont.hpp>
-#include <fifechan/hge/hgeimageloader.hpp>
-#include <fifechan/hge/hgeinput.hpp>
+#include <fifechan/backends/hge/hgegraphics.hpp>
+#include <fifechan/backends/hge/hgeimage.hpp>
+#include <fifechan/backends/hge/hgeimagefont.hpp>
+#include <fifechan/backends/hge/hgeimageloader.hpp>
+#include <fifechan/backends/hge/hgeinput.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_HGE_HGE_HPP_

@@ -8,10 +8,10 @@
 /**
  * Unified header for the Cairo backend.
  */
-#include <fifechan/cairo/cairofont.hpp>
-#include <fifechan/cairo/cairographics.hpp>
-#include <fifechan/cairo/cairoimage.hpp>
-#include <fifechan/cairo/cairoimageloader.hpp>
+#include <fifechan/backends/cairo/cairofont.hpp>
+#include <fifechan/backends/cairo/cairographics.hpp>
+#include <fifechan/backends/cairo/cairoimage.hpp>
+#include <fifechan/backends/cairo/cairoimageloader.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_CAIRO_CAIRO_HPP_

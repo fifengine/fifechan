@@ -8,7 +8,7 @@
 /**
  * Unified header for the Glut backend.
  */
-#include <fifechan/glut/glutinput.hpp>
+#include <fifechan/backends/glut/glutinput.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_GLUT_GLUT_HPP_

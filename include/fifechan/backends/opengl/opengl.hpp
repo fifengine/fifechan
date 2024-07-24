@@ -8,8 +8,8 @@
 /**
  * Unified header for the OpenGL backend.
  */
-#include <fifechan/opengl/openglgraphics.hpp>
-#include <fifechan/opengl/openglimage.hpp>
+#include <fifechan/backends/opengl/openglgraphics.hpp>
+#include <fifechan/backends/opengl/openglimage.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGL_HPP_

@@ -8,10 +8,10 @@
 /**
  * Unified header for the OpenLayer backend.
  */
-#include <fifechan/openlayer/openlayerfont.hpp>
-#include <fifechan/openlayer/openlayergraphics.hpp>
-#include <fifechan/openlayer/openlayerimageloader.hpp>
-#include <fifechan/openlayer/openlayerinput.hpp>
+#include <fifechan/backends/openlayer/openlayerfont.hpp>
+#include <fifechan/backends/openlayer/openlayergraphics.hpp>
+#include <fifechan/backends/openlayer/openlayerimageloader.hpp>
+#include <fifechan/backends/openlayer/openlayerinput.hpp>
 #include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENLAYER_OPENLAYER_HPP_
