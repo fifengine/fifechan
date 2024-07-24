@@ -175,7 +175,7 @@ namespace fcn
         }
     }
 
-    void Button::resizeToContent(bool recursiv)
+    void Button::resizeToContent(bool recursion)
     {
         adjustSize();
     }

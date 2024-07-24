@@ -190,7 +190,7 @@ namespace fcn
         keyEvent.consume();
     }
 
-    void TextBox::resizeToContent(bool recursiv)
+    void TextBox::resizeToContent(bool recursion)
     {
         adjustSize();
     }

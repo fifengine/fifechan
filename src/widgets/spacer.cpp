@@ -16,7 +16,7 @@ namespace fcn
 
     Spacer::~Spacer() { }
 
-    void Spacer::resizeToContent(bool recursiv)
+    void Spacer::resizeToContent(bool recursion)
     {
         setSize(getMinSize().getWidth(), getMinSize().getHeight());
     }

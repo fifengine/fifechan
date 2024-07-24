@@ -20,6 +20,8 @@ include(SetupVcpkg)
 #-------------------------------------------------------------------
 
 # vcpkg.json is the primary source for version data
+# FIFECHAN_VERSION is used to set the project version
+# FIFECHAN_VERSION is also used on version.hpp.in to generate version.hpp
 file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON_STRING)
 string(JSON FIFECHAN_VERSION GET ${VCPKG_JSON_STRING} "version")
 
@@ -81,9 +83,16 @@ endif()
 message(STATUS "---------------------------------------------------------------")
 message(STATUS "[ 🛠️ ] Building FIFECHAN version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[INFO] Source dir              -> '${PROJECT_SOURCE_DIR}'.")
-message(STATUS "[INFO] Build dir               -> '${PROJECT_BINARY_DIR}'.")
-message(STATUS "[INFO] Installation path       -> '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
+message(STATUS "[INFO] Source dir               -> '${PROJECT_SOURCE_DIR}'.")
+message(STATUS "[INFO] Build dir                -> '${PROJECT_BINARY_DIR}'.")
+message(STATUS "[INFO] Installation path        -> '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
+message(STATUS "")
+message(STATUS "[INFO] Build shared libraries   -> '${BUILD_SHARED_LIBS}'.")
+message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
+message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
+message(STATUS "[INFO] Build tests              -> '${FIFECHAN_TESTS}'.")
+message(STATUS "[INFO] Build examples           -> '${FIFECHAN_EXAMPLES}'.")
+message(STATUS "---------------------------------------------------------------")
 
 #------------------------------------------------------------------------------
 # Find Dependencies - Windows

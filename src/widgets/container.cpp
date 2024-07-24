@@ -126,17 +126,17 @@ namespace fcn
         return Widget::getChildren();
     }
 
-    void Container::resizeToContent(bool recursiv)
+    void Container::resizeToContent(bool recursion)
     {
         if (mLayout == Absolute) {
-            if (recursiv) {
+            if (recursion) {
                 std::list<Widget*>::const_iterator currChild(mChildren.begin());
                 std::list<Widget*>::const_iterator endChildren(mChildren.end());
                 for (; currChild != endChildren; ++currChild) {
                     if (!(*currChild)->isVisible()) {
                         continue;
                     }
-                    (*currChild)->resizeToContent(recursiv);
+                    (*currChild)->resizeToContent(recursion);
                 }
             }
             return;
@@ -156,8 +156,8 @@ namespace fcn
             if (!(*currChild)->isVisible()) {
                 continue;
             }
-            if (recursiv) {
-                (*currChild)->resizeToContent(recursiv);
+            if (recursion) {
+                (*currChild)->resizeToContent(recursion);
             }
             Rectangle const & rec = (*currChild)->getDimension();
             childMaxW             = std::max(childMaxW, rec.width);
@@ -292,17 +292,18 @@ namespace fcn
         setSize(w, h);
     }
 
-    void Container::expandContent(bool recursiv)
+    // TODO(jakoch): This is a very complex method. It should be refactored.
+    void Container::expandContent(bool recursion)
     {
         if (mLayout == Absolute) {
-            if (recursiv) {
+            if (recursion) {
                 std::list<Widget*>::const_iterator currChild(mChildren.begin());
                 std::list<Widget*>::const_iterator endChildren(mChildren.end());
                 for (; currChild != endChildren; ++currChild) {
                     if (!(*currChild)->isVisible()) {
                         continue;
                     }
-                    (*currChild)->expandContent(recursiv);
+                    (*currChild)->expandContent(recursion);
                 }
             }
             return;
@@ -596,14 +597,14 @@ namespace fcn
             }
         }
 
-        if (recursiv) {
+        if (recursion) {
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                (*currChild)->expandContent(recursiv);
+                (*currChild)->expandContent(recursion);
             }
         }
     }

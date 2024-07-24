@@ -129,7 +129,7 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
         virtual void adjustSize();
 
     protected:

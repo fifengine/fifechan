@@ -248,22 +248,22 @@ namespace fcn
         return rec;
     }
 
-    void TabbedArea::resizeToContent(bool recursiv)
+    void TabbedArea::resizeToContent(bool recursion)
     {
-        if (recursiv) {
-            mTabContainer->resizeToContent(recursiv);
-            mWidgetContainer->resizeToContent(recursiv);
+        if (recursion) {
+            mTabContainer->resizeToContent(recursion);
+            mWidgetContainer->resizeToContent(recursion);
         }
         resizeToChildren();
         adjustSize();
         adjustTabPositions();
     }
 
-    void TabbedArea::expandContent(bool recursiv)
+    void TabbedArea::expandContent(bool recursion)
     {
-        if (recursiv) {
-            mTabContainer->expandContent(recursiv);
-            mWidgetContainer->expandContent(recursiv);
+        if (recursion) {
+            mTabContainer->expandContent(recursion);
+            mWidgetContainer->expandContent(recursion);
         }
         adjustSize();
         adjustTabPositions();

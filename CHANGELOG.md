@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - in sdlpixel.hpp SDLAlpha32() renamed to SDLBlend(), SDLAlpha16() renamed to SDLBlendColor()
 - renamed variable carea to clip_rect
 - applied spellchecking
+- renamed function parameter recursiv to recursion
 
 **Removed**
 - removed backends: allegro, cairo, irrlicht, glut, hge, openlayer

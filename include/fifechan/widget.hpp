@@ -1355,9 +1355,9 @@ namespace fcn
          * Resizes the widget's size to fit the content exactly,
          * calls recursively all childs.
          *
-         * @param recursiv If true all child widgets also get the call.
+         * @param recursion If true all child widgets also get the call.
          */
-        virtual void resizeToContent(bool recursiv = true) { }
+        virtual void resizeToContent(bool recursion = true) { }
 
         /**
          * Resizes the widget's size to fit the content exactly.
@@ -1368,9 +1368,9 @@ namespace fcn
          * Expands the child widgets to the size of this widget,
          * calls recursively all childs.
          *
-         * @param recursiv If true all child widgets also get the call.
+         * @param recursion If true all child widgets also get the call.
          */
-        virtual void expandContent(bool recursiv = true) { }
+        virtual void expandContent(bool recursion = true) { }
 
         /**
          * Helper function to decide if we need to layout.

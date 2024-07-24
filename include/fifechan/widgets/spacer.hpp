@@ -23,7 +23,7 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
 
         /**
          * Overrides this so that the spacer doesn't draw nothing.

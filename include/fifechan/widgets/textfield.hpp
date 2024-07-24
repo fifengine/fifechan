@@ -93,7 +93,7 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
 
         /**
          * Adjusts the size of the text field to fit the text.

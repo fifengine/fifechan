@@ -188,7 +188,7 @@ namespace fcn
 
         virtual void fontChanged();
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
         /**
          * Adjusts the text box's size to fit the text.
          */

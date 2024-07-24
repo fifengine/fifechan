@@ -128,11 +128,11 @@ namespace fcn
 
         // Inherited from Container
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
 
         virtual void adjustSize();
 
-        virtual void expandContent(bool recursiv = true);
+        virtual void expandContent(bool recursion = true);
 
         virtual Rectangle getChildrenArea();
 

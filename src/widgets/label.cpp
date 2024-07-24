@@ -46,7 +46,7 @@ namespace fcn
         return mAlignment;
     }
 
-    void Label::resizeToContent(bool recursiv)
+    void Label::resizeToContent(bool recursion)
     {
         adjustSize();
     }

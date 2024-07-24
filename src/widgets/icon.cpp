@@ -95,7 +95,7 @@ namespace fcn
         return mOpaque;
     }
 
-    void Icon::resizeToContent(bool recursiv)
+    void Icon::resizeToContent(bool recursion)
     {
         adjustSize();
     }

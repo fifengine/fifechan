@@ -322,7 +322,7 @@ namespace fcn
         mScrollArea->setPosition(0, 0);
     }
 
-    void DropDown::resizeToContent(bool recursiv)
+    void DropDown::resizeToContent(bool recursion)
     {
         if (mScrollArea != NULL) {
             mScrollArea->resizeToContent();

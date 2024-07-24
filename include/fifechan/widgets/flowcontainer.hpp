@@ -62,8 +62,8 @@ namespace fcn
         // Inherited from Container
 
         virtual void setLayout(Container::LayoutPolicy policy);
-        virtual void resizeToContent(bool recursiv = true);
-        virtual void expandContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
+        virtual void expandContent(bool recursion = true);
 
     protected:
         Alignment mAlignment;

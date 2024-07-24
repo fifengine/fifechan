@@ -138,9 +138,9 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv = true);
+        virtual void resizeToContent(bool recursion = true);
         virtual void adjustSize();
-        virtual void expandContent(bool recursiv = true);
+        virtual void expandContent(bool recursion = true);
         virtual void draw(Graphics* graphics);
         virtual Rectangle getChildrenArea();
         virtual bool isLayouted()

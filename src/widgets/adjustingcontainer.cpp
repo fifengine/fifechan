@@ -54,13 +54,13 @@ namespace fcn
         return 0;
     }
 
-    void AdjustingContainer::resizeToContent(bool recursiv)
+    void AdjustingContainer::resizeToContent(bool recursion)
     {
-        Container::resizeToContent(recursiv);
+        Container::resizeToContent(recursion);
         adjustContent();
     }
 
-    void AdjustingContainer::expandContent(bool recursiv) { }
+    void AdjustingContainer::expandContent(bool recursion) { }
 
     Rectangle AdjustingContainer::getChildrenArea()
     {

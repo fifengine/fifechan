@@ -215,7 +215,7 @@ namespace fcn
         return mListModel;
     }
 
-    void ListBox::resizeToContent(bool recursiv)
+    void ListBox::resizeToContent(bool recursion)
     {
         adjustSize();
     }

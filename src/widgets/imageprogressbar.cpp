@@ -190,7 +190,7 @@ namespace fcn
         return mValue;
     }
 
-    void ImageProgressBar::resizeToContent(bool recursiv)
+    void ImageProgressBar::resizeToContent(bool recursion)
     {
         adjustSize();
     }

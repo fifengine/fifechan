@@ -219,16 +219,16 @@ namespace fcn
         }
     }
 
-    void FlowContainer::resizeToContent(bool recursiv)
+    void FlowContainer::resizeToContent(bool recursion)
     {
-        if (recursiv) {
+        if (recursion) {
             std::list<Widget*>::const_iterator currChild(mChildren.begin());
             std::list<Widget*>::const_iterator endChildren(mChildren.end());
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                (*currChild)->resizeToContent(recursiv);
+                (*currChild)->resizeToContent(recursion);
             }
         }
 
@@ -239,20 +239,20 @@ namespace fcn
         }
     }
 
-    void FlowContainer::expandContent(bool recursiv)
+    void FlowContainer::expandContent(bool recursion)
     {
         if (mLayout != Absolute) {
             adjustContent();
         }
         // not really needed
-        if (recursiv) {
+        if (recursion) {
             std::list<Widget*>::const_iterator currChild(mChildren.begin());
             std::list<Widget*>::const_iterator endChildren(mChildren.end());
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                (*currChild)->expandContent(recursiv);
+                (*currChild)->expandContent(recursion);
             }
         }
     }

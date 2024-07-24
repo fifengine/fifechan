@@ -159,7 +159,7 @@ namespace fcn
         return mImages[Image_Hover_De];
     }
 
-    void ImageButton::resizeToContent(bool recursiv)
+    void ImageButton::resizeToContent(bool recursion)
     {
         adjustSize();
     }
