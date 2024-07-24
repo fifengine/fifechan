@@ -20,8 +20,11 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
+
+#ifdef FIFEGUI_OS_WINDOWS
 #include <windows.h>
 #include <windowsx.h>
+#endif
 
 namespace directx3d
 {
@@ -165,9 +168,9 @@ namespace directx3d
         input = new fcn::DirectX3DInput();
 
         // Finally, we create the Gui object and pass graphics and input to it.
-        globals::gui = new fcn::Gui();
-        globals::gui->setGraphics(graphics);
-        globals::gui->setInput(input);
+        gui = new fcn::Gui();
+        gui->setGraphics(graphics);
+        gui->setInput(input);
     }
 
     /**
@@ -175,7 +178,7 @@ namespace directx3d
      */
     void halt()
     {
-        delete globals::gui;
+        delete gui;
 
         delete imageLoader;
         delete input;
@@ -204,7 +207,7 @@ namespace directx3d
                 DispatchMessage(&msg);
             } else {
                 // Now we let the Gui object perform its logic.
-                globals::gui->logic();
+                gui->logic();
 
                 d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
                 d3ddev->BeginScene();
@@ -221,7 +224,7 @@ namespace directx3d
                 graphics->drawPoint(637, 477);
                 graphics->_endDraw();
                 */
-                globals::gui->draw();
+                gui->draw();
                 d3ddev->EndScene();
                 // Finally we update the screen.
                 d3ddev->Present(NULL, NULL, NULL, NULL);

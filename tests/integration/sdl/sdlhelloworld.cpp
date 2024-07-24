@@ -6,8 +6,6 @@
  * @brief This is a HelloWorld example with FifeGUI using the SDL backend.
  */
 
-#include <SDL2/SDL.h>
-
 #include <fifechan/backends/sdl/sdl.hpp>
 #include <fifechan/gui.hpp>
 

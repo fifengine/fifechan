@@ -45,9 +45,9 @@ namespace openlayer
         input = new fcn::OpenLayerInput();
 
         // Finally, we create the Gui object and pass graphics and input to it.
-        globals::gui = new fcn::Gui();
-        globals::gui->setGraphics(graphics);
-        globals::gui->setInput(input);
+        gui = new fcn::Gui();
+        gui->setGraphics(graphics);
+        gui->setInput(input);
     }
 
     /**
@@ -55,7 +55,7 @@ namespace openlayer
      */
     void halt()
     {
-        delete globals::gui;
+        delete gui;
 
         delete imageLoader;
         delete input;
@@ -76,9 +76,9 @@ namespace openlayer
 
         while (!key[KEY_ESC]) {
             // Now we let the Gui object perform its logic.
-            globals::gui->logic();
+            gui->logic();
             // Now we let the Gui object draw itself.
-            globals::gui->draw();
+            gui->draw();
 
             // We draw the mouse pointer manually.
             mouse_bmp.Blit(mouse_x, mouse_y);

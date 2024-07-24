@@ -66,9 +66,9 @@ namespace irrlicht
         device->setEventReceiver(receiver);
 
         // Finally, we create the Gui object and pass graphics and input to it.
-        globals::gui = new fcn::Gui();
-        globals::gui->setGraphics(graphics);
-        globals::gui->setInput(input);
+        gui = new fcn::Gui();
+        gui->setGraphics(graphics);
+        gui->setInput(input);
     }
 
     /**
@@ -76,7 +76,7 @@ namespace irrlicht
      */
     void halt()
     {
-        delete globals::gui;
+        delete gui;
 
         delete imageLoader;
         delete receiver;
@@ -96,9 +96,9 @@ namespace irrlicht
             // Begin the rendering
             device->getVideoDriver()->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
             // Now we let the Gui object perform its logic.
-            globals::gui->logic();
+            gui->logic();
             // Now we let the Gui object draw itself.
-            globals::gui->draw();
+            gui->draw();
             // End the rendering
             device->getVideoDriver()->endScene();
         }

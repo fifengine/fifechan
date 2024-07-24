@@ -13,6 +13,10 @@
 
 namespace widgets
 {
+    // FifeGUI objects
+    fcn::Gui* gui;
+
+    // FifeGUI Widgets
     fcn::ImageFont* font;
     fcn::Container* top;
     fcn::Label* label;
@@ -38,8 +42,7 @@ namespace widgets
     fcn::CheckBox* tabTwoCheckBox;
 
     /*
-     * List boxes and drop downs need an instance of a list model
-     * in order to display a list.
+     * List boxes and dropdown widgets need a list model as data source.
      */
     class DemoListModel : public fcn::ListModel
     {
@@ -71,8 +74,7 @@ namespace widgets
     DemoListModel demoListModel;
 
     /**
-     * Initialises the widgets example by populating the global Gui
-     * object.
+     * Setup the widgets example by populating the Gui object.
      */
     void init()
     {
@@ -83,7 +85,7 @@ namespace widgets
         // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));
         // Finally we pass the top widget to the Gui object.
-        globals::gui->setTop(top);
+        gui->setTop(top);
 
         // Now we load the font used in this example.
         font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");

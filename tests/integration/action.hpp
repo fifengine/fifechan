@@ -76,7 +76,7 @@ namespace action
         // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));
         // Finally we pass the top widget to the Gui object.
-        globals::gui->setTop(top);
+        gui->setTop(top);
 
         // Now we load the font used in this example.
         font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
