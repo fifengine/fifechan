@@ -16,7 +16,7 @@ namespace fcn
 
     /**
      * Represents an action event. An action event is an event
-     * that can be fired by a widget whenever an action has occured.
+     * that can be fired by a widget whenever an action has occurred.
      * What exactly an action is is up to the widget that fires
      * the action event. An example is a Button which fires an action
      * event as soon as the Button is clicked, another example is
@@ -28,7 +28,7 @@ namespace fcn
      *
      * If you have implement a widget of your own it's a good idea to
      * let the widget fire action events whenever you feel an action
-     * has occured so action listeners of the widget can be informed
+     * has occurred so action listeners of the widget can be informed
      * of the state of the widget.
      *
      * @see Widget::addActionListener, Widget::removeActionListener,

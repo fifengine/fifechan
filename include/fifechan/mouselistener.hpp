@@ -69,21 +69,21 @@ namespace fcn
         /**
          * Called when the mouse wheel has moved down on the widget area.
          *
-         * @param mousEvent Describes the event.
+         * @param eEvent Describes the event.
          */
         virtual void mouseWheelMovedDown(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved right on the widget area.
          *
-         * @param mousEvent Describes the event.
+         * @param mouseEvent Describes the event.
          */
         virtual void mouseWheelMovedRight(MouseEvent& mouseEvent) { }
 
         /**
          * Called when the mouse wheel has moved left on the widget area.
          *
-         * @param mousEvent Describes the event.
+         * @param mouseEvent Describes the event.
          */
         virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent) { }
 

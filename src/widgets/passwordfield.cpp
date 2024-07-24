@@ -55,7 +55,7 @@ namespace fcn
             mText->setCaretColumn(mText->getNumberOfCharacters(0));
             setActualTextCaretPosition(getText().size());
         } else if (
-            // Add character to text, if key is realy a ASCII character
+            // Add character to text, if key is a ASCII character
             // or is greater than 8bits long and the character is not
             // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&

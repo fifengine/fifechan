@@ -22,11 +22,11 @@ namespace fcn
     {
     public:
         /**
-         * Scrollpolicies for the horizontal and vertical scrollbar.
+         * Scroll policies for the horizontal and vertical scrollbar.
          * The policies are:
          *
          * SHOW_ALWAYS - Always show the scrollbars no matter what.
-         * SHOW_NEVER  - Never show the scrollbars no matter waht.
+         * SHOW_NEVER  - Never show the scrollbars no matter what.
          * SHOW_AUTO   - Show the scrollbars only when needed. That is if the
          *               content grows larger then the ScrollArea.
          */
@@ -258,10 +258,10 @@ namespace fcn
         int getDownButtonScrollAmount() const;
 
         /**
-         * Sets the scroll area to be opaque, that is sets the scoll area
+         * Sets the scroll area to be opaque, that is sets the scroll area
          * to display its background.
          *
-         * @param opaque True if the scoll area should be opaque, false otherwise.
+         * @param opaque True if the scroll area should be opaque, false otherwise.
          */
         void setOpaque(bool opaque);
 

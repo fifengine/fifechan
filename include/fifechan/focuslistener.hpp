@@ -25,14 +25,14 @@ namespace fcn
         /**
          * Called when a widget gains focus.
          *
-         * @param event Discribes the event.
+         * @param event Describes the event.
          */
         virtual void focusGained(Event const & event) { }
 
         /**
          * Called when a widget loses focus.
          *
-         * @param event Discribes the event.
+         * @param event Describes the event.
          */
         virtual void focusLost(Event const & event) { }
 

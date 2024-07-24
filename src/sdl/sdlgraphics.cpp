@@ -49,11 +49,11 @@ namespace fcn
         SDL_Rect rect;
         bool result = Graphics::pushClipArea(area);
 
-        ClipRectangle const & carea = mClipStack.top();
-        rect.x                      = carea.x;
-        rect.y                      = carea.y;
-        rect.w                      = carea.width;
-        rect.h                      = carea.height;
+        ClipRectangle const & clip_rect = mClipStack.top();
+        rect.x                      = clip_rect.x;
+        rect.y                      = clip_rect.y;
+        rect.w                      = clip_rect.width;
+        rect.h                      = clip_rect.height;
 
         SDL_SetClipRect(mTarget, &rect);
 
@@ -68,12 +68,12 @@ namespace fcn
             return;
         }
 
-        ClipRectangle const & carea = mClipStack.top();
+        ClipRectangle const & clip_rect = mClipStack.top();
         SDL_Rect rect;
-        rect.x = carea.x;
-        rect.y = carea.y;
-        rect.w = carea.width;
-        rect.h = carea.height;
+        rect.x = clip_rect.x;
+        rect.y = clip_rect.y;
+        rect.w = clip_rect.width;
+        rect.h = clip_rect.height;
 
         SDL_SetClipRect(mTarget, &rect);
     }
@@ -87,7 +87,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -121,7 +121,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -168,7 +168,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -193,7 +193,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -292,7 +292,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -415,7 +415,7 @@ namespace fcn
 
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -560,7 +560,7 @@ namespace fcn
     {
         if (mClipStack.empty()) {
             fcn::throwException(
-                "Clip stack is empty, perhaps you called a draw funtion outside of _beginDraw() and _endDraw()?",
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);

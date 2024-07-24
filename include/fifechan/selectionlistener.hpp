@@ -27,7 +27,7 @@ namespace fcn
 
         /**
          * Called when the value of a selection has been changed in a Widget.
-         * It is used to be able to recieve a notification that a value has
+         * It is used to be able to receive a notification that a value has
          * been changed.
          *
          * @param event The event of the value change.

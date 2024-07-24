@@ -296,7 +296,7 @@ namespace fcn
 
     void TextBox::setCaretColumnUTF8(int column)
     {
-        // no need to clip the column, mStringEditor handles it automaticly
+        // no need to clip the column, mStringEditor handles it automatically
         setCaretColumn(mStringEditor->getOffset(getTextRow(getCaretRow()), column));
     }
 

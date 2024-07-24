@@ -5,9 +5,8 @@
 #ifndef TESTS_INTEGRATION_HGE_HGE_HPP_
 #define TESTS_INTEGRATION_HGE_HGE_HPP_
 
-/*
- * Code that sets up an HGE application with Fifechan using the
- * Fifechan HGE back end.
+/**
+ * @brief Contains the code that sets up an HGE application with FifeGUI.
  */
 
 #include <fifechan/hge.hpp>
@@ -21,12 +20,11 @@ namespace hge
     HGE* hge     = NULL;
     bool running = false;
 
-    // All back ends contain objects to make Fifechan work on a
-    // specific target - in this case HGE - and they are a Graphics
-    // object to make Fifechan able to draw itself using HGE, an
-    // input objec to make Fifechan able to get user input using HGE
-    // and an ImageLoader object to make Fifechan able to load images
-    // using SDL.
+    // Here the following backend objects are necessary for FifeGUI to work
+    // with HGE. These objects include:
+    // A Graphics object, allowing the GUI to render using HGE.
+    // An Input object, enabling the GUI to receive user input via HGE.
+    // An ImageLoader object, allowing the loading of images using SDL.
     fcn::HGEGraphics* graphics;
     fcn::HGEInput* input;
     fcn::HGEImageLoader* imageLoader;
@@ -75,21 +73,16 @@ namespace hge
             throw FCN_EXCEPTION("Unable to initialse HGE: " + std::string(hge->System_GetErrorMessage()));
         }
 
-        // Now it's time to initialise the Fifechan HGE back end.
+        // Now it's time to initialise the HGE backend.
 
         imageLoader = new fcn::HGEImageLoader();
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::HGEGraphics();
         input    = new fcn::HGEInput();
 
-        // Now we create the Gui object to be used with this HGE application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with HGE implementations of these objects hence making Fifechan
-        // able to utilise HGE.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }

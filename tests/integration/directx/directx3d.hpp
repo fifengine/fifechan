@@ -5,9 +5,10 @@
 #ifndef TESTS_INTEGRATION_DIRECTX_DIRECTX3D_HPP_
 #define TESTS_INTEGRATION_DIRECTX_DIRECTX3D_HPP_
 
-/*
- * Code that sets up an DirectX application with Fifechan using the
- * Fifechan DirectX back end.
+/**
+ * @brief Contains the DirectX application setup code.
+ *
+ * The code uses FifeGUI and FifeGUI's DirectX 3D backend to create a GUI.
  */
 
 #include <fifechan/directx3d.hpp>
@@ -28,11 +29,9 @@ namespace directx3d
     LPDIRECT3D9 d3d;
     LPDIRECT3DDEVICE9 d3ddev;
 
-    // All back ends contain objects to make Fifechan work on a
-    // specific target. They are a Graphics object to make Fifechan
-    // able to draw itself using DirectX, an input objec to make
-    // Fifechan able to get user input using DirectX and an ImageLoader
-    // object to make Fifechan able to load images using DirectX.
+    // This backend is a wrapper around a specific GUI library, Directx 3D.
+    // It provides the objects Graphics for drawing, input for user interaction,
+    // and ImageLoader for image loading.
     fcn::DirectX3DGraphics* graphics;
     fcn::DirectX3DInput* input = NULL;
     fcn::DirectX3DImageLoader* imageLoader;
@@ -124,7 +123,7 @@ namespace directx3d
         hWnd = CreateWindowEx(
             NULL,
             "myWindowClass",
-            "Fifechan DirectX 3D Test",
+            "FifeGUI DirectX 3D Test",
             WS_OVERLAPPEDWINDOW,
             300,
             300,
@@ -153,25 +152,20 @@ namespace directx3d
         d3d->CreateDevice(
             D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev);
 
-        // Now it's time to initialise the Fifechan DirectX 3D back end.
+        // Now it's time to initialise the FifeGUI DirectX 3D backend.
 
         imageLoader = new fcn::DirectX3DImageLoader(d3ddev);
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
+
         graphics = new fcn::DirectX3DGraphics(d3ddev);
         // We need to tell the DirectX Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
         graphics->setDevice(d3ddev);
         input = new fcn::DirectX3DInput();
 
-        // Now we create the Gui object to be used with this DirectX
-        // application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with DirectX implementations of these objects hence
-        // making Fifechan able to utilise DirectX.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }

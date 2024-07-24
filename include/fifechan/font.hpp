@@ -24,7 +24,7 @@ namespace fcn
         virtual ~Font() = default;
 
         /**
-         * Gets the width of a string. The width of a string is not necesserily
+         * Gets the width of a string. The width of a string is not necessarily
          * the sum of all the widths of it's glyphs.
          *
          * @param text The string to return the width of.
@@ -41,7 +41,7 @@ namespace fcn
 
         /**
          * Gets a string index in a string providing an x coordinate.
-         * Used to retrive a string index (for a character in a
+         * Used to retrieve a string index (for a character in a
          * string) at a certain x position. It is especially useful
          * when a mouse clicks in a TextField and you want to know which
          * character was clicked.

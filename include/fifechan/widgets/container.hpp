@@ -36,8 +36,8 @@ namespace fcn
         };
 
         /**
-         * Constructor. A container is opauqe as default, if you want a
-         * none opaque container call setQpaque(false).
+         * Constructor. A container is opaque as default, if you want a
+         * none opaque container call setOpaque(false).
          *
          * @see setOpaque, isOpaque
          */
@@ -108,8 +108,7 @@ namespace fcn
          * Finds a widget given an id.
          *
          * @param id The id to find a widget by.
-         * @return A widget with a corrosponding id, NULL if no widget
-         *         is found.
+         * @return A widget with a corresponding id, NULL if no widget found.
          * @see Widget::setId
          */
         virtual Widget* findWidgetById(std::string const & id);

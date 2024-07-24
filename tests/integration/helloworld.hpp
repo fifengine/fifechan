@@ -5,11 +5,6 @@
 #ifndef TESTS_INTEGRATION_HELLOWORLD_HPP_
 #define TESTS_INTEGRATION_HELLOWORLD_HPP_
 
-/**
- * Code to populate a global Gui object with a simple
- * Hello World example.
- */
-
 namespace helloworld
 {
     fcn::Container* top;
@@ -17,15 +12,13 @@ namespace helloworld
     fcn::Label* label;
 
     /**
-     * Initialises the Hello World example by populating the global Gui
-     * object.
+     * Initialises the Hello World example by adding widgets to the GUI object.
      */
     void init()
     {
         // We first create a container to be used as the top widget.
-        // The top widget in Fifechan can be any kind of widget, but
-        // in order to make the Gui contain more than one widget we
-        // make the top widget a container.
+        // The top widget can be any kind of widget, but in order to make the
+        // Gui contain more than one widget we make the top widget a container.
         top = new fcn::Container();
         // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));

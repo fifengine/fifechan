@@ -49,7 +49,7 @@ namespace fcn
         ClipRectangle& mCurrentDrawingArea = mClipStack.top();
 
         // saves the current context options including clipping area
-        //  ! Actualy saves all drawing options.
+        //  ! Actually saves all drawing options.
         cairo_save(mCairoContext);
         // create a rectangle corresponding to the clipping area
         cairo_rectangle(

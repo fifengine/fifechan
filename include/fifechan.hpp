@@ -78,9 +78,9 @@
 #include "fifechan/platform.hpp"
 
 /**
- * Gets the the version of Fifechan.
+ * @brief Returns the version of the library.
  *
- * @return the version of Fifechan.
+ * @return the version.
  */
 FIFEGUI_API extern char const * fcnFifechanVersion();
 

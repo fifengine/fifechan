@@ -30,22 +30,24 @@ namespace fcn
     /**
      * @mainpage
      * @section Introduction
-     * This documentation is mostly intended as a reference to the API. If you want to get started with Fifechan, we
-     * suggest you check out the programs in the examples directory of the Fifechan release.
+     * This documentation is mostly intended as a reference to the API.
+     * If you want to get started with FifeGUI, we suggest you check out
+     * the programs in the examples and tests/integration folders.
      * @n
      * @n
-     * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or
-     * if you feel something needs to be explained in more detail - don't hesitate to tell us.
+     * This documentation is, and will always be, work in progress.
+     * If you find any errors, typos or inconsistencies, or if you feel
+     * something needs to be explained in more detail, don't hesitate to tell us.
      */
 
     /**
-     * Contains a Fifechan GUI. This is the core class of Fifechan to which
-     * implementations of back ends are passed, to make Fifechan work with
-     * a specific library, and to where the top widget (root widget of GUI)
-     * is added. If you want to be able to have more then one widget in your
+     * GUI is the core class of FifeGUI to which implementations of backends
+     * are passed, to make FifeGUI work with a specific library, and to where
+     * the top widget (root widget of GUI) is added.
+     * If you want to be able to have more then one widget in your
      * GUI, the top widget should be a container.
      *
-     * A Gui object cannot work properly without passing back end
+     * A Gui object cannot work properly without passing backend
      * implementations to it. A Gui object must have an implementation of a
      * Graphics and an implementation of Input.
      *
@@ -129,7 +131,7 @@ namespace fcn
         virtual void logic();
 
         /**
-         * Draws the GUI. By calling this funcion all draw functions
+         * Draws the GUI. By calling this function all draw functions
          * down in the GUI hierarchy will be called. When draw is called
          * the used Graphics object will be initialised and drawing of
          * the top widget will commence.
@@ -146,7 +148,7 @@ namespace fcn
 
         /**
          * Sets tabbing enabled, or not. Tabbing is the usage of
-         * changing focus by utilising the tab key.
+         * changing focus by utilizing the tab key.
          *
          * @param tabbing True if tabbing should be enabled, false
          *                otherwise.
@@ -329,7 +331,7 @@ namespace fcn
          * @param button The button of the event (if any used) to distribute.
          * @param x The x coordinate of the event.
          * @param y The y coordinate of the event.
-         * @param fource indicates whether the distribution should be forced or not.
+         * @param force indicates whether the distribution should be forced or not.
          *               A forced distribution distributes the event even if a widget
          *               is not enabled, not visible, another widget has modal
          *               focus or another widget has modal mouse input focus.

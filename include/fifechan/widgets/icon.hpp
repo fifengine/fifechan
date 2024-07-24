@@ -35,9 +35,6 @@ namespace fcn
          */
         explicit Icon(Image const * image);
 
-        /**
-         * Descructor.
-         */
         virtual ~Icon();
 
         /**

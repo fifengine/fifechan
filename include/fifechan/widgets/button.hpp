@@ -64,7 +64,7 @@ namespace fcn
 
         /**
          * Sets the button state.
-         * If the button is inactiv it looks gray.
+         * If the button is inactive it looks gray.
          *
          * @param state True to activate the button or false to deactivate it.
          */
@@ -176,7 +176,7 @@ namespace fcn
         std::string mCaption;
 
         /**
-         * True if the mouse is ontop of the button, false otherwise.
+         * True if the mouse is on top of the button, false otherwise.
          */
         bool mHasMouse;
 

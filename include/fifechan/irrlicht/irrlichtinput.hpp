@@ -55,10 +55,10 @@ namespace fcn
 
     protected:
         /**
-         * Converts an Irrlicht event to a Fifechan key value.
+         * Converts an Irrlicht event to a FifeGUI key value.
          *
          * @param keysym The Irrlicht event to convert.
-         * @return A Fifechan key value. -1 if no conversion took place.
+         * @return A FifeGUI key value. -1 if no conversion took place.
          * @see Key
          */
         int convertIrrlichtEventToFifechanKeyValue(irr::SEvent const & event);

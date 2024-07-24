@@ -24,9 +24,9 @@ namespace fcn
         virtual ~ActionListener() = default;
 
         /**
-         * Called when an action is recieved from a widget. It is used
-         * to be able to recieve a notification that an action has
-         * occured.
+         * Called when an action is received from a widget.
+         * It is used to receive notifications about actions that have occurred.
+         * The actionEvent contains information about the action.
          *
          * @param actionEvent The event of the action.
          */

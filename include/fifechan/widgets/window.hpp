@@ -84,7 +84,7 @@ namespace fcn
         unsigned int getInnerBorderSize() const;
 
         /**
-         * Sets the window to be moveble or not.
+         * Sets the window to be movable or not.
          *
          * @param movable True if the window should be movable, false otherwise.
          * @see isMovable

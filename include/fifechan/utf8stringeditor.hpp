@@ -69,7 +69,7 @@ namespace fcn
         /**
          * Gets byte offset for character index.
          *
-         * This method automaticly clips charIndex to be inside
+         * This method automatically clips charIndex to be inside
          * the string + EOF
          *
          * @param text UTF-8 text to navigate.

@@ -156,7 +156,7 @@ namespace fcn
      */
     inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, Color const & color)
     {
-        // avoids overhead and truncation artefacts
+        // avoids overhead and truncation artifacts
         if (color.a == 255) {
             SDLputPixel(surface, x, y, color);
             return;

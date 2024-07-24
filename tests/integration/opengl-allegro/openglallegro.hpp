@@ -5,11 +5,12 @@
 #ifndef TESTS_INTEGRATION_OPENGL_ALLEGRO_OPENGLALLEGRO_HPP_
 #define TESTS_INTEGRATION_OPENGL_ALLEGRO_OPENGLALLEGRO_HPP_
 
-/*
- * Code that sets up an OpenGL application with Fifechan using the
- * Fifechan OpenGL back end and the Allegro back end (as OpenGL cannot
- * load images nor check for user input an additional back end needs
- * to be used).
+/**
+ * @brief Example that shows all widgets using the OpenGL and Allegro backends.
+ *
+ * The example is a simple application that creates a window and populates
+ * it with all the widgets present in FifeGUI. The example is a good starting
+ * point for anyone who wants to start using FifeGUI with OpenGL and Allegro.
  */
 
 // The openglallegroimageloader.hpp header file needs to be included
@@ -22,11 +23,11 @@
 
 namespace openglallegro
 {
-    // All back ends contain objects to make Fifechan work on a
-    // specific target. They are a Graphics object to make Fifechan
-    // able to draw itself using OpenGL, an input objec to make
-    // Fifechan able to get user input using Allegro and an ImageLoader
-    // object to make Fifechan able to load images using OpenGL and Allegro.
+    // Here the following backend objects are necessary for FifeGUI to work
+    // with Irrlicht. These objects include:
+    // A Graphics object, allowing the GUI to render using OpenGL,
+    // An Input object, enabling the GUI to receive user input via Allegro,
+    // An ImageLoader object, allowing the loading of images using Allegro for OpenGL.
     fcn::OpenGLGraphics* graphics;
     fcn::AllegroInput* input;
     fcn::OpenGLAllegroImageLoader* imageLoader;
@@ -59,25 +60,18 @@ namespace openglallegro
         glViewport(0, 0, 640, 480);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        // Now it's time to initialise the Fifechan OpenGL back end
-        // and the Fifechan Allegro back end.
+        // Now it's time to initialise the OpenGL backend and Allegro backend.
 
         imageLoader = new fcn::OpenGLAllegroImageLoader();
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::OpenGLGraphics();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
         input = new fcn::AllegroInput();
 
-        // Now we create the Gui object to be used with this OpenGL
-        // and Allegro application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with OpenGL and Allegro implementations of these objects hence
-        // making Fifechan able to utilise OpenGL and Allegro.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }

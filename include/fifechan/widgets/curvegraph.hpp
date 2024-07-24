@@ -28,8 +28,8 @@ namespace fcn
         void setThickness(unsigned int thickness);
         unsigned int getThickness() const;
 
-        void setAutomaticControllPoints(bool acp);
-        bool isAutomaticControllPoints() const;
+        void setAutomaticControlPoints(bool acp);
+        bool isAutomaticControlPoints() const;
 
         /**
          * Sets the opacity of the graph.

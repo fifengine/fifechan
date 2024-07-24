@@ -58,11 +58,11 @@ namespace fcn
         /**
          * Converts a character to a key value.
          *
-         * @param wParam Windows parameter to retreive
+         * @param wParam Windows parameter to retrieve
          *               character information from.
-         * @param lParam Windows parameter to retreive
+         * @param lParam Windows parameter to retrieve
          *               character information from.
-         * @param kbstate The keybord state retreived from
+         * @param kbstate The keybord state retrieved from
          *                GetKeyboardState.
          * @return A key value.
          * @see Key

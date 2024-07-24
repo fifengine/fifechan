@@ -40,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - move includes/util/fcn_math.hpp to includes/math.hpp
 - updated `tests/integration/sdlhelloworld` to work with SDL2
 - in sdlpixel.hpp SDLAlpha32() renamed to SDLBlend(), SDLAlpha16() renamed to SDLBlendColor()
-
+- renamed variable carea to clip_rect
+- applied spellchecking
 
 **Removed**
 - removed usage of deprecated std::iterator

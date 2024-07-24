@@ -30,10 +30,10 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract class for widgets of Fifechan. It contains basic functions
-     * every widget should have.
+     * Abstract class for widgets.
+     * It contains basic functions every widget should have.
      *
-     * NOTE: Functions begining with underscore "_" should not
+     * NOTE: Functions beginning with underscore "_" should not
      *       be overloaded unless you know what you are doing.
      */
     class FIFEGUI_API Widget
@@ -50,9 +50,11 @@ namespace fcn
         };
 
         /**
-         * Constructor. Resets member variables. Noteable, a widget is not
-         * focusable as default, therefore, widgets that are supposed to be
-         * focusable should overide this default in their own constructor.
+         * Constructor.
+         * Resets member variables.
+         * Notably, a widget is not focusable as default, therefore,
+         * widgets that are supposed to be focusable should override
+         * this default in their own constructor.
          */
         Widget();
 
@@ -429,7 +431,7 @@ namespace fcn
 
         /**
          * Sets the x coordinate of the widget. The coordinate is
-         * relateive to the widget's parent.
+         * relative to the widget's parent.
          *
          * @param x The x coordinate of the widget.
          * @see getX, setY, getY, setPosition, setDimension, getDimension
@@ -563,7 +565,7 @@ namespace fcn
         bool isFixedSize() const;
 
         /**
-         * Sets the widget to be fosusable, or not.
+         * Sets the widget to be focusable, or not.
          *
          * @param focusable True if the widget should be focusable,
          *                  false otherwise.
@@ -572,7 +574,7 @@ namespace fcn
         void setFocusable(bool focusable);
 
         /**
-         * Checks if a widget is focsable.
+         * Checks if a widget is focusable.
          *
          * @return True if the widget should be focusable, false otherwise.
          * @see setFocusable
@@ -588,7 +590,7 @@ namespace fcn
 
         /**
          * Sets the widget to enabled, or not. A disabled
-         * widget will never recieve mouse or key events.
+         * widget will never receive mouse or key events.
          *
          * @param enabled True if widget should be enabled,
          *                false otherwise.
@@ -598,7 +600,7 @@ namespace fcn
 
         /**
          * Checks if the widget is enabled. A disabled
-         * widget will never recieve mouse or key events.
+         * widget will never receive mouse or key events.
          *
          * @return True if widget is enabled, false otherwise.
          * @see setEnabled
@@ -631,7 +633,7 @@ namespace fcn
         /**
          * Sets the base color of the widget.
          *
-         * @param color The baseground color.
+         * @param color The base color.
          * @see getBaseColor
          */
         void setBaseColor(Color const & color);
@@ -739,7 +741,7 @@ namespace fcn
         SelectionMode getSelectionMode() const;
 
         /**
-         * Requests focus for the widget. A widget will only recieve focus
+         * Requests focus for the widget. A widget will only receive focus
          * if it is focusable.
          *
          */
@@ -912,11 +914,11 @@ namespace fcn
 
         /**
          * Sets the action event identifier of the widget. The identifier is
-         * used to be able to identify which action has occured.
+         * used to be able to identify which action has occurred.
          *
          * NOTE: An action event identifier should not be used to identify a
          *       certain widget but rather a certain event in your application.
-         *       Several widgets can have the same action event identifer.
+         *       Several widgets can have the same action event identifier.
          *
          * @param actionEventId The action event identifier.
          * @see getActionEventId
@@ -954,7 +956,7 @@ namespace fcn
         /**
          * Gets the font set for the widget. If no font has been set,
          * the global font will be returned. If no global font has been set,
-         * the default font will be returend.
+         * the default font will be returned.
          *
          * @return The font set for the widget.
          * @see setFont, setGlobalFont
@@ -1057,7 +1059,7 @@ namespace fcn
 
         /**
          * Requests modal focus. When a widget has modal focus, only that
-         * widget and it's children may recieve input.
+         * widget and it's children may receive input.
          *
          * @throws Exception if another widget already has modal focus.
          * @see releaseModalFocus, isModalFocused
@@ -1119,7 +1121,7 @@ namespace fcn
          * @param y The y coordinate of the widget to get.
          * @param exclude Widget to exclude from search, if NULL
          *            no widgets get excluded.
-         * @return The widget at the specified coodinate, NULL
+         * @return The widget at the specified coordinate, NULL
          *         if no widget is found.
          */
         virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr);
@@ -1171,7 +1173,7 @@ namespace fcn
          *       children draw themselves in the whole widget.
          *
          * An example of a widget that overloads this method is ScrollArea.
-         * A ScrollArea has a view of its contant and that view is the
+         * A ScrollArea has a view of its constant and that view is the
          * children area. The size of a ScrollArea's children area might
          * vary depending on if the scroll bars of the ScrollArea is shown
          * or not.
@@ -1192,7 +1194,7 @@ namespace fcn
         /**
          * Sets the internal focus handler. An internal focus handler is
          * needed if both a widget in the widget and the widget itself
-         * should be foucsed at the same time.
+         * should be focused at the same time.
          *
          * @param focusHandler The internal focus handler to be used.
          * @see getInternalFocusHandler
@@ -1471,14 +1473,13 @@ namespace fcn
         virtual void clear();
 
         /**
-         * Finds a widget given an id. This function can be useful
-         * when implementing a GUI generator for Fifechan, such as
-         * the ability to create a Fifechan GUI from an XML file.
+         * Finds a widget by id.
+         *
+         * This function can be useful when implementing a GUI generator,
+         * such as the ability to create a GUI from an XML file.
          *
          * @param id The id to find a widget by.
-         * @return The widget with the corrosponding id,
-         *         NULL of no widget is found.
-         *
+         * @return The widget with the corresponding id, NULL of no widget is found.
          */
         virtual Widget* findWidgetById(std::string const & id);
 

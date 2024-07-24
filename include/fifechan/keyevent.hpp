@@ -38,7 +38,7 @@ namespace fcn
          * @param isAltPressed True if alt is pressed, false otherwise.
          * @param isMetaPressed True if meta is pressed, false otherwise.
          * @param type The type of the event. A value from KeyEventType.
-         * @param isNumericPad True if the event occured on the numeric pad,
+         * @param isNumericPad True if the event occurred on the numeric pad,
          *                     false otherwise.
          * @param key The key of the event.
          */
@@ -63,9 +63,9 @@ namespace fcn
         unsigned int getType() const;
 
         /**
-         * Checks if the key event occured on the numeric pad.
+         * Checks if the key event occurred on the numeric pad.
          *
-         * @return True if key event occured on the numeric pad,
+         * @return True if key event occurred on the numeric pad,
          *         false otherwise.
          *
          */

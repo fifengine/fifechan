@@ -13,7 +13,7 @@ namespace fcn
     /**
      * Internal class that represents mouse input. Generally you won't have to
      * bother using this class unless you implement an Input class for
-     * a back end.
+     * a backend.
      */
     class FIFEGUI_API MouseInput
     {

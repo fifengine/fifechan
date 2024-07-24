@@ -27,7 +27,7 @@ namespace fcn
      *  \image html imagefontexample2.bmp
      *
      * The first pixel at coordinate (0,0) tells which color the image font
-     * looks for when seperating glyphs. The glyphs in the image is provided
+     * looks for when separating glyphs. The glyphs in the image is provided
      * to the image font's constructor in the order they appear in the image.
      *
      * To create an ImageFont from the first image example above the following
@@ -36,7 +36,7 @@ namespace fcn
 pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
      *
      * Noteworthy is that the first glyph actually gives the width of space.
-     * Glyphs can, as seen in the second image example above, be seperated with
+     * Glyphs can, as seen in the second image example above, be separated with
      * horizontal lines making it possible to draw glyphs on more then one
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!

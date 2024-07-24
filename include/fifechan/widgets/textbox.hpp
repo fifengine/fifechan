@@ -86,7 +86,7 @@ namespace fcn
         /**
          * Sets the position of the caret in the text.
          *
-         * @param position the positon of the caret.
+         * @param position the position of the caret.
          * @see getCaretPosition
          */
         void setCaretPosition(unsigned int position);
@@ -124,7 +124,7 @@ namespace fcn
         void setCaretColumn(int column);
 
         /**
-         * Sets the row and the column where the caret should be curretly
+         * Sets the row and the column where the caret should be currently
          * located.
          *
          * @param row The row where the caret should be currently located.

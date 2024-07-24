@@ -13,9 +13,8 @@
 namespace fcn
 {
     /**
-     * A font only capable of drawing rectangles. It is used by default
-     * in Fifechan if no font has been set merely to show that no font has
-     * been set.
+     * A font only capable of drawing rectangles.
+     * This font is used as a default font when no other font is specified.
      */
     class FIFEGUI_API DefaultFont : public Font
     {

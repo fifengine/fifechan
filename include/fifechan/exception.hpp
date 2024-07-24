@@ -16,15 +16,13 @@ namespace fcn
 
     /**
      * An exception containing a message, a file and a line number
-     * where the exception occured. Fifechan will only throw exceptions
-     * of this class.
-     *
-     * You can use this class for your own exceptions that has
-     * something to do with a GUI exception. A nifty feature of the
-     * excpetion class is that it can tell you from which line and
-     * file it was thrown. To make things easier when throwing
-     * exceptions there exists a macro for creating exceptions
-     * which automatically sets the filename and line number.
+     * where the exception occurred. This class is used to throw
+     * exceptions in the GUI code. The exception will contain the
+     * filename and line number where the exception was thrown.
+     * This makes it easier to find the source of the exception.
+     * The exception will also contain the function name where the
+     * exception was thrown.
+     * The exception is thrown using the fcn::throwException function.
      *
      * EXAMPLE:
      * @code
@@ -38,10 +36,10 @@ namespace fcn
          * Constructor.
          *
          * @param message The error message of the exception.
-         * @param function The function name where the exception occured.
-         * @param filename The name of the file where the exception occured.
+         * @param function The function name where the exception occurred.
+         * @param filename The name of the file where the exception occurred.
          * @param line The line number in the source code where the exception
-         *             occured.
+         *             occurred.
          */
         Exception(std::string message, std::string function, std::string filename, unsigned int line);
 
@@ -53,9 +51,9 @@ namespace fcn
         char const * what() const noexcept override;
 
         /**
-         * Gets the function name where the exception occured.
+         * Gets the function name where the exception occurred.
          *
-         * @return The function name where the exception occured.
+         * @return The function name where the exception occurred.
          */
         std::string const & getFunction() const;
 
@@ -67,22 +65,22 @@ namespace fcn
         std::string const & getMessage() const;
 
         /**
-         * Gets the filename where the exception occured.
+         * Gets the filename where the exception occurred.
          *
-         * @return The filename where the exception occured.
+         * @return The filename where the exception occurred.
          */
         std::string const & getFilename() const;
 
         /**
-         * Gets the line number where the exception occured.
+         * Gets the line number where the exception occurred.
          *
-         * @return The line number where the exception occured.
+         * @return The line number where the exception occurred.
          */
         unsigned int getLine() const;
 
     private:
         /**
-         * Holds the name of the function name where the exception occured.
+         * Holds the name of the function name where the exception occurred.
          */
         std::string mFunction;
 
@@ -92,12 +90,12 @@ namespace fcn
         std::string mMessage;
 
         /**
-         * Holds the filename where the exception occured.
+         * Holds the filename where the exception occurred.
          */
         std::string mFilename;
 
         /**
-         * Holds the line number where the exception occured.
+         * Holds the line number where the exception occurred.
          */
         unsigned int mLine;
     };

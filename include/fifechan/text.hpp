@@ -178,7 +178,7 @@ namespace fcn
          * Gets the x coordinate of the caret in pixels given a font.
          *
          * @param font The font to use when calculating the x coordinate.
-         * @return The x coorinate of the caret in pixels.
+         * @return The x coordinate of the caret in pixels.
          */
         virtual int getCaretX(Font* font) const;
 
@@ -186,7 +186,7 @@ namespace fcn
          * Gets the y coordinate of the caret in pixels given a font.
          *
          * @param font The font to use when calculating the y coordinate.
-         * @return The y coorinate of the caret in pixels.
+         * @return The y coordinate of the caret in pixels.
          */
         virtual int getCaretY(Font* font) const;
 

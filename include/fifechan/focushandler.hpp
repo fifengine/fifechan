@@ -24,7 +24,7 @@ namespace fcn
      * @see Widget::isFocus, Widget::isModalFocused,
      *      Widget::isModalMouseInputFocused, Widget::requestFocus,
      *      Widget::requestModalFocus, Widget::requestModalMouseInputFocus,
-     *      Widget::releaseModalFocus, Widget::relaseModalMouseInputFocus,
+     *      Widget::releaseModalFocus, Widget::releaseModalMouseInputFocus,
      *      Widget::setFocusable, Widget::isFocusable, FocusListener
      *
      */
@@ -76,16 +76,16 @@ namespace fcn
 
         /**
          * Releases modal focus if the widget has modal focus.
-         * If the widget doesn't have modal focus no relase will occur.
+         * If the widget doesn't have modal focus no release will occur.
          *
          * @param widget The widget to release modal focus for.
-         * @see reuqestModalFocus, Widget::releaseModalFocus
+         * @see requestModalFocus, Widget::releaseModalFocus
          */
         virtual void releaseModalFocus(Widget* widget);
 
         /**
          * Releases modal mouse input focus if the widget has modal mouse input
-         * focus. If the widget doesn't have modal mouse input focus no relase
+         * focus. If the widget doesn't have modal mouse input focus no release
          * will occur.
          *
          * @param widget the widget to release modal mouse input focus for.
@@ -126,7 +126,7 @@ namespace fcn
         virtual Widget* getModalMouseInputFocused() const;
 
         /**
-         * Focuses the next widget added to a conainer.
+         * Focuses the next widget added to a container.
          * If no widget has focus the first widget gets focus. The order
          * in which the widgets are focused is determined by the order
          * they were added to a container.
@@ -136,7 +136,7 @@ namespace fcn
         virtual void focusNext();
 
         /**
-         * Focuses the previous widget added to a contaienr.
+         * Focuses the previous widget added to a container.
          * If no widget has focus the first widget gets focus. The order
          * in which the widgets are focused is determined by the order
          * they were added to a container.

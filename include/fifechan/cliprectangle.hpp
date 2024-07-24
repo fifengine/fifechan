@@ -42,7 +42,7 @@ namespace fcn
          * field from a rectangle to a clip rectangle.
          *
          * @param other The rectangle to copy data from.
-         * @returns A clip rectangle with data copyied from a rectangle.
+         * @returns A clip rectangle with data copied from a rectangle.
          */
         ClipRectangle& operator=(Rectangle const & other);
 

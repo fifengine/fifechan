@@ -180,8 +180,8 @@ namespace fcn
 
         case SDL_WINDOWEVENT: {
             /*
-             * This occurs when the mouse enters/leaves the window and the fifechan
-             * application gains/loses its mousefocus.
+             * This occurs when the mouse enters/leaves the window
+             * and the gui application gains/loses its mousefocus.
              */
             if (event.window.event == SDL_WINDOWEVENT_ENTER) {
                 mMouseInWindow = true;

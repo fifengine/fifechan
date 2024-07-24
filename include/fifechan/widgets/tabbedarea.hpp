@@ -128,7 +128,7 @@ namespace fcn
         /**
          * Gets the index of the selected tab.
          *
-         * @return The undex of the selected tab.
+         * @return The index of the selected tab.
          *         If no tab is selected -1 will be returned.
          * @see isTabSelected, setSelectedTab
          */

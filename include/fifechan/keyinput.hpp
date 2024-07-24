@@ -11,10 +11,14 @@
 namespace fcn
 {
     /**
-     * Internal class that represents key input. Generally you won't have to
-     * bother using this class unless you implement an Input class for
-     * a back end.
+     * Internal class that represents key input.
      *
+     * This class is used to represent key input events.
+     * It holds information about the key that was pressed or released,
+     * the type of the key input event and if any modifier keys were pressed
+     * at the same time as the key.
+     *
+     * The class is relevant if you want to implement an Input class for a backend.
      */
     class FIFEGUI_API KeyInput
     {

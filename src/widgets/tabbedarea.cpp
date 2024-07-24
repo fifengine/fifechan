@@ -428,7 +428,7 @@ namespace fcn
         }
 
         // Request focus only if the source of the event
-        // is not focusble. If the source of the event
+        // is not focusable. If the source of the event
         // is focused we don't want to steal the focus.
         if (!mouseEvent.getSource()->isFocusable()) {
             requestFocus();

@@ -20,14 +20,14 @@ namespace fcn
     class Image;
 
     /**
-     * Abstract class for providing drawing primitve functions.
+     * Abstract class for providing drawing primitive functions.
      * It contains all vital functions for drawing.
      *
-     * Fifechan contains implementations of Graphics for common
+     * FifeGUI contains implementations of Graphics for common
      * libraries like the Allegro library, the HGE library,
      * the OpenGL library, the OpenLayer library, and the SDL library.
-     * To make Fifechan usable with other libraries, a Graphics class
-     * must be implemented.
+     * If you want to use FifeGUI with another library you will have
+     * to implement a Graphics class for that library.
      *
      * In Graphics you can set clip areas to limit drawing to certain
      * areas of the screen. Clip areas are put on a stack, which
@@ -46,9 +46,6 @@ namespace fcn
      * in widgets. You could for instance use pure SDL in the drawing of
      * widgets bypassing Graphics. This might however hurt portability of
      * your application.
-     *
-     * If you implement a Graphics class not present in Fifechan we would
-     * be very happy to add it to Fifechan.
      *
      * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics,
      *      SDLGraphics, Image
@@ -77,18 +74,19 @@ namespace fcn
          * is the OpenGLGraphics.
          *
          * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Fifechan.
+         *       you use a Graphics object outside the library.
          *
          * @see _endDraw, Gui::draw
          */
         virtual void _beginDraw() { }
 
         /**
-         * Deinitializes drawing. Called by the Gui when a Gui::draw() is done.
-         * done. It should reset any state changes made by _beginDraw().
+         * Deinitializes the drawing process.
+         * Called by the GUI when `Gui::draw()` is complete.
+         * It should reset any state changes made by `_beginDraw()`.
          *
-         * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Fifechan.
+         * NOTE: You generally won't need to call this function yourself unless
+         *       you are using a `Graphics` object outside of the library.
          *
          * @see _beginDraw, Gui::draw
          */
@@ -117,7 +115,7 @@ namespace fcn
         virtual void popClipArea();
 
         /**
-         * Gets the current clip area. Usefull if you want to do drawing
+         * Gets the current clip area. Useful if you want to do drawing
          * bypassing Graphics.
          *
          * @return The current clip area.

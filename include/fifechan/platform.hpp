@@ -66,7 +66,7 @@
 // FIFECHAN_BUILD is our manual definition for building the core library.
 // FIFECHAN_EXTENSION_BUILD is our manual definition for building an extension to the core library.
 // Additionally CMake automatically defines target_EXPORTS when building a shared library, e.g
-// fifechan_EXPORTS when building the fifechan library.
+// fifechan_EXPORTS when building the library.
 
 #if defined(FIFEGUI_OS_LINUX)
   // For Linux, we only need to use __attribute__ for visibility.

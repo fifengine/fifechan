@@ -39,7 +39,7 @@ namespace fcn
         /**
          * Sets the alignment of the widgets.
          *
-         * @param alignemnt The alignment of the widgets.
+         * @param alignment The alignment of the widgets.
          * @see getAlignment
          */
         virtual void setAlignment(FlowContainer::Alignment alignment);
@@ -48,7 +48,7 @@ namespace fcn
          * Gets the alignment of the widgets.
          *
          * @return The alignment of caption of the widgets.
-         * @see setAlignmentm
+         * @see setAlignment
          */
         virtual FlowContainer::Alignment getAlignment() const;
 

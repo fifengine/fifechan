@@ -48,13 +48,13 @@ namespace fcn
         return m_thickness;
     }
 
-    void CurveGraph::setAutomaticControllPoints(bool acp)
+    void CurveGraph::setAutomaticControlPoints(bool acp)
     {
         m_needUpdate = true;
         m_acp        = acp;
     }
 
-    bool CurveGraph::isAutomaticControllPoints() const
+    bool CurveGraph::isAutomaticControlPoints() const
     {
         return m_acp;
     }

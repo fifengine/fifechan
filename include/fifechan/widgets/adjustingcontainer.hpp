@@ -12,9 +12,12 @@
 namespace fcn
 {
     /**
-     * Self-adjusting Container class. AdjustingContainers are an easy way to
-     * have Fifechan position a group of widgets for you. It organizes elements
-     * in a table layout, with fixed columns and variable rows.  The user specifies
+     * Self-adjusting Container class.
+     * AdjustingContainers are an easy way to have the GUI position a group
+     * of widgets for you. It organizes elements in a table layout
+     * with fixed columns and variable rows.
+     *
+     * The user specifies
      *
      * @verbitam
      * <ul>
@@ -48,7 +51,7 @@ namespace fcn
      *   else if(r == 1)
      *     l = new fcn::Label("A longer phrase");
      *   else
-     *     l = new fcn::Label("Extravagent and wordy text");
+     *     l = new fcn::Label("Super long and wordy text");
      *   adjust->add(l);
      * @endcode
      *
@@ -57,9 +60,9 @@ namespace fcn
      * <pre>
      *+---------------------------------------------------------------------------+
      *|                                                                           |
-     *| A longer phrase              Short             Extravagent and wordy text |
+     *| A longer phrase              Short             Super long and wordy text |
      *|                                                                           |
-     *| Short             Extravagent and wordy text                        Short |
+     *| Short             Super long and wordy text                        Short |
      *|                                                                           |
      *| Short                   A longer phrase                   A longer phrase |
      *|                                                                           |

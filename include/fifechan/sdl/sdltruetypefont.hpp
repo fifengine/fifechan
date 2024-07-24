@@ -71,7 +71,7 @@ namespace fcn
         /**
          * Sets the use of anti aliasing..
          *
-         * @param antaAlias true for use of antia aliasing.
+         * @param antaAlias true for use of anti aliasing.
          */
         virtual void setAntiAlias(bool antiAlias);
 

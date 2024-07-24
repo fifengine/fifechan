@@ -27,14 +27,14 @@ namespace fcn
          * If a key is held down the widget will generate multiple key
          * presses.
          *
-         * @param keyEvent Discribes the event.
+         * @param keyEvent Describes the event.
          */
         virtual void keyPressed(KeyEvent& keyEvent) { }
 
         /**
          * Called if a key is released when the widget has keyboard focus.
          *
-         * @param keyEvent Discribes the event.
+         * @param keyEvent Describes the event.
          */
         virtual void keyReleased(KeyEvent& keyEvent) { }
 

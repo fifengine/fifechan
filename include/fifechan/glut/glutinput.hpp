@@ -125,11 +125,11 @@
 //         Key convertSpecialCharacter(unsigned char key);
 
 //         /**
-//          * Converts a mouse button from GLUT to a Fifechan mouse button
+//          * Converts a mouse button from GLUT to a GUI mouse button
 //          * representation.
 //          *
 //          * @param button a GLUT mouse button.
-//          * @return a Fifechan mouse button.
+//          * @return a mouse button.
 //          */
 //         int convertMouseButton(int button);
 

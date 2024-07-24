@@ -18,40 +18,39 @@ namespace fcn
 
     bool Graphics::pushClipArea(Rectangle area)
     {
-        // Ignore area with a negate width or height
-        // by simple pushing an empty clip area
-        // to the stack.
+        // Ignore area with a negative width or height by pushing
+        // an empty clip area to the stack.
         if (area.isEmpty()) {
-            ClipRectangle const carea;
-            mClipStack.push(carea);
+            ClipRectangle const clip_rect;
+            mClipStack.push(clip_rect);
             return true;
         }
 
         if (mClipStack.empty()) {
-            ClipRectangle carea;
-            carea.x       = area.x;
-            carea.y       = area.y;
-            carea.width   = area.width;
-            carea.height  = area.height;
-            carea.xOffset = area.x;
-            carea.yOffset = area.y;
-            mClipStack.push(carea);
+            ClipRectangle clip_rect;
+            clip_rect.x       = area.x;
+            clip_rect.y       = area.y;
+            clip_rect.width   = area.width;
+            clip_rect.height  = area.height;
+            clip_rect.xOffset = area.x;
+            clip_rect.yOffset = area.y;
+            mClipStack.push(clip_rect);
             return true;
         }
 
         ClipRectangle const & top = mClipStack.top();
-        ClipRectangle carea;
-        carea         = area;
-        carea.xOffset = top.xOffset + carea.x;
-        carea.yOffset = top.yOffset + carea.y;
-        carea.x += top.xOffset;
-        carea.y += top.yOffset;
+        ClipRectangle clip_rect;
+        clip_rect         = area;
+        clip_rect.xOffset = top.xOffset + clip_rect.x;
+        clip_rect.yOffset = top.yOffset + clip_rect.y;
+        clip_rect.x += top.xOffset;
+        clip_rect.y += top.yOffset;
 
-        carea = top.intersection(carea);
+        clip_rect = top.intersection(clip_rect);
 
-        mClipStack.push(carea);
+        mClipStack.push(clip_rect);
 
-        return !carea.isEmpty();
+        return !clip_rect.isEmpty();
     }
 
     void Graphics::popClipArea()

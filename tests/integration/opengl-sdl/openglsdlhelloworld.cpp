@@ -3,9 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 /**
- * This is an example that shows a simple Hello World example
- * with Fifechan. The example uses the OpenGL back end and the
- * SDL back end.
+ * @brief This example shows the widgets present in FifeGUI using the OpenGL-SDL backend.
  */
 
 #include <fifechan/gui.hpp>
@@ -14,13 +12,8 @@
 
 #include <iostream>
 
-// Include code to set up an OpenGL and SDL application with Fifechan.
-// The openglsdl.hpp file is responsible for creating and deleting
-// the global Gui object.
-#include "openglsdl.hpp"
-// Include code to set up a Fifechan GUI with a simple Hello
-// World example. The code populates the global Gui object.
 #include "../helloworld.hpp"
+#include "openglsdl.hpp"
 
 int main(int argc, char** argv)
 {
@@ -30,14 +23,10 @@ int main(int argc, char** argv)
         openglsdl::run();
         helloworld::halt();
         openglsdl::halt();
-    }
-    // Catch all Fifechan exceptions.
-    catch (fcn::Exception e) {
+    } catch (fcn::Exception e) {
         std::cerr << e.getMessage() << std::endl;
         return 1;
-    }
-    // Catch all Std exceptions.
-    catch (std::exception e) {
+    } catch (std::exception e) {
         std::cerr << "Std exception: " << e.what() << std::endl;
         return 1;
     }

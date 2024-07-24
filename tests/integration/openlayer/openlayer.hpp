@@ -5,9 +5,8 @@
 #ifndef TESTS_INTEGRATION_OPENLAYER_OPENLAYER_HPP_
 #define TESTS_INTEGRATION_OPENLAYER_OPENLAYER_HPP_
 
-/*
- * Code that sets up an OpenLayer application with Fifechan using the
- * Fifechan OpenLayer back end.
+/**
+ * @brief This example shows the widgets present in FifeGUI using the OpenLayer backend.
  */
 
 #include <fifechan/openlayer.hpp>
@@ -16,12 +15,11 @@
 
 namespace openlayer
 {
-    // All back ends contain objects to make Fifechan work on a
-    // specific target - in this case OpenLayer - and they are a Graphics
-    // object to make Fifechan able to draw itself using OpenLayer, an
-    // input objec to make Fifechan able to get user input using OpenLayer
-    // and an ImageLoader object to make Fifechan able to load images
-    // using OpenLayer.
+    // Here the following backend objects are necessary for FifeGUI to work
+    // with OpenLayer. These objects include:
+    // A Graphics object, allowing the GUI to render using OpenLayer.
+    // An Input object, enabling the GUI to receive user input via OpenLayer.
+    // An ImageLoader object, allowing the loading of images using OpenLayer.
     fcn::OpenLayerGraphics* graphics;
     fcn::OpenLayerInput* input;
     fcn::OpenLayerImageLoader* imageLoader;
@@ -36,23 +34,18 @@ namespace openlayer
         ol::Setup::SetupProgram(true, true, true);
         ol::Setup::SetupScreen(640, 480, WINDOWED);
 
-        // Now it's time to initialise the Fifechan OpenLayer back end.
+        // Now it's time to initialise the OpenLayer backend.
 
         imageLoader = new fcn::OpenLayerImageLoader();
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::OpenLayerGraphics();
         // We need to tell the OpenLayer Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
         input = new fcn::OpenLayerInput();
 
-        // Now we create the Gui object to be used with this OpenLayer application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with OpenLayer implementations of these objects hence making Fifechan
-        // able to utilise OpenLayer.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }

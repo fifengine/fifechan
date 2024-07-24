@@ -5,9 +5,6 @@
 #ifndef INCLUDE_FIFECHAN_VERSION_HPP_
 #define INCLUDE_FIFECHAN_VERSION_HPP_
 
-/** These version numbers should be checked and updated
- * as part of the release process for Fifechan.
- */
 #ifndef FCN_MAJOR_VERSION
 #    define FCN_MAJOR_VERSION 0
 #endif
@@ -86,7 +83,8 @@
 #    define FCN_VERSION_STRING FCN_VERSION
 #endif
 
-/** All Fifechan related code is in this namespace.
+/**
+ * All FifeGUI related code is in this namespace.
  */
 namespace fcn
 {

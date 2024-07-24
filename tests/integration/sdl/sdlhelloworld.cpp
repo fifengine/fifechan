@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 /**
- * This is a simple Hello World example with Fifechan using the SDL backend.
+ * @brief This is a HelloWorld example with FifeGUI using the SDL backend.
  */
 
 #include <SDL2/SDL.h>
@@ -21,22 +21,22 @@ bool running = true;
 SDL_Window* window;
 SDL_Renderer* renderer;
 
-// Fifechan SDL objects
+// SDL objects
 fcn::SDL2Graphics* graphics;
 fcn::SDLInput* input;
 fcn::SDLImageLoader* imageLoader;
 
-// Fifechan objects
+// FifeGUI objects
 fcn::Gui* gui;
 
-// Fifechan widgets
+// FifeGUI widgets
 fcn::Container* top;
 fcn::ImageFont* font;
 fcn::Label* label;
 
 /**
  * Initialises the SDL application.
- * We create the SDL window and renderer and initialising the Fifechan SDL backend.
+ * We create the SDL window and renderer and initialising the SDL backend.
  */
 void init_sdl()
 {
@@ -56,11 +56,13 @@ void init_sdl()
     // Set the window position to the center.
     SDL_SetWindowPosition(window, xPos, yPos);
 
-    // Now it's time to initialise the Fifechan SDL back end.
+    // Now it's time to initialise the SDL backend.
 
     // The SDLImageLoader object is used to load images from the file system.
     imageLoader = new fcn::SDLImageLoader();
     imageLoader->setRenderer(renderer);
+
+    // Set the ImageLoader by calling a static function of the Image class.
     fcn::Image::setImageLoader(imageLoader);
 
     // The SDLGraphics object is used to draw to the screen.
@@ -82,9 +84,8 @@ void init_sdl()
 void init_gui()
 {
     // We first create a container to be used as the top widget.
-    // The top widget in Fifechan can be any kind of widget, but
-    // in order to make the Gui contain more than one widget we
-    // make the top widget a container.
+    // The top widget can be any kind of widget, but in order to make the
+    // Gui contain more than one widget we make the top widget a container.
     top = new fcn::Container();
     // We set the dimension of the top container to match the screen.
     top->setDimension(fcn::Rectangle(0, 0, 640, 480));
@@ -110,15 +111,15 @@ void init_gui()
  */
 void halt()
 {
-    // Cleanup Fifechan widgets used in the GUI
+    // Cleanup FifeGUI widgets used in the GUI
     delete label;
     delete font;
     delete top;
 
-    // Cleanup Fifechan objects
+    // Cleanup FifeGUI objects
     delete gui;
 
-    // Cleanup Fifechan SDL objects
+    // Cleanup FifeGUI SDL objects
     delete imageLoader;
     delete input;
     delete graphics;
@@ -136,13 +137,14 @@ void run()
     // This is the main loop of the application.
     // We will run this loop until the user closes the window.
     // The loop will update the GUI and draw it to the screen.
-    // It will also check for user input and pass it to Fifechan.
-    // Its two loops in one, one for SDL and one for Fifechan.
+    // It will also check for user input and pass it to FifeGUI.
+    //
+    // It is two loops in one, one for SDL and one for FifeGUI.
     // The SDL loop is used to check for user input that is not
-    // handled by Fifechan, such as window close events.
-    // The Fifechan loop is used to check for user input that is
-    // handled by Fifechan, such as mouse clicks and key presses.
-    // The Fifechan loop is also responsible for udpating the
+    // handled by FifeGUI, such as window close events.
+    // The FifeGUI loop is used to check for user input that is
+    // handled by FifeGUI, such as mouse clicks and key presses.
+    // The FifeGUI loop is also responsible for updating the
     // GUI logic and drawing the GUI to the screen.
     while (running) {
 
@@ -162,7 +164,7 @@ void run()
                 running = false;
             }
 
-            // After we have checked for SDL events we pass the event to Fifechan.
+            // After checking SDL events we forward the events to the GUI.
             input->pushInput(event);
         }
 

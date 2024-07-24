@@ -62,7 +62,7 @@ namespace fcn
 
         // Calculate which row to start drawing. If the list box
         // has a negative y coordinate value we should check if
-        // we should drop rows in the begining of the list as
+        // we should drop rows in the beginning of the list as
         // they might not be visible. A negative y value is very
         // common if the list box for instance resides in a scroll
         // area and the user has scrolled the list box downwards.

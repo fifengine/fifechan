@@ -89,7 +89,7 @@ namespace fcn
         };
 
         /**
-         * A struct for vertex information that contians texture coordinates.
+         * A struct for vertex information that contains texture coordinates.
          */
         struct VertexWithTexture
         {

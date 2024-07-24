@@ -84,7 +84,7 @@ namespace fcn
          * get selected. If the last item is selected and down is pressed, the
          * first item will get selected.
          *
-         * @return true if wrapping is enabled, fasle otherwise.
+         * @return true if wrapping is enabled, false otherwise.
          * @see setWrappingEnabled
          */
         bool isWrappingEnabled() const;

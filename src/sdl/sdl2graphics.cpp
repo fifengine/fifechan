@@ -55,7 +55,7 @@ namespace fcn
         // An internal surface is still required to be able to handle surfaces and colorkeys
         mTarget = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
         SDL_FillRect(mTarget, NULL, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff));
-        SDL_SetColorKey(mTarget, SDL_TRUE, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff)); // magenta, fifechan default
+        SDL_SetColorKey(mTarget, SDL_TRUE, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff)); // magenta
         SDL_SetSurfaceBlendMode(mTarget, SDL_BLENDMODE_NONE); // needed to cleanup temp data properly
         mTexture = SDL_CreateTextureFromSurface(mRenderTarget, mTarget);
         SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
@@ -66,11 +66,11 @@ namespace fcn
         SDL_Rect rect;
         bool result = Graphics::pushClipArea(area);
 
-        ClipRectangle const & carea = mClipStack.top();
-        rect.x                      = carea.x;
-        rect.y                      = carea.y;
-        rect.w                      = carea.width;
-        rect.h                      = carea.height;
+        ClipRectangle const & clip_rect = mClipStack.top();
+        rect.x                      = clip_rect.x;
+        rect.y                      = clip_rect.y;
+        rect.w                      = clip_rect.width;
+        rect.h                      = clip_rect.height;
 
         SDL_RenderSetClipRect(mRenderTarget, &rect);
 
@@ -85,12 +85,12 @@ namespace fcn
             return;
         }
 
-        ClipRectangle const & carea = mClipStack.top();
+        ClipRectangle const & clip_rect = mClipStack.top();
         SDL_Rect rect;
-        rect.x = carea.x;
-        rect.y = carea.y;
-        rect.w = carea.width;
-        rect.h = carea.height;
+        rect.x = clip_rect.x;
+        rect.y = clip_rect.y;
+        rect.w = clip_rect.width;
+        rect.h = clip_rect.height;
 
         SDL_RenderSetClipRect(mRenderTarget, &rect);
     }

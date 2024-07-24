@@ -4,9 +4,8 @@
 #ifndef TESTS_INTEGRATION_IRRLICHT_IRRLICHT_HPP_
 #define TESTS_INTEGRATION_IRRLICHT_IRRLICHT_HPP_
 
-/*
- * Code that sets up an Irrlicht application with Fifechan using the
- * Fifechan Irrlicht back end.
+/**
+ * @brief This example shows the widgets present in FifeGUI using the Irrlicht backend.
  */
 
 #include <fifechan/irrlicht.hpp>
@@ -36,12 +35,12 @@ namespace irrlicht
     irr::IrrlichtDevice* device;
     MyEventReceiver* receiver;
 
-    // All back ends contain objects to make Fifechan work on a
-    // specific target - in this case Irrlicht - and they are a Graphics
-    // object to make Fifechan able to draw itself using Irrlicht, an
-    // input object to make Fifechan able to get user input using Irrlicht
-    // and an ImageLoader object to make Fifechan able to load images
-    // using Irrlicht.
+
+    // Here the following backend objects are necessary for FifeGUI to work
+    // with Irrlicht. These objects include:
+    // A Graphics object, allowing the GUI to render using Irrlicht.
+    // An Input object, enabling the GUI to receive user input via Irrlicht.
+    // An ImageLoader object, allowing the loading of images using Irrlicht.
     fcn::IrrlichtGraphics* graphics;
     fcn::IrrlichtInput* input;
     fcn::IrrlichtImageLoader* imageLoader;
@@ -56,11 +55,10 @@ namespace irrlicht
         device = irr::createDevice(
             irr::video::EDT_OPENGL, irr::core::dimension2d<irr::s32>(640, 480), 16, false, false, false, 0);
 
-        // Now it's time to initialise the Fifechan Irrlicht back end.
+        // Now it's time to initialise the Irrlicht backend.
 
         imageLoader = new fcn::IrrlichtImageLoader(device->getVideoDriver());
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::IrrlichtGraphics(device->getVideoDriver());
 
@@ -68,12 +66,8 @@ namespace irrlicht
         receiver = new MyEventReceiver(input);
         device->setEventReceiver(receiver);
 
-        // Now we create the Gui object to be used with this Irrlicht application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with Irrlicht implementations of these objects hence making Fifechan
-        // able to utilise Irrlicht.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }

@@ -11,10 +11,6 @@
 
 #include <string>
 
-/**
- * Code to populate a global Gui object with all the widgets of Fifechan.
- */
-
 namespace widgets
 {
     fcn::ImageFont* font;
@@ -81,9 +77,8 @@ namespace widgets
     void init()
     {
         // We first create a container to be used as the top widget.
-        // The top widget in Fifechan can be any kind of widget, but
-        // in order to make the Gui contain more than one widget we
-        // make the top widget a container.
+        // The top widget can be any kind of widget, but in order to make the
+        // Gui contain more than one widget we make the top widget a container.
         top = new fcn::Container();
         // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));
@@ -145,7 +140,7 @@ namespace widgets
         tabbedArea->addTab(tab2, tabTwoCheckBox);*/
 
         // Now it's time to add the widgets to the top container
-        // so they will be conected to the GUI.
+        // so they will be connected to the GUI.
 
         top->add(label, 10, 10);
         top->add(icon, 10, 30);

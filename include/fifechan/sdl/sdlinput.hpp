@@ -56,19 +56,18 @@ namespace fcn
 
     protected:
         /**
-         * Converts a mouse button from SDL to a Fifechan mouse button
-         * representation.
+         * Converts a mouse button from SDL to a FifeGUI mouse button.
          *
          * @param button an SDL mouse button.
-         * @return a Fifechan mouse button.
+         * @return a FifeGUI mouse button.
          */
         int convertMouseButton(int button);
 
         /**
-         * Converts an SDL event to a Fifechan key value.
+         * Converts an SDL event to a FifeGUI key value.
          *
-         * @param keysym The SDL event to convert.
-         * @return A Fifechan key value. -1 if no conversion took place.
+         * @param event The SDL event to convert.
+         * @return A FifeGUI key value. -1 if no conversion took place.
          * @see Key
          */
         int convertSDLEventToFifechanKeyValue(SDL_Event event);

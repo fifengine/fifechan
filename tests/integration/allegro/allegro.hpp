@@ -5,9 +5,10 @@
 #ifndef TESTS_INTEGRATION_ALLEGRO_ALLEGRO_HPP_
 #define TESTS_INTEGRATION_ALLEGRO_ALLEGRO_HPP_
 
-/*
- * Code that sets up an Allegro application with Fifechan using the
- * Fifechan Allegro back end.
+/**
+ * @brief Contains the Allegro application setup code.
+ *
+ * The code uses FifeGUI and FifeGUI's Allegro backend to create a GUI.
  */
 
 #include <fifechan/allegro.hpp>
@@ -18,12 +19,11 @@ namespace allegro
 {
     BITMAP* screenBuffer;
 
-    // All back ends contain objects to make Fifechan work on a
-    // specific target - in this case Allegro - and they are a Graphics
-    // object to make Fifechan able to draw itself using Allegro, an
-    // input objec to make Gopenglsdluichan able to get user input using Allegro
-    // and an ImageLoader object to make Fifechan able to load images
-    // using Allegro.
+    // Here the following backend objects are necessary for FifeGUI to work
+    // with Allegro. These objects include:
+    // A Graphics object, allowing the GUI to render using Allegro.
+    // An Input object, enabling the GUI to receive user input via Allegro.
+    // An ImageLoader object, allowing the loading of images using Allegro.
     fcn::AllegroGraphics* graphics;
     fcn::AllegroInput* input;
     fcn::AllegroImageLoader* imageLoader;
@@ -60,11 +60,10 @@ namespace allegro
         install_mouse();
         install_timer();
 
-        // Now it's time to initialise the Fifechan Allegro back end.
+        // Now it's time to initialise the Allegro backend.
 
         imageLoader = new fcn::AllegroImageLoader();
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::AllegroGraphics();
         // Set the target for the graphics object to be the doublebuffer
@@ -73,12 +72,8 @@ namespace allegro
         graphics->setTarget(screenBuffer);
         input = new fcn::AllegroInput();
 
-        // Now we create the Gui object to be used with this Allegro application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         globals::gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with Allegro implementations of these objects hence making Fifechan
-        // able to utilise Allegro.
         globals::gui->setGraphics(graphics);
         globals::gui->setInput(input);
     }
@@ -109,7 +104,7 @@ namespace allegro
             globals::gui->draw();
 
             // We draw the mouse pointer manually, as Allegro's mouse
-            // drawing code is so wierd.
+            // drawing code is so weird.
             draw_sprite(screenBuffer, mouse_sprite, mouse_x, mouse_y);
 
             // Finally we update the screen.

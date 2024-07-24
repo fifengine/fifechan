@@ -48,7 +48,7 @@ namespace fcn
             return Point(x + p.x, y + p.y);
         }
 
-        /** Vector substraction
+        /** Vector subtraction
          */
         Point operator-(Point const & p) const
         {
@@ -64,7 +64,7 @@ namespace fcn
             return *this;
         }
 
-        /** Vector inplace substraction
+        /** Vector inplace subtraction
          */
         Point& operator-=(Point const & p)
         {

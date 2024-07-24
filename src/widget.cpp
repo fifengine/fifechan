@@ -545,7 +545,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -907,7 +907,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -920,7 +920,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -933,7 +933,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -946,7 +946,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -977,7 +977,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -994,7 +994,7 @@ namespace fcn
     {
         if (mFocusHandler == nullptr) {
             fcn::throwException(
-                "No focushandler set (did you add the widget to the gui?).",
+                "No focus handler is set (did you add the widget to the GUI?)",
                 static_cast<char const *>(__FUNCTION__),
                 __FILE__,
                 __LINE__);
@@ -1126,7 +1126,7 @@ namespace fcn
 
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
-        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetHidden(Event(this));
 
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
@@ -1147,7 +1147,7 @@ namespace fcn
 
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
-        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetShown(Event(this));
 
         std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());

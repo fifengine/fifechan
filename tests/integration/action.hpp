@@ -5,11 +5,6 @@
 #ifndef TESTS_INTEGRATION_ACTION_HPP_
 #define TESTS_INTEGRATION_ACTION_HPP_
 
-/**
- * Code to populate a global Gui object with an example of how to
- * use actions in Fifechan.
- */
-
 #include <fifechan.hpp>
 
 #include <iostream>
@@ -29,16 +24,16 @@ namespace action
     int clickCountButton2 = 0; // Holds clicks for button2
 
     /*
-     * To be able to recieve actions we must have a class inheriting from
+     * To be able to receive actions we must have a class inheriting from
      * ActionListener and implementing the action function.
      * When an action is generated in a Widget (i.e when a button is clicked)
      * that widget calls the action function for all its action listeners.
-     * Below we make a class to be able to recieve our buttons actions.
+     * Below we make a class to be able to receive our buttons actions.
      */
     class ButtonActionListener : public fcn::ActionListener
     {
     public:
-        // Implement the action function in ActionListener to recieve actions
+        // Implement the action function in ActionListener to receive actions
         // The eventId tells us which widget called the action function.
         void action(fcn::ActionEvent const & actionEvent)
         {
@@ -55,7 +50,7 @@ namespace action
                 // Adjust the label to fit the new caption
                 label1->adjustSize();
             } else if (actionEvent.getId() == "button2") {
-                // Here we use the event id in order to check what action occured.
+                // Here we use the event id in order to check what action occurred.
 
                 clickCountButton2++;
                 os << "Button2 clicks " << clickCountButton2;
@@ -70,15 +65,13 @@ namespace action
     ButtonActionListener* buttonActionListener; // A pointer to the above class
 
     /**
-     * Initialises the widgets example by populating the global Gui
-     * object.
+     * Initialises the widgets example by populating the Gui object.
      */
     void init()
     {
         // We first create a container to be used as the top widget.
-        // The top widget in Fifechan can be any kind of widget, but
-        // in order to make the Gui contain more than one widget we
-        // make the top widget a container.
+        // The top widget can be any kind of widget, but in order to make the
+        // Gui contain more than one widget we make the top widget a container.
         top = new fcn::Container();
         // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));

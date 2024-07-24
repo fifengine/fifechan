@@ -17,8 +17,7 @@ namespace fcn
     class Key;
 
     /**
-     * Implementation of a generic input which can be used with any
-     * back end.
+     * Implementation of a generic input which can be used with any backend.
      */
     class FIFEGUI_API GenericInput : public Input
     {
@@ -29,7 +28,7 @@ namespace fcn
          * Pushes a key pressed event.
          *
          * NOTE: If a special key is pressed, like the F1 key,
-         *       the corresponding Fifechan key value found
+         *       the corresponding GUI key value found
          *       in the enum in Key should be pushed as the
          *       unicode value.
          *
@@ -41,7 +40,7 @@ namespace fcn
          * Pushes a key released event.
          *
          * NOTE: If a special key is pressed, like the F1 key,
-         *       the corresponding Fifechan key value found
+         *       the corresponding GUI key value found
          *       in the enum in Key should be pushed as the
          *       unicode value.
          *

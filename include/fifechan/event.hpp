@@ -12,7 +12,10 @@ namespace fcn
     class Widget;
 
     /**
-     * Base class for all events. All events in Fifechan should inherit from this class.
+     * @brief Base class for all events in the GUI.
+     * An event is a signal that something has happened in the GUI.
+     * Events are used to notify widgets of user actions.
+     * The event class is the base class for all events in the GUI.
      */
     class FIFEGUI_API Event
     {

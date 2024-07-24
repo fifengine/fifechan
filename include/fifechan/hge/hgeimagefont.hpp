@@ -16,8 +16,9 @@ namespace fcn
     class Graphics;
 
     /**
-     * Font to be used with HGE. As HGE does not support colorkey blitting of images it's recommended
-     * to use HGE's internal font in Fifechan.
+     * Font to be used with HGE.
+     * As HGE does not support colorkey blitting of images it's recommended
+     * to use HGE's internal font in FifeGUI.
      */
     class FIFEGUI_EXT_API HGEImageFont : public Font
     {
@@ -32,8 +33,9 @@ namespace fcn
         ~HGEImageFont();
 
         /**
-         * Gets the loaded HGE font. The HGE font can be used to set certain properties like
-         * setting the blend mode. Properties of the HGE font will effect the Fifechan font as well.
+         * Gets the loaded HGE font.
+         * The HGE font can be used to set certain properties like setting the
+         * blend mode. The Properties of the HGE font will affect the font.
          *
          * @return the loaded HGE font.
          */

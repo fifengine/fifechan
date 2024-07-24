@@ -5,11 +5,10 @@
 #ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDL_HPP_
 #define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDL_HPP_
 
-/*
- * Code that sets up an OpenGL application with Fifechan using the
- * Fifechan OpenGL back end and the SDL back end (as OpenGL cannot
- * load images nor check for user input an additional back end needs
- * to be used).
+/**
+ * @brief This example shows the widgets present in FifeGUI using the OpenGL-SDL backend
+ * and the SDL backend, for loading images and checking for user input.
+ * OPenGL cannot load images nor check for user input, so an additional backend is needed.
  */
 
 #include <fifechan/gui.hpp>
@@ -28,11 +27,8 @@ namespace openglsdl
     SDL_Window* window;
     SDL_Surface* screen;
 
-    // All back ends contain objects to make Fifechan work on a
-    // specific target. They are a Graphics object to make Fifechan
-    // able to draw itself using OpenGL, an input objec to make
-    // Fifechan able to get user input using SDL and an ImageLoader
-    // object to make Fifechan able to load images using OpenGL and SDL.
+    // This examples uses two wrapper backends OpenGL and SDL for FifeGUI.
+    // OpenGL is used for drawing and SDL for input and image loading.
     fcn::OpenGLGraphics* graphics;
     fcn::SDLInput* input;
     fcn::OpenGLSDLImageLoader* imageLoader;
@@ -85,25 +81,18 @@ namespace openglsdl
         // Enable key repeat.
         SDL_StartTextInput();
 
-        // Now it's time to initialise the Fifechan OpenGL back end
-        // and the Fifechan SDL back end.
+        // Now it's time to initialise OpenGL backend and the SDL backend.
 
         imageLoader = new fcn::OpenGLSDLImageLoader();
-        // The ImageLoader Fifechan should use needs to be passed to the Image object
-        // using a static function.
+        // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader);
         graphics = new fcn::OpenGLGraphics();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
         input = new fcn::SDLInput();
 
-        // Now we create the Gui object to be used with this OpenGL
-        // and SDL application.
+        // Finally, we create the Gui object and pass graphics and input to it.
         gui = new fcn::Gui();
-        // The Gui object needs a Graphics to be able to draw itself and an Input
-        // object to be able to check for user input. In this case we provide the
-        // Gui object with OpenGL and SDL implementations of these objects hence
-        // making Fifechan able to utilise OpenGL and SDL.
         gui->setGraphics(graphics);
         gui->setInput(input);
     }
@@ -147,10 +136,7 @@ namespace openglsdl
                     running = false;
                 }
 
-                // After we have manually checked user input with SDL for
-                // any attempt by the user to halt the application we feed
-                // the input to Fifechan by pushing the input to the Input
-                // object.
+                // After checking SDL events we forward the events to the GUI.
                 input->pushInput(event);
             }
 

@@ -23,12 +23,12 @@ namespace fcn
     class ScrollArea;
 
     /**
-     * An implementation of a drop downable list from which an item can be
-     * selected. The drop down consists of an internal ScrollArea and an
-     * internal ListBox. The drop down also uses an internal FocusHandler to
-     * handle the focus of the internal ScollArea and the internal ListBox. The
-     * scroll area and the list box can be passed to the drop down if a custom
-     * scroll area and or a custom list box is preferable.
+     * An implementation of a dropdown list from which an item can be selected.
+     * The drop down consists of an internal ScrollArea and an internal ListBox.
+     * The drop down also uses an internal FocusHandler to handle the focus of
+     * the internal ScrollArea and the internal ListBox.
+     * The scroll area and the list box can be passed to the drop down
+     * if a custom scroll area and or a custom list box is preferable.
      *
      * To be able display a list the drop down uses a user provided list model.
      * A list model can be any class that implements the ListModel interface.
@@ -48,7 +48,7 @@ namespace fcn
     {
     public:
         /**
-         * Contructor.
+         * Constructor.
          *
          * @param listModel the ListModel to use.
          * @param scrollArea the ScrollArea to use.

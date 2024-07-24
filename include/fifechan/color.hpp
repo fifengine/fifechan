@@ -44,7 +44,7 @@ namespace fcn
          * @param g Green color component  (range 0-255).
          * @param b Blue color component (range 0-255).
          * @param a Alpha, used for transparency. A value of 0 means
-         *          totaly transparent, 255 is totaly opaque.
+         *          fully transparent, 255 is fully opaque.
          */
         Color(int r, int g, int b, int a);
         Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
