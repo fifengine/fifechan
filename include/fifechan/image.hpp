@@ -24,8 +24,7 @@ namespace fcn
      *
      * EXAMPLE: If you use SDLGraphics you should use SDLImageLoader.
      *          Otherwise your program might crash in a most bizarre way.
-     * @see AllegroImageLoader, HGEImageLoader, OpenLayerImageLoader,
-     *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader, SDLImageLoader
+     * @see OpenGLSDLImageLoader, SDLImageLoader
      */
     class FIFEGUI_API Image
     {
@@ -52,9 +51,7 @@ namespace fcn
          * Gets the image loader used for loading images.
          *
          * @return The image loader used for loading images.
-         * @see setImageLoader, AllegroImageLoader, HGEImageLoader,
-         *      OpenLayerImageLoader, OpenGLAllegroImageLoader,
-         *      OpenGLSDLImageLoader, SDLImageLoader
+         * @see setImageLoader, OpenGLSDLImageLoader, SDLImageLoader
          */
         static ImageLoader* getImageLoader();
 
@@ -65,9 +62,7 @@ namespace fcn
          *            loading images!
          *
          * @param imageLoader The image loader to be used for loading images.
-         * @see getImageLoader, AllegroImageLoader, HGEImageLoader,
-         *      OpenLayerImageLoader, OpenGLAllegroImageLoader,
-         *      OpenGLSDLImageLoader, SDLImageLoader
+         * @see getImageLoader, OpenGLSDLImageLoader, SDLImageLoader
          */
         static void setImageLoader(ImageLoader* imageLoader);
 
