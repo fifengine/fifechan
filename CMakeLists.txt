@@ -16,20 +16,39 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 include(SetupVcpkg)
 
 #-------------------------------------------------------------------
-# Version
+# Gather Version Data
 #-------------------------------------------------------------------
 
-# vcpkg.json is the primary source for version data
-# FIFECHAN_VERSION is used to set the project version
-# FIFECHAN_VERSION is also used on version.hpp.in to generate version.hpp
+# vcpkg.json is the primary source for version data.
+# FIFECHAN_VERSION is used to set the project version.
+# FIFECHAN_VERSION and the other tokens are used in version.hpp.in.
 file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON_STRING)
-string(JSON FIFECHAN_VERSION GET ${VCPKG_JSON_STRING} "version")
+string(JSON FIFECHAN_NAME     GET ${VCPKG_JSON_STRING} "name")
+string(JSON FIFECHAN_VERSION  GET ${VCPKG_JSON_STRING} "version")
+string(JSON FIFECHAN_LICENSE  GET ${VCPKG_JSON_STRING} "license")
+string(JSON FIFECHAN_DESC     GET ${VCPKG_JSON_STRING} "description")
+string(JSON FIFECHAN_HOMEPAGE GET ${VCPKG_JSON_STRING} "homepage")
+string(TIMESTAMP CURRENT_YEAR "%Y")
 
 #-------------------------------------------------------------------
 # Project
 #-------------------------------------------------------------------
 
 project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES CXX)
+
+#-------------------------------------------------------------------
+# Versionize the project
+#-------------------------------------------------------------------
+
+# Here we populate the version.hpp file with version data.
+# This must be done after project() is called,
+# else the version variables are not available (PROJECT_* tokens).
+# See the version.hpp.in file for the tokens that are replaced.
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/fifechan/version.hpp.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp"
+  @ONLY
+)
 
 #-------------------------------------------------------------------
 # CMake Includes
@@ -95,21 +114,6 @@ message(STATUS "[INFO] Build examples           -> '${FIFECHAN_EXAMPLES}'.")
 message(STATUS "---------------------------------------------------------------")
 
 #------------------------------------------------------------------------------
-# Find Dependencies - Windows
-#------------------------------------------------------------------------------
-
-# Tell CMake where to search for binaries (dlls), includes and libs on Windows
-if(WIN32)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/bin"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include/SDL2"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib/x86"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"
-  )
-endif()
-
-#------------------------------------------------------------------------------
 # Configure
 #------------------------------------------------------------------------------
 
@@ -156,6 +160,7 @@ file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
 file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
 file(GLOB FIFECHAN_SRC             src/*.cpp)
 file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
+set(FIFECHAN_VERSION_HEADER        "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
 
 #------------------------------------------------------------------------------
 # Fifechan core library
@@ -168,6 +173,7 @@ add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_UTIL_HEADERS}
     ${FIFECHAN_SRC}
     ${FIFECHAN_WIDGET_SRC}
+    ${FIFECHAN_VERSION_HEADER}
 )
 
 # Provide a namespace alias for the library (fifechan::fifechan)
@@ -175,6 +181,7 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include> # to include the generated "version.hpp"
     $<INSTALL_INTERFACE:include>
 )
 
