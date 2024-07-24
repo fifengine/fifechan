@@ -60,16 +60,12 @@ option(FIFECHAN_EXAMPLES     "Build the Fifechan examples"                      
 #------------------------------------------------------------------------------
 
 # The default build type is based on BUILD_SHARED_LIBS.
-# FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls to set it.
+# FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls.
 if(BUILD_SHARED_LIBS)
   set(FIFECHAN_LIBRARY_BUILD_TYPE SHARED)
 else()
   set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
 endif()
-
-# On some platforms, we need to append a suffix to the lib folder.
-# You can set this to 64 to get "lib64" or to an empty string to get "lib".
-set(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system `lib` folder, e.g. '64'")
 
 #------------------------------------------------------------------------------
 # Display Status
@@ -221,7 +217,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 show_build_target_properties(${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets DESTINATION ${LIB_INSTALL_DIR}${LIB_SUFFIX}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
   PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
@@ -282,7 +278,7 @@ if(ALLEGRO_FOUND)
 
   show_build_target_properties(${PROJECT_NAME}_allegro)
 
-  install(TARGETS ${PROJECT_NAME}_allegro EXPORT ${PROJECT_NAME}Targets DESTINATION ${LIB_INSTALL_DIR}${LIB_SUFFIX}
+  install(TARGETS ${PROJECT_NAME}_allegro EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -337,7 +333,7 @@ if(IRRLICHT_FOUND)
 
   show_build_target_properties(${PROJECT_NAME}_irrlicht)
 
-  install(TARGETS ${PROJECT_NAME}_irrlicht EXPORT ${PROJECT_NAME}Targets DESTINATION ${LIB_INSTALL_DIR}${LIB_SUFFIX}
+  install(TARGETS ${PROJECT_NAME}_irrlicht EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -406,7 +402,7 @@ if(OPENGL_FOUND)
   show_build_target_properties(${PROJECT_NAME}_opengl)
 
   # setup install location
-  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}Targets DESTINATION ${LIB_INSTALL_DIR}${LIB_SUFFIX}
+  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -481,7 +477,7 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
     CXX_STANDARD_REQUIRED  ON
   )
 
-  install(TARGETS ${PROJECT_NAME}_sdl EXPORT ${PROJECT_NAME}Targets DESTINATION ${LIB_INSTALL_DIR}${LIB_SUFFIX}
+  install(TARGETS ${PROJECT_NAME}_sdl EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
