@@ -19,9 +19,16 @@ target_link_libraries(sdlhelloworld PRIVATE
   $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
   $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
   ${SDL_IMAGE_LIBRARIES}
-  fifechan_sdl
-  fifechan
+  fifechan::fifechan
+  fifechan::fifechan_sdl
 )
+
+set_target_properties(sdlhelloworld PROPERTIES
+  CXX_STANDARD           17
+  CXX_STANDARD_REQUIRED  ON
+)
+
+show_build_target_properties(sdlhelloworld)
 
 # Define the source and destination paths
 set(IMAGE_SOURCE      "${PROJECT_SOURCE_DIR}/tests/resources/fixedfont.bmp")
@@ -47,6 +54,13 @@ target_link_libraries(sdlwidgets PRIVATE
   $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
   # SDL2_image
   ${SDL_IMAGE_LIBRARIES}
-  fifechan_sdl
-  fifechan
+  fifechan::fifechan
+  fifechan::fifechan_sdl
 )
+
+set_target_properties(sdlwidgets PROPERTIES
+  CXX_STANDARD           17
+  CXX_STANDARD_REQUIRED  ON
+)
+
+show_build_target_properties(sdlwidgets)
