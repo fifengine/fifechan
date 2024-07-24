@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added SDL2Graphics
 - added support for target and package config (find_package), closes https://github.com/fifengine/fifechan/issues/19
 - added pkg-config support to CMakeLists (for pkg-config), closes https://github.com/fifengine/fifechan/issues/19
+- added handling of conditional dependencies in exported CMake configs
+  - this enables upstream project to retire their finder scripts (FindFifechan.cmake)
 
 **Changed**
 - all third-party library addressing backends moved into the folder "backends"

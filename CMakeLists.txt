@@ -4,9 +4,6 @@
 
 cmake_minimum_required(VERSION 3.0...3.30)
 
-# This shows the invoked commands during makefile builds. Only for debugging.
-#set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
-
 # include additional CMake scripts
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -107,10 +104,6 @@ endif()
 # Configure
 #------------------------------------------------------------------------------
 
-# Find additional CMake modules
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/finders")
-
 # Do not allow an in-source-tree build, request an out-of-source-tree build.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   message(FATAL_ERROR "#Please build outside of the source tree!\n
@@ -125,6 +118,12 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 # Create compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# This shows the invoked commands during makefile builds. Only for debugging.
+#set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+
+# Enable color diagnostics (-fcolor-diagnostics).
+SET(CMAKE_COLOR_DIAGNOSTICS ON)
 
 #------------------------------------------------------------------------------
 # Compiler Options
@@ -182,7 +181,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 show_build_target_properties(${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
   PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
@@ -249,7 +248,7 @@ if(OPENGL_FOUND)
   show_build_target_properties(${PROJECT_NAME}_opengl)
 
   # setup install location
-  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -321,7 +320,7 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
     CXX_STANDARD_REQUIRED  ON
   )
 
-  install(TARGETS ${PROJECT_NAME}_sdl EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  install(TARGETS ${PROJECT_NAME}_sdl EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
