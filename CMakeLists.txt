@@ -4,6 +4,9 @@
 
 cmake_minimum_required(VERSION 3.0...3.30)
 
+# This shows the invoked commands during makefile builds. Only for debugging.
+#set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+
 # include additional CMake scripts
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -165,7 +168,7 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
- )
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION                ${FIFECHAN_VERSION}
@@ -377,22 +380,22 @@ install(EXPORT ${PROJECT_NAME}Targets
 # 2 Generate and install package configuration files (for find_package)
 #------------------------------------------------------------------------------
 
-# fifechanConfig.cmake
+# fifechan-config.cmake
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/packaging/fifechanConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfig.cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/packaging/fifechan-config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 
-# fifechanConfigVersion.cmake
+# fifechan-config-version.cmake
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
   COMPATIBILITY SameMajorVersion
 )
 
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/fifechanConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/fifechan"
 )
 
