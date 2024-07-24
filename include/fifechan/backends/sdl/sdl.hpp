@@ -8,11 +8,11 @@
 /**
  * Unified header for the SDL backend.
  */
-#include <fifechan/platform.hpp>
 #include <fifechan/backends/sdl/sdl2graphics.hpp>
 #include <fifechan/backends/sdl/sdlgraphics.hpp>
 #include <fifechan/backends/sdl/sdlimage.hpp>
 #include <fifechan/backends/sdl/sdlimageloader.hpp>
 #include <fifechan/backends/sdl/sdlinput.hpp>
+#include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDL_HPP_

@@ -22,8 +22,8 @@
 #include <d3dx9.h>
 
 #ifdef FIFEGUI_OS_WINDOWS
-#include <windows.h>
-#include <windowsx.h>
+    #include <windows.h>
+    #include <windowsx.h>
 #endif
 
 namespace directx3d

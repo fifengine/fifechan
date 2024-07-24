@@ -73,7 +73,7 @@ ExperimentalAutoDetectBinPacking: true
 FixNamespaceComments: true
 IndentCaseLabels: false
 IndentGotoLabels: false
-IndentPPDirectives: AfterHash
+IndentPPDirectives: BeforeHash
 IndentFunctionDeclarationAfterType: false
 NamespaceIndentation: All
 ObjCSpaceBeforeProtocolList: false

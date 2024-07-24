@@ -6,15 +6,15 @@
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLIMAGE_HPP_
 
 #if defined(_WIN32)
-#    include <windows.h>
+    #include <windows.h>
 #endif
 
 #if defined(__amigaos4__)
-#    include <mgl/gl.h>
+    #include <mgl/gl.h>
 #elif defined(__APPLE__)
-#    include <OpenGL/gl.h>
+    #include <OpenGL/gl.h>
 #else
-#    include <GL/gl.h>
+    #include <GL/gl.h>
 #endif
 
 #include <string>
