@@ -47,8 +47,6 @@ include(CMakePackageConfigHelpers)
 
 option(BUILD_SHARED_LIBS     "Build using shared libraries"                     OFF)
 
-option(ENABLE_ALLEGRO        "Enable the Fifechan Allegro extension"            OFF)
-option(ENABLE_IRRLICHT       "Enable the Fifechan Irrlicht extension"           OFF) # removed from vcpkg, doesnt compile with C++17
 option(ENABLE_OPENGL         "Enable the Fifechan OpenGL extension"             ON)
 option(ENABLE_SDL            "Enable the Fifechan SDL extension"                ON)
 
@@ -183,116 +181,6 @@ install(FILES ${FIFECHAN_HEADER}          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR
 install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
 install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/widgets/)
 install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/util/)
-
-#------------------------------------------------------------------------------
-# Fifechan Allegro extension library
-#------------------------------------------------------------------------------
-
-if(ENABLE_ALLEGRO)
-  find_package(Allegro)
-endif()
-
-if(ALLEGRO_FOUND)
-
-  # The Fifechan Allegro extension source
-  file(GLOB FIFECHAN_ALLEGRO_HEADERS    include/fifechan/backends/allegro/*.hpp)
-  file(GLOB FIFECHAN_ALLEGRO_SRC        src/backends/allegro/*.cpp)
-
-  add_library(${PROJECT_NAME}_allegro ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_ALLEGRO_HEADERS}
-    ${FIFECHAN_ALLEGRO_SRC}
-  )
-
-  # Provide a namespace alias for the library (fifechan::fifechan_allegro)
-  add_library(${PROJECT_NAME}::${PROJECT_NAME}_allegro ALIAS ${PROJECT_NAME}_allegro)
-
-  target_include_directories(${PROJECT_NAME}_allegro PUBLIC
-    $<BUILD_INTERFACE:${ALLEGRO_INCLUDE_DIR}>
-    $<INSTALL_INTERFACE:include>
-  )
-
-  target_link_libraries(${PROJECT_NAME}_allegro PRIVATE
-   #${ALLEG_LIBRARY}
-   # Allegro
-   Allegro::allegro Allegro::allegro_ttf Allegro::allegro_font Allegro::allegro_main
-   # Fifechan
-   ${PROJECT_NAME}
-  )
-
-  set_target_properties(${PROJECT_NAME}_allegro PROPERTIES
-    VERSION                ${FIFECHAN_VERSION}
-    SOVERSION              ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME            ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
-    CXX_STANDARD           17
-    CXX_STANDARD_REQUIRED  ON
-  )
-
-  show_build_target_properties(${PROJECT_NAME}_allegro)
-
-  install(TARGETS ${PROJECT_NAME}_allegro EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PERMISSIONS
-      OWNER_READ OWNER_WRITE OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE
-      WORLD_READ WORLD_EXECUTE
-  )
-
-  install(FILES ${FIFECHAN_ALLEGRO_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/allegro/)
-
-endif()
-
-#------------------------------------------------------------------------------
-# Fifechan Irrlicht extension library
-#------------------------------------------------------------------------------
-
-if(ENABLE_IRRLICHT)
-  find_package(Irrlicht)
-endif()
-
-if(IRRLICHT_FOUND)
-
-  # The Fifechan Irrlicht extension source
-  file(GLOB FIFECHAN_IRRLICHT_HEADERS   include/fifechan/backends/irrlicht/*.hpp)
-  file(GLOB FIFECHAN_IRRLICHT_SRC       src/backends/irrlicht/*.cpp)
-
-  add_library(${PROJECT_NAME}_irrlicht ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_IRRLICHT_HEADERS}
-    ${FIFECHAN_IRRLICHT_SRC}
-  )
-
-  # Provide a namespace alias for the library (fifechan::fifechan_allegro)
-  add_library(${PROJECT_NAME}::${PROJECT_NAME}_irrlicht ALIAS ${PROJECT_NAME}_allegro)
-
-  target_include_directories(${PROJECT_NAME}_irrlicht PUBLIC
-    $<BUILD_INTERFACE:${IRRLICHT_INCLUDE_DIR}>
-    $<INSTALL_INTERFACE:include>
-  )
-
-  target_link_libraries(${PROJECT_NAME}_irrlicht PRIVATE ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
-
-  set_target_properties(${PROJECT_NAME}_irrlicht PROPERTIES
-    VERSION                ${FIFECHAN_VERSION}
-    SOVERSION              ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME            ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
-    CXX_STANDARD           17
-    CXX_STANDARD_REQUIRED  ON
-  )
-
-  show_build_target_properties(${PROJECT_NAME}_irrlicht)
-
-  install(TARGETS ${PROJECT_NAME}_irrlicht EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PERMISSIONS
-      OWNER_READ OWNER_WRITE OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE
-      WORLD_READ WORLD_EXECUTE
-  )
-
-  install(FILES ${FIFECHAN_IRRLICHT_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/irrlicht/)
-
-endif()
 
 #------------------------------------------------------------------------------
 # The Fifechan OpenGL extension library

@@ -87,8 +87,7 @@ namespace fcn
          * Sets the graphics object to use for drawing.
          *
          * @param graphics The graphics object to use for drawing.
-         * @see getGraphics, AllegroGraphics, HGEGraphics,
-         *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
+         * @see getGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual void setGraphics(Graphics* graphics);
 
@@ -97,8 +96,7 @@ namespace fcn
          *
          *  @return The graphics object used for drawing. NULL if no
          *          graphics object has been set.
-         * @see setGraphics, AllegroGraphics, HGEGraphics,
-         *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
+         * @see setGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual Graphics* getGraphics() const;
 
@@ -106,8 +104,7 @@ namespace fcn
          * Sets the input object to use for input handling.
          *
          * @param input The input object to use for input handling.
-         * @see getInput, AllegroInput, HGEInput, OpenLayerInput,
-         *      SDLInput
+         * @see getInput, SDLInput
          */
         virtual void setInput(Input* input);
 
@@ -116,8 +113,7 @@ namespace fcn
          *
          *  @return The input object used for handling input. NULL if no
          *          input object has been set.
-         * @see setInput, AllegroInput, HGEInput, OpenLayerInput,
-         *      SDLInput
+         * @see setInput, SDLInput
          */
         virtual Input* getInput() const;
 

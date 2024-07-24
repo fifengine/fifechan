@@ -16,13 +16,11 @@ namespace fcn
      * Abstract class for providing functions for user input.
      *
      * FifeGUI contains implementations of Input for common
-     * libraries like the Allegro library, the HGE library,
-     * and the SDL library.
+     * libraries like the and the SDL library.
      * To make FifeGUI usable with other libraries, an Input
      * class must be implemented.
      *
-     * @see AllegroInput, HGEInput, OpenLayerInput,
-     *      SDLInput
+     * @see SDLInput
      */
     class FIFEGUI_API Input
     {

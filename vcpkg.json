@@ -6,7 +6,6 @@
   "license": "LGPL-2.1-or-later",
   "supports": "windows,linux,osx",
   "dependencies": [
-    "allegro5",
     "freetype",
     "sdl2",
     "sdl2-image",

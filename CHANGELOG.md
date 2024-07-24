@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - applied spellchecking
 
 **Removed**
+- removed backends: allegro, cairo, irrlicht, glut, hge, openlayer
 - removed usage of deprecated std::iterator
 - remove usage of do-while loops
 - removed all extern "c" helper functions for extension detection by autotools

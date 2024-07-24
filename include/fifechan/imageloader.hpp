@@ -17,8 +17,7 @@ namespace fcn
      * Abstract class for providing functions for loading images.
      *
      * FifeGUI contains implementations of ImageLoader for common
-     * libraries like the Allegro library, the HGE library,
-     * he OpenLayer library, and the SDL library.
+     * libraries like the SDL library.
      * To make FifeGUI usable with other libraries, an ImageLoader
      * class must be implemented.
      *
@@ -27,9 +26,7 @@ namespace fcn
      * Image::setImageLoader.
      *
      * @see Image::setImageLoader, Image::getImageLoader,
-     *      AllegroImageLoader, HGEImageLoader, OpenLayerImageLoader,
-     *      OpenGLAllegroImageLoader, OpenGLSDLImageLoader,
-     *      SDLImageLoader
+     *      OpenGLSDLImageLoader, SDLImageLoader
      */
     class FIFEGUI_API ImageLoader
     {

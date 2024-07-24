@@ -24,8 +24,7 @@ namespace fcn
      * It contains all vital functions for drawing.
      *
      * FifeGUI contains implementations of Graphics for common
-     * libraries like the Allegro library, the HGE library,
-     * the OpenGL library, the OpenLayer library, and the SDL library.
+     * libraries like the OpenGL library and the SDL library.
      * If you want to use FifeGUI with another library you will have
      * to implement a Graphics class for that library.
      *
@@ -47,8 +46,7 @@ namespace fcn
      * widgets bypassing Graphics. This might however hurt portability of
      * your application.
      *
-     * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics,
-     *      SDLGraphics, Image
+     * @see OpenGLGraphics, SDLGraphics, Image
      */
     class FIFEGUI_API Graphics
     {

@@ -20,10 +20,10 @@ Fifechan is a lightweight cross platform GUI library written in C++ specifically
 designed for games. It has a small yet powerful built in set of extendable GUI
 Widgets allowing users to create virtually unlimited types of widgets.
 
-Fifechan supports rendering in SDL, OpenGL, or Allegro out of the box or it can be
+Fifechan supports rendering in SDL or OpenGL out of the box or it can be
 adapted to use any rendering engine the user requires. Events are pushed to
 Fifechan which allows users to use any input library they wish or they could use
-the built in input handling through either SDL input or Allegro input.
+the built in input handling through SDL input.
 
 The primary goal for Fifechan is to keep it extendable, lightweight and still be
 powerful enough to use in all types of games out of the box.
@@ -59,10 +59,6 @@ Add this to the commit message to skip only Appveyor: `[skip appveyor]`
 
 You need the following libraries installed:
 
-For Allegro support:
- - Allegro - https://alleg.sourceforge.net/
- - `apt install libx11-dev libxft-dev libxext-dev libxcursor-dev libgl1-mesa-dev libglu-dev python3-jinja2`
-
 For OpenGL support:
  - OpenGL
 
@@ -70,14 +66,3 @@ For SDL support:
  - SDL2 - https://libsdl.org
  - SDL2_image
  - SDL2_ttf
-
-For Irrlicht support:
- - `apt install libxxf86vm-dev`
- - Remove from `vcpkg.json`. Irrlicht doesn't compile with C++17. Upstream issue.
-
- ```
- irrlicht-1-633b25421b.clean/source/source/Irrlicht/CColorConverter.cpp:168:2: error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
-  168 | register u32 c;
- ```
-
-For HGE support: hge - https://github.com/kvakvs/hge
