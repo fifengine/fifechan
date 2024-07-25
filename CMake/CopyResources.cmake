@@ -24,7 +24,7 @@ function(copy_resources target res_src res_dest)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${res_src}"
             "${res_dest}"
-        COMMENT "Copying resource file ${res_src} => ${res_dest}"
+        COMMENT "Copying resource file ${res_src} to ${res_dest}"
         VERBATIM
     )
 
