@@ -26,6 +26,9 @@ namespace fcn
     class FIFEGUI_API Container : public Widget
     {
     public:
+        /**
+         * The layout policy of the container.
+         */
         enum LayoutPolicy
         {
             Absolute,

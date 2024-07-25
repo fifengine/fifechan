@@ -57,7 +57,7 @@ namespace fcn
         /**
          * Invoked when an ancestor of a widget is moved.
          *
-         * @Param event Describes the event.
+         * @param event Describes the event.
          */
         virtual void ancestorMoved(Event const & event) { }
 

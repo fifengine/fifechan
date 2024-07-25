@@ -95,7 +95,7 @@ namespace fcn
         /**
          * Inserts a character at the current caret position.
          *
-         * @parameter character The character to insert.
+         * @param character The character to insert.
          */
         virtual void insert(int character);
 

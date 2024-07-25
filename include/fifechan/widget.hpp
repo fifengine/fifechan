@@ -1380,39 +1380,34 @@ namespace fcn
             return false;
         }
 
+
         void getLastPosition(int& x, int& y) const;
         void setLastPosition(int x, int y);
         bool isLastPositionSet() const;
 
     protected:
         /**
-         * Distributes an action event to all action listeners
-         * of the widget.
-         *
+         * Distributes an action event to all action listeners of the widget.
          */
         void distributeActionEvent();
 
         /**
          * Distributes resized events to all of the widget's listeners.
-         *
          */
         void distributeResizedEvent();
 
         /**
          * Distributes moved events to all of the widget's listeners.
-         *
          */
         void distributeMovedEvent();
 
         /**
          * Distributes hidden events to all of the widget's listeners.
-         *
          */
         void distributeHiddenEvent();
 
         /**
          * Distributes shown events to all of the widget's listeners.
-         *
          */
         void distributeShownEvent();
 
@@ -1738,6 +1733,9 @@ namespace fcn
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
 
+        /**
+         * Holds the death listener used by the widgets.
+         */
         static DeathListener* mGuiDeathListener;
 
         /**

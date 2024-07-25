@@ -10,23 +10,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [vNext] - unreleased
 
 **Added**
+- added containerization for development by using devcontainer
+- added continuous integration on Github Actions
+- added automatic dependency updates on the Github Action workflows using dependabot
 - added .clang-format and applied formatting
 - added .clang-tidy and applied basic rule set
 - added CPPLINT.cfg files to the source tree for configuration and exlusion of files from cpplint runs
 - added cpplint.sh, format.sh, tidy.sh to build-tools to reliably run C++ QA tools
-- vcpkg is used for dependency management
-- make vcpkg.json the source for the version number
-- add show_build_target_properties to cmakelists
-- switch from include_directories() to target_include_directories()
-- CMake namespaced aliases for core library and extensions, e.g.
+- added vcpkg for dependency management
+- added SetupVcpkg for automatic installation of vcpkg packages during CMake configure step
+- made vcpkg.json the single source for the version number and generate a version.hpp
+- add show_build_target_properties() to CMakeLists
+- added CMake namespaced aliases for core library and extensions, e.g.
   - fifechan::fifechan, fifechan::fifechan_sdl, etc.
 - reintegrated https://github.com/fifengine/fifechan-demos
-  - the examples are now in the `tests/integration` folder, ref. https://github.com/fifengine/fifechan/issues/37
-  - converted build scripts from autotools to cmake, closes https://github.com/fifengine/fifechan-demos/issues/1
+  - the examples are now in the `tests/integration` folder, https://github.com/fifengine/fifechan/issues/37
+  - converted build scripts from autotools to cmake, https://github.com/fifengine/fifechan-demos/issues/1
 - Prepped a `tests/unit` folder for someone inclined to work on unit tests.
 - added SDL2Graphics
-- added support for target and package config (find_package), closes https://github.com/fifengine/fifechan/issues/19
-- added pkg-config support to CMakeLists (for pkg-config), closes https://github.com/fifengine/fifechan/issues/19
+- added support for target and package config (find_package), https://github.com/fifengine/fifechan/issues/19
+- added pkg-config support to CMakeLists (for pkg-config), https://github.com/fifengine/fifechan/issues/19
 - added handling of conditional dependencies in exported CMake configs
   - this enables upstream project to retire their finder scripts (FindFifechan.cmake)
 
@@ -36,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - moved each "unified header file" of a backend from the fifechan include folder ("include/fifechan")
   to the include folder of the backend itself
   - "include/fifechan/opengl.hpp" -> "include/fifechan/backends/opengl/opengl.hpp"
-- updated CMakeLists formatting
+- modernize CMakeList syntax and formatting, e.g. switch from include_directories() to target_include_directories(), etc.
 - modernised license headers and copyright notices using SPDX tags
 - FCN_CORE_DECLSPEC -> FIFEGUI_API & FCN_EXTENSION_DECLSPEC -> FIFEGUI_EXT_API
 - fix WIN32_LEAN_AND_MEAN redeclaration errors
@@ -50,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - renamed variable carea to clip_rect
 - applied spellchecking
 - renamed function parameter recursiv to recursion
+- fixed all Doxygen warnings "found unknown command"
 
 **Removed**
 - removed backends: allegro, cairo, irrlicht, glut, hge, openlayer

@@ -147,7 +147,7 @@ namespace fcn
          *
          * @return True if key pressed at the numeric pad,
          *         false otherwise.
-         * @setNumericPad
+         * @see setNumericPad
          */
         bool isNumericPad() const;
 

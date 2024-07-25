@@ -19,7 +19,7 @@ namespace fcn
      *
      * The user specifies
      *
-     * @verbitam
+     * @verbatim
      * <ul>
      *   <li>the number of columns</li>
      *   <li>horizontal spacing between columns</li>
@@ -27,7 +27,7 @@ namespace fcn
      *   <li>padding around the sides of the container</li>
      *   <li>each column's alignment</li>
      * </ul>
-     * @endverbitam
+     * @endverbatim
      *
      * These properties give the user a lot of flexibility to make the
      * widgets look just right.
@@ -56,7 +56,7 @@ namespace fcn
      * @endcode
      *
      * Output:
-     * @verbitam
+     * @verbatim
      * <pre>
      *+---------------------------------------------------------------------------+
      *|                                                                           |
@@ -68,7 +68,8 @@ namespace fcn
      *|                                                                           |
      *+---------------------------------------------------------------------------+
      * </pre>
-     * @endverbitam
+     * @endverbatim
+     *
      * As you can see, each column is only as big as its largest element.
      * The AdjustingContainer will resize itself and rearrange its contents
      * based on whatever widgets it contains, allowing dynamic addition and

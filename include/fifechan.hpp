@@ -79,7 +79,7 @@
 #include "fifechan/version.hpp"
 
 /**
- * @brief Returns the version of the library.
+ * Returns the version of the library.
  *
  * @return the version.
  */

@@ -16,20 +16,68 @@ namespace fcn
     {
     public:
         BarGraph();
+
+        /**
+         * Constructor.
+         */
         BarGraph(int x, int y, int w, int h);
 
         virtual ~BarGraph() { }
 
+        /**
+         * Sets the x position of the bar.
+         */
         void setBarX(int x);
+
+        /**
+         * @return The x position of the bar.
+         */
         int getBarX() const;
+
+        /**
+         * Sets the y position of the bar.
+         */
         void setBarY(int y);
+
+        /**
+         * @return The y position of the bar.
+         */
         int getBarY() const;
+
+        /**
+         * Sets the position of the bar.
+         */
         void setBarPosition(int x, int y);
+
+        /**
+         * @return The position of the bar.
+         */
         void setBarPosition(Point const & pos);
+
+        /**
+         * Sets the width of the bar.
+         */
         void setBarWidth(int w);
+
+        /**
+         * @return The width of the bar.
+         */
         int getBarWidth() const;
+
+        /**
+         * Sets the height of the bar.
+         */
+
         void setBarHeight(int h);
+
+        /**
+         * @return The height of the bar.
+         */
         int getBarHeight() const;
+
+        /**
+         * Sets the size of the bar.
+         */
         void setBarSize(int w, int h);
 
         /**
@@ -50,7 +98,14 @@ namespace fcn
         virtual void draw(Graphics* graphics);
 
     protected:
+        /**
+         * m_opaque is true if the graph is opaque, false otherwise.
+         */
         bool m_opaque;
+
+        /**
+         * m_rec is the rectangle that represents the bar.
+         */
         Rectangle m_rec;
     };
 }; // namespace fcn

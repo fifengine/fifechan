@@ -32,7 +32,7 @@
 #endif
 
 /**
- * @brief Symbol Visibility
+ * Symbol Visibility
  *
  * This header defines macros for symbol visibility in the library.
  * The macros are used to define whether a symbol should be exported or imported.
