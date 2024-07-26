@@ -1196,7 +1196,7 @@ namespace fcn
          * needed if both a widget in the widget and the widget itself
          * should be focused at the same time.
          *
-         * @param focusHandler The internal focus handler to be used.
+         * @param internalFocusHandler The internal focus handler to be used.
          * @see getInternalFocusHandler
          */
         void setInternalFocusHandler(FocusHandler* internalFocusHandler);
@@ -1263,7 +1263,7 @@ namespace fcn
          * XML document, a certain widget can be retrieved given that the widget
          * has an id.
          *
-         * @param id The id to set to the widget.
+         * @return The id of the widget.
          * @see setId, BasicContainer::findWidgetById
          */
         std::string const & getId() const;

@@ -191,7 +191,7 @@ namespace fcn
         /**
          * Set the vertical spacing between rows.
          *
-         * @param verticalSpacing spacing in pixels.
+         * @param spacing spacing in pixels.
          * @see getVerticalSpacing
          */
         virtual void setVerticalSpacing(unsigned int spacing);
@@ -207,7 +207,7 @@ namespace fcn
         /**
          * Set the horizontal spacing between columns.
          *
-         * @param horizontalSpacing spacing in pixels.
+         * @param spacing spacing in pixels.
          * @see getHorizontalSpacing
          */
         virtual void setHorizontalSpacing(unsigned int spacing);

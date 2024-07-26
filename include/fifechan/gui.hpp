@@ -323,6 +323,7 @@ namespace fcn
         /**
          * Distributes a mouse event.
          *
+         * @param source The source widget of the event.
          * @param type The type of the event to distribute,
          * @param button The button of the event (if any used) to distribute.
          * @param x The x coordinate of the event.

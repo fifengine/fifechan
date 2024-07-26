@@ -44,7 +44,7 @@ namespace fcn
          * to fit the caption.
          *
          * @param caption The caption of the check box.
-         * @param marked True if the check box is selected, false otherwise.
+         * @param selected True if the check box is selected, false otherwise.
          */
         explicit CheckBox(std::string const & caption, bool selected = false);
 

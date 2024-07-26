@@ -118,7 +118,7 @@ namespace fcn
 
         /**
          * Sets count of icons.
-         * @param counter The count of the active icons.
+         * @param icons The count of the active icons.
          */
         void setIconCount(int icons);
 

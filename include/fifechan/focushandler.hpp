@@ -246,7 +246,7 @@ namespace fcn
         /**
          * Sets the last widget with modal mouse input focus.
          *
-         * @param lastMouseWithModalMouseInputFocus The last widget with
+         * @param lastWidgetWithModalMouseInputFocus The last widget with
          *                                          modal mouse input focus.
          * @see getLastWidgetWithModalMouseInputFocus
          */

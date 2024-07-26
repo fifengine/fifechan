@@ -29,6 +29,7 @@ namespace fcn
          *
          * @param surface the surface from which to load.
          * @param autoFree true if the surface should automatically be deleted.
+         * @param renderer the renderer to use for creating the texture.
          */
         SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
 

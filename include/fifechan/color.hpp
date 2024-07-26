@@ -106,7 +106,7 @@ namespace fcn
          * @param out The stream to output to.
          * @param color The color to output.
          */
-        friend std::ostream& operator<<(std::ostream& out, Color const & Color);
+        friend std::ostream& operator<<(std::ostream& out, Color const & color);
 
         /**
          * Holds the red color component (range 0-255).

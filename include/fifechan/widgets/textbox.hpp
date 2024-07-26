@@ -102,7 +102,7 @@ namespace fcn
         /**
          * Sets the row where the caret should be currently located.
          *
-         * @param The row where the caret should be currently located.
+         * @param row The row where the caret should be currently located.
          * @see getCaretRow
          */
         void setCaretRow(int row);
@@ -118,7 +118,7 @@ namespace fcn
         /**
          * Sets the column where the caret should be currently located.
          *
-         * @param The column where the caret should be currently located.
+         * @param column The column where the caret should be currently located.
          * @see getCaretColumn
          */
         void setCaretColumn(int column);

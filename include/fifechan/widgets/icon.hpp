@@ -41,7 +41,7 @@ namespace fcn
          * Sets the image to display. Existing image is freed automatically
          * if it was loaded internally.
          *
-         * @param image The image to display.
+         * @param filename The image to display.
          */
         void setImage(std::string const & filename);
 

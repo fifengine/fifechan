@@ -26,6 +26,8 @@ namespace fcn
          *
          * @param surface The surface from which to load.
          * @param device The D3D device to use when converting the image to display format.
+         * @param width The width of the image.
+         * @param height The height of the image.
          * @param autoFree True if the surface should automatically be deleted.
          */
         DirectX3DImage(LPDIRECT3DSURFACE9 surface, LPDIRECT3DDEVICE9 device, int width, int height, bool autoFree);

@@ -50,7 +50,8 @@ namespace fcn
         void setBarPosition(int x, int y);
 
         /**
-         * @return The position of the bar.
+         * Sets the position of the bar.
+         * @param pos The position of the bar.
          */
         void setBarPosition(Point const & pos);
 

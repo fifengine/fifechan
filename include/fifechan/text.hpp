@@ -54,6 +54,7 @@ namespace fcn
          * Sets the content of a row.
          *
          * @param row The row to set the text of.
+         * @param content The content of the row.
          * @throws Exception when the row does not exist.
          */
         virtual void setRow(unsigned int row, std::string const & content);
@@ -214,6 +215,7 @@ namespace fcn
          * present in the text zero will be returned.
          *
          * @param row The row to get the width of.
+         * @param font The font to use when calculating the width.
          * @return The width in pixels of a row.
          */
         virtual int getWidth(int row, Font* font) const;

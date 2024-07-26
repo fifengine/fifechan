@@ -80,7 +80,7 @@ namespace fcn
         /**
          * Removes a tab from the tabbed area.
          *
-         * @param index The tab to remove.
+         * @param tab The tab to remove.
          * @see addTab
          */
         virtual void removeTab(Tab* tab);
@@ -103,7 +103,7 @@ namespace fcn
         /**
          * Checks if a tab is selected or not.
          *
-         * @param index The tab to check.
+         * @param tab The tab to check.
          * @return True if the tab is selected, false otherwise.
          * @see setSelectedTab
          */
@@ -120,7 +120,7 @@ namespace fcn
         /**
          * Sets a tab to be selected or not.
          *
-         * @param index The tab to be selected.
+         * @param tab The tab to be selected.
          * @see isTabSelected, getSelectedTab
          */
         virtual void setSelectedTab(Tab* tab);
@@ -210,7 +210,7 @@ namespace fcn
         /**
          * Set the vertical spacing between rows.
          *
-         * @param verticalSpacing spacing in pixels.
+         * @param spacing spacing in pixels.
          * @see getVerticalSpacing
          */
         virtual void setVerticalSpacing(unsigned int spacing);
@@ -226,7 +226,7 @@ namespace fcn
         /**
          * Set the horizontal spacing between columns.
          *
-         * @param horizontalSpacing spacing in pixels.
+         * @param spacing spacing in pixels.
          * @see getHorizontalSpacing
          */
         virtual void setHorizontalSpacing(unsigned int spacing);
