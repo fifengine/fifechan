@@ -31,6 +31,8 @@ set(VCPKG_APPLOCAL_DEPS_INSTALL ON)
 # Copy dependencies into the output directory for executables.
 if(DEFINED ENV{VCPKG_APPLOCAL_DEPS} AND NOT DEFINED VCPKG_APPLOCAL_DEPS)
     set(VCPKG_APPLOCAL_DEPS "$ENV{VCPKG_APPLOCAL_DEPS}" CACHE BOOL "")
+else()
+    set(VCPKG_APPLOCAL_DEPS FALSE)
 endif()
 
 # Copy dependencies into the install target directory for executables.
@@ -60,8 +62,20 @@ elseif (DEFINED ENV{VCPKG_ROOT})
     if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
         set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
     endif()
+    IF(NOT DEFINED VCPKG_TARGET_TRIPLET AND DEFINED ENV{VCPKG_DEFAULT_TRIPLET})
+		SET(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
+	ENDIF()
 else()
     message(FATAL_ERROR "One of -DCMAKE_TOOLCHAIN_FILE or the VCPKG_ROOT environment variable must be set.")
+endif()
+
+#
+# VCPKG_DEFAULT_TRIPLET
+#
+# Ensure VCPKG_DEFAULT_TRIPLET is initialized, if not set by the vcpkg toolchain file.
+#
+if(NOT DEFINED VCPKG_DEFAULT_TRIPLET)
+    set(VCPKG_DEFAULT_TRIPLET "x64-windows")
 endif()
 
 #
