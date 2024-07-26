@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added containerization for development by using devcontainer
 - added continuous integration on Github Actions
 - added automatic dependency updates on the Github Action workflows using dependabot
+- added CMakePresets using composable config presets
+  - with base presets in base.json
+   - buildDirectory is ${sourceDir}/out/build/${presetName}
+   - installDir is ${sourceDir}/out/install/${presetName}
+  - platform specific presets in linux.json and windows.json
+  - CI specific presets in ci.json
 - added .clang-format and applied formatting
 - added .clang-tidy and applied basic rule set
 - added CPPLINT.cfg files to the source tree for configuration and exlusion of files from cpplint runs

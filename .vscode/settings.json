@@ -1,5 +1,4 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/out/${buildKitTriple}-${buildType}",
     "files.associations": {
 		"utility": "cpp",
 		"algorithm": "cpp",
