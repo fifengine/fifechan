@@ -2,6 +2,8 @@
 #message(STATUS "[ 🛠️ ] Building integration tests for SDL2")
 #message(STATUS "---------------------------------------------------------------")
 
+set(FIFECHAN_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+
 #------------------------------------------------------------------------------
 # sdlhelloworld
 #------------------------------------------------------------------------------
@@ -9,8 +11,7 @@
 add_executable(sdlhelloworld sdlhelloworld.cpp)
 
 target_include_directories(sdlhelloworld PRIVATE
-  ${SDL_INCLUDE_DIR}
-  ${SDL_IMAGE_INCLUDE_DIR}
+  ${SDL2_INCLUDE_DIRS}
   ${FIFECHAN_INCLUDE_DIR}
 )
 
@@ -18,8 +19,11 @@ target_link_libraries(sdlhelloworld PRIVATE
   # SDL2
   $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
   $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  ${SDL_IMAGE_LIBRARIES}
+  # SDL2_image
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # Fifechan
   fifechan::fifechan
+  # Fifechan SDL extension
   fifechan::fifechan_sdl
 )
 
@@ -43,8 +47,7 @@ install(FILES "${IMAGE_SOURCE}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
 add_executable(sdlwidgets sdlwidgets.cpp)
 
 target_include_directories(sdlwidgets PRIVATE
-  ${SDL_INCLUDE_DIR}
-  ${SDL_IMAGE_INCLUDE_DIR}
+  ${SDL2_INCLUDE_DIR}
   ${FIFECHAN_INCLUDE_DIR}
 )
 
@@ -53,8 +56,10 @@ target_link_libraries(sdlwidgets PRIVATE
   $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
   $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
   # SDL2_image
-  ${SDL_IMAGE_LIBRARIES}
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # Fifechan
   fifechan::fifechan
+  # Fifechan SDL extension
   fifechan::fifechan_sdl
 )
 

@@ -308,15 +308,14 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl ALIAS ${PROJECT_NAME}_sdl)
 
   target_include_directories(${PROJECT_NAME}_sdl PUBLIC
+    # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
     $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-    $<BUILD_INTERFACE:${SDL2_IMAGE_INCLUDE_DIR}>
-    $<BUILD_INTERFACE:${SDL2_TTF_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
   )
 
   target_link_libraries(${PROJECT_NAME}_sdl PRIVATE
     # SDL2::SDL2
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    #$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     # SDL2::SDL2_image
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
