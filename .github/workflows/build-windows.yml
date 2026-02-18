@@ -10,10 +10,9 @@ name: "Build on Windows"
 
 on:
  - push
- #- pull_request                        Disabled for now, until the workflow is stable.
+ - pull_request
  # You can manually run this workflow.
  - workflow_dispatch
-
 
 # improve CI concurrency by automatically cancelling outdated jobs
 concurrency:
