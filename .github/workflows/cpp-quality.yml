@@ -35,30 +35,32 @@ jobs:
     steps:
 
       - name: 🤘 Checkout Code
-        uses: actions/checkout@v4 # https://github.com/actions/checkout
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
 
       - name: 🔽 Install dos2unix
-        run: sudo apt-get install -y dos2unix
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dos2unix
 
-      - name: 🔽 Install clang-format-18
+      - name: 🔽 Install clang-format-20
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x ./llvm.sh
-          sudo ./llvm.sh 18
-          sudo apt-get install -y clang-format-18
+          sudo ./llvm.sh 20
+          sudo apt-get install -y clang-format-20
           rm llvm.sh
 
-      - name: 🛠️ Check Formatting
-        continue-on-error: true
+      - name: 🛠️ Apply formatting
         run: |
+          chmod +x build-tools/format.sh
           ./build-tools/format.sh
-        env:
-          CLANG_FORMAT: clang-format-18
+        continue-on-error: true
 
-      - name: 🛠️ Check git
+      - name: 🛠️ Check git difference
         run: |
           git status
           git diff
+        continue-on-error: true
 
 # ---------------------------------------------------------------------------------------
 
@@ -71,10 +73,12 @@ jobs:
     steps:
 
       - name: 🤘 Checkout Code
-        uses: actions/checkout@v4 # https://github.com/actions/checkout
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
 
       - name: 🔽 Setup Python
-        run: sudo apt-get -y install python3 python3-pip python3-venv
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install python3 python3-pip python3-venv grep
 
       - name: 🔽 Setup Python Virtual Env
         run: |
@@ -93,3 +97,31 @@ jobs:
       - name: 🛠️ Identify places where 'reinterpret_cast' is used
         run: |
           grep -rniw --include=\*.{cpp,hpp} "reinterpret_cast" src include tests examples
+
+# ---------------------------------------------------------------------------------------
+
+  cppcheck:
+
+# ---------------------------------------------------------------------------------------
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: 🤘 Checkout Code
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
+
+      - name: 🔽 Install cppcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cppcheck
+
+      - name: 🛠️ Run cppcheck
+        run: |
+          cppcheck \
+            --enable=warning,style,performance,portability \
+            --std=c++17 \
+            --quiet \
+            --inline-suppr \
+            src
+        continue-on-error: true

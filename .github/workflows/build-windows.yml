@@ -30,8 +30,9 @@ jobs:
     name: "${{ matrix.config.job_name }}"
 
     # https://github.com/actions/runner-images#available-environments
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md        VC17
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md        VC17
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-VS2026-Readme.md VC18
     runs-on: ${{ matrix.config.os }}
 
     strategy:
@@ -42,7 +43,7 @@ jobs:
           #- Debug
         config:
           - {
-              job_name: "Windows VC17 x64 shared Release",
+              job_name: "Windows VC17 x64 Shared Release",
               cache_key: "win-vc17-x64-shared-release",
               os: "windows-2022",
               generator: "Visual Studio 17 2022",
@@ -52,7 +53,7 @@ jobs:
               shared_libs: "ON"
             }
           - {
-              job_name: "Windows VC17 x64 static Release",
+              job_name: "Windows VC17 x64 Static Release",
               cache_key: "win-vc17-x64-static-release",
               os: "windows-2022",
               generator: "Visual Studio 17 2022",
@@ -62,10 +63,10 @@ jobs:
               shared_libs: "OFF"
             }
           - {
-              job_name: "Windows VC16 x64 shared Release",
-              cache_key: "win-vc16-x64-shared-release",
-              os: "windows-2019",
-              generator: "Visual Studio 16 2019",
+              job_name: "Windows VC18 x64 Shared Release",
+              cache_key: "win-vc18-x64-shared-release",
+              os: "windows-2022",
+              generator: "Visual Studio 18 2022",
               compiler: "cl",
               platform: "x64",
               vcpkg_triplet: "x64-windows",
@@ -82,8 +83,6 @@ jobs:
           #    vcpkg_triplet: "x64-windows-static-release",
           #    shared_libs: "OFF"
           #  }
-          #- { job_name: "Windows MinGW x86 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "Win32" }
-          #- { job_name: "Windows MinGW x64 static Release", os: "windows-2022", generator: "MinGW Makefiles", platform: "x64" }
 
     env:
       VCPKG_DISABLE_METRICS: 1
@@ -97,7 +96,7 @@ jobs:
 
     steps:
       - name: 🤘 Checkout Code
-        uses: actions/checkout@v4 # https://github.com/actions/checkout
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
 
       # https://community.chocolatey.org/packages/ninja
       - name: 🔽 Install Ninja
@@ -122,7 +121,7 @@ jobs:
 
       - name: 🎯 Setup Package Cache (vcpkg)
         id: cache-vcpkg
-        uses: actions/cache@v4 # https://github.com/actions/cache
+        uses: actions/cache@v5 # https://github.com/actions/cache
         with:
           # https://github.com/microsoft/vcpkg/blob/master/docs/users/binarycaching.md#configuration
           path: |
