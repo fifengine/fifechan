@@ -47,10 +47,10 @@ if [[ -z "${CI:-}" && -z "${GITHUB_ACTIONS:-}" ]]; then
       exit 1
     fi
   fi
-  find src tests -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec dos2unix {} \;
+  find src tests include -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec dos2unix {} \;
 fi
 
-find src tests -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec "$CLANG_FORMAT" -i -style=file {} \;
+find src tests include -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec "$CLANG_FORMAT" -i -style=file {} \;
 
 if [[ -n "${CI:-}" || -n "${GITHUB_ACTIONS:-}" ]]; then
   if ! git -c core.fileMode=false diff --exit-code; then

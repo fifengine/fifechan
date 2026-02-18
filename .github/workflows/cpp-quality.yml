@@ -54,13 +54,13 @@ jobs:
         run: |
           chmod +x build-tools/format.sh
           ./build-tools/format.sh
-        continue-on-error: true
+        #continue-on-error: true
 
       - name: 🛠️ Check git difference
         run: |
           git status
           git diff
-        continue-on-error: true
+        #continue-on-error: true
 
 # ---------------------------------------------------------------------------------------
 

@@ -20,10 +20,8 @@ namespace fcn
      *      DropDown::addSelectionListener,
      *      DropDown::removeSelectionListener
      */
-    class FIFEGUI_API SelectionListener
-    {
-    public:
-        virtual ~SelectionListener() { }
+    class FIFEGUI_API SelectionListener{
+        public: virtual ~SelectionListener(){}
 
         /**
          * Called when the value of a selection has been changed in a Widget.
@@ -32,16 +30,16 @@ namespace fcn
          *
          * @param event The event of the value change.
          */
-        virtual void valueChanged(SelectionEvent const & event) { }
+        virtual void valueChanged(SelectionEvent const & event){}
 
-    protected:
-        /**
-         * Constructor.
-         *
-         * You should not be able to make an instance of SelectionListener,
-         * therefore its constructor is protected.
-         */
-        SelectionListener() { }
+        protected:
+            /**
+             * Constructor.
+             *
+             * You should not be able to make an instance of SelectionListener,
+             * therefore its constructor is protected.
+             */
+            SelectionListener(){}
     };
 } // namespace fcn
 

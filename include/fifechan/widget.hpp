@@ -1380,7 +1380,6 @@ namespace fcn
             return false;
         }
 
-
         void getLastPosition(int& x, int& y) const;
         void setLastPosition(int x, int y);
         bool isLastPositionSet() const;
