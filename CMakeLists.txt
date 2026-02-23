@@ -12,7 +12,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 #-------------------------------------------------------------------
 
 # This configures VCPKG to install the dependencies defined in vcpkg.json
-# autmatically during the configure step of CMake (vcpkg install).
+# automatically during the configure step of CMake (vcpkg install).
 include(SetupVcpkg)
 
 #-------------------------------------------------------------------
