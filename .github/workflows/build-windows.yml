@@ -106,14 +106,18 @@ jobs:
       - name: 🔽 Install CMake
         run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
 
+      - name: Debug matrix.config.os
+        run: |
+          echo "matrix.config.os value is: ${{ matrix.config.os }}"
+
       - name: 🛠️ Setup Visual Studio Developer Command Prompt
-        if: ${{ matrix.config.os == 'windows-2025' }}
+        if: matrix.config.os == 'windows-2025'
         run: |
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           cl.exe
 
       - name: 🛠️ Setup Visual Studio Developer Command Prompt
-        if: ${{ matrix.config.os == 'windows-2025-vs2026' }}
+        if: matrix.config.os == 'windows-2025-vs2026'
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           cl.exe
