@@ -12,5 +12,12 @@ git pull
 
 vcpkg integrate install
 
+# Install additional components
+
+apt-get update
+
+# Package required to build libxcrypt
+apt-get install -y autoconf autoconf-archive automake libtool
+
 # Return to the original working dir
 cd "$START_DIR" || exit 1

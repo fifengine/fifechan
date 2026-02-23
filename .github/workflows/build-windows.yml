@@ -66,7 +66,7 @@ jobs:
               job_name: "Win | VC18 | Shared Release",
               cache_key: "win-vc18-x64-shared-release",
               os: "windows-2022",
-              generator: "Visual Studio 18 2022",
+              generator: "Visual Studio 18 2026",
               compiler: "cl",
               platform: "x64",
               vcpkg_triplet: "x64-windows",

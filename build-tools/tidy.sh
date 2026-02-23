@@ -32,13 +32,29 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${SCRIPT_DIR}/.."
-BUILD_DIR="${REPO_ROOT}/build"
+# Allow overriding build directory via env var for CI or local presets.
+BUILD_DIR="${BUILD_DIR:-${REPO_ROOT}/build}"
 COMPILE_COMMANDS="${BUILD_DIR}/compile_commands.json"
 
 # Ensure compile database exists.
 if [[ ! -f "$COMPILE_COMMANDS" ]]; then
-  echo "Please run CMake configure first to generate compile_commands.json in ${BUILD_DIR}."
-  exit 1
+  echo "compile_commands.json not found in ${BUILD_DIR}; attempting to run CMake configure..."
+  if ! command -v cmake >/dev/null 2>&1; then
+    echo "cmake not found; cannot generate compile_commands.json. Run CMake configure first."
+    exit 1
+  fi
+
+  # Try a minimal configure that exports the compile commands.
+  if ! cmake -S "${REPO_ROOT}" -B "${BUILD_DIR}" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON; then
+    echo "CMake configure failed; please configure your build directory manually."
+    exit 1
+  fi
+
+  # Ensure compile commands were generated.
+  if [[ ! -f "$COMPILE_COMMANDS" ]]; then
+    echo "compile_commands.json still missing after CMake configure."
+    exit 1
+  fi
 fi
 
 # Check binary exists and is version >=17.
@@ -73,7 +89,7 @@ echo "Using $($CLANG_TIDY --version | head -n 1)"
 
 cd "$REPO_ROOT"
 
-# Single file mode or default repo scan.
+# Single file mode or default repo scan. Default includes `src/`, `include/` and `tests/`.
 if [[ $# -eq 1 ]]; then
   if [[ ! -f "$1" ]]; then
     echo "File not found: $1"
@@ -81,10 +97,10 @@ if [[ $# -eq 1 ]]; then
   fi
   files=("$1")
 else
-  mapfile -t files < <(git ls-files 'src/**/*.cpp' 'src/**/*.h' 'src/**/*.hpp' 'tests/core_tests/**/*.cpp' 'tests/core_tests/**/*.h')
+  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|tests/).*(\.(cpp|cxx|cc|c|h|hpp))$' || true)
 
   if [[ ${#files[@]} -eq 0 ]]; then
-    echo "No C++ source files found to analyze."
+    echo "No C/C++ source files found to analyze."
     exit 0
   fi
 fi
