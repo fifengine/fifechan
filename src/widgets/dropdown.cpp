@@ -25,8 +25,8 @@ namespace fcn
 
         setInternalFocusHandler(&mInternalFocusHandler);
 
-        mInternalScrollArea = (scrollArea == NULL);
-        mInternalListBox    = (listBox == NULL);
+        mInternalScrollArea = (scrollArea == nullptr);
+        mInternalListBox    = (listBox == nullptr);
 
         if (mInternalScrollArea) {
             mScrollArea = new ScrollArea();
@@ -70,7 +70,7 @@ namespace fcn
             delete mListBox;
         }
 
-        setInternalFocusHandler(NULL);
+        setInternalFocusHandler(nullptr);
     }
 
     void DropDown::draw(Graphics* graphics)
@@ -284,12 +284,12 @@ namespace fcn
 
     void DropDown::adjustHeight()
     {
-        if (mScrollArea == NULL) {
+        if (mScrollArea == nullptr) {
             fcn::throwException(
                 "Scroll area has been deleted.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
-        if (mListBox == NULL) {
+        if (mListBox == nullptr) {
             fcn::throwException(
                 "List box has been deleted.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
@@ -324,11 +324,11 @@ namespace fcn
 
     void DropDown::resizeToContent(bool recursion)
     {
-        if (mScrollArea != NULL) {
+        if (mScrollArea != nullptr) {
             mScrollArea->resizeToContent();
         }
 
-        if (mListBox != NULL) {
+        if (mListBox != nullptr) {
             mScrollArea->resizeToContent();
         }
         adjustHeight();
@@ -372,7 +372,7 @@ namespace fcn
     void DropDown::death(Event const & event)
     {
         if (event.getSource() == mScrollArea) {
-            mScrollArea = NULL;
+            mScrollArea = nullptr;
         }
     }
 

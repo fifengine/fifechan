@@ -20,7 +20,7 @@ namespace fcn
         mUniform           = false;
         mVerticalSpacing   = 2;
         mHorizontalSpacing = 2;
-        mBackgroundWidget  = NULL;
+        mBackgroundWidget  = nullptr;
     }
 
     Container::~Container() { }

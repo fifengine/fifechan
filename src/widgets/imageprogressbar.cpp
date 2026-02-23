@@ -12,8 +12,8 @@
 namespace fcn
 {
     ImageProgressBar::ImageProgressBar() :
-        mBarImage(NULL),
-        mForegroundImage(NULL),
+        mBarImage(nullptr),
+        mForegroundImage(nullptr),
         mInternalImage(false),
         mMaxValue(100),
         mValue(0),
@@ -24,7 +24,7 @@ namespace fcn
 
     ImageProgressBar::ImageProgressBar(Image* image, int maxValue) :
         mBarImage(image),
-        mForegroundImage(NULL),
+        mForegroundImage(nullptr),
         mInternalImage(false),
         mMaxValue(maxValue),
         mValue(0),
@@ -35,8 +35,8 @@ namespace fcn
     }
 
     ImageProgressBar::ImageProgressBar(std::string const & filename, int maxValue) :
-        mBarImage(NULL),
-        mForegroundImage(NULL),
+        mBarImage(nullptr),
+        mForegroundImage(nullptr),
         mInternalImage(true),
         mMaxValue(maxValue),
         mValue(0),

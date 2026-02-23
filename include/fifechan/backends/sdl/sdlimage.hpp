@@ -65,8 +65,8 @@ namespace fcn
 
     protected:
         SDL_Surface* mSurface;
-        SDL_Texture* mTexture   = NULL;
-        SDL_Renderer* mRenderer = NULL;
+        SDL_Texture* mTexture   = nullptr;
+        SDL_Renderer* mRenderer = nullptr;
         bool mAutoFree;
     };
 } // namespace fcn

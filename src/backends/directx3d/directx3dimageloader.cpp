@@ -14,7 +14,7 @@ namespace fcn
 
     Image* DirectX3DImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
-        LPDIRECT3DSURFACE9 surface = NULL;
+        LPDIRECT3DSURFACE9 surface = nullptr;
         D3DXIMAGE_INFO imageInfo;
         HRESULT result;
 
@@ -26,7 +26,7 @@ namespace fcn
         }
 
         result = mDevice->CreateOffscreenPlainSurface(
-            imageInfo.Width, imageInfo.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL);
+            imageInfo.Width, imageInfo.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &surface, nullptr);
 
         if (result != D3D_OK) {
             fcn::throwException(

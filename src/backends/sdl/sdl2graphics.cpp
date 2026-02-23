@@ -27,7 +27,7 @@ namespace fcn
 
     SDL2Graphics::~SDL2Graphics()
     {
-        if (mRenderTarget != NULL) {
+        if (mRenderTarget != nullptr) {
             SDL_DestroyTexture(mTexture);
             SDL_FreeSurface(mTarget);
         }
@@ -130,7 +130,7 @@ namespace fcn
 
         SDLImage const * srcImage = dynamic_cast<SDLImage const *>(image);
 
-        if (srcImage == NULL) {
+        if (srcImage == nullptr) {
             fcn::throwException(
                 "Trying to draw an image of unknown format, must be an SDLImage.",
                 static_cast<char const *>(__FUNCTION__),
@@ -138,7 +138,7 @@ namespace fcn
                 __LINE__);
         }
 
-        if (srcImage->getTexture() == NULL) {
+        if (srcImage->getTexture() == nullptr) {
             SDL_FillRect(mTarget, &temp, SDL_MapRGBA(mTarget->format, 0xff, 0, 0xff, 0));
             SDL_BlitSurface(srcImage->getSurface(), &src, mTarget, &temp);
             SDL_UpdateTexture(mTexture, &temp, mTarget->pixels, mTarget->pitch);

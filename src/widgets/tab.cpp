@@ -10,7 +10,7 @@
 
 namespace fcn
 {
-    Tab::Tab() : mHasMouse(false), mTabbedArea(NULL)
+    Tab::Tab() : mHasMouse(false), mTabbedArea(nullptr)
     {
         addMouseListener(this);
         setLayout(Container::Horizontal);
@@ -21,7 +21,7 @@ namespace fcn
     void Tab::adjustSize()
     {
         Container::adjustSize();
-        if (mTabbedArea != NULL)
+        if (mTabbedArea != nullptr)
             mTabbedArea->adjustTabPositions();
     }
 

@@ -106,7 +106,7 @@ namespace fcn
 
         SDLImage const * srcImage = dynamic_cast<SDLImage const *>(image);
 
-        if (srcImage == NULL) {
+        if (srcImage == nullptr) {
             fcn::throwException(
                 ("Trying to draw an image of unknown format, must be an SDLImage."),
                 static_cast<char const *>(__FUNCTION__),

@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    ListBox::ListBox() : mSelected(-1), mListModel(NULL), mWrappingEnabled(false)
+    ListBox::ListBox() : mSelected(-1), mListModel(nullptr), mWrappingEnabled(false)
     {
         setWidth(100);
         setFocusable(true);
@@ -39,7 +39,7 @@ namespace fcn
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
-        if (mListModel == NULL) {
+        if (mListModel == nullptr) {
             return;
         }
 
@@ -108,7 +108,7 @@ namespace fcn
 
     void ListBox::setSelected(int selected)
     {
-        if (mListModel == NULL) {
+        if (mListModel == nullptr) {
             mSelected = -1;
         } else {
             if (selected < 0) {
@@ -222,7 +222,7 @@ namespace fcn
 
     void ListBox::adjustSize()
     {
-        if (mListModel != NULL) {
+        if (mListModel != nullptr) {
             // min width in case the lit contains no element
             int w        = getRowHeight();
             int elements = mListModel->getNumberOfElements();

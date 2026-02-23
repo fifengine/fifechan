@@ -11,7 +11,7 @@
 namespace fcn
 {
     IconProgressBar::IconProgressBar() :
-        mImage(NULL), mInternalImage(false), mMaxIcons(0), mIconCounter(0), mOrientation(HORIZONTAL), mOpaque(true)
+        mImage(nullptr), mInternalImage(false), mMaxIcons(0), mIconCounter(0), mOrientation(HORIZONTAL), mOpaque(true)
     {
     }
 
@@ -27,7 +27,7 @@ namespace fcn
     }
 
     IconProgressBar::IconProgressBar(std::string const & filename, int maxIcons) :
-        mImage(NULL),
+        mImage(nullptr),
         mInternalImage(true),
         mMaxIcons(maxIcons),
         mIconCounter(0),

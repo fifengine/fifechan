@@ -81,12 +81,12 @@ namespace fcn
 
     ScrollArea::~ScrollArea()
     {
-        setContent(NULL);
+        setContent(nullptr);
     }
 
     void ScrollArea::setContent(Widget* widget)
     {
-        if (widget != NULL) {
+        if (widget != nullptr) {
             clear();
             add(widget);
             widget->setPosition(0, 0);
@@ -102,7 +102,7 @@ namespace fcn
         if (mChildren.size() > 0)
             return *mChildren.begin();
 
-        return NULL;
+        return nullptr;
     }
 
     void ScrollArea::setHorizontalScrollPolicy(ScrollPolicy hPolicy)
@@ -179,7 +179,7 @@ namespace fcn
     {
         checkPolicies();
 
-        if (getContent() == NULL)
+        if (getContent() == nullptr)
             return 0;
 
         int value = getContent()->getWidth() - getChildrenArea().width + 2 * getContent()->getBorderSize();
@@ -194,7 +194,7 @@ namespace fcn
     {
         checkPolicies();
 
-        if (getContent() == NULL)
+        if (getContent() == nullptr)
             return 0;
 
         int value;
@@ -663,7 +663,7 @@ namespace fcn
         setVerticalScrollAmount(getVerticalScrollAmount());
         setHorizontalScrollAmount(getHorizontalScrollAmount());
 
-        if (getContent() != NULL) {
+        if (getContent() != nullptr) {
             getContent()->setPosition(
                 -mHScroll + getContent()->getBorderSize(), -mVScroll + getContent()->getBorderSize());
             getContent()->logic();
@@ -921,7 +921,7 @@ namespace fcn
         if (getChildrenArea().isContaining(x, y))
             return getContent();
 
-        return NULL;
+        return nullptr;
     }
 
     void ScrollArea::mouseWheelMovedUp(MouseEvent& mouseEvent)

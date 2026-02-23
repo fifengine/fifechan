@@ -20,6 +20,8 @@
 #include <fifechan/backends/opengl/openglsdlimageloader.hpp>
 #include <fifechan/backends/sdl/sdl.hpp>
 
+#include <cstdio>
+
 namespace openglsdl
 {
     bool running = true;

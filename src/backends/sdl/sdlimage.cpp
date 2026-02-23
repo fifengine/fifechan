@@ -79,7 +79,7 @@ namespace fcn
 
     void SDLImage::putPixel(int x, int y, Color const & color)
     {
-        if (mSurface == NULL) {
+        if (mSurface == nullptr) {
             fcn::throwException(
                 ("Trying to put a pixel in a non loaded image."),
                 static_cast<char const *>(__FUNCTION__),
@@ -125,7 +125,7 @@ namespace fcn
 
         SDL_Surface* tmp = SDL_ConvertSurfaceFormat(mSurface, surfaceMask, 0);
         SDL_FreeSurface(mSurface);
-        mSurface = NULL;
+        mSurface = nullptr;
 
         if (hasPink) {
             SDL_SetColorKey(tmp, SDL_TRUE, SDL_MapRGB(tmp->format, 255, 0, 255));

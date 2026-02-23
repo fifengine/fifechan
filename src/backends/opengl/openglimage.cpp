@@ -59,7 +59,7 @@ namespace fcn
     {
         mTextureHandle = textureHandle;
         mAutoFree      = autoFree;
-        mPixels        = NULL;
+        mPixels        = nullptr;
 
         mWidth        = width;
         mHeight       = height;
@@ -98,11 +98,11 @@ namespace fcn
 
     void OpenGLImage::free()
     {
-        if (mPixels == NULL) {
+        if (mPixels == nullptr) {
             glDeleteTextures(1, &mTextureHandle);
         } else {
             delete[] mPixels;
-            mPixels = NULL;
+            mPixels = nullptr;
         }
     }
 
@@ -118,7 +118,7 @@ namespace fcn
 
     Color OpenGLImage::getPixel(int x, int y)
     {
-        if (mPixels == NULL) {
+        if (mPixels == nullptr) {
             fcn::throwException(
                 ("Image has been converted to display format"),
                 static_cast<char const *>(__FUNCTION__),
@@ -150,7 +150,7 @@ namespace fcn
 
     void OpenGLImage::putPixel(int x, int y, Color const & color)
     {
-        if (mPixels == NULL) {
+        if (mPixels == nullptr) {
             fcn::throwException(
                 ("Image has been converted to display format"),
                 static_cast<char const *>(__FUNCTION__),
@@ -174,7 +174,7 @@ namespace fcn
 
     void OpenGLImage::convertToDisplayFormat()
     {
-        if (mPixels == NULL) {
+        if (mPixels == nullptr) {
             fcn::throwException(
                 ("Image has already been converted to display format"),
                 static_cast<char const *>(__FUNCTION__),
@@ -191,7 +191,7 @@ namespace fcn
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         delete[] mPixels;
-        mPixels = NULL;
+        mPixels = nullptr;
 
         GLenum error = glGetError();
         if (error) {

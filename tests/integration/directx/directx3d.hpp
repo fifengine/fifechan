@@ -36,7 +36,7 @@ namespace directx3d
     // It provides the objects Graphics for drawing, input for user interaction,
     // and ImageLoader for image loading.
     fcn::DirectX3DGraphics* graphics;
-    fcn::DirectX3DInput* input = NULL;
+    fcn::DirectX3DInput* input = nullptr;
     fcn::DirectX3DImageLoader* imageLoader;
 
     LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -49,7 +49,7 @@ namespace directx3d
             return FALSE;
         }
 
-        if (input != NULL) {
+        if (input != nullptr) {
             input->dispatchMessage(hWnd, msg, wParam, lParam);
 
             /*
@@ -135,9 +135,9 @@ namespace directx3d
             NULL,
             NULL,
             hInstance,
-            NULL);
+            nullptr);
 
-        if (hWnd == NULL) {
+        if (hWnd == nullptr) {
             MessageBox(NULL, "Window Creation Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
             return false;
         }
@@ -227,7 +227,7 @@ namespace directx3d
                 gui->draw();
                 d3ddev->EndScene();
                 // Finally we update the screen.
-                d3ddev->Present(NULL, NULL, NULL, NULL);
+                d3ddev->Present(NULL, NULL, NULL, nullptr);
             }
         }
     }

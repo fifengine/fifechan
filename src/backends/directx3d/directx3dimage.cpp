@@ -11,7 +11,7 @@ namespace fcn
     DirectX3DImage::DirectX3DImage(
         LPDIRECT3DSURFACE9 surface, LPDIRECT3DDEVICE9 device, int width, int height, bool convertToDisplayFormat)
     {
-        mTexture       = NULL;
+        mTexture       = nullptr;
         mSurface       = surface;
         mDevice        = device;
         mWidth         = width;
@@ -46,10 +46,10 @@ namespace fcn
 
     void DirectX3DImage::free()
     {
-        if (mSurface != NULL)
+        if (mSurface != nullptr)
             mSurface->Release();
 
-        if (mTexture != NULL)
+        if (mTexture != nullptr)
             mTexture->Release();
     }
 
@@ -65,7 +65,7 @@ namespace fcn
 
     Color DirectX3DImage::getPixel(int x, int y)
     {
-        if (mSurface == NULL) {
+        if (mSurface == nullptr) {
             fcn::throwException(
                 ("Image has been converted to display format"),
                 static_cast<char const *>(__FUNCTION__),
@@ -89,7 +89,7 @@ namespace fcn
 
     void DirectX3DImage::putPixel(int x, int y, Color const & color)
     {
-        if (mSurface == NULL) {
+        if (mSurface == nullptr) {
             fcn::throwException(
                 ("Image has been converted to display format"),
                 static_cast<char const *>(__FUNCTION__),
@@ -140,7 +140,7 @@ namespace fcn
         }
 
         mSurface->Release();
-        mSurface = NULL;
+        mSurface = nullptr;
     }
 
     int DirectX3DImage::getTextureWidth() const

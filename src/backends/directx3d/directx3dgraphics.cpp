@@ -102,7 +102,7 @@ namespace fcn
     {
         DirectX3DImage const * srcImage = dynamic_cast<DirectX3DImage const *>(image);
 
-        if (srcImage == NULL) {
+        if (srcImage == nullptr) {
             fcn::throwException(
                 ("Trying to draw an image of unknown format, must be a DirectXImage."),
                 static_cast<char const *>(__FUNCTION__),

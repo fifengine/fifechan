@@ -27,7 +27,7 @@ namespace fcn
         {
             SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
-            if (loadedSurface == NULL) {
+            if (loadedSurface == nullptr) {
                 std::string msg = std::string("Unable to load image file: " + filename);
                 fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }
@@ -35,7 +35,7 @@ namespace fcn
             SDL_Surface* surface = convertToStandardFormat(loadedSurface);
             SDL_FreeSurface(loadedSurface);
 
-            if (surface == NULL) {
+            if (surface == nullptr) {
                 std::string msg = std::string("Not enough memory to load: " + filename);
                 fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
             }

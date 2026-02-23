@@ -17,11 +17,11 @@ namespace fcn
         mGlyphSpacing = 0;
         mAntiAlias    = true;
         mFilename     = filename;
-        mFont         = NULL;
+        mFont         = nullptr;
 
         mFont = TTF_OpenFont(filename.c_str(), size);
 
-        if (mFont == NULL) {
+        if (mFont == nullptr) {
             fcn::throwException(
                 ("SDLTrueTypeFont::SDLTrueTypeFont. " + std::string(TTF_GetError())),
                 static_cast<char const *>(__FUNCTION__),
@@ -56,7 +56,7 @@ namespace fcn
 
         fcn::SDLGraphics* sdlGraphics = dynamic_cast<fcn::SDLGraphics*>(graphics);
 
-        if (sdlGraphics == NULL) {
+        if (sdlGraphics == nullptr) {
             fcn::throwException(
                 ("SDLTrueTypeFont::drawString. Graphics object not an SDL graphics object!"),
                 static_cast<char const *>(__FUNCTION__),

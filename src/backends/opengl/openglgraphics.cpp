@@ -40,7 +40,7 @@ namespace fcn
         glPushAttrib(
             GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT | GL_FOG_BIT | GL_LIGHTING_BIT |
             GL_LINE_BIT | GL_POINT_BIT | GL_POLYGON_BIT | GL_SCISSOR_BIT | GL_STENCIL_BUFFER_BIT | GL_TEXTURE_BIT |
-            GL_TRANSFORM_BIT | GL_POINT_BIT | GL_LINE_BIT);
+            GL_TRANSFORM_BIT);
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -126,7 +126,7 @@ namespace fcn
     {
         OpenGLImage const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
-        if (srcImage == NULL) {
+        if (srcImage == nullptr) {
             fcn::throwException(
                 ("Trying to draw an image of unknown format, must be an OpenGLImage."),
                 static_cast<char const *>(__FUNCTION__),

@@ -14,7 +14,7 @@ namespace fcn
     {
         SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
-        if (loadedSurface == NULL) {
+        if (loadedSurface == nullptr) {
             fcn::throwException(
                 (std::string("Unable to load image file: ") + filename),
                 static_cast<char const *>(__FUNCTION__),
@@ -25,7 +25,7 @@ namespace fcn
         SDL_Surface* surface = convertToStandardFormat(loadedSurface);
         SDL_FreeSurface(loadedSurface);
 
-        if (surface == NULL) {
+        if (surface == nullptr) {
             fcn::throwException(
                 (std::string("Not enough memory to load: ") + filename),
                 static_cast<char const *>(__FUNCTION__),
@@ -74,9 +74,9 @@ namespace fcn
 
         SDL_Surface* colorSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, 0, 0, 32, rmask, gmask, bmask, amask);
 
-        SDL_Surface* tmp = NULL;
+        SDL_Surface* tmp = nullptr;
 
-        if (colorSurface != NULL) {
+        if (colorSurface != nullptr) {
             tmp = SDL_ConvertSurface(surface, colorSurface->format, SDL_SWSURFACE);
             SDL_FreeSurface(colorSurface);
         }

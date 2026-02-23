@@ -55,7 +55,7 @@ namespace fcn
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
 
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < mText->getNumberOfRows(); i++) {
             // Move the text one pixel so we can have a caret before a letter.
             graphics->drawText(mText->getRow(i), 1, i * getFont()->getHeight());
@@ -146,7 +146,7 @@ namespace fcn
         } else if (key.getValue() == Key::PageUp) {
             Widget* par = getParent();
 
-            if (par != NULL) {
+            if (par != nullptr) {
                 int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
                 int chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
                 int newCaretRow = getCaretRow() - rowsPerPage;
@@ -160,7 +160,7 @@ namespace fcn
         } else if (key.getValue() == Key::PageDown) {
             Widget* par = getParent();
 
-            if (par != NULL) {
+            if (par != nullptr) {
                 int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
                 int chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
                 setCaretRow(getCaretRow() + rowsPerPage);

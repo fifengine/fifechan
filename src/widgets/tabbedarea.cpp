@@ -14,7 +14,7 @@
 
 namespace fcn
 {
-    TabbedArea::TabbedArea() : mSelectedTab(NULL), mOpaque(false)
+    TabbedArea::TabbedArea() : mSelectedTab(nullptr), mOpaque(false)
     {
         setFocusable(true);
         addKeyListener(this);
@@ -52,7 +52,7 @@ namespace fcn
         mTabContainer->add(tab);
         mTabs.push_back(std::pair<Tab*, Widget*>(tab, widget));
 
-        if (mSelectedTab == NULL) {
+        if (mSelectedTab == nullptr) {
             setSelectedTab(tab);
         } else {
             adaptLayout();
@@ -103,7 +103,7 @@ namespace fcn
         }
 
         if (tabIndexToBeSelected == -1) {
-            mSelectedTab = NULL;
+            mSelectedTab = nullptr;
             mWidgetContainer->clear();
             adaptLayout();
         } else {
@@ -226,7 +226,7 @@ namespace fcn
 
         // If a tab is selected, remove the line right underneath
         // the selected tab.
-        if (mSelectedTab != NULL) {
+        if (mSelectedTab != nullptr) {
             graphics->setColor(getBaseColor());
             graphics->drawLine(
                 mSelectedTab->getX() + 1,
@@ -422,7 +422,7 @@ namespace fcn
             Widget* widget = mTabContainer->getWidgetAt(mouseEvent.getX(), mouseEvent.getY());
             Tab* tab       = dynamic_cast<Tab*>(widget);
 
-            if (tab != NULL) {
+            if (tab != nullptr) {
                 setSelectedTab(tab);
             }
         }
@@ -439,7 +439,7 @@ namespace fcn
     {
         Tab* tab = dynamic_cast<Tab*>(event.getSource());
 
-        if (tab != NULL) {
+        if (tab != nullptr) {
             removeTab(tab);
         } else {
             // BasicContainer::death(event);
@@ -451,7 +451,7 @@ namespace fcn
         Widget* source = actionEvent.getSource();
         Tab* tab       = dynamic_cast<Tab*>(source);
 
-        if (tab == NULL) {
+        if (tab == nullptr) {
             fcn::throwException(
                 "Received an action from a widget that's not a tab!",
                 static_cast<char const *>(__FUNCTION__),
