@@ -59,9 +59,9 @@ find src tests include -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" 
 # If there are changes, we exit with a non-zero status code, causing the CI job to fail.
 # This ensures that code formatting is enforced.
 #  --ignore-file-mode is used to ignore chmod changes.
-if [[ -n "$CI" || -n "$GITHUB_ACTION" ]]; then
-    if ! git -c core.fileMode=false diff --exit-code; then
-        echo "Error: Code formatting issues detected. Please run ./build-tools/format.sh and commit the changes."
-        exit 1
-    fi
+if [[ -n "${CI:-}" || -n "${GITHUB_ACTIONS:-}" ]]; then
+  if ! git -c core.fileMode=false diff --exit-code; then
+    echo "Error: Code formatting issues detected. Please run ./build-tools/format.sh and commit the changes."
+    exit 1
+  fi
 fi
