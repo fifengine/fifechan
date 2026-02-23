@@ -86,6 +86,7 @@ jobs:
 
     env:
       VCPKG_DISABLE_METRICS: 1
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
       SOURCE_DIR:  ${{ github.workspace }}
       BUILD_DIR:   ${{ github.workspace }}\build
       INSTALL_DIR: ${{ github.workspace }}\install
