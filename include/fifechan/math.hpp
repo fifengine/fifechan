@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_MATH_HPP_
 #define INCLUDE_FIFECHAN_MATH_HPP_
@@ -8,17 +8,13 @@
 #include <cassert>
 #include <cmath>
 #include <limits>
-
-#ifndef ABS
-    #define ABS(x) ((x) < 0 ? -(x) : (x))
-
-#endif
+#include <numbers>
 
 namespace fcn
 {
 
-// Sort out the missing round function in MSVC:
 #if defined(WIN32) && defined(_MSC_VER)
+     // Add the missing round function in MSVC:
     inline double round(double const x)
     {
         return x < 0.0 ? ceil(x - 0.5) : floor(x + 0.5);
@@ -35,10 +31,10 @@ namespace fcn
     static float const FLT_INVERSE_TWO_PI = 1.0F / FLT_TWO_PI;
     static float const FLT_DEG_TO_RAD     = FLT_PI / 180.0F;
     static float const FLT_RAD_TO_DEG     = 180.0F / FLT_PI;
-    static float const FLT_LOG_2          = std::log(2.0F);
-    static float const FLT_LOG_10         = std::log(10.0F);
-    static float const FLT_INV_LOG_2      = 1.0F / std::log(2.0F);
-    static float const FLT_INV_LOG_10     = 1.0F / std::log(10.0F);
+    static float const FLT_LOG_2          = std::numbers::ln2_v<float>;
+    static float const FLT_LOG_10         = std::numbers::ln10_v<float>;
+    static float const FLT_INV_LOG_2      = 1.0F / std::numbers::ln2_v<float>;
+    static float const FLT_INV_LOG_10     = 1.0F / std::numbers::ln10_v<float>;
 
     static double const DBL_STD_EPSILON    = std::numeric_limits<double>::epsilon();
     static double const DBL_STD_MAX        = std::numeric_limits<double>::max();
@@ -50,10 +46,10 @@ namespace fcn
     static double const DBL_INVERSE_TWO_PI = 1.0 / DBL_TWO_PI;
     static double const DBL_DEG_TO_RAD     = DBL_PI / 180.0;
     static double const DBL_RAD_TO_DEG     = 180.0F / DBL_PI;
-    static double const DBL_LOG_2          = std::log(2.0);
-    static double const DBL_LOG_10         = std::log(10.0);
-    static double const DBL_INV_LOG_2      = 1.0 / std::log(2.0);
-    static double const DBL_INV_LOG_10     = 1.0 / std::log(10.0);
+    static double const DBL_LOG_2          = std::numbers::ln2;
+    static double const DBL_LOG_10         = std::numbers::ln10;
+    static double const DBL_INV_LOG_2      = 1.0 / std::numbers::ln2;
+    static double const DBL_INV_LOG_10     = 1.0 / std::numbers::ln10;
 
     template <class numT>
     struct float_traits
@@ -64,59 +60,59 @@ namespace fcn
     struct float_traits<float>
     {
         using float_type = float;
-        static inline float_type epsilon()
+        static float_type epsilon()
         {
             return FLT_STD_EPSILON;
         }
-        static inline float_type zeroTolerance()
+        static float_type zeroTolerance()
         {
             return FLT_ZERO_TOLERANCE;
         }
-        static inline float_type max()
+        static float_type max()
         {
             return FLT_STD_MAX;
         }
-        static inline float_type pi()
+        static float_type pi()
         {
             return FLT_PI;
         }
-        static inline float_type twoPi()
+        static float_type twoPi()
         {
             return FLT_TWO_PI;
         }
-        static inline float_type halfPi()
+        static float_type halfPi()
         {
             return FLT_HALF_PI;
         }
-        static inline float_type inversePi()
+        static float_type inversePi()
         {
             return FLT_INVERSE_PI;
         }
-        static inline float_type inverseTwoPi()
+        static float_type inverseTwoPi()
         {
             return FLT_INVERSE_TWO_PI;
         }
-        static inline float_type degToRad()
+        static float_type degToRad()
         {
             return FLT_DEG_TO_RAD;
         }
-        static inline float_type radToDeg()
+        static float_type radToDeg()
         {
             return FLT_RAD_TO_DEG;
         }
-        static inline float_type log2()
+        static float_type log2()
         {
             return FLT_LOG_2;
         }
-        static inline float_type log10()
+        static float_type log10()
         {
             return FLT_LOG_10;
         }
-        static inline float_type invLog2()
+        static float_type invLog2()
         {
             return FLT_INV_LOG_2;
         }
-        static inline float_type invLog10()
+        static float_type invLog10()
         {
             return FLT_INV_LOG_10;
         }
@@ -126,59 +122,59 @@ namespace fcn
     struct float_traits<double>
     {
         using float_type = double;
-        static inline float_type epsilon()
+        static float_type epsilon()
         {
             return DBL_STD_EPSILON;
         }
-        static inline float_type zeroTolerance()
+        static float_type zeroTolerance()
         {
             return DBL_ZERO_TOLERANCE;
         }
-        static inline float_type max()
+        static float_type max()
         {
             return DBL_STD_MAX;
         }
-        static inline float_type pi()
+        static float_type pi()
         {
             return DBL_PI;
         }
-        static inline float_type twoPi()
+        static float_type twoPi()
         {
             return DBL_TWO_PI;
         }
-        static inline float_type halfPi()
+        static float_type halfPi()
         {
             return DBL_HALF_PI;
         }
-        static inline float_type inversePi()
+        static float_type inversePi()
         {
             return DBL_INVERSE_PI;
         }
-        static inline float_type inverseTwoPi()
+        static float_type inverseTwoPi()
         {
             return DBL_INVERSE_TWO_PI;
         }
-        static inline float_type degToRad()
+        static float_type degToRad()
         {
             return DBL_DEG_TO_RAD;
         }
-        static inline float_type radToDeg()
+        static float_type radToDeg()
         {
             return DBL_RAD_TO_DEG;
         }
-        static inline float_type log2()
+        static float_type log2()
         {
             return DBL_LOG_2;
         }
-        static inline float_type log10()
+        static float_type log10()
         {
             return DBL_LOG_10;
         }
-        static inline float_type invLog2()
+        static float_type invLog2()
         {
             return DBL_INV_LOG_2;
         }
-        static inline float_type invLog10()
+        static float_type invLog10()
         {
             return DBL_INV_LOG_10;
         }
@@ -188,62 +184,65 @@ namespace fcn
     class Math
     {
     public:
+        /**
+         * Type definitions
+         */
         using num_type    = T;
         using traits_type = float_traits<num_type>;
 
-        static inline num_type epsilon()
+        static num_type epsilon()
         {
             return traits_type::epsilon();
         }
-        static inline num_type zeroTolerance()
+        static num_type zeroTolerance()
         {
             return traits_type::zeroTolerance();
         }
-        static inline num_type max()
+        static num_type max()
         {
             return traits_type::max();
         }
-        static inline num_type pi()
+        static num_type pi()
         {
             return traits_type::pi();
         }
-        static inline num_type twoPi()
+        static num_type twoPi()
         {
             return traits_type::twoPi();
         }
-        static inline num_type halfPi()
+        static num_type halfPi()
         {
             return traits_type::halfPi();
         }
-        static inline num_type inversePi()
+        static num_type inversePi()
         {
             return traits_type::inversePi();
         }
-        static inline num_type inverseTwoPi()
+        static num_type inverseTwoPi()
         {
             return traits_type::inverseTwoPi();
         }
-        static inline num_type degToRad()
+        static num_type degToRad()
         {
             return traits_type::degToRad();
         }
-        static inline num_type radToDeg()
+        static num_type radToDeg()
         {
             return traits_type::radToDeg();
         }
-        static inline num_type log2()
+        static num_type log2()
         {
             return traits_type::log2();
         }
-        static inline num_type log10()
+        static num_type log10()
         {
             return traits_type::log10();
         }
-        static inline num_type invLog2()
+        static num_type invLog2()
         {
             return traits_type::invLog2();
         }
-        static inline num_type invLog10()
+        static num_type invLog10()
         {
             return traits_type::invLog10();
         }
@@ -282,10 +281,9 @@ namespace fcn
             }
 
             return static_cast<T>(0);
-
-        } else {
-            return pi();
         }
+
+        return pi();
     }
 
     template <class T>
@@ -410,7 +408,8 @@ namespace fcn
         return std::fabs(_val1 - _val2) < epsilon();
     }
 
-    /** Returns the next higher power of 2 based on the passed argument
+    /**
+     * Returns the next higher power of 2 based on the passed argument.
      */
     inline unsigned nextPow2(unsigned x)
     {

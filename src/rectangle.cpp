@@ -91,7 +91,8 @@ namespace fcn
         }
 
         if (isEmpty()) {
-            return rh;
+            *this = rh; // avoid use-after-free, assign instead of returning rh
+            return *this;
         }
 
         x            = x < rh.x ? x : rh.x;

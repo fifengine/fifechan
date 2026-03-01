@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_WIDGETS_SLIDER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_SLIDER_HPP_
+
+#include <memory>
 
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouselistener.hpp"
@@ -26,7 +28,7 @@ namespace fcn
          * Draw orientations for the slider. A slider can be drawn vertically or
          * horizontally.
          */
-        enum Orientation
+        enum class Orientation : uint8_t
         {
             Horizontal = 0,
             Vertical
@@ -47,7 +49,7 @@ namespace fcn
          */
         Slider(double scaleStart, double scaleEnd);
 
-        virtual ~Slider() { }
+        ~Slider() override = default;
 
         /**
          * Sets the scale of the slider.
@@ -160,25 +162,20 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         // Inherited from MouseListener.
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
-
-        virtual void mouseDragged(MouseEvent& mouseEvent);
-
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
-
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
-
-        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
-
-        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
+        void mouseDragged(MouseEvent& mouseEvent) override;
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
+        void mouseWheelMovedRight(MouseEvent& mouseEvent) override;
+        void mouseWheelMovedLeft(MouseEvent& mouseEvent) override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
     protected:
         /**
@@ -186,7 +183,7 @@ namespace fcn
          *
          * @param graphics A graphics object to draw with.
          */
-        virtual void drawMarker(fcn::Graphics* graphics);
+        virtual void drawMarker(Graphics* graphics);
 
         /**
          * Converts a marker position to a value in the scale.
@@ -216,39 +213,39 @@ namespace fcn
         /**
          * True if the slider is dragged, false otherwise.
          */
-        bool mDragged;
+        bool mDragged{false};
 
         /**
          * Holds the current selected value.
          */
-        double mValue;
+        double mValue{0.0};
 
         /**
          * Holds the step length. The step length is used when the keys LEFT
          * and RIGHT are pressed to step in the scale.
          */
-        double mStepLength;
+        double mStepLength{0.5};
 
         /**
          * Holds the length of the marker.
          */
-        int mMarkerLength;
+        int mMarkerLength{10};
 
         /**
          * Holds the start value of the scale.
          */
-        double mScaleStart;
+        double mScaleStart{0.0};
 
         /**
          * Holds the end value of the scale.
          */
-        double mScaleEnd;
+        double mScaleEnd{1.0};
 
         /**
          * Holds the orientation of the slider. A slider can be drawn
          * vertically or horizontally.
          */
-        Orientation mOrientation;
+        Orientation mOrientation{Orientation::Horizontal};
     };
 } // namespace fcn
 

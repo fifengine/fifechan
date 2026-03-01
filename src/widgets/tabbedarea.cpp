@@ -73,9 +73,9 @@ namespace fcn
         int tabIndexToBeSelected = -1;
 
         if (tab == mSelectedTab) {
-            int index     = getSelectedTabIndex();
-            int mTabsSize = static_cast<int>(mTabs.size());
-            if (index == (mTabsSize - 1 && mTabsSize >= 2)) {
+            int const index     = getSelectedTabIndex();
+            int const mTabsSize = static_cast<int>(mTabs.size());
+            if (index == ((mTabsSize - 1) != 0 && mTabsSize >= 2)) {
                 tabIndexToBeSelected = index - 1;
             } else if (index == mTabsSize - 1 && mTabsSize == 1) {
                 tabIndexToBeSelected = -1;
@@ -145,7 +145,7 @@ namespace fcn
         if (tab == mSelectedTab) {
             return;
         }
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < mTabs.size(); i++) {
             if (mTabs[i].first == mSelectedTab) {
                 mWidgetContainer->remove(mTabs[i].second);
@@ -163,7 +163,7 @@ namespace fcn
 
     int TabbedArea::getSelectedTabIndex() const
     {
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < mTabs.size(); i++) {
             if (mTabs[i].first == mSelectedTab) {
                 return i;
@@ -276,7 +276,8 @@ namespace fcn
         int maxTabWidth    = 0;
         int maxTabHeight   = 0;
 
-        Rectangle area = getChildrenArea();
+        const Rectangle area = getChildrenArea();
+
         for (unsigned int i = 0; i < mTabs.size(); i++) {
             totalTabWidth += mTabs[i].first->getWidth();
             totalTabHeight += mTabs[i].first->getHeight();
@@ -303,7 +304,7 @@ namespace fcn
     {
         int maxTabWidth  = 0;
         int maxTabHeight = 0;
-        unsigned int i;
+        unsigned int i   = 0;
         for (i = 0; i < mTabs.size(); i++) {
             if (mTabs[i].first->getWidth() > maxTabWidth) {
                 maxTabWidth = mTabs[i].first->getWidth();

@@ -10,34 +10,13 @@
 
 namespace fcn
 {
-    Slider::Slider(double scaleEnd)
+Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
+
+    Slider::Slider(double scaleStart, double scaleEnd) : mScaleStart(scaleStart), mScaleEnd(scaleEnd)
     {
-        mDragged = false;
-
-        mScaleStart = 0;
-        mScaleEnd   = scaleEnd;
-
         setFocusable(true);
         setBorderSize(1);
-        setOrientation(Horizontal);
-        setValue(0);
-        setStepLength(scaleEnd / 10);
-        setMarkerLength(10);
-
-        addMouseListener(this);
-        addKeyListener(this);
-    }
-
-    Slider::Slider(double scaleStart, double scaleEnd)
-    {
-        mDragged = false;
-
-        mScaleStart = scaleStart;
-        mScaleEnd   = scaleEnd;
-
-        setFocusable(true);
-        setBorderSize(1);
-        setOrientation(Horizontal);
+        setOrientation(Orientation::Horizontal);
         setValue(scaleStart);
         setStepLength((scaleEnd - scaleStart) / 10);
         setMarkerLength(10);
@@ -87,7 +66,7 @@ namespace fcn
     void Slider::draw(fcn::Graphics* graphics)
     {
         Color shadowColor = getBaseColor() - 0x101010;
-        int alpha         = getBaseColor().a;
+        const int alpha         = getBaseColor().a;
         shadowColor.a     = alpha;
 
         graphics->setColor(shadowColor);
@@ -98,9 +77,10 @@ namespace fcn
 
     void Slider::drawMarker(fcn::Graphics* graphics)
     {
-        fcn::Color faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        int alpha        = getBaseColor().a;
+        fcn::Color const faceColor = getBaseColor();
+        fcn::Color highlightColor;
+        fcn::Color shadowColor;
+        int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = faceColor - 0x303030;
@@ -108,8 +88,8 @@ namespace fcn
 
         graphics->setColor(faceColor);
 
-        if (getOrientation() == Horizontal) {
-            int v = getMarkerPosition();
+        if (getOrientation() == Orientation::Horizontal) {
+            int const v = getMarkerPosition();
             graphics->fillRectangle(v + 1, 1, getMarkerLength() - 2, getHeight() - 2);
             graphics->setColor(highlightColor);
             graphics->drawLine(v, 0, v + getMarkerLength() - 1, 0);
@@ -123,7 +103,7 @@ namespace fcn
                 graphics->drawRectangle(v + 2, 2, getMarkerLength() - 4, getHeight() - 4);
             }
         } else {
-            int v = (getHeight() - getMarkerLength()) - getMarkerPosition();
+            int const v = (getHeight() - getMarkerLength()) - getMarkerPosition();
             graphics->fillRectangle(1, v + 1, getWidth() - 2, getMarkerLength() - 2);
             graphics->setColor(highlightColor);
             graphics->drawLine(0, v, 0, v + getMarkerLength() - 1);
@@ -143,10 +123,10 @@ namespace fcn
     {
         if (mouseEvent.getButton() == fcn::MouseEvent::Left && mouseEvent.getX() >= 0 &&
             mouseEvent.getX() <= getWidth() && mouseEvent.getY() >= 0 && mouseEvent.getY() <= getHeight()) {
-            if (getOrientation() == Horizontal) {
-                setValue(markerPositionToValue(mouseEvent.getX() - getMarkerLength() / 2));
+            if (getOrientation() == Orientation::Horizontal) {
+                setValue(markerPositionToValue(mouseEvent.getX() - (getMarkerLength() / 2)));
             } else {
-                setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - getMarkerLength() / 2));
+                setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - (getMarkerLength() / 2)));
             }
 
             distributeActionEvent();
@@ -155,10 +135,10 @@ namespace fcn
 
     void Slider::mouseDragged(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal) {
-            setValue(markerPositionToValue(mouseEvent.getX() - getMarkerLength() / 2));
+        if (getOrientation() == Orientation::Horizontal) {
+            setValue(markerPositionToValue(mouseEvent.getX() - (getMarkerLength() / 2)));
         } else {
-            setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - getMarkerLength() / 2));
+            setValue(markerPositionToValue(getHeight() - mouseEvent.getY() - (getMarkerLength() / 2)));
         }
 
         distributeActionEvent();
@@ -198,9 +178,9 @@ namespace fcn
 
     void Slider::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
-        if (getOrientation() == Horizontal) {
+        if (getOrientation() == Orientation::Horizontal) {
             if (key.getValue() == Key::Right) {
                 setValue(getValue() + getStepLength());
                 distributeActionEvent();
@@ -235,21 +215,21 @@ namespace fcn
 
     double Slider::markerPositionToValue(int v) const
     {
-        int w;
-        if (getOrientation() == Horizontal) {
+        int w = 0;
+        if (getOrientation() == Orientation::Horizontal) {
             w = getWidth();
         } else {
             w = getHeight();
         }
 
-        double pos = v / (static_cast<double>(w) - getMarkerLength());
+        const double pos = v / (static_cast<double>(w) - getMarkerLength());
         return (1.0 - pos) * getScaleStart() + pos * getScaleEnd();
     }
 
     int Slider::valueToMarkerPosition(double value) const
     {
-        int v;
-        if (getOrientation() == Horizontal) {
+        int v = 0;
+        if (getOrientation() == Orientation::Horizontal) {
             v = getWidth();
         } else {
             v = getHeight();
@@ -286,7 +266,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Vertical) {
+        if (getOrientation() == Orientation::Vertical) {
             setValue(getValue() + getStepLength());
             distributeActionEvent();
 
@@ -296,7 +276,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Vertical) {
+        if (getOrientation() == Orientation::Vertical) {
             setValue(getValue() - getStepLength());
             distributeActionEvent();
 
@@ -306,7 +286,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedRight(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal) {
+        if (getOrientation() == Orientation::Horizontal) {
             setValue(getValue() + getStepLength());
             distributeActionEvent();
 
@@ -316,7 +296,7 @@ namespace fcn
 
     void Slider::mouseWheelMovedLeft(MouseEvent& mouseEvent)
     {
-        if (getOrientation() == Horizontal) {
+        if (getOrientation() == Orientation::Horizontal) {
             setValue(getValue() - getStepLength());
             distributeActionEvent();
 

@@ -21,8 +21,9 @@ namespace fcn
     void Tab::adjustSize()
     {
         Container::adjustSize();
-        if (mTabbedArea != nullptr)
+        if (mTabbedArea != nullptr) {
             mTabbedArea->adjustTabPositions();
+        }
     }
 
     void Tab::setTabbedArea(TabbedArea* tabbedArea)
@@ -57,7 +58,7 @@ namespace fcn
         Color borderColor;
         Color baseColor;
 
-        if ((mTabbedArea != NULL && mTabbedArea->isTabSelected(this)) || mHasMouse) {
+        if ((mTabbedArea != nullptr && mTabbedArea->isTabSelected(this)) || mHasMouse) {
             // Draw a border.
             graphics->setColor(highlightColor);
             graphics->drawLine(0, 0, getWidth() - 1, 0);
@@ -86,7 +87,7 @@ namespace fcn
         graphics->setColor(baseColor);
         graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);
 
-        if (mTabbedArea != NULL && mTabbedArea->isFocused() && mTabbedArea->isTabSelected(this)) {
+        if (mTabbedArea != nullptr && mTabbedArea->isFocused() && mTabbedArea->isTabSelected(this)) {
             graphics->setColor(Color(0x000000));
             graphics->drawRectangle(2, 2, currentClipArea.width - 4, currentClipArea.height - 4);
         }

@@ -35,7 +35,7 @@ namespace fcn
 
     void ToggleButton::setSelected(bool selected)
     {
-        if (selected && mGroup != "") {
+        if (selected && !mGroup.empty()) {
             // deselect all buttons in group
             GroupIterator iter, iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
@@ -59,7 +59,7 @@ namespace fcn
     void ToggleButton::setGroup(std::string const & group)
     {
         // Remove button from previous group
-        if (mGroup != "") {
+        if (!mGroup.empty()) {
             GroupIterator iter, iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
 
@@ -71,7 +71,7 @@ namespace fcn
             }
         }
         // Add button to new group
-        if (group != "") {
+        if (!group.empty()) {
             mGroupMap.insert(std::pair<std::string, ToggleButton*>(group, this));
         }
 
@@ -90,7 +90,7 @@ namespace fcn
 
     void ToggleButton::keyReleased(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
             mKeyPressed = false;

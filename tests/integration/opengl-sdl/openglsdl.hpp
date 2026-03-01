@@ -74,7 +74,7 @@ namespace openglsdl
 
         // Set the OpenGL viewport.
         glViewport(0, 0, 640, 480);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
         // SDL_TEXTEDITING events are not sent,
         // and text that is being composed will be rendered in its own UI
@@ -123,13 +123,13 @@ namespace openglsdl
         while (running) {
             // Check user input
             SDL_Event event;
-            while (SDL_PollEvent(&event)) {
+            while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
                         running = false;
                     }
                     if (event.key.keysym.sym == SDLK_f) {
-                        if (event.key.keysym.mod & KMOD_CTRL) {
+                        if ((event.key.keysym.mod & KMOD_CTRL) != 0) {
                             // Works with X11 only
                             // SDL_WM_ToggleFullScreen(screen);
                         }

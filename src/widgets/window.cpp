@@ -83,19 +83,20 @@ namespace fcn
     void Window::drawInnerBorder(Graphics* graphics)
     {
         Color const & faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
+        Color highlightColor;
+        Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = faceColor - 0x303030;
         shadowColor.a    = alpha;
 
-        int x      = getBorderSize() + getPaddingLeft();
-        int y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        int width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
-        int height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
+        const int x      = getBorderSize() + getPaddingLeft();
+        const int y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        const int width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
+        const int height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
 
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < getInnerBorderSize(); ++i) {
             graphics->setColor(shadowColor);
             graphics->drawLine(x + i, y + i, width - i, y + i);
@@ -109,7 +110,8 @@ namespace fcn
     void Window::draw(Graphics* graphics)
     {
         Color const & faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
+        Color highlightColor;
+        Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
@@ -120,11 +122,17 @@ namespace fcn
             // Fill the background around the content
             graphics->setColor(faceColor);
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
-        if (mBackgroundWidget) {
-            Rectangle rec(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+        if (mBackgroundWidget != nullptr) {
+            Rectangle const rec(
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
             mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
@@ -138,8 +146,8 @@ namespace fcn
         }
 
         // draw text
-        int textX;
-        int textY = (static_cast<int>(getTitleBarHeight()) - getFont()->getHeight()) / 2;
+        int textX       = 0;
+        int const textY = (static_cast<int>(getTitleBarHeight()) - getFont()->getHeight()) / 2;
 
         switch (getAlignment()) {
         case Graphics::Left:
@@ -155,10 +163,10 @@ namespace fcn
             fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
         // text clip area
-        Rectangle rec(
+        Rectangle const rec(
             getBorderSize() + getPaddingLeft(),
             getBorderSize() + getPaddingTop(),
-            getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
+            getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight(),
             getTitleBarHeight() - 1);
 
         graphics->setColor(getForegroundColor());
@@ -181,8 +189,8 @@ namespace fcn
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
-        int height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        mMoved     = mouseEvent.getY() <= height;
+        int const height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        mMoved           = mouseEvent.getY() <= height;
     }
 
     void Window::mouseReleased(MouseEvent& mouseEvent)
@@ -206,10 +214,10 @@ namespace fcn
     void Window::adjustSize()
     {
         resizeToChildren();
-        int w = std::max(getFont()->getWidth(mCaption), getWidth()) + (2 * getBorderSize()) + getPaddingLeft() +
-                getPaddingRight() + (2 * getInnerBorderSize());
-        int h = getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() + (2 * getInnerBorderSize()) +
-                getTitleBarHeight();
+        int const w = std::max(getFont()->getWidth(mCaption), getWidth()) + (2 * getBorderSize()) + getPaddingLeft() +
+                      getPaddingRight() + (2 * getInnerBorderSize());
+        int const h = getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() +
+                      (2 * getInnerBorderSize()) + getTitleBarHeight();
         setSize(w, h);
     }
 

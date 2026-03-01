@@ -259,8 +259,8 @@ namespace fcn
                 ++i;
             }
 
-            w = ABS(minW) + ABS(maxW);
-            h = ABS(minH) + ABS(maxH);
+            w = std::abs(minW) + std::abs(maxW);
+            h = std::abs(minH) + std::abs(maxH);
 
             int centerX = w / 2;
             int centerY = h / 2;

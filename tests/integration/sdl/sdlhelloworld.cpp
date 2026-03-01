@@ -49,8 +49,8 @@ void init_sdl()
     SDL_DisplayMode current;
     SDL_GetCurrentDisplayMode(0, &current);
     // Calculate the center position.
-    int xPos = (current.w - 640) / 2;
-    int yPos = (current.h - 480) / 2;
+    int const xPos = (current.w - 640) / 2;
+    int const yPos = (current.h - 480) / 2;
     // Set the window position to the center.
     SDL_SetWindowPosition(window, xPos, yPos);
 
@@ -147,13 +147,13 @@ void run()
     while (running) {
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
                     running = false;
                 }
                 if (event.key.keysym.sym == SDLK_f) {
-                    if (event.key.keysym.mod & KMOD_CTRL) {
+                    if ((event.key.keysym.mod & KMOD_CTRL) != 0) {
                         // Works with X11 only
                         // SDL_WM_ToggleFullScreen(screen);
                     }

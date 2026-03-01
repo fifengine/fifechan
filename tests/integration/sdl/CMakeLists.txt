@@ -28,7 +28,7 @@ target_link_libraries(sdlhelloworld PRIVATE
 )
 
 set_target_properties(sdlhelloworld PROPERTIES
-  CXX_STANDARD           17
+  CXX_STANDARD           20
   CXX_STANDARD_REQUIRED  ON
 )
 
@@ -64,7 +64,7 @@ target_link_libraries(sdlwidgets PRIVATE
 )
 
 set_target_properties(sdlwidgets PROPERTIES
-  CXX_STANDARD           17
+  CXX_STANDARD           20
   CXX_STANDARD_REQUIRED  ON
 )
 

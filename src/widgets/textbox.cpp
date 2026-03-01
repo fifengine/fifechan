@@ -83,7 +83,7 @@ namespace fcn
 
     void TextBox::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Left) {
             if (getCaretColumn() == 0) {
@@ -147,9 +147,9 @@ namespace fcn
             Widget* par = getParent();
 
             if (par != nullptr) {
-                int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
-                int chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
-                int newCaretRow = getCaretRow() - rowsPerPage;
+                int const rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
+                int const chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
+                int const newCaretRow = getCaretRow() - rowsPerPage;
                 if (newCaretRow >= 0) {
                     setCaretRow(newCaretRow);
                 } else {
@@ -161,8 +161,8 @@ namespace fcn
             Widget* par = getParent();
 
             if (par != nullptr) {
-                int rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
-                int chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
+                int const rowsPerPage = par->getChildrenArea().height / getFont()->getHeight();
+                int const chars       = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
                 setCaretRow(getCaretRow() + rowsPerPage);
 
                 if (getCaretRow() >= static_cast<int>(getNumberOfRows())) {
@@ -302,7 +302,7 @@ namespace fcn
 
     void TextBox::setCaretRowUTF8(int row)
     {
-        int chars = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
+        int const chars = mStringEditor->countChars(getTextRow(getCaretRow()), getCaretColumn());
         if (row < 0) {
             row = 0;
         } else if (row >= getNumberOfRows()) {

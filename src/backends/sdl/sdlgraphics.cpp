@@ -10,12 +10,6 @@
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
 
-// For some reason an old version of MSVC did not like std::abs,
-// so we added this macro.
-#ifndef ABS
-    #define ABS(x) ((x) < 0 ? -(x) : (x))
-#endif
-
 namespace fcn
 {
 
@@ -430,8 +424,8 @@ namespace fcn
 
         // Draw a line with Bresenham
 
-        int dx = ABS(x2 - x1);
-        int dy = ABS(y2 - y1);
+        int dx = std::abs(x2 - x1);
+        int dy = std::abs(y2 - y1);
 
         if (dx > dy) {
             if (x1 > x2) {

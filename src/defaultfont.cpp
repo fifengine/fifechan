@@ -20,8 +20,10 @@ namespace fcn
         return 8 * text.size();
     }
 
-    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char /*glyph*/, int x, int y)
+    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
     {
+        (void)glyph; // unused parameter
+
         graphics->drawRectangle(x, y, 8, 8);
 
         return 8;

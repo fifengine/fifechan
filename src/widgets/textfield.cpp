@@ -53,9 +53,10 @@ namespace fcn
 
     void TextField::draw(Graphics* graphics)
     {
-        Color faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        int alpha        = getBaseColor().a;
+        Color const faceColor = getBaseColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = faceColor - 0x303030;
@@ -90,8 +91,9 @@ namespace fcn
         graphics->setFont(getFont());
 
         Rectangle const & dim = mText->getCaretDimension(getFont());
-        if (mText->getNumberOfRows() != 0)
+        if (mText->getNumberOfRows() != 0) {
             graphics->drawText(mText->getRow(0), 1 - mXScroll, 1);
+        }
 
         graphics->popClipArea();
     }
@@ -124,7 +126,7 @@ namespace fcn
     void TextField::keyPressed(KeyEvent& keyEvent)
     {
 
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Left && getCaretPosition() > 0) {
             setCaretPosition(mStringEditor->prevChar(getText(), static_cast<int>(getCaretPosition())));
@@ -182,7 +184,7 @@ namespace fcn
     void TextField::fixScroll()
     {
         if (isFocused()) {
-            int caretX = mText->getCaretDimension(getFont()).x;
+            int const caretX = mText->getCaretDimension(getFont()).x;
 
             if (caretX - mXScroll >= getWidth() - 4) {
                 mXScroll = caretX - getWidth() + 4;

@@ -31,8 +31,8 @@ namespace fcn
     void FlowContainer::adjustContent()
     {
         // diff means border, padding, ...
-        int diffW = ABS(getDimension().width - getChildrenArea().width);
-        int diffH = ABS(getDimension().height - getChildrenArea().height);
+        int diffW = std::abs(getDimension().width - getChildrenArea().width);
+        int diffH = std::abs(getDimension().height - getChildrenArea().height);
 
         int containerW = getChildrenArea().width;
         int containerH = getChildrenArea().height;

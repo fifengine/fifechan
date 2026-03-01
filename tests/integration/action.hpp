@@ -37,7 +37,7 @@ namespace action
         // The eventId tells us which widget called the action function.
         void action(fcn::ActionEvent const & actionEvent)
         {
-            std::string str;
+            std::string const str;
             std::ostringstream os(str);
 
             // Here we use the widget pointer to check which widget the action

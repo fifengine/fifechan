@@ -631,10 +631,10 @@ namespace fcn
 
     void ScrollArea::drawHMarker(Graphics* graphics)
     {
-        Rectangle dim = getHorizontalMarkerDimension();
+        const Rectangle dim = getHorizontalMarkerDimension();
         graphics->pushClipArea(dim);
 
-        int alpha            = getBaseColor().a;
+        const int alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
         Color highlightColor = faceColor + 0x303030;
@@ -672,13 +672,13 @@ namespace fcn
 
     void ScrollArea::checkPolicies()
     {
-        int w = getWidth();
-        int h = getHeight();
+        int const w = getWidth();
+        int const h = getHeight();
 
         mHBarVisible = false;
         mVBarVisible = false;
 
-        if (!getContent()) {
+        if (getContent() == nullptr) {
             mHBarVisible = (mHPolicy == ShowAlways);
             mVBarVisible = (mVPolicy == ShowAlways);
             return;
@@ -690,8 +690,9 @@ namespace fcn
                 mVBarVisible = false;
             }
 
-            if (getContent()->getWidth() > w)
+            if (getContent()->getWidth() > w) {
                 mHBarVisible = true;
+            }
 
             if ((getContent()->getHeight() > h) || (mHBarVisible && getContent()->getHeight() > h - mScrollbarWidth)) {
                 mVBarVisible = true;
@@ -751,20 +752,22 @@ namespace fcn
 
     Rectangle ScrollArea::getUpButtonDimension()
     {
-        if (!mVBarVisible)
+        if (!mVBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         return Rectangle(getWidth() - mScrollbarWidth, 0, mScrollbarWidth, mScrollbarWidth);
     }
 
     Rectangle ScrollArea::getDownButtonDimension()
     {
-        if (!mVBarVisible)
+        if (!mVBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         if (mVBarVisible && mHBarVisible) {
             return Rectangle(
-                getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth * 2, mScrollbarWidth, mScrollbarWidth);
+                getWidth() - mScrollbarWidth, getHeight() - (mScrollbarWidth * 2), mScrollbarWidth, mScrollbarWidth);
         }
 
         return Rectangle(getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
@@ -772,20 +775,22 @@ namespace fcn
 
     Rectangle ScrollArea::getLeftButtonDimension()
     {
-        if (!mHBarVisible)
+        if (!mHBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         return Rectangle(0, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
     }
 
     Rectangle ScrollArea::getRightButtonDimension()
     {
-        if (!mHBarVisible)
+        if (!mHBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         if (mVBarVisible && mHBarVisible) {
             return Rectangle(
-                getWidth() - mScrollbarWidth * 2, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
+                getWidth() - (mScrollbarWidth * 2), getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
         }
 
         return Rectangle(getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
@@ -799,16 +804,18 @@ namespace fcn
             mVBarVisible ? getWidth() - mScrollbarWidth : getWidth(),
             mHBarVisible ? getHeight() - mScrollbarWidth : getHeight());
 
-        if (area.isEmpty())
+        if (area.isEmpty()) {
             return Rectangle();
+        }
 
         return area;
     }
 
     Rectangle ScrollArea::getVerticalBarDimension()
     {
-        if (!mVBarVisible)
+        if (!mVBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         if (mHBarVisible) {
             return Rectangle(
@@ -827,8 +834,9 @@ namespace fcn
 
     Rectangle ScrollArea::getHorizontalBarDimension()
     {
-        if (!mHBarVisible)
+        if (!mHBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
         if (mVBarVisible) {
             return Rectangle(
@@ -847,10 +855,13 @@ namespace fcn
 
     Rectangle ScrollArea::getVerticalMarkerDimension()
     {
-        if (!mVBarVisible)
+        if (!mVBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
-        int length, pos;
+        int length = 0;
+        int pos    = 0;
+
         Rectangle barDim = getVerticalBarDimension();
 
         if (getContent() && getContent()->getHeight() != 0) {
@@ -876,13 +887,16 @@ namespace fcn
 
     Rectangle ScrollArea::getHorizontalMarkerDimension()
     {
-        if (!mHBarVisible)
+        if (!mHBarVisible) {
             return Rectangle(0, 0, 0, 0);
+        }
 
-        int length, pos;
-        Rectangle barDim = getHorizontalBarDimension();
+        int length = 0;
+        int pos    = 0;
 
-        if (getContent() && getContent()->getWidth() != 0) {
+        Rectangle const barDim = getHorizontalBarDimension();
+
+        if ((getContent() != nullptr) && getContent()->getWidth() != 0) {
             length = (barDim.width * getChildrenArea().width) / getContent()->getWidth();
         } else {
             length = barDim.width;
@@ -918,68 +932,73 @@ namespace fcn
 
     Widget* ScrollArea::getWidgetAt(int x, int y)
     {
-        if (getChildrenArea().isContaining(x, y))
+        if (getChildrenArea().isContaining(x, y)) {
             return getContent();
+        }
 
         return nullptr;
     }
 
     void ScrollArea::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.isConsumed())
+        if (mouseEvent.isConsumed()) {
             return;
+        }
 
         if (!mVBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setVerticalScrollAmount(getVerticalScrollAmount() - getChildrenArea().height / 8);
+        setVerticalScrollAmount(getVerticalScrollAmount() - (getChildrenArea().height / 8));
 
         mouseEvent.consume();
     }
 
     void ScrollArea::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.isConsumed())
+        if (mouseEvent.isConsumed()) {
             return;
+        }
 
         if (!mVBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setVerticalScrollAmount(getVerticalScrollAmount() + getChildrenArea().height / 8);
+        setVerticalScrollAmount(getVerticalScrollAmount() + (getChildrenArea().height / 8));
 
         mouseEvent.consume();
     }
 
     void ScrollArea::mouseWheelMovedRight(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.isConsumed())
+        if (mouseEvent.isConsumed()) {
             return;
+        }
 
         if (!mHBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setHorizontalScrollAmount(getHorizontalScrollAmount() + getChildrenArea().width / 8);
+        setHorizontalScrollAmount(getHorizontalScrollAmount() + (getChildrenArea().width / 8));
 
         mouseEvent.consume();
     }
 
     void ScrollArea::mouseWheelMovedLeft(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.isConsumed())
+        if (mouseEvent.isConsumed()) {
             return;
+        }
 
         if (!mHBarVisible) {
             mouseEvent.consume();
             return;
         }
 
-        setHorizontalScrollAmount(getHorizontalScrollAmount() - getChildrenArea().width / 8);
+        setHorizontalScrollAmount(getHorizontalScrollAmount() - (getChildrenArea().width / 8));
 
         mouseEvent.consume();
     }
@@ -988,8 +1007,8 @@ namespace fcn
     {
         Widget::setWidth(width);
         Widget* content = getContent();
-        if (content) {
-            int contW = std::max(getWidth(), content->getWidth());
+        if (content != nullptr) {
+            int const contW = std::max(getWidth(), content->getWidth());
             content->setWidth(contW);
         }
         checkPolicies();
@@ -999,8 +1018,8 @@ namespace fcn
     {
         Widget::setHeight(height);
         Widget* content = getContent();
-        if (content) {
-            int contH = std::max(getHeight(), content->getHeight());
+        if (content != nullptr) {
+            int const contH = std::max(getHeight(), content->getHeight());
             content->setHeight(contH);
         }
         checkPolicies();
@@ -1010,10 +1029,10 @@ namespace fcn
     {
         Widget::setDimension(dimension);
         Widget* content = getContent();
-        if (content) {
-            int contW = std::max(getWidth(), content->getWidth());
+        if (content != nullptr) {
+            int const contW = std::max(getWidth(), content->getWidth());
             content->setWidth(contW);
-            int contH = std::max(getHeight(), content->getHeight());
+            int const contH = std::max(getHeight(), content->getHeight());
             content->setHeight(contH);
         }
         checkPolicies();
@@ -1022,7 +1041,7 @@ namespace fcn
     void ScrollArea::resizeToContent(bool recursion)
     {
         Widget* content = getContent();
-        if (content) {
+        if (content != nullptr) {
             content->resizeToContent();
         }
         Size const & min = getMinSize();
@@ -1033,7 +1052,7 @@ namespace fcn
     void ScrollArea::adjustSize()
     {
         Widget* content = getContent();
-        if (content) {
+        if (content != nullptr) {
             content->adjustSize();
         }
         Size const & min = getMinSize();
@@ -1048,7 +1067,7 @@ namespace fcn
         setHeight(getHeight());
 
         Widget* content = getContent();
-        if (content) {
+        if (content != nullptr) {
             content->expandContent();
         }
         checkPolicies();
@@ -1104,7 +1123,3 @@ namespace fcn
         return mOpaque;
     }
 } // namespace fcn
-
-/*
- * Wow! This is a looooong source file.
- */
