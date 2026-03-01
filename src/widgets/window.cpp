@@ -91,10 +91,10 @@ namespace fcn
         shadowColor      = faceColor - 0x303030;
         shadowColor.a    = alpha;
 
-        const int x      = getBorderSize() + getPaddingLeft();
-        const int y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        const int width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
-        const int height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
+        int const x      = getBorderSize() + getPaddingLeft();
+        int const y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        int const width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
+        int const height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
 
         unsigned int i = 0;
         for (i = 0; i < getInnerBorderSize(); ++i) {

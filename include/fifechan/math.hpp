@@ -14,7 +14,7 @@ namespace fcn
 {
 
 #if defined(WIN32) && defined(_MSC_VER)
-     // Add the missing round function in MSVC:
+    // Add the missing round function in MSVC:
     inline double round(double const x)
     {
         return x < 0.0 ? ceil(x - 0.5) : floor(x + 0.5);

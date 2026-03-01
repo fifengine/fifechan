@@ -10,7 +10,7 @@
 
 namespace fcn
 {
-Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
+    Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
 
     Slider::Slider(double scaleStart, double scaleEnd) : mScaleStart(scaleStart), mScaleEnd(scaleEnd)
     {
@@ -66,7 +66,7 @@ Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
     void Slider::draw(fcn::Graphics* graphics)
     {
         Color shadowColor = getBaseColor() - 0x101010;
-        const int alpha         = getBaseColor().a;
+        int const alpha   = getBaseColor().a;
         shadowColor.a     = alpha;
 
         graphics->setColor(shadowColor);
@@ -222,7 +222,7 @@ Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
             w = getHeight();
         }
 
-        const double pos = v / (static_cast<double>(w) - getMarkerLength());
+        double const pos = v / (static_cast<double>(w) - getMarkerLength());
         return (1.0 - pos) * getScaleStart() + pos * getScaleEnd();
     }
 

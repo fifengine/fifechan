@@ -276,7 +276,7 @@ namespace fcn
         int maxTabWidth    = 0;
         int maxTabHeight   = 0;
 
-        const Rectangle area = getChildrenArea();
+        Rectangle const area = getChildrenArea();
 
         for (unsigned int i = 0; i < mTabs.size(); i++) {
             totalTabWidth += mTabs[i].first->getWidth();

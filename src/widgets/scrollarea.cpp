@@ -631,10 +631,10 @@ namespace fcn
 
     void ScrollArea::drawHMarker(Graphics* graphics)
     {
-        const Rectangle dim = getHorizontalMarkerDimension();
+        Rectangle const dim = getHorizontalMarkerDimension();
         graphics->pushClipArea(dim);
 
-        const int alpha      = getBaseColor().a;
+        int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
         Color highlightColor = faceColor + 0x303030;
