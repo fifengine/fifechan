@@ -9,7 +9,7 @@
 name: "Build on Windows"
 
 on:
- - push
+ #- push
  - pull_request
  # You can manually run this workflow.
  - workflow_dispatch
