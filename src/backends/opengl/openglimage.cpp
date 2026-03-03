@@ -37,7 +37,7 @@ namespace fcn
         for (y = 0; y < mTextureHeight; y++) {
             for (x = 0; x < mTextureWidth; x++) {
                 if (x < mWidth && y < mHeight) {
-                    unsigned int const c = pixels[x + (y * mWidth)];
+                    unsigned int c = pixels[x + (y * mWidth)];
 
                     // Magic pink to transparent
                     if (c == magicPink) {
