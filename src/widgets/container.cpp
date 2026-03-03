@@ -393,7 +393,7 @@ namespace fcn
 
                         std::list<Widget*>::iterator it = vExpander.begin();
 
-                        int const expanders = vExpander.size();
+                        int expanders = vExpander.size();
 
                         for (; it != vExpander.end(); ++it) {
                             int layoutH = (*it)->getHeight() + (*it)->getMarginTop() +
