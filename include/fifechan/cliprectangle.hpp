@@ -19,7 +19,7 @@ namespace fcn
     class FIFEGUI_API ClipRectangle : public Rectangle
     {
     public:
-        ClipRectangle();
+        ClipRectangle() = default;
 
         /**
          * Constructor.
@@ -49,12 +49,12 @@ namespace fcn
         /**
          * Holds the x offset of the x coordinate.
          */
-        int xOffset;
+        int xOffset{0};
 
         /**
          * Holds the y offset of the y coordinate.
          */
-        int yOffset;
+        int yOffset{0};
     };
 } // namespace fcn
 

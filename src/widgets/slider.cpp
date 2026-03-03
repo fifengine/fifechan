@@ -29,12 +29,8 @@ namespace fcn
     {
         mScaleStart = scaleStart;
         mScaleEnd   = scaleEnd;
-        if (mScaleStart > mValue) {
-            mValue = mScaleStart;
-        }
-        if (mScaleEnd < mValue) {
-            mValue = mScaleEnd;
-        }
+        mValue      = std::max(mScaleStart, mValue);
+        mValue      = std::min(mScaleEnd, mValue);
     }
 
     double Slider::getScaleStart() const
@@ -45,9 +41,7 @@ namespace fcn
     void Slider::setScaleStart(double scaleStart)
     {
         mScaleStart = scaleStart;
-        if (mScaleStart > mValue) {
-            mValue = mScaleStart;
-        }
+        mValue      = std::max(mScaleStart, mValue);
     }
 
     double Slider::getScaleEnd() const
@@ -58,9 +52,7 @@ namespace fcn
     void Slider::setScaleEnd(double scaleEnd)
     {
         mScaleEnd = scaleEnd;
-        if (mScaleEnd < mValue) {
-            mValue = mScaleEnd;
-        }
+        mValue    = std::min(mScaleEnd, mValue);
     }
 
     void Slider::draw(fcn::Graphics* graphics)
@@ -121,7 +113,7 @@ namespace fcn
 
     void Slider::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == fcn::MouseEvent::Left && mouseEvent.getX() >= 0 &&
+        if (mouseEvent.getButton() == fcn::MouseEvent::Button::Left && mouseEvent.getX() >= 0 &&
             mouseEvent.getX() <= getWidth() && mouseEvent.getY() >= 0 && mouseEvent.getY() <= getHeight()) {
             if (getOrientation() == Orientation::Horizontal) {
                 setValue(markerPositionToValue(mouseEvent.getX() - (getMarkerLength() / 2)));
@@ -213,7 +205,7 @@ namespace fcn
         return mOrientation;
     }
 
-    double Slider::markerPositionToValue(int v) const
+    double Slider::markerPositionToValue(int position) const
     {
         int w = 0;
         if (getOrientation() == Orientation::Horizontal) {
@@ -222,8 +214,8 @@ namespace fcn
             w = getHeight();
         }
 
-        double const pos = v / (static_cast<double>(w) - getMarkerLength());
-        return (1.0 - pos) * getScaleStart() + pos * getScaleEnd();
+        double const pos = position / (static_cast<double>(w) - getMarkerLength());
+        return ((1.0 - pos) * getScaleStart()) + (pos * getScaleEnd());
     }
 
     int Slider::valueToMarkerPosition(double value) const
@@ -235,7 +227,7 @@ namespace fcn
             v = getHeight();
         }
 
-        int w =
+        int const w =
             static_cast<int>(((v - getMarkerLength()) * (value - getScaleStart()) / (getScaleEnd() - getScaleStart())));
 
         if (w < 0) {

@@ -8,8 +8,6 @@ namespace fcn
 {
     Size::Size(int width, int height) : mWidth(width), mHeight(height) { }
 
-    Size::~Size() = default;
-
     int Size::getWidth() const
     {
         return mWidth;

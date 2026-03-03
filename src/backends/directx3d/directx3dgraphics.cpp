@@ -30,7 +30,7 @@ namespace fcn
         D3DXMATRIX ortho;
         D3DXMatrixIdentity(&identity);
 
-        D3DXMatrixOrthoLH(&ortho, static_cast<float>(mWidth), static_cast<float>(mHeight), 0.0f, 1.0f);
+        D3DXMatrixOrthoLH(&ortho, static_cast<float>(mWidth), static_cast<float>(mHeight), 0.0F, 1.0F);
         mDevice->SetTransform(D3DTS_VIEW, &identity);
         mDevice->SetTransform(D3DTS_WORLD, &identity);
         mDevice->SetTransform(D3DTS_PROJECTION, &ortho);
@@ -137,10 +137,10 @@ namespace fcn
         DWORD color = 0xFFFFFFFF;
 
         VertexWithTexture vertices[] = {
-            {(float)dstX, (float)dstY + height, 0.0f, 1.0f, color, texX1, texY2},
-            {(float)dstX, (float)dstY, 0.0f, 1.0f, color, texX1, texY1},
-            {(float)dstX + width, (float)dstY + height, 0.0f, 1.0f, color, texX2, texY2},
-            {(float)dstX + width, (float)dstY, 0.0f, 1.0f, color, texX2, texY1},
+            {(float)dstX, (float)dstY + height, 0.0F, 1.0F, color, texX1, texY2},
+            {(float)dstX, (float)dstY, 0.0F, 1.0F, color, texX1, texY1},
+            {(float)dstX + width, (float)dstY + height, 0.0F, 1.0F, color, texX2, texY2},
+            {(float)dstX + width, (float)dstY, 0.0F, 1.0F, color, texX2, texY1},
         };
 
         mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
@@ -167,7 +167,7 @@ namespace fcn
         ClipRectangle const & top = mClipStack.top();
 
         DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[] = {{(float)x, (float)y, 0.0f, 1.0f, color}, {(float)x + 1, (float)y + 1, 0.0f, 1.0f, color}};
+        Vertex vertices[] = {{(float)x, (float)y, 0.0F, 1.0F, color}, {(float)x + 1, (float)y + 1, 0.0F, 1.0F, color}};
 
         mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, vertices, sizeof(Vertex));
@@ -207,7 +207,7 @@ namespace fcn
         }
 
         DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
-        Vertex vertices[] = {{(float)x1, (float)y1, 0.0f, 1.0f, color}, {(float)x2, (float)y2, 0.0f, 1.0f, color}};
+        Vertex vertices[] = {{(float)x1, (float)y1, 0.0F, 1.0F, color}, {(float)x2, (float)y2, 0.0F, 1.0F, color}};
 
         mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, vertices, sizeof(Vertex));
@@ -227,41 +227,41 @@ namespace fcn
 
         DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
         Vertex vertices[] = {
-            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0F, 1.0F, color},
             {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
              (float)rectangle.y + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
 
             {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
              (float)rectangle.y + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
             {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
              (float)rectangle.y + rectangle.height - 1 + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
 
             {(float)rectangle.x + rectangle.width - 1 + top.xOffset,
              (float)rectangle.y + rectangle.height - 1 + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
             {(float)rectangle.x + top.xOffset,
              (float)rectangle.y + rectangle.height - 1 + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
 
             {(float)rectangle.x + top.xOffset,
              (float)rectangle.y + rectangle.height - 1 + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
-            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}};
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0F, 1.0F, color}};
 
         mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_LINELIST, 4, vertices, sizeof(Vertex));
@@ -281,14 +281,14 @@ namespace fcn
 
         DWORD color       = D3DCOLOR_RGBA(mColor.r, mColor.g, mColor.b, mColor.a);
         Vertex vertices[] = {
-            {(float)rectangle.x + top.xOffset, (float)rectangle.y + rectangle.height + top.yOffset, 0.0f, 1.0f, color},
-            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color},
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + rectangle.height + top.yOffset, 0.0F, 1.0F, color},
+            {(float)rectangle.x + top.xOffset, (float)rectangle.y + top.yOffset, 0.0F, 1.0F, color},
             {(float)rectangle.x + rectangle.width + top.xOffset,
              (float)rectangle.y + rectangle.height + top.yOffset,
-             0.0f,
-             1.0f,
+             0.0F,
+             1.0F,
              color},
-            {(float)rectangle.x + rectangle.width + top.xOffset, (float)rectangle.y + top.yOffset, 0.0f, 1.0f, color}};
+            {(float)rectangle.x + rectangle.width + top.xOffset, (float)rectangle.y + top.yOffset, 0.0F, 1.0F, color}};
 
         mDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(Vertex));

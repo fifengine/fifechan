@@ -11,14 +11,9 @@
 
 namespace fcn
 {
-    SDLTrueTypeFont::SDLTrueTypeFont(std::string const & filename, int size)
+    SDLTrueTypeFont::SDLTrueTypeFont(std::string const & filename, int size) :
+        mRowSpacing(0), mGlyphSpacing(0), mAntiAlias(true), mFilename(filename), mFont(nullptr)
     {
-        mRowSpacing   = 0;
-        mGlyphSpacing = 0;
-        mAntiAlias    = true;
-        mFilename     = filename;
-        mFont         = nullptr;
-
         mFont = TTF_OpenFont(filename.c_str(), size);
 
         if (mFont == nullptr) {
@@ -37,7 +32,8 @@ namespace fcn
 
     int SDLTrueTypeFont::getWidth(std::string const & text) const
     {
-        int w, h;
+        int w;
+        int h;
         TTF_SizeText(mFont, text.c_str(), &w, &h);
 
         return w;
@@ -50,7 +46,7 @@ namespace fcn
 
     void SDLTrueTypeFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
     {
-        if (text == "") {
+        if (text.empty()) {
             return;
         }
 
@@ -66,16 +62,16 @@ namespace fcn
         }
 
         // This is needed for drawing the Glyph in the middle if we have spacing
-        int yoffset = getRowSpacing() / 2;
+        int const yoffset = getRowSpacing() / 2;
 
-        Color col = sdlGraphics->getColor();
+        Color const col = sdlGraphics->getColor();
 
         SDL_Color sdlCol;
         sdlCol.b = col.b;
         sdlCol.r = col.r;
         sdlCol.g = col.g;
 
-        SDL_Surface* textSurface;
+        SDL_Surface* textSurface = nullptr;
         if (mAntiAlias) {
             textSurface = TTF_RenderText_Blended(mFont, text.c_str(), sdlCol);
         } else {

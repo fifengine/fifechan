@@ -5,6 +5,8 @@
 #ifndef INCLUDE_FIFECHAN_KEYINPUT_HPP_
 #define INCLUDE_FIFECHAN_KEYINPUT_HPP_
 
+#include <cstdint>
+
 #include "fifechan/key.hpp"
 #include "fifechan/platform.hpp"
 
@@ -23,6 +25,17 @@ namespace fcn
     class FIFEGUI_API KeyInput
     {
     public:
+        /**
+         * Key input event types.
+         * This enum corresponds to the enum with event types
+         * on KeyEvent for easy mapping.
+         */
+        enum class Type : std::uint8_t
+        {
+            Pressed = 0,
+            Released
+        };
+
         /**
          * Constructor.
          */

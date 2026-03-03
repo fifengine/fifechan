@@ -41,7 +41,7 @@ namespace fcn
         /**
          * Holds the source widget of the event.
          */
-        Widget* mSource;
+        Widget* mSource{nullptr};
     };
 } // namespace fcn
 

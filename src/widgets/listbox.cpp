@@ -49,12 +49,12 @@ namespace fcn
         // Check the current clip area so we don't draw unnecessary items
         // that are not visible.
         ClipRectangle const currentClipArea = graphics->getCurrentClipArea();
-        int rowHeight                       = getRowHeight();
+        int const rowHeight                 = getRowHeight();
 
         // Calculate the number of rows to draw by checking the clip area.
         // The addition of two makes covers a partial visible row at the top
         // and a partial visible row at the bottom.
-        int numberOfRows = currentClipArea.height / rowHeight + 2;
+        int numberOfRows = (currentClipArea.height / rowHeight) + 2;
 
         if (numberOfRows > mListModel->getNumberOfElements()) {
             numberOfRows = mListModel->getNumberOfElements();
@@ -66,14 +66,14 @@ namespace fcn
         // they might not be visible. A negative y value is very
         // common if the list box for instance resides in a scroll
         // area and the user has scrolled the list box downwards.
-        int startRow;
+        int startRow = 0;
         if (getY() < 0) {
             startRow = -1 * (getY() / rowHeight);
         } else {
             startRow = 0;
         }
 
-        int i;
+        int i = 0;
         // The y coordinate where we start to draw the text is
         // simply the y coordinate multiplied with the font height.
         int y = rowHeight * startRow;
@@ -87,7 +87,7 @@ namespace fcn
             // If the row height is greater than the font height we
             // draw the text with a center vertical alignment.
             if (rowHeight > getFont()->getHeight()) {
-                graphics->drawText(mListModel->getElementAt(i), 1, y + rowHeight / 2 - getFont()->getHeight() / 2);
+                graphics->drawText(mListModel->getElementAt(i), 1, y + (rowHeight / 2) - (getFont()->getHeight() / 2));
             } else {
                 graphics->drawText(mListModel->getElementAt(i), 1, y);
             }
@@ -136,7 +136,7 @@ namespace fcn
 
     void ListBox::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             distributeActionEvent();
@@ -172,7 +172,7 @@ namespace fcn
 
     void ListBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             setSelected(mouseEvent.getY() / getRowHeight());
             distributeActionEvent();
         }
@@ -224,8 +224,8 @@ namespace fcn
     {
         if (mListModel != nullptr) {
             // min width in case the lit contains no element
-            int w        = getRowHeight();
-            int elements = mListModel->getNumberOfElements();
+            int w              = getRowHeight();
+            int const elements = mListModel->getNumberOfElements();
             for (int i = 0; i < elements; ++i) {
                 // std::string element = mListModel->getElementAt(i);
                 w = std::max(w, getFont()->getWidth(mListModel->getElementAt(i)));

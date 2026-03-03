@@ -10,18 +10,13 @@
 
 namespace fcn
 {
-    Label::Label()
+    Label::Label() : mAlignment(Graphics::Alignment::Left)
     {
-        mAlignment = Graphics::Left;
-
         adjustSize();
     }
 
-    Label::Label(std::string const & caption)
+    Label::Label(std::string const & caption) : mCaption(caption), mAlignment(Graphics::Alignment::Left)
     {
-        mCaption   = caption;
-        mAlignment = Graphics::Left;
-
         adjustSize();
     }
 
@@ -54,35 +49,35 @@ namespace fcn
     void Label::adjustSize()
     {
         setSize(
-            2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
-            2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + getFont()->getHeight());
+            (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
+            (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() + getFont()->getHeight());
     }
 
     void Label::draw(Graphics* graphics)
     {
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (isFocused() && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
             }
         }
-        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
-        int textX;
-        int textY =
+        Rectangle const offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        int textX = 0;
+        int const textY =
             offsetRec.y + getPaddingTop() +
-            (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+            ((getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2);
 
         switch (getAlignment()) {
-        case Graphics::Left:
+        case Graphics::Alignment::Left:
             textX = offsetRec.x + getPaddingLeft();
             break;
-        case Graphics::Center:
+        case Graphics::Alignment::Center:
             textX = offsetRec.x + getPaddingLeft() +
                     (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
             break;
-        case Graphics::Right:
+        case Graphics::Alignment::Right:
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
         default:

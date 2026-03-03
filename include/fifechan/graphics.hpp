@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_GRAPHICS_HPP_
 #define INCLUDE_FIFECHAN_GRAPHICS_HPP_
 
+#include <cstdint>
 #include <iosfwd>
 #include <stack>
 #include <string>
@@ -54,14 +55,14 @@ namespace fcn
         /**
          * Alignments for text drawing.
          */
-        enum Alignment
+        enum class Alignment : uint8_t
         {
             Left = 0,
             Center,
             Right
         };
 
-        Graphics();
+        Graphics() = default;
 
         virtual ~Graphics() = default;
 
@@ -318,7 +319,7 @@ namespace fcn
          * @param alignment The alignemnt to use when drawing.
          * @throws Exception when no font has been set.
          */
-        virtual void drawText(std::string const & text, int x, int y, Alignment alignment = Left);
+        virtual void drawText(std::string const & text, int x, int y, Alignment alignment = Alignment::Left);
 
     protected:
         /**

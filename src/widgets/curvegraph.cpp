@@ -71,21 +71,25 @@ namespace fcn
 
     void CurveGraph::draw(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -117,26 +121,25 @@ namespace fcn
         } else {
             newPoints = m_data;
         }
-        int elements = newPoints.size();
+        int const elements = newPoints.size();
 
         std::vector<Point>::const_iterator it = newPoints.begin();
         Point old                             = *it;
         ++it;
         for (; it != newPoints.end(); ++it) {
             Point const & next = *it;
-            float rx           = static_cast<float>(old.x - next.x);
-            float ry           = static_cast<float>(old.y - next.y);
+            float const rx     = static_cast<float>(old.x - next.x);
+            float const ry     = static_cast<float>(old.y - next.y);
             old                = next;
-            distance += Mathf::Sqrt(rx * rx + ry * ry);
+            distance += Mathf::Sqrt((rx * rx) + (ry * ry));
         }
 
-        int lines = static_cast<int>(ceil((distance / elements) / m_thickness));
-        if (lines < 2) {
-            lines = 2;
-        }
+        int lines = static_cast<int>(std::ceil((distance / elements) / m_thickness));
 
-        float step = 1.0f / static_cast<float>(lines - 1);
-        float t    = 0.0;
+        lines = std::max(lines, 2);
+
+        float const step = 1.0F / static_cast<float>(lines - 1);
+        float t          = 0.0F;
         m_curveData.push_back(getBezierPoint(newPoints, newPoints.size() + 1, t));
         for (int i = 0; i <= (elements * lines); ++i) {
             t += step;
@@ -149,17 +152,20 @@ namespace fcn
     {
         if (t < 0.0) {
             return points[0];
-        } else if (t >= static_cast<double>(elements)) {
+        }
+
+        if (t >= static_cast<double>(elements)) {
             return points.back();
         }
 
         // Interpolate
-        double px   = 0.0;
-        double py   = 0.0;
-        int n       = elements - 1;
-        double muk  = 1.0;
-        double mu   = static_cast<double>(t) / static_cast<double>(elements);
-        double munk = Mathd::Pow(1.0 - mu, static_cast<double>(n));
+        double px       = 0.0;
+        double py       = 0.0;
+        int const n     = elements - 1;
+        double muk      = 1.0;
+        double const mu = static_cast<double>(t) / static_cast<double>(elements);
+        double munk     = Mathd::Pow(1.0 - mu, static_cast<double>(n));
+
         for (int i = 0; i <= n; ++i) {
             int tmpn     = n;
             int tmpi     = i;
@@ -167,7 +173,7 @@ namespace fcn
             double blend = muk * munk;
             muk *= mu;
             munk /= 1.0 - mu;
-            while (tmpn) {
+            while (tmpn != 0) {
                 blend *= static_cast<double>(tmpn);
                 tmpn--;
                 if (tmpi > 1) {
@@ -192,7 +198,8 @@ namespace fcn
             return;
         }
 
-        int n = points.size() - 1;
+        int const n = points.size() - 1;
+
         // min 2 points
         if (n < 1) {
             return;
@@ -216,15 +223,15 @@ namespace fcn
         float* xrhs = new float[n];
         float* yrhs = new float[n];
         // first
-        xrhs[0] = static_cast<float>(points[0].x + 2 * points[1].x);
-        yrhs[0] = static_cast<float>(points[0].y + 2 * points[1].y);
+        xrhs[0] = static_cast<float>(points[0].x + (2 * points[1].x));
+        yrhs[0] = static_cast<float>(points[0].y + (2 * points[1].y));
         // last
-        xrhs[n - 1] = static_cast<float>((8 * points[n - 1].x + points[n].x) / 2.0f);
-        yrhs[n - 1] = static_cast<float>((8 * points[n - 1].y + points[n].y) / 2.0f);
+        xrhs[n - 1] = static_cast<float>((8 * points[n - 1].x + points[n].x) / 2.0F);
+        yrhs[n - 1] = static_cast<float>((8 * points[n - 1].y + points[n].y) / 2.0F);
         // rest
         for (int i = 1; i < n - 1; ++i) {
-            xrhs[i] = static_cast<float>(4 * points[i].x + 2 * points[i + 1].x);
-            yrhs[i] = static_cast<float>(4 * points[i].y + 2 * points[i + 1].y);
+            xrhs[i] = static_cast<float>((4 * points[i].x) + (2 * points[i + 1].x));
+            yrhs[i] = static_cast<float>((4 * points[i].y) + (2 * points[i + 1].y));
         }
 
         float* x    = new float[n];
@@ -239,8 +246,8 @@ namespace fcn
         for (int i = 1; i < n; i++) {
             xtmp[i] = 1 / xb;
             ytmp[i] = 1 / yb;
-            xb      = (i < n - 1 ? 4.0f : 3.5f) - xtmp[i];
-            yb      = (i < n - 1 ? 4.0f : 3.5f) - ytmp[i];
+            xb      = (i < n - 1 ? 4.0F : 3.5F) - xtmp[i];
+            yb      = (i < n - 1 ? 4.0F : 3.5F) - ytmp[i];
             x[i]    = (xrhs[i] - x[i - 1]) / xb;
             y[i]    = (yrhs[i] - y[i - 1]) / yb;
         }
@@ -256,8 +263,8 @@ namespace fcn
             p.x = static_cast<int>(x[i]);
             p.y = static_cast<int>(y[i]);
             newPoints.push_back(p);
-            p.x = static_cast<int>(2 * points[i + 1].x - x[i + 1]);
-            p.y = static_cast<int>(2 * points[i + 1].y - y[i + 1]);
+            p.x = static_cast<int>((2 * points[i + 1].x) - x[i + 1]);
+            p.y = static_cast<int>((2 * points[i + 1].y) - y[i + 1]);
             newPoints.push_back(p);
 
             newPoints.push_back(points[i + 1]);

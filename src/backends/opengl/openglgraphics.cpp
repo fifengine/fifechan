@@ -90,7 +90,7 @@ namespace fcn
 
     bool OpenGLGraphics::pushClipArea(Rectangle area)
     {
-        bool result = Graphics::pushClipArea(area);
+        bool const result = Graphics::pushClipArea(area);
 
         glScissor(
             mClipStack.top().x,
@@ -148,10 +148,10 @@ namespace fcn
         dstY += top.yOffset;
 
         // Find OpenGL texture coordinates
-        float texX1 = srcX / static_cast<float>(srcImage->getTextureWidth());
-        float texY1 = srcY / static_cast<float>(srcImage->getTextureHeight());
-        float texX2 = (srcX + width) / static_cast<float>(srcImage->getTextureWidth());
-        float texY2 = (srcY + height) / static_cast<float>(srcImage->getTextureHeight());
+        float const texX1 = srcX / static_cast<float>(srcImage->getTextureWidth());
+        float const texY1 = srcY / static_cast<float>(srcImage->getTextureHeight());
+        float const texX2 = (srcX + width) / static_cast<float>(srcImage->getTextureWidth());
+        float const texY2 = (srcY + height) / static_cast<float>(srcImage->getTextureHeight());
 
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
@@ -222,16 +222,16 @@ namespace fcn
         y2 += top.yOffset;
 
         glBegin(GL_LINES);
-        glVertex2f(x1 + 0.375f, y1 + 0.375f);
-        glVertex2f(x2 + 1.0f - 0.375f, y2 + 1.0f - 0.375f);
+        glVertex2f(x1 + 0.375F, y1 + 0.375F);
+        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x2 + 1.0f - 0.375f, y2 + 1.0f - 0.375f);
+        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x1 + 0.375f, y1 + 0.375f);
+        glVertex2f(x1 + 0.375F, y1 + 0.375F);
         glEnd();
     }
 
@@ -264,8 +264,8 @@ namespace fcn
 
         glBegin(GL_LINE_LOOP);
         glVertex2f(rectangle.x + top.xOffset, rectangle.y + top.yOffset);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f, rectangle.y + top.yOffset + 0.375f);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0f, rectangle.y + rectangle.height + top.yOffset);
+        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + top.yOffset + 0.375F);
+        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + rectangle.height + top.yOffset);
         glVertex2f(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
         glEnd();
     }

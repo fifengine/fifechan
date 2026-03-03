@@ -72,7 +72,7 @@ namespace directx3d
                 }
 
                 os << "x=" << mouseInput.getX() << " y=" << mouseInput.getY()
-                    << " button=" << mouseInput.getButton() << std::endl;
+                    << " button=" << mouseInput.getButton() << '\n';
 
                 OutputDebugStringA(os.str().c_str());
             }*/
@@ -87,7 +87,7 @@ namespace directx3d
                  if (keyInput.getType() == fcn::KeyInput::Pressed)
                  {
                      os << "Key pressed: " << (char)keyInput.getKey().getValue() << " " <<
-             keyInput.getKey().isCharacter() << std::endl;
+             keyInput.getKey().isCharacter() << '\n';
                  }
 
                  OutputDebugStringA(os.str().c_str());

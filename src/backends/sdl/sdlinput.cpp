@@ -12,11 +12,7 @@
 
 namespace fcn
 {
-    SDLInput::SDLInput()
-    {
-        mMouseInWindow = true;
-        mMouseDown     = false;
-    }
+    SDLInput::SDLInput() : mMouseInWindow(true), mMouseDown(false) { }
 
     bool SDLInput::isKeyQueueEmpty()
     {
@@ -58,8 +54,8 @@ namespace fcn
 
     void SDLInput::pushInput(SDL_Event event)
     {
-        KeyInput keyInput;
-        MouseInput mouseInput;
+        KeyInput keyInput{};
+        MouseInput mouseInput{};
 
         switch (event.type) {
         case SDL_KEYDOWN: {
@@ -67,11 +63,11 @@ namespace fcn
 
             keyInput.setKey(Key(value));
             keyInput.setType(KeyInput::Pressed);
-            keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-            keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-            keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-            keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-            keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+            keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+            keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+            keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+            keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+            keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
             mKeyInputQueue.push(keyInput);
             break;
         }
@@ -85,11 +81,11 @@ namespace fcn
 
             keyInput.setKey(Key(value));
             keyInput.setType(KeyInput::Released);
-            keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-            keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-            keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-            keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-            keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+            keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+            keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+            keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+            keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+            keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
             mKeyInputQueue.push(keyInput);
             break;
         }
@@ -147,7 +143,8 @@ namespace fcn
             } else if (event.wheel.x < 0) {
                 mouseInput.setType(MouseInput::WheelMovedLeft);
             }
-            int x, y;
+            int x;
+            int y;
             SDL_GetMouseState(&x, &y);
             mouseInput.setX(x);
             mouseInput.setY(y);
@@ -164,15 +161,15 @@ namespace fcn
                 // hack to transport text
                 std::vector<char16_t> result;
                 utf8::utf8to16(text.begin(), text.end(), std::back_inserter(result));
-                int value = result[0];
+                int const value = result[0];
 
                 keyInput.setKey(Key(value));
                 keyInput.setType(KeyInput::Pressed);
-                keyInput.setShiftPressed(event.key.keysym.mod & KMOD_SHIFT);
-                keyInput.setControlPressed(event.key.keysym.mod & KMOD_CTRL);
-                keyInput.setAltPressed(event.key.keysym.mod & KMOD_ALT);
-                keyInput.setMetaPressed(event.key.keysym.mod & KMOD_GUI);
-                keyInput.setNumericPad(event.key.keysym.mod & KMOD_NUM);
+                keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
+                keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
+                keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
+                keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
+                keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
                 mKeyInputQueue.push(keyInput);
             }
             break;
@@ -378,7 +375,7 @@ namespace fcn
             break;
         }
 
-        if (!(event.key.keysym.mod & KMOD_NUM)) {
+        if ((event.key.keysym.mod & KMOD_NUM) == 0) {
             switch (event.key.keysym.sym) {
             case SDLK_KP_0:
                 value = Key::Insert;

@@ -4,6 +4,8 @@
 
 #include "fifechan/widgets/adjustingcontainer.hpp"
 
+#include <algorithm>
+
 #include "fifechan/exception.hpp"
 
 namespace fcn
@@ -25,7 +27,7 @@ namespace fcn
 
         if (mColumnAlignment.size() < numberOfColumns) {
             while (mColumnAlignment.size() < numberOfColumns) {
-                mColumnAlignment.push_back(LEFT);
+                mColumnAlignment.push_back(Alignment::Left);
             }
         } else {
             while (mColumnAlignment.size() > numberOfColumns) {
@@ -39,19 +41,19 @@ namespace fcn
         return mNumberOfColumns;
     }
 
-    void AdjustingContainer::setColumnAlignment(unsigned int column, unsigned int alignment)
+    void AdjustingContainer::setColumnAlignment(unsigned int column, Alignment alignment)
     {
         if (column < mColumnAlignment.size()) {
             mColumnAlignment[column] = alignment;
         }
     }
 
-    unsigned int AdjustingContainer::getColumnAlignment(unsigned int column) const
+    AdjustingContainer::Alignment AdjustingContainer::getColumnAlignment(unsigned int column) const
     {
         if (column < mColumnAlignment.size()) {
             return mColumnAlignment[column];
         }
-        return 0;
+        return Alignment::Left;
     }
 
     void AdjustingContainer::resizeToContent(bool recursion)
@@ -98,12 +100,11 @@ namespace fcn
     void AdjustingContainer::remove(Widget* widget)
     {
         Container::remove(widget);
-        std::vector<fcn::Widget*>::iterator it;
-        for (it = mContainedWidgets.begin(); it != mContainedWidgets.end(); it++) {
-            if (*it == widget) {
-                mContainedWidgets.erase(it);
-                break;
-            }
+        auto it = std::find_if(mContainedWidgets.begin(), mContainedWidgets.end(), [widget](fcn::Widget* w) {
+            return w == widget;
+        });
+        if (it != mContainedWidgets.end()) {
+            mContainedWidgets.erase(it);
         }
     }
 
@@ -113,7 +114,8 @@ namespace fcn
 
         mColumnWidths.clear();
 
-        unsigned int i;
+        unsigned int i = 0;
+
         for (i = 0; i < mNumberOfColumns; i++) {
             mColumnWidths.push_back(0);
         }
@@ -125,13 +127,13 @@ namespace fcn
         }
 
         for (i = 0; i < mNumberOfColumns; i++) {
-            unsigned int j;
-            for (j = 0; j < mNumberOfRows && mNumberOfColumns * j + i < mContainedWidgets.size(); j++) {
-                if ((unsigned int)mContainedWidgets[mNumberOfColumns * j + i]->getWidth() > mColumnWidths[i]) {
-                    mColumnWidths[i] = mContainedWidgets[mNumberOfColumns * j + i]->getWidth();
+            unsigned int j = 0;
+            for (j = 0; j < mNumberOfRows && (mNumberOfColumns * j) + i < mContainedWidgets.size(); j++) {
+                if ((unsigned int)mContainedWidgets[(mNumberOfColumns * j) + i]->getWidth() > mColumnWidths[i]) {
+                    mColumnWidths[i] = mContainedWidgets[(mNumberOfColumns * j) + i]->getWidth();
                 }
-                if ((unsigned int)mContainedWidgets[mNumberOfColumns * j + i]->getHeight() > mRowHeights[j]) {
-                    mRowHeights[j] = mContainedWidgets[mNumberOfColumns * j + i]->getHeight();
+                if ((unsigned int)mContainedWidgets[(mNumberOfColumns * j) + i]->getHeight() > mRowHeights[j]) {
+                    mRowHeights[j] = mContainedWidgets[(mNumberOfColumns * j) + i]->getHeight();
                 }
             }
         }
@@ -153,8 +155,8 @@ namespace fcn
 
         mHeight -= mVerticalSpacing;
         mHeight += mPaddingBottom;
-        setHeight(mHeight + 2 * getBorderSize());
-        setWidth(mWidth + 2 * getBorderSize());
+        setHeight(mHeight + (2 * getBorderSize()));
+        setWidth(mWidth + (2 * getBorderSize()));
     }
 
     void AdjustingContainer::adjustContent()
@@ -166,7 +168,7 @@ namespace fcn
         unsigned int y           = mPaddingTop;
 
         for (unsigned int i = 0; i < mContainedWidgets.size(); i++) {
-            unsigned basex;
+            unsigned basex = 0;
             if (columnCount % mNumberOfColumns) {
                 basex = mPaddingLeft;
                 unsigned int j;
@@ -179,13 +181,14 @@ namespace fcn
             }
 
             switch (mColumnAlignment[columnCount]) {
-            case LEFT:
+            case Alignment::Left:
                 mContainedWidgets[i]->setX(basex);
                 break;
-            case CENTER:
-                mContainedWidgets[i]->setX(basex + (mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth()) / 2);
+            case Alignment::Center:
+                mContainedWidgets[i]->setX(
+                    basex + ((mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth()) / 2));
                 break;
-            case RIGHT:
+            case Alignment::Right:
                 mContainedWidgets[i]->setX(basex + mColumnWidths[columnCount] - mContainedWidgets[i]->getWidth());
                 break;
             default:

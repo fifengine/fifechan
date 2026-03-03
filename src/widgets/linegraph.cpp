@@ -51,21 +51,25 @@ namespace fcn
 
     void LineGraph::draw(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -77,23 +81,25 @@ namespace fcn
         }
         // draw lines
         graphics->setColor(getBaseColor());
-        bool thick                = m_thickness > 1;
+
+        bool const thick = m_thickness > 1;
+
         PointVector::iterator pit = m_data.begin();
         int x1                    = (*pit).x;
         int y1                    = (*pit).y;
         ++pit;
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
-                int x2 = (*pit).x;
-                int y2 = (*pit).y;
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
                 graphics->drawLine(x1, y1, x2, y2, m_thickness);
                 x1 = x2;
                 y1 = y2;
             }
         } else {
             for (; pit != m_data.end(); ++pit) {
-                int x2 = (*pit).x;
-                int y2 = (*pit).y;
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
                 graphics->drawLine(x1, y1, x2, y2);
                 x1 = x2;
                 y1 = y2;

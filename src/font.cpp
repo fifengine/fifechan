@@ -10,17 +10,11 @@ namespace fcn
 {
     int Font::getStringIndexAt(std::string const & text, int x) const
     {
-        unsigned int i = 0;
-        int size       = 0;
-
-        for (i = 0; i < text.size(); ++i) {
-            size = getWidth(text.substr(0, i));
-
-            if (size > x) {
+        for (unsigned int i = 0; i < text.size(); ++i) {
+            if (getWidth(text.substr(0, i)) > x) {
                 return i;
             }
         }
-
         return text.size();
     }
 } // namespace fcn

@@ -10,9 +10,8 @@
 
 namespace fcn
 {
-    PasswordField::PasswordField(std::string const & text) : TextField(text)
+    PasswordField::PasswordField(std::string const & text) : TextField(text), mActualText(new Text)
     {
-        mActualText = new Text;
         setText(text);
     }
 
@@ -23,7 +22,7 @@ namespace fcn
 
     void PasswordField::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Left && getCaretPosition() > 0) {
             mText->setCaretPosition(mText->getCaretPosition() - 1);

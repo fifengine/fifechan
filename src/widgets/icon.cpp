@@ -10,16 +10,15 @@
 
 namespace fcn
 {
-    Icon::Icon() : mImage(0), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    Icon::Icon() : mImage(nullptr), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
     {
 
         adjustSize();
     }
 
     Icon::Icon(std::string const & filename) :
-        mImage(0), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+        mImage(nullptr), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
     {
-
         mImage         = Image::load(filename);
         mInternalImage = true;
         adjustSize();
@@ -106,9 +105,9 @@ namespace fcn
         if (mScale || mTile) {
             return;
         }
-        int w = 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
-        if (mImage) {
+        int w = (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+        int h = (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
+        if (mImage != nullptr) {
             w += mImage->getWidth();
             h += mImage->getHeight();
         }
@@ -120,29 +119,33 @@ namespace fcn
         // draw icon background
         if (mOpaque) {
             Color color = getBackgroundColor();
-            if (isFocused() && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (isFocused() &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 color = getSelectionColor();
             }
             graphics->setColor(color);
             graphics->fillRectangle(Rectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize()));
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize())));
         }
         // draw icon image
-        if (mImage) {
-            Rectangle contentRect(
+        if (mImage != nullptr) {
+            Rectangle const contentRect(
                 getBorderSize() + getPaddingLeft(),
                 getBorderSize() + getPaddingTop(),
-                getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
-                getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom());
+                getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight(),
+                getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom());
 
             // draw with widget or image size
-            int w = mScale ? contentRect.width : mImage->getWidth();
-            int h = mScale ? contentRect.height : mImage->getHeight();
+            int const w = mScale ? contentRect.width : mImage->getWidth();
+            int const h = mScale ? contentRect.height : mImage->getHeight();
 
             if (mTile && !mScale) {
                 Rectangle rect(contentRect.x, contentRect.y, w, h);
-                int tmpW = getWidth() - getBorderSize() - getPaddingRight();
-                int tmpH = getHeight() - getBorderSize() - getPaddingBottom();
+                int const tmpW = getWidth() - getBorderSize() - getPaddingRight();
+                int const tmpH = getHeight() - getBorderSize() - getPaddingBottom();
                 while (rect.x < tmpW) {
                     rect.y = contentRect.y;
                     while (rect.y < tmpH) {
@@ -157,7 +160,7 @@ namespace fcn
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (isFocused() && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);

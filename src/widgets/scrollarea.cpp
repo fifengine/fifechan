@@ -13,68 +13,17 @@ namespace fcn
 {
     ScrollArea::ScrollArea()
     {
-        mVScroll                   = 0;
-        mHScroll                   = 0;
-        mHPolicy                   = ShowAuto;
-        mVPolicy                   = ShowAuto;
-        mScrollbarWidth            = 12;
-        mUpButtonPressed           = false;
-        mDownButtonPressed         = false;
-        mLeftButtonPressed         = false;
-        mRightButtonPressed        = false;
-        mUpButtonScrollAmount      = 10;
-        mDownButtonScrollAmount    = 10;
-        mLeftButtonScrollAmount    = 10;
-        mRightButtonScrollAmount   = 10;
-        mIsVerticalMarkerDragged   = false;
-        mIsHorizontalMarkerDragged = false;
-        mOpaque                    = true;
-
         addMouseListener(this);
     }
 
     ScrollArea::ScrollArea(Widget* content)
     {
-        mVScroll                   = 0;
-        mHScroll                   = 0;
-        mHPolicy                   = ShowAuto;
-        mVPolicy                   = ShowAuto;
-        mScrollbarWidth            = 12;
-        mUpButtonPressed           = false;
-        mDownButtonPressed         = false;
-        mLeftButtonPressed         = false;
-        mRightButtonPressed        = false;
-        mUpButtonScrollAmount      = 10;
-        mDownButtonScrollAmount    = 10;
-        mLeftButtonScrollAmount    = 10;
-        mRightButtonScrollAmount   = 10;
-        mIsVerticalMarkerDragged   = false;
-        mIsHorizontalMarkerDragged = false;
-        mOpaque                    = true;
-
         setContent(content);
         addMouseListener(this);
     }
 
     ScrollArea::ScrollArea(Widget* content, ScrollPolicy hPolicy, ScrollPolicy vPolicy)
     {
-        mVScroll                   = 0;
-        mHScroll                   = 0;
-        mHPolicy                   = hPolicy;
-        mVPolicy                   = vPolicy;
-        mScrollbarWidth            = 12;
-        mUpButtonPressed           = false;
-        mDownButtonPressed         = false;
-        mLeftButtonPressed         = false;
-        mRightButtonPressed        = false;
-        mUpButtonScrollAmount      = 10;
-        mDownButtonScrollAmount    = 10;
-        mLeftButtonScrollAmount    = 10;
-        mRightButtonScrollAmount   = 10;
-        mIsVerticalMarkerDragged   = false;
-        mIsHorizontalMarkerDragged = false;
-        mOpaque                    = true;
-
         setContent(content);
         addMouseListener(this);
     }
@@ -99,8 +48,9 @@ namespace fcn
 
     Widget* ScrollArea::getContent() const
     {
-        if (mChildren.size() > 0)
+        if (!mChildren.empty()) {
             return *mChildren.begin();
+        }
 
         return nullptr;
     }
@@ -136,15 +86,17 @@ namespace fcn
 
     void ScrollArea::setVerticalScrollAmount(int vScroll)
     {
-        int max = getVerticalMaxScroll();
+        int const max = getVerticalMaxScroll();
 
         mVScroll = vScroll;
 
-        if (vScroll > max)
+        if (vScroll > max) {
             mVScroll = max;
+        }
 
-        if (vScroll < 0)
+        if (vScroll < 0) {
             mVScroll = 0;
+        }
     }
 
     int ScrollArea::getVerticalScrollAmount() const
@@ -154,14 +106,15 @@ namespace fcn
 
     void ScrollArea::setHorizontalScrollAmount(int hScroll)
     {
-        int max = getHorizontalMaxScroll();
+        int const max = getHorizontalMaxScroll();
 
         mHScroll = hScroll;
 
-        if (hScroll > max)
+        if (hScroll > max) {
             mHScroll = max;
-        else if (hScroll < 0)
+        } else if (hScroll < 0) {
             mHScroll = 0;
+        }
     }
 
     int ScrollArea::getHorizontalScrollAmount() const
@@ -179,13 +132,15 @@ namespace fcn
     {
         checkPolicies();
 
-        if (getContent() == nullptr)
+        if (getContent() == nullptr) {
             return 0;
+        }
 
-        int value = getContent()->getWidth() - getChildrenArea().width + 2 * getContent()->getBorderSize();
+        int const value = getContent()->getWidth() - getChildrenArea().width + (2 * getContent()->getBorderSize());
 
-        if (value < 0)
+        if (value < 0) {
             return 0;
+        }
 
         return value;
     }
@@ -194,15 +149,17 @@ namespace fcn
     {
         checkPolicies();
 
-        if (getContent() == nullptr)
+        if (getContent() == nullptr) {
             return 0;
+        }
 
-        int value;
+        int value = 0;
 
         value = getContent()->getHeight() - getChildrenArea().height + 2 * getContent()->getBorderSize();
 
-        if (value < 0)
+        if (value < 0) {
             return 0;
+        }
 
         return value;
     }
@@ -224,8 +181,8 @@ namespace fcn
 
     void ScrollArea::mousePressed(MouseEvent& mouseEvent)
     {
-        int x = mouseEvent.getX();
-        int y = mouseEvent.getY();
+        int const x = mouseEvent.getX();
+        int const y = mouseEvent.getY();
 
         if (getUpButtonDimension().isContaining(x, y)) {
             setVerticalScrollAmount(getVerticalScrollAmount() - mUpButtonScrollAmount);
@@ -283,10 +240,10 @@ namespace fcn
     void ScrollArea::mouseDragged(MouseEvent& mouseEvent)
     {
         if (mIsVerticalMarkerDragged) {
-            int pos    = mouseEvent.getY() - getVerticalBarDimension().y - mVerticalMarkerDragOffset;
-            int length = getVerticalMarkerDimension().height;
+            int const pos    = mouseEvent.getY() - getVerticalBarDimension().y - mVerticalMarkerDragOffset;
+            int const length = getVerticalMarkerDimension().height;
 
-            Rectangle barDim = getVerticalBarDimension();
+            Rectangle const barDim = getVerticalBarDimension();
 
             if ((barDim.height - length) > 0) {
                 setVerticalScrollAmount((getVerticalMaxScroll() * pos) / (barDim.height - length));
@@ -296,10 +253,10 @@ namespace fcn
         }
 
         if (mIsHorizontalMarkerDragged) {
-            int pos    = mouseEvent.getX() - getHorizontalBarDimension().x - mHorizontalMarkerDragOffset;
-            int length = getHorizontalMarkerDimension().width;
+            int const pos    = mouseEvent.getX() - getHorizontalBarDimension().x - mHorizontalMarkerDragOffset;
+            int const length = getHorizontalMarkerDimension().width;
 
-            Rectangle barDim = getHorizontalBarDimension();
+            Rectangle const barDim = getHorizontalBarDimension();
 
             if ((barDim.width - length) > 0) {
                 setHorizontalScrollAmount((getHorizontalMaxScroll() * pos) / (barDim.width - length));
@@ -338,11 +295,11 @@ namespace fcn
 
     void ScrollArea::drawHBar(Graphics* graphics)
     {
-        Rectangle dim = getHorizontalBarDimension();
+        Rectangle const dim = getHorizontalBarDimension();
 
         graphics->pushClipArea(dim);
 
-        int alpha         = getBaseColor().a;
+        int const alpha   = getBaseColor().a;
         Color trackColor  = getBaseColor() - 0x101010;
         trackColor.a      = alpha;
         Color shadowColor = getBaseColor() - 0x303030;
@@ -359,11 +316,11 @@ namespace fcn
 
     void ScrollArea::drawVBar(Graphics* graphics)
     {
-        Rectangle dim = getVerticalBarDimension();
+        Rectangle const dim = getVerticalBarDimension();
 
         graphics->pushClipArea(dim);
 
-        int alpha         = getBaseColor().a;
+        int const alpha   = getBaseColor().a;
         Color trackColor  = getBaseColor() - 0x101010;
         trackColor.a      = alpha;
         Color shadowColor = getBaseColor() - 0x303030;
@@ -388,14 +345,15 @@ namespace fcn
 
     void ScrollArea::drawUpButton(Graphics* graphics)
     {
-        Rectangle dim = getUpButtonDimension();
+        Rectangle const dim = getUpButtonDimension();
+
         graphics->pushClipArea(dim);
 
         Color highlightColor;
         Color shadowColor;
         Color faceColor;
-        int offset;
-        int alpha = getBaseColor().a;
+        int offset      = 0;
+        int const alpha = getBaseColor().a;
 
         if (mUpButtonPressed) {
             faceColor        = getBaseColor() - 0x303030;
@@ -430,9 +388,9 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int i;
-        int w = dim.height / 2;
-        int h = w / 2 + 2;
+        int i       = 0;
+        int const w = dim.height / 2;
+        int const h = (w / 2) + 2;
         for (i = 0; i < w / 2; ++i) {
             graphics->drawLine(w - i + offset, i + h + offset, w + i + offset, i + h + offset);
         }
@@ -442,14 +400,15 @@ namespace fcn
 
     void ScrollArea::drawDownButton(Graphics* graphics)
     {
-        Rectangle dim = getDownButtonDimension();
+        Rectangle const dim = getDownButtonDimension();
+
         graphics->pushClipArea(dim);
 
         Color highlightColor;
         Color shadowColor;
         Color faceColor;
-        int offset;
-        int alpha = getBaseColor().a;
+        int offset      = 0;
+        int const alpha = getBaseColor().a;
 
         if (mDownButtonPressed) {
             faceColor        = getBaseColor() - 0x303030;
@@ -484,9 +443,9 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int i;
-        int w = dim.height / 2;
-        int h = w + 1;
+        int i       = 0;
+        int const w = dim.height / 2;
+        int const h = w + 1;
         for (i = 0; i < w / 2; ++i) {
             graphics->drawLine(w - i + offset, -i + h + offset, w + i + offset, -i + h + offset);
         }
@@ -496,14 +455,14 @@ namespace fcn
 
     void ScrollArea::drawLeftButton(Graphics* graphics)
     {
-        Rectangle dim = getLeftButtonDimension();
+        Rectangle const dim = getLeftButtonDimension();
         graphics->pushClipArea(dim);
 
         Color highlightColor;
         Color shadowColor;
         Color faceColor;
-        int offset;
-        int alpha = getBaseColor().a;
+        int offset      = 0;
+        int const alpha = getBaseColor().a;
 
         if (mLeftButtonPressed) {
             faceColor        = getBaseColor() - 0x303030;
@@ -538,9 +497,9 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int i;
-        int w = dim.width / 2;
-        int h = w - 2;
+        int i       = 0;
+        int const w = dim.width / 2;
+        int const h = w - 2;
         for (i = 0; i < w / 2; ++i) {
             graphics->drawLine(i + h + offset, w - i + offset, i + h + offset, w + i + offset);
         }
@@ -550,14 +509,15 @@ namespace fcn
 
     void ScrollArea::drawRightButton(Graphics* graphics)
     {
-        Rectangle dim = getRightButtonDimension();
+        Rectangle const dim = getRightButtonDimension();
+
         graphics->pushClipArea(dim);
 
         Color highlightColor;
         Color shadowColor;
         Color faceColor;
-        int offset;
-        int alpha = getBaseColor().a;
+        int offset      = 0;
+        int const alpha = getBaseColor().a;
 
         if (mRightButtonPressed) {
             faceColor        = getBaseColor() - 0x303030;
@@ -592,9 +552,9 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int i;
-        int w = dim.width / 2;
-        int h = w + 1;
+        int i       = 0;
+        int const w = dim.width / 2;
+        int const h = w + 1;
         for (i = 0; i < w / 2; ++i) {
             graphics->drawLine(-i + h + offset, w - i + offset, -i + h + offset, w + i + offset);
         }
@@ -604,10 +564,10 @@ namespace fcn
 
     void ScrollArea::drawVMarker(Graphics* graphics)
     {
-        Rectangle dim = getVerticalMarkerDimension();
+        Rectangle const dim = getVerticalMarkerDimension();
         graphics->pushClipArea(dim);
 
-        int alpha            = getBaseColor().a;
+        int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
         Color highlightColor = faceColor + 0x303030;
@@ -679,12 +639,12 @@ namespace fcn
         mVBarVisible = false;
 
         if (getContent() == nullptr) {
-            mHBarVisible = (mHPolicy == ShowAlways);
-            mVBarVisible = (mVPolicy == ShowAlways);
+            mHBarVisible = (mHPolicy == ScrollPolicy::ShowAlways);
+            mVBarVisible = (mVPolicy == ScrollPolicy::ShowAlways);
             return;
         }
 
-        if (mHPolicy == ShowAuto && mVPolicy == ShowAuto) {
+        if (mHPolicy == ScrollPolicy::ShowAuto && mVPolicy == ScrollPolicy::ShowAuto) {
             if (getContent()->getWidth() <= w && getContent()->getHeight() <= h) {
                 mHBarVisible = false;
                 mVBarVisible = false;
@@ -698,26 +658,27 @@ namespace fcn
                 mVBarVisible = true;
             }
 
-            if (mVBarVisible && getContent()->getWidth() > w - mScrollbarWidth)
+            if (mVBarVisible && getContent()->getWidth() > w - mScrollbarWidth) {
                 mHBarVisible = true;
+            }
 
             return;
         }
 
         switch (mHPolicy) {
-        case ShowNever:
+        case ScrollPolicy::ShowNever:
             mHBarVisible = false;
             break;
 
-        case ShowAlways:
+        case ScrollPolicy::ShowAlways:
             mHBarVisible = true;
             break;
 
-        case ShowAuto:
-            if (mVPolicy == ShowNever) {
+        case ScrollPolicy::ShowAuto:
+            if (mVPolicy == ScrollPolicy::ShowNever) {
                 mHBarVisible = getContent()->getWidth() > w;
             } else {
-                // (mVPolicy == ShowAlways)
+                // (mVPolicy == ScrollPolicy::ShowAlways)
                 mHBarVisible = getContent()->getWidth() > w - mScrollbarWidth;
             }
             break;
@@ -728,19 +689,19 @@ namespace fcn
         }
 
         switch (mVPolicy) {
-        case ShowNever:
+        case ScrollPolicy::ShowNever:
             mVBarVisible = false;
             break;
 
-        case ShowAlways:
+        case ScrollPolicy::ShowAlways:
             mVBarVisible = true;
             break;
 
-        case ShowAuto:
-            if (mHPolicy == ShowNever) {
+        case ScrollPolicy::ShowAuto:
+            if (mHPolicy == ScrollPolicy::ShowNever) {
                 mVBarVisible = getContent()->getHeight() > h;
             } else {
-                // (mHPolicy == ShowAlways)
+                // (mHPolicy == ScrollPolicy::ShowAlways)
                 mVBarVisible = getContent()->getHeight() > h - mScrollbarWidth;
             }
             break;
@@ -862,19 +823,17 @@ namespace fcn
         int length = 0;
         int pos    = 0;
 
-        Rectangle barDim = getVerticalBarDimension();
+        Rectangle const barDim = getVerticalBarDimension();
 
-        if (getContent() && getContent()->getHeight() != 0) {
+        if ((getContent() != nullptr) && getContent()->getHeight() != 0) {
             length = (barDim.height * getChildrenArea().height) / getContent()->getHeight();
         } else {
             length = barDim.height;
         }
 
-        if (length < mScrollbarWidth)
-            length = mScrollbarWidth;
+        length = std::max(length, mScrollbarWidth);
 
-        if (length > barDim.height)
-            length = barDim.height;
+        length = std::min(length, barDim.height);
 
         if (getVerticalMaxScroll() != 0) {
             pos = ((barDim.height - length) * getVerticalScrollAmount()) / getVerticalMaxScroll();
@@ -902,11 +861,9 @@ namespace fcn
             length = barDim.width;
         }
 
-        if (length < mScrollbarWidth)
-            length = mScrollbarWidth;
+        length = std::max(length, mScrollbarWidth);
 
-        if (length > barDim.width)
-            length = barDim.width;
+        length = std::min(length, barDim.width);
 
         if (getHorizontalMaxScroll() != 0) {
             pos = ((barDim.width - length) * getHorizontalScrollAmount()) / getHorizontalMaxScroll();

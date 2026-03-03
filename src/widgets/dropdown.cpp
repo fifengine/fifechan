@@ -15,18 +15,17 @@
 
 namespace fcn
 {
-    DropDown::DropDown(ListModel* listModel, ScrollArea* scrollArea, ListBox* listBox)
+    DropDown::DropDown(ListModel* listModel, ScrollArea* scrollArea, ListBox* listBox) :
+        mDroppedDown(false),
+        mPushed(false),
+        mIsDragged(false),
+        mInternalScrollArea(scrollArea == nullptr),
+        mInternalListBox(listBox == nullptr)
     {
         setWidth(100);
         setFocusable(true);
-        mDroppedDown = false;
-        mPushed      = false;
-        mIsDragged   = false;
 
         setInternalFocusHandler(&mInternalFocusHandler);
-
-        mInternalScrollArea = (scrollArea == nullptr);
-        mInternalListBox    = (listBox == nullptr);
 
         if (mInternalScrollArea) {
             mScrollArea = new ScrollArea();
@@ -75,7 +74,7 @@ namespace fcn
 
     void DropDown::draw(Graphics* graphics)
     {
-        int h;
+        int h = 0;
 
         if (mDroppedDown) {
             h = mFoldedUpHeight;
@@ -83,9 +82,10 @@ namespace fcn
             h = getHeight();
         }
 
-        Color faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        int alpha        = getBaseColor().a;
+        Color const faceColor = getBaseColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = faceColor - 0x303030;
@@ -113,12 +113,12 @@ namespace fcn
             graphics->setColor(getForegroundColor());
         }
 
-        if (mListBox->getListModel() && mListBox->getSelected() >= 0) {
+        if ((mListBox->getListModel() != nullptr) && mListBox->getSelected() >= 0) {
             graphics->setColor(getForegroundColor());
             graphics->setFont(getFont());
 
             graphics->drawText(mListBox->getListModel()->getElementAt(mListBox->getSelected()), 1, 0);
-        } else if (mListBox->getListModel() && mListBox->getSelected() < 0) {
+        } else if ((mListBox->getListModel() != nullptr) && mListBox->getSelected() < 0) {
             graphics->setColor(getForegroundColor());
             graphics->setFont(getFont());
 
@@ -142,9 +142,11 @@ namespace fcn
 
     void DropDown::drawButton(Graphics* graphics)
     {
-        Color faceColor, highlightColor, shadowColor;
-        int offset;
-        int alpha = getBaseColor().a;
+        Color faceColor;
+        Color highlightColor;
+        Color shadowColor;
+        int offset      = 0;
+        int const alpha = getBaseColor().a;
 
         if (mPushed) {
             faceColor        = getBaseColor() - 0x303030;
@@ -177,10 +179,10 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int i;
-        int n  = currentClipArea.height / 3;
-        int dx = currentClipArea.height / 2;
-        int dy = (currentClipArea.height * 2) / 3;
+        int i        = 0;
+        int const n  = currentClipArea.height / 3;
+        int const dx = currentClipArea.height / 2;
+        int const dy = (currentClipArea.height * 2) / 3;
         for (i = 0; i < n; i++) {
             graphics->drawLine(dx - i + offset, dy - i + offset, dx + i + offset, dy - i + offset);
         }
@@ -198,10 +200,11 @@ namespace fcn
 
     void DropDown::keyPressed(KeyEvent& keyEvent)
     {
-        if (keyEvent.isConsumed())
+        if (keyEvent.isConsumed()) {
             return;
+        }
 
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && !mDroppedDown) {
             dropDown();
@@ -219,7 +222,7 @@ namespace fcn
     {
         // If we have a mouse press on the widget.
         if (0 <= mouseEvent.getY() && mouseEvent.getY() < getHeight() && mouseEvent.getX() >= 0 &&
-            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Left && !mDroppedDown &&
+            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Button::Left && !mDroppedDown &&
             mouseEvent.getSource() == this) {
             mPushed = true;
             dropDown();
@@ -227,7 +230,7 @@ namespace fcn
         } else if (
             // Fold up the listbox if the upper part is clicked after fold down
             0 <= mouseEvent.getY() && mouseEvent.getY() < mFoldedUpHeight && mouseEvent.getX() >= 0 &&
-            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Left && mDroppedDown &&
+            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Button::Left && mDroppedDown &&
             mouseEvent.getSource() == this) {
             mPushed = false;
             foldUp();
@@ -250,13 +253,13 @@ namespace fcn
         // Released outside of widget. Can happen when we have modal input focus.
         if ((0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
              mouseEvent.getX() >= getWidth()) &&
-            mouseEvent.getButton() == MouseEvent::Left && isModalMouseInputFocused()) {
+            mouseEvent.getButton() == MouseEvent::Button::Left && isModalMouseInputFocused()) {
             releaseModalMouseInputFocus();
 
             if (mIsDragged) {
                 foldUp();
             }
-        } else if (mouseEvent.getButton() == MouseEvent::Left) {
+        } else if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mPushed = false;
         }
 
@@ -294,18 +297,18 @@ namespace fcn
                 "List box has been deleted.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
-        int listBoxHeight = mListBox->getHeight();
+        int const listBoxHeight = mListBox->getHeight();
 
         // We add 2 for the border
-        int h2 = getFont()->getHeight() + 2;
+        int const h2 = getFont()->getHeight() + 2;
 
         setHeight(h2);
 
         // The addition/subtraction of 2 compensates for the separation lines,
         // which are separating the selected element view and the scroll area.
 
-        if (mDroppedDown && getParent()) {
-            int h = getParent()->getChildrenArea().height - getY();
+        if (mDroppedDown && (getParent() != nullptr)) {
+            int const h = getParent()->getChildrenArea().height - getY();
 
             if (listBoxHeight > h - h2 - 2) {
                 mScrollArea->setHeight(h - h2 - 2);
@@ -346,7 +349,7 @@ namespace fcn
             mFoldedUpHeight = getHeight();
             adjustHeight();
 
-            if (getParent()) {
+            if (getParent() != nullptr) {
                 getParent()->moveToTop(this);
             }
         }

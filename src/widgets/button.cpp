@@ -18,7 +18,7 @@ namespace fcn
         mKeyPressed(false),
         mMousePressed(false),
         mState(true),
-        mAlignment(Graphics::Center),
+        mAlignment(Graphics::Alignment::Center),
         mXOffset(1),
         mYOffset(1)
     {
@@ -37,7 +37,7 @@ namespace fcn
         mKeyPressed(false),
         mMousePressed(false),
         mState(true),
-        mAlignment(Graphics::Center),
+        mAlignment(Graphics::Alignment::Center),
         mXOffset(1),
         mYOffset(1)
     {
@@ -116,22 +116,23 @@ namespace fcn
 
     void Button::draw(Graphics* graphics)
     {
-        bool active     = isFocused();
-        Color faceColor = getBaseColor();
-        if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+        bool const active = isFocused();
+        Color faceColor   = getBaseColor();
+        if (active && ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
             faceColor = getSelectionColor();
         }
-        int alpha = faceColor.a;
+
+        int const alpha = faceColor.a;
 
         if (isPressed()) {
             faceColor   = faceColor - 0x303030;
             faceColor.a = alpha;
         }
         if (!isActive()) {
-            int color   = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
-            faceColor.r = color;
-            faceColor.g = color;
-            faceColor.b = color;
+            int const color = static_cast<int>((faceColor.r * 0.3) + (faceColor.g * 0.59) + (faceColor.b * 0.11));
+            faceColor.r     = color;
+            faceColor.g     = color;
+            faceColor.b     = color;
         }
 
         graphics->setColor(faceColor);
@@ -139,7 +140,7 @@ namespace fcn
         graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
 
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -151,14 +152,14 @@ namespace fcn
             offsetRec.y + getPaddingTop() +
             (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
         switch (getAlignment()) {
-        case Graphics::Left:
+        case Graphics::Alignment::Left:
             textX = offsetRec.x + getPaddingLeft();
             break;
-        case Graphics::Center:
+        case Graphics::Alignment::Center:
             textX = offsetRec.x + getPaddingLeft() +
                     (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
             break;
-        case Graphics::Right:
+        case Graphics::Alignment::Right:
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
         default:
@@ -182,8 +183,8 @@ namespace fcn
 
     void Button::adjustSize()
     {
-        int w = getFont()->getWidth(mCaption) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        int h = getFont()->getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        int const w = getFont()->getWidth(mCaption) + (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+        int const h = getFont()->getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 
@@ -197,7 +198,7 @@ namespace fcn
 
     void Button::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mMousePressed = true;
             mouseEvent.consume();
         }
@@ -215,11 +216,11 @@ namespace fcn
 
     void Button::mouseReleased(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left && mMousePressed && mHasMouse) {
             mMousePressed = false;
             distributeActionEvent();
             mouseEvent.consume();
-        } else if (mouseEvent.getButton() == MouseEvent::Left) {
+        } else if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mMousePressed = false;
             mouseEvent.consume();
         }
@@ -232,7 +233,7 @@ namespace fcn
 
     void Button::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             mKeyPressed = true;
@@ -242,7 +243,7 @@ namespace fcn
 
     void Button::keyReleased(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
 
         if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
             mKeyPressed = false;

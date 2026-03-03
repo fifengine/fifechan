@@ -16,17 +16,14 @@
 
 namespace fcn
 {
-    TextBox::TextBox(std::string const & text) : mEditable(true), mOpaque(true)
+    TextBox::TextBox(std::string const & text) :
+        mEditable(true), mOpaque(true), mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
-        mText = new Text(text);
-
         setFocusable(true);
 
         addMouseListener(this);
         addKeyListener(this);
         adjustSize();
-
-        mStringEditor = new UTF8StringEditor;
     }
 
     TextBox::~TextBox()
@@ -70,7 +67,7 @@ namespace fcn
 
     void TextBox::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mText->setCaretPosition(mouseEvent.getX(), mouseEvent.getY(), getFont());
             mouseEvent.consume();
         }
@@ -128,7 +125,7 @@ namespace fcn
             mText->getRow(getCaretRow() - 1) += getTextRow(getCaretRow());
             mText->eraseRow(getCaretRow());
             setCaretRow(getCaretRow() - 1);*/
-            unsigned newCaretColumn = getTextRow(getCaretRow() - 1).size();
+            unsigned const newCaretColumn = getTextRow(getCaretRow() - 1).size();
             // setCaretColumn(getTextRow(getCaretRow() - 1).size());
             mText->getRow(getCaretRow() - 1) += getTextRow(getCaretRow());
             mText->eraseRow(getCaretRow());

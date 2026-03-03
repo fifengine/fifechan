@@ -43,7 +43,7 @@ namespace fcn
         mParent(nullptr),
         mOutlineSize(0),
         mBorderSize(0),
-        mSelectionMode(Selection_None),
+        mSelectionMode(SelectionMode::None),
         mMarginTop(0),
         mMarginRight(0),
         mMarginBottom(0),
@@ -81,7 +81,7 @@ namespace fcn
             }
 
             std::list<Widget*>::const_iterator childrenIter;
-            for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); childrenIter++) {
+            for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); ++childrenIter) {
                 (*childrenIter)->_setParent(nullptr);
             }
 
@@ -101,11 +101,11 @@ namespace fcn
             mWidgetInstances.remove(this);
 
         } catch (fcn::Exception const & e) {
-            std::cerr << "Exception caught in Widget destructor: " << e.what() << std::endl;
+            std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
         } catch (std::exception const & e) {
-            std::cerr << "Exception caught in Widget destructor: " << e.what() << std::endl;
+            std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
         } catch (...) {
-            std::cerr << "Unknown exception caught in Widget destructor" << std::endl;
+            std::cerr << "Unknown exception caught in Widget destructor" << '\n';
         }
     }
 
@@ -115,8 +115,8 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        int const width  = getWidth() + getOutlineSize() * 2 - 1;
-        int const height = getHeight() + getOutlineSize() * 2 - 1;
+        int const width  = getWidth() + (getOutlineSize() * 2) - 1;
+        int const height = getHeight() + (getOutlineSize() * 2) - 1;
         highlightColor   = outlineColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = outlineColor - 0x303030;
@@ -588,7 +588,7 @@ namespace fcn
             for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorShownEvent(this);
             }
-        } else if (!visible) {
+        } else {
             visibilityEventHandler->widgetHidden(Event(this));
             distributeHiddenEvent();
 
@@ -707,7 +707,7 @@ namespace fcn
         }
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             if (widgetExists(*iter)) {
                 (*iter)->_setFocusHandler(focusHandler);
             }
@@ -854,14 +854,10 @@ namespace fcn
 
     bool Widget::widgetExists(Widget const * widget)
     {
-        std::list<Widget*>::const_iterator iter;
-        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter) {
-            if (*iter == widget) {
-                return true;
-            }
-        }
-
-        return false;
+        auto iter = std::find_if(mWidgetInstances.begin(), mWidgetInstances.end(), [widget](Widget* w) {
+            return w == widget;
+        });
+        return iter != mWidgetInstances.end();
     }
 
     bool Widget::isTabInEnabled() const
@@ -1230,13 +1226,8 @@ namespace fcn
         std::list<Widget*>::const_iterator iter;
         for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
             Widget* widget = (*iter);
-            if (widget->getX() + widget->getWidth() > w) {
-                w = widget->getX() + widget->getWidth();
-            }
-
-            if (widget->getY() + widget->getHeight() > h) {
-                h = widget->getY() + widget->getHeight();
-            }
+            w              = std::max(widget->getX() + widget->getWidth(), w);
+            h              = std::max(widget->getY() + widget->getHeight(), h);
         }
 
         setSize(w, h);
@@ -1380,7 +1371,7 @@ namespace fcn
     {
         std::list<Widget*>::const_iterator iter;
 
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             if ((*iter)->isFocused()) {
                 break;
             }
@@ -1423,7 +1414,7 @@ namespace fcn
             iter = mChildren.rbegin();
         }
 
-        for (; iter != end; iter++) {
+        for (; iter != end; ++iter) {
             if (iter == mChildren.rend()) {
                 iter = mChildren.rbegin();
             }
@@ -1475,7 +1466,7 @@ namespace fcn
         logic();
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             (*iter)->_logic();
         }
     }

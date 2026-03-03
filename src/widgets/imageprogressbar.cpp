@@ -17,7 +17,7 @@ namespace fcn
         mInternalImage(false),
         mMaxValue(100),
         mValue(0),
-        mOrientation(HORIZONTAL),
+        mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
     }
@@ -28,7 +28,7 @@ namespace fcn
         mInternalImage(false),
         mMaxValue(maxValue),
         mValue(0),
-        mOrientation(HORIZONTAL),
+        mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
         adjustSize();
@@ -40,7 +40,7 @@ namespace fcn
         mInternalImage(true),
         mMaxValue(maxValue),
         mValue(0),
-        mOrientation(HORIZONTAL),
+        mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
         mBarImage = Image::load(filename);
@@ -56,29 +56,33 @@ namespace fcn
 
     void ImageProgressBar::draw(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
             }
         }
-        if (mBarImage) {
-            if (getOrientation() == HORIZONTAL) {
-                Rectangle rec = Rectangle(
+        if (mBarImage != nullptr) {
+            if (getOrientation() == Orientation::Horizontal) {
+                Rectangle const rec = Rectangle(
                     getBorderSize() + getPaddingLeft(),
                     getBorderSize() + getPaddingTop(),
                     mBarImage->getWidth() * mValue / mMaxValue,
@@ -87,7 +91,7 @@ namespace fcn
                 graphics->drawImage(mBarImage, 0, 0);
                 graphics->popClipArea();
             } else {
-                Rectangle rec = Rectangle(
+                Rectangle const rec = Rectangle(
                     getBorderSize() + getPaddingLeft(),
                     getBorderSize() + getPaddingTop() +
                         (mBarImage->getHeight() - mBarImage->getHeight() * mValue / mMaxValue),
@@ -99,9 +103,9 @@ namespace fcn
             }
         }
 
-        if (mForegroundImage) {
-            int x = getBorderSize() + getPaddingLeft();
-            int y = getBorderSize() + getPaddingTop();
+        if (mForegroundImage != nullptr) {
+            int const x = getBorderSize() + getPaddingLeft();
+            int const y = getBorderSize() + getPaddingTop();
             graphics->drawImage(mForegroundImage, x, y);
         }
     }
@@ -147,7 +151,7 @@ namespace fcn
     void ImageProgressBar::setOrientation(Orientation orientation)
     {
         if (mOrientation != orientation) {
-            if (orientation != HORIZONTAL && orientation != VERTICAL) {
+            if (orientation != Orientation::Horizontal && orientation != Orientation::Vertical) {
                 fcn::throwException(
                     "Unknown orientation type in ImageProgressBar object",
                     static_cast<char const *>(__FUNCTION__),
@@ -199,7 +203,7 @@ namespace fcn
     {
         int w = 0;
         int h = 0;
-        if (mBarImage) {
+        if (mBarImage != nullptr) {
             w = mBarImage->getWidth();
             h = mBarImage->getHeight();
         }

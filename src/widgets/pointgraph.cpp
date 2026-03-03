@@ -51,21 +51,25 @@ namespace fcn
 
     void PointGraph::draw(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -75,9 +79,12 @@ namespace fcn
         if (m_data.empty()) {
             return;
         }
+
         // draw points
         graphics->setColor(getBaseColor());
-        bool thick                = m_thickness > 1;
+
+        bool const thick = m_thickness > 1;
+
         PointVector::iterator pit = m_data.begin();
         if (thick) {
             for (; pit != m_data.end(); ++pit) {

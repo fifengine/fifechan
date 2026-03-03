@@ -23,7 +23,7 @@ namespace fcn
          * are in the same row or column. For horizontal layout top, center
          * and bottom can be used, for vertical left, center and right.
          */
-        enum Alignment
+        enum class Alignment : uint8_t
         {
             Left = 0,
             Right,

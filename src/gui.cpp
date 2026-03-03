@@ -341,8 +341,8 @@ namespace fcn
             for (iter = mLastWidgetsWithMouse.begin(); iter != mLastWidgetsWithMouse.end(); iter++) {
                 distributeMouseEvent(
                     (*iter),
-                    MouseEvent::Exited,
-                    mouseInput.getButton(),
+                    MouseEvent::Type::Exited,
+                    static_cast<MouseEvent::Button>(mouseInput.getButton()),
                     mouseInput.getX(),
                     mouseInput.getY(),
                     true,
@@ -374,8 +374,8 @@ namespace fcn
             for (iter = mWidgetsWithMouseExited.begin(); iter != mWidgetsWithMouseExited.end(); iter++) {
                 distributeMouseEvent(
                     (*iter),
-                    MouseEvent::Exited,
-                    mouseInput.getButton(),
+                    MouseEvent::Type::Exited,
+                    static_cast<MouseEvent::Button>(mouseInput.getButton()),
                     mouseInput.getX(),
                     mouseInput.getY(),
                     true,
@@ -396,8 +396,8 @@ namespace fcn
                     mFocusHandler->getModalMouseInputFocused() == nullptr) {
                     distributeMouseEvent(
                         widget,
-                        MouseEvent::Entered,
-                        mouseInput.getButton(),
+                        MouseEvent::Type::Entered,
+                        static_cast<MouseEvent::Button>(mouseInput.getButton()),
                         mouseInput.getX(),
                         mouseInput.getY(),
                         true,
@@ -409,14 +409,18 @@ namespace fcn
         if (mFocusHandler->getDraggedWidget() != nullptr) {
             distributeMouseEvent(
                 mFocusHandler->getDraggedWidget(),
-                MouseEvent::Dragged,
-                mLastMouseDragButton,
+                MouseEvent::Type::Dragged,
+                static_cast<MouseEvent::Button>(mLastMouseDragButton),
                 mouseInput.getX(),
                 mouseInput.getY());
         } else {
             Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
             distributeMouseEvent(
-                sourceWidget, MouseEvent::Moved, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+                sourceWidget,
+                MouseEvent::Type::Moved,
+                static_cast<MouseEvent::Button>(mouseInput.getButton()),
+                mouseInput.getX(),
+                mouseInput.getY());
         }
     }
 
@@ -445,12 +449,16 @@ namespace fcn
         }
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::Pressed, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::Pressed,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
 
         mFocusHandler->setLastWidgetPressed(sourceWidget);
 
         mFocusHandler->setDraggedWidget(sourceWidget);
-        mLastMouseDragButton = mouseInput.getButton();
+        mLastMouseDragButton = static_cast<int>(mouseInput.getButton());
 
         mLastMousePressButton    = mouseInput.getButton();
         mLastMousePressTimeStamp = mouseInput.getTimeStamp();
@@ -469,7 +477,11 @@ namespace fcn
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::WheelMovedDown, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::WheelMovedDown,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
     }
 
     void Gui::handleMouseWheelMovedUp(MouseInput const & mouseInput)
@@ -485,7 +497,11 @@ namespace fcn
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::WheelMovedUp, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::WheelMovedUp,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
     }
 
     void Gui::handleMouseWheelMovedRight(MouseInput const & mouseInput)
@@ -501,7 +517,11 @@ namespace fcn
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::WheelMovedRight, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::WheelMovedRight,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
     }
 
     void Gui::handleMouseWheelMovedLeft(MouseInput const & mouseInput)
@@ -517,7 +537,11 @@ namespace fcn
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::WheelMovedLeft, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::WheelMovedLeft,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
     }
 
     void Gui::handleMouseReleased(MouseInput const & mouseInput)
@@ -537,11 +561,19 @@ namespace fcn
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
         distributeMouseEvent(
-            sourceWidget, MouseEvent::Released, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+            sourceWidget,
+            MouseEvent::Type::Released,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
 
         if (mouseInput.getButton() == mLastMousePressButton && mFocusHandler->getLastWidgetPressed() == sourceWidget) {
             distributeMouseEvent(
-                sourceWidget, MouseEvent::Clicked, mouseInput.getButton(), mouseInput.getX(), mouseInput.getY());
+                sourceWidget,
+                MouseEvent::Type::Clicked,
+                static_cast<MouseEvent::Button>(mouseInput.getButton()),
+                mouseInput.getX(),
+                mouseInput.getY());
 
             mFocusHandler->setLastWidgetPressed(nullptr);
         } else {
@@ -612,7 +644,8 @@ namespace fcn
         return widget;
     }
 
-    void Gui::distributeMouseEvent(Widget* source, int type, int button, int x, int y, bool force, bool toSourceOnly)
+    void Gui::distributeMouseEvent(
+        Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y, bool force, bool toSourceOnly)
     {
         Widget* parent = source;
         Widget* widget = source;
@@ -650,37 +683,37 @@ namespace fcn
                 // Send the event to all mouse listeners of the widget.
                 for (auto& mouseListener : mouseListeners) {
                     switch (mouseEvent.getType()) {
-                    case MouseEvent::Entered:
+                    case MouseEvent::Type::Entered:
                         mouseListener->mouseEntered(mouseEvent);
                         break;
-                    case MouseEvent::Exited:
+                    case MouseEvent::Type::Exited:
                         mouseListener->mouseExited(mouseEvent);
                         break;
-                    case MouseEvent::Moved:
+                    case MouseEvent::Type::Moved:
                         mouseListener->mouseMoved(mouseEvent);
                         break;
-                    case MouseEvent::Pressed:
+                    case MouseEvent::Type::Pressed:
                         mouseListener->mousePressed(mouseEvent);
                         break;
-                    case MouseEvent::Released:
+                    case MouseEvent::Type::Released:
                         mouseListener->mouseReleased(mouseEvent);
                         break;
-                    case MouseEvent::WheelMovedUp:
+                    case MouseEvent::Type::WheelMovedUp:
                         mouseListener->mouseWheelMovedUp(mouseEvent);
                         break;
-                    case MouseEvent::WheelMovedDown:
+                    case MouseEvent::Type::WheelMovedDown:
                         mouseListener->mouseWheelMovedDown(mouseEvent);
                         break;
-                    case MouseEvent::WheelMovedRight:
+                    case MouseEvent::Type::WheelMovedRight:
                         mouseListener->mouseWheelMovedRight(mouseEvent);
                         break;
-                    case MouseEvent::WheelMovedLeft:
+                    case MouseEvent::Type::WheelMovedLeft:
                         mouseListener->mouseWheelMovedLeft(mouseEvent);
                         break;
-                    case MouseEvent::Dragged:
+                    case MouseEvent::Type::Dragged:
                         mouseListener->mouseDragged(mouseEvent);
                         break;
-                    case MouseEvent::Clicked:
+                    case MouseEvent::Type::Clicked:
                         mouseListener->mouseClicked(mouseEvent);
                         break;
                     default:
@@ -738,10 +771,10 @@ namespace fcn
                 // Send the event to all key listeners of the source widget.
                 for (auto& keyListener : keyListeners) {
                     switch (keyEvent.getType()) {
-                    case KeyEvent::Pressed:
+                    case static_cast<unsigned int>(KeyEvent::Type::Pressed):
                         keyListener->keyPressed(keyEvent);
                         break;
-                    case KeyEvent::Released:
+                    case static_cast<unsigned int>(KeyEvent::Type::Released):
                         keyListener->keyReleased(keyEvent);
                         break;
                     default:
@@ -769,10 +802,10 @@ namespace fcn
 
         for (it = mKeyListeners.begin(); it != mKeyListeners.end(); it++) {
             switch (keyEvent.getType()) {
-            case KeyEvent::Pressed:
+            case static_cast<unsigned int>(KeyEvent::Type::Pressed):
                 (*it)->keyPressed(keyEvent);
                 break;
-            case KeyEvent::Released:
+            case static_cast<unsigned int>(KeyEvent::Type::Released):
                 (*it)->keyReleased(keyEvent);
                 break;
             default:
@@ -826,7 +859,13 @@ namespace fcn
                 continue;
             }
             distributeMouseEvent(
-                (*iter), MouseEvent::Exited, mLastMousePressButton, mLastMouseX, mLastMouseY, true, true);
+                (*iter),
+                MouseEvent::Type::Exited,
+                static_cast<MouseEvent::Button>(mLastMousePressButton),
+                mLastMouseX,
+                mLastMouseY,
+                true,
+                true);
         }
         mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getModalFocused());
     }
@@ -840,7 +879,13 @@ namespace fcn
         std::set<Widget*>::const_iterator iter;
         for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
             distributeMouseEvent(
-                (*iter), MouseEvent::Entered, mLastMousePressButton, mLastMouseX, mLastMouseY, false, true);
+                (*iter),
+                MouseEvent::Type::Entered,
+                static_cast<MouseEvent::Button>(mLastMousePressButton),
+                mLastMouseX,
+                mLastMouseY,
+                false,
+                true);
         }
         mFocusHandler->setLastWidgetWithModalFocus(nullptr);
     }
@@ -857,7 +902,13 @@ namespace fcn
                 continue;
             }
             distributeMouseEvent(
-                (*iter), MouseEvent::Exited, mLastMousePressButton, mLastMouseX, mLastMouseY, true, true);
+                (*iter),
+                MouseEvent::Type::Exited,
+                static_cast<MouseEvent::Button>(mLastMousePressButton),
+                mLastMouseX,
+                mLastMouseY,
+                true,
+                true);
         }
         mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getModalMouseInputFocused());
     }
@@ -871,7 +922,13 @@ namespace fcn
         std::set<Widget*>::const_iterator iter;
         for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
             distributeMouseEvent(
-                (*iter), MouseEvent::Entered, mLastMousePressButton, mLastMouseX, mLastMouseY, false, true);
+                (*iter),
+                MouseEvent::Type::Entered,
+                static_cast<MouseEvent::Button>(mLastMousePressButton),
+                mLastMouseX,
+                mLastMouseY,
+                false,
+                true);
         }
         mFocusHandler->setLastWidgetWithModalMouseInputFocus(nullptr);
     }
@@ -896,7 +953,13 @@ namespace fcn
                     Widget* underMouseCursor = getWidgetAt(mLastMouseX, mLastMouseY);
 
                     distributeMouseEvent(
-                        underMouseCursor, MouseEvent::Entered, MouseEvent::Empty, mLastMouseX, mLastMouseY, true, true);
+                        underMouseCursor,
+                        MouseEvent::Type::Entered,
+                        MouseEvent::Button::Empty,
+                        mLastMouseX,
+                        mLastMouseY,
+                        true,
+                        true);
                 }
             }
 
@@ -923,8 +986,8 @@ namespace fcn
 
                 distributeMouseEvent(
                     underMouseCursorBefore,
-                    MouseEvent::Exited,
-                    MouseEvent::Empty,
+                    MouseEvent::Type::Exited,
+                    MouseEvent::Button::Empty,
                     mLastMouseX,
                     mLastMouseY,
                     true,
@@ -935,7 +998,13 @@ namespace fcn
                 Widget* underMouseCursorNow = getWidgetAt(mLastMouseX, mLastMouseY);
 
                 distributeMouseEvent(
-                    underMouseCursorNow, MouseEvent::Entered, MouseEvent::Empty, mLastMouseX, mLastMouseY, true, true);
+                    underMouseCursorNow,
+                    MouseEvent::Type::Entered,
+                    MouseEvent::Button::Empty,
+                    mLastMouseX,
+                    mLastMouseY,
+                    true,
+                    true);
             }
 
             mShownWidgets.pop();

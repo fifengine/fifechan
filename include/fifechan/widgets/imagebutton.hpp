@@ -29,6 +29,17 @@ namespace fcn
     class FIFEGUI_API ImageButton : public fcn::Button
     {
     public:
+        // enum for easy image access
+        enum class ImageType : uint8_t
+        {
+            Up             = 0,
+            Down           = 1,
+            Hover          = 2,
+            Up_Inactive    = 3,
+            Down_Inactive  = 4,
+            Hover_Inactive = 5
+        };
+
         ImageButton();
 
         /**
@@ -193,17 +204,6 @@ namespace fcn
         virtual void draw(fcn::Graphics* graphics);
 
     protected:
-        // enum for easy image access
-        enum ImageType
-        {
-            Image_Up       = 0,
-            Image_Down     = 1,
-            Image_Hover    = 2,
-            Image_Up_De    = 3,
-            Image_Down_De  = 4,
-            Image_Hover_De = 5
-        };
-
         void setImage(std::string const & filename, ImageType type);
         void setImage(Image const * image, ImageType type);
 

@@ -14,10 +14,7 @@
 namespace fcn
 {
 
-    SDL2Graphics::SDL2Graphics()
-    {
-        mAlpha = false;
-    }
+    SDL2Graphics::SDL2Graphics() : mAlpha(false) { }
 
     SDL2Graphics::~SDL2Graphics()
     {
@@ -48,7 +45,7 @@ namespace fcn
 
         // An internal surface is still required to be able to handle surfaces and colorkeys
         mTarget = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-        SDL_FillRect(mTarget, NULL, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff));
+        SDL_FillRect(mTarget, nullptr, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff));
         SDL_SetColorKey(mTarget, SDL_TRUE, SDL_MapRGB(mTarget->format, 0xff, 0, 0xff)); // magenta
         SDL_SetSurfaceBlendMode(mTarget, SDL_BLENDMODE_NONE); // needed to cleanup temp data properly
         mTexture = SDL_CreateTextureFromSurface(mRenderTarget, mTarget);
@@ -58,7 +55,7 @@ namespace fcn
     bool SDL2Graphics::pushClipArea(Rectangle area)
     {
         SDL_Rect rect;
-        bool result = Graphics::pushClipArea(area);
+        bool const result = Graphics::pushClipArea(area);
 
         ClipRectangle const & clip_rect = mClipStack.top();
         rect.x                          = clip_rect.x;
@@ -164,10 +161,10 @@ namespace fcn
         }
 
         if (mAlpha) {
-            int x1 = area.x > top.x ? area.x : top.x;
-            int y1 = area.y > top.y ? area.y : top.y;
-            int x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
-            int y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
+            int const x1 = area.x > top.x ? area.x : top.x;
+            int const y1 = area.y > top.y ? area.y : top.y;
+            int const x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
+            int const y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
             SDL_Rect rect;
             rect.x = x1;
             rect.y = y1;
@@ -209,8 +206,9 @@ namespace fcn
         x += top.xOffset;
         y += top.yOffset;
 
-        if (!top.isContaining(x, y))
+        if (!top.isContaining(x, y)) {
             return;
+        }
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -243,8 +241,9 @@ namespace fcn
         y += top.yOffset;
         x2 += top.xOffset;
 
-        if (y < top.y || y >= top.y + top.height)
+        if (y < top.y || y >= top.y + top.height) {
             return;
+        }
 
         if (x1 > x2) {
             x1 ^= x2;
@@ -288,8 +287,9 @@ namespace fcn
         y1 += top.yOffset;
         y2 += top.yOffset;
 
-        if (x < top.x || x >= top.x + top.width)
+        if (x < top.x || x >= top.x + top.width) {
             return;
+        }
 
         if (y1 > y2) {
             y1 ^= y2;
@@ -319,10 +319,10 @@ namespace fcn
 
     void SDL2Graphics::drawRectangle(Rectangle const & rectangle)
     {
-        int x1 = rectangle.x;
-        int x2 = rectangle.x + rectangle.width - 1;
-        int y1 = rectangle.y;
-        int y2 = rectangle.y + rectangle.height - 1;
+        int const x1 = rectangle.x;
+        int const x2 = rectangle.x + rectangle.width - 1;
+        int const y1 = rectangle.y;
+        int const y2 = rectangle.y + rectangle.height - 1;
 
         drawHLine(x1, y1, x2);
         drawHLine(x1, y2, x2);
@@ -377,18 +377,18 @@ namespace fcn
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         // Calculate the direction vector of the line
-        float dx      = x2 - x1;
-        float dy      = y2 - y1;
-        float length  = std::sqrt(dx * dx + dy * dy);
-        float offsetX = (dy / length) * (width / 2.0f);
-        float offsetY = (dx / length) * (width / 2.0f);
+        float const dx      = x2 - x1;
+        float const dy      = y2 - y1;
+        float const length  = std::sqrt((dx * dx) + (dy * dy));
+        float const offsetX = (dy / length) * (width / 2.0F);
+        float const offsetY = (dx / length) * (width / 2.0F);
 
         // Draw multiple parallel lines to simulate thickness
         for (int i = -width / 2; i <= width / 2; ++i) {
-            int startX = static_cast<int>(x1 + i * offsetX);
-            int startY = static_cast<int>(y1 - i * offsetY);
-            int endX   = static_cast<int>(x2 + i * offsetX);
-            int endY   = static_cast<int>(y2 - i * offsetY);
+            int const startX = static_cast<int>(x1 + (i * offsetX));
+            int const startY = static_cast<int>(y1 - (i * offsetY));
+            int const endX   = static_cast<int>(x2 + (i * offsetX));
+            int const endY   = static_cast<int>(y2 - (i * offsetY));
             SDL_RenderDrawLine(mRenderTarget, startX, startY, endX, endY);
         }
 
@@ -408,8 +408,8 @@ namespace fcn
         }
         ClipRectangle const & top = mClipStack.top();
 
-        int x0 = center.x + top.xOffset;
-        int y0 = center.y + top.yOffset;
+        int const x0 = center.x + top.xOffset;
+        int const y0 = center.y + top.yOffset;
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -433,8 +433,8 @@ namespace fcn
         while (points.size() > 1) {
             std::vector<fcn::Point> nextPoints;
             for (size_t i = 0; i < points.size() - 1; ++i) {
-                int x = static_cast<int>((1 - t) * points[i].x + t * points[i + 1].x);
-                int y = static_cast<int>((1 - t) * points[i].y + t * points[i + 1].y);
+                int x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
+                int y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
                 nextPoints.emplace_back(fcn::Point{x, y});
             }
             points = nextPoints;
@@ -462,8 +462,8 @@ namespace fcn
         }
         ClipRectangle const & top = mClipStack.top();
 
-        int x0 = center.x + top.xOffset;
-        int y0 = center.y + top.yOffset;
+        int const x0 = center.x + top.xOffset;
+        int const y0 = center.y + top.yOffset;
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -480,9 +480,10 @@ namespace fcn
         for (int y = -radius; y <= radius; y++) {
             for (int x = -radius; x <= radius; x++) {
                 if (x * x + y * y <= radius * radius) {
-                    float angle = std::atan2(y, x) * 180.0f / static_cast<float>(M_PI);
-                    if (angle < 0)
+                    float angle = std::atan2(y, x) * 180.0F / static_cast<float>(M_PI);
+                    if (angle < 0) {
                         angle += 360;
+                    }
 
                     if (angle >= startAngle && angle <= endAngle) {
                         SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
@@ -587,29 +588,38 @@ namespace fcn
 
         auto isInSegment = [&](int x, int y) {
             float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0f / static_cast<float>(M_PI);
-            if (angle < 0)
+            if (angle < 0) {
                 angle += 360;
+            }
             return angle >= startAngle && angle <= endAngle;
         };
 
         while (x >= y) {
             // Draw points only if they are within the specified segment
-            if (isInSegment(x, y))
+            if (isInSegment(x, y)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
-            if (isInSegment(-x, y))
+            }
+            if (isInSegment(-x, y)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 + y);
-            if (isInSegment(x, -y))
+            }
+            if (isInSegment(x, -y)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 - y);
-            if (isInSegment(-x, -y))
+            }
+            if (isInSegment(-x, -y)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 - y);
-            if (isInSegment(y, x))
+            }
+            if (isInSegment(y, x)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 + x);
-            if (isInSegment(-y, x))
+            }
+            if (isInSegment(-y, x)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 + x);
-            if (isInSegment(y, -x))
+            }
+            if (isInSegment(y, -x)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 - x);
-            if (isInSegment(-y, -x))
+            }
+            if (isInSegment(-y, -x)) {
                 SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 - x);
+            }
 
             y++;
             if (p <= 0) {

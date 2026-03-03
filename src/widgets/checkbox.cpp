@@ -15,14 +15,14 @@ namespace fcn
 {
 
     CheckBox::CheckBox() :
-        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(false), mMode(Marker_Checkmark)
+        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(false), mMode(MarkerStyle::Checkmark)
     {
 
         adjustSize();
     }
 
     CheckBox::CheckBox(std::string const & caption, bool selected) :
-        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(selected), mMode(Marker_Checkmark)
+        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(selected), mMode(MarkerStyle::Checkmark)
     {
 
         setCaption(caption);
@@ -38,7 +38,7 @@ namespace fcn
 
     void CheckBox::draw(Graphics* graphics)
     {
-        if (mMode == Marker_Rhombus) {
+        if (mMode == MarkerStyle::Rhombus) {
             drawRhombus(graphics);
         } else {
             drawBox(graphics);
@@ -48,26 +48,27 @@ namespace fcn
             graphics->setFont(getFont());
             graphics->setColor(getForegroundColor());
 
-            int h     = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
-            int textX = getBorderSize() + getPaddingLeft() + h;
-            int textY = getBorderSize() + getPaddingTop() + (h - getFont()->getHeight()) / 2;
+            int const h     = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+            int const textX = getBorderSize() + getPaddingLeft() + h;
+            int const textY = getBorderSize() + getPaddingTop() + ((h - getFont()->getHeight()) / 2);
             graphics->drawText(getCaption(), textX, textY);
         }
     }
 
     void CheckBox::drawBox(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         // draw background
-        Rectangle background(
-            getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+        Rectangle const background(
+            getBorderSize(), getBorderSize(), getWidth() - (2 * getBorderSize()), getHeight() - (2 * getBorderSize()));
         if (mBackgroundImage) {
             graphics->drawImage(
                 mBackgroundImage, 0, 0, background.x, background.y, background.width, background.height);
         } else {
             Color faceColor = getBaseColor();
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 faceColor = getSelectionColor();
             }
             graphics->setColor(faceColor);
@@ -75,14 +76,14 @@ namespace fcn
         }
 
         // rec for inner box
-        int h = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
-        Rectangle rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
-        if (mMode == Marker_Image) {
+        int const h = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+        Rectangle const rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
+        if (mMode == MarkerStyle::Image) {
             // draw marker image
             drawMarkerImage(graphics, rec);
             // draw border
             if (getBorderSize() > 0) {
-                if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                     drawSelectionFrame(graphics);
                 } else {
                     drawBorder(graphics);
@@ -94,18 +95,19 @@ namespace fcn
             graphics->fillRectangle(rec.x, rec.y, h, h);
             // draw border
             if (getBorderSize() > 0) {
-                if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                     drawSelectionFrame(graphics);
                 } else {
                     drawBorder(graphics);
                 }
             }
             Color faceColor = getBaseColor();
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 faceColor = getSelectionColor();
             }
             // border around the inner box background
-            int alpha            = getBaseColor().a;
+            int const alpha      = getBaseColor().a;
             faceColor.a          = alpha;
             Color highlightColor = faceColor + 0x303030;
             highlightColor.a     = alpha;
@@ -124,13 +126,13 @@ namespace fcn
             if (mSelected) {
                 graphics->setColor(getForegroundColor());
                 switch (mMode) {
-                case Marker_Checkmark:
+                case MarkerStyle::Checkmark:
                     drawCheckmark(graphics, rec);
                     break;
-                case Marker_Cross:
+                case MarkerStyle::Cross:
                     drawCross(graphics, rec);
                     break;
-                case Marker_Dot:
+                case MarkerStyle::Dot:
                     drawDot(graphics, rec);
                     break;
                 default:
@@ -158,35 +160,36 @@ namespace fcn
 
     void CheckBox::drawDot(Graphics* graphics, Rectangle const & rec)
     {
-        Point p(rec.x + rec.width / 2, rec.y + rec.height / 2);
+        Point const p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
+
         graphics->drawFillCircle(p, (rec.width - 3) / 2);
     }
 
     void CheckBox::drawMarkerImage(Graphics* graphics, Rectangle const & rec)
     {
         Rectangle rect    = rec;
-        Image const * img = 0;
+        Image const * img = nullptr;
         if (isSelected()) {
             rect.x += getDownXOffset();
             rect.y += getDownYOffset();
             if (!isActive()) {
-                if (getInactiveDownImage()) {
+                if (getInactiveDownImage() != nullptr) {
                     img = getInactiveDownImage();
                 }
             } else {
-                img = getDownImage() ? getDownImage() : getUpImage();
+                img = (getDownImage() != nullptr) ? getDownImage() : getUpImage();
             }
         } else if (mHasMouse) {
             if (!isActive()) {
-                if (getInactiveHoverImage()) {
+                if (getInactiveHoverImage() != nullptr) {
                     img = getInactiveHoverImage();
                 }
             } else {
-                img = getHoverImage() ? getHoverImage() : getUpImage();
+                img = (getHoverImage() != nullptr) ? getHoverImage() : getUpImage();
             }
         }
 
-        if (img) {
+        if (img != nullptr) {
             graphics->drawImage(img, 0, 0, rect.x, rect.y, std::max(rect.width, img->getWidth()), rect.height);
         }
     }
@@ -195,7 +198,7 @@ namespace fcn
     {
         // ToDo: Rewrite this part, its only c&p from RadioButton
         graphics->pushClipArea(Rectangle(1, 1, getWidth() - 1, getHeight() - 1));
-        int h;
+        int h = 0;
 
         if (getHeight() % 2 == 0) {
             h = getHeight() - 4;
@@ -203,7 +206,7 @@ namespace fcn
             h = getHeight() - 3;
         }
 
-        int alpha            = getBaseColor().a;
+        int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
         Color highlightColor = faceColor + 0x303030;
@@ -213,8 +216,8 @@ namespace fcn
 
         graphics->setColor(getBackgroundColor());
 
-        int i;
-        int hh = (h + 1) / 2;
+        int i        = 0;
+        int const hh = (h + 1) / 2;
 
         for (i = 1; i <= hh; ++i) {
             graphics->drawLine(hh - i + 1, i, hh + i - 1, i);
@@ -234,7 +237,8 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int hhh = hh - 3;
+        int const hhh = hh - 3;
+
         if (mSelected) {
             for (i = 0; i < hhh; ++i) {
                 graphics->drawLine(hh - i, 4 + i, hh + i, 4 + i);
@@ -246,7 +250,7 @@ namespace fcn
         graphics->popClipArea();
 
         if (isFocused()) {
-            int fh;
+            int fh = 0;
 
             if (getHeight() % 2 == 0) {
                 fh = getHeight() - 4;
@@ -254,7 +258,7 @@ namespace fcn
                 fh = getHeight() - 3;
             }
 
-            int hh = (fh + 1) / 2;
+            int const hh = (fh + 1) / 2;
 
             graphics->setColor(getSelectionColor());
             graphics->drawLine(0, hh + 1, hh + 1, 0);
@@ -316,7 +320,8 @@ namespace fcn
 
     void CheckBox::keyPressed(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
+
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             toggleSelected();
             keyEvent.consume();
@@ -326,7 +331,8 @@ namespace fcn
 
     void CheckBox::keyReleased(KeyEvent& keyEvent)
     {
-        Key key = keyEvent.getKey();
+        Key const key = keyEvent.getKey();
+
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             keyEvent.consume();
         }
@@ -348,7 +354,7 @@ namespace fcn
 
     void CheckBox::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mHasMouse && mouseEvent.getButton() == MouseEvent::Left) {
+        if (mHasMouse && mouseEvent.getButton() == MouseEvent::Button::Left) {
             toggleSelected();
             mouseEvent.consume();
             distributeActionEvent();
@@ -359,7 +365,7 @@ namespace fcn
     {
         int w = 0;
         int h = 0;
-        if (mBackgroundImage) {
+        if (mBackgroundImage != nullptr) {
             w += mBackgroundImage->getWidth() + 2 * getBorderSize();
             h += mBackgroundImage->getHeight() + 2 * getBorderSize();
         } else {
@@ -368,7 +374,7 @@ namespace fcn
                 h = getFont()->getHeight();
             }
 
-            if (getUpImage()) {
+            if (getUpImage() != nullptr) {
                 w += getUpImage()->getWidth();
                 h = std::max(getUpImage()->getHeight(), h);
             } else {

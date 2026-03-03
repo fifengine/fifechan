@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-char const * fcnFifechanVersion()
+static char const * fcnFifechanVersion()
 {
     return "0.1.5";
 }

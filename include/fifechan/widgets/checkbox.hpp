@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_CHECKBOX_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_CHECKBOX_HPP_
 
+#include <memory>
 #include <string>
 
 #include "fifechan/platform.hpp"
@@ -28,13 +29,13 @@ namespace fcn
         /**
          * Marker style.
          */
-        enum MarkerStyle
+        enum class MarkerStyle : uint8_t
         {
-            Marker_Checkmark = 0,
-            Marker_Cross,
-            Marker_Dot,
-            Marker_Rhombus,
-            Marker_Image
+            Checkmark = 0,
+            Cross,
+            Dot,
+            Rhombus,
+            Image
         };
 
         CheckBox();
@@ -175,22 +176,28 @@ namespace fcn
         /**
          * Holds the background image, that includes the caption region.
          */
-        Image const * mBackgroundImage;
+        Image const * mBackgroundImage{nullptr};
+        // std::shared_ptr<Image const> mBackgroundImage{nullptr};
 
         /**
-         * True if the image has been loaded internally.
+         * Holds the caption of the button.
          */
-        bool mInternalBackgroundImage;
+        std::string mCaption;
+
+        /**
+         * True if the background image was loaded internally, false otherwise.
+         */
+        bool mInternalBackgroundImage{false};
 
         /**
          * True if the check box is selected, false otherwise.
          */
-        bool mSelected;
+        bool mSelected{false};
 
         /**
          * Holds the marker style of the check box.
          */
-        MarkerStyle mMode;
+        MarkerStyle mMode{MarkerStyle::Checkmark};
     };
 } // namespace fcn
 

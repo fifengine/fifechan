@@ -37,7 +37,8 @@ namespace fcn
     {
         if (selected && !mGroup.empty()) {
             // deselect all buttons in group
-            GroupIterator iter, iterEnd;
+            GroupIterator iter;
+            GroupIterator iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
 
             for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
@@ -60,7 +61,8 @@ namespace fcn
     {
         // Remove button from previous group
         if (!mGroup.empty()) {
-            GroupIterator iter, iterEnd;
+            GroupIterator iter;
+            GroupIterator iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
 
             for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
@@ -101,11 +103,11 @@ namespace fcn
 
     void ToggleButton::mouseReleased(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left && mMousePressed && mHasMouse) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left && mMousePressed && mHasMouse) {
             mMousePressed = false;
             toggleSelected();
             mouseEvent.consume();
-        } else if (mouseEvent.getButton() == MouseEvent::Left) {
+        } else if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mMousePressed = false;
             mouseEvent.consume();
         }

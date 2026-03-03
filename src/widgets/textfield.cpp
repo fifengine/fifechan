@@ -13,31 +13,25 @@
 
 namespace fcn
 {
-    TextField::TextField() : mEditable(true), mXScroll(0)
+    TextField::TextField() : mEditable(true), mText(new Text()), mXScroll(0), mStringEditor(new UTF8StringEditor)
     {
-        mText = new Text();
         mText->addRow("");
 
         setFocusable(true);
 
         addMouseListener(this);
         addKeyListener(this);
-
-        mStringEditor = new UTF8StringEditor;
     }
 
-    TextField::TextField(std::string const & text) : mEditable(true), mXScroll(0)
+    TextField::TextField(std::string const & text) :
+        mEditable(true), mXScroll(0), mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
-        mText = new Text(text);
-
         adjustSize();
 
         setFocusable(true);
 
         addMouseListener(this);
         addKeyListener(this);
-
-        mStringEditor = new UTF8StringEditor;
     }
 
     TextField::~TextField()
@@ -112,7 +106,7 @@ namespace fcn
 
     void TextField::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getButton() == MouseEvent::Left) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mText->setCaretPosition(mouseEvent.getX() + mXScroll, mouseEvent.getY(), getFont());
             fixScroll();
         }
@@ -191,9 +185,7 @@ namespace fcn
             } else if (caretX - mXScroll <= 0) {
                 mXScroll = caretX - getWidth() / 2;
 
-                if (mXScroll < 0) {
-                    mXScroll = 0;
-                }
+                mXScroll = std::max(mXScroll, 0);
             }
         }
     }

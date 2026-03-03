@@ -14,8 +14,6 @@
 
 namespace fcn
 {
-    Graphics::Graphics() = default;
-
     bool Graphics::pushClipArea(Rectangle area)
     {
         // Ignore area with a negative width or height by pushing
@@ -94,13 +92,13 @@ namespace fcn
         }
 
         switch (alignment) {
-        case Left:
+        case Alignment::Left:
             mFont->drawString(this, text, x, y);
             break;
-        case Center:
-            mFont->drawString(this, text, x - mFont->getWidth(text) / 2, y);
+        case Alignment::Center:
+            mFont->drawString(this, text, x - (mFont->getWidth(text) / 2), y);
             break;
-        case Right:
+        case Alignment::Right:
             mFont->drawString(this, text, x - mFont->getWidth(text), y);
             break;
         default:

@@ -14,17 +14,18 @@
 
 namespace fcn
 {
-    TabbedArea::TabbedArea() : mSelectedTab(nullptr), mOpaque(false)
+    TabbedArea::TabbedArea() :
+        mSelectedTab(nullptr), mTabContainer(new Container()), mWidgetContainer(new Container()), mOpaque(false)
     {
         setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
 
-        mTabContainer = new Container();
         mTabContainer->setOpaque(false);
-        mTabContainer->setLayout(Container::Horizontal);
-        mWidgetContainer = new Container();
-        mWidgetContainer->setLayout(Container::Vertical);
+        mTabContainer->setLayout(Container::LayoutPolicy::Horizontal);
+
+        mWidgetContainer->setLayout(Container::LayoutPolicy::Vertical);
+
         add(mTabContainer);
         add(mWidgetContainer);
     }
@@ -46,7 +47,7 @@ namespace fcn
     {
         tab->setTabbedArea(this);
         tab->addActionListener(this);
-        if (tab->getLayout() == Container::Absolute) {
+        if (tab->getLayout() == Container::LayoutPolicy::Absolute) {
             tab->setLayout(getLayout());
         }
         mTabContainer->add(tab);
@@ -75,7 +76,7 @@ namespace fcn
         if (tab == mSelectedTab) {
             int const index     = getSelectedTabIndex();
             int const mTabsSize = static_cast<int>(mTabs.size());
-            if (index == ((mTabsSize - 1) != 0 && mTabsSize >= 2)) {
+            if (index == static_cast<int>((mTabsSize - 1) != 0 && mTabsSize >= 2)) {
                 tabIndexToBeSelected = index - 1;
             } else if (index == mTabsSize - 1 && mTabsSize == 1) {
                 tabIndexToBeSelected = -1;
@@ -84,22 +85,20 @@ namespace fcn
             }
         }
 
-        std::vector<std::pair<Tab*, Widget*>>::iterator iter;
-        for (iter = mTabs.begin(); iter != mTabs.end(); iter++) {
-            if (iter->first == tab) {
-                mTabContainer->remove(tab);
-                mTabs.erase(iter);
-                break;
-            }
+        auto iter = std::find_if(mTabs.begin(), mTabs.end(), [tab](std::pair<Tab*, Widget*> const & p) {
+            return p.first == tab;
+        });
+        if (iter != mTabs.end()) {
+            mTabContainer->remove(tab);
+            mTabs.erase(iter);
         }
 
-        std::vector<Tab*>::iterator iter2;
-        for (iter2 = mTabsToDelete.begin(); iter2 != mTabsToDelete.end(); iter2++) {
-            if (*iter2 == tab) {
-                mTabsToDelete.erase(iter2);
-                delete tab;
-                break;
-            }
+        auto iter2 = std::find_if(mTabsToDelete.begin(), mTabsToDelete.end(), [tab](Tab* t) {
+            return t == tab;
+        });
+        if (iter2 != mTabsToDelete.end()) {
+            mTabsToDelete.erase(iter2);
+            delete tab;
         }
 
         if (tabIndexToBeSelected == -1) {
@@ -271,16 +270,16 @@ namespace fcn
 
     void TabbedArea::adjustSize()
     {
-        int totalTabWidth  = 0;
-        int totalTabHeight = 0;
-        int maxTabWidth    = 0;
-        int maxTabHeight   = 0;
+        // int totalTabWidth  = 0;  // UNUSED - possibly for future scrollable tabs feature
+        // int totalTabHeight = 0;  // UNUSED - possibly for future scrollable tabs feature
+        int maxTabWidth  = 0;
+        int maxTabHeight = 0;
 
-        Rectangle const area = getChildrenArea();
+        // Rectangle const area = getChildrenArea();  // UNUSED - possibly for future scrollable tabs feature
 
         for (unsigned int i = 0; i < mTabs.size(); i++) {
-            totalTabWidth += mTabs[i].first->getWidth();
-            totalTabHeight += mTabs[i].first->getHeight();
+            // totalTabWidth += mTabs[i].first->getWidth();   // UNUSED
+            // totalTabHeight += mTabs[i].first->getHeight(); // UNUSED
             if (mTabs[i].first->getWidth() > maxTabWidth) {
                 maxTabWidth = mTabs[i].first->getWidth();
             }
@@ -289,11 +288,11 @@ namespace fcn
             }
         }
 
-        if (getLayout() == Container::Vertical) {
+        if (getLayout() == Container::LayoutPolicy::Vertical) {
             mTabContainer->setSize(maxTabWidth, getHeight() - 2);
             mWidgetContainer->setSize(getWidth() - maxTabWidth - 2, getHeight() - 2);
             mWidgetContainer->setPosition(maxTabWidth + 1, 1);
-        } else if (getLayout() == Container::Horizontal) {
+        } else if (getLayout() == Container::LayoutPolicy::Horizontal) {
             mTabContainer->setSize(getWidth() - 2, maxTabHeight);
             mWidgetContainer->setSize(getWidth() - 2, getHeight() - maxTabHeight - 2);
             mWidgetContainer->setPosition(1, maxTabHeight + 1);
@@ -306,22 +305,18 @@ namespace fcn
         int maxTabHeight = 0;
         unsigned int i   = 0;
         for (i = 0; i < mTabs.size(); i++) {
-            if (mTabs[i].first->getWidth() > maxTabWidth) {
-                maxTabWidth = mTabs[i].first->getWidth();
-            }
-            if (mTabs[i].first->getHeight() > maxTabHeight) {
-                maxTabHeight = mTabs[i].first->getHeight();
-            }
+            maxTabWidth  = std::max(mTabs[i].first->getWidth(), maxTabWidth);
+            maxTabHeight = std::max(mTabs[i].first->getHeight(), maxTabHeight);
         }
 
-        if (getLayout() == Container::Vertical) {
+        if (getLayout() == Container::LayoutPolicy::Vertical) {
             int y = 0;
             for (i = 0; i < mTabs.size(); i++) {
                 Tab* tab = mTabs[i].first;
                 tab->setPosition(maxTabWidth - tab->getWidth(), y);
                 y += tab->getHeight();
             }
-        } else if (getLayout() == Container::Horizontal) {
+        } else if (getLayout() == Container::LayoutPolicy::Horizontal) {
             int x = 0;
             for (i = 0; i < mTabs.size(); i++) {
                 Tab* tab = mTabs[i].first;
@@ -336,8 +331,8 @@ namespace fcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setWidth as
         // Widget::setWidth might distribute a resize event.
-        fcn::Rectangle dim = mDimension;
-        mDimension.width   = width;
+        fcn::Rectangle const dim = mDimension;
+        mDimension.width         = width;
         adjustSize();
         mDimension = dim;
         Widget::setWidth(width);
@@ -348,8 +343,8 @@ namespace fcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setHeight as
         // Widget::setHeight might distribute a resize event.
-        fcn::Rectangle dim = mDimension;
-        mDimension.height  = height;
+        fcn::Rectangle const dim = mDimension;
+        mDimension.height        = height;
         adjustSize();
         mDimension = dim;
         Widget::setHeight(height);
@@ -360,9 +355,9 @@ namespace fcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setSize as
         // Widget::setSize might distribute a resize event.
-        fcn::Rectangle dim = mDimension;
-        mDimension.width   = width;
-        mDimension.height  = height;
+        fcn::Rectangle const dim = mDimension;
+        mDimension.width         = width;
+        mDimension.height        = height;
         adjustSize();
         mDimension = dim;
         Widget::setSize(width, height);
@@ -373,8 +368,8 @@ namespace fcn
         // This may seem odd, but we want the TabbedArea to adjust
         // it's size properly before we call Widget::setDimension as
         // Widget::setDimension might distribute a resize event.
-        fcn::Rectangle dim = mDimension;
-        mDimension         = dimension;
+        fcn::Rectangle const dim = mDimension;
+        mDimension               = dimension;
         adjustSize();
         mDimension = dim;
         Widget::setDimension(dimension);
@@ -392,9 +387,9 @@ namespace fcn
 
             if (index < 0) {
                 return;
-            } else {
-                setSelectedTab(mTabs[index].first);
             }
+
+            setSelectedTab(mTabs[index].first);
 
             keyEvent.consume();
         } else if (keyEvent.getKey().getValue() == Key::Right) {
@@ -403,9 +398,9 @@ namespace fcn
 
             if (index >= static_cast<int>(mTabs.size())) {
                 return;
-            } else {
-                setSelectedTab(mTabs[index].first);
             }
+
+            setSelectedTab(mTabs[index].first);
 
             keyEvent.consume();
         }
@@ -419,7 +414,7 @@ namespace fcn
         //{
         //    return;
         //}
-        if (mouseEvent.getButton() == MouseEvent::Left) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             Widget* widget = mTabContainer->getWidgetAt(mouseEvent.getX(), mouseEvent.getY());
             Tab* tab       = dynamic_cast<Tab*>(widget);
 

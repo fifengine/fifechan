@@ -22,9 +22,11 @@ Checks: >
   -misc-non-private-member-variables-in-classes
   modernize*,
   modernize-use-nullptr,
+  modernize-use-override,
   -modernize-use-auto,
   -modernize-use-trailing-return-type,
   -modernize-use-nodiscard,
+  performance-*,
   portability-*,
   readability-*,
   -readability-identifier-length,

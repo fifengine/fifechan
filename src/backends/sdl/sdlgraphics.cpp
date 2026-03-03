@@ -41,7 +41,7 @@ namespace fcn
     bool SDLGraphics::pushClipArea(Rectangle area)
     {
         SDL_Rect rect;
-        bool result = Graphics::pushClipArea(area);
+        bool const result = Graphics::pushClipArea(area);
 
         ClipRectangle const & clip_rect = mClipStack.top();
         rect.x                          = clip_rect.x;
@@ -229,7 +229,7 @@ namespace fcn
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + y * mTarget->pitch + x1 * bpp;
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (y * mTarget->pitch) + (x1 * bpp);
 
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
         switch (bpp) {
@@ -328,7 +328,7 @@ namespace fcn
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + y1 * mTarget->pitch + x * bpp;
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (y1 * mTarget->pitch) + (x * bpp);
 
         Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
 

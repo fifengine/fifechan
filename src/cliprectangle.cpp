@@ -8,11 +8,6 @@
 
 namespace fcn
 {
-    ClipRectangle::ClipRectangle()
-    {
-        x = y = width = height = xOffset = yOffset = 0;
-    }
-
     ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset) :
         xOffset(xOffset), yOffset(yOffset)
     {

@@ -17,9 +17,9 @@ namespace fcn
     Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
     {
         std::string::size_type lastPos = 0;
-        std::string::size_type pos     = content.find("\n", lastPos);
+        std::string::size_type pos     = content.find('\n', lastPos);
 
-        for (; pos != std::string::npos; pos = content.find("\n", lastPos)) {
+        for (; pos != std::string::npos; pos = content.find('\n', lastPos)) {
             int const length      = pos - lastPos;
             std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
@@ -46,7 +46,7 @@ namespace fcn
         std::string::size_type lastPos = 0;
         std::string::size_type pos     = 0;
 
-        for (; (pos = content.find("\n", lastPos)) != std::string::npos; lastPos = pos + 1) {
+        for (; (pos = content.find('\n', lastPos)) != std::string::npos; lastPos = pos + 1) {
             int const length      = pos - lastPos;
             std::string const sub = content.substr(lastPos, length);
             mRows.push_back(sub);
@@ -332,9 +332,7 @@ namespace fcn
         int width = 0;
         for (auto const & mRow : mRows) {
             int const w = font->getWidth(mRow);
-            if (width < w) {
-                width = w;
-            }
+            width       = std::max(width, w);
         }
 
         auto h = static_cast<int>(font->getHeight() * mRows.size());

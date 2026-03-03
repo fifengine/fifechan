@@ -7,6 +7,7 @@
 
 #include <list>
 #include <string>
+#include <type_traits>
 
 #include "fifechan/color.hpp"
 #include "fifechan/rectangle.hpp"
@@ -42,11 +43,11 @@ namespace fcn
         /**
          * Selection mode.
          */
-        enum SelectionMode
+        enum class SelectionMode : uint8_t
         {
-            Selection_None       = 0,
-            Selection_Border     = 1,
-            Selection_Background = 2
+            None       = 0,
+            Border     = 1,
+            Background = 2
         };
 
         /**
@@ -1745,6 +1746,35 @@ namespace fcn
         int mLastX;
         int mLastY;
     };
+} // namespace fcn
+
+#
+// Bitwise operators for Widget::SelectionMode (enum class)
+namespace fcn
+{
+    inline constexpr Widget::SelectionMode operator|(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    {
+        using T = std::underlying_type_t<Widget::SelectionMode>;
+        return static_cast<Widget::SelectionMode>(static_cast<T>(a) | static_cast<T>(b));
+    }
+
+    inline constexpr Widget::SelectionMode operator&(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    {
+        using T = std::underlying_type_t<Widget::SelectionMode>;
+        return static_cast<Widget::SelectionMode>(static_cast<T>(a) & static_cast<T>(b));
+    }
+
+    inline constexpr Widget::SelectionMode& operator|=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    {
+        a = a | b;
+        return a;
+    }
+
+    inline constexpr Widget::SelectionMode& operator&=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    {
+        a = a & b;
+        return a;
+    }
 } // namespace fcn
 
 #endif // INCLUDE_FIFECHAN_WIDGET_HPP_

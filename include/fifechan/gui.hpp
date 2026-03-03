@@ -324,8 +324,8 @@ namespace fcn
          * Distributes a mouse event.
          *
          * @param source The source widget of the event.
-         * @param type The type of the event to distribute,
-         * @param button The button of the event (if any used) to distribute.
+         * @param MouseEvent::Type type The type of the event to distribute,
+         * @param MouseInput::Button button The button of the event (if any used) to distribute.
          * @param x The x coordinate of the event.
          * @param y The y coordinate of the event.
          * @param force indicates whether the distribution should be forced or not.
@@ -339,7 +339,13 @@ namespace fcn
          *
          */
         virtual void distributeMouseEvent(
-            Widget* source, int type, int button, int x, int y, bool force = false, bool toSourceOnly = false);
+            Widget* source,
+            MouseEvent::Type type,
+            MouseEvent::Button button,
+            int x,
+            int y,
+            bool force        = false,
+            bool toSourceOnly = false);
 
         /**
          * Distributes a key event.

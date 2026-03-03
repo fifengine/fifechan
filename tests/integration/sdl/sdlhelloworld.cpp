@@ -185,13 +185,13 @@ int main(int argc, char** argv)
         run();
         halt();
     } catch (fcn::Exception e) {
-        std::cerr << e.getMessage() << std::endl;
+        std::cerr << e.getMessage() << '\n';
         return 1;
     } catch (std::exception e) {
-        std::cerr << "Std exception: " << e.what() << std::endl;
+        std::cerr << "Std exception: " << e.what() << '\n';
         return 1;
     } catch (...) {
-        std::cerr << "Unknown exception" << std::endl;
+        std::cerr << "Unknown exception" << '\n';
         return 1;
     }
 

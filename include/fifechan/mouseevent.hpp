@@ -5,6 +5,8 @@
 #ifndef INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
 #define INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
 
+#include <cstdint>
+
 #include "fifechan/inputevent.hpp"
 #include "fifechan/platform.hpp"
 
@@ -19,6 +21,37 @@ namespace fcn
     class FIFEGUI_API MouseEvent : public InputEvent
     {
     public:
+        /**
+         * Mouse event types.
+         */
+        enum class Type : std::uint8_t
+        {
+            Moved = 0,
+            Pressed,
+            Released,
+            WheelMovedDown,
+            WheelMovedUp,
+            WheelMovedRight,
+            WheelMovedLeft,
+            Clicked,
+            Entered,
+            Exited,
+            Dragged
+        };
+
+        /**
+         * Mouse button types
+         */
+        enum class Button : std::uint8_t
+        {
+            Empty = 0,
+            Left,
+            Middle,
+            Right,
+            X1,
+            X2
+        };
+
         /**
          * Constructor.
          *
@@ -42,8 +75,8 @@ namespace fcn
             bool isControlPressed,
             bool isAltPressed,
             bool isMetaPressed,
-            unsigned int type,
-            unsigned int button,
+            MouseEvent::Type type,
+            MouseEvent::Button button,
             int x,
             int y,
             int clickCount);
@@ -53,7 +86,7 @@ namespace fcn
          *
          * @return The button of the mouse event.
          */
-        unsigned int getButton() const;
+        MouseEvent::Button getButton() const;
 
         /**
          * Gets the x coordinate of the mouse event.
@@ -88,50 +121,18 @@ namespace fcn
          *
          * @return The type of the event.
          */
-        unsigned int getType() const;
-
-        /**
-         * Mouse event types.
-         */
-        enum
-        {
-            Moved = 0,
-            Pressed,
-            Released,
-            WheelMovedDown,
-            WheelMovedUp,
-            WheelMovedRight,
-            WheelMovedLeft,
-            Clicked,
-            Entered,
-            Exited,
-            Dragged
-
-        };
-
-        /**
-         * Mouse button types.
-         */
-        enum
-        {
-            Empty = 0,
-            Left,
-            Right,
-            Middle,
-            X1,
-            X2
-        };
+        MouseEvent::Type getType() const;
 
     protected:
         /**
          * Holds the type of the mouse event.
          */
-        unsigned int mType;
+        MouseEvent::Type mType;
 
         /**
          * Holds the button of the mouse event.
          */
-        unsigned int mButton;
+        MouseEvent::Button mButton;
 
         /**
          * Holds the x-coordinate of the mouse event.

@@ -32,11 +32,12 @@ namespace fcn
 #else
         unsigned int const magicPink = 0xffff00ff;
 #endif
-        int x, y;
+        int x;
+        int y;
         for (y = 0; y < mTextureHeight; y++) {
             for (x = 0; x < mTextureWidth; x++) {
                 if (x < mWidth && y < mHeight) {
-                    unsigned int c = pixels[x + y * mWidth];
+                    unsigned int const c = pixels[x + (y * mWidth)];
 
                     // Magic pink to transparent
                     if (c == magicPink) {
@@ -131,18 +132,18 @@ namespace fcn
                 ("Coordinates outside of the image"), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
         }
 
-        unsigned int c = mPixels[x + y * mTextureWidth];
+        unsigned int const c = mPixels[x + (y * mTextureWidth)];
 
 #ifdef __BIG_ENDIAN__
-        unsigned char r = (unsigned char)((c >> 24) & 0xff);
-        unsigned char g = (unsigned char)((c >> 16) & 0xff);
-        unsigned char b = (unsigned char)((c >> 8) & 0xff);
-        unsigned char a = (unsigned char)(c & 0xff);
+        const unsigned char r = (unsigned char)((c >> 24) & 0xff);
+        unsigned char const g = (unsigned char)((c >> 16) & 0xff);
+        unsigned char const b = (unsigned char)((c >> 8) & 0xff);
+        unsigned char const a = (unsigned char)(c & 0xff);
 #else
-        unsigned char a = (unsigned char)((c >> 24) & 0xff);
-        unsigned char b = (unsigned char)((c >> 16) & 0xff);
-        unsigned char g = (unsigned char)((c >> 8) & 0xff);
-        unsigned char r = (unsigned char)(c & 0xff);
+        const unsigned char a = (unsigned char)((c >> 24) & 0xff);
+        unsigned char const b = (unsigned char)((c >> 16) & 0xff);
+        unsigned char const g = (unsigned char)((c >> 8) & 0xff);
+        unsigned char const r = (unsigned char)(c & 0xff);
 #endif
 
         return Color(r, g, b, a);
@@ -164,12 +165,12 @@ namespace fcn
         }
 
 #ifdef __BIG_ENDIAN__
-        unsigned int c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
+        const unsigned int c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
 #else
-        unsigned int c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
+        const unsigned int c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
 #endif
 
-        mPixels[x + y * mTextureWidth] = c;
+        mPixels[x + (y * mTextureWidth)] = c;
     }
 
     void OpenGLImage::convertToDisplayFormat()
@@ -195,7 +196,7 @@ namespace fcn
 
         GLenum error = glGetError();
         if (error) {
-            std::string errmsg;
+            std::string errmsg = "";
             switch (error) {
             case GL_INVALID_ENUM:
                 errmsg = "GL_INVALID_ENUM";

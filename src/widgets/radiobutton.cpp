@@ -10,14 +10,14 @@ namespace fcn
 
     RadioButton::RadioButton()
     {
-        setMarkerStyle(Marker_Rhombus);
+        setMarkerStyle(MarkerStyle::Rhombus);
         setSelected(false);
         adjustSize();
     }
 
     RadioButton::RadioButton(std::string const & caption, std::string const & group, bool selected)
     {
-        setMarkerStyle(Marker_Rhombus);
+        setMarkerStyle(MarkerStyle::Rhombus);
         setCaption(caption);
         setGroup(group);
         setSelected(selected);
@@ -32,9 +32,10 @@ namespace fcn
 
     void RadioButton::setSelected(bool selected)
     {
-        if (selected && mGroup != "") {
+        if (selected && !mGroup.empty()) {
             // deselect all buttons in group
-            GroupIterator iter, iterEnd;
+            GroupIterator iter;
+            GroupIterator iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
 
             for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
@@ -55,8 +56,9 @@ namespace fcn
     void RadioButton::setGroup(std::string const & group)
     {
         // Remove button from previous group
-        if (mGroup != "") {
-            GroupIterator iter, iterEnd;
+        if (!mGroup.empty()) {
+            GroupIterator iter;
+            GroupIterator iterEnd;
             iterEnd = mGroupMap.upper_bound(mGroup);
 
             for (iter = mGroupMap.lower_bound(mGroup); iter != iterEnd; ++iter) {
@@ -67,7 +69,7 @@ namespace fcn
             }
         }
         // Add button to new group
-        if (group != "") {
+        if (!group.empty()) {
             mGroupMap.insert(std::pair<std::string, RadioButton*>(group, this));
         }
 

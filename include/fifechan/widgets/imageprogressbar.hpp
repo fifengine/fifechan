@@ -18,10 +18,10 @@ namespace fcn
     class FIFEGUI_API ImageProgressBar : public Widget
     {
     public:
-        enum Orientation
+        enum class Orientation : uint8_t
         {
-            HORIZONTAL = 0,
-            VERTICAL
+            Horizontal = 0,
+            Vertical
         };
 
         ImageProgressBar();

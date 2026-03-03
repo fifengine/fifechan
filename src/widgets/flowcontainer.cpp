@@ -11,7 +11,7 @@
 namespace fcn
 {
 
-    FlowContainer::FlowContainer() : mAlignment(Center)
+    FlowContainer::FlowContainer() : mAlignment(Alignment::Center)
     {
         setOpaque(true);
     }
@@ -31,11 +31,11 @@ namespace fcn
     void FlowContainer::adjustContent()
     {
         // diff means border, padding, ...
-        int diffW = std::abs(getDimension().width - getChildrenArea().width);
-        int diffH = std::abs(getDimension().height - getChildrenArea().height);
+        int const diffW = std::abs(getDimension().width - getChildrenArea().width);
+        int const diffH = std::abs(getDimension().height - getChildrenArea().height);
 
-        int containerW = getChildrenArea().width;
-        int containerH = getChildrenArea().height;
+        int const containerW = getChildrenArea().width;
+        int const containerH = getChildrenArea().height;
 
         // calculates max layout size per column or row
         std::vector<int> layoutMax;
@@ -52,7 +52,7 @@ namespace fcn
             }
             ++visibleChilds;
             Rectangle const & rec = child->getDimension();
-            if (mLayout == Vertical) {
+            if (mLayout == LayoutPolicy::Vertical) {
                 // new column
                 // negative bottom margin have no effect here
                 if (y + child->getMarginTop() + rec.height +
@@ -92,16 +92,16 @@ namespace fcn
         int totalW          = 0;
         int totalH          = 0;
         unsigned int layout = 0;
-        if (mLayout == Vertical && visibleChilds > 0) {
+        if (mLayout == LayoutPolicy::Vertical && visibleChilds > 0) {
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int columnW = layoutMax[layout];
-                int layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() +
-                              ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
+                int columnW       = layoutMax[layout];
+                int const layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() +
+                                    ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
                 Rectangle dim(
                     (*currChild)->getMarginLeft(), (*currChild)->getMarginTop(), layoutW, (*currChild)->getHeight());
 
@@ -118,13 +118,13 @@ namespace fcn
                 dim.y += y;
 
                 switch (getAlignment()) {
-                case Left:
+                case Alignment::Left:
                     dim.x += x;
                     break;
-                case Center:
+                case Alignment::Center:
                     dim.x += x + (columnW - layoutW) / 2;
                     break;
-                case Right:
+                case Alignment::Right:
                     dim.x += x + (columnW - layoutW);
                     break;
                 default:
@@ -145,16 +145,16 @@ namespace fcn
             if (isHorizontalExpand()) {
                 totalW = std::max(totalW, containerW);
             }
-        } else if (mLayout == Horizontal && visibleChilds > 0) {
+        } else if (mLayout == LayoutPolicy::Horizontal && visibleChilds > 0) {
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int rowH    = layoutMax[layout];
-                int layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() +
-                              ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
+                int rowH          = layoutMax[layout];
+                int const layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() +
+                                    ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
                 Rectangle dim(
                     (*currChild)->getMarginLeft(), (*currChild)->getMarginTop(), (*currChild)->getWidth(), layoutH);
 
@@ -171,13 +171,13 @@ namespace fcn
                 dim.x += x;
 
                 switch (getAlignment()) {
-                case Top:
+                case Alignment::Top:
                     dim.y += y;
                     break;
-                case Center:
+                case Alignment::Center:
                     dim.y += y + (rowH - layoutH) / 2;
                     break;
-                case Bottom:
+                case Alignment::Bottom:
                     dim.y += y + (rowH - layoutH);
                     break;
                 default:
@@ -208,7 +208,7 @@ namespace fcn
 
     void FlowContainer::setLayout(Container::LayoutPolicy policy)
     {
-        if (policy == Circular) {
+        if (policy == LayoutPolicy::Circular) {
             fcn::throwException(
                 "Circular layout is not implemented for the FlowContainer.",
                 static_cast<char const *>(__FUNCTION__),
@@ -223,7 +223,7 @@ namespace fcn
     {
         if (recursion) {
             std::list<Widget*>::const_iterator currChild(mChildren.begin());
-            std::list<Widget*>::const_iterator endChildren(mChildren.end());
+            std::list<Widget*>::const_iterator const endChildren(mChildren.end());
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -232,8 +232,8 @@ namespace fcn
             }
         }
 
-        if (mLayout != Absolute) {
-            if (getParent()) {
+        if (mLayout != Container::LayoutPolicy::Absolute) {
+            if (getParent() != nullptr) {
                 setSize(getMinSize().getWidth(), getMinSize().getHeight());
             }
         }
@@ -241,13 +241,13 @@ namespace fcn
 
     void FlowContainer::expandContent(bool recursion)
     {
-        if (mLayout != Absolute) {
+        if (mLayout != Container::LayoutPolicy::Absolute) {
             adjustContent();
         }
         // not really needed
         if (recursion) {
             std::list<Widget*>::const_iterator currChild(mChildren.begin());
-            std::list<Widget*>::const_iterator endChildren(mChildren.end());
+            std::list<Widget*>::const_iterator const endChildren(mChildren.end());
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;

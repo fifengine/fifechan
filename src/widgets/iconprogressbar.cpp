@@ -11,7 +11,12 @@
 namespace fcn
 {
     IconProgressBar::IconProgressBar() :
-        mImage(nullptr), mInternalImage(false), mMaxIcons(0), mIconCounter(0), mOrientation(HORIZONTAL), mOpaque(true)
+        mImage(nullptr),
+        mInternalImage(false),
+        mMaxIcons(0),
+        mIconCounter(0),
+        mOrientation(Orientation::Horizontal),
+        mOpaque(true)
     {
     }
 
@@ -20,7 +25,7 @@ namespace fcn
         mInternalImage(false),
         mMaxIcons(maxIcons),
         mIconCounter(0),
-        mOrientation(HORIZONTAL),
+        mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
         adjustSize();
@@ -31,7 +36,7 @@ namespace fcn
         mInternalImage(true),
         mMaxIcons(maxIcons),
         mIconCounter(0),
-        mOrientation(HORIZONTAL),
+        mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
         mImage = Image::load(filename);
@@ -47,33 +52,37 @@ namespace fcn
 
     void IconProgressBar::draw(Graphics* graphics)
     {
-        bool active = isFocused();
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
             }
         }
-        if (!mImage) {
+        if (mImage == nullptr) {
             return;
         }
         // draw "icons"
         int x = getBorderSize() + getPaddingLeft();
         int y = getBorderSize() + getPaddingTop();
-        if (mOrientation == HORIZONTAL) {
+        if (mOrientation == Orientation::Horizontal) {
             for (int i = 0; i < mIconCounter; i++) {
                 graphics->drawImage(mImage, x, y);
                 x += mImage->getWidth();
@@ -127,7 +136,7 @@ namespace fcn
     void IconProgressBar::setOrientation(Orientation orientation)
     {
         if (mOrientation != orientation) {
-            if (orientation != HORIZONTAL && orientation != VERTICAL) {
+            if (orientation != Orientation::Horizontal && orientation != Orientation::Vertical) {
                 fcn::throwException(
                     "Unknown orientation type in IconProgressBar object",
                     static_cast<char const *>(__FUNCTION__),
@@ -174,10 +183,10 @@ namespace fcn
     {
         int w = 0;
         int h = 0;
-        if (mImage) {
+        if (mImage != nullptr) {
             w = mImage->getWidth();
             h = mImage->getHeight();
-            if (mOrientation == HORIZONTAL) {
+            if (mOrientation == Orientation::Horizontal) {
                 w *= mMaxIcons;
             } else {
                 h *= mMaxIcons;

@@ -15,21 +15,21 @@ namespace fcn
         bool isControlPressed,
         bool isAltPressed,
         bool isMetaPressed,
-        unsigned int type,
-        unsigned int button,
+        MouseEvent::Type type,
+        MouseEvent::Button button,
         int x,
         int y,
         int clickCount) :
         InputEvent(source, distributor, isShiftPressed, isControlPressed, isAltPressed, isMetaPressed),
         mType(type),
-        mButton(button),
+        mButton(static_cast<MouseEvent::Button>(button)),
         mX(x),
         mY(y),
         mClickCount(clickCount)
     {
     }
 
-    unsigned int MouseEvent::getButton() const
+    MouseEvent::Button MouseEvent::getButton() const
     {
         return mButton;
     }
@@ -49,7 +49,7 @@ namespace fcn
         return mClickCount;
     }
 
-    unsigned int MouseEvent::getType() const
+    MouseEvent::Type MouseEvent::getType() const
     {
         return mType;
     }

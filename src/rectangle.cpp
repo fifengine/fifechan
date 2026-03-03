@@ -53,6 +53,10 @@ namespace fcn
 
     bool Rectangle::isContaining(int x_, int y_) const
     {
+        if (isEmpty()) {
+            return false;
+        }
+
         return x_ >= x && y_ >= y && x_ < x + width && y_ < y + height;
     }
 

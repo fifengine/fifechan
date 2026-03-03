@@ -19,7 +19,7 @@ namespace fcn
     class FIFEGUI_API DefaultFont : public Font
     {
     public:
-        virtual ~DefaultFont() = default;
+        ~DefaultFont() override = default;
 
         /**
          * Draws a glyph as a rectangle. The glyphs will always be drawn as

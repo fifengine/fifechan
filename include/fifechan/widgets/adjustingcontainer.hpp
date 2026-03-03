@@ -83,6 +83,20 @@ namespace fcn
     class FIFEGUI_API AdjustingContainer : public Container
     {
     public:
+        /**
+         * Possible alignment values for each column.
+         *
+         * LEFT   - Align content to the left of the column.
+         * MIDDLE - Align content to the middle of the column.
+         * RIGHT  - Align content to the right of the column.
+         */
+        enum class Alignment : uint8_t
+        {
+            Left = 0,
+            Center,
+            Right
+        };
+
         AdjustingContainer();
 
         virtual ~AdjustingContainer();
@@ -112,7 +126,7 @@ namespace fcn
          * @param column the column number, starting from 0.
          * @param alignment the column's alignment. See enum with alignments.
          */
-        virtual void setColumnAlignment(unsigned int column, unsigned int alignment);
+        virtual void setColumnAlignment(unsigned int column, Alignment alignment);
 
         /**
          * Get a specific column's alignment.
@@ -120,7 +134,7 @@ namespace fcn
          * @param column the column number, starting from 0.
          * @return The column's alignment. See enum with alignments.
          */
-        virtual unsigned int getColumnAlignment(unsigned int column) const;
+        Alignment getColumnAlignment(unsigned int column) const;
 
         /**
          * Rearrange the widgets and resize the container.
@@ -147,24 +161,13 @@ namespace fcn
 
         virtual void clear();
 
-        /**
-         * Possible alignment values for each column.
-         *
-         * LEFT   - Align content to the left of the column.
-         * MIDDLE - Align content to the middle of the column.
-         * RIGHT  - Align content to the right of the column.
-         */
-        enum
-        {
-            LEFT = 0,
-            CENTER,
-            RIGHT
-        };
-
     protected:
         std::vector<Widget*> mContainedWidgets;
         std::vector<unsigned int> mColumnWidths;
-        std::vector<unsigned int> mColumnAlignment;
+        /**
+         * The alignment of each column.
+         */
+        std::vector<Alignment> mColumnAlignment;
         std::vector<unsigned int> mRowHeights;
         unsigned int mWidth;
         unsigned int mHeight;

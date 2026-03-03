@@ -19,7 +19,7 @@ namespace fcn
         setInnerBorderSize(1);
         setPadding(2);
         setTitleBarHeight(16);
-        setAlignment(Graphics::Center);
+        setAlignment(Graphics::Alignment::Center);
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
@@ -32,7 +32,7 @@ namespace fcn
         setInnerBorderSize(1);
         setPadding(2);
         setTitleBarHeight(16);
-        setAlignment(Graphics::Center);
+        setAlignment(Graphics::Alignment::Center);
         addMouseListener(this);
         setMovable(true);
         setOpaque(true);
@@ -150,13 +150,13 @@ namespace fcn
         int const textY = (static_cast<int>(getTitleBarHeight()) - getFont()->getHeight()) / 2;
 
         switch (getAlignment()) {
-        case Graphics::Left:
+        case Graphics::Alignment::Left:
             textX = 0;
             break;
-        case Graphics::Center:
+        case Graphics::Alignment::Center:
             textX = (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight()) / 2;
             break;
-        case Graphics::Right:
+        case Graphics::Alignment::Right:
             textX = getWidth() - getBorderSize() - getPaddingRight();
             break;
         default:

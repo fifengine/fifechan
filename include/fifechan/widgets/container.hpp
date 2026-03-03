@@ -29,7 +29,7 @@ namespace fcn
         /**
          * The layout policy of the container.
          */
-        enum LayoutPolicy
+        enum class LayoutPolicy : uint8_t
         {
             Absolute,
             AutoSize,
@@ -148,7 +148,7 @@ namespace fcn
         virtual Rectangle getChildrenArea();
         virtual bool isLayouted()
         {
-            return mLayout != Absolute;
+            return mLayout != LayoutPolicy::Absolute;
         };
 
         /**

@@ -59,29 +59,37 @@ namespace fcn
 
     SDL_Surface* SDLImageLoader::convertToStandardFormat(SDL_Surface* surface)
     {
-        Uint32 rmask, gmask, bmask, amask;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        rmask = 0xff000000;
-        gmask = 0x00ff0000;
-        bmask = 0x0000ff00;
-        amask = 0x000000ff;
-#else
-        rmask = 0x000000ff;
-        gmask = 0x0000ff00;
-        bmask = 0x00ff0000;
-        amask = 0xff000000;
-#endif
-
-        SDL_Surface* colorSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, 0, 0, 32, rmask, gmask, bmask, amask);
-
-        SDL_Surface* tmp = nullptr;
-
-        if (colorSurface != nullptr) {
-            tmp = SDL_ConvertSurface(surface, colorSurface->format, SDL_SWSURFACE);
-            SDL_FreeSurface(colorSurface);
+        if (surface == nullptr) {
+            return nullptr;
         }
 
-        return tmp;
+        // SDL interprets each pixel as a 32-bit number.
+        // We need to mask depending on the endianness (byte order) of the machine.
+        // Rmask being 0xFF000000 means the red data is stored in the most significant byte
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        uint32_t rmask = 0xff000000;
+        uint32_t gmask = 0x00ff0000;
+        uint32_t bmask = 0x0000ff00;
+        uint32_t amask = 0x000000ff;
+#else
+        uint32_t rmask = 0x000000ff;
+        uint32_t gmask = 0x0000ff00;
+        uint32_t bmask = 0x00ff0000;
+        uint32_t amask = 0xff000000;
+#endif
+
+        // Create a 32-bit color surface to standardize format
+        auto targetFormatSurface = SDL_CreateRGBSurface(0, surface->w, surface->h, 32, rmask, gmask, bmask, amask);
+
+        if (targetFormatSurface == nullptr) {
+            return nullptr;
+        }
+
+        // Convert the original surface to the standard format
+        auto converted = SDL_ConvertSurface(surface, targetFormatSurface->format, 0);
+        SDL_FreeSurface(targetFormatSurface);
+
+        return converted;
     }
 
     SDL_PixelFormat const & SDLImageLoader::getSDLPixelFormat()

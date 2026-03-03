@@ -5,6 +5,8 @@
 #ifndef INCLUDE_FIFECHAN_KEYEVENT_HPP_
 #define INCLUDE_FIFECHAN_KEYEVENT_HPP_
 
+#include <cstdint>
+
 #include "fifechan/inputevent.hpp"
 #include "fifechan/key.hpp"
 #include "fifechan/platform.hpp"
@@ -22,7 +24,7 @@ namespace fcn
         /**
          * Key event types.
          */
-        enum
+        enum class Type : std::uint8_t
         {
             Pressed = 0,
             Released

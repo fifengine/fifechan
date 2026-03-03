@@ -21,10 +21,23 @@ namespace fcn
         PointGraph();
         explicit PointGraph(PointVector const & data);
 
-        virtual ~PointGraph() { }
+        ~PointGraph() override = default;
 
+        /**
+         * Sets the data to draw.
+         *
+         * @param data The data to draw.
+         */
         void setPointVector(PointVector const & data);
+
+        /**
+         * @return The data to draw.
+         */
         PointVector const & getPointVector() const;
+
+        /**
+         * Resets the data to draw.
+         */
         void resetPointVector();
 
         void setThickness(unsigned int thickness);

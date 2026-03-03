@@ -20,7 +20,7 @@ namespace fcn
          */
         explicit Size(int width = 0, int height = 0);
 
-        ~Size();
+        ~Size() = default;
 
         /**
          * @return Width of size.
