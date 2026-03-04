@@ -5,9 +5,9 @@
 #include "fifechan/widget.hpp"
 
 #include <algorithm>
+#include <iostream>
 #include <list>
 #include <string>
-#include <iostream>
 
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"

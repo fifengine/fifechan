@@ -2,11 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/widgets/imagebutton.hpp"
-#include <vector>
-#include <string>
+#include "fifechan/widgets/imagebutton.hpp" ^
 
 #include <algorithm>
+#include <string>
+#include <vector>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -161,7 +161,7 @@ namespace fcn
         return mImages[static_cast<size_t>(ImageType::Hover_Inactive)];
     }
 
-    void ImageButton::resizeToContent(bool /*recursion*/)
+    void ImageButton::resizeToContent(/*bool recursion*/)
     {
         adjustSize();
     }

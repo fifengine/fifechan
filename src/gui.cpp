@@ -4,6 +4,10 @@
 
 #include "fifechan/gui.hpp"
 
+#include <list>
+#include <queue>
+#include <set>
+
 #include "fifechan/deathlistener.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
@@ -18,9 +22,6 @@
 #include "fifechan/rectangle.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widget.hpp"
-#include <queue>
-#include <list>
-#include <set>
 
 namespace fcn
 {

@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/slider.hpp"
+
 #include <algorithm>
 
 #include "fifechan/graphics.hpp"

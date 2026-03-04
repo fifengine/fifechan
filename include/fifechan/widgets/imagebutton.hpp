@@ -199,7 +199,7 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
+        virtual void resizeToContent(/*bool recursion = true*/);
         virtual void adjustSize();
         virtual void draw(fcn::Graphics* graphics);
 

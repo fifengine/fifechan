@@ -3,10 +3,11 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include <fifechan/widgets/piegraph.hpp>
-#include <vector>
 
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
+
+#include <vector>
 
 namespace fcn
 {

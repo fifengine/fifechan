@@ -5,9 +5,9 @@
 #include "fifechan/widgets/container.hpp"
 
 #include <algorithm>
+#include <list>
 #include <set>
 #include <string>
-#include <list>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"

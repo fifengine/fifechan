@@ -4,8 +4,8 @@
 
 #include "fifechan/text.hpp"
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

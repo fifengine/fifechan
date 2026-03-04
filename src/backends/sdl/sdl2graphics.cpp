@@ -5,12 +5,13 @@
 
 #include "fifechan/backends/sdl/sdl2graphics.hpp"
 
+#include <vector>
+
 #include "fifechan/backends/sdl/sdlimage.hpp"
 #include "fifechan/backends/sdl/sdlpixel.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
-#include <vector>
 
 namespace fcn
 {

@@ -5,8 +5,8 @@
 #include "fifechan/widgets/flowcontainer.hpp"
 
 #include <algorithm>
-#include <vector>
 #include <list>
+#include <vector>
 
 #include "fifechan/exception.hpp"
 

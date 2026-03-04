@@ -3,9 +3,9 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/window.hpp"
-#include <string>
 
 #include <algorithm>
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
