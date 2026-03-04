@@ -66,16 +66,11 @@ namespace fcn
     Color DirectX3DImage::getPixel(int x, int y)
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Image has been converted to display format"),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            fcn::throwException(
-                ("Coordinates outside of the image"), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException(("Coordinates outside of the image"));
         }
 
         D3DLOCKED_RECT lockedRect;
@@ -90,16 +85,11 @@ namespace fcn
     void DirectX3DImage::putPixel(int x, int y, Color const & color)
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Image has been converted to display format"),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Image has been converted to display format");
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            fcn::throwException(
-                ("Coordinates outside of the image"), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException(("Coordinates outside of the image"));
         }
 
         D3DLOCKED_RECT lockedRect;
@@ -115,11 +105,7 @@ namespace fcn
         result = D3DXCreateTexture(
             mDevice, mTextureWidth, mTextureHeight, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture);
         if (result != D3D_OK) {
-            fcn::throwException(
-                ("Unable to convert image to display format!"),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Unable to convert image to display format!");
         }
 
         LPDIRECT3DSURFACE9 textureSurface;
@@ -132,11 +118,7 @@ namespace fcn
         dest.bottom = mHeight;
         result = D3DXLoadSurfaceFromSurface(textureSurface, NULL, &dest, mSurface, NULL, NULL, D3DX_FILTER_NONE, 0);
         if (result != D3D_OK) {
-            fcn::throwException(
-                ("Unable to convert image to display format!"),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Unable to convert image to display format!");
         }
 
         mSurface->Release();

@@ -161,7 +161,7 @@ namespace fcn
             textX = getWidth() - getBorderSize() - getPaddingRight();
             break;
         default:
-            fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Unknown alignment.");
         }
         // text clip area
         Rectangle const rec(

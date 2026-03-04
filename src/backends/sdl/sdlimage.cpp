@@ -41,11 +41,7 @@ namespace fcn
     int SDLImage::getWidth() const
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Trying to get the width of a non loaded image."),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to get the width of a non loaded image.");
         }
 
         return mSurface->w;
@@ -54,11 +50,7 @@ namespace fcn
     int SDLImage::getHeight() const
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Trying to get the height of a non loaded image."),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to get the height of a non loaded image.");
         }
 
         return mSurface->h;
@@ -67,11 +59,7 @@ namespace fcn
     Color SDLImage::getPixel(int x, int y)
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Trying to get a pixel from a non loaded image."),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to get a pixel from a non loaded image.");
         }
 
         return SDLgetPixel(mSurface, x, y);
@@ -80,11 +68,7 @@ namespace fcn
     void SDLImage::putPixel(int x, int y, Color const & color)
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Trying to put a pixel in a non loaded image."),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to put a pixel in a non loaded image.");
         }
 
         SDLputPixel(mSurface, x, y, color);
@@ -93,11 +77,7 @@ namespace fcn
     void SDLImage::convertToDisplayFormat()
     {
         if (mSurface == nullptr) {
-            fcn::throwException(
-                ("Trying to convert a non loaded image to display format."),
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to convert a non loaded image to display format.");
         }
 
         int i;

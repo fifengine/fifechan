@@ -130,8 +130,7 @@ namespace fcn
                     dim.x += x + (columnW - layoutW);
                     break;
                 default:
-                    fcn::throwException(
-                        "Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                    throwException("Unknown alignment.");
                 }
 
                 (*currChild)->setDimension(dim);
@@ -183,8 +182,7 @@ namespace fcn
                     dim.y += y + (rowH - layoutH);
                     break;
                 default:
-                    fcn::throwException(
-                        "Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                    throwException("Unknown alignment.");
                 }
 
                 (*currChild)->setDimension(dim);
@@ -211,11 +209,7 @@ namespace fcn
     void FlowContainer::setLayout(Container::LayoutPolicy policy)
     {
         if (policy == LayoutPolicy::Circular) {
-            fcn::throwException(
-                "Circular layout is not implemented for the FlowContainer.",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Circular layout is not implemented for the FlowContainer.");
         } else {
             Container::setLayout(policy);
         }

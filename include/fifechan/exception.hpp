@@ -1,110 +1,133 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_EXCEPTION_HPP_
 #define INCLUDE_FIFECHAN_EXCEPTION_HPP_
 
+#include <source_location>
 #include <stdexcept>
 #include <string>
-#include <utility> // For std::move
+#include <utility>
 
 #include "fifechan/platform.hpp"
 
 namespace fcn
 {
-
     /**
-     * An exception containing a message, a file and a line number
-     * where the exception occurred. This class is used to throw
-     * exceptions in the GUI code. The exception will contain the
-     * filename and line number where the exception was thrown.
-     * This makes it easier to find the source of the exception.
-     * The exception will also contain the function name where the
-     * exception was thrown.
-     * The exception is thrown using the fcn::throwException function.
+     * An exception class containing a message, a file, and a line number
+     * where the exception occurred. This class is used to throw exceptions
+     * in the GUI code with detailed information about the source location.
+     * The exception will contain the filename, line number, and function name
+     * where the exception was thrown. This makes it easier to identify the source
+     * of the exception.
+     *
+     * The exception is thrown using the `fcn::throwException` function, which
+     * automatically captures the source location (filename, line number, and function name).
      *
      * EXAMPLE:
      * @code
-     * fcn::throwException("my error message", static_cast<const char*>(__FUNCTION__), __FILE__, __LINE__);
+     * throwException("my error message");
      * @endcode
+     *
+     * This is a header only class and so its not exported via FIFEGUI_API.
      */
-    class FIFEGUI_API Exception : public std::runtime_error
+    class /*FIFEGUI_API*/ Exception : public std::runtime_error
     {
     public:
         /**
-         * Constructor.
+         * Constructor that takes a message and source location.
          *
          * @param message The error message of the exception.
-         * @param function The function name where the exception occurred.
-         * @param filename The name of the file where the exception occurred.
-         * @param line The line number in the source code where the exception
-         *             occurred.
+         * @param location The source location of where the exception occurred.
          */
-        Exception(std::string message, std::string function, std::string filename, unsigned int line);
+        explicit Exception(std::string message, std::source_location location = std::source_location::current()) :
+            std::runtime_error(message),  // Pass by reference, do not move.
+            mMessage(std::move(message)), // Move only once into mMessage.
+            mFunction(location.function_name()),
+            mFilename(location.file_name()),
+            mLine(location.line())
+        {
+        }
 
         /**
          * Returns a pointer to a null-terminated string with a description of the exception.
          *
          * @return const char* A pointer to a null-terminated string with a description of the exception.
          */
-        char const * what() const noexcept override;
+        char const * what() const noexcept override
+        {
+            return mMessage.c_str();
+        }
 
         /**
          * Gets the function name where the exception occurred.
          *
          * @return The function name where the exception occurred.
          */
-        std::string const & getFunction() const;
+        std::string const & getFunction() const
+        {
+            return mFunction;
+        };
 
         /**
-         * Gets the error message of the exception.
+         * Gets the message of the exception.
          *
-         * @return The error message of the exception.
+         * @return The message of the exception.
          */
-        std::string const & getMessage() const;
+        std::string const & getMessage() const
+        {
+            return mMessage;
+        };
 
         /**
          * Gets the filename where the exception occurred.
          *
          * @return The filename where the exception occurred.
          */
-        std::string const & getFilename() const;
+        std::string const & getFilename() const
+        {
+            return mFilename;
+        };
 
         /**
          * Gets the line number where the exception occurred.
          *
          * @return The line number where the exception occurred.
          */
-        unsigned int getLine() const;
+        unsigned int getLine() const
+        {
+            return mLine;
+        };
 
     private:
         /**
-         * Holds the name of the function name where the exception occurred.
-         */
-        std::string mFunction;
-
-        /**
          * Holds the error message of the exception.
          */
-        std::string mMessage;
+        std::string mMessage = "Message?";
+
+        /**
+         * Holds the name of the function name where the exception occurred.
+         */
+        std::string mFunction = "Function?";
 
         /**
          * Holds the filename where the exception occurred.
          */
-        std::string mFilename;
+        std::string mFilename = "Filename?";
 
         /**
          * Holds the line number where the exception occurred.
          */
-        unsigned int mLine;
+        unsigned int mLine = 0;
     };
 
     inline void throwException(
-        std::string const & message, std::string const & function, std::string const & filename, unsigned int line)
+        std::string const & message, std::source_location location = std::source_location::current())
     {
-        throw Exception(message, function, filename, line);
+        throw Exception(message, location);
     }
+
 } // namespace fcn
 
 #endif // INCLUDE_FIFECHAN_EXCEPTION_HPP_

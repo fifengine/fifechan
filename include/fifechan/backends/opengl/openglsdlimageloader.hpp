@@ -29,7 +29,7 @@ namespace fcn
 
             if (loadedSurface == nullptr) {
                 std::string msg = std::string("Unable to load image file: " + filename);
-                fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                throwException(msg);
             }
 
             SDL_Surface* surface = convertToStandardFormat(loadedSurface);
@@ -37,7 +37,7 @@ namespace fcn
 
             if (surface == nullptr) {
                 std::string msg = std::string("Not enough memory to load: " + filename);
-                fcn::throwException(msg, static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                throwException(msg);
             }
 
             OpenGLImage* image =

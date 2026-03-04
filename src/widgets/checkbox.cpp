@@ -137,7 +137,7 @@ namespace fcn
                     drawDot(graphics, rec);
                     break;
                 default:
-                    fcn::throwException("Unknown marker.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                    throwException("Unknown marker.");
                 }
             }
         }

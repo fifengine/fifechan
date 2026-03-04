@@ -31,7 +31,7 @@ namespace fcn
 
         // Check for corrupt image (all pixels are separator color)
         if (startColumn >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Corrupt image.");
         }
 
         // Find the height of glyphs
@@ -67,7 +67,7 @@ namespace fcn
     {
 
         if (image == nullptr) {
-            fcn::throwException("Font image is NULL", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Font image is NULL");
         }
         mImage = image;
 
@@ -77,7 +77,7 @@ namespace fcn
         for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) { }
 
         if (i >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Corrupt image.");
         }
 
         int j = 0;
@@ -117,7 +117,7 @@ namespace fcn
         for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) { }
 
         if (i >= mImage->getWidth()) {
-            fcn::throwException("Corrupt image.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Corrupt image.");
         }
 
         int j = 0;
@@ -226,7 +226,7 @@ namespace fcn
                 if (y >= mImage->getHeight()) {
                     std::ostringstream os;
                     os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
-                    fcn::throwException(os.str(), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                    throwException(os.str());
                 }
             }
             color = mImage->getPixel(x, y);
@@ -243,7 +243,7 @@ namespace fcn
             if (x + width >= mImage->getWidth()) {
                 std::ostringstream os;
                 os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
-                fcn::throwException(os.str(), static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                throwException(os.str());
             }
             color = mImage->getPixel(x + width, y);
             if (color == separator) {

@@ -55,11 +55,7 @@ namespace fcn
     {
 
         if (mClipStack.empty()) {
-            fcn::throwException(
-                "Tried to pop clip area from empty stack.",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Tried to pop clip area from empty stack.");
         }
 
         mClipStack.pop();
@@ -68,8 +64,7 @@ namespace fcn
     ClipRectangle const & Graphics::getCurrentClipArea()
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
-                "The clip area stack is empty.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("The clip area stack is empty.");
         }
 
         return mClipStack.top();
@@ -88,7 +83,7 @@ namespace fcn
     void Graphics::drawText(std::string const & text, int x, int y, Alignment alignment)
     {
         if (mFont == nullptr) {
-            fcn::throwException("No font set.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("No font set.");
         }
 
         switch (alignment) {
@@ -102,7 +97,7 @@ namespace fcn
             mFont->drawString(this, text, x - mFont->getWidth(text), y);
             break;
         default:
-            fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+            throwException("Unknown alignment.");
         }
     }
 } // namespace fcn

@@ -31,11 +31,7 @@ namespace fcn
     Image* Image::load(std::string const & filename, bool convertToDisplayFormat)
     {
         if (mImageLoader == nullptr) {
-            fcn::throwException(
-                "Trying to load an image but no image loader is set.",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to load an image but no image loader is set.");
         }
 
         return mImageLoader->load(filename, convertToDisplayFormat);

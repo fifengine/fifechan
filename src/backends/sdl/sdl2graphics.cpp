@@ -96,12 +96,9 @@ namespace fcn
     void SDL2Graphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -124,11 +121,7 @@ namespace fcn
         SDLImage const * srcImage = dynamic_cast<SDLImage const *>(image);
 
         if (srcImage == nullptr) {
-            fcn::throwException(
-                "Trying to draw an image of unknown format, must be an SDLImage.",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+            throwException("Trying to draw an image of unknown format, must be an SDLImage.");
         }
 
         if (srcImage->getTexture() == nullptr) {
@@ -144,12 +137,9 @@ namespace fcn
     void SDL2Graphics::fillRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -195,12 +185,9 @@ namespace fcn
     void SDL2Graphics::drawPoint(int x, int y)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
 
         ClipRectangle const & top = mClipStack.top();
@@ -230,12 +217,9 @@ namespace fcn
     void SDL2Graphics::drawHLine(int x1, int y, int x2)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -276,12 +260,9 @@ namespace fcn
     void SDL2Graphics::drawVLine(int x, int y1, int y2)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -337,12 +318,9 @@ namespace fcn
     {
 
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -361,12 +339,9 @@ namespace fcn
     void SDL2Graphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -401,12 +376,9 @@ namespace fcn
     void SDL2Graphics::drawFillCircle(fcn::Point const & center, unsigned int radius)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -455,12 +427,9 @@ namespace fcn
         fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -501,12 +470,9 @@ namespace fcn
     void SDL2Graphics::drawCircle(fcn::Point const & center, unsigned int radius)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -559,12 +525,9 @@ namespace fcn
     void SDL2Graphics::drawCircleSegment(fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -639,12 +602,9 @@ namespace fcn
     void SDL2Graphics::drawBezier(std::vector<fcn::Point> const & controlPoints, int segments, unsigned int width)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -675,12 +635,9 @@ namespace fcn
     void SDL2Graphics::drawPolyLine(std::vector<fcn::Point> const & points, unsigned int width)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
 
         if (points.size() < 2) {
@@ -719,12 +676,9 @@ namespace fcn
     void SDL2Graphics::drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 
@@ -747,12 +701,9 @@ namespace fcn
     void SDL2Graphics::drawSDLTexture(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination)
     {
         if (mClipStack.empty()) {
-            fcn::throwException(
+            throwException(
                 "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?",
-                static_cast<char const *>(__FUNCTION__),
-                __FILE__,
-                __LINE__);
+                "called a draw function outside of _beginDraw() and _endDraw()?");
         }
         ClipRectangle const & top = mClipStack.top();
 

@@ -164,8 +164,8 @@ namespace fcn
         case Graphics::Alignment::Right:
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
-        default:
-            fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+        default:);
+            throwException("Unknown alignment.");
         }
 
         // set font and color

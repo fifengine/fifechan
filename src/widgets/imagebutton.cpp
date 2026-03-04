@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/widgets/imagebutton.hpp" ^
+#include "fifechan/widgets/imagebutton.hpp"
 
 #include <algorithm>
 #include <string>
@@ -265,7 +265,7 @@ namespace fcn
                 textX = getWidth() - offsetRec.x - getPaddingRight();
                 break;
             default:
-                fcn::throwException("Unknown alignment.", static_cast<char const *>(__FUNCTION__), __FILE__, __LINE__);
+                throwException("Unknown alignment.");
             }
             // set font and color
             graphics->setFont(getFont());
