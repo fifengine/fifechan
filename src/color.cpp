@@ -4,6 +4,10 @@
 
 #include "fifechan/color.hpp"
 
+#include <algorithm>
+#include <string>
+#include <vector>
+
 namespace fcn
 {
     // Constructs a color from the bytes in an integer (int).
