@@ -18,6 +18,9 @@
 #include "fifechan/rectangle.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widget.hpp"
+#include <queue>
+#include <list>
+#include <set>
 
 namespace fcn
 {

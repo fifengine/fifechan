@@ -5,6 +5,7 @@
 #include "fifechan/text.hpp"
 
 #include <string>
+#include <algorithm>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

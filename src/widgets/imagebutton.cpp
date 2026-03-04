@@ -3,6 +3,8 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/imagebutton.hpp"
+#include <vector>
+#include <string>
 
 #include <algorithm>
 

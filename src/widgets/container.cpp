@@ -6,6 +6,8 @@
 
 #include <algorithm>
 #include <set>
+#include <string>
+#include <list>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"

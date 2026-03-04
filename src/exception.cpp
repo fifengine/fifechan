@@ -3,6 +3,8 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/exception.hpp"
+#include <utility>
+#include <string>
 
 namespace fcn
 {

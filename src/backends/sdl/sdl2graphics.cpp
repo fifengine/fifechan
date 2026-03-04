@@ -10,6 +10,7 @@
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
+#include <vector>
 
 namespace fcn
 {

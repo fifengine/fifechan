@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/backends/sdl/sdltruetypefont.hpp"
+#include <string>
 
 #include "fifechan/backends/sdl/sdlgraphics.hpp"
 #include "fifechan/exception.hpp"

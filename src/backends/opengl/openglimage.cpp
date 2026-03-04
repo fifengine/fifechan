@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/backends/opengl/openglimage.hpp"
+#include <string>
 
 #include "fifechan/exception.hpp"
 

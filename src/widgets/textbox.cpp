@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include <fifechan/widgets/textbox.hpp>
+#include <string>
 
 #include <fifechan/font.hpp>
 #include <fifechan/graphics.hpp>

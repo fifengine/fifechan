@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/backends/sdl/sdlimageloader.hpp"
+#include <string>
 
 #include "SDL_image.h"
 #include "fifechan/backends/sdl/sdlimage.hpp"

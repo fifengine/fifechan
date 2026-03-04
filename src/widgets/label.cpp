@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/label.hpp"
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

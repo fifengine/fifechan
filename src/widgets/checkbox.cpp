@@ -5,6 +5,7 @@
 #include "fifechan/widgets/checkbox.hpp"
 
 #include <algorithm>
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

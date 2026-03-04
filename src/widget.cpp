@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <list>
 #include <string>
+#include <iostream>
 
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"

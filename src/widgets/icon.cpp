@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/icon.hpp"
+#include <string>
 
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"

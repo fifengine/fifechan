@@ -3,6 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include <fifechan/widgets/passwordfield.hpp>
+#include <string>
 
 #include <fifechan/key.hpp>
 #include <fifechan/text.hpp>
