@@ -126,8 +126,7 @@ namespace fcn
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            throwException();
-                ("Coordinates outside of the image"));
+            throwException("Coordinates outside of the image");
         }
 
         unsigned int const c = mPixels[x + (y * mTextureWidth)];
