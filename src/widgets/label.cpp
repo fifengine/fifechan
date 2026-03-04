@@ -82,7 +82,7 @@ namespace fcn
         case Graphics::Alignment::Right:
             textX = getWidth() - offsetRec.x - getPaddingRight();
             break;
-        default:);
+        default:
             throwException("Unknown alignment.");
         }
 
