@@ -30,7 +30,9 @@ fi
 
 cd /opt/vcpkg || exit 1
 
-git pull
+git fetch --tags
+LATEST_VCPKG_TAG="$(git tag --sort=-creatordate | head -n 1)"
+git checkout "$LATEST_VCPKG_TAG"
 
 ./bootstrap-vcpkg.sh
 
@@ -39,12 +41,23 @@ vcpkg integrate install
 # Update VCPKG baseline in vcpkg.json
 
 if [ -f "$START_DIR/vcpkg.json" ]; then
-	BASELINE="$(git -C /opt/vcpkg rev-parse HEAD)"
-	if ! jq -e 'has("builtin-baseline")' "$START_DIR/vcpkg.json" > /dev/null; then
-		tmpfile="$(mktemp)"
-		jq --arg baseline "$BASELINE" '. + {"builtin-baseline": $baseline}' "$START_DIR/vcpkg.json" > "$tmpfile"
-		mv "$tmpfile" "$START_DIR/vcpkg.json"
+	BASELINE="$(git -C /opt/vcpkg rev-parse "${LATEST_VCPKG_TAG}^{commit}")"
+	tmpfile="$(mktemp)"
+	jq --arg baseline "$BASELINE" '. + {"builtin-baseline": $baseline}' "$START_DIR/vcpkg.json" > "$tmpfile"
+	mv "$tmpfile" "$START_DIR/vcpkg.json"
+
+	UPDATED_BASELINE="$(jq -r '.["builtin-baseline"] // empty' "$START_DIR/vcpkg.json")"
+	if [ -z "$UPDATED_BASELINE" ]; then
+		echo "Error: builtin-baseline missing in $START_DIR/vcpkg.json after update." >&2
+		exit 1
 	fi
+
+	if [ "$UPDATED_BASELINE" != "$BASELINE" ]; then
+		echo "Error: builtin-baseline ($UPDATED_BASELINE) does not match latest tag commit ($BASELINE)." >&2
+		exit 1
+	fi
+
+	echo "vcpkg.json baseline was updated to latest tag $LATEST_VCPKG_TAG commit: $BASELINE"
 fi
 
 # Return to the original working dir

@@ -4,7 +4,7 @@
   "description": "Fifechan is a C++ GUI library designed for games.",
   "homepage": "https://github.com/fifengine/fifechan",
   "license": "LGPL-2.1-or-later",
-  "builtin-baseline": "9ef3f1dc722a8d2b077f09c65b554003a629c338",
+  "builtin-baseline": "62159a45e18f3a9ac0548628dcaf74fcb60c6ff9",
   "supports": "windows,linux,osx",
   "dependencies": [
     "freetype",
@@ -12,7 +12,9 @@
       "name": "sdl2",
       "default-features": false,
       "platform": "linux",
-      "features": [ "x11" ]
+      "features": [
+        "x11"
+      ]
     },
     {
       "name": "sdl2",
