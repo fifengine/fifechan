@@ -209,6 +209,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
   CLEAN_DIRECT_OUTPUT    1                        # Allow creating static and shared libraries without conflict
   OUTPUT_NAME            ${PROJECT_NAME}          # Avoid conflicts between library and binary target names
   COMPILE_DEFINITIONS    "FIFECHAN_BUILD"
+  LINKER_LANGUAGE        CXX
   CXX_STANDARD           20
   CXX_STANDARD_REQUIRED  ON
 )
@@ -277,6 +278,7 @@ if(OPENGL_FOUND)
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME            ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
   )
@@ -355,6 +357,7 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME            ${PROJECT_NAME}_sdl2            # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
   )
