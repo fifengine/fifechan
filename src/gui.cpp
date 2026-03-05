@@ -5,8 +5,11 @@
 #include "fifechan/gui.hpp"
 
 #include <list>
+#include <memory>
 #include <queue>
 #include <set>
+#include <string>
+#include <utility>
 
 #include "fifechan/deathlistener.hpp"
 #include "fifechan/exception.hpp"

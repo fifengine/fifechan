@@ -4,6 +4,7 @@
 
 #include "fifechan/graphics.hpp"
 
+#include <memory>
 #include <string>
 
 #include "fifechan/cliprectangle.hpp"

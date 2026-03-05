@@ -1,5 +1,5 @@
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[ 🛠️ ] Building integration tests for SDL2")
+message(STATUS "[ 🛠️ ] Building Integration Tests for SDL2")
 message(STATUS "---------------------------------------------------------------")
 
 # Find SDL2_ttf

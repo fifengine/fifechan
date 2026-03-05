@@ -12,6 +12,9 @@
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
 
+#include <memory>
+#include <string>
+
 namespace fcn
 {
     class Image;
