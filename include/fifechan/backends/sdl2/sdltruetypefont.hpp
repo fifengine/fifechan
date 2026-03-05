@@ -102,4 +102,9 @@ namespace fcn
     };
 } // namespace fcn
 
+namespace fcn::sdl2
+{
+    using TrueTypeFont = fcn::SDLTrueTypeFont;
+}
+
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLTRUETYPEFONT_HPP_

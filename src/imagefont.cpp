@@ -232,6 +232,7 @@ namespace fcn
             color = mImage->getPixel(x, y);
             if (color != separator) {
                 foundGlyphStart = true;
+                break;
             }
         }
 
@@ -251,7 +252,8 @@ namespace fcn
             }
         }
 
-        return {x, y, width, mHeight};
+        // width now points to the separator pixel; glyph width is one less
+        return {x, y, width - 1, mHeight};
     }
 
     int ImageFont::getWidth(std::string const & text) const

@@ -38,4 +38,9 @@ namespace fcn
     };
 } // namespace fcn
 
+namespace fcn::sdl2
+{
+    using ImageLoader = fcn::SDLImageLoader;
+}
+
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGELOADER_HPP_

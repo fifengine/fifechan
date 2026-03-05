@@ -7,13 +7,14 @@
  * The example uses the OpenGL and the SDL backend.
  */
 
+#include "openglsdlaction.hpp"
+
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
 #include <iostream>
 
-#include "../action.hpp"
 #include "openglsdl.hpp"
 
 int main(int argc, char** argv)

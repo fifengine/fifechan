@@ -6,6 +6,7 @@
 #define INCLUDE_FIFECHAN_WIDGETS_CONTAINER_HPP_
 
 #include <list>
+#include <memory>
 #include <string>
 
 #include "fifechan/containerlistener.hpp"
@@ -79,6 +80,13 @@ namespace fcn
         virtual void add(Widget* widget);
 
         /**
+         * Adds a widget to the container, transferring ownership.
+         *
+         * @param widget The widget to add.
+         */
+        virtual void addWidget(std::unique_ptr<Widget> widget);
+
+        /**
          * Adds a widget to the container and also specifies the widget's
          * position in the container. The position is relative to the container
          * and not relative to the screen.
@@ -89,6 +97,15 @@ namespace fcn
          * @see remove, clear
          */
         virtual void add(Widget* widget, int x, int y);
+
+        /**
+         * Adds a widget to the container at position, transferring ownership.
+         *
+         * @param widget The widget to add.
+         * @param x X coordinate.
+         * @param y Y coordinate.
+         */
+        virtual void addWidget(std::unique_ptr<Widget> widget, int x, int y);
 
         /**
          * Removes a widget from the Container.
@@ -138,6 +155,14 @@ namespace fcn
          * @return The children of the container.
          */
         std::list<Widget*> const & getChildren() const;
+
+        /**
+         * Gets child by index.
+         *
+         * @param index Child index.
+         * @return Child widget or nullptr when index is out of range.
+         */
+        Widget* getChild(unsigned int index) const;
 
         // Inherited from Widget
 

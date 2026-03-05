@@ -63,6 +63,11 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
+if(UNIX AND NOT APPLE)
+  set(CMAKE_INSTALL_RPATH "\$ORIGIN;\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+
 #------------------------------------------------------------------------------
 # Options
 #------------------------------------------------------------------------------
@@ -210,7 +215,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 show_build_target_properties(${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
@@ -277,7 +285,10 @@ if(OPENGL_FOUND)
   show_build_target_properties(${PROJECT_NAME}_opengl)
 
   # setup install location
-  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}-targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -309,24 +320,24 @@ endif()
 if(SDL2_FOUND AND SDL2_image_FOUND)
 
   # The Fifechan SDL extension source
-  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl/*.hpp)
-  file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl/*.cpp)
+  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl2/*.hpp)
+  file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl2/*.cpp)
 
-  add_library(${PROJECT_NAME}_sdl ${FIFECHAN_LIBRARY_BUILD_TYPE}
+  add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SDL_HEADERS}
     ${FIFECHAN_SDL_SRC}
   )
 
-  # Provide a namespace alias for the library (fifechan::fifechan_sdl)
-  add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl ALIAS ${PROJECT_NAME}_sdl)
+  # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
+  add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
 
-  target_include_directories(${PROJECT_NAME}_sdl PUBLIC
+  target_include_directories(${PROJECT_NAME}_sdl2 PUBLIC
     # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
     $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
   )
 
-  target_link_libraries(${PROJECT_NAME}_sdl PRIVATE
+  target_link_libraries(${PROJECT_NAME}_sdl2 PRIVATE
     # SDL2::SDL2
     #$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
@@ -338,24 +349,27 @@ if(SDL2_FOUND AND SDL2_image_FOUND)
     ${PROJECT_NAME}
   )
 
-  set_target_properties(${PROJECT_NAME}_sdl PROPERTIES
+  set_target_properties(${PROJECT_NAME}_sdl2 PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
     SOVERSION              ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME            ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
+    OUTPUT_NAME            ${PROJECT_NAME}_sdl2            # Avoid conflicts between library and binary target names
     COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
   )
 
-  install(TARGETS ${PROJECT_NAME}_sdl EXPORT ${PROJECT_NAME}-targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  install(TARGETS ${PROJECT_NAME}_sdl2 EXPORT ${PROJECT_NAME}-targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
       WORLD_READ WORLD_EXECUTE
   )
 
-  install(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/sdl/)
+  install(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/sdl2/)
 
 endif()
 

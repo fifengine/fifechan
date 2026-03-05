@@ -93,6 +93,14 @@
       }
     },
     {
+      "name": "compiler-gcc15-linux",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-15",
+        "CMAKE_CXX_COMPILER": "g++-15"
+      }
+    },
+    {
       "name": "gcc9-x64-linux",
       "hidden": true,
       "inherits": [
@@ -138,6 +146,14 @@
       "inherits": [
         "gcc-x64-linux-base",
         "compiler-gcc14-linux"
+      ]
+    },
+    {
+      "name": "gcc15-x64-linux",
+      "hidden": true,
+      "inherits": [
+        "gcc-x64-linux-base",
+        "compiler-gcc15-linux"
       ]
     },
     {
@@ -237,6 +253,38 @@
         "CMAKE_C_COMPILER": "clang-19",
         "CMAKE_CXX_COMPILER": "clang++-19"
       }
+    },
+    {
+      "name": "compiler-clang20-linux",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang-20",
+        "CMAKE_CXX_COMPILER": "clang++-20"
+      }
+    },
+    {
+      "name": "compiler-clang21-linux",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang-21",
+        "CMAKE_CXX_COMPILER": "clang++-21"
+      }
+    },
+    {
+      "name": "clang21-x64-linux",
+      "hidden": true,
+      "inherits": [
+        "clang-x64-linux-base",
+        "compiler-clang21-linux"
+      ]
+    },
+    {
+      "name": "clang20-x64-linux",
+      "hidden": true,
+      "inherits": [
+        "clang-x64-linux-base",
+        "compiler-clang20-linux"
+      ]
     },
     {
       "name": "clang19-x64-linux",

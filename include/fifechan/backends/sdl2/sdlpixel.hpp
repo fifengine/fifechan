@@ -213,4 +213,13 @@ namespace fcn
     }
 } // namespace fcn
 
+namespace fcn::sdl2
+{
+    using fcn::SDLBlend;
+    using fcn::SDLBlendColor;
+    using fcn::SDLgetPixel;
+    using fcn::SDLputPixel;
+    using fcn::SDLputPixelAlpha;
+} // namespace fcn::sdl2
+
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_

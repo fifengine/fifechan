@@ -1,6 +1,6 @@
 ![FIFEGUI LOGO](https://raw.githubusercontent.com/fifengine/fifechan/master/docs/logo/FIFEgui_small_c3.png)
 
-## FIFECHAN
+## FifeGUI
 
 | [Website](http://fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Changelog](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [Source Code (zip)](https://github.com/fifengine/fifechan/archive/master.zip) |
 |:--------:|:--------:|:--------:|:--------:|:--------:|
@@ -10,23 +10,25 @@
 | **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
 | **Development Releases**  |   -    |    -     | [See Jobs for Build Artifacts](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
 
-Fifechan is also already available from the following package repositories:
+FifeGUI is also already available from the following package repositories:
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
 
-## Introduction to Fifechan
+## Introduction to FifeGUI
 
-Fifechan is a lightweight cross platform GUI library written in C++ specifically
-designed for games. It has a small yet powerful built in set of extendable GUI
-Widgets allowing users to create virtually unlimited types of widgets.
+FifeGUI is a lightweight, cross-platform C++ GUI library designed for games.
 
-Fifechan supports rendering in SDL or OpenGL out of the box or it can be
-adapted to use any rendering engine the user requires. Events are pushed to
-Fifechan which allows users to use any input library they wish or they could use
-the built in input handling through SDL input.
+It offers a simple but powerful set of customizable widgets, allowing users to
+create a wide range of widget types.
 
-The primary goal for Fifechan is to keep it extendable, lightweight and still be
-powerful enough to use in all types of games out of the box.
+It supports rendering in SDL or OpenGL out of the box and it can be adapted to
+use any rendering engine the user requires.
+
+Events are pushed to FifeGUI, letting users choose their preferred input library
+or use its built-in SDL input handling.
+
+The main goal of FifeGUI is to remain lightweight, extendable,
+and powerful enough to be used in any type of game.
 
 ## Downloads
 
@@ -45,7 +47,7 @@ Feel free to drop us a line there and we'll help you getting started!
 
 ## License
 
-Fifechan is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
+FifeGUI is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
 
 ## Dev Notes
 

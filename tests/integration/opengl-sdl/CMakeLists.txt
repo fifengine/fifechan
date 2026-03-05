@@ -5,7 +5,7 @@ project(tests-integration-opengl-sdl)
 # openglsdlhelloworld
 #------------------------------------------------------------------------------
 
-add_executable(openglsdlhelloworld openglsdlhelloworld.cpp)
+add_executable(openglsdlhelloworld openglsdlhelloworld.cpp openglsdlhelloworld.hpp)
 target_include_directories(openglsdlhelloworld PRIVATE
     ${SDL_INCLUDE_DIRS}
     ${SDL_IMAGE_INCLUDE_DIRS}
@@ -20,7 +20,7 @@ target_link_libraries(openglsdlhelloworld PRIVATE
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
     # OpenGL
     ${GL_LIBRARIES}
-    fifechan_sdl
+    fifechan_sdl2
     fifechan_opengl
     fifechan
 )
@@ -30,12 +30,12 @@ show_build_target_properties(openglsdlhelloworld)
 # openglsdlwidgets
 #------------------------------------------------------------------------------
 
-add_executable(openglsdlwidgets openglsdlwidgets.cpp)
+add_executable(openglsdlwidgets openglsdlwidgets.cpp openglsdlwidgets.hpp)
 target_link_libraries(openglsdlwidgets PRIVATE
     ${SDL_LIBRARIES}
     ${SDL_IMAGE_LIBRARIES}
     ${GL_LIBRARIES}
-    fifechan_sdl
+    fifechan_sdl2
     fifechan_opengl
     fifechan
 )
@@ -45,12 +45,12 @@ show_build_target_properties(openglsdlwidgets)
 # openglsdlaction
 #------------------------------------------------------------------------------
 
-add_executable(openglsdlaction openglsdlaction.cpp)
+add_executable(openglsdlaction openglsdlaction.cpp openglsdlaction.hpp)
 target_link_libraries(openglsdlaction PRIVATE
     ${SDL_LIBRARIES}
     ${SDL_IMAGE_LIBRARIES}
     ${GL_LIBRARIES}
-    fifechan_sdl
+    fifechan_sdl2
     fifechan_opengl
     fifechan
 )

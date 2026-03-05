@@ -18,7 +18,7 @@
 // The openglsdlimageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and SDL.
 #include <fifechan/backends/opengl/openglsdlimageloader.hpp>
-#include <fifechan/backends/sdl/sdl.hpp>
+#include <fifechan/backends/sdl2/sdl.hpp>
 
 #include <cstdio>
 

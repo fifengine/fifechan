@@ -77,11 +77,31 @@ namespace fcn
         distributeWidgetAddedEvent(widget);
     }
 
+    void Container::addWidget(std::unique_ptr<Widget> widget)
+    {
+        if (widget == nullptr) {
+            return;
+        }
+
+        Widget* rawWidget = widget.release();
+        add(rawWidget);
+    }
+
     void Container::add(Widget* widget, int x, int y)
     {
         widget->setPosition(x, y);
         Widget::add(widget);
         distributeWidgetAddedEvent(widget);
+    }
+
+    void Container::addWidget(std::unique_ptr<Widget> widget, int x, int y)
+    {
+        if (widget == nullptr) {
+            return;
+        }
+
+        Widget* rawWidget = widget.release();
+        add(rawWidget, x, y);
     }
 
     void Container::remove(Widget* widget)
@@ -133,6 +153,18 @@ namespace fcn
     std::list<Widget*> const & Container::getChildren() const
     {
         return Widget::getChildren();
+    }
+
+    Widget* Container::getChild(unsigned int index) const
+    {
+        if (index >= getChildrenCount()) {
+            return nullptr;
+        }
+
+        auto const & children = getChildren();
+        auto iter             = children.begin();
+        std::advance(iter, static_cast<long>(index));
+        return *iter;
     }
 
     void Container::resizeToContent(bool recursion)

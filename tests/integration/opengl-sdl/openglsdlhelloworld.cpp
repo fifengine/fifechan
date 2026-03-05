@@ -6,13 +6,14 @@
  * @brief This example shows the widgets present in FifeGUI using the OpenGL-SDL backend.
  */
 
+#include "openglsdlhelloworld.hpp"
+
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
 #include <iostream>
 
-#include "../helloworld.hpp"
 #include "openglsdl.hpp"
 
 int main(int argc, char** argv)

@@ -18,6 +18,41 @@ namespace fcn
     class Rectangle;
 
     /**
+     * SDL implementation of the Graphics using SDL_Surface.
+     */
+    class FIFEGUI_EXT_API SDLGraphics : public Graphics
+    {
+    public:
+        using Graphics::drawImage;
+
+        SDLGraphics();
+
+        virtual void setTarget(SDL_Surface* target);
+        virtual SDL_Surface* getTarget() const;
+        virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination);
+
+        virtual void _beginDraw();
+        virtual void _endDraw();
+        virtual bool pushClipArea(Rectangle area);
+        virtual void popClipArea();
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
+        virtual void drawPoint(int x, int y);
+        virtual void drawLine(int x1, int y1, int x2, int y2);
+        virtual void drawRectangle(Rectangle const & rectangle);
+        virtual void fillRectangle(Rectangle const & rectangle);
+        virtual void setColor(Color const & color);
+        virtual Color const & getColor() const;
+
+    protected:
+        virtual void drawHLine(int x1, int y, int x2);
+        virtual void drawVLine(int x, int y1, int y2);
+
+        SDL_Surface* mTarget;
+        Color mColor;
+        bool mAlpha;
+    };
+
+    /**
      * SDL implementation of the Graphics.
      */
     class FIFEGUI_EXT_API SDL2Graphics : public Graphics
@@ -89,6 +124,7 @@ namespace fcn
 
         void setColor(Color const & color) override;
         Color const & getColor() const override;
+        std::shared_ptr<Font> createFont(std::string const & filename, int size) override;
 
     protected:
         /**
@@ -128,5 +164,11 @@ namespace fcn
         bool mAlpha;
     };
 } // namespace fcn
+
+namespace fcn::sdl2
+{
+    using Graphics        = fcn::SDL2Graphics;
+    using SurfaceGraphics = fcn::SDLGraphics;
+} // namespace fcn::sdl2
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDL2GRAPHICS_HPP_

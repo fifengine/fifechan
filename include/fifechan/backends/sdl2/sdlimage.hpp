@@ -71,4 +71,9 @@ namespace fcn
     };
 } // namespace fcn
 
+namespace fcn::sdl2
+{
+    using Image = fcn::SDLImage;
+}
+
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_

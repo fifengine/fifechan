@@ -80,6 +80,13 @@ namespace fcn
         mFont = font;
     }
 
+    std::shared_ptr<Font> Graphics::createFont(std::string const & filename, int size)
+    {
+        (void)filename;
+        (void)size;
+        return nullptr;
+    }
+
     void Graphics::drawText(std::string const & text, int x, int y, Alignment alignment)
     {
         if (mFont == nullptr) {

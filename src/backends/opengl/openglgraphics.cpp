@@ -257,7 +257,8 @@ namespace fcn
     void OpenGLGraphics::fillRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
-            throwException("The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
+            throwException(
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
         }
 
         ClipRectangle const & top = mClipStack.top();

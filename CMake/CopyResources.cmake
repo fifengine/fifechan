@@ -33,3 +33,48 @@ function(copy_resources target res_src res_dest)
     add_custom_target(${copy_target_name} ALL DEPENDS ${res_src})
     add_dependencies(${target} ${copy_target_name})
 endfunction(copy_resources)
+
+#-----------------------------------------------------------------------------
+# Function to copy a folder of resources
+#
+# Usage:
+# copy_resources_folder(sdlhelloworld "${PROJECT_SOURCE_DIR}/tests/resources")
+#
+# Reminder: do not forget the install step.
+#
+#-----------------------------------------------------------------------------
+function(copy_resources_folder target folder_path)
+    # Ensure the target exists
+    if(NOT TARGET ${target})
+        message(FATAL_ERROR "Target '${target}' does not exist.")
+    endif()
+
+    file(GLOB files "${folder_path}/*")
+
+    # Create a unique name for the copy resources target
+    set(copy_target_name "${target}_copy_resources_folder")
+
+    # Add a custom target to ensure the resource files are copied before the target is built
+    add_custom_target(${copy_target_name} ALL)
+
+    # Iterate over the files in the folder
+    foreach(file IN LISTS files)
+        get_filename_component(file_name ${file} NAME)
+        # this resolves to the directory where the executable/library is placed after it is built
+        set(dest_path "$<TARGET_FILE_DIR:${target}>/${file_name}")
+
+        # Add a custom command to copy the resource file to the destination directory
+        add_custom_command(
+            TARGET ${copy_target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Copying resource '${file_name}' for '${target}'"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${file}"
+                "${dest_path}"
+            COMMENT "Copying resource file ${file} to ${dest_path}"
+            VERBATIM
+        )
+    endforeach()
+
+    # Add the dependencies to the target
+    add_dependencies(${target} ${copy_target_name})
+endfunction(copy_resources_folder)

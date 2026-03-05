@@ -92,7 +92,7 @@
       "name": "condition-is-ci",
       "hidden": true,
       "displayName": "CI-only configuration",
-      "description": "This build is only available on a Continuous Integration system.",
+      "description": "This build is only available on a Continous Integration system.",
       "condition": {
         "type": "equals",
         "lhs": "$env{CI}",
@@ -153,9 +153,8 @@
       }
     },
     {
-      "name": "sanitizer-address",
+      "name": "address-sanitizer",
       "hidden": true,
-      "description": "Enable address sanitizer. Requires clang or recent gcc.",
       "cacheVariables": {
         "SANITIZE_ADDRESS": {
           "type": "BOOL",
@@ -164,9 +163,8 @@
       }
     },
     {
-      "name": "sanitizer-thread",
+      "name": "thread-sanitizer",
       "hidden": true,
-      "description": "Enable thread sanitizer. Requires clang.",
       "cacheVariables": {
         "SANITIZE_THREAD": {
           "type": "BOOL",
@@ -175,20 +173,8 @@
       }
     },
     {
-      "name": "sanitizer-memory",
+      "name": "undefined-behavior-sanitizer",
       "hidden": true,
-      "description": "Enable memory sanitizer. Requires clang.",
-      "cacheVariables": {
-        "SANITIZE_MEMORY": {
-          "type": "BOOL",
-          "value": "ON"
-        }
-      }
-    },
-    {
-      "name": "sanitizer-undefined-behavior",
-      "hidden": true,
-      "description": "Enable undefined behavior sanitizer. Requires clang.",
       "cacheVariables": {
         "SANITIZE_UB": {
           "type": "BOOL",
@@ -199,20 +185,11 @@
     {
       "name": "static-analysis",
       "hidden": true,
-      "description": "Enable static analysis.",
       "cacheVariables": {
         "STATIC_ANALYSIS": {
           "type": "BOOL",
           "value": "ON"
         }
-      }
-    },
-    {
-      "name": "trace-time",
-      "hidden": true,
-      "description": "Trace time spent in each compiler pass (only Clang) (aras-p/ClangBuildAnalyzer).",
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-ftime-trace"
       }
     },
     {

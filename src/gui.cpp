@@ -87,6 +87,10 @@ namespace fcn
 
     void Gui::setTop(Widget* top)
     {
+        if (top != mOwnedTop.get()) {
+            mOwnedTop.reset();
+        }
+
         if (mTop != nullptr) {
             mTop->_setFocusHandler(nullptr);
         }
@@ -97,6 +101,22 @@ namespace fcn
         mTop = top;
     }
 
+    void Gui::setTop(std::unique_ptr<Widget> top)
+    {
+        mOwnedTop = std::move(top);
+        setTop(mOwnedTop.get());
+    }
+
+    void Gui::setRoot(Widget* top)
+    {
+        setTop(top);
+    }
+
+    void Gui::setRoot(std::unique_ptr<Widget> top)
+    {
+        setTop(std::move(top));
+    }
+
     Widget* Gui::getTop() const
     {
         return mTop;
@@ -104,7 +124,16 @@ namespace fcn
 
     void Gui::setGraphics(Graphics* graphics)
     {
+        if (graphics != mOwnedGraphics.get()) {
+            mOwnedGraphics.reset();
+        }
         mGraphics = graphics;
+    }
+
+    void Gui::setGraphics(std::unique_ptr<Graphics> graphics)
+    {
+        mOwnedGraphics = std::move(graphics);
+        setGraphics(mOwnedGraphics.get());
     }
 
     Graphics* Gui::getGraphics() const
@@ -114,12 +143,49 @@ namespace fcn
 
     void Gui::setInput(Input* input)
     {
+        if (input != mOwnedInput.get()) {
+            mOwnedInput.reset();
+        }
         mInput = input;
+    }
+
+    void Gui::setInput(std::unique_ptr<Input> input)
+    {
+        mOwnedInput = std::move(input);
+        setInput(mOwnedInput.get());
     }
 
     Input* Gui::getInput() const
     {
         return mInput;
+    }
+
+    void Gui::initialize(std::unique_ptr<Graphics> graphics, std::unique_ptr<Input> input, int width, int height)
+    {
+        (void)width;
+        (void)height;
+        setGraphics(std::move(graphics));
+        setInput(std::move(input));
+    }
+
+    FocusHandler* Gui::getFocusHandler() const
+    {
+        return mFocusHandler;
+    }
+
+    void Gui::setGlobalFont(std::string const & filename, int size)
+    {
+        if (mGraphics == nullptr) {
+            throwException("No graphics set");
+        }
+
+        auto createdFont = mGraphics->createFont(filename, size);
+        if (!createdFont) {
+            throwException("Failed to create font using active graphics backend");
+        }
+
+        mGlobalFont = std::move(createdFont);
+        Widget::setGlobalFont(mGlobalFont.get());
     }
 
     void Gui::logic()

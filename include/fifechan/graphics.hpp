@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <iosfwd>
+#include <memory>
 #include <stack>
 #include <string>
 
@@ -309,6 +310,17 @@ namespace fcn
          * @param font The font to use when drawing.
          */
         virtual void setFont(Font* font);
+
+        /**
+         * Creates a font for this graphics backend.
+         *
+         * Backends that do not provide runtime font loading may return nullptr.
+         *
+         * @param filename Path to the font file.
+         * @param size Requested point size.
+         * @return Shared pointer to a created font, or nullptr.
+         */
+        virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
 
         /**
          * Draws text.

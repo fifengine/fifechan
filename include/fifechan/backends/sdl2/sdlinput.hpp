@@ -80,4 +80,9 @@ namespace fcn
     };
 } // namespace fcn
 
+namespace fcn::sdl2
+{
+    using Input = fcn::SDLInput;
+}
+
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLINPUT_HPP_

@@ -1,49 +1,44 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#ifndef TESTS_INTEGRATION_WIDGETS_HPP_
-#define TESTS_INTEGRATION_WIDGETS_HPP_
+#ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLWIDGETS_HPP_
+#define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLWIDGETS_HPP_
 
-#include <fifechan/gui.hpp>
+#include <fifechan/exception.hpp>
 
 #include <fifechan.hpp>
 
 #include <string>
 
+#include "openglsdl.hpp"
+
 namespace widgets
 {
-    // FifeGUI objects
-    fcn::Gui* gui;
+    inline fcn::ImageFont* font               = nullptr;
+    inline fcn::Container* top                = nullptr;
+    inline fcn::Label* label                  = nullptr;
+    inline fcn::Icon* icon                    = nullptr;
+    inline fcn::Button* button                = nullptr;
+    inline fcn::TextField* textField          = nullptr;
+    inline fcn::TextBox* textBox              = nullptr;
+    inline fcn::ScrollArea* textBoxScrollArea = nullptr;
+    inline fcn::ListBox* listBox              = nullptr;
+    inline fcn::DropDown* dropDown            = nullptr;
+    inline fcn::CheckBox* checkBox1           = nullptr;
+    inline fcn::CheckBox* checkBox2           = nullptr;
+    inline fcn::RadioButton* radioButton1     = nullptr;
+    inline fcn::RadioButton* radioButton2     = nullptr;
+    inline fcn::RadioButton* radioButton3     = nullptr;
+    inline fcn::Slider* slider                = nullptr;
+    inline fcn::Image* image                  = nullptr;
+    inline fcn::Window* window                = nullptr;
+    inline fcn::Image* logoImage              = nullptr;
+    inline fcn::Icon* logoIcon                = nullptr;
+    inline fcn::TabbedArea* tabbedArea        = nullptr;
+    inline fcn::Button* tabOneButton          = nullptr;
+    inline fcn::CheckBox* tabTwoCheckBox      = nullptr;
 
-    // FifeGUI Widgets
-    fcn::ImageFont* font;
-    fcn::Container* top;
-    fcn::Label* label;
-    fcn::Icon* icon;
-    fcn::Button* button;
-    fcn::TextField* textField;
-    fcn::TextBox* textBox;
-    fcn::ScrollArea* textBoxScrollArea;
-    fcn::ListBox* listBox;
-    fcn::DropDown* dropDown;
-    fcn::CheckBox* checkBox1;
-    fcn::CheckBox* checkBox2;
-    fcn::RadioButton* radioButton1;
-    fcn::RadioButton* radioButton2;
-    fcn::RadioButton* radioButton3;
-    fcn::Slider* slider;
-    fcn::Image* image;
-    fcn::Window* window;
-    fcn::Image* logoImage;
-    fcn::Icon* logoIcon;
-    fcn::TabbedArea* tabbedArea;
-    fcn::Button* tabOneButton;
-    fcn::CheckBox* tabTwoCheckBox;
-
-    /*
-     * List boxes and dropdown widgets need a list model as data source.
-     */
     class DemoListModel : public fcn::ListModel
     {
     public:
@@ -65,35 +60,26 @@ namespace widgets
                 return std::string("three");
             case 4:
                 return std::string("four");
-            default: // Just to keep warnings away
+            default:
                 return std::string("");
             }
         }
     };
 
-    DemoListModel demoListModel;
+    inline DemoListModel demoListModel;
 
-    /**
-     * Setup the widgets example by populating the Gui object.
-     */
     void init()
     {
-        // We first create a container to be used as the top widget.
-        // The top widget can be any kind of widget, but in order to make the
-        // Gui contain more than one widget we make the top widget a container.
+        if (openglsdl::gui == nullptr) {
+            fcn::throwException("openglsdl::gui is null. Initialize GUI backend before widgets::init().");
+        }
+
         top = new fcn::Container();
-        // We set the dimension of the top container to match the screen.
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));
-        // Finally we pass the top widget to the Gui object.
-        gui->setTop(top);
+        openglsdl::gui->setTop(top);
 
-        // Now we load the font used in this example.
         font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        // Widgets may have a global font so we don't need to pass the
-        // font object to every created widget. The global font is static.
         fcn::Widget::setGlobalFont(font);
-
-        // Now we create the widgets
 
         label = new fcn::Label("Label");
 
@@ -132,18 +118,6 @@ namespace widgets
         window->add(logoIcon);
         window->resizeToContent();
 
-        /*tabbedArea = new fcn::TabbedArea();
-        tabbedArea->setSize(200, 100);
-        tabOneButton = new fcn::Button("A button in tab 1");
-        tab1 = new fcn::Tab("Tab 1");
-        tabbedArea->addTab(tab, tabOneButton);
-        tabTwoCheckBox = new fcn::CheckBox("A check box in tab 2");
-        tab2 = new fcn::Tab("Tab 2");
-        tabbedArea->addTab(tab2, tabTwoCheckBox);*/
-
-        // Now it's time to add the widgets to the top container
-        // so they will be connected to the GUI.
-
         top->add(label, 10, 10);
         top->add(icon, 10, 30);
         top->add(button, 200, 10);
@@ -158,37 +132,79 @@ namespace widgets
         top->add(radioButton3, 500, 240);
         top->add(slider, 500, 300);
         top->add(window, 50, 350);
-        top->add(tabbedArea, 400, 350);
     }
 
-    /**
-     * Halts the widgets example.
-     */
     void halt()
     {
-        delete font;
-        delete top;
-        delete label;
-        delete icon;
-        delete button;
-        delete textField;
-        delete textBox;
-        delete textBoxScrollArea;
-        delete listBox;
-        delete dropDown;
-        delete checkBox1;
-        delete checkBox2;
-        delete radioButton1;
-        delete radioButton2;
-        delete radioButton3;
-        delete slider;
-        delete window;
-        delete logoIcon;
-        delete logoImage;
-        delete tabbedArea;
-        delete tabOneButton;
         delete tabTwoCheckBox;
+        tabTwoCheckBox = nullptr;
+
+        delete tabOneButton;
+        tabOneButton = nullptr;
+
+        delete tabbedArea;
+        tabbedArea = nullptr;
+
+        delete logoIcon;
+        logoIcon = nullptr;
+
+        delete logoImage;
+        logoImage = nullptr;
+
+        delete window;
+        window = nullptr;
+
+        delete slider;
+        slider = nullptr;
+
+        delete radioButton3;
+        radioButton3 = nullptr;
+
+        delete radioButton2;
+        radioButton2 = nullptr;
+
+        delete radioButton1;
+        radioButton1 = nullptr;
+
+        delete checkBox2;
+        checkBox2 = nullptr;
+
+        delete checkBox1;
+        checkBox1 = nullptr;
+
+        delete dropDown;
+        dropDown = nullptr;
+
+        delete listBox;
+        listBox = nullptr;
+
+        delete textBoxScrollArea;
+        textBoxScrollArea = nullptr;
+
+        delete textBox;
+        textBox = nullptr;
+
+        delete textField;
+        textField = nullptr;
+
+        delete button;
+        button = nullptr;
+
+        delete icon;
+        icon = nullptr;
+
+        delete image;
+        image = nullptr;
+
+        delete label;
+        label = nullptr;
+
+        delete top;
+        top = nullptr;
+
+        delete font;
+        font = nullptr;
     }
 } // namespace widgets
 
-#endif // TESTS_INTEGRATION_WIDGETS_HPP_
+#endif // TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLWIDGETS_HPP_

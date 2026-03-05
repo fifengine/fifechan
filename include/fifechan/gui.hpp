@@ -8,8 +8,10 @@
 #include <algorithm>
 #include <iterator>
 #include <list>
+#include <memory>
 #include <queue>
 #include <set>
+#include <string>
 
 #include "fifechan/keyevent.hpp"
 #include "fifechan/mouseevent.hpp"
@@ -19,6 +21,7 @@
 namespace fcn
 {
     class FocusHandler;
+    class Font;
     class GuiDeathListener;
     class Graphics;
     class Input;
@@ -76,6 +79,27 @@ namespace fcn
         virtual void setTop(Widget* top);
 
         /**
+         * Sets the root widget and transfers ownership to Gui.
+         *
+         * @param top The root widget to own.
+         */
+        virtual void setTop(std::unique_ptr<Widget> top);
+
+        /**
+         * Alias for setTop.
+         *
+         * @param top The root widget.
+         */
+        virtual void setRoot(Widget* top);
+
+        /**
+         * Alias for ownership-based setTop.
+         *
+         * @param top The root widget to own.
+         */
+        virtual void setRoot(std::unique_ptr<Widget> top);
+
+        /**
          * Gets the top widget. The top widget is the root widget
          * of the GUI.
          *
@@ -90,6 +114,13 @@ namespace fcn
          * @see getGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual void setGraphics(Graphics* graphics);
+
+        /**
+         * Sets and owns the graphics object used for drawing.
+         *
+         * @param graphics The graphics object.
+         */
+        virtual void setGraphics(std::unique_ptr<Graphics> graphics);
 
         /**
          * Gets the graphics object used for drawing.
@@ -109,6 +140,13 @@ namespace fcn
         virtual void setInput(Input* input);
 
         /**
+         * Sets and owns the input object used for input handling.
+         *
+         * @param input The input object.
+         */
+        virtual void setInput(std::unique_ptr<Input> input);
+
+        /**
          * Gets the input object being used for input handling.
          *
          *  @return The input object used for handling input. NULL if no
@@ -116,6 +154,32 @@ namespace fcn
          * @see setInput, SDLInput
          */
         virtual Input* getInput() const;
+
+        /**
+         * Initializes GUI backends in one call.
+         *
+         * @param graphics Owned graphics backend.
+         * @param input Owned input backend.
+         * @param width Unused by the core implementation.
+         * @param height Unused by the core implementation.
+         */
+        virtual void initialize(
+            std::unique_ptr<Graphics> graphics, std::unique_ptr<Input> input, int width, int height);
+
+        /**
+         * Returns the focus handler used by this GUI.
+         *
+         * @return Focus handler.
+         */
+        virtual FocusHandler* getFocusHandler() const;
+
+        /**
+         * Loads a font using the active graphics backend and sets it as global widget font.
+         *
+         * @param filename Path to font file.
+         * @param size Font size.
+         */
+        virtual void setGlobalFont(std::string const & filename, int size);
 
         /**
          * Performs logic of the GUI. By calling this function all logic
@@ -502,6 +566,11 @@ namespace fcn
         int mLastMouseDragButton;
 
         GuiDeathListener* mDeathListener;
+
+        std::unique_ptr<Widget> mOwnedTop;
+        std::unique_ptr<Graphics> mOwnedGraphics;
+        std::unique_ptr<Input> mOwnedInput;
+        std::shared_ptr<Font> mGlobalFont;
     };
 } // namespace fcn
 
