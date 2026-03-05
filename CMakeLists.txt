@@ -319,7 +319,7 @@ if(ENABLE_SDL)
   endif()
 endif()
 
-if(SDL2_FOUND AND SDL2_image_FOUND)
+if(ENABLE_SDL)
 
   # The Fifechan SDL extension source
   file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl2/*.hpp)
