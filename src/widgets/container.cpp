@@ -163,7 +163,10 @@ namespace fcn
 
         auto const & children = getChildren();
         auto iter             = children.begin();
-        std::advance(iter, static_cast<long>(index));
+        for (unsigned int i = 0; i < index; ++i) {
+            ++iter;
+        }
+
         return *iter;
     }
 

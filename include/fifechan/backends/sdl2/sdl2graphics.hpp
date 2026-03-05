@@ -8,12 +8,12 @@
 
 #include <SDL2/SDL.h>
 
+#include <memory>
+#include <string>
+
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
-
-#include <memory>
-#include <string>
 
 namespace fcn
 {

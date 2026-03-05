@@ -6,6 +6,7 @@
 #include "fifechan/backends/sdl2/sdl2graphics.hpp"
 
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "fifechan/backends/sdl2/sdlimage.hpp"
