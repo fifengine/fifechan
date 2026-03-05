@@ -2,7 +2,7 @@ message(STATUS "---------------------------------------------------------------"
 message(STATUS "[ 🛠️ ] Building Integration Tests")
 message(STATUS "---------------------------------------------------------------")
 
-if(ENABLE_SDL AND SDL2_FOUND)
+if(TARGET fifechan_sdl2)
   add_subdirectory(sdl)
 endif()
 

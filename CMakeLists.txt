@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# FifeChan / FifeGUI
+# FifeGUI (formerly FifeChan)
 #------------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.0...3.30)
@@ -74,11 +74,11 @@ endif()
 
 option(BUILD_SHARED_LIBS     "Build using shared libraries"                     OFF)
 
-option(ENABLE_OPENGL         "Enable the Fifechan OpenGL extension"             ON)
-option(ENABLE_SDL            "Enable the Fifechan SDL extension"                ON)
+option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"             ON)
+option(ENABLE_SDL            "Enable the FifeGUI SDL extension"                ON)
 
-option(FIFECHAN_TESTS        "Build the Fifechan tests"                         ON)
-option(FIFECHAN_EXAMPLES     "Build the Fifechan examples"                      OFF)
+option(FIFEGUI_TESTS        "Build the FifeGUI tests"                         ON)
+option(FIFEGUI_EXAMPLES     "Build the FifeGUI examples"                      ON)
 
 #------------------------------------------------------------------------------
 # Default build type
@@ -105,7 +105,7 @@ endif()
 #------------------------------------------------------------------------------
 
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[ 🛠️ ] Building FIFECHAN version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
+message(STATUS "[ 🛠️ ] Building FIFEGUI version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
 message(STATUS "---------------------------------------------------------------")
 message(STATUS "[INFO] Source dir               -> '${PROJECT_SOURCE_DIR}'.")
 message(STATUS "[INFO] Build dir                -> '${PROJECT_BINARY_DIR}'.")
@@ -169,7 +169,7 @@ else()
 endif()
 
 #------------------------------------------------------------------------------
-# Source Files for Fifechan core library
+# Source Files for FifeGUI core library
 #------------------------------------------------------------------------------
 
 file(GLOB FIFECHAN_HEADER          include/fifechan.hpp)
@@ -181,7 +181,7 @@ file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
 set(FIFECHAN_VERSION_HEADER        "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
 
 #------------------------------------------------------------------------------
-# Fifechan core library
+# FifeGUI core library
 #------------------------------------------------------------------------------
 
 add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
@@ -232,7 +232,7 @@ install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR
 install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/util/)
 
 #------------------------------------------------------------------------------
-# The Fifechan OpenGL extension library
+# The FifeGUI OpenGL extension library
 #------------------------------------------------------------------------------
 
 if(ENABLE_OPENGL)
@@ -303,7 +303,7 @@ if(OPENGL_FOUND)
 endif()
 
 #------------------------------------------------------------------------------
-# The Fifechan SDL extension library
+# The FifeGUI SDL extension library
 #------------------------------------------------------------------------------
 
 if(ENABLE_SDL)
@@ -321,7 +321,7 @@ endif()
 
 if(ENABLE_SDL)
 
-  # The Fifechan SDL extension source
+  # The FifeGUI SDL extension source
   file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl2/*.hpp)
   file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl2/*.cpp)
 

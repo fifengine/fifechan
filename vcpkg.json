@@ -1,7 +1,7 @@
 {
   "name": "fifechan",
   "version": "0.2.0",
-  "description": "Fifechan is a C++ GUI library designed for games.",
+  "description": "FifeGUI (formerly Fifechan) is a C++ GUI library designed for games.",
   "homepage": "https://github.com/fifengine/fifechan",
   "license": "LGPL-2.1-or-later",
   "builtin-baseline": "62159a45e18f3a9ac0548628dcaf74fcb60c6ff9",
@@ -23,6 +23,7 @@
       "features": []
     },
     "sdl2-image",
+    "sdl2-mixer",
     "sdl2-ttf"
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"

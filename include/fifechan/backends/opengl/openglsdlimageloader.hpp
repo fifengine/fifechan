@@ -5,11 +5,13 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLSDLIMAGELOADER_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLSDLIMAGELOADER_HPP_
 
+#include <fifechan/backends/opengl/openglimage.hpp>
+#include <fifechan/backends/sdl2/sdlimageloader.hpp>
 #include <fifechan/exception.hpp>
-#include <fifechan/opengl/openglimage.hpp>
-#include <fifechan/sdl/sdlimageloader.hpp>
 
+#include <algorithm>
 #include <string>
+#include <vector>
 
 namespace fcn
 {
@@ -40,8 +42,17 @@ namespace fcn
                 throwException(msg);
             }
 
-            OpenGLImage* image =
-                new OpenGLImage((unsigned int*)surface->pixels, surface->w, surface->h, convertToDisplayFormat);
+            std::vector<unsigned int> packedPixels(static_cast<size_t>(surface->w) * static_cast<size_t>(surface->h));
+            unsigned int const * srcPixels = static_cast<unsigned int const *>(surface->pixels);
+            int const srcPitchPixels       = surface->pitch / static_cast<int>(sizeof(unsigned int));
+
+            for (int y = 0; y < surface->h; ++y) {
+                unsigned int* dstRow = packedPixels.data() + static_cast<size_t>(y) * static_cast<size_t>(surface->w);
+                unsigned int const * srcRow = srcPixels + static_cast<size_t>(y) * static_cast<size_t>(srcPitchPixels);
+                std::copy(srcRow, srcRow + surface->w, dstRow);
+            }
+
+            OpenGLImage* image = new OpenGLImage(packedPixels.data(), surface->w, surface->h, convertToDisplayFormat);
             SDL_FreeSurface(surface);
 
             return image;

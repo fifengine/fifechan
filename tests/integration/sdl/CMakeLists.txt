@@ -35,9 +35,9 @@ target_link_libraries(sdlhelloworld PRIVATE
   $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
   # SDL2_ttf
   $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # Fifechan
+  # FifeGUI
   fifechan::fifechan
-  # Fifechan SDL extension
+  # FifeGUI SDL extension
   fifechan::fifechan_sdl2
 )
 
@@ -103,9 +103,9 @@ target_link_libraries(sdlwidgets PRIVATE
   $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
   # SDL2_ttf
   $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # Fifechan
+  # FifeGUI
   fifechan::fifechan
-  # Fifechan SDL extension
+  # FifeGUI SDL extension
   fifechan::fifechan_sdl2
 )
 

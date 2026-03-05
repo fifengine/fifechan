@@ -275,17 +275,17 @@ namespace fcn
 
         // Inherited from BasicContainer
 
-        virtual void showWidgetPart(Widget* widget, Rectangle area);
+        void showWidgetPart(Widget* widget, Rectangle area) override;
 
-        virtual Rectangle getChildrenArea();
+        Rectangle getChildrenArea() override;
 
         virtual Widget* getWidgetAt(int x, int y);
 
         // Inherited from Widget
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
-        virtual void logic();
+        void logic() override;
 
         void setWidth(int width);
 
@@ -293,27 +293,27 @@ namespace fcn
 
         void setDimension(Rectangle const & dimension);
 
-        virtual void resizeToContent(bool recursion = true);
+        void resizeToContent(bool recursion = true) override;
 
-        virtual void adjustSize();
+        void adjustSize() override;
 
-        virtual void expandContent(bool recursion = true);
+        void expandContent(bool recursion = true) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
+        void mouseWheelMovedRight(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
+        void mouseWheelMovedLeft(MouseEvent& mouseEvent) override;
 
     protected:
         /**

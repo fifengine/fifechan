@@ -49,10 +49,10 @@ if [[ -z "${CI:-}" && -z "${GITHUB_ACTIONS:-}" ]]; then
       exit 1
     fi
   fi
-  find src tests include -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec dos2unix {} \;
+  find src tests include examples -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec dos2unix {} \;
 fi
 
-find src tests include -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec "$CLANG_FORMAT" -i -style=file {} \;
+find src tests include examples -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.cpp" \) -exec "$CLANG_FORMAT" -i -style=file {} \;
 
 # In the CI context, we run `git diff --exit-code`.
 # After clang-format finishes, we check for changes with `git diff`.

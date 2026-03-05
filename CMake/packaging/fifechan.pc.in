@@ -4,7 +4,7 @@ libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@
 includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@
 
 Name: @CMAKE_PROJECT_NAME@
-Description: Fifechan is a C++ GUI library designed for games.
+Description: FifeGUI (formerly Fifechan) is a C++ GUI library designed for games.
 Version: @PROJECT_VERSION@
 Libs: -L${libdir} -lfifechan
 Cflags: -I${includedir}

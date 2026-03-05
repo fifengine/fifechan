@@ -150,8 +150,8 @@ namespace fcn
 
         glEnable(GL_TEXTURE_2D);
 
-        // Check if blending already is enabled
-        if (!mAlpha) {
+        GLboolean const blendWasEnabled = glIsEnabled(GL_BLEND);
+        if (!blendWasEnabled) {
             glEnable(GL_BLEND);
         }
 
@@ -171,8 +171,7 @@ namespace fcn
         glEnd();
         glDisable(GL_TEXTURE_2D);
 
-        // Don't disable blending if the color has alpha
-        if (!mAlpha) {
+        if (!blendWasEnabled) {
             glDisable(GL_BLEND);
         }
     }
