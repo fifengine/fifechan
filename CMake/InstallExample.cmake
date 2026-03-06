@@ -18,7 +18,7 @@ function(fifechan_install_example example_name)
     foreach(example_target IN LISTS FIFECHAN_EXAMPLE_TARGETS)
       set_property(TARGET ${example_target} APPEND PROPERTY INSTALL_RPATH "\$ORIGIN/../../../../${CMAKE_INSTALL_LIBDIR}")
 
-      if(WIN32)
+      if(WIN32 AND BUILD_SHARED_LIBS)
         add_custom_command(TARGET ${example_target} POST_BUILD
           # Ensure runtime dependencies (for example freetype.dll and libpng16.dll)
           # are available next to each built example executable on Windows.
