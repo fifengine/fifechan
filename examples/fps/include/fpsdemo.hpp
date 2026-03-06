@@ -25,6 +25,8 @@
 
 #include <fifechan.hpp>
 
+#include <string>
+
 #include "fpsbutton.hpp"
 #include "fpscheckbox.hpp"
 

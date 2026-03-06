@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include <catch2/catch_test_macros.hpp>
-
 #include "fifechan/size.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("Size stores and updates dimensions", "[unit][size]")
 {

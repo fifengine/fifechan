@@ -6,6 +6,7 @@
 
 #include <cmath>
 #include <sstream>
+#include <string>
 
 namespace
 {
@@ -73,7 +74,7 @@ FPSDemo::FPSDemo() :
         mMusic        = Mix_LoadMUS("sound/space.ogg");
 
         // Set the mixer volume
-        Mix_Volume(-1, (int)(MIX_MAX_VOLUME * 0.7));
+        Mix_Volume(-1, static_cast<int>(MIX_MAX_VOLUME * 0.7));
     }
 
     // Create some GLU quadrics
@@ -700,6 +701,7 @@ void FPSDemo::runMain()
 void FPSDemo::input()
 {
     while (SDL_PollEvent(&mEvent)) {
+        // We ignore keyboard input and just sends mouse input to Fifechan
         if (mEvent.type == SDL_KEYDOWN) {
             if (mEvent.key.keysym.sym == SDLK_ESCAPE) {
                 mMain->setVisible(true);
@@ -709,9 +711,7 @@ void FPSDemo::input()
             }
         } else if (mEvent.type == SDL_QUIT) {
             mRunning = false;
-        }
-        // We ignore keyboard input and just sends mouse input to Fifechan
-        else if (
+        } else if (
             mEvent.type == SDL_MOUSEMOTION || mEvent.type == SDL_MOUSEBUTTONDOWN || mEvent.type == SDL_MOUSEBUTTONUP) {
             mSDLInput->pushInput(mEvent);
         }
@@ -767,13 +767,13 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
     } else if (actionEvent.getId() == "volume") {
         std::string str;
         std::ostringstream os(str);
-        os << (int)(mVolume->getValue() * 100) << "%";
+        os << static_cast<int>(mVolume->getValue() * 100) << "%";
         mVolumePercent->setCaption(os.str());
         mVolumePercent->adjustSize();
         if (mAudioAvailable) {
             double m = MIX_MAX_VOLUME;
             double p = mVolume->getValue();
-            Mix_Volume(-1, (int)(m * p));
+            Mix_Volume(-1, static_cast<int>(m * p));
         }
     }
 }

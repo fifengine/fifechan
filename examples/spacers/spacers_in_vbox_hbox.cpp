@@ -23,7 +23,7 @@ class MyActionListener : public fcn::ActionListener
     fcn::Container* mParent;
 
 public:
-    MyActionListener(fcn::Container* parent)
+    explicit MyActionListener(fcn::Container* parent)
     {
         mParent = parent;
     }

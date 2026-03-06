@@ -34,7 +34,7 @@ public:
      * must run before the execution code in the FPSCheckBox constructor).
      *
      */
-    FPSCheckBox(std::string const & caption) : CheckBox(caption) { }
+    explicit FPSCheckBox(std::string const & caption) : CheckBox(caption) { }
 
     /*
      * Inherited from Widget

@@ -3,9 +3,8 @@
 
 #include <stdexcept>
 
-#include <catch2/catch_test_macros.hpp>
-
 #include "fifechan/color.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("Color constructors parse common formats", "[unit][color]")
 {

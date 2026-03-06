@@ -22,7 +22,7 @@
 class FPSButton : public fcn::Button
 {
 public:
-    FPSButton(std::string const & caption);
+    explicit FPSButton(std::string const & caption);
     ~FPSButton();
 
     /*
