@@ -6,6 +6,23 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
   find_package(SDL2_mixer CONFIG REQUIRED)
   find_package(PNG REQUIRED)
 
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    set(FPS_WINDOWS_RUNTIME_FILES
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/freetype.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/libpng16d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/libpng16.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlidec.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlidec.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlicommon.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlicommon.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/bz2d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/bz2.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zlibd1.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/zlib1.dll>"
+    )
+  endif()
+
   add_executable(fps_demo
     src/fifechanfpsdemo.cpp
     src/fpsbutton.cpp
@@ -53,61 +70,12 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
     VERBATIM
   )
 
-  # Windows DLL Handling
-  if(WIN32 AND BUILD_SHARED_LIBS)
-    set(FPS_RUNTIME_TARGETS
-      Freetype::Freetype
-    )
-
-    set(FPS_PNG_RUNTIME_TARGET
-      $<IF:$<TARGET_EXISTS:PNG::PNG>,PNG::PNG,PNG::png_shared>
-    )
-
-    list(APPEND FPS_RUNTIME_TARGETS ${FPS_PNG_RUNTIME_TARGET})
-
-    # Optional Dependencies (add if target exists)
-    set(_optional_runtime_deps
-      BZip2::BZip2
-      unofficial::brotli::brotlidec
-      unofficial::brotli::brotlicommon
-    )
-
-    foreach(dep ${_optional_runtime_deps})
-      if(TARGET ${dep})
-        list(APPEND FPS_RUNTIME_TARGETS ${dep})
-      endif()
-    endforeach()
-
-    set(FPS_RUNTIME_DLLS
-      $<TARGET_FILE:Freetype::Freetype>
-      $<TARGET_FILE:${FPS_PNG_RUNTIME_TARGET}>
-      $<$<TARGET_EXISTS:BZip2::BZip2>:$<TARGET_FILE:BZip2::BZip2>>
-      $<$<TARGET_EXISTS:unofficial::brotli::brotlidec>:$<TARGET_FILE:unofficial::brotli::brotlidec>>
-      $<$<TARGET_EXISTS:unofficial::brotli::brotlicommon>:$<TARGET_FILE:unofficial::brotli::brotlicommon>>
-    )
-
-    # Copy DLLs
-    add_custom_command(
-      TARGET fps_demo POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Copying fps runtime DLLs for 'fps_demo'"
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${FPS_RUNTIME_DLLS}
-        $<TARGET_FILE_DIR:fps_demo>
-      COMMAND_EXPAND_LISTS
-      VERBATIM
-    )
-
-    # Install Runtime Artifacts
-    install(IMPORTED_RUNTIME_ARTIFACTS ${FPS_RUNTIME_TARGETS}
-      RUNTIME DESTINATION "${FIFECHAN_EXAMPLE_INSTALL_BASE}/fps"
-    )
-  endif()
-
   fifechan_install_example(fps
     TARGETS fps_demo
     DIRECTORIES
       "${CMAKE_CURRENT_SOURCE_DIR}/images"
       "${CMAKE_CURRENT_SOURCE_DIR}/sound"
+    WINDOWS_RUNTIME_FILES ${FPS_WINDOWS_RUNTIME_FILES}
   )
 else()
   message(STATUS "[INFO] Skipping example 'fps': requires ENABLE_SDL+SDL2_FOUND, ENABLE_OPENGL+OPENGL_FOUND, and GLU (OPENGL_glu_LIBRARY).")

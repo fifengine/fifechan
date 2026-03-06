@@ -5,7 +5,7 @@ include(CMakeParseArguments)
 function(fifechan_install_example example_name)
   set(options)
   set(oneValueArgs)
-  set(multiValueArgs TARGETS DIRECTORIES FILES)
+  set(multiValueArgs TARGETS DIRECTORIES FILES WINDOWS_RUNTIME_FILES)
   cmake_parse_arguments(FIFECHAN_EXAMPLE "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   set(example_destination "${FIFECHAN_EXAMPLE_INSTALL_BASE}/${example_name}")
@@ -31,6 +31,21 @@ function(fifechan_install_example example_name)
         install(FILES $<TARGET_RUNTIME_DLLS:${example_target}>
           DESTINATION "${example_destination}"
         )
+
+        if(FIFECHAN_EXAMPLE_WINDOWS_RUNTIME_FILES)
+          add_custom_command(TARGET ${example_target} POST_BUILD
+            # Some imported libraries flatten transitive runtime DLLs into raw paths,
+            # which TARGET_RUNTIME_DLLS cannot discover. Allow examples to pass those explicitly.
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              ${FIFECHAN_EXAMPLE_WINDOWS_RUNTIME_FILES}
+              $<TARGET_FILE_DIR:${example_target}>
+            COMMAND_EXPAND_LISTS
+          )
+
+          install(FILES ${FIFECHAN_EXAMPLE_WINDOWS_RUNTIME_FILES}
+            DESTINATION "${example_destination}"
+          )
+        endif()
       endif()
     endforeach()
   endif()
