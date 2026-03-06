@@ -32,5 +32,17 @@ set_target_properties(unit_size_tests PROPERTIES
   CXX_STANDARD_REQUIRED ON
 )
 
-add_test(NAME unit_color_tests COMMAND unit_color_tests)
-add_test(NAME unit_size_tests COMMAND unit_size_tests)
+function(add_unit_test_with_runtime_path test_name target_name)
+  # Use the resolved executable path to avoid relying on test working directory.
+  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${target_name}>)
+
+  # When BUILD_SHARED_LIBS is ON on Windows, unit tests need fifechan.dll on PATH.
+  if(WIN32)
+    set_tests_properties(${test_name} PROPERTIES
+      ENVIRONMENT "PATH=$<TARGET_FILE_DIR:${PROJECT_NAME}>;$ENV{PATH}"
+    )
+  endif()
+endfunction()
+
+add_unit_test_with_runtime_path(unit_color_tests unit_color_tests)
+add_unit_test_with_runtime_path(unit_size_tests unit_size_tests)
