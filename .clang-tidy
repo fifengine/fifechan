@@ -1,3 +1,9 @@
+#
+# clang-tidy configuration file.
+#
+# https://clang.llvm.org/extra/clang-tidy/
+# https://clang.llvm.org/extra/clang-tidy/checks/list.html
+#
 Checks: >
   -*,
   bugprone-*,
@@ -35,7 +41,8 @@ Checks: >
 
 WarningsAsErrors: >
   clang-analyzer-security.*
-#HeaderFilterRegex: '.*include/fifechan.*\.hpp'
+# Analyze only headers under include/ and not system headers.
+HeaderFilterRegex: '^include/.*'
 SystemHeaders: false
 # Use our .clang-format file when applying fixes.
 FormatStyle: file

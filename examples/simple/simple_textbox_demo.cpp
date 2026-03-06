@@ -22,7 +22,7 @@
  */
 int main(int argc, char** argv)
 {
-    SDL_Window* window                     = NULL;
+    SDL_Window* window                     = nullptr;
     SDL_GLContext glContext                = nullptr;
     fcn::SDLInput* input                   = nullptr;
     fcn::OpenGLGraphics* graphics          = nullptr;
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     }
 
     window = SDL_CreateWindow("Simple TextBox Demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-    if (window == NULL) {
+    if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
         SDL_Quit();
         return 1;

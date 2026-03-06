@@ -7,7 +7,7 @@
 #include <string>
 
 int FPSButton::mInstances         = 0;
-Mix_Chunk* FPSButton::mHoverSound = NULL;
+Mix_Chunk* FPSButton::mHoverSound = nullptr;
 
 /*
  * It is very important to call Buttons constructor in the constructor
@@ -21,7 +21,7 @@ FPSButton::FPSButton(std::string const & caption) : Button(caption), mHasMouse(f
 
     if (mInstances == 0) {
         mHoverSound = Mix_LoadWAV("sound/sound5.wav");
-        if (mHoverSound != NULL) {
+        if (mHoverSound != nullptr) {
             Mix_VolumeChunk(mHoverSound, 60);
         }
     }
@@ -37,7 +37,7 @@ FPSButton::~FPSButton()
     --mInstances;
 
     if (mInstances == 0) {
-        if (mHoverSound != NULL) {
+        if (mHoverSound != nullptr) {
             Mix_FreeChunk(mHoverSound);
         }
     }
@@ -72,7 +72,7 @@ void FPSButton::setHighLightFont(fcn::Font* font)
 void FPSButton::mouseEntered(fcn::MouseEvent& mouseEvent)
 {
     Button::mouseEntered(mouseEvent);
-    if (mHoverSound != NULL) {
+    if (mHoverSound != nullptr) {
         Mix_PlayChannel(-1, mHoverSound, 0);
     }
     mHasMouse = true;

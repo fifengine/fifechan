@@ -9,12 +9,12 @@
 #include <cmath>
 
 int FFContainer::mInstances          = 0;
-fcn::Image* FFContainer::mCornerUL   = 0;
-fcn::Image* FFContainer::mCornerUR   = 0;
-fcn::Image* FFContainer::mCornerDL   = 0;
-fcn::Image* FFContainer::mCornerDR   = 0;
-fcn::Image* FFContainer::mHorizontal = 0;
-fcn::Image* FFContainer::mVertical   = 0;
+fcn::Image* FFContainer::mCornerUL   = nullptr;
+fcn::Image* FFContainer::mCornerUR   = nullptr;
+fcn::Image* FFContainer::mCornerDL   = nullptr;
+fcn::Image* FFContainer::mCornerDR   = nullptr;
+fcn::Image* FFContainer::mHorizontal = nullptr;
+fcn::Image* FFContainer::mVertical   = nullptr;
 
 FFContainer::FFContainer()
 {

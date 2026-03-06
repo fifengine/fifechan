@@ -16,14 +16,14 @@ namespace fcn
 {
 
     CheckBox::CheckBox() :
-        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(false), mMode(MarkerStyle::Checkmark)
+        mBackgroundImage(nullptr), mInternalBackgroundImage(false), mSelected(false), mMode(MarkerStyle::Checkmark)
     {
 
         adjustSize();
     }
 
     CheckBox::CheckBox(std::string const & caption, bool selected) :
-        mBackgroundImage(0), mInternalBackgroundImage(false), mSelected(selected), mMode(MarkerStyle::Checkmark)
+        mBackgroundImage(nullptr), mInternalBackgroundImage(false), mSelected(selected), mMode(MarkerStyle::Checkmark)
     {
 
         setCaption(caption);

@@ -53,10 +53,10 @@ FPSDemo::FPSDemo() :
     mResolutionChange(false),
     mHaveFullscreen(false),
     mAudioAvailable(false),
-    mChooseSound(NULL),
-    mEscapeSound(NULL),
-    mOptionsSound(NULL),
-    mMusic(NULL)
+    mChooseSound(nullptr),
+    mEscapeSound(nullptr),
+    mOptionsSound(nullptr),
+    mMusic(nullptr)
 {
     // Init SDL
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -650,7 +650,7 @@ void FPSDemo::runIntro()
 
     mGui->setTop(mTop);
 
-    if (mAudioAvailable && mMusic != NULL) {
+    if (mAudioAvailable && mMusic != nullptr) {
         Mix_FadeInMusic(mMusic, -1, 2000);
     }
 }
@@ -724,30 +724,30 @@ void FPSDemo::input()
 void FPSDemo::action(fcn::ActionEvent const & actionEvent)
 {
     if (actionEvent.getId() == "quit") {
-        if (mAudioAvailable && mEscapeSound != NULL) {
+        if (mAudioAvailable && mEscapeSound != nullptr) {
             Mix_PlayChannel(-1, mEscapeSound, 0);
         }
         mRunning = false;
     } else if (actionEvent.getId() == "singleplay") {
-        if (mAudioAvailable && mChooseSound != NULL) {
+        if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mSingleplay->setVisible(true);
     } else if (actionEvent.getId() == "multiplay") {
-        if (mAudioAvailable && mChooseSound != NULL) {
+        if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mMultiplay->setVisible(true);
     } else if (actionEvent.getId() == "options") {
-        if (mAudioAvailable && mChooseSound != NULL) {
+        if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mOptions->setVisible(true);
     } else if (actionEvent.getId() == "back") {
-        if (mAudioAvailable && mEscapeSound != NULL) {
+        if (mAudioAvailable && mEscapeSound != nullptr) {
             Mix_PlayChannel(-1, mEscapeSound, 0);
         }
         mMain->setVisible(true);
@@ -755,12 +755,12 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         mMultiplay->setVisible(false);
         mOptions->setVisible(false);
     } else if (actionEvent.getId() == "fullscreen") {
-        if (mAudioAvailable && mOptionsSound != NULL) {
+        if (mAudioAvailable && mOptionsSound != nullptr) {
             Mix_PlayChannel(-1, mOptionsSound, 0);
         }
         initVideo();
     } else if (actionEvent.getId() == "resolution") {
-        if (mAudioAvailable && mOptionsSound != NULL) {
+        if (mAudioAvailable && mOptionsSound != nullptr) {
             Mix_PlayChannel(-1, mOptionsSound, 0);
         }
         initVideo();

@@ -43,7 +43,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    SDL_Window* sdlWindow            = NULL;
+    SDL_Window* sdlWindow            = nullptr;
     SDL_Renderer* renderer           = nullptr;
     fcn::SDLInput* input             = nullptr;
     fcn::SDL2Graphics* graphics      = nullptr;

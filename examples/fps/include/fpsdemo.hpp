@@ -101,8 +101,8 @@ private:
     float mDeltaTime;
     float mTime;
 
-    SDL_Window* window      = NULL;
-    SDL_GLContext glcontext = NULL;
+    SDL_Window* window      = nullptr;
+    SDL_GLContext glcontext = nullptr;
     SDL_Event mEvent;
 
     Mix_Chunk* mChooseSound;
