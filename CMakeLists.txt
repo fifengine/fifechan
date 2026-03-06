@@ -2,7 +2,7 @@
 # FifeGUI (formerly FifeChan)
 #------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.0...3.30)
+cmake_minimum_required(VERSION 3.25...4.2)
 
 # MSVC runtime library flags are selected by an abstraction.
 # In short: do not ignore CMAKE_MSVC_RUNTIME_LIBRARY.
