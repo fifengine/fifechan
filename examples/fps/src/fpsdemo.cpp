@@ -606,13 +606,13 @@ void FPSDemo::drawSpace()
 
     glScalef(2, 1.5, 1);
     glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f);
+    glTexCoord2f(0.0F, 0.0F);
     glVertex3i(0, y, 0);
-    glTexCoord2f(1.0f, 0.0f);
+    glTexCoord2f(1.0F, 0.0F);
     glVertex3i(mStarsImage->getWidth(), y, 0);
-    glTexCoord2f(1.0f, 1.0f);
+    glTexCoord2f(1.0F, 1.0F);
     glVertex3i(mStarsImage->getWidth(), mStarsImage->getHeight() + y, 0);
-    glTexCoord2f(0.0f, 1.0f);
+    glTexCoord2f(0.0F, 1.0F);
     glVertex3i(0, mStarsImage->getHeight() + y, 0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
@@ -806,10 +806,10 @@ void FPSDemo::initOpenGL()
 {
     // Init OpenGL
     glViewport(0, 0, mWidth, mHeight);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
     glShadeModel(GL_SMOOTH);
-    glClearDepth(1.0f);
+    glClearDepth(1.0F);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -822,20 +822,20 @@ void FPSDemo::initOpenGL()
     glLoadIdentity();
 
     // Init Light
-    Light2Ambient[0] = 0.5f;
-    Light2Ambient[1] = 0.4f;
-    Light2Ambient[2] = 0.7f;
-    Light2Ambient[3] = 1.0f;
+    Light2Ambient[0] = 0.5F;
+    Light2Ambient[1] = 0.4F;
+    Light2Ambient[2] = 0.7F;
+    Light2Ambient[3] = 1.0F;
 
-    Light2Diffuse[0] = 1.0f;
-    Light2Diffuse[1] = 1.0f;
-    Light2Diffuse[2] = 1.0f;
-    Light2Diffuse[3] = 1.0f;
+    Light2Diffuse[0] = 1.0F;
+    Light2Diffuse[1] = 1.0F;
+    Light2Diffuse[2] = 1.0F;
+    Light2Diffuse[3] = 1.0F;
 
-    Light2Position[0] = 10.0f;
-    Light2Position[1] = .5f;
-    Light2Position[2] = 0.0f;
-    Light2Position[3] = 1.0f;
+    Light2Position[0] = 10.0F;
+    Light2Position[1] = .5F;
+    Light2Position[2] = 0.0F;
+    Light2Position[3] = 1.0F;
 
     Light2SpotDirection[0] = -1.0;
     Light2SpotDirection[1] = 0.0;

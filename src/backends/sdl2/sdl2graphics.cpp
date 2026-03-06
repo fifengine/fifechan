@@ -425,7 +425,7 @@ namespace fcn
     // Function to convert degrees to radians
     constexpr float degToRad(float degrees)
     {
-        return degrees * static_cast<float>(M_PI) / 180.0f;
+        return degrees * static_cast<float>(M_PI) / 180.0F;
     }
 
     // Function to draw a filled circle segment
@@ -558,7 +558,7 @@ namespace fcn
         int p = 1 - radius;
 
         auto isInSegment = [&](int x, int y) {
-            float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0f / static_cast<float>(M_PI);
+            float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0F / static_cast<float>(M_PI);
             if (angle < 0) {
                 angle += 360;
             }
@@ -617,7 +617,7 @@ namespace fcn
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
-        fcn::Point previousPoint = bezierPoint(controlPoints, 0.0f);
+        fcn::Point previousPoint = bezierPoint(controlPoints, 0.0F);
 
         for (int i = 1; i <= segments; ++i) {
             float t                 = static_cast<float>(i) / static_cast<float>(segments);
