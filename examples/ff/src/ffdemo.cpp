@@ -5,9 +5,9 @@
 #include "ffdemo.hpp"
 
 #include <iostream>
-#include <string>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 namespace
 {
