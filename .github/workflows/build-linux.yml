@@ -169,8 +169,19 @@ jobs:
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd "${VCPKG_ROOT}"
-          git fetch --tags
-          LATEST_VCPKG_TAG="$(git describe --tags --abbrev=0)"
+          git fetch --tags --force
+
+          # GitHub-hosted runner vcpkg can contain local edits; stash to allow checkout.
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git stash push --include-untracked --message "ci-temp-before-tag-checkout"
+          fi
+
+          LATEST_VCPKG_TAG="$(git for-each-ref --sort=-creatordate --format='%(refname:short)' refs/tags | head -n 1)"
+          if [[ -z "${LATEST_VCPKG_TAG}" ]]; then
+            echo "Failed to resolve latest vcpkg tag" >&2
+            exit 1
+          fi
+
           git checkout "${LATEST_VCPKG_TAG}"
 
       - name: 🛠️ Setup VCPKG
