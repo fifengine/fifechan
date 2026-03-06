@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+#include "fifechan/color.hpp"
+
 #include <stdexcept>
 
 #include <catch2/catch_test_macros.hpp>
-#include "fifechan/color.hpp"
 
 TEST_CASE("Color constructors parse common formats", "[unit][color]")
 {
