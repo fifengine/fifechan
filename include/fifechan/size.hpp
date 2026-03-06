@@ -9,6 +9,9 @@
 
 namespace fcn
 {
+    /**
+     * Represents the size of a GUI element, defined by its width and height.
+     */
     class FIFEGUI_API Size
     {
     public:

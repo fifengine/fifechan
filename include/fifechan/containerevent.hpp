@@ -14,9 +14,10 @@ namespace fcn
     class Widget;
 
     /**
-     * Represents a container event. A container event is an event
-     * that can be fired by a container whenever a widget is added
-     * or removed.
+     * Represents a container event.
+     *
+     * A container event is an event that can be fired by a container
+     * when a widget is added or removed.
      *
      * Any object can listen for actions from a container by implementing
      * the ContainerListener interface.

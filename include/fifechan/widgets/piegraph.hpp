@@ -14,6 +14,13 @@ namespace fcn
 {
     class Graphics;
 
+    /**
+     * An implementation of a pie graph.
+     *
+     * A pie graph is a circular graph that is divided into segments.
+     * Each segment represents a portion of the whole graph, and the size of
+     * each segment is determined by the start and stop angles of the segment.
+     */
     class FIFEGUI_API PieGraph : public Widget
     {
     public:

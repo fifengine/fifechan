@@ -12,6 +12,15 @@ namespace fcn
 {
     class Graphics;
 
+    /**
+     * A widget that draws a graph of points.
+     *
+     * The graph is drawn by connecting the points with lines.
+     * The thickness of the lines can be set with setThickness.
+     * The graph can be set to be opaque or not with setOpaque.
+     * If the graph is opaque, it will be drawn with a solid color,
+     * otherwise it will be drawn with a transparent color.
+     */
     class FIFEGUI_API PointGraph : public Widget
     {
     public:

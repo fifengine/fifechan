@@ -12,6 +12,9 @@ namespace fcn
 {
     class Graphics;
 
+    /**
+     * A widget that displays a line graph based on a vector of points.
+     */
     class FIFEGUI_API LineGraph : public Widget
     {
     public:

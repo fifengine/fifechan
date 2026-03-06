@@ -11,6 +11,9 @@ namespace fcn
 {
     class Graphics;
 
+    /**
+     * A widget that acts as a spacer, providing empty space in a layout.
+     */
     class FIFEGUI_API Spacer : public Widget
     {
     public:
