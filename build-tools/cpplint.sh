@@ -14,4 +14,4 @@ export PATH="$VIRTUAL_ENV/bin:$PATH"
 pip install --prefer-binary --no-cache-dir --upgrade pip
 pip install --prefer-binary --no-cache-dir cpplint
 
-cpplint --recursive src tests include --config=../CPPLINT.cfg
+cpplint --recursive src include examples tests --config=../CPPLINT.cfg

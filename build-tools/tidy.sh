@@ -97,7 +97,7 @@ if [[ $# -eq 1 ]]; then
   fi
   files=("$1")
 else
-  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|tests/).*(\.(cpp|cxx|cc|c|h|hpp))$' || true)
+  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|examples/|tests/).*(\.(cpp|cxx|cc|c|h|hpp))$' || true)
 
   if [[ ${#files[@]} -eq 0 ]]; then
     echo "No C/C++ source files found to analyze."
