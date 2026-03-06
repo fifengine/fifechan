@@ -22,7 +22,7 @@ namespace fcn
      */
     inline Color const SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
-        const int bpp = surface->format->BytesPerPixel;
+        int const bpp = surface->format->BytesPerPixel;
 
         SDL_LockSurface(surface);
 

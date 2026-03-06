@@ -593,7 +593,7 @@ void FPSDemo::drawBackground()
  */
 void FPSDemo::drawSpace()
 {
-    const int y = -200;
+    int const y = -200;
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -771,8 +771,8 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         mVolumePercent->setCaption(os.str());
         mVolumePercent->adjustSize();
         if (mAudioAvailable) {
-            const double m = MIX_MAX_VOLUME;
-            const double p = mVolume->getValue();
+            double const m = MIX_MAX_VOLUME;
+            double const p = mVolume->getValue();
             Mix_Volume(-1, static_cast<int>(m * p));
         }
     }
@@ -852,8 +852,8 @@ void FPSDemo::initOpenGL()
 
 void FPSDemo::resize()
 {
-    const int mHalfWidth  = mWidth / 2;
-    const int mHalfHeight = mHeight / 2;
+    int const mHalfWidth  = mWidth / 2;
+    int const mHalfHeight = mHeight / 2;
 
     mTitle->setPosition(mHalfWidth - 330, mHalfHeight - 290);
     mDemoInfo->setPosition(mHalfWidth - 390, mHeight - 50);
