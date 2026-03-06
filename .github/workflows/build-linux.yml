@@ -248,7 +248,7 @@ jobs:
       VCPKG_FORCE_SYSTEM_BINARIES: 1
       VCPKG_FEATURE_FLAGS: manifests,versions,binarycaching,registries
       SOURCE_DIR: ${{ github.workspace }}
-      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      VCPKG_ROOT: /opt/vcpkg
 
     defaults:
       run:
@@ -264,10 +264,12 @@ jobs:
           echo "BUILD_DIR=out/build/${{ matrix.config.preset }}" >> "$GITHUB_ENV"
           echo "INSTALL_DIR=out/install/${{ matrix.config.preset }}" >> "$GITHUB_ENV"
 
-      # Use runner vcpkg when present, otherwise clone vcpkg into workspace.
+      # Prefer container-provided vcpkg at /opt/vcpkg.
       - name: 🔽 Define VCPKG_ROOT
         run: |
-          if [[ -n "${VCPKG_INSTALLATION_ROOT}" && -d "${VCPKG_INSTALLATION_ROOT}" ]]; then
+          if [[ -d "/opt/vcpkg" ]]; then
+            echo "VCPKG_ROOT=/opt/vcpkg" >> "$GITHUB_ENV"
+          elif [[ -n "${VCPKG_INSTALLATION_ROOT}" && -d "${VCPKG_INSTALLATION_ROOT}" ]]; then
             echo "VCPKG_ROOT=${VCPKG_INSTALLATION_ROOT}" >> "$GITHUB_ENV"
           else
             echo "VCPKG_ROOT=${GITHUB_WORKSPACE}/vcpkg" >> "$GITHUB_ENV"
