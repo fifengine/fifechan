@@ -43,7 +43,7 @@ jobs:
           #- Debug
         config:
           - {
-              job_name: "Win | VC17 | Shared Release",
+              job_name: "Win | VC17 | Shared | Release",
               cache_key: "win-vc17-x64-shared-release",
               os: "windows-2025",
               generator: "Visual Studio 17 2022",
@@ -53,7 +53,7 @@ jobs:
               shared_libs: "ON"
             }
           - {
-              job_name: "Win | VC17 | Static Release",
+              job_name: "Win | VC17 | Static | Release",
               cache_key: "win-vc17-x64-static-release",
               os: "windows-2025",
               generator: "Visual Studio 17 2022",
@@ -63,7 +63,7 @@ jobs:
               shared_libs: "OFF"
             }
           - {
-              job_name: "Win | VC18 | Shared Release",
+              job_name: "Win | VC18 | Shared | Release",
               cache_key: "win-vc18-x64-shared-release",
               os: "windows-2025-vs2026",
               generator: "Visual Studio 18 2026",

@@ -28,6 +28,24 @@
       ]
     },
     {
+      "name": "vcpkg-triplet-x64-linux-static",
+      "hidden": true,
+      "description": "Set vcpkg target_triplet (static).",
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": {
+          "type": "BOOL",
+          "value": "OFF"
+        },
+        "VCPKG_TARGET_TRIPLET": {
+          "type": "STRING",
+          "value": "x64-linux-static"
+        }
+      },
+      "inherits": [
+        "vcpkg-default-config"
+      ]
+    },
+    {
       "name": "gcc-x64-linux-base",
       "hidden": true,
       "vendor": {
@@ -146,6 +164,15 @@
       "inherits": [
         "gcc-x64-linux-base",
         "compiler-gcc14-linux"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-static",
+      "hidden": true,
+      "inherits": [
+        "gcc-x64-linux-base",
+        "compiler-gcc14-linux",
+        "vcpkg-triplet-x64-linux-static"
       ]
     },
     {
@@ -300,6 +327,15 @@
       "inherits": [
         "clang-x64-linux-base",
         "compiler-clang18-linux"
+      ]
+    },
+    {
+      "name": "clang18-x64-linux-static",
+      "hidden": true,
+      "inherits": [
+        "clang-x64-linux-base",
+        "compiler-clang18-linux",
+        "vcpkg-triplet-x64-linux-static"
       ]
     },
     {

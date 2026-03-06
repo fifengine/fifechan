@@ -6,9 +6,9 @@
     "patch": 0
   },
   "include": [
-    "cmake/presets/base.json",
-    "cmake/presets/windows.json",
-    "cmake/presets/linux.json"
+    "CMake/presets/base.json",
+    "CMake/presets/windows.json",
+    "CMake/presets/linux.json"
   ],
   "configurePresets": [
     {
@@ -117,6 +117,14 @@
       }
     },
     {
+      "name": "clang18-x64-linux-static-rel",
+      "displayName": "Clang18 Static Release",
+      "inherits": "clang18-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "clang20-x64-linux-rel",
       "displayName": "Clang20 Release",
       "inherits": "clang20-x64-linux",
@@ -136,6 +144,14 @@
       "name": "gcc14-x64-linux-rel",
       "displayName": "GCC14 Release",
       "inherits": "gcc14-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc14-x64-linux-static-rel",
+      "displayName": "GCC14 Static Release",
+      "inherits": "gcc14-x64-linux-static",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -192,6 +208,13 @@
       ]
     },
     {
+      "name": "clang18-x64-linux-static-rel",
+      "configurePreset": "clang18-x64-linux-static-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
       "name": "clang16-x64-linux-rel",
       "configurePreset": "clang16-x64-linux-rel",
       "targets": [
@@ -208,6 +231,13 @@
     {
       "name": "gcc14-x64-linux-rel",
       "configurePreset": "gcc14-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-static-rel",
+      "configurePreset": "gcc14-x64-linux-static-rel",
       "targets": [
         "fifechan"
       ]

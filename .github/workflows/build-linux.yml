@@ -1,0 +1,227 @@
+#
+# .github/workflows/build-linux.yml
+#
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Jens A. Koch.
+# This file is part of fifengine/fifechan.
+#
+
+name: "Build on Linux"
+
+on:
+  - pull_request
+  # You can manually run this workflow.
+  - workflow_dispatch
+
+# improve CI concurrency by automatically cancelling outdated jobs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+# ---------------------------------------------------------------------------------------
+
+  build:
+
+# ---------------------------------------------------------------------------------------
+
+    name: "${{ matrix.config.job_name }}"
+
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type:
+          - "Release"
+        config:
+          - {
+              job_name: "Linux | GCC14 | Shared | Release",
+              cache_key: "linux-gcc14-x64-shared-release",
+              os: "ubuntu-24.04",
+              compiler_family: "gcc",
+              cc: "gcc-14",
+              cxx: "g++-14",
+              preset: "gcc14-x64-linux-rel",
+              build_dir: "out/build/gcc14-x64-linux-rel",
+              install_dir: "out/install/gcc14-x64-linux-rel",
+              vcpkg_triplet: "x64-linux",
+              shared_libs: "ON"
+            }
+          - {
+              job_name: "Linux | GCC14 | Static | Release",
+              cache_key: "linux-gcc14-x64-static-release",
+              os: "ubuntu-24.04",
+              compiler_family: "gcc",
+              cc: "gcc-14",
+              cxx: "g++-14",
+              preset: "gcc14-x64-linux-static-rel",
+              build_dir: "out/build/gcc14-x64-linux-static-rel",
+              install_dir: "out/install/gcc14-x64-linux-static-rel",
+              vcpkg_triplet: "x64-linux-static",
+              shared_libs: "OFF"
+            }
+          - {
+              job_name: "Linux | Clang18 | Shared | Release",
+              cache_key: "linux-clang18-x64-shared-release",
+              os: "ubuntu-24.04",
+              compiler_family: "clang",
+              cc: "clang-18",
+              cxx: "clang++-18",
+              preset: "clang18-x64-linux-rel",
+              build_dir: "out/build/clang18-x64-linux-rel",
+              install_dir: "out/install/clang18-x64-linux-rel",
+              vcpkg_triplet: "x64-linux",
+              shared_libs: "ON"
+            }
+          - {
+              job_name: "Linux | Clang18 | Static | Release",
+              cache_key: "linux-clang18-x64-static-release",
+              os: "ubuntu-24.04",
+              compiler_family: "clang",
+              cc: "clang-18",
+              cxx: "clang++-18",
+              preset: "clang18-x64-linux-static-rel",
+              build_dir: "out/build/clang18-x64-linux-static-rel",
+              install_dir: "out/install/clang18-x64-linux-static-rel",
+              vcpkg_triplet: "x64-linux-static",
+              shared_libs: "OFF"
+            }
+
+    env:
+      VCPKG_DISABLE_METRICS: 1
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
+      VCPKG_FEATURE_FLAGS: manifests,versions,binarycaching,registries
+      SOURCE_DIR: ${{ github.workspace }}
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      ARTIFACT_NAME: fifechan
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 🤘 Checkout Code
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
+
+      - name: 🔽 Install Build Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            software-properties-common \
+            ninja-build \
+            cmake \
+            jq \
+            wget \
+            git \
+            pkg-config
+
+      - name: 🔽 Install GCC 14
+        if: matrix.config.compiler_family == 'gcc'
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 g++-14
+
+      - name: 🔽 Install Clang 18
+        if: matrix.config.compiler_family == 'clang'
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x ./llvm.sh
+          sudo ./llvm.sh 18
+          sudo apt-get install -y clang-18 lld-18
+          rm llvm.sh
+
+      - name: 🔽 Set Compiler Environment
+        run: |
+          echo "CC=${{ matrix.config.cc }}" >> "$GITHUB_ENV"
+          echo "CXX=${{ matrix.config.cxx }}" >> "$GITHUB_ENV"
+
+      # Use runner vcpkg when present, otherwise clone vcpkg into workspace.
+      - name: 🔽 Define VCPKG_ROOT
+        run: |
+          if [[ -n "${VCPKG_INSTALLATION_ROOT}" && -d "${VCPKG_INSTALLATION_ROOT}" ]]; then
+            echo "VCPKG_ROOT=${VCPKG_INSTALLATION_ROOT}" >> "$GITHUB_ENV"
+          else
+            echo "VCPKG_ROOT=${GITHUB_WORKSPACE}/vcpkg" >> "$GITHUB_ENV"
+          fi
+
+      - name: 🎯 Setup Package Cache (vcpkg)
+        id: cache-vcpkg
+        uses: actions/cache@v5 # https://github.com/actions/cache
+        with:
+          path: |
+            ${{ env.VCPKG_ROOT }}/packages
+            ~/.cache/vcpkg/archives
+          key: cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+          restore-keys: |
+            cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+            cache-vcpkg-${{ matrix.config.cache_key }}
+
+      - name: 🔽 Clone VCPKG (if missing)
+        run: |
+          if [[ ! -d "${VCPKG_ROOT}" ]]; then
+            git clone https://github.com/microsoft/vcpkg.git "${VCPKG_ROOT}"
+          fi
+
+      - name: 🔽 Update VCPKG (latest TAG)
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          cd "${VCPKG_ROOT}"
+          git fetch --tags
+          LATEST_VCPKG_TAG="$(git describe --tags --abbrev=0)"
+          git checkout "${LATEST_VCPKG_TAG}"
+
+      - name: 🛠️ Setup VCPKG
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          "${VCPKG_ROOT}/bootstrap-vcpkg.sh"
+          "${VCPKG_ROOT}/vcpkg" integrate install
+
+      - name: 🛠️ CMake ➔ Configure (Preset)
+        run: |
+          cmake --preset "${{ matrix.config.preset }}"
+
+      - name: 🙏 CMake ➔ Build
+        run: |
+          cmake --build "${{ matrix.config.build_dir }}"
+
+      - name: 📦 CMake ➔ Install
+        run: |
+          cmake --install "${{ matrix.config.build_dir }}" \
+            --prefix "${{ matrix.config.install_dir }}" \
+            --verbose
+
+      - name: 🧪 CTest ➔ Run Tests
+        run: |
+          ctest \
+            --test-dir "${{ matrix.config.build_dir }}" \
+            --output-on-failure
+
+      - name: ❔ CHECK folders, to see if everything is present (after building)
+        run: |
+          find "${{ matrix.config.install_dir }}" -type f | sort
+
+      # Build Artifact Name: fifechan-1.2.3-0cda6a2-clang18-x64-static
+      # Scheme for CI artifacts: $NAME-$VERSION-$SHORT_HASH-$COMPILER_SHORT-$TRIPLET
+      # '-release' is removed from cache_key, e.g.: linux-gcc14-x64-shared-release => gcc14-x64-shared
+      - name: ✏ Build Artifact Name
+        run: |
+          NAME='fifechan'
+          VERSION="$(jq -r .version vcpkg.json)"
+          SHORT_HASH="${GITHUB_SHA::7}"
+          SUFFIX="${{ matrix.config.cache_key }}"
+          SUFFIX="${SUFFIX#linux-}"
+          SUFFIX="${SUFFIX%-release}"
+          ARTIFACT_NAME="${NAME}-${VERSION}-${SHORT_HASH}-${SUFFIX}"
+          echo "ARTIFACT_NAME: ${ARTIFACT_NAME}"
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: 🔼 Upload Build Artifact
+        uses: actions/upload-artifact@v4 # https://github.com/actions/upload-artifact
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ matrix.config.install_dir }}/**/*
