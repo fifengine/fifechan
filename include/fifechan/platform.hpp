@@ -31,6 +31,13 @@
   #define FIFEGUI_COMPILER_MINGW 1
 #endif
 
+// Static builds do not use import/export decorations on Windows.
+#if !defined(FIFECHAN_STATIC)
+  #if defined(FIFECHAN_STATICLIB)
+    #define FIFECHAN_STATIC 1
+  #endif
+#endif
+
 /**
  * Symbol Visibility
  *
@@ -83,7 +90,10 @@
       #define FIFEGUI_EXT_API __attribute__((visibility("default")))
   #endif
 #elif defined(FIFEGUI_OS_WINDOWS)
-  #if defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
+  #if defined(FIFECHAN_STATIC)
+    #define FIFEGUI_API
+    #define FIFEGUI_EXT_API
+  #elif defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
     #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
       // Building the library
       #define FIFEGUI_API __declspec(dllexport)
