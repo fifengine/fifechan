@@ -4,6 +4,13 @@
 
 cmake_minimum_required(VERSION 3.0...3.30)
 
+# MSVC runtime library flags are selected by an abstraction.
+# In short: do not ignore CMAKE_MSVC_RUNTIME_LIBRARY.
+# https://cmake.org/cmake/help/latest/policy/CMP0091.html
+if(POLICY CMP0091)
+  cmake_policy(SET CMP0091 NEW)
+endif()
+
 # include additional CMake scripts
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -152,6 +159,13 @@ SET(CMAKE_COLOR_DIAGNOSTICS ON)
 
 if(WIN32)
   if(MSVC)
+    # Keep CRT selection consistent with BUILD_SHARED_LIBS and vcpkg triplet.
+    if(BUILD_SHARED_LIBS)
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    else()
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+
     # ensure we use minimal "windows.h" lib without the crazy min max macros
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
@@ -204,6 +218,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include> # to include the generated "version.hpp"
     $<INSTALL_INTERFACE:include>
+)
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+  $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -269,6 +287,10 @@ if(OPENGL_FOUND)
     $<BUILD_INTERFACE:${OPENGL_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
+  )
+
+  target_compile_definitions(${PROJECT_NAME}_opengl PUBLIC
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
   )
 
   # link dependencies to the extension
@@ -340,6 +362,10 @@ if(ENABLE_SDL)
     # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
     $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
+  )
+
+  target_compile_definitions(${PROJECT_NAME}_sdl2 PUBLIC
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
   )
 
   target_link_libraries(${PROJECT_NAME}_sdl2 PRIVATE
