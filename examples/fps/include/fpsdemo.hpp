@@ -8,10 +8,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-#if defined(__amigaos4__)
-    #include <mgl/gl.h>
-    #include <mgl/glu.h>
-#elif defined(__APPLE__)
+#if defined(_WIN32)
+    #include <windows.h>
+#endif
+
+#if defined(__APPLE__)
     #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
 #else
