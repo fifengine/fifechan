@@ -177,10 +177,15 @@ else()
 
   # Unix-like systems (Linux, macOS, etc.)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    # Use libc++ for Clang
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+    # Apple Clang defaults to libc++, but Linux Clang commonly targets libstdc++.
+    # Forcing libc++ on Linux can fail when libc++ headers/runtime are unavailable.
+    if(APPLE)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+    else()
+      message(STATUS "Using Clang ${CMAKE_CXX_COMPILER_VERSION} with default C++ standard library")
+    endif()
   elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     message(STATUS "Using GCC ${CMAKE_CXX_COMPILER_VERSION} with libstdc++")
   endif()
