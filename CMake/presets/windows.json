@@ -215,7 +215,7 @@
         "cmake-default-config",
         "cmake-enable-warnings",
         "generator-ninja",
-        "compiler-msvc-vc17",
+        "compiler-msvc-vc18",
         "build-folders-default",
         "vcpkg-triplet-x64-windows"
       ]
