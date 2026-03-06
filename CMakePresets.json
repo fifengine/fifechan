@@ -133,6 +133,14 @@
       }
     },
     {
+      "name": "clang21-x64-linux-rel",
+      "displayName": "Clang21 Release",
+      "inherits": "clang21-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "gcc12-x64-linux-rel",
       "displayName": "GCC12 Release",
       "inherits": "gcc12-x64-linux",
@@ -196,6 +204,13 @@
     {
       "name": "clang20-x64-linux-rel",
       "configurePreset": "clang20-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "clang21-x64-linux-rel",
+      "configurePreset": "clang21-x64-linux-rel",
       "targets": [
         "fifechan"
       ]

@@ -33,14 +33,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type:
-          - "Release"
         config:
           - {
               job_name: "Linux | GCC14 | Shared | Release",
               cache_key: "linux-gcc14-x64-shared-release",
               os: "ubuntu-24.04",
-              compiler_family: "gcc",
               cc: "gcc-14",
               cxx: "g++-14",
               preset: "gcc14-x64-linux-rel",
@@ -53,7 +50,6 @@ jobs:
               job_name: "Linux | GCC14 | Static | Release",
               cache_key: "linux-gcc14-x64-static-release",
               os: "ubuntu-24.04",
-              compiler_family: "gcc",
               cc: "gcc-14",
               cxx: "g++-14",
               preset: "gcc14-x64-linux-static-rel",
@@ -66,7 +62,6 @@ jobs:
               job_name: "Linux | Clang18 | Shared | Release",
               cache_key: "linux-clang18-x64-shared-release",
               os: "ubuntu-24.04",
-              compiler_family: "clang",
               cc: "clang-18",
               cxx: "clang++-18",
               preset: "clang18-x64-linux-rel",
@@ -79,7 +74,6 @@ jobs:
               job_name: "Linux | Clang18 | Static | Release",
               cache_key: "linux-clang18-x64-static-release",
               os: "ubuntu-24.04",
-              compiler_family: "clang",
               cc: "clang-18",
               cxx: "clang++-18",
               preset: "clang18-x64-linux-static-rel",
@@ -116,22 +110,6 @@ jobs:
             wget \
             git \
             pkg-config
-
-      - name: 🔽 Install GCC 14
-        if: matrix.config.compiler_family == 'gcc'
-        run: |
-          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install -y gcc-14 g++-14
-
-      - name: 🔽 Install Clang 18
-        if: matrix.config.compiler_family == 'clang'
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x ./llvm.sh
-          sudo ./llvm.sh 18
-          sudo apt-get install -y clang-18 lld-18
-          rm llvm.sh
 
       - name: 🔽 Set Compiler Environment
         run: |
@@ -236,3 +214,146 @@ jobs:
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ matrix.config.install_dir }}/**/*
+
+# ---------------------------------------------------------------------------------------
+
+  build-on-container:
+
+# ---------------------------------------------------------------------------------------
+
+    name: ${{ matrix.config.job_name }}
+
+    runs-on: ubuntu-latest
+    container: ghcr.io/jakoch/cpp-devbox:${{ matrix.config.image_version }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+              job_name: "Linux | Clang-20 | Release",
+              image_version: "bookworm-latest",
+              preset: "clang20-x64-linux-rel",
+              artifact_suffix: "clang20-x64"
+            }
+          - {
+              job_name: "Linux | Clang-21 | Release",
+              image_version: "trixie-latest",
+              preset: "clang21-x64-linux-rel",
+              artifact_suffix: "clang21-x64"
+            }
+
+    env:
+      VCPKG_DISABLE_METRICS: 1
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
+      VCPKG_FEATURE_FLAGS: manifests,versions,binarycaching,registries
+      SOURCE_DIR: ${{ github.workspace }}
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 🤘 Checkout Code
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
+
+      # Derive build/install directories directly from the preset name.
+      - name: ✏ Define Build Paths
+        run: |
+          echo "BUILD_DIR=out/build/${{ matrix.config.preset }}" >> "$GITHUB_ENV"
+          echo "INSTALL_DIR=out/install/${{ matrix.config.preset }}" >> "$GITHUB_ENV"
+
+      # Use runner vcpkg when present, otherwise clone vcpkg into workspace.
+      - name: 🔽 Define VCPKG_ROOT
+        run: |
+          if [[ -n "${VCPKG_INSTALLATION_ROOT}" && -d "${VCPKG_INSTALLATION_ROOT}" ]]; then
+            echo "VCPKG_ROOT=${VCPKG_INSTALLATION_ROOT}" >> "$GITHUB_ENV"
+          else
+            echo "VCPKG_ROOT=${GITHUB_WORKSPACE}/vcpkg" >> "$GITHUB_ENV"
+          fi
+
+      - name: 🎯 Setup Package Cache (vcpkg)
+        id: cache-vcpkg
+        uses: actions/cache@v5 # https://github.com/actions/cache
+        with:
+          path: |
+            ${{ env.VCPKG_ROOT }}/packages
+            ~/.cache/vcpkg/archives
+          key: cache-vcpkg-container-${{ matrix.config.preset }}-${{ github.ref }}
+          restore-keys: |
+            cache-vcpkg-container-${{ matrix.config.preset }}-${{ github.ref }}
+            cache-vcpkg-container-${{ matrix.config.preset }}
+
+      - name: 🔽 Clone VCPKG (if missing)
+        run: |
+          if [[ ! -d "${VCPKG_ROOT}" ]]; then
+            git clone https://github.com/microsoft/vcpkg.git "${VCPKG_ROOT}"
+          fi
+
+      - name: 🔽 Update VCPKG (latest TAG)
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          cd "${VCPKG_ROOT}"
+          git fetch --tags --force
+
+          # GitHub-hosted runner vcpkg can contain local edits; stash to allow checkout.
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git stash push --include-untracked --message "ci-temp-before-tag-checkout"
+          fi
+
+          LATEST_VCPKG_TAG="$(git for-each-ref --sort=-creatordate --format='%(refname:short)' refs/tags | head -n 1)"
+          if [[ -z "${LATEST_VCPKG_TAG}" ]]; then
+            echo "Failed to resolve latest vcpkg tag" >&2
+            exit 1
+          fi
+
+          git checkout "${LATEST_VCPKG_TAG}"
+
+      - name: 🛠️ Setup VCPKG
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          "${VCPKG_ROOT}/bootstrap-vcpkg.sh"
+          "${VCPKG_ROOT}/vcpkg" integrate install
+
+      - name: 🛠️ CMake ➔ Configure (Preset)
+        run: |
+          cmake --preset "${{ matrix.config.preset }}"
+
+      - name: 🙏 CMake ➔ Build
+        run: |
+          cmake --build "${BUILD_DIR}"
+
+      - name: 📦 CMake ➔ Install
+        run: |
+          cmake --install "${BUILD_DIR}" \
+            --prefix "${INSTALL_DIR}" \
+            --verbose
+
+      - name: 🧪 CTest ➔ Run Tests
+        run: |
+          ctest \
+            --test-dir "${BUILD_DIR}" \
+            --output-on-failure
+
+      - name: ❔ CHECK folders, to see if everything is present (after building)
+        run: |
+          find "${INSTALL_DIR}" -type f | sort
+
+      - name: ✏ Build Artifact Name
+        run: |
+          NAME='fifechan'
+          VERSION="$(jq -r .version vcpkg.json)"
+          SHORT_HASH="${GITHUB_SHA::7}"
+          SUFFIX="${{ matrix.config.artifact_suffix }}"
+          ARTIFACT_NAME="${NAME}-${VERSION}-${SHORT_HASH}-${SUFFIX}"
+          echo "ARTIFACT_NAME: ${ARTIFACT_NAME}"
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: 🔼 Upload Build Artifact
+        uses: actions/upload-artifact@v4 # https://github.com/actions/upload-artifact
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.INSTALL_DIR }}/**/*
