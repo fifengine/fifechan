@@ -41,7 +41,8 @@ string(TIMESTAMP CURRENT_YEAR "%Y")
 # Project
 #-------------------------------------------------------------------
 
-project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES CXX)
+# Enable C so transitive dependencies using FindThreads can detect pthreads.
+project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES C CXX)
 
 #-------------------------------------------------------------------
 # Versionize the project
