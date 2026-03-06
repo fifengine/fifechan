@@ -78,8 +78,8 @@ option(BUILD_SHARED_LIBS     "Build using shared libraries"                 OFF)
 option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"           ON)
 option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
 
-option(FIFEGUI_TESTS        "Build the FifeGUI tests"                        ON)
-option(FIFEGUI_EXAMPLES     "Build the FifeGUI examples"                     ON)
+option(FIFEGUI_TESTS         "Build the FifeGUI tests"                       ON)
+option(FIFEGUI_EXAMPLES      "Build the FifeGUI examples"                    ON)
 
 #------------------------------------------------------------------------------
 # Default build type
@@ -115,7 +115,7 @@ message(STATUS "")
 message(STATUS "[INFO] Build shared libraries   -> '${BUILD_SHARED_LIBS}'.")
 message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
 message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
-message(STATUS "[INFO] Build tests              -> '${FIFECHAN_TESTS}'.")
+message(STATUS "[INFO] Build tests              -> '${FIFEGUI_TESTS}'.")
 message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
 message(STATUS "---------------------------------------------------------------")
 
@@ -391,7 +391,7 @@ endif()
 # Tests
 #------------------------------------------------------------------------------
 
-if(FIFECHAN_TESTS)
+if(FIFEGUI_TESTS)
   # enable unit tests
   enable_testing()
   add_subdirectory(tests/unit)

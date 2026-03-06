@@ -17,6 +17,12 @@ function(fifechan_install_example example_name)
 
     foreach(example_target IN LISTS FIFECHAN_EXAMPLE_TARGETS)
       set_property(TARGET ${example_target} APPEND PROPERTY INSTALL_RPATH "\$ORIGIN/../../../../${CMAKE_INSTALL_LIBDIR}")
+
+      if(WIN32)
+        install(FILES $<TARGET_RUNTIME_DLLS:${example_target}>
+          DESTINATION "${example_destination}"
+        )
+      endif()
     endforeach()
   endif()
 

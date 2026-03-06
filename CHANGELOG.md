@@ -9,37 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
-**Added**
+## [0.2.0] - 2026-03-06
+
+### Added
+
 - added containerization for development by using devcontainer
 - added continuous integration on Github Actions
 - added automatic dependency updates on the Github Action workflows using dependabot
 - added CMakePresets using composable config presets
   - with base presets in base.json
-   - buildDirectory is ${sourceDir}/out/build/${presetName}
-   - installDir is ${sourceDir}/out/install/${presetName}
+    - buildDirectory is ${sourceDir}/out/build/${presetName}
+    - installDir is ${sourceDir}/out/install/${presetName}
   - platform specific presets in linux.json and windows.json
-  - CI specific presets in ci.json
 - added .clang-format and applied formatting
 - added .clang-tidy and applied basic rule set
-- added CPPLINT.cfg files to the source tree for configuration and exlusion of files from cpplint runs
 - added cpplint.sh, format.sh, tidy.sh to build-tools to reliably run C++ QA tools
+- added CPPLINT.cfg files to the source tree for configuration and exlusion of files from cpplint runs
 - added vcpkg for dependency management
 - added SetupVcpkg for automatic installation of vcpkg packages during CMake configure step
 - made vcpkg.json the single source for the version number and generate a version.hpp
 - add show_build_target_properties() to CMakeLists
+- add fifechan_install_example() for installing example files
 - added CMake namespaced aliases for core library and extensions, e.g.
   - fifechan::fifechan, fifechan::fifechan_sdl, etc.
 - reintegrated https://github.com/fifengine/fifechan-demos
   - the examples are now in the `tests/integration` folder, https://github.com/fifengine/fifechan/issues/37
   - converted build scripts from autotools to cmake, https://github.com/fifengine/fifechan-demos/issues/1
-- Prepped a `tests/unit` folder for someone inclined to work on unit tests.
+- added Catch2 as a testing framework for unit tests.
+  - prepped a `tests/unit` folder for someone inclined to work on unit tests.
 - added SDL2Graphics
 - added support for target and package config (find_package), https://github.com/fifengine/fifechan/issues/19
 - added pkg-config support to CMakeLists (for pkg-config), https://github.com/fifengine/fifechan/issues/19
 - added handling of conditional dependencies in exported CMake configs
   - this enables upstream project to retire their finder scripts (FindFifechan.cmake)
+- reintegrated all fifechan-demos into this repository (/examples) and updated
+  them to work with the new CMake build system and SDL2
+  - removed the old and deprecated autotools build system and all related files (configure.ac, Makefile)
 
-**Changed**
+### Changed
+
 - all third-party library addressing backends moved into the folder "backends"
   - e.g. SDL backend lives now in "include/fifechan/backends/sdl" and "src/backends/sdl"
 - moved each "unified header file" of a backend from the fifechan include folder ("include/fifechan")
@@ -61,7 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - renamed function parameter recursiv to recursion
 - fixed all Doxygen warnings "found unknown command"
 
-**Removed**
+### Removed
+
 - removed backends: allegro, cairo, irrlicht, glut, hge, openlayer
 - removed usage of deprecated std::iterator
 - remove usage of do-while loops
@@ -97,8 +106,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.2] - 2014-08-10
 
 - Added the possibility for horizontal scrolling.
-- Added isSetVisible() to the Widget class. It's very similar to isVisible()
-	but ignores the parent.
+- Added isSetVisible() to the Widget class. It's very similar to isVisible(),
+  but ignores the parent.
 - Added GuiDeathListener. That should prevent crashes if the widget is hidden
   and removed on the same pump.
 - Added ${LIB_SUFFIX} for CMake lib path. Can be used via -DLIB_SUFFIX argument.
@@ -108,41 +117,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Correct CMake SDL_ttf module name by Christopher Meng
 - Setting the selected property of dropdowns to a value < 0 now
-	will make them deselect the current item.
+  will make them deselect the current item.
 - Fixed extensions not being built with the correct export definition.
-	This will fix undefined references when linking
-	with the created shared libraries.
+  This will fix undefined references when linking
+  with the created shared libraries.
 - Changed cmake options to enable contrib extensions for sdl and opengl
-	to be OFF by default.
+  to be OFF by default.
 - OGLFTFone is now compiled into fifechan. It can be enabled or disabled
-	by setting the cmake option ENABLE_OPENGL_CONTRIB to ON or OFF.
-	It is enabled by default.
+  by setting the cmake option ENABLE_OPENGL_CONTRIB to ON or OFF.
+  It is enabled by default.
 - Fixed SDLTrueTypeFont not included by CMake. It can be disabled by setting
-	ENABLE_SDL_CONTRIB to OFF, which defaults to ON.
+  ENABLE_SDL_CONTRIB to OFF, which defaults to ON.
 - Add SDLIMAGE_INCLUDE_DIR to CMake by Nicolás Alvarez
 
 ## [0.1.0] - 2012-12-05
 
 There are already some important bug fixes and new features such as:
-  - A Widget is now able to detect that the mouse enters it when a Widget above
+
+- A Widget is now able to detect that the mouse enters it when a Widget above
     it gets hidden and the mouse cursor was over it.
-  - Text objects do not try to access rows if they are empty, which caused
+- Text objects do not try to access rows if they are empty, which caused
     crashes before.
-  - Widgets now distribute events if their ancestors where shown/hidden.
-  - UTF8 support for TextBox and TextField widgets.
-  - Work is done in a separate branch to support auto-layouting in fifechan.
-    Needs to be improved and tested.
-  - New widgets
-    - Circular container, which implements a container that arranges its children
-      in a circular fashion. (only available in the auto-layouting branch)
-    - IconProgressBar, which implements a progressbar that uses images to show
-      progress.
-    - PasswordField, which implements password input.
+- Widgets now distribute events if their ancestors where shown/hidden.
+- UTF8 support for TextBox and TextField widgets.
+- Work is done in a separate branch to support auto-layouting in fifechan.
+  Needs to be improved and tested.
+- New widgets
+  - Circular container, which implements a container that arranges its children
+    in a circular fashion. (only available in the auto-layouting branch)
+  - IconProgressBar, which implements a progressbar that uses images to show
+    progress.
+  - PasswordField, which implements password input.
 
 <!-- Section for Reference Links -->
 
-[Unreleased]: https://github.com/fifengine/fifechan/compare/0.1.6...HEAD
-[0.1.6]: https://github.com/fifengine/fifechan/compare/0.1.4...0.1.5
+[Unreleased]: https://github.com/fifengine/fifechan/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/fifengine/fifechan/compare/0.1.5...0.2.0
+[0.1.5]: https://github.com/fifengine/fifechan/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/fifengine/fifechan/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/fifengine/fifechan/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/fifengine/fifechan/compare/0.1.1...0.1.2

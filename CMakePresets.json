@@ -146,70 +146,70 @@
       "name": "vc17-x64-windows-rel",
       "configurePreset": "vc17-x64-windows-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "vc17-x64-windows-dbg",
       "configurePreset": "vc17-x64-windows-dbg",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "vc18-x64-windows-rel",
       "configurePreset": "vc18-x64-windows-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "clangcl-x64-windows-static-rel",
       "configurePreset": "clangcl-x64-windows-static-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "clangcl-x64-windows-static-dbg",
       "configurePreset": "clangcl-x64-windows-static-dbg",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "clang20-x64-linux-rel",
       "configurePreset": "clang20-x64-linux-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "clang18-x64-linux-rel",
       "configurePreset": "clang18-x64-linux-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "clang16-x64-linux-rel",
       "configurePreset": "clang16-x64-linux-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "gcc12-x64-linux-rel",
       "configurePreset": "gcc12-x64-linux-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     },
     {
       "name": "gcc14-x64-linux-rel",
       "configurePreset": "gcc14-x64-linux-rel",
       "targets": [
-        "fife"
+        "fifechan"
       ]
     }
   ]
