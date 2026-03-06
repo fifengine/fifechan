@@ -57,6 +57,7 @@ configure_file(
 # Project local includes
 include(ShowBuildTargetProperties)
 include(CopyResources)
+include(InstallExample)
 
 # CMake provided includes
 include(FeatureSummary)
@@ -115,8 +116,10 @@ message(STATUS "[INFO] Build shared libraries   -> '${BUILD_SHARED_LIBS}'.")
 message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
 message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
 message(STATUS "[INFO] Build tests              -> '${FIFECHAN_TESTS}'.")
-message(STATUS "[INFO] Build examples           -> '${FIFECHAN_EXAMPLES}'.")
+message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
 message(STATUS "---------------------------------------------------------------")
+
+set(FIFECHAN_EXAMPLE_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/examples/fifechan")
 
 #------------------------------------------------------------------------------
 # Configure
@@ -380,7 +383,7 @@ endif()
 # Examples
 #------------------------------------------------------------------------------
 
-if(FIFECHAN_EXAMPLES)
+if(FIFEGUI_EXAMPLES)
   add_subdirectory(examples)
 endif()
 

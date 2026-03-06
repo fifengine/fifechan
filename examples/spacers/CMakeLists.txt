@@ -36,10 +36,11 @@ if(ENABLE_SDL AND SDL2_FOUND)
 
   copy_resources(spacers_in_vbox_hbox "${RPGFONT_SOURCE}" "${SPACERS_IN_VBOX_HBOX_RPGFONT_DESTINATION}")
   copy_resources(dynamic_remove_spacers "${RPGFONT_SOURCE}" "${DYNAMIC_REMOVE_SPACERS_RPGFONT_DESTINATION}")
-  install(FILES "${RPGFONT_SOURCE}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
-
-  install(TARGETS spacers_in_vbox_hbox dynamic_remove_spacers
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  fifechan_install_example(spacers
+    TARGETS
+      spacers_in_vbox_hbox
+      dynamic_remove_spacers
+    FILES "${RPGFONT_SOURCE}"
   )
 else()
   message(STATUS "[INFO] Skipping example 'spacers': requires ENABLE_SDL+SDL2_FOUND.")

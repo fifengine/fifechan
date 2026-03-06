@@ -25,10 +25,9 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
   set(FIXEDFONT_DESTINATION "$<TARGET_FILE_DIR:simple_textbox_demo>/rpgfont.png")
 
   copy_resources(simple_textbox_demo "${FIXEDFONT_SOURCE}" "${FIXEDFONT_DESTINATION}")
-  install(FILES "${FIXEDFONT_SOURCE}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
-
-  install(TARGETS simple_textbox_demo
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  fifechan_install_example(simple
+    TARGETS simple_textbox_demo
+    FILES "${FIXEDFONT_SOURCE}"
   )
 else()
   message(STATUS "[INFO] Skipping example 'simple': requires ENABLE_SDL+SDL2_FOUND and ENABLE_OPENGL+OPENGL_FOUND.")

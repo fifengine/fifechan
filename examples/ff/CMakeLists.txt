@@ -46,16 +46,11 @@ if(ENABLE_SDL AND SDL2_FOUND)
     VERBATIM
   )
 
-  install(TARGETS ff_demo
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/images"
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/sound"
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+  fifechan_install_example(ff
+    TARGETS ff_demo
+    DIRECTORIES
+      "${CMAKE_CURRENT_SOURCE_DIR}/images"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sound"
   )
 else()
   message(STATUS "[INFO] Skipping example 'ff': requires ENABLE_SDL+SDL2_FOUND.")
