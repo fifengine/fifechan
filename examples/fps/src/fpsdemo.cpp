@@ -174,7 +174,7 @@ void FPSDemo::initGui()
     if (mInit) {
         mGui->setTop(mSplashIcon);
         mSplashIcon->setPosition(
-            mWidth / 2 - mSplashImage->getWidth() / 2, mHeight / 2 - mSplashImage->getHeight() / 2);
+            (mWidth / 2) - (mSplashImage->getWidth() / 2), (mHeight / 2) - (mSplashImage->getHeight() / 2));
     } else {
         mGui->setTop(mTop);
     }
@@ -593,7 +593,7 @@ void FPSDemo::drawBackground()
  */
 void FPSDemo::drawSpace()
 {
-    int y = -200;
+    const int y = -200;
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -700,7 +700,7 @@ void FPSDemo::runMain()
 
 void FPSDemo::input()
 {
-    while (SDL_PollEvent(&mEvent)) {
+    while (SDL_PollEvent(&mEvent) != 0) {
         // We ignore keyboard input and just sends mouse input to Fifechan
         if (mEvent.type == SDL_KEYDOWN) {
             if (mEvent.key.keysym.sym == SDLK_ESCAPE) {
@@ -771,8 +771,8 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         mVolumePercent->setCaption(os.str());
         mVolumePercent->adjustSize();
         if (mAudioAvailable) {
-            double m = MIX_MAX_VOLUME;
-            double p = mVolume->getValue();
+            const double m = MIX_MAX_VOLUME;
+            const double p = mVolume->getValue();
             Mix_Volume(-1, static_cast<int>(m * p));
         }
     }
@@ -852,8 +852,11 @@ void FPSDemo::initOpenGL()
 
 void FPSDemo::resize()
 {
-    mTitle->setPosition(mWidth / 2 - 330, mHeight / 2 - 290);
-    mDemoInfo->setPosition(mWidth / 2 - 390, mHeight - 50);
+    const int mHalfWidth  = mWidth / 2;
+    const int mHalfHeight = mHeight / 2;
+
+    mTitle->setPosition(mHalfWidth - 330, mHalfHeight - 290);
+    mDemoInfo->setPosition(mHalfWidth - 390, mHeight - 50);
     mVersionLabel->setPosition(mWidth - 100, mHeight - 80);
 
     mTop->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
@@ -862,30 +865,30 @@ void FPSDemo::resize()
     mMultiplay->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
     mOptions->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
 
-    mSingleplayButton->setPosition(mWidth / 2 - 100, mHeight / 2 - 100);
-    mMultiplayButton->setPosition(mWidth / 2 - 100, mHeight / 2 - 60);
-    mOptionsButton->setPosition(mWidth / 2 - 100, mHeight / 2 - 20);
-    mQuitButton->setPosition(mWidth / 2 - 100, mHeight / 2 + 60);
+    mSingleplayButton->setPosition(mHalfWidth - 100, mHalfHeight - 100);
+    mMultiplayButton->setPosition(mHalfWidth - 100, mHalfHeight - 60);
+    mOptionsButton->setPosition(mHalfWidth - 100, mHalfHeight - 20);
+    mQuitButton->setPosition(mHalfWidth - 100, mHalfHeight + 60);
 
-    mSingleplayBackButton->setPosition(mWidth / 2 - 290, mHeight / 2 + 180);
-    mMultiplayBackButton->setPosition(mWidth / 2 - 290, mHeight / 2 + 180);
-    mOptionsBackButton->setPosition(mWidth / 2 - 290, mHeight / 2 + 180);
+    mSingleplayBackButton->setPosition(mHalfWidth - 290, mHalfHeight + 180);
+    mMultiplayBackButton->setPosition(mHalfWidth - 290, mHalfHeight + 180);
+    mOptionsBackButton->setPosition(mHalfWidth - 290, mHalfHeight + 180);
 
-    mSingleplayBoxIcon->setPosition(mWidth / 2 - 300, mHeight / 2 - 150);
-    mMultiplayBoxIcon->setPosition(mWidth / 2 - 300, mHeight / 2 - 150);
-    mOptionsBoxIcon->setPosition(mWidth / 2 - 300, mHeight / 2 - 150);
+    mSingleplayBoxIcon->setPosition(mHalfWidth - 300, mHalfHeight - 150);
+    mMultiplayBoxIcon->setPosition(mHalfWidth - 300, mHalfHeight - 150);
+    mOptionsBoxIcon->setPosition(mHalfWidth - 300, mHalfHeight - 150);
 
-    mSingleplayText->setPosition(mWidth / 2 - 285, mHeight / 2 - 120);
-    mSingleplayLabel->setPosition(mWidth / 2 + 150, mHeight / 2 - 145);
+    mSingleplayText->setPosition(mHalfWidth - 285, mHalfHeight - 120);
+    mSingleplayLabel->setPosition(mHalfWidth + 150, mHalfHeight - 145);
 
-    mMultiplayText->setPosition(mWidth / 2 - 285, mHeight / 2 - 120);
-    mMultiplayLabel->setPosition(mWidth / 2 + 150, mHeight / 2 - 145);
+    mMultiplayText->setPosition(mHalfWidth - 285, mHalfHeight - 120);
+    mMultiplayLabel->setPosition(mHalfWidth + 150, mHalfHeight - 145);
 
-    mOptionsLabel->setPosition(mWidth / 2 + 150, mHeight / 2 - 145);
-    mFullScreen->setPosition(mWidth / 2 - 200, mHeight / 2 - 100);
-    mResolution->setPosition(mWidth / 2 - 90, mHeight / 2 - 70);
-    mResolutionLabel->setPosition(mWidth / 2 - 200, mHeight / 2 - 70);
-    mVolume->setPosition(mWidth / 2 - 90, mHeight / 2 - 40);
-    mVolumePercent->setPosition(mWidth / 2 + 120, mHeight / 2 - 40);
-    mVolumeLabel->setPosition(mWidth / 2 - 200, mHeight / 2 - 40);
+    mOptionsLabel->setPosition(mHalfWidth + 150, mHalfHeight - 145);
+    mFullScreen->setPosition(mHalfWidth - 200, mHalfHeight - 100);
+    mResolution->setPosition(mHalfWidth - 90, mHalfHeight - 70);
+    mResolutionLabel->setPosition(mHalfWidth - 200, mHalfHeight - 70);
+    mVolume->setPosition(mHalfWidth - 90, mHalfHeight - 40);
+    mVolumePercent->setPosition(mHalfWidth + 120, mHalfHeight - 40);
+    mVolumeLabel->setPosition(mHalfWidth - 200, mHalfHeight - 40);
 }
