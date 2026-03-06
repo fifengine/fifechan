@@ -5,11 +5,11 @@ message(STATUS "---------------------------------------------------------------"
 find_package(Catch2 CONFIG REQUIRED)
 
 add_executable(unit_color_tests
-  src/color_test.cpp
+  src/color.tests.cpp
 )
 
 add_executable(unit_size_tests
-  src/size_test.cpp
+  src/size.tests.cpp
 )
 
 target_link_libraries(unit_color_tests PRIVATE
