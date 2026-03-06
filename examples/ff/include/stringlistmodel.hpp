@@ -7,6 +7,7 @@
 
 #include <fifechan.hpp>
 
+#include <string>
 #include <vector>
 
 class StringListModel : public fcn::ListModel

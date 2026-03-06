@@ -4,6 +4,8 @@
 
 #include "fpsbutton.hpp"
 
+#include <string>
+
 int FPSButton::mInstances         = 0;
 Mix_Chunk* FPSButton::mHoverSound = NULL;
 
