@@ -73,13 +73,13 @@ endif()
 # Options
 #------------------------------------------------------------------------------
 
-option(BUILD_SHARED_LIBS     "Build using shared libraries"                     OFF)
+option(BUILD_SHARED_LIBS     "Build using shared libraries"                 OFF)
 
-option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"             ON)
-option(ENABLE_SDL            "Enable the FifeGUI SDL extension"                ON)
+option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"           ON)
+option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
 
-option(FIFEGUI_TESTS        "Build the FifeGUI tests"                         ON)
-option(FIFEGUI_EXAMPLES     "Build the FifeGUI examples"                      ON)
+option(FIFEGUI_TESTS        "Build the FifeGUI tests"                        ON)
+option(FIFEGUI_EXAMPLES     "Build the FifeGUI examples"                     ON)
 
 #------------------------------------------------------------------------------
 # Default build type
@@ -393,8 +393,8 @@ endif()
 
 if(FIFECHAN_TESTS)
   # enable unit tests
-  #enable_testing()
-  #add_subdirectory(tests/unit)
+  enable_testing()
+  add_subdirectory(tests/unit)
 
   # enable integration tests
   add_subdirectory("tests/integration")

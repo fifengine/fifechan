@@ -196,6 +196,13 @@ jobs:
           --prefix ${{ env.INSTALL_DIR }}                               ^
           --verbose
 
+      - name: 🧪 CTest ➔ Run Tests
+        run: |
+          ctest                                                         ^
+          --test-dir ${{ env.BUILD_DIR }}                               ^
+          --build-config ${{ matrix.build_type }}                       ^
+          --output-on-failure
+
       - name: ❔ CHECK folders, to see if everything is present (after building)
         run: |
           dir /S /B ${{ env.INSTALL_DIR }}
