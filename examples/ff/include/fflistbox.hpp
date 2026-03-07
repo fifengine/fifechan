@@ -5,9 +5,9 @@
 #ifndef __FFLISTBOX_HPP
 #define __FFLISTBOX_HPP
 
-#include <memory>
-
 #include <fifechan.hpp>
+
+#include <memory>
 
 class FFListBox : public fcn::ListBox
 {

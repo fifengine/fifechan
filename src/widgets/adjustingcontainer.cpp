@@ -170,7 +170,7 @@ namespace fcn
         for (unsigned int i = 0; i < mContainedWidgets.size(); i++) {
             unsigned basex = 0;
             if (columnCount % mNumberOfColumns) {
-                basex = mPaddingLeft;
+                basex          = mPaddingLeft;
                 unsigned int j = 0;
 
                 for (j = 0; j < columnCount; j++) {

@@ -23,14 +23,14 @@
  */
 int main(int argc, char** argv)
 {
-    SDL_Window* window                     = nullptr;
-    SDL_GLContext glContext                = nullptr;
-    auto input                   = std::unique_ptr<fcn::SDLInput>();
-    auto graphics                = std::unique_ptr<fcn::OpenGLGraphics>();
-    auto imageLoader             = std::unique_ptr<fcn::OpenGLSDLImageLoader>();
-    auto font                    = std::unique_ptr<fcn::ImageFont>();
-    auto gui                     = std::unique_ptr<fcn::Gui>();
-    auto top                     = std::unique_ptr<fcn::Container>();
+    SDL_Window* window      = nullptr;
+    SDL_GLContext glContext = nullptr;
+    auto input              = std::unique_ptr<fcn::SDLInput>();
+    auto graphics           = std::unique_ptr<fcn::OpenGLGraphics>();
+    auto imageLoader        = std::unique_ptr<fcn::OpenGLSDLImageLoader>();
+    auto font               = std::unique_ptr<fcn::ImageFont>();
+    auto gui                = std::unique_ptr<fcn::Gui>();
+    auto top                = std::unique_ptr<fcn::Container>();
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";

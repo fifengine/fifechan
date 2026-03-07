@@ -45,15 +45,15 @@ public:
 
 int main(int argc, char** argv)
 {
-    SDL_Window* sdlWindow            = nullptr;
-    SDL_Renderer* renderer           = nullptr;
-    auto input                       = std::unique_ptr<fcn::SDLInput>();
-    auto graphics                    = std::unique_ptr<fcn::SDL2Graphics>();
-    auto imageLoader                 = std::unique_ptr<fcn::SDLImageLoader>();
-    auto font                        = std::unique_ptr<fcn::ImageFont>();
-    auto gui                         = std::unique_ptr<fcn::Gui>();
-    auto top                         = std::unique_ptr<fcn::Container>();
-    int exitCode                     = 0;
+    SDL_Window* sdlWindow  = nullptr;
+    SDL_Renderer* renderer = nullptr;
+    auto input             = std::unique_ptr<fcn::SDLInput>();
+    auto graphics          = std::unique_ptr<fcn::SDL2Graphics>();
+    auto imageLoader       = std::unique_ptr<fcn::SDLImageLoader>();
+    auto font              = std::unique_ptr<fcn::ImageFont>();
+    auto gui               = std::unique_ptr<fcn::Gui>();
+    auto top               = std::unique_ptr<fcn::Container>();
+    int exitCode           = 0;
 
     std::stack<fcn::Spacer*> spacers;
     std::vector<std::unique_ptr<MyActionListener>> actionListeners;
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
             std::stringstream s;
             s << "Button " << i;
 
-            auto btn = std::make_unique<fcn::Button>(s.str());
+            auto btn      = std::make_unique<fcn::Button>(s.str());
             auto listener = std::make_unique<MyActionListener>(testHBoxRaw);
             btn->adjustSize();
             btn->addActionListener(listener.get());

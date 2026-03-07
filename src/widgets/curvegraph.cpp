@@ -239,10 +239,10 @@ namespace fcn
         std::vector<float> y(static_cast<size_t>(n));
         std::vector<float> xtmp(static_cast<size_t>(n));
         std::vector<float> ytmp(static_cast<size_t>(n));
-        float xb    = 2.0;
-        float yb    = 2.0;
-        x[0]        = xrhs[0] / xb;
-        y[0]        = yrhs[0] / yb;
+        float xb = 2.0;
+        float yb = 2.0;
+        x[0]     = xrhs[0] / xb;
+        y[0]     = yrhs[0] / yb;
         // Decomposition and forward substitution.
         for (int i = 1; i < n; i++) {
             xtmp[i] = 1 / xb;

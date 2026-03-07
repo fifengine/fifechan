@@ -5,9 +5,9 @@
 #ifndef __FFCONTAINER_HPP
 #define __FFCONTAINER_HPP
 
-#include <memory>
-
 #include <fifechan.hpp>
+
+#include <memory>
 
 class FFContainer : public fcn::Container
 {

@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-int FFContainer::mInstances          = 0;
+int FFContainer::mInstances                          = 0;
 std::unique_ptr<fcn::Image> FFContainer::mCornerUL   = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mCornerUR   = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mCornerDL   = nullptr;

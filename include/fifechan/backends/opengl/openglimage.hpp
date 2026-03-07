@@ -15,8 +15,8 @@
     #include <GL/gl.h>
 #endif
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"

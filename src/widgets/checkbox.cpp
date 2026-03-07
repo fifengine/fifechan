@@ -159,7 +159,7 @@ namespace fcn
 
     void CheckBox::drawDot(Graphics* graphics, Rectangle const & rec)
     {
-        const Point p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
+        Point const p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
 
         int const radius = (rec.width - 3) / 2;
 

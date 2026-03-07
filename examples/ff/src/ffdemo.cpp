@@ -57,70 +57,70 @@ FFDemo::FFDemo()
         throw std::runtime_error(Mix_GetError());
     }
 
-    mSDLImageLoader = new fcn::SDLImageLoader();
+    mSDLImageLoader = std::make_unique<fcn::SDLImageLoader>();
     mSDLImageLoader->setRenderer(mRenderer);
-    fcn::Image::setImageLoader(mSDLImageLoader);
-    mSDLGraphics = new fcn::SDL2Graphics();
+    fcn::Image::setImageLoader(mSDLImageLoader.get());
+    mSDLGraphics = std::make_unique<fcn::SDL2Graphics>();
     mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
-    mSDLInput = new fcn::SDLInput();
+    mSDLInput = std::make_unique<fcn::SDLInput>();
 
-    mSplashImage = fcn::Image::load("images/splash.png");
+    mSplashImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/splash.png"));
 
-    mTop = new fcn::Container();
+    mTop = std::make_unique<fcn::Container>();
     mTop->setBaseColor(fcn::Color(0x000000));
     mTop->setDimension(fcn::Rectangle(0, 0, kUiWidth, kUiHeight));
-    mGui = new fcn::Gui();
+    mGui = std::make_unique<fcn::Gui>();
     mGui->setTabbingEnabled(false);
-    mGui->setGraphics(mSDLGraphics);
-    mGui->setInput(mSDLInput);
-    mGui->setTop(mTop);
-    mFontWhite = new fcn::ImageFont(
+    mGui->setGraphics(mSDLGraphics.get());
+    mGui->setInput(mSDLInput.get());
+    mGui->setTop(mTop.get());
+    mFontWhite = std::make_unique<fcn::ImageFont>(
         "images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mFontCyan = new fcn::ImageFont(
+    mFontCyan = std::make_unique<fcn::ImageFont>(
         "images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    fcn::Widget::setGlobalFont(mFontWhite);
+    fcn::Widget::setGlobalFont(mFontWhite.get());
 
     initMain();
 
-    mMenu = new FFContainer();
+    mMenu = std::make_unique<FFContainer>();
     mMenu->setDimension(fcn::Rectangle(230, 0, 90, 130));
     mMenu->setOpaque(false);
-    mTop->add(mMenu);
+    mTop->add(mMenu.get());
 
-    mGoldFootsteps = new FFContainer();
+    mGoldFootsteps = std::make_unique<FFContainer>();
     mGoldFootsteps->setDimension(fcn::Rectangle(210, 170, 110, 70));
     mGoldFootsteps->setOpaque(false);
     mGoldFootsteps->setBorderSize(0);
-    mTop->add(mGoldFootsteps);
+    mTop->add(mGoldFootsteps.get());
 
-    mTime = new FFContainer();
+    mTime = std::make_unique<FFContainer>();
     mTime->setDimension(fcn::Rectangle(230, 130, 90, 40));
     mTime->setOpaque(false);
-    mTop->add(mTime);
+    mTop->add(mTime.get());
 
-    mGoldFootstepsInfo1 = new fcn::TextBox("Steps\n\nGP");
-    mGoldFootstepsInfo1->setFont(mFontCyan);
+    mGoldFootstepsInfo1 = std::make_unique<fcn::TextBox>("Steps\n\nGP");
+    mGoldFootstepsInfo1->setFont(mFontCyan.get());
     mGoldFootstepsInfo1->setOpaque(false);
     mGoldFootstepsInfo1->setEditable(false);
     mGoldFootstepsInfo1->setFocusable(false);
     mGoldFootstepsInfo1->setBorderSize(0);
 
-    mGoldFootstepsInfo2 = new fcn::TextBox("\n    9119092\n\n    1009213");
+    mGoldFootstepsInfo2 = std::make_unique<fcn::TextBox>("\n    9119092\n\n    1009213");
     mGoldFootstepsInfo2->setOpaque(false);
     mGoldFootstepsInfo2->setEditable(false);
     mGoldFootstepsInfo2->setFocusable(false);
     mGoldFootstepsInfo2->setBorderSize(0);
 
-    mTimeLabel1 = new fcn::Label("Time");
-    mTimeLabel1->setFont(mFontCyan);
-    mTimeLabel2 = new fcn::Label();
-    mTime->add(mTimeLabel1, 5, 5);
-    mTime->add(mTimeLabel2, 22, 20);
+    mTimeLabel1 = std::make_unique<fcn::Label>("Time");
+    mTimeLabel1->setFont(mFontCyan.get());
+    mTimeLabel2 = std::make_unique<fcn::Label>();
+    mTime->add(mTimeLabel1.get(), 5, 5);
+    mTime->add(mTimeLabel2.get(), 22, 20);
 
-    mGoldFootsteps->add(mGoldFootstepsInfo2, 5, 0);
-    mGoldFootsteps->add(mGoldFootstepsInfo1, 5, 5);
+    mGoldFootsteps->add(mGoldFootstepsInfo2.get(), 5, 0);
+    mGoldFootsteps->add(mGoldFootstepsInfo1.get(), 5, 5);
 
-    mMenuListModel = new StringListModel();
+    mMenuListModel = std::make_unique<StringListModel>();
     mMenuListModel->add("Items");
     mMenuListModel->add("Status");
     mMenuListModel->add("Skills");
@@ -129,11 +129,11 @@ FFDemo::FFDemo()
     mMenuListModel->add("");
     mMenuListModel->add("Quit");
 
-    mMenuList = new FFListBox();
+    mMenuList = std::make_unique<FFListBox>();
     mMenuList->setActionEventId("menu");
     mMenuList->addActionListener(this);
-    mMenuList->setListModel(mMenuListModel);
-    mMenu->add(mMenuList, 5, 5);
+    mMenuList->setListModel(mMenuListModel.get());
+    mMenu->add(mMenuList.get(), 5, 5);
     mMenuList->setSelected(0);
     mMenuList->requestFocus();
 
@@ -145,36 +145,17 @@ FFDemo::FFDemo()
 
 FFDemo::~FFDemo()
 {
+    if (mGui != nullptr) {
+        mGui->setTop(nullptr);
+    }
+    fcn::Widget::setGlobalFont(nullptr);
+    fcn::Image::setImageLoader(nullptr);
+
     cleanStatus();
     cleanAbout();
     cleanItems();
     cleanMagicSkills();
     cleanMain();
-
-    delete mSplashImage;
-
-    delete mTimeLabel1;
-    delete mTimeLabel2;
-    delete mTime;
-
-    delete mGoldFootstepsInfo1;
-    delete mGoldFootstepsInfo2;
-    delete mGoldFootsteps;
-
-    delete mMenuList;
-    delete mMenuListModel;
-    delete mMenu;
-
-    delete mMain;
-
-    delete mFontWhite;
-    delete mFontCyan;
-    delete mTop;
-    delete mGui;
-
-    delete mSDLInput;
-    delete mSDLGraphics;
-    delete mSDLImageLoader;
 
     Mix_FreeChunk(mChooseSound);
     Mix_FreeChunk(mEscapeSound);
@@ -188,123 +169,120 @@ FFDemo::~FFDemo()
 
 void FFDemo::initMain()
 {
-    mMain = new FFContainer();
+    mMain = std::make_unique<FFContainer>();
     mMain->setDimension(fcn::Rectangle(0, 0, kUiWidth, kUiHeight));
-    mTop->add(mMain);
+    mTop->add(mMain.get());
 
-    mPerImage   = fcn::Image::load("images/finalman.png");
-    mOlofImage  = fcn::Image::load("images/yakslem.png");
-    mTomasImage = fcn::Image::load("images/peak.png");
+    mPerImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/finalman.png"));
+    mOlofImage  = std::unique_ptr<fcn::Image>(fcn::Image::load("images/yakslem.png"));
+    mTomasImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/peak.png"));
 
-    mPerIcon   = new fcn::Icon(mPerImage);
-    mOlofIcon  = new fcn::Icon(mOlofImage);
-    mTomasIcon = new fcn::Icon(mTomasImage);
+    mPerIcon   = std::make_unique<fcn::Icon>(mPerImage.get());
+    mOlofIcon  = std::make_unique<fcn::Icon>(mOlofImage.get());
+    mTomasIcon = std::make_unique<fcn::Icon>(mTomasImage.get());
 
-    mPerInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
-    mPerInfo1->setFont(mFontCyan);
+    mPerInfo1 = std::make_unique<fcn::TextBox>("\n  LV\n  HP\n  MP");
+    mPerInfo1->setFont(mFontCyan.get());
     mPerInfo1->setOpaque(false);
     mPerInfo1->setEditable(false);
     mPerInfo1->setFocusable(false);
     mPerInfo1->setBorderSize(0);
 
-    mPerInfo2 = new fcn::TextBox("FINALMAN\n     13\n       12/ 336\n       33/  40");
+    mPerInfo2 = std::make_unique<fcn::TextBox>("FINALMAN\n     13\n       12/ 336\n       33/  40");
     mPerInfo2->setOpaque(false);
     mPerInfo2->setEditable(false);
     mPerInfo2->setFocusable(false);
     mPerInfo2->setBorderSize(0);
 
-    mOlofInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
-    mOlofInfo1->setFont(mFontCyan);
+    mOlofInfo1 = std::make_unique<fcn::TextBox>("\n  LV\n  HP\n  MP");
+    mOlofInfo1->setFont(mFontCyan.get());
     mOlofInfo1->setOpaque(false);
     mOlofInfo1->setEditable(false);
     mOlofInfo1->setFocusable(false);
     mOlofInfo1->setBorderSize(0);
 
-    mOlofInfo2 = new fcn::TextBox("YAKSLEM\n     41\n     1304/2932\n      298/ 300");
+    mOlofInfo2 = std::make_unique<fcn::TextBox>("YAKSLEM\n     41\n     1304/2932\n      298/ 300");
     mOlofInfo2->setOpaque(false);
     mOlofInfo2->setEditable(false);
     mOlofInfo2->setFocusable(false);
     mOlofInfo2->setBorderSize(0);
 
-    mTomasInfo1 = new fcn::TextBox("\n  LV\n  HP\n  MP");
-    mTomasInfo1->setFont(mFontCyan);
+    mTomasInfo1 = std::make_unique<fcn::TextBox>("\n  LV\n  HP\n  MP");
+    mTomasInfo1->setFont(mFontCyan.get());
     mTomasInfo1->setOpaque(false);
     mTomasInfo1->setEditable(false);
     mTomasInfo1->setFocusable(false);
     mTomasInfo1->setBorderSize(0);
 
-    mTomasInfo2 = new fcn::TextBox("PEAK\n      6\n      101/ 101\n        0/   0");
+    mTomasInfo2 = std::make_unique<fcn::TextBox>("PEAK\n      6\n      101/ 101\n        0/   0");
     mTomasInfo2->setOpaque(false);
     mTomasInfo2->setEditable(false);
     mTomasInfo2->setFocusable(false);
     mTomasInfo2->setBorderSize(0);
 
     int offset = 6;
-    mMain->add(mPerIcon, 10, offset);
-    mMain->add(mPerInfo2, 60, offset);
-    mMain->add(mPerInfo1, 60, offset);
+    mMain->add(mPerIcon.get(), 10, offset);
+    mMain->add(mPerInfo2.get(), 60, offset);
+    mMain->add(mPerInfo1.get(), 60, offset);
     offset += 76;
-    mMain->add(mOlofIcon, 10, offset);
-    mMain->add(mOlofInfo2, 60, offset);
-    mMain->add(mOlofInfo1, 60, offset);
+    mMain->add(mOlofIcon.get(), 10, offset);
+    mMain->add(mOlofInfo2.get(), 60, offset);
+    mMain->add(mOlofInfo1.get(), 60, offset);
     offset += 76;
-    mMain->add(mTomasIcon, 10, offset);
-    mMain->add(mTomasInfo2, 60, offset);
-    mMain->add(mTomasInfo1, 60, offset);
+    mMain->add(mTomasIcon.get(), 10, offset);
+    mMain->add(mTomasInfo2.get(), 60, offset);
+    mMain->add(mTomasInfo1.get(), 60, offset);
 
-    mCharacterChooser = new FFCharacterChooser();
+    mCharacterChooser = std::make_unique<FFCharacterChooser>();
     mCharacterChooser->setActionEventId("character");
     mCharacterChooser->addActionListener(this);
 
-    mMain->add(mCharacterChooser, 5, 25);
+    mMain->add(mCharacterChooser.get(), 5, 25);
 
-    mNavigationLabel = new fcn::Label("STATUS ");
+    mNavigationLabel = std::make_unique<fcn::Label>("STATUS ");
     mNavigationLabel->setVisible(false);
-    mMain->add(mNavigationLabel, 230, 20);
+    mMain->add(mNavigationLabel.get(), 230, 20);
 }
 
 void FFDemo::cleanMain()
 {
-    delete mNavigationLabel;
-    delete mCharacterChooser;
-
-    delete mPerInfo1;
-    delete mOlofInfo1;
-    delete mTomasInfo1;
-
-    delete mPerInfo2;
-    delete mOlofInfo2;
-    delete mTomasInfo2;
-
-    delete mPerIcon;
-    delete mOlofIcon;
-    delete mTomasIcon;
-
-    delete mPerImage;
-    delete mOlofImage;
-    delete mTomasImage;
+    mNavigationLabel.reset();
+    mCharacterChooser.reset();
+    mPerInfo1.reset();
+    mOlofInfo1.reset();
+    mTomasInfo1.reset();
+    mPerInfo2.reset();
+    mOlofInfo2.reset();
+    mTomasInfo2.reset();
+    mPerIcon.reset();
+    mOlofIcon.reset();
+    mTomasIcon.reset();
+    mPerImage.reset();
+    mOlofImage.reset();
+    mTomasImage.reset();
+    mMain.reset();
 }
 
 void FFDemo::initStatus()
 {
-    mStatus = new FFContainer();
+    mStatus = std::make_unique<FFContainer>();
     mStatus->setDimension(fcn::Rectangle(0, 80, 320, 160));
     mStatus->setVisible(false);
-    mTop->add(mStatus);
+    mTop->add(mStatus.get());
 
-    mPerStatus1 = new fcn::TextBox(
+    mPerStatus1 = std::make_unique<fcn::TextBox>(
         "  STR           EXP\n"
         "  INT           NEXT\n"
         "  DEF\n"
         "  MAGDEF\n");
-    mPerStatus1->setFont(mFontCyan);
+    mPerStatus1->setFont(mFontCyan.get());
     mPerStatus1->setOpaque(false);
     mPerStatus1->setEditable(false);
     mPerStatus1->setFocusable(false);
     mPerStatus1->setVisible(false);
     mPerStatus1->setBorderSize(0);
 
-    mPerStatus2 = new fcn::TextBox(
+    mPerStatus2 = std::make_unique<fcn::TextBox>(
         "         32          12382\n"
         "         56          13872\n"
         "         12\n"
@@ -318,19 +296,19 @@ void FFDemo::initStatus()
     mPerStatus2->setVisible(false);
     mPerStatus2->setBorderSize(0);
 
-    mOlofStatus1 = new fcn::TextBox(
+    mOlofStatus1 = std::make_unique<fcn::TextBox>(
         "  STR           EXP\n"
         "  INT           NEXT\n"
         "  DEF\n"
         "  MAGDEF\n");
-    mOlofStatus1->setFont(mFontCyan);
+    mOlofStatus1->setFont(mFontCyan.get());
     mOlofStatus1->setOpaque(false);
     mOlofStatus1->setEditable(false);
     mOlofStatus1->setFocusable(false);
     mOlofStatus1->setVisible(false);
     mOlofStatus1->setBorderSize(0);
 
-    mOlofStatus2 = new fcn::TextBox(
+    mOlofStatus2 = std::make_unique<fcn::TextBox>(
         "          2          412382\n"
         "         72          513872\n"
         "          4\n"
@@ -344,19 +322,19 @@ void FFDemo::initStatus()
     mOlofStatus2->setVisible(false);
     mOlofStatus2->setBorderSize(0);
 
-    mTomasStatus1 = new fcn::TextBox(
+    mTomasStatus1 = std::make_unique<fcn::TextBox>(
         "  STR           EXP\n"
         "  INT           NEXT\n"
         "  DEF\n"
         "  MAGDEF\n");
-    mTomasStatus1->setFont(mFontCyan);
+    mTomasStatus1->setFont(mFontCyan.get());
     mTomasStatus1->setOpaque(false);
     mTomasStatus1->setEditable(false);
     mTomasStatus1->setFocusable(false);
     mTomasStatus1->setVisible(false);
     mTomasStatus1->setBorderSize(0);
 
-    mTomasStatus2 = new fcn::TextBox(
+    mTomasStatus2 = std::make_unique<fcn::TextBox>(
         "          1          412382\n"
         "          3          513872\n"
         "          9\n"
@@ -370,35 +348,35 @@ void FFDemo::initStatus()
     mTomasStatus2->setVisible(false);
     mTomasStatus2->setBorderSize(0);
 
-    mStatus->add(mPerStatus2, 5, 10);
-    mStatus->add(mPerStatus1, 5, 10);
-    mStatus->add(mOlofStatus2, 5, 10);
-    mStatus->add(mOlofStatus1, 5, 10);
-    mStatus->add(mTomasStatus2, 5, 10);
-    mStatus->add(mTomasStatus1, 5, 10);
+    mStatus->add(mPerStatus2.get(), 5, 10);
+    mStatus->add(mPerStatus1.get(), 5, 10);
+    mStatus->add(mOlofStatus2.get(), 5, 10);
+    mStatus->add(mOlofStatus1.get(), 5, 10);
+    mStatus->add(mTomasStatus2.get(), 5, 10);
+    mStatus->add(mTomasStatus1.get(), 5, 10);
 }
 
 void FFDemo::initMagicSkills()
 {
-    mMagicSkills = new FFContainer();
+    mMagicSkills = std::make_unique<FFContainer>();
     mMagicSkills->setDimension(fcn::Rectangle(0, 80, 320, 160));
     mMagicSkills->setVisible(false);
 
-    mMagicSkillsScroll = new FFScrollArea();
+    mMagicSkillsScroll = std::make_unique<FFScrollArea>();
     mMagicSkillsScroll->setDimension(fcn::Rectangle(5, 5, 310, 150));
 
-    mMagicSkillsList = new FFListBox();
+    mMagicSkillsList = std::make_unique<FFListBox>();
     mMagicSkillsList->setWidth(300);
-    mMagicSkillsScroll->setContent(mMagicSkillsList);
-    mMagicSkills->add(mMagicSkillsScroll);
-    mTop->add(mMagicSkills);
+    mMagicSkillsScroll->setContent(mMagicSkillsList.get());
+    mMagicSkills->add(mMagicSkillsScroll.get());
+    mTop->add(mMagicSkills.get());
 
-    mPerSkills   = new StringListModel();
-    mPerMagic    = new StringListModel();
-    mOlofSkills  = new StringListModel();
-    mOlofMagic   = new StringListModel();
-    mTomasSkills = new StringListModel();
-    mTomasMagic  = new StringListModel();
+    mPerSkills   = std::make_unique<StringListModel>();
+    mPerMagic    = std::make_unique<StringListModel>();
+    mOlofSkills  = std::make_unique<StringListModel>();
+    mOlofMagic   = std::make_unique<StringListModel>();
+    mTomasSkills = std::make_unique<StringListModel>();
+    mTomasMagic  = std::make_unique<StringListModel>();
 
     mPerSkills->add("Use");
     mPerSkills->add("Steal");
@@ -440,34 +418,34 @@ void FFDemo::initMagicSkills()
 
 void FFDemo::cleanMagicSkills()
 {
-    delete mMagicSkills;
-    delete mMagicSkillsList;
-    delete mMagicSkillsScroll;
-    delete mPerSkills;
-    delete mPerMagic;
-    delete mOlofSkills;
-    delete mOlofMagic;
-    delete mTomasSkills;
-    delete mTomasMagic;
+    mMagicSkillsList.reset();
+    mMagicSkillsScroll.reset();
+    mPerSkills.reset();
+    mPerMagic.reset();
+    mOlofSkills.reset();
+    mOlofMagic.reset();
+    mTomasSkills.reset();
+    mTomasMagic.reset();
+    mMagicSkills.reset();
 }
 
 void FFDemo::cleanStatus()
 {
-    delete mStatus;
-    delete mPerStatus1;
-    delete mPerStatus2;
-    delete mOlofStatus1;
-    delete mOlofStatus2;
-    delete mTomasStatus1;
-    delete mTomasStatus2;
+    mPerStatus1.reset();
+    mPerStatus2.reset();
+    mOlofStatus1.reset();
+    mOlofStatus2.reset();
+    mTomasStatus1.reset();
+    mTomasStatus2.reset();
+    mStatus.reset();
 }
 
 void FFDemo::initItems()
 {
-    mItems = new FFContainer();
+    mItems = std::make_unique<FFContainer>();
 
-    mItemsListModel     = new StringListModel();
-    mItemsInfoListModel = new StringListModel();
+    mItemsListModel     = std::make_unique<StringListModel>();
+    mItemsInfoListModel = std::make_unique<StringListModel>();
     mItemsListModel->add("23 x Potion");
     mItemsInfoListModel->add("Restores 100 HP");
     mItemsListModel->add("12 x Ether");
@@ -499,51 +477,53 @@ void FFDemo::initItems()
     mItemsListModel->add(" 2 x Joy Division LP");
     mItemsInfoListModel->add("Unknown Pleasures and Closer");
 
-    mItemsInfo = new FFContainer;
+    mItemsInfo = std::make_unique<FFContainer>();
     mItemsInfo->setDimension(fcn::Rectangle(0, 0, 320, 50));
     mItemsInfo->setVisible(false);
 
-    mItemsInfoInfo = new fcn::TextBox();
+    mItemsInfoInfo = std::make_unique<fcn::TextBox>();
     mItemsInfoInfo->setOpaque(false);
     mItemsInfoInfo->setEditable(false);
     mItemsInfoInfo->setFocusable(false);
     mItemsInfoInfo->setDimension(fcn::Rectangle(5, 5, 310, 40));
     mItemsInfoInfo->setBorderSize(0);
-    mItemsInfo->add(mItemsInfoInfo);
+    mItemsInfo->add(mItemsInfoInfo.get());
 
-    mItemsList = new FFListBox();
+    mItemsList = std::make_unique<FFListBox>();
     mItemsList->setActionEventId("items");
     mItemsList->addKeyListener(this);
     mItemsList->setWidth(300);
-    mItemsList->setListModel(mItemsListModel);
-    mItemsScrollArea = new FFScrollArea();
-    mItemsScrollArea->setContent(mItemsList);
+    mItemsList->setListModel(mItemsListModel.get());
+    mItemsScrollArea = std::make_unique<FFScrollArea>();
+    mItemsScrollArea->setContent(mItemsList.get());
     mItemsScrollArea->setDimension(fcn::Rectangle(5, 5, 310, 180));
-    mItems = new FFContainer();
+    mItems = std::make_unique<FFContainer>();
     mItems->setDimension(fcn::Rectangle(0, 50, 320, 190));
     mItems->setVisible(false);
-    mItems->add(mItemsScrollArea);
-    mTop->add(mItems);
-    mTop->add(mItemsInfo);
+    mItems->add(mItemsScrollArea.get());
+    mTop->add(mItems.get());
+    mTop->add(mItemsInfo.get());
 }
 
 void FFDemo::cleanItems()
 {
-    delete mItems;
-    delete mItemsInfo;
-    delete mItemsInfoInfo;
-    delete mItemsList;
-    delete mItemsScrollArea;
+    mItemsInfoInfo.reset();
+    mItemsList.reset();
+    mItemsScrollArea.reset();
+    mItemsListModel.reset();
+    mItemsInfoListModel.reset();
+    mItems.reset();
+    mItemsInfo.reset();
 }
 
 void FFDemo::initAbout()
 {
-    mAbout = new FFContainer();
+    mAbout = std::make_unique<FFContainer>();
     mAbout->setDimension(fcn::Rectangle(0, 0, 320, 240));
     mAbout->setVisible(false);
-    mTop->add(mAbout);
+    mTop->add(mAbout.get());
 
-    mAboutInfo = new fcn::TextBox();
+    mAboutInfo = std::make_unique<fcn::TextBox>();
     mAboutInfo->setOpaque(false);
     mAboutInfo->setEditable(false);
     mAboutInfo->setFocusable(false);
@@ -570,20 +550,20 @@ void FFDemo::initAbout()
         "by this demo, it does support\n"
         "mouse input!\n\n");
 
-    mAboutScrollArea = new FFScrollArea();
-    mAboutScrollArea->setContent(mAboutInfo);
+    mAboutScrollArea = std::make_unique<FFScrollArea>();
+    mAboutScrollArea->setContent(mAboutInfo.get());
     mAboutScrollArea->setFocusable(true);
     mAboutScrollArea->setDimension(fcn::Rectangle(5, 5, 310, 230));
     mAboutScrollArea->setBorderSize(0);
-    mAbout->add(mAboutScrollArea);
+    mAbout->add(mAboutScrollArea.get());
     mAbout->setBorderSize(0);
 }
 
 void FFDemo::cleanAbout()
 {
-    delete mAboutInfo;
-    delete mAboutScrollArea;
-    delete mAbout;
+    mAboutInfo.reset();
+    mAboutScrollArea.reset();
+    mAbout.reset();
 }
 
 void FFDemo::run()

@@ -320,7 +320,7 @@ namespace fcn
 
     void DropDown::resizeToContent(bool recursion)
     {
-        (void) recursion; // unused parameter
+        (void)recursion; // unused parameter
 
         if (mScrollArea != nullptr) {
             mScrollArea->resizeToContent();
@@ -495,7 +495,7 @@ namespace fcn
         SelectionListenerIterator iter;
 
         for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter) {
-            const SelectionEvent event(this);
+            SelectionEvent const event(this);
             (*iter)->valueChanged(event);
         }
     }

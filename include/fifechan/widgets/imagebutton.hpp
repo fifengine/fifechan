@@ -5,8 +5,8 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "fifechan/platform.hpp"

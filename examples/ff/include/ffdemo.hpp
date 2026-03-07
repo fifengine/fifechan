@@ -12,6 +12,8 @@
 
 #include <fifechan.hpp>
 
+#include <memory>
+
 #include "ffcharacterchooser.hpp"
 #include "ffcontainer.hpp"
 #include "fflistbox.hpp"
@@ -48,75 +50,75 @@ private:
     Mix_Chunk* mChooseSound;
     Mix_Chunk* mEscapeSound;
 
-    fcn::SDL2Graphics* mSDLGraphics;
-    fcn::SDLInput* mSDLInput;
-    fcn::SDLImageLoader* mSDLImageLoader;
-    fcn::Gui* mGui;
+    std::unique_ptr<fcn::SDL2Graphics> mSDLGraphics;
+    std::unique_ptr<fcn::SDLInput> mSDLInput;
+    std::unique_ptr<fcn::SDLImageLoader> mSDLImageLoader;
+    std::unique_ptr<fcn::Gui> mGui;
 
-    fcn::Container* mTop;
-    FFContainer* mMain;
-    FFContainer* mStatus;
-    FFContainer* mItems;
-    FFContainer* mMagicSkills;
-    FFContainer* mTime;
-    FFContainer* mGoldFootsteps;
-    FFContainer* mMenu;
-    FFContainer* mAbout;
-    FFContainer* mItemsInfo;
+    std::unique_ptr<fcn::Container> mTop;
+    std::unique_ptr<FFContainer> mMain;
+    std::unique_ptr<FFContainer> mStatus;
+    std::unique_ptr<FFContainer> mItems;
+    std::unique_ptr<FFContainer> mMagicSkills;
+    std::unique_ptr<FFContainer> mTime;
+    std::unique_ptr<FFContainer> mGoldFootsteps;
+    std::unique_ptr<FFContainer> mMenu;
+    std::unique_ptr<FFContainer> mAbout;
+    std::unique_ptr<FFContainer> mItemsInfo;
 
-    fcn::Icon* mPerIcon;
-    fcn::Icon* mOlofIcon;
-    fcn::Icon* mTomasIcon;
-    fcn::Image* mPerImage;
-    fcn::Image* mOlofImage;
-    fcn::Image* mTomasImage;
-    fcn::Image* mSplashImage;
-    fcn::Font* mFontWhite;
-    fcn::Font* mFontCyan;
+    std::unique_ptr<fcn::Icon> mPerIcon;
+    std::unique_ptr<fcn::Icon> mOlofIcon;
+    std::unique_ptr<fcn::Icon> mTomasIcon;
+    std::unique_ptr<fcn::Image> mPerImage;
+    std::unique_ptr<fcn::Image> mOlofImage;
+    std::unique_ptr<fcn::Image> mTomasImage;
+    std::unique_ptr<fcn::Image> mSplashImage;
+    std::unique_ptr<fcn::ImageFont> mFontWhite;
+    std::unique_ptr<fcn::ImageFont> mFontCyan;
 
-    FFListBox* mMenuList;
+    std::unique_ptr<FFListBox> mMenuList;
 
-    FFListBox* mMagicSkillsList;
-    FFScrollArea* mMagicSkillsScroll;
+    std::unique_ptr<FFListBox> mMagicSkillsList;
+    std::unique_ptr<FFScrollArea> mMagicSkillsScroll;
 
-    StringListModel* mPerSkills;
-    StringListModel* mPerMagic;
-    StringListModel* mOlofSkills;
-    StringListModel* mOlofMagic;
-    StringListModel* mTomasSkills;
-    StringListModel* mTomasMagic;
+    std::unique_ptr<StringListModel> mPerSkills;
+    std::unique_ptr<StringListModel> mPerMagic;
+    std::unique_ptr<StringListModel> mOlofSkills;
+    std::unique_ptr<StringListModel> mOlofMagic;
+    std::unique_ptr<StringListModel> mTomasSkills;
+    std::unique_ptr<StringListModel> mTomasMagic;
 
-    fcn::TextBox* mPerInfo1;
-    fcn::TextBox* mOlofInfo1;
-    fcn::TextBox* mTomasInfo1;
-    fcn::TextBox* mPerInfo2;
-    fcn::TextBox* mOlofInfo2;
-    fcn::TextBox* mTomasInfo2;
-    fcn::TextBox* mItemsInfoInfo;
-    fcn::TextBox* mOlofStatus1;
-    fcn::TextBox* mOlofStatus2;
-    fcn::TextBox* mPerStatus1;
-    fcn::TextBox* mPerStatus2;
-    fcn::TextBox* mTomasStatus1;
-    fcn::TextBox* mTomasStatus2;
+    std::unique_ptr<fcn::TextBox> mPerInfo1;
+    std::unique_ptr<fcn::TextBox> mOlofInfo1;
+    std::unique_ptr<fcn::TextBox> mTomasInfo1;
+    std::unique_ptr<fcn::TextBox> mPerInfo2;
+    std::unique_ptr<fcn::TextBox> mOlofInfo2;
+    std::unique_ptr<fcn::TextBox> mTomasInfo2;
+    std::unique_ptr<fcn::TextBox> mItemsInfoInfo;
+    std::unique_ptr<fcn::TextBox> mOlofStatus1;
+    std::unique_ptr<fcn::TextBox> mOlofStatus2;
+    std::unique_ptr<fcn::TextBox> mPerStatus1;
+    std::unique_ptr<fcn::TextBox> mPerStatus2;
+    std::unique_ptr<fcn::TextBox> mTomasStatus1;
+    std::unique_ptr<fcn::TextBox> mTomasStatus2;
 
-    fcn::TextBox* mGoldFootstepsInfo1;
-    fcn::TextBox* mGoldFootstepsInfo2;
-    fcn::Label* mTimeLabel1;
-    fcn::Label* mTimeLabel2;
+    std::unique_ptr<fcn::TextBox> mGoldFootstepsInfo1;
+    std::unique_ptr<fcn::TextBox> mGoldFootstepsInfo2;
+    std::unique_ptr<fcn::Label> mTimeLabel1;
+    std::unique_ptr<fcn::Label> mTimeLabel2;
 
-    fcn::Label* mNavigationLabel;
+    std::unique_ptr<fcn::Label> mNavigationLabel;
 
-    fcn::TextBox* mAboutInfo;
-    FFScrollArea* mAboutScrollArea;
+    std::unique_ptr<fcn::TextBox> mAboutInfo;
+    std::unique_ptr<FFScrollArea> mAboutScrollArea;
 
-    FFListBox* mItemsList;
-    FFScrollArea* mItemsScrollArea;
-    StringListModel* mItemsListModel;
-    StringListModel* mItemsInfoListModel;
-    StringListModel* mMenuListModel;
+    std::unique_ptr<FFListBox> mItemsList;
+    std::unique_ptr<FFScrollArea> mItemsScrollArea;
+    std::unique_ptr<StringListModel> mItemsListModel;
+    std::unique_ptr<StringListModel> mItemsInfoListModel;
+    std::unique_ptr<StringListModel> mMenuListModel;
 
-    FFCharacterChooser* mCharacterChooser;
+    std::unique_ptr<FFCharacterChooser> mCharacterChooser;
 };
 
 #endif
