@@ -5,6 +5,7 @@
 
 #include "fifechan/backends/sdl2/sdl2graphics.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <numbers>
 #include <string>
@@ -358,23 +359,83 @@ namespace fcn
         x2 += top.xOffset;
         y2 += top.yOffset;
 
+        if (width <= 1) {
+            drawLine(x1 - top.xOffset, y1 - top.yOffset, x2 - top.xOffset, y2 - top.yOffset);
+            return;
+        }
+
+        if (x1 == x2 && y1 == y2) {
+            drawRoundStroke(x1 - top.xOffset, y1 - top.yOffset, x2 - top.xOffset, y2 - top.yOffset, width);
+            return;
+        }
+
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
-        // Calculate the direction vector of the line
-        float const dx      = x2 - x1;
-        float const dy      = y2 - y1;
+        float const dx      = static_cast<float>(x2 - x1);
+        float const dy      = static_cast<float>(y2 - y1);
         float const length  = std::sqrt((dx * dx) + (dy * dy));
-        float const offsetX = (dy / length) * (width / 2.0F);
-        float const offsetY = (dx / length) * (width / 2.0F);
+        float const offsetX = (dy / length) * (static_cast<float>(width) / 2.0F);
+        float const offsetY = (dx / length) * (static_cast<float>(width) / 2.0F);
 
-        // Draw multiple parallel lines to simulate thickness
-        for (int i = -width / 2; i <= width / 2; ++i) {
-            int const startX = static_cast<int>(x1 + (i * offsetX));
-            int const startY = static_cast<int>(y1 - (i * offsetY));
-            int const endX   = static_cast<int>(x2 + (i * offsetX));
-            int const endY   = static_cast<int>(y2 - (i * offsetY));
+        for (int i = -static_cast<int>(width) / 2; i <= static_cast<int>(width) / 2; ++i) {
+            int const startX = static_cast<int>(x1 + (static_cast<float>(i) * offsetX));
+            int const startY = static_cast<int>(y1 - (static_cast<float>(i) * offsetY));
+            int const endX   = static_cast<int>(x2 + (static_cast<float>(i) * offsetX));
+            int const endY   = static_cast<int>(y2 - (static_cast<float>(i) * offsetY));
             SDL_RenderDrawLine(mRenderTarget, startX, startY, endX, endY);
+        }
+
+        restoreRenderColor();
+    }
+
+    void SDL2Graphics::drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width)
+    {
+        if (mClipStack.empty()) {
+            throwException(
+                "Clip stack is empty, perhaps you"
+                "called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+        ClipRectangle const & top = mClipStack.top();
+
+        x1 += top.xOffset;
+        y1 += top.yOffset;
+        x2 += top.xOffset;
+        y2 += top.yOffset;
+
+        if (width <= 1) {
+            drawLine(x1 - top.xOffset, y1 - top.yOffset, x2 - top.xOffset, y2 - top.yOffset);
+            return;
+        }
+
+        saveRenderColor();
+        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+
+        int const dx        = x2 - x1;
+        int const dy        = y2 - y1;
+        int const radius    = std::max(1, static_cast<int>(width) / 2);
+        int const stepCount = std::max(std::abs(dx), std::abs(dy));
+
+        auto drawFilledDisk = [&](int centerX, int centerY) {
+            for (int offsetY = -radius; offsetY <= radius; ++offsetY) {
+                for (int offsetX = -radius; offsetX <= radius; ++offsetX) {
+                    if ((offsetX * offsetX) + (offsetY * offsetY) <= (radius * radius)) {
+                        SDL_RenderDrawPoint(mRenderTarget, centerX + offsetX, centerY + offsetY);
+                    }
+                }
+            }
+        };
+
+        if (stepCount == 0) {
+            drawFilledDisk(x1, y1);
+            restoreRenderColor();
+            return;
+        }
+
+        for (int step = 0; step <= stepCount; ++step) {
+            int const centerX = x1 + ((dx * step) / stepCount);
+            int const centerY = y1 + ((dy * step) / stepCount);
+            drawFilledDisk(centerX, centerY);
         }
 
         restoreRenderColor();
@@ -614,8 +675,6 @@ namespace fcn
                 "Clip stack is empty, perhaps you"
                 "called a draw function outside of _beginDraw() and _endDraw()?");
         }
-        ClipRectangle const & top = mClipStack.top();
-
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
@@ -626,12 +685,7 @@ namespace fcn
             fcn::Point const currentPoint = bezierPoint(controlPoints, t);
 
             // Draw thick line segment
-            drawLine(
-                previousPoint.x + top.xOffset,
-                previousPoint.y + top.yOffset,
-                currentPoint.x + top.xOffset,
-                currentPoint.y + top.yOffset,
-                width);
+            drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y, width);
 
             previousPoint = currentPoint;
         }
@@ -652,18 +706,11 @@ namespace fcn
             return; // Not enough points to form a line
         }
 
-        ClipRectangle const & top = mClipStack.top();
-
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         for (size_t i = 0; i < points.size() - 1; ++i) {
-            int const x1 = points[i].x + top.xOffset;
-            int const y1 = points[i].y + top.yOffset;
-            int const x2 = points[i + 1].x + top.xOffset;
-            int const y2 = points[i + 1].y + top.yOffset;
-
-            drawLine(x1, y1, x2, y2, width);
+            drawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, width);
         }
 
         restoreRenderColor();

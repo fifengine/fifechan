@@ -15,6 +15,50 @@
 namespace fcn
 {
 
+    namespace
+    {
+        void drawMarkerBrush(Graphics* graphics, int x, int y, int thickness)
+        {
+            int const offset = (thickness - 1) / 2;
+            graphics->fillRectangle(x - offset, y - offset, thickness, thickness);
+        }
+
+        void drawMarkerStroke(Graphics* graphics, Point const & start, Point const & end, int thickness)
+        {
+            int x = start.x;
+            int y = start.y;
+
+            int const deltaX = std::abs(end.x - start.x);
+            int const stepX  = (start.x < end.x) ? 1 : -1;
+            int const deltaY = -std::abs(end.y - start.y);
+            int const stepY  = (start.y < end.y) ? 1 : -1;
+            int error        = deltaX + deltaY;
+
+            while (true) {
+                drawMarkerBrush(graphics, x, y, thickness);
+
+                if ((x == end.x) && (y == end.y)) {
+                    break;
+                }
+
+                int const doubledError = 2 * error;
+                if (doubledError >= deltaY) {
+                    error += deltaY;
+                    x += stepX;
+                }
+                if (doubledError <= deltaX) {
+                    error += deltaX;
+                    y += stepY;
+                }
+            }
+        }
+
+        int scaleMarkerCoordinate(int origin, int size, int numerator)
+        {
+            return origin + (((size - 1) * numerator) / 16);
+        }
+    } // namespace
+
     CheckBox::CheckBox()
     {
 
@@ -113,13 +157,16 @@ namespace fcn
             Color shadowColor    = faceColor - 0x303030;
             shadowColor.a        = alpha;
 
+            int const recRight  = rec.x + rec.width - 1;
+            int const recBottom = rec.y + rec.height - 1;
+
             graphics->setColor(shadowColor);
-            graphics->drawLine(rec.x, rec.y, h - 1, rec.y);
-            graphics->drawLine(rec.x, rec.y, rec.x, h - 1);
+            graphics->drawLine(rec.x, rec.y, recRight, rec.y);
+            graphics->drawLine(rec.x, rec.y, rec.x, recBottom);
 
             graphics->setColor(highlightColor);
-            graphics->drawLine(h - 1, rec.x, h - 1, h - 1);
-            graphics->drawLine(rec.y, h - 1, h - 1, h - 1);
+            graphics->drawLine(recRight, rec.y, recRight, recBottom);
+            graphics->drawLine(rec.x, recBottom, recRight, recBottom);
 
             // draws marker
             if (mSelected) {
@@ -143,18 +190,29 @@ namespace fcn
 
     void CheckBox::drawCheckmark(Graphics* graphics, Rectangle const & rec)
     {
-        graphics->drawLine(rec.x + 3, rec.y + 3, rec.x + 3, rec.height - 3);
-        graphics->drawLine(rec.x + 4, rec.y + 4, rec.x + 4, rec.height - 2);
-        graphics->drawLine(rec.x + 5, rec.height - 3, rec.width - 2, rec.y + 4);
-        graphics->drawLine(rec.x + 5, rec.height - 4, rec.width - 4, rec.y + 5);
+        int const thickness = std::max(1, std::min(rec.width, rec.height) / 6);
+
+        Point const start(scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 8));
+        Point const joint(scaleMarkerCoordinate(rec.x, rec.width, 7), scaleMarkerCoordinate(rec.y, rec.height, 12));
+        Point const end(scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 4));
+
+        drawMarkerStroke(graphics, start, joint, thickness);
+        drawMarkerStroke(graphics, joint, end, thickness);
     }
 
     void CheckBox::drawCross(Graphics* graphics, Rectangle const & rec)
     {
-        graphics->drawLine(rec.x + 2, rec.y + 2, rec.width - 3, rec.height - 3);
-        graphics->drawLine(rec.x + 2, rec.y + 3, rec.width - 4, rec.height - 3);
-        graphics->drawLine(rec.x + 2, rec.height - 3, rec.width - 3, rec.y + 2);
-        graphics->drawLine(rec.x + 3, rec.height - 3, rec.width - 3, rec.y + 3);
+        int const thickness = std::max(1, std::min(rec.width, rec.height) / 6);
+
+        Point const topLeft(scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 3));
+        Point const bottomRight(
+            scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 13));
+        Point const bottomLeft(
+            scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 13));
+        Point const topRight(scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 3));
+
+        drawMarkerStroke(graphics, topLeft, bottomRight, thickness);
+        drawMarkerStroke(graphics, bottomLeft, topRight, thickness);
     }
 
     void CheckBox::drawDot(Graphics* graphics, Rectangle const & rec)

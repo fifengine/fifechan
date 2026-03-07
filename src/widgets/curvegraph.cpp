@@ -106,7 +106,17 @@ namespace fcn
         }
         // draw bezier curve
         graphics->setColor(getBaseColor());
-        graphics->drawPolyLine(m_curveData, m_thickness);
+
+        if (m_thickness <= 1 || m_curveData.size() < 2) {
+            graphics->drawPolyLine(m_curveData, m_thickness);
+            return;
+        }
+
+        for (size_t i = 0; i < m_curveData.size() - 1; ++i) {
+            Point const & start = m_curveData[i];
+            Point const & end   = m_curveData[i + 1];
+            graphics->drawRoundStroke(start.x, start.y, end.x, end.y, m_thickness);
+        }
     }
 
     void CurveGraph::update()

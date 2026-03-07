@@ -113,6 +113,7 @@ namespace fcn
         void drawPoint(int x, int y) override;
         void drawLine(int x1, int y1, int x2, int y2) override;
         void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
+        void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width) override;
 
         void drawRectangle(Rectangle const & rectangle) override;
         void fillRectangle(Rectangle const & rectangle) override;

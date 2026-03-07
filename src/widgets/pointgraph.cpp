@@ -82,19 +82,44 @@ namespace fcn
             return;
         }
 
-        // draw points
+        // draw connected graph line first, then the points on top.
         graphics->setColor(getBaseColor());
 
         bool const thick = m_thickness > 1;
 
         auto pit = m_data.begin();
+        int x1   = (*pit).x;
+        int y1   = (*pit).y;
+        ++pit;
+
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
-                graphics->drawFillCircle(*pit, m_thickness);
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
+                graphics->drawRoundStroke(x1, y1, x2, y2, m_thickness);
+                x1 = x2;
+                y1 = y2;
             }
         } else {
             for (; pit != m_data.end(); ++pit) {
-                graphics->drawPoint((*pit).x, (*pit).y);
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
+                graphics->drawLine(x1, y1, x2, y2);
+                x1 = x2;
+                y1 = y2;
+            }
+        }
+
+        pit                             = m_data.begin();
+        unsigned int const markerRadius = std::max(4U, m_thickness);
+
+        if (thick) {
+            for (; pit != m_data.end(); ++pit) {
+                graphics->drawFillCircle(*pit, markerRadius);
+            }
+        } else {
+            for (; pit != m_data.end(); ++pit) {
+                graphics->drawFillCircle(*pit, markerRadius);
             }
         }
     }

@@ -344,22 +344,16 @@ void Application::init_GUI(int width, int height)
     addCaption("TextBox", col3X, topMarginY);
     ownedTextBox = std::make_unique<fcn::TextBox>(
         "Lorem ipsum dolor sit amet\n"
-        "consectetur adipiscing elit\n"
-        "Integer vitae ultrices\n"
-        "eros Curabitur malesuada dolor imperdiet\n"
-        "ante facilisis ut convallis sem rutrum\n"
-        "Praesent consequat urna convallis leo\n"
-        "aliquam pellentesque Integer laoreet\n"
-        "enim vehicula libero blandit at pellentesque\n"
-        "ipsum vehicula Mauris id turpis hendrerit\n"
-        "tempor velit nec hendrerit nulla");
-    ownedTextBox->adjustSize();
-    auto textBoxScrollAreaPtr = std::make_unique<fcn::ScrollArea>(ownedTextBox.get());
-    textBoxScrollAreaPtr->setSize(282, 160);
-    textBoxScrollAreaPtr->setMaxSize(fcn::Size(1, 1));
-    top->addWidget(std::move(textBoxScrollAreaPtr), col3X, topMarginY + labelGap);
-    showLastWidget();
-    textBoxScrollArea = dynamic_cast<fcn::ScrollArea*>(top->getChild(top->getChildrenCount() - 1));
+        "consectetur adipiscing elit.\n"
+        "Vivamus facilisis sem ut massa.\n"
+        "Curabitur malesuada dolor.\n"
+        "Praesent consequat urna leo.\n"
+        "Mauris hendrerit velit nulla.");
+    ownedTextBox->setForegroundColor(fcn::Color(52, 52, 52, 255));
+    ownedTextBox->setBackgroundColor(fcn::Color(247, 244, 236, 255));
+    ownedTextBox->setSize(282, 120);
+    top->add(ownedTextBox.get(), col3X, topMarginY + labelGap);
+    textBoxScrollArea = nullptr;
     textBox           = ownedTextBox.get();
 
     addCaption("ListBox", col3X, 248);
@@ -371,32 +365,55 @@ void Application::init_GUI(int width, int height)
     listBox = dynamic_cast<fcn::ListBox*>(top->getChild(top->getChildrenCount() - 1));
 
     addCaption("ScrollArea", col3X, 444);
+    auto nestedLabelPtr = std::make_unique<fcn::Label>("Scrollable content");
+    nestedLabelPtr->setForegroundColor(fcn::Color(60, 60, 60, 255));
+    nestedLabelPtr->adjustSize();
+
     auto nestedSliderPtr = std::make_unique<fcn::Slider>(0, 10);
-    nestedSliderPtr->setSize(100, 18);
+    nestedSliderPtr->setSize(160, 18);
+    nestedSliderPtr->setValue(6);
+
+    auto nestedButtonPtr = std::make_unique<fcn::Button>("Bottom Right");
+    nestedButtonPtr->adjustSize();
+
+    auto nestedHintPtr = std::make_unique<fcn::Label>("Drag the bars to reveal more.");
+    nestedHintPtr->setForegroundColor(fcn::Color(86, 92, 98, 255));
+    nestedHintPtr->adjustSize();
+
     ownedNestedContainer = std::make_unique<fcn::Container>();
-    ownedNestedContainer->setSize(400, 200);
-    ownedNestedContainer->addWidget(std::move(nestedSliderPtr), 50, 70);
-    nestedSlider =
-        dynamic_cast<fcn::Slider*>(ownedNestedContainer->getChild(ownedNestedContainer->getChildrenCount() - 1));
+    ownedNestedContainer->setSize(420, 220);
+    ownedNestedContainer->setOpaque(true);
+    ownedNestedContainer->setBaseColor(fcn::Color(239, 241, 233, 255));
+    ownedNestedContainer->setBorderSize(1);
+    ownedNestedContainer->addWidget(std::move(nestedLabelPtr), 16, 14);
+    ownedNestedContainer->addWidget(std::move(nestedSliderPtr), 24, 54);
+    ownedNestedContainer->addWidget(std::move(nestedHintPtr), 24, 132);
+    ownedNestedContainer->addWidget(std::move(nestedButtonPtr), 286, 172);
     auto nestedScrollAreaPtr = std::make_unique<fcn::ScrollArea>(ownedNestedContainer.get());
     nestedScrollAreaPtr->setSize(250, 110);
-    nestedScrollAreaPtr->setMaxSize(fcn::Size(1, 1));
+    nestedScrollAreaPtr->setBaseColor(fcn::Color(214, 219, 205, 255));
+    nestedScrollAreaPtr->setBackgroundColor(fcn::Color(248, 248, 244, 255));
+    nestedScrollAreaPtr->setHorizontalScrollPolicy(fcn::ScrollArea::ScrollPolicy::ShowAlways);
+    nestedScrollAreaPtr->setVerticalScrollPolicy(fcn::ScrollArea::ScrollPolicy::ShowAlways);
     top->addWidget(std::move(nestedScrollAreaPtr), col3X, 444 + labelGap);
     showLastWidget();
     nestedScrollArea = dynamic_cast<fcn::ScrollArea*>(top->getChild(top->getChildrenCount() - 1));
     nestedContainer  = ownedNestedContainer.get();
+    nestedSlider     = dynamic_cast<fcn::Slider*>(ownedNestedContainer->getChild(1));
 
     addCaption("IconProgressBar", col3X, 596);
     if (hasIcon) {
         SDL_Surface* progressSurface =
-            SDL_CreateRGBSurface(0, 12, 24, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+            SDL_CreateRGBSurface(0, 10, 18, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
         if (progressSurface == nullptr) {
             std::cerr << "[ERROR] Failed to create IconProgressBar fill surface: " << SDL_GetError() << '\n';
             exit(7);
         }
 
         SDL_FillRect(progressSurface, nullptr, SDL_MapRGBA(progressSurface->format, 0, 0, 0, 0));
-        SDL_Rect fillRect{1, 3, 10, 18};
+        SDL_Rect outlineRect{0, 2, 10, 14};
+        SDL_FillRect(progressSurface, &outlineRect, SDL_MapRGBA(progressSurface->format, 132, 152, 89, 255));
+        SDL_Rect fillRect{1, 3, 8, 12};
         SDL_FillRect(progressSurface, &fillRect, SDL_MapRGBA(progressSurface->format, 177, 198, 120, 255));
 
         ownedProgressFillImage = std::make_unique<fcn::sdl2::Image>(progressSurface, true, renderer.get());
@@ -405,7 +422,7 @@ void Application::init_GUI(int width, int height)
         iconProgressBarPtr->setIconCount(13);
         iconProgressBarPtr->setBackgroundColor(fcn::Color(214, 214, 214, 255));
         iconProgressBarPtr->setBaseColor(fcn::Color(214, 214, 214, 255));
-        iconProgressBarPtr->setSize(250, 40);
+        iconProgressBarPtr->setSize(220, 24);
         top->addWidget(std::move(iconProgressBarPtr), col3X, 596 + labelGap);
         showLastWidget();
         iconProgressBar = dynamic_cast<fcn::IconProgressBar*>(top->getChild(top->getChildrenCount() - 1));
@@ -418,50 +435,47 @@ void Application::init_GUI(int width, int height)
     showLastWidget();
     dropDown = dynamic_cast<fcn::DropDown*>(top->getChild(top->getChildrenCount() - 1));
 
-    addCaption("CheckBox 1", col4X, 110);
+    addCaption("Checkbox", col4X, 110);
     auto checkBox1Ptr = std::make_unique<fcn::CheckBox>("Checkbox 1");
     checkBox1Ptr->adjustSize();
     top->addWidget(std::move(checkBox1Ptr), col4X, 110 + labelGap);
     showLastWidget();
     checkBox1 = dynamic_cast<fcn::CheckBox*>(top->getChild(top->getChildrenCount() - 1));
 
-    addCaption("CheckBox 2", col4X, 178);
     auto checkBox2Ptr = std::make_unique<fcn::CheckBox>("Checkbox 2");
     checkBox2Ptr->adjustSize();
-    top->addWidget(std::move(checkBox2Ptr), col4X, 178 + labelGap);
+    top->addWidget(std::move(checkBox2Ptr), col4X, 110 + labelGap + 34);
     showLastWidget();
     checkBox2 = dynamic_cast<fcn::CheckBox*>(top->getChild(top->getChildrenCount() - 1));
 
-    addCaption("RadioButton 1", col4X, 246);
+    addCaption("RadioButton", col4X, 246);
     auto radioButton1Ptr = std::make_unique<fcn::RadioButton>("Radio Button 1", "radiogroup", true);
     radioButton1Ptr->adjustSize();
     top->addWidget(std::move(radioButton1Ptr), col4X, 246 + labelGap);
     showLastWidget();
     radioButton1 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
 
-    addCaption("RadioButton 2", col4X, 314);
     auto radioButton2Ptr = std::make_unique<fcn::RadioButton>("Radio Button 2", "radiogroup");
     radioButton2Ptr->adjustSize();
-    top->addWidget(std::move(radioButton2Ptr), col4X, 314 + labelGap);
+    top->addWidget(std::move(radioButton2Ptr), col4X, 246 + labelGap + 34);
     showLastWidget();
     radioButton2 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
 
-    addCaption("RadioButton 3", col4X, 382);
     auto radioButton3Ptr = std::make_unique<fcn::RadioButton>("Radio Button 3", "radiogroup");
     radioButton3Ptr->adjustSize();
-    top->addWidget(std::move(radioButton3Ptr), col4X, 382 + labelGap);
+    top->addWidget(std::move(radioButton3Ptr), col4X, 246 + labelGap + 68);
     showLastWidget();
     radioButton3 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
 
     addCaption("TabbedArea", col4X, 468);
     auto tabbedAreaPtr = std::make_unique<fcn::TabbedArea>();
-    tabbedAreaPtr->setSize(260, 128);
+    tabbedAreaPtr->setSize(224, 108);
     ownedTabOne    = std::make_unique<fcn::Tab>();
     auto tab1Label = std::make_unique<fcn::Label>("Tab 1");
     tab1Label->adjustSize();
     ownedTabOne->addWidget(std::move(tab1Label));
     ownedTabOne->adjustSize();
-    ownedTabOneContent = std::make_unique<fcn::Label>("Content of Tab 1");
+    ownedTabOneContent = std::make_unique<fcn::Label>("Tab 1 content");
     ownedTabOneContent->adjustSize();
     tabbedAreaPtr->addTab(ownedTabOne.get(), ownedTabOneContent.get());
     ownedTabTwo    = std::make_unique<fcn::Tab>();
@@ -469,7 +483,7 @@ void Application::init_GUI(int width, int height)
     tab2Label->adjustSize();
     ownedTabTwo->addWidget(std::move(tab2Label));
     ownedTabTwo->adjustSize();
-    ownedTabTwoContent = std::make_unique<fcn::Label>("Content of Tab 2");
+    ownedTabTwoContent = std::make_unique<fcn::Label>("Tab 2 content");
     ownedTabTwoContent->adjustSize();
     tabbedAreaPtr->addTab(ownedTabTwo.get(), ownedTabTwoContent.get());
     top->addWidget(std::move(tabbedAreaPtr), col4X, 468 + labelGap);
@@ -478,7 +492,12 @@ void Application::init_GUI(int width, int height)
 
     addCaption("BarGraph", graphRow1StartX, graphRow1TopY);
     auto barGraphPtr = std::make_unique<fcn::BarGraph>();
-    barGraphPtr->setBarSize(100, 50);
+    barGraphPtr->setOpaque(true);
+    barGraphPtr->setBackgroundColor(fcn::Color(231, 235, 239, 255));
+    barGraphPtr->setBaseColor(fcn::Color(110, 123, 158, 255));
+    barGraphPtr->setBorderSize(1);
+    barGraphPtr->setBarPosition(18, 18);
+    barGraphPtr->setBarSize(136, 68);
     barGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(barGraphPtr), graphRow1StartX, graphRow1Y);
     showLastWidget();
@@ -487,8 +506,18 @@ void Application::init_GUI(int width, int height)
     addCaption("LineGraph", graphRow1Col2X, graphRow1TopY);
     auto lineGraphPtr                = std::make_unique<fcn::LineGraph>();
     std::vector<fcn::Point> lineData = {
-        fcn::Point{0, 0}, fcn::Point{10, 10}, fcn::Point{20, 5}, fcn::Point{30, 15}, fcn::Point{40, 10}};
+        fcn::Point{18, 78},
+        fcn::Point{50, 34},
+        fcn::Point{88, 58},
+        fcn::Point{126, 20},
+        fcn::Point{164, 72},
+        fcn::Point{198, 40}};
     lineGraphPtr->setPointVector(lineData);
+    lineGraphPtr->setThickness(2);
+    lineGraphPtr->setOpaque(true);
+    lineGraphPtr->setBackgroundColor(fcn::Color(236, 238, 242, 255));
+    lineGraphPtr->setBaseColor(fcn::Color(88, 102, 138, 255));
+    lineGraphPtr->setBorderSize(1);
     lineGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(lineGraphPtr), graphRow1Col2X, graphRow1Y);
     showLastWidget();
@@ -497,8 +526,20 @@ void Application::init_GUI(int width, int height)
     addCaption("PointGraph", graphRow1Col3X, graphRow1TopY);
     auto pointGraphPtr                = std::make_unique<fcn::PointGraph>();
     std::vector<fcn::Point> pointData = {
-        fcn::Point{10, 10}, fcn::Point{20, 20}, fcn::Point{30, 15}, fcn::Point{40, 25}};
+        fcn::Point{18, 84},
+        fcn::Point{42, 58},
+        fcn::Point{64, 30},
+        fcn::Point{92, 68},
+        fcn::Point{116, 44},
+        fcn::Point{144, 22},
+        fcn::Point{168, 62},
+        fcn::Point{196, 36}};
     pointGraphPtr->setPointVector(pointData);
+    pointGraphPtr->setThickness(2);
+    pointGraphPtr->setOpaque(true);
+    pointGraphPtr->setBackgroundColor(fcn::Color(228, 234, 238, 255));
+    pointGraphPtr->setBaseColor(fcn::Color(69, 108, 153, 255));
+    pointGraphPtr->setBorderSize(1);
     pointGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(pointGraphPtr), graphRow1Col3X, graphRow1Y);
     showLastWidget();
@@ -507,8 +548,19 @@ void Application::init_GUI(int width, int height)
     addCaption("CurveGraph", graphRow2StartX, graphRow2TopY);
     auto curveGraphPtr                = std::make_unique<fcn::CurveGraph>();
     std::vector<fcn::Point> curveData = {
-        fcn::Point{0, 0}, fcn::Point{10, 10}, fcn::Point{20, 5}, fcn::Point{30, 15}, fcn::Point{40, 10}};
+        fcn::Point{16, 86},
+        fcn::Point{42, 44},
+        fcn::Point{72, 70},
+        fcn::Point{108, 18},
+        fcn::Point{146, 82},
+        fcn::Point{178, 30},
+        fcn::Point{206, 58}};
     curveGraphPtr->setPointVector(curveData);
+    curveGraphPtr->setThickness(3);
+    curveGraphPtr->setOpaque(true);
+    curveGraphPtr->setBackgroundColor(fcn::Color(233, 239, 235, 255));
+    curveGraphPtr->setBaseColor(fcn::Color(78, 148, 122, 255));
+    curveGraphPtr->setBorderSize(1);
     curveGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(curveGraphPtr), graphRow2StartX, graphRow2Y);
     showLastWidget();

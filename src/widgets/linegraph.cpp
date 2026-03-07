@@ -94,7 +94,7 @@ namespace fcn
             for (; pit != m_data.end(); ++pit) {
                 int const x2 = (*pit).x;
                 int const y2 = (*pit).y;
-                graphics->drawLine(x1, y1, x2, y2, m_thickness);
+                graphics->drawRoundStroke(x1, y1, x2, y2, m_thickness);
                 x1 = x2;
                 y1 = y2;
             }

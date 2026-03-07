@@ -184,6 +184,26 @@ namespace fcn
         virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width) = 0;
 
         /**
+         * Draws a round brush stroke along the line segment.
+         *
+         * Unlike drawLine(..., width), this uses a round brush footprint and
+         * therefore produces round caps and a softer joint shape.
+         *
+         * Backends that do not provide a dedicated implementation fall back to
+         * drawLine(..., width).
+         *
+         * @param x1    The first x coordinate.
+         * @param y1    The first y coordinate.
+         * @param x2    The second x coordinate.
+         * @param y2    The second y coordinate.
+         * @param width The brush width.
+         */
+        virtual void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width)
+        {
+            drawLine(x1, y1, x2, y2, width);
+        }
+
+        /**
          * Draws lines between points with given width.
          *
          * @param points Contains the points that are used for drawing.

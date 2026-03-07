@@ -14,6 +14,7 @@ namespace fcn
     {
         addMouseListener(this);
         setLayout(Container::LayoutPolicy::Horizontal);
+        setPadding(6);
     }
 
     Tab::~Tab() = default;
@@ -75,7 +76,7 @@ namespace fcn
             graphics->drawLine(0, 1, 0, getHeight() - 1);
             graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
 
-            baseColor   = getBaseColor() - 0x151515;
+            baseColor   = getBaseColor();
             baseColor.a = alpha;
         }
 

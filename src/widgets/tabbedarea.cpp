@@ -26,6 +26,7 @@ namespace fcn
         mTabContainer->setLayout(Container::LayoutPolicy::Horizontal);
 
         mWidgetContainer->setLayout(Container::LayoutPolicy::Vertical);
+        mWidgetContainer->setPadding(6);
 
         add(mTabContainer);
         add(mWidgetContainer);
@@ -44,6 +45,7 @@ namespace fcn
     {
         tab->setTabbedArea(this);
         tab->addActionListener(this);
+        tab->setBaseColor(getBaseColor());
         if (tab->getLayout() == Container::LayoutPolicy::Absolute) {
             tab->setLayout(getLayout());
         }
@@ -451,6 +453,9 @@ namespace fcn
         Widget::setBaseColor(color);
         mWidgetContainer->setBaseColor(color);
         mTabContainer->setBaseColor(color);
+        for (auto const & tabEntry : mTabs) {
+            tabEntry.first->setBaseColor(color);
+        }
     }
 
     void TabbedArea::setLayout(Container::LayoutPolicy policy)
