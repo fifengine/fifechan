@@ -991,8 +991,9 @@ namespace fcn
         checkPolicies();
     }
 
-    void ScrollArea::resizeToContent(bool /*recursion*/)
+    void ScrollArea::resizeToContent(bool recursion)
     {
+        static_cast<void>(recursion);
         Widget* content = getContent();
         if (content != nullptr) {
             content->resizeToContent();
@@ -1013,8 +1014,9 @@ namespace fcn
         setHeight(min.getHeight());
     }
 
-    void ScrollArea::expandContent(bool /*recursion*/)
+    void ScrollArea::expandContent(bool recursion)
     {
+        static_cast<void>(recursion);
         // remove that hack
         setWidth(getWidth());
         setHeight(getHeight());

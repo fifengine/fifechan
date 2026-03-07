@@ -5,6 +5,7 @@
 #include "ffdemo.hpp"
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>

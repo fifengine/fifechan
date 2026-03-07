@@ -13,6 +13,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <utility>
 
 /**
  * Demonstrates the minimal SDL2 + OpenGL integration path for Fifechan.

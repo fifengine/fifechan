@@ -8,6 +8,8 @@
 
 #include <fifechan.hpp>
 
+#include <memory>
+
 int FFListBox::mInstances                    = 0;
 std::unique_ptr<fcn::Image> FFListBox::mHand = nullptr;
 

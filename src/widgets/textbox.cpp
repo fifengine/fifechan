@@ -189,8 +189,9 @@ namespace fcn
         keyEvent.consume();
     }
 
-    void TextBox::resizeToContent(bool /*recursion*/)
+    void TextBox::resizeToContent(bool recursion)
     {
+        static_cast<void>(recursion);
         adjustSize();
     }
 

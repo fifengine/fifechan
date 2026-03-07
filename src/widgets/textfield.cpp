@@ -159,8 +159,9 @@ namespace fcn
         fixScroll();
     }
 
-    void TextField::resizeToContent(bool /*recursion*/)
+    void TextField::resizeToContent(bool recursion)
     {
+        static_cast<void>(recursion);
         adjustSize();
     }
 

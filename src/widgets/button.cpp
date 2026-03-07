@@ -179,8 +179,9 @@ namespace fcn
         }
     }
 
-    void Button::resizeToContent(bool /*recursion*/)
+    void Button::resizeToContent(bool recursion)
     {
+        static_cast<void>(recursion);
         adjustSize();
     }
 

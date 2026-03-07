@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <memory>
 
 int FFContainer::mInstances                          = 0;
 std::unique_ptr<fcn::Image> FFContainer::mCornerUL   = nullptr;

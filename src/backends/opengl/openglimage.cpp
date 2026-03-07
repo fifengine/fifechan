@@ -131,18 +131,18 @@ namespace fcn
         unsigned int const c = mPixels[x + (y * mTextureWidth)];
 
 #ifdef __BIG_ENDIAN__
-        unsigned char const r = static_cast<unsigned char>((c >> 24) & 0xff);
-        unsigned char const g = static_cast<unsigned char>((c >> 16) & 0xff);
-        unsigned char const b = static_cast<unsigned char>((c >> 8) & 0xff);
-        unsigned char const a = static_cast<unsigned char>(c & 0xff);
+        auto const r = static_cast<unsigned char>((c >> 24) & 0xff);
+        auto const g = static_cast<unsigned char>((c >> 16) & 0xff);
+        auto const b = static_cast<unsigned char>((c >> 8) & 0xff);
+        auto const a = static_cast<unsigned char>(c & 0xff);
 #else
-        unsigned char const a = static_cast<unsigned char>((c >> 24) & 0xff);
-        unsigned char const b = static_cast<unsigned char>((c >> 16) & 0xff);
-        unsigned char const g = static_cast<unsigned char>((c >> 8) & 0xff);
-        unsigned char const r = static_cast<unsigned char>(c & 0xff);
+        auto const a = static_cast<unsigned char>((c >> 24) & 0xff);
+        auto const b = static_cast<unsigned char>((c >> 16) & 0xff);
+        auto const g = static_cast<unsigned char>((c >> 8) & 0xff);
+        auto const r = static_cast<unsigned char>(c & 0xff);
 #endif
 
-        return Color(r, g, b, a);
+        return {r, g, b, a};
     }
 
     void OpenGLImage::putPixel(int x, int y, Color const & color)

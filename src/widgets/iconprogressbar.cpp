@@ -172,8 +172,9 @@ namespace fcn
         return mIconCounter;
     }
 
-    void IconProgressBar::resizeToContent(bool /*recursion*/)
+    void IconProgressBar::resizeToContent(bool recursion)
     {
+        static_cast<void>(recursion);
         adjustSize();
     }
 

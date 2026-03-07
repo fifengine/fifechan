@@ -4,6 +4,8 @@
 
 #include "fifechan/widgets/dropdown.hpp"
 
+#include <memory>
+
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
@@ -361,7 +363,7 @@ namespace fcn
         }
     }
 
-    void DropDown::focusLost(Event const & /*event*/)
+    void DropDown::focusLost(Event const & event)
     {
         foldUp();
         mInternalFocusHandler.focusNone();
@@ -377,7 +379,7 @@ namespace fcn
         }
     }
 
-    void DropDown::action(ActionEvent const & /*actionEvent*/)
+    void DropDown::action(ActionEvent const & actionEvent)
     {
         foldUp();
         releaseModalMouseInputFocus();
@@ -475,7 +477,7 @@ namespace fcn
         }
     }
 
-    void DropDown::valueChanged(SelectionEvent const & /*event*/)
+    void DropDown::valueChanged(SelectionEvent const & event)
     {
         distributeValueChangedEvent();
     }
