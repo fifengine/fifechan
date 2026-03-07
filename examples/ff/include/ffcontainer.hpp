@@ -5,6 +5,8 @@
 #ifndef __FFCONTAINER_HPP
 #define __FFCONTAINER_HPP
 
+#include <memory>
+
 #include <fifechan.hpp>
 
 class FFContainer : public fcn::Container
@@ -30,12 +32,12 @@ private:
     bool mShow;
 
     static int mInstances;
-    static fcn::Image* mCornerUL;
-    static fcn::Image* mCornerUR;
-    static fcn::Image* mCornerDL;
-    static fcn::Image* mCornerDR;
-    static fcn::Image* mHorizontal;
-    static fcn::Image* mVertical;
+    static std::unique_ptr<fcn::Image> mCornerUL;
+    static std::unique_ptr<fcn::Image> mCornerUR;
+    static std::unique_ptr<fcn::Image> mCornerDL;
+    static std::unique_ptr<fcn::Image> mCornerDR;
+    static std::unique_ptr<fcn::Image> mHorizontal;
+    static std::unique_ptr<fcn::Image> mVertical;
 };
 
 #endif

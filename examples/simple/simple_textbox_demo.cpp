@@ -11,6 +11,7 @@
 #include <fifechan.hpp>
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 
 /**
@@ -24,12 +25,12 @@ int main(int argc, char** argv)
 {
     SDL_Window* window                     = nullptr;
     SDL_GLContext glContext                = nullptr;
-    fcn::SDLInput* input                   = nullptr;
-    fcn::OpenGLGraphics* graphics          = nullptr;
-    fcn::OpenGLSDLImageLoader* imageLoader = nullptr;
-    fcn::ImageFont* font                   = nullptr;
-    fcn::Gui* gui                          = nullptr;
-    fcn::Container* top                    = nullptr;
+    auto input                   = std::unique_ptr<fcn::SDLInput>();
+    auto graphics                = std::unique_ptr<fcn::OpenGLGraphics>();
+    auto imageLoader             = std::unique_ptr<fcn::OpenGLSDLImageLoader>();
+    auto font                    = std::unique_ptr<fcn::ImageFont>();
+    auto gui                     = std::unique_ptr<fcn::Gui>();
+    auto top                     = std::unique_ptr<fcn::Container>();
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -52,30 +53,30 @@ int main(int argc, char** argv)
     }
 
     try {
-        imageLoader = new fcn::OpenGLSDLImageLoader;
-        fcn::Image::setImageLoader(imageLoader);
+        imageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
+        fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = new fcn::OpenGLGraphics(800, 600);
-        input    = new fcn::SDLInput;
+        graphics = std::make_unique<fcn::OpenGLGraphics>(800, 600);
+        input    = std::make_unique<fcn::SDLInput>();
 
-        font = new fcn::ImageFont(
+        font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"");
-        fcn::Widget::setGlobalFont(font);
+        fcn::Widget::setGlobalFont(font.get());
 
-        gui = new fcn::Gui;
-        gui->setGraphics(graphics);
-        gui->setInput(input);
+        gui = std::make_unique<fcn::Gui>();
+        gui->setGraphics(graphics.get());
+        gui->setInput(input.get());
 
-        top = new fcn::Container;
+        top = std::make_unique<fcn::Container>();
         top->setDimension(fcn::Rectangle(0, 0, 800, 600));
         top->setOpaque(false);
-        gui->setTop(top);
+        gui->setTop(top.get());
 
-        fcn::TextBox* txtBox = new fcn::TextBox;
+        auto txtBox = std::make_unique<fcn::TextBox>();
         txtBox->setDimension(fcn::Rectangle(100, 50, 200, 200));
         txtBox->setText("Hello from Fifechan!\nThis is a simple TextBox demo.");
 
-        top->add(txtBox);
+        top->addWidget(std::move(txtBox));
 
         bool running = true;
         SDL_Event evt;
@@ -100,14 +101,9 @@ int main(int argc, char** argv)
         gui->setTop(nullptr);
     }
 
-    delete top;
-    delete gui;
-    delete font;
-    delete input;
-    delete graphics;
+    fcn::Widget::setGlobalFont(nullptr);
 
     fcn::Image::setImageLoader(nullptr);
-    delete imageLoader;
 
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(window);

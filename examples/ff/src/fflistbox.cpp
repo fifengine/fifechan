@@ -9,12 +9,12 @@
 #include <fifechan.hpp>
 
 int FFListBox::mInstances    = 0;
-fcn::Image* FFListBox::mHand = nullptr;
+std::unique_ptr<fcn::Image> FFListBox::mHand = nullptr;
 
 FFListBox::FFListBox()
 {
     if (mInstances == 0) {
-        mHand = fcn::Image::load("images/hand.png");
+        mHand = std::unique_ptr<fcn::Image>(fcn::Image::load("images/hand.png"));
     }
 
     mInstances++;
@@ -27,7 +27,7 @@ FFListBox::~FFListBox()
     mInstances--;
 
     if (mInstances == 0) {
-        delete mHand;
+        mHand.reset();
     }
 }
 
@@ -53,9 +53,9 @@ void FFListBox::draw(fcn::Graphics* graphics)
 
         if (i == mSelected) {
             if (isFocused()) {
-                graphics->drawImage(mHand, 0, y);
+                graphics->drawImage(mHand.get(), 0, y);
             } else if ((SDL_GetTicks() / 100) & 1) {
-                graphics->drawImage(mHand, 0, y);
+                graphics->drawImage(mHand.get(), 0, y);
             }
         }
 

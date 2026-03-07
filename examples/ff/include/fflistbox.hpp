@@ -5,6 +5,8 @@
 #ifndef __FFLISTBOX_HPP
 #define __FFLISTBOX_HPP
 
+#include <memory>
+
 #include <fifechan.hpp>
 
 class FFListBox : public fcn::ListBox
@@ -16,7 +18,7 @@ public:
     void setSelected(int i);
 
 private:
-    static fcn::Image* mHand;
+    static std::unique_ptr<fcn::Image> mHand;
     static int mInstances;
 };
 

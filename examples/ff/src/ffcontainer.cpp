@@ -9,22 +9,22 @@
 #include <cmath>
 
 int FFContainer::mInstances          = 0;
-fcn::Image* FFContainer::mCornerUL   = nullptr;
-fcn::Image* FFContainer::mCornerUR   = nullptr;
-fcn::Image* FFContainer::mCornerDL   = nullptr;
-fcn::Image* FFContainer::mCornerDR   = nullptr;
-fcn::Image* FFContainer::mHorizontal = nullptr;
-fcn::Image* FFContainer::mVertical   = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mCornerUL   = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mCornerUR   = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mCornerDL   = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mCornerDR   = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mHorizontal = nullptr;
+std::unique_ptr<fcn::Image> FFContainer::mVertical   = nullptr;
 
 FFContainer::FFContainer()
 {
     if (mInstances == 0) {
-        mCornerUL   = fcn::Image::load("images/cornerul.png");
-        mCornerUR   = fcn::Image::load("images/cornerur.png");
-        mCornerDL   = fcn::Image::load("images/cornerdl.png");
-        mCornerDR   = fcn::Image::load("images/cornerdr.png");
-        mHorizontal = fcn::Image::load("images/horizontal.png");
-        mVertical   = fcn::Image::load("images/vertical.png");
+        mCornerUL   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerul.png"));
+        mCornerUR   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerur.png"));
+        mCornerDL   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerdl.png"));
+        mCornerDR   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerdr.png"));
+        mHorizontal = std::unique_ptr<fcn::Image>(fcn::Image::load("images/horizontal.png"));
+        mVertical   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/vertical.png"));
     }
 
     mInstances++;
@@ -45,12 +45,12 @@ FFContainer::~FFContainer()
     mInstances--;
 
     if (mInstances == 0) {
-        delete mCornerUL;
-        delete mCornerUR;
-        delete mCornerDL;
-        delete mCornerDR;
-        delete mHorizontal;
-        delete mVertical;
+        mCornerUL.reset();
+        mCornerUR.reset();
+        mCornerDL.reset();
+        mCornerDR.reset();
+        mHorizontal.reset();
+        mVertical.reset();
     }
 }
 
@@ -76,23 +76,23 @@ void FFContainer::draw(fcn::Graphics* graphics)
     graphics->popClipArea();
 
     for (i = 5; i < getHeight() - 10; i += 5) {
-        graphics->drawImage(mVertical, 0, i);
-        graphics->drawImage(mVertical, getWidth() - 4, i);
+        graphics->drawImage(mVertical.get(), 0, i);
+        graphics->drawImage(mVertical.get(), getWidth() - 4, i);
     }
-    graphics->drawImage(mVertical, 0, 0, 0, i, 4, getHeight() - 5 - i);
-    graphics->drawImage(mVertical, 0, 0, getWidth() - 4, i, 4, getHeight() - 5 - i);
+    graphics->drawImage(mVertical.get(), 0, 0, 0, i, 4, getHeight() - 5 - i);
+    graphics->drawImage(mVertical.get(), 0, 0, getWidth() - 4, i, 4, getHeight() - 5 - i);
 
     for (i = 5; i < getWidth() - 10; i += 5) {
-        graphics->drawImage(mHorizontal, i, 0);
-        graphics->drawImage(mHorizontal, i, getHeight() - 4);
+        graphics->drawImage(mHorizontal.get(), i, 0);
+        graphics->drawImage(mHorizontal.get(), i, getHeight() - 4);
     }
-    graphics->drawImage(mHorizontal, 0, 0, i, 0, getWidth() - 5 - i, 4);
-    graphics->drawImage(mHorizontal, 0, 0, i, getHeight() - 4, getWidth() - 5 - i, 4);
+    graphics->drawImage(mHorizontal.get(), 0, 0, i, 0, getWidth() - 5 - i, 4);
+    graphics->drawImage(mHorizontal.get(), 0, 0, i, getHeight() - 4, getWidth() - 5 - i, 4);
 
-    graphics->drawImage(mCornerUL, 0, 0);
-    graphics->drawImage(mCornerUR, getWidth() - 5, 0);
-    graphics->drawImage(mCornerDL, 0, getHeight() - 5);
-    graphics->drawImage(mCornerDR, getWidth() - 5, getHeight() - 5);
+    graphics->drawImage(mCornerUL.get(), 0, 0);
+    graphics->drawImage(mCornerUR.get(), getWidth() - 5, 0);
+    graphics->drawImage(mCornerDL.get(), 0, getHeight() - 5);
+    graphics->drawImage(mCornerDR.get(), getWidth() - 5, getHeight() - 5);
 }
 
 void FFContainer::logic()

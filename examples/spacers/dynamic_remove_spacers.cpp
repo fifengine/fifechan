@@ -11,8 +11,10 @@
 #include <fifechan.hpp>
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stack>
+#include <vector>
 
 /**
  * Test doesn't do any memory management in sake of
@@ -45,15 +47,16 @@ int main(int argc, char** argv)
 {
     SDL_Window* sdlWindow            = nullptr;
     SDL_Renderer* renderer           = nullptr;
-    fcn::SDLInput* input             = nullptr;
-    fcn::SDL2Graphics* graphics      = nullptr;
-    fcn::SDLImageLoader* imageLoader = nullptr;
-    fcn::ImageFont* font             = nullptr;
-    fcn::Gui* gui                    = nullptr;
-    fcn::Container* top              = nullptr;
+    auto input                       = std::unique_ptr<fcn::SDLInput>();
+    auto graphics                    = std::unique_ptr<fcn::SDL2Graphics>();
+    auto imageLoader                 = std::unique_ptr<fcn::SDLImageLoader>();
+    auto font                        = std::unique_ptr<fcn::ImageFont>();
+    auto gui                         = std::unique_ptr<fcn::Gui>();
+    auto top                         = std::unique_ptr<fcn::Container>();
     int exitCode                     = 0;
 
     std::stack<fcn::Spacer*> spacers;
+    std::vector<std::unique_ptr<MyActionListener>> actionListeners;
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -69,85 +72,85 @@ int main(int argc, char** argv)
     SDL_SetWindowTitle(sdlWindow, "Dynamic Remove Spacers");
 
     try {
-        imageLoader = new fcn::SDLImageLoader;
+        imageLoader = std::make_unique<fcn::SDLImageLoader>();
         imageLoader->setRenderer(renderer);
-        fcn::Image::setImageLoader(imageLoader);
+        fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = new fcn::SDL2Graphics();
+        graphics = std::make_unique<fcn::SDL2Graphics>();
         graphics->setTarget(renderer, 800, 600);
-        input = new fcn::SDLInput;
+        input = std::make_unique<fcn::SDLInput>();
 
-        font = new fcn::ImageFont("rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        fcn::Widget::setGlobalFont(font);
+        font = std::make_unique<fcn::ImageFont>(
+            "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        fcn::Widget::setGlobalFont(font.get());
 
-        gui = new fcn::Gui;
-        gui->setGraphics(graphics);
-        gui->setInput(input);
+        gui = std::make_unique<fcn::Gui>();
+        gui->setGraphics(graphics.get());
+        gui->setInput(input.get());
 
-        top = new fcn::Container;
+        top = std::make_unique<fcn::Container>();
         top->setDimension(fcn::Rectangle(0, 0, 800, 600));
         top->setOpaque(false);
-        gui->setTop(top);
+        gui->setTop(top.get());
 
-        fcn::Container* testVBox = new fcn::Container;
+        auto testVBox = std::make_unique<fcn::Container>();
         testVBox->setLayout(fcn::Container::LayoutPolicy::Vertical);
         testVBox->setVerticalSpacing(0);
         testVBox->setOpaque(false);
 
-        fcn::Container* testHBox = new fcn::Container;
+        auto testHBox = std::make_unique<fcn::Container>();
         testHBox->setLayout(fcn::Container::LayoutPolicy::Horizontal);
         testHBox->setHorizontalSpacing(0);
         testHBox->setOpaque(false);
+        auto* testHBoxRaw = testHBox.get();
 
-        fcn::Spacer* spacer;
-
-        fcn::Button* btn;
         for (int i = 0; i < 6; ++i) {
             std::stringstream s;
             s << "Button " << i;
 
-            btn = new fcn::Button(s.str());
+            auto btn = std::make_unique<fcn::Button>(s.str());
+            auto listener = std::make_unique<MyActionListener>(testHBoxRaw);
             btn->adjustSize();
-            btn->addActionListener(new MyActionListener(testHBox));
+            btn->addActionListener(listener.get());
             btn->setSize(100, 100);
-            testHBox->add(btn);
+            testHBoxRaw->addWidget(std::move(btn));
+            actionListeners.push_back(std::move(listener));
 
-            spacer = new fcn::Spacer;
+            auto spacer = std::make_unique<fcn::Spacer>();
             spacer->setSize(5, 1);
-            testHBox->add(spacer);
-            spacers.push(spacer);
+            spacers.push(spacer.get());
+            testHBoxRaw->addWidget(std::move(spacer));
         }
 
-        testHBox->resizeToContent();
+        testHBoxRaw->resizeToContent();
 
-        testVBox->add(testHBox);
+        testVBox->addWidget(std::move(testHBox));
 
-        fcn::Label* lbl;
         for (int i = 0; i < 5; ++i) {
             std::stringstream s;
             s << "Label " << i;
 
-            lbl = new fcn::Label(s.str());
+            auto lbl = std::make_unique<fcn::Label>(s.str());
             lbl->adjustSize();
-            testVBox->add(lbl);
+            testVBox->addWidget(std::move(lbl));
 
-            spacer = new fcn::Spacer;
+            auto spacer = std::make_unique<fcn::Spacer>();
             spacer->setSize(1, 5);
-            testVBox->add(spacer);
-            spacers.push(spacer);
+            spacers.push(spacer.get());
+            testVBox->addWidget(std::move(spacer));
         }
 
-        btn = new fcn::Button("Another Button");
+        auto btn = std::make_unique<fcn::Button>("Another Button");
         btn->adjustSize();
-        testVBox->add(btn);
+        testVBox->addWidget(std::move(btn));
 
         testVBox->resizeToContent();
 
-        fcn::Window* demoWindow = new fcn::Window("Window");
-        demoWindow->add(testVBox);
+        auto demoWindow = std::make_unique<fcn::Window>("Window");
+        demoWindow->addWidget(std::move(testVBox));
         demoWindow->adjustSize();
 
-        top->add(demoWindow);
+        top->addWidget(std::move(demoWindow));
 
         bool running = true;
         SDL_Event evt;
@@ -195,17 +198,9 @@ int main(int argc, char** argv)
         gui->setTop(nullptr);
     }
 
-    delete top;
-    delete gui;
-
     fcn::Widget::setGlobalFont(nullptr);
-    delete font;
-
-    delete input;
-    delete graphics;
 
     fcn::Image::setImageLoader(nullptr);
-    delete imageLoader;
 
     if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
