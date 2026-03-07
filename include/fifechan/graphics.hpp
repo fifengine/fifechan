@@ -331,7 +331,12 @@ namespace fcn
          * @param alignment The alignemnt to use when drawing.
          * @throws Exception when no font has been set.
          */
-        virtual void drawText(std::string const & text, int x, int y, Alignment alignment = Alignment::Left);
+        void drawText(std::string const & text, int x, int y)
+        {
+            drawText(text, x, y, Alignment::Left);
+        }
+
+        virtual void drawText(std::string const & text, int x, int y, Alignment alignment);
 
     protected:
         /**

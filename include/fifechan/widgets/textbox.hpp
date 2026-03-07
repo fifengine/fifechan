@@ -32,7 +32,7 @@ namespace fcn
          */
         explicit TextBox(std::string const & text = "");
 
-        ~TextBox();
+        ~TextBox() override;
 
         /**
          * Sets the text of the text box.
@@ -170,7 +170,7 @@ namespace fcn
          * @return True if the text box is opaque, false otherwise.
          * @see setOpaque
          */
-        bool isOpaque();
+        bool isOpaque() const;
 
         /**
          * Sets the text box to be opaque or not. An opaque text box will draw
@@ -184,25 +184,27 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
-        virtual void fontChanged();
+        void fontChanged() override;
 
-        virtual void resizeToContent(bool recursion = true);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
         /**
          * Adjusts the text box's size to fit the text.
          */
-        virtual void adjustSize();
+        void adjustSize() override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
     protected:
         /**

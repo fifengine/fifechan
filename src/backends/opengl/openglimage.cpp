@@ -10,7 +10,7 @@
 
 namespace fcn
 {
-    OpenGLImage::OpenGLImage(unsigned int const * pixels, int width, int height, bool convertToDisplayFormat)
+    OpenGLImage::OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat)
     {
         mAutoFree = true;
 
@@ -26,8 +26,8 @@ namespace fcn
             mTextureHeight *= 2;
         }
 
-        // Create a new pixel array and copy the pixels into it
-        mPixels = std::make_unique<unsigned int[]>(static_cast<size_t>(mTextureWidth * mTextureHeight));
+        // Create a new pixel buffer and copy the pixels into it.
+        mPixels.resize(static_cast<size_t>(mTextureWidth * mTextureHeight));
 
 #ifdef __BIG_ENDIAN__
         unsigned int const magicPink = 0xff00ffff;
@@ -62,7 +62,7 @@ namespace fcn
     {
         mTextureHandle = textureHandle;
         mAutoFree      = autoFree;
-        mPixels        = nullptr;
+        mPixels.clear();
 
         mWidth        = width;
         mHeight       = height;
@@ -101,10 +101,10 @@ namespace fcn
 
     void OpenGLImage::free()
     {
-        if (mPixels == nullptr) {
+        if (mPixels.empty()) {
             glDeleteTextures(1, &mTextureHandle);
         } else {
-            mPixels.reset();
+            mPixels.clear();
         }
     }
 
@@ -120,7 +120,7 @@ namespace fcn
 
     Color OpenGLImage::getPixel(int x, int y)
     {
-        if (mPixels == nullptr) {
+        if (mPixels.empty()) {
             throwException("Image has been converted to display format");
         }
 
@@ -131,15 +131,15 @@ namespace fcn
         unsigned int const c = mPixels[x + (y * mTextureWidth)];
 
 #ifdef __BIG_ENDIAN__
-        const unsigned char r = (unsigned char)((c >> 24) & 0xff);
-        unsigned char const g = (unsigned char)((c >> 16) & 0xff);
-        unsigned char const b = (unsigned char)((c >> 8) & 0xff);
-        unsigned char const a = (unsigned char)(c & 0xff);
+        unsigned char const r = static_cast<unsigned char>((c >> 24) & 0xff);
+        unsigned char const g = static_cast<unsigned char>((c >> 16) & 0xff);
+        unsigned char const b = static_cast<unsigned char>((c >> 8) & 0xff);
+        unsigned char const a = static_cast<unsigned char>(c & 0xff);
 #else
-        const unsigned char a = (unsigned char)((c >> 24) & 0xff);
-        unsigned char const b = (unsigned char)((c >> 16) & 0xff);
-        unsigned char const g = (unsigned char)((c >> 8) & 0xff);
-        unsigned char const r = (unsigned char)(c & 0xff);
+        unsigned char const a = static_cast<unsigned char>((c >> 24) & 0xff);
+        unsigned char const b = static_cast<unsigned char>((c >> 16) & 0xff);
+        unsigned char const g = static_cast<unsigned char>((c >> 8) & 0xff);
+        unsigned char const r = static_cast<unsigned char>(c & 0xff);
 #endif
 
         return Color(r, g, b, a);
@@ -147,7 +147,7 @@ namespace fcn
 
     void OpenGLImage::putPixel(int x, int y, Color const & color)
     {
-        if (mPixels == nullptr) {
+        if (mPixels.empty()) {
             throwException("Image has been converted to display format");
         }
 
@@ -166,19 +166,19 @@ namespace fcn
 
     void OpenGLImage::convertToDisplayFormat()
     {
-        if (mPixels == nullptr) {
+        if (mPixels.empty()) {
             throwException("Image has already been converted to display format");
         }
 
         glGenTextures(1, &mTextureHandle);
         glBindTexture(GL_TEXTURE_2D, mTextureHandle);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, mTextureWidth, mTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels.get());
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, mTextureWidth, mTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels.data());
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        mPixels.reset();
+        mPixels.clear();
 
         GLenum error = glGetError();
         if (error) {

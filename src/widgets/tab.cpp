@@ -16,7 +16,7 @@ namespace fcn
         setLayout(Container::LayoutPolicy::Horizontal);
     }
 
-    Tab::~Tab() { }
+    Tab::~Tab() = default;
 
     void Tab::adjustSize()
     {
@@ -95,12 +95,12 @@ namespace fcn
         graphics->popClipArea();
     }
 
-    void Tab::mouseEntered(MouseEvent& mouseEvent)
+    void Tab::mouseEntered(MouseEvent& /*mouseEvent*/)
     {
         mHasMouse = true;
     }
 
-    void Tab::mouseExited(MouseEvent& mouseEvent)
+    void Tab::mouseExited(MouseEvent& /*mouseEvent*/)
     {
         mHasMouse = false;
     }

@@ -43,9 +43,9 @@ namespace fcn
          *
          * @param caption The caption of the button.
          */
-        explicit Button(std::string const & caption);
+        explicit Button(std::string caption);
 
-        virtual ~Button();
+        ~Button() override;
 
         /**
          * Sets the caption of the button.
@@ -135,31 +135,33 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
-        virtual void fontChanged();
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
+        void fontChanged() override;
 
         // Inherited from FocusListener
 
-        virtual void focusLost(Event const & event);
+        void focusLost(Event const & event) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
-        virtual void mouseReleased(MouseEvent& mouseEvent);
-        virtual void mouseEntered(MouseEvent& mouseEvent);
-        virtual void mouseExited(MouseEvent& mouseEvent);
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
+        void mouseReleased(MouseEvent& mouseEvent) override;
+        void mouseEntered(MouseEvent& mouseEvent) override;
+        void mouseExited(MouseEvent& mouseEvent) override;
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
-        virtual void keyReleased(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
+        void keyReleased(KeyEvent& keyEvent) override;
 
         // Inherited from WidgetListener
 
-        virtual void ancestorHidden(Event const & e);
+        void ancestorHidden(Event const & e) override;
 
     protected:
         /**

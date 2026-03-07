@@ -5,6 +5,7 @@
 #include "fifechan/widgets/button.hpp"
 
 #include <string>
+#include <utility>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -33,8 +34,8 @@ namespace fcn
         addWidgetListener(this);
     }
 
-    Button::Button(std::string const & caption) :
-        mCaption(caption),
+    Button::Button(std::string caption) :
+        mCaption(std::move(caption)),
         mHasMouse(false),
         mKeyPressed(false),
         mMousePressed(false),
@@ -52,7 +53,7 @@ namespace fcn
         addWidgetListener(this);
     }
 
-    Button::~Button() { }
+    Button::~Button() = default;
 
     void Button::setCaption(std::string const & caption)
     {
@@ -152,7 +153,7 @@ namespace fcn
         int textX = 0;
         int const textY =
             offsetRec.y + getPaddingTop() +
-            (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+            ((getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2);
         switch (getAlignment()) {
         case Graphics::Alignment::Left:
             textX = offsetRec.x + getPaddingLeft();
@@ -178,7 +179,7 @@ namespace fcn
         }
     }
 
-    void Button::resizeToContent(bool recursion)
+    void Button::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }
@@ -206,12 +207,12 @@ namespace fcn
         }
     }
 
-    void Button::mouseExited(MouseEvent& mouseEvent)
+    void Button::mouseExited(MouseEvent& /*mouseEvent*/)
     {
         mHasMouse = false;
     }
 
-    void Button::mouseEntered(MouseEvent& mouseEvent)
+    void Button::mouseEntered(MouseEvent& /*mouseEvent*/)
     {
         mHasMouse = true;
     }
@@ -254,14 +255,14 @@ namespace fcn
         }
     }
 
-    void Button::focusLost(Event const & event)
+    void Button::focusLost(Event const & /*event*/)
     {
         mMousePressed = false;
         mKeyPressed   = false;
         mHasMouse     = false;
     }
 
-    void Button::ancestorHidden(Event const & e)
+    void Button::ancestorHidden(Event const & /*e*/)
     {
         mMousePressed = false;
         mKeyPressed   = false;

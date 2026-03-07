@@ -22,18 +22,20 @@ namespace fcn
          */
         Spacer();
 
-        ~Spacer();
+        ~Spacer() override;
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
 
         /**
          * Overrides this so that the spacer doesn't draw nothing.
          *
          * @param graphics A graphics object to draw with.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
     };
 }; // namespace fcn
 

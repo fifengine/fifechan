@@ -14,9 +14,12 @@
 namespace fcn
 {
     SDLTrueTypeFont::SDLTrueTypeFont(std::string const & filename, int size) :
-        mRowSpacing(0), mGlyphSpacing(0), mAntiAlias(true), mFilename(filename), mFont(nullptr)
+        mRowSpacing(0),
+        mGlyphSpacing(0),
+        mAntiAlias(true),
+        mFilename(filename),
+        mFont(TTF_OpenFont(filename.c_str(), size))
     {
-        mFont = TTF_OpenFont(filename.c_str(), size);
 
         if (mFont == nullptr) {
             throwException("SDLTrueTypeFont::SDLTrueTypeFont. " + std::string(TTF_GetError()));
@@ -30,8 +33,8 @@ namespace fcn
 
     int SDLTrueTypeFont::getWidth(std::string const & text) const
     {
-        int w;
-        int h;
+        int w = 0;
+        int h = 0;
         TTF_SizeText(mFont, text.c_str(), &w, &h);
 
         return w;
@@ -48,8 +51,8 @@ namespace fcn
             return;
         }
 
-        fcn::SDLGraphics* sdlGraphics   = dynamic_cast<fcn::SDLGraphics*>(graphics);
-        fcn::SDL2Graphics* sdl2Graphics = dynamic_cast<fcn::SDL2Graphics*>(graphics);
+        auto* sdlGraphics  = dynamic_cast<fcn::SDLGraphics*>(graphics);
+        auto* sdl2Graphics = dynamic_cast<fcn::SDL2Graphics*>(graphics);
 
         if (sdlGraphics == nullptr && sdl2Graphics == nullptr) {
             throwException("SDLTrueTypeFont::drawString. Graphics object not an SDL/SDL2 graphics object!");
@@ -79,7 +82,8 @@ namespace fcn
             return;
         }
 
-        SDL_Rect dst, src;
+        SDL_Rect dst;
+        SDL_Rect src;
         dst.x = x;
         dst.y = y + yoffset;
         src.w = textSurface->w;

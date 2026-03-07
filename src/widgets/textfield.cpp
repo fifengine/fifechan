@@ -126,15 +126,15 @@ namespace fcn
         Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Left && getCaretPosition() > 0) {
-            setCaretPosition(mStringEditor->prevChar(getText(), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getCaretPosition())));
         } else if (key.getValue() == Key::Right && getCaretPosition() < getText().size()) {
-            setCaretPosition(mStringEditor->nextChar(getText(), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getCaretPosition())));
         } else if (
             key.getValue() == Key::Delete && getCaretPosition() < getText().size() && mText->getNumberOfRows() > 0) {
-            setCaretPosition(mStringEditor->eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
         } else if (key.getValue() == Key::Backspace && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
-            setCaretPosition(mStringEditor->prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-            setCaretPosition(mStringEditor->eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
         } else if (key.getValue() == Key::Enter) {
             distributeActionEvent();
         } else if (key.getValue() == Key::Home) {
@@ -147,7 +147,7 @@ namespace fcn
             // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
             key.getValue() != Key::Tab) {
-            setCaretPosition(mStringEditor->insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));
+            setCaretPosition(fcn::UTF8StringEditor::insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));
         }
 
         if (key.getValue() != Key::Tab) {
@@ -159,7 +159,7 @@ namespace fcn
         fixScroll();
     }
 
-    void TextField::resizeToContent(bool recursion)
+    void TextField::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }

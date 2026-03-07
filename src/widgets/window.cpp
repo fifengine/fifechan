@@ -39,7 +39,7 @@ namespace fcn
         setOpaque(true);
     }
 
-    Window::~Window() { }
+    Window::~Window() = default;
 
     void Window::setTitleBarHeight(unsigned int height)
     {
@@ -194,7 +194,7 @@ namespace fcn
         mMoved           = mouseEvent.getY() <= height;
     }
 
-    void Window::mouseReleased(MouseEvent& mouseEvent)
+    void Window::mouseReleased(MouseEvent& /*mouseEvent*/)
     {
         mMoved = false;
     }

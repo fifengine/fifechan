@@ -99,7 +99,7 @@ namespace fcn
 
         AdjustingContainer();
 
-        virtual ~AdjustingContainer();
+        ~AdjustingContainer() override;
 
         /**
          * Set the number of columns to divide the widgets into.
@@ -143,23 +143,27 @@ namespace fcn
 
         // Inherited from Container
 
-        virtual void resizeToContent(bool recursion = true);
+        using Container::resizeToContent;
 
-        virtual void adjustSize();
+        void resizeToContent(bool recursion) override;
 
-        virtual void expandContent(bool recursion = true);
+        void adjustSize() override;
 
-        virtual Rectangle getChildrenArea();
+        using Container::expandContent;
+
+        void expandContent(bool recursion) override;
+
+        Rectangle getChildrenArea() override;
 
         // virtual void logic();
 
-        virtual void add(Widget* widget);
+        void add(Widget* widget) override;
 
-        virtual void add(Widget* widget, int x, int y);
+        void add(Widget* widget, int x, int y) override;
 
-        virtual void remove(Widget* widget);
+        void remove(Widget* widget) override;
 
-        virtual void clear();
+        void clear() override;
 
     protected:
         std::vector<Widget*> mContainedWidgets;

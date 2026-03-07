@@ -10,12 +10,11 @@
 
 namespace fcn
 {
-    SDLImage::SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer)
+    SDLImage::SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) :
+        mAutoFree(autoFree), mRenderer(renderer), mSurface(surface)
     {
-        mAutoFree = autoFree;
-        mSurface  = surface;
-        mRenderer = renderer;
-        if (renderer) {
+
+        if (renderer != nullptr) {
             mTexture = SDL_CreateTextureFromSurface(renderer, surface);
             SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
 #if SDL_VERSION_ATLEAST(2, 0, 12)
@@ -83,22 +82,26 @@ namespace fcn
             throwException("Trying to convert a non loaded image to display format.");
         }
 
-        int i;
+        int i        = 0;
         bool hasPink = false;
 
         unsigned int surfaceMask = SDL_PIXELFORMAT_RGBX8888;
+        auto* pixels             = static_cast<unsigned int*>(mSurface->pixels);
 
         for (i = 0; i < mSurface->w * mSurface->h; ++i) {
-            if (((unsigned int*)mSurface->pixels)[i] == SDL_MapRGB(mSurface->format, 255, 0, 255)) {
+            if (pixels[i] == SDL_MapRGB(mSurface->format, 255, 0, 255)) {
                 hasPink = true;
                 break;
             }
         }
 
         for (i = 0; i < mSurface->w * mSurface->h; ++i) {
-            Uint8 r, g, b, a;
+            Uint8 r = 0;
+            Uint8 g = 0;
+            Uint8 b = 0;
+            Uint8 a = 0;
 
-            SDL_GetRGBA(((unsigned int*)mSurface->pixels)[i], mSurface->format, &r, &g, &b, &a);
+            SDL_GetRGBA(pixels[i], mSurface->format, &r, &g, &b, &a);
 
             if (a != 255) {
                 surfaceMask = SDL_PIXELFORMAT_RGBA8888;
@@ -114,12 +117,13 @@ namespace fcn
             SDL_SetColorKey(tmp, SDL_TRUE, SDL_MapRGB(tmp->format, 255, 0, 255));
         }
 
-        if (surfaceMask == SDL_PIXELFORMAT_RGBA8888)
+        if (surfaceMask == SDL_PIXELFORMAT_RGBA8888) {
             SDL_SetSurfaceAlphaMod(tmp, 255);
+        }
 
         mSurface = tmp;
 
-        if (mRenderer) {
+        if (mRenderer != nullptr) {
             SDL_Texture* tmpTexture = SDL_CreateTextureFromSurface(mRenderer, tmp);
             SDL_SetTextureBlendMode(tmpTexture, SDL_BLENDMODE_BLEND);
 #if SDL_VERSION_ATLEAST(2, 0, 12)

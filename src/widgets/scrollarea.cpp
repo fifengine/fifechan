@@ -22,7 +22,7 @@ namespace fcn
         addMouseListener(this);
     }
 
-    ScrollArea::ScrollArea(Widget* content, ScrollPolicy hPolicy, ScrollPolicy vPolicy)
+    ScrollArea::ScrollArea(Widget* content, ScrollPolicy /*hPolicy*/, ScrollPolicy /*vPolicy*/)
     {
         setContent(content);
         addMouseListener(this);
@@ -711,47 +711,47 @@ namespace fcn
     Rectangle ScrollArea::getUpButtonDimension()
     {
         if (!mVBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
-        return Rectangle(getWidth() - mScrollbarWidth, 0, mScrollbarWidth, mScrollbarWidth);
+        return {getWidth() - mScrollbarWidth, 0, mScrollbarWidth, mScrollbarWidth};
     }
 
     Rectangle ScrollArea::getDownButtonDimension()
     {
         if (!mVBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         if (mVBarVisible && mHBarVisible) {
-            return Rectangle(
-                getWidth() - mScrollbarWidth, getHeight() - (mScrollbarWidth * 2), mScrollbarWidth, mScrollbarWidth);
+            return {
+                getWidth() - mScrollbarWidth, getHeight() - (mScrollbarWidth * 2), mScrollbarWidth, mScrollbarWidth};
         }
 
-        return Rectangle(getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
+        return {getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth};
     }
 
     Rectangle ScrollArea::getLeftButtonDimension()
     {
         if (!mHBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
-        return Rectangle(0, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
+        return {0, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth};
     }
 
     Rectangle ScrollArea::getRightButtonDimension()
     {
         if (!mHBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         if (mVBarVisible && mHBarVisible) {
-            return Rectangle(
-                getWidth() - (mScrollbarWidth * 2), getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
+            return {
+                getWidth() - (mScrollbarWidth * 2), getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth};
         }
 
-        return Rectangle(getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth);
+        return {getWidth() - mScrollbarWidth, getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth};
     }
 
     Rectangle ScrollArea::getChildrenArea()
@@ -763,7 +763,7 @@ namespace fcn
             mHBarVisible ? getHeight() - mScrollbarWidth : getHeight());
 
         if (area.isEmpty()) {
-            return Rectangle();
+            return {};
         }
 
         return area;
@@ -772,49 +772,49 @@ namespace fcn
     Rectangle ScrollArea::getVerticalBarDimension()
     {
         if (!mVBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         if (mHBarVisible) {
-            return Rectangle(
+            return {
                 getWidth() - mScrollbarWidth,
                 getUpButtonDimension().height,
                 mScrollbarWidth,
-                getHeight() - getUpButtonDimension().height - getDownButtonDimension().height - mScrollbarWidth);
+                getHeight() - getUpButtonDimension().height - getDownButtonDimension().height - mScrollbarWidth};
         }
 
-        return Rectangle(
+        return {
             getWidth() - mScrollbarWidth,
             getUpButtonDimension().height,
             mScrollbarWidth,
-            getHeight() - getUpButtonDimension().height - getDownButtonDimension().height);
+            getHeight() - getUpButtonDimension().height - getDownButtonDimension().height};
     }
 
     Rectangle ScrollArea::getHorizontalBarDimension()
     {
         if (!mHBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         if (mVBarVisible) {
-            return Rectangle(
+            return {
                 getLeftButtonDimension().width,
                 getHeight() - mScrollbarWidth,
                 getWidth() - getLeftButtonDimension().width - getRightButtonDimension().width - mScrollbarWidth,
-                mScrollbarWidth);
+                mScrollbarWidth};
         }
 
-        return Rectangle(
+        return {
             getLeftButtonDimension().width,
             getHeight() - mScrollbarWidth,
             getWidth() - getLeftButtonDimension().width - getRightButtonDimension().width,
-            mScrollbarWidth);
+            mScrollbarWidth};
     }
 
     Rectangle ScrollArea::getVerticalMarkerDimension()
     {
         if (!mVBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         int length = 0;
@@ -838,13 +838,13 @@ namespace fcn
             pos = 0;
         }
 
-        return Rectangle(barDim.x, barDim.y + pos, mScrollbarWidth, length);
+        return {barDim.x, barDim.y + pos, mScrollbarWidth, length};
     }
 
     Rectangle ScrollArea::getHorizontalMarkerDimension()
     {
         if (!mHBarVisible) {
-            return Rectangle(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
 
         int length = 0;
@@ -868,7 +868,7 @@ namespace fcn
             pos = 0;
         }
 
-        return Rectangle(barDim.x + pos, barDim.y, length, mScrollbarWidth);
+        return {barDim.x + pos, barDim.y, length, mScrollbarWidth};
     }
 
     void ScrollArea::showWidgetPart(Widget* widget, Rectangle area)
@@ -991,7 +991,7 @@ namespace fcn
         checkPolicies();
     }
 
-    void ScrollArea::resizeToContent(bool recursion)
+    void ScrollArea::resizeToContent(bool /*recursion*/)
     {
         Widget* content = getContent();
         if (content != nullptr) {
@@ -1013,7 +1013,7 @@ namespace fcn
         setHeight(min.getHeight());
     }
 
-    void ScrollArea::expandContent(bool recursion)
+    void ScrollArea::expandContent(bool /*recursion*/)
     {
         // remove that hack
         setWidth(getWidth());

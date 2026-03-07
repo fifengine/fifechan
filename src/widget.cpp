@@ -260,8 +260,8 @@ namespace fcn
         if (mDimension.x != oldDimension.x || mDimension.y != oldDimension.y) {
             distributeMovedEvent();
 
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator const endChildren(mChildren.end());
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
 
             for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorMovedEvent(this);
@@ -272,8 +272,8 @@ namespace fcn
     unsigned int Widget::getChildrenCount() const
     {
         unsigned int childs = 0;
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator const endChildren(mChildren.end());
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
             ++childs;
         }
@@ -283,8 +283,8 @@ namespace fcn
     unsigned int Widget::getVisibleChildrenCount() const
     {
         unsigned int childs = 0;
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator const endChildren(mChildren.end());
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
             if (isVisible()) {
                 ++childs;
@@ -579,8 +579,8 @@ namespace fcn
             visibilityEventHandler->widgetShown(Event(this));
             distributeShownEvent();
 
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator const endChildren(mChildren.end());
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
 
             for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorShownEvent(this);
@@ -589,8 +589,8 @@ namespace fcn
             visibilityEventHandler->widgetHidden(Event(this));
             distributeHiddenEvent();
 
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator const endChildren(mChildren.end());
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
 
             for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorHiddenEvent(this);
@@ -851,7 +851,7 @@ namespace fcn
 
     bool Widget::widgetExists(Widget const * widget)
     {
-        auto iter = std::find_if(mWidgetInstances.begin(), mWidgetInstances.end(), [widget](Widget* w) {
+        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget* w) {
             return w == widget;
         });
         return iter != mWidgetInstances.end();
@@ -1077,16 +1077,16 @@ namespace fcn
 
     void Widget::distributeAncestorMovedEvent(Widget* ancestor)
     {
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator const endWidgetListeners(mWidgetListeners.end());
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
         Event const event(ancestor);
 
         for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorMoved(event);
         }
 
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator const endChildren(mChildren.end());
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
 
         for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorMovedEvent(ancestor);
@@ -1098,16 +1098,16 @@ namespace fcn
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetHidden(Event(this));
 
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator const endWidgetListeners(mWidgetListeners.end());
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
         Event const event(ancestor);
 
         for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorHidden(event);
         }
 
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator const endChildren(mChildren.end());
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
 
         for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorHiddenEvent(ancestor);
@@ -1119,16 +1119,16 @@ namespace fcn
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetShown(Event(this));
 
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator const endWidgetListeners(mWidgetListeners.end());
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
         Event const event(ancestor);
 
         for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorShown(event);
         }
 
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator const endChildren(mChildren.end());
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
 
         for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorShownEvent(ancestor);
@@ -1314,7 +1314,7 @@ namespace fcn
     void Widget::moveToTop(Widget* widget)
     {
         std::list<Widget*>::iterator iter;
-        iter = std::find(mChildren.begin(), mChildren.end(), widget);
+        iter = std::ranges::find(mChildren, widget);
 
         if (iter == mChildren.end()) {
             throwException("There is no such widget in this widget.");
@@ -1327,7 +1327,7 @@ namespace fcn
     void Widget::moveToBottom(Widget* widget)
     {
         std::list<Widget*>::iterator iter;
-        iter = find(mChildren.begin(), mChildren.end(), widget);
+        iter = std::ranges::find(mChildren, widget);
 
         if (iter == mChildren.end()) {
             throwException("There is no such widget in this widget.");

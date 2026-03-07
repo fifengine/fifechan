@@ -4,6 +4,7 @@
 
 #include "fifechan/gui.hpp"
 
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <queue>
@@ -429,17 +430,17 @@ namespace fcn
             std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mouseInput.getX(), mouseInput.getY());
             std::set<Widget*> mWidgetsWithMouseExited;
             std::set<Widget*> mWidgetsWithMouseEntered;
-            std::set_difference(
-                mLastWidgetsWithMouse.begin(),
-                mLastWidgetsWithMouse.end(),
-                mWidgetsWithMouse.begin(),
-                mWidgetsWithMouse.end(),
+            std::ranges::set_difference(
+                mLastWidgetsWithMouse,
+
+                mWidgetsWithMouse,
+
                 std::inserter(mWidgetsWithMouseExited, mWidgetsWithMouseExited.begin()));
-            std::set_difference(
-                mWidgetsWithMouse.begin(),
-                mWidgetsWithMouse.end(),
-                mLastWidgetsWithMouse.begin(),
-                mLastWidgetsWithMouse.end(),
+            std::ranges::set_difference(
+                mWidgetsWithMouse,
+
+                mLastWidgetsWithMouse,
+
                 std::inserter(mWidgetsWithMouseEntered, mWidgetsWithMouseEntered.begin()));
 
             std::set<Widget*>::const_iterator iter;

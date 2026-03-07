@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    ListBox::ListBox() : mSelected(-1), mListModel(nullptr), mWrappingEnabled(false)
+    ListBox::ListBox() : mSelected(-1), mWrappingEnabled(false)
     {
         setWidth(100);
         setFocusable(true);
@@ -56,9 +56,7 @@ namespace fcn
         // and a partial visible row at the bottom.
         int numberOfRows = (currentClipArea.height / rowHeight) + 2;
 
-        if (numberOfRows > mListModel->getNumberOfElements()) {
-            numberOfRows = mListModel->getNumberOfElements();
-        }
+        numberOfRows = std::min(numberOfRows, mListModel->getNumberOfElements());
 
         // Calculate which row to start drawing. If the list box
         // has a negative y coordinate value we should check if
@@ -215,7 +213,7 @@ namespace fcn
         return mListModel;
     }
 
-    void ListBox::resizeToContent(bool recursion)
+    void ListBox::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }
@@ -260,7 +258,7 @@ namespace fcn
         SelectionListenerIterator iter;
 
         for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter) {
-            SelectionEvent event(this);
+            SelectionEvent const event(this);
             (*iter)->valueChanged(event);
         }
     }

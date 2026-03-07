@@ -22,7 +22,7 @@ namespace fcn
     {
 
     public:
-        virtual ~ListModel() { }
+        virtual ~ListModel() = default;
 
         /**
          * Gets the number of elements in the list.

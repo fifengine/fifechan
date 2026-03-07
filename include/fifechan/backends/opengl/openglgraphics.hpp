@@ -36,7 +36,7 @@ namespace fcn
          */
         OpenGLGraphics(int width, int height);
 
-        virtual ~OpenGLGraphics();
+        ~OpenGLGraphics() override;
 
         /**
          * Sets the target plane on where to draw.
@@ -64,45 +64,46 @@ namespace fcn
 
         // Inherited from Graphics
 
-        virtual void _beginDraw();
+        void _beginDraw() override;
 
-        virtual void _endDraw();
+        void _endDraw() override;
 
-        virtual bool pushClipArea(Rectangle area);
+        bool pushClipArea(Rectangle area) override;
 
-        virtual void popClipArea();
+        void popClipArea() override;
 
-        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
+        void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
 
-        virtual void drawPoint(int x, int y);
+        void drawPoint(int x, int y) override;
 
-        virtual void drawLine(int x1, int y1, int x2, int y2);
+        void drawLine(int x1, int y1, int x2, int y2) override;
 
-        virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width);
+        void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
 
-        virtual void drawPolyLine(PointVector const & points, unsigned int width);
+        void drawPolyLine(PointVector const & points, unsigned int width) override;
 
-        virtual void drawBezier(PointVector const & points, int steps, unsigned int width);
+        void drawBezier(PointVector const & points, int steps, unsigned int width) override;
 
-        virtual void drawRectangle(Rectangle const & rectangle);
+        void drawRectangle(Rectangle const & rectangle) override;
 
-        virtual void fillRectangle(Rectangle const & rectangle);
+        void fillRectangle(Rectangle const & rectangle) override;
 
-        virtual void drawCircle(Point const & p, unsigned int radius);
+        void drawCircle(Point const & p, unsigned int radius) override;
 
-        virtual void drawFillCircle(Point const & p, unsigned int radius);
+        void drawFillCircle(Point const & p, unsigned int radius) override;
 
-        virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle);
+        void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
 
-        virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle);
+        void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
 
-        virtual void setColor(Color const & color);
+        void setColor(Color const & color) override;
 
-        virtual Color const & getColor() const;
+        Color const & getColor() const override;
 
     protected:
-        int mWidth, mHeight;
-        bool mAlpha;
+        int mWidth{};
+        int mHeight{};
+        bool mAlpha{};
         Color mColor;
     };
 } // namespace fcn

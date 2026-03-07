@@ -10,7 +10,7 @@
 namespace fcn
 {
 
-    BarGraph::BarGraph() : m_opaque(false), m_rec() { }
+    BarGraph::BarGraph() : m_opaque(false) { }
 
     BarGraph::BarGraph(int x, int y, int w, int h) : m_opaque(false), m_rec(Rectangle(x, y, w, h)) { }
 

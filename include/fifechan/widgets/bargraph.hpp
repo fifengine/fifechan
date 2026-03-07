@@ -29,7 +29,7 @@ namespace fcn
          */
         BarGraph(int x, int y, int w, int h);
 
-        virtual ~BarGraph() { }
+        ~BarGraph() override = default;
 
         /**
          * Sets the x position of the bar.
@@ -103,7 +103,7 @@ namespace fcn
         /**
          * Draws this widget.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
     protected:
         /**

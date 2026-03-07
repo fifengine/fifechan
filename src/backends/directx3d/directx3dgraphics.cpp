@@ -22,7 +22,7 @@ namespace fcn
         DirectX3DGraphics::setTargetPlane(width, height);
     }
 
-    DirectX3DGraphics::~DirectX3DGraphics() { }
+    DirectX3DGraphics::~DirectX3DGraphics() = default;
 
     void DirectX3DGraphics::_beginDraw()
     {

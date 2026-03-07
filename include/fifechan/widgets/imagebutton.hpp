@@ -58,7 +58,7 @@ namespace fcn
          */
         explicit ImageButton(Image const * image);
 
-        virtual ~ImageButton();
+        ~ImageButton() override;
 
         /**
          * Sets the up image to display. That is the basic image that is also used if other images are not set.
@@ -201,8 +201,8 @@ namespace fcn
         // Inherited from Widget
 
         virtual void resizeToContent(/*bool recursion = true*/);
-        virtual void adjustSize();
-        virtual void draw(fcn::Graphics* graphics);
+        void adjustSize() override;
+        void draw(fcn::Graphics* graphics) override;
 
     protected:
         void setImage(std::string const & filename, ImageType type);

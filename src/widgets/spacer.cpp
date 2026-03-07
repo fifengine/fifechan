@@ -14,9 +14,9 @@ namespace fcn
         setHorizontalExpand(true);
     }
 
-    Spacer::~Spacer() { }
+    Spacer::~Spacer() = default;
 
-    void Spacer::resizeToContent(bool recursion)
+    void Spacer::resizeToContent(bool /*recursion*/)
     {
         setSize(getMinSize().getWidth(), getMinSize().getHeight());
     }

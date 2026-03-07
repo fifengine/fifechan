@@ -107,21 +107,21 @@ namespace fcn
         uint32_t bmask = 0x0000ff00;
         uint32_t amask = 0x000000ff;
 #else
-        uint32_t rmask = 0x000000ff;
-        uint32_t gmask = 0x0000ff00;
-        uint32_t bmask = 0x00ff0000;
-        uint32_t amask = 0xff000000;
+        uint32_t const rmask = 0x000000ff;
+        uint32_t const gmask = 0x0000ff00;
+        uint32_t const bmask = 0x00ff0000;
+        uint32_t const amask = 0xff000000;
 #endif
 
         // Create a 32-bit color surface to standardize format
-        auto targetFormatSurface = SDL_CreateRGBSurface(0, surface->w, surface->h, 32, rmask, gmask, bmask, amask);
+        auto* targetFormatSurface = SDL_CreateRGBSurface(0, surface->w, surface->h, 32, rmask, gmask, bmask, amask);
 
         if (targetFormatSurface == nullptr) {
             return nullptr;
         }
 
         // Convert the original surface to the standard format
-        auto converted = SDL_ConvertSurface(surface, targetFormatSurface->format, 0);
+        auto* converted = SDL_ConvertSurface(surface, targetFormatSurface->format, 0);
         SDL_FreeSurface(targetFormatSurface);
 
         return converted;

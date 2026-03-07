@@ -29,24 +29,27 @@ namespace fcn
         if (key.getValue() == Key::Left && getCaretPosition() > 0) {
             mText->setCaretPosition(mText->getCaretPosition() - 1);
             setActualTextCaretPosition(
-                mStringEditor->prevChar(getText(), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getActualTextCaretPosition())));
         } else if (key.getValue() == Key::Right && getCaretPosition() < getText().size()) {
             mText->setCaretPosition(mText->getCaretPosition() + 1);
             setActualTextCaretPosition(
-                mStringEditor->nextChar(getText(), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getActualTextCaretPosition())));
         } else if (
             mEditable && key.getValue() == Key::Delete && getCaretPosition() < getText().size() &&
             mText->getNumberOfRows() > 0) {
             mText->remove(1);
             setActualTextCaretPosition(
-                mStringEditor->eraseChar(mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::eraseChar(
+                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
         } else if (
             mEditable && key.getValue() == Key::Backspace && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
             mText->remove(-1);
             setActualTextCaretPosition(
-                mStringEditor->prevChar(mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::prevChar(
+                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
             setActualTextCaretPosition(
-                mStringEditor->eraseChar(mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::eraseChar(
+                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
         } else if (key.getValue() == Key::Enter) {
             distributeActionEvent();
         } else if (key.getValue() == Key::Home) {
@@ -63,7 +66,8 @@ namespace fcn
             key.getValue() != Key::Tab) {
             mText->insert('*');
             setActualTextCaretPosition(
-                mStringEditor->insertChar(mActualText->getRow(0), getActualTextCaretPosition(), key.getValue()));
+                fcn::UTF8StringEditor::insertChar(
+                    mActualText->getRow(0), getActualTextCaretPosition(), key.getValue()));
         }
 
         if (key.getValue() != Key::Tab) {

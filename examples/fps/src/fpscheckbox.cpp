@@ -13,7 +13,7 @@ void FPSCheckBox::draw(fcn::Graphics* graphics)
     graphics->drawText(mCaption, 0, 0);
 
     // Calculate the x coordinate for the box
-    int x = getFont()->getWidth(mCaption) + getHeight() / 2;
+    int const x = getFont()->getWidth(mCaption) + (getHeight() / 2);
 
     // Push a clip area where the box should draw itself
     graphics->pushClipArea(fcn::Rectangle(x, 0, getWidth() - x, getHeight()));

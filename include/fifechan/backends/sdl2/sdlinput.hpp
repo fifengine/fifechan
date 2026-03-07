@@ -42,17 +42,17 @@ namespace fcn
          * only use SDL and plan sticking with SDL you can safely ignore this
          * function as it in the SDL case does nothing.
          */
-        virtual void _pollInput() { }
+        void _pollInput() override { }
 
         // Inherited from Input
 
-        virtual bool isKeyQueueEmpty();
+        bool isKeyQueueEmpty() override;
 
-        virtual KeyInput dequeueKeyInput();
+        KeyInput dequeueKeyInput() override;
 
-        virtual bool isMouseQueueEmpty();
+        bool isMouseQueueEmpty() override;
 
-        virtual MouseInput dequeueMouseInput();
+        MouseInput dequeueMouseInput() override;
 
     protected:
         /**

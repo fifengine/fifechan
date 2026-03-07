@@ -10,6 +10,7 @@
 
 #include <fifechan.hpp>
 
+#include <memory>
 #include <string>
 
 namespace widgets
@@ -18,39 +19,39 @@ namespace widgets
     inline fcn::Gui* gui = nullptr;
 
     // FifeGUI Widgets
-    inline fcn::ImageFont* font               = nullptr;
-    inline fcn::Container* top                = nullptr;
-    inline fcn::Label* label                  = nullptr;
-    inline fcn::Icon* icon                    = nullptr;
-    inline fcn::Button* button                = nullptr;
-    inline fcn::TextField* textField          = nullptr;
-    inline fcn::TextBox* textBox              = nullptr;
-    inline fcn::ScrollArea* textBoxScrollArea = nullptr;
-    inline fcn::ListBox* listBox              = nullptr;
-    inline fcn::DropDown* dropDown            = nullptr;
-    inline fcn::CheckBox* checkBox1           = nullptr;
-    inline fcn::CheckBox* checkBox2           = nullptr;
-    inline fcn::RadioButton* radioButton1     = nullptr;
-    inline fcn::RadioButton* radioButton2     = nullptr;
-    inline fcn::RadioButton* radioButton3     = nullptr;
-    inline fcn::Slider* slider                = nullptr;
-    inline fcn::Image* image                  = nullptr;
-    inline fcn::Window* window                = nullptr;
-    inline fcn::Image* logoImage              = nullptr;
-    inline fcn::Icon* logoIcon                = nullptr;
-    inline fcn::TabbedArea* tabbedArea        = nullptr;
-    inline fcn::Button* tabOneButton          = nullptr;
-    inline fcn::CheckBox* tabTwoCheckBox      = nullptr;
+    inline std::unique_ptr<fcn::ImageFont> font;
+    inline std::unique_ptr<fcn::Container> top;
+    inline std::unique_ptr<fcn::Label> label;
+    inline std::unique_ptr<fcn::Icon> icon;
+    inline std::unique_ptr<fcn::Button> button;
+    inline std::unique_ptr<fcn::TextField> textField;
+    inline std::unique_ptr<fcn::TextBox> textBox;
+    inline std::unique_ptr<fcn::ScrollArea> textBoxScrollArea;
+    inline std::unique_ptr<fcn::ListBox> listBox;
+    inline std::unique_ptr<fcn::DropDown> dropDown;
+    inline std::unique_ptr<fcn::CheckBox> checkBox1;
+    inline std::unique_ptr<fcn::CheckBox> checkBox2;
+    inline std::unique_ptr<fcn::RadioButton> radioButton1;
+    inline std::unique_ptr<fcn::RadioButton> radioButton2;
+    inline std::unique_ptr<fcn::RadioButton> radioButton3;
+    inline std::unique_ptr<fcn::Slider> slider;
+    inline std::unique_ptr<fcn::Image> image;
+    inline std::unique_ptr<fcn::Window> window;
+    inline std::unique_ptr<fcn::Image> logoImage;
+    inline std::unique_ptr<fcn::Icon> logoIcon;
+    inline std::unique_ptr<fcn::TabbedArea> tabbedArea;
+    inline std::unique_ptr<fcn::Button> tabOneButton;
+    inline std::unique_ptr<fcn::CheckBox> tabTwoCheckBox;
 
     class DemoListModel : public fcn::ListModel
     {
     public:
-        int getNumberOfElements()
+        int getNumberOfElements() override
         {
             return 5;
         }
 
-        std::string getElementAt(int i)
+        std::string getElementAt(int i) override
         {
             switch (i) {
             case 0:
@@ -77,136 +78,97 @@ namespace widgets
             fcn::throwException("widgets::gui is null. Initialize GUI backend before widgets::init().");
         }
 
-        top = new fcn::Container();
+        top = std::make_unique<fcn::Container>();
         top->setDimension(fcn::Rectangle(0, 0, 640, 480));
-        gui->setTop(top);
+        gui->setTop(top.get());
 
-        font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        fcn::Widget::setGlobalFont(font);
+        font = std::make_unique<fcn::ImageFont>(
+            "fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        fcn::Widget::setGlobalFont(font.get());
 
-        label = new fcn::Label("Label");
+        label = std::make_unique<fcn::Label>("Label");
 
-        image = fcn::Image::load("gui-chan.bmp");
-        icon  = new fcn::Icon(image);
+        image = std::unique_ptr<fcn::Image>(fcn::Image::load("gui-chan.bmp"));
+        icon  = std::make_unique<fcn::Icon>(image.get());
 
-        button = new fcn::Button("Button");
+        button = std::make_unique<fcn::Button>("Button");
 
-        textField = new fcn::TextField("Text field");
+        textField = std::make_unique<fcn::TextField>("Text field");
 
-        textBox           = new fcn::TextBox("Multiline\nText box");
-        textBoxScrollArea = new fcn::ScrollArea(textBox);
+        textBox           = std::make_unique<fcn::TextBox>("Multiline\nText box");
+        textBoxScrollArea = std::make_unique<fcn::ScrollArea>(textBox.get());
         textBoxScrollArea->setWidth(200);
         textBoxScrollArea->setHeight(100);
         textBoxScrollArea->setBorderSize(1);
 
-        listBox = new fcn::ListBox(&demoListModel);
+        listBox = std::make_unique<fcn::ListBox>(&demoListModel);
         listBox->setBorderSize(1);
-        dropDown = new fcn::DropDown(&demoListModel);
+        dropDown = std::make_unique<fcn::DropDown>(&demoListModel);
 
-        checkBox1 = new fcn::CheckBox("Checkbox 1");
-        checkBox2 = new fcn::CheckBox("Checkbox 2");
+        checkBox1 = std::make_unique<fcn::CheckBox>("Checkbox 1");
+        checkBox2 = std::make_unique<fcn::CheckBox>("Checkbox 2");
 
-        radioButton1 = new fcn::RadioButton("RadioButton 1", "radiogroup", true);
-        radioButton2 = new fcn::RadioButton("RadioButton 2", "radiogroup");
-        radioButton3 = new fcn::RadioButton("RadioButton 3", "radiogroup");
+        radioButton1 = std::make_unique<fcn::RadioButton>("RadioButton 1", "radiogroup", true);
+        radioButton2 = std::make_unique<fcn::RadioButton>("RadioButton 2", "radiogroup");
+        radioButton3 = std::make_unique<fcn::RadioButton>("RadioButton 3", "radiogroup");
 
-        slider = new fcn::Slider(0, 10);
+        slider = std::make_unique<fcn::Slider>(0, 10);
         slider->setSize(100, 10);
 
-        window = new fcn::Window("I am a window  Drag me");
+        window = std::make_unique<fcn::Window>("I am a window  Drag me");
         window->setBaseColor(fcn::Color(255, 150, 200, 190));
 
-        logoImage = fcn::Image::load("darkbitslogo_by_haiko.bmp");
-        logoIcon  = new fcn::Icon(logoImage);
-        window->add(logoIcon);
+        logoImage = std::unique_ptr<fcn::Image>(fcn::Image::load("darkbitslogo_by_haiko.bmp"));
+        logoIcon  = std::make_unique<fcn::Icon>(logoImage.get());
+        window->add(logoIcon.get());
         window->resizeToContent();
 
-        top->add(label, 10, 10);
-        top->add(icon, 10, 30);
-        top->add(button, 200, 10);
-        top->add(textField, 250, 10);
-        top->add(textBoxScrollArea, 200, 50);
-        top->add(listBox, 200, 200);
-        top->add(dropDown, 500, 10);
-        top->add(checkBox1, 500, 130);
-        top->add(checkBox2, 500, 150);
-        top->add(radioButton1, 500, 200);
-        top->add(radioButton2, 500, 220);
-        top->add(radioButton3, 500, 240);
-        top->add(slider, 500, 300);
-        top->add(window, 50, 350);
+        top->add(label.get(), 10, 10);
+        top->add(icon.get(), 10, 30);
+        top->add(button.get(), 200, 10);
+        top->add(textField.get(), 250, 10);
+        top->add(textBoxScrollArea.get(), 200, 50);
+        top->add(listBox.get(), 200, 200);
+        top->add(dropDown.get(), 500, 10);
+        top->add(checkBox1.get(), 500, 130);
+        top->add(checkBox2.get(), 500, 150);
+        top->add(radioButton1.get(), 500, 200);
+        top->add(radioButton2.get(), 500, 220);
+        top->add(radioButton3.get(), 500, 240);
+        top->add(slider.get(), 500, 300);
+        top->add(window.get(), 50, 350);
     }
 
     void halt()
     {
-        delete tabTwoCheckBox;
-        tabTwoCheckBox = nullptr;
+        if (gui != nullptr) {
+            gui->setTop(nullptr);
+        }
+        fcn::Widget::setGlobalFont(nullptr);
 
-        delete tabOneButton;
-        tabOneButton = nullptr;
-
-        delete tabbedArea;
-        tabbedArea = nullptr;
-
-        delete logoIcon;
-        logoIcon = nullptr;
-
-        delete logoImage;
-        logoImage = nullptr;
-
-        delete window;
-        window = nullptr;
-
-        delete slider;
-        slider = nullptr;
-
-        delete radioButton3;
-        radioButton3 = nullptr;
-
-        delete radioButton2;
-        radioButton2 = nullptr;
-
-        delete radioButton1;
-        radioButton1 = nullptr;
-
-        delete checkBox2;
-        checkBox2 = nullptr;
-
-        delete checkBox1;
-        checkBox1 = nullptr;
-
-        delete dropDown;
-        dropDown = nullptr;
-
-        delete listBox;
-        listBox = nullptr;
-
-        delete textBoxScrollArea;
-        textBoxScrollArea = nullptr;
-
-        delete textBox;
-        textBox = nullptr;
-
-        delete textField;
-        textField = nullptr;
-
-        delete button;
-        button = nullptr;
-
-        delete icon;
-        icon = nullptr;
-
-        delete image;
-        image = nullptr;
-
-        delete label;
-        label = nullptr;
-
-        delete top;
-        top = nullptr;
-
-        delete font;
-        font = nullptr;
+        tabTwoCheckBox.reset();
+        tabOneButton.reset();
+        tabbedArea.reset();
+        logoIcon.reset();
+        logoImage.reset();
+        window.reset();
+        slider.reset();
+        radioButton3.reset();
+        radioButton2.reset();
+        radioButton1.reset();
+        checkBox2.reset();
+        checkBox1.reset();
+        dropDown.reset();
+        listBox.reset();
+        textBoxScrollArea.reset();
+        textBox.reset();
+        textField.reset();
+        button.reset();
+        icon.reset();
+        image.reset();
+        label.reset();
+        top.reset();
+        font.reset();
 
         gui = nullptr;
     }

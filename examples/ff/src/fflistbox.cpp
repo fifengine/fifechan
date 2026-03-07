@@ -40,10 +40,9 @@ void FFListBox::draw(fcn::Graphics* graphics)
     graphics->setColor(getForegroundColor());
     graphics->setFont(getFont());
 
-    int i, fontHeight;
-    int y = 0;
-
-    fontHeight = getFont()->getHeight();
+    int i                = 0;
+    int y                = 0;
+    int const fontHeight = getFont()->getHeight();
 
     /**
      * @todo Check cliprects so we do not have to iterate over elements in the list model
@@ -51,12 +50,9 @@ void FFListBox::draw(fcn::Graphics* graphics)
     for (i = 0; i < mListModel->getNumberOfElements(); ++i) {
         graphics->drawText(mListModel->getElementAt(i), 16, y);
 
-        if (i == mSelected) {
-            if (isFocused()) {
-                graphics->drawImage(mHand.get(), 0, y);
-            } else if ((SDL_GetTicks() / 100) & 1) {
-                graphics->drawImage(mHand.get(), 0, y);
-            }
+        bool const shouldDrawSelection = isFocused() || (((SDL_GetTicks() / 100U) & 1U) != 0U);
+        if (i == mSelected && shouldDrawSelection) {
+            graphics->drawImage(mHand.get(), 0, y);
         }
 
         y += fontHeight;
@@ -65,7 +61,8 @@ void FFListBox::draw(fcn::Graphics* graphics)
 
 void FFListBox::setSelected(int i)
 {
-    if (i >= 0 && i < getListModel()->getNumberOfElements() && getListModel()->getElementAt(i) == "") {
+    auto* listModel = getListModel();
+    if (listModel != nullptr && i >= 0 && i < listModel->getNumberOfElements() && listModel->getElementAt(i).empty()) {
         if (i < getSelected()) {
             i--;
         } else {

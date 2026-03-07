@@ -26,6 +26,7 @@
 
 #include <fifechan.hpp>
 
+#include <memory>
 #include <string>
 
 #include "fpsbutton.hpp"
@@ -37,12 +38,12 @@
 class ResolutionListModel : public fcn::ListModel
 {
 public:
-    int getNumberOfElements()
+    int getNumberOfElements() override
     {
         return 2;
     }
 
-    std::string getElementAt(int i)
+    std::string getElementAt(int i) override
     {
         switch (i) {
         case 0:
@@ -59,9 +60,9 @@ class FPSDemo : public fcn::ActionListener
 {
 public:
     FPSDemo();
-    ~FPSDemo();
+    ~FPSDemo() override;
     void run();
-    void action(fcn::ActionEvent const & actionEvent);
+    void action(fcn::ActionEvent const & actionEvent) override;
 
 private:
     void runIntro();
@@ -103,88 +104,88 @@ private:
 
     SDL_Window* window      = nullptr;
     SDL_GLContext glcontext = nullptr;
-    SDL_Event mEvent;
+    SDL_Event mEvent{};
 
     Mix_Chunk* mChooseSound;
     Mix_Chunk* mEscapeSound;
     Mix_Chunk* mOptionsSound;
     Mix_Music* mMusic;
 
-    fcn::OpenGLGraphics* mOpenGLGraphics;
-    fcn::SDLInput* mSDLInput;
-    fcn::OpenGLSDLImageLoader* mOpenGLImageLoader;
-    fcn::Gui* mGui;
-    fcn::Container* mTop;
-    fcn::ImageFont* mFont;
-    fcn::ImageFont* mSmallBlackFont;
-    fcn::ImageFont* mWhiteFont;
-    fcn::ImageFont* mHighLightFont;
-    fcn::Image* mTitleImage;
-    fcn::Icon* mTitle;
-    fcn::Image* mCloudImage;
-    fcn::Image* mPlanetImage;
-    fcn::Image* mStarsImage;
-    fcn::Image* mMoonImage;
-    fcn::Image* mMoonRedImage;
+    std::unique_ptr<fcn::OpenGLGraphics> mOpenGLGraphics;
+    std::unique_ptr<fcn::SDLInput> mSDLInput;
+    std::unique_ptr<fcn::OpenGLSDLImageLoader> mOpenGLImageLoader;
+    std::unique_ptr<fcn::Gui> mGui;
+    std::unique_ptr<fcn::Container> mTop;
+    std::unique_ptr<fcn::ImageFont> mFont;
+    std::unique_ptr<fcn::ImageFont> mSmallBlackFont;
+    std::unique_ptr<fcn::ImageFont> mWhiteFont;
+    std::unique_ptr<fcn::ImageFont> mHighLightFont;
+    std::unique_ptr<fcn::Image> mTitleImage;
+    std::unique_ptr<fcn::Icon> mTitle;
+    std::unique_ptr<fcn::Image> mCloudImage;
+    std::unique_ptr<fcn::Image> mPlanetImage;
+    std::unique_ptr<fcn::Image> mStarsImage;
+    std::unique_ptr<fcn::Image> mMoonImage;
+    std::unique_ptr<fcn::Image> mMoonRedImage;
 
-    fcn::Image* mBoxImage;
-    fcn::Icon* mSingleplayBoxIcon;
-    fcn::Icon* mMultiplayBoxIcon;
-    fcn::Icon* mOptionsBoxIcon;
+    std::unique_ptr<fcn::Image> mBoxImage;
+    std::unique_ptr<fcn::Icon> mSingleplayBoxIcon;
+    std::unique_ptr<fcn::Icon> mMultiplayBoxIcon;
+    std::unique_ptr<fcn::Icon> mOptionsBoxIcon;
 
-    fcn::Label* mVersionLabel;
-    fcn::Label* mSingleplayLabel;
-    fcn::Label* mMultiplayLabel;
-    fcn::Label* mOptionsLabel;
-    fcn::TextBox* mSingleplayText;
-    fcn::TextBox* mMultiplayText;
+    std::unique_ptr<fcn::Label> mVersionLabel;
+    std::unique_ptr<fcn::Label> mSingleplayLabel;
+    std::unique_ptr<fcn::Label> mMultiplayLabel;
+    std::unique_ptr<fcn::Label> mOptionsLabel;
+    std::unique_ptr<fcn::TextBox> mSingleplayText;
+    std::unique_ptr<fcn::TextBox> mMultiplayText;
 
-    fcn::Container* mMain;
-    fcn::Container* mSingleplay;
-    fcn::Container* mMultiplay;
-    fcn::Container* mOptions;
-    fcn::TextBox* mDemoInfo;
+    std::unique_ptr<fcn::Container> mMain;
+    std::unique_ptr<fcn::Container> mSingleplay;
+    std::unique_ptr<fcn::Container> mMultiplay;
+    std::unique_ptr<fcn::Container> mOptions;
+    std::unique_ptr<fcn::TextBox> mDemoInfo;
 
-    GLuint mPlanetTexture;
-    GLuint mCloudTexture;
-    GLuint mStarsTexture;
-    GLuint mMoonTexture;
-    GLuint mMoonRedTexture;
+    GLuint mPlanetTexture{};
+    GLuint mCloudTexture{};
+    GLuint mStarsTexture{};
+    GLuint mMoonTexture{};
+    GLuint mMoonRedTexture{};
 
     GLUquadricObj* mQuad1;
     GLUquadricObj* mQuad2;
     GLUquadricObj* mClouds2;
     GLUquadricObj* mMoon;
     GLUquadricObj* mMoonRed;
-    GLfloat LightAmbient[4];
-    GLfloat Light2Ambient[4];
-    GLfloat LightDiffuse[4];
-    GLfloat Light2Diffuse[4];
-    GLfloat LightPosition[4];
-    GLfloat Light2Position[4];
-    GLfloat LightSpotDirection[3];
-    GLfloat Light2SpotDirection[3];
+    GLfloat LightAmbient[4]{};
+    GLfloat Light2Ambient[4]{};
+    GLfloat LightDiffuse[4]{};
+    GLfloat Light2Diffuse[4]{};
+    GLfloat LightPosition[4]{};
+    GLfloat Light2Position[4]{};
+    GLfloat LightSpotDirection[3]{};
+    GLfloat Light2SpotDirection[3]{};
 
-    FPSButton* mSingleplayButton;
-    FPSButton* mMultiplayButton;
-    FPSButton* mOptionsButton;
-    FPSButton* mQuitButton;
-    FPSButton* mSingleplayBackButton;
-    FPSButton* mMultiplayBackButton;
-    FPSButton* mOptionsBackButton;
+    std::unique_ptr<FPSButton> mSingleplayButton;
+    std::unique_ptr<FPSButton> mMultiplayButton;
+    std::unique_ptr<FPSButton> mOptionsButton;
+    std::unique_ptr<FPSButton> mQuitButton;
+    std::unique_ptr<FPSButton> mSingleplayBackButton;
+    std::unique_ptr<FPSButton> mMultiplayBackButton;
+    std::unique_ptr<FPSButton> mOptionsBackButton;
 
-    FPSCheckBox* mFullScreen;
-    fcn::DropDown* mResolution;
-    ResolutionListModel* mResolutionListModel;
-    fcn::ScrollArea* mResolutionScrollArea;
-    fcn::ListBox* mResolutionListBox;
+    std::unique_ptr<FPSCheckBox> mFullScreen;
+    std::unique_ptr<fcn::DropDown> mResolution;
+    std::unique_ptr<ResolutionListModel> mResolutionListModel;
+    std::unique_ptr<fcn::ScrollArea> mResolutionScrollArea;
+    std::unique_ptr<fcn::ListBox> mResolutionListBox;
 
-    fcn::Slider* mVolume;
-    fcn::Label* mVolumePercent;
-    fcn::Label* mVolumeLabel;
-    fcn::Label* mResolutionLabel;
-    fcn::Image* mSplashImage;
-    fcn::Icon* mSplashIcon;
+    std::unique_ptr<fcn::Slider> mVolume;
+    std::unique_ptr<fcn::Label> mVolumePercent;
+    std::unique_ptr<fcn::Label> mVolumeLabel;
+    std::unique_ptr<fcn::Label> mResolutionLabel;
+    std::unique_ptr<fcn::Image> mSplashImage;
+    std::unique_ptr<fcn::Icon> mSplashIcon;
 };
 
 #endif

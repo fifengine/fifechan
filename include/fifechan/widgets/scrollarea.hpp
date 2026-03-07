@@ -293,11 +293,14 @@ namespace fcn
 
         void setDimension(Rectangle const & dimension);
 
-        void resizeToContent(bool recursion = true) override;
+        using Widget::expandContent;
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
 
         void adjustSize() override;
 
-        void expandContent(bool recursion = true) override;
+        void expandContent(bool recursion) override;
 
         // Inherited from MouseListener
 

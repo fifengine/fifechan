@@ -22,7 +22,7 @@ namespace fcn
     public:
         explicit VisibilityEventHandler(Gui* gui);
 
-        ~VisibilityEventHandler() = default;
+        ~VisibilityEventHandler() override = default;
 
         /**
          * Informs gui that a widget was hidden.

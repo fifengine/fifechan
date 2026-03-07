@@ -1125,7 +1125,12 @@ namespace fcn
          * @return The widget at the specified coordinate, NULL
          *         if no widget is found.
          */
-        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr);
+        Widget* getWidgetAt(int x, int y)
+        {
+            return getWidgetAt(x, y, nullptr);
+        }
+
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
          * Gets all widgets inside a certain area of the widget.
@@ -1137,7 +1142,12 @@ namespace fcn
          * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
          */
-        virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore = nullptr);
+        std::list<Widget*> getWidgetsIn(Rectangle const & area)
+        {
+            return getWidgetsIn(area, nullptr);
+        }
+
+        virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore);
 
         /**
          * Gets the mouse listeners of the widget.
@@ -1350,7 +1360,12 @@ namespace fcn
          *
          * @param top If true the layout adaption starts from the top-most layouted widget.
          */
-        virtual void adaptLayout(bool top = true);
+        void adaptLayout()
+        {
+            adaptLayout(true);
+        }
+
+        virtual void adaptLayout(bool top);
 
         /**
          * Resizes the widget's size to fit the content exactly,
@@ -1358,7 +1373,12 @@ namespace fcn
          *
          * @param recursion If true all child widgets also get the call.
          */
-        virtual void resizeToContent(bool recursion = true) { }
+        void resizeToContent()
+        {
+            resizeToContent(true);
+        }
+
+        virtual void resizeToContent(bool recursion) { }
 
         /**
          * Resizes the widget's size to fit the content exactly.
@@ -1371,7 +1391,12 @@ namespace fcn
          *
          * @param recursion If true all child widgets also get the call.
          */
-        virtual void expandContent(bool recursion = true) { }
+        void expandContent()
+        {
+            expandContent(true);
+        }
+
+        virtual void expandContent(bool recursion) { }
 
         /**
          * Helper function to decide if we need to layout.

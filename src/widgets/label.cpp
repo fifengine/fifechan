@@ -5,6 +5,7 @@
 #include "fifechan/widgets/label.hpp"
 
 #include <string>
+#include <utility>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -17,7 +18,7 @@ namespace fcn
         adjustSize();
     }
 
-    Label::Label(std::string const & caption) : mCaption(caption), mAlignment(Graphics::Alignment::Left)
+    Label::Label(std::string caption) : mCaption(std::move(caption)), mAlignment(Graphics::Alignment::Left)
     {
         adjustSize();
     }

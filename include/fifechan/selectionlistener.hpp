@@ -23,7 +23,7 @@ namespace fcn
     class FIFEGUI_API SelectionListener
     {
     public:
-        virtual ~SelectionListener() { }
+        virtual ~SelectionListener() = default;
 
         /**
          * Called when the value of a selection has been changed in a Widget.

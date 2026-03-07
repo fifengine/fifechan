@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <string>
+#include <utility>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -234,7 +235,7 @@ namespace fcn
         unsigned int i     = 0;
         unsigned int total = 0;
         for (i = 0; i < mRows.size(); i++) {
-            if (position <= static_cast<int>(total + mRows[i].size())) {
+            if (std::cmp_less_equal(position, total + mRows[i].size())) {
                 mCaretRow      = i;
                 mCaretColumn   = position - total;
                 mCaretPosition = position;
@@ -277,7 +278,7 @@ namespace fcn
     {
         if (mRows.empty() || column < 0) {
             mCaretColumn = 0;
-        } else if (column > static_cast<int>(mRows[mCaretRow].size())) {
+        } else if (std::cmp_greater(column, mRows[mCaretRow].size())) {
             mCaretColumn = mRows[mCaretRow].size();
         } else {
             mCaretColumn = column;
@@ -290,7 +291,7 @@ namespace fcn
     {
         if (mRows.empty() || row < 0) {
             mCaretRow = 0;
-        } else if (row >= static_cast<int>(mRows.size())) {
+        } else if (std::cmp_greater_equal(row, mRows.size())) {
             mCaretRow = mRows.size() - 1;
         } else {
             mCaretRow = row;
@@ -385,7 +386,7 @@ namespace fcn
     void Text::calculateCaretPositionFromRowAndColumn()
     {
         unsigned int total = 0;
-        for (auto i = 0; i < mCaretRow; i++) {
+        for (auto i = 0; std::cmp_less(i, mCaretRow); i++) {
             // Add one for the line feed.
             total += mRows[i].size() + 1;
         }

@@ -26,15 +26,15 @@ namespace fcn
          */
         explicit PasswordField(std::string const & text = "");
 
-        ~PasswordField();
+        ~PasswordField() override;
 
         // Inherited from TextField
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
-        virtual void setText(std::string const & text);
+        void setText(std::string const & text) override;
 
-        virtual std::string getText() const;
+        std::string getText() const override;
 
     private:
         /**

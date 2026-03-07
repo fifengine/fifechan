@@ -25,7 +25,9 @@ namespace fcn
     public:
         // Inherited from ImageLoader
 
-        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true)
+        using SDLImageLoader::load;
+
+        Image* load(std::string const & filename, bool convertToDisplayFormat) override
         {
             SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
@@ -52,7 +54,7 @@ namespace fcn
                 std::copy(srcRow, srcRow + surface->w, dstRow);
             }
 
-            Image* image = new OpenGLImage(packedPixels.data(), surface->w, surface->h, convertToDisplayFormat);
+            Image* image = new OpenGLImage(packedPixels, surface->w, surface->h, convertToDisplayFormat);
             SDL_FreeSurface(surface);
 
             return image;

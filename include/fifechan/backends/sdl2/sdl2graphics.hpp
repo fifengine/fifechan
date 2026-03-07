@@ -34,23 +34,23 @@ namespace fcn
         virtual SDL_Surface* getTarget() const;
         virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination);
 
-        virtual void _beginDraw();
-        virtual void _endDraw();
-        virtual bool pushClipArea(Rectangle area);
-        virtual void popClipArea();
-        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
-        virtual void drawPoint(int x, int y);
-        virtual void drawLine(int x1, int y1, int x2, int y2);
-        virtual void drawRectangle(Rectangle const & rectangle);
-        virtual void fillRectangle(Rectangle const & rectangle);
-        virtual void setColor(Color const & color);
-        virtual Color const & getColor() const;
+        void _beginDraw() override;
+        void _endDraw() override;
+        bool pushClipArea(Rectangle area) override;
+        void popClipArea() override;
+        void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
+        void drawPoint(int x, int y) override;
+        void drawLine(int x1, int y1, int x2, int y2) override;
+        void drawRectangle(Rectangle const & rectangle) override;
+        void fillRectangle(Rectangle const & rectangle) override;
+        void setColor(Color const & color) override;
+        Color const & getColor() const override;
 
     protected:
         virtual void drawHLine(int x1, int y, int x2);
         virtual void drawVLine(int x, int y1, int y2);
 
-        SDL_Surface* mTarget;
+        SDL_Surface* mTarget{};
         Color mColor;
         bool mAlpha;
     };
@@ -66,7 +66,7 @@ namespace fcn
 
         SDL2Graphics();
 
-        ~SDL2Graphics();
+        ~SDL2Graphics() override;
 
         /**
          *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
@@ -118,12 +118,12 @@ namespace fcn
         void fillRectangle(Rectangle const & rectangle) override;
 
         void drawPolyLine(PointVector const & points, unsigned int width) override;
-        void drawBezier(PointVector const & points, int steps, unsigned int width) override;
+        void drawBezier(PointVector const & points, int segments, unsigned int width) override;
 
-        void drawCircle(Point const & p, unsigned int radius) override;
-        void drawFillCircle(Point const & p, unsigned int radius) override;
-        void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
-        void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
+        void drawCircle(Point const & center, unsigned int radius) override;
+        void drawFillCircle(Point const & center, unsigned int radius) override;
+        void drawCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
+        void drawFillCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
 
         void setColor(Color const & color) override;
         Color const & getColor() const override;
@@ -159,11 +159,11 @@ namespace fcn
          */
         void restoreRenderColor();
 
-        SDL_Surface* mTarget;
-        SDL_Renderer* mRenderTarget;
-        SDL_Texture* mTexture;
+        SDL_Surface* mTarget{};
+        SDL_Renderer* mRenderTarget{};
+        SDL_Texture* mTexture{};
         Color mColor;
-        Uint8 r, g, b, a; //! to store previous color from renderer
+        Uint8 r{}, g{}, b{}, a{}; //! to store previous color from renderer
         bool mAlpha;
     };
 } // namespace fcn

@@ -26,7 +26,7 @@ namespace fcn
     public:
         Tab();
 
-        virtual ~Tab();
+        ~Tab() override;
 
         /**
          * Sets the tabbed area the tab should be a part of.
@@ -50,17 +50,17 @@ namespace fcn
          * Adjusts the size of the tab to fit the caption. If this tab was
          * added to a TabbedArea, it will also adjust the tab positions.
          */
-        virtual void adjustSize();
+        void adjustSize() override;
 
-        virtual Rectangle getChildrenArea();
+        Rectangle getChildrenArea() override;
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         // Inherited from MouseListener
 
-        virtual void mouseEntered(MouseEvent& mouseEvent);
+        void mouseEntered(MouseEvent& mouseEvent) override;
 
-        virtual void mouseExited(MouseEvent& mouseEvent);
+        void mouseExited(MouseEvent& mouseEvent) override;
 
     protected:
         /**

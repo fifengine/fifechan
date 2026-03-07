@@ -361,7 +361,7 @@ namespace fcn
         }
     }
 
-    void DropDown::focusLost(Event const & event)
+    void DropDown::focusLost(Event const & /*event*/)
     {
         foldUp();
         mInternalFocusHandler.focusNone();
@@ -377,7 +377,7 @@ namespace fcn
         }
     }
 
-    void DropDown::action(ActionEvent const & actionEvent)
+    void DropDown::action(ActionEvent const & /*actionEvent*/)
     {
         foldUp();
         releaseModalMouseInputFocus();
@@ -388,10 +388,10 @@ namespace fcn
     {
         if (mDroppedDown) {
             // Calculate the children area (with the one pixel border in mind)
-            return Rectangle(1, mFoldedUpHeight + 1, getWidth() - 2, getHeight() - mFoldedUpHeight - 2);
+            return {1, mFoldedUpHeight + 1, getWidth() - 2, getHeight() - mFoldedUpHeight - 2};
         }
 
-        return Rectangle();
+        return {};
     }
 
     void DropDown::setBaseColor(Color const & color)
@@ -475,7 +475,7 @@ namespace fcn
         }
     }
 
-    void DropDown::valueChanged(SelectionEvent const & event)
+    void DropDown::valueChanged(SelectionEvent const & /*event*/)
     {
         distributeValueChangedEvent();
     }

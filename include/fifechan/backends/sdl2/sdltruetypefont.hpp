@@ -36,7 +36,7 @@ namespace fcn
          */
         SDLTrueTypeFont(std::string const & filename, int size);
 
-        virtual ~SDLTrueTypeFont();
+        ~SDLTrueTypeFont() override;
 
         /**
          * Sets the spacing between rows in pixels. Default is 0 pixels.
@@ -84,16 +84,16 @@ namespace fcn
 
         // Inherited from Font
 
-        virtual int getWidth(std::string const & text) const;
+        int getWidth(std::string const & text) const override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual void drawString(Graphics* graphics, std::string const & text, int x, int y);
+        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
     protected:
         TTF_Font* mFont;
 
-        int mHeight;
+        int mHeight{};
         int mGlyphSpacing;
         int mRowSpacing;
 

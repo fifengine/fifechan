@@ -19,10 +19,9 @@ namespace fcn
     }
 
     Icon::Icon(std::string const & filename) :
-        mImage(nullptr), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+        mImage(Image::load(filename)), mInternalImage(true), mScale(false), mTile(false), mOpaque(true)
     {
-        mImage         = Image::load(filename);
-        mInternalImage = true;
+
         adjustSize();
     }
 
@@ -96,7 +95,7 @@ namespace fcn
         return mOpaque;
     }
 
-    void Icon::resizeToContent(bool recursion)
+    void Icon::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }

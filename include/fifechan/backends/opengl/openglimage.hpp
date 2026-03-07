@@ -15,8 +15,9 @@
     #include <GL/gl.h>
 #endif
 
-#include <memory>
+#include <span>
 #include <string>
+#include <vector>
 
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"
@@ -38,13 +39,13 @@ namespace fcn
          * NOTE: The functions getPixel and putPixel are only guaranteed to work
          *       before an image has been converted to display format.
          *
-         * @param pixels to load from.
+         * @param pixels pixel buffer to load from.
          * @param width the width of the image.
          * @param height the height of the image.
          * @param convertToDisplayFormat true if the image should be converted
          *                               to display, false otherwise.
          */
-        OpenGLImage(unsigned int const * pixels, int width, int height, bool convertToDisplayFormat = true);
+        OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat = true);
 
         /**
          * Constructor. Load an image from an OpenGL texture handle. The width
@@ -99,7 +100,7 @@ namespace fcn
 
     protected:
         GLuint mTextureHandle;
-        std::unique_ptr<unsigned int[]> mPixels;
+        std::vector<unsigned int> mPixels;
         bool mAutoFree;
         int mWidth;
         int mHeight;

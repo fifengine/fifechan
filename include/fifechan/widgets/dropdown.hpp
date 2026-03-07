@@ -58,7 +58,7 @@ namespace fcn
          */
         explicit DropDown(ListModel* listModel = nullptr, ScrollArea* scrollArea = nullptr, ListBox* listBox = nullptr);
 
-        virtual ~DropDown();
+        ~DropDown() override;
 
         /**
          * Gets the selected item as an index in the list model.
@@ -121,9 +121,11 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
         void setBaseColor(Color const & color);
 
@@ -137,15 +139,15 @@ namespace fcn
 
         // Inherited from BasicContainer
 
-        virtual Rectangle getChildrenArea();
+        Rectangle getChildrenArea() override;
 
         // Inherited from FocusListener
 
-        virtual void focusLost(Event const & event);
+        void focusLost(Event const & event) override;
 
         // Inherited from ActionListener
 
-        virtual void action(ActionEvent const & actionEvent);
+        void action(ActionEvent const & actionEvent) override;
 
         // Inherited from DeathListener
 
@@ -153,23 +155,23 @@ namespace fcn
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
         // Inherited from SelectionListener
 
-        virtual void valueChanged(SelectionEvent const & event);
+        void valueChanged(SelectionEvent const & event) override;
 
     protected:
         /**

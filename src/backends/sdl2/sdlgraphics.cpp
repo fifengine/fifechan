@@ -2,6 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include <cstddef>
+
 #include "fifechan/backends/sdl2/sdl2graphics.hpp"
 #include "fifechan/backends/sdl2/sdlimage.hpp"
 #include "fifechan/backends/sdl2/sdlpixel.hpp"
@@ -12,10 +14,7 @@
 namespace fcn
 {
 
-    SDLGraphics::SDLGraphics()
-    {
-        mAlpha = false;
-    }
+    SDLGraphics::SDLGraphics() : mAlpha(false) { }
 
     void SDLGraphics::_beginDraw()
     {
@@ -94,7 +93,7 @@ namespace fcn
         dst.x = dstX + top.xOffset;
         dst.y = dstY + top.yOffset;
 
-        SDLImage const * srcImage = dynamic_cast<SDLImage const *>(image);
+        auto const * srcImage = dynamic_cast<SDLImage const *>(image);
 
         if (srcImage == nullptr) {
             throwException("Trying to draw an image of unknown format, must be an SDLImage.");
@@ -121,11 +120,12 @@ namespace fcn
         }
 
         if (mAlpha) {
-            int x1 = area.x > top.x ? area.x : top.x;
-            int y1 = area.y > top.y ? area.y : top.y;
-            int x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
-            int y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
-            int x, y;
+            int const x1 = area.x > top.x ? area.x : top.x;
+            int const y1 = area.y > top.y ? area.y : top.y;
+            int const x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
+            int const y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
+            int x        = 0;
+            int y        = 0;
 
             SDL_LockSurface(mTarget);
             for (y = y1; y < y2; y++) {
@@ -142,7 +142,7 @@ namespace fcn
             rect.w = area.width;
             rect.h = area.height;
 
-            Uint32 color = SDL_MapRGBA(mTarget->format, mColor.r, mColor.g, mColor.b, mColor.a);
+            Uint32 const color = SDL_MapRGBA(mTarget->format, mColor.r, mColor.g, mColor.b, mColor.a);
             SDL_FillRect(mTarget, &rect, color);
         }
     }
@@ -159,8 +159,9 @@ namespace fcn
         x += top.xOffset;
         y += top.yOffset;
 
-        if (!top.isContaining(x, y))
+        if (!top.isContaining(x, y)) {
             return;
+        }
 
         if (mAlpha) {
             SDLputPixelAlpha(mTarget, x, y, mColor);
@@ -209,13 +210,14 @@ namespace fcn
             x2 = top.x + top.width - 1;
         }
 
-        int bpp = mTarget->format->BytesPerPixel;
+        int const bpp = mTarget->format->BytesPerPixel;
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (y * mTarget->pitch) + (x1 * bpp);
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (static_cast<ptrdiff_t>(y * mTarget->pitch)) +
+                   (static_cast<ptrdiff_t>(x1 * bpp));
 
-        Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
+        Uint32 const pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
         switch (bpp) {
         case 1:
             for (; x1 <= x2; ++x1) {
@@ -224,7 +226,7 @@ namespace fcn
             break;
 
         case 2: {
-            Uint16* q = reinterpret_cast<Uint16*>(p);
+            auto* q = reinterpret_cast<Uint16*>(p);
             for (; x1 <= x2; ++x1) {
                 *(q++) = pixel;
             }
@@ -249,7 +251,7 @@ namespace fcn
             break;
 
         case 4: {
-            Uint32* q = reinterpret_cast<Uint32*>(p);
+            auto* q = reinterpret_cast<Uint32*>(p);
             for (; x1 <= x2; ++x1) {
                 if (mAlpha) {
                     *q = SDLBlendColor<Uint32>(pixel, *q, mColor.a, mTarget->format);
@@ -305,13 +307,14 @@ namespace fcn
             y2 = top.y + top.height - 1;
         }
 
-        int bpp = mTarget->format->BytesPerPixel;
+        int const bpp = mTarget->format->BytesPerPixel;
 
         SDL_LockSurface(mTarget);
 
-        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (y1 * mTarget->pitch) + (x * bpp);
+        Uint8* p = reinterpret_cast<Uint8*>(mTarget->pixels) + (static_cast<ptrdiff_t>(y1 * mTarget->pitch)) +
+                   (static_cast<ptrdiff_t>(x * bpp));
 
-        Uint32 pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
+        Uint32 const pixel = SDL_MapRGB(mTarget->format, mColor.r, mColor.g, mColor.b);
 
         switch (bpp) {
         case 1:
@@ -365,10 +368,10 @@ namespace fcn
 
     void SDLGraphics::drawRectangle(Rectangle const & rectangle)
     {
-        int x1 = rectangle.x;
-        int x2 = rectangle.x + rectangle.width - 1;
-        int y1 = rectangle.y;
-        int y2 = rectangle.y + rectangle.height - 1;
+        int const x1 = rectangle.x;
+        int const x2 = rectangle.x + rectangle.width - 1;
+        int const y1 = rectangle.y;
+        int const y2 = rectangle.y + rectangle.height - 1;
 
         drawHLine(x1, y1, x2);
         drawHLine(x1, y2, x2);
@@ -402,8 +405,8 @@ namespace fcn
 
         // Draw a line with Bresenham
 
-        int dx = std::abs(x2 - x1);
-        int dy = std::abs(y2 - y1);
+        int const dx = std::abs(x2 - x1);
+        int const dy = std::abs(y2 - y1);
 
         if (dx > dy) {
             if (x1 > x2) {

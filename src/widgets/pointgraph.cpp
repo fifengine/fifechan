@@ -7,12 +7,14 @@
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
 
+#include <utility>
+
 namespace fcn
 {
 
-    PointGraph::PointGraph() : m_opaque(false), m_thickness(1), m_data() { }
+    PointGraph::PointGraph() : m_opaque(false), m_thickness(1) { }
 
-    PointGraph::PointGraph(PointVector const & data) : m_opaque(false), m_thickness(1), m_data(data) { }
+    PointGraph::PointGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data)) { }
 
     void PointGraph::setPointVector(PointVector const & data)
     {
@@ -85,7 +87,7 @@ namespace fcn
 
         bool const thick = m_thickness > 1;
 
-        PointVector::iterator pit = m_data.begin();
+        auto pit = m_data.begin();
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
                 graphics->drawFillCircle(*pit, m_thickness);

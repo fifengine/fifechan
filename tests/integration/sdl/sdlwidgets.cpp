@@ -16,6 +16,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include <memory>
 #include <string>
 
 #ifdef _WIN32
@@ -39,13 +40,13 @@ namespace
 #endif
     }
 
-    SDL_Window* window               = nullptr;
-    SDL_Renderer* renderer           = nullptr;
-    fcn::SDL2Graphics* graphics      = nullptr;
-    fcn::SDLInput* input             = nullptr;
-    fcn::SDLImageLoader* imageLoader = nullptr;
-    fcn::SDLTrueTypeFont* loremFont  = nullptr;
-    fcn::Gui* gui                    = nullptr;
+    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window(nullptr, SDL_DestroyWindow);
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> renderer(nullptr, SDL_DestroyRenderer);
+    std::unique_ptr<fcn::SDL2Graphics> graphics;
+    std::unique_ptr<fcn::SDLInput> input;
+    std::unique_ptr<fcn::SDLImageLoader> imageLoader;
+    std::unique_ptr<fcn::SDLTrueTypeFont> loremFont;
+    std::unique_ptr<fcn::Gui> gui;
 
     void init_sdl()
     {
@@ -56,30 +57,34 @@ namespace
             throw std::runtime_error(std::string("Failed to initialize SDL2_ttf: ") + TTF_GetError());
         }
 
-        SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
-        SDL_SetWindowTitle(window, "FifeGUI - SDL Widgets");
+        SDL_Window* rawWindow     = nullptr;
+        SDL_Renderer* rawRenderer = nullptr;
+        SDL_CreateWindowAndRenderer(640, 480, 0, &rawWindow, &rawRenderer);
+        window.reset(rawWindow);
+        renderer.reset(rawRenderer);
+        SDL_SetWindowTitle(window.get(), "FifeGUI - SDL Widgets");
 
-        imageLoader = new fcn::SDLImageLoader();
-        imageLoader->setRenderer(renderer);
-        fcn::Image::setImageLoader(imageLoader);
+        imageLoader = std::make_unique<fcn::SDLImageLoader>();
+        imageLoader->setRenderer(renderer.get());
+        fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = new fcn::SDL2Graphics();
-        graphics->setTarget(renderer, 640, 480);
+        graphics = std::make_unique<fcn::SDL2Graphics>();
+        graphics->setTarget(renderer.get(), 640, 480);
 
-        input = new fcn::SDLInput();
+        input = std::make_unique<fcn::SDLInput>();
 
-        gui = new fcn::Gui();
-        gui->setGraphics(graphics);
-        gui->setInput(input);
+        gui = std::make_unique<fcn::Gui>();
+        gui->setGraphics(graphics.get());
+        gui->setInput(input.get());
     }
 
     void init_gui()
     {
-        widgets::gui = gui;
+        widgets::gui = gui.get();
         widgets::init();
 
-        loremFont = new fcn::SDLTrueTypeFont("ArchitectsDaughter.ttf", 18);
-        widgets::textBox->setFont(loremFont);
+        loremFont = std::make_unique<fcn::SDLTrueTypeFont>("ArchitectsDaughter.ttf", 18);
+        widgets::textBox->setFont(loremFont.get());
         widgets::textBox->setText(
             "Lorem ipsum dolor sit amet\n"
             "consectetur adipiscing elit\n"
@@ -109,21 +114,22 @@ namespace
 
             gui->logic();
             gui->draw();
-            SDL_RenderPresent(renderer);
+            SDL_RenderPresent(renderer.get());
         }
     }
 
     void halt()
     {
         widgets::halt();
-        delete loremFont;
-        loremFont = nullptr;
-        delete gui;
-        delete imageLoader;
-        delete input;
-        delete graphics;
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
+        widgets::gui = nullptr;
+        loremFont.reset();
+        gui.reset();
+        fcn::Image::setImageLoader(nullptr);
+        imageLoader.reset();
+        input.reset();
+        graphics.reset();
+        renderer.reset();
+        window.reset();
         TTF_Quit();
         SDL_Quit();
     }

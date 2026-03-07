@@ -33,7 +33,7 @@ namespace fcn
          */
         SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
 
-        virtual ~SDLImage();
+        ~SDLImage() override;
 
         /**
          * Gets the SDL surface for the image.
@@ -51,17 +51,17 @@ namespace fcn
 
         // Inherited from Image
 
-        virtual void free();
+        void free() override;
 
-        virtual int getWidth() const;
+        int getWidth() const override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual Color getPixel(int x, int y);
+        Color getPixel(int x, int y) override;
 
-        virtual void putPixel(int x, int y, Color const & color);
+        void putPixel(int x, int y, Color const & color) override;
 
-        virtual void convertToDisplayFormat();
+        void convertToDisplayFormat() override;
 
     protected:
         SDL_Surface* mSurface;

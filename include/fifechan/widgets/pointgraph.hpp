@@ -28,7 +28,7 @@ namespace fcn
          * Default constructor.
          */
         PointGraph();
-        explicit PointGraph(PointVector const & data);
+        explicit PointGraph(PointVector data);
 
         ~PointGraph() override = default;
 

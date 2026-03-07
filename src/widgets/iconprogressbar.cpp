@@ -34,14 +34,14 @@ namespace fcn
     }
 
     IconProgressBar::IconProgressBar(std::string const & filename, int maxIcons) :
-        mImage(nullptr),
+        mImage(Image::load(filename)),
         mInternalImage(true),
         mMaxIcons(maxIcons),
         mIconCounter(0),
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
-        mImage = Image::load(filename);
+
         adjustSize();
     }
 
@@ -172,7 +172,7 @@ namespace fcn
         return mIconCounter;
     }
 
-    void IconProgressBar::resizeToContent(bool recursion)
+    void IconProgressBar::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }

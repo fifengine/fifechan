@@ -38,7 +38,7 @@ namespace fcn
          */
         RadioButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        virtual ~RadioButton();
+        ~RadioButton() override;
 
         /**
          * Sets the group the radio button should belong to. Note that
@@ -60,8 +60,8 @@ namespace fcn
 
         // Inherited from CheckBox
 
-        virtual void setSelected(bool selected);
-        virtual void toggleSelected();
+        void setSelected(bool selected) override;
+        void toggleSelected() override;
 
     protected:
         /**

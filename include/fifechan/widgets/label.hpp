@@ -27,7 +27,7 @@ namespace fcn
          *
          * @param caption The caption of the label.
          */
-        explicit Label(std::string const & caption);
+        explicit Label(std::string caption);
 
         /**
          * Gets the caption of the label.
@@ -67,9 +67,11 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
     protected:
         /**

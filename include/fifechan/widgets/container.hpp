@@ -47,7 +47,7 @@ namespace fcn
          */
         Container();
 
-        virtual ~Container();
+        ~Container() override;
 
         /**
          * Sets the container to be opaque or not. If the container
@@ -115,14 +115,14 @@ namespace fcn
          *                   container.
          * @see add, clear
          */
-        virtual void remove(Widget* widget);
+        void remove(Widget* widget) override;
 
         /**
          * Clears the container of all widgets.
          *
          * @see add, remove
          */
-        virtual void clear();
+        void clear() override;
 
         /**
          * Finds a widget given an id.
@@ -131,7 +131,7 @@ namespace fcn
          * @return A widget with a corresponding id, NULL if no widget found.
          * @see Widget::setId
          */
-        virtual Widget* findWidgetById(std::string const & id);
+        Widget* findWidgetById(std::string const & id) override;
 
         /**
          * Adds a container listener to the container. When a widget is
@@ -166,12 +166,15 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void expandContent(bool recursion = true);
-        virtual void draw(Graphics* graphics);
-        virtual Rectangle getChildrenArea();
-        virtual bool isLayouted()
+        using Widget::expandContent;
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void expandContent(bool recursion) override;
+        void draw(Graphics* graphics) override;
+        Rectangle getChildrenArea() override;
+        bool isLayouted() override
         {
             return mLayout != LayoutPolicy::Absolute;
         };

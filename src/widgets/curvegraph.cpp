@@ -9,15 +9,16 @@
 #include <fifechan/math.hpp>
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 namespace fcn
 {
 
-    CurveGraph::CurveGraph() : m_opaque(false), m_acp(true), m_needUpdate(false), m_thickness(1), m_data() { }
+    CurveGraph::CurveGraph() : m_opaque(false), m_acp(true), m_needUpdate(false), m_thickness(1) { }
 
-    CurveGraph::CurveGraph(PointVector const & data) :
-        m_opaque(false), m_acp(true), m_needUpdate(true), m_thickness(1), m_data(data)
+    CurveGraph::CurveGraph(PointVector data) :
+        m_opaque(false), m_acp(true), m_needUpdate(true), m_thickness(1), m_data(std::move(data))
     {
     }
 
@@ -124,13 +125,13 @@ namespace fcn
         }
         int const elements = newPoints.size();
 
-        std::vector<Point>::const_iterator it = newPoints.begin();
-        Point old                             = *it;
+        auto it   = newPoints.begin();
+        Point old = *it;
         ++it;
         for (; it != newPoints.end(); ++it) {
             Point const & next = *it;
-            float const rx     = static_cast<float>(old.x - next.x);
-            float const ry     = static_cast<float>(old.y - next.y);
+            auto const rx      = static_cast<float>(old.x - next.x);
+            auto const ry      = static_cast<float>(old.y - next.y);
             old                = next;
             distance += Mathf::Sqrt((rx * rx) + (ry * ry));
         }

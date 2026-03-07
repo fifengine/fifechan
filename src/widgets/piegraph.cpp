@@ -117,7 +117,7 @@ namespace fcn
             return;
         }
         // draw circle segments
-        std::vector<PieGraphSegment>::iterator it = m_segments.begin();
+        auto it = m_segments.begin();
         for (; it != m_segments.end(); ++it) {
             graphics->setColor((*it).color);
             graphics->drawFillCircleSegment(m_center, m_radius, (*it).startAngle, (*it).stopAngle);

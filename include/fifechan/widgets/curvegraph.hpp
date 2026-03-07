@@ -24,9 +24,9 @@ namespace fcn
     public:
         CurveGraph();
 
-        explicit CurveGraph(PointVector const & data);
+        explicit CurveGraph(PointVector data);
 
-        virtual ~CurveGraph() { }
+        ~CurveGraph() override = default;
 
         void setPointVector(PointVector const & data);
         PointVector const & getPointVector() const;
@@ -53,7 +53,7 @@ namespace fcn
         /**
          * Draws this widget.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
     protected:
         /** Precalculate bezier curve.

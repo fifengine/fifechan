@@ -5,6 +5,7 @@
 #include "fifechan/focushandler.hpp"
 
 #include <list>
+#include <utility>
 
 #include "fifechan/event.hpp"
 #include "fifechan/exception.hpp"
@@ -115,7 +116,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
 
-        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
+        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -130,7 +131,7 @@ namespace fcn
         for (; num_widgets > 0; --num_widgets) {
             ++focusedWidget;
 
-            if (focusedWidget >= static_cast<int>(mWidgets.size())) {
+            if (std::cmp_greater_equal(focusedWidget, mWidgets.size())) {
                 focusedWidget = 0;
             }
 
@@ -169,7 +170,7 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
+        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -291,7 +292,7 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
+        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }
@@ -310,7 +311,7 @@ namespace fcn
 
             --i;
 
-            if (focusedWidget >= static_cast<int>(mWidgets.size())) {
+            if (std::cmp_greater_equal(focusedWidget, mWidgets.size())) {
                 focusedWidget = 0;
             }
 
@@ -351,7 +352,7 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; i < static_cast<int>(mWidgets.size()); ++i) {
+        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
             if (mWidgets[i] == mFocusedWidget) {
                 focusedWidget = i;
             }

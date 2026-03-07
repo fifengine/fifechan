@@ -7,12 +7,14 @@
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
 
+#include <utility>
+
 namespace fcn
 {
 
-    LineGraph::LineGraph() : m_opaque(false), m_thickness(1), m_data() { }
+    LineGraph::LineGraph() : m_opaque(false), m_thickness(1) { }
 
-    LineGraph::LineGraph(PointVector const & data) : m_opaque(false), m_thickness(1), m_data(data) { }
+    LineGraph::LineGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data)) { }
 
     void LineGraph::setPointVector(PointVector const & data)
     {
@@ -84,9 +86,9 @@ namespace fcn
 
         bool const thick = m_thickness > 1;
 
-        PointVector::iterator pit = m_data.begin();
-        int x1                    = (*pit).x;
-        int y1                    = (*pit).y;
+        auto pit = m_data.begin();
+        int x1   = (*pit).x;
+        int y1   = (*pit).y;
         ++pit;
         if (thick) {
             for (; pit != m_data.end(); ++pit) {

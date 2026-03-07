@@ -18,7 +18,7 @@ namespace fcn
         setOpaque(true);
     }
 
-    FlowContainer::~FlowContainer() { }
+    FlowContainer::~FlowContainer() = default;
 
     void FlowContainer::setAlignment(FlowContainer::Alignment alignment)
     {

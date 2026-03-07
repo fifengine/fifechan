@@ -402,14 +402,25 @@ namespace fcn
          *                     as well.
          *
          */
+        void distributeMouseEvent(Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y)
+        {
+            distributeMouseEvent(source, type, button, x, y, false, false);
+        }
+
+        void distributeMouseEvent(
+            Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y, bool force)
+        {
+            distributeMouseEvent(source, type, button, x, y, force, false);
+        }
+
         virtual void distributeMouseEvent(
             Widget* source,
             MouseEvent::Type type,
             MouseEvent::Button button,
             int x,
             int y,
-            bool force        = false,
-            bool toSourceOnly = false);
+            bool force,
+            bool toSourceOnly);
 
         /**
          * Distributes a key event.
@@ -432,7 +443,12 @@ namespace fcn
          *
          * @return The widget at a certain position.
          */
-        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr);
+        Widget* getWidgetAt(int x, int y)
+        {
+            return getWidgetAt(x, y, nullptr);
+        }
+
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
          * Gets the source of the mouse event.

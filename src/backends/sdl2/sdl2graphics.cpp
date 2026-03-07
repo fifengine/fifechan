@@ -6,7 +6,9 @@
 #include "fifechan/backends/sdl2/sdl2graphics.hpp"
 
 #include <memory>
+#include <numbers>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "fifechan/backends/sdl2/sdlimage.hpp"
@@ -124,7 +126,7 @@ namespace fcn
         temp.w = width;
         temp.h = height;
 
-        SDLImage const * srcImage = dynamic_cast<SDLImage const *>(image);
+        auto const * srcImage = dynamic_cast<SDLImage const *>(image);
 
         if (srcImage == nullptr) {
             throwException("Trying to draw an image of unknown format, must be an SDLImage.");
@@ -395,8 +397,8 @@ namespace fcn
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         // Use Midpoint Circle Algorithm to draw a filled circle
-        for (int y = -radius; y <= radius; y++) {
-            for (int x = -radius; x <= radius; x++) {
+        for (int y = -radius; std::cmp_less_equal(y, radius); y++) {
+            for (int x = -radius; std::cmp_less_equal(x, radius); x++) {
                 if (x * x + y * y <= radius * radius) {
                     SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
                 }
@@ -407,15 +409,15 @@ namespace fcn
     }
 
     // Function to compute a point on a Bézier curve
-    fcn::Point bezierPoint(std::vector<fcn::Point> const & controlPoints, float t)
+    static fcn::Point bezierPoint(std::vector<fcn::Point> const & controlPoints, float t)
     {
         std::vector<fcn::Point> points = controlPoints;
         while (points.size() > 1) {
             std::vector<fcn::Point> nextPoints;
             for (size_t i = 0; i < points.size() - 1; ++i) {
-                int x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
-                int y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
-                nextPoints.emplace_back(fcn::Point{x, y});
+                int const x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
+                int const y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
+                nextPoints.emplace_back(x, y);
             }
             points = nextPoints;
         }
@@ -423,9 +425,9 @@ namespace fcn
     }
 
     // Function to convert degrees to radians
-    constexpr float degToRad(float degrees)
+    static constexpr float degToRad(float degrees)
     {
-        return degrees * static_cast<float>(M_PI) / 180.0F;
+        return degrees * std::numbers::pi_v<float> / 180.0F;
     }
 
     // Function to draw a filled circle segment
@@ -454,10 +456,10 @@ namespace fcn
             endAngle += 360;
         }
 
-        for (int y = -radius; y <= radius; y++) {
-            for (int x = -radius; x <= radius; x++) {
+        for (int y = -radius; std::cmp_less_equal(y, radius); y++) {
+            for (int x = -radius; std::cmp_less_equal(x, radius); x++) {
                 if (x * x + y * y <= radius * radius) {
-                    float angle = std::atan2(y, x) * 180.0F / static_cast<float>(M_PI);
+                    float angle = std::atan2(y, x) * 180.0F / std::numbers::pi_v<float>;
                     if (angle < 0) {
                         angle += 360;
                     }
@@ -482,8 +484,8 @@ namespace fcn
         }
         ClipRectangle const & top = mClipStack.top();
 
-        int x0 = center.x + top.xOffset;
-        int y0 = center.y + top.yOffset;
+        int const x0 = center.x + top.xOffset;
+        int const y0 = center.y + top.yOffset;
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -518,7 +520,7 @@ namespace fcn
     }
 
     // normalize angles to [0, 360)
-    int normalizeAngle(int angle)
+    static int normalizeAngle(int angle)
     {
         angle %= 360;
         if (angle < 0) {
@@ -537,8 +539,8 @@ namespace fcn
         }
         ClipRectangle const & top = mClipStack.top();
 
-        int x0 = center.x + top.xOffset;
-        int y0 = center.y + top.yOffset;
+        int const x0 = center.x + top.xOffset;
+        int const y0 = center.y + top.yOffset;
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -558,7 +560,7 @@ namespace fcn
         int p = 1 - radius;
 
         auto isInSegment = [&](int x, int y) {
-            float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0F / static_cast<float>(M_PI);
+            float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0F / std::numbers::pi_v<float>;
             if (angle < 0) {
                 angle += 360;
             }
@@ -620,8 +622,8 @@ namespace fcn
         fcn::Point previousPoint = bezierPoint(controlPoints, 0.0F);
 
         for (int i = 1; i <= segments; ++i) {
-            float t                 = static_cast<float>(i) / static_cast<float>(segments);
-            fcn::Point currentPoint = bezierPoint(controlPoints, t);
+            float const t                 = static_cast<float>(i) / static_cast<float>(segments);
+            fcn::Point const currentPoint = bezierPoint(controlPoints, t);
 
             // Draw thick line segment
             drawLine(
@@ -656,10 +658,10 @@ namespace fcn
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         for (size_t i = 0; i < points.size() - 1; ++i) {
-            int x1 = points[i].x + top.xOffset;
-            int y1 = points[i].y + top.yOffset;
-            int x2 = points[i + 1].x + top.xOffset;
-            int y2 = points[i + 1].y + top.yOffset;
+            int const x1 = points[i].x + top.xOffset;
+            int const y1 = points[i].y + top.yOffset;
+            int const x2 = points[i + 1].x + top.xOffset;
+            int const y2 = points[i + 1].y + top.yOffset;
 
             drawLine(x1, y1, x2, y2, width);
         }

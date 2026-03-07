@@ -19,7 +19,7 @@ namespace fcn
     class FIFEGUI_API ContainerListener
     {
     public:
-        virtual ~ContainerListener() { }
+        virtual ~ContainerListener() = default;
 
         /**
          * Called when a widget is added to a container.

@@ -6,6 +6,7 @@
 
 #include <sstream>
 #include <string>
+#include <utility>
 
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
@@ -50,8 +51,8 @@ namespace fcn
 
         // Scan for all glyphs
         for (char const glyph : glyphs) {
-            unsigned char const k = static_cast<unsigned char>(glyph);
-            mGlyph[k]             = scanForGlyph(k, x, y, separator);
+            auto const k = static_cast<unsigned char>(glyph);
+            mGlyph[k]    = scanForGlyph(k, x, y, separator);
             // Update x and y with new coordinates.
             x = mGlyph[k].x + mGlyph[k].width;
             y = mGlyph[k].y;
@@ -92,7 +93,7 @@ namespace fcn
         int y               = 0;
         unsigned char glyph = 0;
 
-        for (i = 0; i < static_cast<int>(glyphs.size()); ++i) {
+        for (i = 0; std::cmp_less(i, glyphs.size()); ++i) {
             glyph = glyphs.at(i);
 
             mGlyph[glyph] = scanForGlyph(glyph, x, y, separator);

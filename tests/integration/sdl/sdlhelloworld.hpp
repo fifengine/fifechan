@@ -12,6 +12,7 @@
 #include <fifechan.hpp>
 
 #include <filesystem>
+#include <memory>
 #include <string>
 
 class Application
@@ -30,20 +31,20 @@ private:
 
     bool running{true};
 
-    SDL_Window* window{nullptr};
-    SDL_Renderer* renderer{nullptr};
+    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window{nullptr, SDL_DestroyWindow};
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> renderer{nullptr, SDL_DestroyRenderer};
 
-    fcn::SDL2Graphics* graphics{nullptr};
-    fcn::SDLInput* input{nullptr};
-    fcn::SDLImageLoader* imageLoader{nullptr};
+    std::unique_ptr<fcn::SDL2Graphics> graphics;
+    std::unique_ptr<fcn::SDLInput> input;
+    std::unique_ptr<fcn::SDLImageLoader> imageLoader;
 
-    fcn::Gui* gui{nullptr};
+    std::unique_ptr<fcn::Gui> gui;
 
-    fcn::Container* top{nullptr};
-    fcn::ImageFont* font{nullptr};
-    fcn::ImageFont* rpgFont{nullptr};
-    fcn::Label* label{nullptr};
-    fcn::Label* label2{nullptr};
+    std::unique_ptr<fcn::Container> top;
+    std::unique_ptr<fcn::ImageFont> font;
+    std::unique_ptr<fcn::ImageFont> rpgFont;
+    std::unique_ptr<fcn::Label> label;
+    std::unique_ptr<fcn::Label> label2;
 };
 
 #endif // TESTS_INTEGRATION_SDL_SDLHELLOWORLD_HPP_

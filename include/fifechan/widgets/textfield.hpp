@@ -33,7 +33,7 @@ namespace fcn
          */
         explicit TextField(std::string const & text);
 
-        ~TextField();
+        ~TextField() override;
 
         /**
          * Sets the text of the text field.
@@ -93,24 +93,26 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
 
         /**
          * Adjusts the size of the text field to fit the text.
          */
-        virtual void adjustSize();
+        void adjustSize() override;
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
     protected:
         /**

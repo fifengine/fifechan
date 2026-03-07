@@ -40,7 +40,7 @@ namespace fcn
          */
         explicit ListBox(ListModel* listModel);
 
-        virtual ~ListBox() { }
+        ~ListBox() override = default;
 
         /**
          * Gets the selected item as an index in the list model.
@@ -131,25 +131,27 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
 
-        virtual void logic();
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
+
+        void logic() override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
     protected:
         /**
@@ -167,7 +169,7 @@ namespace fcn
         /**
          * The list model to use.
          */
-        ListModel* mListModel;
+        ListModel* mListModel{};
 
         /**
          * True if wrapping is enabled, false otherwise.

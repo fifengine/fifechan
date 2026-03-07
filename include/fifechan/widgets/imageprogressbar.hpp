@@ -46,12 +46,12 @@ namespace fcn
          */
         ImageProgressBar(std::string const & filename, int maxValue);
 
-        virtual ~ImageProgressBar();
+        ~ImageProgressBar() override;
 
         /**
          * Draws this ImageProgressBar.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         /**
          * Sets the opacity of the ImageProgressBar.
@@ -133,8 +133,10 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
 
     protected:
         /**

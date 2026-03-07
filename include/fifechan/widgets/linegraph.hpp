@@ -20,9 +20,9 @@ namespace fcn
     public:
         LineGraph();
 
-        explicit LineGraph(PointVector const & data);
+        explicit LineGraph(PointVector data);
 
-        virtual ~LineGraph() { }
+        ~LineGraph() override = default;
 
         void setPointVector(PointVector const & data);
         PointVector const & getPointVector() const;
@@ -46,7 +46,7 @@ namespace fcn
         /**
          * Draws this widget.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
     protected:
         bool m_opaque;

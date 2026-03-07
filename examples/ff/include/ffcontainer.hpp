@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __FFCONTAINER_HPP
-#define __FFCONTAINER_HPP
+#ifndef FFCONTAINER_HPP
+#define FFCONTAINER_HPP
 
 #include <fifechan.hpp>
 
@@ -13,15 +13,20 @@ class FFContainer : public fcn::Container
 {
 public:
     FFContainer();
-    ~FFContainer();
-    void logic();
-    void draw(fcn::Graphics* graphics);
+    ~FFContainer() override;
+    FFContainer(FFContainer const &)            = delete;
+    FFContainer& operator=(FFContainer const &) = delete;
+    FFContainer(FFContainer&&)                  = delete;
+    FFContainer& operator=(FFContainer&&)       = delete;
+
+    void logic() override;
+    void draw(fcn::Graphics* graphics) override;
     void setVisible(bool visible);
     void setWidth(int width);
-    void setHeight(int width);
+    void setHeight(int height);
     void setDimension(fcn::Rectangle const & dimension);
     void slideContentTo(int y);
-    fcn::Rectangle getChildrenArea();
+    fcn::Rectangle getChildrenArea() override;
 
 private:
     int mRealWidth;

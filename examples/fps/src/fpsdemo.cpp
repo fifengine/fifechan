@@ -5,14 +5,15 @@
 #include "fpsdemo.hpp"
 
 #include <cmath>
+#include <memory>
 #include <sstream>
 #include <string>
 
 namespace
 {
-    fcn::Image* loadSplashImageWithWhiteAsTransparent(std::string const & filename)
+    std::unique_ptr<fcn::Image> loadSplashImageWithWhiteAsTransparent(std::string const & filename)
     {
-        fcn::Image* image = fcn::Image::load(filename, false);
+        auto image = std::unique_ptr<fcn::Image>(fcn::Image::load(filename, false));
 
         bool hasTransparency = false;
 
@@ -53,6 +54,8 @@ FPSDemo::FPSDemo() :
     mResolutionChange(false),
     mHaveFullscreen(false),
     mAudioAvailable(false),
+    glcontext(SDL_GL_CreateContext(window)),
+    window(SDL_CreateWindow("FifeGUI FPS demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL)),
     mChooseSound(nullptr),
     mEscapeSound(nullptr),
     mOptionsSound(nullptr),
@@ -60,8 +63,6 @@ FPSDemo::FPSDemo() :
 {
     // Init SDL
     SDL_Init(SDL_INIT_EVERYTHING);
-    window    = SDL_CreateWindow("FifeGUI FPS demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL);
-    glcontext = SDL_GL_CreateContext(window);
 
     // Init SDL_Mixer
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == 0) {
@@ -118,65 +119,65 @@ FPSDemo::~FPSDemo()
 
 void FPSDemo::initGui()
 {
-    mOpenGLImageLoader = new fcn::OpenGLSDLImageLoader();
-    fcn::Image::setImageLoader(mOpenGLImageLoader);
-    mOpenGLGraphics = new fcn::OpenGLGraphics();
+    mOpenGLImageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
+    fcn::Image::setImageLoader(mOpenGLImageLoader.get());
+    mOpenGLGraphics = std::make_unique<fcn::OpenGLGraphics>();
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
-    mSDLInput = new fcn::SDLInput();
+    mSDLInput = std::make_unique<fcn::SDLInput>();
 
-    mTop = new fcn::Container();
+    mTop = std::make_unique<fcn::Container>();
     mTop->setOpaque(false);
-    mGui = new fcn::Gui();
+    mGui = std::make_unique<fcn::Gui>();
     mGui->setTabbingEnabled(false);
-    mGui->setGraphics(mOpenGLGraphics);
-    mGui->setInput(mSDLInput);
+    mGui->setGraphics(mOpenGLGraphics.get());
+    mGui->setInput(mSDLInput.get());
 
-    mFont = new fcn::ImageFont(
+    mFont = std::make_unique<fcn::ImageFont>(
         "images/techyfontbig2.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mHighLightFont = new fcn::ImageFont(
+    mHighLightFont = std::make_unique<fcn::ImageFont>(
         "images/techyfontbighighlight.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mSmallBlackFont = new fcn::ImageFont(
+    mSmallBlackFont = std::make_unique<fcn::ImageFont>(
         "images/techyfontblack.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mWhiteFont = new fcn::ImageFont(
+    mWhiteFont = std::make_unique<fcn::ImageFont>(
         "images/techyfontwhite.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    fcn::Widget::setGlobalFont(mWhiteFont);
+    fcn::Widget::setGlobalFont(mWhiteFont.get());
 
-    mTitleImage = fcn::Image::load("images/title2.png");
-    mTitle      = new fcn::Icon(mTitleImage);
+    mTitleImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/title2.png"));
+    mTitle      = std::make_unique<fcn::Icon>(mTitleImage.get());
     mTitle->setOpaque(false);
-    mTop->add(mTitle);
+    mTop->add(mTitle.get());
 
-    mDemoInfo = new fcn::TextBox(
+    mDemoInfo = std::make_unique<fcn::TextBox>(
         "This is a Demo demonstrating FifeGUI with SDL and OpenGL.\n"
         "FifeGUI is dual-licensed under LGPL v2.1 and BSD.\n"
         "For more information visit http://fifengine.github.io/fifechan/\n");
-    mDemoInfo->setFont(mSmallBlackFont);
+    mDemoInfo->setFont(mSmallBlackFont.get());
     mDemoInfo->setOpaque(false);
     mDemoInfo->setEditable(false);
     mDemoInfo->setFocusable(false);
     mDemoInfo->setBorderSize(0);
-    mTop->add(mDemoInfo);
+    mTop->add(mDemoInfo.get());
 
-    mVersionLabel = new fcn::Label("Version 1.01");
-    mVersionLabel->setFont(mSmallBlackFont);
-    mTop->add(mVersionLabel);
+    mVersionLabel = std::make_unique<fcn::Label>("Version 1.01");
+    mVersionLabel->setFont(mSmallBlackFont.get());
+    mTop->add(mVersionLabel.get());
 
-    mBoxImage = fcn::Image::load("images/box.png");
+    mBoxImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/box.png"));
 
     mSplashImage = loadSplashImageWithWhiteAsTransparent("images/splash.png");
-    mSplashIcon  = new fcn::Icon(mSplashImage);
+    mSplashIcon  = std::make_unique<fcn::Icon>(mSplashImage.get());
     mSplashIcon->setOpaque(false);
 
     if (mInit) {
-        mGui->setTop(mSplashIcon);
+        mGui->setTop(mSplashIcon.get());
         mSplashIcon->setPosition(
             (mWidth / 2) - (mSplashImage->getWidth() / 2), (mHeight / 2) - (mSplashImage->getHeight() / 2));
     } else {
-        mGui->setTop(mTop);
+        mGui->setTop(mTop.get());
     }
 
     loadTextures();
@@ -188,23 +189,30 @@ void FPSDemo::initGui()
 
 void FPSDemo::cleanGui()
 {
+    if (mGui != nullptr) {
+        mGui->setTop(nullptr);
+    }
+    fcn::Widget::setGlobalFont(nullptr);
+    fcn::Image::setImageLoader(nullptr);
+
     cleanTextures();
     cleanMain();
     cleanSingleplay();
     cleanMultiplay();
     cleanOptions();
-    delete mBoxImage;
-    delete mFont;
-    delete mHighLightFont;
-    delete mSmallBlackFont;
-    delete mWhiteFont;
-    delete mTop;
-    delete mGui;
-    delete mSplashIcon;
-    delete mSplashImage;
-    delete mSDLInput;
-    delete mOpenGLGraphics;
-    delete mOpenGLImageLoader;
+
+    mBoxImage.reset();
+    mFont.reset();
+    mHighLightFont.reset();
+    mSmallBlackFont.reset();
+    mWhiteFont.reset();
+    mTop.reset();
+    mGui.reset();
+    mSplashIcon.reset();
+    mSplashImage.reset();
+    mSDLInput.reset();
+    mOpenGLGraphics.reset();
+    mOpenGLImageLoader.reset();
 }
 
 /*
@@ -212,58 +220,58 @@ void FPSDemo::cleanGui()
  */
 void FPSDemo::initMain()
 {
-    mMain = new fcn::Container();
+    mMain = std::make_unique<fcn::Container>();
     mMain->setOpaque(false);
-    mTop->add(mMain);
+    mTop->add(mMain.get());
 
-    mSingleplayButton = new FPSButton("Singleplayer");
-    mSingleplayButton->setHighLightFont(mHighLightFont);
+    mSingleplayButton = std::make_unique<FPSButton>("Singleplayer");
+    mSingleplayButton->setHighLightFont(mHighLightFont.get());
     mSingleplayButton->adjustSize();
     mSingleplayButton->setActionEventId("singleplay");
     mSingleplayButton->addActionListener(this);
-    mSingleplayButton->setFont(mFont);
+    mSingleplayButton->setFont(mFont.get());
     mSingleplayButton->adjustSize();
-    mMain->add(mSingleplayButton);
+    mMain->add(mSingleplayButton.get());
 
-    mMultiplayButton = new FPSButton("Multiplayer");
-    mMultiplayButton->setHighLightFont(mHighLightFont);
+    mMultiplayButton = std::make_unique<FPSButton>("Multiplayer");
+    mMultiplayButton->setHighLightFont(mHighLightFont.get());
     mMultiplayButton->adjustSize();
     mMultiplayButton->setActionEventId("multiplay");
     mMultiplayButton->addActionListener(this);
-    mMultiplayButton->setFont(mFont);
+    mMultiplayButton->setFont(mFont.get());
     mMultiplayButton->adjustSize();
-    mMain->add(mMultiplayButton);
+    mMain->add(mMultiplayButton.get());
 
-    mOptionsButton = new FPSButton("Options");
-    mOptionsButton->setHighLightFont(mHighLightFont);
+    mOptionsButton = std::make_unique<FPSButton>("Options");
+    mOptionsButton->setHighLightFont(mHighLightFont.get());
     mOptionsButton->adjustSize();
     mOptionsButton->setActionEventId("options");
     mOptionsButton->addActionListener(this);
-    mOptionsButton->setFont(mFont);
+    mOptionsButton->setFont(mFont.get());
     mOptionsButton->adjustSize();
-    mMain->add(mOptionsButton);
+    mMain->add(mOptionsButton.get());
 
-    mQuitButton = new FPSButton("Quit");
-    mQuitButton->setHighLightFont(mHighLightFont);
+    mQuitButton = std::make_unique<FPSButton>("Quit");
+    mQuitButton->setHighLightFont(mHighLightFont.get());
     mQuitButton->adjustSize();
     mQuitButton->setActionEventId("quit");
     mQuitButton->addActionListener(this);
-    mQuitButton->setFont(mFont);
+    mQuitButton->setFont(mFont.get());
     mQuitButton->adjustSize();
-    mMain->add(mQuitButton);
+    mMain->add(mQuitButton.get());
 }
 
 void FPSDemo::cleanMain()
 {
-    delete mSingleplayButton;
-    delete mMultiplayButton;
-    delete mOptionsButton;
-    delete mQuitButton;
-    delete mVersionLabel;
-    delete mTitle;
-    delete mTitleImage;
-    delete mDemoInfo;
-    delete mMain;
+    mSingleplayButton.reset();
+    mMultiplayButton.reset();
+    mOptionsButton.reset();
+    mQuitButton.reset();
+    mVersionLabel.reset();
+    mTitle.reset();
+    mTitleImage.reset();
+    mDemoInfo.reset();
+    mMain.reset();
 }
 
 /*
@@ -271,47 +279,48 @@ void FPSDemo::cleanMain()
  */
 void FPSDemo::initSingleplay()
 {
-    mSingleplay = new fcn::Container();
+    mSingleplay = std::make_unique<fcn::Container>();
     mSingleplay->setVisible(false);
     mSingleplay->setOpaque(false);
-    mTop->add(mSingleplay);
+    mTop->add(mSingleplay.get());
 
-    mSingleplayBoxIcon = new fcn::Icon(mBoxImage);
-    mSingleplay->add(mSingleplayBoxIcon);
+    mSingleplayBoxIcon = std::make_unique<fcn::Icon>(mBoxImage.get());
+    mSingleplay->add(mSingleplayBoxIcon.get());
 
-    mSingleplayLabel = new fcn::Label("Singleplayer");
-    mSingleplayLabel->setFont(mWhiteFont);
+    mSingleplayLabel = std::make_unique<fcn::Label>("Singleplayer");
+    mSingleplayLabel->setFont(mWhiteFont.get());
     mSingleplayLabel->adjustSize();
-    mSingleplay->add(mSingleplayLabel);
+    mSingleplay->add(mSingleplayLabel.get());
 
-    mSingleplayText = new fcn::TextBox(
+    mSingleplayText = std::make_unique<fcn::TextBox>(
         "I'm verry sorry but this is not an actual game.\n"
         "It's a demonstration of the GUI library Fifechan.\n"
         "But who knows...\n"
         "Maybe it will be a game here someday.\n");
-    mSingleplayText->setFont(mWhiteFont);
+    mSingleplayText->setFont(mWhiteFont.get());
     mSingleplayText->setOpaque(false);
     mSingleplayText->setEditable(false);
     mSingleplayText->setBorderSize(0);
-    mSingleplay->add(mSingleplayText);
+    mSingleplay->add(mSingleplayText.get());
 
-    mSingleplayBackButton = new FPSButton("Back");
-    mSingleplayBackButton->setHighLightFont(mHighLightFont);
+    mSingleplayBackButton = std::make_unique<FPSButton>("Back");
+    mSingleplayBackButton->setHighLightFont(mHighLightFont.get());
     mSingleplayBackButton->adjustSize();
     mSingleplayBackButton->setActionEventId("back");
     mSingleplayBackButton->addActionListener(this);
-    mSingleplayBackButton->setFont(mFont);
+    mSingleplayBackButton->setFont(mFont.get());
     mSingleplayBackButton->adjustSize();
 
-    mSingleplay->add(mSingleplayBackButton);
+    mSingleplay->add(mSingleplayBackButton.get());
 }
 
 void FPSDemo::cleanSingleplay()
 {
-    delete mSingleplayBoxIcon;
-    delete mSingleplayText;
-    delete mSingleplayLabel;
-    delete mSingleplay;
+    mSingleplayBoxIcon.reset();
+    mSingleplayBackButton.reset();
+    mSingleplayText.reset();
+    mSingleplayLabel.reset();
+    mSingleplay.reset();
 }
 
 /*
@@ -319,49 +328,49 @@ void FPSDemo::cleanSingleplay()
  */
 void FPSDemo::initMultiplay()
 {
-    mMultiplay = new fcn::Container();
+    mMultiplay = std::make_unique<fcn::Container>();
     mMultiplay->setVisible(false);
     mMultiplay->setOpaque(false);
-    mTop->add(mMultiplay);
+    mTop->add(mMultiplay.get());
 
-    mMultiplayBoxIcon = new fcn::Icon(mBoxImage);
-    mMultiplay->add(mMultiplayBoxIcon);
+    mMultiplayBoxIcon = std::make_unique<fcn::Icon>(mBoxImage.get());
+    mMultiplay->add(mMultiplayBoxIcon.get());
 
-    mMultiplayLabel = new fcn::Label("Multiplayer");
-    mMultiplayLabel->setFont(mWhiteFont);
+    mMultiplayLabel = std::make_unique<fcn::Label>("Multiplayer");
+    mMultiplayLabel->setFont(mWhiteFont.get());
     mMultiplayLabel->adjustSize();
-    mMultiplay->add(mMultiplayLabel);
+    mMultiplay->add(mMultiplayLabel.get());
 
-    mMultiplayText = new fcn::TextBox(
+    mMultiplayText = std::make_unique<fcn::TextBox>(
         "I'm verry sorry but this is not an actuall game.\n"
         "It's a demonstration of the GUI library Fifechan.\n"
         "But who knows...\n"
         "Maybe it will be a game here someday.\n");
-    mMultiplayText->setFont(mWhiteFont);
+    mMultiplayText->setFont(mWhiteFont.get());
     mMultiplayText->setOpaque(false);
     mMultiplayText->setEditable(false);
     mMultiplayText->setBorderSize(0);
-    mMultiplay->add(mMultiplayText);
+    mMultiplay->add(mMultiplayText.get());
 
-    mMultiplayBackButton = new FPSButton("Back");
-    mMultiplayBackButton->setHighLightFont(mHighLightFont);
+    mMultiplayBackButton = std::make_unique<FPSButton>("Back");
+    mMultiplayBackButton->setHighLightFont(mHighLightFont.get());
     mMultiplayBackButton->adjustSize();
     mMultiplayBackButton->setActionEventId("back");
     mMultiplayBackButton->addActionListener(this);
-    mMultiplayBackButton->setFont(mFont);
+    mMultiplayBackButton->setFont(mFont.get());
 
     mMultiplayBackButton->adjustSize();
 
-    mMultiplay->add(mMultiplayBackButton);
+    mMultiplay->add(mMultiplayBackButton.get());
 }
 
 void FPSDemo::cleanMultiplay()
 {
-    delete mMultiplayBoxIcon;
-    delete mMultiplayBackButton;
-    delete mMultiplayText;
-    delete mMultiplayLabel;
-    delete mMultiplay;
+    mMultiplayBoxIcon.reset();
+    mMultiplayBackButton.reset();
+    mMultiplayText.reset();
+    mMultiplayLabel.reset();
+    mMultiplay.reset();
 }
 
 /*
@@ -369,21 +378,21 @@ void FPSDemo::cleanMultiplay()
  */
 void FPSDemo::initOptions()
 {
-    mOptions = new fcn::Container();
+    mOptions = std::make_unique<fcn::Container>();
     mOptions->setVisible(false);
     mOptions->setOpaque(false);
-    mTop->add(mOptions);
+    mTop->add(mOptions.get());
 
-    mOptionsBoxIcon = new fcn::Icon(mBoxImage);
-    mOptions->add(mOptionsBoxIcon);
+    mOptionsBoxIcon = std::make_unique<fcn::Icon>(mBoxImage.get());
+    mOptions->add(mOptionsBoxIcon.get());
 
-    mOptionsLabel = new fcn::Label("Options");
-    mOptionsLabel->setFont(mWhiteFont);
+    mOptionsLabel = std::make_unique<fcn::Label>("Options");
+    mOptionsLabel->setFont(mWhiteFont.get());
     mOptionsLabel->adjustSize();
-    mOptions->add(mOptionsLabel);
+    mOptions->add(mOptionsLabel.get());
 
-    mFullScreen = new FPSCheckBox("Fullscreen");
-    mFullScreen->setFont(mWhiteFont);
+    mFullScreen = std::make_unique<FPSCheckBox>("Fullscreen");
+    mFullScreen->setFont(mWhiteFont.get());
     mFullScreen->adjustSize();
     mFullScreen->setBackgroundColor(fcn::Color(0x331010));
     mFullScreen->setForegroundColor(fcn::Color(0xffffff));
@@ -391,21 +400,22 @@ void FPSDemo::initOptions()
     mFullScreen->setActionEventId("fullscreen");
     mFullScreen->addActionListener(this);
     mFullScreen->setSelected(mHaveFullscreen);
-    mOptions->add(mFullScreen);
+    mOptions->add(mFullScreen.get());
 
-    mResolutionScrollArea = new fcn::ScrollArea();
+    mResolutionScrollArea = std::make_unique<fcn::ScrollArea>();
     mResolutionScrollArea->setBackgroundColor(fcn::Color(0x331010));
     mResolutionScrollArea->setForegroundColor(fcn::Color(0x331010));
     mResolutionScrollArea->setBaseColor(fcn::Color(0x771010));
 
-    mResolutionListBox = new fcn::ListBox();
+    mResolutionListBox = std::make_unique<fcn::ListBox>();
     mResolutionListBox->setBackgroundColor(fcn::Color(0x331010));
     mResolutionListBox->setForegroundColor(fcn::Color(0x331010));
     mResolutionListBox->setBaseColor(fcn::Color(0x771010));
     mResolutionListBox->setSelectionColor(fcn::Color(0x552020));
 
-    mResolutionListModel = new ResolutionListModel();
-    mResolution          = new fcn::DropDown(mResolutionListModel, mResolutionScrollArea, mResolutionListBox);
+    mResolutionListModel = std::make_unique<ResolutionListModel>();
+    mResolution          = std::make_unique<fcn::DropDown>(
+        mResolutionListModel.get(), mResolutionScrollArea.get(), mResolutionListBox.get());
     mResolution->setWidth(200);
     mResolution->setBackgroundColor(fcn::Color(0x331010));
     mResolution->setForegroundColor(fcn::Color(0x331010));
@@ -419,9 +429,9 @@ void FPSDemo::initOptions()
     }
     mResolution->setActionEventId("resolution");
     mResolution->addActionListener(this);
-    mOptions->add(mResolution);
+    mOptions->add(mResolution.get());
 
-    mVolume = new fcn::Slider(0.0, 1.0);
+    mVolume = std::make_unique<fcn::Slider>(0.0, 1.0);
     mVolume->setWidth(200);
     mVolume->setHeight(20);
     mVolume->setValue(0.7);
@@ -431,76 +441,76 @@ void FPSDemo::initOptions()
     mVolume->setActionEventId("volume");
     mVolume->addActionListener(this);
     mVolume->setMarkerLength(20);
-    mOptions->add(mVolume);
+    mOptions->add(mVolume.get());
 
-    mVolumePercent = new fcn::Label("70%");
-    mOptions->add(mVolumePercent);
+    mVolumePercent = std::make_unique<fcn::Label>("70%");
+    mOptions->add(mVolumePercent.get());
 
-    mVolumeLabel = new fcn::Label("Volume");
-    mOptions->add(mVolumeLabel);
+    mVolumeLabel = std::make_unique<fcn::Label>("Volume");
+    mOptions->add(mVolumeLabel.get());
 
-    mResolutionLabel = new fcn::Label("Resolution");
-    mOptions->add(mResolutionLabel);
+    mResolutionLabel = std::make_unique<fcn::Label>("Resolution");
+    mOptions->add(mResolutionLabel.get());
 
-    mOptionsBackButton = new FPSButton("Back");
-    mOptionsBackButton->setHighLightFont(mHighLightFont);
+    mOptionsBackButton = std::make_unique<FPSButton>("Back");
+    mOptionsBackButton->setHighLightFont(mHighLightFont.get());
     mOptionsBackButton->adjustSize();
     mOptionsBackButton->setActionEventId("back");
     mOptionsBackButton->addActionListener(this);
-    mOptionsBackButton->setFont(mFont);
+    mOptionsBackButton->setFont(mFont.get());
     mOptionsBackButton->adjustSize();
-    mOptions->add(mOptionsBackButton);
+    mOptions->add(mOptionsBackButton.get());
 }
 
 void FPSDemo::cleanOptions()
 {
-    delete mOptionsBoxIcon;
-    delete mOptionsBackButton;
-    delete mResolutionLabel;
-    delete mVolumeLabel;
-    delete mVolumePercent;
-    delete mVolume;
-    delete mResolutionListBox;
-    delete mResolutionScrollArea;
-    delete mResolutionListModel;
-    delete mResolution;
-    delete mFullScreen;
-    delete mOptionsLabel;
-    delete mOptions;
+    mOptionsBoxIcon.reset();
+    mOptionsBackButton.reset();
+    mResolutionLabel.reset();
+    mVolumeLabel.reset();
+    mVolumePercent.reset();
+    mVolume.reset();
+    mResolutionListBox.reset();
+    mResolutionScrollArea.reset();
+    mResolutionListModel.reset();
+    mResolution.reset();
+    mFullScreen.reset();
+    mOptionsLabel.reset();
+    mOptions.reset();
 }
 
 void FPSDemo::loadTextures()
 {
-    fcn::OpenGLImage* image;
+    fcn::OpenGLImage* image = nullptr;
     // Load textures with the OpenGLImageLoader from Guichan
-    mCloudImage   = fcn::Image::load("images/cloudsblackwhite.png");
-    image         = (fcn::OpenGLImage*)mCloudImage;
+    mCloudImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cloudsblackwhite.png"));
+    image         = dynamic_cast<fcn::OpenGLImage*>(mCloudImage.get());
     mCloudTexture = image->getTextureHandle();
 
-    mPlanetImage   = fcn::Image::load("images/planet.png");
-    image          = (fcn::OpenGLImage*)mPlanetImage;
+    mPlanetImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/planet.png"));
+    image          = dynamic_cast<fcn::OpenGLImage*>(mPlanetImage.get());
     mPlanetTexture = image->getTextureHandle();
 
-    mStarsImage   = fcn::Image::load("images/background.png");
-    image         = (fcn::OpenGLImage*)mStarsImage;
+    mStarsImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/background.png"));
+    image         = dynamic_cast<fcn::OpenGLImage*>(mStarsImage.get());
     mStarsTexture = image->getTextureHandle();
 
-    mMoonImage   = fcn::Image::load("images/moon.png");
-    image        = (fcn::OpenGLImage*)mMoonImage;
+    mMoonImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/moon.png"));
+    image        = dynamic_cast<fcn::OpenGLImage*>(mMoonImage.get());
     mMoonTexture = image->getTextureHandle();
 
-    mMoonRedImage   = fcn::Image::load("images/moonred.png");
-    image           = (fcn::OpenGLImage*)mMoonRedImage;
+    mMoonRedImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/moonred.png"));
+    image           = dynamic_cast<fcn::OpenGLImage*>(mMoonRedImage.get());
     mMoonRedTexture = image->getTextureHandle();
 }
 
 void FPSDemo::cleanTextures()
 {
-    delete mPlanetImage;
-    delete mCloudImage;
-    delete mStarsImage;
-    delete mMoonImage;
-    delete mMoonRedImage;
+    mPlanetImage.reset();
+    mCloudImage.reset();
+    mStarsImage.reset();
+    mMoonImage.reset();
+    mMoonRedImage.reset();
 }
 
 /*
@@ -648,7 +658,7 @@ void FPSDemo::runIntro()
         SDL_Delay(10);
     }
 
-    mGui->setTop(mTop);
+    mGui->setTop(mTop.get());
 
     if (mAudioAvailable && mMusic != nullptr) {
         Mix_FadeInMusic(mMusic, -1, 2000);
@@ -765,7 +775,7 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         }
         initVideo();
     } else if (actionEvent.getId() == "volume") {
-        std::string str;
+        std::string const str;
         std::ostringstream os(str);
         os << static_cast<int>(mVolume->getValue() * 100) << "%";
         mVolumePercent->setCaption(os.str());

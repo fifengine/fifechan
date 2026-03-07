@@ -21,7 +21,7 @@
  * uses the OpenGL graphics backend and SDL-based image loader, loads a bitmap
  * font, and renders a single TextBox while processing the SDL event loop.
  */
-int main(int argc, char** argv)
+int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* window      = nullptr;
     SDL_GLContext glContext = nullptr;
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
         bool running = true;
         SDL_Event evt;
         while (running) {
-            while (SDL_PollEvent(&evt)) {
+            while (SDL_PollEvent(&evt) != 0) {
                 if (evt.type == SDL_QUIT) {
                     running = false;
                 }

@@ -38,7 +38,7 @@ namespace fcn
          */
         ToggleButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        virtual ~ToggleButton();
+        ~ToggleButton() override;
 
         /**
          * Checks if the check box is selected.
@@ -82,21 +82,21 @@ namespace fcn
 
         // Inherited from KeyListener
 
-        virtual void keyReleased(KeyEvent& keyEvent);
+        void keyReleased(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
     protected:
         // Inherited from Button
 
-        virtual bool isPressed() const;
+        bool isPressed() const override;
 
         /**
          * True if the check box is selected, false otherwise.
          */
-        bool mSelected;
+        bool mSelected{};
 
         /**
          * Holds the group of the toggle button.

@@ -26,14 +26,11 @@ class MyActionListener : public fcn::ActionListener
     fcn::Container* mParent;
 
 public:
-    explicit MyActionListener(fcn::Container* parent)
-    {
-        mParent = parent;
-    }
+    explicit MyActionListener(fcn::Container* parent) : mParent(parent) { }
 
-    ~MyActionListener() { }
+    ~MyActionListener() override = default;
 
-    virtual void action(fcn::ActionEvent const & e)
+    void action(fcn::ActionEvent const & e) override
     {
         fcn::Widget* w = e.getSource();
 
@@ -43,7 +40,7 @@ public:
     }
 };
 
-int main(int argc, char** argv)
+int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* sdlWindow  = nullptr;
     SDL_Renderer* renderer = nullptr;
@@ -155,7 +152,7 @@ int main(int argc, char** argv)
         bool running = true;
         SDL_Event evt;
         while (running) {
-            while (SDL_PollEvent(&evt)) {
+            while (SDL_PollEvent(&evt) != 0) {
                 if (evt.type == SDL_QUIT) {
                     running = false;
                 } else if (evt.type == SDL_KEYDOWN) {
@@ -165,9 +162,9 @@ int main(int argc, char** argv)
 
                             fcn::Widget* parent = spacer->getParent();
 
-                            if (parent) {
-                                fcn::Container* parentContainer = dynamic_cast<fcn::Container*>(parent);
-                                if (parentContainer) {
+                            if (parent != nullptr) {
+                                auto* parentContainer = dynamic_cast<fcn::Container*>(parent);
+                                if (parentContainer != nullptr) {
                                     parentContainer->remove(spacer);
                                     parentContainer->resizeToContent();
                                     testVBox->resizeToContent();

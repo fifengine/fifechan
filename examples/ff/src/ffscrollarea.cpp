@@ -21,7 +21,7 @@ void FFScrollArea::draw(fcn::Graphics* graphics)
     graphics->popClipArea();
 
     if (getVerticalMaxScroll() != 0) {
-        int y = ((getHeight() - 32) * getVerticalScrollAmount()) / getVerticalMaxScroll();
+        int const y = ((getHeight() - 32) * getVerticalScrollAmount()) / getVerticalMaxScroll();
 
         graphics->setColor(fcn::Color(0x000000));
         graphics->drawRectangle(getWidth() - 11, y, 8, 32);

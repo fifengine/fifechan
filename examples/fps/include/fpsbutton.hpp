@@ -23,7 +23,7 @@ class FPSButton : public fcn::Button
 {
 public:
     explicit FPSButton(std::string const & caption);
-    ~FPSButton();
+    ~FPSButton() override;
 
     /*
      * Just sets the font to by used on mouse hover.
@@ -33,12 +33,12 @@ public:
     /*
      * Inherited from Widget
      */
-    void draw(fcn::Graphics* graphics);
-    void mouseEntered(fcn::MouseEvent& mouseEvent);
-    void mouseExited(fcn::MouseEvent& mouseEvent);
+    void draw(fcn::Graphics* graphics) override;
+    void mouseEntered(fcn::MouseEvent& mouseEvent) override;
+    void mouseExited(fcn::MouseEvent& mouseEvent) override;
 
 private:
-    fcn::Font* mHighLightFont;
+    fcn::Font* mHighLightFont{};
     bool mHasMouse;
     // The sound (see SDL_mixer docs)
     static Mix_Chunk* mHoverSound;

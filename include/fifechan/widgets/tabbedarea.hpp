@@ -34,7 +34,7 @@ namespace fcn
     public:
         TabbedArea();
 
-        virtual ~TabbedArea();
+        ~TabbedArea() override;
 
         /**
          * Sets the tabbed area to be opaque or not. If the tabbed area is
@@ -145,18 +145,21 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
+        using Widget::expandContent;
+        using Widget::resizeToContent;
 
-        virtual void expandContent(bool recursion = true);
+        void resizeToContent(bool recursion) override;
+
+        void expandContent(bool recursion) override;
 
         /**
          * Adjusts the size of the tab container and the widget container.
          */
-        virtual void adjustSize();
+        void adjustSize() override;
 
-        virtual Rectangle getChildrenArea();
+        Rectangle getChildrenArea() override;
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         void setWidth(int width);
 
@@ -242,7 +245,7 @@ namespace fcn
 
         // Inherited from ActionListener
 
-        void action(ActionEvent const & actionEvent);
+        void action(ActionEvent const & actionEvent) override;
 
         // Inherited from DeathListener
 
@@ -250,11 +253,11 @@ namespace fcn
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
     protected:
         /**

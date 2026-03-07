@@ -22,7 +22,9 @@ namespace fcn
     class FIFEGUI_EXT_API SDLImageLoader : public ImageLoader
     {
     public:
-        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true);
+        using fcn::ImageLoader::load;
+
+        Image* load(std::string const & filename, bool convertToDisplayFormat) override;
         SDL_PixelFormat const & getSDLPixelFormat();
         void setSDLPixelFormat(SDL_PixelFormat const & format);
         void setRenderer(SDL_Renderer* renderer);

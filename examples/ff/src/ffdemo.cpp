@@ -18,9 +18,9 @@ namespace
     constexpr int kWindowHeight = kUiHeight * kWindowScale;
 } // namespace
 
-FFDemo::FFDemo()
+FFDemo::FFDemo() : mRunning(true)
 {
-    mRunning = true;
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         throw std::runtime_error(SDL_GetError());
     }
@@ -571,10 +571,10 @@ void FFDemo::run()
     while (mRunning) {
         input();
 
-        int sec = SDL_GetTicks() / 1000;
-        int min = sec / 60;
-        sec     = sec % 60;
-        std::string str;
+        int sec       = SDL_GetTicks() / 1000;
+        int const min = sec / 60;
+        sec           = sec % 60;
+        std::string const str;
         std::ostringstream os(str);
 
         if (min < 10) {
@@ -593,14 +593,15 @@ void FFDemo::run()
         mTimeLabel2->adjustSize();
 
         if (SDL_GetTicks() < 3000) {
-            SDL_Rect src, dst;
+            SDL_Rect src;
+            SDL_Rect dst;
             src.x = src.y = 0;
             src.w = dst.w = mSplashImage->getWidth();
             src.h = dst.h = mSplashImage->getHeight();
             dst.x         = 10;
             dst.y         = 50;
 
-            fcn::SDLImage* image = (fcn::SDLImage*)mSplashImage;
+            auto* image = dynamic_cast<fcn::SDLImage*>(mSplashImage.get());
             SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
             SDL_RenderClear(mRenderer);
             SDL_RenderCopy(mRenderer, image->getTexture(), &src, &dst);
@@ -676,7 +677,7 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
         mGui->focusNone();
 
         mNavigationLabel->setVisible(true);
-        mNavigationLabel->setY(mCharacterChooser->getSelected() * 76 + 30);
+        mNavigationLabel->setY((mCharacterChooser->getSelected() * 76) + 30);
 
         switch (mMenuList->getSelected()) {
         case 1:
@@ -699,11 +700,11 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
             mNavigationLabel->setCaption("SKILLS");
 
             if (mCharacterChooser->getSelected() == 0) {
-                mMagicSkillsList->setListModel(mPerSkills);
+                mMagicSkillsList->setListModel(mPerSkills.get());
             } else if (mCharacterChooser->getSelected() == 1) {
-                mMagicSkillsList->setListModel(mOlofSkills);
+                mMagicSkillsList->setListModel(mOlofSkills.get());
             } else if (mCharacterChooser->getSelected() == 2) {
-                mMagicSkillsList->setListModel(mTomasSkills);
+                mMagicSkillsList->setListModel(mTomasSkills.get());
             }
             mMagicSkillsList->setSelected(0);
             mMagicSkills->setVisible(true);
@@ -714,11 +715,11 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
             mNavigationLabel->setCaption("MAGIC");
 
             if (mCharacterChooser->getSelected() == 0) {
-                mMagicSkillsList->setListModel(mPerMagic);
+                mMagicSkillsList->setListModel(mPerMagic.get());
             } else if (mCharacterChooser->getSelected() == 1) {
-                mMagicSkillsList->setListModel(mOlofMagic);
+                mMagicSkillsList->setListModel(mOlofMagic.get());
             } else if (mCharacterChooser->getSelected() == 2) {
-                mMagicSkillsList->setListModel(mTomasMagic);
+                mMagicSkillsList->setListModel(mTomasMagic.get());
             }
             mMagicSkillsList->setSelected(0);
             mMagicSkills->setVisible(true);
@@ -730,7 +731,7 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
 
 void FFDemo::input()
 {
-    while (SDL_PollEvent(&mEvent)) {
+    while (SDL_PollEvent(&mEvent) != 0) {
         if (mEvent.type == SDL_KEYDOWN) {
             if (mEvent.key.keysym.sym == SDLK_ESCAPE) {
                 Mix_PlayChannel(-1, mEscapeSound, 0);
@@ -741,7 +742,7 @@ void FFDemo::input()
                 mEvent.key.keysym.sym == SDLK_DOWN) {
                 Mix_PlayChannel(-1, mChooseSound, 0);
             } else if (mEvent.key.keysym.sym == SDLK_f) {
-                bool isFullscreen = (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0;
+                bool const isFullscreen = (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0;
                 SDL_SetWindowFullscreen(mWindow, isFullscreen ? 0 : SDL_WINDOW_FULLSCREEN_DESKTOP);
                 SDL_RenderSetLogicalSize(mRenderer, kUiWidth, kUiHeight);
                 mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
@@ -755,7 +756,7 @@ void FFDemo::input()
     }
 }
 
-void FFDemo::keyPressed(fcn::KeyEvent& keyEvent)
+void FFDemo::keyPressed(fcn::KeyEvent& /*keyEvent*/)
 {
     mItemsInfoInfo->setText(mItemsInfoListModel->getElementAt(mItemsList->getSelected()));
 }

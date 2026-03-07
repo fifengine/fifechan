@@ -44,7 +44,12 @@ namespace fcn
          * @param convertToDisplayFormat True if the image should be converted
          *                               to display, false otherwise.
          */
-        virtual Image* load(std::string const & filename, bool convertToDisplayFormat = true) = 0;
+        Image* load(std::string const & filename)
+        {
+            return load(filename, true);
+        }
+
+        virtual Image* load(std::string const & filename, bool convertToDisplayFormat) = 0;
     };
 } // namespace fcn
 

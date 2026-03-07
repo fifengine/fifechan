@@ -5,6 +5,7 @@
 #include "fifechan/widgets/tabbedarea.hpp"
 
 #include <algorithm>
+#include <utility>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
@@ -47,7 +48,7 @@ namespace fcn
             tab->setLayout(getLayout());
         }
         mTabContainer->add(tab);
-        mTabs.push_back(std::pair<Tab*, Widget*>(tab, widget));
+        mTabs.emplace_back(tab, widget);
 
         if (mSelectedTab == nullptr) {
             setSelectedTab(tab);
@@ -81,7 +82,7 @@ namespace fcn
             }
         }
 
-        auto iter = std::find_if(mTabs.begin(), mTabs.end(), [tab](std::pair<Tab*, Widget*> const & p) {
+        auto iter = std::ranges::find_if(mTabs, [tab](std::pair<Tab*, Widget*> const & p) {
             return p.first == tab;
         });
         if (iter != mTabs.end()) {
@@ -89,7 +90,7 @@ namespace fcn
             mTabs.erase(iter);
         }
 
-        auto iter2 = std::find_if(mTabsToDelete.begin(), mTabsToDelete.end(), [tab](std::unique_ptr<Tab> const & t) {
+        auto iter2 = std::ranges::find_if(mTabsToDelete, [tab](std::unique_ptr<Tab> const & t) {
             return t.get() == tab;
         });
         if (iter2 != mTabsToDelete.end()) {
@@ -272,15 +273,11 @@ namespace fcn
 
         // Rectangle const area = getChildrenArea();  // UNUSED - possibly for future scrollable tabs feature
 
-        for (unsigned int i = 0; i < mTabs.size(); i++) {
+        for (auto& mTab : mTabs) {
             // totalTabWidth += mTabs[i].first->getWidth();   // UNUSED
             // totalTabHeight += mTabs[i].first->getHeight(); // UNUSED
-            if (mTabs[i].first->getWidth() > maxTabWidth) {
-                maxTabWidth = mTabs[i].first->getWidth();
-            }
-            if (mTabs[i].first->getHeight() > maxTabHeight) {
-                maxTabHeight = mTabs[i].first->getHeight();
-            }
+            maxTabWidth  = std::max(mTab.first->getWidth(), maxTabWidth);
+            maxTabHeight = std::max(mTab.first->getHeight(), maxTabHeight);
         }
 
         if (getLayout() == Container::LayoutPolicy::Vertical) {
@@ -391,7 +388,7 @@ namespace fcn
             int index = getSelectedTabIndex();
             index++;
 
-            if (index >= static_cast<int>(mTabs.size())) {
+            if (std::cmp_greater_equal(index, mTabs.size())) {
                 return;
             }
 

@@ -29,7 +29,7 @@ namespace fcn
          */
         explicit Window(std::string const & caption);
 
-        virtual ~Window();
+        ~Window() override;
 
         /**
          * Sets the caption of the window.
@@ -106,7 +106,7 @@ namespace fcn
          * @param opaque True if the window should be opaque, false otherwise.
          * @see isOpaque
          */
-        void setOpaque(bool opaque);
+        void setOpaque(bool opaque) override;
 
         /**
          * Checks if the window is opaque.
@@ -114,28 +114,28 @@ namespace fcn
          * @return True if the window is opaque, false otherwise.
          * @see setOpaque
          */
-        bool isOpaque() const;
+        bool isOpaque() const override;
 
         virtual void drawInnerBorder(Graphics* graphics);
 
         // Inherited from BasicContainer
 
         // virtual void resizeToContent();
-        virtual void adjustSize();
+        void adjustSize() override;
         // virtual void expandContent();
-        virtual Rectangle getChildrenArea();
+        Rectangle getChildrenArea() override;
 
         // Inherited from Widget
 
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
     protected:
         /**
@@ -151,36 +151,36 @@ namespace fcn
         /**
          * Holds the title bar height of the window.
          */
-        unsigned int mTitleBarHeight;
+        unsigned int mTitleBarHeight{};
 
         /**
          * Holds the size of the inner border.
          */
-        unsigned int mInnerBorder;
+        unsigned int mInnerBorder{};
 
         /**
          * True if the window is movable, false otherwise.
          */
-        bool mMovable;
+        bool mMovable{};
 
         /**
          * True if the window is opaque, false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{};
 
         /**
          * Holds a drag offset as an x coordinate where the drag of the window
          * started if the window is being dragged. It's used to move the window
          * correctly when dragged.
          */
-        int mDragOffsetX;
+        int mDragOffsetX{};
 
         /**
          * Holds a drag offset as an y coordinate where the drag of the window
          * started if the window is being dragged. It's used to move the window
          * correctly when dragged.
          */
-        int mDragOffsetY;
+        int mDragOffsetY{};
 
         /**
          * True if the window is being moved, false otherwise.

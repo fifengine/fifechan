@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL.h>
 
+#include <algorithm>
 #include <cmath>
 
 int FFContainer::mInstances                          = 0;
@@ -16,7 +17,7 @@ std::unique_ptr<fcn::Image> FFContainer::mCornerDR   = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mHorizontal = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mVertical   = nullptr;
 
-FFContainer::FFContainer()
+FFContainer::FFContainer() : mRealWidth(0), mRealHeight(0), mSlideTarget(0), mCurrentSlide(0), mTime(-1), mShow(true)
 {
     if (mInstances == 0) {
         mCornerUL   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerul.png"));
@@ -29,14 +30,8 @@ FFContainer::FFContainer()
 
     mInstances++;
 
-    mRealWidth  = 0;
-    mRealHeight = 0;
-    mTime       = -1;
-    mShow       = true;
     Container::setWidth(0);
     Container::setHeight(0);
-    mSlideTarget  = 0;
-    mCurrentSlide = 0;
     setBorderSize(0);
 }
 
@@ -56,16 +51,16 @@ FFContainer::~FFContainer()
 
 void FFContainer::draw(fcn::Graphics* graphics)
 {
-    int i;
+    int i = 0;
 
     if (isOpaque()) {
-        double height = (mRealHeight - 8) / 16.0;
-        fcn::Color c(0x7070FF);
+        double const height = (mRealHeight - 8) / 16.0;
+        fcn::Color const c(0x7070FF);
 
         for (i = 0; i < 16; ++i) {
-            graphics->setColor(c * (1.0 - i / 18.0));
+            graphics->setColor(c * (1.0 - (i / 18.0)));
             graphics->fillRectangle(
-                4, static_cast<int>(i * height + 4), getWidth() - 8, static_cast<int>((i * height) + height));
+                4, static_cast<int>((i * height) + 4), getWidth() - 8, static_cast<int>((i * height) + height));
         }
     }
 
@@ -101,8 +96,9 @@ void FFContainer::logic()
         mTime = SDL_GetTicks();
     }
 
-    int deltaTime = SDL_GetTicks() - mTime;
-    mTime         = SDL_GetTicks();
+    int const currentTime = SDL_GetTicks();
+    int const deltaTime   = currentTime - mTime;
+    mTime                 = currentTime;
 
     if (!mShow) {
         Container::setWidth(getWidth() - deltaTime);
@@ -152,16 +148,12 @@ void FFContainer::logic()
 
     if (mCurrentSlide < mSlideTarget) {
         mCurrentSlide += deltaTime;
-        if (mCurrentSlide > mSlideTarget) {
-            mCurrentSlide = mSlideTarget;
-        }
+        mCurrentSlide = std::min(mCurrentSlide, mSlideTarget);
     }
 
     if (mCurrentSlide > mSlideTarget) {
         mCurrentSlide -= deltaTime;
-        if (mCurrentSlide < mSlideTarget) {
-            mCurrentSlide = mSlideTarget;
-        }
+        mCurrentSlide = std::max(mCurrentSlide, mSlideTarget);
     }
 
     Container::logic();
@@ -200,5 +192,5 @@ void FFContainer::slideContentTo(int y)
 
 fcn::Rectangle FFContainer::getChildrenArea()
 {
-    return fcn::Rectangle(0, 0, mRealWidth, mRealHeight);
+    return {0, 0, mRealWidth, mRealHeight};
 }

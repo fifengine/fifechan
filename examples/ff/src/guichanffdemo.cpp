@@ -8,19 +8,19 @@
 
 #include "ffdemo.hpp"
 
-int main(int argc, char** argv)
+int main(int /*argc*/, char** /*argv*/)
 {
     try {
         FFDemo ffDemo;
         ffDemo.run();
     } catch (fcn::Exception const & e) {
-        std::cout << e.getMessage() << std::endl;
+        std::cout << e.getMessage() << '\n';
         return 1;
     } catch (std::exception const & e) {
-        std::cout << "Std exception: " << e.what() << std::endl;
+        std::cout << "Std exception: " << e.what() << '\n';
         return 1;
     } catch (...) {
-        std::cout << "Unknown exception" << std::endl;
+        std::cout << "Unknown exception\n";
         return 1;
     }
 

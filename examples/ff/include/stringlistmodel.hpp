@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __STRINGLISTMODEL_HPP
-#define __STRINGLISTMODEL_HPP
+#ifndef STRINGLISTMODEL_HPP
+#define STRINGLISTMODEL_HPP
 
 #include <fifechan.hpp>
 
@@ -13,19 +13,19 @@
 class StringListModel : public fcn::ListModel
 {
 public:
-    StringListModel() { }
+    StringListModel() = default;
 
-    int getNumberOfElements()
+    int getNumberOfElements() override
     {
-        return mStrings.size();
+        return static_cast<int>(mStrings.size());
     }
 
-    std::string getElementAt(int i)
+    std::string getElementAt(int i) override
     {
         return mStrings.at(i);
     }
 
-    void add(std::string str)
+    void add(std::string const & str)
     {
         mStrings.push_back(str);
     }

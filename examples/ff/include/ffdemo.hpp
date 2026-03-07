@@ -24,10 +24,10 @@ class FFDemo : public fcn::ActionListener, public fcn::KeyListener
 {
 public:
     FFDemo();
-    ~FFDemo();
+    ~FFDemo() override;
     void run();
-    void action(fcn::ActionEvent const & actionEvent);
-    void keyPressed(fcn::KeyEvent& keyEvent);
+    void action(fcn::ActionEvent const & actionEvent) override;
+    void keyPressed(fcn::KeyEvent& keyEvent) override;
 
 private:
     void input();
@@ -44,9 +44,9 @@ private:
 
     bool mRunning;
 
-    SDL_Window* mWindow;
-    SDL_Renderer* mRenderer;
-    SDL_Event mEvent;
+    SDL_Window* mWindow{};
+    SDL_Renderer* mRenderer{};
+    SDL_Event mEvent{};
     Mix_Chunk* mChooseSound;
     Mix_Chunk* mEscapeSound;
 

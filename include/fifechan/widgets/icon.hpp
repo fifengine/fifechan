@@ -35,7 +35,7 @@ namespace fcn
          */
         explicit Icon(Image const * image);
 
-        virtual ~Icon();
+        ~Icon() override;
 
         /**
          * Sets the image to display. Existing image is freed automatically
@@ -102,9 +102,11 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursion = true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
     protected:
         /**

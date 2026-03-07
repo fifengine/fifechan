@@ -40,7 +40,7 @@ namespace fcn
 
     MouseInput SDLInput::dequeueMouseInput()
     {
-        MouseInput mouseInput;
+        MouseInput mouseInput{};
 
         if (mMouseInputQueue.empty()) {
             throwException("The queue is empty.");
@@ -59,7 +59,7 @@ namespace fcn
 
         switch (event.type) {
         case SDL_KEYDOWN: {
-            int value = convertSDLEventToFifechanKeyValue(event);
+            int const value = convertSDLEventToFifechanKeyValue(event);
 
             keyInput.setKey(Key(value));
             keyInput.setType(KeyInput::Pressed);
@@ -143,8 +143,8 @@ namespace fcn
             } else if (event.wheel.x < 0) {
                 mouseInput.setType(MouseInput::WheelMovedLeft);
             }
-            int x;
-            int y;
+            int x = 0;
+            int y = 0;
             SDL_GetMouseState(&x, &y);
             mouseInput.setX(x);
             mouseInput.setY(y);

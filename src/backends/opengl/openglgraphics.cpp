@@ -22,7 +22,6 @@ namespace fcn
     OpenGLGraphics::OpenGLGraphics()
     {
         setTargetPlane(640, 480);
-        mAlpha = false;
     }
 
     OpenGLGraphics::OpenGLGraphics(int width, int height)
@@ -30,7 +29,7 @@ namespace fcn
         setTargetPlane(width, height);
     }
 
-    OpenGLGraphics::~OpenGLGraphics() { }
+    OpenGLGraphics::~OpenGLGraphics() = default;
 
     void OpenGLGraphics::_beginDraw()
     {
@@ -121,7 +120,7 @@ namespace fcn
 
     void OpenGLGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
-        OpenGLImage const * srcImage = dynamic_cast<OpenGLImage const *>(image);
+        auto const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
         if (srcImage == nullptr) {
             throwException("Trying to draw an image of unknown format, must be an OpenGLImage.");
@@ -148,7 +147,7 @@ namespace fcn
         glEnable(GL_TEXTURE_2D);
 
         GLboolean const blendWasEnabled = glIsEnabled(GL_BLEND);
-        if (!blendWasEnabled) {
+        if (blendWasEnabled == 0U) {
             glEnable(GL_BLEND);
         }
 
@@ -168,7 +167,7 @@ namespace fcn
         glEnd();
         glDisable(GL_TEXTURE_2D);
 
-        if (!blendWasEnabled) {
+        if (blendWasEnabled == 0U) {
             glDisable(GL_BLEND);
         }
     }
@@ -290,7 +289,11 @@ namespace fcn
     void OpenGLGraphics::setColor(Color const & color)
     {
         mColor = color;
-        glColor4ub((GLubyte)color.r, (GLubyte)color.g, (GLubyte)color.b, (GLubyte)color.a);
+        glColor4ub(
+            static_cast<GLubyte>(color.r),
+            static_cast<GLubyte>(color.g),
+            static_cast<GLubyte>(color.b),
+            static_cast<GLubyte>(color.a));
 
         mAlpha = color.a != 255;
 

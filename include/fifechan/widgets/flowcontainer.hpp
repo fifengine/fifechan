@@ -34,7 +34,7 @@ namespace fcn
 
         FlowContainer();
 
-        virtual ~FlowContainer();
+        ~FlowContainer() override;
 
         /**
          * Sets the alignment of the widgets.
@@ -61,9 +61,12 @@ namespace fcn
 
         // Inherited from Container
 
-        virtual void setLayout(Container::LayoutPolicy policy);
-        virtual void resizeToContent(bool recursion = true);
-        virtual void expandContent(bool recursion = true);
+        using Container::expandContent;
+        using Container::resizeToContent;
+
+        void setLayout(Container::LayoutPolicy policy) override;
+        void resizeToContent(bool recursion) override;
+        void expandContent(bool recursion) override;
 
     protected:
         Alignment mAlignment;

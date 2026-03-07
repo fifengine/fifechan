@@ -37,7 +37,7 @@ namespace fcn
     }
 
     ImageProgressBar::ImageProgressBar(std::string const & filename, int maxValue) :
-        mBarImage(nullptr),
+        mBarImage(Image::load(filename)),
         mForegroundImage(nullptr),
         mInternalImage(true),
         mMaxValue(maxValue),
@@ -45,7 +45,7 @@ namespace fcn
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
-        mBarImage = Image::load(filename);
+
         adjustSize();
     }
 
@@ -192,7 +192,7 @@ namespace fcn
         return mValue;
     }
 
-    void ImageProgressBar::resizeToContent(bool recursion)
+    void ImageProgressBar::resizeToContent(bool /*recursion*/)
     {
         adjustSize();
     }

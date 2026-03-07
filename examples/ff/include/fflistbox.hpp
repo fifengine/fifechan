@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __FFLISTBOX_HPP
-#define __FFLISTBOX_HPP
+#ifndef FFLISTBOX_HPP
+#define FFLISTBOX_HPP
 
 #include <fifechan.hpp>
 
@@ -13,8 +13,13 @@ class FFListBox : public fcn::ListBox
 {
 public:
     FFListBox();
-    ~FFListBox();
-    void draw(fcn::Graphics* graphics);
+    ~FFListBox() override;
+    FFListBox(FFListBox const &)            = delete;
+    FFListBox& operator=(FFListBox const &) = delete;
+    FFListBox(FFListBox&&)                  = delete;
+    FFListBox& operator=(FFListBox&&)       = delete;
+
+    void draw(fcn::Graphics* graphics) override;
     void setSelected(int i);
 
 private:

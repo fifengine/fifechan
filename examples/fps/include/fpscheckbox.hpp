@@ -39,7 +39,7 @@ public:
     /*
      * Inherited from Widget
      */
-    void draw(fcn::Graphics* graphics);
+    void draw(fcn::Graphics* graphics) override;
 };
 
 #endif

@@ -4,31 +4,25 @@
 
 #include "ffcharacterchooser.hpp"
 
-FFCharacterChooser::FFCharacterChooser()
+#include <algorithm>
+
+FFCharacterChooser::FFCharacterChooser() : mSelected(0), mDistance(76), mHand(fcn::Image::load("images/hand.png"))
 {
     setWidth(20);
     setHeight(240);
-    mSelected = 0;
-    mDistance = 76;
-    mHand     = fcn::Image::load("images/hand.png");
     setFocusable(true);
     addKeyListener(this);
     setBorderSize(0);
 }
 
-FFCharacterChooser::~FFCharacterChooser()
-{
-    delete mHand;
-}
-
 void FFCharacterChooser::draw(fcn::Graphics* graphics)
 {
     if (isFocused()) {
-        graphics->drawImage(mHand, 0, mDistance * mSelected);
+        graphics->drawImage(mHand.get(), 0, mDistance * mSelected);
     }
 }
 
-int FFCharacterChooser::getSelected()
+int FFCharacterChooser::getSelected() const
 {
     return mSelected;
 }
@@ -46,15 +40,11 @@ void FFCharacterChooser::setDistance(int distance)
 void FFCharacterChooser::keyPressed(fcn::KeyEvent& keyEvent)
 {
     if (keyEvent.getKey().getValue() == fcn::Key::Up) {
-        mSelected--;
-        if (mSelected < 0) {
-            mSelected = 0;
-        }
+        --mSelected;
+        mSelected = std::max(mSelected, 0);
     } else if (keyEvent.getKey().getValue() == fcn::Key::Down) {
-        mSelected++;
-        if (mSelected > 2) {
-            mSelected = 2;
-        }
+        ++mSelected;
+        mSelected = std::min(mSelected, 2);
     } else if (keyEvent.getKey().getValue() == fcn::Key::Enter) {
         distributeActionEvent();
     }

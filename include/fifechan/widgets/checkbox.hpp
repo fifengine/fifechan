@@ -49,7 +49,7 @@ namespace fcn
          */
         explicit CheckBox(std::string const & caption, bool selected = false);
 
-        virtual ~CheckBox();
+        ~CheckBox() override;
 
         /**
          * Checks if the check box is selected.
@@ -112,19 +112,19 @@ namespace fcn
 
         // Inherited from Widget
 
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
-        virtual void keyReleased(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
+        void keyReleased(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
-        virtual void mouseReleased(MouseEvent& mouseEvent);
-        virtual void mouseClicked(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
+        void mouseReleased(MouseEvent& mouseEvent) override;
+        void mouseClicked(MouseEvent& mouseEvent) override;
 
     protected:
         /**

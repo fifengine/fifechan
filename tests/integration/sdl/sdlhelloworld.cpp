@@ -14,6 +14,7 @@
 #include <fifechan.hpp>
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 #ifdef _WIN32
@@ -54,8 +55,12 @@ void Application::init_sdl(std::string const & title, int width, int height)
 
     // We setup an SDL window and renderer.
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer);
-    SDL_SetWindowTitle(window, title.c_str());
+    SDL_Window* rawWindow     = nullptr;
+    SDL_Renderer* rawRenderer = nullptr;
+    SDL_CreateWindowAndRenderer(width, height, 0, &rawWindow, &rawRenderer);
+    window.reset(rawWindow);
+    renderer.reset(rawRenderer);
+    SDL_SetWindowTitle(window.get(), title.c_str());
 
     // SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
@@ -66,28 +71,28 @@ void Application::init_sdl(std::string const & title, int width, int height)
     int const xPos = (current.w - width) / 2;
     int const yPos = (current.h - height) / 2;
     // Set the window position to the center.
-    SDL_SetWindowPosition(window, xPos, yPos);
+    SDL_SetWindowPosition(window.get(), xPos, yPos);
 
     // Now it's time to initialise the SDL backend.
 
     // The SDLImageLoader object is used to load images from the file system.
-    imageLoader = new fcn::SDLImageLoader();
-    imageLoader->setRenderer(renderer);
+    imageLoader = std::make_unique<fcn::SDLImageLoader>();
+    imageLoader->setRenderer(renderer.get());
 
     // Set the ImageLoader by calling a static function of the Image class.
-    fcn::Image::setImageLoader(imageLoader);
+    fcn::Image::setImageLoader(imageLoader.get());
 
     // The SDLGraphics object is used to draw to the screen.
-    graphics = new fcn::SDL2Graphics();
-    graphics->setTarget(renderer, width, height);
+    graphics = std::make_unique<fcn::SDL2Graphics>();
+    graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = new fcn::SDLInput();
+    input = std::make_unique<fcn::SDLInput>();
 
     // Finally, we create the Gui object and pass graphics and input to it.
-    gui = new fcn::Gui();
-    gui->setGraphics(graphics);
-    gui->setInput(input);
+    gui = std::make_unique<fcn::Gui>();
+    gui->setGraphics(graphics.get());
+    gui->setInput(input.get());
 }
 
 /**
@@ -98,33 +103,34 @@ void Application::init_gui(int width, int height)
     // We first create a container to be used as the top widget.
     // The top widget can be any kind of widget, but in order to make the
     // Gui contain more than one widget we make the top widget a container.
-    top = new fcn::Container();
+    top = std::make_unique<fcn::Container>();
     // We set the dimension of the top container to match the screen.
     top->setDimension(fcn::Rectangle(0, 0, width, height));
     // Finally we pass the top widget to the Gui object.
-    gui->setTop(top);
+    gui->setTop(top.get());
 
     // Load and set the classic fixed bitmap font globally.
-    font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-    fcn::Widget::setGlobalFont(font);
+    font = std::make_unique<fcn::ImageFont>(
+        "fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    fcn::Widget::setGlobalFont(font.get());
 
     // Load RPG bitmap font for the second label.
-    rpgFont = new fcn::ImageFont(
+    rpgFont = std::make_unique<fcn::ImageFont>(
         "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"");
 
     // Now we create a label with the text "Hello World".
-    label = new fcn::Label("Hello World");
+    label = std::make_unique<fcn::Label>("Hello World");
     // We give the first label a position.
     label->setPosition(280, 200);
 
     // Create a second label with the RPG font.
-    label2 = new fcn::Label("Hello from FifeGui");
-    label2->setFont(rpgFont);
+    label2 = std::make_unique<fcn::Label>("Hello from FifeGui");
+    label2->setFont(rpgFont.get());
     label2->setPosition(180, 240);
 
     // And finally we add the label to the top container.
-    top->add(label);
-    top->add(label2);
+    top->add(label.get());
+    top->add(label2.get());
 }
 
 /**
@@ -133,23 +139,25 @@ void Application::init_gui(int width, int height)
 void Application::cleanup()
 {
     // Cleanup FifeGUI widgets used in the GUI
-    delete label2;
-    delete label;
-    delete rpgFont;
-    delete font;
-    delete top;
+    if (gui != nullptr) {
+        gui->setTop(nullptr);
+    }
+    fcn::Widget::setGlobalFont(nullptr);
+    fcn::Image::setImageLoader(nullptr);
 
-    // Cleanup FifeGUI objects
-    delete gui;
-
-    // Cleanup FifeGUI SDL objects
-    delete imageLoader;
-    delete input;
-    delete graphics;
+    label2.reset();
+    label.reset();
+    rpgFont.reset();
+    font.reset();
+    top.reset();
+    gui.reset();
+    imageLoader.reset();
+    input.reset();
+    graphics.reset();
 
     // Cleanup SDL
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    renderer.reset();
+    window.reset();
     SDL_Quit();
 }
 
@@ -199,7 +207,7 @@ void Application::run()
         gui->draw();
 
         // We need to update the screen to make our changes visible.
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer.get());
     }
 }
 
