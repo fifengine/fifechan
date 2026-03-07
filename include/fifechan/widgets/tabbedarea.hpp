@@ -36,6 +36,11 @@ namespace fcn
 
         ~TabbedArea() override;
 
+        TabbedArea(TabbedArea const &)            = delete;
+        TabbedArea& operator=(TabbedArea const &) = delete;
+        TabbedArea(TabbedArea&&)                  = delete;
+        TabbedArea& operator=(TabbedArea&&)       = delete;
+
         /**
          * Sets the tabbed area to be opaque or not. If the tabbed area is
          * opaque its background will be drawn, if it's not opaque its

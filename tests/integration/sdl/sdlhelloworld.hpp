@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 
 #include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
@@ -29,14 +30,17 @@ private:
     void init_gui(int width, int height);
     void cleanup();
 
+    static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
+    static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window, int flags);
+
     bool running{true};
 
-    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window{nullptr, SDL_DestroyWindow};
-    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> renderer{nullptr, SDL_DestroyRenderer};
+    std::shared_ptr<SDL_Window> window{nullptr};
+    std::shared_ptr<SDL_Renderer> renderer{nullptr};
 
     std::unique_ptr<fcn::SDL2Graphics> graphics;
     std::unique_ptr<fcn::SDLInput> input;
-    std::unique_ptr<fcn::SDLImageLoader> imageLoader;
+    std::shared_ptr<fcn::SDLImageLoader> imageLoader;
 
     std::unique_ptr<fcn::Gui> gui;
 
