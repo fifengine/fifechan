@@ -15,15 +15,13 @@
 namespace fcn
 {
 
-    CheckBox::CheckBox() :
-        mBackgroundImage(nullptr), mInternalBackgroundImage(false), mSelected(false), mMode(MarkerStyle::Checkmark)
+    CheckBox::CheckBox()
     {
 
         adjustSize();
     }
 
-    CheckBox::CheckBox(std::string const & caption, bool selected) :
-        mBackgroundImage(nullptr), mInternalBackgroundImage(false), mSelected(selected), mMode(MarkerStyle::Checkmark)
+    CheckBox::CheckBox(std::string const & caption, bool selected) : mSelected(selected)
     {
 
         setCaption(caption);
@@ -63,7 +61,7 @@ namespace fcn
         // draw background
         Rectangle const background(
             getBorderSize(), getBorderSize(), getWidth() - (2 * getBorderSize()), getHeight() - (2 * getBorderSize()));
-        if (mBackgroundImage) {
+        if (mBackgroundImage != nullptr) {
             graphics->drawImage(
                 mBackgroundImage, 0, 0, background.x, background.y, background.width, background.height);
         } else {
@@ -161,9 +159,11 @@ namespace fcn
 
     void CheckBox::drawDot(Graphics* graphics, Rectangle const & rec)
     {
-        Point const p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
+        const Point p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
 
-        graphics->drawFillCircle(p, (rec.width - 3) / 2);
+        int const radius = (rec.width - 3) / 2;
+
+        graphics->drawFillCircle(p, radius);
     }
 
     void CheckBox::drawMarkerImage(Graphics* graphics, Rectangle const & rec)

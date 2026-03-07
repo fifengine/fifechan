@@ -221,8 +221,8 @@ namespace fcn
         }
 
         // calculate x and y values
-        float* xrhs = new float[n];
-        float* yrhs = new float[n];
+        std::vector<float> xrhs(static_cast<size_t>(n));
+        std::vector<float> yrhs(static_cast<size_t>(n));
         // first
         xrhs[0] = static_cast<float>(points[0].x + (2 * points[1].x));
         yrhs[0] = static_cast<float>(points[0].y + (2 * points[1].y));
@@ -235,10 +235,10 @@ namespace fcn
             yrhs[i] = static_cast<float>((4 * points[i].y) + (2 * points[i + 1].y));
         }
 
-        float* x    = new float[n];
-        float* y    = new float[n];
-        float* xtmp = new float[n];
-        float* ytmp = new float[n];
+        std::vector<float> x(static_cast<size_t>(n));
+        std::vector<float> y(static_cast<size_t>(n));
+        std::vector<float> xtmp(static_cast<size_t>(n));
+        std::vector<float> ytmp(static_cast<size_t>(n));
         float xb    = 2.0;
         float yb    = 2.0;
         x[0]        = xrhs[0] / xb;
@@ -278,12 +278,5 @@ namespace fcn
         newPoints.push_back(p);
         // end point
         newPoints.push_back(points[n]);
-
-        delete[] xrhs;
-        delete[] yrhs;
-        delete[] x;
-        delete[] y;
-        delete[] xtmp;
-        delete[] ytmp;
     }
 }; // namespace fcn

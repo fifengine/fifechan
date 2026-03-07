@@ -17,57 +17,38 @@ namespace fcn
 {
     ImageButton::ImageButton()
     {
-        mImages         = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mInternalImages = std::vector<bool>(6, false);
+        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
+        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         adjustSize();
     }
 
     ImageButton::ImageButton(std::string const & filename)
     {
-        mImages         = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mInternalImages = std::vector<bool>(6, false);
+        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
+        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         setUpImage(filename);
     }
 
     ImageButton::ImageButton(Image const * image)
     {
-        mImages         = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mInternalImages = std::vector<bool>(6, false);
+        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
+        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         setUpImage(image);
     }
 
-    ImageButton::~ImageButton()
-    {
-        for (unsigned int i = 0; i < 6; ++i) {
-            if (mInternalImages[i]) {
-                delete mImages[i];
-            }
-        }
-    }
+    ImageButton::~ImageButton() = default;
 
     void ImageButton::setImage(std::string const & filename, ImageType type)
     {
-        if (mInternalImages[static_cast<size_t>(type)]) {
-            delete mImages[static_cast<size_t>(type)];
-        }
-        Image const * image = Image::load(filename);
-        if (image != nullptr) {
-            mImages[static_cast<size_t>(type)]         = image;
-            mInternalImages[static_cast<size_t>(type)] = true;
-        } else {
-            mImages[static_cast<size_t>(type)]         = nullptr;
-            mInternalImages[static_cast<size_t>(type)] = false;
-        }
+        mOwnedImages[static_cast<size_t>(type)].reset(Image::load(filename));
+        mImages[static_cast<size_t>(type)] = mOwnedImages[static_cast<size_t>(type)].get();
         adjustSize();
     }
 
     void ImageButton::setImage(Image const * image, ImageType type)
     {
-        if (mInternalImages[static_cast<size_t>(type)]) {
-            delete mImages[static_cast<size_t>(type)];
-        }
-        mImages[static_cast<size_t>(type)]         = image;
-        mInternalImages[static_cast<size_t>(type)] = false;
+        mOwnedImages[static_cast<size_t>(type)].reset();
+        mImages[static_cast<size_t>(type)] = image;
         adjustSize();
     }
 

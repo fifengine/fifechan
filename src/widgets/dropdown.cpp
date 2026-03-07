@@ -20,7 +20,8 @@ namespace fcn
         mPushed(false),
         mIsDragged(false),
         mInternalScrollArea(scrollArea == nullptr),
-        mInternalListBox(listBox == nullptr)
+        mInternalListBox(listBox == nullptr),
+        mFoldedUpHeight(0)
     {
         setWidth(100);
         setFocusable(true);
@@ -28,13 +29,15 @@ namespace fcn
         setInternalFocusHandler(&mInternalFocusHandler);
 
         if (mInternalScrollArea) {
-            mScrollArea = new ScrollArea();
+            mOwnedScrollArea = std::make_unique<ScrollArea>();
+            mScrollArea      = mOwnedScrollArea.get();
         } else {
             mScrollArea = scrollArea;
         }
 
         if (mInternalListBox) {
-            mListBox = new ListBox();
+            mOwnedListBox = std::make_unique<ListBox>();
+            mListBox      = mOwnedListBox.get();
         } else {
             mListBox = listBox;
         }
@@ -59,14 +62,6 @@ namespace fcn
         if (widgetExists(mListBox)) {
             mListBox->removeActionListener(this);
             mListBox->removeSelectionListener(this);
-        }
-
-        if (mInternalScrollArea) {
-            delete mScrollArea;
-        }
-
-        if (mInternalListBox) {
-            delete mListBox;
         }
 
         setInternalFocusHandler(nullptr);
@@ -325,6 +320,8 @@ namespace fcn
 
     void DropDown::resizeToContent(bool recursion)
     {
+        (void) recursion; // unused parameter
+
         if (mScrollArea != nullptr) {
             mScrollArea->resizeToContent();
         }
@@ -373,6 +370,9 @@ namespace fcn
     void DropDown::death(Event const & event)
     {
         if (event.getSource() == mScrollArea) {
+            if (mOwnedScrollArea.get() == mScrollArea) {
+                mOwnedScrollArea.release();
+            }
             mScrollArea = nullptr;
         }
     }
@@ -495,7 +495,7 @@ namespace fcn
         SelectionListenerIterator iter;
 
         for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter) {
-            SelectionEvent event(this);
+            const SelectionEvent event(this);
             (*iter)->valueChanged(event);
         }
     }

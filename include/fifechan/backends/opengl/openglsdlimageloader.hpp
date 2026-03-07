@@ -52,7 +52,7 @@ namespace fcn
                 std::copy(srcRow, srcRow + surface->w, dstRow);
             }
 
-            OpenGLImage* image = new OpenGLImage(packedPixels.data(), surface->w, surface->h, convertToDisplayFormat);
+            Image* image = new OpenGLImage(packedPixels.data(), surface->w, surface->h, convertToDisplayFormat);
             SDL_FreeSurface(surface);
 
             return image;

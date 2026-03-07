@@ -6,6 +6,7 @@
 #define INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_
 
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -281,7 +282,7 @@ namespace fcn
          * A tab that is to be deleted is a tab that has been
          * internally created by the tabbed area.
          */
-        std::vector<Tab*> mTabsToDelete;
+        std::vector<std::unique_ptr<Tab>> mTabsToDelete;
 
         /**
          * A map between a tab and a widget to display when the

@@ -45,6 +45,8 @@ namespace fcn
 
     void Label::resizeToContent(bool recursion)
     {
+        (void) recursion; // unused parameter
+
         adjustSize();
     }
 

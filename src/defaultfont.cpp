@@ -31,18 +31,20 @@ namespace fcn
 
     void DefaultFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
     {
-        for (int i = 0; i < text.size(); ++i) {
-            drawGlyph(graphics, text.at(i), x, y);
-            x += getWidth(text);
+        int const glyphWidth = getWidth(" ");
+        for (char const & ch : text) {
+            drawGlyph(graphics, ch, x, y);
+            x += glyphWidth;
         }
     }
 
     int DefaultFont::getStringIndexAt(std::string const & text, int x) const
     {
-        if (x > static_cast<int>(text.size()) * 8) {
+        int const glyphWidth = getWidth(" ");
+        if (x > static_cast<int>(text.size()) * glyphWidth) {
             return text.size();
         }
 
-        return x / 8;
+        return x / glyphWidth;
     }
 } // namespace fcn

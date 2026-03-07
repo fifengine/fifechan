@@ -22,7 +22,7 @@ namespace fcn
         int clickCount) :
         InputEvent(source, distributor, isShiftPressed, isControlPressed, isAltPressed, isMetaPressed),
         mType(type),
-        mButton(static_cast<MouseEvent::Button>(button)),
+        mButton(button),
         mX(x),
         mY(y),
         mClickCount(clickCount)

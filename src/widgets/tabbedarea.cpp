@@ -37,10 +37,6 @@ namespace fcn
 
         delete mTabContainer;
         delete mWidgetContainer;
-
-        for (unsigned int i = 0; i < mTabsToDelete.size(); i++) {
-            delete mTabsToDelete[i];
-        }
     }
 
     void TabbedArea::addTab(Tab* tab, Widget* widget)
@@ -93,12 +89,11 @@ namespace fcn
             mTabs.erase(iter);
         }
 
-        auto iter2 = std::find_if(mTabsToDelete.begin(), mTabsToDelete.end(), [tab](Tab* t) {
-            return t == tab;
+        auto iter2 = std::find_if(mTabsToDelete.begin(), mTabsToDelete.end(), [tab](std::unique_ptr<Tab> const & t) {
+            return t.get() == tab;
         });
         if (iter2 != mTabsToDelete.end()) {
             mTabsToDelete.erase(iter2);
-            delete tab;
         }
 
         if (tabIndexToBeSelected == -1) {

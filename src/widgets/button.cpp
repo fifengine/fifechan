@@ -138,7 +138,7 @@ namespace fcn
         }
 
         graphics->setColor(faceColor);
-        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        const Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
         graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
 
         if (getBorderSize() > 0) {
@@ -149,8 +149,8 @@ namespace fcn
             }
         }
 
-        int textX;
-        int textY =
+        int textX = 0;
+        const int textY =
             offsetRec.y + getPaddingTop() +
             (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
         switch (getAlignment()) {

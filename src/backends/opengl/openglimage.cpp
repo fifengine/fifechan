@@ -27,7 +27,7 @@ namespace fcn
         }
 
         // Create a new pixel array and copy the pixels into it
-        mPixels = new unsigned int[mTextureWidth * mTextureHeight];
+        mPixels = std::make_unique<unsigned int[]>(static_cast<size_t>(mTextureWidth * mTextureHeight));
 
 #ifdef __BIG_ENDIAN__
         unsigned int const magicPink = 0xff00ffff;
@@ -104,8 +104,7 @@ namespace fcn
         if (mPixels == nullptr) {
             glDeleteTextures(1, &mTextureHandle);
         } else {
-            delete[] mPixels;
-            mPixels = nullptr;
+            mPixels.reset();
         }
     }
 
@@ -174,13 +173,12 @@ namespace fcn
         glGenTextures(1, &mTextureHandle);
         glBindTexture(GL_TEXTURE_2D, mTextureHandle);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, mTextureWidth, mTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, mTextureWidth, mTextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mPixels.get());
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        delete[] mPixels;
-        mPixels = nullptr;
+        mPixels.reset();
 
         GLenum error = glGetError();
         if (error) {

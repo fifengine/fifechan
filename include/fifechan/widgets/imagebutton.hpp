@@ -6,6 +6,7 @@
 #define INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 
 #include <string>
+#include <memory>
 #include <vector>
 
 #include "fifechan/platform.hpp"
@@ -213,11 +214,9 @@ namespace fcn
         std::vector<Image const *> mImages;
 
         /**
-         * True if the image has been loaded internally, false otherwise.
-         * An image not loaded internally should not be deleted in the
-         * destructor.
+         * Owned images loaded by filename.
          */
-        std::vector<bool> mInternalImages;
+        std::vector<std::unique_ptr<Image const>> mOwnedImages;
     };
 } // namespace fcn
 

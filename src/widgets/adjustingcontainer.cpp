@@ -171,7 +171,7 @@ namespace fcn
             unsigned basex = 0;
             if (columnCount % mNumberOfColumns) {
                 basex = mPaddingLeft;
-                unsigned int j;
+                unsigned int j = 0;
 
                 for (j = 0; j < columnCount; j++) {
                     basex += mColumnWidths[j] + mHorizontalSpacing;

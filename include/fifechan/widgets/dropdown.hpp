@@ -6,6 +6,7 @@
 #define INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_
 
 #include <list>
+#include <memory>
 
 #include "fifechan/actionlistener.hpp"
 #include "fifechan/focushandler.hpp"
@@ -212,6 +213,16 @@ namespace fcn
          * part of the drop down was clicked on a mouse click.
          */
         int mFoldedUpHeight;
+
+        /**
+         * Owned internal scroll area when not supplied externally.
+         */
+        std::unique_ptr<ScrollArea> mOwnedScrollArea;
+
+        /**
+         * Owned internal list box when not supplied externally.
+         */
+        std::unique_ptr<ListBox> mOwnedListBox;
 
         /**
          * The scroll area used.

@@ -67,12 +67,11 @@ namespace fcn
         }
 
         std::string result;
-        int i = 0;
-        for (i = 0; i < mRows.size() - 1; ++i) {
-            result = result + mRows[i] + "\n";
+        for (size_t i = 0; i < mRows.size() - 1; ++i) {
+            result.append(mRows[i]).append("\n");
         }
 
-        result = result + mRows[i];
+        result.append(mRows.back());
 
         return result;
     }

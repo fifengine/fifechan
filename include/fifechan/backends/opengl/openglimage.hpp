@@ -16,6 +16,7 @@
 #endif
 
 #include <string>
+#include <memory>
 
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"
@@ -98,7 +99,7 @@ namespace fcn
 
     protected:
         GLuint mTextureHandle;
-        unsigned int* mPixels;
+        std::unique_ptr<unsigned int[]> mPixels;
         bool mAutoFree;
         int mWidth;
         int mHeight;
