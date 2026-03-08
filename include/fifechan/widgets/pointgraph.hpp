@@ -49,7 +49,18 @@ namespace fcn
          */
         void resetPointVector();
 
+        /**
+         * Set the thickness of the lines drawn between points.
+         *
+         * @param thickness Line thickness in pixels.
+         */
         void setThickness(unsigned int thickness);
+
+        /**
+         * Get the thickness of the lines drawn between points.
+         *
+         * @return Line thickness in pixels.
+         */
         unsigned int getThickness() const;
 
         /**
@@ -70,8 +81,13 @@ namespace fcn
         void draw(Graphics* graphics) override;
 
     protected:
+        /** True if the graph is drawn opaque. */
         bool m_opaque;
+
+        /** Line thickness in pixels. */
         unsigned int m_thickness;
+
+        /** The point data used to draw the graph. */
         PointVector m_data;
     };
 }; // namespace fcn
