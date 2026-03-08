@@ -2,14 +2,14 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __fpsdemo_hpp__
-#define __fpsdemo_hpp__
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
 #if defined(_WIN32)
     #include <windows.h>
+
 #endif
 
 #if defined(__APPLE__)
@@ -26,6 +26,7 @@
 
 #include <fifechan.hpp>
 
+#include <array>
 #include <memory>
 #include <string>
 
@@ -47,11 +48,11 @@ public:
     {
         switch (i) {
         case 0:
-            return std::string("1024x768");
+            return {"1024x768"};
         case 1:
-            return std::string("800x600");
+            return {"800x600"};
         default:
-            return std::string("");
+            return {""};
         }
     }
 };
@@ -61,6 +62,8 @@ class FPSDemo : public fcn::ActionListener
 public:
     FPSDemo();
     ~FPSDemo() override;
+    FPSDemo(FPSDemo const &)            = delete;
+    FPSDemo& operator=(FPSDemo const &) = delete;
     void run();
     void action(fcn::ActionEvent const & actionEvent) override;
 
@@ -157,14 +160,14 @@ private:
     GLUquadricObj* mClouds2;
     GLUquadricObj* mMoon;
     GLUquadricObj* mMoonRed;
-    GLfloat LightAmbient[4]{};
-    GLfloat Light2Ambient[4]{};
-    GLfloat LightDiffuse[4]{};
-    GLfloat Light2Diffuse[4]{};
-    GLfloat LightPosition[4]{};
-    GLfloat Light2Position[4]{};
-    GLfloat LightSpotDirection[3]{};
-    GLfloat Light2SpotDirection[3]{};
+    std::array<GLfloat, 4> LightAmbient{};
+    std::array<GLfloat, 4> Light2Ambient{};
+    std::array<GLfloat, 4> LightDiffuse{};
+    std::array<GLfloat, 4> Light2Diffuse{};
+    std::array<GLfloat, 4> LightPosition{};
+    std::array<GLfloat, 4> Light2Position{};
+    std::array<GLfloat, 3> LightSpotDirection{};
+    std::array<GLfloat, 3> Light2SpotDirection{};
 
     std::unique_ptr<FPSButton> mSingleplayButton;
     std::unique_ptr<FPSButton> mMultiplayButton;
@@ -187,5 +190,3 @@ private:
     std::unique_ptr<fcn::Image> mSplashImage;
     std::unique_ptr<fcn::Icon> mSplashIcon;
 };
-
-#endif

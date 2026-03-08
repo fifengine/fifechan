@@ -11,6 +11,7 @@ class FFScrollArea : public fcn::ScrollArea, public fcn::KeyListener
 {
 public:
     FFScrollArea();
+    ~FFScrollArea() override                      = default;
     FFScrollArea(FFScrollArea const &)            = delete;
     FFScrollArea& operator=(FFScrollArea const &) = delete;
     FFScrollArea(FFScrollArea&&)                  = delete;

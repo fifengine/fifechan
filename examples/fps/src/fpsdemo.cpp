@@ -733,30 +733,32 @@ void FPSDemo::input()
  */
 void FPSDemo::action(fcn::ActionEvent const & actionEvent)
 {
-    if (actionEvent.getId() == "quit") {
+    std::string const & id = actionEvent.getId();
+
+    if (id == "quit") {
         if (mAudioAvailable && mEscapeSound != nullptr) {
             Mix_PlayChannel(-1, mEscapeSound, 0);
         }
         mRunning = false;
-    } else if (actionEvent.getId() == "singleplay") {
+    } else if (id == "singleplay") {
         if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mSingleplay->setVisible(true);
-    } else if (actionEvent.getId() == "multiplay") {
+    } else if (id == "multiplay") {
         if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mMultiplay->setVisible(true);
-    } else if (actionEvent.getId() == "options") {
+    } else if (id == "options") {
         if (mAudioAvailable && mChooseSound != nullptr) {
             Mix_PlayChannel(-1, mChooseSound, 0);
         }
         mMain->setVisible(false);
         mOptions->setVisible(true);
-    } else if (actionEvent.getId() == "back") {
+    } else if (id == "back") {
         if (mAudioAvailable && mEscapeSound != nullptr) {
             Mix_PlayChannel(-1, mEscapeSound, 0);
         }
@@ -764,19 +766,13 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         mSingleplay->setVisible(false);
         mMultiplay->setVisible(false);
         mOptions->setVisible(false);
-    } else if (actionEvent.getId() == "fullscreen") {
+    } else if (id == "fullscreen" || id == "resolution") {
         if (mAudioAvailable && mOptionsSound != nullptr) {
             Mix_PlayChannel(-1, mOptionsSound, 0);
         }
         initVideo();
-    } else if (actionEvent.getId() == "resolution") {
-        if (mAudioAvailable && mOptionsSound != nullptr) {
-            Mix_PlayChannel(-1, mOptionsSound, 0);
-        }
-        initVideo();
-    } else if (actionEvent.getId() == "volume") {
-        std::string const str;
-        std::ostringstream os(str);
+    } else if (id == "volume") {
+        std::ostringstream os;
         os << static_cast<int>(mVolume->getValue() * 100) << "%";
         mVolumePercent->setCaption(os.str());
         mVolumePercent->adjustSize();
@@ -826,7 +822,7 @@ void FPSDemo::initOpenGL()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(50.0, mWidth / mHeight, 1.0, 10.0);
+    gluPerspective(50.0, static_cast<double>(mWidth) / static_cast<double>(mHeight), 1.0, 10.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -851,10 +847,10 @@ void FPSDemo::initOpenGL()
     Light2SpotDirection[1] = 0.0;
     Light2SpotDirection[2] = 0.0;
 
-    glLightfv(GL_LIGHT2, GL_POSITION, Light2Position);
-    glLightfv(GL_LIGHT2, GL_AMBIENT, Light2Ambient);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, Light2Diffuse);
-    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, Light2SpotDirection);
+    glLightfv(GL_LIGHT2, GL_POSITION, Light2Position.data());
+    glLightfv(GL_LIGHT2, GL_AMBIENT, Light2Ambient.data());
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, Light2Diffuse.data());
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, Light2SpotDirection.data());
     glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 45.0);
 
     glEnable(GL_LIGHT2);

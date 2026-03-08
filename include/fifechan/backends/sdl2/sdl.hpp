@@ -29,38 +29,38 @@ namespace fcn::sdl2
 
     inline std::shared_ptr<SDL_Window> makeSDLSharedPtr(SDL_Window* window)
     {
-        return std::shared_ptr<SDL_Window>(window, [](SDL_Window* value) {
-            if (value != nullptr) {
-                SDL_DestroyWindow(value);
-            }
-        });
+        return std::shared_ptr<SDL_Window>{window, [](SDL_Window* value) {
+                                               if (value != nullptr) {
+                                                   SDL_DestroyWindow(value);
+                                               }
+                                           }};
     }
 
     inline std::shared_ptr<SDL_Renderer> makeSDLSharedPtr(SDL_Renderer* renderer)
     {
-        return std::shared_ptr<SDL_Renderer>(renderer, [](SDL_Renderer* value) {
-            if (value != nullptr) {
-                SDL_DestroyRenderer(value);
-            }
-        });
+        return std::shared_ptr<SDL_Renderer>{renderer, [](SDL_Renderer* value) {
+                                                 if (value != nullptr) {
+                                                     SDL_DestroyRenderer(value);
+                                                 }
+                                             }};
     }
 
     inline std::shared_ptr<SDL_Surface> makeSDLSharedPtr(SDL_Surface* surface)
     {
-        return std::shared_ptr<SDL_Surface>(surface, [](SDL_Surface* value) {
-            if (value != nullptr) {
-                SDL_FreeSurface(value);
-            }
-        });
+        return std::shared_ptr<SDL_Surface>{surface, [](SDL_Surface* value) {
+                                                if (value != nullptr) {
+                                                    SDL_FreeSurface(value);
+                                                }
+                                            }};
     }
 
     inline std::shared_ptr<SDL_Texture> makeSDLSharedPtr(SDL_Texture* texture)
     {
-        return std::shared_ptr<SDL_Texture>(texture, [](SDL_Texture* value) {
-            if (value != nullptr) {
-                SDL_DestroyTexture(value);
-            }
-        });
+        return std::shared_ptr<SDL_Texture>{texture, [](SDL_Texture* value) {
+                                                if (value != nullptr) {
+                                                    SDL_DestroyTexture(value);
+                                                }
+                                            }};
     }
 } // namespace fcn::sdl2
 

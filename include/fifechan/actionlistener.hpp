@@ -39,7 +39,7 @@ namespace fcn
          * You should not be able to make an instance of ActionListener,
          * therefore its constructor is protected.
          */
-        ActionListener() { }
+        ActionListener() = default;
     };
 } // namespace fcn
 

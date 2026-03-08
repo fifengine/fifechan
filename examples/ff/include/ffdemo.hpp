@@ -2,8 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __FFDEMO_HPP
-#define __FFDEMO_HPP
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
@@ -25,6 +24,8 @@ class FFDemo : public fcn::ActionListener, public fcn::KeyListener
 public:
     FFDemo();
     ~FFDemo() override;
+    FFDemo(FFDemo const &)            = delete;
+    FFDemo& operator=(FFDemo const &) = delete;
     void run();
     void action(fcn::ActionEvent const & actionEvent) override;
     void keyPressed(fcn::KeyEvent& keyEvent) override;
@@ -120,5 +121,3 @@ private:
 
     std::unique_ptr<FFCharacterChooser> mCharacterChooser;
 };
-
-#endif

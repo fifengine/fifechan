@@ -110,7 +110,7 @@ namespace fcn
          * You should not be able to make an instance of MouseListener,
          * therefore its constructor is protected.
          */
-        MouseListener() { }
+        MouseListener() = default;
     };
 } // namespace fcn
 

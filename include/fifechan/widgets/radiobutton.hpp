@@ -72,12 +72,12 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::multimap<std::string, RadioButton*> GroupMap;
+        using GroupMap = std::multimap<std::string, RadioButton*>;
 
         /**
          * Typdef.
          */
-        typedef GroupMap::iterator GroupIterator;
+        using GroupIterator = GroupMap::iterator;
 
         /**
          * Holds all available radio button groups.

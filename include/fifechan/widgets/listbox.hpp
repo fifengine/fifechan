@@ -179,7 +179,7 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::list<SelectionListener*> SelectionListenerList;
+        using SelectionListenerList = std::list<SelectionListener*>;
 
         /**
          * The selection listeners of the list box.
@@ -189,7 +189,7 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef SelectionListenerList::iterator SelectionListenerIterator;
+        using SelectionListenerIterator = SelectionListenerList::iterator;
     };
 } // namespace fcn
 

@@ -10,6 +10,7 @@
 #include <fifechan/exception.hpp>
 
 #include <algorithm>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -32,7 +33,7 @@ namespace fcn
             SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
             if (loadedSurface == nullptr) {
-                std::string msg = std::string("Unable to load image file: " + filename);
+                std::string const msg = "Unable to load image file: " + filename;
                 throwException(msg);
             }
 
@@ -40,18 +41,23 @@ namespace fcn
             SDL_FreeSurface(loadedSurface);
 
             if (surface == nullptr) {
-                std::string msg = std::string("Not enough memory to load: " + filename);
+                std::string const msg = "Not enough memory to load: " + filename;
                 throwException(msg);
             }
 
             std::vector<unsigned int> packedPixels(static_cast<size_t>(surface->w) * static_cast<size_t>(surface->h));
             unsigned int const * srcPixels = static_cast<unsigned int const *>(surface->pixels);
-            int const srcPitchPixels       = surface->pitch / static_cast<int>(sizeof(unsigned int));
+            size_t const srcPitchPixels =
+                static_cast<size_t>(static_cast<size_t>(surface->pitch) / sizeof(unsigned int));
+
+            std::span<unsigned int const> const srcSpan(srcPixels, srcPitchPixels * static_cast<size_t>(surface->h));
+            std::span<unsigned int> const dstSpan(packedPixels.data(), packedPixels.size());
 
             for (int y = 0; y < surface->h; ++y) {
-                unsigned int* dstRow = packedPixels.data() + static_cast<size_t>(y) * static_cast<size_t>(surface->w);
-                unsigned int const * srcRow = srcPixels + static_cast<size_t>(y) * static_cast<size_t>(srcPitchPixels);
-                std::copy(srcRow, srcRow + surface->w, dstRow);
+                size_t const rowIndex = static_cast<size_t>(y);
+                auto srcIt            = srcSpan.begin() + (rowIndex * srcPitchPixels);
+                auto dstIt            = dstSpan.begin() + (rowIndex * static_cast<size_t>(surface->w));
+                std::copy_n(srcIt, static_cast<size_t>(surface->w), dstIt);
             }
 
             Image* image = new OpenGLImage(packedPixels, surface->w, surface->h, convertToDisplayFormat);

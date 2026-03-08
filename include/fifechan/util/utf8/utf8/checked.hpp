@@ -45,7 +45,7 @@ namespace utf8
 
     public:
         explicit invalid_code_point(uint32_t cp) : cp(cp) { }
-        char const * what() const throw() override
+        char const * what() const noexcept override
         {
             return "Invalid code point";
         }
@@ -61,7 +61,7 @@ namespace utf8
 
     public:
         explicit invalid_utf8(uint8_t u) : u8(u) { }
-        char const * what() const throw() override
+        char const * what() const noexcept override
         {
             return "Invalid UTF-8";
         }
@@ -76,8 +76,8 @@ namespace utf8
         uint16_t u16;
 
     public:
-        invalid_utf16(uint16_t u) : u16(u) { }
-        char const * what() const throw() override
+        explicit invalid_utf16(uint16_t u) : u16(u) { }
+        char const * what() const noexcept override
         {
             return "Invalid UTF-16";
         }

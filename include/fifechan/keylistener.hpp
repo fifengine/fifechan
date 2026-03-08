@@ -45,7 +45,7 @@ namespace fcn
          * You should not be able to make an instance of KeyListener,
          * therefore its constructor is protected.
          */
-        KeyListener() { }
+        KeyListener() = default;
     };
 } // namespace fcn
 

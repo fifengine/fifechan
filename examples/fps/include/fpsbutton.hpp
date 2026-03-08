@@ -2,8 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __fpsbutton_hpp__
-#define __fpsbutton_hpp__
+#pragma once
 
 #include <SDL2/SDL_mixer.h>
 
@@ -24,6 +23,8 @@ class FPSButton : public fcn::Button
 public:
     explicit FPSButton(std::string const & caption);
     ~FPSButton() override;
+    FPSButton(FPSButton const &)            = delete;
+    FPSButton& operator=(FPSButton const &) = delete;
 
     /*
      * Just sets the font to by used on mouse hover.
@@ -45,5 +46,3 @@ private:
     // Keep track of instances to be able to free the sound
     static int mInstances;
 };
-
-#endif

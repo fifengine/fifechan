@@ -1358,7 +1358,7 @@ namespace fcn
          * In case you want to relayout a visible widget. This function will
          * automatically perform the layout adaption from the widget.
          *
-         * @param top If true the layout adaption starts from the top-most layouted widget.
+         * This is a convenience wrapper that calls `adaptLayout(true)`.
          */
         void adaptLayout()
         {
@@ -1371,7 +1371,7 @@ namespace fcn
          * Resizes the widget's size to fit the content exactly,
          * calls recursively all childs.
          *
-         * @param recursion If true all child widgets also get the call.
+         * This is a convenience wrapper that calls `resizeToContent(true)`.
          */
         void resizeToContent()
         {
@@ -1389,7 +1389,7 @@ namespace fcn
          * Expands the child widgets to the size of this widget,
          * calls recursively all childs.
          *
-         * @param recursion If true all child widgets also get the call.
+         * This is a convenience wrapper that calls `expandContent(true)`.
          */
         void expandContent()
         {

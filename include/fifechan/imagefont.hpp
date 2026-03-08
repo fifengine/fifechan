@@ -175,7 +175,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
         /**
          * Holds the glyphs areas in the image.
          */
-        Rectangle mGlyph[256];
+        std::array<Rectangle, 256> mGlyph;
 
         /**
          * Holds the height of the image font.

@@ -60,7 +60,7 @@ namespace fcn
          */
         OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree);
 
-        virtual ~OpenGLImage();
+        ~OpenGLImage() override;
 
         /**
          * Gets the OpenGL texture handle for the image.
@@ -86,17 +86,17 @@ namespace fcn
 
         // Inherited from Image
 
-        virtual void free();
+        void free() override;
 
-        virtual int getWidth() const;
+        int getWidth() const override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual Color getPixel(int x, int y);
+        Color getPixel(int x, int y) override;
 
-        virtual void putPixel(int x, int y, Color const & color);
+        void putPixel(int x, int y, Color const & color) override;
 
-        virtual void convertToDisplayFormat();
+        void convertToDisplayFormat() override;
 
     protected:
         GLuint mTextureHandle;

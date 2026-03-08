@@ -142,7 +142,7 @@ namespace fcn
         return mImages[static_cast<size_t>(ImageType::Hover_Inactive)];
     }
 
-    void ImageButton::resizeToContent(/*bool recursion*/)
+    void ImageButton::resizeToContent(bool recursion)
     {
         adjustSize();
     }

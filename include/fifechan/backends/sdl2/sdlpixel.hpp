@@ -7,6 +7,10 @@
 
 #include <SDL2/SDL.h>
 
+#include <cstddef>
+#include <cstring>
+#include <span>
+
 #include "fifechan/color.hpp"
 
 namespace fcn
@@ -20,39 +24,56 @@ namespace fcn
      * @param y the y coordinate on the surface.
      * @return a color of a pixel.
      */
-    inline Color const SDLgetPixel(SDL_Surface* surface, int x, int y)
+    inline Color SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
         int const bpp = surface->format->BytesPerPixel;
 
         SDL_LockSurface(surface);
 
-        Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
+        std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
+                                      (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
 
-        unsigned int color = 0;
+        std::span<Uint8> pixels(
+            reinterpret_cast<Uint8*>(surface->pixels),
+            static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
+        size_t const idx = static_cast<size_t>(offset);
+
+        unsigned int color = 0U;
 
         switch (bpp) {
         case 1:
-            color = *p;
+            color = pixels[idx];
             break;
 
-        case 2:
-            color = *(Uint16*)p;
-            break;
-
-        case 3:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                color = p[0] << 16 | p[1] << 8 | p[2];
-            } else {
-                color = p[0] | p[1] << 8 | p[2] << 16;
-            }
-            break;
-
-        case 4:
-            color = *(Uint32*)p;
+        case 2: {
+            Uint16 tmp = 0;
+            std::memcpy(&tmp, &pixels[idx], sizeof(Uint16));
+            color = static_cast<unsigned int>(tmp);
             break;
         }
 
-        unsigned char r, g, b, a;
+        case 3:
+            if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+                color = (static_cast<unsigned int>(pixels[idx]) << 16) |
+                        (static_cast<unsigned int>(pixels[idx + 1]) << 8) | static_cast<unsigned int>(pixels[idx + 2]);
+            } else {
+                color = static_cast<unsigned int>(pixels[idx]) | (static_cast<unsigned int>(pixels[idx + 1]) << 8) |
+                        (static_cast<unsigned int>(pixels[idx + 2]) << 16);
+            }
+            break;
+
+        case 4: {
+            Uint32 tmp = 0;
+            std::memcpy(&tmp, &pixels[idx], sizeof(Uint32));
+            color = static_cast<unsigned int>(tmp);
+            break;
+        }
+        }
+
+        unsigned char r = 0;
+        unsigned char g = 0;
+        unsigned char b = 0;
+        unsigned char a = 0;
 
         SDL_GetRGBA(color, surface->format, &r, &g, &b, &a);
         SDL_UnlockSurface(surface);
@@ -69,38 +90,48 @@ namespace fcn
      */
     inline void SDLputPixel(SDL_Surface* surface, int x, int y, Color const & color)
     {
-        int bpp = surface->format->BytesPerPixel;
+        int const bpp = surface->format->BytesPerPixel;
 
         SDL_LockSurface(surface);
 
-        Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
+        std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
+                                      (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
 
-        Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+        std::span<Uint8> pixels(
+            reinterpret_cast<Uint8*>(surface->pixels),
+            static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
+        size_t const idx = static_cast<size_t>(offset);
+
+        Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
 
         switch (bpp) {
         case 1:
-            *p = pixel;
+            pixels[idx] = static_cast<Uint8>(pixel);
             break;
 
-        case 2:
-            *(Uint16*)p = pixel;
+        case 2: {
+            Uint16 tmp = static_cast<Uint16>(pixel);
+            std::memcpy(&pixels[idx], &tmp, sizeof(Uint16));
             break;
+        }
 
         case 3:
             if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                p[0] = (pixel >> 16) & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = pixel & 0xff;
+                pixels[idx]     = static_cast<Uint8>((pixel >> 16) & 0xff);
+                pixels[idx + 1] = static_cast<Uint8>((pixel >> 8) & 0xff);
+                pixels[idx + 2] = static_cast<Uint8>(pixel & 0xff);
             } else {
-                p[0] = pixel & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = (pixel >> 16) & 0xff;
+                pixels[idx]     = static_cast<Uint8>(pixel & 0xff);
+                pixels[idx + 1] = static_cast<Uint8>((pixel >> 8) & 0xff);
+                pixels[idx + 2] = static_cast<Uint8>((pixel >> 16) & 0xff);
             }
             break;
 
-        case 4:
-            *(Uint32*)p = pixel;
+        case 4: {
+            Uint32 tmp = pixel;
+            std::memcpy(&pixels[idx], &tmp, sizeof(Uint32));
             break;
+        }
         }
 
         SDL_UnlockSurface(surface);
@@ -162,54 +193,72 @@ namespace fcn
             return;
         }
 
-        int bpp = surface->format->BytesPerPixel;
+        int const bpp = surface->format->BytesPerPixel;
+
+        // avoids overhead and truncation artifacts
+        if (color.a == 255) {
+            SDLputPixel(surface, x, y, color);
+            return;
+        }
 
         SDL_LockSurface(surface);
 
-        Uint8* p = (Uint8*)surface->pixels + y * surface->pitch + x * bpp;
+        std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
+                                      (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
+
+        std::span<Uint8> pixels(
+            reinterpret_cast<Uint8*>(surface->pixels),
+            static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
+        size_t const idx = static_cast<size_t>(offset);
 
         switch (bpp) {
         case 1: {
-            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
 
-            SDL_Color* colors      = surface->format->palette->colors;
-            SDL_Color& sourceColor = colors[pixel];
-            SDL_Color& destColor   = colors[*p];
+            SDL_Color* colors             = surface->format->palette->colors;
+            SDL_Color const & sourceColor = colors[pixel];
+            SDL_Color const & destColor   = colors[pixels[idx]];
 
-            *p = SDL_MapRGB(
+            pixels[idx] = static_cast<Uint8>(SDL_MapRGB(
                 surface->format,
                 SDLBlend(sourceColor.r, destColor.r, color.a),
                 SDLBlend(sourceColor.g, destColor.g, color.a),
-                SDLBlend(sourceColor.b, destColor.b, color.a));
+                SDLBlend(sourceColor.b, destColor.b, color.a)));
             break;
         }
         case 2: {
-            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-            *(Uint16*)p  = SDLBlendColor<Uint16>(pixel, *(Uint16*)p, color.a, surface->format);
+            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint16 dest        = 0;
+            std::memcpy(&dest, &pixels[idx], sizeof(Uint16));
+            Uint16 result = SDLBlendColor<Uint16>(pixel, dest, color.a, surface->format);
+            std::memcpy(&pixels[idx], &result, sizeof(Uint16));
             break;
         }
         case 3: {
             if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
                 // watch color order rgb
-                p[0] = SDLBlend<Uint8>(color.r, p[0], color.a);
-                p[1] = SDLBlend<Uint8>(color.g, p[1], color.a);
-                p[2] = SDLBlend<Uint8>(color.b, p[2], color.a);
+                pixels[idx + 0] = SDLBlend<Uint8>(color.r, pixels[idx + 0], color.a);
+                pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
+                pixels[idx + 2] = SDLBlend<Uint8>(color.b, pixels[idx + 2], color.a);
             } else {
                 // watch color order bgr
-                p[0] = SDLBlend<Uint8>(color.b, p[0], color.a);
-                p[1] = SDLBlend<Uint8>(color.g, p[1], color.a);
-                p[2] = SDLBlend<Uint8>(color.r, p[2], color.a);
+                pixels[idx + 0] = SDLBlend<Uint8>(color.b, pixels[idx + 0], color.a);
+                pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
+                pixels[idx + 2] = SDLBlend<Uint8>(color.r, pixels[idx + 2], color.a);
             }
             break;
         }
         case 4: {
-            Uint32 pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-            *(Uint32*)p  = SDLBlendColor<Uint32>(pixel, *(Uint32*)p, color.a, surface->format);
+            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint32 dest        = 0;
+            std::memcpy(&dest, &pixels[idx], sizeof(Uint32));
+            Uint32 result = SDLBlendColor<Uint32>(pixel, dest, color.a, surface->format);
+            std::memcpy(&pixels[idx], &result, sizeof(Uint32));
             break;
         }
-
-            SDL_UnlockSurface(surface);
         }
+
+        SDL_UnlockSurface(surface);
     }
 } // namespace fcn
 

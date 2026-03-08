@@ -21,21 +21,22 @@
 #include <fifechan/backends/sdl2/sdl.hpp>
 
 #include <cstdio>
+#include <memory>
 
 namespace openglsdl
 {
-    bool running = true;
+    inline bool running = true;
 
-    SDL_Window* window;
-    SDL_Surface* screen;
+    inline SDL_Window* window  = nullptr;
+    inline SDL_Surface* screen = nullptr;
 
     // This examples uses two wrapper backends OpenGL and SDL for FifeGUI.
     // OpenGL is used for drawing and SDL for input and image loading.
-    fcn::OpenGLGraphics* graphics;
-    fcn::SDLInput* input;
-    fcn::OpenGLSDLImageLoader* imageLoader;
+    inline std::unique_ptr<fcn::OpenGLGraphics> graphics;
+    inline std::unique_ptr<fcn::SDLInput> input;
+    inline std::unique_ptr<fcn::OpenGLSDLImageLoader> imageLoader;
 
-    fcn::Gui* gui;
+    inline std::unique_ptr<fcn::Gui> gui;
 
     /**
      * Initialises the OpenGL and SDL application. This function creates the global
@@ -85,18 +86,18 @@ namespace openglsdl
 
         // Now it's time to initialise OpenGL backend and the SDL backend.
 
-        imageLoader = new fcn::OpenGLSDLImageLoader();
+        imageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
         // Set the ImageLoader by calling a static function of the Image class.
-        fcn::Image::setImageLoader(imageLoader);
-        graphics = new fcn::OpenGLGraphics();
+        fcn::Image::setImageLoader(imageLoader.get());
+        graphics = std::make_unique<fcn::OpenGLGraphics>();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
-        input = new fcn::SDLInput();
+        input = std::make_unique<fcn::SDLInput>();
 
         // Finally, we create the Gui object and pass graphics and input to it.
-        gui = new fcn::Gui();
-        gui->setGraphics(graphics);
-        gui->setInput(input);
+        gui = std::make_unique<fcn::Gui>();
+        gui->setGraphics(graphics.get());
+        gui->setInput(input.get());
     }
 
     /**
@@ -104,11 +105,11 @@ namespace openglsdl
      */
     void halt()
     {
-        delete gui;
+        gui.reset();
 
-        delete imageLoader;
-        delete input;
-        delete graphics;
+        imageLoader.reset();
+        input.reset();
+        graphics.reset();
 
         SDL_DestroyWindow(window);
         SDL_Quit();

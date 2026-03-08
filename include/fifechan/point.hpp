@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_POINT_HPP_
 #define INCLUDE_FIFECHAN_POINT_HPP_
 
+#include <array>
 #include <cassert>
 #include <iostream>
 #include <vector>
@@ -26,7 +27,7 @@ namespace fcn
     public:
         union
         {
-            int val[2];
+            std::array<int, 2> val;
             struct
             {
                 int x, y;
@@ -118,8 +119,7 @@ namespace fcn
          */
         int length() const
         {
-            double sq;
-            sq = x * x + y * y;
+            double sq = static_cast<double>(x) * x + static_cast<double>(y) * y;
             return static_cast<int>(Mathf::Sqrt(sq));
         }
 
@@ -128,15 +128,13 @@ namespace fcn
          */
         void normalize()
         {
-            float len = length();
+            float const len = length();
 
-            // Check if length is significantly greater than zero
             if (len > Mathf::zeroTolerance()) {
                 float const invLength = 1.0F / len;
-                x                     = x * invLength;
-                y                     = y * invLength;
+                x                     = static_cast<int>(x * invLength);
+                y                     = static_cast<int>(y * invLength);
             } else {
-                // Vector is too small to normalize; set to zero vector
                 x = 0;
                 y = 0;
             }
@@ -147,9 +145,9 @@ namespace fcn
          */
         Point rotated(int angle) const
         {
-            double theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
-            double c     = Mathd::Cos(theta);
-            double s     = Mathd::Sin(theta);
+            double const theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
+            double const c     = Mathd::Cos(theta);
+            double const s     = Mathd::Sin(theta);
 
             return Point(static_cast<int>(std::round(c * x - s * y)), static_cast<int>(std::round(s * x + c * y)));
         }
@@ -159,16 +157,14 @@ namespace fcn
          */
         void rotate(double angle)
         {
-            double theta = angle * Mathd::pi() / 180.0;
+            double const theta = angle * Mathd::pi() / 180.0;
 
-            // Compute trig values as doubles
-            double costheta = Mathd::Cos(theta);
-            double sintheta = Mathd::Sin(theta);
+            double const costheta = Mathd::Cos(theta);
+            double const sintheta = Mathd::Sin(theta);
 
-            double nx = static_cast<double>(x);
-            double ny = static_cast<double>(y);
+            double const nx = static_cast<double>(x);
+            double const ny = static_cast<double>(y);
 
-            // apply rotation matrix and cast back to int
             x = static_cast<int>(costheta * nx - sintheta * ny);
             y = static_cast<int>(sintheta * nx + costheta * ny);
         }
@@ -182,19 +178,16 @@ namespace fcn
         void rotate(Point const & origin, int angle)
         {
             // 1. Translate point to origin-relative coordinates (promote to double)
-            double nx = static_cast<double>(x - origin.x);
-            double ny = static_cast<double>(y - origin.y);
+            double const nx = static_cast<double>(x - origin.x);
+            double const ny = static_cast<double>(y - origin.y);
 
-            // 2. Convert angle to radians (keep as double)
-            double theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
+            double const theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
 
-            // 3. Compute trig values as double (NO int casts!)
-            double costheta = Mathd::Cos(theta);
-            double sintheta = Mathd::Sin(theta);
+            double const costheta = Mathd::Cos(theta);
+            double const sintheta = Mathd::Sin(theta);
 
-            // 4. Apply rotation matrix in floating-point
-            double rx = costheta * nx - sintheta * ny;
-            double ry = sintheta * nx + costheta * ny;
+            double const rx = costheta * nx - sintheta * ny;
+            double const ry = sintheta * nx + costheta * ny;
 
             // 5. Translate back to world coordinates AND cast to int (with rounding)
             x = static_cast<int>(std::round(origin.x + rx));
@@ -210,12 +203,23 @@ namespace fcn
             y = _y;
         }
 
+        /**
+         * Index accessor for the point components.
+         *
+         * @param ind Index 0 for X, 1 for Y. Asserts if out of range.
+         * @return Reference to the requested component.
+         */
         inline int& operator[](int ind)
         {
             assert(ind > -1 && ind < 2);
             return val[ind];
         }
 
+        /**
+         * Stream output operator for debug/logging.
+         *
+         * Formats the point as "(x:y)".
+         */
         friend std::ostream& operator<<(std::ostream& os, Point const & p)
         {
             return os << "(" << p.x << ":" << p.y << ")";

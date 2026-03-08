@@ -2,8 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef __fpscheckbox_hpp__
-#define __fpscheckbox_hpp__
+#pragma once
 
 #include <fifechan.hpp>
 
@@ -41,5 +40,3 @@ public:
      */
     void draw(fcn::Graphics* graphics) override;
 };
-
-#endif

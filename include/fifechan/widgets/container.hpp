@@ -276,7 +276,7 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::list<ContainerListener*> ContainerListenerList;
+        using ContainerListenerList = std::list<ContainerListener*>;
 
         /**
          * The container listeners of the container.
@@ -286,7 +286,7 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef ContainerListenerList::iterator ContainerListenerIterator;
+        using ContainerListenerIterator = ContainerListenerList::iterator;
 
         /**
          * Layout

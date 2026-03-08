@@ -42,7 +42,7 @@ namespace fcn
          * You should not be able to make an instance of ContainerListener,
          * therefore its constructor is protected.
          */
-        ContainerListener() { }
+        ContainerListener() = default;
     };
 } // namespace fcn
 

@@ -144,9 +144,11 @@ int main(int /*argc*/, char** /*argv*/)
 
         testVBox->resizeToContent();
 
-        auto demoWindow = std::make_unique<fcn::Window>("Window");
+        auto demoWindow   = std::make_unique<fcn::Window>("Window");
+        auto* testVBoxRaw = testVBox.get();
         demoWindow->addWidget(std::move(testVBox));
-        demoWindow->adjustSize();
+        auto* demoWindowRaw = demoWindow.get();
+        demoWindowRaw->adjustSize();
 
         top->addWidget(std::move(demoWindow));
 
@@ -168,8 +170,8 @@ int main(int /*argc*/, char** /*argv*/)
                                 if (parentContainer != nullptr) {
                                     parentContainer->remove(spacer);
                                     parentContainer->resizeToContent();
-                                    testVBox->resizeToContent();
-                                    demoWindow->adjustSize();
+                                    testVBoxRaw->resizeToContent();
+                                    demoWindowRaw->adjustSize();
                                 }
                             }
 

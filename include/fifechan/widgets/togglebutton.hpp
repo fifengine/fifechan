@@ -106,12 +106,12 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::multimap<std::string, ToggleButton*> GroupMap;
+        using GroupMap = std::multimap<std::string, ToggleButton*>;
 
         /**
          * Typdef.
          */
-        typedef GroupMap::iterator GroupIterator;
+        using GroupIterator = GroupMap::iterator;
 
         /**
          * Holds all available toggle button groups.
