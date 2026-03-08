@@ -65,10 +65,25 @@ namespace fcn
         using Container::resizeToContent;
 
         void setLayout(Container::LayoutPolicy policy) override;
+
+        /**
+         * Resize flow layout to fit its children.
+         *
+         * @param recursion If true, resize children recursively.
+         */
         void resizeToContent(bool recursion) override;
+
+        /**
+         * Expand children according to flow layout rules.
+         *
+         * @param recursion If true, expand children recursively.
+         */
         void expandContent(bool recursion) override;
 
     protected:
+        /**
+         * Current alignment used when laying out child widgets.
+         */
         Alignment mAlignment;
     };
 } // namespace fcn

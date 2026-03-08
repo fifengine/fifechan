@@ -21,6 +21,7 @@ namespace fcn
     class FIFEGUI_API ImageProgressBar : public Widget
     {
     public:
+        /** Orientation of the progress bar (horizontal or vertical). */
         enum class Orientation : uint8_t
         {
             Horizontal = 0,

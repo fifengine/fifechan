@@ -343,12 +343,12 @@ namespace fcn
         virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
 
         /**
-         * Draws text.
+         * Draws text with a default left alignment. This overload forwards
+         * to the alignment-aware overload using Alignment::Left.
          *
          * @param text The text to draw.
          * @param x The x coordinate where to draw the text.
          * @param y The y coordinate where to draw the text.
-         * @param alignment The alignemnt to use when drawing.
          * @throws Exception when no font has been set.
          */
         void drawText(std::string const & text, int x, int y)
@@ -356,6 +356,15 @@ namespace fcn
             drawText(text, x, y, Alignment::Left);
         }
 
+        /**
+         * Draws text with the requested alignment.
+         *
+         * @param text The text to draw.
+         * @param x The x coordinate where to draw the text.
+         * @param y The y coordinate where to draw the text.
+         * @param alignment The alignment to use when drawing (Left/Center/Right).
+         * @throws Exception when no font has been set.
+         */
         virtual void drawText(std::string const & text, int x, int y, Alignment alignment);
 
     protected:

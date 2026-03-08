@@ -28,8 +28,12 @@ namespace fcn
          * Default constructor.
          */
         PointGraph();
+        /**
+         * Construct with initial data points.
+         *
+         * @param data Initial data points to show in the graph.
+         */
         explicit PointGraph(PointVector data);
-
         ~PointGraph() override = default;
 
         /**

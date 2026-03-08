@@ -84,6 +84,7 @@ namespace fcn
     /**
      * Puts a pixel on an SDL_Surface.
      *
+     * @param surface The SDL_Surface to write the pixel to.
      * @param x the x coordinate on the surface.
      * @param y the y coordinate on the surface.
      * @param color the color the pixel should be in.
@@ -140,9 +141,9 @@ namespace fcn
     /**
      * Blends two color components together.
      *
-     * @param src the source color.
-     * @param dst the destination color.
-     * @param a alpha.
+     * @param source the source color component.
+     * @param dest the destination color component.
+     * @param alpha alpha value (0-255) used for blending.
      */
     template <typename T>
     inline T SDLBlend(T source, T dest, unsigned char alpha)
@@ -151,11 +152,12 @@ namespace fcn
     }
 
     /**
-     * Blends two colors together.
+     * Blends two packed color values together using the supplied pixel format.
      *
-     * @param src the source color.
-     * @param dst the destination color.
-     * @param a alpha.
+     * @param src the source packed color value.
+     * @param dst the destination packed color value.
+     * @param alpha alpha value (0-255) used for blending.
+     * @param f pixel format describing masks/shifts for color components.
      */
     template <typename T>
     inline T SDLBlendColor(T src, T dst, unsigned char alpha, SDL_PixelFormat const * f)
@@ -179,11 +181,12 @@ namespace fcn
     */
 
     /**
-     * Puts a pixel on an SDL_Surface with alpha
+     * Puts a pixel on an SDL_Surface with alpha blending.
      *
+     * @param surface The SDL_Surface to write the pixel to.
      * @param x the x coordinate on the surface.
      * @param y the y coordinate on the surface.
-     * @param color the color the pixel should be in.
+     * @param color the color the pixel should be in (including alpha).
      */
     inline void SDLputPixelAlpha(SDL_Surface* surface, int x, int y, Color const & color)
     {

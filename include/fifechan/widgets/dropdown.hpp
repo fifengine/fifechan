@@ -127,14 +127,19 @@ namespace fcn
         void adjustSize() override;
         void draw(Graphics* graphics) override;
 
+        /** Set the base color used for the dropdown background/controls. */
         void setBaseColor(Color const & color);
 
+        /** Set the explicit background color for the dropdown. */
         void setBackgroundColor(Color const & color);
 
+        /** Set the foreground/text color used in the dropdown. */
         void setForegroundColor(Color const & color);
 
+        /** Set the font used to render items in the dropdown. */
         void setFont(Font* font);
 
+        /** Set the color used for the selected item highlight. */
         void setSelectionColor(Color const & color);
 
         // Inherited from BasicContainer
@@ -151,6 +156,7 @@ namespace fcn
 
         // Inherited from DeathListener
 
+        /** DeathListener callback invoked when a observed widget is destroyed. */
         virtual void death(Event const & event);
 
         // Inherited from KeyListener

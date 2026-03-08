@@ -21,6 +21,7 @@ namespace fcn
     class FIFEGUI_API IconProgressBar : public Widget
     {
     public:
+        /** Orientation of the IconProgressBar (horizontal or vertical). */
         enum class Orientation : uint8_t
         {
             Horizontal = 0,

@@ -279,6 +279,12 @@ namespace fcn
 
         Rectangle getChildrenArea() override;
 
+        /**
+         * Hit-test for widgets inside the scroll area.
+         * @param x X coordinate to test (local).
+         * @param y Y coordinate to test (local).
+         * @return The widget at (x,y) or nullptr if none.
+         */
         virtual Widget* getWidgetAt(int x, int y);
 
         // Inherited from Widget
@@ -287,10 +293,13 @@ namespace fcn
 
         void logic() override;
 
+        /** Set the width of the scroll area. */
         void setWidth(int width);
 
+        /** Set the height of the scroll area. */
         void setHeight(int height);
 
+        /** Set the bounds/dimension of the scroll area. */
         void setDimension(Rectangle const & dimension);
 
         using Widget::expandContent;

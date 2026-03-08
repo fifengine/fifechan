@@ -30,8 +30,13 @@ namespace fcn
 
         SDLGraphics();
 
+        /** Set the SDL surface target for drawing (surface-based backend). */
         virtual void setTarget(SDL_Surface* target);
+
+        /** Get the current SDL surface target. */
         virtual SDL_Surface* getTarget() const;
+
+        /** Draw an SDL_Surface directly to the target surface. */
         virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination);
 
         void _beginDraw() override;
@@ -47,11 +52,19 @@ namespace fcn
         Color const & getColor() const override;
 
     protected:
+        /** Draw a horizontal line (internal helper). */
         virtual void drawHLine(int x1, int y, int x2);
+
+        /** Draw a vertical line (internal helper). */
         virtual void drawVLine(int x, int y1, int y2);
 
+        /** Current SDL surface target (if using surface-based drawing). */
         SDL_Surface* mTarget{};
+
+        /** Current drawing color. */
         Color mColor;
+
+        /** Whether alpha blending is enabled. */
         bool mAlpha;
     };
 
@@ -160,18 +173,37 @@ namespace fcn
          */
         void restoreRenderColor();
 
+        /** Current SDL surface used as an intermediate target. */
         SDL_Surface* mTarget{};
+
+        /** The SDL_Renderer used for accelerated drawing. */
         SDL_Renderer* mRenderTarget{};
+
+        /** Backing texture used for rendering. */
         SDL_Texture* mTexture{};
+
+        /** Current drawing color. */
         Color mColor;
-        Uint8 r{}, g{}, b{}, a{}; //! to store previous color from renderer
+
+        /** Cached renderer color components (previous renderer color). */
+        /** Previous red component from renderer. */
+        Uint8 r{};
+        /** Previous green component from renderer. */
+        Uint8 g{};
+        /** Previous blue component from renderer. */
+        Uint8 b{};
+        /** Previous alpha component from renderer. */
+        Uint8 a{};
+
+        /** Whether alpha blending is enabled. */
         bool mAlpha;
     };
 } // namespace fcn
 
 namespace fcn::sdl2
 {
-    using Graphics        = fcn::SDL2Graphics;
+    using Graphics = fcn::SDL2Graphics;
+    /** Alias for the surface-based SDL graphics implementation. */
     using SurfaceGraphics = fcn::SDLGraphics;
 } // namespace fcn::sdl2
 

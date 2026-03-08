@@ -166,17 +166,25 @@ namespace fcn
 
         void draw(Graphics* graphics) override;
 
+        /** Set the width of the tabbed area in pixels. */
         void setWidth(int width);
 
+        /** Set the height of the tabbed area in pixels. */
         void setHeight(int height);
 
+        /** Set the size (width and height) of the tabbed area in pixels. */
         void setSize(int width, int height);
 
+        /** Set the area dimension for the tabbed area. */
         void setDimension(Rectangle const & dimension);
 
+        /** Set the base/background color used for the tabbed area. */
         void setBaseColor(Color const & color);
 
+        /** Set the background widget which is drawn behind tabs. */
         void setBackgroundWidget(Widget* widget);
+
+        /** Get the background widget, or nullptr if none is set. */
         Widget* getBackgroundWidget();
 
         /**
@@ -254,6 +262,7 @@ namespace fcn
 
         // Inherited from DeathListener
 
+        /** DeathListener callback invoked when a child widget dies. */
         virtual void death(Event const & event);
 
         // Inherited from KeyListener

@@ -18,17 +18,27 @@ namespace fcn
     class FIFEGUI_API LineGraph : public Widget
     {
     public:
+        /** Default constructor. */
         LineGraph();
 
+        /** Construct with initial data points. */
         explicit LineGraph(PointVector data);
 
         ~LineGraph() override = default;
 
+        /** Set the raw point vector used to draw the graph. */
         void setPointVector(PointVector const & data);
+
+        /** Get the current point vector. */
         PointVector const & getPointVector() const;
+
+        /** Reset the stored data to an empty vector. */
         void resetPointVector();
 
+        /** Set stroke thickness in pixels. */
         void setThickness(unsigned int thickness);
+
+        /** Get stroke thickness in pixels. */
         unsigned int getThickness() const;
 
         /**
@@ -49,8 +59,13 @@ namespace fcn
         void draw(Graphics* graphics) override;
 
     protected:
+        /** True if the graph is drawn opaque. */
         bool m_opaque;
+
+        /** Stroke thickness in pixels. */
         unsigned int m_thickness;
+
+        /** The point data used to draw the graph. */
         PointVector m_data;
     };
 }; // namespace fcn

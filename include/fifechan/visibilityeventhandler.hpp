@@ -20,6 +20,11 @@ namespace fcn
     class FIFEGUI_API VisibilityEventHandler : public WidgetListener
     {
     public:
+        /**
+         * Construct a VisibilityEventHandler bound to a Gui instance.
+         *
+         * @param gui The Gui instance to inform about visibility changes.
+         */
         explicit VisibilityEventHandler(Gui* gui);
 
         ~VisibilityEventHandler() override = default;
@@ -35,6 +40,7 @@ namespace fcn
         void widgetShown(Event const & e) override;
 
     protected:
+        /** Pointer to the Gui used to handle visibility-related updates. */
         Gui* mGui;
     };
 } // namespace fcn

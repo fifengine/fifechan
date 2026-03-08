@@ -13,6 +13,7 @@
 #     Checks for required tools and builds docs.
 # - ./build-tools/doxygen.sh --install
 #     Installs tools with apt-get and latest Doxygen from latest release tag.
+# - ./build-tools/doxygen.sh > doxygen.log 2> doxygen-error.log
 #
 # Notes
 # - This script targets Debian/Ubuntu-like systems for package installation.

@@ -385,34 +385,36 @@ namespace fcn
         virtual void handleShownWidgets();
 
         /**
-         * Distributes a mouse event.
-         *
-         * @param source The source widget of the event.
-         * @param MouseEvent::Type type The type of the event to distribute,
-         * @param MouseInput::Button button The button of the event (if any used) to distribute.
-         * @param x The x coordinate of the event.
-         * @param y The y coordinate of the event.
-         * @param force indicates whether the distribution should be forced or not.
-         *               A forced distribution distributes the event even if a widget
-         *               is not enabled, not visible, another widget has modal
-         *               focus or another widget has modal mouse input focus.
-         *               Default value is false.
-         * @param toSourceOnly indicates whether the distribution should be to the
-         *                     source widget only or to it's parent's mouse listeners
-         *                     as well.
-         *
+         * Convenience overload: distribute a mouse event forwarding
+         * to the full overload with `force` and `toSourceOnly` set to false.
          */
         void distributeMouseEvent(Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y)
         {
             distributeMouseEvent(source, type, button, x, y, false, false);
         }
 
+        /** Convenience overload: forward and allow specifying `force` while
+         *  `toSourceOnly` remains false.
+         */
         void distributeMouseEvent(
             Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y, bool force)
         {
             distributeMouseEvent(source, type, button, x, y, force, false);
         }
 
+        /**
+         * Distributes a mouse event to the GUI handling code.
+         *
+         * @param source The source widget of the event.
+         * @param type The type of the event to distribute.
+         * @param button The button of the event (if any) to distribute.
+         * @param x The x coordinate of the event.
+         * @param y The y coordinate of the event.
+         * @param force If true, distributes the event even if the receiving widget
+         *              is not enabled, not visible, or another widget has modal focus.
+         * @param toSourceOnly If true, only the source widget receives the event,
+         *                     otherwise parent listeners may also receive it.
+         */
         virtual void distributeMouseEvent(
             Widget* source,
             MouseEvent::Type type,
@@ -448,6 +450,13 @@ namespace fcn
             return getWidgetAt(x, y, nullptr);
         }
 
+        /**
+         * Gets the widget at a certain position, optionally excluding one widget.
+         * @param x The x coordinate.
+         * @param y The y coordinate.
+         * @param exclude Widget to ignore when searching (may be nullptr).
+         * @return The widget at the specified position or nullptr if none.
+         */
         virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
@@ -581,11 +590,19 @@ namespace fcn
          */
         int mLastMouseDragButton;
 
+        /** Listener notified when the GUI or top widget is destroyed. */
         GuiDeathListener* mDeathListener;
 
+        /** Optional owned top widget (when Gui takes ownership). */
         std::unique_ptr<Widget> mOwnedTop;
+
+        /** Optional owned graphics backend instance. */
         std::unique_ptr<Graphics> mOwnedGraphics;
+
+        /** Optional owned input backend instance. */
         std::unique_ptr<Input> mOwnedInput;
+
+        /** Shared global font used by widgets when not overridden. */
         std::shared_ptr<Font> mGlobalFont;
     };
 } // namespace fcn

@@ -22,20 +22,33 @@ namespace fcn
     class FIFEGUI_API CurveGraph : public Widget
     {
     public:
+        /** Default constructor. */
         CurveGraph();
 
+        /** Construct with initial data points. */
         explicit CurveGraph(PointVector data);
 
         ~CurveGraph() override = default;
 
+        /** Set the raw point vector used to draw the curve. */
         void setPointVector(PointVector const & data);
+
+        /** Get the current point vector. */
         PointVector const & getPointVector() const;
+
+        /** Reset the stored data to an empty vector. */
         void resetPointVector();
 
+        /** Set stroke thickness in pixels. */
         void setThickness(unsigned int thickness);
+
+        /** Get stroke thickness in pixels. */
         unsigned int getThickness() const;
 
+        /** Enable/disable automatic computation of bezier control points. */
         void setAutomaticControlPoints(bool acp);
+
+        /** Return whether automatic control points are enabled. */
         bool isAutomaticControlPoints() const;
 
         /**
@@ -68,11 +81,22 @@ namespace fcn
          */
         void addControlPoints(PointVector const & points, PointVector& newPoints);
 
+        /** True if the curve is drawn opaque. */
         bool m_opaque;
+
+        /** Whether automatic control points are enabled. */
         bool m_acp;
+
+        /** Internal flag marking that the precalculated curve data needs update. */
         bool m_needUpdate;
+
+        /** Stroke thickness in pixels. */
         unsigned int m_thickness;
+
+        /** Raw input point data. */
         PointVector m_data;
+
+        /** Precalculated curve points (bezier/interpolated). */
         PointVector m_curveData;
     };
 }; // namespace fcn

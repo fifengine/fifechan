@@ -60,6 +60,7 @@
  * You can do this by using set_target_properties in CMake:
  * @code
  * set_target_properties(${PROJECT_NAME}_yourextension PROPERTIES COMPILE_DEFINITIONS FIFECHAN_EXTENSION_BUILD)
+ * @endcode
  *
  * @section client_application Using the core library or an extension in a client application
  * If you are using the core library or an extension in a client application,

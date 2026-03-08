@@ -64,9 +64,16 @@ namespace fcn
         void convertToDisplayFormat() override;
 
     protected:
+        /** Underlying SDL surface for this image (may be nullptr). */
         SDL_Surface* mSurface;
-        SDL_Texture* mTexture   = nullptr;
+
+        /** Optional SDL texture created for accelerated rendering. */
+        SDL_Texture* mTexture = nullptr;
+
+        /** SDL renderer associated with the texture, if any. */
         SDL_Renderer* mRenderer = nullptr;
+
+        /** Whether the surface should be freed automatically on destruction. */
         bool mAutoFree;
     };
 } // namespace fcn

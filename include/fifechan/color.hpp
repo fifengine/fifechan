@@ -65,7 +65,7 @@ namespace fcn
          * The integer should be in the format 0xRRGGBB.
          * The alpha component is 255 by default.         *
          *
-         * @param color The color to initialise the object with.
+         * @param hexColor The color to initialise the object with (format 0xRRGGBB).
          */
         explicit Color(int hexColor);
 
@@ -281,8 +281,22 @@ namespace fcn
         // to string and stream functions
         //
 
+        /**
+         * Returns the color as a hexadecimal string in the form "#RRGGBB".
+         * @return Hex string representation of the color (alpha not included).
+         */
         std::string toHexString() const;
+
+        /**
+         * Returns the color in the form "rgb(r,g,b)".
+         * @return RGB-style string representation of the color.
+         */
         std::string toRGBString() const;
+
+        /**
+         * Returns the color in the form "rgba(r,g,b,a)".
+         * @return RGBA-style string representation of the color including alpha.
+         */
         std::string toRGBAString() const;
 
         /**
@@ -293,11 +307,17 @@ namespace fcn
          */
         friend std::ostream& operator<<(std::ostream& out, Color const & color);
 
-        /**
-         * Red, green, blue, and alpha color components (range 0-255).
-         * Alpha: 0 means fully transparent, 255 means fully opaque.
-         */
-        uint8_t r{0}, g{0}, b{0}, a{255};
+        /** Red color component (0-255). */
+        uint8_t r{0};
+
+        /** Green color component (0-255). */
+        uint8_t g{0};
+
+        /** Blue color component (0-255). */
+        uint8_t b{0};
+
+        /** Alpha color component (0-255). 0 = transparent, 255 = opaque. */
+        uint8_t a{255};
 
     private:
         /**

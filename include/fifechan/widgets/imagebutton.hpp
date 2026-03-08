@@ -30,7 +30,12 @@ namespace fcn
     class FIFEGUI_API ImageButton : public fcn::Button
     {
     public:
-        // enum for easy image access
+        /**
+         * Types of images used by ImageButton.
+         *
+         * Up/Down/Hover indicate the visual state; *_Inactive variants are used
+         * when the button is disabled.
+         */
         enum class ImageType : uint8_t
         {
             Up             = 0,
@@ -203,12 +208,39 @@ namespace fcn
 
         // Inherited from Widget
 
+        /**
+         * Resize the button to fit its image content.
+         *
+         * @param recursion If true, resize children recursively (no-op for button).
+         */
         void resizeToContent(bool recursion) override;
+
+        /**
+         * Adjust internal size after layout or image changes.
+         */
         void adjustSize() override;
+
+        /**
+         * Draw the button using the provided graphics backend.
+         *
+         * @param graphics Graphics backend to draw with.
+         */
         void draw(fcn::Graphics* graphics) override;
 
     protected:
+        /**
+         * Internal helper to set an image for a specific ImageType by filename.
+         * @param filename image file to load and assign for the given type.
+         * @param type the image type slot to set.
+         */
         void setImage(std::string const & filename, ImageType type);
+
+        /**
+         * Internal helper to set an image for a specific ImageType using an
+         * existing Image pointer.
+         * @param image image pointer to assign for the given type.
+         * @param type the image type slot to set.
+         */
         void setImage(Image const * image, ImageType type);
 
         /**

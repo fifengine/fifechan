@@ -24,18 +24,33 @@ namespace fcn
     public:
         using fcn::ImageLoader::load;
 
+        /** Load an image from `filename`. */
         Image* load(std::string const & filename, bool convertToDisplayFormat) override;
+
+        /** Return the current SDL pixel format used for conversions. */
         SDL_PixelFormat const & getSDLPixelFormat();
+
+        /** Set the SDL pixel format used for conversions. */
         void setSDLPixelFormat(SDL_PixelFormat const & format);
+
+        /** Set the SDL renderer used when creating textures. */
         void setRenderer(SDL_Renderer* renderer);
 
     protected:
+        /** Load an SDL_Surface from disk (internal). */
         virtual SDL_Surface* loadSDLSurface(std::string const & filename);
+
+        /** Load an SDL_Texture from disk (internal). */
         virtual SDL_Texture* loadSDLTexture(std::string const & filename);
+
+        /** Convert a surface to a standard internal format (internal). */
         virtual SDL_Surface* convertToStandardFormat(SDL_Surface* surface);
 
     private:
+        /** Pixel format used for conversions and blending. */
         SDL_PixelFormat mPixelFormat;
+
+        /** Optional renderer used when creating textures. */
         SDL_Renderer* mRenderer;
     };
 } // namespace fcn

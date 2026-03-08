@@ -79,8 +79,10 @@ namespace fcn
          */
         unsigned int getTitleBarHeight() const;
 
+        /** Set the size of the inner border (pixels). */
         void setInnerBorderSize(unsigned int border);
 
+        /** Get the size of the inner border (pixels). */
         unsigned int getInnerBorderSize() const;
 
         /**
@@ -116,6 +118,7 @@ namespace fcn
          */
         bool isOpaque() const override;
 
+        /** Draw the inner border (override to customize appearance). */
         virtual void drawInnerBorder(Graphics* graphics);
 
         // Inherited from BasicContainer

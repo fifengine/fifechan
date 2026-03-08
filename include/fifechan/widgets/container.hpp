@@ -169,8 +169,23 @@ namespace fcn
         using Widget::expandContent;
         using Widget::resizeToContent;
 
+        /**
+         * Resize this container to fit its children.
+         *
+         * @param recursion If true, resize children recursively.
+         */
         void resizeToContent(bool recursion) override;
+
+        /**
+         * Adjust the size of the container after layout computations.
+         */
         void adjustSize() override;
+
+        /**
+         * Expand children to occupy available space in this container.
+         *
+         * @param recursion If true, expand children recursively.
+         */
         void expandContent(bool recursion) override;
         void draw(Graphics* graphics) override;
         Rectangle getChildrenArea() override;
@@ -248,7 +263,18 @@ namespace fcn
          */
         virtual unsigned int getHorizontalSpacing() const;
 
+        /**
+         * Set a widget that will be rendered behind other children as the background.
+         *
+         * @param widget Background widget (ownership is not transferred).
+         */
         void setBackgroundWidget(Widget* widget);
+
+        /**
+         * Get the background widget if one is set.
+         *
+         * @return The background widget or nullptr if none is set.
+         */
         Widget* getBackgroundWidget();
 
     protected:
@@ -308,6 +334,9 @@ namespace fcn
          */
         unsigned int mHorizontalSpacing;
 
+        /**
+         * Optional widget that is rendered behind other children as the container background.
+         */
         Widget* mBackgroundWidget;
     };
 } // namespace fcn

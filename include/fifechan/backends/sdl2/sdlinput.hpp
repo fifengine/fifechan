@@ -72,10 +72,16 @@ namespace fcn
          */
         int convertSDLEventToFifechanKeyValue(SDL_Event event);
 
+        /** Queue of key inputs waiting to be processed. */
         std::queue<KeyInput> mKeyInputQueue;
+
+        /** Queue of mouse inputs waiting to be processed. */
         std::queue<MouseInput> mMouseInputQueue;
 
+        /** True if a mouse button is currently held down. */
         bool mMouseDown;
+
+        /** True if the mouse cursor is currently within the application window. */
         bool mMouseInWindow;
     };
 } // namespace fcn

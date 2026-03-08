@@ -1120,8 +1120,6 @@ namespace fcn
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
-         * @param exclude Widget to exclude from search, if NULL
-         *            no widgets get excluded.
          * @return The widget at the specified coordinate, NULL
          *         if no widget is found.
          */
@@ -1130,6 +1128,15 @@ namespace fcn
             return getWidgetAt(x, y, nullptr);
         }
 
+        /**
+         * Variant of getWidgetAt that allows excluding a specific widget
+         * from the hit-test.
+         *
+         * @param x The x coordinate of the widget to get.
+         * @param y The y coordinate of the widget to get.
+         * @param exclude Widget to exclude from search, if NULL no widgets get excluded.
+         * @return The widget at the specified coordinate, NULL if no widget is found.
+         */
         virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
@@ -1139,7 +1146,6 @@ namespace fcn
          *       a container.
          *
          * @param area The area to check.
-         * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
          */
         std::list<Widget*> getWidgetsIn(Rectangle const & area)
@@ -1147,6 +1153,16 @@ namespace fcn
             return getWidgetsIn(area, nullptr);
         }
 
+        /**
+         * Gets all widgets inside a certain area of the widget.
+         *
+         * NOTE: This always returns an empty list if the widget is not
+         *       a container.
+         *
+         * @param area The area to check.
+         * @param ignore Optional widget pointer to exclude from the results.
+         * @return A list of widgets found inside `area`. Empty list if none.
+         */
         virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore);
 
         /**
@@ -1318,7 +1334,18 @@ namespace fcn
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
 
+        /**
+         * Set the global GUI death listener used to observe widget deletions.
+         *
+         * @param deathListener Pointer to a DeathListener instance (ownership not transferred).
+         */
         static void _setGuiDeathListener(DeathListener* deathListener);
+
+        /**
+         * Get the global GUI death listener.
+         *
+         * @return The current DeathListener or nullptr if none is set.
+         */
         static DeathListener* _getGuiDeathListener();
 
         /**
@@ -1365,6 +1392,11 @@ namespace fcn
             adaptLayout(true);
         }
 
+        /**
+         * Execute the layouting for this widget.
+         *
+         * @param top If true, perform top-level layout adaptations as well.
+         */
         virtual void adaptLayout(bool top);
 
         /**
@@ -1378,6 +1410,11 @@ namespace fcn
             resizeToContent(true);
         }
 
+        /**
+         * Resize this widget to fit its content.
+         *
+         * @param recursion If true, perform the resize operation recursively on children.
+         */
         virtual void resizeToContent(bool recursion) { }
 
         /**
@@ -1396,6 +1433,11 @@ namespace fcn
             expandContent(true);
         }
 
+        /**
+         * Expands child widgets to fit this widget's size.
+         *
+         * @param recursion If true, call expandContent recursively on children.
+         */
         virtual void expandContent(bool recursion) { }
 
         /**
@@ -1406,8 +1448,27 @@ namespace fcn
             return false;
         }
 
+        /**
+         * Retrieves the last stored position used by layout or event logic.
+         *
+         * @param x Output parameter receiving the last x coordinate.
+         * @param y Output parameter receiving the last y coordinate.
+         */
         void getLastPosition(int& x, int& y) const;
+
+        /**
+         * Stores the last known position for this widget.
+         *
+         * @param x The x coordinate to store.
+         * @param y The y coordinate to store.
+         */
         void setLastPosition(int x, int y);
+
+        /**
+         * Returns whether a last position has been stored for this widget.
+         *
+         * @return True if a last position is set, false otherwise.
+         */
         bool isLastPositionSet() const;
 
     protected:
@@ -1768,7 +1829,10 @@ namespace fcn
          */
         std::list<Widget*> mChildren;
 
+        /** Last stored X coordinate used for layout and event calculations. */
         int mLastX;
+
+        /** Last stored Y coordinate used for layout and event calculations. */
         int mLastY;
     };
 } // namespace fcn

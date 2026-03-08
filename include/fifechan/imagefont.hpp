@@ -23,8 +23,8 @@ namespace fcn
      * with any image supported by the currently used ImageLoader.
      *
      * These are two examples of an image containing a font.
-     *  \image html imagefontexample.bmp
-     *  \image html imagefontexample2.bmp
+     *  \image html fixedfont.bmp
+     *  \image html rpgfont.png
      *
      * The first pixel at coordinate (0,0) tells which color the image font
      * looks for when separating glyphs. The glyphs in the image is provided
@@ -32,8 +32,10 @@ namespace fcn
      *
      * To create an ImageFont from the first image example above the following
      * constructor call should be made:
-     * @code fcn::ImageFont imageFont("fixedfont_big.bmp"," abcdefghijklmno\
-pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
+     * @code
+     * fcn::ImageFont imageFont("fixedfont_big.bmp",
+     *     " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+     * @endcode
      *
      * Noteworthy is that the first glyph actually gives the width of space.
      * Glyphs can, as seen in the second image example above, be separated with

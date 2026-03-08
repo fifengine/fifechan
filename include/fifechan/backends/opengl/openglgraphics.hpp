@@ -101,9 +101,16 @@ namespace fcn
         Color const & getColor() const override;
 
     protected:
+        /** Width of the logical target plane. */
         int mWidth{};
+
+        /** Height of the logical target plane. */
         int mHeight{};
+
+        /** Whether alpha blending is enabled. */
         bool mAlpha{};
+
+        /** Current drawing color. */
         Color mColor;
     };
 } // namespace fcn

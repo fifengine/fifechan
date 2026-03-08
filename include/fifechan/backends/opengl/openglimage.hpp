@@ -99,12 +99,25 @@ namespace fcn
         void convertToDisplayFormat() override;
 
     protected:
+        /** OpenGL texture handle backing this image (if any). */
         GLuint mTextureHandle;
+
+        /** Pixel buffer copy for the image (RGBA packed). */
         std::vector<unsigned int> mPixels;
+
+        /** Whether the texture handle should be freed on destruction. */
         bool mAutoFree;
+
+        /** Logical image width in pixels. */
         int mWidth;
+
+        /** Logical image height in pixels. */
         int mHeight;
+
+        /** Actual texture width (power-of-two) used by GL. */
         int mTextureWidth;
+
+        /** Actual texture height (power-of-two) used by GL. */
         int mTextureHeight;
     };
 } // namespace fcn

@@ -219,6 +219,12 @@ namespace fcn
          */
         void setCaretRowUTF8(int row);
 
+        /**
+         * Sets the caret row and column (UTF-8 aware).
+         *
+         * @param row Caret row (UTF-8 aware index).
+         * @param column Caret column (UTF-8 aware index).
+         */
         void setCaretRowColumnUTF8(int row, int column);
 
         /**

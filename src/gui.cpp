@@ -29,9 +29,14 @@
 
 namespace fcn
 {
+    /**
+     * Internal listener that forwards death notifications from widgets
+     * to the owning Gui so it can clean up references.
+     */
     class GuiDeathListener : public DeathListener
     {
     public:
+        /** Construct a GuiDeathListener bound to a Gui instance. */
         explicit GuiDeathListener(Gui* gui) : mGui(gui) { }
         ~GuiDeathListener() override = default;
 

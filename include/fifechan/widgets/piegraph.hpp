@@ -143,6 +143,7 @@ namespace fcn
         /** The radius of the pie graph in pixels. */
         int m_radius;
 
+        /** Represents a single pie segment with start/stop angles and color. */
         struct PieGraphSegment
         {
             /** Start angle in degrees. */

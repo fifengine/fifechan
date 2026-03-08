@@ -145,6 +145,10 @@ namespace fcn
 
         using Container::resizeToContent;
 
+        /**
+         * Resize the adjusting container to fit its children.
+         * @param recursion If true, propagate resize to child containers.
+         */
         void resizeToContent(bool recursion) override;
 
         void adjustSize() override;
@@ -166,16 +170,44 @@ namespace fcn
         void clear() override;
 
     protected:
+        /**
+         * The widgets contained in the adjusting container in layout order.
+         */
         std::vector<Widget*> mContainedWidgets;
+
+        /**
+         * Computed width for each column (in pixels).
+         */
         std::vector<unsigned int> mColumnWidths;
+
         /**
          * The alignment of each column.
          */
         std::vector<Alignment> mColumnAlignment;
+
+        /**
+         * Computed height for each row (in pixels).
+         */
         std::vector<unsigned int> mRowHeights;
+
+        /**
+         * Cached container width used during layout.
+         */
         unsigned int mWidth;
+
+        /**
+         * Cached container height used during layout.
+         */
         unsigned int mHeight;
+
+        /**
+         * Number of columns in the layout.
+         */
         unsigned int mNumberOfColumns;
+
+        /**
+         * Number of rows in the layout (derived from children count).
+         */
         unsigned int mNumberOfRows;
     };
 } // namespace fcn

@@ -21,9 +21,8 @@ namespace fcn
      * SDL True Type Font implementation of Font. It uses the SDL_ttf library
      * to display True Type Fonts with SDL.
      *
-     * NOTE: You must initialize the SDL_ttf library before using this
-     *       class. Also, remember to call the SDL_ttf libraries quit
-     *       function.
+     * Note: initialize the SDL_ttf library (TTF_Init) before using this
+     * class and call TTF_Quit when finished.
      */
     class FIFEGUI_EXT_API SDLTrueTypeFont : public Font
     {
@@ -69,9 +68,9 @@ namespace fcn
         virtual int getGlyphSpacing();
 
         /**
-         * Sets the use of anti aliasing..
+         * Enable or disable anti-aliasing for rendered glyphs.
          *
-         * @param antiAlias true for use of anti aliasing.
+         * @param antiAlias True to enable anti-aliasing, false to disable.
          */
         virtual void setAntiAlias(bool antiAlias);
 
@@ -91,13 +90,22 @@ namespace fcn
         void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
     protected:
+        /** Underlying TTF_Font pointer from SDL_ttf. */
         TTF_Font* mFont;
 
+        /** Cached font height in pixels. */
         int mHeight{};
+
+        /** Additional spacing between glyphs in pixels. */
         int mGlyphSpacing;
+
+        /** Additional spacing between rows in pixels. */
         int mRowSpacing;
 
+        /** Filename of the font used to create mFont. */
         std::string mFilename;
+
+        /** Whether anti-aliasing is enabled for rendering. */
         bool mAntiAlias;
     };
 } // namespace fcn

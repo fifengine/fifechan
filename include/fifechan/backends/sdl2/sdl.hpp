@@ -21,12 +21,22 @@
 
 namespace fcn::sdl2
 {
-    using Graphics     = fcn::SDL2Graphics;
-    using Image        = fcn::SDLImage;
-    using ImageLoader  = fcn::SDLImageLoader;
-    using Input        = fcn::SDLInput;
+    /** Backend alias for the SDL2 graphics implementation. */
+    using Graphics = fcn::SDL2Graphics;
+
+    /** Backend alias for the SDL image implementation. */
+    using Image = fcn::SDLImage;
+
+    /** Backend alias for the SDL image loader. */
+    using ImageLoader = fcn::SDLImageLoader;
+
+    /** Backend alias for the SDL input implementation. */
+    using Input = fcn::SDLInput;
+
+    /** Backend alias for the SDL TrueType font wrapper. */
     using TrueTypeFont = fcn::SDLTrueTypeFont;
 
+    /** Create a shared_ptr that will destroy the SDL_Window when released. */
     inline std::shared_ptr<SDL_Window> makeSDLSharedPtr(SDL_Window* window)
     {
         return std::shared_ptr<SDL_Window>{window, [](SDL_Window* value) {
@@ -36,6 +46,7 @@ namespace fcn::sdl2
                                            }};
     }
 
+    /** Create a shared_ptr that will destroy the SDL_Renderer when released. */
     inline std::shared_ptr<SDL_Renderer> makeSDLSharedPtr(SDL_Renderer* renderer)
     {
         return std::shared_ptr<SDL_Renderer>{renderer, [](SDL_Renderer* value) {
@@ -45,6 +56,7 @@ namespace fcn::sdl2
                                              }};
     }
 
+    /** Create a shared_ptr that will free the SDL_Surface when released. */
     inline std::shared_ptr<SDL_Surface> makeSDLSharedPtr(SDL_Surface* surface)
     {
         return std::shared_ptr<SDL_Surface>{surface, [](SDL_Surface* value) {
@@ -54,6 +66,7 @@ namespace fcn::sdl2
                                             }};
     }
 
+    /** Create a shared_ptr that will destroy the SDL_Texture when released. */
     inline std::shared_ptr<SDL_Texture> makeSDLSharedPtr(SDL_Texture* texture)
     {
         return std::shared_ptr<SDL_Texture>{texture, [](SDL_Texture* value) {

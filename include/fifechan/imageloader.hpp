@@ -34,21 +34,27 @@ namespace fcn
         virtual ~ImageLoader() = default;
 
         /**
-         * Loads an image.
+         * Loads an image. The single-argument overload forwards to the
+         * two-argument overload requesting conversion to display format.
          *
          * NOTE: The functions Image::getPixel and Image::putPixel
          *       are only guaranteed to work before an image has
          *       been converted to display format.
          *
          * @param filename The filename of the image to load.
-         * @param convertToDisplayFormat True if the image should be converted
-         *                               to display, false otherwise.
          */
         Image* load(std::string const & filename)
         {
             return load(filename, true);
         }
 
+        /**
+         * Loads an image, optionally converting it to display format.
+         *
+         * @param filename The filename of the image to load.
+         * @param convertToDisplayFormat True if the image should be converted
+         *                               to display format, false otherwise.
+         */
         virtual Image* load(std::string const & filename, bool convertToDisplayFormat) = 0;
     };
 } // namespace fcn

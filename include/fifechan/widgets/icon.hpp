@@ -121,13 +121,13 @@ namespace fcn
          */
         bool mInternalImage;
 
-        // True if scaling is enabled, otherwise false.
+        /** True if scaling is enabled, otherwise false. */
         bool mScale;
 
-        // True if tiling is enabled, otherwise false.
+        /** True if tiling is enabled, otherwise false. */
         bool mTile;
 
-        // True if opaque, otherwise false.
+        /** True if opaque, otherwise false. */
         bool mOpaque;
     };
 } // namespace fcn
