@@ -2,7 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
+#include "fifechan/version.hpp"
+
 static char const * fcnFifechanVersion()
 {
-    return "0.1.5";
+    return fcn::app_version::get_version();
 }
