@@ -1,3 +1,4 @@
 build/
 out/
 vcpkg_installed/
+/docs/doxygen
