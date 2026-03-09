@@ -111,17 +111,12 @@ namespace fcn
             }
         }
 
-        pit                             = m_data.begin();
+        pit = m_data.begin();
+
         unsigned int const markerRadius = std::max(4U, m_thickness);
 
-        if (thick) {
-            for (; pit != m_data.end(); ++pit) {
-                graphics->drawFillCircle(*pit, markerRadius);
-            }
-        } else {
-            for (; pit != m_data.end(); ++pit) {
-                graphics->drawFillCircle(*pit, markerRadius);
-            }
+        for (; pit != m_data.end(); ++pit) {
+            graphics->drawFillCircle(*pit, markerRadius);
         }
     }
 
