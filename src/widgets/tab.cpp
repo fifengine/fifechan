@@ -83,7 +83,7 @@ namespace fcn
         // Push a clip area so the other drawings don't need to worry
         // about the border.
         graphics->pushClipArea(Rectangle(1, 1, getWidth() - 2, getHeight() - 1));
-        Rectangle const currentClipArea = graphics->getCurrentClipArea();
+        ClipRectangle const & currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(baseColor);
         graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);

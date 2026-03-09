@@ -99,7 +99,7 @@ namespace fcn
         // Push a clip area so the other drawings don't need to worry
         // about the border.
         graphics->pushClipArea(Rectangle(1, 1, getWidth() - 2, h - 2));
-        Rectangle const currentClipArea = graphics->getCurrentClipArea();
+        ClipRectangle const & currentClipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(0, 0, currentClipArea.width, currentClipArea.height);
@@ -163,7 +163,7 @@ namespace fcn
             offset           = 0;
         }
 
-        Rectangle const currentClipArea = graphics->getCurrentClipArea();
+        ClipRectangle const & currentClipArea = graphics->getCurrentClipArea();
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, currentClipArea.width - 1, 0);
         graphics->drawLine(0, 1, 0, currentClipArea.height - 1);

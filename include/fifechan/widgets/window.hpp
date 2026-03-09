@@ -188,7 +188,7 @@ namespace fcn
         /**
          * True if the window is being moved, false otherwise.
          */
-        bool mMoved;
+        bool mMoved{false};
     };
 } // namespace fcn
 

@@ -10,14 +10,15 @@
 
 namespace fcn
 {
-    OpenGLImage::OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat)
+    OpenGLImage::OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat) :
+        mTextureHandle(0),
+        mPixels(),
+        mAutoFree(true),
+        mWidth(width),
+        mHeight(height),
+        mTextureWidth(1),
+        mTextureHeight(1)
     {
-        mAutoFree = true;
-
-        mWidth        = width;
-        mHeight       = height;
-        mTextureWidth = 1, mTextureHeight = 1;
-
         while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
         }
@@ -34,10 +35,8 @@ namespace fcn
 #else
         unsigned int const magicPink = 0xffff00ff;
 #endif
-        int x;
-        int y;
-        for (y = 0; y < mTextureHeight; y++) {
-            for (x = 0; x < mTextureWidth; x++) {
+        for (int y = 0; y < mTextureHeight; ++y) {
+            for (int x = 0; x < mTextureWidth; ++x) {
                 if (x < mWidth && y < mHeight) {
                     unsigned int c = pixels[x + (y * mWidth)];
 
@@ -46,9 +45,9 @@ namespace fcn
                         c = 0x00000000;
                     }
 
-                    mPixels[x + y * mTextureWidth] = c;
+                    mPixels[x + (y * mTextureWidth)] = c;
                 } else {
-                    mPixels[x + y * mTextureWidth] = 0x00000000;
+                    mPixels[x + (y * mTextureWidth)] = 0x00000000;
                 }
             }
         }
@@ -58,15 +57,16 @@ namespace fcn
         }
     }
 
-    OpenGLImage::OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree)
+    OpenGLImage::OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree) :
+        mTextureHandle(textureHandle),
+        mPixels(),
+        mAutoFree(autoFree),
+        mWidth(width),
+        mHeight(height),
+        mTextureWidth(1),
+        mTextureHeight(1)
     {
-        mTextureHandle = textureHandle;
-        mAutoFree      = autoFree;
         mPixels.clear();
-
-        mWidth        = width;
-        mHeight       = height;
-        mTextureWidth = 1, mTextureHeight = 1;
 
         while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
@@ -180,9 +180,9 @@ namespace fcn
 
         mPixels.clear();
 
-        GLenum error = glGetError();
-        if (error) {
-            std::string errmsg = "";
+        GLenum const error = glGetError();
+        if (error != GL_NO_ERROR) {
+            std::string errmsg;
             switch (error) {
             case GL_INVALID_ENUM:
                 errmsg = "GL_INVALID_ENUM";
@@ -207,8 +207,10 @@ namespace fcn
             case GL_OUT_OF_MEMORY:
                 errmsg = "GL_OUT_OF_MEMORY";
                 break;
+            default:
+                errmsg = "UNKNOWN_ERROR";
+                break;
             }
-
             throwException(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
         }
     }

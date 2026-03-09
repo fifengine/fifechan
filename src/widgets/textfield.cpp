@@ -101,7 +101,8 @@ namespace fcn
         // size than the widget might have been pushed (which is the
         // case in the draw method when we push a clip area after we have
         // drawn a border).
-        Rectangle const clipArea = graphics->getCurrentClipArea();
+        // Warning: not using a ref will result in truncation.
+        ClipRectangle const & clipArea = graphics->getCurrentClipArea();
 
         graphics->setColor(getForegroundColor());
         graphics->drawLine(x, clipArea.height - 2, x, 1);
