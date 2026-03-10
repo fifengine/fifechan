@@ -110,13 +110,15 @@ void Application::init_SDL(std::string const & title, int width, int height)
         exit(1);
     }
 
-    auto const windowFlags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
-    window                 = initWindow(title, width, height, windowFlags);
+    auto const windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
+
+    window = initWindow(title, width, height, windowFlags);
 
     SDL_RaiseWindow(window.get());
 
-    auto const rendererFlags = static_cast<SDL_RendererFlags>(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    renderer                 = initRenderer(window, rendererFlags);
+    auto const rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+
+    renderer = initRenderer(window, rendererFlags);
 }
 
 void Application::cleanup()

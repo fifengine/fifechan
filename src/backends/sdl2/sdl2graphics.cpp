@@ -372,8 +372,8 @@ namespace fcn
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
-        float const dx      = static_cast<float>(x2 - x1);
-        float const dy      = static_cast<float>(y2 - y1);
+        auto const dx       = static_cast<float>(x2 - x1);
+        auto const dy       = static_cast<float>(y2 - y1);
         float const length  = std::sqrt((dx * dx) + (dy * dy));
         float const offsetX = (dy / length) * (static_cast<float>(width) / 2.0F);
         float const offsetY = (dx / length) * (static_cast<float>(width) / 2.0F);

@@ -14,7 +14,7 @@
 
 namespace fcn
 {
-    Window::Window() : mMoved(false)
+    Window::Window()
     {
         setBorderSize(1);
         setInnerBorderSize(1);
@@ -26,7 +26,7 @@ namespace fcn
         setOpaque(true);
     }
 
-    Window::Window(std::string const & caption) : mMoved(false)
+    Window::Window(std::string const & caption)
     {
         setCaption(caption);
         setBorderSize(1);

@@ -11,13 +11,7 @@
 namespace fcn
 {
     OpenGLImage::OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat) :
-        mTextureHandle(0),
-        mPixels(),
-        mAutoFree(true),
-        mWidth(width),
-        mHeight(height),
-        mTextureWidth(1),
-        mTextureHeight(1)
+        mTextureHandle(0), mAutoFree(true), mWidth(width), mHeight(height), mTextureWidth(1), mTextureHeight(1)
     {
         while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
@@ -59,7 +53,6 @@ namespace fcn
 
     OpenGLImage::OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree) :
         mTextureHandle(textureHandle),
-        mPixels(),
         mAutoFree(autoFree),
         mWidth(width),
         mHeight(height),

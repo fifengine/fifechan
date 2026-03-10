@@ -365,8 +365,6 @@ namespace fcn
             value = Key::Right;
             break;
         case SDLK_RETURN:
-            value = Key::Enter;
-            break;
         case SDLK_KP_ENTER:
             value = Key::Enter;
             break;
