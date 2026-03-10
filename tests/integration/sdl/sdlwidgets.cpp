@@ -50,10 +50,9 @@ namespace widgets
     }
 } // namespace widgets
 
-Application::Application(std::string const & title, int width, int height)
+Application::Application(std::string const & title, int width, int height) :
+    exePath(getExecutablePath()), demoListModel(std::make_unique<widgets::DemoListModel>())
 {
-    exePath       = getExecutablePath();
-    demoListModel = std::make_unique<widgets::DemoListModel>();
     init_SDL(title, width, height);
     init_GUI(width, height);
 }

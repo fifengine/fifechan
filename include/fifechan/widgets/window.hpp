@@ -149,41 +149,41 @@ namespace fcn
         /**
          * Holds the alignment of the caption.
          */
-        Graphics::Alignment mAlignment;
+        Graphics::Alignment mAlignment{Graphics::Alignment::Center};
 
         /**
          * Holds the title bar height of the window.
          */
-        unsigned int mTitleBarHeight{};
+        unsigned int mTitleBarHeight{16};
 
         /**
          * Holds the size of the inner border.
          */
-        unsigned int mInnerBorder{};
+        unsigned int mInnerBorderSize{1};
 
         /**
          * True if the window is movable, false otherwise.
          */
-        bool mMovable{};
+        bool mMovable{true};
 
         /**
          * True if the window is opaque, false otherwise.
          */
-        bool mOpaque{};
+        bool mOpaque{true};
 
         /**
          * Holds a drag offset as an x coordinate where the drag of the window
          * started if the window is being dragged. It's used to move the window
          * correctly when dragged.
          */
-        int mDragOffsetX{};
+        int mDragOffsetX{0};
 
         /**
          * Holds a drag offset as an y coordinate where the drag of the window
          * started if the window is being dragged. It's used to move the window
          * correctly when dragged.
          */
-        int mDragOffsetY{};
+        int mDragOffsetY{0};
 
         /**
          * True if the window is being moved, false otherwise.

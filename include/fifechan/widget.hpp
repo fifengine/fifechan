@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_WIDGET_HPP_
 #define INCLUDE_FIFECHAN_WIDGET_HPP_
 
+#include <limits>
 #include <list>
 #include <string>
 #include <type_traits>
@@ -1646,19 +1647,19 @@ namespace fcn
         /**
          * Holds the focus handler used by the widget.
          */
-        FocusHandler* mFocusHandler;
+        FocusHandler* mFocusHandler{nullptr};
 
         /**
          * Holds the focus handler used by the widget. NULL
          * if no internal focus handler is used.
          */
-        FocusHandler* mInternalFocusHandler;
+        FocusHandler* mInternalFocusHandler{nullptr};
 
         /**
          * Holds the parent of the widget. NULL if the widget
          * has no parent.
          */
-        Widget* mParent;
+        Widget* mParent{nullptr};
 
         /**
          * Holds the dimension of the widget.
@@ -1673,57 +1674,57 @@ namespace fcn
         /**
          * Holds the outline size of the widget.
          */
-        unsigned int mOutlineSize;
+        unsigned int mOutlineSize{0};
 
         /**
          * Holds the border size of the widget.
          */
-        unsigned int mBorderSize = 0;
+        unsigned int mBorderSize{0};
 
         /**
          * Holds the selection mode.
          */
-        SelectionMode mSelectionMode;
+        SelectionMode mSelectionMode{SelectionMode::None};
 
         /**
          * Holds the top margin of the widget.
          */
-        int mMarginTop;
+        int mMarginTop{0};
 
         /**
          * Holds the top right of the widget.
          */
-        int mMarginRight;
+        int mMarginRight{0};
 
         /**
          * Holds the bottom margin of the widget.
          */
-        int mMarginBottom;
+        int mMarginBottom{0};
 
         /**
          * Holds the left margin of the widget.
          */
-        int mMarginLeft;
+        int mMarginLeft{0};
 
         /**
          * Holds the top padding of the widget.
          */
-        unsigned int mPaddingTop;
+        unsigned int mPaddingTop{0};
 
         /**
          * Holds the right padding of the widget.
          */
-        unsigned int mPaddingRight;
+        unsigned int mPaddingRight{0};
 
         /**
          * Holds the bottom padding of the widget.
          */
-        unsigned int mPaddingBottom;
+        unsigned int mPaddingBottom{0};
 
         /**
          * Holds the left padding of the widget.
          */
-        unsigned int mPaddingLeft;
+        unsigned int mPaddingLeft{0};
 
         /**
          * Holds the action event of the widget.
@@ -1733,27 +1734,27 @@ namespace fcn
         /**
          * True if the widget focusable, false otherwise.
          */
-        bool mFocusable = false;
+        bool mFocusable{false};
 
         /**
          * True if the widget visible, false otherwise.
          */
-        bool mVisible = true;
+        bool mVisible{true};
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabIn = true;
+        bool mTabIn{true};
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabOut = true;
+        bool mTabOut{true};
 
         /**
          * True if the widget is enabled, false otherwise.
          */
-        bool mEnabled = true;
+        bool mEnabled{true};
 
         /**
          * Holds the id of the widget.
@@ -1761,39 +1762,42 @@ namespace fcn
         std::string mId;
 
         /**
-         * Holds the font used by the widget.
-         */
-        Font* mCurrentFont;
-
-        /**
          * Holds the min size.
          */
-        Size mMinSize;
+        Size mMinSize{0, 0};
 
         /**
-         * Holds the min size.
+         * Holds the max size.
+         *
+         * Default to a very large value so widgets are not clamped to zero
+         * when the user does not explicitly set a max size.
          */
-        Size mMaxSize;
+        Size mMaxSize{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
 
         /**
          * Holds the fixed size.
          */
-        Size mFixedSize;
+        Size mFixedSize{-1, -1};
 
         /**
          * True if the widget used a fixed size.
          */
-        bool mIsFixedSize;
+        bool mFixedSizeUsed{false};
 
         /**
          * True if the widget can be vertical expanded.
          */
-        bool mVExpand;
+        bool mVExpand{false};
 
         /**
          * True if the widget can be horizontal expanded.
          */
-        bool mHExpand;
+        bool mHExpand{false};
+
+        /**
+         * Holds the font used by the widget.
+         */
+        Font* mCurrentFont;
 
         /**
          * Holds the default font used by the widget.
@@ -1813,9 +1817,9 @@ namespace fcn
         /**
          * Holds the visibility event handler used by the widgets.
          *
-         * FIXME We don't like the visibility handler being static
-         *        but we leave it as is for the moment, until we
-         *        come up a better solution.
+         * TODO: FIXME We don't like the visibility handler being static
+         *       but we leave it as is for the moment, until we
+         *       come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
 
@@ -1830,10 +1834,10 @@ namespace fcn
         std::list<Widget*> mChildren;
 
         /** Last stored X coordinate used for layout and event calculations. */
-        int mLastX = 0;
+        int mLastX{0};
 
         /** Last stored Y coordinate used for layout and event calculations. */
-        int mLastY = 0;
+        int mLastY{0};
     };
 } // namespace fcn
 

@@ -62,7 +62,7 @@ namespace fcn
         mMinSize(0, 0),
         mMaxSize(50000, 50000),
         mFixedSize(-1, -1),
-        mIsFixedSize(false),
+        mFixedSizeUsed(false),
         mVExpand(false),
         mHExpand(false),
         mLastX(0),
@@ -319,9 +319,9 @@ namespace fcn
     {
         mFixedSize = size;
         if (mFixedSize.getWidth() < 0 || mFixedSize.getHeight() < 0) {
-            mIsFixedSize = false;
+            mFixedSizeUsed = false;
         } else {
-            mIsFixedSize = true;
+            mFixedSizeUsed = true;
             calculateSize();
         }
     }
@@ -333,12 +333,12 @@ namespace fcn
 
     bool Widget::isFixedSize() const
     {
-        return mIsFixedSize;
+        return mFixedSizeUsed;
     }
 
     void Widget::calculateSize()
     {
-        if (isFixedSize()) {
+        if (mFixedSizeUsed) {
             mDimension.width  = mFixedSize.getWidth();
             mDimension.height = mFixedSize.getHeight();
             return;

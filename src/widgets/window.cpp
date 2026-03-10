@@ -17,26 +17,18 @@ namespace fcn
     Window::Window()
     {
         setBorderSize(1);
-        setInnerBorderSize(1);
         setPadding(2);
-        setTitleBarHeight(16);
-        setAlignment(Graphics::Alignment::Center);
+
         addMouseListener(this);
-        setMovable(true);
-        setOpaque(true);
     }
 
     Window::Window(std::string const & caption)
     {
         setCaption(caption);
         setBorderSize(1);
-        setInnerBorderSize(1);
         setPadding(2);
-        setTitleBarHeight(16);
-        setAlignment(Graphics::Alignment::Center);
+
         addMouseListener(this);
-        setMovable(true);
-        setOpaque(true);
     }
 
     Window::~Window() = default;
@@ -53,12 +45,12 @@ namespace fcn
 
     void Window::setInnerBorderSize(unsigned int border)
     {
-        mInnerBorder = border;
+        mInnerBorderSize = border;
     }
 
     unsigned int Window::getInnerBorderSize() const
     {
-        return mInnerBorder;
+        return mInnerBorderSize;
     }
 
     void Window::setCaption(std::string const & caption)
