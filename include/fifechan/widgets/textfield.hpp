@@ -33,6 +33,11 @@ namespace fcn
          */
         explicit TextField(std::string const & text);
 
+        TextField(TextField const &)            = delete;
+        TextField& operator=(TextField const &) = delete;
+        TextField(TextField&&)                  = delete;
+        TextField& operator=(TextField&&)       = delete;
+
         ~TextField() override;
 
         /**

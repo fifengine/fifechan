@@ -32,6 +32,11 @@ namespace fcn
          */
         explicit TextBox(std::string const & text = "");
 
+        TextBox(TextBox const &)            = delete;
+        TextBox& operator=(TextBox const &) = delete;
+        TextBox(TextBox&&)                  = delete;
+        TextBox& operator=(TextBox&&)       = delete;
+
         ~TextBox() override;
 
         /**
