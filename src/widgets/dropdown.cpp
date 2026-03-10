@@ -18,12 +18,7 @@
 namespace fcn
 {
     DropDown::DropDown(ListModel* listModel, ScrollArea* scrollArea, ListBox* listBox) :
-        mDroppedDown(false),
-        mPushed(false),
-        mIsDragged(false),
-        mInternalScrollArea(scrollArea == nullptr),
-        mInternalListBox(listBox == nullptr),
-        mFoldedUpHeight(0)
+        mInternalScrollArea(scrollArea == nullptr), mInternalListBox(listBox == nullptr)
     {
         setWidth(100);
         setFocusable(true);

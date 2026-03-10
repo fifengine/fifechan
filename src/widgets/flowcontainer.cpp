@@ -13,7 +13,7 @@
 namespace fcn
 {
 
-    FlowContainer::FlowContainer() : mAlignment(Alignment::Center)
+    FlowContainer::FlowContainer()
     {
         setOpaque(true);
     }

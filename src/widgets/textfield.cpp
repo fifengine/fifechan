@@ -16,7 +16,7 @@
 
 namespace fcn
 {
-    TextField::TextField() : mEditable(true), mText(new Text()), mXScroll(0), mStringEditor(new UTF8StringEditor)
+    TextField::TextField() : mText(new Text()), mStringEditor(new UTF8StringEditor)
     {
         mText->addRow("");
 
@@ -26,8 +26,7 @@ namespace fcn
         addKeyListener(this);
     }
 
-    TextField::TextField(std::string const & text) :
-        mEditable(true), mXScroll(0), mText(new Text(text)), mStringEditor(new UTF8StringEditor)
+    TextField::TextField(std::string const & text) : mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
         adjustSizeImpl();
 

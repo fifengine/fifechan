@@ -192,37 +192,37 @@ namespace fcn
         /**
          * Holds the type of the key input.
          */
-        unsigned int mType = 0;
+        unsigned int mType{0};
 
         /**
          * True if shift was pressed at the same time as the key,
          * false otherwise.
          */
-        bool mShiftPressed = false;
+        bool mShiftPressed{false};
 
         /**
          * True if control was pressed at the same time as the key,
          * false otherwise.
          */
-        bool mControlPressed = false;
+        bool mControlPressed{false};
 
         /**
          * True if alt was pressed at the same time as the key,
          * false otherwise.
          */
-        bool mAltPressed = false;
+        bool mAltPressed{false};
 
         /**
          * True if meta was pressed at the same time as the key,
          * false otherwise.
          */
-        bool mMetaPressed = false;
+        bool mMetaPressed{false};
 
         /**
          * True if the numeric pad was used when the key was pressed,
          * false otherwise.
          */
-        bool mNumericPad = false;
+        bool mNumericPad{false};
     };
 } // namespace fcn
 

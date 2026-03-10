@@ -15,8 +15,7 @@
 
 namespace fcn
 {
-    TabbedArea::TabbedArea() :
-        mSelectedTab(nullptr), mTabContainer(new Container()), mWidgetContainer(new Container()), mOpaque(false)
+    TabbedArea::TabbedArea() : mTabContainer(new Container()), mWidgetContainer(new Container())
     {
         setFocusable(true);
         addKeyListener(this);

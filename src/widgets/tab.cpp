@@ -10,7 +10,7 @@
 
 namespace fcn
 {
-    Tab::Tab() : mHasMouse(false), mTabbedArea(nullptr)
+    Tab::Tab()
     {
         addMouseListener(this);
         setLayout(Container::LayoutPolicy::Horizontal);

@@ -84,7 +84,7 @@ namespace fcn
         /**
          * Current alignment used when laying out child widgets.
          */
-        Alignment mAlignment;
+        Alignment mAlignment{Alignment::Center};
     };
 } // namespace fcn
 

@@ -206,22 +206,22 @@ namespace fcn
         /**
          * True if the button is active.
          */
-        bool mState;
+        bool mState{true};
 
         /**
          * Holds the alignment of the caption.
          */
-        Graphics::Alignment mAlignment;
+        Graphics::Alignment mAlignment{Graphics::Alignment::Center};
 
         /**
          * Holds the x down offset of the caption.
          */
-        int mXOffset{0};
+        int mXOffset{1};
 
         /**
          * Holds the y down offset of the caption.
          */
-        int mYOffset{0};
+        int mYOffset{1};
     };
 } // namespace fcn
 

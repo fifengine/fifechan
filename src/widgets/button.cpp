@@ -16,14 +16,7 @@
 
 namespace fcn
 {
-    Button::Button() :
-        mHasMouse(false),
-        mKeyPressed(false),
-        mMousePressed(false),
-        mState(true),
-        mAlignment(Graphics::Alignment::Center),
-        mXOffset(1),
-        mYOffset(1)
+    Button::Button()
     {
         setFocusable(true);
         adjustSizeImpl();
@@ -34,15 +27,7 @@ namespace fcn
         addWidgetListener(this);
     }
 
-    Button::Button(std::string caption) :
-        mCaption(std::move(caption)),
-        mHasMouse(false),
-        mKeyPressed(false),
-        mMousePressed(false),
-        mState(true),
-        mAlignment(Graphics::Alignment::Center),
-        mXOffset(1),
-        mYOffset(1)
+    Button::Button(std::string caption) : mCaption(std::move(caption))
     {
         setFocusable(true);
         adjustSizeImpl();

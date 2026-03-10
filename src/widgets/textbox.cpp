@@ -17,8 +17,7 @@
 
 namespace fcn
 {
-    TextBox::TextBox(std::string const & text) :
-        mEditable(true), mOpaque(true), mText(new Text(text)), mStringEditor(new UTF8StringEditor)
+    TextBox::TextBox(std::string const & text) : mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
         setFocusable(true);
 

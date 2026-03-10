@@ -15,9 +15,9 @@
 
 namespace fcn
 {
-    Text::Text() : mCaretPosition(0), mCaretRow(0), mCaretColumn(0) { }
+    Text::Text() { }
 
-    Text::Text(std::string const & content) : mCaretPosition(0), mCaretRow(0), mCaretColumn(0)
+    Text::Text(std::string const & content)
     {
         std::string::size_type lastPos = 0;
         std::string::size_type pos     = content.find('\n', lastPos);

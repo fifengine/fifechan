@@ -8,16 +8,7 @@
 
 namespace fcn
 {
-    KeyInput::KeyInput(Key const & key, unsigned int type) :
-        mKey(key),
-        mType(type),
-        mShiftPressed(false),
-        mControlPressed(false),
-        mAltPressed(false),
-        mMetaPressed(false),
-        mNumericPad(false)
-    {
-    }
+    KeyInput::KeyInput(Key const & key, unsigned int type) : mKey(key), mType(type) { }
 
     void KeyInput::setType(unsigned int type)
     {

@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    ListBox::ListBox() : mSelected(-1), mWrappingEnabled(false)
+    ListBox::ListBox()
     {
         setWidth(100);
         setFocusable(true);
@@ -24,7 +24,7 @@ namespace fcn
         addKeyListener(this);
     }
 
-    ListBox::ListBox(ListModel* listModel) : mSelected(-1), mWrappingEnabled(false)
+    ListBox::ListBox(ListModel* listModel)
     {
         setWidth(100);
         setListModel(listModel);
