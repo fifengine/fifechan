@@ -42,12 +42,12 @@ namespace widgets
     class DemoListModel : public fcn::ListModel
     {
     public:
-        int getNumberOfElements()
+        int getNumberOfElements() override
         {
             return 5;
         }
 
-        std::string getElementAt(int i)
+        std::string getElementAt(int i) override
         {
             switch (i) {
             case 0:
