@@ -273,7 +273,7 @@ namespace fcn
          */
         bool isOpaque() const;
 
-        // Inherited from BasicContainer
+        // Inherited from Container
 
         void showWidgetPart(Widget* widget, Rectangle area) override;
 

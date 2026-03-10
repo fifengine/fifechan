@@ -142,7 +142,7 @@ namespace fcn
         /** Set the color used for the selected item highlight. */
         void setSelectionColor(Color const & color);
 
-        // Inherited from BasicContainer
+        // Inherited from Container
 
         Rectangle getChildrenArea() override;
 

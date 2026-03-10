@@ -432,7 +432,7 @@ namespace fcn
         if (tab != nullptr) {
             removeTab(tab);
         } else {
-            // BasicContainer::death(event);
+            // Container::death(event);
         }
     }
 

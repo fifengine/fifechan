@@ -121,7 +121,7 @@ namespace fcn
         /** Draw the inner border (override to customize appearance). */
         virtual void drawInnerBorder(Graphics* graphics);
 
-        // Inherited from BasicContainer
+        // Inherited from Container
 
         // virtual void resizeToContent();
         void adjustSize() override;

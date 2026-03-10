@@ -943,7 +943,7 @@ namespace fcn
         virtual void getAbsolutePosition(int& x, int& y) const;
 
         /**
-         * Sets the parent of the widget. A parent must be a BasicContainer.
+         * Sets the parent of the widget. A parent must be a Container.
          *
          * WARNING: This function is used internally and should not
          *          be called or overloaded unless you know what you
@@ -1280,7 +1280,7 @@ namespace fcn
          * has an id.
          *
          * @param id The id to set to the widget.
-         * @see getId, BasicContainer::findWidgetById
+         * @see getId, Container::findWidgetById
          */
         void setId(std::string const & id);
 
@@ -1291,7 +1291,7 @@ namespace fcn
          * has an id.
          *
          * @return The id of the widget.
-         * @see setId, BasicContainer::findWidgetById
+         * @see setId, Container::findWidgetById
          */
         std::string const & getId() const;
 

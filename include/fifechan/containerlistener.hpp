@@ -11,9 +11,9 @@
 namespace fcn
 {
     /**
-     * Interface for listening for action from a container, such as BasicContainer.
+     * Interface for listening for action from a container, such as Container.
      *
-     * @see BasicContainer::addContainerListener, BasicContainer::removeContainerListener,
+     * @see Container::addContainerListener, Container::removeContainerListener,
      *      ContainerEvent
      */
     class FIFEGUI_API ContainerListener
