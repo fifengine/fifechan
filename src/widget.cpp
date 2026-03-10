@@ -1272,25 +1272,22 @@ namespace fcn
 
     void Widget::remove(Widget* widget)
     {
-        std::list<Widget*>::iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            if (*iter == widget) {
-                int x = 0;
-                int y = 0;
-                widget->getAbsolutePosition(x, y);
-                widget->setLastPosition(x, y);
-                mChildren.erase(iter);
-                widget->_setFocusHandler(nullptr);
-                widget->_setParent(nullptr);
-                // thats more a hack but needed
-                if (_getVisibilityEventHandler() != nullptr) {
-                    _getVisibilityEventHandler()->widgetHidden(Event(widget));
-                }
-                return;
+        auto it = std::find(mChildren.begin(), mChildren.end(), widget);
+        if (it == mChildren.end()) {
+            throwException("There is no such widget in this container.");
+        } else {
+            int x = 0;
+            int y = 0;
+            widget->getAbsolutePosition(x, y);
+            widget->setLastPosition(x, y);
+            mChildren.erase(it);
+            widget->_setFocusHandler(nullptr);
+            widget->_setParent(nullptr);
+            // TODO thats more a hack but needed
+            if (_getVisibilityEventHandler() != nullptr) {
+                _getVisibilityEventHandler()->widgetHidden(Event(widget));
             }
         }
-
-        throwException("There is no such widget in this container.");
     }
 
     void Widget::add(Widget* widget)
@@ -1339,60 +1336,45 @@ namespace fcn
 
     void Widget::focusNext()
     {
-        std::list<Widget*>::const_iterator iter;
+        auto const isFocusedIt = std::find_if(mChildren.begin(), mChildren.end(), [](auto* w) {
+            return w->isFocused();
+        });
 
-        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            if ((*iter)->isFocused()) {
-                break;
-            }
+        auto const next = isFocusedIt == mChildren.end() ? mChildren.begin() : std::next(isFocusedIt);
+
+        auto it = std::find_if(next, mChildren.end(), [](auto* w) {
+            return w->isFocusable();
+        });
+
+        if (it == mChildren.end()) {
+            it = std::find_if(mChildren.begin(), next, [](auto* w) {
+                return w->isFocusable();
+            });
         }
-
-        std::list<Widget*>::const_iterator const end = iter;
-
-        if (iter == mChildren.end()) {
-            iter = mChildren.begin();
-        }
-
-        ++iter;
-
-        for (; iter != end; ++iter) {
-            if (iter == mChildren.end()) {
-                iter = mChildren.begin();
-            }
-
-            if ((*iter)->isFocusable()) {
-                (*iter)->requestFocus();
-                return;
-            }
+        if (it != next) {
+            (*it)->requestFocus();
         }
     }
 
     void Widget::focusPrevious()
     {
-        std::list<Widget*>::reverse_iterator iter;
+        auto const isFocusedRIt = std::find_if(mChildren.rbegin(), mChildren.rend(), [](auto* w) {
+            return w->isFocused();
+        });
 
-        for (iter = mChildren.rbegin(); iter != mChildren.rend(); ++iter) {
-            if ((*iter)->isFocused()) {
-                break;
-            }
+        auto const next = isFocusedRIt == mChildren.rend() ? mChildren.rbegin() : std::next(isFocusedRIt);
+
+        auto rit = std::find_if(next, mChildren.rend(), [](auto* w) {
+            return w->isFocusable();
+        });
+
+        if (rit == mChildren.rend()) {
+            rit = std::find_if(mChildren.rbegin(), next, [](auto* w) {
+                return w->isFocusable();
+            });
         }
-
-        std::list<Widget*>::reverse_iterator const end = iter;
-        ++iter;
-
-        if (iter == mChildren.rend()) {
-            iter = mChildren.rbegin();
-        }
-
-        for (; iter != end; ++iter) {
-            if (iter == mChildren.rend()) {
-                iter = mChildren.rbegin();
-            }
-
-            if ((*iter)->isFocusable()) {
-                (*iter)->requestFocus();
-                return;
-            }
+        if (rit != next) {
+            (*rit)->requestFocus();
         }
     }
 
@@ -1416,13 +1398,11 @@ namespace fcn
             Rectangle const & childrenArea = getChildrenArea();
             graphics->pushClipArea(childrenArea);
 
-            std::list<Widget*>::const_iterator iter;
-            for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-                Widget* widget = (*iter);
-                // Only draw a widget if it's visible and if it visible
-                // inside the children area.
-                // if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
-                if (widget->isVisible()) {
+            for (auto* widget : mChildren) {
+                // Only draw a widget:
+                // if it's visible
+                // and inside the children area.
+                if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension())) {
                     widget->_draw(graphics);
                 }
             }

@@ -231,13 +231,9 @@ namespace fcn
             mFocusedWidget = nullptr;
         }
 
-        WidgetIterator iter;
-
-        for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter) {
-            if ((*iter) == widget) {
-                mWidgets.erase(iter);
-                break;
-            }
+        auto const iter = std::find(mWidgets.begin(), mWidgets.end(), widget);
+        if (iter != mWidgets.end()) {
+            mWidgets.erase(iter);
         }
 
         if (mDraggedWidget == widget) {

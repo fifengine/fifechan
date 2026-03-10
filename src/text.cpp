@@ -5,6 +5,7 @@
 #include "fifechan/text.hpp"
 
 #include <algorithm>
+#include <numeric>
 #include <string>
 #include <utility>
 
@@ -361,12 +362,9 @@ namespace fcn
 
     unsigned int Text::getNumberOfCharacters() const
     {
-        unsigned int result = 0;
-        for (auto const & mRow : mRows) {
-            result += mRow.size() + 1;
-        }
-
-        return result;
+        return std::accumulate(mRows.begin(), mRows.end(), 0u, [](unsigned int sum, auto const & row) {
+            return sum + row.size() + 1;
+        });
     }
 
     unsigned int Text::getNumberOfRows() const
