@@ -33,8 +33,6 @@ namespace fcn
     public:
         FocusHandler();
 
-        virtual ~FocusHandler() = default;
-
         /**
          * Requests focus for a widget. Focus will only be granted to a widget
          * if it's focusable and if no other widget has modal focus.

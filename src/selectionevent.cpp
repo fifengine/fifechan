@@ -10,5 +10,4 @@ namespace fcn
 {
     SelectionEvent::SelectionEvent(Widget* source) : Event(source) { }
 
-    SelectionEvent::~SelectionEvent() = default;
 } // namespace fcn

@@ -8,8 +8,6 @@ namespace fcn
 {
     Event::Event(Widget* source) : mSource(source) { }
 
-    Event::~Event() = default;
-
     Widget* Event::getSource() const
     {
         return mSource;

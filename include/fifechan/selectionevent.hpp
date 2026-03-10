@@ -24,8 +24,6 @@ namespace fcn
          * @param source source The widget of the selection event.
          */
         explicit SelectionEvent(Widget* source);
-
-        ~SelectionEvent() override;
     };
 } // namespace fcn
 

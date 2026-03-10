@@ -36,8 +36,6 @@ namespace fcn
          */
         ContainerEvent(Widget* source, Container* container);
 
-        ~ContainerEvent() override;
-
         /**
          * Gets the container the event concerns.
          *

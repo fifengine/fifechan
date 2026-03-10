@@ -55,8 +55,6 @@ namespace fcn
             bool isNumericPad,
             Key const & key);
 
-        ~KeyEvent() override;
-
         /**
          * Gets the type of the event.
          *

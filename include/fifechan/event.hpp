@@ -27,8 +27,6 @@ namespace fcn
          */
         explicit Event(Widget* source);
 
-        virtual ~Event();
-
         /**
          * Gets the source widget of the event. The function
          * is used to tell which widget fired an event.

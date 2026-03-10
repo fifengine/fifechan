@@ -45,8 +45,6 @@ namespace fcn
          */
         ActionEvent(Widget* source, std::string id);
 
-        ~ActionEvent() override;
-
         /**
          * Gets the identifier of the event. An identifier can
          * be used to distinguish from two actions from the same
