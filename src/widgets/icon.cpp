@@ -15,20 +15,20 @@ namespace fcn
     Icon::Icon() : mImage(nullptr), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
     {
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Icon::Icon(std::string const & filename) :
         mImage(Image::load(filename)), mInternalImage(true), mScale(false), mTile(false), mOpaque(true)
     {
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Icon::Icon(Image const * image) : mImage(image), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
     {
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Icon::~Icon()

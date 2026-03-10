@@ -29,7 +29,7 @@ namespace fcn
     TextField::TextField(std::string const & text) :
         mEditable(true), mXScroll(0), mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
-        adjustSize();
+        adjustSizeImpl();
 
         setFocusable(true);
 

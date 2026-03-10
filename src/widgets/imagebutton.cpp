@@ -19,7 +19,7 @@ namespace fcn
     {
         mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
         mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     ImageButton::ImageButton(std::string const & filename)

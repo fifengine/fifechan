@@ -15,12 +15,12 @@ namespace fcn
 {
     Label::Label() : mAlignment(Graphics::Alignment::Left)
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Label::Label(std::string caption) : mCaption(std::move(caption)), mAlignment(Graphics::Alignment::Left)
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     std::string const & Label::getCaption() const

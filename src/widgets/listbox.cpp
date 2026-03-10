@@ -96,7 +96,7 @@ namespace fcn
 
     void ListBox::logic()
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     int ListBox::getSelected() const
@@ -205,7 +205,7 @@ namespace fcn
     {
         mSelected  = -1;
         mListModel = listModel;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     ListModel* ListBox::getListModel() const
@@ -216,10 +216,9 @@ namespace fcn
     void ListBox::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
-
-    void ListBox::adjustSize()
+    void ListBox::adjustSizeImpl()
     {
         if (mListModel != nullptr) {
             // min width in case the lit contains no element
@@ -232,6 +231,11 @@ namespace fcn
             setWidth(w);
             setHeight(getRowHeight() * mListModel->getNumberOfElements());
         }
+    }
+
+    void ListBox::adjustSize()
+    {
+        adjustSizeImpl();
     }
 
     bool ListBox::isWrappingEnabled() const

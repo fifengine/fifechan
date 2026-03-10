@@ -24,7 +24,7 @@ namespace fcn
 
         addMouseListener(this);
         addKeyListener(this);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     TextBox::~TextBox()

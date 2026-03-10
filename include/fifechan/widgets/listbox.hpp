@@ -190,6 +190,13 @@ namespace fcn
          * Typedef.
          */
         using SelectionListenerIterator = SelectionListenerList::iterator;
+
+        /**
+         * Concrete implementation of adjustSize. Constructors and
+         * internal methods should call this non-virtual helper to
+         * avoid virtual dispatch during construction.
+         */
+        void adjustSizeImpl();
     };
 } // namespace fcn
 

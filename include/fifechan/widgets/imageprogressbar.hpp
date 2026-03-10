@@ -140,7 +140,7 @@ namespace fcn
         void adjustSize() override;
 
     protected:
-            /**
+        /**
          * Adjusts the size of the progress bar to fit the content.
          *
          * The public `adjustSize()` method serves as a virtual entry point

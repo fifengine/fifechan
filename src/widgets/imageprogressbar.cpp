@@ -33,7 +33,7 @@ namespace fcn
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     ImageProgressBar::ImageProgressBar(std::string const & filename, int maxValue) :
@@ -46,7 +46,7 @@ namespace fcn
         mOpaque(true)
     {
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     ImageProgressBar::~ImageProgressBar()
