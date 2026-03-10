@@ -19,95 +19,97 @@
 #include <memory>
 #include <string>
 
-class Application
+namespace tests::integration::sdl::widgets
 {
-public:
-    explicit Application(std::string const & title, int width = 1280, int height = 1024);
-    ~Application();
 
-    void run();
+    class Application
+    {
+    public:
+        explicit Application(std::string const & title, int width = 1280, int height = 1024);
+        ~Application();
 
-private:
-    void init_SDL(std::string const & title, int width, int height);
-    void init_GUI(int width, int height);
-    void cleanup();
+        void run();
 
-    static std::string getExecutablePath();
+    private:
+        void init_SDL(std::string const & title, int width, int height);
+        void init_GUI(int width, int height);
+        void cleanup();
 
-    static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
-    static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window, int flags);
+        static std::string getExecutablePath();
 
-    std::unique_ptr<fcn::Gui> gui;
-    std::shared_ptr<SDL_Window> window{nullptr};
-    std::shared_ptr<SDL_Renderer> renderer{nullptr};
+        static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
+        static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window, int flags);
 
-    std::unique_ptr<fcn::sdl2::Graphics> graphics;
-    std::unique_ptr<fcn::sdl2::Input> input;
-    std::shared_ptr<fcn::sdl2::ImageLoader> imageLoader;
+        std::unique_ptr<fcn::Gui> gui;
+        std::shared_ptr<SDL_Window> window{nullptr};
+        std::shared_ptr<SDL_Renderer> renderer{nullptr};
 
-    std::string exePath;
+        std::unique_ptr<fcn::sdl2::Graphics> graphics;
+        std::unique_ptr<fcn::sdl2::Input> input;
+        std::shared_ptr<fcn::sdl2::ImageLoader> imageLoader;
 
-    [[maybe_unused]] fcn::Font* font{nullptr};
-    std::unique_ptr<fcn::Container> top;
-    fcn::Label* label{nullptr};
-    fcn::Icon* icon{nullptr};
-    fcn::Button* button{nullptr};
-    fcn::ImageButton* imageButton{nullptr};
-    fcn::TextField* textField{nullptr};
-    fcn::PasswordField* passwordField{nullptr};
-    [[maybe_unused]] fcn::TextBox* textBox{nullptr};
-    [[maybe_unused]] fcn::ScrollArea* textBoxScrollArea{nullptr};
-    [[maybe_unused]] fcn::ListBox* listBox{nullptr};
-    [[maybe_unused]] fcn::DropDown* dropDown{nullptr};
-    [[maybe_unused]] fcn::CheckBox* checkBox1{nullptr};
-    [[maybe_unused]] fcn::CheckBox* checkBox2{nullptr};
-    fcn::ToggleButton* toggleButton{nullptr};
-    [[maybe_unused]] fcn::RadioButton* radioButton1{nullptr};
-    [[maybe_unused]] fcn::RadioButton* radioButton2{nullptr};
-    [[maybe_unused]] fcn::RadioButton* radioButton3{nullptr};
-    [[maybe_unused]] fcn::Slider* slider{nullptr};
-    fcn::Window* fcnWindow{nullptr};
-    [[maybe_unused]] fcn::Image* image{nullptr};
-    [[maybe_unused]] fcn::Image* logoImage{nullptr};
-    [[maybe_unused]] fcn::Icon* guisanLogoIcon{nullptr};
-    [[maybe_unused]] fcn::TabbedArea* tabbedArea{nullptr};
-    [[maybe_unused]] fcn::Button* tabOneButton{nullptr};
-    [[maybe_unused]] fcn::Slider* nestedSlider{nullptr};
-    [[maybe_unused]] fcn::ScrollArea* nestedScrollArea{nullptr};
-    [[maybe_unused]] fcn::Container* nestedContainer{nullptr};
-    [[maybe_unused]] fcn::AdjustingContainer* adjustingContainer{nullptr};
-    [[maybe_unused]] fcn::BarGraph* barGraph{nullptr};
-    [[maybe_unused]] fcn::CurveGraph* curveGraph{nullptr};
-    [[maybe_unused]] fcn::FlowContainer* flowContainer{nullptr};
-    [[maybe_unused]] fcn::IconProgressBar* iconProgressBar{nullptr};
-    [[maybe_unused]] fcn::LineGraph* lineGraph{nullptr};
-    [[maybe_unused]] fcn::PieGraph* pieGraph{nullptr};
-    [[maybe_unused]] fcn::PointGraph* pointGraph{nullptr};
-    [[maybe_unused]] fcn::Spacer* spacer{nullptr};
-    [[maybe_unused]] fcn::Tab* tab{nullptr};
-    [[maybe_unused]] fcn::TabbedArea* tabbedArea2{nullptr};
-    [[maybe_unused]] fcn::CheckBox* tabTwoCheckBox{nullptr};
+        std::string exePath;
 
-    bool running{false};
+        [[maybe_unused]] fcn::Font* font{nullptr};
+        std::unique_ptr<fcn::Container> top;
+        fcn::Label* label{nullptr};
+        fcn::Icon* icon{nullptr};
+        fcn::Button* button{nullptr};
+        fcn::ImageButton* imageButton{nullptr};
+        fcn::TextField* textField{nullptr};
+        fcn::PasswordField* passwordField{nullptr};
+        [[maybe_unused]] fcn::TextBox* textBox{nullptr};
+        [[maybe_unused]] fcn::ScrollArea* textBoxScrollArea{nullptr};
+        [[maybe_unused]] fcn::ListBox* listBox{nullptr};
+        [[maybe_unused]] fcn::DropDown* dropDown{nullptr};
+        [[maybe_unused]] fcn::CheckBox* checkBox1{nullptr};
+        [[maybe_unused]] fcn::CheckBox* checkBox2{nullptr};
+        fcn::ToggleButton* toggleButton{nullptr};
+        [[maybe_unused]] fcn::RadioButton* radioButton1{nullptr};
+        [[maybe_unused]] fcn::RadioButton* radioButton2{nullptr};
+        [[maybe_unused]] fcn::RadioButton* radioButton3{nullptr};
+        [[maybe_unused]] fcn::Slider* slider{nullptr};
+        fcn::Window* fcnWindow{nullptr};
+        [[maybe_unused]] fcn::Image* image{nullptr};
+        [[maybe_unused]] fcn::Image* logoImage{nullptr};
+        [[maybe_unused]] fcn::Icon* guisanLogoIcon{nullptr};
+        [[maybe_unused]] fcn::TabbedArea* tabbedArea{nullptr};
+        [[maybe_unused]] fcn::Button* tabOneButton{nullptr};
+        [[maybe_unused]] fcn::Slider* nestedSlider{nullptr};
+        [[maybe_unused]] fcn::ScrollArea* nestedScrollArea{nullptr};
+        [[maybe_unused]] fcn::Container* nestedContainer{nullptr};
+        [[maybe_unused]] fcn::AdjustingContainer* adjustingContainer{nullptr};
+        [[maybe_unused]] fcn::BarGraph* barGraph{nullptr};
+        [[maybe_unused]] fcn::CurveGraph* curveGraph{nullptr};
+        [[maybe_unused]] fcn::FlowContainer* flowContainer{nullptr};
+        [[maybe_unused]] fcn::IconProgressBar* iconProgressBar{nullptr};
+        [[maybe_unused]] fcn::LineGraph* lineGraph{nullptr};
+        [[maybe_unused]] fcn::PieGraph* pieGraph{nullptr};
+        [[maybe_unused]] fcn::PointGraph* pointGraph{nullptr};
+        [[maybe_unused]] fcn::Spacer* spacer{nullptr};
+        [[maybe_unused]] fcn::Tab* tab{nullptr};
+        [[maybe_unused]] fcn::TabbedArea* tabbedArea2{nullptr};
+        [[maybe_unused]] fcn::CheckBox* tabTwoCheckBox{nullptr};
 
-    std::unique_ptr<fcn::ListModel> demoListModel;
-    std::unique_ptr<fcn::TextBox> ownedTextBox;
-    std::unique_ptr<fcn::Container> ownedNestedContainer;
-    std::unique_ptr<fcn::Tab> ownedTabOne;
-    std::unique_ptr<fcn::Tab> ownedTabTwo;
-    std::unique_ptr<fcn::Label> ownedTabOneContent;
-    std::unique_ptr<fcn::Label> ownedTabTwoContent;
-    std::unique_ptr<fcn::Image> ownedProgressFillImage;
-};
+        bool running{false};
 
-namespace widgets
-{
+        std::unique_ptr<fcn::ListModel> demoListModel;
+        std::unique_ptr<fcn::TextBox> ownedTextBox;
+        std::unique_ptr<fcn::Container> ownedNestedContainer;
+        std::unique_ptr<fcn::Tab> ownedTabOne;
+        std::unique_ptr<fcn::Tab> ownedTabTwo;
+        std::unique_ptr<fcn::Label> ownedTabOneContent;
+        std::unique_ptr<fcn::Label> ownedTabTwoContent;
+        std::unique_ptr<fcn::Image> ownedProgressFillImage;
+    };
+
     class DemoListModel : public fcn::ListModel
     {
     public:
         int getNumberOfElements() override;
         std::string getElementAt(int i) override;
     };
-} // namespace widgets
+
+} // namespace tests::integration::sdl::widgets
 
 #endif // SDLWIDGETS_HPP

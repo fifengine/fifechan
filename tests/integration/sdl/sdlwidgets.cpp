@@ -24,7 +24,7 @@
     #include <windows.h>
 #endif
 
-namespace widgets
+namespace tests::integration::sdl::widgets
 {
     int DemoListModel::getNumberOfElements()
     {
@@ -48,10 +48,12 @@ namespace widgets
             return "";
         }
     }
-} // namespace widgets
+} // namespace tests::integration::sdl::widgets
+
+using namespace tests::integration::sdl::widgets;
 
 Application::Application(std::string const & title, int width, int height) :
-    exePath(getExecutablePath()), demoListModel(std::make_unique<widgets::DemoListModel>())
+    exePath(getExecutablePath()), demoListModel(std::make_unique<DemoListModel>())
 {
     init_SDL(title, width, height);
     init_GUI(width, height);

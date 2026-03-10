@@ -22,6 +22,7 @@
 #ifdef _WIN32
     #include <windows.h>
 #endif
+using namespace tests::integration::sdl::helloworld;
 
 Application::Application(std::string const & title, int width, int height)
 {
