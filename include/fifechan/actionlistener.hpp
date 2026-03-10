@@ -23,6 +23,11 @@ namespace fcn
     public:
         virtual ~ActionListener() = default;
 
+        ActionListener(ActionListener const &)            = delete;
+        ActionListener& operator=(ActionListener const &) = delete;
+        ActionListener(ActionListener&&)                  = delete;
+        ActionListener& operator=(ActionListener&&)       = delete;
+
         /**
          * Called when an action is received from a widget.
          * It is used to receive notifications about actions that have occurred.
@@ -36,8 +41,8 @@ namespace fcn
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of ActionListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
         ActionListener() = default;
     };

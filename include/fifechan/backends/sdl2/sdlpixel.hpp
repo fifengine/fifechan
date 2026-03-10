@@ -78,7 +78,7 @@ namespace fcn
         SDL_GetRGBA(color, surface->format, &r, &g, &b, &a);
         SDL_UnlockSurface(surface);
 
-        return Color(r, g, b, a);
+        return {r, g, b, a};
     }
 
     /**

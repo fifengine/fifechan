@@ -38,8 +38,8 @@ namespace fcn
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of SelectionListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
         SelectionListener() = default;
     };

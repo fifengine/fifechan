@@ -119,7 +119,7 @@ namespace fcn
          */
         int length() const
         {
-            double sq = static_cast<double>(x) * x + static_cast<double>(y) * y;
+            double const sq = (static_cast<double>(x) * x) + (static_cast<double>(y) * y);
             return static_cast<int>(Mathf::Sqrt(sq));
         }
 
@@ -149,7 +149,8 @@ namespace fcn
             double const c     = Mathd::Cos(theta);
             double const s     = Mathd::Sin(theta);
 
-            return Point(static_cast<int>(std::round(c * x - s * y)), static_cast<int>(std::round(s * x + c * y)));
+            return Point(
+                static_cast<int>(std::round((c * x) - (s * y))), static_cast<int>(std::round((s * x) + (c * y))));
         }
 
         /**
@@ -181,13 +182,16 @@ namespace fcn
             double const nx = static_cast<double>(x - origin.x);
             double const ny = static_cast<double>(y - origin.y);
 
+            // 2. Rotate point by angle (in radians)
             double const theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
 
+            // 3. Calculate rotation using standard 2D rotation matrix
             double const costheta = Mathd::Cos(theta);
             double const sintheta = Mathd::Sin(theta);
 
-            double const rx = costheta * nx - sintheta * ny;
-            double const ry = sintheta * nx + costheta * ny;
+            // 4. Apply rotation to point
+            double const rx = (costheta * nx) - (sintheta * ny);
+            double const ry = (sintheta * nx) + (costheta * ny);
 
             // 5. Translate back to world coordinates AND cast to int (with rounding)
             x = static_cast<int>(std::round(origin.x + rx));

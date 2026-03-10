@@ -21,6 +21,11 @@ namespace fcn
     public:
         virtual ~ContainerListener() = default;
 
+        ContainerListener(ContainerListener const &)            = default;
+        ContainerListener& operator=(ContainerListener const &) = default;
+        ContainerListener(ContainerListener&&)                  = default;
+        ContainerListener& operator=(ContainerListener&&)       = default;
+
         /**
          * Called when a widget is added to a container.
          *
@@ -39,8 +44,8 @@ namespace fcn
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of ContainerListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
         ContainerListener() = default;
     };

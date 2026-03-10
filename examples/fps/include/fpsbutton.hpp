@@ -23,8 +23,12 @@ class FPSButton : public fcn::Button
 public:
     explicit FPSButton(std::string const & caption);
     ~FPSButton() override;
+
     FPSButton(FPSButton const &)            = delete;
     FPSButton& operator=(FPSButton const &) = delete;
+
+    FPSButton(FPSButton&&)            = delete;
+    FPSButton& operator=(FPSButton&&) = delete;
 
     /*
      * Just sets the font to by used on mouse hover.

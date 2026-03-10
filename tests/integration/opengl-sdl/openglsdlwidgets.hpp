@@ -51,17 +51,17 @@ namespace widgets
         {
             switch (i) {
             case 0:
-                return std::string("zero");
+                return "zero";
             case 1:
-                return std::string("one");
+                return "one";
             case 2:
-                return std::string("two");
+                return "two";
             case 3:
-                return std::string("three");
+                return "three";
             case 4:
-                return std::string("four");
+                return "four";
             default:
-                return std::string("");
+                return "";
             }
         }
     };

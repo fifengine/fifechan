@@ -16,19 +16,12 @@
 #include <utility>
 #include <vector>
 
-/**
- * Test doesn't do any memory management in sake of
- * usability. (and my sanity :) )
- */
-
 class MyActionListener : public fcn::ActionListener
 {
     fcn::Container* mParent;
 
 public:
     explicit MyActionListener(fcn::Container* parent) : mParent(parent) { }
-
-    ~MyActionListener() override = default;
 
     void action(fcn::ActionEvent const & e) override
     {

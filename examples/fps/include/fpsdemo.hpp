@@ -62,8 +62,13 @@ class FPSDemo : public fcn::ActionListener
 public:
     FPSDemo();
     ~FPSDemo() override;
+
     FPSDemo(FPSDemo const &)            = delete;
     FPSDemo& operator=(FPSDemo const &) = delete;
+
+    FPSDemo(FPSDemo&&)            = delete;
+    FPSDemo& operator=(FPSDemo&&) = delete;
+
     void run();
     void action(fcn::ActionEvent const & actionEvent) override;
 

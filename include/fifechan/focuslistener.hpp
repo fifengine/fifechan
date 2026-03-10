@@ -22,6 +22,11 @@ namespace fcn
     public:
         virtual ~FocusListener() = default;
 
+        FocusListener(FocusListener const &)            = delete;
+        FocusListener& operator=(FocusListener const &) = delete;
+        FocusListener(FocusListener&&)                  = delete;
+        FocusListener& operator=(FocusListener&&)       = delete;
+
         /**
          * Called when a widget gains focus.
          *
@@ -40,8 +45,8 @@ namespace fcn
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of FocusListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
         FocusListener() = default;
     };

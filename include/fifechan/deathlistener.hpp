@@ -22,6 +22,11 @@ namespace fcn
     public:
         virtual ~DeathListener() = default;
 
+        DeathListener(DeathListener const &)            = delete;
+        DeathListener& operator=(DeathListener const &) = delete;
+        DeathListener(DeathListener&&)                  = delete;
+        DeathListener& operator=(DeathListener&&)       = delete;
+
         /**
          * Called when a widget dies. It is used to be able to receive
          * a notification when a death of a widget occurs.
@@ -34,8 +39,8 @@ namespace fcn
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of DeathListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
         DeathListener() = default;
     };

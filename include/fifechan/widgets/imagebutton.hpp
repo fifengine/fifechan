@@ -17,8 +17,10 @@ namespace fcn
     class Image;
 
     /**
-     * An implementation of a regular clickable button. Unlike a normal button an image
-     * button is capable of displaying images instead of only a simple text caption.
+     * An implementation of a regular clickable button.
+     *
+     * Unlike a normal button an image button is capable of displaying
+     * images instead of only a simple text caption.
      * It is possible to define images for button up, down and hover.
      * Also the same 3 images for a inactive button so that it's possible to visualize the inactivity.
      * As minimum the button up image should be set. All other 5 images are optional.
@@ -69,7 +71,9 @@ namespace fcn
         ~ImageButton() override;
 
         /**
-         * Sets the up image to display. That is the basic image that is also used if other images are not set.
+         * Sets the up image to display.
+         *
+         * That is the basic image that is also used if other images are not set.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param filename The filename of the up image to display.
@@ -77,7 +81,9 @@ namespace fcn
         void setUpImage(std::string const & filename);
 
         /**
-         * Sets the up image to display. That is the basic image that is also used if other images are not set.
+         * Sets the up image to display.
+         *
+         * That is the basic image that is also used if other images are not set.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param image The up image to display.
@@ -92,7 +98,9 @@ namespace fcn
         Image const * getUpImage() const;
 
         /**
-         * Sets the down image to display. That is the image that is used if the button is pressed.
+         * Sets the down image to display.
+         *
+         * That is the image that is used if the button is pressed.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param filename The filename of the down image to display.
@@ -100,7 +108,9 @@ namespace fcn
         void setDownImage(std::string const & filename);
 
         /**
-         * Sets the down image to display. That is the image that is used if the button is pressed.
+         * Sets the down image to display.
+         *
+         * That is the image that is used if the button is pressed.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param image The down image to display.
@@ -115,7 +125,9 @@ namespace fcn
         Image const * getDownImage() const;
 
         /**
-         * Sets the hover image to display. That is the image that is used if the mouse is over the button.
+         * Sets the hover image to display.
+         *
+         * That is the image that is used if the mouse is over the button.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param filename The filename of the hover image to display.
@@ -123,7 +135,9 @@ namespace fcn
         void setHoverImage(std::string const & filename);
 
         /**
-         * Sets the hover image to display. That is the image that is used if the mouse is over the button.
+         * Sets the hover image to display.
+         *
+         * That is the image that is used if the mouse is over the button.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param image The hover image to display.
@@ -138,7 +152,9 @@ namespace fcn
         Image const * getHoverImage() const;
 
         /**
-         * Sets the up image to display if the button is inactive. If not provided the active up image is used.
+         * Sets the up image to display if the button is inactive.
+         *
+         * If not provided the active up image is used.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param filename The filename of the inactive up image to display.
@@ -146,7 +162,9 @@ namespace fcn
         void setInactiveUpImage(std::string const & filename);
 
         /**
-         * Sets the up image to display if the button is inactive. If not provided the active up image is used.
+         * Sets the up image to display if the button is inactive.
+         *
+         * If not provided the active up image is used.
          * Existing Image is freed automatically, if it was loaded internally.
          *
          * @param image The inactive up image to display.

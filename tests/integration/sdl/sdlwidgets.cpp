@@ -413,9 +413,9 @@ void Application::init_GUI(int width, int height)
         }
 
         SDL_FillRect(progressSurface, nullptr, SDL_MapRGBA(progressSurface->format, 0, 0, 0, 0));
-        SDL_Rect outlineRect{0, 2, 10, 14};
+        SDL_Rect const outlineRect{0, 2, 10, 14};
         SDL_FillRect(progressSurface, &outlineRect, SDL_MapRGBA(progressSurface->format, 132, 152, 89, 255));
-        SDL_Rect fillRect{1, 3, 8, 12};
+        SDL_Rect const fillRect{1, 3, 8, 12};
         SDL_FillRect(progressSurface, &fillRect, SDL_MapRGBA(progressSurface->format, 177, 198, 120, 255));
 
         ownedProgressFillImage = std::make_unique<fcn::sdl2::Image>(progressSurface, true, renderer.get());
@@ -506,8 +506,8 @@ void Application::init_GUI(int width, int height)
     barGraph = dynamic_cast<fcn::BarGraph*>(top->getChild(top->getChildrenCount() - 1));
 
     addCaption("LineGraph", graphRow1Col2X, graphRow1TopY);
-    auto lineGraphPtr                = std::make_unique<fcn::LineGraph>();
-    std::vector<fcn::Point> lineData = {
+    auto lineGraphPtr                      = std::make_unique<fcn::LineGraph>();
+    std::vector<fcn::Point> const lineData = {
         fcn::Point{18, 78},
         fcn::Point{50, 34},
         fcn::Point{88, 58},
@@ -526,8 +526,8 @@ void Application::init_GUI(int width, int height)
     lineGraph = dynamic_cast<fcn::LineGraph*>(top->getChild(top->getChildrenCount() - 1));
 
     addCaption("PointGraph", graphRow1Col3X, graphRow1TopY);
-    auto pointGraphPtr                = std::make_unique<fcn::PointGraph>();
-    std::vector<fcn::Point> pointData = {
+    auto pointGraphPtr                      = std::make_unique<fcn::PointGraph>();
+    std::vector<fcn::Point> const pointData = {
         fcn::Point{18, 84},
         fcn::Point{42, 58},
         fcn::Point{64, 30},
@@ -548,8 +548,8 @@ void Application::init_GUI(int width, int height)
     pointGraph = dynamic_cast<fcn::PointGraph*>(top->getChild(top->getChildrenCount() - 1));
 
     addCaption("CurveGraph", graphRow2StartX, graphRow2TopY);
-    auto curveGraphPtr                = std::make_unique<fcn::CurveGraph>();
-    std::vector<fcn::Point> curveData = {
+    auto curveGraphPtr                      = std::make_unique<fcn::CurveGraph>();
+    std::vector<fcn::Point> const curveData = {
         fcn::Point{16, 86},
         fcn::Point{42, 44},
         fcn::Point{72, 70},
