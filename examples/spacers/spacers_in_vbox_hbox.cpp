@@ -44,7 +44,6 @@ int main(int /*argc*/, char** /*argv*/)
     auto gui               = std::unique_ptr<fcn::Gui>();
     auto top               = std::unique_ptr<fcn::Container>();
     int exitCode           = 0;
-    std::vector<std::unique_ptr<MyActionListener>> actionListeners;
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -91,6 +90,8 @@ int main(int /*argc*/, char** /*argv*/)
         testHBox->setHorizontalSpacing(0);
         testHBox->setOpaque(false);
         auto* testHBoxRaw = testHBox.get();
+
+        std::vector<std::unique_ptr<MyActionListener>> actionListeners;
 
         for (int i = 0; i < 4; ++i) {
             std::stringstream s;

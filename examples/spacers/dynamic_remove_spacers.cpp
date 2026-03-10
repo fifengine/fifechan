@@ -47,7 +47,6 @@ int main(int /*argc*/, char** /*argv*/)
     int exitCode           = 0;
 
     std::stack<fcn::Spacer*> spacers;
-    std::vector<std::unique_ptr<MyActionListener>> actionListeners;
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -94,6 +93,8 @@ int main(int /*argc*/, char** /*argv*/)
         testHBox->setHorizontalSpacing(0);
         testHBox->setOpaque(false);
         auto* testHBoxRaw = testHBox.get();
+
+        std::vector<std::unique_ptr<MyActionListener>> actionListeners;
 
         for (int i = 0; i < 6; ++i) {
             std::stringstream s;
