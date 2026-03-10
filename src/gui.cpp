@@ -416,7 +416,7 @@ namespace fcn
         if (mouseInput.getX() < 0 || mouseInput.getY() < 0 ||
             !mTop->getDimension().isContaining(mouseInput.getX(), mouseInput.getY())) {
             std::set<Widget*>::const_iterator iter;
-            for (iter = mLastWidgetsWithMouse.begin(); iter != mLastWidgetsWithMouse.end(); iter++) {
+            for (iter = mLastWidgetsWithMouse.begin(); iter != mLastWidgetsWithMouse.end(); ++iter) {
                 distributeMouseEvent(
                     (*iter),
                     MouseEvent::Type::Exited,
@@ -449,7 +449,7 @@ namespace fcn
                 std::inserter(mWidgetsWithMouseEntered, mWidgetsWithMouseEntered.begin()));
 
             std::set<Widget*>::const_iterator iter;
-            for (iter = mWidgetsWithMouseExited.begin(); iter != mWidgetsWithMouseExited.end(); iter++) {
+            for (iter = mWidgetsWithMouseExited.begin(); iter != mWidgetsWithMouseExited.end(); ++iter) {
                 distributeMouseEvent(
                     (*iter),
                     MouseEvent::Type::Exited,
@@ -465,7 +465,7 @@ namespace fcn
                 mLastMousePressTimeStamp = 0;
             }
 
-            for (iter = mWidgetsWithMouseEntered.begin(); iter != mWidgetsWithMouseEntered.end(); iter++) {
+            for (iter = mWidgetsWithMouseEntered.begin(); iter != mWidgetsWithMouseEntered.end(); ++iter) {
                 Widget* widget = (*iter);
                 // If a widget has modal mouse input focus we
                 // only want to send entered events to that widget
@@ -876,7 +876,7 @@ namespace fcn
     {
         KeyListenerListIterator it;
 
-        for (it = mKeyListeners.begin(); it != mKeyListeners.end(); it++) {
+        for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
             switch (keyEvent.getType()) {
             case static_cast<unsigned int>(KeyEvent::Type::Pressed):
                 (*it)->keyPressed(keyEvent);
@@ -929,7 +929,7 @@ namespace fcn
         std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
+        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
             if ((*iter)->isModalFocused() || (*iter)->isModalMouseInputFocused()) {
                 continue;
             }
@@ -952,7 +952,7 @@ namespace fcn
         std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
+        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
             distributeMouseEvent(
                 (*iter),
                 MouseEvent::Type::Entered,
@@ -972,7 +972,7 @@ namespace fcn
         std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
+        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
             if ((*iter)->isModalMouseInputFocused()) {
                 continue;
             }
@@ -995,7 +995,7 @@ namespace fcn
         std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); iter++) {
+        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
             distributeMouseEvent(
                 (*iter),
                 MouseEvent::Type::Entered,

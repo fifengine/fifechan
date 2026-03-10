@@ -988,7 +988,7 @@ namespace fcn
         y -= r.y;
 
         std::list<Widget*>::reverse_iterator iter;
-        for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++) {
+        for (iter = mChildren.rbegin(); iter != mChildren.rend(); ++iter) {
             Widget* widget = (*iter);
 
             if (widget != exclude && widget->isVisible() && widget->getDimension().isContaining(x, y)) {
@@ -1029,7 +1029,7 @@ namespace fcn
         mInternalFocusHandler = focusHandler;
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             if (mInternalFocusHandler == nullptr) {
                 (*iter)->_setFocusHandler(_getFocusHandler());
             } else {
@@ -1182,7 +1182,7 @@ namespace fcn
         std::list<Widget*> result;
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
             if (ignore != widget && widget->getDimension().isIntersecting(area)) {
                 result.push_back(widget);
@@ -1197,7 +1197,7 @@ namespace fcn
         int w = 0;
         int h = 0;
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
             w              = std::max(widget->getX() + widget->getWidth(), w);
             h              = std::max(widget->getY() + widget->getHeight(), h);
@@ -1209,7 +1209,7 @@ namespace fcn
     Widget* Widget::findWidgetById(std::string const & id)
     {
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
 
             if (widget->getId() == id) {
@@ -1253,7 +1253,7 @@ namespace fcn
     void Widget::clear()
     {
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
             int x          = 0;
             int y          = 0;
@@ -1273,7 +1273,7 @@ namespace fcn
     void Widget::remove(Widget* widget)
     {
         std::list<Widget*>::iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             if (*iter == widget) {
                 int x = 0;
                 int y = 0;
@@ -1353,9 +1353,9 @@ namespace fcn
             iter = mChildren.begin();
         }
 
-        iter++;
+        ++iter;
 
-        for (; iter != end; iter++) {
+        for (; iter != end; ++iter) {
             if (iter == mChildren.end()) {
                 iter = mChildren.begin();
             }
@@ -1371,14 +1371,14 @@ namespace fcn
     {
         std::list<Widget*>::reverse_iterator iter;
 
-        for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++) {
+        for (iter = mChildren.rbegin(); iter != mChildren.rend(); ++iter) {
             if ((*iter)->isFocused()) {
                 break;
             }
         }
 
         std::list<Widget*>::reverse_iterator const end = iter;
-        iter++;
+        ++iter;
 
         if (iter == mChildren.rend()) {
             iter = mChildren.rbegin();
@@ -1417,7 +1417,7 @@ namespace fcn
             graphics->pushClipArea(childrenArea);
 
             std::list<Widget*>::const_iterator iter;
-            for (iter = mChildren.begin(); iter != mChildren.end(); iter++) {
+            for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
                 Widget* widget = (*iter);
                 // Only draw a widget if it's visible and if it visible
                 // inside the children area.
