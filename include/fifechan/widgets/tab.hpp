@@ -66,12 +66,12 @@ namespace fcn
         /**
          * True if the tab has the mouse, false otherwise.
          */
-        bool mHasMouse;
+        bool mHasMouse{false};
 
         /**
          * Holds the tabbed area the tab is a part of.
          */
-        TabbedArea* mTabbedArea;
+        TabbedArea* mTabbedArea{nullptr};
     };
 } // namespace fcn
 

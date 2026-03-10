@@ -75,6 +75,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the label to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Holds the caption of the label.
          */
         std::string mCaption;

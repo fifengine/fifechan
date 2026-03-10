@@ -163,10 +163,15 @@ namespace fcn
     void TextField::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void TextField::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void TextField::adjustSizeImpl()
     {
         Rectangle const & dim = mText->getDimension(getFont());
         setWidth(dim.width + 8);

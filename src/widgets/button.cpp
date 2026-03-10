@@ -26,7 +26,7 @@ namespace fcn
         mYOffset(1)
     {
         setFocusable(true);
-        adjustSize();
+        adjustSizeImpl();
 
         addMouseListener(this);
         addKeyListener(this);
@@ -45,7 +45,7 @@ namespace fcn
         mYOffset(1)
     {
         setFocusable(true);
-        adjustSize();
+        adjustSizeImpl();
 
         addMouseListener(this);
         addKeyListener(this);
@@ -58,7 +58,7 @@ namespace fcn
     void Button::setCaption(std::string const & caption)
     {
         mCaption = caption;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     std::string const & Button::getCaption() const
@@ -114,7 +114,7 @@ namespace fcn
 
     void Button::fontChanged()
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Button::draw(Graphics* graphics)
@@ -182,10 +182,15 @@ namespace fcn
     void Button::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Button::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void Button::adjustSizeImpl()
     {
         int const w = getFont()->getWidth(mCaption) + (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
         int const h = getFont()->getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();

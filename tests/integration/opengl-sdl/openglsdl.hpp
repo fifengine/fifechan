@@ -8,7 +8,7 @@
 /**
  * @brief This example shows the widgets present in FifeGUI using the OpenGL-SDL backend
  * and the SDL backend, for loading images and checking for user input.
- * OPenGL cannot load images nor check for user input, so an additional backend is needed.
+ * OpenGL cannot load images nor check for user input, so an additional backend is needed.
  */
 
 #include <fifechan/backends/opengl/opengl.hpp>

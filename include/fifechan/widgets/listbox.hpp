@@ -164,7 +164,7 @@ namespace fcn
         /**
          * The selected item as an index in the list model.
          */
-        int mSelected;
+        int mSelected{-1};
 
         /**
          * The list model to use.
@@ -174,7 +174,7 @@ namespace fcn
         /**
          * True if wrapping is enabled, false otherwise.
          */
-        bool mWrappingEnabled;
+        bool mWrappingEnabled{false};
 
         /**
          * Typdef.

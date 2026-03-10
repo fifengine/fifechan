@@ -282,7 +282,7 @@ namespace fcn
         /**
          * Holds the selected tab.
          */
-        Tab* mSelectedTab;
+        Tab* mSelectedTab{nullptr};
 
         /**
          * Holds the container for the tabs.
@@ -310,7 +310,7 @@ namespace fcn
         /**
          * True if the tabbed area is opaque, false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{false};
     };
 } // namespace fcn
 

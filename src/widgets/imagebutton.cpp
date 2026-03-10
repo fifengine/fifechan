@@ -42,14 +42,14 @@ namespace fcn
     {
         mOwnedImages[static_cast<size_t>(type)].reset(Image::load(filename));
         mImages[static_cast<size_t>(type)] = mOwnedImages[static_cast<size_t>(type)].get();
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void ImageButton::setImage(Image const * image, ImageType type)
     {
         mOwnedImages[static_cast<size_t>(type)].reset();
         mImages[static_cast<size_t>(type)] = image;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void ImageButton::setUpImage(std::string const & filename)
@@ -144,10 +144,15 @@ namespace fcn
 
     void ImageButton::resizeToContent(bool recursion)
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void ImageButton::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void ImageButton::adjustSizeImpl()
     {
         int w = 0;
         int h = 0;

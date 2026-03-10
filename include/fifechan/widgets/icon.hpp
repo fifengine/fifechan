@@ -129,6 +129,17 @@ namespace fcn
 
         /** True if opaque, otherwise false. */
         bool mOpaque;
+
+        /**
+         * Adjusts the size of the icon to fit the image.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
     };
 } // namespace fcn
 

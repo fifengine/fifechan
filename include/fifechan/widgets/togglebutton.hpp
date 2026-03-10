@@ -96,7 +96,7 @@ namespace fcn
         /**
          * True if the check box is selected, false otherwise.
          */
-        bool mSelected{};
+        bool mSelected{false};
 
         /**
          * Holds the group of the toggle button.

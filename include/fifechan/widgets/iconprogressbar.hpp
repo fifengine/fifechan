@@ -140,6 +140,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the IconProgressBar to fit the icons.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Image used by the progress bar.
          */
         Image const * mImage;

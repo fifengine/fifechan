@@ -116,7 +116,7 @@ namespace fcn
         mInternalImage = false;
         mImage         = image;
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Image const * IconProgressBar::getImage() const
@@ -127,7 +127,7 @@ namespace fcn
     void IconProgressBar::setMaxIcons(int maxIcons)
     {
         mMaxIcons = maxIcons;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     int IconProgressBar::getMaxIcons() const
@@ -143,7 +143,7 @@ namespace fcn
                 return;
             }
             mOrientation = orientation;
-            adjustSize();
+            adjustSizeImpl();
         }
     }
 
@@ -175,10 +175,15 @@ namespace fcn
     void IconProgressBar::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void IconProgressBar::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void IconProgressBar::adjustSizeImpl()
     {
         int w = 0;
         int h = 0;

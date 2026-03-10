@@ -116,6 +116,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the button to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Draws the caret. Overloaded this method if you want to
          * change the style of the caret.
          *
@@ -134,7 +145,7 @@ namespace fcn
         /**
          * True if the text field is editable, false otherwise.
          */
-        bool mEditable;
+        bool mEditable{true};
 
         /**
          * Holds the text of the text field.
@@ -146,7 +157,7 @@ namespace fcn
          * the text field can display, due to the text field being to small, the
          * text needs to scroll in order to show the last type character.
          */
-        int mXScroll;
+        int mXScroll{0};
 
         /**
          * String editor for UTF8 support.

@@ -1678,7 +1678,7 @@ namespace fcn
         /**
          * Holds the border size of the widget.
          */
-        unsigned int mBorderSize;
+        unsigned int mBorderSize = 0;
 
         /**
          * Holds the selection mode.
@@ -1733,27 +1733,27 @@ namespace fcn
         /**
          * True if the widget focusable, false otherwise.
          */
-        bool mFocusable;
+        bool mFocusable = false;
 
         /**
          * True if the widget visible, false otherwise.
          */
-        bool mVisible;
+        bool mVisible = true;
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabIn;
+        bool mTabIn = true;
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabOut;
+        bool mTabOut = true;
 
         /**
          * True if the widget is enabled, false otherwise.
          */
-        bool mEnabled;
+        bool mEnabled = true;
 
         /**
          * Holds the id of the widget.
@@ -1830,10 +1830,10 @@ namespace fcn
         std::list<Widget*> mChildren;
 
         /** Last stored X coordinate used for layout and event calculations. */
-        int mLastX;
+        int mLastX = 0;
 
         /** Last stored Y coordinate used for layout and event calculations. */
-        int mLastY;
+        int mLastY = 0;
     };
 } // namespace fcn
 

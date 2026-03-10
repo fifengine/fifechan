@@ -247,6 +247,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the button to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Internal helper to set an image for a specific ImageType by filename.
          * @param filename image file to load and assign for the given type.
          * @param type the image type slot to set.

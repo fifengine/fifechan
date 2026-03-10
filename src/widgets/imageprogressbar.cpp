@@ -131,7 +131,7 @@ namespace fcn
         mInternalImage = false;
         mBarImage      = image;
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Image const * ImageProgressBar::getBarImage() const
@@ -142,7 +142,7 @@ namespace fcn
     void ImageProgressBar::setForegroundImage(Image* image)
     {
         mForegroundImage = image;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Image const * ImageProgressBar::getForegroundImage() const
@@ -195,10 +195,15 @@ namespace fcn
     void ImageProgressBar::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void ImageProgressBar::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void ImageProgressBar::adjustSizeImpl()
     {
         int w = 0;
         int h = 0;

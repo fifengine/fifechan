@@ -31,7 +31,7 @@ namespace fcn
     void Label::setCaption(std::string const & caption)
     {
         mCaption = caption;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Label::setAlignment(Graphics::Alignment alignment)
@@ -48,10 +48,15 @@ namespace fcn
     {
         (void)recursion; // unused parameter
 
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Label::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void Label::adjustSizeImpl()
     {
         setSize(
             (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),

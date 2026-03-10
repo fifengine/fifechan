@@ -349,7 +349,7 @@ namespace fcn
         }
         mBackgroundImage         = Image::load(filename);
         mInternalBackgroundImage = true;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void CheckBox::setBackgroundImage(Image const * image)
@@ -359,7 +359,7 @@ namespace fcn
         }
         mBackgroundImage         = image;
         mInternalBackgroundImage = false;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Image const * CheckBox::getBackgroundImage() const
@@ -421,6 +421,11 @@ namespace fcn
     }
 
     void CheckBox::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void CheckBox::adjustSizeImpl()
     {
         int w = 0;
         int h = 0;

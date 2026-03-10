@@ -135,6 +135,17 @@ namespace fcn
         virtual void drawBox(Graphics* graphics);
 
         /**
+         * Adjusts the size of the checkbox to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Draws the checkmark.
          *
          * @param graphics A Graphics object to draw with.
@@ -182,7 +193,7 @@ namespace fcn
         /**
          * Holds the caption of the button.
          */
-        std::string mCaption;
+        std::string mCaption{};
 
         /**
          * True if the background image was loaded internally, false otherwise.

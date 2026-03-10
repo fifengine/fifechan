@@ -36,7 +36,7 @@ namespace fcn
     void TextBox::setText(std::string const & text)
     {
         mText->setContent(text);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void TextBox::draw(Graphics* graphics)
@@ -178,7 +178,7 @@ namespace fcn
                 fcn::UTF8StringEditor::insertChar(mText->getRow(getCaretRow()), getCaretColumn(), key.getValue()));
         }
 
-        adjustSize();
+        adjustSizeImpl();
         scrollToCaret();
         assert(
             utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).end()) ==
@@ -192,10 +192,15 @@ namespace fcn
     void TextBox::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void TextBox::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void TextBox::adjustSizeImpl()
     {
         Rectangle const & dim = mText->getDimension(getFont());
         setSize(dim.width, dim.height);
@@ -245,7 +250,7 @@ namespace fcn
     void TextBox::setTextRow(int row, std::string const & text)
     {
         mText->setRow(row, text);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     unsigned int TextBox::getNumberOfRows() const
@@ -260,7 +265,7 @@ namespace fcn
 
     void TextBox::fontChanged()
     {
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void TextBox::scrollToCaret()
@@ -281,7 +286,7 @@ namespace fcn
     void TextBox::addRow(std::string const & row)
     {
         mText->addRow(row);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     bool TextBox::isOpaque() const

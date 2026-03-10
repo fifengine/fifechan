@@ -165,6 +165,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the button to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Checks if the button is pressed. Convenient method to use
          * when overloading the draw method of the button.
          *
@@ -180,17 +191,17 @@ namespace fcn
         /**
          * True if the mouse is on top of the button, false otherwise.
          */
-        bool mHasMouse;
+        bool mHasMouse{false};
 
         /**
          * True if a key has been pressed, false otherwise.
          */
-        bool mKeyPressed;
+        bool mKeyPressed{false};
 
         /**
          * True if a mouse has been pressed, false otherwise.
          */
-        bool mMousePressed;
+        bool mMousePressed{false};
 
         /**
          * True if the button is active.
@@ -205,12 +216,12 @@ namespace fcn
         /**
          * Holds the x down offset of the caption.
          */
-        int mXOffset;
+        int mXOffset{0};
 
         /**
          * Holds the y down offset of the caption.
          */
-        int mYOffset;
+        int mYOffset{0};
     };
 } // namespace fcn
 

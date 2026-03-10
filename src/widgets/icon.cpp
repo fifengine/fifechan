@@ -46,7 +46,7 @@ namespace fcn
 
         mImage         = Image::load(filename);
         mInternalImage = true;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Icon::setImage(Image const * image)
@@ -57,7 +57,7 @@ namespace fcn
 
         mImage         = image;
         mInternalImage = false;
-        adjustSize();
+        adjustSizeImpl();
     }
 
     Image const * Icon::getImage() const
@@ -98,10 +98,15 @@ namespace fcn
     void Icon::resizeToContent(bool recursion)
     {
         static_cast<void>(recursion);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     void Icon::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void Icon::adjustSizeImpl()
     {
         // workaround to avoid resizing
         if (mScale || mTile) {

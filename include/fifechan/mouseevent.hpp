@@ -137,12 +137,12 @@ namespace fcn
         /**
          * Holds the x-coordinate of the mouse event.
          */
-        int mX;
+        int mX = 0;
 
         /**
          * Holds the y-coordinate of the mouse event.
          */
-        int mY;
+        int mY = 0;
 
         /**
          * The number of clicks generated with the same button.

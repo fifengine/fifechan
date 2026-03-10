@@ -207,20 +207,20 @@ namespace fcn
         /**
          * True if the drop down is dropped down, false otherwise.
          */
-        bool mDroppedDown;
+        bool mDroppedDown{false};
 
         /**
          * True if the drop down has been pushed with the mouse, false
          * otherwise.
          */
-        bool mPushed;
+        bool mPushed{false};
 
         /**
          * Holds what the height is if the drop down is folded up. Used when
          * checking if the list of the drop down was clicked or if the upper
          * part of the drop down was clicked on a mouse click.
          */
-        int mFoldedUpHeight;
+        int mFoldedUpHeight{0};
 
         /**
          * Owned internal scroll area when not supplied externally.
@@ -253,19 +253,19 @@ namespace fcn
          * has been passed to the drop down which the drop down should not
          * deleted in it's destructor.
          */
-        bool mInternalScrollArea;
+        bool mInternalScrollArea{false};
 
         /**
          * True if an internal list box is used, false if a list box
          * has been passed to the drop down which the drop down should not
          * deleted in it's destructor.
          */
-        bool mInternalListBox;
+        bool mInternalListBox{false};
 
         /**
          * True if the drop down is dragged.
          */
-        bool mIsDragged;
+        bool mIsDragged{false};
 
         /**
          * Typedef.

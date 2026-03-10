@@ -26,8 +26,6 @@ namespace fcn
     {
     }
 
-    KeyEvent::~KeyEvent() = default;
-
     unsigned int KeyEvent::getType() const
     {
         return mType;

@@ -208,6 +208,17 @@ namespace fcn
 
     protected:
         /**
+         * Adjusts the size of the button to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
+        /**
          * Sets caret column (UTF-8 aware).
          * @param column Caret column.
          */
@@ -245,12 +256,12 @@ namespace fcn
         /**
          * True if the text box is editable, false otherwise.
          */
-        bool mEditable;
+        bool mEditable{true};
 
         /**
-         * True if the text box is editable, false otherwise.
+         * True if the text box is opaque, false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{true};
 
         /**
          * UTF8StringEditor for UTF8 support.

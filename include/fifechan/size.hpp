@@ -51,9 +51,9 @@ namespace fcn
 
     private:
         // width of the size
-        int mWidth;
+        int mWidth = 0;
         // height of the size
-        int mHeight;
+        int mHeight = 0;
     };
 }; // namespace fcn
 
