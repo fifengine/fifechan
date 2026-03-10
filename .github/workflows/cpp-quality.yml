@@ -118,10 +118,13 @@ jobs:
 
       - name: 🛠️ Run cppcheck
         run: |
+          echo "Cppcheck version: $(cppcheck --version)"
           cppcheck \
             --enable=warning,style,performance,portability \
             --std=c++20 \
             --quiet \
             --inline-suppr \
-            src
+            --error-exitcode=1 \
+            -I include \
+            src examples tests
         #continue-on-error: true
