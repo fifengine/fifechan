@@ -24,10 +24,10 @@ int main(int argc, char** argv)
         openglsdl::run();
         widgets::halt();
         openglsdl::halt();
-    } catch (fcn::Exception e) {
+    } catch (fcn::Exception const& e) {
         std::cerr << e.getMessage() << '\n';
         return 1;
-    } catch (std::exception e) {
+    } catch (std::exception const& e) {
         std::cerr << "Std exception: " << e.what() << '\n';
         return 1;
     }
