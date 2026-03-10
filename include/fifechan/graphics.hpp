@@ -238,7 +238,7 @@ namespace fcn
          * @param height The height of the rectangle
          *
          */
-        inline void drawRectangle(int x, int y, int width, int height)
+        void drawRectangle(int x, int y, int width, int height)
         {
             drawRectangle(Rectangle(x, y, width, height));
         }
@@ -261,7 +261,7 @@ namespace fcn
          * @param height The height of the rectangle
          *
          */
-        inline void fillRectangle(int x, int y, int width, int height)
+        void fillRectangle(int x, int y, int width, int height)
         {
             fillRectangle(Rectangle(x, y, width, height));
         }

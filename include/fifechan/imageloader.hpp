@@ -34,7 +34,9 @@ namespace fcn
         virtual ~ImageLoader() = default;
 
         /**
-         * Loads an image. The single-argument overload forwards to the
+         * Loads an image.
+         *
+         * The single-argument overload forwards to the
          * two-argument overload requesting conversion to display format.
          *
          * NOTE: The functions Image::getPixel and Image::putPixel

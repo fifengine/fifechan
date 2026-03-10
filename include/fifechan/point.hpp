@@ -213,7 +213,7 @@ namespace fcn
          * @param ind Index 0 for X, 1 for Y. Asserts if out of range.
          * @return Reference to the requested component.
          */
-        inline int& operator[](int ind)
+        int& operator[](int ind)
         {
             assert(ind > -1 && ind < 2);
             return val[ind];

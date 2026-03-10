@@ -1841,29 +1841,28 @@ namespace fcn
     };
 } // namespace fcn
 
-#
 // Bitwise operators for Widget::SelectionMode (enum class)
 namespace fcn
 {
-    inline constexpr Widget::SelectionMode operator|(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    constexpr Widget::SelectionMode operator|(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
     {
         using T = std::underlying_type_t<Widget::SelectionMode>;
         return static_cast<Widget::SelectionMode>(static_cast<T>(a) | static_cast<T>(b));
     }
 
-    inline constexpr Widget::SelectionMode operator&(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    constexpr Widget::SelectionMode operator&(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
     {
         using T = std::underlying_type_t<Widget::SelectionMode>;
         return static_cast<Widget::SelectionMode>(static_cast<T>(a) & static_cast<T>(b));
     }
 
-    inline constexpr Widget::SelectionMode& operator|=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    constexpr Widget::SelectionMode& operator|=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
     {
         a = a | b;
         return a;
     }
 
-    inline constexpr Widget::SelectionMode& operator&=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    constexpr Widget::SelectionMode& operator&=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
     {
         a = a & b;
         return a;

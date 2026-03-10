@@ -16,7 +16,7 @@ namespace fcn
      * Abstract class for providing functions for user input.
      *
      * FifeGUI contains implementations of Input for common
-     * libraries like the and the SDL library.
+     * libraries like SDL.
      * To make FifeGUI usable with other libraries, an Input
      * class must be implemented.
      *
@@ -26,6 +26,11 @@ namespace fcn
     {
     public:
         virtual ~Input() = default;
+
+        Input(Input const &)            = delete;
+        Input& operator=(Input const &) = delete;
+        Input(Input&&)                  = delete;
+        Input& operator=(Input&&)       = delete;
 
         /**
          * Checks if the key queue is empty, or not.
@@ -64,6 +69,9 @@ namespace fcn
          * logic rate.
          */
         virtual void _pollInput() = 0;
+
+    protected:
+        Input() = default;
     };
 } // namespace fcn
 
