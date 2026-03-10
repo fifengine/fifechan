@@ -179,7 +179,7 @@ namespace fcn
         void setDimension(Rectangle const & dimension);
 
         /** Set the base/background color used for the tabbed area. */
-        void setBaseColor(Color const & color);
+        void setBaseColor(Color const & color) override;
 
         /** Set the background widget which is drawn behind tabs. */
         void setBackgroundWidget(Widget* widget);

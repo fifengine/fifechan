@@ -637,7 +637,7 @@ namespace fcn
          * @param color The base color.
          * @see getBaseColor
          */
-        void setBaseColor(Color const & color);
+        virtual void setBaseColor(Color const & color);
 
         /**
          * Gets the base color.
@@ -653,7 +653,7 @@ namespace fcn
          * @param color The foreground color.
          * @see getForegroundColor
          */
-        void setForegroundColor(Color const & color);
+        virtual void setForegroundColor(Color const & color);
 
         /**
          * Gets the foreground color.
@@ -668,7 +668,7 @@ namespace fcn
          * @param color The background Color.
          * @see setBackgroundColor
          */
-        void setBackgroundColor(Color const & color);
+        virtual void setBackgroundColor(Color const & color);
 
         /**
          * Gets the background color.
@@ -683,7 +683,7 @@ namespace fcn
          * @param color The selection color.
          * @see getSelectionColor
          */
-        void setSelectionColor(Color const & color);
+        virtual void setSelectionColor(Color const & color);
 
         /**
          * Gets the selection color.
@@ -699,7 +699,7 @@ namespace fcn
          * @param color The outline color.
          * @see getOutlineColor
          */
-        void setOutlineColor(Color const & color);
+        virtual void setOutlineColor(Color const & color);
 
         /**
          * Gets the outline color.
@@ -715,7 +715,7 @@ namespace fcn
          * @param color The border color.
          * @see getBorderColor
          */
-        void setBorderColor(Color const & color);
+        virtual void setBorderColor(Color const & color);
 
         /**
          * Gets the border color.
@@ -731,7 +731,7 @@ namespace fcn
          * @param mode The selection mode that is used when the widget is "active".
          * @see getSelectionMode
          */
-        void setSelectionMode(SelectionMode mode);
+        virtual void setSelectionMode(SelectionMode mode);
 
         /**
          * Gets the selection mode.
@@ -979,7 +979,7 @@ namespace fcn
          * @param font The font to set for the widget.
          * @see getFont
          */
-        void setFont(Font* font);
+        virtual void setFont(Font* font);
 
         /**
          * Called when the font has changed. If the change is global,

@@ -128,19 +128,19 @@ namespace fcn
         void draw(Graphics* graphics) override;
 
         /** Set the base color used for the dropdown background/controls. */
-        void setBaseColor(Color const & color);
+        void setBaseColor(Color const & color) override;
 
         /** Set the explicit background color for the dropdown. */
-        void setBackgroundColor(Color const & color);
+        void setBackgroundColor(Color const & color) override;
 
         /** Set the foreground/text color used in the dropdown. */
-        void setForegroundColor(Color const & color);
+        void setForegroundColor(Color const & color) override;
 
         /** Set the font used to render items in the dropdown. */
-        void setFont(Font* font);
+        void setFont(Font* font) override;
 
         /** Set the color used for the selected item highlight. */
-        void setSelectionColor(Color const & color);
+        void setSelectionColor(Color const & color) override;
 
         // Inherited from Container
 
