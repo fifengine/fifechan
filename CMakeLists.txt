@@ -167,6 +167,13 @@ if(WIN32)
       set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif()
 
+    # Disable logo, enable exceptions, use full path in diagnostics,
+    # be more standards compliant, use UTF-8 encoding, and enable Control Flow Guard.
+    string(APPEND CMAKE_CXX_FLAGS " /nologo /EHsc /FC /permissive- /utf-8 /guard:cf")
+
+    # Enable debug info in release builds for better crash dumps and profiling.
+    string(APPEND CMAKE_CXX_FLAGS_RELEASE " /Zi")
+
     # ensure we use minimal "windows.h" lib without the crazy min max macros
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
