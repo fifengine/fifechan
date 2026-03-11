@@ -4,7 +4,9 @@
 
 #include "fifechan/focushandler.hpp"
 
+#include <algorithm>
 #include <list>
+#include <ranges>
 #include <utility>
 
 #include "fifechan/event.hpp"
@@ -231,8 +233,8 @@ namespace fcn
             mFocusedWidget = nullptr;
         }
 
-        auto const iter = std::find(mWidgets.begin(), mWidgets.end(), widget);
-        if (iter != mWidgets.end()) {
+        auto iter = std::ranges::find(mWidgets, widget);
+        if (iter != std::ranges::end(mWidgets)) {
             mWidgets.erase(iter);
         }
 

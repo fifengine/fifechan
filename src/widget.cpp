@@ -8,6 +8,7 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <ranges>
 
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"
@@ -1245,17 +1246,21 @@ namespace fcn
 
     void Widget::remove(Widget* widget)
     {
-        auto it = std::find(mChildren.begin(), mChildren.end(), widget);
-        if (it == mChildren.end()) {
+        auto it = std::ranges::find(mChildren, widget);
+
+        if (it == std::ranges::end(mChildren)) {
             throwException("There is no such widget in this container.");
         } else {
             int x = 0;
             int y = 0;
             widget->getAbsolutePosition(x, y);
             widget->setLastPosition(x, y);
+
             mChildren.erase(it);
+
             widget->_setFocusHandler(nullptr);
             widget->_setParent(nullptr);
+
             // TODO thats more a hack but needed
             if (_getVisibilityEventHandler() != nullptr) {
                 _getVisibilityEventHandler()->widgetHidden(Event(widget));
@@ -1309,21 +1314,28 @@ namespace fcn
 
     void Widget::focusNext()
     {
-        auto const isFocusedIt = std::find_if(mChildren.begin(), mChildren.end(), [](auto* w) {
+        if (mChildren.empty()) {
+            return;
+        }
+
+        auto focused = std::ranges::find_if(mChildren, [](auto* w) {
             return w->isFocused();
         });
 
-        auto const next = isFocusedIt == mChildren.end() ? mChildren.begin() : std::next(isFocusedIt);
+        auto next = (focused == std::ranges::end(mChildren))
+                    ? std::ranges::begin(mChildren)
+                    : std::next(focused);
 
-        auto it = std::find_if(next, mChildren.end(), [](auto* w) {
+        auto it = std::ranges::find_if(next, std::ranges::end(mChildren), [](auto* w) {
             return w->isFocusable();
         });
 
-        if (it == mChildren.end()) {
-            it = std::find_if(mChildren.begin(), next, [](auto* w) {
+        if (it == std::ranges::end(mChildren)) {
+            it = std::ranges::find_if(std::ranges::begin(mChildren), next, [](auto* w) {
                 return w->isFocusable();
             });
         }
+
         if (it != next) {
             (*it)->requestFocus();
         }
@@ -1331,21 +1343,30 @@ namespace fcn
 
     void Widget::focusPrevious()
     {
-        auto const isFocusedRIt = std::find_if(mChildren.rbegin(), mChildren.rend(), [](auto* w) {
+        if (mChildren.empty()) {
+            return;
+        }
+
+        auto rev = std::ranges::reverse_view(mChildren);
+
+        auto focused = std::ranges::find_if(rev, [](auto* w) {
             return w->isFocused();
         });
 
-        auto const next = isFocusedRIt == mChildren.rend() ? mChildren.rbegin() : std::next(isFocusedRIt);
+        auto next = (focused == std::ranges::end(rev))
+                    ? std::ranges::begin(rev)
+                    : std::next(focused);
 
-        auto rit = std::find_if(next, mChildren.rend(), [](auto* w) {
+        auto rit = std::ranges::find_if(next, std::ranges::end(rev), [](auto* w) {
             return w->isFocusable();
         });
 
-        if (rit == mChildren.rend()) {
-            rit = std::find_if(mChildren.rbegin(), next, [](auto* w) {
+        if (rit == std::ranges::end(rev)) {
+            rit = std::ranges::find_if(std::ranges::begin(rev), next, [](auto* w) {
                 return w->isFocusable();
             });
         }
+
         if (rit != next) {
             (*rit)->requestFocus();
         }
