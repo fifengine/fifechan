@@ -13,8 +13,6 @@ Checks: >
   -clang-analyzer-*,
   cert-err34-c,
   cppcoreguidelines-*,
-  cppcoreguidelines-rvalue-reference-param-not-moved,
-  -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-avoid-non-const-global-variables,
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-narrowing-conversions,
@@ -23,12 +21,11 @@ Checks: >
   -cppcoreguidelines-pro-type-union-access,
   google-explicit-constructor,
   misc*,
+  misc-uniqueptr-reset-release,
   -misc-no-recursion,
   -misc-include-cleaner,
-  -misc-non-private-member-variables-in-classes
+  -misc-non-private-member-variables-in-classes,
   modernize*,
-  modernize-use-nullptr,
-  modernize-use-override,
   -modernize-use-auto,
   -modernize-use-trailing-return-type,
   -modernize-use-nodiscard,
@@ -38,6 +35,7 @@ Checks: >
   -readability-identifier-length,
   -readability-magic-numbers,
   -readability-function-cognitive-complexity,
+  -readability-convert-member-functions-to-static
 
 WarningsAsErrors: >
   clang-analyzer-security.*
