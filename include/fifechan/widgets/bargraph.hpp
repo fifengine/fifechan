@@ -109,12 +109,12 @@ namespace fcn
         /**
          * m_opaque is true if the graph is opaque, false otherwise.
          */
-        bool m_opaque;
+        bool m_opaque{false};
 
         /**
          * m_rec is the rectangle that represents the bar.
          */
-        Rectangle m_rec;
+        Rectangle m_rec{};
     };
 }; // namespace fcn
 

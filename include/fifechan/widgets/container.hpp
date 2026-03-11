@@ -307,7 +307,7 @@ namespace fcn
         /**
          * The container listeners of the container.
          */
-        ContainerListenerList mContainerListeners;
+        ContainerListenerList mContainerListeners{};
 
         /**
          * Typedef.
@@ -317,27 +317,27 @@ namespace fcn
         /**
          * Layout
          */
-        LayoutPolicy mLayout;
+        LayoutPolicy mLayout{LayoutPolicy::Absolute};
 
         /**
          * Indicates if the childs should be expanded to a uniform size
          */
-        bool mUniform;
+        bool mUniform{false};
 
         /**
          * VerticalSpacing
          */
-        unsigned int mVerticalSpacing;
+        unsigned int mVerticalSpacing{2};
 
         /**
          * HorizontalSpacing
          */
-        unsigned int mHorizontalSpacing;
+        unsigned int mHorizontalSpacing{2};
 
         /**
          * Optional widget that is rendered behind other children as the container background.
          */
-        Widget* mBackgroundWidget;
+        Widget* mBackgroundWidget{nullptr};
     };
 } // namespace fcn
 

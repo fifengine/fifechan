@@ -268,25 +268,25 @@ namespace fcn
         /**
          * Holds the text row by row.
          */
-        std::vector<std::string> mRows;
+        std::vector<std::string> mRows{};
 
         /**
          * Holds the position of the caret. This variable should
          * always be valid.
          */
-        unsigned int mCaretPosition = 0;
+        unsigned int mCaretPosition{0};
 
         /**
          * Holds the row the caret is in. This variable should always
          * be valid.
          */
-        unsigned int mCaretRow = 0;
+        unsigned int mCaretRow{0};
 
         /**
          * Holds the column the caret is in. This variable should always
          * be valid.
          */
-        unsigned int mCaretColumn = 0;
+        unsigned int mCaretColumn{0};
     };
 } // namespace fcn
 

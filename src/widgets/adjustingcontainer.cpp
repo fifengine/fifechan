@@ -11,7 +11,7 @@
 
 namespace fcn
 {
-    AdjustingContainer::AdjustingContainer() : mWidth(0), mHeight(0), mNumberOfColumns(1), mNumberOfRows(1)
+    AdjustingContainer::AdjustingContainer()
     {
         setPadding(0);
         setVerticalSpacing(0);

@@ -178,37 +178,37 @@ namespace fcn
         /**
          * Computed width for each column (in pixels).
          */
-        std::vector<unsigned int> mColumnWidths;
+        std::vector<unsigned int> mColumnWidths{};
 
         /**
          * The alignment of each column.
          */
-        std::vector<Alignment> mColumnAlignment;
+        std::vector<Alignment> mColumnAlignment{};
 
         /**
          * Computed height for each row (in pixels).
          */
-        std::vector<unsigned int> mRowHeights;
+        std::vector<unsigned int> mRowHeights{};
 
         /**
          * Cached container width used during layout.
          */
-        unsigned int mWidth;
+        unsigned int mWidth{0};
 
         /**
          * Cached container height used during layout.
          */
-        unsigned int mHeight;
+        unsigned int mHeight{0};
 
         /**
          * Number of columns in the layout.
          */
-        unsigned int mNumberOfColumns;
+        unsigned int mNumberOfColumns{1};
 
         /**
          * Number of rows in the layout (derived from children count).
          */
-        unsigned int mNumberOfRows;
+        unsigned int mNumberOfRows{1};
     };
 } // namespace fcn
 

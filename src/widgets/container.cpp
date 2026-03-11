@@ -15,15 +15,7 @@
 
 namespace fcn
 {
-    Container::Container() :
-        mOpaque(true),
-        mLayout(LayoutPolicy::Absolute),
-        mUniform(false),
-        mVerticalSpacing(2),
-        mHorizontalSpacing(2),
-        mBackgroundWidget(nullptr)
-    {
-    }
+    Container::Container() { }
 
     Container::~Container() = default;
 

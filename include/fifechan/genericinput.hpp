@@ -122,12 +122,12 @@ namespace fcn
         /**
          * Holds the key input queue.
          */
-        std::queue<KeyInput> mKeyInputQueue;
+        std::queue<KeyInput> mKeyInputQueue{};
 
         /**
          * Holds the mouse input queue.
          */
-        std::queue<MouseInput> mMouseInputQueue;
+        std::queue<MouseInput> mMouseInputQueue{};
     };
 } // namespace fcn
 

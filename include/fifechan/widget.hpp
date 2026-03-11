@@ -1797,7 +1797,7 @@ namespace fcn
         /**
          * Holds the font used by the widget.
          */
-        Font* mCurrentFont;
+        Font* mCurrentFont{nullptr};
 
         /**
          * Holds the default font used by the widget.

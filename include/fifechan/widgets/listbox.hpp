@@ -169,7 +169,7 @@ namespace fcn
         /**
          * The list model to use.
          */
-        ListModel* mListModel{};
+        ListModel* mListModel{nullptr};
 
         /**
          * True if wrapping is enabled, false otherwise.

@@ -82,16 +82,16 @@ namespace fcn
         void addControlPoints(PointVector const & points, PointVector& newPoints);
 
         /** True if the curve is drawn opaque. */
-        bool m_opaque;
+        bool m_opaque{false};
 
         /** Whether automatic control points are enabled. */
-        bool m_acp;
+        bool m_acp{true};
 
         /** Internal flag marking that the precalculated curve data needs update. */
-        bool m_needUpdate;
+        bool m_needUpdate{false};
 
         /** Stroke thickness in pixels. */
-        unsigned int m_thickness;
+        unsigned int m_thickness{1};
 
         /** Raw input point data. */
         PointVector m_data;
