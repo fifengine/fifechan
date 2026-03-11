@@ -255,7 +255,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        void adjustSizeImpl();
+        void adjustSizeImpl() override;
 
         /**
          * Internal helper to set an image for a specific ImageType by filename.

@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    Text::Text() { }
+    Text::Text() = default;
 
     Text::Text(std::string const & content)
     {
@@ -362,7 +362,7 @@ namespace fcn
 
     unsigned int Text::getNumberOfCharacters() const
     {
-        return std::accumulate(mRows.begin(), mRows.end(), 0u, [](unsigned int sum, auto const & row) {
+        return std::accumulate(mRows.begin(), mRows.end(), 0U, [](unsigned int sum, auto const & row) {
             return sum + row.size() + 1;
         });
     }

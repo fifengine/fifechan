@@ -7,8 +7,8 @@
 #include <algorithm>
 #include <iostream>
 #include <list>
-#include <string>
 #include <ranges>
+#include <string>
 
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"
@@ -1322,9 +1322,7 @@ namespace fcn
             return w->isFocused();
         });
 
-        auto next = (focused == std::ranges::end(mChildren))
-                    ? std::ranges::begin(mChildren)
-                    : std::next(focused);
+        auto next = (focused == std::ranges::end(mChildren)) ? std::ranges::begin(mChildren) : std::next(focused);
 
         auto it = std::ranges::find_if(next, std::ranges::end(mChildren), [](auto* w) {
             return w->isFocusable();
@@ -1353,9 +1351,7 @@ namespace fcn
             return w->isFocused();
         });
 
-        auto next = (focused == std::ranges::end(rev))
-                    ? std::ranges::begin(rev)
-                    : std::next(focused);
+        auto next = (focused == std::ranges::end(rev)) ? std::ranges::begin(rev) : std::next(focused);
 
         auto rit = std::ranges::find_if(next, std::ranges::end(rev), [](auto* w) {
             return w->isFocusable();

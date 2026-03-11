@@ -160,27 +160,27 @@ namespace fcn
          * An image not loaded internally should not be deleted in the
          * destructor.
          */
-        bool mInternalImage;
+        bool mInternalImage{false};
 
         /**
          * Count of icons when progress bar is full.
          */
-        int mMaxIcons;
+        int mMaxIcons{0};
 
         /**
          * Holds how many icons are currently displayed.
          */
-        int mIconCounter;
+        int mIconCounter{0};
 
         /**
          * IconProgressBar's orientation.
          */
-        Orientation mOrientation;
+        Orientation mOrientation{Orientation::Horizontal};
 
         /**
          * True if the widget is opaque, false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{true};
     };
 }; // namespace fcn
 

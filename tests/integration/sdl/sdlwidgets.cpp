@@ -50,7 +50,8 @@ namespace tests::integration::sdl::widgets
     }
 } // namespace tests::integration::sdl::widgets
 
-using namespace tests::integration::sdl::widgets;
+using tests::integration::sdl::widgets::Application;
+using tests::integration::sdl::widgets::DemoListModel;
 
 Application::Application(std::string const & title, int width, int height) :
     exePath(getExecutablePath()), demoListModel(std::make_unique<DemoListModel>())

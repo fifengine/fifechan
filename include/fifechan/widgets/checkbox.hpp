@@ -143,7 +143,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        void adjustSizeImpl();
+        void adjustSizeImpl() override;
 
         /**
          * Draws the checkmark.

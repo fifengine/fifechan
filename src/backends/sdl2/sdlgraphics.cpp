@@ -124,12 +124,10 @@ namespace fcn
             int const y1 = area.y > top.y ? area.y : top.y;
             int const x2 = area.x + area.width < top.x + top.width ? area.x + area.width : top.x + top.width;
             int const y2 = area.y + area.height < top.y + top.height ? area.y + area.height : top.y + top.height;
-            int x        = 0;
-            int y        = 0;
 
             SDL_LockSurface(mTarget);
-            for (y = y1; y < y2; y++) {
-                for (x = x1; x < x2; x++) {
+            for (int y = y1; y < y2; y++) {
+                for (int x = x1; x < x2; x++) {
                     SDLputPixelAlpha(mTarget, x, y, mColor);
                 }
             }

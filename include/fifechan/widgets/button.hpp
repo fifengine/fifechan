@@ -173,7 +173,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        void adjustSizeImpl();
+        virtual void adjustSizeImpl();
 
         /**
          * Checks if the button is pressed. Convenient method to use

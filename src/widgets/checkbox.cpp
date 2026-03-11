@@ -61,15 +61,13 @@ namespace fcn
 
     CheckBox::CheckBox()
     {
-
-        adjustSize();
+        adjustSizeImpl();
     }
 
     CheckBox::CheckBox(std::string const & caption, bool selected) : mSelected(selected)
     {
-
         setCaption(caption);
-        adjustSize();
+        adjustSizeImpl();
     }
 
     CheckBox::~CheckBox()
@@ -317,13 +315,13 @@ namespace fcn
                 fh = getHeight() - 3;
             }
 
-            int const hh = (fh + 1) / 2;
+            int const fhh = (fh + 1) / 2;
 
             graphics->setColor(getSelectionColor());
-            graphics->drawLine(0, hh + 1, hh + 1, 0);
-            graphics->drawLine(hh + 2, 1, fh + 2, hh + 1);
-            graphics->drawLine(fh + 1, hh + 2, hh + 1, fh + 2);
-            graphics->drawLine(hh + 1, fh + 2, 1, hh + 2);
+            graphics->drawLine(0, fhh + 1, fhh + 1, 0);
+            graphics->drawLine(fhh + 2, 1, fh + 2, fhh + 1);
+            graphics->drawLine(fh + 1, fhh + 2, fhh + 1, fh + 2);
+            graphics->drawLine(fhh + 1, fh + 2, 1, fhh + 2);
         }
     }
 
