@@ -167,11 +167,6 @@ namespace fcn
         bool mMovable{true};
 
         /**
-         * True if the window is opaque, false otherwise.
-         */
-        bool mOpaque{true};
-
-        /**
          * Holds a drag offset as an x coordinate where the drag of the window
          * started if the window is being dragged. It's used to move the window
          * correctly when dragged.

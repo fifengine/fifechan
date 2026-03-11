@@ -297,7 +297,7 @@ namespace fcn
         /**
          * True if the container is opaque, false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{true};
 
         /**
          * Typdef.
