@@ -804,17 +804,17 @@ namespace fcn
                 }
             }
 
-            Widget* swap = widget;
-            widget       = parent;
-            parent       = swap->getParent();
+            Widget const * swap = widget;
+            widget              = parent;
+            parent              = swap->getParent();
 
-            // If a non modal focused widget has been reach
+            // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
             if (mFocusHandler->getModalFocused() != nullptr && widget != nullptr && !widget->isModalFocused()) {
                 break;
             }
 
-            // If a non modal mouse input focused widget has been reach
+            // If a non-modal mouse input focused widget has been reached
             // and we have modal mouse input focus cancel the distribution.
             if (mFocusHandler->getModalMouseInputFocused() != nullptr && widget != nullptr &&
                 !widget->isModalMouseInputFocused()) {
@@ -860,11 +860,11 @@ namespace fcn
                 }
             }
 
-            Widget* swap = widget;
-            widget       = parent;
-            parent       = swap->getParent();
+            Widget const * swap = widget;
+            widget              = parent;
+            parent              = swap->getParent();
 
-            // If a non modal focused widget has been reach
+            // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
             if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused()) {
                 break;
@@ -1013,7 +1013,7 @@ namespace fcn
         // process each hidden widget in queue
         while (!mHiddenWidgets.empty()) {
             // if the hidden widget had the mouse cursor inside
-            Widget* hiddenWidget = mHiddenWidgets.front();
+            Widget const * hiddenWidget = mHiddenWidgets.front();
 
             // make sure that the widget wasn't freed after hiding
             if (Widget::widgetExists(hiddenWidget) && hiddenWidget->isEnabled()) {
