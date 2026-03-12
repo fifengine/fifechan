@@ -242,7 +242,7 @@ jobs:
           echo "VERSION=$($VERSION)" >> $env:GITHUB_ENV
 
       - name: 🔼 Upload Build Artifact
-        uses: actions/upload-artifact@v4 # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
         if: always()
         with:
           name: ${{ env.ARTIFACT_NAME }}
