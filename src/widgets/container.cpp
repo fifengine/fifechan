@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    Container::Container() { }
+    Container::Container() = default;
 
     Container::~Container() = default;
 
@@ -102,9 +102,9 @@ namespace fcn
         distributeWidgetRemovedEvent(widget);
     }
 
-    void Container::clear()
+    void Container::removeAllChildren()
     {
-        Widget::clear();
+        Widget::removeAllChildren();
     }
 
     Widget* Container::findWidgetById(std::string const & id)

@@ -100,10 +100,10 @@ namespace fcn
 
         if (tabIndexToBeSelected == -1) {
             mSelectedTab = nullptr;
-            mWidgetContainer->clear();
+            mWidgetContainer->removeAllChildren();
             adaptLayout();
         } else {
-            mWidgetContainer->clear();
+            mWidgetContainer->removeAllChildren();
             setSelectedTab(tabIndexToBeSelected);
         }
     }

@@ -1534,25 +1534,25 @@ namespace fcn
         void add(Widget* widget);
 
         /**
-         * Removes a child from the widget.
+         * Removes a specific child from the widget.
          *
          * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
          * INSIDE ANY LISTER FUNCTIONS!
          *
          * @param widget The widget to remove.
-         * @see add, clear
+         * @see removeAllChildren
          */
         virtual void remove(Widget* widget);
 
         /**
-         * Clears the widget from all its children.
+         * Remvoes all children from the widget.
          *
          * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
          * INSIDE ANY LISTER FUNCTIONS!
          *
-         * @see remove, clear
+         * @see remove
          */
-        virtual void clear();
+        virtual void removeAllChildren();
 
         /**
          * Finds a widget by id.
@@ -1617,32 +1617,32 @@ namespace fcn
         /**
          * Holds the foreground color of the widget.
          */
-        Color mForegroundColor;
+        Color mForegroundColor{0x1f2933};
 
         /**
          * Holds the background color of the widget.
          */
-        Color mBackgroundColor;
+        Color mBackgroundColor{0xf9fafb};
 
         /**
          * Holds the base color of the widget.
          */
-        Color mBaseColor;
+        Color mBaseColor{0xe5e7eb};
 
         /**
          * Holds the selection color of the widget.
          */
-        Color mSelectionColor;
+        Color mSelectionColor{0x3b82f6};
 
         /**
          * Holds the outline color of the widget.
          */
-        Color mOutlineColor;
+        Color mOutlineColor{0x9ca3af};
 
         /**
          * Holds the border color of the widget.
          */
-        Color mBorderColor;
+        Color mBorderColor{0xd1d5db};
 
         /**
          * Holds the focus handler used by the widget.

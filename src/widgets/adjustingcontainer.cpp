@@ -92,9 +92,9 @@ namespace fcn
         add(widget);
     }
 
-    void AdjustingContainer::clear()
+    void AdjustingContainer::removeAllChildren()
     {
-        Container::clear();
+        Container::removeAllChildren();
         mContainedWidgets.clear();
     }
 

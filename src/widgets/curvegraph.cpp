@@ -15,7 +15,7 @@
 namespace fcn
 {
 
-    CurveGraph::CurveGraph() { }
+    CurveGraph::CurveGraph() = default;
 
     CurveGraph::CurveGraph(PointVector data) :
         m_opaque(false), m_acp(true), m_needUpdate(true), m_thickness(1), m_data(std::move(data))

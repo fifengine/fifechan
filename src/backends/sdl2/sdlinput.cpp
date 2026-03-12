@@ -12,7 +12,7 @@
 
 namespace fcn
 {
-    SDLInput::SDLInput() : mMouseInWindow(true), mMouseDown(false) { }
+    SDLInput::SDLInput() : mMouseInWindow(true) { }
 
     bool SDLInput::isKeyQueueEmpty()
     {

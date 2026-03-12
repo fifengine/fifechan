@@ -10,7 +10,7 @@
 namespace fcn
 {
 
-    BarGraph::BarGraph() { }
+    BarGraph::BarGraph() = default;
 
     BarGraph::BarGraph(int x, int y, int w, int h) : m_rec(Rectangle(x, y, w, h)) { }
 

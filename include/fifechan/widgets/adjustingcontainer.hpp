@@ -167,7 +167,7 @@ namespace fcn
 
         void remove(Widget* widget) override;
 
-        void clear() override;
+        void removeAllChildren() override;
 
     protected:
         /**

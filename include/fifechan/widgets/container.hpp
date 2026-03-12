@@ -118,11 +118,11 @@ namespace fcn
         void remove(Widget* widget) override;
 
         /**
-         * Clears the container of all widgets.
+         * Removes all widgets from the the container.
          *
          * @see add, remove
          */
-        void clear() override;
+        void removeAllChildren() override;
 
         /**
          * Finds a widget given an id.

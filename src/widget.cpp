@@ -33,14 +33,7 @@ namespace fcn
     VisibilityEventHandler* Widget::mVisibilityEventHandler = nullptr;
     DeathListener* Widget::mGuiDeathListener                = nullptr;
 
-    Widget::Widget() :
-        mForegroundColor(0x000000),
-        mBackgroundColor(0xffffff),
-        mBaseColor(0x808090),
-        mSelectionColor(0xc3d9ff),
-        mOutlineColor(0x808090),
-        mBorderColor(0x808090),
-        mCurrentFont(nullptr)
+    Widget::Widget()
     {
         mWidgetInstances.push_back(this);
     }
@@ -1224,7 +1217,7 @@ namespace fcn
         }
     }
 
-    void Widget::clear()
+    void Widget::removeAllChildren()
     {
         std::list<Widget*>::const_iterator iter;
         for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
