@@ -18,9 +18,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 # Setup VCPKG and install Dependencies
 #-------------------------------------------------------------------
 
+# USE_VCPKG defaults to true, so that SetupVcpkg is included.
+set(USE_VCPKG TRUE CACHE BOOL "Use vcpkg for dependencies")
+
 # This configures VCPKG to install the dependencies defined in vcpkg.json
 # automatically during the configure step of CMake (vcpkg install).
-include(SetupVcpkg)
+if(USE_VCPKG)
+   include(SetupVcpkg)
+endif()
 
 #-------------------------------------------------------------------
 # Gather Version Data
@@ -88,6 +93,9 @@ option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
 
 option(FIFEGUI_TESTS         "Build the FifeGUI tests"                       ON)
 option(FIFEGUI_EXAMPLES      "Build the FifeGUI examples"                    ON)
+
+# Reminder: The variable USE_VCPKG exist, which controls SetupVcpkg.
+# It is not a build option, because it must be set before project().
 
 #------------------------------------------------------------------------------
 # Default build type
