@@ -2,10 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/backends/sdl2/image.hpp"
+#include <string>
 
 #include <SDL2/SDL_render.h>
 
+#include "fifechan/backends/sdl2/image.hpp"
 #include "fifechan/backends/sdl2/imageloader.hpp"
 #include "fifechan/backends/sdl2/pixel.hpp"
 #include "fifechan/exception.hpp"
