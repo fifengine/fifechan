@@ -20,8 +20,6 @@
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
-#include <dlfcn.h>
-#include <execinfo.h>
 
 namespace fcn::sdl2
 {

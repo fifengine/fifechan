@@ -47,7 +47,7 @@ namespace fcn::opengl
         }
 
         if (convertToDisplayFormat) {
-            OpenGLImage::convertToDisplayFormat();
+            Image::convertToDisplayFormat();
         }
     }
 
@@ -70,29 +70,29 @@ namespace fcn::opengl
         }
     }
 
-    OpenGLImage::~OpenGLImage()
+    Image::~Image()
     {
         if (mAutoFree) {
             free();
         }
     }
 
-    GLuint OpenGLImage::getTextureHandle() const
+    GLuint Image::getTextureHandle() const
     {
         return mTextureHandle;
     }
 
-    int OpenGLImage::getTextureWidth() const
+    int Image::getTextureWidth() const
     {
         return mTextureWidth;
     }
 
-    int OpenGLImage::getTextureHeight() const
+    int Image::getTextureHeight() const
     {
         return mTextureHeight;
     }
 
-    void OpenGLImage::free()
+    void Image::free()
     {
         if (mPixels.empty()) {
             glDeleteTextures(1, &mTextureHandle);
@@ -101,17 +101,17 @@ namespace fcn::opengl
         }
     }
 
-    int OpenGLImage::getWidth() const
+    int Image::getWidth() const
     {
         return mWidth;
     }
 
-    int OpenGLImage::getHeight() const
+    int Image::getHeight() const
     {
         return mHeight;
     }
 
-    Color OpenGLImage::getPixel(int x, int y)
+    Color Image::getPixel(int x, int y)
     {
         if (mPixels.empty()) {
             throwException("Image has been converted to display format");
@@ -138,7 +138,7 @@ namespace fcn::opengl
         return {r, g, b, a};
     }
 
-    void OpenGLImage::putPixel(int x, int y, Color const & color)
+    void Image::putPixel(int x, int y, Color const & color)
     {
         if (mPixels.empty()) {
             throwException("Image has been converted to display format");
@@ -157,7 +157,7 @@ namespace fcn::opengl
         mPixels[x + (y * mTextureWidth)] = c;
     }
 
-    void OpenGLImage::convertToDisplayFormat()
+    void Image::convertToDisplayFormat()
     {
         if (mPixels.empty()) {
             throwException("Image has already been converted to display format");
