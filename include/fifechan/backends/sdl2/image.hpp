@@ -18,7 +18,7 @@ namespace fcn::sdl2
     /**
      * SDL implementation of Image.
      */
-    class FIFEGUI_EXT_API SDLImage : public fcn::Image
+    class FIFEGUI_EXT_API Image : public fcn::Image
     {
     public:
         /**
@@ -31,9 +31,9 @@ namespace fcn::sdl2
          * @param autoFree true if the surface should automatically be deleted.
          * @param renderer the renderer to use for creating the texture.
          */
-        SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
+        Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer = nullptr);
 
-        ~SDLImage() override;
+        ~Image() override;
 
         /**
          * Gets the SDL surface for the image.
@@ -78,10 +78,5 @@ namespace fcn::sdl2
         bool mAutoFree;
     };
 } // namespace fcn::sdl2
-
-namespace fcn::sdl2
-{
-    using Image = SDLImage;
-}
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_

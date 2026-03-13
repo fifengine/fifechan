@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <fifechan/backends/opengl/openglgraphics.hpp>
-#include <fifechan/backends/opengl/openglimage.hpp>
+#include <fifechan/backends/opengl/graphics.hpp>
+#include <fifechan/backends/opengl/image.hpp>
 #include <fifechan/exception.hpp>
 #include <fifechan/image.hpp>
 
@@ -17,14 +17,14 @@
     #include <GL/gl.h>
 #endif
 
-namespace fcn
+namespace fcn::opengl
 {
-    OpenGLGraphics::OpenGLGraphics()
+    Graphics::Graphics()
     {
         setTargetPlane(640, 480);
     }
 
-    OpenGLGraphics::OpenGLGraphics(int width, int height)
+    Graphics::Graphics(int width, int height)
     {
         setTargetPlane(width, height);
     }
@@ -118,7 +118,7 @@ namespace fcn
         mHeight = height;
     }
 
-    void OpenGLGraphics::drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
+    void Graphics::drawImage(fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height)
     {
         auto const * srcImage = dynamic_cast<OpenGLImage const *>(image);
 
@@ -316,4 +316,4 @@ namespace fcn
     {
         return mHeight;
     }
-} // namespace fcn
+} // namespace fcn::opengl

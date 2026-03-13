@@ -58,12 +58,12 @@ FFDemo::FFDemo() : mRunning(true)
         throw std::runtime_error(Mix_GetError());
     }
 
-    mSDLImageLoader = std::make_unique<fcn::SDLImageLoader>();
+    mSDLImageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
     mSDLImageLoader->setRenderer(mRenderer);
     fcn::Image::setImageLoader(mSDLImageLoader.get());
-    mSDLGraphics = std::make_unique<fcn::SDL2Graphics>();
+    mSDLGraphics = std::make_unique<fcn::sdl2::Graphics>();
     mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
-    mSDLInput = std::make_unique<fcn::SDLInput>();
+    mSDLInput = std::make_unique<fcn::sdl2::Input>();
 
     mSplashImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/splash.png"));
 
@@ -602,7 +602,7 @@ void FFDemo::run()
             dst.x         = 10;
             dst.y         = 50;
 
-            auto* image = dynamic_cast<fcn::SDLImage*>(mSplashImage.get());
+            auto* image = dynamic_cast<fcn::sdl2::Image*>(mSplashImage.get());
             SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
             SDL_RenderClear(mRenderer);
             SDL_RenderCopy(mRenderer, image->getTexture(), &src, &dst);

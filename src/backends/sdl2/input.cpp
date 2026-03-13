@@ -12,14 +12,14 @@
 
 namespace fcn::sdl2
 {
-    SDLInput::SDLInput() : mMouseInWindow(true) { }
+    Input::Input() : mMouseInWindow(true) { }
 
-    bool SDLInput::isKeyQueueEmpty()
+    bool Input::isKeyQueueEmpty()
     {
         return mKeyInputQueue.empty();
     }
 
-    KeyInput SDLInput::dequeueKeyInput()
+    KeyInput Input::dequeueKeyInput()
     {
         KeyInput keyInput;
 
@@ -33,12 +33,12 @@ namespace fcn::sdl2
         return keyInput;
     }
 
-    bool SDLInput::isMouseQueueEmpty()
+    bool Input::isMouseQueueEmpty()
     {
         return mMouseInputQueue.empty();
     }
 
-    MouseInput SDLInput::dequeueMouseInput()
+    MouseInput Input::dequeueMouseInput()
     {
         MouseInput mouseInput{};
 
@@ -52,7 +52,7 @@ namespace fcn::sdl2
         return mouseInput;
     }
 
-    void SDLInput::pushInput(SDL_Event event)
+    void Input::pushInput(SDL_Event event)
     {
         KeyInput keyInput{};
         MouseInput mouseInput{};
@@ -199,7 +199,7 @@ namespace fcn::sdl2
         } // end switch
     }
 
-    int SDLInput::convertMouseButton(int button)
+    int Input::convertMouseButton(int button)
     {
         switch (button) {
         case SDL_BUTTON_LEFT:
@@ -223,7 +223,7 @@ namespace fcn::sdl2
         }
     }
 
-    int SDLInput::convertSDLEventToFifechanKeyValue(SDL_Event event)
+    int Input::convertSDLEventToFifechanKeyValue(SDL_Event event)
     {
         int value = -1;
 

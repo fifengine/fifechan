@@ -51,9 +51,9 @@ private:
     Mix_Chunk* mChooseSound;
     Mix_Chunk* mEscapeSound;
 
-    std::unique_ptr<fcn::SDL2Graphics> mSDLGraphics;
-    std::unique_ptr<fcn::SDLInput> mSDLInput;
-    std::unique_ptr<fcn::SDLImageLoader> mSDLImageLoader;
+    std::unique_ptr<fcn::sdl2::Graphics> mSDLGraphics;
+    std::unique_ptr<fcn::sdl2::Input> mSDLInput;
+    std::unique_ptr<fcn::sdl2::ImageLoader> mSDLImageLoader;
     std::unique_ptr<fcn::Gui> mGui;
 
     std::unique_ptr<fcn::Container> mTop;

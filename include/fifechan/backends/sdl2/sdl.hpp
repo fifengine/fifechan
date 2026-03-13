@@ -10,11 +10,11 @@
  */
 #include <SDL2/SDL.h>
 
-#include <fifechan/backends/sdl2/sdl2graphics.hpp>
-#include <fifechan/backends/sdl2/sdlimage.hpp>
-#include <fifechan/backends/sdl2/sdlimageloader.hpp>
-#include <fifechan/backends/sdl2/sdlinput.hpp>
-#include <fifechan/backends/sdl2/sdltruetypefont.hpp>
+#include <fifechan/backends/sdl2/graphics.hpp>
+#include <fifechan/backends/sdl2/image.hpp>
+#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/backends/sdl2/input.hpp>
+#include <fifechan/backends/sdl2/truetypefont.hpp>
 #include <fifechan/platform.hpp>
 
 #include <memory>
@@ -22,19 +22,19 @@
 namespace fcn::sdl2
 {
     /** Backend alias for the SDL2 graphics implementation. */
-    using Graphics = fcn::SDL2Graphics;
+    using Graphics = fcn::sdl2::Graphics;
 
     /** Backend alias for the SDL image implementation. */
-    using Image = fcn::SDLImage;
+    using Image = fcn::sdl2::Image;
 
     /** Backend alias for the SDL image loader. */
-    using ImageLoader = fcn::SDLImageLoader;
+    using ImageLoader = fcn::sdl2::ImageLoader;
 
     /** Backend alias for the SDL input implementation. */
-    using Input = fcn::SDLInput;
+    using Input = fcn::sdl2::Input;
 
     /** Backend alias for the SDL TrueType font wrapper. */
-    using TrueTypeFont = fcn::SDLTrueTypeFont;
+    using TrueTypeFont = fcn::sdl2::TrueTypeFont;
 
     /** Create a shared_ptr that will destroy the SDL_Window when released. */
     inline std::shared_ptr<SDL_Window> makeSDLSharedPtr(SDL_Window* window)

@@ -4,9 +4,9 @@
 
 #include <SDL2/SDL.h>
 
-#include <fifechan/backends/sdl2/sdl2graphics.hpp>
-#include <fifechan/backends/sdl2/sdlimageloader.hpp>
-#include <fifechan/backends/sdl2/sdlinput.hpp>
+#include <fifechan/backends/sdl2/graphics.hpp>
+#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/backends/sdl2/input.hpp>
 
 #include <fifechan.hpp>
 
@@ -37,9 +37,9 @@ int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* sdlWindow  = nullptr;
     SDL_Renderer* renderer = nullptr;
-    auto input             = std::unique_ptr<fcn::SDLInput>();
-    auto graphics          = std::unique_ptr<fcn::SDL2Graphics>();
-    auto imageLoader       = std::unique_ptr<fcn::SDLImageLoader>();
+    auto input             = std::unique_ptr<fcn::sdl2::Input>();
+    auto graphics          = std::unique_ptr<fcn::sdl2::Graphics>();
+    auto imageLoader       = std::unique_ptr<fcn::sdl2::ImageLoader>();
     auto font              = std::unique_ptr<fcn::ImageFont>();
     auto gui               = std::unique_ptr<fcn::Gui>();
     auto top               = std::unique_ptr<fcn::Container>();
@@ -59,13 +59,13 @@ int main(int /*argc*/, char** /*argv*/)
     SDL_SetWindowTitle(sdlWindow, "Spacers In VBox/HBox");
 
     try {
-        imageLoader = std::make_unique<fcn::SDLImageLoader>();
+        imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
         imageLoader->setRenderer(renderer);
         fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = std::make_unique<fcn::SDL2Graphics>();
+        graphics = std::make_unique<fcn::sdl2::Graphics>();
         graphics->setTarget(renderer, 800, 600);
-        input = std::make_unique<fcn::SDLInput>();
+        input = std::make_unique<fcn::sdl2::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");

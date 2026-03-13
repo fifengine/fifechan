@@ -15,9 +15,9 @@
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
-// The openglsdlimageloader.hpp header file needs to be included
+// The imageloader.hpp header file needs to be included
 // in order to get the image loader that uses OpenGL and SDL.
-#include <fifechan/backends/opengl/openglsdlimageloader.hpp>
+#include <fifechan/backends/opengl/imageloader.hpp>
 #include <fifechan/backends/sdl2/sdl.hpp>
 
 #include <cstdio>
@@ -32,9 +32,9 @@ namespace openglsdl
 
     // This examples uses two wrapper backends OpenGL and SDL for FifeGUI.
     // OpenGL is used for drawing and SDL for input and image loading.
-    inline std::unique_ptr<fcn::OpenGLGraphics> graphics;
-    inline std::unique_ptr<fcn::SDLInput> input;
-    inline std::unique_ptr<fcn::OpenGLSDLImageLoader> imageLoader;
+    inline std::unique_ptr<fcn::opengl::Graphics> graphics;
+    inline std::unique_ptr<fcn::sdl2::Input> input;
+    inline std::unique_ptr<fcn::opengl::ImageLoader> imageLoader;
 
     inline std::unique_ptr<fcn::Gui> gui;
 
@@ -86,13 +86,13 @@ namespace openglsdl
 
         // Now it's time to initialise OpenGL backend and the SDL backend.
 
-        imageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
+        imageLoader = std::make_unique<fcn::opengl::ImageLoader>();
         // Set the ImageLoader by calling a static function of the Image class.
         fcn::Image::setImageLoader(imageLoader.get());
-        graphics = std::make_unique<fcn::OpenGLGraphics>();
+        graphics = std::make_unique<fcn::opengl::Graphics>();
         // We need to tell the OpenGL Graphics object how big the screen is.
         graphics->setTargetPlane(640, 480);
-        input = std::make_unique<fcn::SDLInput>();
+        input = std::make_unique<fcn::sdl2::Input>();
 
         // Finally, we create the Gui object and pass graphics and input to it.
         gui = std::make_unique<fcn::Gui>();

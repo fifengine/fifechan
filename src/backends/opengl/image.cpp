@@ -2,15 +2,15 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include "fifechan/backends/opengl/openglimage.hpp"
+#include "fifechan/backends/opengl/image.hpp"
 
 #include <string>
 
 #include "fifechan/exception.hpp"
 
-namespace fcn
+namespace fcn::opengl
 {
-    OpenGLImage::OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat) :
+    Image::Image(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat) :
         mTextureHandle(0), mAutoFree(true), mWidth(width), mHeight(height), mTextureWidth(1), mTextureHeight(1)
     {
         while (mTextureWidth < mWidth) {
@@ -51,7 +51,7 @@ namespace fcn
         }
     }
 
-    OpenGLImage::OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree) :
+    Image::Image(GLuint textureHandle, int width, int height, bool autoFree) :
         mTextureHandle(textureHandle),
         mAutoFree(autoFree),
         mWidth(width),
@@ -207,4 +207,4 @@ namespace fcn
             throwException(std::string("Unable to convert to OpenGL display format, glGetError said: ") + errmsg);
         }
     }
-} // namespace fcn
+} // namespace fcn::opengl

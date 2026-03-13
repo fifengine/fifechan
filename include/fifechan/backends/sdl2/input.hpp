@@ -25,13 +25,13 @@ namespace fcn::sdl2
     /**
      * SDL implementation of Input.
      */
-    class FIFEGUI_EXT_API SDLInput : public fcn::Input
+    class FIFEGUI_EXT_API Input : public fcn::Input
     {
     public:
         /**
          * Constructor.
          */
-        SDLInput();
+        Input();
 
         /**
          * Pushes an SDL event. It should be called at least once per frame to
@@ -89,15 +89,5 @@ namespace fcn::sdl2
         bool mMouseInWindow{false};
     };
 } // namespace fcn::sdl2
-
-namespace fcn
-{
-    using SDLInput = fcn::sdl2::SDLInput;
-}
-
-namespace fcn::sdl2
-{
-    using Input = SDLInput;
-}
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLINPUT_HPP_

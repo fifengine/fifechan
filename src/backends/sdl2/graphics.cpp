@@ -114,10 +114,10 @@ namespace fcn::sdl2
         dst.w = width;
         dst.h = height;
 
-        auto const * srcImage = dynamic_cast<SDLImage const *>(image);
+        auto const * srcImage = dynamic_cast<Image const *>(image);
 
         if (srcImage == nullptr) {
-            throwException("Trying to draw an image of unknown format, must be an SDLImage.");
+            throwException("Trying to draw an image of unknown format, must be an Image.");
         }
 
         SDL_Texture* texture = srcImage->getTexture();

@@ -4,9 +4,9 @@
 
 #include <SDL2/SDL.h>
 
-#include <fifechan/backends/opengl/openglgraphics.hpp>
-#include <fifechan/backends/opengl/openglsdlimageloader.hpp>
-#include <fifechan/backends/sdl2/sdlinput.hpp>
+#include <fifechan/backends/opengl/graphics.hpp>
+#include <fifechan/backends/opengl/imageloader.hpp>
+#include <fifechan/backends/sdl2/input.hpp>
 
 #include <fifechan.hpp>
 
@@ -26,9 +26,9 @@ int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* window      = nullptr;
     SDL_GLContext glContext = nullptr;
-    auto input              = std::unique_ptr<fcn::SDLInput>();
-    auto graphics           = std::unique_ptr<fcn::OpenGLGraphics>();
-    auto imageLoader        = std::unique_ptr<fcn::OpenGLSDLImageLoader>();
+    auto input              = std::unique_ptr<fcn::sdl2::Input>();
+    auto graphics           = std::unique_ptr<fcn::opengl::Graphics>();
+    auto imageLoader        = std::unique_ptr<fcn::opengl::ImageLoader>();
     auto font               = std::unique_ptr<fcn::ImageFont>();
     auto gui                = std::unique_ptr<fcn::Gui>();
     auto top                = std::unique_ptr<fcn::Container>();
@@ -54,11 +54,11 @@ int main(int /*argc*/, char** /*argv*/)
     }
 
     try {
-        imageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
+        imageLoader = std::make_unique<fcn::opengl::ImageLoader>();
         fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = std::make_unique<fcn::OpenGLGraphics>(800, 600);
-        input    = std::make_unique<fcn::SDLInput>();
+        graphics = std::make_unique<fcn::opengl::Graphics>(800, 600);
+        input    = std::make_unique<fcn::sdl2::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"");

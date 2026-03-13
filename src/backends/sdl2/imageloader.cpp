@@ -33,7 +33,7 @@ namespace fcn::sdl2
         }
     } // namespace
 
-    fcn::Image* SDLImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
+    fcn::Image* ImageLoader::load(std::string const & filename, bool convertToDisplayFormat)
     {
         SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
@@ -48,7 +48,7 @@ namespace fcn::sdl2
             throwException((std::string("Not enough memory to load: ") + filename));
         }
 
-        Image* image = new SDLImage(surface, true, mRenderer);
+        Image* image = new Image(surface, true, mRenderer);
 
         if (convertToDisplayFormat) {
             image->convertToDisplayFormat();
@@ -57,12 +57,12 @@ namespace fcn::sdl2
         return image;
     }
 
-    void SDLImageLoader::setRenderer(SDL_Renderer* renderer)
+    void ImageLoader::setRenderer(SDL_Renderer* renderer)
     {
         mRenderer = renderer;
     }
 
-    SDL_Surface* SDLImageLoader::loadSDLSurface(std::string const & filename)
+    SDL_Surface* ImageLoader::loadSDLSurface(std::string const & filename)
     {
         SDL_Surface* surface = IMG_Load(filename.c_str());
         if (surface != nullptr) {
@@ -77,7 +77,7 @@ namespace fcn::sdl2
         return IMG_Load(resolvedPath.c_str());
     }
 
-    SDL_Texture* SDLImageLoader::loadSDLTexture(std::string const & filename)
+    SDL_Texture* ImageLoader::loadSDLTexture(std::string const & filename)
     {
         SDL_Texture* texture = IMG_LoadTexture(mRenderer, filename.c_str());
         if (texture != nullptr) {
@@ -92,7 +92,7 @@ namespace fcn::sdl2
         return IMG_LoadTexture(mRenderer, resolvedPath.c_str());
     }
 
-    SDL_Surface* SDLImageLoader::convertToStandardFormat(SDL_Surface* surface)
+    SDL_Surface* ImageLoader::convertToStandardFormat(SDL_Surface* surface)
     {
         if (surface == nullptr) {
             return nullptr;
@@ -127,12 +127,12 @@ namespace fcn::sdl2
         return converted;
     }
 
-    SDL_PixelFormat const & SDLImageLoader::getSDLPixelFormat()
+    SDL_PixelFormat const & ImageLoader::getSDLPixelFormat()
     {
         return mPixelFormat;
     }
 
-    void SDLImageLoader::setSDLPixelFormat(SDL_PixelFormat const & format)
+    void ImageLoader::setSDLPixelFormat(SDL_PixelFormat const & format)
     {
         mPixelFormat = format;
     }

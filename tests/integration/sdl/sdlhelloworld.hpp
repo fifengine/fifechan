@@ -41,9 +41,9 @@ namespace tests::integration::sdl::helloworld
         std::shared_ptr<SDL_Window> window{nullptr};
         std::shared_ptr<SDL_Renderer> renderer{nullptr};
 
-        std::unique_ptr<fcn::SDL2Graphics> graphics;
-        std::unique_ptr<fcn::SDLInput> input;
-        std::shared_ptr<fcn::SDLImageLoader> imageLoader;
+        std::unique_ptr<fcn::sdl2::Graphics> graphics;
+        std::unique_ptr<fcn::sdl2::Input> input;
+        std::shared_ptr<fcn::sdl2::ImageLoader> imageLoader;
 
         std::unique_ptr<fcn::Gui> gui;
 

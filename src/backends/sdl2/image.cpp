@@ -2,19 +2,19 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#include <string>
+#include "fifechan/backends/sdl2/image.hpp"
 
 #include <SDL2/SDL_render.h>
 
-#include "fifechan/backends/sdl2/image.hpp"
+#include <string>
+
 #include "fifechan/backends/sdl2/imageloader.hpp"
 #include "fifechan/backends/sdl2/pixel.hpp"
 #include "fifechan/exception.hpp"
 
 namespace fcn::sdl2
 {
-    SDLImage::SDLImage(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) :
-        mAutoFree(autoFree), mRenderer(renderer)
+    Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mAutoFree(autoFree), mRenderer(renderer)
     {
         if (renderer != nullptr && surface != nullptr) {
             mTexture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -51,24 +51,24 @@ namespace fcn::sdl2
         }
     }
 
-    SDLImage::~SDLImage()
+    Image::~Image()
     {
         if (mAutoFree) {
             free();
         }
     }
 
-    SDL_Surface* SDLImage::getSurface() const
+    SDL_Surface* Image::getSurface() const
     {
         return mTransientSurface;
     }
 
-    SDL_Texture* SDLImage::getTexture() const
+    SDL_Texture* Image::getTexture() const
     {
         return mTexture;
     }
 
-    int SDLImage::getWidth() const
+    int Image::getWidth() const
     {
         if (mTexture == nullptr) {
             throwException("Trying to get the width of a non loaded image.");
@@ -79,7 +79,7 @@ namespace fcn::sdl2
         return w;
     }
 
-    int SDLImage::getHeight() const
+    int Image::getHeight() const
     {
         if (mTexture == nullptr) {
             throwException("Trying to get the height of a non loaded image.");
@@ -90,7 +90,7 @@ namespace fcn::sdl2
         return h;
     }
 
-    Color SDLImage::getPixel(int x, int y)
+    Color Image::getPixel(int x, int y)
     {
         if (mTransientSurface == nullptr) {
             throwException("Trying to get a pixel from a non loaded image.");
@@ -99,7 +99,7 @@ namespace fcn::sdl2
         return SDLgetPixel(mTransientSurface, x, y);
     }
 
-    void SDLImage::putPixel(int x, int y, Color const & color)
+    void Image::putPixel(int x, int y, Color const & color)
     {
         if (mTransientSurface == nullptr) {
             throwException("Trying to put a pixel in a non loaded image.");
@@ -108,14 +108,14 @@ namespace fcn::sdl2
         SDLputPixel(mTransientSurface, x, y, color);
     }
 
-    void SDLImage::convertToDisplayFormat()
+    void Image::convertToDisplayFormat()
     {
         if (mTexture == nullptr) {
             throwException("Trying to convert a non loaded image to display format.");
         }
     }
 
-    void SDLImage::free()
+    void Image::free()
     {
         SDL_FreeSurface(mTransientSurface);
         mTransientSurface = nullptr;

@@ -23,7 +23,7 @@ namespace fcn::sdl2
     /**
      * SDL implementation of ImageLoader.
      */
-    class FIFEGUI_EXT_API SDLImageLoader : public fcn::ImageLoader
+    class FIFEGUI_EXT_API ImageLoader : public fcn::ImageLoader
     {
     public:
         using fcn::ImageLoader::load;
@@ -58,10 +58,5 @@ namespace fcn::sdl2
         SDL_Renderer* mRenderer;
     };
 } // namespace fcn::sdl2
-
-namespace fcn::sdl2
-{
-    using ImageLoader = SDLImageLoader;
-}
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGELOADER_HPP_

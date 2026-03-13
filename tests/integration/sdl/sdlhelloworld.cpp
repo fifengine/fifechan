@@ -96,18 +96,18 @@ void Application::init_sdl(std::string const & title, int width, int height)
     // Now it's time to initialise the SDL backend.
 
     // The SDLImageLoader object is used to load images from the file system.
-    imageLoader = std::make_shared<fcn::SDLImageLoader>();
+    imageLoader = std::make_shared<fcn::sdl2::ImageLoader>();
     imageLoader->setRenderer(renderer.get());
 
     // Set the ImageLoader by calling a static function of the Image class.
     fcn::Image::setImageLoader(imageLoader.get());
 
     // The SDLGraphics object is used to draw to the screen.
-    graphics = std::make_unique<fcn::SDL2Graphics>();
+    graphics = std::make_unique<fcn::sdl2::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = std::make_unique<fcn::SDLInput>();
+    input = std::make_unique<fcn::sdl2::Input>();
 
     // Finally, we create the Gui object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();

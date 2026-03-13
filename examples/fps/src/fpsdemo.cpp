@@ -119,11 +119,11 @@ FPSDemo::~FPSDemo()
 
 void FPSDemo::initGui()
 {
-    mOpenGLImageLoader = std::make_unique<fcn::OpenGLSDLImageLoader>();
+    mOpenGLImageLoader = std::make_unique<fcn::opengl::ImageLoader>();
     fcn::Image::setImageLoader(mOpenGLImageLoader.get());
-    mOpenGLGraphics = std::make_unique<fcn::OpenGLGraphics>();
+    mOpenGLGraphics = std::make_unique<fcn::opengl::Graphics>();
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
-    mSDLInput = std::make_unique<fcn::SDLInput>();
+    mSDLInput = std::make_unique<fcn::sdl2::Input>();
 
     mTop = std::make_unique<fcn::Container>();
     mTop->setOpaque(false);

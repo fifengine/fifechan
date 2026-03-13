@@ -20,8 +20,8 @@
     #include <GL/glu.h>
 #endif
 
-#include <fifechan/backends/opengl/openglgraphics.hpp>
-#include <fifechan/backends/opengl/openglsdlimageloader.hpp>
+#include <fifechan/backends/opengl/graphics.hpp>
+#include <fifechan/backends/opengl/imageloader.hpp>
 #include <fifechan/backends/sdl2/sdl.hpp>
 
 #include <fifechan.hpp>
@@ -119,9 +119,9 @@ private:
     Mix_Chunk* mOptionsSound;
     Mix_Music* mMusic;
 
-    std::unique_ptr<fcn::OpenGLGraphics> mOpenGLGraphics;
-    std::unique_ptr<fcn::SDLInput> mSDLInput;
-    std::unique_ptr<fcn::OpenGLSDLImageLoader> mOpenGLImageLoader;
+    std::unique_ptr<fcn::opengl::Graphics> mOpenGLGraphics;
+    std::unique_ptr<fcn::sdl2::Input> mSDLInput;
+    std::unique_ptr<fcn::opengl::ImageLoader> mOpenGLImageLoader;
     std::unique_ptr<fcn::Gui> mGui;
     std::unique_ptr<fcn::Container> mTop;
     std::unique_ptr<fcn::ImageFont> mFont;

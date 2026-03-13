@@ -19,7 +19,7 @@ namespace fcn::opengl
     /**
      * OpenGL ImageLoader that loads images with SDL.
      */
-    class SDLImageLoader : public fcn::sdl2::SDLImageLoader
+    class ImageLoader : public fcn::sdl2::ImageLoader
     {
     public:
         fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override
@@ -61,10 +61,5 @@ namespace fcn::opengl
         }
     };
 } // namespace fcn::opengl
-
-namespace fcn
-{
-    using OpenGLSDLImageLoader = fcn::opengl::SDLImageLoader;
-}
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_
