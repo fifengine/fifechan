@@ -29,9 +29,9 @@ namespace fcn::opengl
         setTargetPlane(width, height);
     }
 
-    OpenGLGraphics::~OpenGLGraphics() = default;
+    Graphics::~Graphics() = default;
 
-    void OpenGLGraphics::_beginDraw()
+    void Graphics::_beginDraw()
     {
         glPushAttrib(
             GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT | GL_FOG_BIT | GL_LIGHTING_BIT |
@@ -68,7 +68,7 @@ namespace fcn::opengl
         pushClipArea(Rectangle(0, 0, mWidth, mHeight));
     }
 
-    void OpenGLGraphics::_endDraw()
+    void Graphics::_endDraw()
     {
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -84,7 +84,7 @@ namespace fcn::opengl
         popClipArea();
     }
 
-    bool OpenGLGraphics::pushClipArea(Rectangle area)
+    bool Graphics::pushClipArea(Rectangle area)
     {
         bool const result = fcn::Graphics::pushClipArea(area);
 
@@ -97,7 +97,7 @@ namespace fcn::opengl
         return result;
     }
 
-    void OpenGLGraphics::popClipArea()
+    void Graphics::popClipArea()
     {
         Graphics::popClipArea();
 
@@ -112,7 +112,7 @@ namespace fcn::opengl
             mClipStack.top().height);
     }
 
-    void OpenGLGraphics::setTargetPlane(int width, int height)
+    void Graphics::setTargetPlane(int width, int height)
     {
         mWidth  = width;
         mHeight = height;
@@ -172,7 +172,7 @@ namespace fcn::opengl
         }
     }
 
-    void OpenGLGraphics::drawPoint(int x, int y)
+    void Graphics::drawPoint(int x, int y)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -189,7 +189,7 @@ namespace fcn::opengl
         glEnd();
     }
 
-    void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
+    void Graphics::drawLine(int x1, int y1, int x2, int y2)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -217,22 +217,22 @@ namespace fcn::opengl
         glEnd();
     }
 
-    void OpenGLGraphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
+    void Graphics::drawLine(int x1, int y1, int x2, int y2, unsigned int width)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawPolyLine(PointVector const & points, unsigned int width)
+    void Graphics::drawPolyLine(PointVector const & points, unsigned int width)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawBezier(PointVector const & points, int steps, unsigned int width)
+    void Graphics::drawBezier(PointVector const & points, int steps, unsigned int width)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawRectangle(Rectangle const & rectangle)
+    void Graphics::drawRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -249,7 +249,7 @@ namespace fcn::opengl
         glEnd();
     }
 
-    void OpenGLGraphics::fillRectangle(Rectangle const & rectangle)
+    void Graphics::fillRectangle(Rectangle const & rectangle)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -266,27 +266,27 @@ namespace fcn::opengl
         glEnd();
     }
 
-    void OpenGLGraphics::drawCircle(Point const & p, unsigned int radius)
+    void Graphics::drawCircle(Point const & p, unsigned int radius)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawFillCircle(Point const & p, unsigned int radius)
+    void Graphics::drawFillCircle(Point const & p, unsigned int radius)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
+    void Graphics::drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
     {
         // TODO(jakoch): Implement this function
     }
 
-    void OpenGLGraphics::drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
+    void Graphics::drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
     {
         // TODO(jakoch): Implement this method.
     }
 
-    void OpenGLGraphics::setColor(Color const & color)
+    void Graphics::setColor(Color const & color)
     {
         mColor = color;
         glColor4ub(
@@ -302,17 +302,17 @@ namespace fcn::opengl
         }
     }
 
-    Color const & OpenGLGraphics::getColor() const
+    Color const & Graphics::getColor() const
     {
         return mColor;
     }
 
-    int OpenGLGraphics::getTargetPlaneWidth() const
+    int Graphics::getTargetPlaneWidth() const
     {
         return mWidth;
     }
 
-    int OpenGLGraphics::getTargetPlaneHeight() const
+    int Graphics::getTargetPlaneHeight() const
     {
         return mHeight;
     }
