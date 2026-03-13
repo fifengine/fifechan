@@ -12,6 +12,142 @@
   ],
   "configurePresets": [
     {
+      "name": "clang21-x64-linux-rel",
+      "displayName": "Clang21 Release",
+      "inherits": "clang21-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang21-x64-linux-dbg",
+      "displayName": "Clang21 Debug",
+      "inherits": "clang21-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "clang20-x64-linux-rel",
+      "displayName": "Clang20 Release",
+      "inherits": "clang20-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang20-x64-linux-dbg",
+      "displayName": "Clang20 Debug",
+      "inherits": "clang20-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "clang18-x64-linux-static-rel",
+      "displayName": "Clang18 Static Release",
+      "inherits": "clang18-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang18-x64-linux-rel",
+      "displayName": "Clang18 Release",
+      "inherits": "clang18-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang16-x64-linux-rel",
+      "displayName": "Clang16 Release",
+      "inherits": "clang16-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc14-x64-linux-static-rel",
+      "displayName": "GCC14 Static Release",
+      "inherits": "gcc14-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc14-x64-linux-rel",
+      "displayName": "GCC14 Release",
+      "inherits": "gcc14-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc14-x64-linux-dbg",
+      "displayName": "GCC14 Debug",
+      "inherits": "gcc14-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "gcc12-x64-linux-rel",
+      "displayName": "GCC12 Release",
+      "inherits": "gcc12-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clangcl-x64-windows-static-rel",
+      "displayName": "ClangCL Static Release",
+      "inherits": "clangcl-x64-windows-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clangcl-x64-windows-static-rdi",
+      "displayName": "ClangCL Static RelWithDebInfo",
+      "inherits": "clangcl-x64-windows-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "clangcl-x64-windows-static-dbg",
+      "displayName": "ClangCL Static Debug",
+      "inherits": "clangcl-x64-windows-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "vc18-x64-windows-rel",
+      "displayName": "VC18 Release",
+      "inherits": "vc18-x64-windows",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "vc18-x64-windows-rdi",
+      "displayName": "VC18 RelWithDebInfo",
+      "inherits": "vc18-x64-windows",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "vc18-x64-windows-dbg",
+      "displayName": "VC18 Debug",
+      "inherits": "vc18-x64-windows",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
       "name": "vc17-x64-windows-rel",
       "displayName": "VC17 Release",
       "inherits": "vc17-x64-windows",
@@ -51,138 +187,82 @@
       "cacheVariables": {
         "X_ENABLE_ANALYSIS": "ON"
       }
-    },
-    {
-      "name": "vc18-x64-windows-rel",
-      "displayName": "VC18 Release",
-      "inherits": "vc18-x64-windows",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "vc18-x64-windows-rdi",
-      "displayName": "VC18 RelWithDebInfo",
-      "inherits": "vc18-x64-windows",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "vc18-x64-windows-dbg",
-      "displayName": "VC18 Debug",
-      "inherits": "vc18-x64-windows",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "clangcl-x64-windows-static-dbg",
-      "displayName": "ClangCL Static Debug",
-      "inherits": "clangcl-x64-windows-static",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "clangcl-x64-windows-static-rel",
-      "displayName": "ClangCL Static Release",
-      "inherits": "clangcl-x64-windows-static",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "clangcl-x64-windows-static-rdi",
-      "displayName": "ClangCL Static RelWithDebInfo",
-      "inherits": "clangcl-x64-windows-static",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "clang16-x64-linux-rel",
-      "displayName": "Clang16 Release",
-      "inherits": "clang16-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "clang18-x64-linux-rel",
-      "displayName": "Clang18 Release",
-      "inherits": "clang18-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "clang18-x64-linux-static-rel",
-      "displayName": "Clang18 Static Release",
-      "inherits": "clang18-x64-linux-static",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "clang20-x64-linux-rel",
-      "displayName": "Clang20 Release",
-      "inherits": "clang20-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "clang21-x64-linux-rel",
-      "displayName": "Clang21 Release",
-      "inherits": "clang21-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "gcc12-x64-linux-rel",
-      "displayName": "GCC12 Release",
-      "inherits": "gcc12-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "gcc14-x64-linux-rel",
-      "displayName": "GCC14 Release",
-      "inherits": "gcc14-x64-linux",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "gcc14-x64-linux-static-rel",
-      "displayName": "GCC14 Static Release",
-      "inherits": "gcc14-x64-linux-static",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
     }
   ],
   "buildPresets": [
     {
-      "name": "vc17-x64-windows-rel",
-      "configurePreset": "vc17-x64-windows-rel",
+      "name": "clang21-x64-linux-rel",
+      "configurePreset": "clang21-x64-linux-rel",
       "targets": [
         "fifechan"
       ]
     },
     {
-      "name": "vc17-x64-windows-dbg",
-      "configurePreset": "vc17-x64-windows-dbg",
+      "name": "clang21-x64-linux-dbg",
+      "configurePreset": "clang21-x64-linux-dbg",
       "targets": [
         "fifechan"
       ]
     },
     {
-      "name": "vc18-x64-windows-rel",
-      "configurePreset": "vc18-x64-windows-rel",
+      "name": "clang20-x64-linux-rel",
+      "configurePreset": "clang20-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "clang20-x64-linux-dbg",
+      "configurePreset": "clang20-x64-linux-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "clang18-x64-linux-static-rel",
+      "configurePreset": "clang18-x64-linux-static-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "clang18-x64-linux-rel",
+      "configurePreset": "clang18-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "clang16-x64-linux-rel",
+      "configurePreset": "clang16-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-static-rel",
+      "configurePreset": "gcc14-x64-linux-static-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-rel",
+      "configurePreset": "gcc14-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-dbg",
+      "configurePreset": "gcc14-x64-linux-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc12-x64-linux-rel",
+      "configurePreset": "gcc12-x64-linux-rel",
       "targets": [
         "fifechan"
       ]
@@ -202,57 +282,22 @@
       ]
     },
     {
-      "name": "clang20-x64-linux-rel",
-      "configurePreset": "clang20-x64-linux-rel",
+      "name": "vc18-x64-windows-rel",
+      "configurePreset": "vc18-x64-windows-rel",
       "targets": [
         "fifechan"
       ]
     },
     {
-      "name": "clang21-x64-linux-rel",
-      "configurePreset": "clang21-x64-linux-rel",
+      "name": "vc17-x64-windows-rel",
+      "configurePreset": "vc17-x64-windows-rel",
       "targets": [
         "fifechan"
       ]
     },
     {
-      "name": "clang18-x64-linux-rel",
-      "configurePreset": "clang18-x64-linux-rel",
-      "targets": [
-        "fifechan"
-      ]
-    },
-    {
-      "name": "clang18-x64-linux-static-rel",
-      "configurePreset": "clang18-x64-linux-static-rel",
-      "targets": [
-        "fifechan"
-      ]
-    },
-    {
-      "name": "clang16-x64-linux-rel",
-      "configurePreset": "clang16-x64-linux-rel",
-      "targets": [
-        "fifechan"
-      ]
-    },
-    {
-      "name": "gcc12-x64-linux-rel",
-      "configurePreset": "gcc12-x64-linux-rel",
-      "targets": [
-        "fifechan"
-      ]
-    },
-    {
-      "name": "gcc14-x64-linux-rel",
-      "configurePreset": "gcc14-x64-linux-rel",
-      "targets": [
-        "fifechan"
-      ]
-    },
-    {
-      "name": "gcc14-x64-linux-static-rel",
-      "configurePreset": "gcc14-x64-linux-static-rel",
+      "name": "vc17-x64-windows-dbg",
+      "configurePreset": "vc17-x64-windows-dbg",
       "targets": [
         "fifechan"
       ]
