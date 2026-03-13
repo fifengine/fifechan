@@ -2,11 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLSDLIMAGELOADER_HPP_
-#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLSDLIMAGELOADER_HPP_
+#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_
+#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_
 
-#include <fifechan/backends/opengl/openglimage.hpp>
-#include <fifechan/backends/sdl2/sdlimageloader.hpp>
+#include <fifechan/backends/opengl/image.hpp>
+#include <fifechan/backends/sdl2/imageloader.hpp>
 #include <fifechan/exception.hpp>
 
 #include <algorithm>
@@ -14,21 +14,15 @@
 #include <string>
 #include <vector>
 
-namespace fcn
+namespace fcn::opengl
 {
-    class Image;
-
     /**
      * OpenGL ImageLoader that loads images with SDL.
      */
-    class OpenGLSDLImageLoader : public SDLImageLoader
+    class SDLImageLoader : public fcn::sdl2::SDLImageLoader
     {
     public:
-        // Inherited from ImageLoader
-
-        using SDLImageLoader::load;
-
-        Image* load(std::string const & filename, bool convertToDisplayFormat) override
+        fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override
         {
             SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
@@ -60,12 +54,17 @@ namespace fcn
                 std::copy_n(srcIt, static_cast<size_t>(surface->w), dstIt);
             }
 
-            Image* image = new OpenGLImage(packedPixels, surface->w, surface->h, convertToDisplayFormat);
+            fcn::Image* image = new fcn::opengl::Image(packedPixels, surface->w, surface->h, convertToDisplayFormat);
             SDL_FreeSurface(surface);
 
             return image;
         }
     };
-} // namespace fcn
+} // namespace fcn::opengl
 
-#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLSDLIMAGELOADER_HPP_
+namespace fcn
+{
+    using OpenGLSDLImageLoader = fcn::opengl::SDLImageLoader;
+}
+
+#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_

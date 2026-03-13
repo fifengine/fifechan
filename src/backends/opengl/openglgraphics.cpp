@@ -86,7 +86,7 @@ namespace fcn
 
     bool OpenGLGraphics::pushClipArea(Rectangle area)
     {
-        bool const result = Graphics::pushClipArea(area);
+        bool const result = fcn::Graphics::pushClipArea(area);
 
         glScissor(
             mClipStack.top().x,

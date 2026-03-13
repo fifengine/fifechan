@@ -13,12 +13,12 @@
 #include "fifechan/image.hpp"
 #include "fifechan/platform.hpp"
 
-namespace fcn
+namespace fcn::sdl2
 {
     /**
      * SDL implementation of Image.
      */
-    class FIFEGUI_EXT_API SDLImage : public Image
+    class FIFEGUI_EXT_API SDLImage : public fcn::Image
     {
     public:
         /**
@@ -38,7 +38,8 @@ namespace fcn
         /**
          * Gets the SDL surface for the image.
          *
-         * @return the SDL surface for the image.
+         * @return the SDL surface for the image (transient, for pixel operations only).
+         * @deprecated Use getTexture() for rendering. Returns nullptr if only texture is available.
          */
         virtual SDL_Surface* getSurface() const;
 
@@ -64,23 +65,23 @@ namespace fcn
         void convertToDisplayFormat() override;
 
     protected:
-        /** Underlying SDL surface for this image (may be nullptr). */
-        SDL_Surface* mSurface;
-
-        /** Optional SDL texture created for accelerated rendering. */
+        /** SDL texture for accelerated rendering (primary storage). */
         SDL_Texture* mTexture = nullptr;
 
-        /** SDL renderer associated with the texture, if any. */
+        /** SDL renderer associated with the texture. */
         SDL_Renderer* mRenderer = nullptr;
 
-        /** Whether the surface should be freed automatically on destruction. */
+        /** Transient surface for pixel operations (getPixel/putPixel). */
+        SDL_Surface* mTransientSurface = nullptr;
+
+        /** Whether the transient surface should be freed on destruction. */
         bool mAutoFree;
     };
-} // namespace fcn
+} // namespace fcn::sdl2
 
 namespace fcn::sdl2
 {
-    using Image = fcn::SDLImage;
+    using Image = SDLImage;
 }
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_

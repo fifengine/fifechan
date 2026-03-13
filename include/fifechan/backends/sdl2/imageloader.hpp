@@ -15,17 +15,21 @@
 namespace fcn
 {
     class Image;
+}
+
+namespace fcn::sdl2
+{
 
     /**
      * SDL implementation of ImageLoader.
      */
-    class FIFEGUI_EXT_API SDLImageLoader : public ImageLoader
+    class FIFEGUI_EXT_API SDLImageLoader : public fcn::ImageLoader
     {
     public:
         using fcn::ImageLoader::load;
 
         /** Load an image from `filename`. */
-        Image* load(std::string const & filename, bool convertToDisplayFormat) override;
+        fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override;
 
         /** Return the current SDL pixel format used for conversions. */
         SDL_PixelFormat const & getSDLPixelFormat();
@@ -53,11 +57,11 @@ namespace fcn
         /** Optional renderer used when creating textures. */
         SDL_Renderer* mRenderer;
     };
-} // namespace fcn
+} // namespace fcn::sdl2
 
 namespace fcn::sdl2
 {
-    using ImageLoader = fcn::SDLImageLoader;
+    using ImageLoader = SDLImageLoader;
 }
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGELOADER_HPP_

@@ -13,9 +13,8 @@
 #include "fifechan/font.hpp"
 #include "fifechan/platform.hpp"
 
-namespace fcn
+namespace fcn::sdl2
 {
-    class Graphics;
 
     /**
      * SDL True Type Font implementation of Font. It uses the SDL_ttf library
@@ -24,7 +23,7 @@ namespace fcn
      * Note: initialize the SDL_ttf library (TTF_Init) before using this
      * class and call TTF_Quit when finished.
      */
-    class FIFEGUI_EXT_API SDLTrueTypeFont : public Font
+    class FIFEGUI_EXT_API TrueTypeFont : public Font
     {
     public:
         /**
@@ -33,9 +32,9 @@ namespace fcn
          * @param filename the filename of the True Type Font.
          * @param size the size the font should be in.
          */
-        SDLTrueTypeFont(std::string const & filename, int size);
+        TrueTypeFont(std::string const & filename, int size);
 
-        ~SDLTrueTypeFont() override;
+        ~TrueTypeFont() override;
 
         /**
          * Sets the spacing between rows in pixels. Default is 0 pixels.
@@ -87,7 +86,7 @@ namespace fcn
 
         int getHeight() const override;
 
-        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
+        void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y) override;
 
     protected:
         /** Underlying TTF_Font pointer from SDL_ttf. */
@@ -108,11 +107,6 @@ namespace fcn
         /** Whether anti-aliasing is enabled for rendering. */
         bool mAntiAlias;
     };
-} // namespace fcn
-
-namespace fcn::sdl2
-{
-    using TrueTypeFont = fcn::SDLTrueTypeFont;
-}
+} // namespace fcn::sdl2
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLTRUETYPEFONT_HPP_

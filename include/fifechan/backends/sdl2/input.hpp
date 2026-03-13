@@ -17,11 +17,15 @@
 namespace fcn
 {
     class Key;
+}
+
+namespace fcn::sdl2
+{
 
     /**
      * SDL implementation of Input.
      */
-    class FIFEGUI_EXT_API SDLInput : public Input
+    class FIFEGUI_EXT_API SDLInput : public fcn::Input
     {
     public:
         /**
@@ -84,11 +88,16 @@ namespace fcn
         /** True if the mouse cursor is currently within the application window. */
         bool mMouseInWindow{false};
     };
-} // namespace fcn
+} // namespace fcn::sdl2
+
+namespace fcn
+{
+    using SDLInput = fcn::sdl2::SDLInput;
+}
 
 namespace fcn::sdl2
 {
-    using Input = fcn::SDLInput;
+    using Input = SDLInput;
 }
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLINPUT_HPP_

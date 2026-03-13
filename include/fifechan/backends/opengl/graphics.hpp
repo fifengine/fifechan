@@ -2,28 +2,28 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLGRAPHICS_HPP_
-#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLGRAPHICS_HPP_
+#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_
 
+#include "fifechan/backends/opengl/image.hpp"
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/platform.hpp"
 
-namespace fcn
+namespace fcn::opengl
 {
     /**
      * OpenGL implementation of the Graphics.
      */
-    class FIFEGUI_EXT_API OpenGLGraphics : public Graphics
+    class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {
     public:
-        // Needed so that drawImage(fcn::Image *, int, int) is visible.
-        using Graphics::drawImage;
+        using fcn::Graphics::drawImage;
 
         /**
          * Constructor.
          */
-        OpenGLGraphics();
+        Graphics();
 
         /**
          * Constructor.
@@ -34,9 +34,9 @@ namespace fcn
          * @param height the height ot the logical drawing surface. Should be
          *               the same as the screen resolution.
          */
-        OpenGLGraphics(int width, int height);
+        Graphics(int width, int height);
 
-        ~OpenGLGraphics() override;
+        ~Graphics() override;
 
         /**
          * Sets the target plane on where to draw.
@@ -72,7 +72,10 @@ namespace fcn
 
         void popClipArea() override;
 
-        void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
+        void drawImage(
+            fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
+
+        void drawImage(fcn::opengl::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         void drawPoint(int x, int y) override;
 
@@ -113,6 +116,11 @@ namespace fcn
         /** Current drawing color. */
         Color mColor;
     };
-} // namespace fcn
+} // namespace fcn::opengl
 
-#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLGRAPHICS_HPP_
+namespace fcn
+{
+    using OpenGLGraphics = fcn::opengl::Graphics;
+}
+
+#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_

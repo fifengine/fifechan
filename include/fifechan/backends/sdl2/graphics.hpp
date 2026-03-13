@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2016, 2018, 2019 Gwilherm Baudic
+// SPDX-FileCopyrightText: 2016 - 2019 Gwilherm Baudic
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDL2GRAPHICS_HPP_
-#define INCLUDE_FIFECHAN_BACKENDS_SDL_SDL2GRAPHICS_HPP_
+#ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_
 
 #include <SDL2/SDL.h>
 
@@ -19,67 +19,20 @@ namespace fcn
 {
     class Image;
     class Rectangle;
+} // namespace fcn
 
+namespace fcn::sdl2
+{
     /**
-     * SDL implementation of the Graphics using SDL_Surface.
+     * SDL2 renderer-based implementation of Graphics.
+     * This is the primary graphics backend - it uses SDL_Renderer for all drawing operations.
      */
-    class FIFEGUI_EXT_API SDLGraphics : public Graphics
+    class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {
     public:
-        using Graphics::drawImage;
+        Graphics();
 
-        SDLGraphics();
-
-        /** Set the SDL surface target for drawing (surface-based backend). */
-        virtual void setTarget(SDL_Surface* target);
-
-        /** Get the current SDL surface target. */
-        virtual SDL_Surface* getTarget() const;
-
-        /** Draw an SDL_Surface directly to the target surface. */
-        virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination);
-
-        void _beginDraw() override;
-        void _endDraw() override;
-        bool pushClipArea(Rectangle area) override;
-        void popClipArea() override;
-        void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
-        void drawPoint(int x, int y) override;
-        void drawLine(int x1, int y1, int x2, int y2) override;
-        void drawRectangle(Rectangle const & rectangle) override;
-        void fillRectangle(Rectangle const & rectangle) override;
-        void setColor(Color const & color) override;
-        Color const & getColor() const override;
-
-    protected:
-        /** Draw a horizontal line (internal helper). */
-        virtual void drawHLine(int x1, int y, int x2);
-
-        /** Draw a vertical line (internal helper). */
-        virtual void drawVLine(int x, int y1, int y2);
-
-        /** Current SDL surface target (if using surface-based drawing). */
-        SDL_Surface* mTarget{};
-
-        /** Current drawing color. */
-        Color mColor;
-
-        /** Whether alpha blending is enabled. */
-        bool mAlpha;
-    };
-
-    /**
-     * SDL implementation of the Graphics.
-     */
-    class FIFEGUI_EXT_API SDL2Graphics : public Graphics
-    {
-    public:
-        // Needed so that drawImage(fcn::Image *, int, int) is visible.
-        using Graphics::drawImage;
-
-        SDL2Graphics();
-
-        ~SDL2Graphics() override;
+        ~Graphics() override;
 
         /**
          *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
@@ -95,21 +48,10 @@ namespace fcn
          *
          * @return the target SDL_Renderer.
          */
-        virtual SDL_Renderer* getTarget() const;
+        virtual SDL_Renderer* getRenderTarget() const;
 
         /**
-         * Draws an SDL_Surface on the target surface. Normally you'll
-         * use drawImage, but if you want to write SDL specific code
-         * this function might come in handy.
-         *
-         * NOTE: The clip areas will be taken into account.
-         */
-        virtual void drawSDLSurface(SDL_Surface* surface, SDL_Rect source, SDL_Rect destination);
-
-        /**
-         * Draws an SDL_Texture on the target surface. Normally you'll
-         * use drawImage, but if you want to write SDL specific code
-         * this function might come in handy.
+         * Draws an SDL_Texture on the target surface.
          *
          * NOTE: The clip areas will be taken into account.
          */
@@ -151,7 +93,7 @@ namespace fcn
          * @param y the y coordinate of the line.
          * @param x2 the end coordinate of the line.
          */
-        void drawHLine(int x1, int y, int x2);
+        void drawHorizontalLine(int x1, int y, int x2);
 
         /**
          * Draws a vertical line.
@@ -160,7 +102,7 @@ namespace fcn
          * @param y1 the start coordinate of the line.
          * @param y2 the end coordinate of the line.
          */
-        void drawVLine(int x, int y1, int y2);
+        void drawVerticalLine(int x, int y1, int y2);
 
         /**
          *  Save the current rendering color before drawing.
@@ -173,14 +115,14 @@ namespace fcn
          */
         void restoreRenderColor();
 
-        /** Current SDL surface used as an intermediate target. */
-        SDL_Surface* mTarget{};
-
         /** The SDL_Renderer used for accelerated drawing. */
         SDL_Renderer* mRenderTarget{};
 
-        /** Backing texture used for rendering. */
-        SDL_Texture* mTexture{};
+        /** Screen width. */
+        int mWidth = 0;
+
+        /** Screen height. */
+        int mHeight = 0;
 
         /** Current drawing color. */
         Color mColor;
@@ -198,13 +140,6 @@ namespace fcn
         /** Whether alpha blending is enabled. */
         bool mAlpha;
     };
-} // namespace fcn
-
-namespace fcn::sdl2
-{
-    using Graphics = fcn::SDL2Graphics;
-    /** Alias for the surface-based SDL graphics implementation. */
-    using SurfaceGraphics = fcn::SDLGraphics;
 } // namespace fcn::sdl2
 
-#endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDL2GRAPHICS_HPP_
+#endif // INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_

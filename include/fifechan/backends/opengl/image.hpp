@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLIMAGE_HPP_
-#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLIMAGE_HPP_
+#ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
+#define INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -23,12 +23,12 @@
 #include "fifechan/image.hpp"
 #include "fifechan/platform.hpp"
 
-namespace fcn
+namespace fcn::opengl
 {
     /**
      * OpenGL implementation of Image.
      */
-    class FIFEGUI_EXT_API OpenGLImage : public Image
+    class FIFEGUI_EXT_API Image : public fcn::Image
     {
     public:
         /**
@@ -45,7 +45,7 @@ namespace fcn
          * @param convertToDisplayFormat true if the image should be converted
          *                               to display, false otherwise.
          */
-        OpenGLImage(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat = true);
+        Image(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat = true);
 
         /**
          * Constructor. Load an image from an OpenGL texture handle. The width
@@ -58,9 +58,9 @@ namespace fcn
          * @param height the height of the image.
          * @param autoFree true if the surface should automatically be deleted.
          */
-        OpenGLImage(GLuint textureHandle, int width, int height, bool autoFree);
+        Image(GLuint textureHandle, int width, int height, bool autoFree);
 
-        ~OpenGLImage() override;
+        ~Image() override;
 
         /**
          * Gets the OpenGL texture handle for the image.
@@ -120,6 +120,11 @@ namespace fcn
         /** Actual texture height (power-of-two) used by GL. */
         int mTextureHeight;
     };
-} // namespace fcn
+} // namespace fcn::opengl
 
-#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGLIMAGE_HPP_
+namespace fcn
+{
+    using OpenGLImage = fcn::opengl::Image;
+}
+
+#endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
