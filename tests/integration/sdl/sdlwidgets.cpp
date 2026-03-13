@@ -8,7 +8,7 @@
 
 #include "sdlwidgets.hpp"
 
-#include <fifechan/backends/sdl2/sdlimage.hpp>
+#include <fifechan/backends/sdl2/image.hpp>
 #include <fifechan/gui.hpp>
 #include <fifechan/widget.hpp>
 

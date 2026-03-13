@@ -19,6 +19,10 @@ apt-get install -y autoconf autoconf-archive automake libtool
 
 apt-get install -y libx11-dev libxft-dev libxext-dev
 
+# Packages required to build /examples/fps (opengl/glu)
+
+apt-get install -y libglu1-mesa-dev
+
 # Install jq if not already installed (required to update vcpkg baseline)
 if ! command -v jq > /dev/null 2>&1; then
 	apt-get install -y jq

@@ -1,4 +1,4 @@
-## FF Demo (`ff_demo`)
+## # FifeGui Example: FF Demo
 
 This example recreates the classic Final Fantasy-style GUI demo using FifeGUI with the SDL2 backend.
 
