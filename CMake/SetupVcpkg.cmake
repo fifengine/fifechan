@@ -126,9 +126,20 @@ else()
   endif()
 endif()
 
+
+# Init variables, which are not always defined.
+if(NOT DEFINED VCPKG_INSTALL_OPTIONS)
+  set(VCPKG_INSTALL_OPTIONS "" CACHE STRING "")
+endif()
+
+if(NOT DEFINED VCPKG_APPLOCAL_DEPS)
+  set(VCPKG_APPLOCAL_DEPS "" CACHE BOOL OFF)
+endif()
+
 #
 # Print VCPKG configuration overview
 #
+
 message(STATUS "")
 message(STATUS "[VCPKG]  Configuration Overview:")
 message(STATUS "")
