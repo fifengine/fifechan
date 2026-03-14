@@ -4,6 +4,7 @@
 
 #include "fifechan/backends/sdl2/image.hpp"
 
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 
 #include <string>
@@ -17,10 +18,53 @@ namespace fcn::sdl2
     Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mAutoFree(autoFree), mRenderer(renderer)
     {
         if (renderer != nullptr && surface != nullptr) {
+
+            // Color Key to Alpha Conversion
+            //
+            // Convert magenta (255,0,255) color key to proper alpha channel.
+            // Why? SDL_CreateTextureFromSurface doesn't automatically convert
+            // color-keyed surfaces to alpha transparency.
+
+            Uint32 colorKey;
+            if (SDL_GetColorKey(surface, &colorKey) == 0) {
+                // The color key exists. Disable RLE first to access raw pixels.
+                SDL_SetSurfaceRLE(surface, 0);
+
+                if (SDL_LockSurface(surface) == 0) {
+                    Uint32* pixels       = static_cast<Uint32*>(surface->pixels);
+                    int const pixelCount = surface->w * surface->h;
+
+                    // Get format info for RGBA extraction
+                    SDL_PixelFormat const * fmt = surface->format;
+                    Uint32 rmask                = fmt->Rmask;
+                    Uint32 gmask                = fmt->Gmask;
+                    Uint32 bmask                = fmt->Bmask;
+                    Uint32 amask                = fmt->Amask;
+
+                    // Extract RGBA, check for magenta and set alpha to 0 if found.
+                    for (int i = 0; i < pixelCount; ++i) {
+                        // Extract RGBA
+                        Uint8 r = (pixels[i] & rmask) >> fmt->Rshift;
+                        Uint8 g = (pixels[i] & gmask) >> fmt->Gshift;
+                        Uint8 b = (pixels[i] & bmask) >> fmt->Bshift;
+
+                        if (r == 255 && g == 0 && b == 255) {
+                            pixels[i] &= ~amask;
+                        }
+                    }
+                    SDL_UnlockSurface(surface);
+                }
+
+                // Clear color key as alpha is now used for transparency.
+                SDL_SetColorKey(surface, 0, 0);
+            }
+            // --- End Color Key Conversion ---
+
             mTexture = SDL_CreateTextureFromSurface(renderer, surface);
             if (mTexture == nullptr) {
                 throwException(std::string("Failed to create texture: ") + SDL_GetError());
             }
+
             SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
 #if SDL_VERSION_ATLEAST(2, 0, 12)
             SDL_SetTextureScaleMode(mTexture, SDL_ScaleModeNearest);

@@ -98,6 +98,29 @@ namespace fcn::sdl2
             return nullptr;
         }
 
+        bool hasPink             = false;
+        unsigned int surfaceMask = SDL_PIXELFORMAT_RGBX8888;
+
+        int const pixels = surface->w * surface->h;
+
+        for (int i = 0; i < pixels; ++i) {
+            uint8_t r;
+            uint8_t g;
+            uint8_t b;
+            uint8_t a;
+
+            SDL_GetRGBA(reinterpret_cast<Uint32*>(surface->pixels)[i], surface->format, &r, &g, &b, &a);
+
+            if (r == 255 && g == 0 && b == 255) {
+                hasPink = true;
+            }
+
+            if (a != 255) {
+                surfaceMask = SDL_PIXELFORMAT_RGBA8888;
+                break;
+            }
+        }
+
         // SDL interprets each pixel as a 32-bit number.
         // We need to mask depending on the endianness (byte order) of the machine.
         // Rmask being 0xFF000000 means the red data is stored in the most significant byte
@@ -123,6 +146,19 @@ namespace fcn::sdl2
         // Convert the original surface to the standard format
         auto* converted = SDL_ConvertSurface(surface, targetFormatSurface->format, 0);
         SDL_FreeSurface(targetFormatSurface);
+
+        if (converted == nullptr) {
+            return nullptr;
+        }
+
+        if (hasPink) {
+            SDL_SetColorKey(converted, SDL_TRUE, SDL_MapRGB(converted->format, 255, 0, 255));
+            SDL_SetSurfaceRLE(converted, 1);
+        }
+
+        if (surfaceMask == SDL_PIXELFORMAT_RGBA8888) {
+            SDL_SetSurfaceAlphaMod(converted, 255);
+        }
 
         return converted;
     }

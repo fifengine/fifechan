@@ -243,6 +243,7 @@ void Application::init_GUI(int width, int height)
     addCaption("Icon", col1X, topMarginY);
     if (hasIcon) {
         auto iconPtr = std::make_unique<fcn::Icon>(iconPath);
+        iconPtr->setOpaque(false);
         iconPtr->adjustSize();
         top->addWidget(std::move(iconPtr), col1X, topMarginY + labelGap);
         showLastWidget();
