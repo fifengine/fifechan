@@ -63,7 +63,7 @@ FPSDemo::FPSDemo() :
     SDL_Init(SDL_INIT_EVERYTHING);
 
     // Create window and GL context after SDL is initialized
-    window = SDL_CreateWindow("FifeGUI FPS demo", 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
+    window    = SDL_CreateWindow("FifeGUI FPS demo", 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
     glcontext = SDL_GL_CreateContext(window);
 
     // Init SDL_Mixer
