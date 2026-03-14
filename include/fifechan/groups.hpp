@@ -5,7 +5,7 @@
 #define INCLUDE_FIFECHAN_GROUPS_H_
 
 /**
- * @file groups.h
+ * @file groups.hpp
  * @brief Definition of logical groups for the fcn namespace.
  */
 

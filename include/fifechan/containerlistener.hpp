@@ -23,10 +23,13 @@ namespace fcn
     public:
         virtual ~ContainerListener() = default;
 
+        // Hide from doxygen - special member functions
+        //! \cond PRIVATE
         ContainerListener(ContainerListener const &)            = default;
         ContainerListener& operator=(ContainerListener const &) = default;
         ContainerListener(ContainerListener&&)                  = default;
         ContainerListener& operator=(ContainerListener&&)       = default;
+        //! \endcond
 
         /**
          * Called when a widget is added to a container.

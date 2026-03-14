@@ -77,6 +77,17 @@ namespace fcn::opengl
         void drawImage(
             fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
 
+        /**
+         * Draws an OpenGL-specific image.
+         *
+         * @param image Pointer to the OpenGL image to draw.
+         * @param srcX Source X coordinate.
+         * @param srcY Source Y coordinate.
+         * @param dstX Destination X coordinate.
+         * @param dstY Destination Y coordinate.
+         * @param width Width of the region to draw.
+         * @param height Height of the region to draw.
+         */
         void drawImage(fcn::opengl::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
         void drawPoint(int x, int y) override;

@@ -603,7 +603,7 @@ namespace fcn::sdl2
         restoreRenderColor();
     }
 
-    void Graphics::drawBezier(std::vector<fcn::Point> const & controlPoints, int segments, unsigned int width)
+    void Graphics::drawBezier(PointVector const & controlPoints, int segments, unsigned int width)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -627,7 +627,7 @@ namespace fcn::sdl2
         restoreRenderColor();
     }
 
-    void Graphics::drawPolyLine(std::vector<fcn::Point> const & points, unsigned int width)
+    void Graphics::drawPolyLine(PointVector const & points, unsigned int width)
     {
         if (mClipStack.empty()) {
             throwException(
