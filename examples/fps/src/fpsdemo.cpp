@@ -54,8 +54,6 @@ FPSDemo::FPSDemo() :
     mResolutionChange(false),
     mHaveFullscreen(false),
     mAudioAvailable(false),
-    glcontext(SDL_GL_CreateContext(window)),
-    window(SDL_CreateWindow("FifeGUI FPS demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL)),
     mChooseSound(nullptr),
     mEscapeSound(nullptr),
     mOptionsSound(nullptr),
@@ -63,6 +61,10 @@ FPSDemo::FPSDemo() :
 {
     // Init SDL
     SDL_Init(SDL_INIT_EVERYTHING);
+
+    // Create window and GL context after SDL is initialized
+    window = SDL_CreateWindow("FifeGUI FPS demo", 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
+    glcontext = SDL_GL_CreateContext(window);
 
     // Init SDL_Mixer
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == 0) {
