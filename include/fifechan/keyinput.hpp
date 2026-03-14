@@ -49,7 +49,7 @@ namespace fcn
          * @param key The key of the key input.
          * @param type The type of key input.
          */
-        KeyInput(Key const & key, unsigned int type);
+        KeyInput(Key const & key, Type type);
 
         /**
          * Sets the type of the key input.
@@ -57,7 +57,7 @@ namespace fcn
          * @param type The type of key input.
          * @see getType
          */
-        void setType(unsigned int type);
+        void setType(Type type);
 
         /**
          * Gets the type of the key input.
@@ -65,7 +65,7 @@ namespace fcn
          * @return the input type.
          * @see setType
          */
-        int getType() const;
+        Type getType() const;
 
         /**
          * Sets the key of the key input.
@@ -175,16 +175,6 @@ namespace fcn
          */
         void setNumericPad(bool numpad);
 
-        /**
-         * Key input types. This enum corresponds to the enum with event
-         * types on KeyEvent for easy mapping.
-         */
-        enum
-        {
-            Pressed = 0,
-            Released
-        };
-
     protected:
         /**
          * Holds the key of the key input.
@@ -194,7 +184,7 @@ namespace fcn
         /**
          * Holds the type of the key input.
          */
-        unsigned int mType{0};
+        Type mType{Type::Released};
 
         /**
          * True if shift was pressed at the same time as the key,

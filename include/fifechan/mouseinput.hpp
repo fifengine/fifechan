@@ -5,6 +5,8 @@
 #ifndef INCLUDE_FIFECHAN_MOUSEINPUT_HPP_
 #define INCLUDE_FIFECHAN_MOUSEINPUT_HPP_
 
+#include <cstdint>
+
 #include "fifechan/platform.hpp"
 
 namespace fcn
@@ -23,6 +25,27 @@ namespace fcn
     public:
         MouseInput() = default;
 
+        enum class Type : std::uint8_t
+        {
+            Moved = 0,
+            Pressed,
+            Released,
+            WheelMovedDown,
+            WheelMovedUp,
+            WheelMovedRight,
+            WheelMovedLeft
+        };
+
+        enum class Button : std::uint8_t
+        {
+            Empty = 0,
+            Left,
+            Right,
+            Middle,
+            X1,
+            X2
+        };
+
         /**
          * Constructor.
          *
@@ -33,43 +56,39 @@ namespace fcn
          * @param timeStamp The timestamp of the mouse input. Used to
          *                  check for double clicks.
          */
-        MouseInput(unsigned int button, unsigned int type, int x, int y, int timeStamp);
+        MouseInput(Button button, Type type, int x, int y, int timeStamp);
 
         /**
          * Sets the type of the mouse input.
          *
-         * @param type The type of the mouse input. Should be a value from the
-         *             mouse event type enum
+         * @param type The type of the mouse input.
          * @see getType
          */
-        void setType(unsigned int type);
+        void setType(Type type);
 
         /**
          * Gets the type of the mouse input.
          *
-         * @return The type of the mouse input. A value from the mouse event
-         *         type enum.
+         * @return The type of the mouse input.
          * @see setType
          */
-        unsigned int getType() const;
+        Type getType() const;
 
         /**
          * Sets the button pressed.
          *
-         * @param button The button pressed. Should be one of the values
-         *               in the mouse event button enum.
+         * @param button The button pressed.
          * @see getButton.
          */
-        void setButton(unsigned int button);
+        void setButton(Button button);
 
         /**
          * Gets the button pressed.
          *
-         * @return The button pressed. A value from the mouse event
-         *         button enum.
+         * @return The button pressed.
          * @see setButton
          */
-        unsigned int getButton() const;
+        Button getButton() const;
 
         /**
          * Sets the timestamp for the mouse input.
@@ -121,44 +140,16 @@ namespace fcn
          */
         int getY() const;
 
-        /**
-         * Mouse input event types. This enum partially corresponds
-         * to the enum with event types in MouseEvent for easy mapping.
-         */
-        enum
-        {
-            Moved = 0,
-            Pressed,
-            Released,
-            WheelMovedDown,
-            WheelMovedUp,
-            WheelMovedRight,
-            WheelMovedLeft
-        };
-
-        /**
-         * Mouse button types.
-         */
-        enum
-        {
-            Empty = 0,
-            Left,
-            Right,
-            Middle,
-            X1,
-            X2
-        };
-
     protected:
         /**
          * Holds the type of the mouse input.
          */
-        unsigned int mType{0};
+        Type mType{Type::Moved};
 
         /**
          * Holds the button of the mouse input.
          */
-        unsigned int mButton{0};
+        Button mButton{Button::Empty};
 
         /**
          * Holds the timestamp of the mouse input. Used to

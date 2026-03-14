@@ -51,7 +51,7 @@ namespace fcn
             bool isControlPressed,
             bool isAltPressed,
             bool isMetaPressed,
-            unsigned int type,
+            Type type,
             bool isNumericPad,
             Key const & key);
 
@@ -60,7 +60,7 @@ namespace fcn
          *
          * @return The type of the event.
          */
-        unsigned int getType() const;
+        Type getType() const;
 
         /**
          * Checks if the key event occurred on the numeric pad.
@@ -82,7 +82,7 @@ namespace fcn
         /**
          * Holds the type of the key event.
          */
-        unsigned int mType;
+        Type mType;
 
         /**
          * True if the numeric pad was used, false otherwise.

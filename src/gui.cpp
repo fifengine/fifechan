@@ -5,6 +5,7 @@
 #include "fifechan/gui.hpp"
 
 #include <algorithm>
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <queue>
@@ -302,25 +303,25 @@ namespace fcn
             MouseInput const mouseInput = mInput->dequeueMouseInput();
 
             switch (mouseInput.getType()) {
-            case MouseInput::Pressed:
+            case MouseInput::Type::Pressed:
                 handleMousePressed(mouseInput);
                 break;
-            case MouseInput::Released:
+            case MouseInput::Type::Released:
                 handleMouseReleased(mouseInput);
                 break;
-            case MouseInput::Moved:
+            case MouseInput::Type::Moved:
                 handleMouseMoved(mouseInput);
                 break;
-            case MouseInput::WheelMovedDown:
+            case MouseInput::Type::WheelMovedDown:
                 handleMouseWheelMovedDown(mouseInput);
                 break;
-            case MouseInput::WheelMovedUp:
+            case MouseInput::Type::WheelMovedUp:
                 handleMouseWheelMovedUp(mouseInput);
                 break;
-            case MouseInput::WheelMovedRight:
+            case MouseInput::Type::WheelMovedRight:
                 handleMouseWheelMovedRight(mouseInput);
                 break;
-            case MouseInput::WheelMovedLeft:
+            case MouseInput::Type::WheelMovedLeft:
                 handleMouseWheelMovedLeft(mouseInput);
                 break;
             default:
@@ -355,7 +356,7 @@ namespace fcn
                 mControlPressed,
                 mAltPressed,
                 mMetaPressed,
-                keyInput.getType(),
+                static_cast<KeyEvent::Type>(static_cast<std::uint8_t>(keyInput.getType())),
                 keyInput.isNumericPad(),
                 keyInput.getKey());
 
@@ -379,7 +380,7 @@ namespace fcn
                     mControlPressed,
                     mAltPressed,
                     mMetaPressed,
-                    keyInput.getType(),
+                    static_cast<KeyEvent::Type>(static_cast<std::uint8_t>(keyInput.getType())),
                     keyInput.isNumericPad(),
                     keyInput.getKey());
 
@@ -396,7 +397,7 @@ namespace fcn
             // tabbing is enable check for tab press and
             // change focus.
             if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == Key::Tab &&
-                keyInput.getType() == KeyInput::Pressed) {
+                keyInput.getType() == KeyInput::Type::Pressed) {
                 if (keyInput.isShiftPressed()) {
                     mFocusHandler->tabPrevious();
                 } else {
@@ -520,7 +521,7 @@ namespace fcn
         }
 
         if (mouseInput.getTimeStamp() - mLastMousePressTimeStamp < 250 &&
-            mLastMousePressButton == mouseInput.getButton()) {
+            mLastMousePressButton == static_cast<unsigned int>(mouseInput.getButton())) {
             mClickCount++;
         } else {
             mClickCount = 1;
@@ -536,9 +537,9 @@ namespace fcn
         mFocusHandler->setLastWidgetPressed(sourceWidget);
 
         mFocusHandler->setDraggedWidget(sourceWidget);
-        mLastMouseDragButton = static_cast<int>(mouseInput.getButton());
+        mLastMouseDragButton = static_cast<unsigned int>(mouseInput.getButton());
 
-        mLastMousePressButton    = mouseInput.getButton();
+        mLastMousePressButton    = static_cast<unsigned int>(mouseInput.getButton());
         mLastMousePressTimeStamp = mouseInput.getTimeStamp();
     }
 
@@ -645,7 +646,8 @@ namespace fcn
             mouseInput.getX(),
             mouseInput.getY());
 
-        if (mouseInput.getButton() == mLastMousePressButton && mFocusHandler->getLastWidgetPressed() == sourceWidget) {
+        if (static_cast<unsigned int>(mouseInput.getButton()) == mLastMousePressButton &&
+            mFocusHandler->getLastWidgetPressed() == sourceWidget) {
             distributeMouseEvent(
                 sourceWidget,
                 MouseEvent::Type::Clicked,
@@ -848,10 +850,10 @@ namespace fcn
                 // Send the event to all key listeners of the source widget.
                 for (auto& keyListener : keyListeners) {
                     switch (keyEvent.getType()) {
-                    case static_cast<unsigned int>(KeyEvent::Type::Pressed):
+                    case KeyEvent::Type::Pressed:
                         keyListener->keyPressed(keyEvent);
                         break;
-                    case static_cast<unsigned int>(KeyEvent::Type::Released):
+                    case KeyEvent::Type::Released:
                         keyListener->keyReleased(keyEvent);
                         break;
                     default:
@@ -878,10 +880,10 @@ namespace fcn
 
         for (it = mKeyListeners.begin(); it != mKeyListeners.end(); ++it) {
             switch (keyEvent.getType()) {
-            case static_cast<unsigned int>(KeyEvent::Type::Pressed):
+            case KeyEvent::Type::Pressed:
                 (*it)->keyPressed(keyEvent);
                 break;
-            case static_cast<unsigned int>(KeyEvent::Type::Released):
+            case KeyEvent::Type::Released:
                 (*it)->keyReleased(keyEvent);
                 break;
             default:

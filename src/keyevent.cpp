@@ -16,7 +16,7 @@ namespace fcn
         bool isControlPressed,
         bool isAltPressed,
         bool isMetaPressed,
-        unsigned int type,
+        Type type,
         bool isNumericPad,
         Key const & key) :
         InputEvent(source, distributor, isShiftPressed, isControlPressed, isAltPressed, isMetaPressed),
@@ -26,7 +26,7 @@ namespace fcn
     {
     }
 
-    unsigned int KeyEvent::getType() const
+    KeyEvent::Type KeyEvent::getType() const
     {
         return mType;
     }

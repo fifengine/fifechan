@@ -6,27 +6,27 @@
 
 namespace fcn
 {
-    MouseInput::MouseInput(unsigned int button, unsigned int type, int x, int y, int timeStamp) :
+    MouseInput::MouseInput(Button button, Type type, int x, int y, int timeStamp) :
         mType(type), mButton(button), mTimeStamp(timeStamp), mX(x), mY(y)
     {
     }
 
-    void MouseInput::setType(unsigned int type)
+    void MouseInput::setType(Type type)
     {
         mType = type;
     }
 
-    unsigned int MouseInput::getType() const
+    MouseInput::Type MouseInput::getType() const
     {
         return mType;
     }
 
-    void MouseInput::setButton(unsigned int button)
+    void MouseInput::setButton(Button button)
     {
         mButton = button;
     }
 
-    unsigned int MouseInput::getButton() const
+    MouseInput::Button MouseInput::getButton() const
     {
         return mButton;
     }

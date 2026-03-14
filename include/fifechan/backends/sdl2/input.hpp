@@ -67,7 +67,7 @@ namespace fcn::sdl2
          * @param button an SDL mouse button.
          * @return a FifeGUI mouse button.
          */
-        int convertMouseButton(int button);
+        MouseInput::Button convertMouseButton(int button);
 
         /**
          * Converts an SDL event to a FifeGUI key value.

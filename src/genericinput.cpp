@@ -27,8 +27,8 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setButton(button);
-        mouseInput.setType(MouseInput::Pressed);
+        mouseInput.setButton(static_cast<MouseInput::Button>(button));
+        mouseInput.setType(MouseInput::Type::Pressed);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -38,8 +38,8 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setButton(button);
-        mouseInput.setType(MouseInput::Released);
+        mouseInput.setButton(static_cast<MouseInput::Button>(button));
+        mouseInput.setType(MouseInput::Type::Released);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -49,7 +49,7 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setType(MouseInput::WheelMovedUp);
+        mouseInput.setType(MouseInput::Type::WheelMovedUp);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -59,7 +59,7 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setType(MouseInput::WheelMovedDown);
+        mouseInput.setType(MouseInput::Type::WheelMovedDown);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -69,7 +69,7 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setType(MouseInput::WheelMovedRight);
+        mouseInput.setType(MouseInput::Type::WheelMovedRight);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -79,7 +79,7 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setType(MouseInput::WheelMovedLeft);
+        mouseInput.setType(MouseInput::Type::WheelMovedLeft);
 
         mMouseInputQueue.push(mouseInput);
     }
@@ -89,7 +89,7 @@ namespace fcn
         MouseInput mouseInput{};
         mouseInput.setX(x);
         mouseInput.setY(y);
-        mouseInput.setType(MouseInput::Moved);
+        mouseInput.setType(MouseInput::Type::Moved);
 
         mMouseInputQueue.push(mouseInput);
     }

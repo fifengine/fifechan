@@ -8,14 +8,14 @@
 
 namespace fcn
 {
-    KeyInput::KeyInput(Key const & key, unsigned int type) : mKey(key), mType(type) { }
+    KeyInput::KeyInput(Key const & key, Type type) : mKey(key), mType(type) { }
 
-    void KeyInput::setType(unsigned int type)
+    void KeyInput::setType(Type type)
     {
         mType = type;
     }
 
-    int KeyInput::getType() const
+    KeyInput::Type KeyInput::getType() const
     {
         return mType;
     }

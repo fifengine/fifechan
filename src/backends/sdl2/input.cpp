@@ -62,7 +62,7 @@ namespace fcn::sdl2
             int const value = convertSDLEventToFifechanKeyValue(event);
 
             keyInput.setKey(Key(value));
-            keyInput.setType(KeyInput::Pressed);
+            keyInput.setType(KeyInput::Type::Pressed);
             keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
             keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
             keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
@@ -80,7 +80,7 @@ namespace fcn::sdl2
             }
 
             keyInput.setKey(Key(value));
-            keyInput.setType(KeyInput::Released);
+            keyInput.setType(KeyInput::Type::Released);
             keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
             keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
             keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
@@ -95,7 +95,7 @@ namespace fcn::sdl2
             mouseInput.setX(event.button.x);
             mouseInput.setY(event.button.y);
             mouseInput.setButton(convertMouseButton(event.button.button));
-            mouseInput.setType(MouseInput::Pressed);
+            mouseInput.setType(MouseInput::Type::Pressed);
             mouseInput.setTimeStamp(SDL_GetTicks());
             mMouseInputQueue.push(mouseInput);
             break;
@@ -106,7 +106,7 @@ namespace fcn::sdl2
             mouseInput.setX(event.button.x);
             mouseInput.setY(event.button.y);
             mouseInput.setButton(convertMouseButton(event.button.button));
-            mouseInput.setType(MouseInput::Released);
+            mouseInput.setType(MouseInput::Type::Released);
             mouseInput.setTimeStamp(SDL_GetTicks());
             mMouseInputQueue.push(mouseInput);
             break;
@@ -115,8 +115,8 @@ namespace fcn::sdl2
         case SDL_MOUSEMOTION: {
             mouseInput.setX(event.motion.x);
             mouseInput.setY(event.motion.y);
-            mouseInput.setButton(MouseInput::Empty);
-            mouseInput.setType(MouseInput::Moved);
+            mouseInput.setButton(MouseInput::Button::Empty);
+            mouseInput.setType(MouseInput::Type::Moved);
             mouseInput.setTimeStamp(SDL_GetTicks());
             mMouseInputQueue.push(mouseInput);
             break;
@@ -134,14 +134,14 @@ namespace fcn::sdl2
                 mouseInput.setType(MouseInput::WheelMovedLeft);
             }*/
             if (event.wheel.y > 0) {
-                mouseInput.setType(MouseInput::WheelMovedUp);
+                mouseInput.setType(MouseInput::Type::WheelMovedUp);
             } else if (event.wheel.y < 0) {
-                mouseInput.setType(MouseInput::WheelMovedDown);
+                mouseInput.setType(MouseInput::Type::WheelMovedDown);
             }
             if (event.wheel.x > 0) {
-                mouseInput.setType(MouseInput::WheelMovedRight);
+                mouseInput.setType(MouseInput::Type::WheelMovedRight);
             } else if (event.wheel.x < 0) {
-                mouseInput.setType(MouseInput::WheelMovedLeft);
+                mouseInput.setType(MouseInput::Type::WheelMovedLeft);
             }
             int x = 0;
             int y = 0;
@@ -164,7 +164,7 @@ namespace fcn::sdl2
                 int const value = result[0];
 
                 keyInput.setKey(Key(value));
-                keyInput.setType(KeyInput::Pressed);
+                keyInput.setType(KeyInput::Type::Pressed);
                 keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
                 keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
                 keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
@@ -196,30 +196,32 @@ namespace fcn::sdl2
             break;
         }
 
-        } // end switch
-    }
+        default:
+            break;
+        }
 
-    int Input::convertMouseButton(int button)
+    } // end switch
+
+    MouseInput::Button Input::convertMouseButton(int button)
     {
         switch (button) {
         case SDL_BUTTON_LEFT:
-            return MouseInput::Left;
+            return MouseInput::Button::Left;
             break;
         case SDL_BUTTON_RIGHT:
-            return MouseInput::Right;
+            return MouseInput::Button::Right;
             break;
         case SDL_BUTTON_MIDDLE:
-            return MouseInput::Middle;
+            return MouseInput::Button::Middle;
             break;
         case SDL_BUTTON_X1:
-            return MouseInput::X1;
+            return MouseInput::Button::X1;
             break;
         case SDL_BUTTON_X2:
-            return MouseInput::X2;
+            return MouseInput::Button::X2;
             break;
         default:
-            // We have an unknown mouse type which is ignored.
-            return button;
+            return MouseInput::Button::Empty;
         }
     }
 
