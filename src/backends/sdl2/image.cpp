@@ -70,7 +70,8 @@ namespace fcn::sdl2
             SDL_SetTextureScaleMode(mTexture, SDL_ScaleModeNearest);
 #endif
 
-            int w, h;
+            int w{};
+            int h{};
             SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
             mTransientSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA8888);
             if (mTransientSurface == nullptr) {
@@ -118,7 +119,8 @@ namespace fcn::sdl2
             throwException("Trying to get the width of a non loaded image.");
         }
 
-        int w, h;
+        int w{};
+        int h{};
         SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
         return w;
     }
@@ -129,7 +131,8 @@ namespace fcn::sdl2
             throwException("Trying to get the height of a non loaded image.");
         }
 
-        int w, h;
+        int w{};
+        int h{};
         SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
         return h;
     }

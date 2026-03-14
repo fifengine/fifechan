@@ -104,10 +104,10 @@ namespace fcn::sdl2
         int const pixels = surface->w * surface->h;
 
         for (int i = 0; i < pixels; ++i) {
-            uint8_t r;
-            uint8_t g;
-            uint8_t b;
-            uint8_t a;
+            uint8_t r{};
+            uint8_t g{};
+            uint8_t b{};
+            uint8_t a{};
 
             SDL_GetRGBA(reinterpret_cast<Uint32*>(surface->pixels)[i], surface->format, &r, &g, &b, &a);
 

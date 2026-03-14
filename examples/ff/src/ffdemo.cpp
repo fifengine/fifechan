@@ -726,6 +726,9 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
             mMagicSkills->setVisible(true);
             mMagicSkillsList->requestFocus();
             break;
+
+        default:
+            break;
         }
     }
 }

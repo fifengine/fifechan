@@ -32,6 +32,7 @@ namespace fcn
     class FIFEGUI_API FocusHandler
     {
     public:
+        virtual ~FocusHandler() = default;
         FocusHandler();
 
         /**
