@@ -18,7 +18,7 @@ namespace fcn
     class SelectionListener;
 
     /**
-     * An implementation of a list box where an item can be selected.
+     * A scrollable list box allowing item selection.
      *
      * To be able display a list the list box uses a user provided list model.
      * A list model can be any class that implements the ListModel interface.
@@ -27,6 +27,8 @@ namespace fcn
      * all selection listeners of the list box. If an item is selected by using
      * a mouse click or by using the enter or space key an action event will be
      * sent to all action listeners of the list box.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API ListBox : public Widget, public MouseListener, public KeyListener
     {

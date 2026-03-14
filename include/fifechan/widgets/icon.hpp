@@ -14,7 +14,9 @@
 namespace fcn
 {
     /**
-     * Implements an icon capable of displaying an image.
+     * Displays a static image icon.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Icon : public Widget
     {

@@ -23,9 +23,11 @@ namespace fcn
     class Tab;
 
     /**
-     * An implementation of a tabbed area where a user can display a widget by
-     * selecting a tab.
+     * A container organizing content into selectable tabs.
      *
+     * A tabbed area where a user can display a widget by selecting a tab.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API TabbedArea : public ActionListener, public KeyListener, public MouseListener, public Widget
     {

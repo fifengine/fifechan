@@ -14,7 +14,7 @@ namespace fcn
     class Widget;
 
     /**
-     * Represents a container event.
+     * Represents changes within a container (e.g., widget added/removed).
      *
      * A container event is an event that can be fired by a container
      * when a widget is added or removed.
@@ -24,6 +24,8 @@ namespace fcn
      *
      * @see Container::addContainerListener, Container::removeContainerListener,
      *      Container::distributeContainerEvent
+     *
+     * @ingroup events
      */
     class FIFEGUI_API ContainerEvent : public Event
     {

@@ -14,7 +14,9 @@
 namespace fcn
 {
     /**
-     * Implementation of a label capable of displaying a caption.
+     * Displays a text caption.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Label : public Widget
     {

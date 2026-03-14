@@ -12,8 +12,9 @@
 namespace fcn
 {
     /**
-     * Represents a rectangle.
+     * Represents a rectangular area (X, Y, Width, Height).
      *
+     * @ingroup utils
      */
     class FIFEGUI_API Rectangle
     {

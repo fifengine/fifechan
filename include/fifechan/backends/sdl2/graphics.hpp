@@ -24,8 +24,11 @@ namespace fcn
 namespace fcn::sdl2
 {
     /**
-     * SDL2 renderer-based implementation of Graphics.
+     * SDL2 renderer-specific implementation of the Graphics interface.
+     *
      * This is the primary graphics backend - it uses SDL_Renderer for all drawing operations.
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {

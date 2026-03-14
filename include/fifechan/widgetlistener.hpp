@@ -13,11 +13,14 @@
 namespace fcn
 {
     /**
-     * Interface for listening for events from widgets. When a widget's size,
-     * location or visibility changes, the relevant method of the listener is
-     * invoked.
+     * Interface for receiving generic events from widgets.
+     *
+     * When a widget's size, location or visibility changes,
+     * the relevant method of the listener is invoked.
      *
      * @see Widget::addWidgetListener, Widget::removeWidgetListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API WidgetListener
     {

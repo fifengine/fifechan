@@ -31,19 +31,52 @@ namespace fcn
 
     // The following comment will appear in the doxygen main page.
     /**
-     * @mainpage
-     * @section Introduction
-     * This documentation is mostly intended as a reference to the API.
-     * If you want to get started with FifeGUI, we suggest you check out
-     * the programs in the examples and tests/integration folders.
-     * @n
-     * @n
-     * This documentation is, and will always be, work in progress.
-     * If you find any errors, typos or inconsistencies, or if you feel
-     * something needs to be explained in more detail, don't hesitate to tell us.
+     * @mainpage FifeGUI API Reference
+     *
+     * @section intro_sec Introduction
+     * Welcome to the <b>FifeGUI</b> API documentation. FifeGUI is a flexible,
+     * backend-agnostic GUI library designed to be easily integrated into games
+     * and applications. It provides a rich set of widgets, event handling, and
+     * theming capabilities while remaining decoupled from specific rendering or
+     * input libraries.
+     *
+     * @section arch_sec Architecture & Backends
+     * FifeGUI operates on an abstraction layer that allows it to work with various
+     * underlying technologies. The core logic is separated from the implementation
+     * details via abstract interfaces:
+     * - <b>Graphics:</b> Supports multiple backends (e.g., @ref fcn::opengl::Graphics "OpenGL", @ref fcn::sdl2::Graphics "SDL2").
+     * - <b>Input:</b> Abstracts keyboard and mouse input (@ref fcn::Input "Input" interface).
+     * - <b>Fonts & Images:</b> Pluggable loaders and renderers for assets.
+     *
+     * This design allows you to swap rendering engines without changing your GUI logic.
+     *
+     * @section nav_sec Navigating this Documentation
+     * This documentation is primarily structured as an API reference. To navigate effectively:
+     * - <b>Modules:</b> Use the <a href="modules.html">Modules</a> tab to browse classes by logical category
+     *   (e.g., @ref widgets "Widgets", @ref events "Events", @ref graphics "Graphics & Rendering").
+     * - <b>Class List:</b> Use the <a href="annotated.html">Class List</a> for a complete alphabetical index.
+     * - <b>Hierarchy:</b> Use the <a href="hierarchy.html">Class Hierarchy</a> to understand inheritance relationships.
+     *
+     * @section start_sec Getting Started
+     * While this reference details every class and method, the best way to learn
+     * FifeGUI is by examining practical implementations:
+     * - Check the <code>examples/</code> directory for minimal, standalone demonstrations.
+     * - Explore <code>tests/integration/</code> for comprehensive usage scenarios and edge cases.
+     *
+     * @section contrib_sec Contributing & Feedback
+     * This documentation is a living project. If you encounter:
+     * - Errors, typos, or broken links
+     * - Inconsistent descriptions or missing parameters
+     * - Features that require more detailed explanation
+     *
+     * Please do not hesitate to contribute! Submit issues or pull requests to our
+     * repository to help improve the quality of this documentation for everyone.
+     *
      */
 
     /**
+     * The central GUI manager. Integrates backend implementations and manages the root widget tree.
+     *
      * GUI is the core class of FifeGUI to which implementations of backends
      * are passed, to make FifeGUI work with a specific library, and to where
      * the top widget (root widget of GUI) is added.
@@ -60,6 +93,8 @@ namespace fcn
      *       passed to Image.
      *
      * @see Graphics, Input, Image
+     *
+     * @ingroup core
      */
     class FIFEGUI_API Gui
     {

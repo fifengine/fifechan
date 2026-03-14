@@ -16,7 +16,9 @@ namespace fcn
     class Image;
 
     /**
-     * A widget that displays a progress bar using images.
+     * Displays progress using images.
+     *
+     * @ingroup graphs
      */
     class FIFEGUI_API ImageProgressBar : public Widget
     {

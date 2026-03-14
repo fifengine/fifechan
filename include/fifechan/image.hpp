@@ -15,7 +15,7 @@ namespace fcn
     class ImageLoader;
 
     /**
-     * Holds an image.
+     * Abstract holder for image data.
      *
      * To be able to use this class you must first set an
      * ImageLoader in Image by calling
@@ -25,6 +25,8 @@ namespace fcn
      * compatible with the Graphics object you use.
      *
      * @see OpenGLSDLImageLoader, SDLImageLoader
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_API Image
     {

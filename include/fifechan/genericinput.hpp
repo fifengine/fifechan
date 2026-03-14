@@ -17,7 +17,9 @@ namespace fcn
     class Key;
 
     /**
-     * Implementation of a generic input which can be used with any backend.
+     * A generic input implementation usable with various backends.
+     *
+     * @ingroup input
      */
     class FIFEGUI_API GenericInput : public Input
     {

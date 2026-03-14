@@ -13,10 +13,12 @@
 namespace fcn
 {
     /**
-     * Interface for listening for action events from widgets.
+     * Interface for listening to action events from widgets.
      *
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      ActionEvent
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API ActionListener
     {

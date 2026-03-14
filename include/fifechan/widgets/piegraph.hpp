@@ -15,11 +15,13 @@ namespace fcn
     class Graphics;
 
     /**
-     * An implementation of a pie graph.
+     * Displays data as a circular pie chart.
      *
      * A pie graph is a circular graph that is divided into segments.
      * Each segment represents a portion of the whole graph, and the size of
      * each segment is determined by the start and stop angles of the segment.
+     *
+     * @ingroup graphs
      */
     class FIFEGUI_API PieGraph : public Widget
     {
@@ -143,7 +145,10 @@ namespace fcn
         /** The radius of the pie graph in pixels. */
         int m_radius;
 
-        /** Represents a single pie segment with start/stop angles and color. */
+        /**
+         * @ingroup graphs
+         * Represents a single segment of a pie graph (angles and color).
+         */
         struct PieGraphSegment
         {
             /** Start angle in degrees. */

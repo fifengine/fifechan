@@ -23,7 +23,9 @@ namespace fcn::sdl2
 {
 
     /**
-     * SDL implementation of Input.
+     * SDL2-specific implementation of Input.
+     *
+     * @ingroup input
      */
     class FIFEGUI_EXT_API Input : public fcn::Input
     {

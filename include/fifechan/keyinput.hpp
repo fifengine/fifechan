@@ -13,7 +13,7 @@
 namespace fcn
 {
     /**
-     * Internal class that represents key input.
+     * Internal class representing raw keyboard input data.
      *
      * This class is used to represent key input events.
      * It holds information about the key that was pressed or released,
@@ -21,6 +21,8 @@ namespace fcn
      * at the same time as the key.
      *
      * The class is relevant if you want to implement an Input class for a backend.
+     *
+     * @ingroup input
      */
     class FIFEGUI_API KeyInput
     {

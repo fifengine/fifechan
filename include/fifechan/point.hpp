@@ -16,11 +16,13 @@ namespace fcn
 {
 
     /**
-     * A 2D Point
+     * Represents a 2D coordinate (X, Y).
      *
      * This is a small helper class to aid in 2d vector arithmetics.
      *
      * @see Rect
+     *
+     * @ingroup utils
      */
     class Point
     {

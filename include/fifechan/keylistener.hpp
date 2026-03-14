@@ -13,9 +13,11 @@ namespace fcn
     class Key;
 
     /**
-     * Interface for listening for key events from widgets.
+     * Interface for listening to keyboard events.
      *
      * @see Widget::addKeyListener, Widget::removeKeyListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API KeyListener
     {

@@ -16,7 +16,9 @@
 namespace fcn::sdl2
 {
     /**
-     * SDL implementation of Image.
+     * SDL2-specific implementation of Image.
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_EXT_API Image : public fcn::Image
     {

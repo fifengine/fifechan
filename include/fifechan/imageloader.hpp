@@ -14,7 +14,7 @@ namespace fcn
     class Image;
 
     /**
-     * Abstract class for providing functions for loading images.
+     * Abstract interface for loading image assets.
      *
      * FifeGUI contains implementations of ImageLoader for common
      * libraries like the SDL library.
@@ -27,6 +27,8 @@ namespace fcn
      *
      * @see Image::setImageLoader, Image::getImageLoader,
      *      OpenGLSDLImageLoader, SDLImageLoader
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_API ImageLoader
     {

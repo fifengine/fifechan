@@ -21,7 +21,9 @@ namespace fcn::sdl2
 {
 
     /**
-     * SDL implementation of ImageLoader.
+     * SDL2-specific implementation of ImageLoader.
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_EXT_API ImageLoader : public fcn::ImageLoader
     {

@@ -15,9 +15,9 @@ namespace fcn
     class Widget;
 
     /**
-     * Handles focus for widgets in a Gui. Each Gui has at least one
-     * focus handler.
-
+     * Manages focus navigation and assignment among widgets within a Gui instance.
+     *
+     * Each Gui has at least one focus handler.
      * You will probably not use the focus handler directly as Widget
      * has functions that automatically uses the active focus handler.
      *
@@ -27,6 +27,7 @@ namespace fcn
      *      Widget::releaseModalFocus, Widget::releaseModalMouseInputFocus,
      *      Widget::setFocusable, Widget::isFocusable, FocusListener
      *
+     * @ingroup core
      */
     class FIFEGUI_API FocusHandler
     {

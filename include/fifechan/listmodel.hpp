@@ -12,11 +12,13 @@
 namespace fcn
 {
     /**
-     * An interface for a model that represents a list. It is
-     * used in certain widgets, like the ListBox, to handle a
-     * lists with string elements. If you want to use widgets
-     * like ListBox, make a derived class from this class that
-     * represents your list.
+     * Interface for a data model representing a list (used by ListBox/DropDown).
+     *
+     * It is used in certain widgets, like the ListBox, to handle a lists with
+     * string elements. If you want to use widgets like ListBox, make a
+     * derived class from this class that represents your list.
+     *
+     * @ingroup utils
      */
     class FIFEGUI_API ListModel
     {

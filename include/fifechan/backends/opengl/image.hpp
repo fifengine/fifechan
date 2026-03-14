@@ -26,7 +26,9 @@
 namespace fcn::opengl
 {
     /**
-     * OpenGL implementation of Image.
+     * OpenGL-specific implementation of Image.
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_EXT_API Image : public fcn::Image
     {

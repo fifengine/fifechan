@@ -32,11 +32,14 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract class for widgets.
+     * Abstract base class defining the common behavior, properties, and lifecycle of all GUI elements.
+     *
      * It contains basic functions every widget should have.
      *
      * NOTE: Functions beginning with underscore "_" should not
      *       be overloaded unless you know what you are doing.
+     *
+     * @ingroup core
      */
     class FIFEGUI_API Widget
     {

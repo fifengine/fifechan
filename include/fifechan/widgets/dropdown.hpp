@@ -24,7 +24,8 @@ namespace fcn
     class ScrollArea;
 
     /**
-     * An implementation of a dropdown list from which an item can be selected.
+     * A dropdown list widget allowing single item selection from a list.
+     *
      * The drop down consists of an internal ScrollArea and an internal ListBox.
      * The drop down also uses an internal FocusHandler to handle the focus of
      * the internal ScrollArea and the internal ListBox.
@@ -38,6 +39,8 @@ namespace fcn
      * all selection listeners of the drop down. If an item is selected by
      * using a mouse click or by using the enter or space key an action event
      * will be sent to all action listeners of the drop down.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API DropDown :
         public ActionListener,

@@ -49,6 +49,8 @@ namespace fcn
      * The color can be converted to a string.
      * The color can be converted to a string in hexadecimal format.
      * The color can be converted to a string in RGB format.
+     *
+     * @ingroup utils
      */
     class FIFEGUI_API Color
     {

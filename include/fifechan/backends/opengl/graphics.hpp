@@ -13,7 +13,9 @@
 namespace fcn::opengl
 {
     /**
-     * OpenGL implementation of the Graphics.
+     * OpenGL-specific implementation of the Graphics interface.
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {

@@ -9,7 +9,9 @@
 namespace fcn
 {
     /**
-     * Represents a key or a character.
+     * Represents a keyboard key or character code.
+     *
+     * @ingroup input
      */
     class FIFEGUI_API Key
     {

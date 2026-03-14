@@ -13,9 +13,11 @@
 namespace fcn
 {
     /**
-     * Interface for listening for focus events from widgets.
+     * Interface for listening to focus gain/loss events.
      *
      * @see Widget::addFocusListener, Widget::removeFocusListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API FocusListener
     {

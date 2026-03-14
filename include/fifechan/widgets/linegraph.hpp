@@ -13,7 +13,9 @@ namespace fcn
     class Graphics;
 
     /**
-     * A widget that displays a line graph based on a vector of points.
+     * Displays data as a line graph connecting a vector of points.
+     *
+     * @ingroup graphs
      */
     class FIFEGUI_API LineGraph : public Widget
     {

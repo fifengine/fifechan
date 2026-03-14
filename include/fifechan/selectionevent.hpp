@@ -13,7 +13,9 @@ namespace fcn
     class Widget;
 
     /**
-     * Represents a selection event.
+     * Represents a change in selection state (e.g., list item selected).
+     *
+     * @ingroup events
      */
     class FIFEGUI_API SelectionEvent : public Event
     {

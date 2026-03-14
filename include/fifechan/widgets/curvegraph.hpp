@@ -13,11 +13,13 @@ namespace fcn
     class Graphics;
 
     /**
-     * A widget that displays a curve graph based on a vector of points.
+     * Displays data as a smooth curve based on a vector of points.
      *
      * The graph can be set to be opaque or not with setOpaque.
      * If the graph is opaque, it will be drawn with a solid color,
      * otherwise it will be drawn with a transparent color.
+     *
+     * @ingroup graphs
      */
     class FIFEGUI_API CurveGraph : public Widget
     {

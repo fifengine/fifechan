@@ -11,9 +11,11 @@
 namespace fcn
 {
     /**
-     * Interface for listening for mouse events from widgets.
+     * Interface for listening to mouse events.
      *
      * @see Widget::addMouseListener, Widget::removeMouseListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API MouseListener
     {

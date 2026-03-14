@@ -43,8 +43,12 @@ namespace fcn
     static double const DBL_INV_LOG_10     = 1.0 / std::numbers::ln10;
 
     /**
-     * Generic float_traits template. Specializations provide constants and
-     * helper functions for specific floating-point types.
+     * Generic template for floating-point type traits.
+     *
+     * Specializations provide constants and helper functions for specific
+     * floating-point types.
+     *
+     * @ingroup utils
      */
     template <class numT>
     struct float_traits
@@ -52,6 +56,8 @@ namespace fcn
     };
 
     /**
+     * Specialization of float traits for float.
+     *
      * float_traits specialization for `float`.
      * Provides useful constants and conversion helpers.
      */
@@ -133,6 +139,8 @@ namespace fcn
     };
 
     /**
+     * Specialization of float traits for double.
+     *
      * float_traits specialization for `double`.
      * Provides useful constants and conversion helpers.
      */
@@ -214,8 +222,12 @@ namespace fcn
     };
 
     /**
+     * Template utility providing math functions and constants for numeric type T.
+     *
      * Utility math functions and constants templated on numeric type T.
      * Use `Mathf` and `Mathd` for float and double respectively.
+     *
+     * @ingroup utils
      */
     template <typename T>
     class Math

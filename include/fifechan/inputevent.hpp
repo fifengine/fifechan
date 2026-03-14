@@ -11,7 +11,9 @@
 namespace fcn
 {
     /**
-     * Base class for all events concerning input.
+     * Base class for all input-related events (keyboard, mouse).
+     *
+     * @ingroup events
      */
     class FIFEGUI_API InputEvent : public Event
     {

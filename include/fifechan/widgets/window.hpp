@@ -14,7 +14,9 @@
 namespace fcn
 {
     /**
-     * An implementation of a movable window that can contain other widgets.
+     * A movable container window that can hold other widgets.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Window : public Container, public MouseListener
     {

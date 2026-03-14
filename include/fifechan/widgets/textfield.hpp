@@ -18,7 +18,9 @@ namespace fcn
     class UTF8StringEditor;
 
     /**
-     * An implementation of a text field where a user can enter a line of text.
+     * A single-line text input field.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API TextField : public Widget, public MouseListener, public KeyListener
     {

@@ -13,12 +13,14 @@
 namespace fcn
 {
     /**
-     * Interface for listening for selection events from widgets.
+     * Interface for listening to selection change events.
      *
      * @see ListBox::addSelectionListener,
      *      ListBox::removeSelectionListener,
      *      DropDown::addSelectionListener,
      *      DropDown::removeSelectionListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API SelectionListener
     {

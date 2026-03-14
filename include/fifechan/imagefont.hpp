@@ -19,8 +19,10 @@ namespace fcn
     class Image;
 
     /**
-     * A font using an image containing the font data. ImageFont can be used
-     * with any image supported by the currently used ImageLoader.
+     * A font implementation using an image atlas containing glyph data.
+     *
+     * ImageFont can be used with any image supported by the currently
+     * used ImageLoader.
      *
      * These are two examples of an image containing a font.
      *  \image html fixedfont.bmp
@@ -42,6 +44,8 @@ namespace fcn
      * horizontal lines making it possible to draw glyphs on more then one
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!
+     *
+     * @ingroup fonts
      */
     class FIFEGUI_API ImageFont : public Font
     {

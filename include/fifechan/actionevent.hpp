@@ -15,8 +15,10 @@ namespace fcn
     class Widget;
 
     /**
-     * Represents an action event. An action event is an event
-     * that can be fired by a widget whenever an action has occurred.
+     * Represents an action trigger (e.g., button click).
+     *
+     * An action event is an event that can be fired by a widget
+     * whenever an action has occurred.
      * What exactly an action is is up to the widget that fires
      * the action event. An example is a Button which fires an action
      * event as soon as the Button is clicked, another example is
@@ -33,6 +35,8 @@ namespace fcn
      *
      * @see Widget::addActionListener, Widget::removeActionListener,
      *      Widget::distributeActionEvent
+     *
+     * @ingroup events
      */
     class FIFEGUI_API ActionEvent : public Event
     {

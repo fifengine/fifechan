@@ -13,8 +13,11 @@
 namespace fcn
 {
     /**
-     * A font only capable of drawing rectangles.
+     * A basic font implementation capable only of drawing rectangles (placeholder).
+     *
      * This font is used as a default font when no other font is specified.
+     *
+     * @ingroup fonts
      */
     class FIFEGUI_API DefaultFont : public Font
     {

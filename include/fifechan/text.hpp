@@ -16,10 +16,13 @@ namespace fcn
     class Font;
 
     /**
+     * Helper class for text manipulation within widgets.
+     *
      * A utility class to ease working with text in widgets such as
      * TextBox and TextField. The class wraps common text operations
      * such as inserting and deleting text.
      *
+     * @ingroup utils
      */
     class FIFEGUI_API Text
     {

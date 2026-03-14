@@ -12,10 +12,12 @@ namespace fcn
 {
 
     /**
-     * UTF-8 string editor.
+     * Utility for editing and handling UTF-8 encoded strings.
      *
      * This is a helper class which allows to use UTF-8 strings in
      * your application.
+     *
+     * @ingroup utils
      */
     class UTF8StringEditor
     {

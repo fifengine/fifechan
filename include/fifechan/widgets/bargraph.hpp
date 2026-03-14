@@ -13,11 +13,13 @@ namespace fcn
     class Graphics;
 
     /**
-     * A widget that displays a bar graph based on a rectangle.
+     * Displays data as a rectangular bar graph.
      *
      * The graph can be set to be opaque or not with setOpaque.
      * If the graph is opaque, it will be drawn with a solid color,
      * otherwise it will be drawn with a transparent color.
+     *
+     * @ingroup graphs
      */
     class FIFEGUI_API BarGraph : public Widget
     {

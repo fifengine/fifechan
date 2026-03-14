@@ -17,12 +17,16 @@
 namespace fcn
 {
     /**
-     * An implementation of a container able to contain other widgets. A widget's
-     * position in the container is relative to the container itself and not the screen.
+     * A composite widget capable of holding and managing child widgets.
+     *
+     * A widget's position in the container is relative to the container itself
+     * and not the screen.
      * A container is the most common widget to use as the Gui's top widget as makes the Gui
      * able to contain more than one widget.
      *
      * @see Gui::setTop
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Container : public Widget
     {

@@ -22,7 +22,8 @@ namespace fcn
     class Image;
 
     /**
-     * Abstract class for providing drawing primitive functions.
+     * Abstract interface providing primitive drawing functions (lines, rectangles, etc.).
+     *
      * It contains all vital functions for drawing.
      *
      * FifeGUI contains implementations of Graphics for common
@@ -49,6 +50,8 @@ namespace fcn
      * your application.
      *
      * @see OpenGLGraphics, SDLGraphics, Image
+     *
+     * @ingroup graphics
      */
     class FIFEGUI_API Graphics
     {

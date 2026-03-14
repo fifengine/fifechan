@@ -13,7 +13,7 @@ namespace fcn
     class MouseInput;
 
     /**
-     * Abstract class for providing functions for user input.
+     * Abstract interface for polling user input devices.
      *
      * FifeGUI contains implementations of Input for common
      * libraries like SDL.
@@ -21,6 +21,8 @@ namespace fcn
      * class must be implemented.
      *
      * @see SDLInput
+     *
+     * @ingroup input
      */
     class FIFEGUI_API Input
     {

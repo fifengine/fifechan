@@ -14,9 +14,11 @@ namespace fcn
     class Graphics;
 
     /**
-     * Interface for a font.
+     * Abstract interface for font rendering.
      *
      * @see ImageFont
+     *
+     * @ingroup fonts
      */
     class FIFEGUI_API Font
     {

@@ -19,13 +19,15 @@
 namespace fcn
 {
     /**
-     * An implementation of a regular clickable button. A button is capable of
-     * displaying a caption.
+     * A standard clickable button widget.
      *
+     * A button is capable of displaying a caption.
      * If a button is clicked an action event will be sent to all action listener's
      * of the button.
      *
      * @see ImageButton
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Button :
         public Widget,

@@ -14,9 +14,13 @@
 namespace fcn
 {
     /**
+     * A scrollable viewport for viewing widgets larger than the visible area.
+     *
      * Implementation if a scrollable area used to view widgets larger than the scroll area.
      * A scroll area can be customized to always show scroll bars or to show them only when
      * necessary.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API ScrollArea : public MouseListener, public Widget
     {

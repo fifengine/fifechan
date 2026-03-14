@@ -13,9 +13,11 @@
 namespace fcn
 {
     /**
-     * Interface for listening for death events from widgets.
+     * Interface for listening to widget destruction events.
      *
      * @see Widget::addDeathListener, Widget::removeDeathListener
+     *
+     * @ingroup listeners
      */
     class FIFEGUI_API DeathListener
     {

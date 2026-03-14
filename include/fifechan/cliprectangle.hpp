@@ -11,10 +11,13 @@
 namespace fcn
 {
     /**
-     * A rectangle used when dealing with clipping. A clip rectangle is
-     * a regular rectangle extended with variables for x offsets and y
-     * offsets. The offsets are used for calculations from relative
-     * screen coordinates to actual screen coordinates.
+     * A rectangle specifically used for clipping rendering regions.
+     *
+     * A clip rectangle is a regular rectangle extended with variables
+     * for x offsets and y offsets. The offsets are used for calculations
+     * from relative screen coordinates to actual screen coordinates.
+     *
+     * @ingroup utils
      */
     class FIFEGUI_API ClipRectangle : public Rectangle
     {

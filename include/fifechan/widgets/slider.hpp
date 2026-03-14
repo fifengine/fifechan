@@ -15,11 +15,14 @@
 namespace fcn
 {
     /**
+     * A control for selecting a numeric value by sliding along a scale.
+     *
      * An implementation of a slider where a user can select different values by
      * sliding between a start value and an end value of a scale.
-     *
      * If the selected value is changed an action event will be sent to all
      * action listeners of the slider.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Slider : public Widget, public MouseListener, public KeyListener
     {

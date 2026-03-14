@@ -17,9 +17,11 @@ namespace fcn
     class TabbedArea;
 
     /**
-     * An implementation of a simple tab to be used in a tabbed area.
+     * A single tab label used within a TabbedArea.
      *
      * @see TabbedArea
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API Tab : public MouseListener, public Container
     {

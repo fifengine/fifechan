@@ -20,7 +20,9 @@ namespace fcn
     class UTF8StringEditor;
 
     /**
-     * An implementation of a text box where a user can enter text that contains of many lines.
+     * A multi-line text input field.
+     *
+     * @ingroup widgets
      */
     class FIFEGUI_API TextBox : public Widget, public MouseListener, public KeyListener
     {
