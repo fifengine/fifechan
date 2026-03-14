@@ -52,7 +52,7 @@ namespace fcn::sdl2
 
     bool Graphics::pushClipArea(Rectangle area)
     {
-        bool result = fcn::Graphics::pushClipArea(area);
+        bool const result = fcn::Graphics::pushClipArea(area);
 
         if (result) {
             ClipRectangle const & clip_rect = mClipStack.top();
@@ -420,25 +420,28 @@ namespace fcn::sdl2
         restoreRenderColor();
     }
 
-    static fcn::Point bezierPoint(std::vector<fcn::Point> const & controlPoints, float t)
+    namespace
     {
-        std::vector<fcn::Point> points = controlPoints;
-        while (points.size() > 1) {
-            std::vector<fcn::Point> nextPoints;
-            for (size_t i = 0; i < points.size() - 1; ++i) {
-                int const x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
-                int const y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
-                nextPoints.emplace_back(x, y);
+        fcn::Point bezierPoint(std::vector<fcn::Point> const & controlPoints, float t)
+        {
+            std::vector<fcn::Point> points = controlPoints;
+            while (points.size() > 1) {
+                std::vector<fcn::Point> nextPoints;
+                for (size_t i = 0; i < points.size() - 1; ++i) {
+                    int const x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
+                    int const y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
+                    nextPoints.emplace_back(x, y);
+                }
+                points = nextPoints;
             }
-            points = nextPoints;
+            return points[0];
         }
-        return points[0];
-    }
 
-    static constexpr float degToRad(float degrees)
-    {
-        return degrees * std::numbers::pi_v<float> / 180.0F;
-    }
+        constexpr float degToRad(float degrees)
+        {
+            return degrees * std::numbers::pi_v<float> / 180.0F;
+        }
+    } // namespace
 
     void Graphics::drawFillCircleSegment(fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)
     {
@@ -480,6 +483,18 @@ namespace fcn::sdl2
         restoreRenderColor();
     }
 
+    namespace
+    {
+        int normalizeAngle(int angle)
+        {
+            angle %= 360;
+            if (angle < 0) {
+                angle += 360;
+            }
+            return angle;
+        }
+    } // namespace
+
     void Graphics::drawCircle(fcn::Point const & center, unsigned int radius)
     {
         if (mClipStack.empty()) {
@@ -520,15 +535,6 @@ namespace fcn::sdl2
         }
 
         restoreRenderColor();
-    }
-
-    static int normalizeAngle(int angle)
-    {
-        angle %= 360;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
     }
 
     void Graphics::drawCircleSegment(fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)

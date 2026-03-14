@@ -284,12 +284,14 @@ namespace fcn
                 }
                 float const tmpAngle =
                     static_cast<float>(static_cast<int>((angle * i) + 270) % 360) / (180.0F / Mathf::pi());
-                int const x = static_cast<int>((xRadius * std::cos(tmpAngle)) - ((*currChild)->getWidth() / 2));
-                int const y = static_cast<int>((yRadius * std::sin(tmpAngle)) - ((*currChild)->getHeight() / 2));
-                minW        = std::min(minW, x);
-                maxW        = std::max(maxW, x + (*currChild)->getWidth());
-                minH        = std::min(minH, y);
-                maxH        = std::max(maxH, y + (*currChild)->getHeight());
+                int const x = static_cast<int>(
+                    (xRadius * std::cos(tmpAngle)) - (static_cast<float>((*currChild)->getWidth()) / 2.0f));
+                int const y = static_cast<int>(
+                    (yRadius * std::sin(tmpAngle)) - (static_cast<float>((*currChild)->getHeight()) / 2.0f));
+                minW = std::min(minW, x);
+                maxW = std::max(maxW, x + (*currChild)->getWidth());
+                minH = std::min(minH, y);
+                maxH = std::max(maxH, y + (*currChild)->getHeight());
 
                 (*currChild)->setPosition(x, y);
                 ++i;

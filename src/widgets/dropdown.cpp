@@ -358,7 +358,7 @@ namespace fcn
         }
     }
 
-    void DropDown::focusLost(Event const & event)
+    void DropDown::focusLost([[maybe_unused]] Event const & event)
     {
         foldUp();
         mInternalFocusHandler.focusNone();
@@ -374,7 +374,7 @@ namespace fcn
         }
     }
 
-    void DropDown::action(ActionEvent const & actionEvent)
+    void DropDown::action([[maybe_unused]] ActionEvent const & actionEvent)
     {
         foldUp();
         releaseModalMouseInputFocus();
@@ -472,7 +472,7 @@ namespace fcn
         }
     }
 
-    void DropDown::valueChanged(SelectionEvent const & event)
+    void DropDown::valueChanged([[maybe_unused]] SelectionEvent const & event)
     {
         distributeValueChangedEvent();
     }

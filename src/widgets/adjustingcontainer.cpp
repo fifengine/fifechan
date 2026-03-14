@@ -156,6 +156,7 @@ namespace fcn
 
         mHeight -= mVerticalSpacing;
         mHeight += mPaddingBottom;
+
         setHeight(mHeight + (2 * getBorderSize()));
         setWidth(mWidth + (2 * getBorderSize()));
     }

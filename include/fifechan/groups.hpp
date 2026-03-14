@@ -5,6 +5,13 @@
 #define INCLUDE_FIFECHAN_GROUPS_H_
 
 /**
+ * This file contains the Doxygen group definitions for this project.
+ *
+ * Groups are defined using the 'defgroup' tag.
+ * They are referenced with the 'ingroup' tag.
+ */
+
+/**
  * @file groups.hpp
  * @brief Definition of logical groups for the fcn namespace.
  */

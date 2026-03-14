@@ -41,12 +41,12 @@ namespace fcn
          *
          * Creates a with 0 as default values.
          */
-        explicit Point(int _x = 0, int _y = 0) : x(_x), y(_y) { }
+        explicit Point(int _x = 0, int _y = 0) : val{_x, _y} { }
 
         /**
          * Copy Constructor
          */
-        Point(Point const & rhs) : x(rhs.x), y(rhs.y) { }
+        Point(Point const & rhs) : val{rhs.val[0], rhs.val[1]} { }
 
         /**
          * Vector addition
@@ -168,8 +168,8 @@ namespace fcn
             double const nx = static_cast<double>(x);
             double const ny = static_cast<double>(y);
 
-            x = static_cast<int>(costheta * nx - sintheta * ny);
-            y = static_cast<int>(sintheta * nx + costheta * ny);
+            x = static_cast<int>((costheta * nx) - (sintheta * ny));
+            y = static_cast<int>((sintheta * nx) + (costheta * ny));
         }
 
         /**

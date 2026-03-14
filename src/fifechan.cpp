@@ -4,7 +4,10 @@
 
 #include "fifechan/version.hpp"
 
-static char const * fcnFifechanVersion()
+namespace
 {
-    return fcn::app_version::get_version();
-}
+    char const * fcnFifechanVersion()
+    {
+        return fcn::app_version::get_version();
+    }
+} // namespace

@@ -36,10 +36,10 @@ namespace fcn::sdl2
 
                     // Get format info for RGBA extraction
                     SDL_PixelFormat const * fmt = surface->format;
-                    Uint32 rmask                = fmt->Rmask;
-                    Uint32 gmask                = fmt->Gmask;
-                    Uint32 bmask                = fmt->Bmask;
-                    Uint32 amask                = fmt->Amask;
+                    Uint32 const rmask          = fmt->Rmask;
+                    Uint32 const gmask          = fmt->Gmask;
+                    Uint32 const bmask          = fmt->Bmask;
+                    Uint32 const amask          = fmt->Amask;
 
                     // Extract RGBA, check for magenta and set alpha to 0 if found.
                     for (int i = 0; i < pixelCount; ++i) {
@@ -80,7 +80,7 @@ namespace fcn::sdl2
             SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
             if (mTransientSurface->format != surface->format) {
                 SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
-                if (converted) {
+                if (converted != nullptr) {
                     SDL_BlitScaled(converted, nullptr, mTransientSurface, nullptr);
                     SDL_FreeSurface(converted);
                 }

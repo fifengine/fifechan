@@ -57,7 +57,9 @@ FPSDemo::FPSDemo() :
     mChooseSound(nullptr),
     mEscapeSound(nullptr),
     mOptionsSound(nullptr),
-    mMusic(nullptr)
+    mMusic(nullptr),
+    window(nullptr),
+    glcontext(nullptr)
 {
     // Init SDL
     SDL_Init(SDL_INIT_EVERYTHING);

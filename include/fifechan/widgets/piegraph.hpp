@@ -152,10 +152,10 @@ namespace fcn
         struct PieGraphSegment
         {
             /** Start angle in degrees. */
-            int startAngle;
+            int startAngle{};
 
             /** Stop angle in degrees. */
-            int stopAngle;
+            int stopAngle{};
 
             /** Color of the segment. */
             Color color;
