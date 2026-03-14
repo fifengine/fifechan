@@ -27,6 +27,12 @@ if(ENABLE_SDL AND SDL2_FOUND)
     CXX_STANDARD_REQUIRED  ON
   )
 
+  if(WIN32)
+    set_target_properties(spacers_in_vbox_hbox dynamic_remove_spacers PROPERTIES
+      WIN32_EXECUTABLE TRUE
+    )
+  endif()
+
   show_build_target_properties(spacers_in_vbox_hbox)
   show_build_target_properties(dynamic_remove_spacers)
 

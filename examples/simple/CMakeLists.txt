@@ -19,6 +19,12 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
     CXX_STANDARD_REQUIRED  ON
   )
 
+  if(WIN32)
+    set_target_properties(simple_textbox_demo PROPERTIES
+      WIN32_EXECUTABLE TRUE
+    )
+  endif()
+
   show_build_target_properties(simple_textbox_demo)
 
   set(FIXEDFONT_SOURCE "${PROJECT_SOURCE_DIR}/tests/resources/rpgfont.png")

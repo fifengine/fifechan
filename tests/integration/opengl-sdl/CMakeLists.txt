@@ -26,6 +26,12 @@ target_link_libraries(openglsdlhelloworld PRIVATE
 )
 show_build_target_properties(openglsdlhelloworld)
 
+if(WIN32)
+    set_target_properties(openglsdlhelloworld PROPERTIES
+        WIN32_EXECUTABLE TRUE
+    )
+endif()
+
 #------------------------------------------------------------------------------
 # openglsdlwidgets
 #------------------------------------------------------------------------------
@@ -41,6 +47,12 @@ target_link_libraries(openglsdlwidgets PRIVATE
 )
 show_build_target_properties(openglsdlwidgets)
 
+if(WIN32)
+    set_target_properties(openglsdlwidgets PROPERTIES
+        WIN32_EXECUTABLE TRUE
+    )
+endif()
+
 #------------------------------------------------------------------------------
 # openglsdlaction
 #------------------------------------------------------------------------------
@@ -55,4 +67,10 @@ target_link_libraries(openglsdlaction PRIVATE
     fifechan
 )
 show_build_target_properties(openglsdlaction)
+
+if(WIN32)
+    set_target_properties(openglsdlaction PROPERTIES
+        WIN32_EXECUTABLE TRUE
+    )
+endif()
 

@@ -46,6 +46,12 @@ set_target_properties(sdlhelloworld PROPERTIES
   CXX_STANDARD_REQUIRED  ON
 )
 
+if(WIN32)
+  set_target_properties(sdlhelloworld PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
 # This toggles the FIFEGUI_BUILD type (fifechan_EXPORTS, fifegui_EXPORTS)
 if(BUILD_SHARED_LIBS)
   target_compile_definitions(sdlhelloworld PRIVATE "FIFEGUI_DLL_IMPORT") #"FIFEGUI_BUILD;FIFEGUI_EXTENSION_BUILD")
@@ -113,6 +119,12 @@ set_target_properties(sdlwidgets PROPERTIES
   CXX_STANDARD           20
   CXX_STANDARD_REQUIRED  ON
 )
+
+if(WIN32)
+  set_target_properties(sdlwidgets PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
 
 # This toggles the FIFEGUI_BUILD type (fifechan_EXPORTS, fifegui_EXPORTS)
 if(BUILD_SHARED_LIBS)

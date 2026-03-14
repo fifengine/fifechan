@@ -57,6 +57,12 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
 
   show_build_target_properties(fps_demo)
 
+  if(WIN32)
+    set_target_properties(fps_demo PROPERTIES
+      WIN32_EXECUTABLE TRUE
+    )
+  endif()
+
   # Resource Copying
   add_custom_command(
     TARGET fps_demo POST_BUILD
