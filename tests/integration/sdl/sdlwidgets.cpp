@@ -628,10 +628,7 @@ int main(int argc, char** argv)
     try {
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format(
-            "FifeGUI v{} using SDL2 Backend: Widgets Example",
-            fifeguiVersion
-        );
+        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Widgets Example", fifeguiVersion);
         Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {
