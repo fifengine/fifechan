@@ -26,6 +26,11 @@ namespace fcn
     public:
         virtual ~ListModel() = default;
 
+        ListModel(ListModel const &)            = default;
+        ListModel& operator=(ListModel const &) = default;
+        ListModel(ListModel&&)                  = default;
+        ListModel& operator=(ListModel&&)       = default;
+
         /**
          * Gets the number of elements in the list.
          *
@@ -40,6 +45,9 @@ namespace fcn
          * @return An element as a string at the a certain index.
          */
         virtual std::string getElementAt(int i) = 0;
+
+    protected:
+        ListModel() = default;
     };
 } // namespace fcn
 

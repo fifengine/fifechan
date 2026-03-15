@@ -142,11 +142,6 @@ namespace fcn
         }
     }
 
-    std::list<Widget*> const & Container::getChildren() const
-    {
-        return Widget::getChildren();
-    }
-
     Widget* Container::getChild(unsigned int index) const
     {
         if (index >= getChildrenCount()) {

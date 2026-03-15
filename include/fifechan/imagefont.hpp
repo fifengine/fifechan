@@ -93,6 +93,11 @@ namespace fcn
 
         ~ImageFont() override;
 
+        ImageFont(ImageFont const &)            = delete;
+        ImageFont& operator=(ImageFont const &) = delete;
+        ImageFont(ImageFont&&)                  = delete;
+        ImageFont& operator=(ImageFont&&)       = delete;
+
         /**
          * Draws a glyph.
          *

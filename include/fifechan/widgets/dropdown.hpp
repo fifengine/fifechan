@@ -63,6 +63,11 @@ namespace fcn
 
         ~DropDown() override;
 
+        DropDown(DropDown const &)            = delete;
+        DropDown& operator=(DropDown const &) = delete;
+        DropDown(DropDown&&)                  = delete;
+        DropDown& operator=(DropDown&&)       = delete;
+
         /**
          * Gets the selected item as an index in the list model.
          *

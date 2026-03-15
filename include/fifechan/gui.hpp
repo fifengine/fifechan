@@ -104,6 +104,11 @@ namespace fcn
 
         virtual ~Gui();
 
+        Gui(Gui const &)            = delete;
+        Gui& operator=(Gui const &) = delete;
+        Gui(Gui&&)                  = delete;
+        Gui& operator=(Gui&&)       = delete;
+
         /**
          * Sets the top widget. The top widget is the root widget
          * of the GUI. If you want a GUI to be able to contain more
@@ -299,7 +304,7 @@ namespace fcn
          *
          * @param widget Deleted widget.
          */
-        void widgetDied(Widget* widget);
+        void widgetDied(Widget const * widget);
 
     protected:
         /**

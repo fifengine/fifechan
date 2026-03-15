@@ -65,6 +65,11 @@ namespace fcn
 
         virtual ~Widget();
 
+        Widget(Widget const &)            = delete;
+        Widget& operator=(Widget const &) = delete;
+        Widget(Widget&&)                  = delete;
+        Widget& operator=(Widget&&)       = delete;
+
         /**
          * Draws the widget. The call to draw is initiated by the widget's
          * parent. The graphics object is set up so that all drawing is relative

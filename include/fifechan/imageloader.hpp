@@ -35,6 +35,15 @@ namespace fcn
     public:
         virtual ~ImageLoader() = default;
 
+        ImageLoader(ImageLoader const &)            = default;
+        ImageLoader& operator=(ImageLoader const &) = default;
+        ImageLoader(ImageLoader&&)                  = default;
+        ImageLoader& operator=(ImageLoader&&)       = default;
+
+    protected:
+        ImageLoader() = default;
+
+    public:
         /**
          * Loads an image.
          *

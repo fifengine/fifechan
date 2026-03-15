@@ -77,8 +77,7 @@ namespace fcn
     {
         std::string::const_iterator cur;
         std::string::const_iterator end;
-        int const bytes = 0;
-        int i           = 0;
+        int i = 0;
 
         if (charIndex < 0) {
             return 0;

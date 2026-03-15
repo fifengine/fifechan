@@ -73,7 +73,11 @@ namespace fcn::opengl
     Image::~Image()
     {
         if (mAutoFree) {
-            free();
+            if (mPixels.empty()) {
+                glDeleteTextures(1, &mTextureHandle);
+            } else {
+                mPixels.clear();
+            }
         }
     }
 

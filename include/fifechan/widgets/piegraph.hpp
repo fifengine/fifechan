@@ -40,6 +40,11 @@ namespace fcn
 
         ~PieGraph() override = default;
 
+        PieGraph(PieGraph const &)            = delete;
+        PieGraph& operator=(PieGraph const &) = delete;
+        PieGraph(PieGraph&&)                  = delete;
+        PieGraph& operator=(PieGraph&&)       = delete;
+
         /**
          * Set the center x-coordinate.
          *

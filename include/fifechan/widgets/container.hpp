@@ -53,6 +53,11 @@ namespace fcn
 
         ~Container() override;
 
+        Container(Container const &)            = delete;
+        Container& operator=(Container const &) = delete;
+        Container(Container&&)                  = delete;
+        Container& operator=(Container&&)       = delete;
+
         /**
          * Sets the container to be opaque or not. If the container
          * is opaque its background will be drawn, if it's not opaque
@@ -152,13 +157,6 @@ namespace fcn
          * @param containerListener The container listener to remove.
          */
         void removeContainerListener(ContainerListener* containerListener);
-
-        /**
-         * Returns the children of the container.
-         *
-         * @return The children of the container.
-         */
-        std::list<Widget*> const & getChildren() const;
 
         /**
          * Gets child by index.
@@ -311,7 +309,7 @@ namespace fcn
         /**
          * The container listeners of the container.
          */
-        ContainerListenerList mContainerListeners{};
+        ContainerListenerList mContainerListeners;
 
         /**
          * Typedef.

@@ -63,6 +63,11 @@ namespace fcn
 
         ~ScrollArea() override;
 
+        ScrollArea(ScrollArea const &)            = delete;
+        ScrollArea& operator=(ScrollArea const &) = delete;
+        ScrollArea(ScrollArea&&)                  = delete;
+        ScrollArea& operator=(ScrollArea&&)       = delete;
+
         /**
          * Sets the content.
          *

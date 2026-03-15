@@ -54,6 +54,11 @@ namespace fcn
 
         ~IconProgressBar() override;
 
+        IconProgressBar(IconProgressBar const &)            = delete;
+        IconProgressBar& operator=(IconProgressBar const &) = delete;
+        IconProgressBar(IconProgressBar&&)                  = delete;
+        IconProgressBar& operator=(IconProgressBar&&)       = delete;
+
         /**
          * Draws this IconProgressBar.
          */

@@ -64,7 +64,15 @@ namespace fcn
                 mGuiDeathListener->death(event);
             }
 
-            _setFocusHandler(nullptr);
+            // Directly handle focus handler cleanup without virtual call
+            if (mFocusHandler != nullptr) {
+                releaseModalFocus();
+                if (mFocusHandler->getModalMouseInputFocused() == this) {
+                    releaseModalMouseInputFocus();
+                }
+                mFocusHandler->remove(this);
+                mFocusHandler = nullptr;
+            }
 
             mWidgetInstances.remove(this);
 

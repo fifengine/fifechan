@@ -30,6 +30,11 @@ namespace fcn
 
         ~Tab() override;
 
+        Tab(Tab const &)            = delete;
+        Tab& operator=(Tab const &) = delete;
+        Tab(Tab&&)                  = delete;
+        Tab& operator=(Tab&&)       = delete;
+
         /**
          * Sets the tabbed area the tab should be a part of.
          *

@@ -179,7 +179,7 @@ namespace fcn
         /**
          * Holds the key of the key input.
          */
-        Key mKey{};
+        Key mKey;
 
         /**
          * Holds the type of the key input.

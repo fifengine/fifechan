@@ -51,6 +51,11 @@ namespace fcn
 
         ~CheckBox() override;
 
+        CheckBox(CheckBox const &)            = delete;
+        CheckBox& operator=(CheckBox const &) = delete;
+        CheckBox(CheckBox&&)                  = delete;
+        CheckBox& operator=(CheckBox&&)       = delete;
+
         /**
          * Checks if the check box is selected.
          *
@@ -193,7 +198,7 @@ namespace fcn
         /**
          * Holds the caption of the button.
          */
-        std::string mCaption{};
+        std::string mCaption;
 
         /**
          * True if the background image was loaded internally, false otherwise.

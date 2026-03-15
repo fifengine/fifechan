@@ -56,7 +56,6 @@ namespace fcn
         Color shadowColor       = faceColor - 0x303030;
         shadowColor.a           = alpha;
 
-        Color borderColor;
         Color baseColor;
 
         if ((mTabbedArea != nullptr && mTabbedArea->isTabSelected(this)) || mHasMouse) {
@@ -67,8 +66,7 @@ namespace fcn
             graphics->setColor(shadowColor);
             graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
 
-            borderColor = highlightColor;
-            baseColor   = getBaseColor();
+            baseColor = getBaseColor();
         } else {
             // Draw a border.
             graphics->setColor(shadowColor);

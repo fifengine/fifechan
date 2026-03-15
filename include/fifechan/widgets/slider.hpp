@@ -54,6 +54,11 @@ namespace fcn
 
         ~Slider() override = default;
 
+        Slider(Slider const &)            = delete;
+        Slider& operator=(Slider const &) = delete;
+        Slider(Slider&&)                  = delete;
+        Slider& operator=(Slider&&)       = delete;
+
         /**
          * Sets the scale of the slider.
          *

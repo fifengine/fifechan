@@ -39,6 +39,11 @@ namespace fcn
 
         ~Icon() override;
 
+        Icon(Icon const &)            = delete;
+        Icon& operator=(Icon const &) = delete;
+        Icon(Icon&&)                  = delete;
+        Icon& operator=(Icon&&)       = delete;
+
         /**
          * Sets the image to display. Existing image is freed automatically
          * if it was loaded internally.

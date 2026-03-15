@@ -44,6 +44,11 @@ namespace fcn
 
         ~ListBox() override = default;
 
+        ListBox(ListBox const &)            = delete;
+        ListBox& operator=(ListBox const &) = delete;
+        ListBox(ListBox&&)                  = delete;
+        ListBox& operator=(ListBox&&)       = delete;
+
         /**
          * Gets the selected item as an index in the list model.
          *

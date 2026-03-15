@@ -38,6 +38,11 @@ namespace fcn
 
         virtual ~Text();
 
+        Text(Text const &)            = default;
+        Text& operator=(Text const &) = default;
+        Text(Text&&)                  = default;
+        Text& operator=(Text&&)       = default;
+
         /**
          * Sets the content of the text. Will completely remove
          * any previous text and reset the caret position.
@@ -271,7 +276,7 @@ namespace fcn
         /**
          * Holds the text row by row.
          */
-        std::vector<std::string> mRows{};
+        std::vector<std::string> mRows;
 
         /**
          * Holds the position of the caret. This variable should

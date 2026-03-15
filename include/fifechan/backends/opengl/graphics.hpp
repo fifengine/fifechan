@@ -40,6 +40,11 @@ namespace fcn::opengl
 
         ~Graphics() override;
 
+        Graphics(Graphics const &)            = delete;
+        Graphics& operator=(Graphics const &) = delete;
+        Graphics(Graphics&&)                  = delete;
+        Graphics& operator=(Graphics&&)       = delete;
+
         /**
          * Sets the target plane on where to draw.
          *

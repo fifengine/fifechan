@@ -33,6 +33,11 @@ namespace fcn
 
         ~Window() override;
 
+        Window(Window const &)            = delete;
+        Window& operator=(Window const &) = delete;
+        Window(Window&&)                  = delete;
+        Window& operator=(Window&&)       = delete;
+
         /**
          * Sets the caption of the window.
          *

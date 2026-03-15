@@ -35,6 +35,11 @@ namespace fcn
         virtual ~FocusHandler() = default;
         FocusHandler();
 
+        FocusHandler(FocusHandler const &)            = delete;
+        FocusHandler& operator=(FocusHandler const &) = delete;
+        FocusHandler(FocusHandler&&)                  = delete;
+        FocusHandler& operator=(FocusHandler&&)       = delete;
+
         /**
          * Requests focus for a widget. Focus will only be granted to a widget
          * if it's focusable and if no other widget has modal focus.

@@ -28,6 +28,11 @@ namespace fcn
 
         ~PasswordField() override;
 
+        PasswordField(PasswordField const &)            = delete;
+        PasswordField& operator=(PasswordField const &) = delete;
+        PasswordField(PasswordField&&)                  = delete;
+        PasswordField& operator=(PasswordField&&)       = delete;
+
         // Inherited from TextField
 
         void keyPressed(KeyEvent& keyEvent) override;

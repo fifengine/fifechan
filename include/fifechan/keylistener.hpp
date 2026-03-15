@@ -24,6 +24,11 @@ namespace fcn
     public:
         virtual ~KeyListener() = default;
 
+        KeyListener(KeyListener const &)            = default;
+        KeyListener& operator=(KeyListener const &) = default;
+        KeyListener(KeyListener&&)                  = default;
+        KeyListener& operator=(KeyListener&&)       = default;
+
         /**
          * Called if a key is pressed when the widget has keyboard focus.
          * If a key is held down the widget will generate multiple key

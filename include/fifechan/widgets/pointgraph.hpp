@@ -38,6 +38,11 @@ namespace fcn
         explicit PointGraph(PointVector data);
         ~PointGraph() override = default;
 
+        PointGraph(PointGraph const &)            = delete;
+        PointGraph& operator=(PointGraph const &) = delete;
+        PointGraph(PointGraph&&)                  = delete;
+        PointGraph& operator=(PointGraph&&)       = delete;
+
         /**
          * Sets the data to draw.
          *

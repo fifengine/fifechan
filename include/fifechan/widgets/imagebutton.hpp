@@ -67,6 +67,8 @@ namespace fcn
 
         ImageButton(ImageButton const &)            = delete;
         ImageButton& operator=(ImageButton const &) = delete;
+        ImageButton(ImageButton&&)                  = delete;
+        ImageButton& operator=(ImageButton&&)       = delete;
 
         ~ImageButton() override;
 

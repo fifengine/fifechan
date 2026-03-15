@@ -15,24 +15,19 @@
 
 namespace fcn
 {
-    ImageButton::ImageButton()
+    ImageButton::ImageButton() : mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
     {
-        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         adjustSizeImpl();
     }
 
-    ImageButton::ImageButton(std::string const & filename)
+    ImageButton::ImageButton(std::string const & filename) :
+        mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
     {
-        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         setUpImage(filename);
     }
 
-    ImageButton::ImageButton(Image const * image)
+    ImageButton::ImageButton(Image const * image) : mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
     {
-        mImages      = std::vector<Image const *>(6, static_cast<Image const *>(nullptr));
-        mOwnedImages = std::vector<std::unique_ptr<Image const>>(6);
         setUpImage(image);
     }
 

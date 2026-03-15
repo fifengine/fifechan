@@ -33,7 +33,7 @@ namespace fcn::sdl2
         std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
                                       (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
 
-        std::span<Uint8> pixels(
+        std::span<Uint8 const> const pixels(
             reinterpret_cast<Uint8*>(surface->pixels),
             static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
         size_t const idx = static_cast<size_t>(offset);
@@ -218,7 +218,7 @@ namespace fcn::sdl2
         case 1: {
             Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
 
-            SDL_Color* colors             = surface->format->palette->colors;
+            SDL_Color const * colors      = surface->format->palette->colors;
             SDL_Color const & sourceColor = colors[pixel];
             SDL_Color const & destColor   = colors[pixels[idx]];
 

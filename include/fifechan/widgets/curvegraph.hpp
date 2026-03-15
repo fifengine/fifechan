@@ -32,6 +32,11 @@ namespace fcn
 
         ~CurveGraph() override = default;
 
+        CurveGraph(CurveGraph const &)            = delete;
+        CurveGraph& operator=(CurveGraph const &) = delete;
+        CurveGraph(CurveGraph&&)                  = delete;
+        CurveGraph& operator=(CurveGraph&&)       = delete;
+
         /** Set the raw point vector used to draw the curve. */
         void setPointVector(PointVector const & data);
 

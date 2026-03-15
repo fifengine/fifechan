@@ -25,6 +25,11 @@ namespace fcn
     public:
         virtual ~Font() = default;
 
+        Font(Font const &)            = default;
+        Font& operator=(Font const &) = default;
+        Font(Font&&)                  = default;
+        Font& operator=(Font&&)       = default;
+
         /**
          * Gets the width of a string. The width of a string is not necessarily
          * the sum of all the widths of it's glyphs.
@@ -64,6 +69,9 @@ namespace fcn
          * @param y The y coordinate where to draw the string.
          */
         virtual void drawString(Graphics* graphics, std::string const & text, int x, int y) = 0;
+
+    protected:
+        Font() = default;
     };
 } // namespace fcn
 

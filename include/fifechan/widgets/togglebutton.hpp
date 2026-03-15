@@ -40,6 +40,11 @@ namespace fcn
 
         ~ToggleButton() override;
 
+        ToggleButton(ToggleButton const &)            = delete;
+        ToggleButton& operator=(ToggleButton const &) = delete;
+        ToggleButton(ToggleButton&&)                  = delete;
+        ToggleButton& operator=(ToggleButton&&)       = delete;
+
         /**
          * Checks if the check box is selected.
          *

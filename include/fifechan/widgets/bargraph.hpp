@@ -33,6 +33,11 @@ namespace fcn
 
         ~BarGraph() override = default;
 
+        BarGraph(BarGraph const &)            = delete;
+        BarGraph& operator=(BarGraph const &) = delete;
+        BarGraph(BarGraph&&)                  = delete;
+        BarGraph& operator=(BarGraph&&)       = delete;
+
         /**
          * Sets the x position of the bar.
          */
@@ -116,7 +121,7 @@ namespace fcn
         /**
          * m_rec is the rectangle that represents the bar.
          */
-        Rectangle m_rec{};
+        Rectangle m_rec;
     };
 }; // namespace fcn
 

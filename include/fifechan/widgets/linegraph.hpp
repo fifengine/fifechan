@@ -28,6 +28,11 @@ namespace fcn
 
         ~LineGraph() override = default;
 
+        LineGraph(LineGraph const &)            = delete;
+        LineGraph& operator=(LineGraph const &) = delete;
+        LineGraph(LineGraph&&)                  = delete;
+        LineGraph& operator=(LineGraph&&)       = delete;
+
         /** Set the raw point vector used to draw the graph. */
         void setPointVector(PointVector const & data);
 

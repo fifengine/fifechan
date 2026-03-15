@@ -70,6 +70,11 @@ namespace fcn
 
         virtual ~Graphics() = default;
 
+        Graphics(Graphics const &)            = delete;
+        Graphics& operator=(Graphics const &) = delete;
+        Graphics(Graphics&&)                  = delete;
+        Graphics& operator=(Graphics&&)       = delete;
+
         /**
          * Initializes drawing. Called by the Gui when Gui::draw() is called.
          * It is needed by some implementations of Graphics to perform

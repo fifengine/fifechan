@@ -49,6 +49,33 @@ namespace fcn
         Point(Point const & rhs) : val{rhs.val[0], rhs.val[1]} { }
 
         /**
+         * Move Constructor
+         */
+        Point(Point&& rhs) noexcept : val{std::move(rhs.val)} { }
+
+        /**
+         * Copy assignment
+         */
+        Point& operator=(Point const & rhs)
+        {
+            if (this != &rhs) {
+                val = rhs.val;
+            }
+            return *this;
+        }
+
+        /**
+         * Move assignment
+         */
+        Point& operator=(Point&& rhs) noexcept
+        {
+            if (this != &rhs) {
+                val = std::move(rhs.val);
+            }
+            return *this;
+        }
+
+        /**
          * Vector addition
          */
         Point operator+(Point const & p) const

@@ -37,6 +37,11 @@ namespace fcn::sdl2
 
         ~Graphics() override;
 
+        Graphics(Graphics const &)            = delete;
+        Graphics& operator=(Graphics const &) = delete;
+        Graphics(Graphics&&)                  = delete;
+        Graphics& operator=(Graphics&&)       = delete;
+
         /**
          *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
          *

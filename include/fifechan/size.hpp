@@ -27,6 +27,11 @@ namespace fcn
 
         ~Size() = default;
 
+        Size(Size const &)            = default;
+        Size& operator=(Size const &) = default;
+        Size(Size&&)                  = default;
+        Size& operator=(Size&&)       = default;
+
         /**
          * @return Width of size.
          */

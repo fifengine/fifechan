@@ -36,6 +36,11 @@ namespace fcn
 
         ~FlowContainer() override;
 
+        FlowContainer(FlowContainer const &)            = delete;
+        FlowContainer& operator=(FlowContainer const &) = delete;
+        FlowContainer(FlowContainer&&)                  = delete;
+        FlowContainer& operator=(FlowContainer&&)       = delete;
+
         /**
          * Sets the alignment of the widgets.
          *

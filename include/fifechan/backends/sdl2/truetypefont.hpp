@@ -39,6 +39,11 @@ namespace fcn::sdl2
 
         ~TrueTypeFont() override;
 
+        TrueTypeFont(TrueTypeFont const &)            = delete;
+        TrueTypeFont& operator=(TrueTypeFont const &) = delete;
+        TrueTypeFont(TrueTypeFont&&)                  = delete;
+        TrueTypeFont& operator=(TrueTypeFont&&)       = delete;
+
         /**
          * Sets the spacing between rows in pixels. Default is 0 pixels.
          * The spacing can be negative.

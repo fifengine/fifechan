@@ -22,6 +22,11 @@ namespace fcn
     public:
         virtual ~MouseListener() = default;
 
+        MouseListener(MouseListener const &)            = default;
+        MouseListener& operator=(MouseListener const &) = default;
+        MouseListener(MouseListener&&)                  = default;
+        MouseListener& operator=(MouseListener&&)       = default;
+
         /**
          * Called when the mouse has entered into the widget area.
          *

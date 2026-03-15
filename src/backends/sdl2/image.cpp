@@ -99,7 +99,10 @@ namespace fcn::sdl2
     Image::~Image()
     {
         if (mAutoFree) {
-            free();
+            SDL_FreeSurface(mTransientSurface);
+            mTransientSurface = nullptr;
+            SDL_DestroyTexture(mTexture);
+            mTexture = nullptr;
         }
     }
 

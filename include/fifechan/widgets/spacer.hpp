@@ -26,6 +26,11 @@ namespace fcn
 
         ~Spacer() override;
 
+        Spacer(Spacer const &)            = delete;
+        Spacer& operator=(Spacer const &) = delete;
+        Spacer(Spacer&&)                  = delete;
+        Spacer& operator=(Spacer&&)       = delete;
+
         // Inherited from Widget
 
         using Widget::resizeToContent;

@@ -40,6 +40,11 @@ namespace fcn
 
         ~RadioButton() override;
 
+        RadioButton(RadioButton const &)            = delete;
+        RadioButton& operator=(RadioButton const &) = delete;
+        RadioButton(RadioButton&&)                  = delete;
+        RadioButton& operator=(RadioButton&&)       = delete;
+
         /**
          * Sets the group the radio button should belong to. Note that
          * a radio button group is unique per application, not per Gui object

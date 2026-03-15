@@ -49,6 +49,11 @@ namespace fcn
 
         ~Button() override;
 
+        Button(Button const &)            = delete;
+        Button& operator=(Button const &) = delete;
+        Button(Button&&)                  = delete;
+        Button& operator=(Button&&)       = delete;
+
         /**
          * Sets the caption of the button.
          *

@@ -33,6 +33,11 @@ namespace fcn
 
         ~VisibilityEventHandler() override = default;
 
+        VisibilityEventHandler(VisibilityEventHandler const &)            = delete;
+        VisibilityEventHandler& operator=(VisibilityEventHandler const &) = delete;
+        VisibilityEventHandler(VisibilityEventHandler&&)                  = delete;
+        VisibilityEventHandler& operator=(VisibilityEventHandler&&)       = delete;
+
         /**
          * Informs gui that a widget was hidden.
          */

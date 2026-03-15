@@ -35,6 +35,11 @@ namespace fcn
 
         virtual ~Image();
 
+        Image(Image const &)            = delete;
+        Image& operator=(Image const &) = delete;
+        Image(Image&&)                  = delete;
+        Image& operator=(Image&&)       = delete;
+
         /**
          * Loads an image by using the class' image loader.
          * All image loaders implemented in FifeGUI return a newly instantiated

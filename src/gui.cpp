@@ -85,7 +85,10 @@ namespace fcn
     Gui::~Gui()
     {
         if (Widget::widgetExists(mTop)) {
-            setTop(nullptr);
+            if (mTop != nullptr) {
+                mTop->_setFocusHandler(nullptr);
+            }
+            mTop = nullptr;
         }
         Widget::_setVisibilityEventHandler(nullptr);
         Widget::_setGuiDeathListener(nullptr);
@@ -274,7 +277,7 @@ namespace fcn
         mShownWidgets.push(widget);
     }
 
-    void Gui::widgetDied(Widget* widget)
+    void Gui::widgetDied(Widget const * widget)
     {
         std::queue<Widget*> tmp;
         while (!mShownWidgets.empty()) {

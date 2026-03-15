@@ -27,6 +27,11 @@ namespace fcn
     public:
         virtual ~SelectionListener() = default;
 
+        SelectionListener(SelectionListener const &)            = default;
+        SelectionListener& operator=(SelectionListener const &) = default;
+        SelectionListener(SelectionListener&&)                  = default;
+        SelectionListener& operator=(SelectionListener&&)       = default;
+
         /**
          * Called when the value of a selection has been changed in a Widget.
          * It is used to be able to receive a notification that a value has

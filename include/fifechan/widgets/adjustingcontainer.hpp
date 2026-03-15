@@ -101,6 +101,11 @@ namespace fcn
 
         ~AdjustingContainer() override;
 
+        AdjustingContainer(AdjustingContainer const &)            = delete;
+        AdjustingContainer& operator=(AdjustingContainer const &) = delete;
+        AdjustingContainer(AdjustingContainer&&)                  = delete;
+        AdjustingContainer& operator=(AdjustingContainer&&)       = delete;
+
         /**
          * Set the number of columns to divide the widgets into.
          * The number of rows is derived automatically from the number
@@ -178,17 +183,17 @@ namespace fcn
         /**
          * Computed width for each column (in pixels).
          */
-        std::vector<unsigned int> mColumnWidths{};
+        std::vector<unsigned int> mColumnWidths;
 
         /**
          * The alignment of each column.
          */
-        std::vector<Alignment> mColumnAlignment{};
+        std::vector<Alignment> mColumnAlignment;
 
         /**
          * Computed height for each row (in pixels).
          */
-        std::vector<unsigned int> mRowHeights{};
+        std::vector<unsigned int> mRowHeights;
 
         /**
          * Cached container width used during layout.

@@ -27,6 +27,11 @@ namespace fcn
     public:
         virtual ~WidgetListener() = default;
 
+        WidgetListener(WidgetListener const &)            = default;
+        WidgetListener& operator=(WidgetListener const &) = default;
+        WidgetListener(WidgetListener&&)                  = default;
+        WidgetListener& operator=(WidgetListener&&)       = default;
+
         /**
          * Invoked when a widget changes its size.
          *
