@@ -25,6 +25,26 @@ or use its built-in SDL input handling.
 The main goal of FifeGUI is to remain lightweight, extendable,
 and powerful enough to be used in any type of game.
 
+## Screenshots
+
+### SDLWidgets Demo
+
+The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL2 backend.
+
+![SDLWidgets Demo](docs/images/tests-sdlwidgets.png)
+
+### FPS Demo
+
+A demo showcasing a custom in-game overlay for a first-person shooter game, demonstrating the flexibility of FifeGUI in creating custom interfaces and integrating with game rendering.
+
+![FPS Demo](docs/images/examples-fpsdemo.png)
+
+### FF Demo
+
+A menu in the style of the Final Fantasy series, demonstrating the flexibility of FifeGUI in creating custom interfaces.
+
+![FF Demo](docs/images/examples-ff.png)
+
 ## Downloads
 
 #### Latest Releases
