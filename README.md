@@ -7,12 +7,7 @@
 
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
-| **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
-| **Development Releases**  |   -    |    -     | [See Jobs for Build Artifacts](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
-
-FifeGUI is also already available from the following package repositories:
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
+| **Build Status** | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | Not Build | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) |
 
 ## Introduction to FifeGUI
 
@@ -38,24 +33,19 @@ You find the latest releases on [Github Releases](https://github.com/fifengine/f
 
 #### Development Releases
 
-We also provide releases for the latest successful build. You find them listed in the Continous Integration table above.
+We also provide releases for the latest successful build on Github Actions CI.
 
-## Getting involved
+#### Availability in Package Repositories
 
-If you want to get involved with the development, come join our IRC channel #fife on Freenode.
-Feel free to drop us a line there and we'll help you getting started!
+FifeGUI is also already available from the following package repositories:
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
 
 ## License
 
 FifeGUI is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
 
 ## Dev Notes
-
-## CI
-
-This repo has a multi CI setup.
-Add this to the commit message to skip all CI services: `[skip ci]`
-Add this to the commit message to skip only Appveyor: `[skip appveyor]`
 
 ## Build Dependencies
 
@@ -64,7 +54,8 @@ You need the following libraries installed:
 For OpenGL support:
  - OpenGL
 
-For SDL support:
- - SDL2 - https://libsdl.org
+For [SDL](https://libsdl.org) support:
+ - SDL2
  - SDL2_image
  - SDL2_ttf
+ - SDL2_mixer (optional) (FPS demo)
