@@ -76,13 +76,23 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
     VERBATIM
   )
 
-  fifechan_install_example(fps
-    TARGETS fps_demo
-    DIRECTORIES
-      "${CMAKE_CURRENT_SOURCE_DIR}/images"
-      "${CMAKE_CURRENT_SOURCE_DIR}/sound"
-    WINDOWS_RUNTIME_FILES ${FPS_WINDOWS_RUNTIME_FILES}
-  )
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    fifechan_install_example(fps
+      TARGETS fps_demo
+      DIRECTORIES
+        "${CMAKE_CURRENT_SOURCE_DIR}/images"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sound"
+      WINDOWS_RUNTIME_FILES ${FPS_WINDOWS_RUNTIME_FILES}
+    )
+  else()
+    fifechan_install_example(fps
+      TARGETS fps_demo
+      DIRECTORIES
+        "${CMAKE_CURRENT_SOURCE_DIR}/images"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sound"
+    )
+  endif()
+
 else()
   message(STATUS "[INFO] Skipping example 'fps': requires ENABLE_SDL+SDL2_FOUND, ENABLE_OPENGL+OPENGL_FOUND, and GLU (OPENGL_glu_LIBRARY).")
 endif()
