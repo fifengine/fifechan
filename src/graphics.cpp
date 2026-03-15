@@ -1,146 +1,77 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
-
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * For comments regarding functions please see the header file.
- */
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/graphics.hpp"
 
+#include <memory>
+#include <string>
+
+#include "fifechan/cliprectangle.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {
-    Graphics::Graphics()
-    {
-        mFont = NULL;
-    }
-
     bool Graphics::pushClipArea(Rectangle area)
     {
-        // Ignore area with a negate width or height
-        // by simple pushing an empty clip area
-        // to the stack.
-        if (area.isEmpty())
-        {
-            ClipRectangle carea;
-            mClipStack.push(carea);
+        // Ignore area with a negative width or height by pushing
+        // an empty clip area to the stack.
+        if (area.isEmpty()) {
+            ClipRectangle const clip_rect;
+            mClipStack.push(clip_rect);
             return true;
         }
-            
-        if (mClipStack.empty())
-        {
-            ClipRectangle carea;
-            carea.x = area.x;
-            carea.y = area.y;
-            carea.width = area.width;
-            carea.height = area.height;
-            carea.xOffset = area.x;
-            carea.yOffset = area.y;
-            mClipStack.push(carea);
-            return true; 
+
+        if (mClipStack.empty()) {
+            ClipRectangle clip_rect;
+            clip_rect.x       = area.x;
+            clip_rect.y       = area.y;
+            clip_rect.width   = area.width;
+            clip_rect.height  = area.height;
+            clip_rect.xOffset = area.x;
+            clip_rect.yOffset = area.y;
+            mClipStack.push(clip_rect);
+            return true;
         }
 
-        const ClipRectangle &top = mClipStack.top();
-        ClipRectangle carea;
-        carea = area;
-        carea.xOffset = top.xOffset + carea.x;
-        carea.yOffset = top.yOffset + carea.y;
-        carea.x += top.xOffset;
-        carea.y += top.yOffset;
+        ClipRectangle const & top = mClipStack.top();
+        ClipRectangle clip_rect;
+        clip_rect         = area;
+        clip_rect.xOffset = top.xOffset + clip_rect.x;
+        clip_rect.yOffset = top.yOffset + clip_rect.y;
+        clip_rect.x += top.xOffset;
+        clip_rect.y += top.yOffset;
 
-        carea = top.intersection(carea);
-        
-        mClipStack.push(carea);
-        
-        return !carea.isEmpty();
+        clip_rect = top.intersection(clip_rect);
+
+        mClipStack.push(clip_rect);
+
+        return !clip_rect.isEmpty();
     }
 
     void Graphics::popClipArea()
     {
 
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("Tried to pop clip area from empty stack.");
+        if (mClipStack.empty()) {
+            throwException("Tried to pop clip area from empty stack.");
         }
 
         mClipStack.pop();
     }
 
-    const ClipRectangle& Graphics::getCurrentClipArea()
+    ClipRectangle const & Graphics::getCurrentClipArea()
     {
-        if (mClipStack.empty())
-        {
-            throw FCN_EXCEPTION("The clip area stack is empty.");
+        if (mClipStack.empty()) {
+            throwException("The clip area stack is empty.");
         }
 
         return mClipStack.top();
     }
 
-    void Graphics::drawImage(const Image* image, int dstX, int dstY)
+    void Graphics::drawImage(Image const * image, int dstX, int dstY)
     {
         drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
@@ -150,27 +81,31 @@ namespace fcn
         mFont = font;
     }
 
-    void Graphics::drawText(const std::string& text, int x, int y,
-                            Alignment alignment)
+    std::shared_ptr<Font> Graphics::createFont(std::string const & filename, int size)
     {
-        if (mFont == NULL)
-        {
-            throw FCN_EXCEPTION("No font set.");
+        (void)filename;
+        (void)size;
+        return nullptr;
+    }
+
+    void Graphics::drawText(std::string const & text, int x, int y, Alignment alignment)
+    {
+        if (mFont == nullptr) {
+            throwException("No font set.");
         }
 
-        switch (alignment)
-        {
-          case Left:
-              mFont->drawString(this, text, x, y);
-              break;
-          case Center:
-              mFont->drawString(this, text, x - mFont->getWidth(text) / 2, y);
-              break;
-          case Right:
-              mFont->drawString(this, text, x - mFont->getWidth(text), y);
-              break;
-          default:
-              throw FCN_EXCEPTION("Unknown alignment.");
+        switch (alignment) {
+        case Alignment::Left:
+            mFont->drawString(this, text, x, y);
+            break;
+        case Alignment::Center:
+            mFont->drawString(this, text, x - (mFont->getWidth(text) / 2), y);
+            break;
+        case Alignment::Right:
+            mFont->drawString(this, text, x - mFont->getWidth(text), y);
+            break;
+        default:
+            throwException("Unknown alignment.");
         }
     }
-}
+} // namespace fcn

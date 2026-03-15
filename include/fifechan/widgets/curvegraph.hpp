@@ -1,62 +1,66 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_CURVEGRAPH_HPP
-#define FCN_CURVEGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
-
 
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC CurveGraph : public Widget {
+    /**
+     * Displays data as a smooth curve based on a vector of points.
+     *
+     * The graph can be set to be opaque or not with setOpaque.
+     * If the graph is opaque, it will be drawn with a solid color,
+     * otherwise it will be drawn with a transparent color.
+     *
+     * @ingroup graphs
+     */
+    class FIFEGUI_API CurveGraph : public Widget
+    {
     public:
-
-        /**
-         * Default constructor.
-         */
+        /** Default constructor. */
         CurveGraph();
-        CurveGraph(const PointVector& data);
-        
-        /**
-         * Destructor.
-         */
-        virtual ~CurveGraph() { };
 
-        void setPointVector(const PointVector& data);
-        const PointVector& getPointVector() const;
+        /** Construct with initial data points. */
+        explicit CurveGraph(PointVector data);
+
+        ~CurveGraph() override = default;
+
+        CurveGraph(CurveGraph const &)            = delete;
+        CurveGraph& operator=(CurveGraph const &) = delete;
+        CurveGraph(CurveGraph&&)                  = delete;
+        CurveGraph& operator=(CurveGraph&&)       = delete;
+
+        /** Set the raw point vector used to draw the curve. */
+        void setPointVector(PointVector const & data);
+
+        /** Get the current point vector. */
+        PointVector const & getPointVector() const;
+
+        /** Reset the stored data to an empty vector. */
         void resetPointVector();
 
+        /** Set stroke thickness in pixels. */
         void setThickness(unsigned int thickness);
+
+        /** Get stroke thickness in pixels. */
         unsigned int getThickness() const;
 
-        void setAutomaticControllPoints(bool acp);
-        bool isAutomaticControllPoints() const;
+        /** Enable/disable automatic computation of bezier control points. */
+        void setAutomaticControlPoints(bool acp);
+
+        /** Return whether automatic control points are enabled. */
+        bool isAutomaticControlPoints() const;
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -69,7 +73,7 @@ namespace fcn
         /**
          * Draws this widget.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
     protected:
         /** Precalculate bezier curve.
@@ -78,19 +82,30 @@ namespace fcn
 
         /** Helper that returns an interpolated Point
          */
-        Point getBezierPoint(const PointVector& points, int elements, float t);
+        Point getBezierPoint(PointVector const & points, int elements, float t);
 
         /** Helper that adds the control points for bezier curves.
          */
-        void addControlPoints(const PointVector& points, PointVector& newPoints);
+        void addControlPoints(PointVector const & points, PointVector& newPoints);
 
-        bool m_opaque;
-        bool m_acp;
-        bool m_needUpdate;
-        unsigned int m_thickness;
+        /** True if the curve is drawn opaque. */
+        bool m_opaque{false};
+
+        /** Whether automatic control points are enabled. */
+        bool m_acp{true};
+
+        /** Internal flag marking that the precalculated curve data needs update. */
+        bool m_needUpdate{false};
+
+        /** Stroke thickness in pixels. */
+        unsigned int m_thickness{1};
+
+        /** Raw input point data. */
         PointVector m_data;
+
+        /** Precalculated curve points (bezier/interpolated). */
         PointVector m_curveData;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_CURVEGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_CURVEGRAPH_HPP_

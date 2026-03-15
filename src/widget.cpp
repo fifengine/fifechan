@@ -1,72 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
-
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * For comments regarding functions please see the header file.
- */
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widget.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <list>
+#include <ranges>
+#include <string>
 
 #include "fifechan/actionevent.hpp"
 #include "fifechan/actionlistener.hpp"
@@ -76,153 +18,134 @@
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/keyinput.hpp"
 #include "fifechan/keylistener.hpp"
-#include "fifechan/mouseinput.hpp"
 #include "fifechan/mouselistener.hpp"
+#include "fifechan/rectangle.hpp"
+#include "fifechan/size.hpp"
 #include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widgetlistener.hpp"
 
-#include <algorithm>
-
 namespace fcn
 {
-    Font* Widget::mGlobalFont = NULL;
+    Font* Widget::mGlobalFont = nullptr;
     DefaultFont Widget::mDefaultFont;
     std::list<Widget*> Widget::mWidgetInstances;
-    VisibilityEventHandler* Widget::mVisibilityEventHandler = NULL;
-    DeathListener* Widget::mGuiDeathListener = NULL;
+    VisibilityEventHandler* Widget::mVisibilityEventHandler = nullptr;
+    DeathListener* Widget::mGuiDeathListener                = nullptr;
 
     Widget::Widget()
-            : mForegroundColor(0x000000),
-              mBackgroundColor(0xffffff),
-              mBaseColor(0x808090),
-              mSelectionColor(0xc3d9ff),
-              mOutlineColor(0x808090),
-              mBorderColor(0x808090),
-              mFocusHandler(NULL),
-              mInternalFocusHandler(NULL),
-              mParent(NULL),
-              mOutlineSize(0),
-              mBorderSize(0),
-              mSelectionMode(Selection_None),
-              mMarginTop(0),
-              mMarginRight(0),
-              mMarginBottom(0),
-              mMarginLeft(0),
-              mPaddingTop(0),
-              mPaddingRight(0),
-              mPaddingBottom(0),
-              mPaddingLeft(0),
-              mFocusable(false),
-              mVisible(true),
-              mTabIn(true),
-              mTabOut(true),
-              mEnabled(true),
-              mCurrentFont(NULL),
-              mMinSize(0, 0),
-              mMaxSize(50000, 50000),
-              mFixedSize(-1, -1),
-              mIsFixedSize(false),
-              mVExpand(false),
-              mHExpand(false),
-              mLastX(0),
-              mLastY(0)
     {
         mWidgetInstances.push_back(this);
     }
 
     Widget::~Widget()
     {
-        if (mParent != NULL)
-            mParent->remove(this);
+        // We're in a destructor, we can't throw.
+        // We can only catch and print the error message.
+        try {
 
-        std::list<Widget*>::const_iterator childrenIter;
-        for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); childrenIter++)
-            (*childrenIter)->_setParent(NULL);
-        
-        std::list<DeathListener*>::const_iterator deathIter;
-        for (deathIter = mDeathListeners.begin(); deathIter != mDeathListeners.end(); ++deathIter)
-        {
-            Event event(this);
-            (*deathIter)->death(event);
-        }
-        
-        if (mGuiDeathListener) {
-            Event event(this);
-            mGuiDeathListener->death(event);
-        }
-        
-        _setFocusHandler(NULL);
+            if (mParent != nullptr) {
+                mParent->remove(this);
+            }
 
-        mWidgetInstances.remove(this);
+            std::list<Widget*>::const_iterator childrenIter;
+            for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); ++childrenIter) {
+                (*childrenIter)->_setParent(nullptr);
+            }
+
+            std::list<DeathListener*>::const_iterator deathIter;
+            for (deathIter = mDeathListeners.begin(); deathIter != mDeathListeners.end(); ++deathIter) {
+                Event const event(this);
+                (*deathIter)->death(event);
+            }
+
+            if (mGuiDeathListener != nullptr) {
+                Event const event(this);
+                mGuiDeathListener->death(event);
+            }
+
+            // Directly handle focus handler cleanup without virtual call
+            if (mFocusHandler != nullptr) {
+                releaseModalFocus();
+                if (mFocusHandler->getModalMouseInputFocused() == this) {
+                    releaseModalMouseInputFocus();
+                }
+                mFocusHandler->remove(this);
+                mFocusHandler = nullptr;
+            }
+
+            mWidgetInstances.remove(this);
+
+        } catch (fcn::Exception const & e) {
+            std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
+        } catch (std::exception const & e) {
+            std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
+        } catch (...) {
+            std::cerr << "Unknown exception caught in Widget destructor" << '\n';
+        }
     }
 
     void Widget::drawOutline(Graphics* graphics)
     {
-        Color outlineColor = getOutlineColor();
-        Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-        int width = getWidth() + getOutlineSize() * 2 - 1;
-        int height = getHeight() + getOutlineSize() * 2 - 1;
-        highlightColor = outlineColor + 0x303030;
+        Color const outlineColor = getOutlineColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
+        int const width  = getWidth() + (getOutlineSize() * 2) - 1;
+        int const height = getHeight() + (getOutlineSize() * 2) - 1;
+        highlightColor   = outlineColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = outlineColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = outlineColor - 0x303030;
+        shadowColor.a    = alpha;
 
-        unsigned int i;
-        for (i = 0; i < getOutlineSize(); ++i)
-        {
+        for (unsigned int i = 0; i < getOutlineSize(); ++i) {
             graphics->setColor(shadowColor);
-            graphics->drawLine(i,i, width - i, i);
-            graphics->drawLine(i,i + 1, i, height - i - 1);
+            graphics->drawLine(i, i, width - i, i);
+            graphics->drawLine(i, i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i);
-            graphics->drawLine(i,height - i, width - i - 1, height - i);
+            graphics->drawLine(width - i, i + 1, width - i, height - i);
+            graphics->drawLine(i, height - i, width - i - 1, height - i);
         }
     }
 
     void Widget::drawBorder(Graphics* graphics)
     {
-        Color borderColor = getBorderColor();
-        Color highlightColor, shadowColor;
-        int alpha = getBaseColor().a;
-        int width = getWidth() - 1;
-        int height = getHeight() - 1;
+        Color const borderColor = getBorderColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
+        int const width  = getWidth() - 1;
+        int const height = getHeight() - 1;
 
-        highlightColor = borderColor + 0x303030;
+        highlightColor   = borderColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = borderColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = borderColor - 0x303030;
+        shadowColor.a    = alpha;
 
-        unsigned int i;
-        for (i = 0; i < getBorderSize(); ++i)
-        {
+        for (int i = 0; i < getBorderSize(); ++i) {
             graphics->setColor(shadowColor);
-            graphics->drawLine(i, i, width-i, i);
-            graphics->drawLine(i, i+1, i, height-i-1);
+            graphics->drawLine(i, i, width - i, i);
+            graphics->drawLine(i, i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width-i, i+1, width-i, height-i);
-            graphics->drawLine(i, height-i, width-i-1, height-i);
+            graphics->drawLine(width - i, i + 1, width - i, height - i);
+            graphics->drawLine(i, height - i, width - i - 1, height - i);
         }
     }
 
     void Widget::drawSelectionFrame(Graphics* graphics)
     {
-        int width = getWidth() - 1;
-        int height = getHeight() - 1;
+        int const width  = getWidth() - 1;
+        int const height = getHeight() - 1;
         graphics->setColor(getSelectionColor());
 
-        unsigned int i;
         // currently border size is used here too, not sure an extra frame size is really needed.
-        for (i = 0; i < getBorderSize(); ++i)
-        {
+        for (unsigned int i = 0; i < getBorderSize(); ++i) {
             // would be better but causes problems with OpenGL
-            //graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
-            graphics->drawLine(i, i, width-i, i);
-            graphics->drawLine(i, i+1, i, height-i-1);
-            graphics->drawLine(width-i, i+1, width-i, height-i);
-            graphics->drawLine(i, height-i, width-i-1, height-i);
+            // graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
+            graphics->drawLine(i, i, width - i, i);
+            graphics->drawLine(i, i + 1, i, height - i - 1);
+            graphics->drawLine(width - i, i + 1, width - i, height - i);
+            graphics->drawLine(i, height - i, width - i - 1, height - i);
         }
     }
 
@@ -239,7 +162,7 @@ namespace fcn
     void Widget::setWidth(int width)
     {
         Rectangle newDimension = mDimension;
-        newDimension.width = width;
+        newDimension.width     = width;
 
         setDimension(newDimension);
     }
@@ -252,7 +175,7 @@ namespace fcn
     void Widget::setHeight(int height)
     {
         Rectangle newDimension = mDimension;
-        newDimension.height = height;
+        newDimension.height    = height;
 
         setDimension(newDimension);
     }
@@ -265,7 +188,7 @@ namespace fcn
     void Widget::setX(int x)
     {
         Rectangle newDimension = mDimension;
-        newDimension.x = x;
+        newDimension.x         = x;
 
         setDimension(newDimension);
     }
@@ -278,7 +201,7 @@ namespace fcn
     void Widget::setY(int y)
     {
         Rectangle newDimension = mDimension;
-        newDimension.y = y;
+        newDimension.y         = y;
 
         setDimension(newDimension);
     }
@@ -291,38 +214,31 @@ namespace fcn
     void Widget::setPosition(int x, int y)
     {
         Rectangle newDimension = mDimension;
-        newDimension.x = x;
-        newDimension.y = y;
-        
+        newDimension.x         = x;
+        newDimension.y         = y;
+
         setDimension(newDimension);
     }
 
-    void Widget::setDimension(const Rectangle& dimension)
-    { 
-        Rectangle oldDimension = mDimension;
-        mDimension = dimension;
+    void Widget::setDimension(Rectangle const & dimension)
+    {
+        Rectangle const oldDimension = mDimension;
+        mDimension                   = dimension;
 
-        if (mDimension.width != oldDimension.width
-            || mDimension.height != oldDimension.height)
-        {
+        if (mDimension.width != oldDimension.width || mDimension.height != oldDimension.height) {
             calculateSize();
-            if (mDimension.width != oldDimension.width
-                || mDimension.height != oldDimension.height)
-            {
+            if (mDimension.width != oldDimension.width || mDimension.height != oldDimension.height) {
                 distributeResizedEvent();
             }
         }
 
-        if (mDimension.x != oldDimension.x
-            || mDimension.y != oldDimension.y)
-        {
+        if (mDimension.x != oldDimension.x || mDimension.y != oldDimension.y) {
             distributeMovedEvent();
-            
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator endChildren(mChildren.end());
-            
-            for(; currChild != endChildren; ++currChild)
-            {
+
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
+
+            for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorMovedEvent(this);
             }
         }
@@ -331,9 +247,9 @@ namespace fcn
     unsigned int Widget::getChildrenCount() const
     {
         unsigned int childs = 0;
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
-        for(; currChild != endChildren; ++currChild) {
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
+        for (; currChild != endChildren; ++currChild) {
             ++childs;
         }
         return childs;
@@ -342,9 +258,9 @@ namespace fcn
     unsigned int Widget::getVisibleChildrenCount() const
     {
         unsigned int childs = 0;
-        std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
-        for(; currChild != endChildren; ++currChild) {
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
+        for (; currChild != endChildren; ++currChild) {
             if (isVisible()) {
                 ++childs;
             }
@@ -352,64 +268,64 @@ namespace fcn
         return childs;
     }
 
-    void Widget::setMinSize(const Size& size)
+    void Widget::setMinSize(Size const & size)
     {
         mMinSize = size;
         calculateSize();
     }
 
-    const Size& Widget::getMinSize() const
+    Size const & Widget::getMinSize() const
     {
         return mMinSize;
     }
 
-    void Widget::setMaxSize(const Size& size)
+    void Widget::setMaxSize(Size const & size)
     {
         mMaxSize = size;
         calculateSize();
     }
 
-    const Size& Widget::getMaxSize() const
+    Size const & Widget::getMaxSize() const
     {
         return mMaxSize;
     }
 
-    void Widget::setFixedSize(const Size& size)
+    void Widget::setFixedSize(Size const & size)
     {
         mFixedSize = size;
         if (mFixedSize.getWidth() < 0 || mFixedSize.getHeight() < 0) {
-            mIsFixedSize = false;
+            mFixedSizeUsed = false;
         } else {
-            mIsFixedSize = true;
+            mFixedSizeUsed = true;
             calculateSize();
         }
     }
 
-    const Size& Widget::getFixedSize() const
+    Size const & Widget::getFixedSize() const
     {
         return mFixedSize;
     }
 
     bool Widget::isFixedSize() const
     {
-        return mIsFixedSize;
+        return mFixedSizeUsed;
     }
 
     void Widget::calculateSize()
     {
-        if (isFixedSize()) {
-            mDimension.width = mFixedSize.getWidth();
+        if (mFixedSizeUsed) {
+            mDimension.width  = mFixedSize.getWidth();
             mDimension.height = mFixedSize.getHeight();
             return;
         }
-        int minWidth = mMinSize.getWidth();
-        int minHeight = mMinSize.getHeight();
-        int maxWidth = mMaxSize.getWidth();
-        int maxHeight = mMaxSize.getHeight();
-        int currWidth = mDimension.width;
-        int currHeight = mDimension.height;
-        
-        mDimension.width = std::max(std::min(currWidth, maxWidth), minWidth);
+        int const minWidth   = mMinSize.getWidth();
+        int const minHeight  = mMinSize.getHeight();
+        int const maxWidth   = mMaxSize.getWidth();
+        int const maxHeight  = mMaxSize.getHeight();
+        int const currWidth  = mDimension.width;
+        int const currHeight = mDimension.height;
+
+        mDimension.width  = std::max(std::min(currWidth, maxWidth), minWidth);
         mDimension.height = std::max(std::min(currHeight, maxHeight), minHeight);
     }
 
@@ -436,7 +352,7 @@ namespace fcn
     void Widget::adaptLayout(bool top)
     {
         Widget* widget = this;
-        while (widget->getParent() && top) {
+        while ((widget->getParent() != nullptr) && top) {
             Widget* parent = widget->getParent();
             if (!parent->isLayouted()) {
                 break;
@@ -469,10 +385,10 @@ namespace fcn
 
     void Widget::setMargin(int margin)
     {
-        mMarginTop = margin;
-        mMarginRight = margin;
+        mMarginTop    = margin;
+        mMarginRight  = margin;
         mMarginBottom = margin;
-        mMarginLeft = margin;
+        mMarginLeft   = margin;
     }
 
     void Widget::setMarginTop(int margin)
@@ -517,10 +433,10 @@ namespace fcn
 
     void Widget::setPadding(unsigned int padding)
     {
-        mPaddingTop = padding;
-        mPaddingRight = padding;
+        mPaddingTop    = padding;
+        mPaddingRight  = padding;
         mPaddingBottom = padding;
-        mPaddingLeft = padding;
+        mPaddingLeft   = padding;
     }
 
     void Widget::setPaddingTop(unsigned int padding)
@@ -563,25 +479,24 @@ namespace fcn
         return mPaddingLeft;
     }
 
-    const Rectangle& Widget::getDimension() const
+    Rectangle const & Widget::getDimension() const
     {
         return mDimension;
     }
 
-    const std::string& Widget::getActionEventId() const
+    std::string const & Widget::getActionEventId() const
     {
         return mActionEventId;
     }
 
-    void Widget::setActionEventId(const std::string& actionEventId)
+    void Widget::setActionEventId(std::string const & actionEventId)
     {
         mActionEventId = actionEventId;
     }
 
     bool Widget::isFocused() const
     {
-        if (!mFocusHandler)
-        {
+        if (mFocusHandler == nullptr) {
             return false;
         }
 
@@ -590,8 +505,7 @@ namespace fcn
 
     void Widget::setFocusable(bool focusable)
     {
-        if (!focusable && isFocused())
-        {
+        if (!focusable && isFocused()) {
             mFocusHandler->focusNone();
         }
 
@@ -605,130 +519,131 @@ namespace fcn
 
     void Widget::requestFocus()
     {
-        if (mFocusHandler == NULL)
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
+        }
 
-        if (isFocusable())
+        if (isFocusable()) {
             mFocusHandler->requestFocus(this);
+        }
     }
 
     void Widget::requestMoveToTop()
     {
-        if (mParent != NULL)
+        if (mParent != nullptr) {
             mParent->moveToTop(this);
+        }
     }
 
     void Widget::requestMoveToBottom()
     {
-        if (mParent != NULL)
+        if (mParent != nullptr) {
             mParent->moveToBottom(this);
+        }
     }
 
     void Widget::setVisible(bool visible)
-    {   
-        VisibilityEventHandler *visibilityEventHandler = _getVisibilityEventHandler();
-        
-        if (!visible && isFocused())
+    {
+        VisibilityEventHandler* visibilityEventHandler = _getVisibilityEventHandler();
+
+        if (!visible && isFocused()) {
             mFocusHandler->focusNone();
-        
-        if (visible)
-        {
+        }
+
+        if (visible) {
             visibilityEventHandler->widgetShown(Event(this));
             distributeShownEvent();
-            
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator endChildren(mChildren.end());
-            
-            for(; currChild != endChildren; ++currChild)
-            {
+
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
+
+            for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorShownEvent(this);
             }
-        }
-        else if(!visible)
-        {
+        } else {
             visibilityEventHandler->widgetHidden(Event(this));
             distributeHiddenEvent();
-            
-            std::list<Widget*>::iterator currChild(mChildren.begin());
-            std::list<Widget*>::iterator endChildren(mChildren.end());
-            
-            for(; currChild != endChildren; ++currChild)
-            {
+
+            auto currChild(mChildren.begin());
+            auto const endChildren(mChildren.end());
+
+            for (; currChild != endChildren; ++currChild) {
                 (*currChild)->distributeAncestorHiddenEvent(this);
             }
         }
-        
+
         mVisible = visible;
     }
 
     bool Widget::isVisible() const
     {
-        if (getParent() == NULL)
+        if (getParent() == nullptr) {
             return mVisible;
-        else
-            return mVisible && getParent()->isVisible();
+        }
+        return mVisible && getParent()->isVisible();
     }
 
-    bool Widget::isSetVisible() const {
+    bool Widget::isSetVisible() const
+    {
         return mVisible;
     }
 
-    void Widget::setBaseColor(const Color& color)
+    void Widget::setBaseColor(Color const & color)
     {
         mBaseColor = color;
     }
 
-    const Color& Widget::getBaseColor() const
+    Color const & Widget::getBaseColor() const
     {
         return mBaseColor;
     }
 
-    void Widget::setForegroundColor(const Color& color)
+    void Widget::setForegroundColor(Color const & color)
     {
         mForegroundColor = color;
     }
 
-    const Color& Widget::getForegroundColor() const
+    Color const & Widget::getForegroundColor() const
     {
         return mForegroundColor;
     }
 
-    void Widget::setBackgroundColor(const Color& color)
+    void Widget::setBackgroundColor(Color const & color)
     {
         mBackgroundColor = color;
     }
 
-    const Color& Widget::getBackgroundColor() const
+    Color const & Widget::getBackgroundColor() const
     {
         return mBackgroundColor;
     }
 
-    void Widget::setSelectionColor(const Color& color)
+    void Widget::setSelectionColor(Color const & color)
     {
         mSelectionColor = color;
     }
 
-    const Color& Widget::getSelectionColor() const
+    Color const & Widget::getSelectionColor() const
     {
         return mSelectionColor;
-    }    
-    
-    void Widget::setOutlineColor(const Color& color)
+    }
+
+    void Widget::setOutlineColor(Color const & color)
     {
         mOutlineColor = color;
     }
 
-    const Color& Widget::getOutlineColor() const
+    Color const & Widget::getOutlineColor() const
     {
         return mOutlineColor;
     }
 
-    void Widget::setBorderColor(const Color& color)
+    void Widget::setBorderColor(Color const & color)
     {
         mBorderColor = color;
     }
 
-    const Color& Widget::getBorderColor() const
+    Color const & Widget::getBorderColor() const
     {
         return mBorderColor;
     }
@@ -737,7 +652,7 @@ namespace fcn
     {
         mSelectionMode = mode;
     }
-    
+
     Widget::SelectionMode Widget::getSelectionMode() const
     {
         return mSelectionMode;
@@ -745,8 +660,7 @@ namespace fcn
 
     void Widget::_setFocusHandler(FocusHandler* focusHandler)
     {
-        if (mFocusHandler)
-        {
+        if (mFocusHandler != nullptr) {
             releaseModalFocus();
             if (mFocusHandler->getModalMouseInputFocused() == this) {
                 releaseModalMouseInputFocus();
@@ -754,19 +668,21 @@ namespace fcn
             mFocusHandler->remove(this);
         }
 
-        if (focusHandler)
+        if (focusHandler != nullptr) {
             focusHandler->add(this);
+        }
 
         mFocusHandler = focusHandler;
 
-        if (mInternalFocusHandler != NULL)
+        if (mInternalFocusHandler != nullptr) {
             return;
+        }
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            if (widgetExists(*iter))
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            if (widgetExists(*iter)) {
                 (*iter)->_setFocusHandler(focusHandler);
+            }
         }
     }
 
@@ -774,22 +690,22 @@ namespace fcn
     {
         return mFocusHandler;
     }
-    
+
     void Widget::_setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler)
-    { 
-        mVisibilityEventHandler = visibilityEventHandler;    
+    {
+        mVisibilityEventHandler = visibilityEventHandler;
     }
-    
+
     VisibilityEventHandler* Widget::_getVisibilityEventHandler()
     {
         return mVisibilityEventHandler;
     }
 
     void Widget::_setGuiDeathListener(DeathListener* deathListener)
-    { 
+    {
         mGuiDeathListener = deathListener;
     }
-    
+
     DeathListener* Widget::_getGuiDeathListener()
     {
         return mGuiDeathListener;
@@ -857,8 +773,7 @@ namespace fcn
 
     void Widget::getAbsolutePosition(int& x, int& y) const
     {
-        if (getParent() == NULL)
-        {
+        if (getParent() == nullptr) {
             if (isLastPositionSet()) {
                 x = mLastX;
                 y = mLastY;
@@ -869,8 +784,8 @@ namespace fcn
             return;
         }
 
-        int parentX;
-        int parentY;
+        int parentX = 0;
+        int parentY = 0;
 
         getParent()->getAbsolutePosition(parentX, parentY);
 
@@ -880,10 +795,10 @@ namespace fcn
 
     Font* Widget::getFont() const
     {
-        if (mCurrentFont == NULL)
-        {
-            if (mGlobalFont == NULL)
+        if (mCurrentFont == nullptr) {
+            if (mGlobalFont == nullptr) {
                 return &mDefaultFont;
+            }
 
             return mGlobalFont;
         }
@@ -896,10 +811,10 @@ namespace fcn
         mGlobalFont = font;
 
         std::list<Widget*>::iterator iter;
-        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter)
-        {
-            if ((*iter)->mCurrentFont == NULL)
+        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter) {
+            if ((*iter)->mCurrentFont == nullptr) {
                 (*iter)->fontChanged();
+            }
         }
     }
 
@@ -909,16 +824,12 @@ namespace fcn
         fontChanged();
     }
 
-    bool Widget::widgetExists(const Widget* widget)
+    bool Widget::widgetExists(Widget const * widget)
     {
-        std::list<Widget*>::const_iterator iter;
-        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter)
-        {
-            if (*iter == widget)
-                return true;
-        }
-
-        return false;
+        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget* w) {
+            return w == widget;
+        });
+        return iter != mWidgetInstances.end();
     }
 
     bool Widget::isTabInEnabled() const
@@ -944,8 +855,8 @@ namespace fcn
     void Widget::setSize(int width, int height)
     {
         Rectangle newDimension = mDimension;
-        newDimension.width = width;
-        newDimension.height = height;
+        newDimension.width     = width;
+        newDimension.height    = height;
 
         setDimension(newDimension);
     }
@@ -960,63 +871,68 @@ namespace fcn
         return mEnabled && isVisible();
     }
 
-    bool Widget::isModalFocusable() const {
-        if (mFocusHandler == NULL) {
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+    bool Widget::isModalFocusable() const
+    {
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
             return false;
         }
-        return mFocusHandler->getModalFocused() == NULL;
+        return mFocusHandler->getModalFocused() == nullptr;
     }
 
-    bool Widget::isModalMouseInputFocusable() const {
-        if (mFocusHandler == NULL) {
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+    bool Widget::isModalMouseInputFocusable() const
+    {
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
             return false;
         }
-        return mFocusHandler->getModalMouseInputFocused() == NULL;
+        return mFocusHandler->getModalMouseInputFocused() == nullptr;
     }
 
     void Widget::requestModalFocus()
     {
-        if (mFocusHandler == NULL)
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
+        }
 
         mFocusHandler->requestModalFocus(this);
     }
 
     void Widget::requestModalMouseInputFocus()
     {
-        if (mFocusHandler == NULL)
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
+        }
 
         mFocusHandler->requestModalMouseInputFocus(this);
     }
 
     void Widget::releaseModalFocus()
     {
-        if (mFocusHandler == NULL)
+        if (mFocusHandler == nullptr) {
             return;
+        }
 
         mFocusHandler->releaseModalFocus(this);
     }
 
     void Widget::releaseModalMouseInputFocus()
     {
-        if (mFocusHandler == NULL)
+        if (mFocusHandler == nullptr) {
             return;
+        }
 
         mFocusHandler->releaseModalMouseInputFocus(this);
     }
 
     bool Widget::isModalFocused() const
     {
-        if (mFocusHandler == NULL)
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
+        }
 
-        if (getParent() != NULL)
-        {
-            return (mFocusHandler->getModalFocused() == this) 
-                || getParent()->isModalFocused();
+        if (getParent() != nullptr) {
+            return (mFocusHandler->getModalFocused() == this) || getParent()->isModalFocused();
         }
 
         return mFocusHandler->getModalFocused() == this;
@@ -1024,58 +940,58 @@ namespace fcn
 
     bool Widget::isModalMouseInputFocused() const
     {
-        if (mFocusHandler == NULL)
-            throw FCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
+        if (mFocusHandler == nullptr) {
+            throwException("No focus handler is set (did you add the widget to the GUI?)");
+        }
 
-        if (getParent() != NULL)
-        {
-            return (mFocusHandler->getModalMouseInputFocused() == this) 
-                || getParent()->isModalMouseInputFocused();
+        if (getParent() != nullptr) {
+            return (mFocusHandler->getModalMouseInputFocused() == this) || getParent()->isModalMouseInputFocused();
         }
 
         return mFocusHandler->getModalMouseInputFocused() == this;
     }
 
-    Widget *Widget::getWidgetAt(int x, int y, Widget* exclude)
+    Widget* Widget::getWidgetAt(int x, int y, Widget* exclude)
     {
-        Rectangle r = getChildrenArea();
+        Rectangle const r = getChildrenArea();
 
-        if (!r.isContaining(x, y))
-            return NULL;
+        if (!r.isContaining(x, y)) {
+            return nullptr;
+        }
 
         x -= r.x;
         y -= r.y;
 
         std::list<Widget*>::reverse_iterator iter;
-        for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++)
-        {
+        for (iter = mChildren.rbegin(); iter != mChildren.rend(); ++iter) {
             Widget* widget = (*iter);
-            
-            if (widget != exclude && widget->isVisible() && widget->getDimension().isContaining(x, y))
+
+            if (widget != exclude && widget->isVisible() && widget->getDimension().isContaining(x, y)) {
                 return widget;
+            }
         }
 
-        return NULL;
+        return nullptr;
     }
 
-    const std::list<MouseListener*>& Widget::_getMouseListeners()
+    std::list<MouseListener*> const & Widget::_getMouseListeners()
     {
         return mMouseListeners;
     }
 
-    const std::list<KeyListener*>& Widget::_getKeyListeners()
+    std::list<KeyListener*> const & Widget::_getKeyListeners()
     {
         return mKeyListeners;
     }
 
-    const std::list<FocusListener*>& Widget::_getFocusListeners()
+    std::list<FocusListener*> const & Widget::_getFocusListeners()
     {
         return mFocusListeners;
     }
 
     Rectangle Widget::getChildrenArea()
     {
-        return Rectangle(0, 0, 0, 0);
+        return {0, 0, 0, 0};
     }
 
     FocusHandler* Widget::_getInternalFocusHandler()
@@ -1088,21 +1004,21 @@ namespace fcn
         mInternalFocusHandler = focusHandler;
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            if (mInternalFocusHandler == NULL)
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            if (mInternalFocusHandler == nullptr) {
                 (*iter)->_setFocusHandler(_getFocusHandler());
-            else
+            } else {
                 (*iter)->_setFocusHandler(mInternalFocusHandler);
+            }
         }
     }
 
-    void Widget::setId(const std::string& id)
+    void Widget::setId(std::string const & id)
     {
         mId = id;
     }
 
-    const std::string& Widget::getId() const
+    std::string const & Widget::getId() const
     {
         return mId;
     }
@@ -1110,9 +1026,8 @@ namespace fcn
     void Widget::distributeResizedEvent()
     {
         std::list<WidgetListener*>::const_iterator iter;
-        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter)
-        {
-            Event event(this);
+        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter) {
+            Event const event(this);
             (*iter)->widgetResized(event);
         }
     }
@@ -1120,9 +1035,8 @@ namespace fcn
     void Widget::distributeMovedEvent()
     {
         std::list<WidgetListener*>::const_iterator iter;
-        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter)
-        {
-            Event event(this);
+        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter) {
+            Event const event(this);
             (*iter)->widgetMoved(event);
         }
     }
@@ -1130,75 +1044,68 @@ namespace fcn
     void Widget::distributeHiddenEvent()
     {
         std::list<WidgetListener*>::const_iterator iter;
-        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter)
-        {
-            Event event(this);
+        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter) {
+            Event const event(this);
             (*iter)->widgetHidden(event);
         }
     }
-    
+
     void Widget::distributeAncestorMovedEvent(Widget* ancestor)
     {
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
-        Event event(ancestor);
-        
-        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
-        {
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
+        Event const event(ancestor);
+
+        for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorMoved(event);
         }
-        
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
-        
-        for(; currChild != endChildren; ++currChild)
-        {
+
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
+
+        for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorMovedEvent(ancestor);
         }
     }
-    
+
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
-        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetHidden(Event(this));
 
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
-        Event event(ancestor);
-        
-        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
-        {
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
+        Event const event(ancestor);
+
+        for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorHidden(event);
         }
-        
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
-        
-        for(; currChild != endChildren; ++currChild)
-        {
+
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
+
+        for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorHiddenEvent(ancestor);
         }
     }
-    
+
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
-        // additonal call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
+        // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
         _getVisibilityEventHandler()->widgetShown(Event(this));
 
-        std::list<WidgetListener*>::iterator currWidgetListener(mWidgetListeners.begin());
-        std::list<WidgetListener*>::iterator endWidgetListeners(mWidgetListeners.end());
-        Event event(ancestor);
-        
-        for(; currWidgetListener != endWidgetListeners; ++currWidgetListener)
-        {
+        auto currWidgetListener(mWidgetListeners.begin());
+        auto const endWidgetListeners(mWidgetListeners.end());
+        Event const event(ancestor);
+
+        for (; currWidgetListener != endWidgetListeners; ++currWidgetListener) {
             (*currWidgetListener)->ancestorShown(event);
         }
-        
-        std::list<Widget*>::iterator currChild(mChildren.begin());
-        std::list<Widget*>::iterator endChildren(mChildren.end());
-        
-        for(; currChild != endChildren; ++currChild)
-        {
+
+        auto currChild(mChildren.begin());
+        auto const endChildren(mChildren.end());
+
+        for (; currChild != endChildren; ++currChild) {
             (*currChild)->distributeAncestorShownEvent(ancestor);
         }
     }
@@ -1206,9 +1113,8 @@ namespace fcn
     void Widget::distributeActionEvent()
     {
         std::list<ActionListener*>::const_iterator iter;
-        for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter)
-        {
-            ActionEvent actionEvent(this, mActionEventId);
+        for (iter = mActionListeners.begin(); iter != mActionListeners.end(); ++iter) {
+            ActionEvent const actionEvent(this, mActionEventId);
             (*iter)->action(actionEvent);
         }
     }
@@ -1216,29 +1122,29 @@ namespace fcn
     void Widget::distributeShownEvent()
     {
         std::list<WidgetListener*>::const_iterator iter;
-        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter)
-        {
-            Event event(this);
+        for (iter = mWidgetListeners.begin(); iter != mWidgetListeners.end(); ++iter) {
+            Event const event(this);
             (*iter)->widgetShown(event);
         }
     }
 
     void Widget::showPart(Rectangle rectangle)
     {
-        if (mParent != NULL)
-            mParent->showWidgetPart(this, rectangle);               
+        if (mParent != nullptr) {
+            mParent->showWidgetPart(this, rectangle);
+        }
     }
 
     Widget* Widget::getTop() const
     {
-        if (getParent() == NULL)
-            return NULL;
+        if (getParent() == nullptr) {
+            return nullptr;
+        }
 
         Widget* widget = getParent();
         Widget* parent = getParent()->getParent();
-        
-        while (parent != NULL)
-        {
+
+        while (parent != nullptr) {
             widget = parent;
             parent = parent->getParent();
         }
@@ -1246,17 +1152,16 @@ namespace fcn
         return widget;
     }
 
-    std::list<Widget*> Widget::getWidgetsIn(const Rectangle& area, 
-                                            Widget* ignore)
+    std::list<Widget*> Widget::getWidgetsIn(Rectangle const & area, Widget* ignore)
     {
         std::list<Widget*> result;
-        
+
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
-            if (ignore != widget && widget->getDimension().isIntersecting(area))
+            if (ignore != widget && widget->getDimension().isIntersecting(area)) {
                 result.push_back(widget);
+            }
         }
 
         return result;
@@ -1264,75 +1169,77 @@ namespace fcn
 
     void Widget::resizeToChildren()
     {
-        int w = 0, h = 0;
+        int w = 0;
+        int h = 0;
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
-            if (widget->getX() + widget->getWidth() > w)
-                w = widget->getX() + widget->getWidth();
-
-            if (widget->getY() + widget->getHeight() > h)
-                h = widget->getY() + widget->getHeight();
+            w              = std::max(widget->getX() + widget->getWidth(), w);
+            h              = std::max(widget->getY() + widget->getHeight(), h);
         }
 
         setSize(w, h);
     }
 
-    Widget* Widget::findWidgetById(const std::string& id)
+    Widget* Widget::findWidgetById(std::string const & id)
     {
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
-           
-            if (widget->getId() == id)
+
+            if (widget->getId() == id) {
                 return widget;
-            
-            Widget *child = widget->findWidgetById(id);
-            
-            if (child != NULL)
+            }
+
+            Widget* child = widget->findWidgetById(id);
+
+            if (child != nullptr) {
                 return child;
+            }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     void Widget::showWidgetPart(Widget* widget, Rectangle area)
     {
-        Rectangle widgetArea = getChildrenArea();
+        Rectangle const widgetArea = getChildrenArea();
 
         area.x += widget->getX();
         area.y += widget->getY();
-        
-        if (area.x + area.width > widgetArea.width)
+
+        if (area.x + area.width > widgetArea.width) {
             widget->setX(widget->getX() - area.x - area.width + widgetArea.width);
+        }
 
-        if (area.y + area.height > widgetArea.height)
+        if (area.y + area.height > widgetArea.height) {
             widget->setY(widget->getY() - area.y - area.height + widgetArea.height);
+        }
 
-        if (area.x < 0)
+        if (area.x < 0) {
             widget->setX(widget->getX() - area.x);
+        }
 
-        if (area.y < 0)
+        if (area.y < 0) {
             widget->setY(widget->getY() - area.y);
+        }
     }
 
-    void Widget::clear()
+    void Widget::removeAllChildren()
     {
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             Widget* widget = (*iter);
-            int x = 0;
-            int y = 0;
+            int x          = 0;
+            int y          = 0;
             widget->getAbsolutePosition(x, y);
             widget->setLastPosition(x, y);
-            widget->_setFocusHandler(NULL);
-            widget->_setParent(NULL);
+            widget->_setFocusHandler(nullptr);
+            widget->_setParent(nullptr);
             // thats more a hack but needed
-            if (_getVisibilityEventHandler())
+            if (_getVisibilityEventHandler() != nullptr) {
                 _getVisibilityEventHandler()->widgetHidden(Event(widget));
+            }
         }
 
         mChildren.clear();
@@ -1340,51 +1247,54 @@ namespace fcn
 
     void Widget::remove(Widget* widget)
     {
-        std::list<Widget*>::iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            if (*iter == widget)
-            {
-                int x = 0;
-                int y = 0;
-                widget->getAbsolutePosition(x, y);
-                widget->setLastPosition(x, y);
-                mChildren.erase(iter);
-                widget->_setFocusHandler(NULL);
-                widget->_setParent(NULL);
-                // thats more a hack but needed
-                if (_getVisibilityEventHandler())
-                    _getVisibilityEventHandler()->widgetHidden(Event(widget));
-                return;
+        auto it = std::ranges::find(mChildren, widget);
+
+        if (it == std::ranges::end(mChildren)) {
+            throwException("There is no such widget in this container.");
+        } else {
+            int x = 0;
+            int y = 0;
+            widget->getAbsolutePosition(x, y);
+            widget->setLastPosition(x, y);
+
+            mChildren.erase(it);
+
+            widget->_setFocusHandler(nullptr);
+            widget->_setParent(nullptr);
+
+            // TODO thats more a hack but needed
+            if (_getVisibilityEventHandler() != nullptr) {
+                _getVisibilityEventHandler()->widgetHidden(Event(widget));
             }
         }
-
-        throw FCN_EXCEPTION("There is no such widget in this container.");
     }
 
     void Widget::add(Widget* widget)
     {
         mChildren.push_back(widget);
 
-        if (mInternalFocusHandler == NULL)
+        if (mInternalFocusHandler == nullptr) {
             widget->_setFocusHandler(_getFocusHandler());
-        else
+        } else {
             widget->_setFocusHandler(mInternalFocusHandler);
+        }
 
         widget->_setParent(this);
         setLastPosition(0, 0);
         // thats more a hack but needed
-        if (_getVisibilityEventHandler())
+        if (_getVisibilityEventHandler() != nullptr) {
             _getVisibilityEventHandler()->widgetShown(Event(widget));
+        }
     }
 
     void Widget::moveToTop(Widget* widget)
     {
         std::list<Widget*>::iterator iter;
-        iter = std::find(mChildren.begin(), mChildren.end(), widget);
+        iter = std::ranges::find(mChildren, widget);
 
-        if (iter == mChildren.end())
-            throw FCN_EXCEPTION("There is no such widget in this widget.");
+        if (iter == mChildren.end()) {
+            throwException("There is no such widget in this widget.");
+        }
 
         mChildren.remove(widget);
         mChildren.push_back(widget);
@@ -1393,10 +1303,11 @@ namespace fcn
     void Widget::moveToBottom(Widget* widget)
     {
         std::list<Widget*>::iterator iter;
-        iter = find(mChildren.begin(), mChildren.end(), widget);
+        iter = std::ranges::find(mChildren, widget);
 
-        if (iter == mChildren.end())
-            throw FCN_EXCEPTION("There is no such widget in this widget.");
+        if (iter == mChildren.end()) {
+            throwException("There is no such widget in this widget.");
+        }
 
         mChildren.remove(widget);
         mChildren.push_front(widget);
@@ -1404,67 +1315,63 @@ namespace fcn
 
     void Widget::focusNext()
     {
-        std::list<Widget*>::const_iterator iter;
-
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-        {
-            if ((*iter)->isFocused())
-                break;
+        if (mChildren.empty()) {
+            return;
         }
 
-        std::list<Widget*>::const_iterator end = iter;
-        
-        if (iter == mChildren.end())
-            iter = mChildren.begin();
+        auto focused = std::ranges::find_if(mChildren, [](auto* w) {
+            return w->isFocused();
+        });
 
-        iter++;
+        auto next = (focused == std::ranges::end(mChildren)) ? std::ranges::begin(mChildren) : std::next(focused);
 
-        for (; iter != end; iter++)
-        {
-            if (iter == mChildren.end())
-                iter = mChildren.begin();
+        auto it = std::ranges::find_if(next, std::ranges::end(mChildren), [](auto* w) {
+            return w->isFocusable();
+        });
 
-            if ((*iter)->isFocusable())
-            {
-                (*iter)->requestFocus();
-                return;
-            }
+        if (it == std::ranges::end(mChildren)) {
+            it = std::ranges::find_if(std::ranges::begin(mChildren), next, [](auto* w) {
+                return w->isFocusable();
+            });
+        }
+
+        if (it != next) {
+            (*it)->requestFocus();
         }
     }
 
     void Widget::focusPrevious()
     {
-        std::list<Widget*>::reverse_iterator iter;
-
-        for (iter = mChildren.rbegin(); iter != mChildren.rend(); iter++)
-        {
-            if ((*iter)->isFocused())
-                break;
+        if (mChildren.empty()) {
+            return;
         }
 
-        std::list<Widget*>::reverse_iterator end = iter;
-        iter++;
+        auto rev = std::ranges::reverse_view(mChildren);
 
-        if (iter == mChildren.rend())
-            iter = mChildren.rbegin();
+        auto focused = std::ranges::find_if(rev, [](auto* w) {
+            return w->isFocused();
+        });
 
-        for (; iter != end; iter++)
-        {
-            if (iter == mChildren.rend())
-                iter = mChildren.rbegin();
+        auto next = (focused == std::ranges::end(rev)) ? std::ranges::begin(rev) : std::next(focused);
 
-            if ((*iter)->isFocusable())
-            {
-                (*iter)->requestFocus();
-                return;
-            }
+        auto rit = std::ranges::find_if(next, std::ranges::end(rev), [](auto* w) {
+            return w->isFocusable();
+        });
+
+        if (rit == std::ranges::end(rev)) {
+            rit = std::ranges::find_if(std::ranges::begin(rev), next, [](auto* w) {
+                return w->isFocusable();
+            });
+        }
+
+        if (rit != next) {
+            (*rit)->requestFocus();
         }
     }
 
     void Widget::_draw(Graphics* graphics)
     {
-        if (mOutlineSize > 0)
-        {
+        if (mOutlineSize > 0) {
             Rectangle rec = mDimension;
             rec.x -= mOutlineSize;
             rec.y -= mOutlineSize;
@@ -1479,18 +1386,16 @@ namespace fcn
         draw(graphics);
 
         if (!mChildren.empty()) {
-            const Rectangle& childrenArea = getChildrenArea();
+            Rectangle const & childrenArea = getChildrenArea();
             graphics->pushClipArea(childrenArea);
 
-            std::list<Widget*>::const_iterator iter;
-            for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
-            {
-                Widget* widget = (*iter);
-                // Only draw a widget if it's visible and if it visible
-                // inside the children area.
-                //if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension()))
-                if (widget->isVisible())
+            for (auto* widget : mChildren) {
+                // Only draw a widget:
+                // if it's visible
+                // and inside the children area.
+                if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension())) {
                     widget->_draw(graphics);
+                }
             }
             graphics->popClipArea();
         }
@@ -1502,26 +1407,30 @@ namespace fcn
         logic();
 
         std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
+        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             (*iter)->_logic();
+        }
     }
 
-    const std::list<Widget*>& Widget::getChildren() const
+    std::list<Widget*> const & Widget::getChildren() const
     {
         return mChildren;
     }
 
-    void Widget::getLastPosition(int& x, int& y) const {
+    void Widget::getLastPosition(int& x, int& y) const
+    {
         x = mLastX;
         y = mLastY;
     }
 
-    void Widget::setLastPosition(int x, int y) {
+    void Widget::setLastPosition(int x, int y)
+    {
         mLastX = x;
         mLastY = y;
     }
 
-    bool Widget::isLastPositionSet() const {
+    bool Widget::isLastPositionSet() const
+    {
         return mLastX != 0 || mLastY != 0;
     }
-}
+} // namespace fcn

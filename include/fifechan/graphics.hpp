@@ -1,72 +1,15 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_GRAPHICS_HPP_
+#define INCLUDE_FIFECHAN_GRAPHICS_HPP_
 
-#ifndef FCN_GRAPHICS_HPP
-#define FCN_GRAPHICS_HPP
-
+#include <cstdint>
 #include <iosfwd>
+#include <memory>
 #include <stack>
+#include <string>
 
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/platform.hpp"
@@ -79,61 +22,58 @@ namespace fcn
     class Image;
 
     /**
-     * Abstract class for providing drawing primitve functions. 
+     * Abstract interface providing primitive drawing functions (lines, rectangles, etc.).
+     *
      * It contains all vital functions for drawing.
      *
-     * Guichan contains implementations of Graphics for common 
-     * libraries like the Allegro library, the HGE library, 
-     * the OpenGL library, the OpenLayer library, and the SDL library. 
-     * To make Guichan usable with other libraries, a Graphics class
-     * must be implemented.
+     * FifeGUI contains implementations of Graphics for common
+     * libraries like the OpenGL library and the SDL library.
+     * If you want to use FifeGUI with another library you will have
+     * to implement a Graphics class for that library.
      *
      * In Graphics you can set clip areas to limit drawing to certain
-     * areas of the screen. Clip areas are put on a stack, which 
-     * means that you can push smaller and smaller clip areas onto the 
-     * stack. All coordinates will be relative to the top most clip area. 
-     * In most cases you won't have to worry about the clip areas, 
-     * unless you want to implement some really complex widget. 
-     * Pushing and poping of clip areas are handled automatically by 
+     * areas of the screen. Clip areas are put on a stack, which
+     * means that you can push smaller and smaller clip areas onto the
+     * stack. All coordinates will be relative to the top most clip area.
+     * In most cases you won't have to worry about the clip areas,
+     * unless you want to implement some really complex widget.
+     * Pushing and poping of clip areas are handled automatically by
      * container widgets when their child widgets are drawn.
      *
      * IMPORTANT: Remember to pop each clip area that you pushed on the stack
      * after you are done with it.
      *
-     * If you feel that Graphics is to restrictive for your needs, 
-     * there is no one stopping you from using your own code for drawing 
-     * in widgets. You could for instance use pure SDL in the drawing of 
-     * widgets bypassing Graphics. This might however hurt portability of 
+     * If you feel that Graphics is to restrictive for your needs,
+     * there is no one stopping you from using your own code for drawing
+     * in widgets. You could for instance use pure SDL in the drawing of
+     * widgets bypassing Graphics. This might however hurt portability of
      * your application.
      *
-     * If you implement a Graphics class not present in Guichan we would 
-     * be very happy to add it to Guichan.
+     * @see OpenGLGraphics, SDLGraphics, Image
      *
-     * @see AllegroGraphics, HGEGraphics, OpenLayerGraphics, OpenGLGraphics, 
-     *      SDLGraphics, Image
+     * @ingroup graphics
      */
-    class FCN_CORE_DECLSPEC Graphics
+    class FIFEGUI_API Graphics
     {
     public:
         /**
          * Alignments for text drawing.
          */
-        enum Alignment
+        enum class Alignment : uint8_t
         {
             Left = 0,
             Center,
             Right
         };
 
-        /**
-         * Constructor.
-         */
-        Graphics();
+        Graphics() = default;
 
-        /**
-         * Destructor.
-         */
-        virtual ~Graphics() { }
+        virtual ~Graphics() = default;
+
+        Graphics(Graphics const &)            = delete;
+        Graphics& operator=(Graphics const &) = delete;
+        Graphics(Graphics&&)                  = delete;
+        Graphics& operator=(Graphics&&)       = delete;
 
         /**
          * Initializes drawing. Called by the Gui when Gui::draw() is called.
@@ -142,18 +82,19 @@ namespace fcn
          * is the OpenGLGraphics.
          *
          * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Guichan.
+         *       you use a Graphics object outside the library.
          *
          * @see _endDraw, Gui::draw
          */
         virtual void _beginDraw() { }
 
         /**
-         * Deinitializes drawing. Called by the Gui when a Gui::draw() is done.
-         * done. It should reset any state changes made by _beginDraw().
+         * Deinitializes the drawing process.
+         * Called by the GUI when `Gui::draw()` is complete.
+         * It should reset any state changes made by `_beginDraw()`.
          *
-         * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside of Guichan.
+         * NOTE: You generally won't need to call this function yourself unless
+         *       you are using a `Graphics` object outside of the library.
          *
          * @see _beginDraw, Gui::draw
          */
@@ -169,7 +110,7 @@ namespace fcn
          * zero width and height will be pushed.
          *
          * @param area The clip area to be pushed onto the stack.
-         * @return False if the the new area lays outside the current clip 
+         * @return False if the the new area lays outside the current clip
          *         area.
          */
         virtual bool pushClipArea(Rectangle area);
@@ -182,12 +123,12 @@ namespace fcn
         virtual void popClipArea();
 
         /**
-         * Gets the current clip area. Usefull if you want to do drawing
+         * Gets the current clip area. Useful if you want to do drawing
          * bypassing Graphics.
          *
          * @return The current clip area.
          */
-        virtual const ClipRectangle& getCurrentClipArea();
+        virtual ClipRectangle const & getCurrentClipArea();
 
         /**
          * Draws a part of an image.
@@ -211,13 +152,7 @@ namespace fcn
          * @param width The width of the piece.
          * @param height The height of the piece.
          */
-        virtual void drawImage(const Image* image,
-                               int srcX,
-                               int srcY,
-                               int dstX,
-                               int dstY,
-                               int width,
-                               int height) = 0;
+        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) = 0;
         /**
          * Draws an image. A simplified version of the other drawImage.
          * It will draw a whole image at the coordinate you specify.
@@ -225,7 +160,7 @@ namespace fcn
          * @code drawImage(myImage, 0, 0, dstX, dstY, image->getWidth(), \
          image->getHeight()); @endcode
          */
-        virtual void drawImage(const Image* image, int dstX, int dstY);
+        virtual void drawImage(Image const * image, int dstX, int dstY);
 
         /**
          * Draws a single point/pixel.
@@ -257,12 +192,32 @@ namespace fcn
         virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width) = 0;
 
         /**
+         * Draws a round brush stroke along the line segment.
+         *
+         * Unlike drawLine(..., width), this uses a round brush footprint and
+         * therefore produces round caps and a softer joint shape.
+         *
+         * Backends that do not provide a dedicated implementation fall back to
+         * drawLine(..., width).
+         *
+         * @param x1    The first x coordinate.
+         * @param y1    The first y coordinate.
+         * @param x2    The second x coordinate.
+         * @param y2    The second y coordinate.
+         * @param width The brush width.
+         */
+        virtual void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width)
+        {
+            drawLine(x1, y1, x2, y2, width);
+        }
+
+        /**
          * Draws lines between points with given width.
          *
          * @param points Contains the points that are used for drawing.
          * @param width  The line width.
          */
-        virtual void drawPolyLine(const PointVector& points, unsigned int width) = 0;
+        virtual void drawPolyLine(PointVector const & points, unsigned int width) = 0;
 
         /**
          * Draws a bezier curve.
@@ -271,14 +226,14 @@ namespace fcn
          * @param steps  The steps for each line between two points.
          * @param width  The line width.
          */
-        virtual void drawBezier(const PointVector& points, int steps, unsigned int width) = 0;
+        virtual void drawBezier(PointVector const & points, int steps, unsigned int width) = 0;
 
         /**
          * Draws a simple, non-filled rectangle with a one pixel width.
          *
          * @param rectangle The rectangle to draw.
          */
-        virtual void drawRectangle(const Rectangle& rectangle) = 0;
+        virtual void drawRectangle(Rectangle const & rectangle) = 0;
 
         /**
          * Draws a simple, non-filled rectangle with a one pixel width.
@@ -291,15 +246,17 @@ namespace fcn
          * @param height The height of the rectangle
          *
          */
-        inline void drawRectangle(int x, int y, int width, int height)
-        { drawRectangle(Rectangle(x, y, width, height)); }
+        void drawRectangle(int x, int y, int width, int height)
+        {
+            drawRectangle(Rectangle(x, y, width, height));
+        }
 
         /**
          * Draws a filled rectangle.
          *
          * @param rectangle The filled rectangle to draw.
          */
-        virtual void fillRectangle(const Rectangle& rectangle) = 0;
+        virtual void fillRectangle(Rectangle const & rectangle) = 0;
 
         /**
          * Draws a filled rectangle.
@@ -312,8 +269,10 @@ namespace fcn
          * @param height The height of the rectangle
          *
          */
-        inline void fillRectangle(int x, int y, int width, int height)
-        { fillRectangle(Rectangle(x, y, width, height)); }
+        void fillRectangle(int x, int y, int width, int height)
+        {
+            fillRectangle(Rectangle(x, y, width, height));
+        }
 
         /**
          * Draws a simple, non-filled circle with a one pixel width.
@@ -322,7 +281,7 @@ namespace fcn
          * @param radius The circle radius.
          *
          */
-        virtual void drawCircle(const Point& p, unsigned int radius) = 0;
+        virtual void drawCircle(Point const & p, unsigned int radius) = 0;
 
         /**
          * Draws a filled circle.
@@ -331,7 +290,7 @@ namespace fcn
          * @param radius The circle radius.
          *
          */
-        virtual void drawFillCircle(const Point& p, unsigned int radius) = 0;
+        virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
 
         /**
          * Draws a simple, non-filled circle segment with a one pixel width.
@@ -343,7 +302,7 @@ namespace fcn
          * @param eangle The end angle of the segment.
          *
          */
-        virtual void drawCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
+        virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Draws a filled circle segment.
@@ -355,7 +314,7 @@ namespace fcn
          * @param eangle The end angle of the segment.
          *
          */
-        virtual void drawFillCircleSegment(const Point& p, unsigned int radius, int sangle, int eangle) = 0;
+        virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Sets the color to use when drawing.
@@ -363,7 +322,7 @@ namespace fcn
          * @param color A color.
          * @see getColor
          */
-        virtual void setColor(const Color& color) = 0;
+        virtual void setColor(Color const & color) = 0;
 
         /**
          * Gets the color to use when drawing.
@@ -371,7 +330,7 @@ namespace fcn
          * @return The color used when drawing.
          * @see setColor
          */
-        virtual const Color& getColor() const = 0;
+        virtual Color const & getColor() const = 0;
 
         /**
          * Sets the font to use when drawing text.
@@ -381,18 +340,40 @@ namespace fcn
         virtual void setFont(Font* font);
 
         /**
-         * Draws text.
+         * Creates a font for this graphics backend.
+         *
+         * Backends that do not provide runtime font loading may return nullptr.
+         *
+         * @param filename Path to the font file.
+         * @param size Requested point size.
+         * @return Shared pointer to a created font, or nullptr.
+         */
+        virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
+
+        /**
+         * Draws text with a default left alignment. This overload forwards
+         * to the alignment-aware overload using Alignment::Left.
          *
          * @param text The text to draw.
          * @param x The x coordinate where to draw the text.
          * @param y The y coordinate where to draw the text.
-         * @param alignment The alignemnt to use when drawing.
          * @throws Exception when no font has been set.
          */
-        virtual void drawText(const std::string& text,
-                              int x,
-                              int y,
-                              Alignment alignment = Left);
+        void drawText(std::string const & text, int x, int y)
+        {
+            drawText(text, x, y, Alignment::Left);
+        }
+
+        /**
+         * Draws text with the requested alignment.
+         *
+         * @param text The text to draw.
+         * @param x The x coordinate where to draw the text.
+         * @param y The y coordinate where to draw the text.
+         * @param alignment The alignment to use when drawing (Left/Center/Right).
+         * @throws Exception when no font has been set.
+         */
+        virtual void drawText(std::string const & text, int x, int y, Alignment alignment);
 
     protected:
         /**
@@ -403,8 +384,8 @@ namespace fcn
         /**
          * Holds the current font.
          */
-        Font* mFont;
+        Font* mFont{nullptr};
     };
-}
+} // namespace fcn
 
-#endif // end FCN_GRAPHICS_HPP
+#endif // INCLUDE_FIFECHAN_GRAPHICS_HPP_

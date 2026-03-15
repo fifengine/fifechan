@@ -1,110 +1,85 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * For comments regarding functions please see the header file.
- */
+#include "fifechan/widgets/checkbox.hpp"
 
 #include <algorithm>
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
 
-#include "fifechan/widgets/checkbox.hpp"
-
 namespace fcn
 {
 
-    CheckBox::CheckBox():
-        mBackgroundImage(0),
-        mInternalBackgroundImage(false),
-        mSelected(false),
-        mMode(Marker_Checkmark) {
+    namespace
+    {
+        void drawMarkerBrush(Graphics* graphics, int x, int y, int thickness)
+        {
+            int const offset = (thickness - 1) / 2;
+            graphics->fillRectangle(x - offset, y - offset, thickness, thickness);
+        }
 
-        adjustSize();
+        void drawMarkerStroke(Graphics* graphics, Point const & start, Point const & end, int thickness)
+        {
+            int x = start.x;
+            int y = start.y;
+
+            int const deltaX = std::abs(end.x - start.x);
+            int const stepX  = (start.x < end.x) ? 1 : -1;
+            int const deltaY = -std::abs(end.y - start.y);
+            int const stepY  = (start.y < end.y) ? 1 : -1;
+            int error        = deltaX + deltaY;
+
+            while (true) {
+                drawMarkerBrush(graphics, x, y, thickness);
+
+                if ((x == end.x) && (y == end.y)) {
+                    break;
+                }
+
+                int const doubledError = 2 * error;
+                if (doubledError >= deltaY) {
+                    error += deltaY;
+                    x += stepX;
+                }
+                if (doubledError <= deltaX) {
+                    error += deltaX;
+                    y += stepY;
+                }
+            }
+        }
+
+        int scaleMarkerCoordinate(int origin, int size, int numerator)
+        {
+            return origin + (((size - 1) * numerator) / 16);
+        }
+    } // namespace
+
+    CheckBox::CheckBox()
+    {
+        adjustSizeImpl();
     }
 
-    CheckBox::CheckBox(const std::string &caption, bool selected):
-        mBackgroundImage(0),
-        mInternalBackgroundImage(false),
-        mSelected(selected),
-        mMode(Marker_Checkmark) {
-
+    CheckBox::CheckBox(std::string const & caption, bool selected) : mSelected(selected)
+    {
         setCaption(caption);
-        adjustSize();
+        adjustSizeImpl();
     }
 
-    CheckBox::~CheckBox() {
+    CheckBox::~CheckBox()
+    {
         if (mInternalBackgroundImage) {
             delete mBackgroundImage;
         }
     }
 
-    void CheckBox::draw(Graphics* graphics) {
-        if (mMode == Marker_Rhombus) {
+    void CheckBox::draw(Graphics* graphics)
+    {
+        if (mMode == MarkerStyle::Rhombus) {
             drawRhombus(graphics);
         } else {
             drawBox(graphics);
@@ -114,23 +89,27 @@ namespace fcn
             graphics->setFont(getFont());
             graphics->setColor(getForegroundColor());
 
-            int h = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
-            int textX = getBorderSize() + getPaddingLeft() + h;
-            int textY = getBorderSize() + getPaddingTop() + (h - getFont()->getHeight()) / 2;
+            int const h     = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+            int const textX = getBorderSize() + getPaddingLeft() + h;
+            int const textY = getBorderSize() + getPaddingTop() + ((h - getFont()->getHeight()) / 2);
             graphics->drawText(getCaption(), textX, textY);
         }
     }
 
-    void CheckBox::drawBox(Graphics *graphics) {
-        bool active = isFocused();
-        
+    void CheckBox::drawBox(Graphics* graphics)
+    {
+        bool const active = isFocused();
+
         // draw background
-        Rectangle background(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
-        if (mBackgroundImage) {
-            graphics->drawImage(mBackgroundImage, 0, 0, background.x, background.y, background.width, background.height);
+        Rectangle const background(
+            getBorderSize(), getBorderSize(), getWidth() - (2 * getBorderSize()), getHeight() - (2 * getBorderSize()));
+        if (mBackgroundImage != nullptr) {
+            graphics->drawImage(
+                mBackgroundImage, 0, 0, background.x, background.y, background.width, background.height);
         } else {
             Color faceColor = getBaseColor();
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 faceColor = getSelectionColor();
             }
             graphics->setColor(faceColor);
@@ -138,14 +117,14 @@ namespace fcn
         }
 
         // rec for inner box
-        int h = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
-        Rectangle rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
-        if (mMode == Marker_Image) {
+        int const h = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+        Rectangle const rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
+        if (mMode == MarkerStyle::Image) {
             // draw marker image
             drawMarkerImage(graphics, rec);
             // draw border
             if (getBorderSize() > 0) {
-                if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                     drawSelectionFrame(graphics);
                 } else {
                     drawBorder(graphics);
@@ -157,138 +136,152 @@ namespace fcn
             graphics->fillRectangle(rec.x, rec.y, h, h);
             // draw border
             if (getBorderSize() > 0) {
-                if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+                if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                     drawSelectionFrame(graphics);
                 } else {
                     drawBorder(graphics);
                 }
             }
             Color faceColor = getBaseColor();
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 faceColor = getSelectionColor();
             }
             // border around the inner box background
-            int alpha = getBaseColor().a;
-            faceColor.a = alpha;
+            int const alpha      = getBaseColor().a;
+            faceColor.a          = alpha;
             Color highlightColor = faceColor + 0x303030;
-            highlightColor.a = alpha;
-            Color shadowColor = faceColor - 0x303030;
-            shadowColor.a = alpha;
+            highlightColor.a     = alpha;
+            Color shadowColor    = faceColor - 0x303030;
+            shadowColor.a        = alpha;
+
+            int const recRight  = rec.x + rec.width - 1;
+            int const recBottom = rec.y + rec.height - 1;
 
             graphics->setColor(shadowColor);
-            graphics->drawLine(rec.x, rec.y, h-1, rec.y);
-            graphics->drawLine(rec.x, rec.y, rec.x, h-1);
+            graphics->drawLine(rec.x, rec.y, recRight, rec.y);
+            graphics->drawLine(rec.x, rec.y, rec.x, recBottom);
 
             graphics->setColor(highlightColor);
-            graphics->drawLine(h-1, rec.x, h-1, h-1);
-            graphics->drawLine(rec.y, h-1, h-1, h-1);
+            graphics->drawLine(recRight, rec.y, recRight, recBottom);
+            graphics->drawLine(rec.x, recBottom, recRight, recBottom);
 
             // draws marker
             if (mSelected) {
                 graphics->setColor(getForegroundColor());
-                switch(mMode) {
-                    case Marker_Checkmark:
-                        drawCheckmark(graphics, rec);
-                        break;
-                    case Marker_Cross:
-                        drawCross(graphics, rec);
-                        break;
-                    case Marker_Dot:
-                        drawDot(graphics, rec);
-                        break;
-                    default:
-                        throw FCN_EXCEPTION("Unknown marker.");
+                switch (mMode) {
+                case MarkerStyle::Checkmark:
+                    drawCheckmark(graphics, rec);
+                    break;
+                case MarkerStyle::Cross:
+                    drawCross(graphics, rec);
+                    break;
+                case MarkerStyle::Dot:
+                    drawDot(graphics, rec);
+                    break;
+                default:
+                    throwException("Unknown marker.");
                 }
             }
         }
     }
 
-    void CheckBox::drawCheckmark(Graphics* graphics, const Rectangle& rec) {
-        graphics->drawLine(rec.x+3, rec.y+3, rec.x+3, rec.height-3);
-        graphics->drawLine(rec.x+4, rec.y+4, rec.x+4, rec.height-2);
-        graphics->drawLine(rec.x+5, rec.height-3, rec.width-2, rec.y+4);
-        graphics->drawLine(rec.x+5, rec.height-4, rec.width-4, rec.y+5);
+    void CheckBox::drawCheckmark(Graphics* graphics, Rectangle const & rec)
+    {
+        int const thickness = std::max(1, std::min(rec.width, rec.height) / 6);
+
+        Point const start(scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 8));
+        Point const joint(scaleMarkerCoordinate(rec.x, rec.width, 7), scaleMarkerCoordinate(rec.y, rec.height, 12));
+        Point const end(scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 4));
+
+        drawMarkerStroke(graphics, start, joint, thickness);
+        drawMarkerStroke(graphics, joint, end, thickness);
     }
 
-    void CheckBox::drawCross(Graphics* graphics, const Rectangle& rec) {
-        graphics->drawLine(rec.x+2, rec.y+2, rec.width-3, rec.height-3);
-        graphics->drawLine(rec.x+2, rec.y+3, rec.width-4, rec.height-3);
-        graphics->drawLine(rec.x+2, rec.height-3, rec.width-3, rec.y+2);
-        graphics->drawLine(rec.x+3, rec.height-3, rec.width-3, rec.y+3);
+    void CheckBox::drawCross(Graphics* graphics, Rectangle const & rec)
+    {
+        int const thickness = std::max(1, std::min(rec.width, rec.height) / 6);
+
+        Point const topLeft(scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 3));
+        Point const bottomRight(
+            scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 13));
+        Point const bottomLeft(
+            scaleMarkerCoordinate(rec.x, rec.width, 3), scaleMarkerCoordinate(rec.y, rec.height, 13));
+        Point const topRight(scaleMarkerCoordinate(rec.x, rec.width, 13), scaleMarkerCoordinate(rec.y, rec.height, 3));
+
+        drawMarkerStroke(graphics, topLeft, bottomRight, thickness);
+        drawMarkerStroke(graphics, bottomLeft, topRight, thickness);
     }
 
-    void CheckBox::drawDot(Graphics* graphics, const Rectangle& rec) {
-        Point p(rec.x+rec.width/2, rec.y+rec.height/2);
-        graphics->drawFillCircle(p, (rec.width-3)/2);
+    void CheckBox::drawDot(Graphics* graphics, Rectangle const & rec)
+    {
+        Point const p(rec.x + (rec.width / 2), rec.y + (rec.height / 2));
+
+        int const radius = (rec.width - 3) / 2;
+
+        graphics->drawFillCircle(p, radius);
     }
 
-    void CheckBox::drawMarkerImage(Graphics* graphics, const Rectangle& rec) {
-        Rectangle rect = rec;
-        const Image* img = 0;
+    void CheckBox::drawMarkerImage(Graphics* graphics, Rectangle const & rec)
+    {
+        Rectangle rect    = rec;
+        Image const * img = nullptr;
         if (isSelected()) {
             rect.x += getDownXOffset();
             rect.y += getDownYOffset();
             if (!isActive()) {
-                if (getInactiveDownImage()) {
+                if (getInactiveDownImage() != nullptr) {
                     img = getInactiveDownImage();
                 }
             } else {
-                img = getDownImage() ? getDownImage() : getUpImage();
+                img = (getDownImage() != nullptr) ? getDownImage() : getUpImage();
             }
-        } else if(mHasMouse) {
+        } else if (mHasMouse) {
             if (!isActive()) {
-                if (getInactiveHoverImage()) {
+                if (getInactiveHoverImage() != nullptr) {
                     img = getInactiveHoverImage();
                 }
             } else {
-                img = getHoverImage() ? getHoverImage() : getUpImage();
+                img = (getHoverImage() != nullptr) ? getHoverImage() : getUpImage();
             }
         }
 
-        if (img) {
+        if (img != nullptr) {
             graphics->drawImage(img, 0, 0, rect.x, rect.y, std::max(rect.width, img->getWidth()), rect.height);
         }
     }
 
-    void CheckBox::drawRhombus(Graphics* graphics) {
+    void CheckBox::drawRhombus(Graphics* graphics)
+    {
         // ToDo: Rewrite this part, its only c&p from RadioButton
-        graphics->pushClipArea(Rectangle(1,
-                                         1,
-                                         getWidth() - 1,
-                                         getHeight() - 1));
-        int h;
+        graphics->pushClipArea(Rectangle(1, 1, getWidth() - 1, getHeight() - 1));
+        int h = 0;
 
-        if (getHeight()%2 == 0) {
+        if (getHeight() % 2 == 0) {
             h = getHeight() - 4;
         } else {
             h = getHeight() - 3;
         }
 
-        int alpha = getBaseColor().a;
-        Color faceColor = getBaseColor();
-        faceColor.a = alpha;
+        int const alpha      = getBaseColor().a;
+        Color faceColor      = getBaseColor();
+        faceColor.a          = alpha;
         Color highlightColor = faceColor + 0x303030;
-        highlightColor.a = alpha;
-        Color shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        highlightColor.a     = alpha;
+        Color shadowColor    = faceColor - 0x303030;
+        shadowColor.a        = alpha;
 
         graphics->setColor(getBackgroundColor());
 
-        int i;
-        int hh = (h + 1) / 2;
+        int i        = 0;
+        int const hh = (h + 1) / 2;
 
         for (i = 1; i <= hh; ++i) {
-            graphics->drawLine(hh - i + 1,
-                               i,
-                               hh + i - 1,
-                               i);
+            graphics->drawLine(hh - i + 1, i, hh + i - 1, i);
         }
 
         for (i = 1; i < hh; ++i) {
-            graphics->drawLine(hh - i + 1,
-                               h - i,
-                               hh + i - 1,
-                               h - i);
+            graphics->drawLine(hh - i + 1, h - i, hh + i - 1, h - i);
         }
 
         graphics->setColor(shadowColor);
@@ -301,81 +294,91 @@ namespace fcn
 
         graphics->setColor(getForegroundColor());
 
-        int hhh = hh - 3;
+        int const hhh = hh - 3;
+
         if (mSelected) {
             for (i = 0; i < hhh; ++i) {
                 graphics->drawLine(hh - i, 4 + i, hh + i, 4 + i);
             }
             for (i = 0; i < hhh; ++i) {
-                graphics->drawLine(hh - i, h - 4 - i, hh + i, h - 4 -  i);
+                graphics->drawLine(hh - i, h - 4 - i, hh + i, h - 4 - i);
             }
-
         }
         graphics->popClipArea();
 
         if (isFocused()) {
-            int fh;
-            
-            if (getHeight()%2 == 0) {
+            int fh = 0;
+
+            if (getHeight() % 2 == 0) {
                 fh = getHeight() - 4;
             } else {
                 fh = getHeight() - 3;
             }
 
-            int hh = (fh + 1) / 2;
+            int const fhh = (fh + 1) / 2;
 
             graphics->setColor(getSelectionColor());
-            graphics->drawLine(0, hh + 1, hh + 1, 0);
-            graphics->drawLine(hh + 2, 1, fh + 2, hh + 1);
-            graphics->drawLine(fh + 1, hh + 2, hh + 1, fh + 2);
-            graphics->drawLine(hh + 1, fh + 2, 1, hh + 2);            
+            graphics->drawLine(0, fhh + 1, fhh + 1, 0);
+            graphics->drawLine(fhh + 2, 1, fh + 2, fhh + 1);
+            graphics->drawLine(fh + 1, fhh + 2, fhh + 1, fh + 2);
+            graphics->drawLine(fhh + 1, fh + 2, 1, fhh + 2);
         }
     }
 
-    bool CheckBox::isSelected() const {
+    bool CheckBox::isSelected() const
+    {
         return mSelected;
     }
 
-    void CheckBox::setSelected(bool selected) {
+    void CheckBox::setSelected(bool selected)
+    {
         mSelected = selected;
     }
 
-    void CheckBox::toggleSelected() {
+    void CheckBox::toggleSelected()
+    {
         mSelected = !mSelected;
     }
 
-    void CheckBox::setBackgroundImage(const std::string& filename) {
+    void CheckBox::setBackgroundImage(std::string const & filename)
+    {
         if (mInternalBackgroundImage) {
             delete mBackgroundImage;
         }
-        mBackgroundImage = Image::load(filename);
+        mBackgroundImage         = Image::load(filename);
         mInternalBackgroundImage = true;
-        adjustSize();
+        adjustSizeImpl();
     }
 
-    void CheckBox::setBackgroundImage(const Image* image) {
+    void CheckBox::setBackgroundImage(Image const * image)
+    {
         if (mInternalBackgroundImage) {
             delete mBackgroundImage;
         }
-        mBackgroundImage = image;
+        mBackgroundImage         = image;
         mInternalBackgroundImage = false;
-        adjustSize();
+        adjustSizeImpl();
     }
 
-    const Image* CheckBox::getBackgroundImage() const {
+    Image const * CheckBox::getBackgroundImage() const
+    {
         return mBackgroundImage;
     }
 
-    CheckBox::MarkerStyle CheckBox::getMarkerStyle() const {
+    CheckBox::MarkerStyle CheckBox::getMarkerStyle() const
+    {
         return mMode;
     }
 
-    void CheckBox::setMarkerStyle(CheckBox::MarkerStyle mode) {
+    void CheckBox::setMarkerStyle(CheckBox::MarkerStyle mode)
+    {
         mMode = mode;
     }
 
-    void CheckBox::keyPressed(KeyEvent& keyEvent) {
-        Key key = keyEvent.getKey();
+    void CheckBox::keyPressed(KeyEvent& keyEvent)
+    {
+        Key const key = keyEvent.getKey();
+
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             toggleSelected();
             keyEvent.consume();
@@ -383,37 +386,48 @@ namespace fcn
         }
     }
 
-    void CheckBox::keyReleased(KeyEvent& keyEvent) {
-        Key key = keyEvent.getKey();
+    void CheckBox::keyReleased(KeyEvent& keyEvent)
+    {
+        Key const key = keyEvent.getKey();
+
         if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
             keyEvent.consume();
         }
     }
 
-    void CheckBox::mousePressed(MouseEvent& mouseEvent) {
+    void CheckBox::mousePressed(MouseEvent& mouseEvent)
+    {
         if (mHasMouse) {
             mouseEvent.consume();
         }
     }
 
-    void CheckBox::mouseReleased(MouseEvent& mouseEvent) {
+    void CheckBox::mouseReleased(MouseEvent& mouseEvent)
+    {
         if (mHasMouse) {
             mouseEvent.consume();
         }
     }
 
-    void CheckBox::mouseClicked(MouseEvent& mouseEvent) {
-        if (mHasMouse && mouseEvent.getButton() == MouseEvent::Left) {
+    void CheckBox::mouseClicked(MouseEvent& mouseEvent)
+    {
+        if (mHasMouse && mouseEvent.getButton() == MouseEvent::Button::Left) {
             toggleSelected();
             mouseEvent.consume();
             distributeActionEvent();
         }
     }
 
-    void CheckBox::adjustSize() {
+    void CheckBox::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void CheckBox::adjustSizeImpl()
+    {
         int w = 0;
         int h = 0;
-        if (mBackgroundImage) {
+        if (mBackgroundImage != nullptr) {
             w += mBackgroundImage->getWidth() + 2 * getBorderSize();
             h += mBackgroundImage->getHeight() + 2 * getBorderSize();
         } else {
@@ -422,7 +436,7 @@ namespace fcn
                 h = getFont()->getHeight();
             }
 
-            if (getUpImage()) {
+            if (getUpImage() != nullptr) {
                 w += getUpImage()->getWidth();
                 h = std::max(getUpImage()->getHeight(), h);
             } else {
@@ -434,5 +448,4 @@ namespace fcn
         }
         setSize(w, h);
     }
-}
-
+} // namespace fcn

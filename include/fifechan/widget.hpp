@@ -1,72 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_WIDGET_HPP_
+#define INCLUDE_FIFECHAN_WIDGET_HPP_
 
-#ifndef FCN_WIDGET_HPP
-#define FCN_WIDGET_HPP
-
+#include <limits>
 #include <list>
 #include <string>
+#include <type_traits>
 
 #include "fifechan/color.hpp"
 #include "fifechan/rectangle.hpp"
@@ -90,44 +32,48 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract class for widgets of Guichan. It contains basic functions 
-     * every widget should have.
+     * Abstract base class defining the common behavior, properties, and lifecycle of all GUI elements.
      *
-     * NOTE: Functions begining with underscore "_" should not
+     * It contains basic functions every widget should have.
+     *
+     * NOTE: Functions beginning with underscore "_" should not
      *       be overloaded unless you know what you are doing.
      *
-     * @author Olof Naessén
-     * @author Per Larsson
+     * @ingroup core
      */
-    class FCN_CORE_DECLSPEC Widget
+    class FIFEGUI_API Widget
     {
     public:
         /**
          * Selection mode.
          */
-        enum SelectionMode
+        enum class SelectionMode : uint8_t
         {
-            Selection_None = 0,
-            Selection_Border = 1,
-            Selection_Background = 2
+            None       = 0,
+            Border     = 1,
+            Background = 2
         };
 
         /**
-         * Constructor. Resets member variables. Noteable, a widget is not
-         * focusable as default, therefore, widgets that are supposed to be
-         * focusable should overide this default in their own constructor.
+         * Constructor.
+         * Resets member variables.
+         * Notably, a widget is not focusable as default, therefore,
+         * widgets that are supposed to be focusable should override
+         * this default in their own constructor.
          */
         Widget();
 
-        /**
-         * Default destructor.
-         */
         virtual ~Widget();
+
+        Widget(Widget const &)            = delete;
+        Widget& operator=(Widget const &) = delete;
+        Widget(Widget&&)                  = delete;
+        Widget& operator=(Widget&&)       = delete;
 
         /**
          * Draws the widget. The call to draw is initiated by the widget's
-         * parent. The graphics object is set up so that all drawing is relative 
-         * to the widget, i.e coordinate (0,0) is the top left corner of the widget. 
+         * parent. The graphics object is set up so that all drawing is relative
+         * to the widget, i.e coordinate (0,0) is the top left corner of the widget.
          * It is not possible to draw outside of a widget's dimension. If a widget
          * has children, the parent's draw function will always be called before
          * the children's draw functions are called.
@@ -147,12 +93,12 @@ namespace fcn
          * The outline is not considered as part of the widget, it only allows a outline
          * to be drawn around the widget, thus a outline will never be included when
          * calculating if a widget should receive events from user input. Also
-         * a widget's outline will never be included when calculating a widget's 
+         * a widget's outline will never be included when calculating a widget's
          * position.
-         * 
-         * The size of the outline is calculated using the widget's outline size. 
-         * If a widget has a outline size of 10 pixels than the area the drawOutline 
-         * function can draw to will be the size of the widget with an additional 
+         *
+         * The size of the outline is calculated using the widget's outline size.
+         * If a widget has a outline size of 10 pixels than the area the drawOutline
+         * function can draw to will be the size of the widget with an additional
          * extension of 10 pixels in each direction.
          *
          * An example when drawOutline is a useful function is if a widget needs
@@ -181,9 +127,9 @@ namespace fcn
         virtual void drawSelectionFrame(Graphics* graphics);
 
         /**
-         * Sets the size of the widget's outline. The outline is not considered as part of 
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
-         * will never be included when calculating if a widget should receive events 
+         * Sets the size of the widget's outline. The outline is not considered as part of
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline
+         * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
          * a widget's position.
          *
@@ -196,9 +142,9 @@ namespace fcn
         void setOutlineSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's outline. The outline is not considered as part of 
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline 
-         * will never be included when calculating if a widget should receive events 
+         * Gets the size of the widget's outline. The outline is not considered as part of
+         * the widget, it only allows a outline to be drawn around the widget, thus a outline
+         * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
          * a widget's position.
          *
@@ -211,7 +157,7 @@ namespace fcn
         unsigned int getOutlineSize() const;
 
         /**
-         * Sets the size of the widget's border. The border is considered as part of 
+         * Sets the size of the widget's border. The border is considered as part of
          * the widget.
          *
          * A border size of 0 means that the widget has no border. The default border size
@@ -223,7 +169,7 @@ namespace fcn
         void setBorderSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's border. The border is considered as part of 
+         * Gets the size of the widget's border. The border is considered as part of
          * the widget.
          *
          * A border size of 0 means that the widget has no border. The default border size
@@ -255,7 +201,7 @@ namespace fcn
          * @see getMarginTop
          */
         void setMarginTop(int margin);
-        
+
         /**
          * Gets the top margin.
          * The margin clears an area around an element (outside the border).
@@ -495,7 +441,7 @@ namespace fcn
 
         /**
          * Sets the x coordinate of the widget. The coordinate is
-         * relateive to the widget's parent.
+         * relative to the widget's parent.
          *
          * @param x The x coordinate of the widget.
          * @see getX, setY, getY, setPosition, setDimension, getDimension
@@ -546,7 +492,7 @@ namespace fcn
          * @param dimension The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
-        void setDimension(const Rectangle& dimension);
+        void setDimension(Rectangle const & dimension);
 
         /**
          * Gets the dimension of the widget. The dimension is
@@ -555,7 +501,7 @@ namespace fcn
          * @return The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
-        const Rectangle& getDimension() const;
+        Rectangle const & getDimension() const;
 
         /**
          * Gets how many childs the widget have.
@@ -577,7 +523,7 @@ namespace fcn
          * @param size The minimal size of the widget.
          * @see getMinSize
          */
-        void setMinSize(const Size& size);
+        void setMinSize(Size const & size);
 
         /**
          * Gets the minimal dimension of the widget.
@@ -585,7 +531,7 @@ namespace fcn
          * @return The minimal size of the widget.
          * @see setMinSize
          */
-        const Size& getMinSize() const;
+        Size const & getMinSize() const;
 
         /**
          * Sets the maximal dimension of the widget.
@@ -593,7 +539,7 @@ namespace fcn
          * @param size The maximal size of the widget.
          * @see getMaxSize
          */
-        void setMaxSize(const Size& size);
+        void setMaxSize(Size const & size);
 
         /**
          * Gets the maximal dimension of the widget.
@@ -601,7 +547,7 @@ namespace fcn
          * @return The maximal size of the widget.
          * @see setMaxSize
          */
-        const Size& getMaxSize() const;
+        Size const & getMaxSize() const;
 
         /**
          * Sets the dimension of the widget to a fixed size.
@@ -610,7 +556,7 @@ namespace fcn
          * @param size The fixed size of the widget.
          * @see getFixedSize, isFixedSize
          */
-        void setFixedSize(const Size& size);
+        void setFixedSize(Size const & size);
 
         /**
          * Gets the fixed size of the widget.
@@ -618,7 +564,7 @@ namespace fcn
          * @return The fixed size of the widget.
          * @see setFixedSize, isFixedSize
          */
-        const Size& getFixedSize() const;
+        Size const & getFixedSize() const;
 
         /**
          * Gets if the widget use a fixed size.
@@ -629,7 +575,7 @@ namespace fcn
         bool isFixedSize() const;
 
         /**
-         * Sets the widget to be fosusable, or not.
+         * Sets the widget to be focusable, or not.
          *
          * @param focusable True if the widget should be focusable,
          *                  false otherwise.
@@ -637,8 +583,8 @@ namespace fcn
          */
         void setFocusable(bool focusable);
 
-         /**
-         * Checks if a widget is focsable.
+        /**
+         * Checks if a widget is focusable.
          *
          * @return True if the widget should be focusable, false otherwise.
          * @see setFocusable
@@ -654,7 +600,7 @@ namespace fcn
 
         /**
          * Sets the widget to enabled, or not. A disabled
-         * widget will never recieve mouse or key events.
+         * widget will never receive mouse or key events.
          *
          * @param enabled True if widget should be enabled,
          *                false otherwise.
@@ -664,7 +610,7 @@ namespace fcn
 
         /**
          * Checks if the widget is enabled. A disabled
-         * widget will never recieve mouse or key events.
+         * widget will never receive mouse or key events.
          *
          * @return True if widget is enabled, false otherwise.
          * @see setEnabled
@@ -697,10 +643,10 @@ namespace fcn
         /**
          * Sets the base color of the widget.
          *
-         * @param color The baseground color.
+         * @param color The base color.
          * @see getBaseColor
          */
-        void setBaseColor(const Color& color);
+        virtual void setBaseColor(Color const & color);
 
         /**
          * Gets the base color.
@@ -708,7 +654,7 @@ namespace fcn
          * @return The base color.
          * @see setBaseColor
          */
-        const Color& getBaseColor() const;
+        Color const & getBaseColor() const;
 
         /**
          * Sets the foreground color.
@@ -716,14 +662,14 @@ namespace fcn
          * @param color The foreground color.
          * @see getForegroundColor
          */
-        void setForegroundColor(const Color& color);
+        virtual void setForegroundColor(Color const & color);
 
         /**
          * Gets the foreground color.
          *
          * @see setForegroundColor
          */
-        const Color& getForegroundColor() const;
+        Color const & getForegroundColor() const;
 
         /**
          * Sets the background color.
@@ -731,14 +677,14 @@ namespace fcn
          * @param color The background Color.
          * @see setBackgroundColor
          */
-        void setBackgroundColor(const Color& color);
+        virtual void setBackgroundColor(Color const & color);
 
         /**
          * Gets the background color.
          *
          * @see setBackgroundColor
          */
-        const Color& getBackgroundColor() const;
+        Color const & getBackgroundColor() const;
 
         /**
          * Sets the selection color.
@@ -746,7 +692,7 @@ namespace fcn
          * @param color The selection color.
          * @see getSelectionColor
          */
-        void setSelectionColor(const Color& color);
+        virtual void setSelectionColor(Color const & color);
 
         /**
          * Gets the selection color.
@@ -754,15 +700,15 @@ namespace fcn
          * @return The selection color.
          * @see setSelectionColor
          */
-        const Color& getSelectionColor() const;
-        
+        Color const & getSelectionColor() const;
+
         /**
          * Sets the outline color.
          *
          * @param color The outline color.
          * @see getOutlineColor
          */
-        void setOutlineColor(const Color& color);
+        virtual void setOutlineColor(Color const & color);
 
         /**
          * Gets the outline color.
@@ -770,7 +716,7 @@ namespace fcn
          * @return The outline color.
          * @see setOutlineColor
          */
-        const Color& getOutlineColor() const;
+        Color const & getOutlineColor() const;
 
         /**
          * Sets the border color.
@@ -778,7 +724,7 @@ namespace fcn
          * @param color The border color.
          * @see getBorderColor
          */
-        void setBorderColor(const Color& color);
+        virtual void setBorderColor(Color const & color);
 
         /**
          * Gets the border color.
@@ -786,7 +732,7 @@ namespace fcn
          * @return The border color.
          * @see setBorderColor
          */
-        const Color& getBorderColor() const;
+        Color const & getBorderColor() const;
 
         /**
          * Sets the selection mode.
@@ -794,7 +740,7 @@ namespace fcn
          * @param mode The selection mode that is used when the widget is "active".
          * @see getSelectionMode
          */
-        void setSelectionMode(SelectionMode mode);
+        virtual void setSelectionMode(SelectionMode mode);
 
         /**
          * Gets the selection mode.
@@ -805,7 +751,7 @@ namespace fcn
         SelectionMode getSelectionMode() const;
 
         /**
-         * Requests focus for the widget. A widget will only recieve focus
+         * Requests focus for the widget. A widget will only receive focus
          * if it is focusable.
          *
          */
@@ -834,7 +780,7 @@ namespace fcn
          */
         virtual void _draw(Graphics* graphics);
 
-         /**
+        /**
          * Called whenever a widget should perform logic. The function will
          * call the logic function for this widget and for all its children.
          *
@@ -855,7 +801,7 @@ namespace fcn
          * @see _getFocusHandler
          */
         virtual void _setFocusHandler(FocusHandler* focusHandler);
-        
+
         /**
          * Gets the focus handler used.
          *
@@ -867,10 +813,10 @@ namespace fcn
          * @see _setFocusHandler
          */
         virtual FocusHandler* _getFocusHandler();
-        
+
         /**
-         * Adds an action listener to the widget. When an action event 
-         * is fired by the widget the action listeners of the widget 
+         * Adds an action listener to the widget. When an action event
+         * is fired by the widget the action listeners of the widget
          * will get notified.
          *
          * @param actionListener The action listener to add.
@@ -887,8 +833,8 @@ namespace fcn
         void removeActionListener(ActionListener* actionListener);
 
         /**
-         * Adds a death listener to the widget. When a death event is 
-         * fired by the widget the death listeners of the widget will 
+         * Adds a death listener to the widget. When a death event is
+         * fired by the widget the death listeners of the widget will
          * get notified.
          *
          * @param deathListener The death listener to add.
@@ -905,8 +851,8 @@ namespace fcn
         void removeDeathListener(DeathListener* deathListener);
 
         /**
-         * Adds a mouse listener to the widget. When a mouse event is 
-         * fired by the widget the mouse listeners of the widget will 
+         * Adds a mouse listener to the widget. When a mouse event is
+         * fired by the widget the mouse listeners of the widget will
          * get notified.
          *
          * @param mouseListener The mouse listener to add.
@@ -923,8 +869,8 @@ namespace fcn
         void removeMouseListener(MouseListener* mouseListener);
 
         /**
-         * Adds a key listener to the widget. When a key event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a key listener to the widget. When a key event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param keyListener The key listener to add.
@@ -941,8 +887,8 @@ namespace fcn
         void removeKeyListener(KeyListener* keyListener);
 
         /**
-         * Adds a focus listener to the widget. When a focus event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a focus listener to the widget. When a focus event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param focusListener The focus listener to add.
@@ -959,8 +905,8 @@ namespace fcn
         void removeFocusListener(FocusListener* focusListener);
 
         /**
-         * Adds a widget listener to the widget. When a widget event is 
-         * fired by the widget the key listeners of the widget will 
+         * Adds a widget listener to the widget. When a widget event is
+         * fired by the widget the key listeners of the widget will
          * get notified.
          *
          * @param widgetListener The widget listener to add.
@@ -978,16 +924,16 @@ namespace fcn
 
         /**
          * Sets the action event identifier of the widget. The identifier is
-         * used to be able to identify which action has occured.
+         * used to be able to identify which action has occurred.
          *
          * NOTE: An action event identifier should not be used to identify a
          *       certain widget but rather a certain event in your application.
-         *       Several widgets can have the same action event identifer.
+         *       Several widgets can have the same action event identifier.
          *
          * @param actionEventId The action event identifier.
          * @see getActionEventId
          */
-        void setActionEventId(const std::string& actionEventId);
+        void setActionEventId(std::string const & actionEventId);
 
         /**
          * Gets the action event identifier of the widget.
@@ -995,7 +941,7 @@ namespace fcn
          * @return The action event identifier of the widget.
          * @see setActionEventId
          */
-        const std::string& getActionEventId() const;
+        std::string const & getActionEventId() const;
 
         /**
          * Gets the absolute position on the screen for the widget.
@@ -1006,7 +952,7 @@ namespace fcn
         virtual void getAbsolutePosition(int& x, int& y) const;
 
         /**
-         * Sets the parent of the widget. A parent must be a BasicContainer.
+         * Sets the parent of the widget. A parent must be a Container.
          *
          * WARNING: This function is used internally and should not
          *          be called or overloaded unless you know what you
@@ -1018,14 +964,14 @@ namespace fcn
         virtual void _setParent(Widget* parent);
 
         /**
-         * Gets the font set for the widget. If no font has been set, 
-         * the global font will be returned. If no global font has been set, 
-         * the default font will be returend.
+         * Gets the font set for the widget. If no font has been set,
+         * the global font will be returned. If no global font has been set,
+         * the default font will be returned.
          *
          * @return The font set for the widget.
          * @see setFont, setGlobalFont
          */
-        Font *getFont() const;
+        Font* getFont() const;
 
         /**
          * Sets the global font to be used by default for all widgets.
@@ -1036,13 +982,13 @@ namespace fcn
         static void setGlobalFont(Font* font);
 
         /**
-         * Sets the font for the widget. If NULL is passed, the global font 
+         * Sets the font for the widget. If NULL is passed, the global font
          * will be used.
          *
          * @param font The font to set for the widget.
          * @see getFont
          */
-        void setFont(Font* font);
+        virtual void setFont(Font* font);
 
         /**
          * Called when the font has changed. If the change is global,
@@ -1059,7 +1005,7 @@ namespace fcn
          * @param widget The widget to check.
          * @return True if an instance of the widget exists, false otherwise.
          */
-        static bool widgetExists(const Widget* widget);
+        static bool widgetExists(Widget const * widget);
 
         /**
          * Checks if tab in is enabled. Tab in means that you can set focus
@@ -1123,7 +1069,7 @@ namespace fcn
 
         /**
          * Requests modal focus. When a widget has modal focus, only that
-         * widget and it's children may recieve input.
+         * widget and it's children may receive input.
          *
          * @throws Exception if another widget already has modal focus.
          * @see releaseModalFocus, isModalFocused
@@ -1183,12 +1129,24 @@ namespace fcn
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
-         * @param exclude Widget to exclude from search, if NULL
-         *            no widgets get excluded.
-         * @return The widget at the specified coodinate, NULL
+         * @return The widget at the specified coordinate, NULL
          *         if no widget is found.
          */
-        virtual Widget *getWidgetAt(int x, int y, Widget* exclude = NULL);
+        Widget* getWidgetAt(int x, int y)
+        {
+            return getWidgetAt(x, y, nullptr);
+        }
+
+        /**
+         * Variant of getWidgetAt that allows excluding a specific widget
+         * from the hit-test.
+         *
+         * @param x The x coordinate of the widget to get.
+         * @param y The y coordinate of the widget to get.
+         * @param exclude Widget to exclude from search, if NULL no widgets get excluded.
+         * @return The widget at the specified coordinate, NULL if no widget is found.
+         */
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
          * Gets all widgets inside a certain area of the widget.
@@ -1197,32 +1155,45 @@ namespace fcn
          *       a container.
          *
          * @param area The area to check.
-         * @param ignore If supplied, this widget will be ignored.
          * @return A list of widgets. An empty list if no widgets was found.
          */
-        virtual std::list<Widget*> getWidgetsIn(const Rectangle& area, 
-                                                Widget* ignore = NULL);
+        std::list<Widget*> getWidgetsIn(Rectangle const & area)
+        {
+            return getWidgetsIn(area, nullptr);
+        }
+
+        /**
+         * Gets all widgets inside a certain area of the widget.
+         *
+         * NOTE: This always returns an empty list if the widget is not
+         *       a container.
+         *
+         * @param area The area to check.
+         * @param ignore Optional widget pointer to exclude from the results.
+         * @return A list of widgets found inside `area`. Empty list if none.
+         */
+        virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore);
 
         /**
          * Gets the mouse listeners of the widget.
          *
          * @return The mouse listeners of the widget.
          */
-        virtual const std::list<MouseListener*>& _getMouseListeners();
+        virtual std::list<MouseListener*> const & _getMouseListeners();
 
         /**
          * Gets the key listeners of the widget.
          *
          * @return The key listeners of the widget.
          */
-        virtual const std::list<KeyListener*>& _getKeyListeners();
+        virtual std::list<KeyListener*> const & _getKeyListeners();
 
         /**
          * Gets the focus listeners of the widget.
          *
          * @return The focus listeners of the widget.
          */
-        virtual const std::list<FocusListener*>& _getFocusListeners();
+        virtual std::list<FocusListener*> const & _getFocusListeners();
 
         /**
          * Gets the area of the widget occupied by the widget's children.
@@ -1234,11 +1205,11 @@ namespace fcn
          *
          * NOTE: The returned rectangle should be relative to the widget,
          *       i.e a rectangle with x and y coordinate (0,0) and with
-         *       width and height the same as the widget will let the 
+         *       width and height the same as the widget will let the
          *       children draw themselves in the whole widget.
          *
          * An example of a widget that overloads this method is ScrollArea.
-         * A ScrollArea has a view of its contant and that view is the
+         * A ScrollArea has a view of its constant and that view is the
          * children area. The size of a ScrollArea's children area might
          * vary depending on if the scroll bars of the ScrollArea is shown
          * or not.
@@ -1259,9 +1230,9 @@ namespace fcn
         /**
          * Sets the internal focus handler. An internal focus handler is
          * needed if both a widget in the widget and the widget itself
-         * should be foucsed at the same time.
+         * should be focused at the same time.
          *
-         * @param focusHandler The internal focus handler to be used.
+         * @param internalFocusHandler The internal focus handler to be used.
          * @see getInternalFocusHandler
          */
         void setInternalFocusHandler(FocusHandler* internalFocusHandler);
@@ -1290,7 +1261,7 @@ namespace fcn
 
         /**
          * Focuses the next widget in the widget.
-         * 
+         *
          * @see moveToBottom
          */
         virtual void focusNext();
@@ -1318,9 +1289,9 @@ namespace fcn
          * has an id.
          *
          * @param id The id to set to the widget.
-         * @see getId, BasicContainer::findWidgetById
+         * @see getId, Container::findWidgetById
          */
-        void setId(const std::string& id);
+        void setId(std::string const & id);
 
         /**
          * Gets the id of a widget. An id can be useful if a widget needs to be
@@ -1328,10 +1299,10 @@ namespace fcn
          * XML document, a certain widget can be retrieved given that the widget
          * has an id.
          *
-         * @param id The id to set to the widget.
-         * @see setId, BasicContainer::findWidgetById
+         * @return The id of the widget.
+         * @see setId, Container::findWidgetById
          */
-        const std::string& getId() const;
+        std::string const & getId() const;
 
         /**
          * Shows a certain part of a widget in the widget's parent.
@@ -1343,36 +1314,47 @@ namespace fcn
          * @param rectangle The rectangle to be shown.
          */
         virtual void showPart(Rectangle rectangle);
-    
+
         /**
          * Sets the visibility event handler to be used.
-         * 
+         *
          * WARNING: This function is used internally and should not
          *          be called unless you know what you
          *          are doing.
-         * 
+         *
          * FIXME We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.
-         * 
+         *
          * @param visibilityEventHandler The visibility event handler to be used.
          */
         static void _setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler);
-        
+
         /**
          * Gets the visibility event handler of this widget.
-         * 
+         *
          * WARNING: This function is used internally and should not
          *          be called unless you know what you
          *          are doing.
-         * 
+         *
          * FIXME  We don't like the visibility handler being static
          *        but we leave it as is for the moment, until we
          *        come up a better solution.
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
-        
+
+        /**
+         * Set the global GUI death listener used to observe widget deletions.
+         *
+         * @param deathListener Pointer to a DeathListener instance (ownership not transferred).
+         */
         static void _setGuiDeathListener(DeathListener* deathListener);
+
+        /**
+         * Get the global GUI death listener.
+         *
+         * @return The current DeathListener or nullptr if none is set.
+         */
         static DeathListener* _getGuiDeathListener();
 
         /**
@@ -1408,100 +1390,146 @@ namespace fcn
         bool isHorizontalExpand() const;
 
         /**
-         * Execute the layouting. 
+         * Execute the layouting.
          * In case you want to relayout a visible widget. This function will
          * automatically perform the layout adaption from the widget.
          *
-         * @param top If true the layout adaption starts from the top-most layouted widget.
+         * This is a convenience wrapper that calls `adaptLayout(true)`.
          */
-        virtual void adaptLayout(bool top=true);
+        void adaptLayout()
+        {
+            adaptLayout(true);
+        }
+
+        /**
+         * Execute the layouting for this widget.
+         *
+         * @param top If true, perform top-level layout adaptations as well.
+         */
+        virtual void adaptLayout(bool top);
 
         /**
          * Resizes the widget's size to fit the content exactly,
          * calls recursively all childs.
          *
-         * @param recursiv If true all child widgets also get the call.
+         * This is a convenience wrapper that calls `resizeToContent(true)`.
          */
-        virtual void resizeToContent(bool recursiv=true) {}
+        void resizeToContent()
+        {
+            resizeToContent(true);
+        }
+
+        /**
+         * Resize this widget to fit its content.
+         *
+         * @param recursion If true, perform the resize operation recursively on children.
+         */
+        virtual void resizeToContent(bool recursion) { }
 
         /**
          * Resizes the widget's size to fit the content exactly.
          */
-        virtual void adjustSize() {}
+        virtual void adjustSize() { }
 
         /**
          * Expands the child widgets to the size of this widget,
          * calls recursively all childs.
          *
-         * @param recursiv If true all child widgets also get the call.
+         * This is a convenience wrapper that calls `expandContent(true)`.
          */
-        virtual void expandContent(bool recursiv=true) {}
+        void expandContent()
+        {
+            expandContent(true);
+        }
+
+        /**
+         * Expands child widgets to fit this widget's size.
+         *
+         * @param recursion If true, call expandContent recursively on children.
+         */
+        virtual void expandContent(bool recursion) { }
 
         /**
          * Helper function to decide if we need to layout.
          */
-        virtual bool isLayouted() { return false; }
+        virtual bool isLayouted()
+        {
+            return false;
+        }
 
+        /**
+         * Retrieves the last stored position used by layout or event logic.
+         *
+         * @param x Output parameter receiving the last x coordinate.
+         * @param y Output parameter receiving the last y coordinate.
+         */
         void getLastPosition(int& x, int& y) const;
+
+        /**
+         * Stores the last known position for this widget.
+         *
+         * @param x The x coordinate to store.
+         * @param y The y coordinate to store.
+         */
         void setLastPosition(int x, int y);
+
+        /**
+         * Returns whether a last position has been stored for this widget.
+         *
+         * @return True if a last position is set, false otherwise.
+         */
         bool isLastPositionSet() const;
 
     protected:
         /**
-         * Distributes an action event to all action listeners
-         * of the widget.
-         *
+         * Distributes an action event to all action listeners of the widget.
          */
         void distributeActionEvent();
 
         /**
          * Distributes resized events to all of the widget's listeners.
-         *
          */
         void distributeResizedEvent();
 
         /**
          * Distributes moved events to all of the widget's listeners.
-         *
          */
         void distributeMovedEvent();
 
         /**
          * Distributes hidden events to all of the widget's listeners.
-         *
          */
         void distributeHiddenEvent();
 
         /**
          * Distributes shown events to all of the widget's listeners.
-         *
          */
         void distributeShownEvent();
-        
+
         /**
          * Distributes ancestor moved events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was moved.
          */
         void distributeAncestorMovedEvent(Widget* ancestor);
-        
+
         /**
          * Distributes ancestor hidden events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was hidden.
          */
         void distributeAncestorHiddenEvent(Widget* ancestor);
-        
+
         /**
          * Distributes ancestor shown events to all of the widget's listeners.
          * All children will also distribute the same event.
-         * 
+         *
          * @param ancestor Ancestor widget that was shown.
          */
         void distributeAncestorShownEvent(Widget* ancestor);
-        
+
         /**
          * Adds a child to the widget.
          *
@@ -1514,37 +1542,36 @@ namespace fcn
         void add(Widget* widget);
 
         /**
-         * Removes a child from the widget.
+         * Removes a specific child from the widget.
          *
          * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
          * INSIDE ANY LISTER FUNCTIONS!
          *
          * @param widget The widget to remove.
-         * @see add, clear
+         * @see removeAllChildren
          */
         virtual void remove(Widget* widget);
 
         /**
-         * Clears the widget from all its children.
+         * Remvoes all children from the widget.
          *
          * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
          * INSIDE ANY LISTER FUNCTIONS!
          *
-         * @see remove, clear
+         * @see remove
          */
-        virtual void clear();
+        virtual void removeAllChildren();
 
         /**
-         * Finds a widget given an id. This function can be useful
-         * when implementing a GUI generator for Guichan, such as
-         * the ability to create a Guichan GUI from an XML file.
+         * Finds a widget by id.
+         *
+         * This function can be useful when implementing a GUI generator,
+         * such as the ability to create a GUI from an XML file.
          *
          * @param id The id to find a widget by.
-         * @return The widget with the corrosponding id, 
-         *         NULL of no widget is found.
-         *
+         * @return The widget with the corresponding id, NULL of no widget is found.
          */
-        virtual Widget* findWidgetById(const std::string& id);
+        virtual Widget* findWidgetById(std::string const & id);
 
         /**
          * Resizes the widget to fit it's children exactly.
@@ -1563,7 +1590,7 @@ namespace fcn
          *
          * @return A list of the widgets children.
          */
-        const std::list<Widget*>& getChildren() const;
+        std::list<Widget*> const & getChildren() const;
 
         /**
          * Holds the mouse listeners of the widget.
@@ -1575,14 +1602,14 @@ namespace fcn
          */
         std::list<KeyListener*> mKeyListeners;
 
-        /** 
+        /**
          * Holds the action listeners of the widget.
          */
         std::list<ActionListener*> mActionListeners;
 
         /**
          * Holds the death listeners of the widget.
-         */ 
+         */
         std::list<DeathListener*> mDeathListeners;
 
         /**
@@ -1598,49 +1625,49 @@ namespace fcn
         /**
          * Holds the foreground color of the widget.
          */
-        Color mForegroundColor;
+        Color mForegroundColor{0x1f2933};
 
         /**
          * Holds the background color of the widget.
          */
-        Color mBackgroundColor;
+        Color mBackgroundColor{0xf9fafb};
 
         /**
          * Holds the base color of the widget.
          */
-        Color mBaseColor;
+        Color mBaseColor{0xe5e7eb};
 
         /**
          * Holds the selection color of the widget.
          */
-        Color mSelectionColor;
+        Color mSelectionColor{0x3b82f6};
 
         /**
          * Holds the outline color of the widget.
          */
-        Color mOutlineColor;
+        Color mOutlineColor{0x9ca3af};
 
         /**
          * Holds the border color of the widget.
          */
-        Color mBorderColor;
+        Color mBorderColor{0xd1d5db};
 
         /**
          * Holds the focus handler used by the widget.
          */
-        FocusHandler* mFocusHandler;
+        FocusHandler* mFocusHandler{nullptr};
 
         /**
          * Holds the focus handler used by the widget. NULL
          * if no internal focus handler is used.
          */
-        FocusHandler* mInternalFocusHandler;
-        
+        FocusHandler* mInternalFocusHandler{nullptr};
+
         /**
          * Holds the parent of the widget. NULL if the widget
          * has no parent.
          */
-        Widget* mParent;
+        Widget* mParent{nullptr};
 
         /**
          * Holds the dimension of the widget.
@@ -1652,60 +1679,60 @@ namespace fcn
          */
         Rectangle mOffsetRect;
 
-        /** 
+        /**
          * Holds the outline size of the widget.
          */
-        unsigned int mOutlineSize;
+        unsigned int mOutlineSize{0};
 
-        /** 
+        /**
          * Holds the border size of the widget.
          */
-        unsigned int mBorderSize;
+        unsigned int mBorderSize{0};
 
-        /** 
+        /**
          * Holds the selection mode.
          */
-        SelectionMode mSelectionMode;
+        SelectionMode mSelectionMode{SelectionMode::None};
 
-        /** 
+        /**
          * Holds the top margin of the widget.
          */
-        int mMarginTop;
+        int mMarginTop{0};
 
-        /** 
+        /**
          * Holds the top right of the widget.
          */
-        int mMarginRight;
+        int mMarginRight{0};
 
-        /** 
+        /**
          * Holds the bottom margin of the widget.
          */
-        int mMarginBottom;
+        int mMarginBottom{0};
 
-        /** 
+        /**
          * Holds the left margin of the widget.
          */
-        int mMarginLeft;
+        int mMarginLeft{0};
 
-        /** 
+        /**
          * Holds the top padding of the widget.
          */
-        unsigned int mPaddingTop;
+        unsigned int mPaddingTop{0};
 
-        /** 
+        /**
          * Holds the right padding of the widget.
          */
-        unsigned int mPaddingRight;
+        unsigned int mPaddingRight{0};
 
-        /** 
+        /**
          * Holds the bottom padding of the widget.
          */
-        unsigned int mPaddingBottom;
+        unsigned int mPaddingBottom{0};
 
-        /** 
+        /**
          * Holds the left padding of the widget.
          */
-        unsigned int mPaddingLeft;
+        unsigned int mPaddingLeft{0};
 
         /**
          * Holds the action event of the widget.
@@ -1715,27 +1742,27 @@ namespace fcn
         /**
          * True if the widget focusable, false otherwise.
          */
-        bool mFocusable;
+        bool mFocusable{false};
 
         /**
          * True if the widget visible, false otherwise.
          */
-        bool mVisible;
+        bool mVisible{true};
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabIn;
+        bool mTabIn{true};
 
         /**
          * True if the widget has tab in enabled, false otherwise.
          */
-        bool mTabOut;
+        bool mTabOut{true};
 
         /**
          * True if the widget is enabled, false otherwise.
          */
-        bool mEnabled;
+        bool mEnabled{true};
 
         /**
          * Holds the id of the widget.
@@ -1743,39 +1770,42 @@ namespace fcn
         std::string mId;
 
         /**
-         * Holds the font used by the widget.
-         */
-        Font* mCurrentFont;
-
-        /**
          * Holds the min size.
          */
-        Size mMinSize;
+        Size mMinSize{0, 0};
 
         /**
-         * Holds the min size.
+         * Holds the max size.
+         *
+         * Default to a very large value so widgets are not clamped to zero
+         * when the user does not explicitly set a max size.
          */
-        Size mMaxSize;
+        Size mMaxSize{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
 
         /**
          * Holds the fixed size.
          */
-        Size mFixedSize;
+        Size mFixedSize{-1, -1};
 
         /**
          * True if the widget used a fixed size.
          */
-        bool mIsFixedSize;
+        bool mFixedSizeUsed{false};
 
         /**
          * True if the widget can be vertical expanded.
          */
-        bool mVExpand;
+        bool mVExpand{false};
 
         /**
          * True if the widget can be horizontal expanded.
          */
-        bool mHExpand;
+        bool mHExpand{false};
+
+        /**
+         * Holds the font used by the widget.
+         */
+        Font* mCurrentFont{nullptr};
 
         /**
          * Holds the default font used by the widget.
@@ -1791,16 +1821,19 @@ namespace fcn
          * Holds a list of all instances of widgets.
          */
         static std::list<Widget*> mWidgetInstances;
-        
+
         /**
          * Holds the visibility event handler used by the widgets.
-         * 
-         * FIXME We don't like the visibility handler being static
-         *        but we leave it as is for the moment, until we
-         *        come up a better solution.
+         *
+         * TODO: FIXME We don't like the visibility handler being static
+         *       but we leave it as is for the moment, until we
+         *       come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
 
+        /**
+         * Holds the death listener used by the widgets.
+         */
         static DeathListener* mGuiDeathListener;
 
         /**
@@ -1808,9 +1841,40 @@ namespace fcn
          */
         std::list<Widget*> mChildren;
 
-        int mLastX;
-        int mLastY;
-    };
-}
+        /** Last stored X coordinate used for layout and event calculations. */
+        int mLastX{0};
 
-#endif // end FCN_WIDGET_HPP
+        /** Last stored Y coordinate used for layout and event calculations. */
+        int mLastY{0};
+    };
+} // namespace fcn
+
+// Bitwise operators for Widget::SelectionMode (enum class)
+namespace fcn
+{
+    constexpr Widget::SelectionMode operator|(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    {
+        using T = std::underlying_type_t<Widget::SelectionMode>;
+        return static_cast<Widget::SelectionMode>(static_cast<T>(a) | static_cast<T>(b));
+    }
+
+    constexpr Widget::SelectionMode operator&(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
+    {
+        using T = std::underlying_type_t<Widget::SelectionMode>;
+        return static_cast<Widget::SelectionMode>(static_cast<T>(a) & static_cast<T>(b));
+    }
+
+    constexpr Widget::SelectionMode& operator|=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    {
+        a = a | b;
+        return a;
+    }
+
+    constexpr Widget::SelectionMode& operator&=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
+    {
+        a = a & b;
+        return a;
+    }
+} // namespace fcn
+
+#endif // INCLUDE_FIFECHAN_WIDGET_HPP_

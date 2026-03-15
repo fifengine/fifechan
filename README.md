@@ -1,32 +1,29 @@
 ![FIFEGUI LOGO](https://raw.githubusercontent.com/fifengine/fifechan/master/docs/logo/FIFEgui_small_c3.png)
 
-## FIFECHAN
+## FifeGUI
 
 | [Website](http://fifengine.net/) | [![#fife on Freenode](https://img.shields.io/badge/freenode-%23fife-green.svg)](https://webchat.freenode.net/?channels=fife) | [Changelog](https://github.com/fifengine/fifechan/blob/master/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [Source Code (zip)](https://github.com/fifengine/fifechan/archive/master.zip) |
 |:--------:|:--------:|:--------:|:--------:|:--------:|
 
 | Continuous Integration | Linux |   Mac    | Windows |
 |:----------------------:|:-----:|:--------:|:-------:|
-| **Build Status** | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Travis Build Status](https://travis-ci.org/fifengine/fifechan.svg?branch=master)](https://travis-ci.org/fifengine/fifechan) | [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/fifengine/fifechan?branch=master&svg=true)](https://ci.appveyor.com/project/LinuxDonald/fifechan) | 
-| **Development Releases**  |   -    |    -     | [See Jobs for Build Artifacts](https://ci.appveyor.com/project/LinuxDonald/fifechan) |
+| **Build Status** | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | Not Build | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) |
 
-Fifechan is also already available from the following package repositories:
+## Introduction to FifeGUI
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
+FifeGUI is a lightweight, cross-platform C++ GUI library designed for games.
 
-## Introduction to Fifechan
+It offers a simple but powerful set of customizable widgets, allowing users to
+create a wide range of widget types.
 
-Fifechan is a lightweight cross platform GUI library written in C++ specifically
-designed for games. It has a small yet powerful built in set of extendable GUI 
-Widgets allowing users to create virtually unlimited types of widgets. 
+It supports rendering in SDL or OpenGL out of the box and it can be adapted to
+use any rendering engine the user requires.
 
-Fifechan supports rendering in SDL, OpenGL, or Allegro out of the box or it can be 
-adapted to use any rendering engine the user requires. Events are pushed to 
-Fifechan which allows users to use any input library they wish or they could use
-the built in input handling through either SDL input or Allegro input. 
+Events are pushed to FifeGUI, letting users choose their preferred input library
+or use its built-in SDL input handling.
 
-The primary goal for Fifechan is to keep it extendable, lightweight and still be 
-powerful enough to use in all types of games out of the box. 
+The main goal of FifeGUI is to remain lightweight, extendable,
+and powerful enough to be used in any type of game.
 
 ## Downloads
 
@@ -36,9 +33,29 @@ You find the latest releases on [Github Releases](https://github.com/fifengine/f
 
 #### Development Releases
 
-We also provide releases for the latest successful build. You find them listed in the Continous Integration table above.
+We also provide releases for the latest successful build on Github Actions CI.
 
-## Getting involved
+#### Availability in Package Repositories
 
-If you want to get involved with the development, come join our IRC channel #fife on Freenode.
-Feel free to drop us a line there and we'll help you getting started!
+FifeGUI is also already available from the following package repositories:
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
+
+## License
+
+FifeGUI is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
+
+## Dev Notes
+
+## Build Dependencies
+
+You need the following libraries installed:
+
+For OpenGL support:
+ - OpenGL
+
+For [SDL](https://libsdl.org) support:
+ - SDL2
+ - SDL2_image
+ - SDL2_ttf
+ - SDL2_mixer (optional) (FPS demo)

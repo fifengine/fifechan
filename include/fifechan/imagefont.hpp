@@ -1,70 +1,11 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_IMAGEFONT_HPP_
+#define INCLUDE_FIFECHAN_IMAGEFONT_HPP_
 
-#ifndef FCN_IMAGEFONT_HPP
-#define FCN_IMAGEFONT_HPP
-
+#include <array>
 #include <string>
 
 #include "fifechan/font.hpp"
@@ -78,32 +19,37 @@ namespace fcn
     class Image;
 
     /**
-     * A font using an image containing the font data. ImageFont can be used
-     * with any image supported by the currently used ImageLoader.
+     * A font implementation using an image atlas containing glyph data.
+     *
+     * ImageFont can be used with any image supported by the currently
+     * used ImageLoader.
      *
      * These are two examples of an image containing a font.
-     *  \image html imagefontexample.bmp
-     *  \image html imagefontexample2.bmp
+     *  \image html fixedfont.bmp
+     *  \image html rpgfont.png
      *
-     * The first pixel at coordinate (0,0) tells which color the image font 
-     * looks for when seperating glyphs. The glyphs in the image is provided
+     * The first pixel at coordinate (0,0) tells which color the image font
+     * looks for when separating glyphs. The glyphs in the image is provided
      * to the image font's constructor in the order they appear in the image.
      *
      * To create an ImageFont from the first image example above the following
      * constructor call should be made:
-     * @code fcn::ImageFont imageFont("fixedfont_big.bmp"," abcdefghijklmno\
-pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
+     * @code
+     * fcn::ImageFont imageFont("fixedfont_big.bmp",
+     *     " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+     * @endcode
      *
      * Noteworthy is that the first glyph actually gives the width of space.
-     * Glyphs can, as seen in the second image example above, be seperated with
+     * Glyphs can, as seen in the second image example above, be separated with
      * horizontal lines making it possible to draw glyphs on more then one
      * line in the image. However, these horizontal lines must have a height of
      * one pixel!
+     *
+     * @ingroup fonts
      */
-    class FCN_CORE_DECLSPEC ImageFont: public Font
+    class FIFEGUI_API ImageFont : public Font
     {
     public:
-
         /**
          * Constructor. Takes an image file containing the font and
          * a string containing the glyphs. The glyphs in the string should
@@ -114,7 +60,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph list is incorrect or the font file is
          *                   corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, const std::string& glyphs);
+        ImageFont(std::string const & filename, std::string const & glyphs);
 
         /**
          * Constructor. Takes an image containing the font and
@@ -127,7 +73,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph list is incorrect or the font image is
          *                   is missing.
          */
-        ImageFont(Image* image, const std::string& glyphs);
+        ImageFont(Image* image, std::string const & glyphs);
 
         /**
          * Constructor. Takes an image file containing the font and
@@ -143,14 +89,14 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @throws Exception when glyph bondaries are incorrect or the font
          *                   file is corrupt or if no ImageLoader exists.
          */
-        ImageFont(const std::string& filename, 
-                  unsigned char glyphsFrom=32,
-                  unsigned char glyphsTo=126);
+        explicit ImageFont(std::string const & filename, unsigned char glyphsFrom = 32, unsigned char glyphsTo = 126);
 
-        /**
-         * Destructor.
-         */
-        virtual ~ImageFont();
+        ~ImageFont() override;
+
+        ImageFont(ImageFont const &)            = delete;
+        ImageFont& operator=(ImageFont const &) = delete;
+        ImageFont(ImageFont&&)                  = delete;
+        ImageFont& operator=(ImageFont&&)       = delete;
 
         /**
          * Draws a glyph.
@@ -165,8 +111,7 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          * @param y The y coordinate where to draw the glyph.
          * @return The width of the glyph in pixels.
          */
-        virtual int drawGlyph(Graphics* graphics, unsigned char glyph,
-                              int x, int y);
+        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
         /**
          * Sets the space between rows in pixels. Default is 0 pixels.
@@ -210,17 +155,15 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          */
         virtual int getWidth(unsigned char glyph) const;
 
-
         // Inherited from Font
 
-        virtual int getWidth(const std::string& text) const;
+        int getWidth(std::string const & text) const override;
 
-        virtual void drawString(Graphics* graphics, const std::string& text,
-                                int x, int y);
+        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
-        virtual int getHeight() const;
+        int getHeight() const override;
 
-        virtual int getStringIndexAt(const std::string& text, int x) const;
+        int getStringIndexAt(std::string const & text, int x) const override;
 
     protected:
         /**
@@ -238,41 +181,38 @@ pqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); @endcode
          *         with the font.
          * @throws Exception when no glyph is found.
          */
-         Rectangle scanForGlyph(unsigned char glyph, 
-                                int x, 
-                                int y, 
-                                const Color& separator);
+        Rectangle scanForGlyph(unsigned char glyph, int x, int y, Color const & separator);
 
         /**
          * Holds the glyphs areas in the image.
          */
-        Rectangle mGlyph[256];
+        std::array<Rectangle, 256> mGlyph;
 
         /**
          * Holds the height of the image font.
          */
-        int mHeight;
+        int mHeight{0};
 
         /**
          * Holds the glyph spacing of the image font.
          */
-        int mGlyphSpacing;
+        int mGlyphSpacing{0};
 
         /**
          * Holds the row spacing of the image font.
          */
-        int mRowSpacing;
+        int mRowSpacing{0};
 
         /**
          * Holds the image with the font data.
          */
-        Image* mImage;
+        Image* mImage{nullptr};
 
         /**
          * Holds the filename of the image with the font data.
          */
         std::string mFilename;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_IMAGEFONT_HPP
+#endif // INCLUDE_FIFECHAN_IMAGEFONT_HPP_

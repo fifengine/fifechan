@@ -1,74 +1,12 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
-
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * For comments regarding functions please see the header file.
- */
-
-#include <algorithm>
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/imagebutton.hpp"
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -77,138 +15,145 @@
 
 namespace fcn
 {
-    ImageButton::ImageButton() {
-        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
-        mInternalImages = std::vector<bool>(6, false);
-        adjustSize();
+    ImageButton::ImageButton() : mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
+    {
+        adjustSizeImpl();
     }
 
-    ImageButton::ImageButton(const std::string& filename) {
-        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
-        mInternalImages = std::vector<bool>(6, false);
+    ImageButton::ImageButton(std::string const & filename) :
+        mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
+    {
         setUpImage(filename);
     }
 
-    ImageButton::ImageButton(const Image* image) {
-        mImages = std::vector<const Image*>(6, static_cast<const Image*>(0));
-        mInternalImages = std::vector<bool>(6, false);
+    ImageButton::ImageButton(Image const * image) : mImages(6, static_cast<Image const *>(nullptr)), mOwnedImages(6)
+    {
         setUpImage(image);
     }
 
-    ImageButton::~ImageButton() {
-        for (unsigned int i = 0; i < 6; ++i) {
-            if (mInternalImages[i]) {
-                delete mImages[i];
-            }
-        }
+    ImageButton::~ImageButton() = default;
+
+    void ImageButton::setImage(std::string const & filename, ImageType type)
+    {
+        mOwnedImages[static_cast<size_t>(type)].reset(Image::load(filename));
+        mImages[static_cast<size_t>(type)] = mOwnedImages[static_cast<size_t>(type)].get();
+        adjustSizeImpl();
     }
 
-    void ImageButton::setImage(const std::string& filename, ImageType type) {
-        if (mInternalImages[type]) {
-            delete mImages[type];
-        }
-        const Image* image = Image::load(filename);
-        if (image) {
-            mImages[type] = image;
-            mInternalImages[type] = true;
-        } else {
-            mImages[type] = 0;
-            mInternalImages[type] = false;
-        }
-        adjustSize();
+    void ImageButton::setImage(Image const * image, ImageType type)
+    {
+        mOwnedImages[static_cast<size_t>(type)].reset();
+        mImages[static_cast<size_t>(type)] = image;
+        adjustSizeImpl();
     }
 
-    void ImageButton::setImage(const Image* image, ImageType type) {
-        if (mInternalImages[type]) {
-            delete mImages[type];
-        }
-        mImages[type] = image;
-        mInternalImages[type] = false;
-        adjustSize();
+    void ImageButton::setUpImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Up);
     }
 
-    void ImageButton::setUpImage(const std::string& filename) {
-        setImage(filename, Image_Up);
-    }
-    
-    void ImageButton::setUpImage(const Image* image) {
-        setImage(image, Image_Up);
+    void ImageButton::setUpImage(Image const * image)
+    {
+        setImage(image, ImageType::Up);
     }
 
-    const Image* ImageButton::getUpImage() const {
-        return mImages[Image_Up];
+    Image const * ImageButton::getUpImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Up)];
     }
 
-    void ImageButton::setDownImage(const std::string& filename) {
-        setImage(filename, Image_Down);
+    void ImageButton::setDownImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Down);
     }
 
-    void ImageButton::setDownImage(const Image* image) {
-        setImage(image, Image_Down);
+    void ImageButton::setDownImage(Image const * image)
+    {
+        setImage(image, ImageType::Down);
     }
 
-    const Image* ImageButton::getDownImage() const {
-        return mImages[Image_Down];
+    Image const * ImageButton::getDownImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Down)];
     }
 
-    void ImageButton::setHoverImage(const std::string& filename) {
-        setImage(filename, Image_Hover);
+    void ImageButton::setHoverImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Hover);
     }
 
-    void ImageButton::setHoverImage(const Image* image) {
-        setImage(image, Image_Hover);
+    void ImageButton::setHoverImage(Image const * image)
+    {
+        setImage(image, ImageType::Hover);
     }
 
-    const Image* ImageButton::getHoverImage() const {
-        return mImages[Image_Hover];
+    Image const * ImageButton::getHoverImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Hover)];
     }
 
-    void ImageButton::setInactiveUpImage(const std::string& filename) {
-        setImage(filename, Image_Up_De);
+    void ImageButton::setInactiveUpImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Up_Inactive);
     }
 
-    void ImageButton::setInactiveUpImage(const Image* image) {
-        setImage(image, Image_Up_De);
+    void ImageButton::setInactiveUpImage(Image const * image)
+    {
+        setImage(image, ImageType::Up_Inactive);
     }
 
-    const Image* ImageButton::getInactiveUpImage() const {
-        return mImages[Image_Up_De];
+    Image const * ImageButton::getInactiveUpImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Up_Inactive)];
     }
 
-    void ImageButton::setInactiveDownImage(const std::string& filename) {
-        setImage(filename, Image_Down_De);
+    void ImageButton::setInactiveDownImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Down_Inactive);
     }
 
-    void ImageButton::setInactiveDownImage(const Image* image) {
-        setImage(image, Image_Down_De);
+    void ImageButton::setInactiveDownImage(Image const * image)
+    {
+        setImage(image, ImageType::Down_Inactive);
     }
 
-    const Image* ImageButton::getInactiveDownImage() const {
-        return mImages[Image_Down_De];
+    Image const * ImageButton::getInactiveDownImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Down_Inactive)];
     }
 
-    void ImageButton::setInactiveHoverImage(const std::string& filename) {
-        setImage(filename, Image_Hover_De);
+    void ImageButton::setInactiveHoverImage(std::string const & filename)
+    {
+        setImage(filename, ImageType::Hover_Inactive);
     }
 
-    void ImageButton::setInactiveHoverImage(const Image* image) {
-        setImage(image, Image_Hover_De);
+    void ImageButton::setInactiveHoverImage(Image const * image)
+    {
+        setImage(image, ImageType::Hover_Inactive);
     }
 
-    const Image* ImageButton::getInactiveHoverImage() const {
-        return mImages[Image_Hover_De];
+    Image const * ImageButton::getInactiveHoverImage() const
+    {
+        return mImages[static_cast<size_t>(ImageType::Hover_Inactive)];
     }
 
-    void ImageButton::resizeToContent(bool recursiv) {
-        adjustSize();
+    void ImageButton::resizeToContent([[maybe_unused]] bool recursion)
+    {
+        adjustSizeImpl();
     }
 
-    void ImageButton::adjustSize() {
+    void ImageButton::adjustSize()
+    {
+        adjustSizeImpl();
+    }
+
+    void ImageButton::adjustSizeImpl()
+    {
         int w = 0;
         int h = 0;
         for (unsigned int i = 0; i < 6; ++i) {
-            const Image* img = mImages[i];
-            if (img) {
+            Image const * img = mImages[i];
+            if (img != nullptr) {
                 w = std::max(w, img->getWidth());
                 h = std::max(h, img->getHeight());
             }
@@ -222,10 +167,11 @@ namespace fcn
         setSize(w, h);
     }
 
-    void ImageButton::draw(Graphics* graphics) {
+    void ImageButton::draw(Graphics* graphics)
+    {
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (isFocused() && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (isFocused() && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -234,67 +180,73 @@ namespace fcn
 
         Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
         // fetch the image, down, hover or up
-        const Image* img = !isActive() && getInactiveUpImage() ? getInactiveUpImage() : getUpImage();
+        Image const * img = !isActive() && (getInactiveUpImage() != nullptr) ? getInactiveUpImage() : getUpImage();
         if (isPressed()) {
             offsetRec.x += getDownXOffset();
             offsetRec.y += getDownYOffset();
             if (!isActive()) {
-                if (getInactiveDownImage()) {
+                if (getInactiveDownImage() != nullptr) {
                     img = getInactiveDownImage();
                 }
             } else {
-                img = getDownImage() ? getDownImage() : getUpImage();
+                img = (getDownImage() != nullptr) ? getDownImage() : getUpImage();
             }
-        } else if(mHasMouse) {
+        } else if (mHasMouse) {
             if (!isActive()) {
-                if (getInactiveHoverImage()) {
+                if (getInactiveHoverImage() != nullptr) {
                     img = getInactiveHoverImage();
                 }
             } else {
-                img = getHoverImage() ? getHoverImage() : getUpImage();
+                img = (getHoverImage() != nullptr) ? getHoverImage() : getUpImage();
             }
         }
         // render foreground image or color rectangle
-        if (img) {
-            graphics->drawImage(img, 0, 0, offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
+        if (img != nullptr) {
+            graphics->drawImage(
+                img, 0, 0, offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
         } else {
             Color faceColor = getBaseColor();
-            if (isFocused() && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (isFocused() &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 faceColor = getSelectionColor();
             }
-            int alpha = faceColor.a;
+            int const alpha = faceColor.a;
 
             if (isPressed()) {
-                faceColor = faceColor - 0x303030;
+                faceColor   = faceColor - 0x303030;
                 faceColor.a = alpha;
             }
             if (!isActive()) {
-                int color = static_cast<int>(faceColor.r * 0.3 + faceColor.g * 0.59 + faceColor.b * 0.11);
-                faceColor.r = color;
-                faceColor.g = color;
-                faceColor.b = color;
+                int const color = static_cast<int>((faceColor.r * 0.3) + (faceColor.g * 0.59) + (faceColor.b * 0.11));
+                faceColor.r     = color;
+                faceColor.g     = color;
+                faceColor.b     = color;
             }
 
             graphics->setColor(faceColor);
-            graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
+            graphics->fillRectangle(
+                offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
         }
 
         // render caption if it exits
         if (!getCaption().empty()) {
-            int textX;
-            int textY = offsetRec.y + getPaddingTop() + (getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2;
+            int textX = 0;
+            int const textY =
+                offsetRec.y + getPaddingTop() +
+                ((getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2);
             switch (getAlignment()) {
-                case Graphics::Left:
-                    textX = offsetRec.x + getPaddingLeft();
-                    break;
-                case Graphics::Center:
-                    textX = offsetRec.x + getPaddingLeft() + (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
-                    break;
-                case Graphics::Right:
-                    textX = getWidth() - offsetRec.x - getPaddingRight();
-                    break;
-                default:
-                    throw FCN_EXCEPTION("Unknown alignment.");
+            case Graphics::Alignment::Left:
+                textX = offsetRec.x + getPaddingLeft();
+                break;
+            case Graphics::Alignment::Center:
+                textX = offsetRec.x + getPaddingLeft() +
+                        (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+                break;
+            case Graphics::Alignment::Right:
+                textX = getWidth() - offsetRec.x - getPaddingRight();
+                break;
+            default:
+                throwException("Unknown alignment.");
             }
             // set font and color
             graphics->setFont(getFont());
@@ -302,4 +254,4 @@ namespace fcn
             graphics->drawText(getCaption(), textX, textY, getAlignment());
         }
     }
-}
+} // namespace fcn

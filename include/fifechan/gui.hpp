@@ -1,73 +1,17 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_GUI_HPP_
+#define INCLUDE_FIFECHAN_GUI_HPP_
 
-#ifndef FCN_GUI_HPP
-#define FCN_GUI_HPP
-
+#include <algorithm>
+#include <iterator>
 #include <list>
-#include <set>
+#include <memory>
 #include <queue>
+#include <set>
+#include <string>
 
 #include "fifechan/keyevent.hpp"
 #include "fifechan/mouseevent.hpp"
@@ -77,6 +21,7 @@
 namespace fcn
 {
     class FocusHandler;
+    class Font;
     class GuiDeathListener;
     class Graphics;
     class Input;
@@ -86,45 +31,83 @@ namespace fcn
 
     // The following comment will appear in the doxygen main page.
     /**
-     * @mainpage
-     * @section Introduction
-     * This documentation is mostly intended as a reference to the API. If you want to get started with Guichan, we suggest you check out the programs in the examples directory of the Guichan release.
-     * @n
-     * @n
-     * This documentation is, and will always be, work in progress. If you find any errors, typos or inconsistencies, or if you feel something needs to be explained in more detail - don't hesitate to tell us.
+     * @mainpage FifeGUI API Reference
+     *
+     * @section intro_sec Introduction
+     * Welcome to the <b>FifeGUI</b> API documentation. FifeGUI is a flexible,
+     * backend-agnostic GUI library designed to be easily integrated into games
+     * and applications. It provides a rich set of widgets, event handling, and
+     * theming capabilities while remaining decoupled from specific rendering or
+     * input libraries.
+     *
+     * @section arch_sec Architecture & Backends
+     * FifeGUI operates on an abstraction layer that allows it to work with various
+     * underlying technologies. The core logic is separated from the implementation
+     * details via abstract interfaces:
+     * - <b>Graphics:</b> Supports multiple backends (e.g., @ref fcn::opengl::Graphics "OpenGL", @ref
+     * fcn::sdl2::Graphics "SDL2").
+     * - <b>Input:</b> Abstracts keyboard and mouse input (@ref fcn::Input "Input" interface).
+     * - <b>Fonts & Images:</b> Pluggable loaders and renderers for assets.
+     *
+     * This design allows you to swap rendering engines without changing your GUI logic.
+     *
+     * @section nav_sec Navigating this Documentation
+     * This documentation is primarily structured as an API reference. To navigate effectively:
+     * - <b>Modules:</b> Use the <a href="modules.html">Modules</a> tab to browse classes by logical category
+     *   (e.g., @ref widgets "Widgets", @ref events "Events", @ref graphics "Graphics & Rendering").
+     * - <b>Class List:</b> Use the <a href="annotated.html">Class List</a> for a complete alphabetical index.
+     * - <b>Hierarchy:</b> Use the <a href="hierarchy.html">Class Hierarchy</a> to understand inheritance relationships.
+     *
+     * @section start_sec Getting Started
+     * While this reference details every class and method, the best way to learn
+     * FifeGUI is by examining practical implementations:
+     * - Check the <code>examples/</code> directory for minimal, standalone demonstrations.
+     * - Explore <code>tests/integration/</code> for comprehensive usage scenarios and edge cases.
+     *
+     * @section contrib_sec Contributing & Feedback
+     * This documentation is a living project. If you encounter:
+     * - Errors, typos, or broken links
+     * - Inconsistent descriptions or missing parameters
+     * - Features that require more detailed explanation
+     *
+     * Please do not hesitate to contribute! Submit issues or pull requests to our
+     * repository to help improve the quality of this documentation for everyone.
+     *
      */
 
     /**
-     * Contains a Guichan GUI. This is the core class of Guichan to which
-     * implementations of back ends are passed, to make Guichan work with
-     * a specific library, and to where the top widget (root widget of GUI)
-     * is added. If you want to be able to have more then one widget in your 
+     * The central GUI manager. Integrates backend implementations and manages the root widget tree.
+     *
+     * GUI is the core class of FifeGUI to which implementations of backends
+     * are passed, to make FifeGUI work with a specific library, and to where
+     * the top widget (root widget of GUI) is added.
+     * If you want to be able to have more then one widget in your
      * GUI, the top widget should be a container.
      *
-     * A Gui object cannot work properly without passing back end 
+     * A Gui object cannot work properly without passing backend
      * implementations to it. A Gui object must have an implementation of a
-     * Graphics and an implementation of Input. 
+     * Graphics and an implementation of Input.
      *
      * NOTE: A complete GUI also must have the ability to load images.
-     *       Images are loaded with the Image class, so to make Guichan
+     *       Images are loaded with the Image class, so to make Fifechan
      *       able to load images an implementation of ImageLoader must be
      *       passed to Image.
      *
      * @see Graphics, Input, Image
+     *
+     * @ingroup core
      */
-    class FCN_CORE_DECLSPEC Gui
+    class FIFEGUI_API Gui
     {
     public:
-
-        /**
-         * Constructor.
-         */
         Gui();
 
-        /**
-         * Destructor.
-         */
         virtual ~Gui();
+
+        Gui(Gui const &)            = delete;
+        Gui& operator=(Gui const &) = delete;
+        Gui(Gui&&)                  = delete;
+        Gui& operator=(Gui&&)       = delete;
 
         /**
          * Sets the top widget. The top widget is the root widget
@@ -135,6 +118,27 @@ namespace fcn
          * @see Container
          */
         virtual void setTop(Widget* top);
+
+        /**
+         * Sets the root widget and transfers ownership to Gui.
+         *
+         * @param top The root widget to own.
+         */
+        virtual void setTop(std::unique_ptr<Widget> top);
+
+        /**
+         * Alias for setTop.
+         *
+         * @param top The root widget.
+         */
+        virtual void setRoot(Widget* top);
+
+        /**
+         * Alias for ownership-based setTop.
+         *
+         * @param top The root widget to own.
+         */
+        virtual void setRoot(std::unique_ptr<Widget> top);
 
         /**
          * Gets the top widget. The top widget is the root widget
@@ -148,18 +152,23 @@ namespace fcn
          * Sets the graphics object to use for drawing.
          *
          * @param graphics The graphics object to use for drawing.
-         * @see getGraphics, AllegroGraphics, HGEGraphics, 
-         *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
+         * @see getGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual void setGraphics(Graphics* graphics);
+
+        /**
+         * Sets and owns the graphics object used for drawing.
+         *
+         * @param graphics The graphics object.
+         */
+        virtual void setGraphics(std::unique_ptr<Graphics> graphics);
 
         /**
          * Gets the graphics object used for drawing.
          *
          *  @return The graphics object used for drawing. NULL if no
          *          graphics object has been set.
-         * @see setGraphics, AllegroGraphics, HGEGraphics, 
-         *      OpenLayerGraphics, OpenGLGraphics, SDLGraphics
+         * @see setGraphics, OpenGLGraphics, SDLGraphics
          */
         virtual Graphics* getGraphics() const;
 
@@ -167,20 +176,51 @@ namespace fcn
          * Sets the input object to use for input handling.
          *
          * @param input The input object to use for input handling.
-         * @see getInput, AllegroInput, HGEInput, OpenLayerInput,
-         *      SDLInput
+         * @see getInput, SDLInput
          */
         virtual void setInput(Input* input);
+
+        /**
+         * Sets and owns the input object used for input handling.
+         *
+         * @param input The input object.
+         */
+        virtual void setInput(std::unique_ptr<Input> input);
 
         /**
          * Gets the input object being used for input handling.
          *
          *  @return The input object used for handling input. NULL if no
          *          input object has been set.
-         * @see setInput, AllegroInput, HGEInput, OpenLayerInput,
-         *      SDLInput
+         * @see setInput, SDLInput
          */
         virtual Input* getInput() const;
+
+        /**
+         * Initializes GUI backends in one call.
+         *
+         * @param graphics Owned graphics backend.
+         * @param input Owned input backend.
+         * @param width Unused by the core implementation.
+         * @param height Unused by the core implementation.
+         */
+        virtual void initialize(
+            std::unique_ptr<Graphics> graphics, std::unique_ptr<Input> input, int width, int height);
+
+        /**
+         * Returns the focus handler used by this GUI.
+         *
+         * @return Focus handler.
+         */
+        virtual FocusHandler* getFocusHandler() const;
+
+        /**
+         * Loads a font using the active graphics backend and sets it as global widget font.
+         *
+         * @param filename Path to font file.
+         * @param size Font size.
+         */
+        virtual void setGlobalFont(std::string const & filename, int size);
 
         /**
          * Performs logic of the GUI. By calling this function all logic
@@ -192,7 +232,7 @@ namespace fcn
         virtual void logic();
 
         /**
-         * Draws the GUI. By calling this funcion all draw functions
+         * Draws the GUI. By calling this function all draw functions
          * down in the GUI hierarchy will be called. When draw is called
          * the used Graphics object will be initialised and drawing of
          * the top widget will commence.
@@ -209,7 +249,7 @@ namespace fcn
 
         /**
          * Sets tabbing enabled, or not. Tabbing is the usage of
-         * changing focus by utilising the tab key.
+         * changing focus by utilizing the tab key.
          *
          * @param tabbing True if tabbing should be enabled, false
          *                otherwise.
@@ -247,24 +287,24 @@ namespace fcn
 
         /**
          * Inform gui that a widget was hidden.
-         * 
+         *
          * @param widget Hidden widget.
          */
         void enqueueHiddenWidget(Widget* widget);
-        
+
         /**
          * Inform gui that a widget was shown.
-         * 
+         *
          * @param widget Shown widget.
          */
         void enqueueShownWidget(Widget* widget);
 
         /**
          * Inform gui that a widget was deleted.
-         * 
+         *
          * @param widget Deleted widget.
          */
-        void widgetDied(Widget* widget);
+        void widgetDied(Widget const * widget);
 
     protected:
         /**
@@ -284,14 +324,14 @@ namespace fcn
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseMoved(const MouseInput& mouseInput);
+        virtual void handleMouseMoved(MouseInput const & mouseInput);
 
         /**
          * Handles mouse pressed input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMousePressed(const MouseInput& mouseInput);
+        virtual void handleMousePressed(MouseInput const & mouseInput);
 
         /**
          *
@@ -299,38 +339,38 @@ namespace fcn
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedDown(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedDown(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved up input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedUp(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedUp(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved right input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedRight(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedRight(MouseInput const & mouseInput);
 
         /**
          * Handles mouse wheel moved left input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseWheelMovedLeft(const MouseInput& mouseInput);
+        virtual void handleMouseWheelMovedLeft(MouseInput const & mouseInput);
 
         /**
          * Handles mouse released input.
          *
          * @param mouseInput The mouse input to handle.
          */
-        virtual void handleMouseReleased(const MouseInput& mouseInput);
+        virtual void handleMouseReleased(MouseInput const & mouseInput);
 
         /**
-         * Handles modal focus. Modal focus needs to be checked at 
+         * Handles modal focus. Modal focus needs to be checked at
          * each logic iteration as it might be necessary to distribute
          * mouse entered or mouse exited events.
          *
@@ -338,8 +378,8 @@ namespace fcn
         virtual void handleModalFocus();
 
         /**
-         * Handles modal mouse input focus. Modal mouse input focus needs 
-         * to be checked at each logic iteration as it might be necessary to 
+         * Handles modal mouse input focus. Modal mouse input focus needs
+         * to be checked at each logic iteration as it might be necessary to
          * distribute mouse entered or mouse exited events.
          *
          */
@@ -374,41 +414,56 @@ namespace fcn
          *
          */
         virtual void handleModalMouseInputFocusReleased();
-        
+
         /**
          * Handles hidden widgets.
          */
         virtual void handleHiddenWidgets();
-        
+
         /**
          * Handles shown widgets.
          */
         virtual void handleShownWidgets();
 
         /**
-         * Distributes a mouse event.
+         * Convenience overload: distribute a mouse event forwarding
+         * to the full overload with `force` and `toSourceOnly` set to false.
+         */
+        void distributeMouseEvent(Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y)
+        {
+            distributeMouseEvent(source, type, button, x, y, false, false);
+        }
+
+        /** Convenience overload: forward and allow specifying `force` while
+         *  `toSourceOnly` remains false.
+         */
+        void distributeMouseEvent(
+            Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y, bool force)
+        {
+            distributeMouseEvent(source, type, button, x, y, force, false);
+        }
+
+        /**
+         * Distributes a mouse event to the GUI handling code.
          *
-         * @param type The type of the event to distribute,
-         * @param button The button of the event (if any used) to distribute.
+         * @param source The source widget of the event.
+         * @param type The type of the event to distribute.
+         * @param button The button of the event (if any) to distribute.
          * @param x The x coordinate of the event.
          * @param y The y coordinate of the event.
-         * @param fource indicates whether the distribution should be forced or not.
-         *               A forced distribution distributes the event even if a widget
-         *               is not enabled, not visible, another widget has modal
-         *               focus or another widget has modal mouse input focus. 
-         *               Default value is false.
-         * @param toSourceOnly indicates whether the distribution should be to the
-         *                     source widget only or to it's parent's mouse listeners
-         *                     as well.
-         *
+         * @param force If true, distributes the event even if the receiving widget
+         *              is not enabled, not visible, or another widget has modal focus.
+         * @param toSourceOnly If true, only the source widget receives the event,
+         *                     otherwise parent listeners may also receive it.
          */
-        virtual void distributeMouseEvent(Widget* source,
-                                          int type,
-                                          int button,
-                                          int x,
-                                          int y,
-                                          bool force = false,
-                                          bool toSourceOnly = false);
+        virtual void distributeMouseEvent(
+            Widget* source,
+            MouseEvent::Type type,
+            MouseEvent::Button button,
+            int x,
+            int y,
+            bool force,
+            bool toSourceOnly);
 
         /**
          * Distributes a key event.
@@ -431,7 +486,19 @@ namespace fcn
          *
          * @return The widget at a certain position.
          */
-        virtual Widget* getWidgetAt(int x, int y, Widget* exclude = NULL);
+        Widget* getWidgetAt(int x, int y)
+        {
+            return getWidgetAt(x, y, nullptr);
+        }
+
+        /**
+         * Gets the widget at a certain position, optionally excluding one widget.
+         * @param x The x coordinate.
+         * @param y The y coordinate.
+         * @param exclude Widget to ignore when searching (may be nullptr).
+         * @return The widget at the specified position or nullptr if none.
+         */
+        virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
         /**
          * Gets the source of the mouse event.
@@ -465,12 +532,12 @@ namespace fcn
          * Holds hidden widgets.
          */
         std::queue<Widget*> mHiddenWidgets;
-        
+
         /**
          * Holds shown widgets.
          */
         std::queue<Widget*> mShownWidgets;
-        
+
         /**
          * Holds the graphics implementation used.
          */
@@ -485,11 +552,11 @@ namespace fcn
          * Holds the focus handler for the Gui.
          */
         FocusHandler* mFocusHandler;
-        
+
         /**
          * Holds the visibility event handler for the Gui.
          */
-        VisibilityEventHandler *mVisibilityEventHandler;
+        VisibilityEventHandler* mVisibilityEventHandler;
 
         /**
          * True if tabbing is enabled, false otherwise.
@@ -499,18 +566,18 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef std::list<KeyListener*> KeyListenerList;
+        using KeyListenerList = std::list<KeyListener*>;
 
         /**
          * Typedef.
          */
-        typedef KeyListenerList::iterator KeyListenerListIterator;
+        using KeyListenerListIterator = KeyListenerList::iterator;
 
         /**
          * Holds the global key listeners of the Gui.
          */
         KeyListenerList mKeyListeners;
-        
+
         /**
          * True if shift is pressed, false otherwise.
          */
@@ -564,8 +631,21 @@ namespace fcn
          */
         int mLastMouseDragButton;
 
+        /** Listener notified when the GUI or top widget is destroyed. */
         GuiDeathListener* mDeathListener;
-    };
-}
 
-#endif // end FCN_GUI_HPP
+        /** Optional owned top widget (when Gui takes ownership). */
+        std::unique_ptr<Widget> mOwnedTop;
+
+        /** Optional owned graphics backend instance. */
+        std::unique_ptr<Graphics> mOwnedGraphics;
+
+        /** Optional owned input backend instance. */
+        std::unique_ptr<Input> mOwnedInput;
+
+        /** Shared global font used by widgets when not overridden. */
+        std::shared_ptr<Font> mGlobalFont;
+    };
+} // namespace fcn
+
+#endif // INCLUDE_FIFECHAN_GUI_HPP_

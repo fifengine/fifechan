@@ -1,0 +1,158 @@
+#
+# SetupVcpkg
+#
+# This CMake script configures vcpkg using env variables instead of CLI options.
+#
+
+set(VCPKG_VERBOSE ON)
+
+set(VCPKG_BOOTSTRAP_OPTIONS "-disableMetrics")
+
+if(DEFINED ENV{VCPKG_VERBOSE} AND NOT DEFINED VCPKG_VERBOSE)
+  set(VCPKG_VERBOSE "$ENV{VCPKG_VERBOSE}" CACHE BOOL "")
+endif()
+
+#
+# Automatic installation of vcpkg dependencies.
+# Still experimental?
+#
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+set(X_VCPKG_APPLOCAL_DEPS_INSTALL ON)
+
+#
+# Hint for Linux users: vcpkg is optional and system packages are commonly used.
+#
+if(USE_VCPKG AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    message(STATUS
+        "[VCPKG]  Hint: Linux builds commonly use system packages instead of vcpkg.\n"
+        "            To disable vcpkg:\n"
+        "              - configure with: -DUSE_VCPKG=OFF\n"
+        "              - do not set -DCMAKE_TOOLCHAIN_FILE to <path_to>/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    )
+    message(STATUS "")
+endif()
+
+#
+# VCPKG_ROOT
+#
+# Please set VCPKG_ROOT on your env: export VCPKG_ROOT=/opt/vcpkg/bin
+#
+# If CMAKE_TOOLCHAIN_FILE is:
+# - is set, we don't change it. This is the default case!
+# - not set, but VCPKG_ROOT, we set the toolchain using the VCPKG_ROOT,
+#   This avoids passing -DCMAKE_TOOLCHAIN_FILE. This is way shorter!
+
+if(DEFINED CMAKE_TOOLCHAIN_FILE)
+  # do nothing, User explicitly set the CMAKE_TOOLCHAIN_FILE
+  message(STATUS "[VCPKG]  Enabled (toolchain provided via CMAKE_TOOLCHAIN_FILE)")
+
+elseif(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+   # infer toolchain automatically
+  set(_vcpkg_toolchain_file "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+
+  # ensure the toolchain file exists before setting CMAKE_TOOLCHAIN_FILE,
+  # otherwise the user will get a confusing error about missing toolchain file later on
+  if(EXISTS "${_vcpkg_toolchain_file}")
+    set(CMAKE_TOOLCHAIN_FILE "${_vcpkg_toolchain_file}" CACHE STRING "")
+    message(STATUS "[VCPKG]  Enabled (toolchain automatically set from VCPKG_ROOT)")
+  else()
+    message(WARNING
+      "[VCPKG] VCPKG_ROOT is set but the toolchain file was not found:\n"
+      "        ${_vcpkg_toolchain_file}"
+    )
+  endif()
+
+else()
+    message(WARNING
+    "One of -DCMAKE_TOOLCHAIN_FILE or the VCPKG_ROOT environment variable should be set. "
+    "Install vcpkg and set VCPKG_ROOT, or pass "
+    "-DCMAKE_TOOLCHAIN_FILE=<path-to>/vcpkg/scripts/buildsystems/vcpkg.cmake."
+  )
+endif()
+
+#
+# VCPKG_FEATURE_FLAGS
+#
+# This env var can be set to a comma-separated list of off-by-default features in vcpkg.
+#
+if(NOT DEFINED VCPKG_FEATURE_FLAGS)
+  set(VCPKG_FEATURE_FLAGS "manifests,versions,binarycaching,registries")
+endif()
+
+#
+# VCPKG_TARGET_TRIPLET
+#
+# A triplet defines the build target environment in a compact string.
+# [target-architecture]-[platform]-[linkage type]
+# Examples: x86-windows, x64-windows-static, x64-linux.
+#
+# https://vcpkg.readthedocs.io/en/latest/users/triplets/
+#
+# The VCPKG_DEFAULT_TRIPLET is automatically set by vcpkg.cmake.
+# The default triplets are: Windows: x86-windows, Linux: x64-linux, OSX: x64-osx.
+#
+# If you want to build for other platforms, e.g. build for Linux on Windows-x64 (canadian-cross builds)
+# please set VCPKG_TARGET_TRIPLET as env var: export VCPKG_TARGET_TRIPLET=x64-linux
+#
+if(DEFINED ENV{VCPKG_TARGET_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+  set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_TARGET_TRIPLET}" CACHE STRING "")
+endif()
+
+#
+# VCPKG_DEFAULT_TRIPLET
+#
+if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+  set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
+endif()
+
+if(NOT DEFINED VCPKG_MANIFEST_FILE)
+  set(VCPKG_MANIFEST_FILE "${CMAKE_SOURCE_DIR}/vcpkg.json")
+endif()
+
+# Define an additional source group for IDEs with vcpkg relevant files.
+source_group("vcpkg" FILES "${CMAKE_SOURCE_DIR}/cmake/SetupVcpkg.cmake" "${CMAKE_SOURCE_DIR}/vcpkg.json")
+
+#
+# Check to make sure the VCPKG_TARGET_TRIPLET matches BUILD_SHARED_LIBS
+#
+if(DEFINED VCPKG_TARGET_TRIPLET AND "${VCPKG_TARGET_TRIPLET}" MATCHES ".*-static")
+  if(BUILD_SHARED_LIBS)
+    message(FATAL_ERROR "When the VCPKG_TARGET_TRIPLET ends with '-static' the BUILD_SHARED_LIBS must be 'OFF'.")
+  endif()
+else()
+  if(NOT BUILD_SHARED_LIBS)
+    # if VCPKG_TARGET_TRIPLET does not end with '-static' then set BUILD_SHARED_LIBS to 'ON' by default
+    set(BUILD_SHARED_LIBS ON)
+  endif()
+endif()
+
+
+# Init variables, which are not always defined.
+if(NOT DEFINED VCPKG_INSTALL_OPTIONS)
+  set(VCPKG_INSTALL_OPTIONS "" CACHE STRING "")
+endif()
+
+if(NOT DEFINED VCPKG_APPLOCAL_DEPS)
+  set(VCPKG_APPLOCAL_DEPS "" CACHE BOOL OFF)
+endif()
+
+#
+# Print VCPKG configuration overview
+#
+
+message(STATUS "")
+message(STATUS "[VCPKG]  Configuration Overview:")
+message(STATUS "")
+message(STATUS "[INFO]   ENV.VCPKG_ROOT                -> '$ENV{VCPKG_ROOT}'")
+message(STATUS "[INFO]   BUILD_SHARED_LIBS             -> '${BUILD_SHARED_LIBS}'")
+message(STATUS "[INFO]   CMAKE_TOOLCHAIN_FILE          -> '${CMAKE_TOOLCHAIN_FILE}'")
+
+message(STATUS "")
+message(STATUS "[VCPKG]  VCPKG_VERBOSE                 -> '${VCPKG_VERBOSE}'")
+message(STATUS "[VCPKG]  VCPKG_INSTALL_OPTIONS         -> '${VCPKG_INSTALL_OPTIONS}'")
+message(STATUS "[VCPKG]  VCPKG_APPLOCAL_DEPS           -> '${VCPKG_APPLOCAL_DEPS}'")
+message(STATUS "[VCPKG]  VCPKG_FEATURE_FLAGS           -> '${VCPKG_FEATURE_FLAGS}'")
+message(STATUS "[VCPKG]  VCPKG_MANIFEST_FILE           -> '${VCPKG_MANIFEST_FILE}'")
+message(STATUS "[VCPKG]  VCPKG_INSTALLED_DIR           -> '${VCPKG_INSTALLED_DIR}'")
+message(STATUS "[VCPKG]  VCPKG_TARGET_TRIPLET          -> '${VCPKG_TARGET_TRIPLET}'")
+message(STATUS "")

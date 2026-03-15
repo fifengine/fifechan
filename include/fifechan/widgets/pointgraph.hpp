@@ -1,59 +1,82 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_POINTGRAPH_HPP
-#define FCN_POINTGRAPH_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_
 
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
-
 
 namespace fcn
 {
     class Graphics;
 
-    class FCN_CORE_DECLSPEC PointGraph : public Widget {
+    /**
+     * Draws a scatter graph of individual points.
+     *
+     * The graph is drawn by connecting the points with lines.
+     * The thickness of the lines can be set with setThickness.
+     * The graph can be set to be opaque or not with setOpaque.
+     * If the graph is opaque, it will be drawn with a solid color,
+     * otherwise it will be drawn with a transparent color.
+     *
+     * @ingroup graphs
+     */
+    class FIFEGUI_API PointGraph : public Widget
+    {
     public:
-
         /**
          * Default constructor.
          */
         PointGraph();
-        PointGraph(const PointVector& data);
-        
         /**
-         * Destructor.
+         * Construct with initial data points.
+         *
+         * @param data Initial data points to show in the graph.
          */
-        virtual ~PointGraph() { };
+        explicit PointGraph(PointVector data);
+        ~PointGraph() override = default;
 
-        void setPointVector(const PointVector& data);
-        const PointVector& getPointVector() const;
+        PointGraph(PointGraph const &)            = delete;
+        PointGraph& operator=(PointGraph const &) = delete;
+        PointGraph(PointGraph&&)                  = delete;
+        PointGraph& operator=(PointGraph&&)       = delete;
+
+        /**
+         * Sets the data to draw.
+         *
+         * @param data The data to draw.
+         */
+        void setPointVector(PointVector const & data);
+
+        /**
+         * @return The data to draw.
+         */
+        PointVector const & getPointVector() const;
+
+        /**
+         * Resets the data to draw.
+         */
         void resetPointVector();
 
+        /**
+         * Set the thickness of the lines drawn between points.
+         *
+         * @param thickness Line thickness in pixels.
+         */
         void setThickness(unsigned int thickness);
+
+        /**
+         * Get the thickness of the lines drawn between points.
+         *
+         * @return Line thickness in pixels.
+         */
         unsigned int getThickness() const;
 
         /**
          * Sets the opacity of the graph.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -66,13 +89,18 @@ namespace fcn
         /**
          * Draws this widget.
          */
-        virtual void draw(Graphics* graphics);
+        void draw(Graphics* graphics) override;
 
     protected:
+        /** True if the graph is drawn opaque. */
         bool m_opaque;
+
+        /** Line thickness in pixels. */
         unsigned int m_thickness;
+
+        /** The point data used to draw the graph. */
         PointVector m_data;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_POINTGRAPH_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_POINTGRAPH_HPP_

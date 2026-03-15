@@ -1,74 +1,11 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
-
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * For comments regarding functions please see the header file.
- */
-
-#include <algorithm>
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/widgets/window.hpp"
+
+#include <algorithm>
+#include <string>
 
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
@@ -78,35 +15,23 @@
 namespace fcn
 {
     Window::Window()
-            :mMoved(false)
     {
         setBorderSize(1);
-        setInnerBorderSize(1);
         setPadding(2);
-        setTitleBarHeight(16);
-        setAlignment(Graphics::Center);
+
         addMouseListener(this);
-        setMovable(true);
-        setOpaque(true);
     }
 
-    Window::Window(const std::string& caption)
-            :mMoved(false)
+    Window::Window(std::string const & caption)
     {
         setCaption(caption);
         setBorderSize(1);
-        setInnerBorderSize(1);
         setPadding(2);
-        setTitleBarHeight(16);
-        setAlignment(Graphics::Center);
+
         addMouseListener(this);
-        setMovable(true);
-        setOpaque(true);
     }
 
-    Window::~Window()
-    {
-    }
+    Window::~Window() = default;
 
     void Window::setTitleBarHeight(unsigned int height)
     {
@@ -118,20 +43,22 @@ namespace fcn
         return mTitleBarHeight;
     }
 
-    void Window::setInnerBorderSize(unsigned int border) {
-        mInnerBorder = border;
+    void Window::setInnerBorderSize(unsigned int border)
+    {
+        mInnerBorderSize = border;
     }
 
-    unsigned int Window::getInnerBorderSize() const {
-        return mInnerBorder;
+    unsigned int Window::getInnerBorderSize() const
+    {
+        return mInnerBorderSize;
     }
 
-    void Window::setCaption(const std::string& caption)
+    void Window::setCaption(std::string const & caption)
     {
         mCaption = caption;
     }
 
-    const std::string& Window::getCaption() const
+    std::string const & Window::getCaption() const
     {
         return mCaption;
     }
@@ -146,48 +73,59 @@ namespace fcn
         return mAlignment;
     }
 
-    void Window::drawInnerBorder(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        const int alpha = getBaseColor().a;
-        highlightColor = faceColor + 0x303030;
+    void Window::drawInnerBorder(Graphics* graphics)
+    {
+        Color const & faceColor = getBaseColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
+        highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = faceColor - 0x303030;
+        shadowColor.a    = alpha;
 
-        int x = getBorderSize() + getPaddingLeft();
-        int y = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        int width = getWidth() - getBorderSize() - getPaddingRight() - 1;
-        int height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
+        int const x      = getBorderSize() + getPaddingLeft();
+        int const y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        int const width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
+        int const height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
 
-        unsigned int i;
+        unsigned int i = 0;
         for (i = 0; i < getInnerBorderSize(); ++i) {
             graphics->setColor(shadowColor);
-            graphics->drawLine(x+i, y+i, width-i, y+i);
-            graphics->drawLine(x+i, y+i+1, x+i, height-i-1);
+            graphics->drawLine(x + i, y + i, width - i, y + i);
+            graphics->drawLine(x + i, y + i + 1, x + i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width-i, y+i+1, width-i, height-i);
-            graphics->drawLine(x+i, height-i, width-i-1, height-i);
+            graphics->drawLine(width - i, y + i + 1, width - i, height - i);
+            graphics->drawLine(x + i, height - i, width - i - 1, height - i);
         }
     }
 
-    void Window::draw(Graphics* graphics) {
-        const Color &faceColor = getBaseColor();
-        Color highlightColor, shadowColor;
-        const int alpha = getBaseColor().a;
-        highlightColor = faceColor + 0x303030;
+    void Window::draw(Graphics* graphics)
+    {
+        Color const & faceColor = getBaseColor();
+        Color highlightColor;
+        Color shadowColor;
+        int const alpha  = getBaseColor().a;
+        highlightColor   = faceColor + 0x303030;
         highlightColor.a = alpha;
-        shadowColor = faceColor - 0x303030;
-        shadowColor.a = alpha;
+        shadowColor      = faceColor - 0x303030;
+        shadowColor.a    = alpha;
 
         if (isOpaque()) {
             // Fill the background around the content
             graphics->setColor(faceColor);
-            graphics->fillRectangle(getBorderSize(), getBorderSize(),
-                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            graphics->fillRectangle(
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
-        if (mBackgroundWidget) {
-            Rectangle rec(getBorderSize(), getBorderSize(), getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+        if (mBackgroundWidget != nullptr) {
+            Rectangle const rec(
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
             mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
@@ -201,26 +139,27 @@ namespace fcn
         }
 
         // draw text
-        int textX;
-        int textY = ((int)getTitleBarHeight() - getFont()->getHeight()) / 2;
+        int textX       = 0;
+        int const textY = (static_cast<int>(getTitleBarHeight()) - getFont()->getHeight()) / 2;
 
-        switch (getAlignment())
-        {
-          case Graphics::Left:
-              textX = 0;
-              break;
-          case Graphics::Center:
-              textX = (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight()) / 2;
-              break;
-          case Graphics::Right:
-              textX = getWidth() - getBorderSize() - getPaddingRight();
-              break;
-          default:
-              throw FCN_EXCEPTION("Unknown alignment.");
+        switch (getAlignment()) {
+        case Graphics::Alignment::Left:
+            textX = 0;
+            break;
+        case Graphics::Alignment::Center:
+            textX = (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight()) / 2;
+            break;
+        case Graphics::Alignment::Right:
+            textX = getWidth() - getBorderSize() - getPaddingRight();
+            break;
+        default:
+            throwException("Unknown alignment.");
         }
         // text clip area
-        Rectangle rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(),
-            getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight(),
+        Rectangle const rec(
+            getBorderSize() + getPaddingLeft(),
+            getBorderSize() + getPaddingTop(),
+            getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight(),
             getTitleBarHeight() - 1);
 
         graphics->setColor(getForegroundColor());
@@ -232,58 +171,57 @@ namespace fcn
 
     void Window::mousePressed(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.getSource() != this)
-        {
+        if (mouseEvent.getSource() != this) {
             return;
         }
 
-        if (getParent() != NULL)
-        {
+        if (getParent() != nullptr) {
             getParent()->moveToTop(this);
         }
 
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
-        int height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        mMoved = mouseEvent.getY() <= height;
+        int const height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        mMoved           = mouseEvent.getY() <= height;
     }
 
-    void Window::mouseReleased(MouseEvent& mouseEvent)
+    void Window::mouseReleased(MouseEvent& /*mouseEvent*/)
     {
         mMoved = false;
     }
 
     void Window::mouseDragged(MouseEvent& mouseEvent)
     {
-        if (mouseEvent.isConsumed() || mouseEvent.getSource() != this)
-        {
+        if (mouseEvent.isConsumed() || mouseEvent.getSource() != this) {
             return;
         }
 
-        if (isMovable() && mMoved)
-        {
-            setPosition(mouseEvent.getX() - mDragOffsetX + getX(),
-                        mouseEvent.getY() - mDragOffsetY + getY());
+        if (isMovable() && mMoved) {
+            setPosition(mouseEvent.getX() - mDragOffsetX + getX(), mouseEvent.getY() - mDragOffsetY + getY());
         }
 
         mouseEvent.consume();
     }
 
-    void Window::adjustSize() {
+    void Window::adjustSize()
+    {
         resizeToChildren();
-        int w = std::max(getFont()->getWidth(mCaption), getWidth()) + 2 * getBorderSize() + getPaddingLeft() + getPaddingRight() + 2 * getInnerBorderSize();
-        int h = getHeight() + 2 * getBorderSize() + getPaddingTop() + getPaddingBottom() + 2 * getInnerBorderSize() + getTitleBarHeight();
+        int const w = std::max(getFont()->getWidth(mCaption), getWidth()) + (2 * getBorderSize()) + getPaddingLeft() +
+                      getPaddingRight() + (2 * getInnerBorderSize());
+        int const h = getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() +
+                      (2 * getInnerBorderSize()) + getTitleBarHeight();
         setSize(w, h);
     }
 
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;
-        rec.x = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
-        rec.y = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
-        rec.width = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight() - 2*getInnerBorderSize();
-        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() - 2*getInnerBorderSize() - getTitleBarHeight();
+        rec.x      = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
+        rec.y      = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
+        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight() - 2 * getInnerBorderSize();
+        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() -
+                     2 * getInnerBorderSize() - getTitleBarHeight();
         return rec;
     }
 
@@ -306,4 +244,4 @@ namespace fcn
     {
         return mOpaque;
     }
-}
+} // namespace fcn

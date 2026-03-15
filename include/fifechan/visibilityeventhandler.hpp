@@ -1,26 +1,9 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_VISIBILITYEVENTHANDLER_HPP
-#define FCN_VISIBILITYEVENTHANDLER_HPP
+#ifndef INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
+#define INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
 
 #include "fifechan/widgetlistener.hpp"
 
@@ -29,39 +12,46 @@ namespace fcn
     class Event;
     class Gui;
     class Widget;
-    
+
     /**
-     * Class that handles Widget visiblity changes. Addresses input issues arised
-     * when widgets are shown or hidden.
+     * Handles changes in widget visibility states.
+     *
+     * The `VisibilityEventHandler` class handles widget visibility changes.
+     * It addresses input issues that arise when widgets are shown or hidden.
+     *
+     * @ingroup listeners
      */
-    class FCN_CORE_DECLSPEC VisibilityEventHandler : public WidgetListener
+    class FIFEGUI_API VisibilityEventHandler : public WidgetListener
     {
     public:
-        
         /**
-         * Constructor
+         * Construct a VisibilityEventHandler bound to a Gui instance.
+         *
+         * @param gui The Gui instance to inform about visibility changes.
          */
-        VisibilityEventHandler(Gui* gui);
-        
-        /**
-         * Destructor
-         */
-        virtual ~VisibilityEventHandler() {};
-        
+        explicit VisibilityEventHandler(Gui* gui);
+
+        ~VisibilityEventHandler() override = default;
+
+        VisibilityEventHandler(VisibilityEventHandler const &)            = delete;
+        VisibilityEventHandler& operator=(VisibilityEventHandler const &) = delete;
+        VisibilityEventHandler(VisibilityEventHandler&&)                  = delete;
+        VisibilityEventHandler& operator=(VisibilityEventHandler&&)       = delete;
+
         /**
          * Informs gui that a widget was hidden.
          */
-        virtual void widgetHidden(const Event& e);
-        
+        void widgetHidden(Event const & e) override;
+
         /**
          * Informs gui that a widget was shown.
          */
-        virtual void widgetShown(const Event& e);
-        
+        void widgetShown(Event const & e) override;
+
     protected:
-
-        Gui *mGui;
+        /** Pointer to the Gui used to handle visibility-related updates. */
+        Gui* mGui;
     };
-}
+} // namespace fcn
 
-#endif //FCN_VISIBILITYEVENTHANDLER_HPP
+#endif // INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_

@@ -1,27 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-
-#ifndef FCN_FLOWCONTAINER_HPP
-#define FCN_FLOWCONTAINER_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
 
 #include "fifechan/platform.hpp"
 #include "fifechan/widgets/container.hpp"
@@ -33,14 +15,16 @@ namespace fcn
      * The widgets can be sorted vertical per row or horizontal per column. If the space in the container
      * is too small to put all the components in one row or column, it uses multiple rows or columns.
      */
-    class FCN_CORE_DECLSPEC FlowContainer : public Container {
+    class FIFEGUI_API FlowContainer : public Container
+    {
     public:
         /**
          * Alignments for widgets. Useful if widgets with different sizes
          * are in the same row or column. For horizontal layout top, center
          * and bottom can be used, for vertical left, center and right.
          */
-        enum Alignment {
+        enum class Alignment : uint8_t
+        {
             Left = 0,
             Right,
             Top,
@@ -48,20 +32,19 @@ namespace fcn
             Center
         };
 
-        /**
-         * Constructor.
-         */
         FlowContainer();
 
-        /**
-         * Destructor.
-         */
-        virtual ~FlowContainer();
+        ~FlowContainer() override;
+
+        FlowContainer(FlowContainer const &)            = delete;
+        FlowContainer& operator=(FlowContainer const &) = delete;
+        FlowContainer(FlowContainer&&)                  = delete;
+        FlowContainer& operator=(FlowContainer&&)       = delete;
 
         /**
          * Sets the alignment of the widgets.
          *
-         * @param alignemnt The alignment of the widgets.
+         * @param alignment The alignment of the widgets.
          * @see getAlignment
          */
         virtual void setAlignment(FlowContainer::Alignment alignment);
@@ -70,7 +53,7 @@ namespace fcn
          * Gets the alignment of the widgets.
          *
          * @return The alignment of caption of the widgets.
-         * @see setAlignmentm
+         * @see setAlignment
          */
         virtual FlowContainer::Alignment getAlignment() const;
 
@@ -81,16 +64,33 @@ namespace fcn
          */
         virtual void adjustContent();
 
-
         // Inherited from Container
 
-        virtual void setLayout(Container::LayoutPolicy policy);
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void expandContent(bool recursiv=true);
+        using Container::expandContent;
+        using Container::resizeToContent;
+
+        void setLayout(Container::LayoutPolicy policy) override;
+
+        /**
+         * Resize flow layout to fit its children.
+         *
+         * @param recursion If true, resize children recursively.
+         */
+        void resizeToContent(bool recursion) override;
+
+        /**
+         * Expand children according to flow layout rules.
+         *
+         * @param recursion If true, expand children recursively.
+         */
+        void expandContent(bool recursion) override;
 
     protected:
-        Alignment mAlignment;
+        /**
+         * Current alignment used when laying out child widgets.
+         */
+        Alignment mAlignment{Alignment::Center};
     };
-}
+} // namespace fcn
 
-#endif // end FCN_FLOWCONTAINER_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_

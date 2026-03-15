@@ -1,0 +1,34 @@
+# FifeGui Example: FPS Menu
+
+This is a demo demonstrating FifeGui and overloading of widgets to get an FPS
+look alike menu system.
+
+This demo requires SDL2, SDL2_image, SDL2_mixer, OpenGL, and GLU development headers.
+
+If GLU is missing, install it with your distro package manager:
+
+- Debian/Ubuntu: sudo apt-get install libglu1-mesa-dev
+- Fedora: sudo dnf install mesa-libGLU-devel
+- Arch: sudo pacman -S glu
+
+This step is also done in the `build-tools/setup-vcpkg.sh` script,
+which is used in CI and can be used locally to set up the vcpkg dependencies.
+
+## Build
+
+This demo is built with the project CMake build system.
+
+From the repository root:
+
+cmake -S . -B out/build
+cmake --build out/build --target fps_demo
+
+## Run
+
+From the repository root:
+
+./out/build/examples/fps/fps_demo
+
+If your environment has no audio device, use:
+
+SDL_AUDIODRIVER=dummy ./out/build/examples/fps/fps_demo

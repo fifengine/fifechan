@@ -1,69 +1,9 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-#ifndef FCN_LABEL_HPP
-#define FCN_LABEL_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_LABEL_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_LABEL_HPP_
 
 #include <string>
 
@@ -74,14 +14,13 @@
 namespace fcn
 {
     /**
-     * Implementation of a label capable of displaying a caption.
+     * Displays a text caption.
+     *
+     * @ingroup widgets
      */
-    class FCN_CORE_DECLSPEC Label: public Widget
+    class FIFEGUI_API Label : public Widget
     {
     public:
-        /**
-         * Constructor.
-         */
         Label();
 
         /**
@@ -90,7 +29,7 @@ namespace fcn
          *
          * @param caption The caption of the label.
          */
-        Label(const std::string& caption);
+        explicit Label(std::string caption);
 
         /**
          * Gets the caption of the label.
@@ -98,7 +37,7 @@ namespace fcn
          * @return The caption of the label.
          * @see setCaption
          */
-        const std::string &getCaption() const;
+        std::string const & getCaption() const;
 
         /**
          * Sets the caption of the label. It's advisable to call
@@ -108,13 +47,13 @@ namespace fcn
          * @param caption The caption of the label.
          * @see getCaption, adjustSize
          */
-        void setCaption(const std::string& caption);
+        void setCaption(std::string const & caption);
 
         /**
          * Sets the alignment of the caption. The alignment is relative
          * to the center of the label.
          *
-         * @param alignemnt The alignment of the caption of the label.
+         * @param alignment The alignment of the caption of the label.
          * @see getAlignment, Graphics
          */
         void setAlignment(Graphics::Alignment alignment);
@@ -124,18 +63,30 @@ namespace fcn
          * the center of the label.
          *
          * @return The alignment of caption of the label.
-         * @see setAlignmentm Graphics
+         * @see setAlignment Graphics
          */
         Graphics::Alignment getAlignment() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
     protected:
+        /**
+         * Adjusts the size of the label to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
         /**
          * Holds the caption of the label.
          */
@@ -146,6 +97,6 @@ namespace fcn
          */
         Graphics::Alignment mAlignment;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_LABEL_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_LABEL_HPP_

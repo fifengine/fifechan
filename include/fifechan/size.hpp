@@ -1,75 +1,67 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                          *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_SIZE_HPP
-#define FCN_SIZE_HPP
+#ifndef INCLUDE_FIFECHAN_SIZE_HPP_
+#define INCLUDE_FIFECHAN_SIZE_HPP_
 
 #include "fifechan/platform.hpp"
 
 namespace fcn
 {
-    class FCN_CORE_DECLSPEC Size
+    /**
+     * Represents dimensions defined by width and height.
+     *
+     * @ingroup utils
+     */
+    class FIFEGUI_API Size
     {
     public:
-        
         /**
          * Constructor initializes size values.
-         * 
+         *
          * @param width Width of size.
          * @param height Height of size.
          */
-        Size(int width = 0, int height = 0);
-        
-        ~Size();
-        
+        explicit Size(int width = 0, int height = 0);
+
+        ~Size() = default;
+
+        Size(Size const &)            = default;
+        Size& operator=(Size const &) = default;
+        Size(Size&&)                  = default;
+        Size& operator=(Size&&)       = default;
+
         /**
          * @return Width of size.
          */
         int getWidth() const;
-        
+
         /**
          * @return Height of size.
          */
         int getHeight() const;
-        
+
         /**
          * Sets the width of size.
-         * 
+         *
          * @param width Desired width.
          */
         void setWidth(int width);
-        
+
         /**
          * Sets the height of size.
-         * 
+         *
          * @param height Desired height.
          */
         void setHeight(int height);
-        
+
     private:
         // width of the size
-        int mWidth;
+        int mWidth = 0;
         // height of the size
-        int mHeight;
+        int mHeight = 0;
     };
-};
+}; // namespace fcn
 
-#endif
+#endif // INCLUDE_FIFECHAN_SIZE_HPP_

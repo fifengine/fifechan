@@ -1,69 +1,9 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-#ifndef FCN_FOCUSLISTENER_HPP
-#define FCN_FOCUSLISTENER_HPP
+#ifndef INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_
+#define INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_
 
 #include <string>
 
@@ -73,43 +13,45 @@
 namespace fcn
 {
     /**
-     * Interface for listening for focus events from widgets.
+     * Interface for listening to focus gain/loss events.
      *
      * @see Widget::addFocusListener, Widget::removeFocusListener
-     * @author Olof Naessén
+     *
+     * @ingroup listeners
      */
-    class FCN_CORE_DECLSPEC FocusListener
+    class FIFEGUI_API FocusListener
     {
     public:
+        virtual ~FocusListener() = default;
+
+        FocusListener(FocusListener const &)            = delete;
+        FocusListener& operator=(FocusListener const &) = delete;
+        FocusListener(FocusListener&&)                  = delete;
+        FocusListener& operator=(FocusListener&&)       = delete;
 
         /**
-         * Destructor.
-         */
-        virtual ~FocusListener() { }
-
-        /**
-         * Called when a widget gains focus. 
+         * Called when a widget gains focus.
          *
-         * @param event Discribes the event.
+         * @param event Describes the event.
          */
-        virtual void focusGained(const Event& event) { };
+        virtual void focusGained(Event const & event) { }
 
         /**
-         * Called when a widget loses focus. 
+         * Called when a widget loses focus.
          *
-         * @param event Discribes the event.
+         * @param event Describes the event.
          */
-        virtual void focusLost(const Event& event) { };
-        
+        virtual void focusLost(Event const & event) { }
+
     protected:
         /**
          * Constructor.
          *
-         * You should not be able to make an instance of FocusListener,
-         * therefore its constructor is protected.
+         * Instances should not be created directly,
+         * therefore the constructor is declared protected.
          */
-        FocusListener() { }
+        FocusListener() = default;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_FOCUSLISTENER_HPP
+#endif // INCLUDE_FIFECHAN_FOCUSLISTENER_HPP_

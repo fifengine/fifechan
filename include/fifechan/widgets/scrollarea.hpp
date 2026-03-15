@@ -1,69 +1,9 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-#ifndef FCN_SCROLLAREA_HPP
-#define FCN_SCROLLAREA_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
 
 #include <string>
 
@@ -74,35 +14,33 @@
 namespace fcn
 {
     /**
+     * A scrollable viewport for viewing widgets larger than the visible area.
+     *
      * Implementation if a scrollable area used to view widgets larger than the scroll area.
      * A scroll area can be customized to always show scroll bars or to show them only when
      * necessary.
+     *
+     * @ingroup widgets
      */
-    class FCN_CORE_DECLSPEC ScrollArea:
-        public MouseListener,
-        public Widget
+    class FIFEGUI_API ScrollArea : public MouseListener, public Widget
     {
     public:
-
         /**
-         * Scrollpolicies for the horizontal and vertical scrollbar.
+         * Scroll policies for the horizontal and vertical scrollbar.
          * The policies are:
          *
          * SHOW_ALWAYS - Always show the scrollbars no matter what.
-         * SHOW_NEVER  - Never show the scrollbars no matter waht.
+         * SHOW_NEVER  - Never show the scrollbars no matter what.
          * SHOW_AUTO   - Show the scrollbars only when needed. That is if the
          *               content grows larger then the ScrollArea.
          */
-        enum ScrollPolicy
+        enum class ScrollPolicy : uint8_t
         {
             ShowAlways = 0,
             ShowNever,
             ShowAuto
         };
 
-        /**
-         * Constructor.
-         */
         ScrollArea();
 
         /**
@@ -110,7 +48,7 @@ namespace fcn
          *
          * @param content The content of the scroll area.
          */
-        ScrollArea(Widget *content);
+        explicit ScrollArea(Widget* content);
 
         /**
          * Constructor.
@@ -121,14 +59,14 @@ namespace fcn
          * @param vPolicy The policy for the vertical scrollbar. See enum with
          *                policies.
          */
-        ScrollArea(Widget *content, 
-                   ScrollPolicy hPolicy, 
-                   ScrollPolicy vPolicy);
+        ScrollArea(Widget* content, ScrollPolicy hPolicy, ScrollPolicy vPolicy);
 
-        /**
-         * Destructor.
-         */
-        virtual ~ScrollArea();
+        ~ScrollArea() override;
+
+        ScrollArea(ScrollArea const &)            = delete;
+        ScrollArea& operator=(ScrollArea const &) = delete;
+        ScrollArea(ScrollArea&&)                  = delete;
+        ScrollArea& operator=(ScrollArea&&)       = delete;
 
         /**
          * Sets the content.
@@ -260,7 +198,7 @@ namespace fcn
          * Sets the amount to scroll in pixels when the left scroll button is
          * pushed.
          *
-         * @param amount The amount to scroll in pixels. 
+         * @param amount The amount to scroll in pixels.
          * @see getLeftButtonScrollAmount
          */
         void setLeftButtonScrollAmount(int amount);
@@ -329,10 +267,10 @@ namespace fcn
         int getDownButtonScrollAmount() const;
 
         /**
-         * Sets the scroll area to be opaque, that is sets the scoll area
+         * Sets the scroll area to be opaque, that is sets the scroll area
          * to display its background.
          *
-         * @param opaque True if the scoll area should be opaque, false otherwise.
+         * @param opaque True if the scroll area should be opaque, false otherwise.
          */
         void setOpaque(bool opaque);
 
@@ -343,50 +281,60 @@ namespace fcn
          * @return True if the scroll area is opaque, false otherwise.
          */
         bool isOpaque() const;
-        
-        
-        // Inherited from BasicContainer
 
-        virtual void showWidgetPart(Widget* widget, Rectangle area);
+        // Inherited from Container
 
-        virtual Rectangle getChildrenArea();
+        void showWidgetPart(Widget* widget, Rectangle area) override;
 
-        virtual Widget *getWidgetAt(int x, int y);
+        Rectangle getChildrenArea() override;
 
+        /**
+         * Hit-test for widgets inside the scroll area.
+         * @param x X coordinate to test (local).
+         * @param y Y coordinate to test (local).
+         * @return The widget at (x,y) or nullptr if none.
+         */
+        virtual Widget* getWidgetAt(int x, int y);
 
         // Inherited from Widget
 
-        virtual void draw(Graphics *graphics);
+        void draw(Graphics* graphics) override;
 
-        virtual void logic();
+        void logic() override;
 
+        /** Set the width of the scroll area. */
         void setWidth(int width);
 
+        /** Set the height of the scroll area. */
         void setHeight(int height);
 
-        void setDimension(const Rectangle& dimension);
+        /** Set the bounds/dimension of the scroll area. */
+        void setDimension(Rectangle const & dimension);
 
-        virtual void resizeToContent(bool recursiv=true);
+        using Widget::expandContent;
+        using Widget::resizeToContent;
 
-        virtual void adjustSize();
+        void resizeToContent(bool recursion) override;
 
-        virtual void expandContent(bool recursiv=true);
+        void adjustSize() override;
+
+        void expandContent(bool recursion) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent);
+        void mouseWheelMovedRight(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent);
+        void mouseWheelMovedLeft(MouseEvent& mouseEvent) override;
 
     protected:
         /**
@@ -395,35 +343,35 @@ namespace fcn
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawBackground(Graphics *graphics);
+        virtual void drawBackground(Graphics* graphics);
 
         /**
          * Draws the up button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawUpButton(Graphics *graphics);
+        virtual void drawUpButton(Graphics* graphics);
 
         /**
          * Draws the down button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawDownButton(Graphics *graphics);
+        virtual void drawDownButton(Graphics* graphics);
 
         /**
          * Draws the left button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawLeftButton(Graphics *graphics);
+        virtual void drawLeftButton(Graphics* graphics);
 
         /**
          * Draws the right button.
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawRightButton(Graphics *graphics);
+        virtual void drawRightButton(Graphics* graphics);
 
         /**
          * Draws the vertical scroll bar.
@@ -513,108 +461,108 @@ namespace fcn
          * @return the dimension of the horizontal marker.
          */
         Rectangle getHorizontalMarkerDimension();
-        
+
         /**
          * Holds the vertical scroll amount.
          */
-        int mVScroll;
+        int mVScroll{0};
 
         /**
          * Holds the horizontal scroll amount.
          */
-        int mHScroll;
+        int mHScroll{0};
 
         /**
          * Holds the width of the scroll bars.
          */
-        int mScrollbarWidth;
+        int mScrollbarWidth{12};
 
         /**
          * Holds the horizontal scroll bar policy.
          */
-        ScrollPolicy mHPolicy;
+        ScrollPolicy mHPolicy{ScrollPolicy::ShowAuto};
 
         /**
          * Holds the vertical scroll bar policy.
          */
-        ScrollPolicy mVPolicy;
+        ScrollPolicy mVPolicy{ScrollPolicy::ShowAuto};
 
         /**
          * True if the vertical scroll bar is visible, false otherwise.
          */
-        bool mVBarVisible;
+        bool mVBarVisible{false};
 
         /**
          * True if the horizontal scroll bar is visible, false otherwise.
          */
-        bool mHBarVisible;
+        bool mHBarVisible{false};
 
         /**
          * True if the up button is pressed, false otherwise.
          */
-        bool mUpButtonPressed;
+        bool mUpButtonPressed{false};
 
         /**
          * True if the down button is pressed, false otherwise.
          */
-        bool mDownButtonPressed;
+        bool mDownButtonPressed{false};
 
         /**
          * True if the left button is pressed, false otherwise.
          */
-        bool mLeftButtonPressed;
+        bool mLeftButtonPressed{false};
 
         /**
          * True if the right button is pressed, false otherwise.
          */
-        bool mRightButtonPressed;
+        bool mRightButtonPressed{false};
 
         /**
          * Holds the up button scroll amount.
          */
-        int mUpButtonScrollAmount;
+        int mUpButtonScrollAmount{10};
 
         /**
          * Holds the down button scroll amount.
          */
-        int mDownButtonScrollAmount;
+        int mDownButtonScrollAmount{10};
 
         /**
          * Holds the left button scroll amount.
          */
-        int mLeftButtonScrollAmount;
+        int mLeftButtonScrollAmount{10};
 
         /**
          * Holds the right button scroll amount.
          */
-        int mRightButtonScrollAmount;
+        int mRightButtonScrollAmount{10};
 
         /**
          * True if the vertical marked is dragged.
          */
-        bool mIsVerticalMarkerDragged;
+        bool mIsVerticalMarkerDragged{false};
 
         /**
          * True if the horizontal marked is dragged.
          */
-        bool mIsHorizontalMarkerDragged;
+        bool mIsHorizontalMarkerDragged{false};
 
         /**
          * Holds the horizontal markers drag offset.
          */
-        int mHorizontalMarkerDragOffset;
+        int mHorizontalMarkerDragOffset{0};
 
         /**
          * Holds the vertical markers drag offset.
          */
-        int mVerticalMarkerDragOffset;
+        int mVerticalMarkerDragOffset{0};
 
         /**
          * True if the scroll area should be opaque (that is
          * display its background), false otherwise.
          */
-        bool mOpaque;
+        bool mOpaque{true};
     };
-}
+} // namespace fcn
 
-#endif // end FCN_SCROLLAREA_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_

@@ -1,26 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_TOGGLEBUTTON_HPP
-#define FCN_TOGGLEBUTTON_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TOGGLEBUTTON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TOGGLEBUTTON_HPP_
 
 #include <map>
 #include <string>
@@ -34,18 +17,15 @@ namespace fcn
      * An implementation of a toggleable button.
      *
      * If the button is in a group, all other buttons in that group will be untoggled
-     * when a button gets toggled. If the button is already toggled, you can untoggle 
+     * when a button gets toggled. If the button is already toggled, you can untoggle
      * it by clicking on it.
-     * 
-     * If a toggle button's state changes an action event will be sent to all action 
+     *
+     * If a toggle button's state changes an action event will be sent to all action
      * listeners of the toggle button.
      */
-    class FCN_CORE_DECLSPEC ToggleButton : public fcn::ImageButton {
+    class FIFEGUI_API ToggleButton : public fcn::ImageButton
+    {
     public:
-
-        /**
-         * Constructor.
-         */
         ToggleButton();
 
         /**
@@ -56,12 +36,14 @@ namespace fcn
          * @param group The group the toggle button should belong to.
          * @param selected True if the toggle button should be selected.
          */
-        ToggleButton(const std::string &caption, const std::string &group, bool selected = false);
+        ToggleButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        /**
-         * Destructor.
-         */
-        virtual ~ToggleButton();
+        ~ToggleButton() override;
+
+        ToggleButton(ToggleButton const &)            = delete;
+        ToggleButton& operator=(ToggleButton const &) = delete;
+        ToggleButton(ToggleButton&&)                  = delete;
+        ToggleButton& operator=(ToggleButton&&)       = delete;
 
         /**
          * Checks if the check box is selected.
@@ -93,7 +75,7 @@ namespace fcn
          * @param group The name of the group.
          * @see getGroup
          */
-        void setGroup(const std::string &group);
+        void setGroup(std::string const & group);
 
         /**
          * Gets the group the toggle button belongs to.
@@ -101,28 +83,25 @@ namespace fcn
          * @return The group the toggle button belongs to.
          * @see setGroup
          */
-        const std::string &getGroup() const;
-
+        std::string const & getGroup() const;
 
         // Inherited from KeyListener
 
-        virtual void keyReleased(KeyEvent& keyEvent);
-
+        void keyReleased(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
-
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
     protected:
         // Inherited from Button
 
-        virtual bool isPressed() const;
+        bool isPressed() const override;
 
         /**
          * True if the check box is selected, false otherwise.
          */
-        bool mSelected;
+        bool mSelected{false};
 
         /**
          * Holds the group of the toggle button.
@@ -132,18 +111,18 @@ namespace fcn
         /**
          * Typdef.
          */
-        typedef std::multimap<std::string, ToggleButton *> GroupMap;
+        using GroupMap = std::multimap<std::string, ToggleButton*>;
 
         /**
          * Typdef.
          */
-        typedef GroupMap::iterator GroupIterator;
+        using GroupIterator = GroupMap::iterator;
 
         /**
          * Holds all available toggle button groups.
          */
         static GroupMap mGroupMap;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_TOGGLEBUTTON_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TOGGLEBUTTON_HPP_

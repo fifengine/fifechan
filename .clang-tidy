@@ -1,0 +1,46 @@
+#
+# clang-tidy configuration file.
+#
+# https://clang.llvm.org/extra/clang-tidy/
+# https://clang.llvm.org/extra/clang-tidy/checks/list.html
+#
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-narrowing-conversions,
+  clang-diagnostic-*,
+  -clang-analyzer-*,
+  cert-err34-c,
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-narrowing-conversions,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-pro-type-union-access,
+  google-explicit-constructor,
+  misc*,
+  misc-uniqueptr-reset-release,
+  -misc-no-recursion,
+  -misc-include-cleaner,
+  -misc-non-private-member-variables-in-classes,
+  modernize*,
+  -modernize-use-auto,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  performance-*,
+  portability-*,
+  readability-*,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-function-cognitive-complexity,
+  -readability-convert-member-functions-to-static
+
+WarningsAsErrors: >
+  clang-analyzer-security.*
+# Analyze only headers under include/ and not system headers.
+HeaderFilterRegex: '^include/.*'
+SystemHeaders: false
+# Use our .clang-format file when applying fixes.
+FormatStyle: file

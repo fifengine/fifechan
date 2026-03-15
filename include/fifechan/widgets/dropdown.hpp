@@ -1,69 +1,12 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_
 
-#ifndef FCN_DROPDOWN_HPP
-#define FCN_DROPDOWN_HPP
+#include <list>
+#include <memory>
 
 #include "fifechan/actionlistener.hpp"
 #include "fifechan/focushandler.hpp"
@@ -81,12 +24,13 @@ namespace fcn
     class ScrollArea;
 
     /**
-     * An implementation of a drop downable list from which an item can be
-     * selected. The drop down consists of an internal ScrollArea and an
-     * internal ListBox. The drop down also uses an internal FocusHandler to
-     * handle the focus of the internal ScollArea and the internal ListBox. The
-     * scroll area and the list box can be passed to the drop down if a custom
-     * scroll area and or a custom list box is preferable.
+     * A dropdown list widget allowing single item selection from a list.
+     *
+     * The drop down consists of an internal ScrollArea and an internal ListBox.
+     * The drop down also uses an internal FocusHandler to handle the focus of
+     * the internal ScrollArea and the internal ListBox.
+     * The scroll area and the list box can be passed to the drop down
+     * if a custom scroll area and or a custom list box is preferable.
      *
      * To be able display a list the drop down uses a user provided list model.
      * A list model can be any class that implements the ListModel interface.
@@ -95,8 +39,10 @@ namespace fcn
      * all selection listeners of the drop down. If an item is selected by
      * using a mouse click or by using the enter or space key an action event
      * will be sent to all action listeners of the drop down.
+     *
+     * @ingroup widgets
      */
-    class FCN_CORE_DECLSPEC DropDown :
+    class FIFEGUI_API DropDown :
         public ActionListener,
         public KeyListener,
         public MouseListener,
@@ -106,21 +52,21 @@ namespace fcn
     {
     public:
         /**
-         * Contructor.
+         * Constructor.
          *
          * @param listModel the ListModel to use.
          * @param scrollArea the ScrollArea to use.
          * @param listBox the listBox to use.
          * @see ListModel, ScrollArea, ListBox.
          */
-        DropDown(ListModel *listModel = NULL,
-                 ScrollArea *scrollArea = NULL,
-                 ListBox *listBox = NULL);
+        explicit DropDown(ListModel* listModel = nullptr, ScrollArea* scrollArea = nullptr, ListBox* listBox = nullptr);
 
-        /**
-         * Destructor.
-         */
-        virtual ~DropDown();
+        ~DropDown() override;
+
+        DropDown(DropDown const &)            = delete;
+        DropDown& operator=(DropDown const &) = delete;
+        DropDown(DropDown&&)                  = delete;
+        DropDown& operator=(DropDown&&)       = delete;
 
         /**
          * Gets the selected item as an index in the list model.
@@ -145,7 +91,7 @@ namespace fcn
          * @param listModel the list model to use.
          * @see getListModel
          */
-        void setListModel(ListModel *listModel);
+        void setListModel(ListModel* listModel);
 
         /**
          * Gets the list model used.
@@ -153,7 +99,7 @@ namespace fcn
          * @return the ListModel used.
          * @see setListModel
          */
-        ListModel *getListModel() const;
+        ListModel* getListModel() const;
 
         /**
          * Adjusts the height of the drop down to fit the height of the
@@ -181,65 +127,65 @@ namespace fcn
          */
         void removeSelectionListener(SelectionListener* selectionListener);
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
 
-        void setBaseColor(const Color& color);
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
-        void setBackgroundColor(const Color& color);
+        /** Set the base color used for the dropdown background/controls. */
+        void setBaseColor(Color const & color) override;
 
-        void setForegroundColor(const Color& color);
+        /** Set the explicit background color for the dropdown. */
+        void setBackgroundColor(Color const & color) override;
 
-        void setFont(Font *font);
+        /** Set the foreground/text color used in the dropdown. */
+        void setForegroundColor(Color const & color) override;
 
-        void setSelectionColor(const Color& color);
+        /** Set the font used to render items in the dropdown. */
+        void setFont(Font* font) override;
 
+        /** Set the color used for the selected item highlight. */
+        void setSelectionColor(Color const & color) override;
 
-        // Inherited from BasicContainer
+        // Inherited from Container
 
-        virtual Rectangle getChildrenArea();
-
+        Rectangle getChildrenArea() override;
 
         // Inherited from FocusListener
 
-        virtual void focusLost(const Event& event);
-
+        void focusLost(Event const & event) override;
 
         // Inherited from ActionListener
 
-        virtual void action(const ActionEvent& actionEvent);
-
+        void action(ActionEvent const & actionEvent) override;
 
         // Inherited from DeathListener
 
-        virtual void death(const Event& event);
-
+        /** DeathListener callback invoked when a observed widget is destroyed. */
+        virtual void death(Event const & event);
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
-
+        void keyPressed(KeyEvent& keyEvent) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseReleased(MouseEvent& mouseEvent);
+        void mouseReleased(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+        void mouseWheelMovedUp(MouseEvent& mouseEvent) override;
 
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+        void mouseWheelMovedDown(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
-
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
         // Inherited from SelectionListener
 
-        virtual void valueChanged(const SelectionEvent& event);
+        void valueChanged(SelectionEvent const & event) override;
 
     protected:
         /**
@@ -247,7 +193,7 @@ namespace fcn
          *
          * @param graphics a Graphics object to draw with.
          */
-        virtual void drawButton(Graphics *graphics);
+        virtual void drawButton(Graphics* graphics);
 
         /**
          * Sets the drop down to be dropped down.
@@ -269,20 +215,30 @@ namespace fcn
         /**
          * True if the drop down is dropped down, false otherwise.
          */
-        bool mDroppedDown;
+        bool mDroppedDown{false};
 
         /**
          * True if the drop down has been pushed with the mouse, false
          * otherwise.
          */
-        bool mPushed;
+        bool mPushed{false};
 
         /**
          * Holds what the height is if the drop down is folded up. Used when
          * checking if the list of the drop down was clicked or if the upper
          * part of the drop down was clicked on a mouse click.
          */
-        int mFoldedUpHeight;
+        int mFoldedUpHeight{0};
+
+        /**
+         * Owned internal scroll area when not supplied externally.
+         */
+        std::unique_ptr<ScrollArea> mOwnedScrollArea;
+
+        /**
+         * Owned internal list box when not supplied externally.
+         */
+        std::unique_ptr<ListBox> mOwnedListBox;
 
         /**
          * The scroll area used.
@@ -305,24 +261,24 @@ namespace fcn
          * has been passed to the drop down which the drop down should not
          * deleted in it's destructor.
          */
-        bool mInternalScrollArea;
+        bool mInternalScrollArea{false};
 
         /**
          * True if an internal list box is used, false if a list box
          * has been passed to the drop down which the drop down should not
          * deleted in it's destructor.
          */
-        bool mInternalListBox;
+        bool mInternalListBox{false};
 
         /**
          * True if the drop down is dragged.
          */
-        bool mIsDragged;
+        bool mIsDragged{false};
 
         /**
          * Typedef.
          */
-        typedef std::list<SelectionListener*> SelectionListenerList;
+        using SelectionListenerList = std::list<SelectionListener*>;
 
         /**
          * The selection listener's of the drop down.
@@ -332,8 +288,8 @@ namespace fcn
         /**
          * Typedef.
          */
-        typedef SelectionListenerList::iterator SelectionListenerIterator;
+        using SelectionListenerIterator = SelectionListenerList::iterator;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_DROPDOWN_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_DROPDOWN_HPP_

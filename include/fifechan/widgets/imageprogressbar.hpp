@@ -1,81 +1,69 @@
-/***************************************************************************
- *   Copyright (C) 2012-2019 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_IMAGEPROGRESSBAR_HPP
-#define FCN_IMAGEPROGRESSBAR_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
 
 #include <fifechan/widget.hpp>
 
+#include <string>
 #include <vector>
 
 namespace fcn
 {
     class Graphics;
     class Image;
-    
-    class FCN_CORE_DECLSPEC ImageProgressBar : public Widget
+
+    /**
+     * Displays progress using images.
+     *
+     * @ingroup graphs
+     */
+    class FIFEGUI_API ImageProgressBar : public Widget
     {
     public:
-        
-        enum Orientation 
+        /** Orientation of the progress bar (horizontal or vertical). */
+        enum class Orientation : uint8_t
         {
-            HORIZONTAL = 0,
-            VERTICAL
+            Horizontal = 0,
+            Vertical
         };
-        
-        /**
-         * Default constructor.
-         */
+
         ImageProgressBar();
 
         /**
          * Constructor. The image passed is not owned by this object.
-         * 
+         *
          * @param image Image used by the progress bar.
          * @param maxValue Value when the progress bar is full.
          */
         ImageProgressBar(Image* image, int maxValue);
-        
+
         /**
          * Constructor. The image indicated by filename is opened and it's
          * owned by this object.
-         * 
+         *
          * @param filename Filename of the image to be used by the progress bar.
          * @param maxValue Value when the progress bar is full.
          */
-        ImageProgressBar(const std::string& filename, int maxValue);
-        
-        /**
-         * Destructor.
-         */
-        virtual ~ImageProgressBar();
+        ImageProgressBar(std::string const & filename, int maxValue);
+
+        ~ImageProgressBar() override;
+
+        ImageProgressBar(ImageProgressBar const &)            = delete;
+        ImageProgressBar& operator=(ImageProgressBar const &) = delete;
+        ImageProgressBar(ImageProgressBar&&)                  = delete;
+        ImageProgressBar& operator=(ImageProgressBar&&)       = delete;
 
         /**
          * Draws this ImageProgressBar.
          */
-        virtual void draw(Graphics* graphics);
-        
+        void draw(Graphics* graphics) override;
+
         /**
          * Sets the opacity of the ImageProgressBar.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -84,45 +72,45 @@ namespace fcn
          * @return Whether this ImageProgressBar is opaque or not.
          */
         bool isOpaque() const;
-        
+
         /**
          * Sets the Bar image. The image passed is not owned by
          * this object.
-         * 
-         * @param image Image used by the progress bar. 
+         *
+         * @param image Image used by the progress bar.
          */
         void setBarImage(Image* image);
 
         /**
          * @return The image used by this Bar.
          */
-        const Image* getBarImage() const;
+        Image const * getBarImage() const;
 
         /**
          * Sets the foreground image. The image passed is not owned by
          * this object.
-         * 
-         * @param image Image used as overlay by the progress bar. 
+         *
+         * @param image Image used as overlay by the progress bar.
          */
         void setForegroundImage(Image* image);
 
         /**
          * @return The image used as overlay by this Bar.
          */
-        const Image* getForegroundImage() const;
-         
+        Image const * getForegroundImage() const;
+
         /**
          * Sets the ImageProgressBar's orientation.
-         * 
+         *
          * @param orientation Desired orientation.
          */
         void setOrientation(Orientation orientation);
-        
+
         /**
          * @return Orientation of this ImageProgressBar.
          */
         Orientation getOrientation() const;
-        
+
         /**
          * Gets the max value of the bar
          *
@@ -150,51 +138,63 @@ namespace fcn
          * @param value In the range of 0-max.
          */
         void setValue(int value);
-        
+
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void adjustSize();
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
 
     protected:
-        
+        /**
+         * Adjusts the size of the progress bar to fit the content.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
         /**
          * Bar image.
          */
-        const Image* mBarImage;
+        Image const * mBarImage;
 
         /**
          * Foreground image.
          */
-        const Image* mForegroundImage;
-        
+        Image const * mForegroundImage;
+
         /**
          * True if the image has been loaded internally, false otherwise.
          * An image not loaded internally should not be deleted in the
          * destructor.
          */
         bool mInternalImage;
-        
+
         /**
          * Value when progress bar is full.
          */
         int mMaxValue;
-        
+
         /**
          * Holds the current progress bar value.
          */
         int mValue;
-        
+
         /**
          * ImageProgressBar's orientation.
          */
         Orientation mOrientation;
- 
+
         /**
          * True if the widget is opaque, false otherwise.
          */
         bool mOpaque;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_IMAGEPROGRESSBAR_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_

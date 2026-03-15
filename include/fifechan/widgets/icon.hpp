@@ -1,69 +1,11 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
 
-#ifndef FCN_ICON_HPP
-#define FCN_ICON_HPP
+#include <string>
 
 #include "fifechan/image.hpp"
 #include "fifechan/platform.hpp"
@@ -72,14 +14,13 @@
 namespace fcn
 {
     /**
-     * Implements an icon capable of displaying an image.
+     * Displays a static image icon.
+     *
+     * @ingroup widgets
      */
-    class FCN_CORE_DECLSPEC Icon: public Widget
+    class FIFEGUI_API Icon : public Widget
     {
     public:
-        /**
-         * Default constructor.
-         */
         Icon();
 
         /**
@@ -87,42 +28,44 @@ namespace fcn
          *
          * @param filename The filename of the image to display.
          */
-        Icon(const std::string& filename);
+        explicit Icon(std::string const & filename);
 
         /**
          * Constructor.
          *
          * @param image The image to display.
          */
-        Icon(const Image* image);
+        explicit Icon(Image const * image);
 
-        /**
-         * Descructor.
-         */
-        virtual ~Icon();
+        ~Icon() override;
 
-        /**
-         * Sets the image to display. Existing image is freed automatically
-         * if it was loaded internally.
-         *
-         * @param image The image to display. 
-         */
-        void setImage(const std::string& filename);
+        Icon(Icon const &)            = delete;
+        Icon& operator=(Icon const &) = delete;
+        Icon(Icon&&)                  = delete;
+        Icon& operator=(Icon&&)       = delete;
 
         /**
          * Sets the image to display. Existing image is freed automatically
          * if it was loaded internally.
          *
-         * @param image The image to display. 
+         * @param filename The image to display.
          */
-        void setImage(const Image* image);
+        void setImage(std::string const & filename);
+
+        /**
+         * Sets the image to display. Existing image is freed automatically
+         * if it was loaded internally.
+         *
+         * @param image The image to display.
+         */
+        void setImage(Image const * image);
 
         /**
          * Gets the current image.
          *
          * @return The current image.
          */
-        const Image* getImage() const;
+        Image const * getImage() const;
 
         /**
          * Sets if the image should be scaled to widget size.
@@ -154,7 +97,7 @@ namespace fcn
 
         /**
          * Sets the opacity of the background.
-         * 
+         *
          * @param opaque True if opaque, false otherwise.
          */
         void setOpaque(bool opaque);
@@ -164,18 +107,19 @@ namespace fcn
          */
         bool isOpaque() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
-        virtual void adjustSize();
-        virtual void draw(Graphics* graphics);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
+        void adjustSize() override;
+        void draw(Graphics* graphics) override;
 
     protected:
         /**
          * The image to display.
          */
-        const Image* mImage;
+        Image const * mImage;
 
         /**
          * True if the image has been loaded internally, false otherwise.
@@ -184,15 +128,26 @@ namespace fcn
          */
         bool mInternalImage;
 
-        // True if scaling is enabled, otherwise false.
-        bool mScale;
+        /** True if scaling is enabled, otherwise false. */
+        bool mScale{false};
 
-        // True if tiling is enabled, otherwise false.
-        bool mTile;
+        /** True if tiling is enabled, otherwise false. */
+        bool mTile{false};
 
-        // True if opaque, otherwise false.
-        bool mOpaque;
+        /** True if opaque, otherwise false. */
+        bool mOpaque{true};
+
+        /**
+         * Adjusts the size of the icon to fit the image.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
     };
-}
+} // namespace fcn
 
-#endif // end FCN_ICON_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_

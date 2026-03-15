@@ -1,87 +1,78 @@
-/***************************************************************************
- *   Copyright (C) 2012 by the fifechan team                               *
- *   http://fifechan.github.com/fifechan                                   *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+
+#include <fifechan/widgets/pointgraph.hpp>
 
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
-#include <fifechan/widgets/pointgraph.hpp>
 
+#include <algorithm>
+#include <utility>
 
-namespace fcn {
+namespace fcn
+{
 
-    PointGraph::PointGraph():
-        m_opaque(false),
-        m_thickness(1),
-        m_data() {
-    }
+    PointGraph::PointGraph() : m_opaque(false), m_thickness(1) { }
 
-    PointGraph::PointGraph(const PointVector& data):
-        m_opaque(false),
-        m_thickness(1),
-        m_data(data) {
-    }
+    PointGraph::PointGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data)) { }
 
-    void PointGraph::setPointVector(const PointVector& data) {
+    void PointGraph::setPointVector(PointVector const & data)
+    {
         m_data = data;
     }
 
-    const PointVector& PointGraph::getPointVector() const {
+    PointVector const & PointGraph::getPointVector() const
+    {
         return m_data;
     }
 
-    void PointGraph::resetPointVector() {
+    void PointGraph::resetPointVector()
+    {
         m_data.clear();
     }
 
-    void PointGraph::setThickness(unsigned int thickness) {
+    void PointGraph::setThickness(unsigned int thickness)
+    {
         m_thickness = thickness;
     }
 
-    unsigned int PointGraph::getThickness() const {
+    unsigned int PointGraph::getThickness() const
+    {
         return m_thickness;
     }
 
-    void PointGraph::setOpaque(bool opaque) {
+    void PointGraph::setOpaque(bool opaque)
+    {
         m_opaque = opaque;
     }
 
-    bool PointGraph::isOpaque() const {
+    bool PointGraph::isOpaque() const
+    {
         return m_opaque;
     }
 
-    void PointGraph::draw(Graphics* graphics) {
-        bool active = isFocused();
+    void PointGraph::draw(Graphics* graphics)
+    {
+        bool const active = isFocused();
 
         if (isOpaque()) {
             // Fill the background around the content
-            if (active && ((getSelectionMode() & Widget::Selection_Background) == Widget::Selection_Background)) {
+            if (active &&
+                ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
                 graphics->setColor(getSelectionColor());
             } else {
                 graphics->setColor(getBackgroundColor());
             }
-            graphics->fillRectangle(getBorderSize(), getBorderSize(),
-                getWidth() - 2 * getBorderSize(), getHeight() - 2 * getBorderSize());
+            graphics->fillRectangle(
+                getBorderSize(),
+                getBorderSize(),
+                getWidth() - (2 * getBorderSize()),
+                getHeight() - (2 * getBorderSize()));
         }
         // draw border or frame
         if (getBorderSize() > 0) {
-            if (active && (getSelectionMode() & Widget::Selection_Border) == Widget::Selection_Border) {
+            if (active && (getSelectionMode() & Widget::SelectionMode::Border) == Widget::SelectionMode::Border) {
                 drawSelectionFrame(graphics);
             } else {
                 drawBorder(graphics);
@@ -91,19 +82,42 @@ namespace fcn {
         if (m_data.empty()) {
             return;
         }
-        // draw points
+
+        // draw connected graph line first, then the points on top.
         graphics->setColor(getBaseColor());
-        bool thick = m_thickness > 1;
-        PointVector::iterator pit = m_data.begin();
+
+        bool const thick = m_thickness > 1;
+
+        auto pit = m_data.begin();
+        int x1   = (*pit).x;
+        int y1   = (*pit).y;
+        ++pit;
+
         if (thick) {
             for (; pit != m_data.end(); ++pit) {
-                graphics->drawFillCircle(*pit, m_thickness);
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
+                graphics->drawRoundStroke(x1, y1, x2, y2, m_thickness);
+                x1 = x2;
+                y1 = y2;
             }
         } else {
             for (; pit != m_data.end(); ++pit) {
-                graphics->drawPoint((*pit).x, (*pit).y);
+                int const x2 = (*pit).x;
+                int const y2 = (*pit).y;
+                graphics->drawLine(x1, y1, x2, y2);
+                x1 = x2;
+                y1 = y2;
             }
+        }
+
+        pit = m_data.begin();
+
+        unsigned int const markerRadius = std::max(4U, m_thickness);
+
+        for (; pit != m_data.end(); ++pit) {
+            graphics->drawFillCircle(*pit, markerRadius);
         }
     }
 
-};
+}; // namespace fcn

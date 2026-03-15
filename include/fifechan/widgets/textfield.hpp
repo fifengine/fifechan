@@ -1,76 +1,16 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
 
-#ifndef FCN_TEXTFIELD_HPP
-#define FCN_TEXTFIELD_HPP
+#include <string>
 
 #include "fifechan/keylistener.hpp"
 #include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
-
-#include <string>
 
 namespace fcn
 {
@@ -78,17 +18,13 @@ namespace fcn
     class UTF8StringEditor;
 
     /**
-     * An implementation of a text field where a user can enter a line of text.
+     * A single-line text input field.
+     *
+     * @ingroup widgets
      */
-    class FCN_CORE_DECLSPEC TextField:
-        public Widget,
-        public MouseListener,
-        public KeyListener
+    class FIFEGUI_API TextField : public Widget, public MouseListener, public KeyListener
     {
     public:
-        /**
-         * Constructor.
-         */
         TextField();
 
         /**
@@ -97,12 +33,14 @@ namespace fcn
          *
          * @param text The default text of the text field.
          */
-        TextField(const std::string& text);
-        
-        /**
-         * Destructor.
-         */
-        ~TextField();
+        explicit TextField(std::string const & text);
+
+        TextField(TextField const &)            = delete;
+        TextField& operator=(TextField const &) = delete;
+        TextField(TextField&&)                  = delete;
+        TextField& operator=(TextField&&)       = delete;
+
+        ~TextField() override;
 
         /**
          * Sets the text of the text field.
@@ -110,7 +48,7 @@ namespace fcn
          * @param text The text of the text field.
          * @see getText
          */
-        virtual void setText(const std::string& text);
+        virtual void setText(std::string const & text);
 
         /**
          * Gets the text of the text field.
@@ -160,31 +98,41 @@ namespace fcn
          */
         unsigned int getCaretPosition() const;
 
-
         // Inherited from Widget
 
-        virtual void resizeToContent(bool recursiv=true);
+        using Widget::resizeToContent;
+
+        void resizeToContent(bool recursion) override;
 
         /**
          * Adjusts the size of the text field to fit the text.
          */
-        virtual void adjustSize();
+        void adjustSize() override;
 
-        virtual void draw(Graphics* graphics);
-
+        void draw(Graphics* graphics) override;
 
         // Inherited from MouseListener
 
-        virtual void mousePressed(MouseEvent& mouseEvent);
+        void mousePressed(MouseEvent& mouseEvent) override;
 
-        virtual void mouseDragged(MouseEvent& mouseEvent);
-
+        void mouseDragged(MouseEvent& mouseEvent) override;
 
         // Inherited from KeyListener
 
-        virtual void keyPressed(KeyEvent& keyEvent);
+        void keyPressed(KeyEvent& keyEvent) override;
 
     protected:
+        /**
+         * Adjusts the size of the button to fit the caption.
+         *
+         * The public `adjustSize()` method serves as a virtual entry point
+         * for polymorphism, while this `adjustSizeImpl()` method contains
+         * the concrete implementation of the resizing logic.
+         *
+         * @see adjustSize (virtual entry point for polymorphism)
+         */
+        void adjustSizeImpl();
+
         /**
          * Draws the caret. Overloaded this method if you want to
          * change the style of the caret.
@@ -204,7 +152,7 @@ namespace fcn
         /**
          * True if the text field is editable, false otherwise.
          */
-        bool mEditable;
+        bool mEditable{true};
 
         /**
          * Holds the text of the text field.
@@ -216,13 +164,13 @@ namespace fcn
          * the text field can display, due to the text field being to small, the
          * text needs to scroll in order to show the last type character.
          */
-        int mXScroll;
-        
+        int mXScroll{0};
+
         /**
          * String editor for UTF8 support.
          */
         UTF8StringEditor* mStringEditor;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_TEXTFIELD_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_

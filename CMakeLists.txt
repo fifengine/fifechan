@@ -1,78 +1,149 @@
 #------------------------------------------------------------------------------
-#                                 FifeChan / FifeGUI                                         
+# FifeGUI (formerly FifeChan)
 #------------------------------------------------------------------------------
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
+cmake_minimum_required(VERSION 3.25...4.2)
 
-PROJECT(fifechan)
+# MSVC runtime library flags are selected by an abstraction.
+# In short: do not ignore CMAKE_MSVC_RUNTIME_LIBRARY.
+# https://cmake.org/cmake/help/latest/policy/CMP0091.html
+if(POLICY CMP0091)
+  cmake_policy(SET CMP0091 NEW)
+endif()
+
+# include additional CMake scripts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+
+#-------------------------------------------------------------------
+# Setup VCPKG and install Dependencies
+#-------------------------------------------------------------------
+
+# USE_VCPKG defaults to true, so that SetupVcpkg is included.
+set(USE_VCPKG TRUE CACHE BOOL "Use vcpkg for dependencies")
+
+# This configures VCPKG to install the dependencies defined in vcpkg.json
+# automatically during the configure step of CMake (vcpkg install).
+if(USE_VCPKG)
+   include(SetupVcpkg)
+endif()
+
+#-------------------------------------------------------------------
+# Gather Version Data
+#-------------------------------------------------------------------
+
+# vcpkg.json is the primary source for version data.
+# FIFECHAN_VERSION is used to set the project version.
+# FIFECHAN_VERSION and the other tokens are used in version.hpp.in.
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON_STRING)
+string(JSON FIFECHAN_NAME     GET ${VCPKG_JSON_STRING} "name")
+string(JSON FIFECHAN_VERSION  GET ${VCPKG_JSON_STRING} "version")
+string(JSON FIFECHAN_LICENSE  GET ${VCPKG_JSON_STRING} "license")
+string(JSON FIFECHAN_DESC     GET ${VCPKG_JSON_STRING} "description")
+string(JSON FIFECHAN_HOMEPAGE GET ${VCPKG_JSON_STRING} "homepage")
+string(TIMESTAMP CURRENT_YEAR "%Y")
+
+#-------------------------------------------------------------------
+# Project
+#-------------------------------------------------------------------
+
+# Enable C so transitive dependencies using FindThreads can detect pthreads.
+project(fifechan VERSION ${FIFECHAN_VERSION} LANGUAGES C CXX)
+
+#-------------------------------------------------------------------
+# Versionize the project
+#-------------------------------------------------------------------
+
+# Here we populate the version.hpp file with version data.
+# This must be done after project() is called,
+# else the version variables are not available (PROJECT_* tokens).
+# See the version.hpp.in file for the tokens that are replaced.
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/fifechan/version.hpp.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp"
+  @ONLY
+)
+
+#-------------------------------------------------------------------
+# CMake Includes
+#-------------------------------------------------------------------
+
+# Project local includes
+include(ShowBuildTargetProperties)
+include(CopyResources)
+include(InstallExample)
+
+# CMake provided includes
+include(FeatureSummary)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+if(UNIX AND NOT APPLE)
+  set(CMAKE_INSTALL_RPATH "\$ORIGIN;\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
 
 #------------------------------------------------------------------------------
-#                                 Version                                          
+# Options
 #------------------------------------------------------------------------------
 
-SET(MAJOR_VERSION 0)
-SET(MINOR_VERSION 1)
-SET(PATCH_VERSION 5)
-SET(FIFECHAN_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
+option(BUILD_SHARED_LIBS     "Build using shared libraries"                 OFF)
 
-SET(LIB_SUFFIX "" CACHE STRING "Suffix to append to the system lib folder")
+option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"           ON)
+option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
 
-#------------------------------------------------------------------------------
-#                                 Options                                          
-#------------------------------------------------------------------------------
+option(FIFEGUI_TESTS         "Build the FifeGUI tests"                       ON)
+option(FIFEGUI_EXAMPLES      "Build the FifeGUI examples"                    ON)
 
-OPTION(BUILD_FIFECHAN_SHARED            "Build the Fifechan core library as a shared library"                ON)
-
-OPTION(ENABLE_ALLEGRO                   "Enable the Fifechan Allegro extension"                              OFF)
-OPTION(BUILD_FIFECHAN_ALLEGRO_SHARED    "Build the Fifechan Allegro extension library as a shared library"   OFF)
-
-OPTION(ENABLE_IRRLICHT                  "Enable the Fifechan Irrlicht extension"                             OFF)
-OPTION(BUILD_FIFECHAN_IRRLICHT_SHARED   "Build the Fifechan Irrlicht extension library as a shared library"  OFF)
-
-OPTION(ENABLE_OPENGL                    "Enable the Fifechan OpenGL extension"                               ON)
-OPTION(ENABLE_OPENGL_CONTRIB            "Enable the Fifechan OpenGL contrib extension (freetype, oglft)"     OFF)
-OPTION(BUILD_FIFECHAN_OPENGL_SHARED     "Build the Fifechan OpenGL extension library as a shared library"    ON)
-
-OPTION(ENABLE_SDL                       "Enable the Fifechan SDL extension"                                  ON)
-OPTION(ENABLE_SDL_CONTRIB               "Enable the Fifechan SDL contrib extension (SDL2_ttf)"               OFF)
-OPTION(BUILD_FIFECHAN_SDL_SHARED        "Build the Fifechan SDL extension library as a shared library"       ON)
+# Reminder: The variable USE_VCPKG exist, which controls SetupVcpkg.
+# It is not a build option, because it must be set before project().
 
 #------------------------------------------------------------------------------
-#                                 Display Status                                         
+# Default build type
 #------------------------------------------------------------------------------
 
-message("")
-message("== Building FIFECHAN version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
-message(STATUS "    Source directory is '${PROJECT_SOURCE_DIR}'.")
-message(STATUS "    Build  directory is '${PROJECT_BINARY_DIR}'.")
-message(STATUS "    Installation path is '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
-message("")
+# set the default build type to 'Debug' if not specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting default CMAKE_BUILD_TYPE to 'Debug'")
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui, ccmake
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+# The default build type is based on BUILD_SHARED_LIBS.
+# FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls.
+if(BUILD_SHARED_LIBS)
+  set(FIFECHAN_LIBRARY_BUILD_TYPE SHARED)
+else()
+  set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
+endif()
 
 #------------------------------------------------------------------------------
-#                           Find Dependencies - Windows                                        
+# Display Status
 #------------------------------------------------------------------------------
 
-# Tell CMake where to search for binaries (dlls), includes and libs on Windows
-if(WIN32)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/bin"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/include/SDL2"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib/x86"
-    "${PROJECT_SOURCE_DIR}/../fifechan-dependencies/includes/lib"    
-  )
-endif(WIN32)
+message(STATUS "---------------------------------------------------------------")
+message(STATUS "[ 🛠️ ] Building FIFEGUI version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
+message(STATUS "---------------------------------------------------------------")
+message(STATUS "[INFO] Source dir               -> '${PROJECT_SOURCE_DIR}'.")
+message(STATUS "[INFO] Build dir                -> '${PROJECT_BINARY_DIR}'.")
+message(STATUS "[INFO] Installation path        -> '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
+message(STATUS "")
+message(STATUS "[INFO] Build shared libraries   -> '${BUILD_SHARED_LIBS}'.")
+message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
+message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
+message(STATUS "[INFO] Build tests              -> '${FIFEGUI_TESTS}'.")
+message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
+message(STATUS "---------------------------------------------------------------")
+
+set(FIFECHAN_EXAMPLE_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/examples/fifechan")
 
 #------------------------------------------------------------------------------
-#                                 Configure                                          
+# Configure
 #------------------------------------------------------------------------------
-
-# Path to local modules
-SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
 # Do not allow an in-source-tree build, request an out-of-source-tree build.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
-  message(FATAL_ERROR "#Please build outside of the source tree!\n                        
+  message(FATAL_ERROR "#Please build outside of the source tree!\n
                        Make a separate folder for building and run CMake there:\n
                        mkdir _build; cd _build; cmake ..\n
                        Before that, cleanup:\nrm -rf CMakeCache.txt CMakeFiles")
@@ -82,400 +153,359 @@ endif()
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
+# Create compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# This shows the invoked commands during makefile builds. Only for debugging.
+#set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+
+# Enable color diagnostics (-fcolor-diagnostics).
+SET(CMAKE_COLOR_DIAGNOSTICS ON)
+
 #------------------------------------------------------------------------------
-#                                 Compiler Options                                         
+# Compiler Options
 #------------------------------------------------------------------------------
 
 if(WIN32)
   if(MSVC)
-    # ensure we use minimal "windows.h" lib without the crazy min max macros    
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
-  endif(MSVC)
-endif(WIN32)
+    # Keep CRT selection consistent with BUILD_SHARED_LIBS and vcpkg triplet.
+    if(BUILD_SHARED_LIBS)
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    else()
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+
+    # Disable logo, enable exceptions, use full path in diagnostics,
+    # be more standards compliant, use UTF-8 encoding, and enable Control Flow Guard.
+    string(APPEND CMAKE_CXX_FLAGS " /nologo /EHsc /FC /permissive- /utf-8 /guard:cf")
+
+    # Enable debug info in release builds for better crash dumps and profiling.
+    string(APPEND CMAKE_CXX_FLAGS_RELEASE " /Zi")
+
+    # ensure we use minimal "windows.h" lib without the crazy min max macros
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"WIN32_LEAN_AND_MEAN\"")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
+  endif()
+else()
+  # disable C++20 module support
+  set(CMAKE_CXX_SCAN_FOR_MODULES 0)
+
+  # Unix-like systems (Linux, macOS, etc.)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # Apple Clang defaults to libc++, but Linux Clang commonly targets libstdc++.
+    # Forcing libc++ on Linux can fail when libc++ headers/runtime are unavailable.
+    if(APPLE)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+    else()
+      message(STATUS "Using Clang ${CMAKE_CXX_COMPILER_VERSION} with default C++ standard library")
+    endif()
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    message(STATUS "Using GCC ${CMAKE_CXX_COMPILER_VERSION} with libstdc++")
+  endif()
+endif()
 
 #------------------------------------------------------------------------------
-#                                 Source Files                                             
+# Source Files for FifeGUI core library
 #------------------------------------------------------------------------------
 
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
-
-# The Fifechan core library 
-FILE(GLOB FIFECHAN_HEADER include/fifechan.hpp)
-FILE(GLOB FIFECHAN_HEADERS
-  include/fifechan/actionevent.hpp		
-  include/fifechan/actionlistener.hpp		
-  include/fifechan/cliprectangle.hpp	
-  include/fifechan/color.hpp		
-  include/fifechan/containerevent.hpp		
-  include/fifechan/containerlistener.hpp		
-  include/fifechan/deathlistener.hpp	
-  include/fifechan/defaultfont.hpp		
-  include/fifechan/event.hpp		
-  include/fifechan/exception.hpp 
-  include/fifechan/focushandler.hpp	
-  include/fifechan/focuslistener.hpp	
-  include/fifechan/font.hpp		
-  include/fifechan/genericinput.hpp	
-  include/fifechan/glut.hpp		
-  include/fifechan/graphics.hpp		
-  include/fifechan/gui.hpp			
-  include/fifechan/image.hpp		
-  include/fifechan/imagefont.hpp		
-  include/fifechan/imageloader.hpp		
-  include/fifechan/input.hpp		
-  include/fifechan/inputevent.hpp		
-  include/fifechan/key.hpp			
-  include/fifechan/keyevent.hpp		
-  include/fifechan/keyinput.hpp		
-  include/fifechan/keylistener.hpp		
-  include/fifechan/listmodel.hpp		
-  include/fifechan/mouseevent.hpp		
-  include/fifechan/mouseinput.hpp		
-  include/fifechan/mouselistener.hpp	
-  include/fifechan/platform.hpp
-  include/fifechan/point.hpp		
-  include/fifechan/rectangle.hpp		
-  include/fifechan/selectionevent.hpp	
-  include/fifechan/selectionlistener.hpp
-  include/fifechan/size.hpp	
-  include/fifechan/text.hpp
-  include/fifechan/utf8stringeditor.hpp
-  include/fifechan/version.hpp
-  include/fifechan/visibilityeventhandler.hpp
-  include/fifechan/widget.hpp		
-  include/fifechan/widgetlistener.hpp
-  include/fifechan/opengl.hpp
-)
-FILE(GLOB FIFECHAN_WIDGET_HEADERS include/fifechan/widgets/*.hpp)
-FILE(GLOB FIFECHAN_UTIL_HEADERS include/fifechan/util/*.hpp)
-FILE(GLOB FIFECHAN_SRC src/*.cpp)
-FILE(GLOB FIFECHAN_WIDGET_SRC src/widgets/*.cpp)
-
-# Grouping of the source for nicer display in IDEs such as Visual Studio
-SOURCE_GROUP(src                          FILES ${FIFECHAN_HEADER})
-SOURCE_GROUP(src/fifechan                 FILES ${FIFECHAN_HEADERS} ${FIFECHAN_SRC})
-SOURCE_GROUP(src/fifechan/widgets         FILES ${FIFECHAN_WIDGET_HEADERS} ${FIFECHAN_WIDGET_SRC})
+file(GLOB FIFECHAN_HEADER          include/fifechan.hpp)
+file(GLOB FIFECHAN_HEADERS         include/fifechan/*.hpp)
+file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
+file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
+file(GLOB FIFECHAN_SRC             src/*.cpp)
+file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
+set(FIFECHAN_VERSION_HEADER        "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
 
 #------------------------------------------------------------------------------
-#                 Fifechan core library as a shared library                                        
+# FifeGUI core library
 #------------------------------------------------------------------------------
 
-IF(BUILD_FIFECHAN_SHARED)
-  SET(FIFECHAN_LIBRARY_TYPE SHARED)
-ELSE(BUILD_FIFECHAN_SHARED)
-  SET(FIFECHAN_LIBRARY_TYPE STATIC)
-ENDIF(BUILD_FIFECHAN_SHARED)
-
-ADD_LIBRARY(${PROJECT_NAME} ${FIFECHAN_LIBRARY_TYPE} 
-	${FIFECHAN_HEADER}
-	${FIFECHAN_HEADERS}
-	${FIFECHAN_WIDGET_HEADERS}
-	${FIFECHAN_UTIL_HEADERS}
-	${FIFECHAN_SRC}
-	${FIFECHAN_WIDGET_SRC}
+add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
+    ${FIFECHAN_HEADER}
+    ${FIFECHAN_HEADERS}
+    ${FIFECHAN_WIDGET_HEADERS}
+    ${FIFECHAN_UTIL_HEADERS}
+    ${FIFECHAN_SRC}
+    ${FIFECHAN_WIDGET_SRC}
+    ${FIFECHAN_VERSION_HEADER}
 )
 
-ADD_CUSTOM_TARGET(lib DEPENDS ${PROJECT_NAME}) # Create symlink
+# Provide a namespace alias for the library (fifechan::fifechan)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
-  VERSION                 ${FIFECHAN_VERSION}
-  SOVERSION               ${FIFECHAN_VERSION}
-  CLEAN_DIRECT_OUTPUT     1                             # Allow creating static and shared libraries without conflict
-  OUTPUT_NAME             ${PROJECT_NAME}               # Avoid conflicts between library and binary target names 
-  COMPILE_DEFINITIONS     "FIFECHAN_BUILD"
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include> # to include the generated "version.hpp"
+    $<INSTALL_INTERFACE:include>
 )
 
-INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX} PERMISSIONS
-  OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+  $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
 )
 
-INSTALL(FILES ${FIFECHAN_HEADER}                  DESTINATION include/)
-INSTALL(FILES ${FIFECHAN_HEADERS}                 DESTINATION include/fifechan/)
-INSTALL(FILES ${FIFECHAN_WIDGET_HEADERS}          DESTINATION include/fifechan/widgets/)
-INSTALL(FILES ${FIFECHAN_UTIL_HEADERS}            DESTINATION include/fifechan/util/)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  VERSION                ${FIFECHAN_VERSION}
+  SOVERSION              ${FIFECHAN_VERSION}
+  CLEAN_DIRECT_OUTPUT    1                        # Allow creating static and shared libraries without conflict
+  OUTPUT_NAME            ${PROJECT_NAME}          # Avoid conflicts between library and binary target names
+  COMPILE_DEFINITIONS    "FIFECHAN_BUILD"
+  LINKER_LANGUAGE        CXX
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
 
-#REMOVE_DEFINITIONS("-DFIFECHAN_BUILD")
-#ADD_DEFINITIONS("-DFIFECHAN_EXTENSION_BUILD")
+show_build_target_properties(${PROJECT_NAME})
 
-#------------------------------------------------------------------------------
-#                   The Fifechan Allegro extension library                                         
-#------------------------------------------------------------------------------
-
-FIND_PACKAGE(Allegro)
-
-IF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)  
-
-  INCLUDE_DIRECTORIES(${ALLEGRO_INCLUDE_DIR})
-
-  # The Fifechan Allegro extension source
-  FILE(GLOB FIFECHAN_ALLEGRO_HEADER include/fifechan/allegro.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_HEADERS include/fifechan/allegro/*.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_CONTRIB_HEADERS include/fifechan/contrib/allegro/*.hpp)
-  FILE(GLOB FIFECHAN_ALLEGRO_SRC src/allegro/*.cpp)
-
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_ALLEGRO_HEADER})
-  SOURCE_GROUP(src/fifechan/allegro FILES ${FIFECHAN_ALLEGRO_HEADERS} ${FIFECHAN_ALLEGRO_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/allegro FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS})
-
-  IF(BUILD_FIFECHAN_ALLEGRO_SHARED)
-    SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_FIFECHAN_ALLEGRO_SHARED)
-     SET(FIFECHAN_ALLEGRO_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_FIFECHAN_ALLEGRO_SHARED)
-
-  ADD_LIBRARY(${PROJECT_NAME}_allegro ${FIFECHAN_ALLEGRO_LIBRARY_TYPE} 
-  	${FIFECHAN_ALLEGRO_HEADER}
-  	${FIFECHAN_ALLEGRO_HEADERS}
-  	${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}
-  	${FIFECHAN_ALLEGRO_SRC}
-  )
-
-  TARGET_LINK_LIBRARIES(${PROJECT_NAME}_allegro ${ALLEG_LIBRARY} ${PROJECT_NAME})
-  
-  ADD_CUSTOM_TARGET(allegrolib DEPENDS ${PROJECT_NAME}_allegro) # Create symlink
-  
-  SET_TARGET_PROPERTIES(${PROJECT_NAME}_allegro PROPERTIES
-    VERSION                   ${FIFECHAN_VERSION}
-    SOVERSION                 ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT       1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME               ${PROJECT_NAME}_allegro         # Avoid conflicts between library and binary target names 
-    COMPILE_DEFINITIONS       "FIFECHAN_EXTENSION_BUILD"
-  )
-
-  INSTALL(TARGETS ${PROJECT_NAME}_allegro DESTINATION lib${LIB_SUFFIX} PERMISSIONS
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE
-  )
+)
 
-  INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADER}            DESTINATION include/fifechan/)
-  INSTALL(FILES ${FIFECHAN_ALLEGRO_HEADERS}           DESTINATION include/fifechan/allegro/)
-  INSTALL(FILES ${FIFECHAN_ALLEGRO_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/allegro/)  
-
-ENDIF(ENABLE_ALLEGRO AND ALLEGRO_FOUND)
-
-#------------------------------------------------------------------------------
-#                   Fifechan Irrlicht extension library                                         
-#------------------------------------------------------------------------------
-
-FIND_PACKAGE(Irrlicht)
-IF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
-
-  INCLUDE_DIRECTORIES(${IRRLICHT_INCLUDE_DIR})
-
-  # The Fifechan Irrlicht extension source
-  FILE(GLOB FIFECHAN_IRRLICHT_HEADER include/fifechan/irrlicht.hpp)
-  FILE(GLOB FIFECHAN_IRRLICHT_HEADERS include/fifechan/irrlicht/*.hpp)
-  FILE(GLOB FIFECHAN_IRRLICHT_SRC src/irrlicht/*.cpp)
-
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan FILES ${FIFECHAN_IRRLICHT_HEADER})
-  SOURCE_GROUP(src/fifechan/irrlicht FILES ${FIFECHAN_IRRLICHT_HEADERS} ${FIFECHAN_IRRLICHT_SRC})
-
-  IF(BUILD_FIFECHAN_IRRLICHT_SHARED)
-    SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_FIFECHAN_IRRLICHT_SHARED)
-    SET(FIFECHAN_IRRLICHT_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_FIFECHAN_IRRLICHT_SHARED)
-
-  ADD_LIBRARY(${PROJECT_NAME}_irrlicht ${FIFECHAN_IRRLICHT_LIBRARY_TYPE}
-    ${FIFECHAN_IRRLICHT_HEADER}
-    ${FIFECHAN_IRRLICHT_HEADERS}
-    ${FIFECHAN_IRRLICHT_SRC}
-  )
-
-  TARGET_LINK_LIBRARIES(${PROJECT_NAME}_irrlicht ${IRRLICHT_LIBRARY} ${PROJECT_NAME})
-
-  ADD_CUSTOM_TARGET(irrlichtlib DEPENDS ${PROJECT_NAME}_irrlicht) # Create symlink
-
-  SET_TARGET_PROPERTIES(${PROJECT_NAME}_irrlicht PROPERTIES
-    VERSION                  ${FIFECHAN_VERSION}
-    SOVERSION                ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT      1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME              ${PROJECT_NAME}_irrlicht        # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS      "FIFECHAN_EXTENSION_BUILD"
-  )
-
-  INSTALL(TARGETS ${PROJECT_NAME}_irrlicht DESTINATION lib${LIB_SUFFIX} PERMISSIONS
-    OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE
-    WORLD_READ WORLD_EXECUTE
-  )
-
-  INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADER}    DESTINATION include/fifechan/)
-  INSTALL(FILES ${FIFECHAN_IRRLICHT_HEADERS}   DESTINATION include/fifechan/irrlicht/)
-
-ENDIF(ENABLE_IRRLICHT AND IRRLICHT_FOUND)
+install(FILES ${FIFECHAN_HEADER}          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/)
+install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
+install(FILES ${FIFECHAN_VERSION_HEADER}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
+install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/widgets/)
+install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/util/)
 
 #------------------------------------------------------------------------------
-#                   The Fifechan OpenGL extension library                                         
+# The FifeGUI OpenGL extension library
 #------------------------------------------------------------------------------
 
-FIND_PACKAGE(OpenGL)
+if(ENABLE_OPENGL)
+  find_package(OpenGL)
+  find_package(Freetype REQUIRED)
 
-IF(APPLE AND ENABLE_OPENGL)
-  FIND_LIBRARY(OPENGL_LIBRARY OpenGL)
-  MARK_AS_ADVANCED(OPENGL_LIBRARY)
-  SET(EXTRA_LIBS ${OPENGL_LIBRARY})
-ENDIF(APPLE AND ENABLE_OPENGL)
+  if(APPLE)
+    find_library(OPENGL_LIBRARY OpenGL)
+    mark_as_advanced(OPENGL_LIBRARY)
+    set(EXTRA_LIBS ${OPENGL_LIBRARY})
+  endif()
+endif()
 
-IF(ENABLE_OPENGL_CONTRIB)
-  FIND_PACKAGE(Freetype)
-  FIND_PACKAGE(OGLFT)
-ENDIF(ENABLE_OPENGL_CONTRIB)
+if(OPENGL_FOUND)
 
-IF(ENABLE_OPENGL AND OPENGL_FOUND)
+  # set extension sources
+  file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/backends/opengl/*.hpp)
+  file(GLOB FIFECHAN_OPENGL_SRC     src/backends/opengl/*.cpp)
 
-  INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-  IF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND AND FREETYPE_FOUND)
-    INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
-    INCLUDE_DIRECTORIES(${OGLFT_INCLUDE_DIRS})
-  ENDIF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND AND FREETYPE_FOUND)
-
-  # The OpenGL extension source
-  FILE(GLOB OGLFT_FOUNDFIFECHAN_OPENGL_HEADER include/fifechan/opengl.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/opengl/*.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_CONTRIB_HEADERS include/fifechan/contrib/opengl/*.hpp)
-  FILE(GLOB FIFECHAN_OPENGL_SRC src/opengl/*.cpp)
-  IF(ENABLE_OPENGL_CONTRIB)
-    FILE(GLOB FIFECHAN_OPENGL_CONTRIB_SRC src/contrib/opengl/*.cpp)
-  ENDIF(ENABLE_OPENGL_CONTRIB)
-
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan                FILES ${FIFECHAN_OPENGL_HEADER})
-  SOURCE_GROUP(src/fifechan/opengl         FILES ${FIFECHAN_OPENGL_HEADERS} ${FIFECHAN_OPENGL_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/opengl FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS} ${FIFECHAN_OPENGL_CONTRIB_SRC})
-
-  IF(BUILD_FIFECHAN_OPENGL_SHARED)
-    SET(FIFECHAN_OPENGL_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_FIFECHAN_OPENGL_SHARED)
-    SET(FIFECHAN_OPENGL_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_FIFECHAN_OPENGL_SHARED)
-
-  ADD_LIBRARY(${PROJECT_NAME}_opengl ${FIFECHAN_OPENGL_LIBRARY_TYPE} 
-
-	${FIFECHAN_OPENGL_HEADER}
-	${FIFECHAN_OPENGL_HEADERS}
-	${FIFECHAN_OPENGL_CONTRIB_HEADERS}
-	${FIFECHAN_OPENGL_SRC}
-	${FIFECHAN_OPENGL_CONTRIB_SRC})
-
-  IF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
-    TARGET_LINK_LIBRARIES(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${FREETYPE_LIBRARIES} ${OGLFT_LIBRARIES} ${PROJECT_NAME})
-  ELSE(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
-    TARGET_LINK_LIBRARIES(${PROJECT_NAME}_opengl ${OPENGL_LIBRARY} ${PROJECT_NAME})
-  ENDIF(ENABLE_OPENGL_CONTRIB AND OGLFT_FOUND)
-
-  ADD_CUSTOM_TARGET(opengllib DEPENDS ${PROJECT_NAME}_opengl) # Create symlink
-
-  SET_TARGET_PROPERTIES(${PROJECT_NAME}_opengl PROPERTIES
-    VERSION                 ${FIFECHAN_VERSION}
-    SOVERSION               ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME             ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names 
-    COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
+  # create the extension library
+  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
+    ${FIFECHAN_OPENGL_HEADERS}
+    ${FIFECHAN_OPENGL_SRC}
   )
 
-  INSTALL(TARGETS ${PROJECT_NAME}_opengl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
-    OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE
-    WORLD_READ WORLD_EXECUTE
+  # Provide a namespace alias for the library (fifechan::fifechan_opengl)
+  add_library(${PROJECT_NAME}::${PROJECT_NAME}_opengl ALIAS ${PROJECT_NAME}_opengl)
+
+  # add include directories for the dependencies of the extension
+  target_include_directories(${PROJECT_NAME}_opengl PUBLIC
+    $<BUILD_INTERFACE:${OPENGL_INCLUDE_DIR}>
+    $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIRS}>
+    $<INSTALL_INTERFACE:include>
   )
 
-  INSTALL(FILES ${FIFECHAN_OPENGL_HEADER}           DESTINATION include/fifechan/)
-  INSTALL(FILES ${FIFECHAN_OPENGL_HEADERS}          DESTINATION include/fifechan/opengl/)
-  INSTALL(FILES ${FIFECHAN_OPENGL_CONTRIB_HEADERS}  DESTINATION include/fifechan/contrib/opengl/) 
+  target_compile_definitions(${PROJECT_NAME}_opengl PUBLIC
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
+  )
 
-ENDIF(ENABLE_OPENGL AND OPENGL_FOUND)
+  # link dependencies to the extension
+  target_link_libraries(${PROJECT_NAME}_opengl PRIVATE ${OPENGL_LIBRARY} Freetype::Freetype ${PROJECT_NAME})
+
+  # set additional properties for the extension
+  set_target_properties(${PROJECT_NAME}_opengl PROPERTIES
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    LINKER_LANGUAGE        CXX
+    CXX_STANDARD           20
+    CXX_STANDARD_REQUIRED  ON
+  )
+
+  # print overview
+  show_build_target_properties(${PROJECT_NAME}_opengl)
+
+  # setup install location
+  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}-targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PERMISSIONS
+      OWNER_READ OWNER_WRITE OWNER_EXECUTE
+      GROUP_READ GROUP_EXECUTE
+      WORLD_READ WORLD_EXECUTE
+  )
+
+  # setup additional files to install
+  install(FILES ${FIFECHAN_OPENGL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/opengl/)
+
+endif()
 
 #------------------------------------------------------------------------------
-#                   The Fifechan SDL extension library                                         
+# The FifeGUI SDL extension library
 #------------------------------------------------------------------------------
 
-FIND_PACKAGE(SDL2)
-FIND_PACKAGE(SDL2_image)
+if(ENABLE_SDL)
+  find_package(SDL2 CONFIG REQUIRED)
+  find_package(SDL2_image CONFIG REQUIRED)
+  find_package(SDL2_ttf CONFIG REQUIRED)
 
-IF(ENABLE_SDL_CONTRIB)
-  FIND_PACKAGE(SDL2_ttf)
-ENDIF(ENABLE_SDL_CONTRIB)
+  if(APPLE)
+    find_library(SDL2_LIBRARY SDL2)
+    find_library(SDL2_IMAGE_LIBRARY SDL2_image)
+    mark_as_advanced(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
+    set(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
+  endif()
+endif()
 
-IF(APPLE AND ENABLE_SDL)
-  FIND_LIBRARY(SDL2_LIBRARY SDL2)
-  FIND_LIBRARY(SDL2_IMAGE_LIBRARY SDL2_image)
-  MARK_AS_ADVANCED(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
-  SET(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
-ENDIF(APPLE AND ENABLE_SDL)
+if(ENABLE_SDL)
 
-IF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)  
- 
-  INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR})
- 
-  # The Fifechan SDL extension source
-  FILE(GLOB FIFECHAN_SDL_HEADER include/fifechan/sdl.hpp)
-  FILE(GLOB FIFECHAN_SDL_HEADERS include/fifechan/sdl/*.hpp)
-  FILE(GLOB FIFECHAN_SDL_CONTRIB_HEADERS include/fifechan/contrib/sdl/*.hpp)
-  FILE(GLOB FIFECHAN_SDL_SRC src/sdl/*.cpp)
+  # The FifeGUI SDL extension source
+  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl2/*.hpp)
+  file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl2/*.cpp)
 
-  IF(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
-    INCLUDE_DIRECTORIES(${SDL_TTF_INCLUDE_DIRS})
-    FILE(GLOB FIFECHAN_CONTRIB_SRC src/contrib/sdl/*.cpp)  
-  ENDIF(ENABLE_SDL_CONTRIB AND SDLTTF_FOUND)
-  
-  # Grouping of the source for nicer display in IDEs such as Visual Studio
-  SOURCE_GROUP(src/fifechan               FILES ${FIFECHAN_SDL_HEADER})
-  SOURCE_GROUP(src/fifechan/sdl           FILES ${FIFECHAN_SDL_HEADERS} ${FIFECHAN_SDL_SRC})
-  SOURCE_GROUP(src/fifechan/contrib/sdl   FILES ${FIFECHAN_SDL_CONTRIB_HEADERS} ${FIFECHAN_CONTRIB_SRC})
- 
-  IF(BUILD_FIFECHAN_SDL_SHARED)
-    SET(FIFECHAN_SDL_LIBRARY_TYPE SHARED)
-  ELSE(BUILD_FIFECHAN_SDL_SHARED)
-    SET(FIFECHAN_SDL_LIBRARY_TYPE STATIC)
-  ENDIF(BUILD_FIFECHAN_SDL_SHARED)
-
-  ADD_LIBRARY(${PROJECT_NAME}_sdl ${FIFECHAN_SDL_LIBRARY_TYPE} 
-  	${FIFECHAN_SDL_HEADER}
-  	${FIFECHAN_SDL_HEADERS}
-  	${FIFECHAN_SDL_CONTRIB_HEADERS}
-  	${FIFECHAN_SDL_SRC}
-  	${FIFECHAN_CONTRIB_SRC}
+  add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE}
+    ${FIFECHAN_SDL_HEADERS}
+    ${FIFECHAN_SDL_SRC}
   )
 
-  IF(WIN32)
-    get_filename_component(SDL2_LIBRARY_DIR ${SDL2_LIBRARY} DIRECTORY)
+  # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
+  add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
 
-    IF(MINGW)
-      TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${MINGW32_LIBRARY} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    ELSE(MINGW)
-      TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${PROJECT_NAME})
-    ENDIF(MINGW)
-  ELSE(WIN32)
-    TARGET_LINK_LIBRARIES(${PROJECT_NAME}_sdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${PROJECT_NAME})
-  ENDIF(WIN32)
-
-  ADD_CUSTOM_TARGET(sdllib DEPENDS ${PROJECT_NAME}_sdl) # Create symlink
-
-  SET_TARGET_PROPERTIES(${PROJECT_NAME}_sdl PROPERTIES
-    VERSION                 ${FIFECHAN_VERSION}
-    SOVERSION               ${FIFECHAN_VERSION}
-    CLEAN_DIRECT_OUTPUT     1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME             ${PROJECT_NAME}_sdl             # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS     "FIFECHAN_EXTENSION_BUILD"
+  target_include_directories(${PROJECT_NAME}_sdl2 PUBLIC
+    # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
+    $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
+    $<INSTALL_INTERFACE:include>
   )
 
-  INSTALL(TARGETS ${PROJECT_NAME}_sdl DESTINATION lib${LIB_SUFFIX} PERMISSIONS
-    OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    GROUP_READ GROUP_EXECUTE
-    WORLD_READ WORLD_EXECUTE
+  target_compile_definitions(${PROJECT_NAME}_sdl2 PUBLIC
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
   )
 
-  INSTALL(FILES ${FIFECHAN_SDL_HEADER}            DESTINATION include/fifechan/)
-  INSTALL(FILES ${FIFECHAN_SDL_HEADERS}           DESTINATION include/fifechan/sdl/)
-  INSTALL(FILES ${FIFECHAN_SDL_CONTRIB_HEADERS}   DESTINATION include/fifechan/contrib/sdl/)   
+  target_link_libraries(${PROJECT_NAME}_sdl2 PRIVATE
+    # SDL2::SDL2
+    #$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    # SDL2::SDL2_image
+    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+    # SDL2::SDL2_ttf
+    $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+    # Fifechan
+    ${PROJECT_NAME}
+  )
 
-ENDIF(ENABLE_SDL AND SDL2_FOUND AND SDL2_IMAGE_FOUND)
+  set_target_properties(${PROJECT_NAME}_sdl2 PROPERTIES
+    VERSION                ${FIFECHAN_VERSION}
+    SOVERSION              ${FIFECHAN_VERSION}
+    CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
+    OUTPUT_NAME            ${PROJECT_NAME}_sdl2            # Avoid conflicts between library and binary target names
+    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
+    LINKER_LANGUAGE        CXX
+    CXX_STANDARD           20
+    CXX_STANDARD_REQUIRED  ON
+  )
 
-MESSAGE(STATUS "Fifechan Makefiles have been generated!")
+  install(TARGETS ${PROJECT_NAME}_sdl2 EXPORT ${PROJECT_NAME}-targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PERMISSIONS
+      OWNER_READ OWNER_WRITE OWNER_EXECUTE
+      GROUP_READ GROUP_EXECUTE
+      WORLD_READ WORLD_EXECUTE
+  )
+
+  install(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/sdl2/)
+
+endif()
+
+#------------------------------------------------------------------------------
+# Examples
+#------------------------------------------------------------------------------
+
+if(FIFEGUI_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+
+#------------------------------------------------------------------------------
+# Tests
+#------------------------------------------------------------------------------
+
+if(FIFEGUI_TESTS)
+  # enable unit tests
+  enable_testing()
+  add_subdirectory(tests/unit)
+
+  # enable integration tests
+  add_subdirectory("tests/integration")
+endif()
+
+#------------------------------------------------------------------------------
+# Display Summary
+#------------------------------------------------------------------------------
+
+feature_summary(WHAT PACKAGES_FOUND PACKAGES_NOT_FOUND ENABLED_FEATURES DISABLED_FEATURES)
+
+#------------------------------------------------------------------------------
+# Installation Rules
+#------------------------------------------------------------------------------
+# 1) Generate and install target configuration files (for use with find_package)
+# 2) Generate and install package configuration files (for find_package)
+# 3) Generate and install a pkg-config file (for pkg-config)
+
+#------------------------------------------------------------------------------
+# 1 Generate and install target configuration files (for use with find_package)
+#------------------------------------------------------------------------------
+
+install(EXPORT ${PROJECT_NAME}-targets
+        FILE ${PROJECT_NAME}-targets.cmake
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+)
+
+#------------------------------------------------------------------------------
+# 2 Generate and install package configuration files (for find_package)
+#------------------------------------------------------------------------------
+
+# fifechan-config.cmake
+configure_package_config_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/packaging/fifechan-config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+)
+
+# fifechan-config-version.cmake
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
+  COMPATIBILITY SameMajorVersion
+)
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan-config-version.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/fifechan"
+)
+
+#------------------------------------------------------------------------------
+# 3 Generate and install a pkg-config file (for pkg-config)
+#------------------------------------------------------------------------------
+
+# fifechan.pc
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/packaging/fifechan.pc.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan.pc"
+  @ONLY
+)
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/fifechan.pc"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+)

@@ -1,84 +1,24 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof NaessÃ©n and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-/*      _______   __   __   __   ______   __   __   _______   __   __
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
- *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
- *
- *
- * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
- *
- * Visit: http://guichan.sourceforge.net
- *
- * License: (BSD)
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- * 3. Neither the name of Guichan nor the names of its contributors may
- *    be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-#ifndef FCN_RECTANGLE_HPP
-#define FCN_RECTANGLE_HPP
-
-#include "fifechan/platform.hpp"
+#ifndef INCLUDE_FIFECHAN_RECTANGLE_HPP_
+#define INCLUDE_FIFECHAN_RECTANGLE_HPP_
 
 #include <iostream>
+
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {
     /**
-     * Represents a rectangle.
+     * Represents a rectangular area (X, Y, Width, Height).
      *
+     * @ingroup utils
      */
-    class FCN_CORE_DECLSPEC Rectangle
+    class FIFEGUI_API Rectangle
     {
     public:
-
         /**
          * Constructor. The default rectangle is an empty rectangle
          * at the coordinates (0,0).
@@ -111,7 +51,7 @@ namespace fcn
          * @param rectangle Another rectangle to check for intersection.
          * @return True if the rectangles intersect, false otherwise.
          */
-        bool isIntersecting(const Rectangle& rectangle) const;
+        bool isIntersecting(Rectangle const & rectangle) const;
 
         /**
          * Checks the rectangle contains a point.
@@ -130,7 +70,7 @@ namespace fcn
          * @return True if the rectangle contains the rectangle,
          *         false otherwise.
          */
-        bool isContaining(const Rectangle& other) const;
+        bool isContaining(Rectangle const & other) const;
 
         /**
          * Checks whether the rectangle is empty or not. A rectangle
@@ -148,7 +88,7 @@ namespace fcn
          * @param rh The rectangle to add.
          * @return The union of the two rectangles.
          */
-        Rectangle operator+(const Rectangle& rh) const;
+        Rectangle operator+(Rectangle const & rh) const;
 
         /**
          * Adds a rectangle to this rectangle. This rectangle will be
@@ -157,7 +97,7 @@ namespace fcn
          * @param rh The rectangle to add.
          * @return A reference to this rectangle.
          */
-        const Rectangle& operator+=(const Rectangle& rh);
+        Rectangle const & operator+=(Rectangle const & rh);
 
         /**
          * Gets the intersection between two rectangles.
@@ -165,7 +105,7 @@ namespace fcn
          * @param rh The rectangle to calculate the intersection with.
          * @return The intersection between two rectangles.
          */
-        Rectangle intersection(const Rectangle& rh) const;
+        Rectangle intersection(Rectangle const & rh) const;
 
         /**
          * Output operator for output.
@@ -173,8 +113,7 @@ namespace fcn
          * @param out The stream to output to.
          * @param rectangle The rectangle to output.
          */
-        friend std::ostream& operator<<(std::ostream& out,
-                                        const Rectangle& rectangle);
+        friend std::ostream& operator<<(std::ostream& out, Rectangle const & rectangle);
 
         /**
          * Holds the x coordinate of the rectangle.
@@ -196,6 +135,6 @@ namespace fcn
          */
         int height;
     };
-}
+} // namespace fcn
 
-#endif // end FCN_RECTANGEL_HPP
+#endif // INCLUDE_FIFECHAN_RECTANGLE_HPP_

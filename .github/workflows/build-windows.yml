@@ -1,0 +1,250 @@
+#
+# .github/workflows/build-windows.yml
+#
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2024 Jens A. Koch.
+# This file is part of fifengine/fifechan.
+#
+
+name: "Build on Windows"
+
+on:
+ #- push
+ - pull_request
+ # You can manually run this workflow.
+ - workflow_dispatch
+
+# improve CI concurrency by automatically cancelling outdated jobs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+# ---------------------------------------------------------------------------------------
+
+  build:
+
+# ---------------------------------------------------------------------------------------
+
+    name: "${{ matrix.config.job_name }}"
+
+    # https://github.com/actions/runner-images#available-environments
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md        VC17
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md        VC17
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-VS2026-Readme.md VC18
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type:
+          - "Release"
+          #- Debug
+        config:
+          - {
+              job_name: "Win | VC17 | Shared | Release",
+              cache_key: "win-vc17-x64-shared-release",
+              os: "windows-2025",
+              generator: "Visual Studio 17 2022",
+              compiler: "cl",
+              platform: "x64",
+              vcpkg_triplet: "x64-windows",
+              shared_libs: "ON"
+            }
+          - {
+              job_name: "Win | VC17 | Static | Release",
+              cache_key: "win-vc17-x64-static-release",
+              os: "windows-2025",
+              generator: "Visual Studio 17 2022",
+              compiler: "cl",
+              platform: "x64",
+              vcpkg_triplet: "x64-windows-static-release",
+              shared_libs: "OFF"
+            }
+          - {
+              job_name: "Win | VC18 | Shared | Release",
+              cache_key: "win-vc18-x64-shared-release",
+              os: "windows-2025-vs2026",
+              generator: "Visual Studio 18 2026",
+              compiler: "cl",
+              platform: "x64",
+              vcpkg_triplet: "x64-windows",
+              shared_libs: "ON"
+            }
+          # win-vc16-x64-static-release is disabled, because freetype doesn't build static on VC16.
+          #- {
+          #    job_name: "Windows VC16 x64 static Release",
+          #    cache_key: "win-vc16-x64-static-release",
+          #    os: "windows-2019",
+          #    generator: "Visual Studio 16 2019",
+          #    compiler: "cl",
+          #    platform: "Win32",
+          #    vcpkg_triplet: "x64-windows-static-release",
+          #    shared_libs: "OFF"
+          #  }
+
+    env:
+      VCPKG_DISABLE_METRICS: 1
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
+      SOURCE_DIR:  ${{ github.workspace }}
+      BUILD_DIR:   ${{ github.workspace }}\build
+      INSTALL_DIR: ${{ github.workspace }}\install
+
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+      - name: 🤘 Checkout Code
+        uses: actions/checkout@v6 # https://github.com/actions/checkout
+
+      # https://community.chocolatey.org/packages/ninja
+      - name: 🔽 Install Ninja
+        run: choco install ninja --no-progress
+
+      # https://community.chocolatey.org/packages/cmake
+      - name: 🔽 Install CMake
+        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
+
+      - name: Debug matrix.config.os
+        run: |
+          echo "matrix.config.os value is: ${{ matrix.config.os }}"
+
+      - name: 🛠️ Setup Visual Studio Developer Command Prompt
+        if: matrix.config.os == 'windows-2025'
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          cl.exe
+
+      - name: 🛠️ Setup Visual Studio Developer Command Prompt
+        if: matrix.config.os == 'windows-2025-vs2026'
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          cl.exe
+
+      # Redefine location to "c:\vcpkg"
+      - name: 🔽 Define VCPKG_ROOT
+        run: |
+          set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
+          echo VCPKG_ROOT=%VCPKG_ROOT%>>%GITHUB_ENV%
+
+      - name: 🎯 Setup Package Cache (vcpkg)
+        id: cache-vcpkg
+        uses: actions/cache@v5 # https://github.com/actions/cache
+        with:
+          # https://github.com/microsoft/vcpkg/blob/master/docs/users/binarycaching.md#configuration
+          path: |
+            ${{ env.VCPKG_ROOT }}\packages
+            ~\AppData\Local\vcpkg\archives\
+          key: cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+          restore-keys: |
+            cache-vcpkg-${{ matrix.config.cache_key }}-${{ github.ref }}
+            cache-vcpkg-${{ matrix.config.cache_key }}
+
+      - name: 🔽 Update VCPKG (latest TAG)
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          cd /d "%VCPKG_ROOT%"
+          git fetch --tags --force
+
+          rem GitHub-hosted runner vcpkg can contain local edits; stash before checkout.
+          git status --porcelain > "%TEMP%\vcpkg-status.txt"
+          for %%A in ("%TEMP%\vcpkg-status.txt") do set STATUS_SIZE=%%~zA
+          if not "%STATUS_SIZE%"=="0" (
+            git stash push --include-untracked --message "ci-temp-before-tag-checkout"
+          )
+
+          for /f "delims=" %%i in ('git for-each-ref --sort=-creatordate --format="%%(refname:short)" refs/tags') do (
+            set LATEST_VCPKG_TAG=%%i
+            goto :tag_found
+          )
+          :tag_found
+          if "%LATEST_VCPKG_TAG%"=="" (
+            echo Failed to resolve latest vcpkg tag
+            exit /b 1
+          )
+
+          git checkout %LATEST_VCPKG_TAG%
+
+      - name: 🛠️ Setup VCPKG
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: |
+          bootstrap-vcpkg.bat
+          vcpkg integrate
+
+      # Reminder:
+      # This step requires setting "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
+      # or CMAKE_CXX_COMPILER="sccache cl".
+      - name: 🎯 Setup Build Cache (sccache)
+        uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
+
+      - name: 📂 Create Build Folder
+        working-directory: ${{ github.workspace }}
+        run: |
+          mkdir "${{ env.BUILD_DIR }}"
+
+      - name: 🛠️ CMake ➔ Configure
+        working-directory: ${{ env.BUILD_DIR }}
+        run: |
+          cmake                                                         ^
+           -B ${{ env.BUILD_DIR }}                                      ^
+           -S ${{ env.SOURCE_DIR }}                                     ^
+           -G "${{ matrix.config.generator }}"                          ^
+           -A "${{ matrix.config.platform }}"                           ^
+           -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
+           -DCMAKE_CXX_COMPILER_LAUNCHER=sccache                        ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}                  ^
+           -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
+           -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
+           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
+           -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+
+      - name: 🙏 CMake ➔ Build
+        working-directory: ${{ env.BUILD_DIR }}
+        run: |
+          cmake --build . --config ${{ matrix.build_type }}
+
+      - name: 📦 CMake ➔ Install
+        run: |
+          cmake                                                         ^
+          --install ${{ env.BUILD_DIR }}                                ^
+          --config ${{ matrix.build_type }}                             ^
+          --prefix ${{ env.INSTALL_DIR }}                               ^
+          --verbose
+
+      - name: 🧪 CTest ➔ Run Tests
+        run: |
+          ctest                                                         ^
+          --test-dir ${{ env.BUILD_DIR }}                               ^
+          --build-config ${{ matrix.build_type }}                       ^
+          --output-on-failure
+
+      - name: ❔ CHECK folders, to see if everything is present (after building)
+        run: |
+          dir /S /B ${{ env.INSTALL_DIR }}
+
+      # Build Artifact Name: fifechan-1.2.3-0cda6a2-vc17-x64-static-dbg
+      # Scheme for CI artifacts: $NAME-$VERSION-$SHORT_HASH-$COMPILER_SHORT-$TRIPLET-$BUILD_TYPE_SHORT
+      # Scheme for Releases:     $NAME-$VERSION-$COMPILER_SHORT-$TRIPLET-$BUILD_TYPE_SHORT
+      # Release are only versionied by tag, not by hash.
+      # '-release' is removed from the cache_key, e.g.: win-vc17-x64-shared-release => vc17-x64-shared
+      - name: ✏ Build Artifact Name
+        shell: pwsh
+        run: |
+          $NAME='fifechan'
+          $VERSION=$(jq -r .version vcpkg.json)
+          $SHORT_HASH=$($env:GITHUB_SHA.substring(0,7))
+          $SUFFIX=$('${{ matrix.config.cache_key }}').replace('win-','').replace('-release','')
+          $ARTIFACT_NAME="$NAME-$VERSION-$SHORT_HASH-$SUFFIX"
+          echo "ARTIFACT_NAME:" $ARTIFACT_NAME
+          echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $env:GITHUB_ENV
+          echo "VERSION=$($VERSION)" >> $env:GITHUB_ENV
+
+      - name: 🔼 Upload Build Artifact
+        uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.INSTALL_DIR }}/**/*
+

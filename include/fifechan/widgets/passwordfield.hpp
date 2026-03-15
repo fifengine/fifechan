@@ -1,75 +1,63 @@
-/***************************************************************************
- *   Copyright (c) 2017-2019 by the fifechan team                               *
- *   https://github.com/fifengine/fifechan                                 *
- *   This file is part of fifechan.                                        *
- *                                                                         *
- *   fifechan is free software; you can redistribute it and/or             *
- *   modify it under the terms of the GNU Lesser General Public            *
- *   License as published by the Free Software Foundation; either          *
- *   version 2.1 of the License, or (at your option) any later version.    *
- *                                                                         *
- *   This library is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
- *   Lesser General Public License for more details.                       *
- *                                                                         *
- *   You should have received a copy of the GNU Lesser General Public      *
- *   License along with this library; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
+// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
-#ifndef FCN_PASSWORDFIELD_HPP
-#define FCN_PASSWORDFIELD_HPP
+#ifndef INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
+#define INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
 
 #include <fifechan/widgets/textfield.hpp>
+
+#include <string>
 
 namespace fcn
 {
     class Text;
-    
+
     /**
      * Password input widget.
      */
-    class FCN_CORE_DECLSPEC PasswordField : public TextField
+    class FIFEGUI_API PasswordField : public TextField
     {
     public:
-        
         /**
          * Constructor.
          *
-         * @param text Initializes password field's text. 
+         * @param text Initializes password field's text.
          */
-        PasswordField(const std::string& text = "");
-        
-        ~PasswordField();
-        
+        explicit PasswordField(std::string const & text = "");
+
+        ~PasswordField() override;
+
+        PasswordField(PasswordField const &)            = delete;
+        PasswordField& operator=(PasswordField const &) = delete;
+        PasswordField(PasswordField&&)                  = delete;
+        PasswordField& operator=(PasswordField&&)       = delete;
+
         // Inherited from TextField
-     
-        virtual void keyPressed(KeyEvent& keyEvent);
-        
-        virtual void setText(const std::string& text);
-        
-        virtual std::string getText() const;
-    
+
+        void keyPressed(KeyEvent& keyEvent) override;
+
+        void setText(std::string const & text) override;
+
+        std::string getText() const override;
+
     private:
-        
         /**
          * @return Caret position of the actual text.
          */
         unsigned int getActualTextCaretPosition() const;
-        
+
         /**
          * Sets the caret position of the actual text.
          */
         void setActualTextCaretPosition(unsigned int position);
-        
+
         /**
          * Holds the actual text of the password field. The standard text
          * will hold asterisks instead.
          */
         Text* mActualText;
     };
-};
+}; // namespace fcn
 
-#endif //FCN_PASSWORDFIELD_HPP
+#endif // INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
