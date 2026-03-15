@@ -12,8 +12,11 @@
 #include <fifechan/gui.hpp>
 #include <fifechan/widget.hpp>
 
+#include <fifechan.hpp>
+
 #include <algorithm>
 #include <filesystem>
+#include <format>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -623,7 +626,13 @@ int main(int argc, char** argv)
     (void)argv;
 
     try {
-        Application app("FifeGUI using SDL2 Backend: Widgets Example", 1280, 1024);
+        // Append library version to window title
+        std::string const fifeguiVersion = fcn::fifechanVersion();
+        std::string const title = std::format(
+            "FifeGUI v{} using SDL2 Backend: Widgets Example",
+            fifeguiVersion
+        );
+        Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {
         std::cerr << e.getMessage() << '\n';

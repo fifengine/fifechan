@@ -14,6 +14,7 @@
 #include <fifechan.hpp>
 
 #include <algorithm>
+#include <format>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -238,7 +239,13 @@ int main(int argc, char** argv)
     (void)argv; // Unused variable.
 
     try {
-        Application app("FifeGUI - SDL Hello World", 640, 480);
+        // Append library version to window title
+        std::string const fifeguiVersion = fcn::fifechanVersion();
+        std::string const title = std::format(
+            "FifeGUI v{} using SDL2 Backend: Hello World Example",
+            fifeguiVersion
+        );
+        Application app(title, 640, 480);
         app.run();
     } catch (fcn::Exception const & e) {
         // catch Fifegui exceptions
