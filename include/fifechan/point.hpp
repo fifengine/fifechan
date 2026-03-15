@@ -10,7 +10,6 @@
 #include <iostream>
 #include <utility>
 #include <vector>
-#include <utility>
 
 #include "fifechan/math.hpp"
 
