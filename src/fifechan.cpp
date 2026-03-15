@@ -3,11 +3,11 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 #include "fifechan/version.hpp"
+#include <fifechan.hpp>
 
-namespace
-{
-    char const * fcnFifechanVersion()
+namespace fcn {
+    FIFEGUI_API char const * fifechanVersion()
     {
-        return fcn::app_version::get_version();
+        return app_version::get_version();
     }
-} // namespace
+} // namespace fcn

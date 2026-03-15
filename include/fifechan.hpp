@@ -84,6 +84,8 @@
  *
  * @return the version.
  */
-FIFEGUI_API extern char const * fcnFifechanVersion();
+namespace fcn {
+  FIFEGUI_API char const * fifechanVersion();
+}
 
 #endif // INCLUDE_FIFECHAN_HPP_
