@@ -177,7 +177,7 @@ jobs:
       # This step requires setting "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
       # or CMAKE_CXX_COMPILER="sccache cl".
       - name: 🎯 Setup Build Cache (sccache)
-        uses: mozilla-actions/sccache-action@v0.0.5 # https://github.com/Mozilla-Actions/sccache-action
+        uses: mozilla-actions/sccache-action@v0.0.9 # https://github.com/Mozilla-Actions/sccache-action
 
       - name: 📂 Create Build Folder
         working-directory: ${{ github.workspace }}
