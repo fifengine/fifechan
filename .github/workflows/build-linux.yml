@@ -9,6 +9,7 @@
 name: "Build on Linux"
 
 on:
+  - push
   - pull_request
   # You can manually run this workflow.
   - workflow_dispatch
