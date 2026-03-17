@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
-# Exit on errors, unset vars, and pipe failures
+# ------------------------------------------------------------------
+# setup-vcpkg helper
+#
+# Purpose
+# - Install vcpkg and integrate it with the system.
+# - Install system libraries required to build dependencies and examples.
+# - Update vcpkg.json baseline to the latest vcpkg tag commit.
+#
+# Notes
+#  - This script targets Debian/Ubuntu-like systems for package installation.
+# -----------------------------------------------------------------------------
+
 set -euo pipefail
 
 # Remember the original dir
