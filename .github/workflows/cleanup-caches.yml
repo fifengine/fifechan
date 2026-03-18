@@ -32,7 +32,7 @@ jobs:
             let deleted_count = 0;
             async function deleteAllCaches() {
               for (let page = 1;; page++) {
-                const response = await github.rest.actions.listActionsCaches({
+                const response = await github.request('GET /repos/{owner}/{repo}/actions/caches', {
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   per_page: 100,
@@ -43,7 +43,7 @@ jobs:
                 for (const cache of caches) {
                   try {
                     console.log(`[Deleting] Cache id ${cache.id} (${cache.key})`);
-                    await github.rest.actions.deleteActionsCache({
+                    await github.request('DELETE /repos/{owner}/{repo}/actions/caches/{cache_id}', {
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       cache_id: cache.id
