@@ -289,6 +289,13 @@
       ]
     },
     {
+      "name": "vc18-x64-windows-dbg",
+      "configurePreset": "vc18-x64-windows-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
       "name": "vc17-x64-windows-rel",
       "configurePreset": "vc17-x64-windows-rel",
       "targets": [

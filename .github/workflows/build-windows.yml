@@ -38,13 +38,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type:
-          - "Release"
-          #- Debug
         config:
           - {
               job_name: "Win | VC17 | Shared | Release",
               cache_key: "win-vc17-x64-shared-release",
+              build_type: "Release",
               os: "windows-2025",
               generator: "Visual Studio 17 2022",
               compiler: "cl",
@@ -55,6 +53,7 @@ jobs:
           - {
               job_name: "Win | VC17 | Static | Release",
               cache_key: "win-vc17-x64-static-release",
+              build_type: "Release",
               os: "windows-2025",
               generator: "Visual Studio 17 2022",
               compiler: "cl",
@@ -65,6 +64,18 @@ jobs:
           - {
               job_name: "Win | VC18 | Shared | Release",
               cache_key: "win-vc18-x64-shared-release",
+              build_type: "Release",
+              os: "windows-2025-vs2026",
+              generator: "Visual Studio 18 2026",
+              compiler: "cl",
+              platform: "x64",
+              vcpkg_triplet: "x64-windows",
+              shared_libs: "ON"
+            }
+          - {
+              job_name: "Win | VC18 | Shared | Debug",
+              cache_key: "win-vc18-x64-shared-debug",
+              build_type: "Debug",
               os: "windows-2025-vs2026",
               generator: "Visual Studio 18 2026",
               compiler: "cl",
@@ -194,7 +205,7 @@ jobs:
            -A "${{ matrix.config.platform }}"                           ^
            -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache                        ^
-           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}                  ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}                  ^
            -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
            -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
            -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
@@ -203,13 +214,13 @@ jobs:
       - name: 🙏 CMake ➔ Build
         working-directory: ${{ env.BUILD_DIR }}
         run: |
-          cmake --build . --config ${{ matrix.build_type }}
+          cmake --build . --config ${{ matrix.config.build_type }}
 
       - name: 📦 CMake ➔ Install
         run: |
           cmake                                                         ^
           --install ${{ env.BUILD_DIR }}                                ^
-          --config ${{ matrix.build_type }}                             ^
+          --config ${{ matrix.config.build_type }}                       ^
           --prefix ${{ env.INSTALL_DIR }}                               ^
           --verbose
 
@@ -217,7 +228,7 @@ jobs:
         run: |
           ctest                                                         ^
           --test-dir ${{ env.BUILD_DIR }}                               ^
-          --build-config ${{ matrix.build_type }}                       ^
+          --build-config ${{ matrix.config.build_type }}                ^
           --output-on-failure
 
       - name: ❔ CHECK folders, to see if everything is present (after building)
