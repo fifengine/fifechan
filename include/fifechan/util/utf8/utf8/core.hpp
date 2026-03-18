@@ -99,16 +99,17 @@ namespace utf8
         inline typename std::iterator_traits<octet_iterator>::difference_type sequence_length(octet_iterator lead_it)
         {
             uint8_t lead = utf8::internal::mask8(*lead_it);
-            if (lead < 0x80)
+            if (lead < 0x80) {
                 return 1;
-            else if ((lead >> 5) == 0x6)
+            } else if ((lead >> 5) == 0x6) {
                 return 2;
-            else if ((lead >> 4) == 0xe)
+            } else if ((lead >> 4) == 0xe) {
                 return 3;
-            else if ((lead >> 3) == 0x1e)
+            } else if ((lead >> 3) == 0x1e) {
                 return 4;
-            else
+            } else {
                 return 0;
+            }
         }
 
         template <typename octet_difference_type>
