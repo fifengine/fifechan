@@ -60,6 +60,18 @@ jobs:
               shared_libs: "OFF"
             }
           - {
+              job_name: "Linux | GCC14 | Static | Debug",
+              cache_key: "linux-gcc14-x64-static-debug",
+              os: "ubuntu-24.04",
+              cc: "gcc-14",
+              cxx: "g++-14",
+              preset: "gcc14-x64-linux-static-dbg",
+              build_dir: "out/build/gcc14-x64-linux-static-dbg",
+              install_dir: "out/install/gcc14-x64-linux-static-dbg",
+              vcpkg_triplet: "x64-linux-static",
+              shared_libs: "OFF"
+            }
+          - {
               job_name: "Linux | Clang18 | Shared | Release",
               cache_key: "linux-clang18-x64-shared-release",
               os: "ubuntu-24.04",
@@ -232,16 +244,22 @@ jobs:
       matrix:
         config:
           - {
-              job_name: "Linux | Clang-20 | Release",
+              job_name: "Linux | Clang20 | Release",
               image_version: "bookworm-latest",
               preset: "clang20-x64-linux-rel",
               artifact_suffix: "clang20-x64"
             }
           - {
-              job_name: "Linux | Clang-21 | Release",
+              job_name: "Linux | Clang21 | Release",
               image_version: "trixie-latest",
               preset: "clang21-x64-linux-rel",
               artifact_suffix: "clang21-x64"
+            }
+          - {
+              job_name: "Linux | Clang21 | Debug",
+              image_version: "trixie-latest",
+              preset: "clang21-x64-linux-dbg",
+              artifact_suffix: "clang21-x64-dbg"
             }
 
     env:

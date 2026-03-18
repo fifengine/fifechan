@@ -76,6 +76,14 @@
       }
     },
     {
+      "name": "gcc14-x64-linux-static-dbg",
+      "displayName": "GCC14 Static Debug",
+      "inherits": "gcc14-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
       "name": "gcc14-x64-linux-rel",
       "displayName": "GCC14 Release",
       "inherits": "gcc14-x64-linux",
@@ -242,6 +250,13 @@
     {
       "name": "gcc14-x64-linux-static-rel",
       "configurePreset": "gcc14-x64-linux-static-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-static-dbg",
+      "configurePreset": "gcc14-x64-linux-static-dbg",
       "targets": [
         "fifechan"
       ]
