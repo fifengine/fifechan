@@ -7,6 +7,7 @@
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
 
+#include <utility>
 #include <vector>
 
 namespace fcn
