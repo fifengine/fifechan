@@ -68,7 +68,7 @@ namespace fcn
     {
 
         if (image == nullptr) {
-            throwException("Font image is NULL");
+            throwException("Font image is nullptr.");
         }
         mImage = image;
 

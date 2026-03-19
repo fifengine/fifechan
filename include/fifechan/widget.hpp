@@ -380,7 +380,7 @@ namespace fcn
         /**
          * Gets the widget's parent container.
          *
-         * @return The widget's parent container. NULL if the widget
+         * @return The widget's parent container. Nullptr if the widget
          *         has no parent.
          */
         virtual Widget* getParent() const;
@@ -388,7 +388,7 @@ namespace fcn
         /**
          * Gets the top widget, or top parent, of this widget.
          *
-         * @return The top widget, or top parent, for this widget. NULL if no top widget
+         * @return The top widget, or top parent, for this widget. Nullptr if no top widget
          *         exists (this widget doesn't have a parent).
          */
         virtual Widget* getTop() const;
@@ -982,7 +982,7 @@ namespace fcn
         static void setGlobalFont(Font* font);
 
         /**
-         * Sets the font for the widget. If NULL is passed, the global font
+         * Sets the font for the widget. If Nullptr is passed, the global font
          * will be used.
          *
          * @param font The font to set for the widget.
@@ -1124,12 +1124,12 @@ namespace fcn
          * This function is used to decide which gets mouse input,
          * thus it can be overloaded to change that behaviour.
          *
-         * NOTE: This always returns NULL if the widget is not
+         * NOTE: This always returns Nullptr if the widget is not
          *       a container.
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
-         * @return The widget at the specified coordinate, NULL
+         * @return The widget at the specified coordinate, Nullptr
          *         if no widget is found.
          */
         Widget* getWidgetAt(int x, int y)
@@ -1143,8 +1143,8 @@ namespace fcn
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
-         * @param exclude Widget to exclude from search, if NULL no widgets get excluded.
-         * @return The widget at the specified coordinate, NULL if no widget is found.
+         * @param exclude Widget to exclude from search, if Nullptr no widgets get excluded.
+         * @return The widget at the specified coordinate, Nullptr if no widget is found.
          */
         virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
 
@@ -1222,7 +1222,7 @@ namespace fcn
          * Gets the internal focus handler used.
          *
          * @return the internalFocusHandler used. If no internal focus handler
-         *         is used, NULL will be returned.
+         *         is used, Nullptr will be returned.
          * @see setInternalFocusHandler
          */
         virtual FocusHandler* _getInternalFocusHandler();
@@ -1569,7 +1569,7 @@ namespace fcn
          * such as the ability to create a GUI from an XML file.
          *
          * @param id The id to find a widget by.
-         * @return The widget with the corresponding id, NULL of no widget is found.
+         * @return The widget with the corresponding id, Nullptr if no widget is found.
          */
         virtual Widget* findWidgetById(std::string const & id);
 
@@ -1658,13 +1658,13 @@ namespace fcn
         FocusHandler* mFocusHandler{nullptr};
 
         /**
-         * Holds the focus handler used by the widget. NULL
+         * Holds the focus handler used by the widget. Nullptr
          * if no internal focus handler is used.
          */
         FocusHandler* mInternalFocusHandler{nullptr};
 
         /**
-         * Holds the parent of the widget. NULL if the widget
+         * Holds the parent of the widget. Nullptr if the widget
          * has no parent.
          */
         Widget* mParent{nullptr};

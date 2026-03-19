@@ -137,7 +137,7 @@ namespace fcn
          * Finds a widget given an id.
          *
          * @param id The id to find a widget by.
-         * @return A widget with a corresponding id, NULL if no widget found.
+         * @return A widget with a corresponding id, Nullptr if no widget found.
          * @see Widget::setId
          */
         Widget* findWidgetById(std::string const & id) override;
