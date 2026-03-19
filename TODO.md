@@ -21,6 +21,36 @@
 
 ### Clang Tidy
 
+#### Issues Summary
+
+**Total Issues: 84**
+
+| Done | Issue Category | # Issues | Severity |
+|------|----------------|----------|----------|
+| [ ] | cppcoreguidelines-owning-memory | 48 | high |
+| [ ] | cppcoreguidelines-pro-bounds-pointer-arithmetic | 7 | high |
+| [ ] | cppcoreguidelines-pro-type-vararg | 6 | high |
+| [ ] | cppcoreguidelines-pro-type-reinterpret-cast | 4 | high |
+| [ ] | bugprone-inc-dec-in-conditions | 4 | high |
+| [ ] | bugprone-unused-return-value | 1 | high |
+| [ ] | bugprone-empty-catch | 1 | high |
+| [ ] | cppcoreguidelines-special-member-functions | 4 | mid |
+| [ ] | cppcoreguidelines-pro-type-member-init | 3 | mid |
+| [ ] | cppcoreguidelines-macro-usage | 1 | mid |
+| [ ] | cppcoreguidelines-prefer-member-initializer | 2 | low |
+| [ ] | readability-enum-initial-value | 1 | low |
+| [ ] | readability-else-after-return | 1 | low |
+| [ ] | performance-enum-size | 1 | low |
+
+#### cppcoreguidelines-owning-memory
+
+The warning suggests to use smart pointers instead of raw pointers for owning memory.
+This change is not trivial. It requires checking of ownership semantics and
+potential refactoring of code towards RAII and value semantics.
+Which also means to introduce move semantics in some places.
+
+- [ ] use smart pointers instead of raw pointers for owning memory
+
 #### cppcoreguidelines-macro-usage
 
 The warning suggests to use constexpr instead of macros.
@@ -32,14 +62,3 @@ The following macros are used in the codebase and should be ignored:
   - [x] platform.hpp:25 - FIFEGUI_COMPILER_GNU
   - [x] platform.hpp:28 - FIFEGUI_COMPILER_CLANG
   - [ ] utf8/core.hpp:160 - UTF8_CPP_INCREASE_AND_RETURN_ON_ERROR (external lib)
-
-#### cppcoreguidelines-owning-memory
-
-The warning suggests to use smart pointers instead of raw pointers for owning memory.
-This change is not trivial. It requires checking of ownership semantics and
-potential refactoring of code towards RAII and value semantics.
-Which also means to introduce move semantics in some places.
-Number of reported issues: 62
-
-- [ ] use smart pointers instead of raw pointers for owning memory
-
