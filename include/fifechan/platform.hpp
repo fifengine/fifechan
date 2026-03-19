@@ -4,6 +4,11 @@
 
 #ifndef INCLUDE_FIFECHAN_PLATFORM_HPP_
 #define INCLUDE_FIFECHAN_PLATFORM_HPP_
+
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
+// The warning suggests to use constexpr instead of macros.
+// This is not always possible, e.g. for platform detection macros.
+
 // clang-format off
 
 // Check and defines for the operating system
@@ -135,5 +140,7 @@
 #endif
 
 // clang-format on
+
+// NOLINTEND(cppcoreguidelines-macro-usage)
 
 #endif // INCLUDE_FIFECHAN_PLATFORM_HPP_
