@@ -5,13 +5,105 @@
 #ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLWIDGETS_HPP_
 #define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLWIDGETS_HPP_
 
+#include <fifechan/backends/opengl/imageloader.hpp>
+#include <fifechan/backends/opengl/opengl.hpp>
+#include <fifechan/backends/sdl2/sdl.hpp>
 #include <fifechan/exception.hpp>
+#include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
+#include <cstdio>
+#include <memory>
 #include <string>
 
-#include "openglsdl.hpp"
+namespace openglsdl
+{
+    inline bool running = true;
+
+    inline SDL_Window* window = nullptr;
+
+    inline std::unique_ptr<fcn::opengl::Graphics> graphics;
+    inline std::unique_ptr<fcn::sdl2::Input> input;
+    inline std::unique_ptr<fcn::opengl::ImageLoader> imageLoader;
+
+    inline std::unique_ptr<fcn::Gui> gui;
+
+    inline void init()
+    {
+        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+            printf("SDL_Init Error: %s\n", SDL_GetError());
+            return;
+        }
+
+        window = SDL_CreateWindow(
+            "Widgets",
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            640,
+            480,
+            SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+        if (window == nullptr) {
+            printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
+            SDL_Quit();
+            return;
+        }
+
+        SDL_GLContext glContext = SDL_GL_CreateContext(window);
+        if (glContext == nullptr) {
+            printf("SDL_GL_CreateContext Error: %s\n", SDL_GetError());
+            SDL_DestroyWindow(window);
+            SDL_Quit();
+            return;
+        }
+
+        glViewport(0, 0, 640, 480);
+        glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+
+        SDL_StartTextInput();
+
+        imageLoader = std::make_unique<fcn::opengl::ImageLoader>();
+        fcn::Image::setImageLoader(imageLoader.get());
+        graphics = std::make_unique<fcn::opengl::Graphics>();
+        graphics->setTargetPlane(640, 480);
+        input = std::make_unique<fcn::sdl2::Input>();
+
+        gui = std::make_unique<fcn::Gui>();
+        gui->setGraphics(graphics.get());
+        gui->setInput(input.get());
+    }
+
+    inline void halt()
+    {
+        gui.reset();
+        imageLoader.reset();
+        input.reset();
+        graphics.reset();
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+    }
+
+    inline void run()
+    {
+        while (running) {
+            SDL_Event event;
+            while (SDL_PollEvent(&event) != 0) {
+                if (event.type == SDL_KEYDOWN) {
+                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                        running = false;
+                    }
+                } else if (event.type == SDL_QUIT) {
+                    running = false;
+                }
+                input->pushInput(event);
+            }
+
+            gui->logic();
+            gui->draw();
+            SDL_UpdateWindowSurface(window);
+        }
+    }
+} // namespace openglsdl
 
 namespace widgets
 {
@@ -68,7 +160,7 @@ namespace widgets
 
     inline DemoListModel demoListModel;
 
-    void init()
+    inline void init()
     {
         if (openglsdl::gui == nullptr) {
             fcn::throwException("openglsdl::gui is null. Initialize GUI backend before widgets::init().");
@@ -134,7 +226,7 @@ namespace widgets
         top->add(window, 50, 350);
     }
 
-    void halt()
+    inline void halt()
     {
         delete tabTwoCheckBox;
         tabTwoCheckBox = nullptr;

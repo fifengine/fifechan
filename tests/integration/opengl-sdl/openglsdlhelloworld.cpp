@@ -3,18 +3,12 @@
 // SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
 
 /**
- * @brief This example shows the widgets present in FifeGUI using the OpenGL-SDL backend.
+ * @brief This example shows the widgets present in FifeGUI using the OpenGL backend.
  */
 
 #include "openglsdlhelloworld.hpp"
 
-#include <fifechan/gui.hpp>
-
-#include <fifechan.hpp>
-
 #include <iostream>
-
-#include "openglsdl.hpp"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
@@ -30,9 +24,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
     } catch (std::exception const & e) {
         std::cerr << "Std exception: " << e.what() << '\n';
         return 1;
-    }
-    // Catch all unknown exceptions.
-    catch (...) {
+    } catch (...) {
         std::cerr << "Unknown exception" << '\n';
         return 1;
     }
