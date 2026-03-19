@@ -14,7 +14,7 @@ namespace fcn
 
     PieGraph::PieGraph() : m_opaque(false), m_radius(10) { }
 
-    PieGraph::PieGraph(Point const & center) : m_opaque(false), m_center(center), m_radius(10) { }
+    PieGraph::PieGraph(Point center) : m_opaque(false), m_center(std::move(center)), m_radius(10) { }
 
     void PieGraph::setCenterX(int x)
     {

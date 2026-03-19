@@ -280,8 +280,7 @@ void Application::init_GUI(int width, int height)
     auto windowPtr = std::make_unique<fcn::Window>("I am a window  Drag me");
     windowPtr->setBaseColor(fcn::Color(212, 255, 150, 190));
     if (hasIcon) {
-        auto guisanLogoImage   = fcn::Image::load(iconPath);
-        auto guisanLogoIconPtr = std::make_unique<fcn::Icon>(guisanLogoImage);
+        auto guisanLogoIconPtr = std::make_unique<fcn::Icon>(fcn::Image::load(iconPath));
         windowPtr->addWidget(std::move(guisanLogoIconPtr));
     }
     windowPtr->resizeToContent();

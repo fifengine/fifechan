@@ -36,7 +36,7 @@ namespace fcn
          *
          * @param center The center point of the pie graph.
          */
-        explicit PieGraph(Point const & center);
+        explicit PieGraph(Point center);
 
         ~PieGraph() override = default;
 

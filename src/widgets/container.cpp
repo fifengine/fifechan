@@ -280,9 +280,9 @@ namespace fcn
                 float const tmpAngle =
                     static_cast<float>(static_cast<int>((angle * i) + 270) % 360) / (180.0F / Mathf::pi());
                 int const x = static_cast<int>(
-                    (xRadius * std::cos(tmpAngle)) - (static_cast<float>((*currChild)->getWidth()) / 2.0f));
+                    (xRadius * std::cos(tmpAngle)) - (static_cast<float>((*currChild)->getWidth()) / 2.0F));
                 int const y = static_cast<int>(
-                    (yRadius * std::sin(tmpAngle)) - (static_cast<float>((*currChild)->getHeight()) / 2.0f));
+                    (yRadius * std::sin(tmpAngle)) - (static_cast<float>((*currChild)->getHeight()) / 2.0F));
                 minW = std::min(minW, x);
                 maxW = std::max(maxW, x + (*currChild)->getWidth());
                 minH = std::min(minH, y);

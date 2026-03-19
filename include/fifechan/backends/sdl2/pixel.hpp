@@ -68,6 +68,9 @@ namespace fcn::sdl2
             color = static_cast<unsigned int>(tmp);
             break;
         }
+
+        default:
+            break;
         }
 
         unsigned char r = 0;
@@ -133,6 +136,9 @@ namespace fcn::sdl2
             std::memcpy(&pixels[idx], &tmp, sizeof(Uint32));
             break;
         }
+
+        default:
+            break;
         }
 
         SDL_UnlockSurface(surface);
@@ -239,12 +245,10 @@ namespace fcn::sdl2
         }
         case 3: {
             if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                // watch color order rgb
                 pixels[idx + 0] = SDLBlend<Uint8>(color.r, pixels[idx + 0], color.a);
                 pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
                 pixels[idx + 2] = SDLBlend<Uint8>(color.b, pixels[idx + 2], color.a);
             } else {
-                // watch color order bgr
                 pixels[idx + 0] = SDLBlend<Uint8>(color.b, pixels[idx + 0], color.a);
                 pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
                 pixels[idx + 2] = SDLBlend<Uint8>(color.r, pixels[idx + 2], color.a);
@@ -259,6 +263,9 @@ namespace fcn::sdl2
             std::memcpy(&pixels[idx], &result, sizeof(Uint32));
             break;
         }
+
+        default:
+            break;
         }
 
         SDL_UnlockSurface(surface);

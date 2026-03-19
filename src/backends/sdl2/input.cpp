@@ -156,7 +156,7 @@ namespace fcn::sdl2
 
         // case SDL_TEXTEDITING:
         case SDL_TEXTINPUT: {
-            std::string text(event.text.text);
+            std::string text(static_cast<char const *>(event.text.text));
             if (!text.empty()) {
                 // hack to transport text
                 std::vector<char16_t> result;

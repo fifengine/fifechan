@@ -22,7 +22,7 @@ namespace fcn::opengl
         }
 
         // Create a new pixel buffer and copy the pixels into it.
-        mPixels.resize(static_cast<size_t>(mTextureWidth * mTextureHeight));
+        mPixels.resize(static_cast<size_t>(mTextureWidth) * static_cast<size_t>(mTextureHeight));
 
 #ifdef __BIG_ENDIAN__
         unsigned int const magicPink = 0xff00ffff;

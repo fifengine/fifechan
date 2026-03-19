@@ -28,11 +28,11 @@ namespace fcn
         addMouseListener(this);
     }
 
-    ScrollArea::~ScrollArea() noexcept
+    ScrollArea::~ScrollArea()
     {
         try {
             setContent(nullptr);
-        } catch (std::exception& e) {
+        } catch (std::exception&) {
             // logError("Exception in ScrollArea destructor: " + std::string(e.what()));
         }
     }

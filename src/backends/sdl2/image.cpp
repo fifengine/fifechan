@@ -25,7 +25,7 @@ namespace fcn::sdl2
             // Why? SDL_CreateTextureFromSurface doesn't automatically convert
             // color-keyed surfaces to alpha transparency.
 
-            Uint32 colorKey;
+            Uint32 colorKey{};
             if (SDL_GetColorKey(surface, &colorKey) == 0) {
                 // The color key exists. Disable RLE first to access raw pixels.
                 SDL_SetSurfaceRLE(surface, 0);
@@ -44,9 +44,9 @@ namespace fcn::sdl2
                     // Extract RGBA, check for magenta and set alpha to 0 if found.
                     for (int i = 0; i < pixelCount; ++i) {
                         // Extract RGBA
-                        Uint8 r = (pixels[i] & rmask) >> fmt->Rshift;
-                        Uint8 g = (pixels[i] & gmask) >> fmt->Gshift;
-                        Uint8 b = (pixels[i] & bmask) >> fmt->Bshift;
+                        Uint8 const r = (pixels[i] & rmask) >> fmt->Rshift;
+                        Uint8 const g = (pixels[i] & gmask) >> fmt->Gshift;
+                        Uint8 const b = (pixels[i] & bmask) >> fmt->Bshift;
 
                         if (r == 255 && g == 0 && b == 255) {
                             pixels[i] &= ~amask;
