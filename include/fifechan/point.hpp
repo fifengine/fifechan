@@ -52,7 +52,7 @@ namespace fcn
         /**
          * Move Constructor
          */
-        Point(Point&& rhs) noexcept : val{std::move(rhs.val)} { }
+        Point(Point&& rhs) noexcept : val{rhs.val} { }
 
         /**
          * Copy assignment
@@ -71,7 +71,7 @@ namespace fcn
         Point& operator=(Point&& rhs) noexcept
         {
             if (this != &rhs) {
-                val = std::move(rhs.val);
+                val = rhs.val;
             }
             return *this;
         }
