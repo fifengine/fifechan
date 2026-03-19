@@ -5,140 +5,55 @@
 #ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 #define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 
+#include <SDL2/SDL.h>
+
 #include <fifechan/backends/opengl/imageloader.hpp>
 #include <fifechan/backends/opengl/opengl.hpp>
 #include <fifechan/backends/sdl2/sdl.hpp>
-#include <fifechan/exception.hpp>
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
-#include <cstdio>
+#include <filesystem>
 #include <memory>
+#include <string>
 
-namespace openglsdl
+namespace tests::integration::opengl_sdl::helloworld
 {
-    inline bool running = true;
 
-    inline SDL_Window* window = nullptr;
-
-    inline std::unique_ptr<fcn::opengl::Graphics> graphics;
-    inline std::unique_ptr<fcn::sdl2::Input> input;
-    inline std::unique_ptr<fcn::opengl::ImageLoader> imageLoader;
-
-    inline std::unique_ptr<fcn::Gui> gui;
-
-    inline void init()
+    class Application
     {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-            printf("SDL_Init Error: %s\n", SDL_GetError());
-            return;
-        }
+    public:
+        explicit Application(std::string const & title, int width = 640, int height = 480);
+        ~Application();
 
-        window = SDL_CreateWindow(
-            "Hello World",
-            SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED,
-            640,
-            480,
-            SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-        if (window == nullptr) {
-            printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
-            SDL_Quit();
-            return;
-        }
+        void run();
 
-        SDL_GLContext glContext = SDL_GL_CreateContext(window);
-        if (glContext == nullptr) {
-            printf("SDL_GL_CreateContext Error: %s\n", SDL_GetError());
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-            return;
-        }
+    private:
+        static std::filesystem::path getExecutableDir();
+        void init_sdl(std::string const & title, int width, int height);
+        void init_gui(int width, int height);
+        void cleanup();
 
-        glViewport(0, 0, 640, 480);
-        glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
+        static SDL_GLContext initGLContext(SDL_Window* window);
 
-        SDL_StartTextInput();
+        bool running{true};
 
-        imageLoader = std::make_unique<fcn::opengl::ImageLoader>();
-        fcn::Image::setImageLoader(imageLoader.get());
-        graphics = std::make_unique<fcn::opengl::Graphics>();
-        graphics->setTargetPlane(640, 480);
-        input = std::make_unique<fcn::sdl2::Input>();
+        SDL_Window* window{nullptr};
+        SDL_GLContext glContext{nullptr};
 
-        gui = std::make_unique<fcn::Gui>();
-        gui->setGraphics(graphics.get());
-        gui->setInput(input.get());
-    }
+        std::unique_ptr<fcn::opengl::Graphics> graphics;
+        std::unique_ptr<fcn::sdl2::Input> input;
+        std::shared_ptr<fcn::opengl::ImageLoader> imageLoader;
 
-    inline void halt()
-    {
-        gui.reset();
-        imageLoader.reset();
-        input.reset();
-        graphics.reset();
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-    }
+        std::unique_ptr<fcn::Gui> gui;
 
-    inline void run()
-    {
-        while (running) {
-            SDL_Event event;
-            while (SDL_PollEvent(&event) != 0) {
-                if (event.type == SDL_KEYDOWN) {
-                    if (event.key.keysym.sym == SDLK_ESCAPE) {
-                        running = false;
-                    }
-                } else if (event.type == SDL_QUIT) {
-                    running = false;
-                }
-                input->pushInput(event);
-            }
+        std::unique_ptr<fcn::Container> top;
+        std::unique_ptr<fcn::ImageFont> font;
+        std::unique_ptr<fcn::Label> label;
+    };
 
-            gui->logic();
-            gui->draw();
-            SDL_UpdateWindowSurface(window);
-        }
-    }
-} // namespace openglsdl
-
-namespace helloworld
-{
-    inline fcn::Container* top  = nullptr;
-    inline fcn::ImageFont* font = nullptr;
-    inline fcn::Label* label    = nullptr;
-
-    inline void init()
-    {
-        if (openglsdl::gui == nullptr) {
-            fcn::throwException("openglsdl::gui is null. Initialize GUI backend before helloworld::init().");
-        }
-
-        top = new fcn::Container();
-        top->setDimension(fcn::Rectangle(0, 0, 640, 480));
-        openglsdl::gui->setTop(top);
-
-        font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        fcn::Widget::setGlobalFont(font);
-
-        label = new fcn::Label("Hello World");
-        label->setPosition(280, 220);
-        top->add(label);
-    }
-
-    inline void halt()
-    {
-        delete label;
-        label = nullptr;
-
-        delete font;
-        font = nullptr;
-
-        delete top;
-        top = nullptr;
-    }
-} // namespace helloworld
+} // namespace tests::integration::opengl_sdl::helloworld
 
 #endif // TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_

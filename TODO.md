@@ -5,6 +5,7 @@
 - [x] enable build of tests/integration/opengl-sdl + refactor
 - [ ] include/fifechan/keys.hpp: has an enum with -1000 init which causes tidy warnings
       - [ ] should it be refactored to a class enum?
+- [ ] sync demonstrated features of tests/integration/opengl-sdl with tests/integration/sdl (has ttf rendering)
 
 ### Website
 

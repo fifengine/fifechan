@@ -3,8 +3,10 @@ message(STATUS "[ 🛠️ ] Building Integration Tests for OpenGL+SDL2")
 message(STATUS "---------------------------------------------------------------")
 
 set(FIFEGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+# Build folder of the generated files from fifechan, e.g. "version.hpp"
 set(FIFEGUI_VERSION_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/../../../include")
 
+# Include the VCPKG toolchain file if it is defined
 if(DEFINED ENV{VCPKG_ROOT})
   include("$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 endif()
@@ -113,3 +115,14 @@ endif()
 show_build_target_properties(openglsdlwidgets)
 
 copy_resources_folder(openglsdlwidgets "${RESOURCES_FOLDER}")
+
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS openglsdlhelloworld openglsdlwidgets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+# Install resources: copy individual resource files directly into the install
+# binary directory so they are located next to the installed executable.
+file(GLOB OPENGL_SDL_RESOURCE_FILES "${RESOURCES_FOLDER}/*")
+install(FILES ${OPENGL_SDL_RESOURCE_FILES} DESTINATION "${CMAKE_INSTALL_BINDIR}")
