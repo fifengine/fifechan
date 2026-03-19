@@ -119,14 +119,14 @@ namespace fcn
         /**
          * The image to display.
          */
-        Image const * mImage;
+        Image const * mImage{nullptr};
 
         /**
          * True if the image has been loaded internally, false otherwise.
          * An image not loaded internally should not be deleted in the
          * destructor.
          */
-        bool mInternalImage;
+        bool mInternalImage{false};
 
         /** True if scaling is enabled, otherwise false. */
         bool mScale{false};
