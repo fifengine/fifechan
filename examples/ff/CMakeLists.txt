@@ -5,6 +5,23 @@ message(STATUS "---------------------------------------------------------------"
 if(ENABLE_SDL AND SDL2_FOUND)
   find_package(SDL2_mixer CONFIG REQUIRED)
 
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    set(FF_WINDOWS_RUNTIME_FILES
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/freetype.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/libpng16d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/libpng16.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlidec.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlidec.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlicommon.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlicommon.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/bz2d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/bz2.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zlibd1.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/zlib1.dll>"
+    )
+  endif()
+
   add_executable(ff_demo
     src/ffcharacterchooser.cpp
     src/ffcontainer.cpp
@@ -52,12 +69,22 @@ if(ENABLE_SDL AND SDL2_FOUND)
     VERBATIM
   )
 
-  fifechan_install_example(ff
-    TARGETS ff_demo
-    DIRECTORIES
-      "${CMAKE_CURRENT_SOURCE_DIR}/images"
-      "${CMAKE_CURRENT_SOURCE_DIR}/sound"
-  )
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    fifechan_install_example(ff
+      TARGETS ff_demo
+      DIRECTORIES
+        "${CMAKE_CURRENT_SOURCE_DIR}/images"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sound"
+      WINDOWS_RUNTIME_FILES ${FF_WINDOWS_RUNTIME_FILES}
+    )
+  else()
+    fifechan_install_example(ff
+      TARGETS ff_demo
+      DIRECTORIES
+        "${CMAKE_CURRENT_SOURCE_DIR}/images"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sound"
+    )
+  endif()
 else()
   message(STATUS "[INFO] Skipping example 'ff': requires ENABLE_SDL+SDL2_FOUND.")
 endif()

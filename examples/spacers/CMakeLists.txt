@@ -3,6 +3,23 @@ message(STATUS "[ 🛠️ ] Building example: spacers")
 message(STATUS "---------------------------------------------------------------")
 
 if(ENABLE_SDL AND SDL2_FOUND)
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    set(SPACERS_WINDOWS_RUNTIME_FILES
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/freetype.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/libpng16d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/libpng16.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlidec.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlidec.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlicommon.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlicommon.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/bz2d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/bz2.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zlibd1.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/zlib1.dll>"
+    )
+  endif()
+
   add_executable(spacers_in_vbox_hbox spacers_in_vbox_hbox.cpp)
   add_executable(dynamic_remove_spacers dynamic_remove_spacers.cpp)
 
@@ -42,12 +59,23 @@ if(ENABLE_SDL AND SDL2_FOUND)
 
   copy_resources(spacers_in_vbox_hbox "${RPGFONT_SOURCE}" "${SPACERS_IN_VBOX_HBOX_RPGFONT_DESTINATION}")
   copy_resources(dynamic_remove_spacers "${RPGFONT_SOURCE}" "${DYNAMIC_REMOVE_SPACERS_RPGFONT_DESTINATION}")
-  fifechan_install_example(spacers
-    TARGETS
-      spacers_in_vbox_hbox
-      dynamic_remove_spacers
-    FILES "${RPGFONT_SOURCE}"
-  )
+
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    fifechan_install_example(spacers
+      TARGETS
+        spacers_in_vbox_hbox
+        dynamic_remove_spacers
+      FILES "${RPGFONT_SOURCE}"
+      WINDOWS_RUNTIME_FILES ${SPACERS_WINDOWS_RUNTIME_FILES}
+    )
+  else()
+    fifechan_install_example(spacers
+      TARGETS
+        spacers_in_vbox_hbox
+        dynamic_remove_spacers
+      FILES "${RPGFONT_SOURCE}"
+    )
+  endif()
 else()
   message(STATUS "[INFO] Skipping example 'spacers': requires ENABLE_SDL+SDL2_FOUND.")
 endif()
