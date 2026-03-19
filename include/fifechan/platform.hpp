@@ -134,10 +134,6 @@
 #define FIFEGUI_EXT_API __attribute__ ((visibility("default")))
 #endif
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 // clang-format on
 
 #endif // INCLUDE_FIFECHAN_PLATFORM_HPP_
