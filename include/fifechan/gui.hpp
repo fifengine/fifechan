@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_GUI_HPP_
 #define INCLUDE_FIFECHAN_GUI_HPP_
@@ -144,7 +144,7 @@ namespace fcn
          * Gets the top widget. The top widget is the root widget
          * of the GUI.
          *
-         * @return The top widget. NULL if no top widget has been set.
+         * @return The top widget. Nullptr if no top widget has been set.
          */
         virtual Widget* getTop() const;
 
@@ -166,7 +166,7 @@ namespace fcn
         /**
          * Gets the graphics object used for drawing.
          *
-         *  @return The graphics object used for drawing. NULL if no
+         *  @return The graphics object used for drawing. Nullptr if no
          *          graphics object has been set.
          * @see setGraphics, OpenGLGraphics, SDLGraphics
          */
@@ -190,7 +190,7 @@ namespace fcn
         /**
          * Gets the input object being used for input handling.
          *
-         *  @return The input object used for handling input. NULL if no
+         *  @return The input object used for handling input. Nullptr if no
          *          input object has been set.
          * @see setInput, SDLInput
          */

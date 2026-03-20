@@ -3,6 +3,23 @@ message(STATUS "[ 🛠️ ] Building example: simple")
 message(STATUS "---------------------------------------------------------------")
 
 if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    set(SIMPLE_WINDOWS_RUNTIME_FILES
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/freetype.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/libpng16d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/libpng16.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlidec.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlidec.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/brotlicommon.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlicommon.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/bz2d.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/bz2.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zlibd1.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/zlib1.dll>"
+    )
+  endif()
+
   add_executable(simple_textbox_demo simple_textbox_demo.cpp)
 
   target_link_libraries(simple_textbox_demo PRIVATE
@@ -31,10 +48,19 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
   set(FIXEDFONT_DESTINATION "$<TARGET_FILE_DIR:simple_textbox_demo>/rpgfont.png")
 
   copy_resources(simple_textbox_demo "${FIXEDFONT_SOURCE}" "${FIXEDFONT_DESTINATION}")
-  fifechan_install_example(simple
-    TARGETS simple_textbox_demo
-    FILES "${FIXEDFONT_SOURCE}"
-  )
+
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    fifechan_install_example(simple
+      TARGETS simple_textbox_demo
+      FILES "${FIXEDFONT_SOURCE}"
+      WINDOWS_RUNTIME_FILES ${SIMPLE_WINDOWS_RUNTIME_FILES}
+    )
+  else()
+    fifechan_install_example(simple
+      TARGETS simple_textbox_demo
+      FILES "${FIXEDFONT_SOURCE}"
+    )
+  endif()
 else()
   message(STATUS "[INFO] Skipping example 'simple': requires ENABLE_SDL+SDL2_FOUND and ENABLE_OPENGL+OPENGL_FOUND.")
 endif()

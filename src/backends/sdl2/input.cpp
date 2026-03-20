@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include "fifechan/backends/sdl2/input.hpp"
 
@@ -156,7 +156,7 @@ namespace fcn::sdl2
 
         // case SDL_TEXTEDITING:
         case SDL_TEXTINPUT: {
-            std::string text(event.text.text);
+            std::string text(static_cast<char const *>(event.text.text));
             if (!text.empty()) {
                 // hack to transport text
                 std::vector<char16_t> result;

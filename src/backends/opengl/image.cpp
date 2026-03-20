@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include "fifechan/backends/opengl/image.hpp"
 
@@ -22,7 +22,7 @@ namespace fcn::opengl
         }
 
         // Create a new pixel buffer and copy the pixels into it.
-        mPixels.resize(static_cast<size_t>(mTextureWidth * mTextureHeight));
+        mPixels.resize(static_cast<size_t>(mTextureWidth) * static_cast<size_t>(mTextureHeight));
 
 #ifdef __BIG_ENDIAN__
         unsigned int const magicPink = 0xff00ffff;

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_ICON_HPP_
@@ -119,14 +119,14 @@ namespace fcn
         /**
          * The image to display.
          */
-        Image const * mImage;
+        Image const * mImage{nullptr};
 
         /**
          * True if the image has been loaded internally, false otherwise.
          * An image not loaded internally should not be deleted in the
          * destructor.
          */
-        bool mInternalImage;
+        bool mInternalImage{false};
 
         /** True if scaling is enabled, otherwise false. */
         bool mScale{false};

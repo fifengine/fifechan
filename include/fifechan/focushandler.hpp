@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
 #define INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
@@ -110,14 +110,14 @@ namespace fcn
         /**
          * Gets the widget with focus.
          *
-         * @return The widget with focus. NULL if no widget has focus.
+         * @return The widget with focus. Nullptr if no widget has focus.
          */
         virtual Widget* getFocused() const;
 
         /**
          * Gets the widget with modal focus.
          *
-         * @return The widget with modal focus. NULL if no widget has
+         * @return The widget with modal focus. Nullptr if no widget has
          *         modal focus.
          */
         virtual Widget* getModalFocused() const;
@@ -125,7 +125,7 @@ namespace fcn
         /**
          * Gets the widget with modal mouse input focus.
          *
-         * @return The widget with modal mouse input focus. NULL if
+         * @return The widget with modal mouse input focus. Nullptr if
          *         no widget has modal mouse input focus.
          */
         virtual Widget* getModalMouseInputFocused() const;
@@ -315,24 +315,24 @@ namespace fcn
         WidgetVector mWidgets;
 
         /**
-         * Holds the focused widget. NULL if no widget has focus.
+         * Holds the focused widget. Nullptr if no widget has focus.
          */
         Widget* mFocusedWidget;
 
         /**
-         * Holds the modal focused widget. NULL if no widget has
+         * Holds the modal focused widget. Nullptr if no widget has
          * modal focused.
          */
         Widget* mModalFocusedWidget;
 
         /**
-         * Holds the modal mouse input focused widget. NULL if no widget
+         * Holds the modal mouse input focused widget. Nullptr if no widget
          * is being dragged.
          */
         Widget* mModalMouseInputFocusedWidget;
 
         /**
-         * Holds the dragged widget. NULL if no widget is
+         * Holds the dragged widget. Nullptr if no widget is
          * being dragged.
          */
         Widget* mDraggedWidget;

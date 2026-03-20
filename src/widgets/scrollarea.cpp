@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include "fifechan/widgets/scrollarea.hpp"
 
@@ -28,11 +28,11 @@ namespace fcn
         addMouseListener(this);
     }
 
-    ScrollArea::~ScrollArea() noexcept
+    ScrollArea::~ScrollArea()
     {
         try {
             setContent(nullptr);
-        } catch (std::exception& e) {
+        } catch (std::exception&) {
             // logError("Exception in ScrollArea destructor: " + std::string(e.what()));
         }
     }

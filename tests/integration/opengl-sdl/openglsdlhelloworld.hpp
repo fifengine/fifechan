@@ -5,47 +5,55 @@
 #ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 #define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 
-#include <fifechan/exception.hpp>
+#include <SDL2/SDL.h>
+
+#include <fifechan/backends/opengl/imageloader.hpp>
+#include <fifechan/backends/opengl/opengl.hpp>
+#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
 
-#include "openglsdl.hpp"
+#include <filesystem>
+#include <memory>
+#include <string>
 
-namespace helloworld
+namespace tests::integration::opengl_sdl::helloworld
 {
-    inline fcn::Container* top  = nullptr;
-    inline fcn::ImageFont* font = nullptr;
-    inline fcn::Label* label    = nullptr;
 
-    void init()
+    class Application
     {
-        if (openglsdl::gui == nullptr) {
-            fcn::throwException("openglsdl::gui is null. Initialize GUI backend before helloworld::init().");
-        }
+    public:
+        explicit Application(std::string const & title, int width = 640, int height = 480);
+        ~Application();
 
-        top = new fcn::Container();
-        top->setDimension(fcn::Rectangle(0, 0, 640, 480));
-        openglsdl::gui->setTop(top);
+        void run();
 
-        font = new fcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        fcn::Widget::setGlobalFont(font);
+    private:
+        static std::filesystem::path getExecutableDir();
+        void init_sdl(std::string const & title, int width, int height);
+        void init_gui(int width, int height);
+        void cleanup();
 
-        label = new fcn::Label("Hello World");
-        label->setPosition(280, 220);
-        top->add(label);
-    }
+        static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
+        static SDL_GLContext initGLContext(SDL_Window* window);
 
-    void halt()
-    {
-        delete label;
-        label = nullptr;
+        bool running{true};
 
-        delete font;
-        font = nullptr;
+        SDL_Window* window{nullptr};
+        SDL_GLContext glContext{nullptr};
 
-        delete top;
-        top = nullptr;
-    }
-} // namespace helloworld
+        std::unique_ptr<fcn::opengl::Graphics> graphics;
+        std::unique_ptr<fcn::sdl2::Input> input;
+        std::shared_ptr<fcn::opengl::ImageLoader> imageLoader;
+
+        std::unique_ptr<fcn::Gui> gui;
+
+        std::unique_ptr<fcn::Container> top;
+        std::unique_ptr<fcn::ImageFont> font;
+        std::unique_ptr<fcn::Label> label;
+    };
+
+} // namespace tests::integration::opengl_sdl::helloworld
 
 #endif // TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_

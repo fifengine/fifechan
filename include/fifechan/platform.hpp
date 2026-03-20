@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_PLATFORM_HPP_
 #define INCLUDE_FIFECHAN_PLATFORM_HPP_
+
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
+// The warning suggests to use constexpr instead of macros.
+// This is not always possible, e.g. for platform detection macros.
+
 // clang-format off
 
 // Check and defines for the operating system
@@ -134,10 +139,8 @@
 #define FIFEGUI_EXT_API __attribute__ ((visibility("default")))
 #endif
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 // clang-format on
+
+// NOLINTEND(cppcoreguidelines-macro-usage)
 
 #endif // INCLUDE_FIFECHAN_PLATFORM_HPP_

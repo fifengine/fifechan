@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_WIDGETS_CONTAINER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_CONTAINER_HPP_
@@ -137,7 +137,7 @@ namespace fcn
          * Finds a widget given an id.
          *
          * @param id The id to find a widget by.
-         * @return A widget with a corresponding id, NULL if no widget found.
+         * @return A widget with a corresponding id, Nullptr if no widget found.
          * @see Widget::setId
          */
         Widget* findWidgetById(std::string const & id) override;

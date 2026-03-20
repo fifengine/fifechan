@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_
@@ -68,6 +68,9 @@ namespace fcn::sdl2
             color = static_cast<unsigned int>(tmp);
             break;
         }
+
+        default:
+            break;
         }
 
         unsigned char r = 0;
@@ -98,7 +101,7 @@ namespace fcn::sdl2
         std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
                                       (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
 
-        std::span<Uint8> pixels(
+        std::span<Uint8> const pixels(
             reinterpret_cast<Uint8*>(surface->pixels),
             static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
         size_t const idx = static_cast<size_t>(offset);
@@ -133,6 +136,9 @@ namespace fcn::sdl2
             std::memcpy(&pixels[idx], &tmp, sizeof(Uint32));
             break;
         }
+
+        default:
+            break;
         }
 
         SDL_UnlockSurface(surface);
@@ -209,7 +215,7 @@ namespace fcn::sdl2
         std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
                                       (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
 
-        std::span<Uint8> pixels(
+        std::span<Uint8> const pixels(
             reinterpret_cast<Uint8*>(surface->pixels),
             static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
         size_t const idx = static_cast<size_t>(offset);
@@ -239,12 +245,10 @@ namespace fcn::sdl2
         }
         case 3: {
             if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                // watch color order rgb
                 pixels[idx + 0] = SDLBlend<Uint8>(color.r, pixels[idx + 0], color.a);
                 pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
                 pixels[idx + 2] = SDLBlend<Uint8>(color.b, pixels[idx + 2], color.a);
             } else {
-                // watch color order bgr
                 pixels[idx + 0] = SDLBlend<Uint8>(color.b, pixels[idx + 0], color.a);
                 pixels[idx + 1] = SDLBlend<Uint8>(color.g, pixels[idx + 1], color.a);
                 pixels[idx + 2] = SDLBlend<Uint8>(color.r, pixels[idx + 2], color.a);
@@ -259,6 +263,9 @@ namespace fcn::sdl2
             std::memcpy(&pixels[idx], &result, sizeof(Uint32));
             break;
         }
+
+        default:
+            break;
         }
 
         SDL_UnlockSurface(surface);

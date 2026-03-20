@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+
 #ifndef INCLUDE_FIFECHAN_KEY_HPP_
 #define INCLUDE_FIFECHAN_KEY_HPP_
+
+#include <cstdint>
 
 #include "fifechan/platform.hpp"
 
@@ -74,12 +77,11 @@ namespace fcn
         /**
          * An enum with key values.
          */
-        enum
+        enum : std::int16_t
         {
-            Space = ' ',
-            Tab   = '\t',
-            Enter = '\n',
-            // Negative values, to avoid conflicts with higher character codes
+            Space   = ' ',
+            Tab     = '\t',
+            Enter   = '\n',
             LeftAlt = -1000,
             RightAlt,
             LeftShift,

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include <fifechan/widgets/piegraph.hpp>
 
 #include <fifechan/exception.hpp>
 #include <fifechan/graphics.hpp>
 
+#include <utility>
 #include <vector>
 
 namespace fcn
@@ -14,7 +15,7 @@ namespace fcn
 
     PieGraph::PieGraph() : m_opaque(false), m_radius(10) { }
 
-    PieGraph::PieGraph(Point const & center) : m_opaque(false), m_center(center), m_radius(10) { }
+    PieGraph::PieGraph(Point center) : m_opaque(false), m_center(std::move(center)), m_radius(10) { }
 
     void PieGraph::setCenterX(int x)
     {

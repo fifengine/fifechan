@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef INCLUDE_FIFECHAN_POINT_HPP_
 #define INCLUDE_FIFECHAN_POINT_HPP_
@@ -52,7 +52,7 @@ namespace fcn
         /**
          * Move Constructor
          */
-        Point(Point&& rhs) noexcept : val{std::move(rhs.val)} { }
+        Point(Point&& rhs) noexcept : val{rhs.val} { }
 
         /**
          * Copy assignment
@@ -71,7 +71,7 @@ namespace fcn
         Point& operator=(Point&& rhs) noexcept
         {
             if (this != &rhs) {
-                val = std::move(rhs.val);
+                val = rhs.val;
             }
             return *this;
         }

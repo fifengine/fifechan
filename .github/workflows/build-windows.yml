@@ -231,6 +231,28 @@ jobs:
           --build-config ${{ matrix.config.build_type }}                ^
           --output-on-failure
 
+      - name: 🔎 Show dependencies (VC17)
+        if: matrix.config.os == 'windows-2025' && !contains(matrix.config.vcpkg_triplet, 'static')
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan.dll"
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_sdl2.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_sdl2.dll"
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_opengl.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_opengl.dll"
+
+      - name: 🔎 Show dependencies (VC18)
+        if: matrix.config.os == 'windows-2025-vs2026' && !contains(matrix.config.vcpkg_triplet, 'static')
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan.dll"
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_sdl2.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_sdl2.dll"
+          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_opengl.dll ===
+          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_opengl.dll"
+
       - name: ❔ CHECK folders, to see if everything is present (after building)
         run: |
           dir /S /B ${{ env.INSTALL_DIR }}

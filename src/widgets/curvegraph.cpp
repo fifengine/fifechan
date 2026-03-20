@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include <fifechan/widgets/curvegraph.hpp>
 
@@ -17,10 +17,7 @@ namespace fcn
 
     CurveGraph::CurveGraph() = default;
 
-    CurveGraph::CurveGraph(PointVector data) :
-        m_opaque(false), m_acp(true), m_needUpdate(true), m_thickness(1), m_data(std::move(data))
-    {
-    }
+    CurveGraph::CurveGraph(PointVector data) : m_data(std::move(data)) { }
 
     void CurveGraph::setPointVector(PointVector const & data)
     {

@@ -1,76 +1,128 @@
-project(tests-integration-opengl-sdl)
+message(STATUS "---------------------------------------------------------------")
+message(STATUS "[ 🛠️ ] Building Integration Tests for OpenGL+SDL2")
+message(STATUS "---------------------------------------------------------------")
 
+set(FIFEGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+# Build folder of the generated files from fifechan, e.g. "version.hpp"
+set(FIFEGUI_VERSION_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/../../../include")
+
+# Include the VCPKG toolchain file if it is defined
+if(DEFINED ENV{VCPKG_ROOT})
+  include("$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+endif()
 
 #------------------------------------------------------------------------------
 # openglsdlhelloworld
 #------------------------------------------------------------------------------
 
 add_executable(openglsdlhelloworld openglsdlhelloworld.cpp openglsdlhelloworld.hpp)
+
 target_include_directories(openglsdlhelloworld PRIVATE
-    ${SDL_INCLUDE_DIRS}
-    ${SDL_IMAGE_INCLUDE_DIRS}
-    ${GL_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/include
+  ${SDL2_INCLUDE_DIRS}
+  ${OPENGL_INCLUDE_DIR}
+  ${FIFEGUI_INCLUDE_DIR}
+  ${FIFEGUI_VERSION_FILE_DIR}
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
 )
+
 target_link_libraries(openglsdlhelloworld PRIVATE
-    # SDL2
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    # SDL2_image
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-    # OpenGL
-    ${GL_LIBRARIES}
-    fifechan_sdl2
-    fifechan_opengl
-    fifechan
+  # SDL2
+  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+  # SDL2_image
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # OpenGL
+  OpenGL::GL
+  # FifeGUI
+  fifechan::fifechan
+  # FifeGUI SDL extension
+  fifechan::fifechan_sdl2
+  # FifeGUI OpenGL extension
+  fifechan::fifechan_opengl
 )
-show_build_target_properties(openglsdlhelloworld)
+
+set_target_properties(openglsdlhelloworld PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
 
 if(WIN32)
-    set_target_properties(openglsdlhelloworld PROPERTIES
-        WIN32_EXECUTABLE TRUE
-    )
+  set_target_properties(openglsdlhelloworld PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
 endif()
+
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(openglsdlhelloworld PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(openglsdlhelloworld INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
+show_build_target_properties(openglsdlhelloworld)
+
+set(RESOURCES_FOLDER "${PROJECT_SOURCE_DIR}/tests/resources")
+copy_resources_folder(openglsdlhelloworld "${RESOURCES_FOLDER}")
 
 #------------------------------------------------------------------------------
 # openglsdlwidgets
 #------------------------------------------------------------------------------
 
 add_executable(openglsdlwidgets openglsdlwidgets.cpp openglsdlwidgets.hpp)
-target_link_libraries(openglsdlwidgets PRIVATE
-    ${SDL_LIBRARIES}
-    ${SDL_IMAGE_LIBRARIES}
-    ${GL_LIBRARIES}
-    fifechan_sdl2
-    fifechan_opengl
-    fifechan
+
+target_include_directories(openglsdlwidgets PRIVATE
+  ${SDL2_INCLUDE_DIRS}
+  ${OPENGL_INCLUDE_DIR}
+  ${FIFEGUI_INCLUDE_DIR}
+  ${FIFEGUI_VERSION_FILE_DIR}
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
 )
+
+target_link_libraries(openglsdlwidgets PRIVATE
+  # SDL2
+  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+  # SDL2_image
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # OpenGL
+  OpenGL::GL
+  # FifeGUI
+  fifechan::fifechan
+  # FifeGUI SDL extension
+  fifechan::fifechan_sdl2
+  # FifeGUI OpenGL extension
+  fifechan::fifechan_opengl
+)
+
+set_target_properties(openglsdlwidgets PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
+
+if(WIN32)
+  set_target_properties(openglsdlwidgets PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(openglsdlwidgets PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(openglsdlwidgets INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
 show_build_target_properties(openglsdlwidgets)
 
-if(WIN32)
-    set_target_properties(openglsdlwidgets PROPERTIES
-        WIN32_EXECUTABLE TRUE
-    )
-endif()
+copy_resources_folder(openglsdlwidgets "${RESOURCES_FOLDER}")
 
-#------------------------------------------------------------------------------
-# openglsdlaction
-#------------------------------------------------------------------------------
-
-add_executable(openglsdlaction openglsdlaction.cpp openglsdlaction.hpp)
-target_link_libraries(openglsdlaction PRIVATE
-    ${SDL_LIBRARIES}
-    ${SDL_IMAGE_LIBRARIES}
-    ${GL_LIBRARIES}
-    fifechan_sdl2
-    fifechan_opengl
-    fifechan
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS openglsdlhelloworld openglsdlwidgets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-show_build_target_properties(openglsdlaction)
 
-if(WIN32)
-    set_target_properties(openglsdlaction PROPERTIES
-        WIN32_EXECUTABLE TRUE
-    )
-endif()
-
+# Install resources: copy individual resource files directly into the install
+# binary directory so they are located next to the installed executable.
+file(GLOB OPENGL_SDL_RESOURCE_FILES "${RESOURCES_FOLDER}/*")
+install(FILES ${OPENGL_SDL_RESOURCE_FILES} DESTINATION "${CMAKE_INSTALL_BINDIR}")

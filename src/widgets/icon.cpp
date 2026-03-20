@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2024 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include "fifechan/widgets/icon.hpp"
 
@@ -12,20 +12,19 @@
 
 namespace fcn
 {
-    Icon::Icon() : mImage(nullptr), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    Icon::Icon() : mImage(nullptr), mInternalImage(false)
     {
 
         adjustSizeImpl();
     }
 
-    Icon::Icon(std::string const & filename) :
-        mImage(Image::load(filename)), mInternalImage(true), mScale(false), mTile(false), mOpaque(true)
+    Icon::Icon(std::string const & filename) : mImage(Image::load(filename)), mInternalImage(true)
     {
 
         adjustSizeImpl();
     }
 
-    Icon::Icon(Image const * image) : mImage(image), mInternalImage(false), mScale(false), mTile(false), mOpaque(true)
+    Icon::Icon(Image const * image) : mImage(image), mInternalImage(false)
     {
 
         adjustSizeImpl();
