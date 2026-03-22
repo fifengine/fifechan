@@ -5,6 +5,7 @@
 #include "fpsdemo.hpp"
 
 #include <cmath>
+#include <format>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -64,8 +65,12 @@ FPSDemo::FPSDemo() :
     // Init SDL
     SDL_Init(SDL_INIT_EVERYTHING);
 
+    // Append library version to window title
+    std::string const fifeguiVersion = fcn::fifechanVersion();
+    std::string const title = std::format("FifeGUI v{} - FPS demo", fifeguiVersion);
+
     // Create window and GL context after SDL is initialized
-    window    = SDL_CreateWindow("FifeGUI FPS demo", 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
+    window    = SDL_CreateWindow(title.c_str(), 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
     glcontext = SDL_GL_CreateContext(window);
 
     // Init SDL_Mixer

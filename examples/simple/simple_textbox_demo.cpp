@@ -10,6 +10,7 @@
 
 #include <fifechan.hpp>
 
+#include <format>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -38,7 +39,11 @@ int main(int /*argc*/, char** /*argv*/)
         return 1;
     }
 
-    window = SDL_CreateWindow("Simple TextBox Demo", 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    // Append library version to window title
+    std::string const fifeguiVersion = fcn::fifechanVersion();
+    std::string const title = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
+
+    window = SDL_CreateWindow(title.c_str(), 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
         SDL_Quit();

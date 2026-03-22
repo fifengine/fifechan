@@ -10,6 +10,7 @@
 
 #include <fifechan.hpp>
 
+#include <format>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -59,7 +60,11 @@ int main(int /*argc*/, char** /*argv*/)
         return 1;
     }
 
-    SDL_SetWindowTitle(sdlWindow, "Dynamic Remove Spacers");
+    // Append library version to window title
+    std::string const fifeguiVersion = fcn::fifechanVersion();
+    std::string const title = std::format("FifeGUI v{} - Dynamic Remove Spacers", fifeguiVersion);
+
+    SDL_SetWindowTitle(sdlWindow, title.c_str());
 
     try {
         imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();

@@ -4,6 +4,7 @@
 
 #include "ffdemo.hpp"
 
+#include <format>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -38,7 +39,11 @@ FFDemo::FFDemo() : mRunning(true)
         throw std::runtime_error(SDL_GetError());
     }
 
-    SDL_SetWindowTitle(mWindow, "FifeGUI demo");
+    // Append library version to window title
+    std::string const fifeguiVersion = fcn::fifechanVersion();
+    std::string const title = std::format("FifeGUI v{} - Final Fantasy demo", fifeguiVersion);
+
+    SDL_SetWindowTitle(mWindow, title.c_str());
 
     SDL_ShowCursor(SDL_DISABLE);
 
