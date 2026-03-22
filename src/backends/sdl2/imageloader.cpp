@@ -98,8 +98,7 @@ namespace fcn::sdl2
             return nullptr;
         }
 
-        bool hasPink             = false;
-        unsigned int surfaceMask = SDL_PIXELFORMAT_RGBX8888;
+        bool hasPink = false;
 
         int const pixels = surface->w * surface->h;
 
@@ -113,11 +112,6 @@ namespace fcn::sdl2
 
             if (r == 255 && g == 0 && b == 255) {
                 hasPink = true;
-            }
-
-            if (a != 255) {
-                surfaceMask = SDL_PIXELFORMAT_RGBA8888;
-                break;
             }
         }
 
@@ -154,10 +148,6 @@ namespace fcn::sdl2
         if (hasPink) {
             SDL_SetColorKey(converted, SDL_TRUE, SDL_MapRGB(converted->format, 255, 0, 255));
             SDL_SetSurfaceRLE(converted, 1);
-        }
-
-        if (surfaceMask == SDL_PIXELFORMAT_RGBA8888) {
-            SDL_SetSurfaceAlphaMod(converted, 255);
         }
 
         return converted;

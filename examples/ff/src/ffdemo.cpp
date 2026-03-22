@@ -41,7 +41,7 @@ FFDemo::FFDemo() : mRunning(true)
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
-    std::string const title = std::format("FifeGUI v{} - Final Fantasy demo", fifeguiVersion);
+    std::string const title          = std::format("FifeGUI v{} - Final Fantasy demo", fifeguiVersion);
 
     SDL_SetWindowTitle(mWindow, title.c_str());
 
