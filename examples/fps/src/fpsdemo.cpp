@@ -67,7 +67,7 @@ FPSDemo::FPSDemo() :
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
-    std::string const title = std::format("FifeGUI v{} - FPS demo", fifeguiVersion);
+    std::string const title          = std::format("FifeGUI v{} - FPS demo", fifeguiVersion);
 
     // Create window and GL context after SDL is initialized
     window    = SDL_CreateWindow(title.c_str(), 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);

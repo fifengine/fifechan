@@ -14,6 +14,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <string>
 #include <utility>
 
 /**
@@ -41,7 +42,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
-    std::string const title = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
+    std::string const title          = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
 
     window = SDL_CreateWindow(title.c_str(), 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (window == nullptr) {

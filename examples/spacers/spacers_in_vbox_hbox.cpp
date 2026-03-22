@@ -14,6 +14,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -59,7 +60,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
-    std::string const title = std::format("FifeGUI v{} - Spacers In VBox/HBox", fifeguiVersion);
+    std::string const title          = std::format("FifeGUI v{} - Spacers In VBox/HBox", fifeguiVersion);
 
     SDL_SetWindowTitle(sdlWindow, title.c_str());
 
