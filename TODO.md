@@ -3,22 +3,9 @@
 - [ ] include/util/utf8/utf8 is a third-party dependency and needs a vcpkg replacement
 - [ ] tests/integration adjust install locations to respect relative packaging (${CMAKE_INSTALL_INCLUDEDIR})
 - [x] enable build of tests/integration/opengl-sdl + refactor
+    - [ ] sync demonstrated features of tests/integration/opengl-sdl with tests/integration/sdl (has ttf rendering)
 - [ ] include/fifechan/keys.hpp: has an enum with -1000 init which causes tidy warnings
-      - [ ] should it be refactored to a class enum?
-- [ ] sync demonstrated features of tests/integration/opengl-sdl with tests/integration/sdl (has ttf rendering)
-
-### Website
-
-- [ ] update website
-  - [ ] replicate intro text from README.md
-  - [ ] add link to the API documentation (/api)
-
-### Doxygen
-
-- [ ] work on build-docs.yml
-  - [ ] push doxygen html to gh-pages branch, into subfolder /api
-  - [ ] auto publish api docs when new tag is pushed
-    - [ ] but allow triggering an update manually (e.g. via on workflow_dispatch)
+    - [ ] should it be refactored to a class enum?
 
 ### Clang Tidy
 
