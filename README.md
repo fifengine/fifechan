@@ -1,6 +1,6 @@
 ![FIFEGUI LOGO](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/logo/FIFEgui_small_c3.png)
 
-[Website](https://fifengine.github.io/fifechan/) | [Changelog](https://github.com/fifengine/fifechan/blob/main/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) <!-- | [Docs](https://fifengine.github.io/fifechan/docs) --> | [API Docs](https://fifengine.github.io/fifechan/api/)
+[Website](https://fifengine.github.io/fifechan/) | [Changelog](https://github.com/fifengine/fifechan/blob/main/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [API Docs](https://fifengine.github.io/fifechan/api/)
 
 | Continuous Integration | Windows | Linux    |   Mac   |
 |:----------------------:|:-------:|:--------:|:-------:|
