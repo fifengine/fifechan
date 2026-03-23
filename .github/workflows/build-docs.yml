@@ -81,9 +81,7 @@ jobs:
           echo "Create api folder and copy doxygen content"
           mkdir -p api
           cp -r docs/doxygen/html/* api/
-          echo "Copy README.md to root"
-          cp README.md .
-          echo "Stage only specific files"
+          echo "Stage only specific files and folders for commit"
           git add README.md
           git add api/
           echo "Commit and push"
