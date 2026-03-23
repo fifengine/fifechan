@@ -43,9 +43,6 @@ jobs:
       - name: 🤘 Checkout Code
         uses: actions/checkout@v6 # https://github.com/actions/checkout
 
-      - name: 📄 Setup GitHub Pages
-        uses: actions/configure-pages@v5 # https://github.com/actions/configure-pages
-
       # Install the latest version of Doxygen from upstream release tags.
       - name: 🔽 Install Doxygen (latest version from GitHub)
         run: |
@@ -72,25 +69,49 @@ jobs:
         run: |
           doxygen doxygen.conf
 
-      - name: 🔼 Upload Documentation Artifact
-        uses: actions/upload-pages-artifact@v4 # https://github.com/actions/upload-pages-artifact
-        with:
-          path: docs/doxygen/html
+      - name: Push to Github Pages
+        run: |
+          echo "Configure git user"
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          echo "Create orphan gh-pages branch (no history)"
+          git checkout --orphan gh-pages
+          echo "Reset index to unstage all files from main"
+          git reset
+          echo "Create api folder and copy doxygen content"
+          mkdir -p api
+          cp -r docs/doxygen/html/* api/
+          echo "Copy README.md to root"
+          cp README.md .
+          echo "Stage only specific files"
+          git add README.md
+          git add api/
+          echo "Commit and push"
+          git commit -m "Update API documentation for version ${{ github.ref_name }}"
+          git push origin gh-pages --force
 
-# ---------------------------------------------------------------------------------------
+      # - name: 🔼 Upload Documentation Artifact
+      #   uses: actions/upload-pages-artifact@v4 # https://github.com/actions/upload-pages-artifact
+      #   with:
+      #     path: docs/doxygen/html
 
-  deploy:
+# # ---------------------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------------------
+#   deploy:
 
-    runs-on: ubuntu-latest
-    needs: build
+# # ---------------------------------------------------------------------------------------
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#     runs-on: ubuntu-latest
+#     needs: build
 
-    steps:
-      - name: 🚀 Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # https://github.com/actions/deploy-pages
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+
+#     steps:
+#       - name: 📄 Setup GitHub Pages
+#         uses: actions/configure-pages@v5 # https://github.com/actions/configure-pages
+
+#       - name: 🚀 Deploy to GitHub Pages
+#         id: deployment
+#         uses: actions/deploy-pages@v4 # https://github.com/actions/deploy-pages
