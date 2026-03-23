@@ -28,19 +28,19 @@ and powerful enough to be used in any type of game.
 
 The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL2 backend.
 
-![SDLWidgets Demo](docs/images/tests-sdlwidgets.png)
+![SDLWidgets Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdlwidgets.png)
 
 ### FPS Demo
 
 A demo showcasing a custom in-game overlay for a first-person shooter game, demonstrating the flexibility of FifeGUI in creating custom interfaces and integrating with game rendering.
 
-![FPS Demo](docs/images/examples-fpsdemo.png)
+![FPS Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/examples-fpsdemo.png)
 
 ### FF Demo
 
 A menu in the style of the Final Fantasy series, demonstrating the flexibility of FifeGUI in creating custom interfaces.
 
-![FF Demo](docs/images/examples-ff.png)
+![FF Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/examples-ff.png)
 
 ## Downloads
 
