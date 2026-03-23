@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write # Required to push to gh-pages branch.
   pages: write
   id-token: write
 
