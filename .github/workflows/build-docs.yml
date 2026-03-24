@@ -67,7 +67,17 @@ jobs:
 
       - name: 🛠️ Build API Documentation
         run: |
-          doxygen doxygen.conf
+          doxygen doxygen.conf > doxygen.log 2> doxygen-error.log
+
+      - name: 🔎 Doxygen Log
+        run: |
+          cat doxygen.log
+
+      - name: 🔼 Upload Doxygen Error Log as Artifacts
+        uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
+        with:
+          name: doxygen-error-log
+          path: doxygen-error.log
 
       - name: Push to Github Pages
         run: |
