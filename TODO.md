@@ -1,6 +1,6 @@
 ## TODO
 
-- [ ] include/util/utf8/utf8 is a third-party dependency and needs a vcpkg replacement
+- [ ] rename all occurances of "fifechan" to "fifegui"
 - [ ] tests/integration adjust install locations to respect relative packaging (${CMAKE_INSTALL_INCLUDEDIR})
 - [x] enable build of tests/integration/opengl-sdl + refactor
     - [ ] sync demonstrated features of tests/integration/opengl-sdl with tests/integration/sdl (has ttf rendering)
