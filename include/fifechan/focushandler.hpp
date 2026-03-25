@@ -298,14 +298,10 @@ namespace fcn
          */
         virtual void distributeFocusGainedEvent(Event const & focusEvent);
 
-        /**
-         * Typedef.
-         */
+        /** Vector of Widget pointers. */
         using WidgetVector = std::vector<Widget*>;
 
-        /**
-         * Typedef.
-         */
+        /** Iterator for WidgetVector. */
         using WidgetIterator = WidgetVector::iterator;
 
         /**

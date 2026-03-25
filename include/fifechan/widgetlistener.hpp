@@ -27,10 +27,14 @@ namespace fcn
     public:
         virtual ~WidgetListener() = default;
 
-        WidgetListener(WidgetListener const &)            = default;
+        /** Copy constructor. */
+        WidgetListener(WidgetListener const &) = default;
+        /** Copy assignment operator. */
         WidgetListener& operator=(WidgetListener const &) = default;
-        WidgetListener(WidgetListener&&)                  = default;
-        WidgetListener& operator=(WidgetListener&&)       = default;
+        /** Move constructor. */
+        WidgetListener(WidgetListener&&) = default;
+        /** Move assignment operator. */
+        WidgetListener& operator=(WidgetListener&&) = default;
 
         /**
          * Invoked when a widget changes its size.

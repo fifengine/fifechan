@@ -25,6 +25,7 @@ namespace fcn
     public:
         MouseInput() = default;
 
+        /** Type of mouse input. */
         enum class Type : std::uint8_t
         {
             Moved = 0,
@@ -36,6 +37,7 @@ namespace fcn
             WheelMovedLeft
         };
 
+        /** Mouse button. */
         enum class Button : std::uint8_t
         {
             Empty = 0,

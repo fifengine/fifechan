@@ -24,10 +24,14 @@ namespace fcn
     public:
         virtual ~KeyListener() = default;
 
-        KeyListener(KeyListener const &)            = default;
+        /** Copy constructor. */
+        KeyListener(KeyListener const &) = default;
+        /** Copy assignment operator. */
         KeyListener& operator=(KeyListener const &) = default;
-        KeyListener(KeyListener&&)                  = default;
-        KeyListener& operator=(KeyListener&&)       = default;
+        /** Move constructor. */
+        KeyListener(KeyListener&&) = default;
+        /** Move assignment operator. */
+        KeyListener& operator=(KeyListener&&) = default;
 
         /**
          * Called if a key is pressed when the widget has keyboard focus.

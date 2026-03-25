@@ -563,14 +563,10 @@ namespace fcn
          */
         bool mTabbing;
 
-        /**
-         * Typedef.
-         */
+        /** List of KeyListener. */
         using KeyListenerList = std::list<KeyListener*>;
 
-        /**
-         * Typedef.
-         */
+        /** Iterator for KeyListenerList. */
         using KeyListenerListIterator = KeyListenerList::iterator;
 
         /**

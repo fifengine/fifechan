@@ -27,10 +27,14 @@ namespace fcn
     public:
         virtual ~SelectionListener() = default;
 
-        SelectionListener(SelectionListener const &)            = default;
+        /** Copy constructor. */
+        SelectionListener(SelectionListener const &) = default;
+        /** Copy assignment operator. */
         SelectionListener& operator=(SelectionListener const &) = default;
-        SelectionListener(SelectionListener&&)                  = default;
-        SelectionListener& operator=(SelectionListener&&)       = default;
+        /** Move constructor. */
+        SelectionListener(SelectionListener&&) = default;
+        /** Move assignment operator. */
+        SelectionListener& operator=(SelectionListener&&) = default;
 
         /**
          * Called when the value of a selection has been changed in a Widget.

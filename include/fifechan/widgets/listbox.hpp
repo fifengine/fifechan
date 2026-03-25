@@ -193,9 +193,7 @@ namespace fcn
          */
         SelectionListenerList mSelectionListeners;
 
-        /**
-         * Typedef.
-         */
+        /** Iterator for SelectionListenerList. */
         using SelectionListenerIterator = SelectionListenerList::iterator;
 
         /**

@@ -275,9 +275,7 @@ namespace fcn
          */
         bool mIsDragged{false};
 
-        /**
-         * Typedef.
-         */
+        /** List of SelectionListener. */
         using SelectionListenerList = std::list<SelectionListener*>;
 
         /**
@@ -285,9 +283,7 @@ namespace fcn
          */
         SelectionListenerList mSelectionListeners;
 
-        /**
-         * Typedef.
-         */
+        /** Iterator for SelectionListenerList. */
         using SelectionListenerIterator = SelectionListenerList::iterator;
     };
 } // namespace fcn

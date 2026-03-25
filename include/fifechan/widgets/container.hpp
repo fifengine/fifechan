@@ -311,9 +311,7 @@ namespace fcn
          */
         ContainerListenerList mContainerListeners;
 
-        /**
-         * Typedef.
-         */
+        /** Iterator for ContainerListenerList. */
         using ContainerListenerIterator = ContainerListenerList::iterator;
 
         /**

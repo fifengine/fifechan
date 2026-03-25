@@ -22,10 +22,14 @@ namespace fcn
     public:
         virtual ~MouseListener() = default;
 
-        MouseListener(MouseListener const &)            = default;
+        /** Copy constructor. */
+        MouseListener(MouseListener const &) = default;
+        /** Copy assignment operator. */
         MouseListener& operator=(MouseListener const &) = default;
-        MouseListener(MouseListener&&)                  = default;
-        MouseListener& operator=(MouseListener&&)       = default;
+        /** Move constructor. */
+        MouseListener(MouseListener&&) = default;
+        /** Move assignment operator. */
+        MouseListener& operator=(MouseListener&&) = default;
 
         /**
          * Called when the mouse has entered into the widget area.

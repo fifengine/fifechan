@@ -174,7 +174,7 @@ namespace fcn::sdl2
     }
 
     /*
-    typedef struct{
+    struct SDL_PixelFormat{
         SDL_Palette *palette;
         Uint8  BitsPerPixel;
         Uint8  BytesPerPixel;
@@ -183,7 +183,7 @@ namespace fcn::sdl2
         Uint8  Rloss, Gloss, Bloss, Aloss;
         Uint32 colorkey;
         Uint8  alpha;
-    } SDL_PixelFormat;
+    };
     */
 
     /**
