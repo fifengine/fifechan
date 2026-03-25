@@ -2,14 +2,12 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/selectionevent.hpp"
+
+#include "fifechan/events/event.hpp"
 
 namespace fcn
 {
-    Event::Event(Widget* source) : mSource(source) { }
+    SelectionEvent::SelectionEvent(Widget* source) : Event(source) { }
 
-    Widget* Event::getSource() const
-    {
-        return mSource;
-    }
 } // namespace fcn

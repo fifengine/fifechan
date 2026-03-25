@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
 #define INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
 
-#include "fifechan/mouseevent.hpp"
+#include "fifechan/events/mouseevent.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

@@ -13,8 +13,8 @@
 #include <set>
 #include <string>
 
-#include "fifechan/keyevent.hpp"
-#include "fifechan/mouseevent.hpp"
+#include "fifechan/events/keyevent.hpp"
+#include "fifechan/events/mouseevent.hpp"
 #include "fifechan/mouseinput.hpp"
 #include "fifechan/platform.hpp"
 

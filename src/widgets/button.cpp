@@ -7,11 +7,11 @@
 #include <string>
 #include <utility>
 
+#include "fifechan/events/mouseevent.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/key.hpp"
-#include "fifechan/mouseevent.hpp"
 #include "fifechan/mouseinput.hpp"
 
 namespace fcn

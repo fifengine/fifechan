@@ -4,7 +4,7 @@
 
 #include "fifechan/listeners/visibilityeventhandler.hpp"
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/event.hpp"
 #include "fifechan/gui.hpp"
 
 namespace fcn

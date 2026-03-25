@@ -10,9 +10,9 @@
 #include <ranges>
 #include <string>
 
-#include "fifechan/actionevent.hpp"
 #include "fifechan/defaultfont.hpp"
-#include "fifechan/event.hpp"
+#include "fifechan/events/actionevent.hpp"
+#include "fifechan/events/event.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"

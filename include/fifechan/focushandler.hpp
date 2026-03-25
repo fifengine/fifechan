@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/event.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

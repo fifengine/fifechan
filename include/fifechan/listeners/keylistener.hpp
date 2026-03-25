@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_KEYLISTENER_HPP_
 #define INCLUDE_FIFECHAN_KEYLISTENER_HPP_
 
-#include "fifechan/keyevent.hpp"
+#include "fifechan/events/keyevent.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

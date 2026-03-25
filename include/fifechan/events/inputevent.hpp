@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_INPUTEVENT_HPP_
 #define INCLUDE_FIFECHAN_INPUTEVENT_HPP_
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/event.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

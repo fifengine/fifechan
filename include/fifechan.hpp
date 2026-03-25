@@ -46,7 +46,11 @@
 
 #include <fifechan/cliprectangle.hpp>
 #include <fifechan/color.hpp>
-#include <fifechan/event.hpp>
+#include <fifechan/events/event.hpp>
+#include <fifechan/events/inputevent.hpp>
+#include <fifechan/events/keyevent.hpp>
+#include <fifechan/events/mouseevent.hpp>
+#include <fifechan/events/selectionevent.hpp>
 #include <fifechan/exception.hpp>
 #include <fifechan/focushandler.hpp>
 #include <fifechan/font.hpp>
@@ -57,9 +61,7 @@
 #include <fifechan/imagefont.hpp>
 #include <fifechan/imageloader.hpp>
 #include <fifechan/input.hpp>
-#include <fifechan/inputevent.hpp>
 #include <fifechan/key.hpp>
-#include <fifechan/keyevent.hpp>
 #include <fifechan/listeners/actionlistener.hpp>
 #include <fifechan/listeners/deathlistener.hpp>
 #include <fifechan/listeners/focuslistener.hpp>
@@ -68,10 +70,8 @@
 #include <fifechan/listeners/selectionlistener.hpp>
 #include <fifechan/listeners/widgetlistener.hpp>
 #include <fifechan/listmodel.hpp>
-#include <fifechan/mouseevent.hpp>
 #include <fifechan/mouseinput.hpp>
 #include <fifechan/rectangle.hpp>
-#include <fifechan/selectionevent.hpp>
 #include <fifechan/widget.hpp>
 
 #include "fifechan/platform.hpp"

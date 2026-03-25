@@ -9,7 +9,7 @@
 #include <ranges>
 #include <utility>
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/event.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/listeners/focuslistener.hpp"
 #include "fifechan/widget.hpp"

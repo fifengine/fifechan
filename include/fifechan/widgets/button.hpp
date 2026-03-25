@@ -7,12 +7,12 @@
 
 #include <string>
 
+#include "fifechan/events/mouseevent.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/listeners/focuslistener.hpp"
 #include "fifechan/listeners/keylistener.hpp"
 #include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/listeners/widgetlistener.hpp"
-#include "fifechan/mouseevent.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 

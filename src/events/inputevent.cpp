@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include "fifechan/inputevent.hpp"
+#include "fifechan/events/inputevent.hpp"
 
-#include "fifechan/event.hpp"
+#include "fifechan/events/event.hpp"
 
 namespace fcn
 {

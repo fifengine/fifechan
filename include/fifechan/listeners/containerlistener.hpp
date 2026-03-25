@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_CONTAINERLISTENER_HPP_
 #define INCLUDE_FIFECHAN_CONTAINERLISTENER_HPP_
 
-#include "fifechan/containerevent.hpp"
+#include "fifechan/events/containerevent.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

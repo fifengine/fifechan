@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "fifechan/inputevent.hpp"
+#include "fifechan/events/inputevent.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn

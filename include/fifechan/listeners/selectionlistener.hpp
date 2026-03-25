@@ -7,8 +7,8 @@
 
 #include <string>
 
+#include "fifechan/events/selectionevent.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/selectionevent.hpp"
 
 namespace fcn
 {

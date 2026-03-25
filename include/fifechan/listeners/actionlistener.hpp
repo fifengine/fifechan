@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "fifechan/actionevent.hpp"
+#include "fifechan/events/actionevent.hpp"
 #include "fifechan/platform.hpp"
 
 namespace fcn
