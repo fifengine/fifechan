@@ -44,15 +44,11 @@
 #include <fifechan/widgets/togglebutton.hpp>
 #include <fifechan/widgets/window.hpp>
 
-#include <fifechan/actionevent.hpp>
-#include <fifechan/actionlistener.hpp>
 #include <fifechan/cliprectangle.hpp>
 #include <fifechan/color.hpp>
-#include <fifechan/deathlistener.hpp>
 #include <fifechan/event.hpp>
 #include <fifechan/exception.hpp>
 #include <fifechan/focushandler.hpp>
-#include <fifechan/focuslistener.hpp>
 #include <fifechan/font.hpp>
 #include <fifechan/genericinput.hpp>
 #include <fifechan/graphics.hpp>
@@ -64,17 +60,19 @@
 #include <fifechan/inputevent.hpp>
 #include <fifechan/key.hpp>
 #include <fifechan/keyevent.hpp>
-#include <fifechan/keyinput.hpp>
-#include <fifechan/keylistener.hpp>
+#include <fifechan/listeners/actionlistener.hpp>
+#include <fifechan/listeners/deathlistener.hpp>
+#include <fifechan/listeners/focuslistener.hpp>
+#include <fifechan/listeners/keylistener.hpp>
+#include <fifechan/listeners/mouselistener.hpp>
+#include <fifechan/listeners/selectionlistener.hpp>
+#include <fifechan/listeners/widgetlistener.hpp>
 #include <fifechan/listmodel.hpp>
 #include <fifechan/mouseevent.hpp>
 #include <fifechan/mouseinput.hpp>
-#include <fifechan/mouselistener.hpp>
 #include <fifechan/rectangle.hpp>
 #include <fifechan/selectionevent.hpp>
-#include <fifechan/selectionlistener.hpp>
 #include <fifechan/widget.hpp>
-#include <fifechan/widgetlistener.hpp>
 
 #include "fifechan/platform.hpp"
 #include "fifechan/version.hpp"

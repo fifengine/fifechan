@@ -13,19 +13,19 @@
 #include <string>
 #include <utility>
 
-#include "fifechan/deathlistener.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/input.hpp"
 #include "fifechan/keyevent.hpp"
 #include "fifechan/keyinput.hpp"
-#include "fifechan/keylistener.hpp"
+#include "fifechan/listeners/deathlistener.hpp"
+#include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
+#include "fifechan/listeners/visibilityeventhandler.hpp"
 #include "fifechan/mouseevent.hpp"
 #include "fifechan/mouseinput.hpp"
-#include "fifechan/mouselistener.hpp"
 #include "fifechan/rectangle.hpp"
-#include "fifechan/visibilityeventhandler.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

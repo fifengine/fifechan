@@ -7,14 +7,14 @@
 
 #include <string>
 
-#include "fifechan/focuslistener.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/keylistener.hpp"
+#include "fifechan/listeners/focuslistener.hpp"
+#include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
+#include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/mouseevent.hpp"
-#include "fifechan/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
-#include "fifechan/widgetlistener.hpp"
 
 namespace fcn
 {

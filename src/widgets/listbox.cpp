@@ -9,9 +9,9 @@
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/key.hpp"
+#include "fifechan/listeners/selectionlistener.hpp"
 #include "fifechan/listmodel.hpp"
 #include "fifechan/mouseinput.hpp"
-#include "fifechan/selectionlistener.hpp"
 
 namespace fcn
 {

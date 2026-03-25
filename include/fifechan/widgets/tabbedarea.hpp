@@ -11,9 +11,9 @@
 #include <utility>
 #include <vector>
 
-#include "fifechan/actionlistener.hpp"
-#include "fifechan/keylistener.hpp"
-#include "fifechan/mouselistener.hpp"
+#include "fifechan/listeners/actionlistener.hpp"
+#include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 #include "fifechan/widgets/container.hpp"

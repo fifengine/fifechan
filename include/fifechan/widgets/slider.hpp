@@ -7,8 +7,8 @@
 
 #include <memory>
 
-#include "fifechan/keylistener.hpp"
-#include "fifechan/mouselistener.hpp"
+#include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 

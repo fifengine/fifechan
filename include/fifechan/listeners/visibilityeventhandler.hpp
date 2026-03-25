@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
 #define INCLUDE_FIFECHAN_VISIBILITYEVENTHANDLER_HPP_
 
-#include "fifechan/widgetlistener.hpp"
+#include "fifechan/listeners/widgetlistener.hpp"
 
 namespace fcn
 {

@@ -11,7 +11,7 @@
 
 #include "fifechan/event.hpp"
 #include "fifechan/exception.hpp"
-#include "fifechan/focuslistener.hpp"
+#include "fifechan/listeners/focuslistener.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

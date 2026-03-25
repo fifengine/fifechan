@@ -11,9 +11,9 @@
 #include <type_traits>
 
 #include "fifechan/color.hpp"
+#include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/rectangle.hpp"
 #include "fifechan/size.hpp"
-#include "fifechan/widgetlistener.hpp"
 
 namespace fcn
 {

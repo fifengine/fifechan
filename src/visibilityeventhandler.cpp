@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include "fifechan/visibilityeventhandler.hpp"
+#include "fifechan/listeners/visibilityeventhandler.hpp"
 
 #include "fifechan/event.hpp"
 #include "fifechan/gui.hpp"

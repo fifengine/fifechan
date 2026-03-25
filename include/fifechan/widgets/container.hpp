@@ -9,8 +9,8 @@
 #include <memory>
 #include <string>
 
-#include "fifechan/containerlistener.hpp"
 #include "fifechan/graphics.hpp"
+#include "fifechan/listeners/containerlistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 

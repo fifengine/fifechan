@@ -8,13 +8,13 @@
 #include <list>
 #include <memory>
 
-#include "fifechan/actionlistener.hpp"
 #include "fifechan/focushandler.hpp"
-#include "fifechan/focuslistener.hpp"
-#include "fifechan/keylistener.hpp"
-#include "fifechan/mouselistener.hpp"
+#include "fifechan/listeners/actionlistener.hpp"
+#include "fifechan/listeners/focuslistener.hpp"
+#include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
+#include "fifechan/listeners/selectionlistener.hpp"
 #include "fifechan/platform.hpp"
-#include "fifechan/selectionlistener.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

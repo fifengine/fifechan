@@ -8,7 +8,7 @@
 #include <map>
 #include <string>
 
-#include "fifechan/mouselistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/platform.hpp"
 #include "fifechan/widgets/container.hpp"
 
