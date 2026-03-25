@@ -214,7 +214,9 @@ file(GLOB FIFECHAN_HEADER          include/fifechan.hpp)
 file(GLOB FIFECHAN_HEADERS         include/fifechan/*.hpp)
 file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
 file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
+file(GLOB FIFECHAN_EVENT_HEADERS   include/fifechan/events/*.hpp)
 file(GLOB FIFECHAN_SRC             src/*.cpp)
+file(GLOB FIFECHAN_EVENT_SRC       src/events/*.cpp)
 file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
 set(FIFECHAN_VERSION_HEADER        "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
 
@@ -227,7 +229,9 @@ add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_HEADERS}
     ${FIFECHAN_WIDGET_HEADERS}
     ${FIFECHAN_UTIL_HEADERS}
+    ${FIFECHAN_EVENT_HEADERS}
     ${FIFECHAN_SRC}
+    ${FIFECHAN_EVENT_SRC}
     ${FIFECHAN_WIDGET_SRC}
     ${FIFECHAN_VERSION_HEADER}
 )
