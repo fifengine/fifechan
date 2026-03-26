@@ -210,17 +210,149 @@ endif()
 # Source Files for FifeGUI core library
 #------------------------------------------------------------------------------
 
-# TODO remove globbing and list files explicitly
-file(GLOB FIFECHAN_HEADER            include/fifechan.hpp)
-file(GLOB FIFECHAN_HEADERS           include/fifechan/*.hpp)
-file(GLOB FIFECHAN_WIDGET_HEADERS    include/fifechan/widgets/*.hpp)
-file(GLOB FIFECHAN_UTIL_HEADERS      include/fifechan/util/*.hpp)
-file(GLOB FIFECHAN_UTIL_UTF8_HEADERS include/fifechan/util/utf8/utf8/*.h)
-file(GLOB FIFECHAN_EVENT_HEADERS     include/fifechan/events/*.hpp)
-file(GLOB FIFECHAN_SRC               src/*.cpp)
-file(GLOB FIFECHAN_EVENT_SRC         src/events/*.cpp)
-file(GLOB FIFECHAN_WIDGET_SRC        src/widgets/*.cpp)
-set(FIFECHAN_VERSION_HEADER          "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
+set(FIFECHAN_HEADER
+    include/fifechan.hpp
+)
+set(FIFECHAN_HEADERS
+    include/fifechan/cliprectangle.hpp
+    include/fifechan/color.hpp
+    include/fifechan/defaultfont.hpp
+    include/fifechan/events/actionevent.hpp
+    include/fifechan/events/containerevent.hpp
+    include/fifechan/events/event.hpp
+    include/fifechan/events/inputevent.hpp
+    include/fifechan/events/keyevent.hpp
+    include/fifechan/events/mouseevent.hpp
+    include/fifechan/events/selectionevent.hpp
+    include/fifechan/exception.hpp
+    include/fifechan/focushandler.hpp
+    include/fifechan/font.hpp
+    include/fifechan/genericinput.hpp
+    include/fifechan/graphics.hpp
+    include/fifechan/groups.hpp
+    include/fifechan/gui.hpp
+    include/fifechan/image.hpp
+    include/fifechan/imagefont.hpp
+    include/fifechan/imageloader.hpp
+    include/fifechan/input.hpp
+    include/fifechan/key.hpp
+    include/fifechan/keyinput.hpp
+    include/fifechan/listeners/actionlistener.hpp
+    include/fifechan/listeners/containerlistener.hpp
+    include/fifechan/listeners/deathlistener.hpp
+    include/fifechan/listeners/focuslistener.hpp
+    include/fifechan/listeners/keylistener.hpp
+    include/fifechan/listeners/mouselistener.hpp
+    include/fifechan/listeners/selectionlistener.hpp
+    include/fifechan/listeners/visibilityeventhandler.hpp
+    include/fifechan/listeners/widgetlistener.hpp
+    include/fifechan/listmodel.hpp
+    include/fifechan/math.hpp
+    include/fifechan/mouseinput.hpp
+    include/fifechan/platform.hpp
+    include/fifechan/point.hpp
+    include/fifechan/rectangle.hpp
+    include/fifechan/size.hpp
+    include/fifechan/text.hpp
+    include/fifechan/utf8stringeditor.hpp
+    include/fifechan/util/utf8/utf8.hpp
+    include/fifechan/util/utf8/utf8/checked.h
+    include/fifechan/util/utf8/utf8/core.h
+    include/fifechan/util/utf8/utf8/cpp11.h
+    include/fifechan/util/utf8/utf8/cpp17.h
+    include/fifechan/util/utf8/utf8/cpp20.h
+    include/fifechan/util/utf8/utf8/unchecked.h
+    include/fifechan/widget.hpp
+    include/fifechan/widgets/adjustingcontainer.hpp
+    include/fifechan/widgets/bargraph.hpp
+    include/fifechan/widgets/button.hpp
+    include/fifechan/widgets/checkbox.hpp
+    include/fifechan/widgets/container.hpp
+    include/fifechan/widgets/curvegraph.hpp
+    include/fifechan/widgets/dropdown.hpp
+    include/fifechan/widgets/flowcontainer.hpp
+    include/fifechan/widgets/icon.hpp
+    include/fifechan/widgets/iconprogressbar.hpp
+    include/fifechan/widgets/imagebutton.hpp
+    include/fifechan/widgets/imageprogressbar.hpp
+    include/fifechan/widgets/label.hpp
+    include/fifechan/widgets/linegraph.hpp
+    include/fifechan/widgets/listbox.hpp
+    include/fifechan/widgets/passwordfield.hpp
+    include/fifechan/widgets/piegraph.hpp
+    include/fifechan/widgets/pointgraph.hpp
+    include/fifechan/widgets/radiobutton.hpp
+    include/fifechan/widgets/scrollarea.hpp
+    include/fifechan/widgets/slider.hpp
+    include/fifechan/widgets/spacer.hpp
+    include/fifechan/widgets/tab.hpp
+    include/fifechan/widgets/tabbedarea.hpp
+    include/fifechan/widgets/textbox.hpp
+    include/fifechan/widgets/textfield.hpp
+    include/fifechan/widgets/togglebutton.hpp
+    include/fifechan/widgets/window.hpp
+)
+set(FIFECHAN_VERSION_HEADER
+    "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp"
+)
+
+set(FIFECHAN_SRC
+    src/cliprectangle.cpp
+    src/color.cpp
+    src/defaultfont.cpp
+    src/events/actionevent.cpp
+    src/events/containerevent.cpp
+    src/events/event.cpp
+    src/events/inputevent.cpp
+    src/events/keyevent.cpp
+    src/events/mouseevent.cpp
+    src/events/selectionevent.cpp
+    src/fifechan.cpp
+    src/focushandler.cpp
+    src/font.cpp
+    src/genericinput.cpp
+    src/graphics.cpp
+    src/gui.cpp
+    src/image.cpp
+    src/imagefont.cpp
+    src/key.cpp
+    src/keyinput.cpp
+    src/mouseinput.cpp
+    src/rectangle.cpp
+    src/size.cpp
+    src/text.cpp
+    src/utf8stringeditor.cpp
+    src/visibilityeventhandler.cpp
+    src/widget.cpp
+    src/widgets/adjustingcontainer.cpp
+    src/widgets/bargraph.cpp
+    src/widgets/button.cpp
+    src/widgets/checkbox.cpp
+    src/widgets/container.cpp
+    src/widgets/curvegraph.cpp
+    src/widgets/dropdown.cpp
+    src/widgets/flowcontainer.cpp
+    src/widgets/icon.cpp
+    src/widgets/iconprogressbar.cpp
+    src/widgets/imagebutton.cpp
+    src/widgets/imageprogressbar.cpp
+    src/widgets/label.cpp
+    src/widgets/linegraph.cpp
+    src/widgets/listbox.cpp
+    src/widgets/passwordfield.cpp
+    src/widgets/piegraph.cpp
+    src/widgets/pointgraph.cpp
+    src/widgets/radiobutton.cpp
+    src/widgets/scrollarea.cpp
+    src/widgets/slider.cpp
+    src/widgets/spacer.cpp
+    src/widgets/tab.cpp
+    src/widgets/tabbedarea.cpp
+    src/widgets/textbox.cpp
+    src/widgets/textfield.cpp
+    src/widgets/togglebutton.cpp
+    src/widgets/window.cpp
+)
 
 #------------------------------------------------------------------------------
 # FifeGUI core library
@@ -229,13 +361,8 @@ set(FIFECHAN_VERSION_HEADER          "${CMAKE_CURRENT_BINARY_DIR}/include/fifech
 add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_HEADER}
     ${FIFECHAN_HEADERS}
-    ${FIFECHAN_WIDGET_HEADERS}
-    ${FIFECHAN_UTIL_HEADERS}
-    ${FIFECHAN_EVENT_HEADERS}
-    ${FIFECHAN_SRC}
-    ${FIFECHAN_EVENT_SRC}
-    ${FIFECHAN_WIDGET_SRC}
     ${FIFECHAN_VERSION_HEADER}
+    ${FIFECHAN_SRC}
 )
 
 # Provide a namespace alias for the library (fifechan::fifechan)
@@ -277,8 +404,6 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
 install(FILES ${FIFECHAN_HEADER}          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/)
 install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
 install(FILES ${FIFECHAN_VERSION_HEADER}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
-install(FILES ${FIFECHAN_WIDGET_HEADERS}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/widgets/)
-install(FILES ${FIFECHAN_UTIL_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/util/)
 
 #------------------------------------------------------------------------------
 # The FifeGUI OpenGL extension library
@@ -298,8 +423,16 @@ endif()
 if(OPENGL_FOUND)
 
   # set extension sources
-  file(GLOB FIFECHAN_OPENGL_HEADERS include/fifechan/backends/opengl/*.hpp)
-  file(GLOB FIFECHAN_OPENGL_SRC     src/backends/opengl/*.cpp)
+  set(FIFECHAN_OPENGL_HEADERS
+    include/fifechan/backends/opengl/graphics.hpp
+    include/fifechan/backends/opengl/image.hpp
+    include/fifechan/backends/opengl/imageloader.hpp
+    include/fifechan/backends/opengl/opengl.hpp
+  )
+  set(FIFECHAN_OPENGL_SRC
+    src/backends/opengl/graphics.cpp
+    src/backends/opengl/image.cpp
+  )
 
   # create the extension library
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
@@ -375,8 +508,22 @@ endif()
 if(ENABLE_SDL)
 
   # The FifeGUI SDL extension source
-  file(GLOB FIFECHAN_SDL_HEADERS    include/fifechan/backends/sdl2/*.hpp)
-  file(GLOB FIFECHAN_SDL_SRC        src/backends/sdl2/*.cpp)
+  set(FIFECHAN_SDL_HEADERS
+    include/fifechan/backends/sdl2/graphics.hpp
+    include/fifechan/backends/sdl2/image.hpp
+    include/fifechan/backends/sdl2/imageloader.hpp
+    include/fifechan/backends/sdl2/input.hpp
+    include/fifechan/backends/sdl2/pixel.hpp
+    include/fifechan/backends/sdl2/sdl.hpp
+    include/fifechan/backends/sdl2/truetypefont.hpp
+  )
+  file(GLOB FIFECHAN_SDL_SRC
+    src/backends/sdl2/graphics.cpp
+    src/backends/sdl2/image.cpp
+    src/backends/sdl2/imageloader.cpp
+    src/backends/sdl2/input.cpp
+    src/backends/sdl2/truetypefont.cpp
+  )
 
   add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE}
     ${FIFECHAN_SDL_HEADERS}
