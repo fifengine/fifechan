@@ -135,11 +135,11 @@ message(STATUS "[INFO] Build tests              -> '${FIFEGUI_TESTS}'.")
 message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
 message(STATUS "---------------------------------------------------------------")
 
-set(FIFECHAN_EXAMPLE_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/examples/fifechan")
-
 #------------------------------------------------------------------------------
 # Configure
 #------------------------------------------------------------------------------
+
+set(FIFECHAN_EXAMPLE_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/examples/fifechan")
 
 # Do not allow an in-source-tree build, request an out-of-source-tree build.
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
@@ -210,15 +210,17 @@ endif()
 # Source Files for FifeGUI core library
 #------------------------------------------------------------------------------
 
-file(GLOB FIFECHAN_HEADER          include/fifechan.hpp)
-file(GLOB FIFECHAN_HEADERS         include/fifechan/*.hpp)
-file(GLOB FIFECHAN_WIDGET_HEADERS  include/fifechan/widgets/*.hpp)
-file(GLOB FIFECHAN_UTIL_HEADERS    include/fifechan/util/*.hpp)
-file(GLOB FIFECHAN_EVENT_HEADERS   include/fifechan/events/*.hpp)
-file(GLOB FIFECHAN_SRC             src/*.cpp)
-file(GLOB FIFECHAN_EVENT_SRC       src/events/*.cpp)
-file(GLOB FIFECHAN_WIDGET_SRC      src/widgets/*.cpp)
-set(FIFECHAN_VERSION_HEADER        "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
+# TODO remove globbing and list files explicitly
+file(GLOB FIFECHAN_HEADER            include/fifechan.hpp)
+file(GLOB FIFECHAN_HEADERS           include/fifechan/*.hpp)
+file(GLOB FIFECHAN_WIDGET_HEADERS    include/fifechan/widgets/*.hpp)
+file(GLOB FIFECHAN_UTIL_HEADERS      include/fifechan/util/*.hpp)
+file(GLOB FIFECHAN_UTIL_UTF8_HEADERS include/fifechan/util/utf8/utf8/*.h)
+file(GLOB FIFECHAN_EVENT_HEADERS     include/fifechan/events/*.hpp)
+file(GLOB FIFECHAN_SRC               src/*.cpp)
+file(GLOB FIFECHAN_EVENT_SRC         src/events/*.cpp)
+file(GLOB FIFECHAN_WIDGET_SRC        src/widgets/*.cpp)
+set(FIFECHAN_VERSION_HEADER          "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp")
 
 #------------------------------------------------------------------------------
 # FifeGUI core library
