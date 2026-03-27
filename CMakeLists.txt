@@ -544,7 +544,7 @@ if(ENABLE_SDL)
     include/fifechan/backends/sdl2/sdl.hpp
     include/fifechan/backends/sdl2/truetypefont.hpp
   )
-  file(GLOB FIFECHAN_SDL_SRC
+  set(FIFECHAN_SDL_SRC
     src/backends/sdl2/graphics.cpp
     src/backends/sdl2/image.cpp
     src/backends/sdl2/imageloader.cpp
