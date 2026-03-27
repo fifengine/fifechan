@@ -454,12 +454,19 @@ if(OPENGL_FOUND)
 
   # create the extension library
   add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_OPENGL_HEADERS}
     ${FIFECHAN_OPENGL_SRC}
   )
 
   # Provide a namespace alias for the library (fifechan::fifechan_opengl)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_opengl ALIAS ${PROJECT_NAME}_opengl)
+
+  target_sources(${PROJECT_NAME}_opengl
+    PUBLIC
+    FILE_SET public_headers_opengl TYPE HEADERS
+    BASE_DIRS include
+    FILES
+      ${FIFECHAN_OPENGL_HEADERS}
+  )
 
   # add include directories for the dependencies of the extension
   target_include_directories(${PROJECT_NAME}_opengl PUBLIC
@@ -490,19 +497,21 @@ if(OPENGL_FOUND)
   # print overview
   show_build_target_properties(${PROJECT_NAME}_opengl)
 
-  # setup install location
-  install(TARGETS ${PROJECT_NAME}_opengl EXPORT ${PROJECT_NAME}-targets
+  install(TARGETS ${PROJECT_NAME}_opengl
+    EXPORT ${PROJECT_NAME}-targets
+
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+
+    FILE_SET public_headers_opengl
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
       WORLD_READ WORLD_EXECUTE
   )
-
-  # setup additional files to install
-  install(FILES ${FIFECHAN_OPENGL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/opengl/)
 
 endif()
 
@@ -544,12 +553,19 @@ if(ENABLE_SDL)
   )
 
   add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_SDL_HEADERS}
     ${FIFECHAN_SDL_SRC}
   )
 
   # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
+
+  target_sources(${PROJECT_NAME}_sdl2
+    PUBLIC
+    FILE_SET public_headers_sdl2 TYPE HEADERS
+    BASE_DIRS include
+    FILES
+      ${FIFECHAN_SDL_HEADERS}
+  )
 
   target_include_directories(${PROJECT_NAME}_sdl2 PUBLIC
     # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
@@ -584,17 +600,21 @@ if(ENABLE_SDL)
     CXX_STANDARD_REQUIRED  ON
   )
 
-  install(TARGETS ${PROJECT_NAME}_sdl2 EXPORT ${PROJECT_NAME}-targets
+  install(TARGETS ${PROJECT_NAME}_sdl2
+    EXPORT ${PROJECT_NAME}-targets
+
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+
+    FILE_SET public_headers_sdl2
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+
     PERMISSIONS
       OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
       WORLD_READ WORLD_EXECUTE
   )
-
-  install(FILES ${FIFECHAN_SDL_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/backends/sdl2/)
 
 endif()
 
