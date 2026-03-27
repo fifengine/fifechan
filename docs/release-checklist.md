@@ -76,7 +76,6 @@ This pushes the single tag `1.2.3` to `origin`.
 ## 4. Post-Release
 
 - [ ] Verify the release page: check that all build artifacts for the release are attached.
-- [ ] Announce the release in the **IRC channel**.
 - [ ] Announce the release in the **Discord channel**.
 - [ ] Update the **Overview channel** in the Unknown Horizons Discord server.
 - [ ] (Optional) Update the website: update download links.
