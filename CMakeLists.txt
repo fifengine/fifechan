@@ -359,14 +359,22 @@ set(FIFECHAN_SRC
 #------------------------------------------------------------------------------
 
 add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_HEADER}
-    ${FIFECHAN_HEADERS}
-    ${FIFECHAN_VERSION_HEADER}
     ${FIFECHAN_SRC}
 )
 
 # Provide a namespace alias for the library (fifechan::fifechan)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+# define public interface for the library
+target_sources(${PROJECT_NAME}
+    PUBLIC
+    FILE_SET HEADERS
+    BASE_DIRS include
+    FILES
+      ${FIFECHAN_HEADER}
+      ${FIFECHAN_HEADERS}
+      ${FIFECHAN_VERSION_HEADER}
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -401,9 +409,10 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
     WORLD_READ WORLD_EXECUTE
 )
 
-install(FILES ${FIFECHAN_HEADER}          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/)
-install(FILES ${FIFECHAN_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
-install(FILES ${FIFECHAN_VERSION_HEADER}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/fifechan/)
+install(TARGETS ${PROJECT_NAME}
+    FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
 
 #------------------------------------------------------------------------------
 # The FifeGUI OpenGL extension library
