@@ -154,7 +154,7 @@ jobs:
             cache-vcpkg-${{ matrix.config.cache_key }}
 
       - name: 🔽 Update VCPKG (latest TAG)
-        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        #if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd /d "%VCPKG_ROOT%"
           git fetch --tags --force

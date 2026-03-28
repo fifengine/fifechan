@@ -157,7 +157,7 @@ jobs:
           fi
 
       - name: 🔽 Update VCPKG (latest TAG)
-        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        #if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd "${VCPKG_ROOT}"
           git fetch --tags --force
@@ -313,7 +313,7 @@ jobs:
           fi
 
       - name: 🔽 Update VCPKG (latest TAG)
-        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        #if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           cd "${VCPKG_ROOT}"
           git fetch --tags --force
