@@ -129,6 +129,25 @@ jobs:
           echo "CC=${{ matrix.config.cc }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.config.cxx }}" >> "$GITHUB_ENV"
 
+      - name: 🔽 Install CMake (latest version)
+        shell: bash
+        run: |
+          set -eo pipefail
+          version="$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest | jq -r '.tag_name' | cut -c 2-)"
+          url="https://github.com/Kitware/CMake/releases/download/v$version/cmake-$version-linux-x86_64.sh"
+          curl -sL -O "$url"
+          mkdir -p /opt/cmake
+          sudo sh cmake-$version-linux-x86_64.sh --prefix=/opt/cmake --skip-license
+          sudo ln -sF /opt/cmake/bin/* /usr/bin/
+          rm -f cmake-$version-linux-x86_64.sh
+
+      - name: ℹ Show Tool Versions
+        run: |
+          ${CC} --version
+          ${CXX} --version
+          cmake --version
+          ninja --version
+
       # Use runner vcpkg when present, otherwise clone vcpkg into workspace.
       - name: 🔽 Define VCPKG_ROOT
         run: |
@@ -276,6 +295,13 @@ jobs:
     steps:
       - name: 🤘 Checkout Code
         uses: actions/checkout@v6 # https://github.com/actions/checkout
+
+      - name: ℹ Show Tool Versions
+        run: |
+          ${CC} --version
+          ${CXX} --version
+          cmake --version
+          ninja --version
 
       # Derive build/install directories directly from the preset name.
       - name: ✏ Define Build Paths
