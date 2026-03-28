@@ -77,11 +77,6 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-if(UNIX AND NOT APPLE)
-  set(CMAKE_INSTALL_RPATH "\$ORIGIN;\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-endif()
-
 #------------------------------------------------------------------------------
 # Options
 #------------------------------------------------------------------------------
@@ -107,14 +102,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
   # Set the possible values of build type for cmake-gui, ccmake
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
-
-# The default build type is based on BUILD_SHARED_LIBS.
-# FIFECHAN_LIBRARY_BUILD_TYPE is used on add_library() calls.
-if(BUILD_SHARED_LIBS)
-  set(FIFECHAN_LIBRARY_BUILD_TYPE SHARED)
-else()
-  set(FIFECHAN_LIBRARY_BUILD_TYPE STATIC)
 endif()
 
 #------------------------------------------------------------------------------
@@ -161,6 +148,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Enable color diagnostics (-fcolor-diagnostics).
 SET(CMAKE_COLOR_DIAGNOSTICS ON)
+
+# TODO is RPATH fix needed?
+if(UNIX AND NOT APPLE)
+  set(CMAKE_INSTALL_RPATH "\$ORIGIN;\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
 
 #------------------------------------------------------------------------------
 # Compiler Options
@@ -358,7 +351,7 @@ set(FIFECHAN_SRC
 # FifeGUI core library
 #------------------------------------------------------------------------------
 
-add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE})
+add_library(${PROJECT_NAME})
 
 # Provide a namespace alias for the library (fifechan::fifechan)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -463,7 +456,7 @@ if(OPENGL_FOUND)
   )
 
   # create the extension library
-  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE})
+  add_library(${PROJECT_NAME}_opengl)
 
   # Provide a namespace alias for the library (fifechan::fifechan_opengl)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_opengl ALIAS ${PROJECT_NAME}_opengl)
@@ -570,7 +563,7 @@ if(ENABLE_SDL)
     src/backends/sdl2/truetypefont.cpp
   )
 
-  add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE})
+  add_library(${PROJECT_NAME}_sdl2)
 
   # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
