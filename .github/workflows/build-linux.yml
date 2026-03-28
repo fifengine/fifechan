@@ -129,20 +129,11 @@ jobs:
           echo "CC=${{ matrix.config.cc }}" >> "$GITHUB_ENV"
           echo "CXX=${{ matrix.config.cxx }}" >> "$GITHUB_ENV"
 
-      - name: 🔽 Install CMake (latest version)
-        shell: bash
-        run: |
-          echo "Removing old CMake version"
-          sudo apt-get remove -y cmake
-          echo "Installing latest CMake version"
-          set -eo pipefail
-          version="$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest | jq -r '.tag_name' | cut -c 2-)"
-          url="https://github.com/Kitware/CMake/releases/download/v$version/cmake-$version-linux-x86_64.sh"
-          curl -sL -O "$url"
-          mkdir -p /opt/cmake
-          sudo sh cmake-$version-linux-x86_64.sh --prefix=/opt/cmake --skip-license
-          sudo ln -sf /opt/cmake/bin/* /usr/bin/
-          rm -f cmake-$version-linux-x86_64.sh
+      - name: Get latest CMake and Ninja
+        uses: lukka/get-cmake@latest # https://github.com/lukka/get-cmake
+        with:
+          cmakeVersion: latest
+          ninjaVersion: latest
 
       - name: ℹ Show Tool Versions
         run: |
