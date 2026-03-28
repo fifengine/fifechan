@@ -358,9 +358,7 @@ set(FIFECHAN_SRC
 # FifeGUI core library
 #------------------------------------------------------------------------------
 
-add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_SRC}
-)
+add_library(${PROJECT_NAME} ${FIFECHAN_LIBRARY_BUILD_TYPE})
 
 # Provide a namespace alias for the library (fifechan::fifechan)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -379,6 +377,12 @@ target_sources(${PROJECT_NAME}
     BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/include
     FILES
       ${FIFECHAN_VERSION_HEADER}
+)
+
+# define private sources for the library
+target_sources(${PROJECT_NAME}
+    PRIVATE
+    ${FIFECHAN_SRC}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -400,6 +404,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
   LINKER_LANGUAGE        CXX
   CXX_STANDARD           20
   CXX_STANDARD_REQUIRED  ON
+  # Verify that all headers in the header set can be included on their own.
+  # This creates the target: fifechan_verify_interface_header_sets
+  VERIFY_INTERFACE_HEADER_SETS ON
 )
 
 show_build_target_properties(${PROJECT_NAME})
@@ -421,6 +428,9 @@ install(TARGETS ${PROJECT_NAME}
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE
+
+  # Experimental!
+  # EXPORT_PACKAGE_DEPENDENCIES
 )
 
 #------------------------------------------------------------------------------
@@ -440,7 +450,7 @@ endif()
 
 if(OPENGL_FOUND)
 
-  # set extension sources
+  # The FifeGUI OpenGL extension sources
   set(FIFECHAN_OPENGL_HEADERS
     include/fifechan/backends/opengl/graphics.hpp
     include/fifechan/backends/opengl/image.hpp
@@ -453,19 +463,24 @@ if(OPENGL_FOUND)
   )
 
   # create the extension library
-  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_OPENGL_SRC}
-  )
+  add_library(${PROJECT_NAME}_opengl ${FIFECHAN_LIBRARY_BUILD_TYPE})
 
   # Provide a namespace alias for the library (fifechan::fifechan_opengl)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_opengl ALIAS ${PROJECT_NAME}_opengl)
 
+  # define public interface for the extension
   target_sources(${PROJECT_NAME}_opengl
     PUBLIC
     FILE_SET public_headers_opengl TYPE HEADERS
     BASE_DIRS include
     FILES
       ${FIFECHAN_OPENGL_HEADERS}
+  )
+
+  # define private sources for the extension
+  target_sources(${PROJECT_NAME}_opengl
+    PRIVATE
+    ${FIFECHAN_OPENGL_SRC}
   )
 
   # add include directories for the dependencies of the extension
@@ -492,6 +507,9 @@ if(OPENGL_FOUND)
     LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
+    # Verify that all headers in the header set can be included on their own.
+    # This creates the target: fifechan_opengl_verify_interface_header_sets
+    VERIFY_INTERFACE_HEADER_SETS ON
   )
 
   # print overview
@@ -534,7 +552,7 @@ endif()
 
 if(ENABLE_SDL)
 
-  # The FifeGUI SDL extension source
+  # The FifeGUI SDL extension sources
   set(FIFECHAN_SDL_HEADERS
     include/fifechan/backends/sdl2/graphics.hpp
     include/fifechan/backends/sdl2/image.hpp
@@ -552,19 +570,24 @@ if(ENABLE_SDL)
     src/backends/sdl2/truetypefont.cpp
   )
 
-  add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE}
-    ${FIFECHAN_SDL_SRC}
-  )
+  add_library(${PROJECT_NAME}_sdl2 ${FIFECHAN_LIBRARY_BUILD_TYPE})
 
   # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
   add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
 
+  # define public interface for the extension
   target_sources(${PROJECT_NAME}_sdl2
     PUBLIC
     FILE_SET public_headers_sdl2 TYPE HEADERS
     BASE_DIRS include
     FILES
       ${FIFECHAN_SDL_HEADERS}
+  )
+
+  # define private sources for the extension
+  target_sources(${PROJECT_NAME}_sdl2
+    PRIVATE
+    ${FIFECHAN_SDL_SRC}
   )
 
   target_include_directories(${PROJECT_NAME}_sdl2 PUBLIC
@@ -598,6 +621,9 @@ if(ENABLE_SDL)
     LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
+    # Verify that all headers in the header set can be included on their own.
+    # This creates the target: fifechan_sdl2_verify_interface_header_sets
+    VERIFY_INTERFACE_HEADER_SETS ON
   )
 
   install(TARGETS ${PROJECT_NAME}_sdl2
