@@ -138,7 +138,7 @@ jobs:
           curl -sL -O "$url"
           mkdir -p /opt/cmake
           sudo sh cmake-$version-linux-x86_64.sh --prefix=/opt/cmake --skip-license
-          sudo ln -sF /opt/cmake/bin/* /usr/bin/
+          sudo ln -sf /opt/cmake/bin/* /usr/bin/
           rm -f cmake-$version-linux-x86_64.sh
 
       - name: ℹ Show Tool Versions
