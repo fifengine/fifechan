@@ -132,6 +132,9 @@ jobs:
       - name: 🔽 Install CMake (latest version)
         shell: bash
         run: |
+          echo "Removing old CMake version"
+          sudo apt-get remove -y cmake
+          echo "Installing latest CMake version"
           set -eo pipefail
           version="$(curl -s https://api.github.com/repos/Kitware/CMake/releases/latest | jq -r '.tag_name' | cut -c 2-)"
           url="https://github.com/Kitware/CMake/releases/download/v$version/cmake-$version-linux-x86_64.sh"
