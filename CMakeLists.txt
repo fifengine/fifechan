@@ -180,9 +180,6 @@ if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D \"NOMINMAX\"")
   endif()
 else()
-  # disable C++20 module support
-  set(CMAKE_CXX_SCAN_FOR_MODULES 0)
-
   # Unix-like systems (Linux, macOS, etc.)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     # Apple Clang defaults to libc++, but Linux Clang commonly targets libstdc++.
