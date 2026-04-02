@@ -51,52 +51,53 @@ namespace fcn
         static constexpr std::string_view description = "@FIFECHAN_DESC@";
         static constexpr std::string_view homepage    = "@FIFECHAN_HOMEPAGE@";
         static constexpr std::string_view copyright   = "Copyright (c) Fifengine contributors, 2012-@CURRENT_YEAR@.";
-        static constexpr semantic_version semver{@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@};
+        static constexpr semantic_version semver{
+            .major = @PROJECT_VERSION_MAJOR@,
+            .minor = @PROJECT_VERSION_MINOR@,
+            .patch = @PROJECT_VERSION_PATCH@,
+        };
         static constexpr int version_id = @PROJECT_VERSION_MAJOR@ * 10000 + @PROJECT_VERSION_MINOR@ * 100 + @PROJECT_VERSION_PATCH@;
-
-        static constexpr std::string_view get_version_json() noexcept {
-            return
-                "{\n  \"name\":        \"@FIFECHAN_NAME@\",\n"
-                "  \"version\":     \"@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@\",\n"
-                "  \"description\": \"@FIFECHAN_DESC@\",\n"
-                "  \"license\":     \"@FIFECHAN_LICENSE@\",\n"
-                "  \"homepage\":    \"@FIFECHAN_HOMEPAGE@\",\n"
-                "  \"copyright\":   \"Copyright (c) Fifengine contributors, 2012-@CURRENT_YEAR@.\"\n}";
-        }
         // clang-format on
 
-        /*
-        * Getters - c_str() types
-        */
+        /**
+         * Getters - c_str() types
+         */
 
         static constexpr char const* get_name()
         {
             return name.data();
         }
+
         static constexpr char const* get_nice_name()
         {
             return nice_name.data();
         }
+
         static constexpr char const* get_license()
         {
             return license.data();
         }
+
         static constexpr char const* get_description()
         {
             return description.data();
         }
+
         static constexpr char const* get_version()
         {
             return version.data();
         }
+
         static constexpr char const* get_homepage()
         {
             return homepage.data();
         }
+
         static constexpr char const* get_copyright()
         {
             return copyright.data();
         }
+
         static constexpr int const* get_version_num()
         {
             return &version_id;
