@@ -56,7 +56,7 @@ We also provide releases for the latest successful build on Github Actions CI.
 
 FifeGUI is also already available from the following package repositories:
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg)](https://repology.org/metapackage/fifechan)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fifechan.svg?columns=3)](https://repology.org/metapackage/fifechan)
 
 ## License
 
