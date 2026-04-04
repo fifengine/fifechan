@@ -249,6 +249,11 @@ jobs:
 
     name: ${{ matrix.config.job_name }}
 
+    # Note on "image_version":
+    # - The image versions are based on tags of the https://github.com/jakoch/cpp-devbox repo.
+    # - Use rolling tags (e.g., "trixie-latest") for bleeding-edge updates,
+    #   but expect potential instability due to changes in the included software.
+    # - Pin to a fixed version (e.g., "trixie-20260329") for reproducible and stable builds.
     runs-on: ubuntu-latest
     container: ghcr.io/jakoch/cpp-devbox:${{ matrix.config.image_version }}
 
@@ -263,16 +268,16 @@ jobs:
               artifact_suffix: "clang20-x64"
             }
           - {
-              job_name: "Linux | Clang21 | Release",
+              job_name: "Linux | Clang22 | Release",
               image_version: "trixie-latest",
-              preset: "clang21-x64-linux-rel",
-              artifact_suffix: "clang21-x64"
+              preset: "clang22-x64-linux-rel",
+              artifact_suffix: "clang22-x64"
             }
           - {
-              job_name: "Linux | Clang21 | Debug",
+              job_name: "Linux | Clang22 | Debug",
               image_version: "trixie-latest",
-              preset: "clang21-x64-linux-dbg",
-              artifact_suffix: "clang21-x64-dbg"
+              preset: "clang22-x64-linux-dbg",
+              artifact_suffix: "clang22-x64-dbg"
             }
 
     env:
