@@ -12,6 +12,22 @@
   ],
   "configurePresets": [
     {
+      "name": "clang22-x64-linux-rel",
+      "displayName": "Clang22 Release",
+      "inherits": "clang22-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang22-x64-linux-dbg",
+      "displayName": "Clang22 Debug",
+      "inherits": "clang22-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
       "name": "clang21-x64-linux-rel",
       "displayName": "Clang21 Release",
       "inherits": "clang21-x64-linux",
