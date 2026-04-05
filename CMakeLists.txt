@@ -245,13 +245,6 @@ set(FIFECHAN_HEADERS
     include/fifechan/size.hpp
     include/fifechan/text.hpp
     include/fifechan/utf8stringeditor.hpp
-    include/fifechan/util/utf8/utf8.hpp
-    include/fifechan/util/utf8/utf8/checked.h
-    include/fifechan/util/utf8/utf8/core.h
-    include/fifechan/util/utf8/utf8/cpp11.h
-    include/fifechan/util/utf8/utf8/cpp17.h
-    include/fifechan/util/utf8/utf8/cpp20.h
-    include/fifechan/util/utf8/utf8/unchecked.h
     include/fifechan/widget.hpp
     include/fifechan/widgets/adjustingcontainer.hpp
     include/fifechan/widgets/bargraph.hpp
@@ -345,6 +338,35 @@ set(FIFECHAN_SRC
 )
 
 #------------------------------------------------------------------------------
+# Dependenciues
+#------------------------------------------------------------------------------
+find_package(utf8cpp CONFIG REQUIRED)
+
+if(ENABLE_SDL)
+  find_package(SDL2 CONFIG REQUIRED)
+  find_package(SDL2_image CONFIG REQUIRED)
+  find_package(SDL2_ttf CONFIG REQUIRED)
+
+  if(APPLE)
+    find_library(SDL2_LIBRARY SDL2)
+    find_library(SDL2_IMAGE_LIBRARY SDL2_image)
+    mark_as_advanced(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
+    set(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
+  endif()
+endif()
+
+if(ENABLE_OPENGL)
+  find_package(OpenGL)
+  find_package(Freetype REQUIRED)
+
+  if(APPLE)
+    find_library(OPENGL_LIBRARY OpenGL)
+    mark_as_advanced(OPENGL_LIBRARY)
+    set(EXTRA_LIBS ${OPENGL_LIBRARY})
+  endif()
+endif()
+
+#------------------------------------------------------------------------------
 # FifeGUI core library
 #------------------------------------------------------------------------------
 
@@ -380,6 +402,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include> # to include the generated "version.hpp"
     $<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(${PROJECT_NAME} PUBLIC utf8cpp::utf8cpp)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
   $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
@@ -427,16 +451,6 @@ install(TARGETS ${PROJECT_NAME}
 # The FifeGUI OpenGL extension library
 #------------------------------------------------------------------------------
 
-if(ENABLE_OPENGL)
-  find_package(OpenGL)
-  find_package(Freetype REQUIRED)
-
-  if(APPLE)
-    find_library(OPENGL_LIBRARY OpenGL)
-    mark_as_advanced(OPENGL_LIBRARY)
-    set(EXTRA_LIBS ${OPENGL_LIBRARY})
-  endif()
-endif()
 
 if(OPENGL_FOUND)
 
@@ -526,19 +540,6 @@ endif()
 #------------------------------------------------------------------------------
 # The FifeGUI SDL extension library
 #------------------------------------------------------------------------------
-
-if(ENABLE_SDL)
-  find_package(SDL2 CONFIG REQUIRED)
-  find_package(SDL2_image CONFIG REQUIRED)
-  find_package(SDL2_ttf CONFIG REQUIRED)
-
-  if(APPLE)
-    find_library(SDL2_LIBRARY SDL2)
-    find_library(SDL2_IMAGE_LIBRARY SDL2_image)
-    mark_as_advanced(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
-    set(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
-  endif()
-endif()
 
 if(ENABLE_SDL)
 

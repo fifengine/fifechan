@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "fifechan/exception.hpp"
-#include "fifechan/util/utf8/utf8.hpp"
+#include <utf8cpp/utf8.h>
 
 namespace fcn::sdl2
 {

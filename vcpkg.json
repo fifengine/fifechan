@@ -25,6 +25,7 @@
     "sdl2-image",
     "sdl2-mixer",
     "sdl2-ttf",
+    "utfcpp",
     "catch2"
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"

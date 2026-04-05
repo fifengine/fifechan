@@ -3,9 +3,10 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #include <fifechan/utf8stringeditor.hpp>
-#include <fifechan/util/utf8/utf8.hpp>
 
 #include <string>
+
+#include <utf8.h>
 
 namespace fcn
 {

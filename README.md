@@ -66,13 +66,19 @@ FifeGUI is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-Lic
 
 ## Build Dependencies
 
-You need the following libraries installed:
+We use vcpkg to manage the dependencies.
+
+The following libraries installed:
 
 For [SDL](https://libsdl.org) support:
  - SDL2
  - SDL2_image
  - SDL2_ttf
  - SDL2_mixer (optional) (FPS demo)
+ - utfcpp
 
 For OpenGL support:
  - OpenGL
+
+For testing:
+ - Catch2

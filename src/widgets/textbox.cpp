@@ -10,10 +10,11 @@
 #include <fifechan/mouseinput.hpp>
 #include <fifechan/text.hpp>
 #include <fifechan/utf8stringeditor.hpp>
-#include <fifechan/util/utf8/utf8.hpp>
 
 #include <cassert>
 #include <string>
+
+#include <utf8.h>
 
 namespace fcn
 {
@@ -179,12 +180,8 @@ namespace fcn
 
         adjustSizeImpl();
         scrollToCaret();
-        assert(
-            utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).end()) ==
-            utf8::internal::UTF8_OK);
-        assert(
-            utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).begin() + getCaretColumn()) ==
-            utf8::internal::UTF8_OK);
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).end()));
+        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).begin() + getCaretColumn()));
         keyEvent.consume();
     }
 
