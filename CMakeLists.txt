@@ -81,7 +81,7 @@ include(CMakePackageConfigHelpers)
 # Options
 #------------------------------------------------------------------------------
 
-option(BUILD_SHARED_LIBS     "Build using shared libraries"                 OFF)
+option(BUILD_SHARED_LIBS     "Build using shared libraries"                  ON)
 
 option(ENABLE_OPENGL         "Enable the FifeGUI OpenGL extension"           ON)
 option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
