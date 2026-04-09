@@ -126,17 +126,52 @@ void Application::init_SDL(std::string const & title, int width, int height)
     renderer = initRenderer(window, rendererFlags);
 }
 
+namespace
+{
+    void deleteWidgetAndChildren(fcn::Widget* widget)
+    {
+        if (widget == nullptr) {
+            return;
+        }
+
+        if (auto* container = dynamic_cast<fcn::Container*>(widget)) {
+            for (unsigned int i = 0; i < container->getChildrenCount(); ++i) {
+                deleteWidgetAndChildren(container->getChild(i));
+            }
+        }
+
+        delete widget;
+    }
+} // namespace
+
 void Application::cleanup()
 {
     fcn::Image::setImageLoader(nullptr);
     gui.reset();
-    top.reset();
-    ownedTabTwoContent.reset();
+    if (top) {
+        std::vector<fcn::Widget*> children;
+        for (unsigned int i = 0; i < top->getChildrenCount(); ++i) {
+            children.push_back(top->getChild(i));
+        }
+        top->removeAllChildren();
+        for (fcn::Widget* child : children) {
+            if (child == ownedTextBox.get() || child == ownedNestedContainer.get() || child == ownedTabOne.get() ||
+                child == ownedTabTwo.get()) {
+                continue;
+            }
+            deleteWidgetAndChildren(child);
+        }
+    }
+    deleteWidgetAndChildren(ownedTabOne.get());
+    ownedTabOne.release();
+    deleteWidgetAndChildren(ownedTabTwo.get());
+    ownedTabTwo.release();
     ownedTabOneContent.reset();
-    ownedTabTwo.reset();
-    ownedTabOne.reset();
-    ownedNestedContainer.reset();
+    ownedTabTwoContent.reset();
+    deleteWidgetAndChildren(ownedNestedContainer.get());
+    ownedNestedContainer.release();
     ownedTextBox.reset();
+    top.reset();
     imageLoader.reset();
     graphics.reset();
     input.reset();
