@@ -100,21 +100,6 @@ namespace fcn::sdl2
 
         bool hasPink = false;
 
-        int const pixels = surface->w * surface->h;
-
-        for (int i = 0; i < pixels; ++i) {
-            uint8_t r{};
-            uint8_t g{};
-            uint8_t b{};
-            uint8_t a{};
-
-            SDL_GetRGBA(reinterpret_cast<Uint32*>(surface->pixels)[i], surface->format, &r, &g, &b, &a);
-
-            if (r == 255 && g == 0 && b == 255) {
-                hasPink = true;
-            }
-        }
-
         // SDL interprets each pixel as a 32-bit number.
         // We need to mask depending on the endianness (byte order) of the machine.
         // Rmask being 0xFF000000 means the red data is stored in the most significant byte
@@ -143,6 +128,21 @@ namespace fcn::sdl2
 
         if (converted == nullptr) {
             return nullptr;
+        }
+
+        int const pixels = converted->w * converted->h;
+        for (int i = 0; i < pixels; ++i) {
+            uint8_t r{};
+            uint8_t g{};
+            uint8_t b{};
+            uint8_t a{};
+
+            SDL_GetRGBA(reinterpret_cast<Uint32*>(converted->pixels)[i], converted->format, &r, &g, &b, &a);
+
+            if (r == 255 && g == 0 && b == 255) {
+                hasPink = true;
+                break;
+            }
         }
 
         if (hasPink) {
