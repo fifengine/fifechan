@@ -62,7 +62,19 @@ FifeGUI is also already available from the following package repositories:
 
 FifeGUI is dual licensed under the [LGPL-2.1 License](/docs/license/LGPL-2.1-License.md) and [BSD License](/docs/license/BSD-License.md).
 
-## Dev Notes
+## Developer Notes
+
+## Build Options
+
+- `BUILD_SHARED_LIBS`: Build shared libraries (default: ON)
+- `ENABLE_OPENGL`: Enable OpenGL extension (default: ON)
+- `ENABLE_SDL`: Enable SDL extension (default: ON)
+- `FIFEGUI_TESTS`: Build tests (default: ON)
+- `FIFEGUI_EXAMPLES`: Build examples (default: ON)
+
+Additionally, you can also disable the usage of vcpkg with the build flag:
+
+- `USE_VCPKG`: Use vcpkg to manage dependencies (default: ON)
 
 ## Build Dependencies
 
@@ -82,3 +94,12 @@ For OpenGL support:
 
 For testing:
  - Catch2
+
+### System Packages on Debian
+
+You can disable the usage of VCPKG with the build flag: `-DUSE_VCPKG=OFF` and then
+install system packages for the dependencies with the following command:
+
+```bash
+apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libutfcpp-dev libglew-dev libcatch2-dev
+```
