@@ -34,6 +34,11 @@ namespace fcn
         if (!sub.empty()) {
             mRows.push_back(sub);
         }
+
+        // Ensure at least one row exists
+        if (mRows.empty()) {
+            mRows.emplace_back();
+        }
     }
 
     Text::~Text() = default;
@@ -59,6 +64,11 @@ namespace fcn
         std::string const sub = content.substr(lastPos);
         if (!sub.empty()) {
             mRows.push_back(sub);
+        }
+
+        // Ensure at least one row exists
+        if (mRows.empty()) {
+            mRows.emplace_back();
         }
     }
 
