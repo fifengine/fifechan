@@ -116,6 +116,11 @@
       }
     },
     {
+      "name": "gcc14-x64-linux-dbg-asan",
+      "displayName": "GCC14 Debug ASAN",
+      "inherits": ["gcc14-x64-linux-dbg", "address-sanitizer"]
+    },
+    {
       "name": "gcc12-x64-linux-rel",
       "displayName": "GCC12 Release",
       "inherits": "gcc12-x64-linux",
@@ -287,6 +292,13 @@
     {
       "name": "gcc14-x64-linux-dbg",
       "configurePreset": "gcc14-x64-linux-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc14-x64-linux-dbg-asan",
+      "configurePreset": "gcc14-x64-linux-dbg-asan",
       "targets": [
         "fifechan"
       ]
