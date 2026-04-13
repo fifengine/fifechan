@@ -176,7 +176,7 @@ namespace fcn
          *
          * @param recursion If true, resize children recursively.
          */
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         /**
          * Adjust the size of the container after layout computations.

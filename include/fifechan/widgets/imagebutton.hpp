@@ -233,7 +233,7 @@ namespace fcn
          *
          * @param recursion If true, resize children recursively (no-op for button).
          */
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         /**
          * Adjust internal size after layout or image changes.

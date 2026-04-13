@@ -76,7 +76,7 @@ namespace fcn
          *
          * @param recursion If true, resize children recursively.
          */
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         /**
          * Expand children according to flow layout rules.

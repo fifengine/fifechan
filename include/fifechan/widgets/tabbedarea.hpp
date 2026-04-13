@@ -155,7 +155,7 @@ namespace fcn
         using Widget::expandContent;
         using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         void expandContent(bool recursion) override;
 

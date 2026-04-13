@@ -131,7 +131,7 @@ namespace fcn
 
         using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
         void adjustSize() override;
         void draw(Graphics* graphics) override;
 

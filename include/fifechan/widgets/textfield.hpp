@@ -102,7 +102,7 @@ namespace fcn
 
         using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         /**
          * Adjusts the size of the text field to fit the text.

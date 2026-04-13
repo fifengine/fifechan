@@ -154,7 +154,7 @@ namespace fcn
          * Resize the adjusting container to fit its children.
          * @param recursion If true, propagate resize to child containers.
          */
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
 
         void adjustSize() override;
 

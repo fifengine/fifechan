@@ -1412,19 +1412,11 @@ namespace fcn
          * Resizes the widget's size to fit the content exactly,
          * calls recursively all childs.
          *
-         * This is a convenience wrapper that calls `resizeToContent(true)`.
-         */
-        void resizeToContent()
-        {
-            resizeToContent(true);
-        }
-
-        /**
-         * Resize this widget to fit its content.
+         * The default value true allows callers to use `resizeToContent()` without argument.
          *
          * @param recursion If true, perform the resize operation recursively on children.
          */
-        virtual void resizeToContent(bool recursion) { }
+        virtual void resizeToContent(bool recursion = true) { }
 
         /**
          * Resizes the widget's size to fit the content exactly.

@@ -197,7 +197,7 @@ namespace fcn
 
         using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion) override;
+        void resizeToContent(bool recursion = true) override;
         /**
          * Adjusts the text box's size to fit the text.
          */
