@@ -279,6 +279,17 @@ jobs:
               preset: "clang22-x64-linux-dbg",
               artifact_suffix: "clang22-x64-dbg"
             }
+          - {
+              job_name: "Linux | Clang22 | Coverage",
+              image_version: "trixie-latest",
+              preset: "clang22-x64-linux-dbg-cov",
+              artifact_suffix: "clang22-x64-cov"
+            }
+
+    permissions:
+      # Required for codecov upload with "use_oidc: true"
+      # See https://github.com/codecov/codecov-action?tab=readme-ov-file#using-oidc
+      id-token: write
 
     env:
       VCPKG_DISABLE_METRICS: 1
@@ -376,6 +387,12 @@ jobs:
             --prefix "${INSTALL_DIR}" \
             --verbose
 
+      - name: ⚙️ Prepare Coverage Environment
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        run: |
+          mkdir -p "${BUILD_DIR}/coverage"
+          echo "LLVM_PROFILE_FILE=${GITHUB_WORKSPACE}/${BUILD_DIR}/coverage/%p.profraw" >> "$GITHUB_ENV"
+
       - name: 🧪 CTest ➔ Run Tests
         run: |
           ctest \
@@ -399,7 +416,70 @@ jobs:
 
       - name: 🔼 Upload Build Artifact
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
-        if: always()
+        if: ${{ always() && matrix.config.preset != 'clang22-x64-linux-cov' }}
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ env.INSTALL_DIR }}/**/*
+
+      # ------------------------------------------------------------------------
+      # Code Coverage Steps (only for "clang22-x64-linux-dbg-cov" preset)
+      # ------------------------------------------------------------------------
+
+      - name: 🧾 Merge Coverage Data
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        run: |
+          set -euo pipefail
+          echo "Merging .profraw files from ${{ env.BUILD_DIR }}/coverage"
+          shopt -s nullglob
+          profraw_files=("${{ env.BUILD_DIR }}/coverage"/*.profraw)
+          if [ ${#profraw_files[@]} -eq 0 ]; then
+            echo "::warning::No .profraw files found. Did tests run with LLVM_PROFILE_FILE set?"
+            exit 0
+          fi
+          llvm-profdata merge -sparse "${profraw_files[@]}" -o "${{ env.BUILD_DIR }}/coverage/coverage.profdata"
+
+      - name: 📊 Generate Coverage Reports (lcov + HTML)
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        env:
+          COV_EXCLUDE_REGEX: '\/vcpkg_installed\/|\/build\/'
+        run: |
+          set -euo pipefail
+
+          # Find all instrumented test binaries (ending with "_test" or "_tests") in the build directory.
+          mapfile -t BINARIES < <(find "${{ env.BUILD_DIR }}" -maxdepth 3 -type f -executable \( -name "*_test" -o -name "*_tests" \) -print || true)
+          if [ ${#BINARIES[@]} -eq 0 ]; then
+            echo "::warning::No instrumented binaries found. Skipping llvm-cov."
+            exit 0
+          fi
+
+          # Export LCOV report
+          llvm-cov export -format=lcov -instr-profile="${{ env.BUILD_DIR }}/coverage/coverage.profdata" \
+            "${BINARIES[@]}" --ignore-filename-regex="${COV_EXCLUDE_REGEX}" \
+            > "${{ env.BUILD_DIR }}/coverage/coverage.lcov"
+
+          # Generate HTML report
+          #llvm-cov show -format=html -instr-profile="${{ env.BUILD_DIR }}/coverage/coverage.profdata" \
+          # "${BINARIES[@]}" --ignore-filename-regex="${COV_EXCLUDE_REGEX}" \
+          # -o "${{ env.BUILD_DIR }}/coverage/html" \
+
+          # Print summary to CI logs for visibility
+          llvm-cov report -instr-profile="${{ env.BUILD_DIR }}/coverage/coverage.profdata" \
+            "${BINARIES[@]}" --ignore-filename-regex="${COV_EXCLUDE_REGEX}"
+
+      - name: 🔼 Upload Coverage Artifact
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
+        with:
+          name: ${{ matrix.config.preset }}
+          path: ${{ env.BUILD_DIR }}/coverage/**
+
+      - name: 📦 Upload Coverage to Codecov
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        uses: codecov/codecov-action@v6 # https://github.com/codecov/codecov-action
+        with:
+          files: ${{ env.BUILD_DIR }}/coverage/coverage.lcov
+          disable_search: true
+          name: ${{ matrix.config.preset }}
+          flags: ${{ matrix.config.preset }}
+          use_oidc: true
+          fail_ci_if_error: true
