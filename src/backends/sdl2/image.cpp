@@ -82,7 +82,6 @@ namespace fcn::sdl2
             if (mTransientSurface == nullptr) {
                 throwException(std::string("Failed to create transient surface: ") + SDL_GetError());
             }
-            SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
             if (mTransientSurface->format != surface->format) {
                 SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
                 if (converted != nullptr) {

@@ -36,8 +36,13 @@ using tests::integration::sdl::helloworld::Application;
 
 Application::Application(std::string const & title, int width, int height)
 {
-    init_sdl(title, width, height);
-    init_gui(width, height);
+    try {
+        init_sdl(title, width, height);
+        init_gui(width, height);
+    } catch (...) {
+        cleanup();
+        throw;
+    }
 }
 
 Application::~Application()

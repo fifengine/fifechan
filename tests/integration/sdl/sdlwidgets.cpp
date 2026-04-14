@@ -67,8 +67,13 @@ using tests::integration::sdl::widgets::DemoListModel;
 Application::Application(std::string const & title, int width, int height) :
     exePath(getExecutablePath()), demoListModel(std::make_unique<DemoListModel>())
 {
-    init_SDL(title, width, height);
-    init_GUI(width, height);
+    try {
+        init_SDL(title, width, height);
+        init_GUI(width, height);
+    } catch (...) {
+        cleanup();
+        throw;
+    }
 }
 
 std::string Application::getExecutablePath()
