@@ -416,7 +416,7 @@ jobs:
 
       - name: 🔼 Upload Build Artifact
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
-        if: ${{ always() && matrix.config.preset != 'clang22-x64-linux-cov' }}
+        if: ${{ always() && matrix.config.preset != 'clang22-x64-linux-dbg-cov' }}
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ env.INSTALL_DIR }}/**/*
@@ -470,7 +470,7 @@ jobs:
         if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
         with:
-          name: ${{ matrix.config.preset }}
+          name: Coverage-Report-${{ matrix.config.preset }}
           path: ${{ env.BUILD_DIR }}/coverage/**
 
       - name: 📦 Upload Coverage to Codecov
