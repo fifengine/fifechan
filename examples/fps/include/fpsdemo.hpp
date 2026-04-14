@@ -2,15 +2,20 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#pragma once
+#ifndef FPSDEMO_HPP
+#define FPSDEMO_HPP
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+// Standard library includes
+#include <array>
+#include <memory>
+#include <string>
+
+// Platform config include
+#include "fifechan/platform.hpp"
 
 #if defined(_WIN32)
     #include <windows.h>
-
-#endif
+#endif // _WIN32
 
 #if defined(__APPLE__)
     #include <OpenGL/gl.h>
@@ -18,7 +23,11 @@
 #else
     #include <GL/gl.h>
     #include <GL/glu.h>
-#endif
+#endif // __APPLE__
+
+// Third-party library includes
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include <fifechan/backends/opengl/graphics.hpp>
 #include <fifechan/backends/opengl/imageloader.hpp>
@@ -26,10 +35,7 @@
 
 #include <fifechan.hpp>
 
-#include <array>
-#include <memory>
-#include <string>
-
+// Project headers (subdirs before local)
 #include "fpsbutton.hpp"
 #include "fpscheckbox.hpp"
 
@@ -195,3 +201,5 @@ private:
     std::unique_ptr<fcn::Image> mSplashImage;
     std::unique_ptr<fcn::Icon> mSplashIcon;
 };
+
+#endif // FPSDEMO_HPP

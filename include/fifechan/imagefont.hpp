@@ -5,11 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_IMAGEFONT_HPP_
 #define INCLUDE_FIFECHAN_IMAGEFONT_HPP_
 
+// Standard library includes
 #include <array>
 #include <string>
 
-#include "fifechan/font.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/font.hpp"
 #include "fifechan/rectangle.hpp"
 
 namespace fcn

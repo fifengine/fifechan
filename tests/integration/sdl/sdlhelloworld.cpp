@@ -6,13 +6,10 @@
  * @brief This is a HelloWorld example with FifeGUI using the SDL backend.
  */
 
+// Corresponding header include
 #include "sdlhelloworld.hpp"
 
-#include <fifechan/backends/sdl2/sdl.hpp>
-#include <fifechan/gui.hpp>
-
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <algorithm>
 #include <format>
 #include <iostream>
@@ -20,9 +17,21 @@
 #include <string>
 #include <utility>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
 #ifdef _WIN32
     #include <windows.h>
 #endif
+
+// Third-party library includes
+#include <fifechan/backends/sdl2/sdl.hpp>
+
+#include <fifechan.hpp>
+
+// Project headers (subdirs before local)
+#include <fifechan/gui.hpp>
+
 using tests::integration::sdl::helloworld::Application;
 
 Application::Application(std::string const & title, int width, int height)

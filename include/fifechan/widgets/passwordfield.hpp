@@ -5,9 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_PASSWORDFIELD_HPP_
 
-#include <fifechan/widgets/textfield.hpp>
-
+// Standard library includes
 #include <string>
+
+// Project headers (subdirs before local)
+#include <fifechan/widgets/textfield.hpp>
 
 namespace fcn
 {

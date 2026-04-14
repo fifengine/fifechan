@@ -5,10 +5,12 @@
 #ifndef STRINGLISTMODEL_HPP
 #define STRINGLISTMODEL_HPP
 
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <string>
 #include <vector>
+
+// Third-party library includes
+#include <fifechan.hpp>
 
 class StringListModel : public fcn::ListModel
 {
@@ -34,4 +36,4 @@ private:
     std::vector<std::string> mStrings;
 };
 
-#endif
+#endif // STRINGLISTMODEL_HPP

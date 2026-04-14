@@ -5,11 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_KEYEVENT_HPP_
 #define INCLUDE_FIFECHAN_KEYEVENT_HPP_
 
+// Standard library includes
 #include <cstdint>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/events/inputevent.hpp"
 #include "fifechan/key.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

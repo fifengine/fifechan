@@ -5,10 +5,12 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_IMAGEPROGRESSBAR_HPP_
 
-#include <fifechan/widget.hpp>
-
+// Standard library includes
 #include <string>
 #include <vector>
+
+// Project headers (subdirs before local)
+#include <fifechan/widget.hpp>
 
 namespace fcn
 {

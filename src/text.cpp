@@ -2,13 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/text.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <numeric>
 #include <string>
 #include <utility>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/rectangle.hpp"

@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_COLOR_HPP_
 #define INCLUDE_FIFECHAN_COLOR_HPP_
 
+// Standard library includes
 #include <algorithm>
 #include <cstdint>
 #include <iomanip>
@@ -15,6 +16,7 @@
 #include <string>
 #include <vector>
 
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

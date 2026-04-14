@@ -5,8 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_FONT_HPP_
 #define INCLUDE_FIFECHAN_FONT_HPP_
 
+// Standard library includes
 #include <string>
 
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

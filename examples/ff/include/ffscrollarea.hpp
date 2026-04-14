@@ -5,6 +5,7 @@
 #ifndef FFSCROLLAREA_HPP
 #define FFSCROLLAREA_HPP
 
+// Third-party library includes
 #include <fifechan.hpp>
 
 class FFScrollArea : public fcn::ScrollArea, public fcn::KeyListener
@@ -21,4 +22,4 @@ public:
     void keyPressed(fcn::KeyEvent& keyEvent) override;
 };
 
-#endif
+#endif // FFSCROLLAREA_HPP

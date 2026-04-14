@@ -2,8 +2,13 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/cliprectangle.hpp"
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/rectangle.hpp"
 
 namespace fcn

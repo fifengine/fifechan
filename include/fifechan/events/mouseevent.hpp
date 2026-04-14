@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
 #define INCLUDE_FIFECHAN_MOUSEEVENT_HPP_
 
+// Standard library includes
 #include <cstdint>
 
-#include "fifechan/events/inputevent.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/events/inputevent.hpp"
 
 namespace fcn
 {

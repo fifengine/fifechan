@@ -2,6 +2,18 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Standard library includes
+#include <format>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <utility>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
 #include <SDL2/SDL.h>
 
 #include <fifechan/backends/opengl/graphics.hpp>
@@ -9,13 +21,6 @@
 #include <fifechan/backends/sdl2/input.hpp>
 
 #include <fifechan.hpp>
-
-#include <format>
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <utility>
 
 /**
  * Demonstrates the minimal SDL2 + OpenGL integration path for Fifechan.

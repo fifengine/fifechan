@@ -2,11 +2,14 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#pragma once
+#ifndef FPSCHECKBOX_HPP
+#define FPSCHECKBOX_HPP
 
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <string>
+
+// Third-party library includes
+#include <fifechan.hpp>
 
 /*
  * Here we overload the CheckBox widget to make it draw itself a bit
@@ -40,3 +43,5 @@ public:
      */
     void draw(fcn::Graphics* graphics) override;
 };
+
+#endif // FPSCHECKBOX_HPP

@@ -5,19 +5,21 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDL_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_SDL_HPP_
 
-/**
- * Unified header for the SDL backend.
- */
+// Standard library includes
+#include <memory>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
 #include <SDL2/SDL.h>
 
+// Project headers (subdirs before local)
 #include <fifechan/backends/sdl2/graphics.hpp>
 #include <fifechan/backends/sdl2/image.hpp>
 #include <fifechan/backends/sdl2/imageloader.hpp>
 #include <fifechan/backends/sdl2/input.hpp>
 #include <fifechan/backends/sdl2/truetypefont.hpp>
-#include <fifechan/platform.hpp>
-
-#include <memory>
 
 namespace fcn::sdl2
 {

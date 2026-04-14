@@ -2,12 +2,17 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/backends/sdl2/imageloader.hpp"
 
+// Standard library includes
 #include <filesystem>
 #include <string>
 
+// Third-party library includes
 #include "SDL_image.h"
+
+// Project headers (subdirs before local)
 #include "fifechan/backends/sdl2/image.hpp"
 #include "fifechan/exception.hpp"
 

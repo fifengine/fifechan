@@ -2,12 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/backends/sdl2/truetypefont.hpp"
 
-#include <SDL2/SDL_render.h>
-
+// Standard library includes
 #include <string>
 
+// Third-party library includes
+#include <SDL2/SDL_render.h>
+
+// Project headers (subdirs before local)
 #include "fifechan/backends/sdl2/graphics.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"

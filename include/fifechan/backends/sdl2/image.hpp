@@ -5,13 +5,18 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_
 
-#include <SDL2/SDL.h>
-
+// Standard library includes
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
+#include <SDL2/SDL.h>
+
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn::sdl2
 {

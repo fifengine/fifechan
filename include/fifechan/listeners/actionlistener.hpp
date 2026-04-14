@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_ACTIONLISTENER_HPP_
 #define INCLUDE_FIFECHAN_ACTIONLISTENER_HPP_
 
+// Standard library includes
 #include <string>
 
-#include "fifechan/events/actionevent.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/events/actionevent.hpp"
 
 namespace fcn
 {

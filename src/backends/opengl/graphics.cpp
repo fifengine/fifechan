@@ -2,10 +2,11 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include <fifechan/backends/opengl/graphics.hpp>
-#include <fifechan/backends/opengl/image.hpp>
-#include <fifechan/exception.hpp>
-#include <fifechan/image.hpp>
+
+// Platform config include
+#include "fifechan/platform.hpp"
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -16,6 +17,11 @@
 #else
     #include <GL/gl.h>
 #endif
+
+// Project headers (subdirs before local)
+#include <fifechan/backends/opengl/image.hpp>
+#include <fifechan/exception.hpp>
+#include <fifechan/image.hpp>
 
 namespace fcn::opengl
 {

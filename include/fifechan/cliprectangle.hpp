@@ -5,7 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_CLIPRECTANGLE_HPP_
 #define INCLUDE_FIFECHAN_CLIPRECTANGLE_HPP_
 
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/rectangle.hpp"
 
 namespace fcn

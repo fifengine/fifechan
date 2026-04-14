@@ -2,8 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#pragma once
+#ifndef FFDDEMO_HPP
+#define FFDDEMO_HPP
 
+// Standard library includes
+#include <memory>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -11,8 +19,7 @@
 
 #include <fifechan.hpp>
 
-#include <memory>
-
+// Project headers (subdirs before local)
 #include "ffcharacterchooser.hpp"
 #include "ffcontainer.hpp"
 #include "fflistbox.hpp"
@@ -121,3 +128,5 @@ private:
 
     std::unique_ptr<FFCharacterChooser> mCharacterChooser;
 };
+
+#endif // FFDDEMO_HPP

@@ -2,14 +2,17 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include <fifechan/widgets/imageprogressbar.hpp>
 
-#include <fifechan/exception.hpp>
-#include <fifechan/graphics.hpp>
-#include <fifechan/image.hpp>
-#include <fifechan/rectangle.hpp>
-
+// Standard library includes
 #include <string>
+
+// Project headers (subdirs before local)
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/image.hpp"
+#include "fifechan/rectangle.hpp"
 
 namespace fcn
 {

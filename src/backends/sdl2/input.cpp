@@ -2,13 +2,18 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/backends/sdl2/input.hpp"
 
+// Standard library includes
 #include <string>
 #include <vector>
 
-#include "fifechan/exception.hpp"
+// Third-party library includes
 #include <utf8cpp/utf8.h>
+
+// Project headers (subdirs before local)
+#include "fifechan/exception.hpp"
 
 namespace fcn::sdl2
 {

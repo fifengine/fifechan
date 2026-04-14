@@ -2,14 +2,17 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/widget.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <iostream>
 #include <list>
 #include <ranges>
 #include <string>
 
+// Project headers (subdirs before local)
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/actionevent.hpp"
 #include "fifechan/events/event.hpp"

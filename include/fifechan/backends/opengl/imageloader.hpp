@@ -5,14 +5,19 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_SDLIMAGELOADER_HPP_
 
-#include <fifechan/backends/opengl/image.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/exception.hpp>
-
+// Standard library includes
 #include <algorithm>
 #include <span>
 #include <string>
 #include <vector>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include <fifechan/backends/opengl/image.hpp>
+#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/exception.hpp>
 
 namespace fcn::opengl
 {

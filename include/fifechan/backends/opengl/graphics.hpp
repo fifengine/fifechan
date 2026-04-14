@@ -5,10 +5,13 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/backends/opengl/image.hpp"
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn::opengl
 {

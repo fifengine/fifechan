@@ -5,10 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
 #define INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
 
+// Standard library includes
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/events/event.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

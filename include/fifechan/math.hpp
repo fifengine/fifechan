@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_MATH_HPP_
 #define INCLUDE_FIFECHAN_MATH_HPP_
 
+// Standard library includes
 #include <cassert>
 #include <cmath>
 #include <limits>
 #include <numbers>
+
+// Platform config include
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {

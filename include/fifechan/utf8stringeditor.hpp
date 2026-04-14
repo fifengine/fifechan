@@ -5,7 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_UTF8STRINGEDITOR_HPP_
 #define INCLUDE_FIFECHAN_UTF8STRINGEDITOR_HPP_
 
-// Standard C++ library includes
+// Standard library includes
 #include <string>
 
 namespace fcn

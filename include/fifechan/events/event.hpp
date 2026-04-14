@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_EVENT_HPP_
 #define INCLUDE_FIFECHAN_EVENT_HPP_
 
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

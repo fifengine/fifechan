@@ -5,23 +5,27 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
 
+// Standard library includes
+#include <span>
+#include <string>
+#include <vector>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
 #if defined(_WIN32)
     #include <windows.h>
-#endif
+#endif // _WIN32
 
 #if defined(__APPLE__)
     #include <OpenGL/gl.h>
 #else
     #include <GL/gl.h>
-#endif
+#endif // __APPLE__
 
-#include <span>
-#include <string>
-#include <vector>
-
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn::opengl
 {

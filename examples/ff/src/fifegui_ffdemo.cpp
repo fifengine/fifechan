@@ -2,10 +2,15 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include <fifechan.hpp>
+// Corresponding header include
 
+// Standard library includes
 #include <iostream>
 
+// Third-party library includes
+#include <fifechan.hpp>
+
+// Project headers (subdirs before local)
 #include "ffdemo.hpp"
 
 int main(int /*argc*/, char** /*argv*/)

@@ -5,13 +5,17 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_CONTAINER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_CONTAINER_HPP_
 
+// Standard library includes
 #include <list>
 #include <memory>
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/graphics.hpp"
 #include "fifechan/listeners/containerlistener.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

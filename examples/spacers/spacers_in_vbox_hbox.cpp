@@ -2,14 +2,9 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#include <SDL2/SDL.h>
+// Corresponding header include
 
-#include <fifechan/backends/sdl2/graphics.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
-
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <format>
 #include <iostream>
 #include <memory>
@@ -17,6 +12,18 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
+#include <SDL2/SDL.h>
+
+#include <fifechan/backends/sdl2/graphics.hpp>
+#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/backends/sdl2/input.hpp>
+
+#include <fifechan.hpp>
 
 class MyActionListener : public fcn::ActionListener
 {

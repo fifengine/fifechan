@@ -6,14 +6,10 @@
  * @brief This example shows the widgets present in FifeGUI using the OpenGL SDL backend.
  */
 
+// Corresponding header include
 #include "openglsdlwidgets.hpp"
 
-#include <fifechan/backends/opengl/graphics.hpp>
-#include <fifechan/gui.hpp>
-#include <fifechan/widget.hpp>
-
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <algorithm>
 #include <filesystem>
 #include <format>
@@ -23,9 +19,20 @@
 #include <utility>
 #include <vector>
 
+// Platform config include
+#include "fifechan/platform.hpp"
 #ifdef _WIN32
     #include <windows.h>
 #endif
+
+// Third-party library includes
+#include <fifechan/backends/opengl/graphics.hpp>
+
+#include <fifechan.hpp>
+
+// Project headers (subdirs before local)
+#include <fifechan/gui.hpp>
+#include <fifechan/widget.hpp>
 
 namespace tests::integration::opengl_sdl::widgets
 {

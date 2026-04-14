@@ -5,8 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_RECTANGLE_HPP_
 #define INCLUDE_FIFECHAN_RECTANGLE_HPP_
 
+// Standard library includes
 #include <iostream>
 
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

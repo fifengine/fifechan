@@ -2,12 +2,18 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/imagefont.hpp"
 
+// Standard library includes
 #include <sstream>
 #include <string>
 #include <utility>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"

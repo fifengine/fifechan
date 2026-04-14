@@ -2,19 +2,23 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include <fifechan/widgets/textbox.hpp>
 
-#include <fifechan/font.hpp>
-#include <fifechan/graphics.hpp>
-#include <fifechan/key.hpp>
-#include <fifechan/mouseinput.hpp>
-#include <fifechan/text.hpp>
-#include <fifechan/utf8stringeditor.hpp>
-
+// Standard library includes
 #include <cassert>
 #include <string>
 
+// Third-party library includes
 #include <utf8.h>
+
+// Project headers (subdirs before local)
+#include "fifechan/font.hpp"
+#include "fifechan/graphics.hpp"
+#include "fifechan/key.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/text.hpp"
+#include "fifechan/utf8stringeditor.hpp"
 
 namespace fcn
 {

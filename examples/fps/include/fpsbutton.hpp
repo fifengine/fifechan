@@ -2,13 +2,18 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-#pragma once
+#ifndef FPSBUTTON_HPP
+#define FPSBUTTON_HPP
 
+// Standard library includes
+#include <string>
+
+// Third-party library includes
 #include <SDL2/SDL_mixer.h>
 
 #include <fifechan.hpp>
 
-#include <string>
+// Project headers (subdirs before local)
 
 /*
  * The ordinary default button is quite ugly so we have made ourselves
@@ -50,3 +55,5 @@ private:
     // Keep track of instances to be able to free the sound
     static int mInstances;
 };
+
+#endif // FPSBUTTON_HPP

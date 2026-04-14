@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_RADIOBUTTON_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_RADIOBUTTON_HPP_
 
+// Standard library includes
 #include <map>
 #include <string>
 
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/widgets/checkbox.hpp"
 
 namespace fcn

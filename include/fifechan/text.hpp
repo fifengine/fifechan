@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_TEXT_HPP_
 #define INCLUDE_FIFECHAN_TEXT_HPP_
 
+// Standard library includes
 #include <string>
 #include <vector>
 
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/rectangle.hpp"
 
 namespace fcn

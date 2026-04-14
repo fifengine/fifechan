@@ -5,8 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_ADJUSTINGCONTAINER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_ADJUSTINGCONTAINER_HPP_
 
+// Standard library includes
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/widgets/container.hpp"
 
 namespace fcn

@@ -2,12 +2,15 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/widgets/flowcontainer.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <list>
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
 
 namespace fcn

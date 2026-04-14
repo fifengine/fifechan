@@ -5,9 +5,11 @@
 #ifndef FFLISTBOX_HPP
 #define FFLISTBOX_HPP
 
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <memory>
+
+// Third-party library includes
+#include <fifechan.hpp>
 
 class FFListBox : public fcn::ListBox
 {
@@ -27,4 +29,4 @@ private:
     static int mInstances;
 };
 
-#endif
+#endif // FFLISTBOX_HPP

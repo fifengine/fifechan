@@ -3,10 +3,10 @@
 // SPDX-FileCopyrightText: 2016 - 2019 Gwilherm Baudic
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/backends/sdl2/graphics.hpp"
 
-#include <SDL2/SDL_render.h>
-
+// Standard library includes
 #include <algorithm>
 #include <cstdio>
 #include <memory>
@@ -15,6 +15,10 @@
 #include <utility>
 #include <vector>
 
+// Third-party library includes
+#include <SDL2/SDL_render.h>
+
+// Project headers (subdirs before local)
 #include "fifechan/backends/sdl2/image.hpp"
 #include "fifechan/backends/sdl2/truetypefont.hpp"
 #include "fifechan/exception.hpp"

@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "ffcharacterchooser.hpp"
 
+// Standard library includes
 #include <algorithm>
 
 FFCharacterChooser::FFCharacterChooser() : mSelected(0), mDistance(76), mHand(fcn::Image::load("images/hand.png"))

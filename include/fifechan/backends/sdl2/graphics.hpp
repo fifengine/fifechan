@@ -6,14 +6,19 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_
 
-#include <SDL2/SDL.h>
-
+// Standard library includes
 #include <memory>
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Third-party library includes
+#include <SDL2/SDL.h>
+
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

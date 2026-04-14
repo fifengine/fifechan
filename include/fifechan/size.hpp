@@ -5,6 +5,9 @@
 #ifndef INCLUDE_FIFECHAN_SIZE_HPP_
 #define INCLUDE_FIFECHAN_SIZE_HPP_
 
+// Standard library includes
+
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

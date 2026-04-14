@@ -5,8 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
 #define INCLUDE_FIFECHAN_MOUSELISTENER_HPP_
 
-#include "fifechan/events/mouseevent.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/events/mouseevent.hpp"
 
 namespace fcn
 {

@@ -2,13 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include <fifechan/widgets/pointgraph.hpp>
 
-#include <fifechan/exception.hpp>
-#include <fifechan/graphics.hpp>
-
+// Standard library includes
 #include <algorithm>
 #include <utility>
+
+// Project headers (subdirs before local)
+#include "fifechan/exception.hpp"
+#include "fifechan/graphics.hpp"
 
 namespace fcn
 {

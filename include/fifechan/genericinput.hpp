@@ -5,12 +5,13 @@
 #ifndef INCLUDE_FIFECHAN_GENERICINPUT_HPP_
 #define INCLUDE_FIFECHAN_GENERICINPUT_HPP_
 
+// Standard library includes
 #include <queue>
 
+// Project headers (subdirs before local)
 #include "fifechan/input.hpp"
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

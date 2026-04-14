@@ -5,7 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_FLOWCONTAINER_HPP_
 
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/widgets/container.hpp"
 
 namespace fcn

@@ -5,12 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_EXCEPTION_HPP_
 #define INCLUDE_FIFECHAN_EXCEPTION_HPP_
 
+// Standard library includes
 #include <source_location>
 #include <stdexcept>
 #include <string>
 #include <utility>
-
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

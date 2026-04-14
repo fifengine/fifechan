@@ -5,8 +5,13 @@
 #ifndef INCLUDE_FIFECHAN_KEYLISTENER_HPP_
 #define INCLUDE_FIFECHAN_KEYLISTENER_HPP_
 
-#include "fifechan/events/keyevent.hpp"
+// Standard library includes
+
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/events/keyevent.hpp"
 
 namespace fcn
 {

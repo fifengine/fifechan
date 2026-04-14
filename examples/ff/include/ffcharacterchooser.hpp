@@ -5,9 +5,11 @@
 #ifndef FFCHARACTERCHOOSER_HPP
 #define FFCHARACTERCHOOSER_HPP
 
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <memory>
+
+// Third-party library includes
+#include <fifechan.hpp>
 
 class FFCharacterChooser : public fcn::Widget, fcn::KeyListener
 {
@@ -31,4 +33,4 @@ private:
     std::unique_ptr<fcn::Image> mHand;
 };
 
-#endif
+#endif // FFCHARACTERCHOOSER_HPP

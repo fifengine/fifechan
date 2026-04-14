@@ -5,8 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_CONTAINEREVENT_HPP_
 #define INCLUDE_FIFECHAN_CONTAINEREVENT_HPP_
 
-#include "fifechan/events/event.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/events/event.hpp"
 
 namespace fcn
 {

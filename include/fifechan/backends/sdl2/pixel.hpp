@@ -5,12 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_
 
-#include <SDL2/SDL.h>
-
+// Standard library includes
 #include <cstddef>
 #include <cstring>
 #include <span>
 
+// Third-party library includes
+#include <SDL2/SDL.h>
+
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 
 namespace fcn::sdl2

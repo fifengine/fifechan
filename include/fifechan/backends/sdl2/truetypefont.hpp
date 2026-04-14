@@ -5,13 +5,18 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_SDL_SDLTRUETYPEFONT_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_SDL_SDLTRUETYPEFONT_HPP_
 
-#include <SDL_ttf.h>
-
+// Standard library includes
 #include <map>
 #include <string>
 
-#include "fifechan/font.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Third-party library includes
+#include <SDL_ttf.h>
+
+// Project headers (subdirs before local)
+#include "fifechan/font.hpp"
 
 namespace fcn::sdl2
 {

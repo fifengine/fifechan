@@ -28,7 +28,7 @@ if(ENABLE_SDL AND SDL2_FOUND)
     src/ffdemo.cpp
     src/fflistbox.cpp
     src/ffscrollarea.cpp
-    src/guichanffdemo.cpp
+    src/fifegui_ffdemo.cpp
   )
 
   target_include_directories(ff_demo PRIVATE

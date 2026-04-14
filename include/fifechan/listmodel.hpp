@@ -5,8 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_LISTMODEL_HPP_
 #define INCLUDE_FIFECHAN_LISTMODEL_HPP_
 
+// Standard library includes
 #include <string>
 
+// Platform config include
 #include "fifechan/platform.hpp"
 
 namespace fcn

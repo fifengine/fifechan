@@ -5,12 +5,17 @@
 #ifndef INCLUDE_FIFECHAN_POINT_HPP_
 #define INCLUDE_FIFECHAN_POINT_HPP_
 
+// Standard library includes
 #include <array>
 #include <cassert>
 #include <iostream>
 #include <utility>
 #include <vector>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/math.hpp"
 
 namespace fcn

@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_LINEGRAPH_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_LINEGRAPH_HPP_
 
+// Project headers (subdirs before local)
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 

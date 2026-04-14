@@ -5,11 +5,16 @@
 #ifndef INCLUDE_FIFECHAN_WIDGET_HPP_
 #define INCLUDE_FIFECHAN_WIDGET_HPP_
 
+// Standard library includes
 #include <limits>
 #include <list>
 #include <string>
 #include <type_traits>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/rectangle.hpp"

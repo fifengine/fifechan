@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/gui.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <cstdint>
 #include <list>
@@ -13,6 +15,10 @@
 #include <string>
 #include <utility>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/mouseevent.hpp"
 #include "fifechan/exception.hpp"

@@ -2,13 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "ffcontainer.hpp"
 
-#include <SDL2/SDL.h>
-
+// Standard library includes
 #include <algorithm>
 #include <cmath>
 #include <memory>
+
+// Third-party library includes
+#include <SDL2/SDL.h>
 
 int FFContainer::mInstances                          = 0;
 std::unique_ptr<fcn::Image> FFContainer::mCornerUL   = nullptr;

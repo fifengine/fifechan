@@ -2,13 +2,19 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/focushandler.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <list>
 #include <ranges>
 #include <utility>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/events/event.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/listeners/focuslistener.hpp"

@@ -2,13 +2,16 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include <fifechan/widgets/passwordfield.hpp>
 
-#include <fifechan/key.hpp>
-#include <fifechan/text.hpp>
-#include <fifechan/utf8stringeditor.hpp>
-
+// Standard library includes
 #include <string>
+
+// Project headers (subdirs before local)
+#include "fifechan/key.hpp"
+#include "fifechan/text.hpp"
+#include "fifechan/utf8stringeditor.hpp"
 
 namespace fcn
 {

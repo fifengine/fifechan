@@ -24,7 +24,7 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
   endif()
 
   add_executable(fps_demo
-    src/fifechanfpsdemo.cpp
+    src/fifegui_fpsdemo.cpp
     src/fpsbutton.cpp
     src/fpscheckbox.cpp
     src/fpsdemo.cpp

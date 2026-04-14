@@ -2,8 +2,10 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fpsbutton.hpp"
 
+// Standard library includes
 #include <string>
 
 int FPSButton::mInstances         = 0;

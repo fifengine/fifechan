@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_KEYINPUT_HPP_
 #define INCLUDE_FIFECHAN_KEYINPUT_HPP_
 
+// Standard library includes
 #include <cstdint>
 
-#include "fifechan/key.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/key.hpp"
 
 namespace fcn
 {

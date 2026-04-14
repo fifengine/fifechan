@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_GUI_HPP_
 #define INCLUDE_FIFECHAN_GUI_HPP_
 
+// Standard library includes
 #include <algorithm>
 #include <iterator>
 #include <list>
@@ -13,10 +14,13 @@
 #include <set>
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/mouseevent.hpp"
 #include "fifechan/mouseinput.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

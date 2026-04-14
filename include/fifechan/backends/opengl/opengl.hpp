@@ -5,12 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGL_HPP_
 #define INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGL_HPP_
 
-/**
- * Unified header for the OpenGL backend.
- */
+// Standard library includes
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include <fifechan/backends/opengl/graphics.hpp>
 #include <fifechan/backends/opengl/image.hpp>
 #include <fifechan/backends/opengl/imageloader.hpp>
-#include <fifechan/platform.hpp>
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_OPENGL_HPP_

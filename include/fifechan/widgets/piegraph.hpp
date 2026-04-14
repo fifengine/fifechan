@@ -5,8 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_PIEGRAPH_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_PIEGRAPH_HPP_
 
+// Standard library includes
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/point.hpp"
 #include "fifechan/widget.hpp"
 

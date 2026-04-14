@@ -5,10 +5,11 @@
 #ifndef INCLUDE_FIFECHAN_DEFAULTFONT_HPP_
 #define INCLUDE_FIFECHAN_DEFAULTFONT_HPP_
 
+// Standard library includes
 #include <string>
 
+// Project headers (subdirs before local)
 #include "fifechan/font.hpp"
-#include "fifechan/platform.hpp"
 
 namespace fcn
 {

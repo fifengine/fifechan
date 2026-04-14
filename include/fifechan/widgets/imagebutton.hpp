@@ -5,11 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_IMAGEBUTTON_HPP_
 
+// Standard library includes
 #include <memory>
 #include <string>
 #include <vector>
 
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/widgets/button.hpp"
 
 namespace fcn

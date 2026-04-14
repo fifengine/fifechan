@@ -5,16 +5,20 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_TABBEDAREA_HPP_
 
+// Standard library includes
 #include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/listeners/actionlistener.hpp"
 #include "fifechan/listeners/keylistener.hpp"
 #include "fifechan/listeners/mouselistener.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 #include "fifechan/widgets/container.hpp"
 

@@ -5,10 +5,14 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_SCROLLAREA_HPP_
 
+// Standard library includes
 #include <string>
 
-#include "fifechan/listeners/mouselistener.hpp"
+// Platform config include
 #include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
+#include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

@@ -5,6 +5,7 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_SPACER_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_SPACER_HPP_
 
+// Project headers (subdirs before local)
 #include "fifechan/widget.hpp"
 
 namespace fcn

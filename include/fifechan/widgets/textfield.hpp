@@ -5,11 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
 #define INCLUDE_FIFECHAN_WIDGETS_TEXTFIELD_HPP_
 
+// Standard library includes
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include "fifechan/listeners/keylistener.hpp"
 #include "fifechan/listeners/mouselistener.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/widget.hpp"
 
 namespace fcn

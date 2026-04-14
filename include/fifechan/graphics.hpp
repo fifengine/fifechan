@@ -5,14 +5,15 @@
 #ifndef INCLUDE_FIFECHAN_GRAPHICS_HPP_
 #define INCLUDE_FIFECHAN_GRAPHICS_HPP_
 
+// Standard library includes
 #include <cstdint>
 #include <iosfwd>
 #include <memory>
 #include <stack>
 #include <string>
 
+// Project headers (subdirs before local)
 #include "fifechan/cliprectangle.hpp"
-#include "fifechan/platform.hpp"
 #include "fifechan/point.hpp"
 
 namespace fcn

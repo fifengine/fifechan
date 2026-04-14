@@ -5,9 +5,11 @@
 #ifndef FFCONTAINER_HPP
 #define FFCONTAINER_HPP
 
-#include <fifechan.hpp>
-
+// Standard library includes
 #include <memory>
+
+// Third-party library includes
+#include <fifechan.hpp>
 
 class FFContainer : public fcn::Container
 {
@@ -45,4 +47,4 @@ private:
     static std::unique_ptr<fcn::Image> mVertical;
 };
 
-#endif
+#endif // FFCONTAINER_HPP
