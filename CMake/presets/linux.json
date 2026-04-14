@@ -306,6 +306,15 @@
       }
     },
     {
+      "name": "clang22-x64-linux-cov",
+      "hidden": true,
+      "inherits": [
+        "clang-x64-linux-base",
+        "compiler-clang22-linux",
+        "coverage-using-clang"
+      ]
+    },
+    {
       "name": "clang22-x64-linux",
       "hidden": true,
       "inherits": [

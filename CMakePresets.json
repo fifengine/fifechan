@@ -28,6 +28,14 @@
       }
     },
     {
+      "name": "clang22-x64-linux-dbg-cov",
+      "displayName": "Clang22 Debug (Coverage)",
+      "inherits": "clang22-x64-linux-cov",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
       "name": "clang21-x64-linux-rel",
       "displayName": "Clang21 Release",
       "inherits": "clang21-x64-linux",
@@ -219,6 +227,13 @@
     }
   ],
   "buildPresets": [
+    {
+      "name": "clang22-x64-linux-dbg-cov",
+      "configurePreset": "clang22-x64-linux-dbg-cov",
+      "targets": [
+        "fifechan"
+      ]
+    },
     {
       "name": "clang21-x64-linux-rel",
       "configurePreset": "clang21-x64-linux-rel",
