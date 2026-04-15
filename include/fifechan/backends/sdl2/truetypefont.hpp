@@ -13,7 +13,7 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/font.hpp"

@@ -10,7 +10,7 @@
 #include <string>
 
 // Third-party library includes
-#include "SDL_image.h"
+#include <SDL2/SDL_image.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/backends/sdl2/image.hpp"
