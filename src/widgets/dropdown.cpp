@@ -371,7 +371,8 @@ namespace fcn
     {
         if (event.getSource() == mScrollArea) {
             if (mOwnedScrollArea.get() == mScrollArea) {
-                (void)mOwnedScrollArea.release();
+                [[maybe_unused]] auto *released = mOwnedScrollArea.release();
+                (void)released;
             }
             mScrollArea = nullptr;
         }
