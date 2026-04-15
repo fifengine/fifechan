@@ -50,6 +50,7 @@ namespace fcn
         return byteOffset; // this shouldn't change!
     }
 
+    // TODO(jakoch): optimize, remove padding trick and do in-place insert
     int UTF8StringEditor::insertChar(std::string& text, int byteOffset, int ch)
     {
         std::string newText;
@@ -64,7 +65,7 @@ namespace fcn
         cut = newText.begin() + byteOffset;
         utf8::next(cut, newText.end());
         // cut the string to real length
-        newText   = std::string(newText.begin(), cut);
+        newText.erase(cut, newText.end());
         newOffset = newText.size();
         // make new text
         text = newText + text.substr(byteOffset);
