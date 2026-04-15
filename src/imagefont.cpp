@@ -99,7 +99,7 @@ namespace fcn
         int y   = 0;
 
         for (i = 0; std::cmp_less(i, glyphs.size()); ++i) {
-            unsigned char glyph = glyphs.at(i);
+            unsigned char const glyph = glyphs.at(i);
 
             mGlyph[glyph] = scanForGlyph(glyph, x, y, separator);
             // Update x and y with new coordinates.

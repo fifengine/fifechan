@@ -12,6 +12,7 @@
 
 // Third-party library includes
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_stdinc.h> // for Uint8, Uint16, Uint32
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
@@ -49,7 +50,7 @@ namespace fcn::sdl2
             break;
 
         case 2: {
-            Uint16 tmp = 0;
+            Uint16 const tmp = 0;
             std::memcpy(&tmp, &pixels[idx], sizeof(Uint16));
             color = static_cast<unsigned int>(tmp);
             break;
@@ -117,7 +118,7 @@ namespace fcn::sdl2
             break;
 
         case 2: {
-            Uint16 tmp = static_cast<Uint16>(pixel);
+            Uint16 const tmp = static_cast<Uint16>(pixel);
             std::memcpy(&pixels[idx], &tmp, sizeof(Uint16));
             break;
         }
@@ -135,7 +136,7 @@ namespace fcn::sdl2
             break;
 
         case 4: {
-            Uint32 tmp = pixel;
+            Uint32 const tmp = pixel;
             std::memcpy(&pixels[idx], &tmp, sizeof(Uint32));
             break;
         }
