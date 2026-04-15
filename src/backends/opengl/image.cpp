@@ -128,7 +128,8 @@ namespace fcn::opengl
             throwException("Coordinates outside of the image");
         }
 
-        unsigned int const c = mPixels[x + (y * mTextureWidth)];
+        unsigned int c = 0;
+        c = mPixels[x + (y * mTextureWidth)];
 
 #ifdef __BIG_ENDIAN__
         auto const r = static_cast<unsigned char>((c >> 24) & 0xff);

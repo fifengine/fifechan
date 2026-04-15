@@ -53,7 +53,10 @@ namespace fcn::sdl2
                 // Extract RGBA, check for magenta and set alpha to 0 if found.
                 for (int i = 0; i < pixelCount; ++i) {
                     // Extract RGBA
-                    Uint8 r, g, b, a;
+                    Uint8 r = 0;
+                    Uint8 g = 0;
+                    Uint8 b = 0;
+                    Uint8 a = 0;
                     SDL_GetRGBA(pixels[i], fmt, &r, &g, &b, &a);
 
                     if (r == 255 && g == 0 && b == 255) {

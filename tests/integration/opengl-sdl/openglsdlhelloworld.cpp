@@ -126,8 +126,10 @@ void Application::init_gui(int width, int height)
 
     label = std::make_unique<fcn::Label>("Hello World");
 
-    int const labelX = std::max(0, (width - label->getWidth()) / 2);
-    int const labelY = std::max(0, (height - label->getHeight()) / 2);
+    int labelX = 0;
+    int labelY = 0;
+    labelX = std::max(0, (width - label->getWidth()) / 2);
+    labelY = std::max(0, (height - label->getHeight()) / 2);
 
     top->add(label.get(), labelX, labelY);
 }
