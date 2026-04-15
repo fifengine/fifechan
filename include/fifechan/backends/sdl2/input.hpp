@@ -72,7 +72,7 @@ namespace fcn::sdl2
          * @param button an SDL mouse button.
          * @return a FifeGUI mouse button.
          */
-        MouseInput::Button convertMouseButton(int button);
+        static MouseInput::Button convertMouseButton(int button);
 
         /**
          * Converts an SDL event to a FifeGUI key value.
@@ -81,7 +81,7 @@ namespace fcn::sdl2
          * @return A FifeGUI key value. -1 if no conversion took place.
          * @see Key
          */
-        int convertSDLEventToFifechanKeyValue(SDL_Event event);
+        static int convertSDLEventToFifechanKeyValue(SDL_Event event);
 
         /** Queue of key inputs waiting to be processed. */
         std::queue<KeyInput> mKeyInputQueue;

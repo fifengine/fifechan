@@ -160,7 +160,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawCheckmark(Graphics* graphics, Rectangle const & rec);
+        static void drawCheckmark(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the cross.
@@ -168,7 +168,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawCross(Graphics* graphics, Rectangle const & rec);
+        static void drawCross(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the dot.
@@ -176,7 +176,7 @@ namespace fcn
          * @param graphics A Graphics object to draw with.
          * @param rec The rectangle that defines the position and size.
          */
-        void drawDot(Graphics* graphics, Rectangle const & rec);
+        static void drawDot(Graphics* graphics, Rectangle const & rec);
 
         /**
          * Draws the marker image.

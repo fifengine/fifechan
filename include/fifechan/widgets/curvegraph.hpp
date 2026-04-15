@@ -83,11 +83,11 @@ namespace fcn
 
         /** Helper that returns an interpolated Point
          */
-        Point getBezierPoint(PointVector const & points, int elements, float t);
+        static Point getBezierPoint(PointVector const & points, int elements, float t);
 
         /** Helper that adds the control points for bezier curves.
          */
-        void addControlPoints(PointVector const & points, PointVector& newPoints);
+        static void addControlPoints(PointVector const & points, PointVector& newPoints);
 
         /** True if the curve is drawn opaque. */
         bool m_opaque{false};
