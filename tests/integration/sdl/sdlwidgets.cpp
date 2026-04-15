@@ -176,18 +176,19 @@ void Application::cleanup()
         }
     }
     deleteWidgetAndChildren(ownedTabOne.get());
-    [[maybe_unused]] auto *releasedTabOne = ownedTabOne.release();
+    [[maybe_unused]] auto* releasedTabOne = ownedTabOne.release();
     (void)releasedTabOne;
     deleteWidgetAndChildren(ownedTabTwo.get());
-    [[maybe_unused]] auto *releasedTabTwo = ownedTabTwo.release();
+    [[maybe_unused]] auto* releasedTabTwo = ownedTabTwo.release();
     (void)releasedTabTwo;
     ownedTabOneContent.reset();
     ownedTabTwoContent.reset();
     deleteWidgetAndChildren(ownedNestedContainer.get());
-    [[maybe_unused]] auto *releasedNested = ownedNestedContainer.release();
+    [[maybe_unused]] auto* releasedNested = ownedNestedContainer.release();
     (void)releasedNested;
     ownedTextBox.reset();
     top.reset();
+    ownedProgressFillImage.reset();
     imageLoader.reset();
     graphics.reset();
     input.reset();
