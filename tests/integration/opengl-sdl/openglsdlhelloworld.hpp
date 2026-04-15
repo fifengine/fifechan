@@ -5,6 +5,12 @@
 #ifndef TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 #define TESTS_INTEGRATION_OPENGL_SDL_OPENGLSDLHELLOWORLD_HPP_
 
+// Standard library includes
+#include <filesystem>
+#include <memory>
+#include <string>
+
+// Third-party library includes
 #include <SDL2/SDL.h>
 
 #include <fifechan/backends/opengl/imageloader.hpp>
@@ -13,10 +19,6 @@
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
-
-#include <filesystem>
-#include <memory>
-#include <string>
 
 namespace tests::integration::opengl_sdl::helloworld
 {

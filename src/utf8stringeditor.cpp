@@ -9,7 +9,7 @@
 #include <string>
 
 // Third-party library includes
-#include <utf8.h>
+#include <utf8cpp/utf8.h>
 
 namespace fcn
 {

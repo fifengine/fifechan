@@ -5,19 +5,21 @@
 #ifndef SDLWIDGETS_HPP
 #define SDLWIDGETS_HPP
 
+// Standard library includes
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <string>
+
+// Third-party library includes
 #include <SDL2/SDL.h>
-#include <SDL_render.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <fifechan/backends/sdl2/sdl.hpp>
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
-
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <string>
 
 namespace tests::integration::sdl::widgets
 {

@@ -5,16 +5,18 @@
 #ifndef TESTS_INTEGRATION_SDL_SDLHELLOWORLD_HPP_
 #define TESTS_INTEGRATION_SDL_SDLHELLOWORLD_HPP_
 
+// Standard library includes
+#include <filesystem>
+#include <memory>
+#include <string>
+
+// Third-party library includes
 #include <SDL2/SDL.h>
 
 #include <fifechan/backends/sdl2/sdl.hpp>
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
-
-#include <filesystem>
-#include <memory>
-#include <string>
 
 namespace tests::integration::sdl::helloworld
 {
