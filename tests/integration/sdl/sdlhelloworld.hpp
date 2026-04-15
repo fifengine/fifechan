@@ -24,6 +24,10 @@ namespace tests::integration::sdl::helloworld
     public:
         explicit Application(std::string const & title, int width = 640, int height = 480);
         ~Application();
+        Application(Application const &)            = delete;
+        Application& operator=(Application const &) = delete;
+        Application(Application&&)                  = delete;
+        Application& operator=(Application&&)       = delete;
 
         void run();
 

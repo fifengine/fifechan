@@ -34,7 +34,17 @@
 
 using tests::integration::opengl_sdl::helloworld::Application;
 
-Application::Application(std::string const & title, int width, int height)
+Application::Application(std::string const & title, int width, int height) :
+    running(true),
+    window(nullptr),
+    glContext(nullptr),
+    graphics(nullptr),
+    input(nullptr),
+    imageLoader(nullptr),
+    gui(nullptr),
+    top(nullptr),
+    font(nullptr),
+    label(nullptr)
 {
     init_sdl(title, width, height);
     init_gui(width, height);
@@ -128,8 +138,8 @@ void Application::init_gui(int width, int height)
 
     int labelX = 0;
     int labelY = 0;
-    labelX = std::max(0, (width - label->getWidth()) / 2);
-    labelY = std::max(0, (height - label->getHeight()) / 2);
+    labelX     = std::max(0, (width - label->getWidth()) / 2);
+    labelY     = std::max(0, (height - label->getHeight()) / 2);
 
     top->add(label.get(), labelX, labelY);
 }

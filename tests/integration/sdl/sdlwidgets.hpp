@@ -27,6 +27,10 @@ namespace tests::integration::sdl::widgets
     public:
         explicit Application(std::string const & title, int width = 1280, int height = 1024);
         ~Application();
+        Application(Application const &)            = delete;
+        Application& operator=(Application const &) = delete;
+        Application(Application&&)                  = delete;
+        Application& operator=(Application&&)       = delete;
 
         void run();
 

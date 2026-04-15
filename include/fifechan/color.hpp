@@ -60,7 +60,11 @@ namespace fcn
         /**
          * Constructor. Initializes the color to black.
          */
-        Color() = default;
+        Color()                         = default;
+        Color(Color const &)            = default;
+        Color& operator=(Color const &) = default;
+        Color(Color&&)                  = default;
+        Color& operator=(Color&&)       = default;
 
         /**
          * Constructor.

@@ -33,6 +33,8 @@ public:
     ~FFDemo() override;
     FFDemo(FFDemo const &)            = delete;
     FFDemo& operator=(FFDemo const &) = delete;
+    FFDemo(FFDemo&&)                  = delete;
+    FFDemo& operator=(FFDemo&&)       = delete;
     void run();
     void action(fcn::ActionEvent const & actionEvent) override;
     void keyPressed(fcn::KeyEvent& keyEvent) override;
