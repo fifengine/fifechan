@@ -111,15 +111,22 @@ endif()
 message(STATUS "---------------------------------------------------------------")
 message(STATUS "[ 🛠️ ] Building FIFEGUI version ${FIFECHAN_VERSION} using build type '${CMAKE_BUILD_TYPE}'.")
 message(STATUS "---------------------------------------------------------------")
+message(STATUS "")
 message(STATUS "[INFO] Source dir               -> '${PROJECT_SOURCE_DIR}'.")
 message(STATUS "[INFO] Build dir                -> '${PROJECT_BINARY_DIR}'.")
-message(STATUS "[INFO] Installation path        -> '${CMAKE_INSTALL_PREFIX}' (set -DCMAKE_INSTALL_PREFIX=<path> to change).")
+message(STATUS "[INFO] Installation path        -> '${CMAKE_INSTALL_PREFIX}'")
+message(STATUS "       To change the installation path set -DCMAKE_INSTALL_PREFIX=<path>.")
 message(STATUS "")
 message(STATUS "[INFO] Build shared libraries   -> '${BUILD_SHARED_LIBS}'.")
 message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
 message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
 message(STATUS "[INFO] Build tests              -> '${FIFEGUI_TESTS}'.")
 message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
+message(STATUS "")
+message(STATUS "[INFO] Compiler                 -> '${CMAKE_CXX_COMPILER}'")
+message(STATUS "[INFO] Compiler ID              -> '${CMAKE_CXX_COMPILER_ID}'")
+message(STATUS "[INFO] Compiler version         -> '${CMAKE_CXX_COMPILER_VERSION}'")
+message(STATUS "")
 message(STATUS "---------------------------------------------------------------")
 
 #------------------------------------------------------------------------------
@@ -192,7 +199,7 @@ else()
       message(STATUS "Using Clang ${CMAKE_CXX_COMPILER_VERSION} with default C++ standard library")
     endif()
   elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    message(STATUS "Using GCC ${CMAKE_CXX_COMPILER_VERSION} with libstdc++")
+      message(STATUS "Using GCC ${CMAKE_CXX_COMPILER_VERSION} with libstdc++")
   endif()
 endif()
 
@@ -397,11 +404,21 @@ target_sources(${PROJECT_NAME}
     ${FIFECHAN_SRC}
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include> # to include the generated "version.hpp"
-    $<INSTALL_INTERFACE:include>
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+        $<INSTALL_INTERFACE:include>
 )
+
+# Add vcpkg's include path to include dirs.
+# This supports libraries without canonical <library/lib.h> include structure.
+# E.g. utf8cpp exposes "/include/utf8cpp", resulting in <utf8.h>, but we want <utf8cpp/utf8.h>.
+if(USE_VCPKG)
+  target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include>
+  )
+endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC utf8cpp::utf8cpp)
 
