@@ -19,12 +19,20 @@ namespace fcn
 
     void GenericInput::pushKeyPressed(int unicode)
     {
-        // TODO(jakoch): Implement this method.
+        KeyInput keyInput{};
+        keyInput.setKey(Key(unicode));
+        keyInput.setType(KeyInput::Type::Pressed);
+
+        mKeyInputQueue.push(keyInput);
     }
 
     void GenericInput::pushKeyReleased(int unicode)
     {
-        // TODO(jakoch): Implement this method.
+        KeyInput keyInput{};
+        keyInput.setKey(Key(unicode));
+        keyInput.setType(KeyInput::Type::Released);
+
+        mKeyInputQueue.push(keyInput);
     }
 
     void GenericInput::pushMouseButtonPressed(int x, int y, int button)
