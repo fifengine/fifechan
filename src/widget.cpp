@@ -47,27 +47,46 @@ namespace fcn
         // We can only catch and print the error message.
         try {
 
+            // Remove from Parent
             if (mParent != nullptr) {
                 mParent->remove(this);
             }
 
+            // Detach All Children
+            // - children are not deleted, just detached from this widget
+            // - prevent children from referencing a destroyed parent
             std::list<Widget*>::const_iterator childrenIter;
             for (childrenIter = mChildren.begin(); childrenIter != mChildren.end(); ++childrenIter) {
                 (*childrenIter)->_setParent(nullptr);
             }
 
+            // Notify Death Listeners
+            // - call death event to notify listeners that this widget is being destroyed
             std::list<DeathListener*>::const_iterator deathIter;
             for (deathIter = mDeathListeners.begin(); deathIter != mDeathListeners.end(); ++deathIter) {
                 Event const event(this);
                 (*deathIter)->death(event);
             }
 
+            // Notify GUI Death Listener
+            // - call death event to notify the GUI that this widget is being destroyed
             if (mGuiDeathListener != nullptr) {
                 Event const event(this);
                 mGuiDeathListener->death(event);
             }
 
-            // Directly handle focus handler cleanup without virtual call
+            // Clear Listener Containers
+            mActionListeners.clear();
+            mDeathListeners.clear();
+            mKeyListeners.clear();
+            mFocusListeners.clear();
+            mMouseListeners.clear();
+            mWidgetListeners.clear();
+
+            // Cleanup Focus Handlers
+            // - release keyboard/modal focus of the widget
+            // - remove widget from focus handler
+            // - prevent focus handler from referencing a destroyed widget
             if (mFocusHandler != nullptr) {
                 releaseModalFocus();
                 if (mFocusHandler->getModalMouseInputFocused() == this) {
@@ -77,6 +96,7 @@ namespace fcn
                 mFocusHandler = nullptr;
             }
 
+            // Remove from global Widget registry
             mWidgetInstances.remove(this);
 
         } catch (fcn::Exception const & e) {
