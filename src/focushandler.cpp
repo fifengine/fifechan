@@ -40,30 +40,23 @@ namespace fcn
             return;
         }
 
-        unsigned int i       = 0;
-        int toBeFocusedIndex = -1;
-        for (i = 0; i < mWidgets.size(); ++i) {
-            if (mWidgets[i] == widget) {
-                toBeFocusedIndex = i;
-                break;
-            }
-        }
+        auto itFoundWidget = std::find(mWidgets.begin(), mWidgets.end(), widget);
 
-        if (toBeFocusedIndex < 0) {
-            throwException("Trying to focus a none existing widget.");
+        if (itFoundWidget == mWidgets.end()) {
+            throwException("Trying to focus a non-existing widget.");
         }
 
         Widget* oldFocused = mFocusedWidget;
 
         if (oldFocused != widget) {
-            mFocusedWidget = mWidgets.at(toBeFocusedIndex);
+            mFocusedWidget = *itFoundWidget;
 
             if (oldFocused != nullptr) {
                 Event const focusEvent(oldFocused);
                 distributeFocusLostEvent(focusEvent);
             }
 
-            Event const focusEvent(mWidgets.at(toBeFocusedIndex));
+            Event const focusEvent(*itFoundWidget);
             distributeFocusGainedEvent(focusEvent);
         }
     }

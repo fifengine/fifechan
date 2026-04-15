@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <numeric>
 #include <utility>
 
 // Project headers (subdirs before local)
@@ -114,6 +115,7 @@ namespace fcn
 
     void AdjustingContainer::adjustSize()
     {
+        // TODO(jakoch): is this calc correct?
         mNumberOfRows = mContainedWidgets.size() / mNumberOfColumns + mContainedWidgets.size() % mNumberOfColumns;
 
         mColumnWidths.clear();
@@ -142,21 +144,17 @@ namespace fcn
             }
         }
 
+        // width calculation
         mWidth = mPaddingLeft;
-
-        for (i = 0; i < mColumnWidths.size(); i++) {
-            mWidth += mColumnWidths[i] + mHorizontalSpacing;
-        }
-
+        mWidth += std::accumulate(mColumnWidths.begin(), mColumnWidths.end(), 0u);
+        mWidth += mColumnWidths.size() * mHorizontalSpacing;
         mWidth -= mHorizontalSpacing;
         mWidth += mPaddingRight;
 
+        // height calculation
         mHeight = mPaddingTop;
-
-        for (i = 0; i < mRowHeights.size(); i++) {
-            mHeight += mRowHeights[i] + mVerticalSpacing;
-        }
-
+        mHeight += std::accumulate(mRowHeights.begin(), mRowHeights.end(), 0u);
+        mHeight += mRowHeights.size() * mVerticalSpacing;
         mHeight -= mVerticalSpacing;
         mHeight += mPaddingBottom;
 
@@ -173,14 +171,13 @@ namespace fcn
         unsigned int y           = mPaddingTop;
 
         for (auto& mContainedWidget : mContainedWidgets) {
+
+            // calculate the x position of the widget
             unsigned basex = 0;
             if ((columnCount % mNumberOfColumns) != 0U) {
-                basex          = mPaddingLeft;
-                unsigned int j = 0;
-
-                for (j = 0; j < columnCount; j++) {
-                    basex += mColumnWidths[j] + mHorizontalSpacing;
-                }
+                basex = mPaddingLeft;
+                basex += std::accumulate(mColumnWidths.begin(), mColumnWidths.begin() + columnCount, 0u);
+                basex += columnCount * mHorizontalSpacing;
             } else {
                 basex = mPaddingLeft;
             }

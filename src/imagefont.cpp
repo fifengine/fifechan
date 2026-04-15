@@ -94,9 +94,9 @@ namespace fcn
             }
         }
 
-        mHeight             = j;
-        int x               = 0;
-        int y               = 0;
+        mHeight = j;
+        int x   = 0;
+        int y   = 0;
 
         for (i = 0; std::cmp_less(i, glyphs.size()); ++i) {
             unsigned char glyph = glyphs.at(i);

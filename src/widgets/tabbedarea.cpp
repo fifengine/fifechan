@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <iterator>
 #include <utility>
 
 // Project headers (subdirs before local)
@@ -162,11 +163,12 @@ namespace fcn
 
     int TabbedArea::getSelectedTabIndex() const
     {
-        unsigned int i = 0;
-        for (i = 0; i < mTabs.size(); i++) {
-            if (mTabs[i].first == mSelectedTab) {
-                return i;
-            }
+        auto it = std::find_if(mTabs.begin(), mTabs.end(), [this](auto const & tab) {
+            return tab.first == mSelectedTab;
+        });
+
+        if (it != mTabs.end()) {
+            return static_cast<int>(std::distance(mTabs.begin(), it));
         }
 
         return -1;

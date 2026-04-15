@@ -151,8 +151,8 @@ namespace fcn
             return nullptr;
         }
 
-        auto const& children = getChildren();
-        auto iter = std::next(children.begin(), index);
+        auto const & children = getChildren();
+        auto iter             = std::next(children.begin(), index);
 
         return *iter;
     }
