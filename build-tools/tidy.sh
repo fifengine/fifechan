@@ -104,7 +104,7 @@ if [[ $# -eq 1 ]]; then
   fi
   files=("$1")
 else
-  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|examples/|tests/).*(\.(cpp|cxx|cc|c|h|hpp))$' || true)
+  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|examples/|tests/).*(\.(cpp|h|hpp))$' || true)
 
   if [[ ${#files[@]} -eq 0 ]]; then
     echo "No C/C++ source files found to analyze."
@@ -112,4 +112,8 @@ else
   fi
 fi
 
-"$CLANG_TIDY" -p "$BUILD_DIR" "${files[@]}"
+"$CLANG_TIDY" -p "$BUILD_DIR" "${files[@]}" -- \
+  -I"$REPO_ROOT/include" \
+  -I"$REPO_ROOT/include/fifechan" \
+  -I"$REPO_ROOT/vcpkg_installed/x64-linux/include" \
+  -I"$REPO_ROOT/src"
