@@ -172,6 +172,12 @@ int main(int /*argc*/, char** /*argv*/)
     } catch (fcn::Exception const & e) {
         std::cerr << e.getMessage() << "\n";
         exitCode = 1;
+    } catch (std::exception const & e) {
+        std::cerr << "Std exception: " << e.what() << "\n";
+        exitCode = 1;
+    } catch (...) {
+        std::cerr << "Unknown exception" << "\n";
+        exitCode = 1;
     }
 
     if (gui != nullptr) {
