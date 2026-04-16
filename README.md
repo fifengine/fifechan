@@ -2,9 +2,9 @@
 
 [Website](https://fifengine.github.io/fifechan/) | [Changelog](https://github.com/fifengine/fifechan/blob/main/CHANGELOG.md) | [Releases](https://github.com/fifengine/fifechan/releases) | [API Docs](https://fifengine.github.io/fifechan/api/)
 
-| Continuous Integration | Windows | Linux    |   Mac   |
-|:----------------------:|:-------:|:--------:|:-------:|
-| **Build Status** | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) | Not Build |
+| Continuous Integration | Windows | Linux    |   Mac   | Coverage |
+|:----------------------:|:-------:|:--------:|:-------:|:--------:|
+| **Build Status** | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | Not Build | [![Codecov test coverage](https://codecov.io/github/fifengine/fifechan/branch/main/badge.svg)](https://app.codecov.io/github/fifengine/fifechan) |
 
 # FifeGUI
 
