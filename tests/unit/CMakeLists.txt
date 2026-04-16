@@ -14,7 +14,7 @@ add_executable(all_tests
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
-  -Wl,--whole-archive ${PROJECT_NAME} -Wl,--no-whole-archive
+  ${PROJECT_NAME}
 )
 
 set_target_properties(all_tests PROPERTIES

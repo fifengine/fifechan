@@ -8,6 +8,9 @@
 // Standard library includes
 #include <string>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
 namespace fcn
 {
 
@@ -19,7 +22,7 @@ namespace fcn
      *
      * @ingroup utils
      */
-    class UTF8StringEditor
+    class FIFEGUI_API UTF8StringEditor
     {
     public:
         /**

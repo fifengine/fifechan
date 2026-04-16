@@ -374,10 +374,52 @@ if(ENABLE_OPENGL)
 endif()
 
 #------------------------------------------------------------------------------
-# FifeGUI core library
+# FifeGUI core library (object library)
+#
+# The object library contains all source files.
+# Its compiled once and reused by shared library and tests.
 #------------------------------------------------------------------------------
 
-add_library(${PROJECT_NAME})
+add_library(${PROJECT_NAME}_lib OBJECT)
+add_library(${PROJECT_NAME}::${PROJECT_NAME}_lib ALIAS ${PROJECT_NAME}_lib)
+
+target_sources(${PROJECT_NAME}_lib
+    PRIVATE
+    ${FIFECHAN_SRC}
+)
+
+target_include_directories(${PROJECT_NAME}_lib
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+# Add vcpkg's include path to include dirs.
+# E.g. utf8cpp exposes "/include/utf8cpp", resulting in <utf8.h>, but we want <utf8cpp/utf8.h>.
+if(USE_VCPKG)
+  target_include_directories(${PROJECT_NAME}_lib SYSTEM PUBLIC
+      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include>
+  )
+endif()
+
+target_link_libraries(${PROJECT_NAME}_lib PUBLIC utf8cpp::utf8cpp)
+
+target_compile_definitions(${PROJECT_NAME}_lib PUBLIC
+  $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
+)
+
+set_target_properties(${PROJECT_NAME}_lib PROPERTIES
+  CXX_STANDARD              20
+  CXX_STANDARD_REQUIRED     ON
+  POSITION_INDEPENDENT_CODE ON
+)
+
+#------------------------------------------------------------------------------
+# FifeGUI core library (shared or static)
+#------------------------------------------------------------------------------
+
+add_library(${PROJECT_NAME} $<TARGET_OBJECTS:${PROJECT_NAME}_lib>)
 
 # Provide a namespace alias for the library (fifechan::fifechan)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -398,10 +440,19 @@ target_sources(${PROJECT_NAME}
       ${FIFECHAN_VERSION_HEADER}
 )
 
-# define private sources for the library
-target_sources(${PROJECT_NAME}
-    PRIVATE
-    ${FIFECHAN_SRC}
+# Inherit include dirs, dependencies, and compile definitions from object library
+# Add DLL export definition for FIFEGUI_API macro
+target_compile_definitions(${PROJECT_NAME} PUBLIC FIFECHAN_BUILD)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  VERSION                ${FIFECHAN_VERSION}
+  SOVERSION              ${FIFECHAN_VERSION}
+  CLEAN_DIRECT_OUTPUT    1                        # Allow creating static and shared libraries without conflict
+  OUTPUT_NAME            ${PROJECT_NAME}          # Avoid conflicts between library and binary target names
+  LINKER_LANGUAGE        CXX
+  # Verify that all headers in the header set can be included on their own.
+  # This creates the target: fifechan_verify_interface_header_sets
+  VERIFY_INTERFACE_HEADER_SETS ON
 )
 
 target_include_directories(${PROJECT_NAME}
