@@ -565,6 +565,7 @@ if(OPENGL_FOUND)
 
   target_compile_definitions(${PROJECT_NAME}_opengl PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
+    FIFECHAN_EXTENSION_BUILD
   )
 
   # link dependencies to the extension
@@ -576,7 +577,6 @@ if(OPENGL_FOUND)
     SOVERSION              ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME            ${PROJECT_NAME}_opengl          # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
@@ -658,6 +658,7 @@ if(ENABLE_SDL)
 
   target_compile_definitions(${PROJECT_NAME}_sdl2 PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
+    FIFECHAN_EXTENSION_BUILD
   )
 
   target_link_libraries(${PROJECT_NAME}_sdl2 PRIVATE
@@ -677,7 +678,6 @@ if(ENABLE_SDL)
     SOVERSION              ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
     OUTPUT_NAME            ${PROJECT_NAME}_sdl2            # Avoid conflicts between library and binary target names
-    COMPILE_DEFINITIONS    "FIFECHAN_EXTENSION_BUILD"
     LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
