@@ -407,6 +407,7 @@ target_link_libraries(${PROJECT_NAME}_lib PUBLIC utf8cpp::utf8cpp)
 
 target_compile_definitions(${PROJECT_NAME}_lib PUBLIC
   $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
+  $<$<BOOL:${BUILD_SHARED_LIBS}>:FIFECHAN_BUILD>
 )
 
 set_target_properties(${PROJECT_NAME}_lib PROPERTIES
