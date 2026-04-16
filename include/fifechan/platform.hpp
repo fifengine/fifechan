@@ -100,14 +100,19 @@
     #define FIFEGUI_API
     #define FIFEGUI_EXT_API
   #elif defined(FIFEGUI_COMPILER_MSVC) || defined(FIFEGUI_COMPILER_MINGW)
-    #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
-      // Building the library
-      #define FIFEGUI_API __declspec(dllexport)
-    #elif defined(FIFECHAN_EXTENSION_BUILD)
+    #if defined(FIFECHAN_EXTENSION_BUILD)
       // Building an extension to the library
+      //#pragma message(">>> FIFECHAN_EXTENSION_BUILD: Taking extension branch")
       #define FIFEGUI_API     __declspec(dllimport)
       #define FIFEGUI_EXT_API __declspec(dllexport)
+    #elif defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
+      //#pragma message(">>> fifechan_EXPORTS: Taking core library branch")
+      // Building the library
+      #define FIFEGUI_API __declspec(dllexport)
+      // Not building extensions
+      #define FIFEGUI_EXT_API
     #else
+      #pragma message(">>> Default: Taking client application branch")
       // Using the library
       #define FIFEGUI_API     __declspec(dllimport)
       #define FIFEGUI_EXT_API __declspec(dllimport)
