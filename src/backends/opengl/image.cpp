@@ -14,7 +14,13 @@
 namespace fcn::opengl
 {
     Image::Image(std::span<unsigned int const> pixels, int width, int height, bool convertToDisplayFormat) :
-        mTextureHandle(0), mAutoFree(true), mWidth(width), mHeight(height), mTextureWidth(1), mTextureHeight(1)
+        mTextureHandle(0),
+        mPixels(),
+        mAutoFree(true),
+        mWidth(width),
+        mHeight(height),
+        mTextureWidth(1),
+        mTextureHeight(1)
     {
         while (mTextureWidth < mWidth) {
             mTextureWidth *= 2;
@@ -56,6 +62,7 @@ namespace fcn::opengl
 
     Image::Image(GLuint textureHandle, int width, int height, bool autoFree) :
         mTextureHandle(textureHandle),
+        mPixels(),
         mAutoFree(autoFree),
         mWidth(width),
         mHeight(height),
@@ -128,8 +135,7 @@ namespace fcn::opengl
             throwException("Coordinates outside of the image");
         }
 
-        unsigned int c = 0;
-        c = mPixels[x + (y * mTextureWidth)];
+        unsigned int const c = mPixels[x + (y * mTextureWidth)];
 
 #ifdef __BIG_ENDIAN__
         auto const r = static_cast<unsigned char>((c >> 24) & 0xff);

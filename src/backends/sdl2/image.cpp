@@ -32,15 +32,13 @@ namespace fcn::sdl2
             // The color key exists. Disable RLE first to access raw pixels.
             SDL_SetSurfaceRLE(surface, 0);
 
-            SDL_Surface* workingSurface = surface;
-
             if (surface->format->BitsPerPixel != 32) {
-                workingSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
-                if (workingSurface != nullptr) {
+                SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
+                if (converted != nullptr) {
                     if (autoFree) {
                         SDL_FreeSurface(surface);
                     }
-                    surface = workingSurface;
+                    surface = converted;
                 }
             }
 

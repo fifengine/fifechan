@@ -15,7 +15,7 @@
 
 namespace fcn
 {
-    Icon::Icon() : mImage(nullptr), mInternalImage(false)
+    Icon::Icon()
     {
 
         adjustSizeImpl();
@@ -27,7 +27,7 @@ namespace fcn
         adjustSizeImpl();
     }
 
-    Icon::Icon(Image const * image) : mImage(image), mInternalImage(false)
+    Icon::Icon(Image const * image) : mImage(image)
     {
 
         adjustSizeImpl();
