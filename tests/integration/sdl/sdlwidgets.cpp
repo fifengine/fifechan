@@ -667,7 +667,7 @@ void Application::run()
         gui->draw();
         SDL_RenderPresent(renderer.get());
 
-        SDL_Delay(500);
+        SDL_Delay(10);
     }
 }
 

@@ -565,7 +565,7 @@ void Application::run()
         gui->draw();
         SDL_GL_SwapWindow(window);
 
-        SDL_Delay(500);
+        SDL_Delay(10);
     }
 }
 
