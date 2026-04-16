@@ -238,7 +238,6 @@ namespace fcn
     void TextBox::setCaretPosition(unsigned int position)
     {
         assert("position is within bounds" && position <= mText->getContent().size());
-
         mText->setCaretPosition(position);
     }
 
@@ -251,7 +250,6 @@ namespace fcn
     {
         assert("row is non-negative" && row >= 0);
         assert("column is non-negative" && column >= 0);
-
         mText->setCaretRow(row);
         mText->setCaretColumn(column);
     }
@@ -259,7 +257,6 @@ namespace fcn
     void TextBox::setCaretRow(int row)
     {
         assert("row is non-negative" && row >= 0);
-
         mText->setCaretRow(row);
     }
 
@@ -271,7 +268,6 @@ namespace fcn
     void TextBox::setCaretColumn(int column)
     {
         assert("column is non-negative" && column >= 0);
-
         mText->setCaretColumn(column);
     }
 

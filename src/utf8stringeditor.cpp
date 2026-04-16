@@ -6,6 +6,7 @@
 #include <fifechan/utf8stringeditor.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Third-party library includes
@@ -16,6 +17,10 @@ namespace fcn
 
     int UTF8StringEditor::nextChar(std::string const & text, int byteOffset)
     {
+        assert("byteOffset is non-negative" && byteOffset >= 0);
+        assert("byteOffset is within text" && byteOffset < static_cast<int>(text.size()));
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         std::string::const_iterator c;
         std::string::const_iterator e;
 
@@ -28,6 +33,10 @@ namespace fcn
 
     int UTF8StringEditor::prevChar(std::string const & text, int byteOffset)
     {
+        assert("byteOffset is positive" && byteOffset > 0);
+        assert("byteOffset is within text" && byteOffset <= static_cast<int>(text.size()));
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         std::string::const_iterator c;
         std::string::const_iterator b;
 
@@ -40,6 +49,9 @@ namespace fcn
 
     int UTF8StringEditor::eraseChar(std::string& text, int byteOffset)
     {
+        assert("byteOffset is within text" && byteOffset >= 0 && byteOffset < static_cast<int>(text.size()));
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         std::string::iterator begin;
         std::string::iterator cur;
         begin = text.begin() + byteOffset;
@@ -47,39 +59,47 @@ namespace fcn
         utf8::next(cur, text.end());
 
         text = std::string(text.begin(), begin) + std::string(cur, text.end());
-        return byteOffset; // this shouldn't change!
+
+        return byteOffset;
     }
 
-    // TODO(jakoch): optimize, remove padding trick and do in-place insert
     int UTF8StringEditor::insertChar(std::string& text, int byteOffset, int ch)
     {
+        assert("byteOffset is non-negative" && byteOffset >= 0);
+        assert("byteOffset is within text" && byteOffset <= static_cast<int>(text.size()));
+        assert("character is valid unicode code point" && ch >= 0 && ch <= 0x10FFFF && (ch < 0xD800 || ch > 0xDFFF));
+
         std::string newText;
         std::string::iterator cut;
         int newOffset = 0;
 
-        // make a temp string from left part of the caret (+6 extra chars)
         newText = text.substr(0, byteOffset) + "        ";
-        // append character
         utf8::append(ch, newText.begin() + byteOffset);
-        // calculate newText real length
         cut = newText.begin() + byteOffset;
         utf8::next(cut, newText.end());
-        // cut the string to real length
         newText.erase(cut, newText.end());
         newOffset = newText.size();
-        // make new text
-        text = newText + text.substr(byteOffset);
+        text      = newText + text.substr(byteOffset);
+
+        assert("result is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
         return newOffset;
     }
 
     int UTF8StringEditor::countChars(std::string const & text, int byteOffset)
     {
+        assert("byteOffset is non-negative" && byteOffset >= 0);
+        assert("byteOffset is within text bounds" && byteOffset <= static_cast<int>(text.size()));
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         return utf8::distance(text.begin(), text.begin() + byteOffset);
     }
 
     int UTF8StringEditor::getOffset(std::string const & text, int charIndex)
     {
+        assert("charIndex is non-negative" && charIndex >= 0);
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         std::string::const_iterator cur;
         std::string::const_iterator end;
         int i = 0;

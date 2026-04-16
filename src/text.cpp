@@ -7,9 +7,13 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <numeric>
 #include <string>
 #include <utility>
+
+// Third-party library includes
+#include <utf8cpp/utf8.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -96,18 +100,19 @@ namespace fcn
         if (row >= mRows.size()) {
             throwException("Row out of bounds!");
         }
+        assert("content is valid utf8" && utf8::is_valid(content.begin(), content.end()));
 
         mRows[row] = content;
     }
 
     void Text::addRow(std::string const & row)
     {
-        unsigned int i = 0;
-        for (i = 0; i < row.size(); i++) {
+        for (size_t i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
                 throwException("Line feed not allowed in the row to be added!");
             }
         }
+        assert("row is valid utf8" && utf8::is_valid(row.begin(), row.end()));
 
         mRows.push_back(row);
     }
@@ -124,12 +129,12 @@ namespace fcn
             throwException("Position out of bounds!");
         }
 
-        unsigned int i = 0;
-        for (i = 0; i < row.size(); i++) {
+        for (size_t i = 0; i < row.size(); i++) {
             if (row[i] == '\n') {
                 throwException("Line feed not allowed in the row to be inserted!");
             }
         }
+        assert("row is valid utf8" && utf8::is_valid(row.begin(), row.end()));
 
         mRows.insert(mRows.begin() + position, row);
     }
@@ -154,6 +159,9 @@ namespace fcn
 
     void Text::insert(int character)
     {
+        assert("character is valid unicode" && character >= 0 && character <= 0x10FFFF);
+        assert("caret row is within bounds" && mCaretRow < mRows.size());
+
         char const c = static_cast<char>(character);
 
         if (mRows.empty()) {
@@ -270,6 +278,9 @@ namespace fcn
 
     void Text::setCaretPosition(int x, int y, Font* font)
     {
+        assert("font is not null" && font != nullptr);
+        assert("font height is positive" && font->getHeight() > 0);
+
         if (mRows.empty()) {
             return;
         }
@@ -316,6 +327,8 @@ namespace fcn
 
     int Text::getCaretX(Font* font) const
     {
+        assert("font is not null" && font != nullptr);
+
         if (mRows.empty()) {
             return 0;
         }
@@ -325,12 +338,17 @@ namespace fcn
 
     int Text::getCaretY(Font* font) const
     {
+        assert("font is not null" && font != nullptr);
+        assert("font height is positive" && font->getHeight() > 0);
+
         return mCaretRow * font->getHeight();
-        ;
     }
 
     Rectangle Text::getDimension(Font* font) const
     {
+        assert("font is not null" && font != nullptr);
+        assert("font height is positive" && font->getHeight() > 0);
+
         if (mRows.empty()) {
             return {0, 0, font->getWidth(" "), font->getHeight()};
         }
@@ -349,11 +367,13 @@ namespace fcn
 
     Rectangle Text::getCaretDimension(Font* font) const
     {
+        assert("font is not null" && font != nullptr);
+        assert("font height is positive" && font->getHeight() > 0);
+
         Rectangle dim;
-        dim.x     = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
-        dim.y     = font->getHeight() * mCaretRow;
-        dim.width = font->getWidth(" ");
-        // We add two for some extra spacing to be sure the whole caret is visible.
+        dim.x      = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
+        dim.y      = font->getHeight() * mCaretRow;
+        dim.width  = font->getWidth(" ");
         dim.height = font->getHeight() + 2;
         return dim;
     }
