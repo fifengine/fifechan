@@ -182,7 +182,7 @@ jobs:
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: |
           bootstrap-vcpkg.bat
-          vcpkg integrate
+          vcpkg integrate install
 
       # Reminder:
       # This step requires setting "CMAKE_CXX_COMPILER_LAUNCHER": "sccache"
