@@ -119,7 +119,7 @@ namespace fcn
          * @param out The stream to output to.
          * @param rectangle The rectangle to output.
          */
-        friend std::ostream& operator<<(std::ostream& out, Rectangle const & rectangle);
+        friend FIFEGUI_API std::ostream& operator<<(std::ostream& out, Rectangle const & rectangle);
 
         /**
          * Holds the x coordinate of the rectangle.

@@ -115,7 +115,8 @@
   #elif defined(FIFEGUI_COMPILER_CLANG)
     #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
       // Building the library
-      #define FIFEGUI_API __declspec(dllexport) __attribute__ ((visibility("default")))
+      #define FIFEGUI_API     __declspec(dllexport) __attribute__ ((visibility("default")))
+      #define FIFEGUI_EXT_API __declspec(dllexport) __attribute__ ((visibility("default")))
     #elif defined(FIFECHAN_EXTENSION_BUILD)
       // Building an extension to the library
       #define FIFEGUI_API     __declspec(dllimport) __attribute__ ((visibility("default")))
