@@ -205,10 +205,11 @@ jobs:
            -A "${{ matrix.config.platform }}"                           ^
            -DCMAKE_CXX_COMPILER=${{ matrix.config.compiler }}           ^
            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache                        ^
-           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}                  ^
+           -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}           ^
            -DBUILD_SHARED_LIBS=${{ matrix.config.shared_libs }}         ^
            -DVCPKG_TARGET_TRIPLET="${{ matrix.config.vcpkg_triplet }}"  ^
-           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                ^
+           -DVCPKG_INSTALLED_DIR=${{ env.SOURCE_DIR }}/vcpkg_installed   ^
+           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}                 ^
            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
       - name: 🙏 CMake ➔ Build

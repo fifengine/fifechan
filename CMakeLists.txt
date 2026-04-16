@@ -415,13 +415,8 @@ target_include_directories(${PROJECT_NAME}
 # This supports libraries without canonical <library/lib.h> include structure.
 # E.g. utf8cpp exposes "/include/utf8cpp", resulting in <utf8.h>, but we want <utf8cpp/utf8.h>.
 if(USE_VCPKG)
-  if(WIN32 AND DEFINED ENV{CI} AND DEFINED ENV{VCPKG_ROOT})
-    set(VCPKG_BASE_PATH "$ENV{VCPKG_ROOT}")
-  else()
-    set(VCPKG_BASE_PATH "${CMAKE_SOURCE_DIR}")
-  endif()
   target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-      $<BUILD_INTERFACE:${VCPKG_BASE_PATH}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include>
+      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include>
   )
 endif()
 
