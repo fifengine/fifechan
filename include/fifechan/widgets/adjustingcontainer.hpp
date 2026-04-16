@@ -75,12 +75,9 @@ namespace fcn
      * As you can see, each column is only as big as its largest element.
      * The AdjustingContainer will resize itself and rearrange its contents
      * based on whatever widgets it contains, allowing dynamic addition and
-     * removal while the program is running.  It also plays nicely with ScrollAreas,
-     * allowing you to show a fixed, maximum size while not limiting the actual
-     * container.
-     *
-
-     *
+     * removal while the program is running.
+     * It also plays nicely with ScrollAreas, allowing you to show a fixed,
+     * maximum size while not limiting the actual container.
      */
     class FIFEGUI_API AdjustingContainer : public Container
     {

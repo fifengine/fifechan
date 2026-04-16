@@ -42,14 +42,10 @@ namespace fcn
 
         virtual ~Text();
 
-        /** Copy constructor. */
-        Text(Text const &) = default;
-        /** Copy assignment operator. */
+        Text(Text const &)            = default;
         Text& operator=(Text const &) = default;
-        /** Move constructor. */
-        Text(Text&&) = default;
-        /** Move assignment operator. */
-        Text& operator=(Text&&) = default;
+        Text(Text&&)                  = default;
+        Text& operator=(Text&&)       = default;
 
         /**
          * Sets the content of the text. Will completely remove

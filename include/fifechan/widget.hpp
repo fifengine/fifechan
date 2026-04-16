@@ -37,12 +37,14 @@ namespace fcn
     class WidgetListener;
 
     /**
-     * Abstract base class defining the common behavior, properties, and lifecycle of all GUI elements.
+     * Abstract base class defining the common behavior,
+     * properties, and lifecycle of all GUI elements.
      *
      * It contains basic functions every widget should have.
      *
-     * NOTE: Functions beginning with underscore "_" should not
-     *       be overloaded unless you know what you are doing.
+     * @note
+     * Functions beginning with underscore "_" should not be overloaded
+     * unless you know what you are doing.
      *
      * @ingroup core
      */
@@ -76,14 +78,16 @@ namespace fcn
         Widget& operator=(Widget&&)       = delete;
 
         /**
-         * Draws the widget. The call to draw is initiated by the widget's
+         * Draws the widget.
+         *
+         * The call to draw is initiated by the widget's
          * parent. The graphics object is set up so that all drawing is relative
          * to the widget, i.e coordinate (0,0) is the top left corner of the widget.
          * It is not possible to draw outside of a widget's dimension. If a widget
          * has children, the parent's draw function will always be called before
          * the children's draw functions are called.
          *
-         * NOTE: A widget with children won't draw its children unless the
+         * @note A widget with children won't draw its children unless the
          *       children area given by Widget::getChildrenArea returns a
          *       none empty rectangle inside the widgets dimension. The children
          *       area is considered relative to the widget's position.
@@ -132,7 +136,9 @@ namespace fcn
         virtual void drawSelectionFrame(Graphics* graphics);
 
         /**
-         * Sets the size of the widget's outline. The outline is not considered as part of
+         * Sets the size of the widget's outline.
+         *
+         * The outline is not considered as part of
          * the widget, it only allows a outline to be drawn around the widget, thus a outline
          * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
@@ -147,7 +153,9 @@ namespace fcn
         void setOutlineSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's outline. The outline is not considered as part of
+         * Gets the size of the widget's outline.
+         *
+         * The outline is not considered as part of
          * the widget, it only allows a outline to be drawn around the widget, thus a outline
          * will never be included when calculating if a widget should receive events
          * from user input. Also a widget's outline will never be included when calculating
@@ -162,11 +170,12 @@ namespace fcn
         unsigned int getOutlineSize() const;
 
         /**
-         * Sets the size of the widget's border. The border is considered as part of
-         * the widget.
+         * Sets the size of the widget's border.
          *
-         * A border size of 0 means that the widget has no border. The default border size
-         * is 0.
+         * The border is considered a part of the widget.
+         *
+         * A border size of 0 means that the widget has no border.
+         * The default border size is 0.
          *
          * @param size The size of the widget's border.
          * @see getBorderSize, drawBorder
@@ -174,11 +183,12 @@ namespace fcn
         void setBorderSize(unsigned int size);
 
         /**
-         * Gets the size of the widget's border. The border is considered as part of
-         * the widget.
+         * Gets the size of the widget's border.
          *
-         * A border size of 0 means that the widget has no border. The default border size
-         * is 0.
+         * The border is considered as part of the widget.
+         *
+         * A border size of 0 means that the widget has no border.
+         * The default border size is 0.
          *
          * @return The size of the widget's border.
          * @see setBorderSize, drawBorder
@@ -187,6 +197,7 @@ namespace fcn
 
         /**
          * Sets all 4 margins to one value.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -198,6 +209,7 @@ namespace fcn
 
         /**
          * Sets the top margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -209,6 +221,7 @@ namespace fcn
 
         /**
          * Gets the top margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -220,6 +233,7 @@ namespace fcn
 
         /**
          * Sets the right margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -231,6 +245,7 @@ namespace fcn
 
         /**
          * Gets the right margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -242,6 +257,7 @@ namespace fcn
 
         /**
          * Sets the bottom margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -253,6 +269,7 @@ namespace fcn
 
         /**
          * Gets the bottom margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -264,6 +281,7 @@ namespace fcn
 
         /**
          * Sets the left margin.
+         *
          * The margin clears an area around an element (outside the border).
          * The margin does not have a background color, and is completely transparent.
          * It is also possible to use negative values, to overlap content.
@@ -375,7 +393,7 @@ namespace fcn
         unsigned int getPaddingLeft() const;
 
         /**
-         * Called for all widgets in the gui each time Gui::logic is called.
+         * Called for all widgets in the GUI each time Gui::logic is called.
          * You can do logic stuff here like playing an animation.
          *
          * @see Gui::logic
@@ -779,9 +797,9 @@ namespace fcn
          * set up clip areas and call the draw function for this widget
          * and for all its children.
          *
-         * WARNING: This function is used internally and should not
-         *          be called or overloaded unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * or overloaded unless you know what you are doing.
          */
         virtual void _draw(Graphics* graphics);
 
@@ -789,18 +807,18 @@ namespace fcn
          * Called whenever a widget should perform logic. The function will
          * call the logic function for this widget and for all its children.
          *
-         * WARNING: This function is used internally and should not
-         *          be called or overloaded unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * or overloaded unless you know what you are doing.
          */
         virtual void _logic();
 
         /**
          * Sets the focus handler to be used.
          *
-         * WARNING: This function is used internally and should not
-         *          be called or overloaded unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * or overloaded unless you know what you are doing.
          *
          * @param focusHandler The focus handler to use.
          * @see _getFocusHandler
@@ -810,9 +828,9 @@ namespace fcn
         /**
          * Gets the focus handler used.
          *
-         * WARNING: This function is used internally and should not
-         *          be called or overloaded unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * or overloaded unless you know what you are doing.
          *
          * @return The focus handler used.
          * @see _setFocusHandler
@@ -931,9 +949,10 @@ namespace fcn
          * Sets the action event identifier of the widget. The identifier is
          * used to be able to identify which action has occurred.
          *
-         * NOTE: An action event identifier should not be used to identify a
-         *       certain widget but rather a certain event in your application.
-         *       Several widgets can have the same action event identifier.
+         * @note
+         * An action event identifier should not be used to identify a
+         * certain widget but rather a certain event in your application.
+         * Several widgets can have the same action event identifier.
          *
          * @param actionEventId The action event identifier.
          * @see getActionEventId
@@ -959,9 +978,9 @@ namespace fcn
         /**
          * Sets the parent of the widget. A parent must be a Container.
          *
-         * WARNING: This function is used internally and should not
-         *          be called or overloaded unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * or overloaded unless you know what you are doing.
          *
          * @param parent The parent of the widget.
          * @see getParent
@@ -1046,7 +1065,9 @@ namespace fcn
         bool isTabOutEnabled() const;
 
         /**
-         * Sets tab out enabled. Tab out means that you can lose
+         * Sets tab out enabled.
+         *
+         * Tab out means that you can lose
          * focus to this widget by pressing the tab button. If tab out is
          * disabled then the FocusHandler ignores tabbing and focus will
          * stay with this widget.
@@ -1073,7 +1094,9 @@ namespace fcn
         virtual bool isModalMouseInputFocusable() const;
 
         /**
-         * Requests modal focus. When a widget has modal focus, only that
+         * Requests modal focus.
+         *
+         * When a widget has modal focus, only that
          * widget and it's children may receive input.
          *
          * @throws Exception if another widget already has modal focus.
@@ -1082,7 +1105,9 @@ namespace fcn
         virtual void requestModalFocus();
 
         /**
-         * Requests modal mouse input focus. When a widget has modal input focus
+         * Requests modal mouse input focus.
+         *
+         * When a widget has modal input focus
          * that widget will be the only widget receiving input even if the input
          * occurs outside of the widget and no matter what the input is.
          *
@@ -1092,16 +1117,19 @@ namespace fcn
         virtual void requestModalMouseInputFocus();
 
         /**
-         * Releases modal focus. Modal focus will only be released if the
-         * widget has modal focus.
+         * Releases modal focus.
+         *
+         * Modal focus will only be released if the widget has modal focus.
          *
          * @see requestModalFocus, isModalFocused
          */
         virtual void releaseModalFocus();
 
         /**
-         * Releases modal mouse input focus. Modal mouse input focus will only
-         * be released if the widget has modal mouse input focus.
+         * Releases modal mouse input focus.
+         *
+         * Modal mouse input focus will only be released
+         * if the widget has modal mouse input focus.
          *
          * @see requestModalMouseInputFocus, isModalMouseInputFocused
          */
@@ -1129,8 +1157,8 @@ namespace fcn
          * This function is used to decide which gets mouse input,
          * thus it can be overloaded to change that behaviour.
          *
-         * NOTE: This always returns Nullptr if the widget is not
-         *       a container.
+         * @note
+         * This always returns Nullptr if the widget is not a container.
          *
          * @param x The x coordinate of the widget to get.
          * @param y The y coordinate of the widget to get.
@@ -1156,8 +1184,8 @@ namespace fcn
         /**
          * Gets all widgets inside a certain area of the widget.
          *
-         * NOTE: This always returns an emtpy list if the widget is not
-         *       a container.
+         * @note
+         * This always returns an empty list if the widget is not a container.
          *
          * @param area The area to check.
          * @return A list of widgets. An empty list if no widgets was found.
@@ -1170,8 +1198,8 @@ namespace fcn
         /**
          * Gets all widgets inside a certain area of the widget.
          *
-         * NOTE: This always returns an empty list if the widget is not
-         *       a container.
+         * @note
+         * This always returns an empty list if the widget is not a container.
          *
          * @param area The area to check.
          * @param ignore Optional widget pointer to exclude from the results.
@@ -1208,7 +1236,7 @@ namespace fcn
          * method is used when drawing children of a widget when computing
          * clip rectangles for the children.
          *
-         * NOTE: The returned rectangle should be relative to the widget,
+         * @note The returned rectangle should be relative to the widget,
          *       i.e a rectangle with x and y coordinate (0,0) and with
          *       width and height the same as the widget will let the
          *       children draw themselves in the whole widget.
@@ -1233,8 +1261,10 @@ namespace fcn
         virtual FocusHandler* _getInternalFocusHandler();
 
         /**
-         * Sets the internal focus handler. An internal focus handler is
-         * needed if both a widget in the widget and the widget itself
+         * Sets the internal focus handler.
+         *
+         * An internal focus handler is needed, if both
+         * 'a widget in the widget' and 'the widget itself'
          * should be focused at the same time.
          *
          * @param internalFocusHandler The internal focus handler to be used.
@@ -1243,8 +1273,9 @@ namespace fcn
         void setInternalFocusHandler(FocusHandler* internalFocusHandler);
 
         /**
-         * Moves a widget to the top of this widget. The moved widget will be
-         * drawn above all other widgets in this widget.
+         * Moves a widget to the top of this widget.
+         *
+         * The moved widget will be drawn above all other widgets in this widget.
          *
          * This method is safe to call at any time.
          *
@@ -1255,6 +1286,7 @@ namespace fcn
 
         /**
          * Moves a widget in this widget to the bottom of this widget.
+         *
          * The moved widget will be drawn below all other widgets in this widget.
          *
          * This method is safe to call at any time.
@@ -1279,8 +1311,9 @@ namespace fcn
         virtual void focusPrevious();
 
         /**
-         * Tries to show a specific part of a widget by moving it. Used if the
-         * widget should act as a container.
+         * Tries to show a specific part of a widget by moving it.
+         *
+         * Used if the widget should act as a container.
          *
          * @param widget The target widget.
          * @param area The area to show.
@@ -1288,10 +1321,11 @@ namespace fcn
         virtual void showWidgetPart(Widget* widget, Rectangle area);
 
         /**
-         * Sets an id of a widget. An id can be useful if a widget needs to be
-         * identified in a container. For example, if widgets are created by an
-         * XML document, a certain widget can be retrieved given that the widget
-         * has an id.
+         * Sets an id of a widget.
+         *
+         * The id is useful if a widget needs to be identified in a container.
+         * For example, if widgets are created by an XML document,
+         * a certain widget can be retrieved given that the widget has an id.
          *
          * @param id The id to set to the widget.
          * @see getId, Container::findWidgetById
@@ -1299,10 +1333,11 @@ namespace fcn
         void setId(std::string const & id);
 
         /**
-         * Gets the id of a widget. An id can be useful if a widget needs to be
-         * identified in a container. For example, if widgets are created by an
-         * XML document, a certain widget can be retrieved given that the widget
-         * has an id.
+         * Gets the id of a widget.
+         *
+         * The id is useful if a widget needs to be identified in a container.
+         * For example, if widgets are created by an XML document,
+         * a certain widget can be retrieved given that the widget has an id.
          *
          * @return The id of the widget.
          * @see setId, Container::findWidgetById
@@ -1311,6 +1346,7 @@ namespace fcn
 
         /**
          * Shows a certain part of a widget in the widget's parent.
+         *
          * Used when widgets want a specific part to be visible in
          * its parent. An example is a TextArea that wants a specific
          * part of its text to be visible when a TextArea is a child
@@ -1323,13 +1359,13 @@ namespace fcn
         /**
          * Sets the visibility event handler to be used.
          *
-         * WARNING: This function is used internally and should not
-         *          be called unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called unless
+         * you know what you are doing.
          *
-         * FIXME We don't like the visibility handler being static
-         *        but we leave it as is for the moment, until we
-         *        come up a better solution.
+         * @todo
+         * We don't like the visibility handler being static, but we leave
+         * it as is for the moment, until we come up a better solution.
          *
          * @param visibilityEventHandler The visibility event handler to be used.
          */
@@ -1338,13 +1374,13 @@ namespace fcn
         /**
          * Gets the visibility event handler of this widget.
          *
-         * WARNING: This function is used internally and should not
-         *          be called unless you know what you
-         *          are doing.
+         * @warning
+         * This function is used internally and should not be called
+         * unless you know what you are doing.
          *
-         * FIXME  We don't like the visibility handler being static
-         *        but we leave it as is for the moment, until we
-         *        come up a better solution.
+         * @todo
+         * We don't like the visibility handler being static, but we leave
+         * it as is for the moment, until we come up a better solution.
          */
         static VisibilityEventHandler* _getVisibilityEventHandler();
 
@@ -1396,6 +1432,7 @@ namespace fcn
 
         /**
          * Execute the layouting.
+         *
          * In case you want to relayout a visible widget. This function will
          * automatically perform the layout adaption from the widget.
          *
@@ -1655,14 +1692,14 @@ namespace fcn
         FocusHandler* mFocusHandler{nullptr};
 
         /**
-         * Holds the focus handler used by the widget. Nullptr
-         * if no internal focus handler is used.
+         * Holds the focus handler used by the widget.
+         * Nullptr if no internal focus handler is used.
          */
         FocusHandler* mInternalFocusHandler{nullptr};
 
         /**
-         * Holds the parent of the widget. Nullptr if the widget
-         * has no parent.
+         * Holds the parent of the widget.
+         * Nullptr if the widget has no parent.
          */
         Widget* mParent{nullptr};
 
@@ -1822,9 +1859,9 @@ namespace fcn
         /**
          * Holds the visibility event handler used by the widgets.
          *
-         * TODO: FIXME We don't like the visibility handler being static
-         *       but we leave it as is for the moment, until we
-         *       come up a better solution.
+         * @todo
+         * We don't like the visibility handler being static, but we leave
+         * it as is for the moment, until we come up a better solution.
          */
         static VisibilityEventHandler* mVisibilityEventHandler;
 

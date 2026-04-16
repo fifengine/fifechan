@@ -30,7 +30,7 @@ namespace fcn
         /**
          * Pushes a key pressed event.
          *
-         * NOTE: If a special key is pressed, like the F1 key,
+         * @note If a special key is pressed, like the F1 key,
          *       the corresponding GUI key value found
          *       in the enum in Key should be pushed as the
          *       unicode value.
@@ -42,7 +42,7 @@ namespace fcn
         /**
          * Pushes a key released event.
          *
-         * NOTE: If a special key is pressed, like the F1 key,
+         * @note If a special key is pressed, like the F1 key,
          *       the corresponding GUI key value found
          *       in the enum in Key should be pushed as the
          *       unicode value.

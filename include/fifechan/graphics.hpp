@@ -77,13 +77,16 @@ namespace fcn
         Graphics& operator=(Graphics&&)       = delete;
 
         /**
-         * Initializes drawing. Called by the Gui when Gui::draw() is called.
+         * Initializes drawing.
+         *
+         * Called by the GUI when Gui::draw() is called.
          * It is needed by some implementations of Graphics to perform
          * preparations before drawing. An example of such an implementation
          * is the OpenGLGraphics.
          *
-         * NOTE: You will never need to call this function yourself, unless
-         *       you use a Graphics object outside the library.
+         * @note
+         * You will never need to call this function yourself, unless
+         * you use a Graphics object outside the library.
          *
          * @see _endDraw, Gui::draw
          */
@@ -91,10 +94,11 @@ namespace fcn
 
         /**
          * Deinitializes the drawing process.
+         *
          * Called by the GUI when `Gui::draw()` is complete.
          * It should reset any state changes made by `_beginDraw()`.
          *
-         * NOTE: You generally won't need to call this function yourself unless
+         * \note You generally won't need to call this function yourself unless
          *       you are using a `Graphics` object outside of the library.
          *
          * @see _beginDraw, Gui::draw
@@ -102,7 +106,9 @@ namespace fcn
         virtual void _endDraw() { }
 
         /**
-         * Pushes a clip area onto the stack. The x and y coordinates in the
+         * Pushes a clip area onto the stack.
+         *
+         * The x and y coordinates in the
          * rectangle is  relative to the last pushed clip area.
          * If the new area falls outside the current clip area, it will be
          * clipped as necessary.
@@ -124,8 +130,9 @@ namespace fcn
         virtual void popClipArea();
 
         /**
-         * Gets the current clip area. Useful if you want to do drawing
-         * bypassing Graphics.
+         * Gets the current clip area.
+         *
+         * Useful if you want to do drawing bypassing Graphics.
          *
          * @return The current clip area.
          */
@@ -134,16 +141,19 @@ namespace fcn
         /**
          * Draws a part of an image.
          *
-         * NOTE: Width and height arguments will not scale the image but
-         *       specifies the size of the part to be drawn. If you want
-         *       to draw the whole image there is a simplified version of
-         *       this function.
+         * @note
+         * Width and height arguments will not scale the image but
+         * specifies the size of the part to be drawn. If you want
+         * to draw the whole image there is a simplified version of
+         * this function.
          *
-         * EXAMPLE: @code drawImage(myImage, 10, 10, 20, 20, 40, 40); @endcode
-         *          Will draw a rectangular piece of myImage starting at
-         *          coordinate (10, 10) in myImage, with width and height 40.
-         *          The piece will be drawn with it's top left corner at
-         *          coordinate (20, 20).
+         * @par Example
+         * @code
+         * drawImage(myImage, 10, 10, 20, 20, 40, 40);
+         * @endcode
+         * This draws a rectangular region of `myImage` starting at (10, 10) with
+         * width and height 40. The extracted region is placed with its top-left
+         * corner at (20, 20).
          *
          * @param image The image to draw.
          * @param srcX The source image x coordinate.
@@ -152,14 +162,25 @@ namespace fcn
          * @param dstY The destination y coordinate.
          * @param width The width of the piece.
          * @param height The height of the piece.
+         * @see drawImage(const Image& image, int dstX, int dstY)
          */
         virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) = 0;
+
         /**
-         * Draws an image. A simplified version of the other drawImage.
+         * Draws an image.
+         *
+         * A simplified version of the other drawImage.
          * It will draw a whole image at the coordinate you specify.
+         *
+         * @par Example
          * It is equivalent to calling:
-         * @code drawImage(myImage, 0, 0, dstX, dstY, image->getWidth(), \
-         image->getHeight()); @endcode
+         * @code
+         * drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
+         * @endcode
+         *
+         * @param image The image to draw.
+         * @param dstX The destination x coordinate.
+         * @param dstY The destination y coordinate.
          */
         virtual void drawImage(Image const * image, int dstX, int dstY);
 
@@ -245,7 +266,6 @@ namespace fcn
          * @param y      The y coordinate of the rectangle
          * @param width  The width of the rectangle
          * @param height The height of the rectangle
-         *
          */
         void drawRectangle(int x, int y, int width, int height)
         {
@@ -268,7 +288,6 @@ namespace fcn
          * @param y      The y coordinate of the rectangle
          * @param width  The width of the rectangle
          * @param height The height of the rectangle
-         *
          */
         void fillRectangle(int x, int y, int width, int height)
         {
@@ -280,7 +299,6 @@ namespace fcn
          *
          * @param p      The circle center coordinate as point.
          * @param radius The circle radius.
-         *
          */
         virtual void drawCircle(Point const & p, unsigned int radius) = 0;
 
@@ -289,31 +307,34 @@ namespace fcn
          *
          * @param p      The circle center coordinate as point.
          * @param radius The circle radius.
-         *
          */
         virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
 
         /**
          * Draws a simple, non-filled circle segment with a one pixel width.
-         * Note: The start angle must be less than the end angle. 0 angle is right side.
+         *
+         * @note
+         * The start angle must be less than the end angle.
+         * 0 angle is right side.
          *
          * @param p      The circle center coordinate as point.
          * @param radius The circle radius.
          * @param sangle The start angle of the segment.
          * @param eangle The end angle of the segment.
-         *
          */
         virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
         /**
          * Draws a filled circle segment.
-         * Note: The start angle must be less than the end angle. 0 angle is right side.
+         *
+         * @note
+         * The start angle must be less than the end angle.
+         * 0 angle is right side.
          *
          * @param p      The circle center coordinate as point.
          * @param radius The circle radius.
          * @param sangle The start angle of the segment.
          * @param eangle The end angle of the segment.
-         *
          */
         virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
@@ -352,8 +373,10 @@ namespace fcn
         virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
 
         /**
-         * Draws text with a default left alignment. This overload forwards
-         * to the alignment-aware overload using Alignment::Left.
+         * Draws text with a default left alignment.
+         *
+         * This overload forwards to the alignment-aware overload
+         * using Alignment::Left.
          *
          * @param text The text to draw.
          * @param x The x coordinate where to draw the text.

@@ -24,10 +24,11 @@ namespace fcn
     {
     public:
         /**
-         * Draws a glyph as a rectangle. The glyphs will always be drawn as
-         * rectangles no matter the glyph.
+         * Draws a glyph as a rectangle.
          *
-         * NOTE: You normally won't use this function to draw text since
+         * The glyphs will always be drawn as rectangles no matter the glyph.
+         *
+         * @note You normally won't use this function to draw text since
          *       the Graphics class contains better functions for drawing
          *       text.
          *

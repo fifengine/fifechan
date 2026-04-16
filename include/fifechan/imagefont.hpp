@@ -105,7 +105,7 @@ namespace fcn
         /**
          * Draws a glyph.
          *
-         * NOTE: You normally won't use this function to draw text since
+         * @note You normally won't use this function to draw text since
          *       the Graphics class contains better functions for drawing
          *       text.
          *

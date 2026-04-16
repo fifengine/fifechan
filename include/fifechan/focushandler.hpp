@@ -42,9 +42,11 @@ namespace fcn
         FocusHandler& operator=(FocusHandler&&)       = delete;
 
         /**
-         * Requests focus for a widget. Focus will only be granted to a widget
-         * if it's focusable and if no other widget has modal focus.
-         * If a widget receives focus a focus event will be sent to the
+         * Requests focus for a widget.
+         *
+         * Focus will only be granted to a widget if it's focusable
+         * and if no other widget has modal focus.
+         * If a widget receives focus, a focus event will be sent to the
          * focus listeners of the widget.
          *
          * @param widget The widget to request focus for.
@@ -53,9 +55,10 @@ namespace fcn
         virtual void requestFocus(Widget* widget);
 
         /**
-         * Requests modal focus for a widget. Focus will only be granted
-         * to a widget if it's focusable and if no other widget has modal
-         * focus.
+         * Requests modal focus for a widget.
+         *
+         * Focus will only be granted to a widget if it's focusable
+         * and if no other widget has modal focus.
          *
          * @param widget The widget to request modal focus for.
          * @throws Exception when another widget already has modal focus.
@@ -64,9 +67,10 @@ namespace fcn
         virtual void requestModalFocus(Widget* widget);
 
         /**
-         * Requests modal mouse input focus for a widget. Focus will only
-         * be granted to a widget if it's focusable and if no other widget
-         * has modal mouse input focus.
+         * Requests modal mouse input focus for a widget.
+         *
+         * Focus will only be granted to a widget if it's focusable
+         * and if no other widget has modal mouse input focus.
          *
          * Modal mouse input focus means no other widget then the widget with
          * modal mouse input focus will receive mouse input. The widget with
@@ -82,6 +86,7 @@ namespace fcn
 
         /**
          * Releases modal focus if the widget has modal focus.
+         *
          * If the widget doesn't have modal focus no release will occur.
          *
          * @param widget The widget to release modal focus for.
@@ -90,9 +95,9 @@ namespace fcn
         virtual void releaseModalFocus(Widget* widget);
 
         /**
-         * Releases modal mouse input focus if the widget has modal mouse input
-         * focus. If the widget doesn't have modal mouse input focus no release
-         * will occur.
+         * Releases modal mouse input focus if the widget has modal mouse input focus.
+         *
+         * If the widget doesn't have modal mouse input focus no release will occur.
          *
          * @param widget the widget to release modal mouse input focus for.
          * @see requestModalMouseInputFocus, Widget::releaseModalMouseInputFocus
@@ -133,6 +138,7 @@ namespace fcn
 
         /**
          * Focuses the next widget added to a container.
+         *
          * If no widget has focus the first widget gets focus. The order
          * in which the widgets are focused is determined by the order
          * they were added to a container.
@@ -143,6 +149,7 @@ namespace fcn
 
         /**
          * Focuses the previous widget added to a container.
+         *
          * If no widget has focus the first widget gets focus. The order
          * in which the widgets are focused is determined by the order
          * they were added to a container.
@@ -168,30 +175,33 @@ namespace fcn
         virtual void remove(Widget* widget);
 
         /**
-         * Focuses nothing. A focus event will also be sent to the
-         * focused widget's focus listeners if a widget has focus.
+         * Focuses nothing.
+         *
+         * A focus event will also be sent to the focused widget's
+         * focus listeners if a widget has focus.
          */
         virtual void focusNone();
 
         /**
-         * Focuses the next widget which allows tabbing in unless
-         * the current focused Widget disallows tabbing out.
+         * Focuses the next widget which allows tabbing in
+         * unless the current focused Widget disallows tabbing out.
          *
          * @see tabPrevious
          */
         virtual void tabNext();
 
         /**
-         * Focuses the previous widget which allows tabbing in unless
-         * current focused widget disallows tabbing out.
+         * Focuses the previous widget which allows tabbing in
+         * unless current focused Widget disallows tabbing out.
          *
          * @see tabNext
          */
         virtual void tabPrevious();
 
         /**
-         * Gets the widget being dragged. Used by the Gui class to
-         * keep track of the dragged widget.
+         * Gets the widget being dragged.
+         *
+         * Used by the GUI class to keep track of the dragged widget.
          *
          * @return the widget being dragged.
          * @see setDraggedWidget
@@ -199,8 +209,9 @@ namespace fcn
         virtual Widget* getDraggedWidget();
 
         /**
-         * Sets the widget being dragged. Used by the Gui class to
-         * keep track of the dragged widget.
+         * Sets the widget being dragged.
+         *
+         * Used by the GUI class to keep track of the dragged widget.
          *
          * @param draggedWidget The widget being dragged.
          * @see getDraggedWidget
@@ -208,8 +219,9 @@ namespace fcn
         virtual void setDraggedWidget(Widget* draggedWidget);
 
         /**
-         * Gets the last widget with the mouse. Used by the Gui class
-         * to keep track the last widget with the mouse.
+         * Gets the last widget with the mouse.
+         *
+         * Used by the GUI class to keep track the last widget with the mouse.
          *
          * @return The last widget with the mouse.
          * @see setLastWidgetWithMouse
@@ -217,8 +229,9 @@ namespace fcn
         virtual Widget* getLastWidgetWithMouse();
 
         /**
-         * Sets the last widget with the mouse. Used by the Gui class
-         * to keep track the last widget with the mouse.
+         * Sets the last widget with the mouse.
+         *
+         * Used by the GUI class to keep track the last widget with the mouse.
          *
          * @param lastWidgetWithMouse The last widget with the mouse.
          * @see getLastWidgetWithMouse
@@ -252,15 +265,15 @@ namespace fcn
         /**
          * Sets the last widget with modal mouse input focus.
          *
-         * @param lastWidgetWithModalMouseInputFocus The last widget with
-         *                                          modal mouse input focus.
+         * @param lastWidgetWithModalMouseInputFocus The last widget with modal mouse input focus.
          * @see getLastWidgetWithModalMouseInputFocus
          */
         virtual void setLastWidgetWithModalMouseInputFocus(Widget* lastWidgetWithModalMouseInputFocus);
 
         /**
-         * Gets the last widget pressed. Used by the Gui class to keep track
-         * of pressed widgets.
+         * Gets the last widget pressed.
+         *
+         * Used by the GUI class to keep track of pressed widgets.
          *
          * @return The last widget pressed.
          * @see setLastWidgetPressed
@@ -268,8 +281,9 @@ namespace fcn
         virtual Widget* getLastWidgetPressed();
 
         /**
-         * Sets the last widget pressed. Used by the Gui class to keep track
-         * of pressed widgets.
+         * Sets the last widget pressed.
+         *
+         * Used by the GUI class to keep track of pressed widgets.
          *
          * @param lastWidgetPressed The last widget pressed.
          * @see getLastWidgetPressed
@@ -277,8 +291,10 @@ namespace fcn
         virtual void setLastWidgetPressed(Widget* lastWidgetPressed);
 
         /**
-         * Informs the focus handler that a widget was hidden. This is needed because
-         * the focus handler must determine which widget has the mouse now.
+         * Informs the focus handler that a widget was hidden.
+         *
+         * This is needed because the focus handler must determine
+         * which widget has the mouse now.
          *
          * @param widget Widget that was hidden
          */
@@ -306,8 +322,7 @@ namespace fcn
         using WidgetIterator = WidgetVector::iterator;
 
         /**
-         * Holds the widgets currently being handled by the
-         * focus handler.
+         * Holds the widgets currently being handled by the focus handler.
          */
         WidgetVector mWidgets;
 
@@ -317,20 +332,23 @@ namespace fcn
         Widget* mFocusedWidget;
 
         /**
-         * Holds the modal focused widget. Nullptr if no widget has
-         * modal focused.
+         * Holds the modal focused widget.
+         *
+         * Nullptr if no widget has modal focused.
          */
         Widget* mModalFocusedWidget;
 
         /**
-         * Holds the modal mouse input focused widget. Nullptr if no widget
-         * is being dragged.
+         * Holds the modal mouse input focused widget.
+         *
+         * Nullptr if no widget is being dragged.
          */
         Widget* mModalMouseInputFocusedWidget;
 
         /**
-         * Holds the dragged widget. Nullptr if no widget is
-         * being dragged.
+         * Holds the dragged widget.
+         *
+         * Nullptr if no widget is being dragged.
          */
         Widget* mDraggedWidget;
 

@@ -174,9 +174,10 @@ namespace fcn
         virtual void addRow(std::string const & row);
 
         /**
-         * Checks if the text box is opaque. An opaque text box will draw
-         * it's background and it's text. A non opaque text box only draw it's
-         * text making it transparent.
+         * Checks if the text box is opaque.
+         *
+         * An opaque text box will draw it's background and it's text.
+         * A non opaque text box only draw it's text making it transparent.
          *
          * @return True if the text box is opaque, false otherwise.
          * @see setOpaque
@@ -184,9 +185,10 @@ namespace fcn
         bool isOpaque() const;
 
         /**
-         * Sets the text box to be opaque or not. An opaque text box will draw
-         * it's background and it's text. A non opaque text box only draw it's
-         * text making it transparent.
+         * Sets the text box to be opaque or not.
+         *
+         * An opaque text box will draw it's background and it's text.
+         * A non opaque text box only draw it's text making it transparent.
          *
          * @param opaque True if the text box should be opaque, false otherwise.
          * @see isOpaque
@@ -231,12 +233,14 @@ namespace fcn
 
         /**
          * Sets caret column (UTF-8 aware).
+         *
          * @param column Caret column.
          */
         void setCaretColumnUTF8(int column);
 
         /**
          * Sets caret row (UTF-8 aware).
+         *
          * @param row Caret row.
          */
         void setCaretRowUTF8(int row);
@@ -250,8 +254,9 @@ namespace fcn
         void setCaretRowColumnUTF8(int row, int column);
 
         /**
-         * Draws the caret. Overloaded this method if you want to
-         * change the style of the caret.
+         * Draws the caret.
+         *
+         * Overloaded this method if you want to change the style of the caret.
          *
          * @param graphics a Graphics object to draw with.
          * @param x the x position.

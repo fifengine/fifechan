@@ -54,12 +54,13 @@ namespace fcn
         ActionEvent(Widget* source, std::string id);
 
         /**
-         * Gets the identifier of the event. An identifier can
-         * be used to distinguish from two actions from the same
-         * widget or to let many widgets fire the same widgets
-         * that should be treated equally.
+         * Returns the event identifier.
          *
-         * @return The identifier of the event.
+         * The identifier can be used to distinguish between different actions
+         * from the same widget, or to group actions from multiple widgets that
+         * should be handled equivalently.
+         *
+         * @return Reference to the event identifier string.
          */
         std::string const & getId() const;
 

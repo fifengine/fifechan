@@ -531,6 +531,9 @@ namespace fcn
 
     /**
      * Returns the next higher power of 2 based on the passed argument.
+     *
+     * @param x The value to find the next power of 2 for.
+     * @return The next power of 2 greater than or equal to x.
      */
     inline unsigned nextPow2(unsigned x)
     {

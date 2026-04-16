@@ -66,7 +66,7 @@ namespace fcn::sdl2
         /**
          * Draws an SDL_Texture on the target surface.
          *
-         * NOTE: The clip areas will be taken into account.
+         * @note The clip areas will be taken into account.
          */
         virtual void drawSDLTexture(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination);
 

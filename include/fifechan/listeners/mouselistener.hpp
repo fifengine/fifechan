@@ -25,14 +25,10 @@ namespace fcn
     public:
         virtual ~MouseListener() = default;
 
-        /** Copy constructor. */
-        MouseListener(MouseListener const &) = default;
-        /** Copy assignment operator. */
+        MouseListener(MouseListener const &)            = default;
         MouseListener& operator=(MouseListener const &) = default;
-        /** Move constructor. */
-        MouseListener(MouseListener&&) = default;
-        /** Move assignment operator. */
-        MouseListener& operator=(MouseListener&&) = default;
+        MouseListener(MouseListener&&)                  = default;
+        MouseListener& operator=(MouseListener&&)       = default;
 
         /**
          * Called when the mouse has entered into the widget area.
@@ -51,8 +47,9 @@ namespace fcn
         /**
          * Called when a mouse button has been pressed on the widget area.
          *
-         * NOTE: A mouse press is NOT equal to a mouse click.
-         *       Use mouseClickMessage to check for mouse clicks.
+         * @note
+         * A mouse press is NOT equal to a mouse click.
+         * Use mouseClickMessage to check for mouse clicks.
          *
          * @param mouseEvent Describes the event.
          */
@@ -119,7 +116,7 @@ namespace fcn
 
     protected:
         /**
-         * Constructor.
+         * Protected default constructor.
          *
          * Instances should not be created directly,
          * therefore the constructor is declared protected.

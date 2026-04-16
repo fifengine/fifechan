@@ -21,6 +21,10 @@ namespace fcn
      * To make FifeGUI usable with other libraries, an Input
      * class must be implemented.
      *
+     * @note
+     * Functions beginning with underscore "_" should not be overloaded
+     * unless you know what you are doing.
+     *
      * @see SDLInput
      *
      * @ingroup input
@@ -66,10 +70,13 @@ namespace fcn
         virtual MouseInput dequeueMouseInput() = 0;
 
         /**
-         * Polls all exsisting input. Called when input should
-         * be polled. The function exists for compatibility reason
-         * where some libraries need to poll input at a certain
-         * logic rate.
+         * Polls all existing input.
+         *
+         * Called when input should be polled.
+         *
+         * @note
+         * Provided for compatibility with backend libraries that require input
+         * polling at a fixed update rate.
          */
         virtual void _pollInput() = 0;
 

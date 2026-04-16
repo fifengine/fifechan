@@ -31,14 +31,10 @@ namespace fcn
     public:
         virtual ~WidgetListener() = default;
 
-        /** Copy constructor. */
-        WidgetListener(WidgetListener const &) = default;
-        /** Copy assignment operator. */
+        WidgetListener(WidgetListener const &)            = default;
         WidgetListener& operator=(WidgetListener const &) = default;
-        /** Move constructor. */
-        WidgetListener(WidgetListener&&) = default;
-        /** Move assignment operator. */
-        WidgetListener& operator=(WidgetListener&&) = default;
+        WidgetListener(WidgetListener&&)                  = default;
+        WidgetListener& operator=(WidgetListener&&)       = default;
 
         /**
          * Invoked when a widget changes its size.
@@ -95,7 +91,7 @@ namespace fcn
 
     protected:
         /**
-         * Constructor.
+         * Protected default constructor.
          *
          * Instances should not be created directly,
          * therefore the constructor is declared protected.

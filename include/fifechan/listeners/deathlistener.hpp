@@ -43,7 +43,7 @@ namespace fcn
 
     protected:
         /**
-         * Constructor.
+         * Protected default constructor.
          *
          * Instances should not be created directly,
          * therefore the constructor is declared protected.

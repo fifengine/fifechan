@@ -44,8 +44,9 @@ namespace fcn
         ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset);
 
         /**
-         * Copy constructor. Copies x, y, width and height
-         * field from a rectangle to a clip rectangle.
+         * Copy constructor.
+         *
+         * Copies x, y, width and height field from a rectangle to a clip rectangle.
          *
          * @param other The rectangle to copy data from.
          * @returns A clip rectangle with data copied from a rectangle.

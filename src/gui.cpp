@@ -52,13 +52,10 @@ namespace fcn
             mGui->widgetDied(event.getSource());
         }
 
-        // Delete copy constructor and copy assignment operator
         GuiDeathListener(GuiDeathListener const &)            = delete;
         GuiDeathListener& operator=(GuiDeathListener const &) = delete;
-
-        // Delete move constructor and move assignment operator
-        GuiDeathListener(GuiDeathListener&&)            = delete;
-        GuiDeathListener& operator=(GuiDeathListener&&) = delete;
+        GuiDeathListener(GuiDeathListener&&)                  = delete;
+        GuiDeathListener& operator=(GuiDeathListener&&)       = delete;
 
     private:
         Gui* mGui;

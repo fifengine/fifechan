@@ -51,6 +51,8 @@ namespace fcn
 
         /**
          * Sets the y position of the bar.
+         *
+         * @param y The y position of the bar.
          */
         void setBarY(int y);
 
@@ -61,17 +63,23 @@ namespace fcn
 
         /**
          * Sets the position of the bar.
+         *
+         * @param x The x position of the bar.
+         * @param y The y position of the bar.
          */
         void setBarPosition(int x, int y);
 
         /**
          * Sets the position of the bar.
+         *
          * @param pos The position of the bar.
          */
         void setBarPosition(Point const & pos);
 
         /**
          * Sets the width of the bar.
+         *
+         * @param w The width of the bar.
          */
         void setBarWidth(int w);
 
@@ -82,8 +90,8 @@ namespace fcn
 
         /**
          * Sets the height of the bar.
+         * @param h The height of the bar.
          */
-
         void setBarHeight(int h);
 
         /**
@@ -93,6 +101,9 @@ namespace fcn
 
         /**
          * Sets the size of the bar.
+         *
+         * @param w The width of the bar.
+         * @param h The height of the bar.
          */
         void setBarSize(int w, int h);
 

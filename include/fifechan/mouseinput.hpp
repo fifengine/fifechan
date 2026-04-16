@@ -156,8 +156,8 @@ namespace fcn
         Button mButton{Button::Empty};
 
         /**
-         * Holds the timestamp of the mouse input. Used to
-         * check for double clicks.
+         * Holds the timestamp of the mouse input.
+         * Used to check for double clicks.
          */
         int mTimeStamp{0};
 

@@ -28,8 +28,9 @@ namespace fcn
         Label();
 
         /**
-         * Constructor. The label will be automatically resized
-         * to fit the caption.
+         * Constructor.
+         *
+         * The label will be automatically resized to fit the caption.
          *
          * @param caption The caption of the label.
          */
@@ -44,9 +45,10 @@ namespace fcn
         std::string const & getCaption() const;
 
         /**
-         * Sets the caption of the label. It's advisable to call
-         * adjustSize after setting of the caption to adjust the
-         * label's size to fit the caption.
+         * Sets the caption of the label.
+         *
+         * After updating the caption, call adjustSize() to ensure
+         * the label resizes to fit the new content.
          *
          * @param caption The caption of the label.
          * @see getCaption, adjustSize
@@ -54,8 +56,9 @@ namespace fcn
         void setCaption(std::string const & caption);
 
         /**
-         * Sets the alignment of the caption. The alignment is relative
-         * to the center of the label.
+         * Sets the alignment of the caption.
+         *
+         * The alignment is relative to the center of the label.
          *
          * @param alignment The alignment of the caption of the label.
          * @see getAlignment, Graphics
@@ -63,8 +66,9 @@ namespace fcn
         void setAlignment(Graphics::Alignment alignment);
 
         /**
-         * Gets the alignment of the caption. The alignment is relative to
-         * the center of the label.
+         * Gets the alignment of the caption.
+         *
+         * The alignment is relative to the center of the label.
          *
          * @return The alignment of caption of the label.
          * @see setAlignment Graphics

@@ -35,17 +35,18 @@ namespace fcn
         ActionListener& operator=(ActionListener&&)       = delete;
 
         /**
-         * Called when an action is received from a widget.
-         * It is used to receive notifications about actions that have occurred.
-         * The actionEvent contains information about the action.
+         * Handles an action event emitted by a widget.
          *
-         * @param actionEvent The event of the action.
+         * Invoked when a widget triggers an action, providing details about
+         * the event via the ActionEvent object.
+         *
+         * @param actionEvent The action event data.
          */
         virtual void action(ActionEvent const & actionEvent) = 0;
 
     protected:
         /**
-         * Constructor.
+         * Protected default constructor.
          *
          * Instances should not be created directly,
          * therefore the constructor is declared protected.

@@ -32,8 +32,9 @@ namespace fcn
     {
     public:
         /**
-         * Draw orientations for the slider. A slider can be drawn vertically or
-         * horizontally.
+         * Draw orientations for the slider.
+         *
+         * A slider can be drawn vertically or horizontally.
          */
         enum class Orientation : uint8_t
         {
@@ -42,7 +43,9 @@ namespace fcn
         };
 
         /**
-         * Constructor. The default start value of the slider scale is zero.
+         * Constructor.
+         *
+         * The default start value of the slider scale is zero.
          *
          * @param scaleEnd The end value of the slider scale.
          */
@@ -137,8 +140,9 @@ namespace fcn
         int getMarkerLength() const;
 
         /**
-         * Sets the orientation of the slider. A slider can be drawn vertically
-         * or horizontally.
+         * Sets the orientation of the slider.
+         *
+         * A slider can be drawn vertically or horizontally.
          *
          * @param orientation The orientation of the slider.
          * @see getOrientation
@@ -146,8 +150,9 @@ namespace fcn
         void setOrientation(Orientation orientation);
 
         /**
-         * Gets the orientation of the slider. A slider can be drawn vertically
-         * or horizontally.
+         * Gets the orientation of the slider.
+         *
+         * A slider can be drawn vertically or horizontally.
          *
          * @return The orientation of the slider.
          * @see setOrientation
@@ -155,8 +160,10 @@ namespace fcn
         Orientation getOrientation() const;
 
         /**
-         * Sets the step length. The step length is used when the keys LEFT
-         * and RIGHT are pressed to step in the scale.
+         * Sets the step length.
+         *
+         * The step length is used when the keys LEFT and RIGHT
+         * are pressed to step in the scale.
          *
          * @param length The step length.
          * @see getStepLength
@@ -164,8 +171,10 @@ namespace fcn
         void setStepLength(double length);
 
         /**
-         * Gets the step length. The step length is used when the keys LEFT
-         * and RIGHT are pressed to step in the scale.
+         * Gets the step length.
+         *
+         * The step length is used when the keys LEFT and RIGHT
+         * are pressed to step in the scale.
          *
          * @return the step length.
          * @see setStepLength
@@ -233,8 +242,10 @@ namespace fcn
         double mValue{0.0};
 
         /**
-         * Holds the step length. The step length is used when the keys LEFT
-         * and RIGHT are pressed to step in the scale.
+         * Holds the step length.
+         *
+         * The step length is used when the keys LEFT and RIGHT
+         * are pressed to step in the scale.
          */
         double mStepLength{0.5};
 
@@ -254,8 +265,9 @@ namespace fcn
         double mScaleEnd{1.0};
 
         /**
-         * Holds the orientation of the slider. A slider can be drawn
-         * vertically or horizontally.
+         * Holds the orientation of the slider.
+         *
+         * A slider can be drawn vertically or horizontally.
          */
         Orientation mOrientation{Orientation::Horizontal};
     };

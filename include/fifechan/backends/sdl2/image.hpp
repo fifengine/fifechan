@@ -31,8 +31,9 @@ namespace fcn::sdl2
         /**
          * Constructor. Load an image from an SDL surface.
          *
-         * NOTE: The functions getPixel and putPixel are only guaranteed to work
-         *       before an image has been converted to display format.
+         * @note
+         * The functions getPixel and putPixel are only guaranteed to work
+         * before an image has been converted to display format.
          *
          * @param surface the surface from which to load.
          * @param autoFree true if the surface should automatically be deleted.

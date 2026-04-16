@@ -31,14 +31,10 @@ namespace fcn
     public:
         virtual ~SelectionListener() = default;
 
-        /** Copy constructor. */
-        SelectionListener(SelectionListener const &) = default;
-        /** Copy assignment operator. */
+        SelectionListener(SelectionListener const &)            = default;
         SelectionListener& operator=(SelectionListener const &) = default;
-        /** Move constructor. */
-        SelectionListener(SelectionListener&&) = default;
-        /** Move assignment operator. */
-        SelectionListener& operator=(SelectionListener&&) = default;
+        SelectionListener(SelectionListener&&)                  = default;
+        SelectionListener& operator=(SelectionListener&&)       = default;
 
         /**
          * Called when the value of a selection has been changed in a Widget.
@@ -51,7 +47,7 @@ namespace fcn
 
     protected:
         /**
-         * Constructor.
+         * Protected default constructor.
          *
          * Instances should not be created directly,
          * therefore the constructor is declared protected.

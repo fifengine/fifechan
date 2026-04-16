@@ -28,10 +28,11 @@ namespace fcn
         Window();
 
         /**
-         * Constructor. The window will be automatically resized in height
-         * to fit the caption.
+         * Constructs a window with the given caption.
          *
-         * @param caption the caption of the window.
+         * The window height is automatically adjusted to fit the caption.
+         *
+         * @param caption The window title text.
          */
         explicit Window(std::string const & caption);
 
@@ -90,10 +91,20 @@ namespace fcn
          */
         unsigned int getTitleBarHeight() const;
 
-        /** Set the size of the inner border (pixels). */
+        /**
+         * Set the size of the inner border (pixels).
+         *
+         * @param border The size of the inner border.
+         * @see getInnerBorderSize
+         */
         void setInnerBorderSize(unsigned int border);
 
-        /** Get the size of the inner border (pixels). */
+        /**
+         * Get the size of the inner border (pixels).
+         *
+         * @return The size of the inner border.
+         * @see setInnerBorderSize
+         */
         unsigned int getInnerBorderSize() const;
 
         /**
@@ -113,8 +124,10 @@ namespace fcn
         bool isMovable() const;
 
         /**
-         * Sets the window to be opaque or not. An opaque window will draw it's background
-         * and it's content. A non opaque window will only draw it's content.
+         * Sets the window to be opaque or not.
+         *
+         * An opaque window will draw it's background and it's content.
+         * A non opaque window will only draw it's content.
          *
          * @param opaque True if the window should be opaque, false otherwise.
          * @see isOpaque

@@ -124,14 +124,14 @@ void Application::init_sdl(std::string const & title, int width, int height)
     // The SDLInput object is used to get input from the user.
     input = std::make_unique<fcn::sdl2::Input>();
 
-    // Finally, we create the Gui object and pass graphics and input to it.
+    // Finally, we create the GUI object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));
     gui->setInput(input.get());
 }
 
 /**
- * Initialises the Hello World example by populating the Gui object.
+ * Initialises the Hello World example by populating the GUI object.
  */
 void Application::init_gui(int width, int height)
 {

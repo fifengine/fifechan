@@ -30,14 +30,10 @@ namespace fcn
 
         ~Size() = default;
 
-        /** Copy constructor. */
-        Size(Size const &) = default;
-        /** Copy assignment operator. */
+        Size(Size const &)            = default;
         Size& operator=(Size const &) = default;
-        /** Move constructor. */
-        Size(Size&&) = default;
-        /** Move assignment operator. */
-        Size& operator=(Size&&) = default;
+        Size(Size&&)                  = default;
+        Size& operator=(Size&&)       = default;
 
         /**
          * @return Width of size.

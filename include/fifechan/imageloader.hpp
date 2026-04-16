@@ -37,14 +37,10 @@ namespace fcn
     public:
         virtual ~ImageLoader() = default;
 
-        /** Copy constructor. */
-        ImageLoader(ImageLoader const &) = default;
-        /** Copy assignment operator. */
+        ImageLoader(ImageLoader const &)            = default;
         ImageLoader& operator=(ImageLoader const &) = default;
-        /** Move constructor. */
-        ImageLoader(ImageLoader&&) = default;
-        /** Move assignment operator. */
-        ImageLoader& operator=(ImageLoader&&) = default;
+        ImageLoader(ImageLoader&&)                  = default;
+        ImageLoader& operator=(ImageLoader&&)       = default;
 
     protected:
         ImageLoader() = default;
@@ -56,7 +52,7 @@ namespace fcn
          * The single-argument overload forwards to the
          * two-argument overload requesting conversion to display format.
          *
-         * NOTE: The functions Image::getPixel and Image::putPixel
+         * @note The functions Image::getPixel and Image::putPixel
          *       are only guaranteed to work before an image has
          *       been converted to display format.
          *

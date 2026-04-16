@@ -94,6 +94,7 @@ namespace fcn
 
         /**
          * Gets the x coordinate of the mouse event.
+         *
          * The coordinate relative to widget the mouse listener
          * receiving the events have registered to.
          *
@@ -104,6 +105,7 @@ namespace fcn
 
         /**
          * Gets the y coordinate of the mouse event.
+         *
          * The coordinate relative to widget the mouse listener
          * receiving the events have registered to.
          *
@@ -114,6 +116,7 @@ namespace fcn
 
         /**
          * Gets the number of clicks generated with the same button.
+         *
          * It's set to zero if another button is used.
          *
          * @return The number of clicks generated with the same button.
@@ -155,12 +158,13 @@ namespace fcn
         int mClickCount;
 
         /**
-         * Gui is a friend of this class in order to be able to manipulate
+         * Grants Gui privileged access to internal state.
+         *
+         * Gui is declared as a friend in order to be able to manipulate
          * the protected member variables of this class and at the same time
-         * keep the MouseEvent class as const as possible. Gui needs to
-         * update the x och y coordinates for the coordinates to be relative
-         * to widget the mouse listener receiving the events have registered
-         * to.
+         * keep the MouseEvent class as const as possible.
+         * Gui updates the x and y coordinates so they are relative to the
+         * widget that the mouse listener is registered to.
          */
         friend class Gui;
     };

@@ -42,8 +42,9 @@ namespace fcn::opengl
          * is copied in the constructor and should thus be freed after the constructor
          * has been called.
          *
-         * NOTE: The functions getPixel and putPixel are only guaranteed to work
-         *       before an image has been converted to display format.
+         * @note
+         * The functions getPixel and putPixel are only guaranteed to work
+         * before an image has been converted to display format.
          *
          * @param pixels pixel buffer to load from.
          * @param width the width of the image.

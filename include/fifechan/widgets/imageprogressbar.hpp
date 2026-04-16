@@ -76,8 +76,9 @@ namespace fcn
         bool isOpaque() const;
 
         /**
-         * Sets the Bar image. The image passed is not owned by
-         * this object.
+         * Sets the Bar image.
+         *
+         * The image passed is not owned by this object.
          *
          * @param image Image used by the progress bar.
          */
@@ -89,8 +90,9 @@ namespace fcn
         Image const * getBarImage() const;
 
         /**
-         * Sets the foreground image. The image passed is not owned by
-         * this object.
+         * Sets the foreground image.
+         *
+         * The image passed is not owned by this object.
          *
          * @param image Image used as overlay by the progress bar.
          */

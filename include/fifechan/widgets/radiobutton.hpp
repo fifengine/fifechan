@@ -50,9 +50,10 @@ namespace fcn
         RadioButton& operator=(RadioButton&&)       = delete;
 
         /**
-         * Sets the group the radio button should belong to. Note that
-         * a radio button group is unique per application, not per Gui object
-         * as the group is stored in a static map.
+         * Sets the group the radio button should belong to.
+         *
+         * Note that a radio button group is unique per application,
+         * not per Gui object as the group is stored in a static map.
          *
          * @param group The name of the group.
          * @see getGroup

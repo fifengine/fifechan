@@ -27,18 +27,16 @@ namespace fcn
     public:
         virtual ~Font() = default;
 
-        /** Copy constructor. */
-        Font(Font const &) = default;
-        /** Copy assignment operator. */
+        Font(Font const &)            = default;
         Font& operator=(Font const &) = default;
-        /** Move constructor. */
-        Font(Font&&) = default;
-        /** Move assignment operator. */
-        Font& operator=(Font&&) = default;
+        Font(Font&&)                  = default;
+        Font& operator=(Font&&)       = default;
 
         /**
-         * Gets the width of a string. The width of a string is not necessarily
-         * the sum of all the widths of it's glyphs.
+         * Gets the width of a string.
+         *
+         * The width of a string is not necessarily the sum
+         * of all the widths of its glyphs.
          *
          * @param text The string to return the width of.
          * @return The width of a string.
@@ -54,6 +52,7 @@ namespace fcn
 
         /**
          * Gets a string index in a string providing an x coordinate.
+         *
          * Used to retrieve a string index (for a character in a
          * string) at a certain x position. It is especially useful
          * when a mouse clicks in a TextField and you want to know which
@@ -66,7 +65,7 @@ namespace fcn
         /**
          * Draws a string.
          *
-         * NOTE: You normally won't use this function to draw text since
+         * @note You normally won't use this function to draw text since
          *       Graphics contains better functions for drawing text.
          *
          * @param graphics A Graphics object to use for drawing.

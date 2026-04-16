@@ -24,10 +24,11 @@ namespace fcn::sdl2
     /**
      * SDL2/FreeType implementation for rendering TrueType fonts.
      *
-     *  It uses the SDL_ttf library to display True Type Fonts with SDL.
+     * It uses the SDL_ttf library to display True Type Fonts with SDL.
      *
-     * Note: initialize the SDL_ttf library (TTF_Init) before using this
-     * class and call TTF_Quit when finished.
+     * @note
+     * It is required to initialize the SDL_ttf library (TTF_Init)
+     * before using this class and call TTF_Quit when finished.
      *
      * @ingroup fonts
      */

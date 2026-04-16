@@ -28,14 +28,10 @@ namespace fcn
     public:
         virtual ~ListModel() = default;
 
-        /** Copy constructor. */
-        ListModel(ListModel const &) = default;
-        /** Copy assignment operator. */
+        ListModel(ListModel const &)            = default;
         ListModel& operator=(ListModel const &) = default;
-        /** Move constructor. */
-        ListModel(ListModel&&) = default;
-        /** Move assignment operator. */
-        ListModel& operator=(ListModel&&) = default;
+        ListModel(ListModel&&)                  = default;
+        ListModel& operator=(ListModel&&)       = default;
 
         /**
          * Gets the number of elements in the list.

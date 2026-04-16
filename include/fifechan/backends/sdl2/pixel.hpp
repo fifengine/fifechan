@@ -50,7 +50,7 @@ namespace fcn::sdl2
             break;
 
         case 2: {
-            Uint16 const tmp = 0;
+            Uint16 tmp = 0;
             std::memcpy(&tmp, &pixels[idx], sizeof(Uint16));
             color = static_cast<unsigned int>(tmp);
             break;
@@ -67,7 +67,7 @@ namespace fcn::sdl2
             break;
 
         case 4: {
-            Uint32 const tmp = 0;
+            Uint32 tmp = 0;
             std::memcpy(&tmp, &pixels[idx], sizeof(Uint32));
             color = static_cast<unsigned int>(tmp);
             break;
@@ -241,7 +241,7 @@ namespace fcn::sdl2
         }
         case 2: {
             Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-            Uint16 const dest  = 0;
+            Uint16 dest        = 0;
             std::memcpy(&dest, &pixels[idx], sizeof(Uint16));
             Uint16 result = SDLBlendColor<Uint16>(pixel, dest, color.a, surface->format);
             std::memcpy(&pixels[idx], &result, sizeof(Uint16));
@@ -261,7 +261,7 @@ namespace fcn::sdl2
         }
         case 4: {
             Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
-            Uint32 const dest  = 0;
+            Uint32 dest        = 0;
             std::memcpy(&dest, &pixels[idx], sizeof(Uint32));
             Uint32 result = SDLBlendColor<Uint32>(pixel, dest, color.a, surface->format);
             std::memcpy(&pixels[idx], &result, sizeof(Uint32));

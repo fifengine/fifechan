@@ -25,7 +25,9 @@ namespace fcn
     class FIFEGUI_API IconProgressBar : public Widget
     {
     public:
-        /** Orientation of the IconProgressBar (horizontal or vertical). */
+        /**
+         * Orientation of the IconProgressBar (horizontal or vertical).
+         */
         enum class Orientation : uint8_t
         {
             Horizontal = 0,
@@ -38,7 +40,9 @@ namespace fcn
         IconProgressBar();
 
         /**
-         * Constructor. The image passed is not owned by this object.
+         * Constructor.
+         *
+         * The image passed is not owned by this object.
          *
          * @param image Image used by the progress bar's icons.
          * @param maxIcons Count of icons when the progress bar is full.
@@ -46,7 +50,9 @@ namespace fcn
         IconProgressBar(Image* image, int maxIcons);
 
         /**
-         * Constructor. The image indicated by filename is opened and it's
+         * Constructor.
+         *
+         * The image indicated by filename is opened and it's
          * owned by this object.
          *
          * @param filename Filename of the image to be used by the progress bar's icons.
@@ -79,8 +85,9 @@ namespace fcn
         bool isOpaque() const;
 
         /**
-         * Sets the IconProgressBar's image. The image passed is not owned by
-         * this object.
+         * Sets the IconProgressBar's image.
+         *
+         * The image passed is not owned by this object.
          *
          * @param image Image used by the progress bar's icons.
          * @see setMaxIcons
@@ -118,9 +125,10 @@ namespace fcn
         Orientation getOrientation() const;
 
         /**
-         * Advances the progress bar to use one more icon. If there can be no advancement
-         * (maxIcons is reached), then the counter is reset to 0, useful if client wishes
-         * to make the IconProgressBar looping.
+         * Advances the progress bar by one icon.
+         *
+         * If the maximum number of icons is reached (maxIcons reached),
+         * the counter wraps to 0, allowing the progress bar to loop.
          */
         void advance();
 

@@ -33,8 +33,9 @@ namespace fcn
         ToggleButton();
 
         /**
-         * Constructor. The toggle button will be automatically resized
-         * to fit the caption.
+         * Constructor.
+         *
+         * The toggle button will be automatically resized to fit the caption.
          *
          * @param caption The caption of the toggle button.
          * @param group The group the toggle button should belong to.

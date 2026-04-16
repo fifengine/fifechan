@@ -34,7 +34,11 @@ namespace fcn
         LineGraph(LineGraph&&)                  = delete;
         LineGraph& operator=(LineGraph&&)       = delete;
 
-        /** Set the raw point vector used to draw the graph. */
+        /**
+         * Set the raw point vector used to draw the graph.
+         *
+         * @param data The point vector used to draw the graph.
+         */
         void setPointVector(PointVector const & data);
 
         /** Get the current point vector. */
@@ -43,7 +47,11 @@ namespace fcn
         /** Reset the stored data to an empty vector. */
         void resetPointVector();
 
-        /** Set stroke thickness in pixels. */
+        /**
+         * Set stroke thickness in pixels.
+         *
+         * @param thickness The stroke thickness in pixels.
+         */
         void setThickness(unsigned int thickness);
 
         /** Get stroke thickness in pixels. */

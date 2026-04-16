@@ -62,8 +62,9 @@ namespace fcn
         int getSelected() const;
 
         /**
-         * Sets the selected item. The selected item is represented by
-         * an index from the list model.
+         * Sets the selected item.
+         *
+         * The selected item is represented by an index from the list model.
          *
          * @param selected the selected item as an index from the list model.
          * @see getSelected
@@ -114,10 +115,10 @@ namespace fcn
         void setWrappingEnabled(bool wrappingEnabled);
 
         /**
-         * Adds a selection listener to the list box. When the selection
-         * changes an event will be sent to all selection listeners of the
-         * list box.
+         * Adds a selection listener to the list box.
          *
+         * When the selection changes an event will be sent to all selection
+         * listeners of the list box.
          * If you delete your selection listener, be sure to also remove it
          * using removeSelectionListener().
          *
@@ -133,8 +134,10 @@ namespace fcn
         void removeSelectionListener(SelectionListener* selectionListener);
 
         /**
-         * Gets the height of a row. Should be overridden if another row
-         * height than the font height is preferred.
+         * Gets the height of a row.
+         *
+         * The default implementation uses the font height.
+         * Override this method to provide a custom row height.
          *
          * @return The height of a row.
          */
@@ -166,9 +169,10 @@ namespace fcn
 
     protected:
         /**
-         * Distributes a value changed event to all selection listeners
-         * of the list box.
+         * Notifies all registered selection listeners of a value change.
          *
+         * Triggers a value-changed event and dispatches it to every listener
+         * associated with the list box.
          */
         void distributeValueChangedEvent();
 
@@ -201,9 +205,10 @@ namespace fcn
         using SelectionListenerIterator = SelectionListenerList::iterator;
 
         /**
-         * Concrete implementation of adjustSize. Constructors and
-         * internal methods should call this non-virtual helper to
-         * avoid virtual dispatch during construction.
+         * Concrete implementation of adjustSize.
+         *
+         * Constructors and internal methods should call this non-virtual
+         * helper to avoid virtual dispatch during construction.
          */
         void adjustSizeImpl();
     };

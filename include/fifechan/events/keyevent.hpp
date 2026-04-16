@@ -71,7 +71,6 @@ namespace fcn
          *
          * @return True if key event occurred on the numeric pad,
          *         false otherwise.
-         *
          */
         bool isNumericPad() const;
 

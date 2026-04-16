@@ -32,8 +32,9 @@ namespace fcn
         TextField();
 
         /**
-         * Constructor. The text field will be automatically resized
-         * to fit the text.
+         * Constructor.
+         *
+         * The text field will be automatically resized to fit the text.
          *
          * @param text The default text of the text field.
          */
@@ -76,8 +77,9 @@ namespace fcn
         bool isEditable() const;
 
         /**
-         * Sets the text field to be editable or not. A text field is editable
-         * by default.
+         * Sets the text field to be editable or not.
+         *
+         * A text field is editable by default.
          *
          * @param editable True if the text field should be editable, false
          *                 otherwise.
@@ -85,8 +87,10 @@ namespace fcn
         void setEditable(bool editable);
 
         /**
-         * Sets the caret position. As there is only one line of text
-         * in a text field the position is the caret's x coordinate.
+         * Sets the caret position.
+         *
+         * As there is only one line of text in a text field the position
+         * is the caret's x coordinate.
          *
          * @param position The caret position.
          * @see getCaretPosition
@@ -94,8 +98,10 @@ namespace fcn
         void setCaretPosition(unsigned int position);
 
         /**
-         * Gets the caret position. As there is only one line of text
-         * in a text field the position is the caret's x coordinate.
+         * Gets the caret position.
+         *
+         * As there is only one line of text in a text field the position
+         * is the caret's x coordinate.
          *
          * @return The caret position.
          * @see setCaretPosition
@@ -147,9 +153,10 @@ namespace fcn
         virtual void drawCaret(Graphics* graphics, int x);
 
         /**
-         * Scrolls the text horizontally so that the caret shows if needed.
-         * The method is used any time a user types in the text field so the
-         * caret always will be shown.
+         * Ensures the caret remains visible by adjusting horizontal scroll.
+         *
+         * Called after text input or caret movement to update the scroll
+         * position so the caret is within the visible area.
          */
         void fixScroll();
 
@@ -164,9 +171,10 @@ namespace fcn
         Text* mText;
 
         /**
-         * Holds the amount scrolled in x. If a user types more characters than
-         * the text field can display, due to the text field being to small, the
-         * text needs to scroll in order to show the last type character.
+         * Horizontal scroll offset in pixels.
+         *
+         * Used when the text exceeds the visible width of the field,
+         * ensuring recently entered characters (and the caret) remain visible.
          */
         int mXScroll{0};
 

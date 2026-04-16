@@ -72,14 +72,14 @@ namespace fcn
         bool isMetaPressed() const;
 
         /**
-         * Marks the event as consumed. Input event listeners may discard
-         * consumed input or act on consumed input. An example of a widget
-         * that discards consumed input is the ScrollArea widget that
-         * discards consumed mouse wheel events so the ScrollArea will not
-         * scroll if for instance a Slider's value inside the ScrollArea was
-         * changed with the mouse wheel.
+         * Marks this event as consumed.
          *
-         * @see isConsumed
+         * Consumed events may be ignored by some listeners or handled differently.
+         * For example, a ScrollArea may discard consumed mouse wheel events to
+         * prevent scrolling when a child widget (e.g., a slider) has already
+         * handled the input.
+         *
+         * @see isConsumed()
          */
         void consume();
 
@@ -93,10 +93,13 @@ namespace fcn
         bool isConsumed() const;
 
         /**
-         * Gets the distributor of the event. The function is
-         * used to tell which widget actually distributed the
-         * event. As input events bubbles up, the source of the event
-         * may not be the same as the distributor of the event.
+         * Returns the widget that distributed this event.
+         *
+         * The distributor indicates which widget originally propagated the event.
+         * This may differ from the event source due to event bubbling through
+         * the widget hierarchy.
+         *
+         * @return Pointer to the distributing widget, or nullptr if none.
          */
         Widget* getDistributor() const;
 
@@ -133,7 +136,9 @@ namespace fcn
         Widget* mDistributor;
 
         /**
-         * Gui is a friend of this class in order to be able to manipulate
+         * Grants Gui privileged access to internal state.
+         *
+         * Gui is declared as a friend in order to be able to manipulate
          * the protected member variables of this class and at the same time
          * keep the MouseEvent class as const as possible. Gui needs to
          * update the distributer of this class whenever the distributer

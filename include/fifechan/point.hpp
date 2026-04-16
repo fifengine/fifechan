@@ -24,7 +24,7 @@ namespace fcn
     /**
      * Represents a 2D coordinate (X, Y).
      *
-     * This is a small helper class to aid in 2d vector arithmetics.
+     * This is a small helper class to aid in 2D vector arithmetics.
      *
      * @see Rect
      *
@@ -46,21 +46,32 @@ namespace fcn
          * Constructor
          *
          * Creates a with 0 as default values.
+         *
+         * @param _x The x coordinate of the point.
+         * @param _y The y coordinate of the point.
          */
-        explicit Point(int _x = 0, int _y = 0) : val{_x, _y} { }
+        explicit Point(int _x = 0, int _y = 0) : x(_x), y(_y) { }
+
+        ~Point() = default;
 
         /**
          * Copy Constructor
+         *
+         * @param rhs The point to copy from.
          */
-        Point(Point const & rhs) : val{rhs.val[0], rhs.val[1]} { }
+        Point(Point const & rhs) : x(rhs.x), y(rhs.y) { }
 
         /**
          * Move Constructor
+         *
+         * @param rhs The point to move from.
          */
-        Point(Point&& rhs) noexcept : val{rhs.val} { }
+        Point(Point&& rhs) noexcept : x(rhs.x), y(rhs.y) { }
 
         /**
          * Copy assignment
+         *
+         * @param rhs The point to copy from.
          */
         Point& operator=(Point const & rhs)
         {
@@ -72,6 +83,8 @@ namespace fcn
 
         /**
          * Move assignment
+         *
+         * @param rhs The point to move from.
          */
         Point& operator=(Point&& rhs) noexcept
         {
@@ -83,6 +96,9 @@ namespace fcn
 
         /**
          * Vector addition
+         *
+         * @param p The point to add.
+         * @return The sum of the two points.
          */
         Point operator+(Point const & p) const
         {
@@ -91,6 +107,9 @@ namespace fcn
 
         /**
          * Vector subtraction
+         *
+         * @param p The point to subtract.
+         * @return The difference of the two points.
          */
         Point operator-(Point const & p) const
         {
@@ -99,6 +118,9 @@ namespace fcn
 
         /**
          * Vector inplace addition
+         *
+         * @param p The point to add.
+         * @return A reference to this point after addition.
          */
         Point& operator+=(Point const & p)
         {
@@ -109,6 +131,9 @@ namespace fcn
 
         /**
          * Vector inplace subtraction
+         *
+         * @param p The point to subtract.
+         * @return A reference to this point after subtraction.
          */
         Point& operator-=(Point const & p)
         {
@@ -119,6 +144,9 @@ namespace fcn
 
         /**
          * Scalar multiplication with an integer value
+         *
+         * @param i The integer to multiply with.
+         * @return The result of the multiplication.
          */
         Point operator*(int const & i) const
         {
@@ -127,6 +155,9 @@ namespace fcn
 
         /**
          * Scalar division with an integer value
+         *
+         * @param i The integer to divide with.
+         * @return The result of the division.
          */
         Point operator/(int const & i) const
         {
@@ -135,6 +166,9 @@ namespace fcn
 
         /**
          * Equality comparision
+         *
+         * @param p The point to compare with.
+         * @return True if the points are equal, false otherwise.
          */
         bool operator==(Point const & p) const
         {
@@ -143,6 +177,9 @@ namespace fcn
 
         /**
          * Equality comparision
+         *
+         * @param p The point to compare with.
+         * @return True if the points are not equal, false otherwise.
          */
         bool operator!=(Point const & p) const
         {
@@ -167,8 +204,9 @@ namespace fcn
 
             if (len > Mathf::zeroTolerance()) {
                 float const invLength = 1.0F / len;
-                x                     = static_cast<int>(x * invLength);
-                y                     = static_cast<int>(y * invLength);
+
+                x = static_cast<int>(x * invLength);
+                y = static_cast<int>(y * invLength);
             } else {
                 x = 0;
                 y = 0;
@@ -177,12 +215,16 @@ namespace fcn
 
         /**
          * Rotates the point around the origin by angle degrees.
+         *
+         * @param angle The angle to rotate by, in degrees.
+         * @return The rotated point.
          */
         Point rotated(int angle) const
         {
             double const theta = static_cast<double>(angle) * Mathd::pi() / 180.0;
-            double const c     = Mathd::Cos(theta);
-            double const s     = Mathd::Sin(theta);
+
+            double const c = Mathd::Cos(theta);
+            double const s = Mathd::Sin(theta);
 
             return Point(
                 static_cast<int>(std::round((c * x) - (s * y))), static_cast<int>(std::round((s * x) + (c * y))));
@@ -190,6 +232,8 @@ namespace fcn
 
         /**
          * Rotates the point around the origin by angle degrees.
+         *
+         * @param angle The angle to rotate by, in degrees.
          */
         void rotate(double angle)
         {
@@ -210,6 +254,9 @@ namespace fcn
          *
          * Coordinates stored as int. Uses float math internally.
          * Results are rounded to nearest integer.
+         *
+         * @param origin The point to rotate around.
+         * @param angle The angle to rotate by, in degrees.
          */
         void rotate(Point const & origin, int angle)
         {
@@ -235,6 +282,9 @@ namespace fcn
 
         /**
          * Sets the x and y coordinate of the 2D point
+         *
+         * @param _x The x coordinate of the point.
+         * @param _y The y coordinate of the point.
          */
         void set(int _x, int _y)
         {
@@ -258,6 +308,10 @@ namespace fcn
          * Stream output operator for debug/logging.
          *
          * Formats the point as "(x:y)".
+         *
+         * @param os The output stream to write to.
+         * @param p The point to output.
+         * @return The output stream after writing.
          */
         friend std::ostream& operator<<(std::ostream& os, Point const & p)
         {

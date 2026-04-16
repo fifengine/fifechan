@@ -34,17 +34,7 @@
 
 using tests::integration::opengl_sdl::helloworld::Application;
 
-Application::Application(std::string const & title, int width, int height) :
-    running(true),
-    window(nullptr),
-    glContext(nullptr),
-    graphics(nullptr),
-    input(nullptr),
-    imageLoader(nullptr),
-    gui(nullptr),
-    top(nullptr),
-    font(nullptr),
-    label(nullptr)
+Application::Application(std::string const & title, int width, int height)
 {
     init_sdl(title, width, height);
     init_gui(width, height);

@@ -22,8 +22,9 @@ namespace fcn
     {
     public:
         /**
-         * Constructor. The default rectangle is an empty rectangle
-         * at the coordinates (0,0).
+         * Constructor.
+         *
+         * The default rectangle is an empty rectangle at the coordinates (0,0).
          */
         Rectangle();
 
@@ -75,17 +76,19 @@ namespace fcn
         bool isContaining(Rectangle const & other) const;
 
         /**
-         * Checks whether the rectangle is empty or not. A rectangle
-         * is considered empty when it's width or height is either
-         * zero or negative.
+         * Checks whether the rectangle is empty or not.
+         *
+         * A rectangle is considered empty when it's width or height
+         * is either zero or negative.
          *
          * @return True if the rectangle is empty, false otherwise.
          */
         bool isEmpty() const;
 
         /**
-         * Adds a rectangle to this rectangle. The resulting rectangle
-         * is the union of the two rectangles.
+         * Adds a rectangle to this rectangle.
+         *
+         * The resulting rectangle is the union of the two rectangles.
          *
          * @param rh The rectangle to add.
          * @return The union of the two rectangles.
@@ -93,8 +96,9 @@ namespace fcn
         Rectangle operator+(Rectangle const & rh) const;
 
         /**
-         * Adds a rectangle to this rectangle. This rectangle will be
-         * the union of the two rectangles.
+         * Adds a rectangle to this rectangle.
+         *
+         * This rectangle will be the union of the two rectangles.
          *
          * @param rh The rectangle to add.
          * @return A reference to this rectangle.

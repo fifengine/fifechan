@@ -48,10 +48,11 @@ namespace fcn
         TabbedArea& operator=(TabbedArea&&)       = delete;
 
         /**
-         * Sets the tabbed area to be opaque or not. If the tabbed area is
-         * opaque its background will be drawn, if it's not opaque its
-         * background will not be drawn. By default, a tabbed area is not
-         * opaque.
+         * Sets the tabbed area to be opaque or not.
+         *
+         * If the tabbed area is opaque its background will be drawn,
+         * if it's not opaque its background will not be drawn.
+         * By default, a tabbed area is not opaque.
          *
          * The tabbed area's background is normally only visible behind the
          * tabs, since the container holding the tab contents is opaque by
@@ -72,8 +73,9 @@ namespace fcn
         bool isOpaque() const;
 
         /**
-         * Adds a tab to the tabbed area. The tab will not be deleted by the
-         * tabbed area when it is removed.
+         * Adds a tab to the tabbed area.
+         *
+         * The tab will not be deleted by the tabbed area when it is removed.
          *
          * @param tab The tab widget for the tab.
          * @param widget The widget to view when the tab is selected.
@@ -195,29 +197,29 @@ namespace fcn
 
         /**
          * Sets the layout of the tabbedarea.
-         * @see LayoutPolicy
          *
          * @param policy The LayoutPolicy of the tabbedarea.
-         * @see getLayout
+         * @see getLayout, LayoutPolicy
          */
         void setLayout(Container::LayoutPolicy policy);
 
         /**
          * Gets the layout of the tabbedarea.
-         * @see LayoutPolicy
          *
          * @return The LayoutPolicy of the tabbedarea.
-         * @see setLayout
+         * @see setLayout, LayoutPolicy
          */
         Container::LayoutPolicy getLayout() const;
 
         /**
-         * If enabled, the free space is distributed in a way that the size of the
-         * childrens will be equal (if possible).
-         * Otherwise the free space will evenly distributed.
+         * Enables or disables uniform sizing of child elements.
          *
-         * @param uniform Indicates if uniform size is enabled or not.
-         * @see isUniformSize
+         * When enabled, available space is distributed so that all children
+         * have equal size, if possible. When disabled, free space is distributed
+         * evenly without enforcing equal sizes.
+         *
+         * @param uniform True to enforce uniform child sizes; false otherwise.
+         * @see isUniformSize()
          */
         virtual void setUniformSize(bool uniform);
 
@@ -301,15 +303,15 @@ namespace fcn
         Container* mWidgetContainer;
 
         /**
-         * Holds a vector of tabs to delete in the destructor.
-         * A tab that is to be deleted is a tab that has been
-         * internally created by the tabbed area.
+         * Stores tabs owned by this instance for automatic destruction.
+         *
+         * Contains tabs that were created internally by the tabbed area and
+         * must be deleted in the destructor.
          */
         std::vector<std::unique_ptr<Tab>> mTabsToDelete;
 
         /**
-         * A map between a tab and a widget to display when the
-         * tab is selected.
+         * Associates each tab with the widget displayed when it is selected.
          */
         std::vector<std::pair<Tab*, Widget*>> mTabs;
 

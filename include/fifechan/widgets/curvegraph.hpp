@@ -28,7 +28,11 @@ namespace fcn
         /** Default constructor. */
         CurveGraph();
 
-        /** Construct with initial data points. */
+        /**
+         * Construct with initial data points.
+         *
+         * @param data The initial vector of points to be used for drawing the curve.
+         */
         explicit CurveGraph(PointVector data);
 
         ~CurveGraph() override = default;
@@ -38,7 +42,11 @@ namespace fcn
         CurveGraph(CurveGraph&&)                  = delete;
         CurveGraph& operator=(CurveGraph&&)       = delete;
 
-        /** Set the raw point vector used to draw the curve. */
+        /**
+         * Set the raw point vector used to draw the curve.
+         *
+         * @param data The vector of points to be used for drawing the curve.
+         */
         void setPointVector(PointVector const & data);
 
         /** Get the current point vector. */
@@ -47,13 +55,21 @@ namespace fcn
         /** Reset the stored data to an empty vector. */
         void resetPointVector();
 
-        /** Set stroke thickness in pixels. */
+        /**
+         *  Set stroke thickness in pixels.
+         *
+         * @param thickness The thickness of the stroke in pixels.
+         */
         void setThickness(unsigned int thickness);
 
         /** Get stroke thickness in pixels. */
         unsigned int getThickness() const;
 
-        /** Enable/disable automatic computation of bezier control points. */
+        /**
+         * Enable/disable automatic computation of bezier control points.
+         *
+         * @param acp True to enable automatic control points, false to disable.
+         */
         void setAutomaticControlPoints(bool acp);
 
         /** Return whether automatic control points are enabled. */
@@ -73,19 +89,31 @@ namespace fcn
 
         /**
          * Draws this widget.
+         *
+         * @param graphics A graphics object to draw with.
          */
         void draw(Graphics* graphics) override;
 
     protected:
-        /** Precalculate bezier curve.
+        /**
+         * Precalculate bezier curve.
          */
         void update();
 
-        /** Helper that returns an interpolated Point
+        /**
+         * Helper that returns an interpolated Point
+         *
+         * @param points The control points for the bezier curve.
+         * @param elements The number of control points.
+         * @param t The interpolation parameter, between 0 and 1.
          */
         static Point getBezierPoint(PointVector const & points, int elements, float t);
 
-        /** Helper that adds the control points for bezier curves.
+        /**
+         * Helper that adds the control points for bezier curves.
+         *
+         * @param points The control points for the bezier curve.
+         * @param newPoints The vector to which the new control points will be added.
          */
         static void addControlPoints(PointVector const & points, PointVector& newPoints);
 

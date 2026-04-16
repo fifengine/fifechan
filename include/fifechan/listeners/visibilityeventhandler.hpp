@@ -27,7 +27,7 @@ namespace fcn
         /**
          * Construct a VisibilityEventHandler bound to a Gui instance.
          *
-         * @param gui The Gui instance to inform about visibility changes.
+         * @param gui the GUI instance to inform about visibility changes.
          */
         explicit VisibilityEventHandler(Gui* gui);
 
@@ -49,7 +49,7 @@ namespace fcn
         void widgetShown(Event const & e) override;
 
     protected:
-        /** Pointer to the Gui used to handle visibility-related updates. */
+        /** Pointer to the GUI used to handle visibility-related updates. */
         Gui* mGui;
     };
 } // namespace fcn

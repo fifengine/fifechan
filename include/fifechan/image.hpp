@@ -47,7 +47,7 @@ namespace fcn
          * All image loaders implemented in FifeGUI return a newly instantiated
          * image which must be deleted in order to avoid a memory leak.
          *
-         * NOTE: The functions getPixel and putPixel are only guaranteed to work
+         * @note The functions getPixel and putPixel are only guaranteed to work
          *       before an image has been converted to display format.
          *
          * @param filename The file to load.

@@ -80,7 +80,9 @@ namespace fcn
      */
 
     /**
-     * The central GUI manager. Integrates backend implementations and manages the root widget tree.
+     * The central GUI manager.
+     *
+     * Integrates backend implementations and manages the root widget tree.
      *
      * GUI is the core class of FifeGUI to which implementations of backends
      * are passed, to make FifeGUI work with a specific library, and to where
@@ -92,7 +94,7 @@ namespace fcn
      * implementations to it. A Gui object must have an implementation of a
      * Graphics and an implementation of Input.
      *
-     * NOTE: A complete GUI also must have the ability to load images.
+     * @note A complete GUI also must have the ability to load images.
      *       Images are loaded with the Image class, so to make Fifechan
      *       able to load images an implementation of ImageLoader must be
      *       passed to Image.
@@ -114,9 +116,11 @@ namespace fcn
         Gui& operator=(Gui&&)       = delete;
 
         /**
-         * Sets the top widget. The top widget is the root widget
-         * of the GUI. If you want a GUI to be able to contain more
-         * than one widget the top widget should be a container.
+         * Sets the top widget.
+         *
+         * The top widget is the root widget of the GUI.
+         * If you want a GUI to be able to contain more than one widget
+         * the top widget should be a container.
          *
          * @param top The top widget.
          * @see Container
@@ -145,8 +149,9 @@ namespace fcn
         virtual void setRoot(std::unique_ptr<Widget> top);
 
         /**
-         * Gets the top widget. The top widget is the root widget
-         * of the GUI.
+         * Gets the top widget.
+         *
+         * The top widget is the root widget of the GUI.
          *
          * @return The top widget. Nullptr if no top widget has been set.
          */
@@ -170,7 +175,7 @@ namespace fcn
         /**
          * Gets the graphics object used for drawing.
          *
-         *  @return The graphics object used for drawing. Nullptr if no
+         * @return The graphics object used for drawing. Nullptr if no
          *          graphics object has been set.
          * @see setGraphics, OpenGLGraphics, SDLGraphics
          */
@@ -194,7 +199,7 @@ namespace fcn
         /**
          * Gets the input object being used for input handling.
          *
-         *  @return The input object used for handling input. Nullptr if no
+         * @return The input object used for handling input. Nullptr if no
          *          input object has been set.
          * @see setInput, SDLInput
          */
@@ -246,7 +251,7 @@ namespace fcn
         virtual void draw();
 
         /**
-         * Focuses none of the widgets in the Gui.
+         * Focuses none of the widgets in the GUI.
          *
          */
         virtual void focusNone();
@@ -270,7 +275,7 @@ namespace fcn
         virtual bool isTabbingEnabled();
 
         /**
-         * Adds a global key listener to the Gui. A global key listener
+         * Adds a global key listener to the GUI. A global key listener
          * will receive all key events generated from the GUI and global
          * key listeners will receive the events before key listeners
          * of widgets.
@@ -281,7 +286,7 @@ namespace fcn
         virtual void addGlobalKeyListener(KeyListener* keyListener);
 
         /**
-         * Removes global key listener from the Gui.
+         * Removes global key listener from the GUI.
          *
          * @param keyListener The key listener to remove.
          * @throws Exception if the key listener hasn't been added.
@@ -519,7 +524,7 @@ namespace fcn
         virtual Widget* getKeyEventSource();
 
         /**
-         * Gets all widgets a certain coordinate in the Gui.
+         * Gets all widgets a certain coordinate in the GUI.
          *
          * @param x The x coordinate.
          * @param y The y coordinate.
@@ -553,12 +558,12 @@ namespace fcn
         Input* mInput;
 
         /**
-         * Holds the focus handler for the Gui.
+         * Holds the focus handler for the GUI.
          */
         FocusHandler* mFocusHandler;
 
         /**
-         * Holds the visibility event handler for the Gui.
+         * Holds the visibility event handler for the GUI.
          */
         VisibilityEventHandler* mVisibilityEventHandler;
 
@@ -574,7 +579,7 @@ namespace fcn
         using KeyListenerListIterator = KeyListenerList::iterator;
 
         /**
-         * Holds the global key listeners of the Gui.
+         * Holds the global key listeners of the GUI.
          */
         KeyListenerList mKeyListeners;
 

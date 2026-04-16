@@ -51,6 +51,8 @@ namespace fcn
 
         /**
          * Sets the caret position of the actual text.
+         *
+         * @param position The new caret position of the actual text.
          */
         void setActualTextCaretPosition(unsigned int position);
 
