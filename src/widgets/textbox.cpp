@@ -24,6 +24,9 @@ namespace fcn
 {
     TextBox::TextBox(std::string const & text) : mText(new Text(text)), mStringEditor(new UTF8StringEditor)
     {
+        assert("mText is not null" && mText != nullptr);
+        assert("mStringEditor is not null" && mStringEditor != nullptr);
+
         setFocusable(true);
 
         addMouseListener(this);
@@ -39,12 +42,16 @@ namespace fcn
 
     void TextBox::setText(std::string const & text)
     {
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         mText->setContent(text);
         adjustSizeImpl();
     }
 
     void TextBox::draw(Graphics* graphics)
     {
+        assert("font is not null" && getFont() != nullptr);
+
         if (mOpaque) {
             graphics->setColor(getBackgroundColor());
             graphics->fillRectangle(0, 0, getWidth(), getHeight());
@@ -66,12 +73,16 @@ namespace fcn
 
     void TextBox::drawCaret(Graphics* graphics, int x, int y)
     {
+        assert("font is not null" && getFont() != nullptr);
+
         graphics->setColor(getForegroundColor());
         graphics->drawLine(x, y, x, y + getFont()->getHeight());
     }
 
     void TextBox::mousePressed(MouseEvent& mouseEvent)
     {
+        assert("font is not null" && getFont() != nullptr);
+
         if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             mText->setCaretPosition(mouseEvent.getX(), mouseEvent.getY(), getFont());
             mouseEvent.consume();
@@ -88,6 +99,7 @@ namespace fcn
         Key const key = keyEvent.getKey();
 
         if (key.getValue() == Key::Left) {
+            // Move caret left, or to end of previous row if at column 0
             if (getCaretColumn() == 0) {
                 if (getCaretRow() > 0) {
                     setCaretRow(getCaretRow() - 1);
@@ -97,6 +109,7 @@ namespace fcn
                 setCaretColumn(fcn::UTF8StringEditor::prevChar(getTextRow(getCaretRow()), getCaretColumn()));
             }
         } else if (key.getValue() == Key::Right) {
+            // Move caret right, or to start of next row if at end of line
             if (getCaretColumn() < getTextRow(getCaretRow()).size()) {
                 setCaretColumn(fcn::UTF8StringEditor::nextChar(getTextRow(getCaretRow()), getCaretColumn()));
             } else {
@@ -114,6 +127,7 @@ namespace fcn
         } else if (key.getValue() == Key::End) {
             setCaretColumn(getTextRow(getCaretRow()).size());
         } else if (key.getValue() == Key::Enter && mEditable) {
+            // Split current row at caret: text after caret becomes new row
             mText->insertRow(
                 getTextRow(getCaretRow()).substr(getCaretColumn(), getTextRow(getCaretRow()).size() - getCaretColumn()),
                 getCaretRow() + 1);
@@ -122,16 +136,13 @@ namespace fcn
             setCaretRow(getCaretRow() + 1);
             setCaretColumn(0);
         } else if (key.getValue() == Key::Backspace && getCaretColumn() != 0 && mEditable) {
+            // Delete character before caret within current row
             std::string& currRow = mText->getRow(getCaretRow());
             setCaretColumn(fcn::UTF8StringEditor::prevChar(currRow, static_cast<int>(getCaretColumn())));
             setCaretColumn(fcn::UTF8StringEditor::eraseChar(currRow, static_cast<int>(getCaretColumn())));
         } else if (key.getValue() == Key::Backspace && getCaretColumn() == 0 && getCaretRow() != 0 && mEditable) {
-            /*setCaretColumn(mText->getRow(getCaretRow() - 1).size());
-            mText->getRow(getCaretRow() - 1) += getTextRow(getCaretRow());
-            mText->eraseRow(getCaretRow());
-            setCaretRow(getCaretRow() - 1);*/
+            // Merge with previous row: delete row, append to previous row
             unsigned const newCaretColumn = getTextRow(getCaretRow() - 1).size();
-            // setCaretColumn(getTextRow(getCaretRow() - 1).size());
             mText->getRow(getCaretRow() - 1) += getTextRow(getCaretRow());
             mText->eraseRow(getCaretRow());
             setCaretRow(getCaretRow() - 1);
@@ -139,13 +150,16 @@ namespace fcn
         } else if (
             key.getValue() == Key::Delete && getCaretColumn() < static_cast<int>(getTextRow(getCaretRow()).size()) &&
             mEditable) {
+            // Delete character after caret within current row
             setCaretColumn(fcn::UTF8StringEditor::eraseChar(mText->getRow(getCaretRow()), getCaretColumn()));
         } else if (
             key.getValue() == Key::Delete && getCaretColumn() == static_cast<int>(getTextRow(getCaretRow()).size()) &&
             getCaretRow() < (static_cast<int>(getNumberOfRows()) - 1) && mEditable) {
+            // Merge with next row: append next row to current, then delete next row
             mText->getRow(getCaretRow()) += getTextRow((getCaretRow() + 1));
             mText->eraseRow(getCaretRow() + 1);
         } else if (key.getValue() == Key::PageUp) {
+            // Move caret up by rowsPerPage, preserving column position
             Widget* par = getParent();
 
             if (par != nullptr) {
@@ -160,6 +174,7 @@ namespace fcn
                 setCaretColumn(fcn::UTF8StringEditor::getOffset(getTextRow(getCaretRow()), chars));
             }
         } else if (key.getValue() == Key::PageDown) {
+            // Move caret down by rowsPerPage, preserving column position
             Widget* par = getParent();
 
             if (par != nullptr) {
@@ -174,18 +189,30 @@ namespace fcn
                 setCaretColumn(fcn::UTF8StringEditor::getOffset(getTextRow(getCaretRow()), chars));
             }
         } else if (key.getValue() == Key::Tab && mEditable) {
-            // FIXME: jump X spaces, so getCaretColumn() % TAB_SIZE = 0 and X <= TAB_SIZE
-            mText->getRow(getCaretRow()).insert(getCaretColumn(), std::string("    "));
-            setCaretColumn(getCaretColumn() + 4);
-        } else if ((key.isCharacter() || key.getValue() > 255) && mEditable) {
-            setCaretColumn(
-                fcn::UTF8StringEditor::insertChar(mText->getRow(getCaretRow()), getCaretColumn(), key.getValue()));
+            // Insert spaces to align to next tab stop
+            int constexpr tabSize    = 4;
+            int const spacesToInsert = tabSize - (getCaretColumn() % tabSize);
+            mText->getRow(getCaretRow()).insert(getCaretColumn(), std::string(spacesToInsert, ' '));
+            setCaretColumn(getCaretColumn() + spacesToInsert);
+        } else if (mEditable) {
+            // Insert character at caret position (ASCII or valid Unicode code point)
+            int const keyValue = key.getValue();
+            bool const isValidCodePoint =
+                keyValue >= 0 && keyValue <= 0x10FFFF && (keyValue < 0xD800 || keyValue > 0xDFFF);
+            if (key.isCharacter() || (keyValue > 255 && isValidCodePoint)) {
+                setCaretColumn(
+                    fcn::UTF8StringEditor::insertChar(mText->getRow(getCaretRow()), getCaretColumn(), keyValue));
+            }
         }
 
         adjustSizeImpl();
         scrollToCaret();
-        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).end()));
-        assert(utf8::is_valid(getTextRow(getCaretRow()).begin(), getTextRow(getCaretRow()).begin() + getCaretColumn()));
+
+        std::string const & row = getTextRow(getCaretRow());
+
+        assert("text row is valid utf8" && utf8::is_valid(row.begin(), row.end()));
+        assert("caret column position is valid" && utf8::is_valid(row.begin(), row.begin() + getCaretColumn()));
+
         keyEvent.consume();
     }
 
@@ -202,12 +229,16 @@ namespace fcn
 
     void TextBox::adjustSizeImpl()
     {
+        assert("font is not null" && getFont() != nullptr);
+
         Rectangle const & dim = mText->getDimension(getFont());
         setSize(dim.width, dim.height);
     }
 
     void TextBox::setCaretPosition(unsigned int position)
     {
+        assert("position is within bounds" && position <= mText->getContent().size());
+
         mText->setCaretPosition(position);
     }
 
@@ -218,12 +249,17 @@ namespace fcn
 
     void TextBox::setCaretRowColumn(int row, int column)
     {
+        assert("row is non-negative" && row >= 0);
+        assert("column is non-negative" && column >= 0);
+
         mText->setCaretRow(row);
         mText->setCaretColumn(column);
     }
 
     void TextBox::setCaretRow(int row)
     {
+        assert("row is non-negative" && row >= 0);
+
         mText->setCaretRow(row);
     }
 
@@ -234,6 +270,8 @@ namespace fcn
 
     void TextBox::setCaretColumn(int column)
     {
+        assert("column is non-negative" && column >= 0);
+
         mText->setCaretColumn(column);
     }
 
@@ -244,11 +282,18 @@ namespace fcn
 
     std::string TextBox::getTextRow(int row) const
     {
+        assert("row is non-negative" && row >= 0);
+        assert("row is within bounds" && static_cast<unsigned>(row) < getNumberOfRows());
+
         return mText->getRow(row);
     }
 
     void TextBox::setTextRow(int row, std::string const & text)
     {
+        assert("row is non-negative" && row >= 0);
+        assert("row is within bounds" && static_cast<unsigned>(row) < getNumberOfRows());
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
         mText->setRow(row, text);
         adjustSizeImpl();
     }
@@ -270,6 +315,8 @@ namespace fcn
 
     void TextBox::scrollToCaret()
     {
+        assert("font is not null" && getFont() != nullptr);
+
         showPart(mText->getCaretDimension(getFont()));
     }
 
@@ -285,6 +332,8 @@ namespace fcn
 
     void TextBox::addRow(std::string const & row)
     {
+        assert("row text is valid utf8" && utf8::is_valid(row.begin(), row.end()));
+
         mText->addRow(row);
         adjustSizeImpl();
     }
@@ -301,12 +350,16 @@ namespace fcn
 
     void TextBox::setCaretColumnUTF8(int column)
     {
+        assert("column is non-negative" && column >= 0);
+
         // no need to clip the column, mStringEditor handles it automatically
         setCaretColumn(fcn::UTF8StringEditor::getOffset(getTextRow(getCaretRow()), column));
     }
 
     void TextBox::setCaretRowUTF8(int row)
     {
+        assert("row is non-negative" && row >= 0);
+
         int const chars = fcn::UTF8StringEditor::countChars(getTextRow(getCaretRow()), getCaretColumn());
         if (row < 0) {
             row = 0;
@@ -319,6 +372,9 @@ namespace fcn
 
     void TextBox::setCaretRowColumnUTF8(int row, int column)
     {
+        assert("row is non-negative" && row >= 0);
+        assert("column is non-negative" && column >= 0);
+
         setCaretRowUTF8(row);
         setCaretColumnUTF8(column);
     }
