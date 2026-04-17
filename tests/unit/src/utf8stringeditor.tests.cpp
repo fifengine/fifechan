@@ -275,4 +275,4 @@ TEST_CASE("UTF8StringEditor handles UTF emojis", "[unit][utf8stringeditor]")
     }
 }
 
-// cppcheck-suppress-begin knownConditionTrueFalse
+// cppcheck-suppress-end knownConditionTrueFalse

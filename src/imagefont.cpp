@@ -222,39 +222,48 @@ namespace fcn
     Rectangle ImageFont::scanForGlyph(unsigned char glyph, int x, int y, Color const & separator)
     {
         Color color;
+
+        // Find glyph start
         bool foundGlyphStart = false;
 
-        // Finding the start of the glyph
-        for (; !foundGlyphStart; ++x) {
+        while (!foundGlyphStart) {
             if (x >= mImage->getWidth()) {
-                y += mHeight + 1;
                 x = 0;
+                y += mHeight + 1;
+
                 if (y >= mImage->getHeight()) {
                     std::ostringstream os;
                     os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
                     throwException(os.str());
                 }
             }
+
             color = mImage->getPixel(x, y);
-            if (color != separator) {
-                foundGlyphStart = true;
-                break;
+
+            foundGlyphStart = (color != separator);
+
+            if (!foundGlyphStart) {
+                ++x;
             }
         }
 
+        // Find glyph width
         int width          = 0;
         bool foundGlyphEnd = false;
 
-        // Finding the width of the glyph
-        for (; !foundGlyphEnd; ++width) {
+        while (!foundGlyphEnd) {
             if (x + width >= mImage->getWidth()) {
                 std::ostringstream os;
                 os << "Image " << mFilename << " with font is corrupt near character '" << glyph << "'";
                 throwException(os.str());
             }
+
             color = mImage->getPixel(x + width, y);
-            if (color == separator) {
-                foundGlyphEnd = true;
+
+            foundGlyphEnd = (color == separator);
+
+            if (!foundGlyphEnd) {
+                ++width;
             }
         }
 
