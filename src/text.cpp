@@ -395,7 +395,7 @@ namespace fcn
 
     unsigned int Text::getNumberOfCharacters() const
     {
-        return std::accumulate(mRows.begin(), mRows.end(), 0U, [](unsigned int sum, auto const & row) {
+        return std::accumulate(mRows.begin(), mRows.end(), size_t{0}, [](size_t sum, auto const & row) {
             return sum + row.size() + 1;
         });
     }
