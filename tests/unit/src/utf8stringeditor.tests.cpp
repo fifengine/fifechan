@@ -147,6 +147,11 @@ TEST_CASE("UTF8StringEditor getOffset gets byte offset for character index", "[u
     }
 }
 
+// cppcheck-suppress-begin knownConditionTrueFalse
+// The warning suggests to remove sections that are always true or false.
+// False positive: analyzer cannot model UTF-8 encoding of \UXXXXXXXX literals,
+// so `text.size()` for multi-byte characters is evaluated wrongly.
+
 TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][utf8stringeditor]")
 {
     SECTION("Chinese")
@@ -269,3 +274,5 @@ TEST_CASE("UTF8StringEditor handles UTF emojis", "[unit][utf8stringeditor]")
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 4);
     }
 }
+
+// cppcheck-suppress-begin knownConditionTrueFalse

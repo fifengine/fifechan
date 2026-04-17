@@ -217,15 +217,14 @@ namespace fcn
         } else if (numberOfCharacters > 0) {
             // We should remove characters right of the caret position.
             while (numberOfCharacters != 0) {
-                // If all rows have been removed there is nothing
-                // more to do.
-                if (mRows.empty()) {
+                // If all rows have been removed or
+                // caret is out of bounds there is nothing more to do.
+                if (mRows.empty() || mCaretRow >= mRows.size()) {
                     break;
                 }
 
                 // If we are at the end of row and the row
-                // is not the last row we need to merge two
-                // rows.
+                // is not the last row we need to merge two rows.
                 if (mCaretColumn == mRows[mCaretRow].size() && mCaretRow < (mRows.size() - 1)) {
                     mRows[mCaretRow] += mRows[mCaretRow + 1];
                     mRows.erase(mRows.begin() + mCaretRow + 1);

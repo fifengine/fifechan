@@ -51,7 +51,7 @@ namespace fcn
         std::list<Widget*>::const_iterator currChild(mChildren.begin());
         std::list<Widget*>::const_iterator endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
-            Widget* child = *currChild;
+            Widget const * child = *currChild;
             if (!child->isVisible()) {
                 continue;
             }

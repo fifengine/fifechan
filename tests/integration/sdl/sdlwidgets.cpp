@@ -147,7 +147,7 @@ namespace
             return;
         }
 
-        if (auto* container = dynamic_cast<fcn::Container*>(widget)) {
+        if (auto const * container = dynamic_cast<fcn::Container const *>(widget)) {
             for (unsigned int i = 0; i < container->getChildrenCount(); ++i) {
                 deleteWidgetAndChildren(container->getChild(i));
             }

@@ -739,6 +739,7 @@ namespace fcn
         mActionListeners.push_back(actionListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeActionListener(ActionListener* actionListener)
     {
         mActionListeners.remove(actionListener);
@@ -749,6 +750,7 @@ namespace fcn
         mDeathListeners.push_back(deathListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeDeathListener(DeathListener* deathListener)
     {
         mDeathListeners.remove(deathListener);
@@ -759,6 +761,7 @@ namespace fcn
         mKeyListeners.push_back(keyListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeKeyListener(KeyListener* keyListener)
     {
         mKeyListeners.remove(keyListener);
@@ -769,6 +772,7 @@ namespace fcn
         mFocusListeners.push_back(focusListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeFocusListener(FocusListener* focusListener)
     {
         mFocusListeners.remove(focusListener);
@@ -779,6 +783,7 @@ namespace fcn
         mMouseListeners.push_back(mouseListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeMouseListener(MouseListener* mouseListener)
     {
         mMouseListeners.remove(mouseListener);
@@ -789,6 +794,7 @@ namespace fcn
         mWidgetListeners.push_back(widgetListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::removeWidgetListener(WidgetListener* widgetListener)
     {
         mWidgetListeners.remove(widgetListener);
@@ -849,7 +855,7 @@ namespace fcn
 
     bool Widget::widgetExists(Widget const * widget)
     {
-        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget* w) {
+        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget const * w) {
             return w == widget;
         });
         return iter != mWidgetInstances.end();
@@ -1196,9 +1202,9 @@ namespace fcn
         int h = 0;
         std::list<Widget*>::const_iterator iter;
         for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            Widget* widget = (*iter);
-            w              = std::max(widget->getX() + widget->getWidth(), w);
-            h              = std::max(widget->getY() + widget->getHeight(), h);
+            Widget const * widget = (*iter);
+            w                     = std::max(widget->getX() + widget->getWidth(), w);
+            h                     = std::max(widget->getY() + widget->getHeight(), h);
         }
 
         setSize(w, h);

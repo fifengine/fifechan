@@ -27,12 +27,22 @@ namespace fcn::opengl
 {
     Graphics::Graphics()
     {
-        setTargetPlane(640, 480);
+        initTargetPlane(640, 480);
     }
 
     Graphics::Graphics(int width, int height)
     {
-        setTargetPlane(width, height);
+        initTargetPlane(width, height);
+    }
+
+    void Graphics::initTargetPlane(int width, int height)
+    {
+        setTargetPlaneImpl(width, height);
+    }
+
+    void Graphics::setTargetPlane(int width, int height)
+    {
+        setTargetPlaneImpl(width, height);
     }
 
     Graphics::~Graphics() = default;
@@ -118,7 +128,7 @@ namespace fcn::opengl
             mClipStack.top().height);
     }
 
-    void Graphics::setTargetPlane(int width, int height)
+    void Graphics::setTargetPlaneImpl(int width, int height)
     {
         mWidth  = width;
         mHeight = height;

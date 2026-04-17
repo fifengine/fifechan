@@ -105,7 +105,7 @@ namespace fcn
     void AdjustingContainer::remove(Widget* widget)
     {
         Container::remove(widget);
-        auto it = std::ranges::find_if(mContainedWidgets, [widget](fcn::Widget* w) {
+        auto it = std::ranges::find_if(mContainedWidgets, [widget](fcn::Widget const * w) {
             return w == widget;
         });
         if (it != mContainedWidgets.end()) {

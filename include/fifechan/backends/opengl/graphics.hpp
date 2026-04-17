@@ -56,7 +56,12 @@ namespace fcn::opengl
          * @param height the height ot the logical drawing surface. Should be
          *               the same as the screen resolution.
          */
-        virtual void setTargetPlane(int width, int height);
+        void setTargetPlane(int width, int height);
+
+    protected:
+        void initTargetPlane(int width, int height);
+
+        virtual void setTargetPlaneImpl(int width, int height);
 
         /**
          * Gets the target plane width.
