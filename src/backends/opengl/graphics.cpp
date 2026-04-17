@@ -105,7 +105,7 @@ namespace fcn::opengl
 
     void Graphics::popClipArea()
     {
-        Graphics::popClipArea();
+        ::fcn::Graphics::popClipArea();
 
         if (mClipStack.empty()) {
             return;
