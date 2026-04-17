@@ -416,7 +416,7 @@ jobs:
 
       - name: 🔼 Upload Build Artifact
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
-        if: ${{ always() && matrix.config.preset != 'clang22-x64-linux-dbg-cov' }}
+        if: ${{ always() && matrix.config.preset != 'clang22-x64-linux-dbg-cov' && github.event_name != 'pull_request' }}
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ env.INSTALL_DIR }}/**/*
@@ -467,14 +467,14 @@ jobs:
             "${BINARIES[@]}" --ignore-filename-regex="${COV_EXCLUDE_REGEX}"
 
       - name: 🔼 Upload Coverage Artifact
-        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' && github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
         with:
           name: Coverage-Report-${{ matrix.config.preset }}
           path: ${{ env.BUILD_DIR }}/coverage/**
 
       - name: 📦 Upload Coverage to Codecov
-        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
+        if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' && github.event_name != 'pull_request' }}
         uses: codecov/codecov-action@v6 # https://github.com/codecov/codecov-action
         with:
           files: ${{ env.BUILD_DIR }}/coverage/coverage.lcov

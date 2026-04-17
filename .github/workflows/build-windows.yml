@@ -277,7 +277,7 @@ jobs:
 
       - name: 🔼 Upload Build Artifact
         uses: actions/upload-artifact@v7 # https://github.com/actions/upload-artifact
-        if: always()
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ env.INSTALL_DIR }}/**/*
