@@ -88,9 +88,14 @@ namespace fcn
             // - remove widget from focus handler
             // - prevent focus handler from referencing a destroyed widget
             if (mFocusHandler != nullptr) {
-                releaseModalFocus();
-                if (mFocusHandler->getModalMouseInputFocused() == this) {
-                    releaseModalMouseInputFocus();
+                mFocusHandler->releaseFocus(this);
+                Widget const * modalMouse = mFocusHandler->getActiveMouseInputRoot();
+                if (modalMouse == this) {
+                    mFocusHandler->popModal();
+                }
+                Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+                if (modalFocus == this) {
+                    mFocusHandler->popModal();
                 }
                 mFocusHandler->remove(this);
                 mFocusHandler = nullptr;
@@ -206,6 +211,16 @@ namespace fcn
     int Widget::getHeight() const
     {
         return mDimension.height;
+    }
+
+    bool Widget::contains(int x, int y) const
+    {
+        return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
+    }
+
+    bool Widget::isMouseInside(MouseEvent const & mouseEvent) const
+    {
+        return contains(mouseEvent.getX(), mouseEvent.getY());
     }
 
     void Widget::setX(int x)
@@ -684,9 +699,12 @@ namespace fcn
     void Widget::_setFocusHandler(FocusHandler* focusHandler)
     {
         if (mFocusHandler != nullptr) {
-            releaseModalFocus();
-            if (mFocusHandler->getModalMouseInputFocused() == this) {
-                releaseModalMouseInputFocus();
+            mFocusHandler->releaseFocus(this);
+            if (mFocusHandler->getActiveMouseInputRoot() == this) {
+                mFocusHandler->popModal();
+            }
+            if (mFocusHandler->getActiveFocusRoot() == this) {
+                mFocusHandler->popModal();
             }
             mFocusHandler->remove(this);
         }
@@ -906,7 +924,7 @@ namespace fcn
             throwException("No focus handler is set (did you add the widget to the GUI?)");
             return false;
         }
-        return mFocusHandler->getModalFocused() == nullptr;
+        return !mFocusHandler->hasModalFocus();
     }
 
     bool Widget::isModalMouseInputFocusable() const
@@ -916,42 +934,6 @@ namespace fcn
             return false;
         }
         return mFocusHandler->getModalMouseInputFocused() == nullptr;
-    }
-
-    void Widget::requestModalFocus()
-    {
-        if (mFocusHandler == nullptr) {
-            throwException("No focus handler is set (did you add the widget to the GUI?)");
-        }
-
-        mFocusHandler->requestModalFocus(this);
-    }
-
-    void Widget::requestModalMouseInputFocus()
-    {
-        if (mFocusHandler == nullptr) {
-            throwException("No focus handler is set (did you add the widget to the GUI?)");
-        }
-
-        mFocusHandler->requestModalMouseInputFocus(this);
-    }
-
-    void Widget::releaseModalFocus()
-    {
-        if (mFocusHandler == nullptr) {
-            return;
-        }
-
-        mFocusHandler->releaseModalFocus(this);
-    }
-
-    void Widget::releaseModalMouseInputFocus()
-    {
-        if (mFocusHandler == nullptr) {
-            return;
-        }
-
-        mFocusHandler->releaseModalMouseInputFocus(this);
     }
 
     bool Widget::isModalFocused() const

@@ -415,7 +415,11 @@ namespace fcn
 
     void CheckBox::mouseClicked(MouseEvent& mouseEvent)
     {
-        if (mHasMouse && mouseEvent.getButton() == MouseEvent::Button::Left) {
+        if (mouseEvent.isConsumed()) {
+            return;
+        }
+
+        if (mouseEvent.getButton() == MouseEvent::Button::Left) {
             toggleSelected();
             mouseEvent.consume();
             distributeActionEvent();

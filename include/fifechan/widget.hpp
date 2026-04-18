@@ -31,6 +31,7 @@ namespace fcn
     class Graphics;
     class KeyInput;
     class KeyListener;
+    class MouseEvent;
     class MouseInput;
     class MouseListener;
     class VisibilityEventHandler;
@@ -423,7 +424,7 @@ namespace fcn
          * @see getWidth, setHeight, getHeight, setSize,
          *      setDimension, getDimension
          */
-        void setWidth(int width);
+        virtual void setWidth(int width);
 
         /**
          * Gets the width of the widget.
@@ -441,7 +442,7 @@ namespace fcn
          * @see getHeight, setWidth, getWidth, setSize,
          *      setDimension, getDimension
          */
-        void setHeight(int height);
+        virtual void setHeight(int height);
 
         /**
          * Gets the height of the widget.
@@ -453,6 +454,23 @@ namespace fcn
         int getHeight() const;
 
         /**
+         * Checks if a point is within the widget's bounds.
+         *
+         * @param x The x coordinate (relative to widget origin).
+         * @param y The y coordinate (relative to widget origin).
+         * @return True if the point is within bounds.
+         */
+        bool contains(int x, int y) const;
+
+        /**
+         * Checks if a mouse event occurred within this widget.
+         *
+         * @param mouseEvent The mouse event to check.
+         * @return True if the event coordinates are within bounds.
+         */
+        bool isMouseInside(MouseEvent const & mouseEvent) const;
+
+        /**
          * Sets the size of the widget.
          *
          * @param width The width of the widget.
@@ -460,7 +478,7 @@ namespace fcn
          * @see setWidth, setHeight, getWidth, getHeight,
          *      setDimension, getDimension
          */
-        void setSize(int width, int height);
+        virtual void setSize(int width, int height);
 
         /**
          * Sets the x coordinate of the widget. The coordinate is
@@ -515,7 +533,7 @@ namespace fcn
          * @param dimension The dimension of the widget.
          * @see getDimension, setX, getX, setY, getY, setPosition
          */
-        void setDimension(Rectangle const & dimension);
+        virtual void setDimension(Rectangle const & dimension);
 
         /**
          * Gets the dimension of the widget. The dimension is
@@ -1023,6 +1041,20 @@ namespace fcn
         virtual void fontChanged() { }
 
         /**
+         * Called when the widget gains focus.
+         *
+         * Override this to perform custom actions when focus is gained.
+         */
+        virtual void onFocusGained() { }
+
+        /**
+         * Called when the widget loses focus.
+         *
+         * Override this to perform custom actions when focus is lost.
+         */
+        virtual void onFocusLost() { }
+
+        /**
          * Checks if a widget exists or not, that is if it still exists
          * an instance of the object.
          *
@@ -1081,7 +1113,6 @@ namespace fcn
          * Checks if a widget is modal focusable.
          *
          * @return True if no other widget is modal focused, false otherwise.
-         * @see requestModalFocus, releaseModalFocus
          */
         virtual bool isModalFocusable() const;
 
@@ -1089,57 +1120,13 @@ namespace fcn
          * Checks if a widget is modal mouse input focusable.
          *
          * @return True if no other widget is modal mouse input focused, false otherwise.
-         * @see requestModalMouseInputFocus, releaseModalMouseInputFocus
          */
         virtual bool isModalMouseInputFocusable() const;
-
-        /**
-         * Requests modal focus.
-         *
-         * When a widget has modal focus, only that
-         * widget and it's children may receive input.
-         *
-         * @throws Exception if another widget already has modal focus.
-         * @see releaseModalFocus, isModalFocused
-         */
-        virtual void requestModalFocus();
-
-        /**
-         * Requests modal mouse input focus.
-         *
-         * When a widget has modal input focus
-         * that widget will be the only widget receiving input even if the input
-         * occurs outside of the widget and no matter what the input is.
-         *
-         * @throws Exception if another widget already has modal focus.
-         * @see releaseModalMouseInputFocus, isModalMouseInputFocused
-         */
-        virtual void requestModalMouseInputFocus();
-
-        /**
-         * Releases modal focus.
-         *
-         * Modal focus will only be released if the widget has modal focus.
-         *
-         * @see requestModalFocus, isModalFocused
-         */
-        virtual void releaseModalFocus();
-
-        /**
-         * Releases modal mouse input focus.
-         *
-         * Modal mouse input focus will only be released
-         * if the widget has modal mouse input focus.
-         *
-         * @see requestModalMouseInputFocus, isModalMouseInputFocused
-         */
-        virtual void releaseModalMouseInputFocus();
 
         /**
          * Checks if the widget or it's parent has modal focus.
          *
          * @return True if the widget has modal focus, false otherwise.
-         * @see requestModalFocus, releaseModalFocus
          */
         virtual bool isModalFocused() const;
 
@@ -1148,7 +1135,6 @@ namespace fcn
          *
          * @return True if the widget has modal mouse input focus, false
          *         otherwise.
-         * @see requestModalMouseInputFocus, releaseModalMouseInputFocus
          */
         virtual bool isModalMouseInputFocused() const;
 

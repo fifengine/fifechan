@@ -24,8 +24,7 @@ namespace fcn
      *
      * @see Widget::isFocus, Widget::isModalFocused,
      *      Widget::isModalMouseInputFocused, Widget::requestFocus,
-     *      Widget::requestModalFocus, Widget::requestModalMouseInputFocus,
-     *      Widget::releaseModalFocus, Widget::releaseModalMouseInputFocus,
+     *      Widget::isModalFocused, Widget::isModalMouseInputFocused,
      *      Widget::setFocusable, Widget::isFocusable, FocusListener
      *
      * @ingroup core
@@ -55,56 +54,6 @@ namespace fcn
         virtual void requestFocus(Widget* widget);
 
         /**
-         * Requests modal focus for a widget.
-         *
-         * Focus will only be granted to a widget if it's focusable
-         * and if no other widget has modal focus.
-         *
-         * @param widget The widget to request modal focus for.
-         * @throws Exception when another widget already has modal focus.
-         * @see releaseModalFocus, Widget::requestModalFocus
-         */
-        virtual void requestModalFocus(Widget* widget);
-
-        /**
-         * Requests modal mouse input focus for a widget.
-         *
-         * Focus will only be granted to a widget if it's focusable
-         * and if no other widget has modal mouse input focus.
-         *
-         * Modal mouse input focus means no other widget then the widget with
-         * modal mouse input focus will receive mouse input. The widget with
-         * modal mouse input focus will also receive mouse input no matter what
-         * the mouse input is or where the mouse input occurs.
-         *
-         * @param widget The widget to focus for modal mouse input focus.
-         * @throws Exception when another widget already has modal mouse input
-         *         focus.
-         * @see releaseModalMouseInputFocus, Widget::requestModalMouseInputFocus
-         */
-        virtual void requestModalMouseInputFocus(Widget* widget);
-
-        /**
-         * Releases modal focus if the widget has modal focus.
-         *
-         * If the widget doesn't have modal focus no release will occur.
-         *
-         * @param widget The widget to release modal focus for.
-         * @see requestModalFocus, Widget::releaseModalFocus
-         */
-        virtual void releaseModalFocus(Widget* widget);
-
-        /**
-         * Releases modal mouse input focus if the widget has modal mouse input focus.
-         *
-         * If the widget doesn't have modal mouse input focus no release will occur.
-         *
-         * @param widget the widget to release modal mouse input focus for.
-         * @see requestModalMouseInputFocus, Widget::releaseModalMouseInputFocus
-         */
-        virtual void releaseModalMouseInputFocus(Widget* widget);
-
-        /**
          * Checks if a widget is focused.
          *
          * @param widget The widget to check.
@@ -112,13 +61,6 @@ namespace fcn
          * @see Widget::isFocused
          */
         virtual bool isFocused(Widget const * widget) const;
-
-        /**
-         * Gets the widget with focus.
-         *
-         * @return The widget with focus. Nullptr if no widget has focus.
-         */
-        virtual Widget* getFocused() const;
 
         /**
          * Gets the widget with modal focus.
@@ -135,6 +77,96 @@ namespace fcn
          *         no widget has modal mouse input focus.
          */
         virtual Widget* getModalMouseInputFocused() const;
+
+        /**
+         * Checks if any modal state is active.
+         *
+         * @return True if modal focus or modal mouse input is active.
+         */
+        virtual bool hasModalFocus() const;
+
+        /**
+         * Pushes a new modal state onto the stack.
+         *
+         * @param focusOwner The widget that will have modal focus.
+         * @param mouseOwner Optional widget for modal mouse input focus.
+         * @see popModal, clearModal
+         */
+        virtual void pushModal(Widget* focusOwner, Widget* mouseOwner = nullptr);
+
+        /**
+         * Pops the current modal state from the stack.
+         *
+         * Restores focus to the previous modal level if any.
+         * @see pushModal, clearModal
+         */
+        virtual void popModal() noexcept;
+
+        /**
+         * Clears all modal states from the stack.
+         *
+         * Resets all modal focus and mouse input.
+         * @see pushModal, popModal
+         */
+        virtual void clearModal();
+
+        /**
+         * Modal scope management (RAII guard).
+         *
+         * Automatically pops the modal when destroyed, unless release() is called.
+         */
+        class ModalScope
+        {
+        public:
+            ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr);
+            ~ModalScope() noexcept;
+            void release();
+
+        private:
+            FocusHandler* mHandler;
+            bool mReleased;
+        };
+
+        /**
+         * Gets the active input root widget for focus routing.
+         *
+         * Returns the top of the modal stack for focus, or nullptr if no modal.
+         *
+         * @return The widget that currently owns modal focus, or nullptr.
+         */
+        virtual Widget* getActiveFocusRoot() const;
+
+        /**
+         * Gets the active input root widget for mouse input routing.
+         *
+         * Returns the top of the modal stack for mouse input, or nullptr if no modal.
+         *
+         * @return The widget that currently owns modal mouse input, or nullptr.
+         */
+        virtual Widget* getActiveMouseInputRoot() const;
+
+        /**
+         * Releases focus for the specified widget if it is currently focused.
+         *
+         * @param widget The widget to release focus for.
+         * @see requestFocus, setFocusedWidget
+         */
+        virtual void releaseFocus(Widget* widget);
+
+        /**
+         * Sets the focused widget directly.
+         *
+         * @param widget The widget to focus, or nullptr to clear focus.
+         * @see requestFocus, releaseFocus
+         */
+        virtual void setFocusedWidget(Widget* widget);
+
+        /**
+         * Gets the widget with focus.
+         *
+         * @return The widget with focus. Nullptr if no widget has focus.
+         */
+        virtual Widget* getFocused() const;
 
         /**
          * Focuses the next widget added to a container.
@@ -322,6 +354,20 @@ namespace fcn
         using WidgetIterator = WidgetVector::iterator;
 
         /**
+         * Represents a single modal state level with focus and mouse owners.
+         */
+        struct ModalState
+        {
+            Widget* focusOwner; // Widget with modal focus at this level
+            Widget* mouseOwner; // Widget with modal mouse input at this level
+        };
+
+        /**
+         * Holds the modal stack for nested modal dialogs.
+         */
+        std::vector<ModalState> mModalStack;
+
+        /**
          * Holds the widgets currently being handled by the focus handler.
          */
         WidgetVector mWidgets;
@@ -330,20 +376,6 @@ namespace fcn
          * Holds the focused widget. Nullptr if no widget has focus.
          */
         Widget* mFocusedWidget;
-
-        /**
-         * Holds the modal focused widget.
-         *
-         * Nullptr if no widget has modal focused.
-         */
-        Widget* mModalFocusedWidget;
-
-        /**
-         * Holds the modal mouse input focused widget.
-         *
-         * Nullptr if no widget is being dragged.
-         */
-        Widget* mModalMouseInputFocusedWidget;
 
         /**
          * Holds the dragged widget.

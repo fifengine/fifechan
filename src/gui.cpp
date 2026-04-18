@@ -477,8 +477,7 @@ namespace fcn
                 // If a widget has modal mouse input focus we
                 // only want to send entered events to that widget
                 // and the widget's parents.
-                if ((mFocusHandler->getModalMouseInputFocused() != nullptr && widget->isModalMouseInputFocused()) ||
-                    mFocusHandler->getModalMouseInputFocused() == nullptr) {
+                if (!mFocusHandler->hasModalFocus() || widget->isModalMouseInputFocused()) {
                     distributeMouseEvent(
                         widget,
                         MouseEvent::Type::Entered,
@@ -521,11 +520,6 @@ namespace fcn
         int sourceWidgetY = 0;
         sourceWidget->getAbsolutePosition(sourceWidgetX, sourceWidgetY);
 
-        if ((mFocusHandler->getModalFocused() != nullptr && sourceWidget->isModalFocused()) ||
-            mFocusHandler->getModalFocused() == nullptr) {
-            sourceWidget->requestFocus();
-        }
-
         if (mouseInput.getTimeStamp() - mLastMousePressTimeStamp < 250 &&
             mLastMousePressButton == static_cast<unsigned int>(mouseInput.getButton())) {
             mClickCount++;
@@ -539,6 +533,10 @@ namespace fcn
             static_cast<MouseEvent::Button>(mouseInput.getButton()),
             mouseInput.getX(),
             mouseInput.getY());
+
+        if (!mFocusHandler->hasModalFocus() || sourceWidget->isModalFocused()) {
+            sourceWidget->requestFocus();
+        }
 
         mFocusHandler->setLastWidgetPressed(sourceWidget);
 
@@ -711,8 +709,9 @@ namespace fcn
     {
         Widget* widget = getWidgetAt(x, y);
 
-        if (mFocusHandler->getModalMouseInputFocused() != nullptr && !widget->isModalMouseInputFocused()) {
-            return mFocusHandler->getModalMouseInputFocused();
+        Widget* modalMouse = mFocusHandler->getActiveMouseInputRoot();
+        if (modalMouse != nullptr && widget != modalMouse && !widget->isModalMouseInputFocused()) {
+            return modalMouse;
         }
 
         return widget;
@@ -736,11 +735,13 @@ namespace fcn
         Widget* parent = source;
         Widget* widget = source;
 
-        if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused() && !force) {
+        Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+        if (modalFocus != nullptr && !widget->isModalFocused() && !force) {
             return;
         }
 
-        if (mFocusHandler->getModalMouseInputFocused() != nullptr && !widget->isModalMouseInputFocused() && !force) {
+        Widget const * modalMouse = mFocusHandler->getActiveMouseInputRoot();
+        if (modalMouse != nullptr && !widget->isModalMouseInputFocused() && !force) {
             return;
         }
 
@@ -802,13 +803,7 @@ namespace fcn
                     case MouseEvent::Type::Clicked:
                         mouseListener->mouseClicked(mouseEvent);
                         break;
-                    default:
-                        throwException("Unknown mouse event type.");
                     }
-                }
-
-                if (toSourceOnly) {
-                    break;
                 }
             }
 
@@ -818,14 +813,15 @@ namespace fcn
 
             // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
-            if (mFocusHandler->getModalFocused() != nullptr && widget != nullptr && !widget->isModalFocused()) {
+            Widget const * modalFocusLoop = mFocusHandler->getActiveFocusRoot();
+            if (modalFocusLoop != nullptr && widget != nullptr && !widget->isModalFocused()) {
                 break;
             }
 
             // If a non-modal mouse input focused widget has been reached
             // and we have modal mouse input focus cancel the distribution.
-            if (mFocusHandler->getModalMouseInputFocused() != nullptr && widget != nullptr &&
-                !widget->isModalMouseInputFocused()) {
+            Widget const * modalMouseLoop = mFocusHandler->getActiveMouseInputRoot();
+            if (modalMouseLoop != nullptr && widget != nullptr && !widget->isModalMouseInputFocused()) {
                 break;
             }
         }
@@ -836,7 +832,8 @@ namespace fcn
         Widget* parent = keyEvent.getSource();
         Widget* widget = keyEvent.getSource();
 
-        if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused()) {
+        Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+        if (modalFocus != nullptr && !widget->isModalFocused()) {
             return;
         }
 
@@ -874,7 +871,8 @@ namespace fcn
 
             // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
-            if (mFocusHandler->getModalFocused() != nullptr && !widget->isModalFocused()) {
+            Widget const * modalFocusLoop = mFocusHandler->getActiveFocusRoot();
+            if (modalFocusLoop != nullptr && !widget->isModalFocused()) {
                 break;
             }
         }
@@ -905,12 +903,12 @@ namespace fcn
     void Gui::handleModalMouseInputFocus()
     {
         // Check if modal mouse input focus has been gained by a widget.
-        if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
+        if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getActiveMouseInputRoot()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == nullptr)) {
             handleModalMouseInputFocusGained();
         } else if (
             // Check if modal mouse input focus has been released.
-            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getModalMouseInputFocused()) &&
+            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getActiveMouseInputRoot()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != nullptr)) {
             handleModalMouseInputFocusReleased();
         }
@@ -919,12 +917,12 @@ namespace fcn
     void Gui::handleModalFocus()
     {
         // Check if modal focus has been gained by a widget.
-        if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
+        if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getActiveFocusRoot()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() == nullptr)) {
             handleModalFocusGained();
         } else if (
             // Check if modal focus has been released.
-            (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getModalFocused()) &&
+            (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getActiveFocusRoot()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() != nullptr)) {
             handleModalFocusReleased();
         }
@@ -950,7 +948,7 @@ namespace fcn
                 true,
                 true);
         }
-        mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getModalFocused());
+        mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getActiveFocusRoot());
     }
 
     void Gui::handleModalFocusReleased()
@@ -993,7 +991,7 @@ namespace fcn
                 true,
                 true);
         }
-        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getModalMouseInputFocused());
+        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getActiveMouseInputRoot());
     }
 
     void Gui::handleModalMouseInputFocusReleased()

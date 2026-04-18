@@ -14,6 +14,7 @@ namespace fcn
 
     RadioButton::RadioButton()
     {
+        addMouseListener(this);
         setMarkerStyle(MarkerStyle::Rhombus);
         setSelected(false);
         adjustSize();
@@ -21,8 +22,10 @@ namespace fcn
 
     RadioButton::RadioButton(std::string const & caption, std::string const & group, bool selected) : mGroup(group)
     {
+        addMouseListener(this);
         setMarkerStyle(MarkerStyle::Rhombus);
         setCaption(caption);
+        setGroup(group);
         setSelected(selected);
         adjustSize();
     }

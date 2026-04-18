@@ -20,8 +20,10 @@ namespace fcn
     class Image;
 
     /**
-     * An implementation of a check box where a user can select or deselect
-     * the check box and where the status of the check box is displayed to the user.
+     * An implementation of a check box.
+     *
+     * The user can select or deselect the check box and
+     * the status of the check box is displayed to the user.
      * A check box is capable of displaying a caption.
      *
      * If a check box's state changes an action event will be sent to all action

@@ -24,8 +24,6 @@ namespace fcn
 {
     FocusHandler::FocusHandler() :
         mFocusedWidget(nullptr),
-        mModalFocusedWidget(nullptr),
-        mModalMouseInputFocusedWidget(nullptr),
         mDraggedWidget(nullptr),
         mLastWidgetWithMouse(nullptr),
         mLastWidgetWithModalFocus(nullptr),
@@ -61,39 +59,79 @@ namespace fcn
         }
     }
 
-    void FocusHandler::requestModalFocus(Widget* widget)
+    bool FocusHandler::hasModalFocus() const
     {
-        if (mModalFocusedWidget != nullptr && mModalFocusedWidget != widget) {
-            throwException("Another widget already has modal focus.");
+        return !mModalStack.empty();
+    }
+
+    void FocusHandler::pushModal(Widget* focusOwner, Widget* mouseOwner)
+    {
+        if (focusOwner == nullptr && mouseOwner == nullptr) {
+            return;
         }
 
-        mModalFocusedWidget = widget;
+        ModalState state{};
+        state.focusOwner = focusOwner;
+        state.mouseOwner = mouseOwner;
+        mModalStack.push_back(state);
 
-        if (mFocusedWidget != nullptr && !mFocusedWidget->isModalFocused()) {
+        if (focusOwner != nullptr && mFocusedWidget != nullptr && !mFocusedWidget->isModalFocused()) {
             focusNone();
         }
     }
 
-    void FocusHandler::requestModalMouseInputFocus(Widget* widget)
+    void FocusHandler::popModal() noexcept
     {
-        if (mModalMouseInputFocusedWidget != nullptr && mModalMouseInputFocusedWidget != widget) {
-            throwException("Another widget already has modal input focus.");
+        if (mModalStack.empty()) {
+            return;
         }
 
-        mModalMouseInputFocusedWidget = widget;
-    }
+        mModalStack.pop_back();
 
-    void FocusHandler::releaseModalFocus(Widget* widget)
-    {
-        if (mModalFocusedWidget == widget) {
-            mModalFocusedWidget = nullptr;
+        Widget* prevFocus = nullptr;
+        if (!mModalStack.empty() && (mModalStack.back().focusOwner != nullptr)) {
+            prevFocus = mModalStack.back().focusOwner;
+        }
+
+        if (prevFocus != nullptr) {
+            requestFocus(prevFocus); // cppcheck-suppress throwInNoexceptFunction
         }
     }
 
-    void FocusHandler::releaseModalMouseInputFocus(Widget* widget)
+    void FocusHandler::clearModal()
     {
-        if (mModalMouseInputFocusedWidget == widget) {
-            mModalMouseInputFocusedWidget = nullptr;
+        mModalStack.clear();
+    }
+
+    void FocusHandler::releaseFocus(Widget* widget)
+    {
+        if (widget == nullptr || mFocusedWidget != widget) {
+            return;
+        }
+
+        Widget* focused = mFocusedWidget;
+        mFocusedWidget  = nullptr;
+
+        Event const focusEvent(focused);
+        distributeFocusLostEvent(focusEvent);
+    }
+
+    void FocusHandler::setFocusedWidget(Widget* widget)
+    {
+        if (mFocusedWidget == widget) {
+            return;
+        }
+
+        Widget* old = mFocusedWidget;
+
+        mFocusedWidget = widget;
+
+        if (old != nullptr) {
+            old->onFocusLost();
+        }
+
+        if (widget != nullptr) {
+            widget->onFocusGained();
         }
     }
 
@@ -104,12 +142,38 @@ namespace fcn
 
     Widget* FocusHandler::getModalFocused() const
     {
-        return mModalFocusedWidget;
+        if (mModalStack.empty()) {
+            return nullptr;
+        }
+
+        return mModalStack.back().focusOwner;
     }
 
     Widget* FocusHandler::getModalMouseInputFocused() const
     {
-        return mModalMouseInputFocusedWidget;
+        if (mModalStack.empty()) {
+            return nullptr;
+        }
+
+        return mModalStack.back().mouseOwner;
+    }
+
+    Widget* FocusHandler::getActiveFocusRoot() const
+    {
+        if (mModalStack.empty()) {
+            return nullptr;
+        }
+
+        return mModalStack.back().focusOwner;
+    }
+
+    Widget* FocusHandler::getActiveMouseInputRoot() const
+    {
+        if (mModalStack.empty()) {
+            return nullptr;
+        }
+
+        return mModalStack.back().mouseOwner;
     }
 
     void FocusHandler::focusNext()
@@ -317,7 +381,7 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
+                (getModalFocused() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
                 break;
             }
         }
@@ -377,7 +441,7 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (mModalFocusedWidget == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
+                (getModalFocused() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
                 break;
             }
         }
@@ -469,4 +533,26 @@ namespace fcn
     }
 
     void FocusHandler::widgetHidden(Widget* widget) { }
+
+    FocusHandler::ModalScope::ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner) :
+        mHandler(handler), mReleased(false)
+    {
+        if (mHandler != nullptr) {
+            mHandler->pushModal(focusOwner, mouseOwner);
+        }
+    }
+
+    FocusHandler::ModalScope::~ModalScope() noexcept
+    {
+        if (mHandler != nullptr && !mReleased) {
+            // cppcheck-suppress throwInNoexceptFunction
+            mHandler->popModal();
+        }
+    }
+
+    void FocusHandler::ModalScope::release()
+    {
+        mReleased = true;
+    }
+
 } // namespace fcn

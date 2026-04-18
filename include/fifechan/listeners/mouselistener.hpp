@@ -45,12 +45,13 @@ namespace fcn
         virtual void mouseExited(MouseEvent& mouseEvent) { }
 
         /**
-         * Called when a mouse button has been pressed on the widget area.
+         * Called when a mouse button has been pressed down on the widget area.
          *
          * @note
          * A mouse press is NOT equal to a mouse click.
-         * Use mouseClickMessage to check for mouse clicks.
+         * Use mouseClicked() for "pressed AND released" (full click) on a widget.
          *
+         * @see mouseClicked
          * @param mouseEvent Describes the event.
          */
         virtual void mousePressed(MouseEvent& mouseEvent) { }

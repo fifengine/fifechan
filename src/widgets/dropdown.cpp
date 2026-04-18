@@ -26,8 +26,6 @@ namespace fcn
         setWidth(100);
         setFocusable(true);
 
-        setInternalFocusHandler(&mInternalFocusHandler);
-
         if (mInternalScrollArea) {
             mOwnedScrollArea = std::make_unique<ScrollArea>();
             mScrollArea      = mOwnedScrollArea.get();
@@ -216,20 +214,21 @@ namespace fcn
     void DropDown::mousePressed(MouseEvent& mouseEvent)
     {
         // If we have a mouse press on the widget.
-        if (0 <= mouseEvent.getY() && mouseEvent.getY() < getHeight() && mouseEvent.getX() >= 0 &&
-            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Button::Left && !mDroppedDown &&
-            mouseEvent.getSource() == this) {
+        if (mouseEvent.getButton() == MouseEvent::Button::Left && !mDroppedDown && isMouseInside(mouseEvent)) {
             mPushed = true;
             dropDown();
-            requestModalMouseInputFocus();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->pushModal(nullptr, this);
+            }
         } else if (
             // Fold up the listbox if the upper part is clicked after fold down
-            0 <= mouseEvent.getY() && mouseEvent.getY() < mFoldedUpHeight && mouseEvent.getX() >= 0 &&
-            mouseEvent.getX() < getWidth() && mouseEvent.getButton() == MouseEvent::Button::Left && mDroppedDown &&
-            mouseEvent.getSource() == this) {
+            mouseEvent.getButton() == MouseEvent::Button::Left && mDroppedDown && isMouseInside(mouseEvent) &&
+            (mouseEvent.getY() < mFoldedUpHeight)) {
             mPushed = false;
             foldUp();
-            releaseModalMouseInputFocus();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->popModal();
+            }
         } else if (
             // If we have a mouse press outside the widget
             0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
@@ -249,7 +248,9 @@ namespace fcn
         if ((0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
              mouseEvent.getX() >= getWidth()) &&
             mouseEvent.getButton() == MouseEvent::Button::Left && isModalMouseInputFocused()) {
-            releaseModalMouseInputFocus();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->popModal();
+            }
 
             if (mIsDragged) {
                 foldUp();
@@ -357,14 +358,18 @@ namespace fcn
         if (mDroppedDown) {
             mDroppedDown = false;
             adjustHeight();
-            mInternalFocusHandler.focusNone();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->releaseFocus(this);
+            }
         }
     }
 
     void DropDown::focusLost([[maybe_unused]] Event const & event)
     {
         foldUp();
-        mInternalFocusHandler.focusNone();
+        if (mFocusHandler != nullptr) {
+            mFocusHandler->releaseFocus(this);
+        }
     }
 
     void DropDown::death(Event const & event)
@@ -381,7 +386,9 @@ namespace fcn
     void DropDown::action([[maybe_unused]] ActionEvent const & actionEvent)
     {
         foldUp();
-        releaseModalMouseInputFocus();
+        if (mFocusHandler) {
+            mFocusHandler->popModal();
+        }
         distributeActionEvent();
     }
 
@@ -449,7 +456,7 @@ namespace fcn
 
     void DropDown::mouseWheelMovedUp(MouseEvent& mouseEvent)
     {
-        if (isFocused() && mouseEvent.getSource() == this) {
+        if (isFocused() && isMouseInside(mouseEvent)) {
             mouseEvent.consume();
 
             if (mListBox->getSelected() > 0) {
@@ -460,7 +467,7 @@ namespace fcn
 
     void DropDown::mouseWheelMovedDown(MouseEvent& mouseEvent)
     {
-        if (isFocused() && mouseEvent.getSource() == this) {
+        if (isFocused() && isMouseInside(mouseEvent)) {
             mouseEvent.consume();
 
             mListBox->setSelected(mListBox->getSelected() + 1);
@@ -486,6 +493,7 @@ namespace fcn
         mSelectionListeners.push_back(selectionListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void DropDown::removeSelectionListener(SelectionListener* selectionListener)
     {
         mSelectionListeners.remove(selectionListener);

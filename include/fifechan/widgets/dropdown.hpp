@@ -255,12 +255,6 @@ namespace fcn
         ListBox* mListBox;
 
         /**
-         * The internal focus handler used to keep track of focus for the
-         * internal list box.
-         */
-        FocusHandler mInternalFocusHandler;
-
-        /**
          * True if an internal scroll area is used, false if a scroll area
          * has been passed to the drop down which the drop down should not
          * deleted in it's destructor.
