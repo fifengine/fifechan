@@ -229,10 +229,7 @@
   "buildPresets": [
     {
       "name": "clang22-x64-linux-dbg-cov",
-      "configurePreset": "clang22-x64-linux-dbg-cov",
-      "targets": [
-        "all_tests"
-      ]
+      "configurePreset": "clang22-x64-linux-dbg-cov"
     },
     {
       "name": "clang21-x64-linux-rel",
