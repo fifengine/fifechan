@@ -231,7 +231,7 @@
       "name": "clang22-x64-linux-dbg-cov",
       "configurePreset": "clang22-x64-linux-dbg-cov",
       "targets": [
-        "fifechan"
+        "all_tests"
       ]
     },
     {
