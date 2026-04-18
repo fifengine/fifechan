@@ -19,11 +19,10 @@ namespace fcn
         adjustSize();
     }
 
-    RadioButton::RadioButton(std::string const & caption, std::string const & group, bool selected)
+    RadioButton::RadioButton(std::string const & caption, std::string const & group, bool selected) : mGroup(group)
     {
         setMarkerStyle(MarkerStyle::Rhombus);
         setCaption(caption);
-        setGroup(group);
         setSelected(selected);
         adjustSize();
     }

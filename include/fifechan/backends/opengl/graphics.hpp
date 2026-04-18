@@ -59,8 +59,6 @@ namespace fcn::opengl
         void setTargetPlane(int width, int height);
 
     protected:
-        void initTargetPlane(int width, int height);
-
         virtual void setTargetPlaneImpl(int width, int height);
 
         /**
@@ -129,7 +127,6 @@ namespace fcn::opengl
 
         Color const & getColor() const override;
 
-    protected:
         /** Width of the logical target plane. */
         int mWidth{};
 

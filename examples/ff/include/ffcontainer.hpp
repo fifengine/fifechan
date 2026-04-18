@@ -24,9 +24,9 @@ public:
     void logic() override;
     void draw(fcn::Graphics* graphics) override;
     void setVisible(bool visible);
-    void setWidth(int width);
-    void setHeight(int height);
-    void setDimension(fcn::Rectangle const & dimension);
+    void setWidth(int width) override;
+    void setHeight(int height) override;
+    void setDimension(fcn::Rectangle const & dimension) override;
     void slideContentTo(int y);
     fcn::Rectangle getChildrenArea() override;
 

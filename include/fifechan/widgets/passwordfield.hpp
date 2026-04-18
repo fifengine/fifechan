@@ -39,7 +39,7 @@ namespace fcn
 
         void keyPressed(KeyEvent& keyEvent) override;
 
-        void setText(std::string const & text) override;
+        void setText(std::string const & text) override; // cppcheck-suppress virtualCallInConstructor
 
         std::string getText() const override;
 

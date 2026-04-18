@@ -33,6 +33,7 @@ namespace fcn::sdl2
     class FIFEGUI_EXT_API ImageLoader : public fcn::ImageLoader
     {
     public:
+        ImageLoader();
         using fcn::ImageLoader::load;
 
         /** Load an image from `filename`. */
@@ -59,10 +60,10 @@ namespace fcn::sdl2
 
     private:
         /** Pixel format used for conversions and blending. */
-        SDL_PixelFormat mPixelFormat;
+        SDL_PixelFormat mPixelFormat{};
 
         /** Optional renderer used when creating textures. */
-        SDL_Renderer* mRenderer;
+        SDL_Renderer* mRenderer{nullptr};
     };
 } // namespace fcn::sdl2
 

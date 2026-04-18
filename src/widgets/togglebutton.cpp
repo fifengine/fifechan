@@ -17,15 +17,14 @@ namespace fcn
 
     ToggleButton::ToggleButton()
     {
-        setSelected(false);
         adjustSize();
     }
 
-    ToggleButton::ToggleButton(std::string const & caption, std::string const & group, bool selected)
+    ToggleButton::ToggleButton(std::string const & caption, std::string const & group, bool selected) :
+        mSelected(selected)
     {
         setCaption(caption);
         setGroup(group);
-        setSelected(selected);
         adjustSize();
     }
 

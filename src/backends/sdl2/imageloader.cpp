@@ -18,6 +18,8 @@
 
 namespace fcn::sdl2
 {
+    ImageLoader::ImageLoader() : mRenderer(nullptr) { }
+
     namespace
     {
         std::string resolveFromExecutableDirectory(std::string const & filename)

@@ -307,13 +307,13 @@ namespace fcn
         void logic() override;
 
         /** Set the width of the scroll area. */
-        void setWidth(int width);
+        void setWidth(int width) override;
 
         /** Set the height of the scroll area. */
-        void setHeight(int height);
+        void setHeight(int height) override;
 
         /** Set the bounds/dimension of the scroll area. */
-        void setDimension(Rectangle const & dimension);
+        void setDimension(Rectangle const & dimension) override;
 
         using Widget::expandContent;
         using Widget::resizeToContent;
@@ -408,7 +408,7 @@ namespace fcn
         /**
          * Checks the policies for the scroll bars.
          */
-        virtual void checkPolicies();
+        virtual void checkPolicies(); // cppcheck-suppress virtualCallInConstructor
 
         /**
          * Gets the up button dimension.

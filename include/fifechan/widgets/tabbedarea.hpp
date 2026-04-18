@@ -175,16 +175,16 @@ namespace fcn
         void draw(Graphics* graphics) override;
 
         /** Set the width of the tabbed area in pixels. */
-        void setWidth(int width);
+        void setWidth(int width) override;
 
         /** Set the height of the tabbed area in pixels. */
-        void setHeight(int height);
+        void setHeight(int height) override;
 
         /** Set the size (width and height) of the tabbed area in pixels. */
-        void setSize(int width, int height);
+        void setSize(int width, int height) override;
 
         /** Set the area dimension for the tabbed area. */
-        void setDimension(Rectangle const & dimension);
+        void setDimension(Rectangle const & dimension) override;
 
         /** Set the base/background color used for the tabbed area. */
         void setBaseColor(Color const & color) override;

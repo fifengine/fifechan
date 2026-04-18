@@ -70,7 +70,7 @@ namespace fcn
 
         // Inherited from CheckBox
 
-        void setSelected(bool selected) override;
+        void setSelected(bool selected) override; // cppcheck-suppress virtualCallInConstructor
         void toggleSelected() override;
 
     protected:

@@ -107,8 +107,8 @@ namespace fcn
 
     void Text::addRow(std::string const & row)
     {
-        for (size_t i = 0; i < row.size(); i++) {
-            if (row[i] == '\n') {
+        for (char i : row) {
+            if (i == '\n') {
                 throwException("Line feed not allowed in the row to be added!");
             }
         }
@@ -129,8 +129,8 @@ namespace fcn
             throwException("Position out of bounds!");
         }
 
-        for (size_t i = 0; i < row.size(); i++) {
-            if (row[i] == '\n') {
+        for (char i : row) {
+            if (i == '\n') {
                 throwException("Line feed not allowed in the row to be inserted!");
             }
         }
@@ -186,6 +186,9 @@ namespace fcn
 
     void Text::remove(int numberOfCharacters)
     {
+        // cppcheck-suppress-begin knownConditionTrueFalse
+        // False positive: numberOfCharacters and branch logic is correct.
+
         if (mRows.empty() || numberOfCharacters == 0) {
             return;
         }
@@ -225,7 +228,8 @@ namespace fcn
 
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two rows.
-                if (mCaretColumn == mRows[mCaretRow].size() && mCaretRow < (mRows.size() - 1)) {
+                if (mCaretRow < mRows.size() && mCaretColumn == mRows[mCaretRow].size() &&
+                    mCaretRow < (mRows.size() - 1)) {
                     mRows[mCaretRow] += mRows[mCaretRow + 1];
                     mRows.erase(mRows.begin() + mCaretRow + 1);
                 } else {
@@ -235,6 +239,8 @@ namespace fcn
                 numberOfCharacters--;
             }
         }
+
+        // cppcheck-suppress-end knownConditionTrueFalse
     }
 
     int Text::getCaretPosition() const

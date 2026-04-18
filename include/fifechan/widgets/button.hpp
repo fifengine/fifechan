@@ -184,7 +184,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        virtual void adjustSizeImpl();
+        virtual void adjustSizeImpl(); // cppcheck-suppress virtualCallInConstructor
 
         /**
          * Checks if the button is pressed. Convenient method to use

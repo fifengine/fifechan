@@ -152,7 +152,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        void adjustSizeImpl() override;
+        void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
 
         /**
          * Draws the checkmark.
@@ -197,12 +197,6 @@ namespace fcn
          * Holds the background image, that includes the caption region.
          */
         Image const * mBackgroundImage{nullptr};
-        // std::shared_ptr<Image const> mBackgroundImage{nullptr};
-
-        /**
-         * Holds the caption of the button.
-         */
-        std::string mCaption;
 
         /**
          * True if the background image was loaded internally, false otherwise.

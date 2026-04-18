@@ -25,20 +25,9 @@
 
 namespace fcn::opengl
 {
-    Graphics::Graphics()
-    {
-        initTargetPlane(640, 480);
-    }
+    Graphics::Graphics() : mWidth(640), mHeight(480) { }
 
-    Graphics::Graphics(int width, int height)
-    {
-        initTargetPlane(width, height);
-    }
-
-    void Graphics::initTargetPlane(int width, int height)
-    {
-        setTargetPlaneImpl(width, height);
-    }
+    Graphics::Graphics(int width, int height) : mWidth(width), mHeight(height) { }
 
     void Graphics::setTargetPlane(int width, int height)
     {

@@ -120,6 +120,7 @@ namespace fcn
         mContainerListeners.push_back(containerListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void Container::removeContainerListener(ContainerListener* containerListener)
     {
         mContainerListeners.remove(containerListener);

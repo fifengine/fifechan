@@ -70,6 +70,7 @@ namespace fcn
     CheckBox::CheckBox(std::string const & caption, bool selected) : mSelected(selected)
     {
         setCaption(caption);
+
         adjustSizeImpl();
     }
 

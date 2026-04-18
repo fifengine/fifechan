@@ -261,7 +261,7 @@ namespace fcn
          *
          * @see adjustSize (virtual entry point for polymorphism)
          */
-        void adjustSizeImpl() override;
+        void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
 
         /**
          * Internal helper to set an image for a specific ImageType by filename.

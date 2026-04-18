@@ -146,14 +146,14 @@ namespace fcn
 
         // width calculation
         mWidth = mPaddingLeft;
-        mWidth += std::accumulate(mColumnWidths.begin(), mColumnWidths.end(), 0u);
+        mWidth += std::accumulate(mColumnWidths.begin(), mColumnWidths.end(), 0U);
         mWidth += mColumnWidths.size() * mHorizontalSpacing;
         mWidth -= mHorizontalSpacing;
         mWidth += mPaddingRight;
 
         // height calculation
         mHeight = mPaddingTop;
-        mHeight += std::accumulate(mRowHeights.begin(), mRowHeights.end(), 0u);
+        mHeight += std::accumulate(mRowHeights.begin(), mRowHeights.end(), 0U);
         mHeight += mRowHeights.size() * mVerticalSpacing;
         mHeight -= mVerticalSpacing;
         mHeight += mPaddingBottom;

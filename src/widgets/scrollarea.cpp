@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -21,12 +22,14 @@ namespace fcn
 
     ScrollArea::ScrollArea(Widget* content)
     {
+        // cppcheck-suppress virtualCallInConstructor
         setContent(content);
         addMouseListener(this);
     }
 
     ScrollArea::ScrollArea(Widget* content, ScrollPolicy /*hPolicy*/, ScrollPolicy /*vPolicy*/)
     {
+        // cppcheck-suppress virtualCallInConstructor
         setContent(content);
         addMouseListener(this);
     }
@@ -34,6 +37,7 @@ namespace fcn
     ScrollArea::~ScrollArea()
     {
         try {
+            // cppcheck-suppress virtualCallInConstructor
             setContent(nullptr);
         } catch (std::exception&) {
             // logError("Exception in ScrollArea destructor: " + std::string(e.what()));
@@ -729,7 +733,8 @@ namespace fcn
             return {0, 0, 0, 0};
         }
 
-        if (mVBarVisible && mHBarVisible) {
+        assert("mVBarVisible must be true here" && mVBarVisible);
+        if (mHBarVisible) {
             return {
                 getWidth() - mScrollbarWidth, getHeight() - (mScrollbarWidth * 2), mScrollbarWidth, mScrollbarWidth};
         }
@@ -752,7 +757,8 @@ namespace fcn
             return {0, 0, 0, 0};
         }
 
-        if (mVBarVisible && mHBarVisible) {
+        assert("mHBarVisible must be true here" && mHBarVisible);
+        if (mVBarVisible) {
             return {
                 getWidth() - (mScrollbarWidth * 2), getHeight() - mScrollbarWidth, mScrollbarWidth, mScrollbarWidth};
         }

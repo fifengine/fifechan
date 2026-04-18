@@ -256,6 +256,7 @@ namespace fcn
         mSelectionListeners.push_back(selectionListener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void ListBox::removeSelectionListener(SelectionListener* selectionListener)
     {
         mSelectionListeners.remove(selectionListener);
