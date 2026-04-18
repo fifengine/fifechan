@@ -441,7 +441,7 @@ jobs:
       - name: 📊 Generate Coverage Reports (lcov + HTML)
         if: ${{ matrix.config.preset == 'clang22-x64-linux-dbg-cov' }}
         env:
-          COV_EXCLUDE_REGEX: '\/vcpkg_installed\/|\/build\/'
+          COV_EXCLUDE_REGEX: '(vcpkg_installed|build|tests)'
         run: |
           set -euo pipefail
 
