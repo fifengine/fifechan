@@ -69,11 +69,6 @@ namespace fcn::opengl
 
         ~Image() override;
 
-        Image(Image const &)            = delete;
-        Image& operator=(Image const &) = delete;
-        Image(Image&&)                  = delete;
-        Image& operator=(Image&&)       = delete;
-
         /**
          * Gets the OpenGL texture handle for the image.
          *
