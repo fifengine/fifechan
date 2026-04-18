@@ -45,6 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reintegrated all fifechan-demos into this repository (/examples) and updated
   them to work with the new CMake build system and SDL2
   - removed the old and deprecated autotools build system and all related files (configure.ac, Makefile)
+- Added `Widget::contains(int x, int y)` and `Widget::isMouseInside(const MouseEvent&)` helper methods
+- Added `Widget::onFocusGained`/`onFocusLost` callback hooks
+- Added stacked modal system (`ModalState`, `ModalScope`, `pushModal`/`popModal`/`clearModal`), issue #33
+- Added `getActiveFocusRoot()`/`getActiveMouseInputRoot()` to FocusHandler
 
 ### Changed
 
@@ -68,6 +72,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - applied spellchecking
 - renamed function parameter recursiv to recursion
 - fixed all Doxygen warnings "found unknown command"
+- Moved `requestFocus()` to after event dispatch in mouse handling (fixes DropDown 2-click bug)
+- Updated modal API to use new stacked modal methods (21 call sites in gui.cpp)
+- switched the library build system to compile the core and each extension as object libraries
+  - these object libraries are then linked into the final shared and static library targets
 
 ### Removed
 
@@ -76,6 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove usage of do-while loops
 - removed all extern "c" helper functions for extension detection by autotools
 - removed source_group() support for Visual Studio IDE
+- Deprecated `getModalFocused()`/`getModalMouseInputFocused()` in favor of `getActiveFocusRoot()`/`getActiveMouseInputRoot()`
+
 
 ## [0.1.5] - 2019-01-11
 

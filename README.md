@@ -4,7 +4,7 @@
 
 | Continuous Integration | Windows | Linux    |   Mac   | Coverage |
 |:----------------------:|:-------:|:--------:|:-------:|:--------:|
-| **Build Status** | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | Not Build | [![Codecov test coverage](https://codecov.io/github/fifengine/fifechan/branch/main/badge.svg)](https://app.codecov.io/github/fifengine/fifechan) |
+| **Build Status** | [![Build on Windows](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-windows.yml) | [![Build on Linux](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml/badge.svg)](https://github.com/fifengine/fifechan/actions/workflows/build-linux.yml) | Not Build | [![Codecov test coverage](https://codecov.io/github/fifengine/fifechan/branch/main/badge.svg)](https://app.codecov.io/github/fifengine/fifechan/tree/main) |
 
 # FifeGUI
 
