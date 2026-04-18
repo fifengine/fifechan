@@ -4,6 +4,8 @@ message(STATUS "---------------------------------------------------------------"
 
 find_package(Catch2 CONFIG REQUIRED)
 
+message(STATUS "All tests are linked into a single executable `all_tests`.")
+
 add_executable(all_tests
   src/color.tests.cpp
   src/size.tests.cpp
@@ -14,7 +16,8 @@ add_executable(all_tests
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
-  ${PROJECT_NAME}
+  # link the object library
+  fifechan_lib
 )
 
 set_target_properties(all_tests PROPERTIES
