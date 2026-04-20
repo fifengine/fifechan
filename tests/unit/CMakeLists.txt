@@ -6,15 +6,26 @@ find_package(Catch2 CONFIG REQUIRED)
 
 message(STATUS "All tests are linked into a single executable `all_tests`.")
 
-add_executable(all_tests
+set(UNIT_TEST_SOURCES
   src/color.tests.cpp
   src/size.tests.cpp
   src/rectangle.tests.cpp
   src/utf8stringeditor.tests.cpp
   src/widgets/textbox.tests.cpp
-  src/backends/sdl2/image.tests.cpp
-  src/backends/sdl2/imagefont.tests.cpp
 )
+
+# Skip some tests in CI env.
+# https://docs.github.com/en/actions/reference/workflows-and-actions/variables
+if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
+  list(APPEND UNIT_TEST_SOURCES
+    src/backends/sdl2/image.tests.cpp
+    src/backends/sdl2/imagefont.tests.cpp
+  )
+else()
+  message(STATUS "CI detected: some tests are skipped as they require a non-headless environment.")
+endif()
+
+add_executable(all_tests ${UNIT_TEST_SOURCES})
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
