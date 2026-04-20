@@ -12,13 +12,36 @@ add_executable(all_tests
   src/rectangle.tests.cpp
   src/utf8stringeditor.tests.cpp
   src/widgets/textbox.tests.cpp
+  src/backends/sdl2/image.tests.cpp
+  src/backends/sdl2/imagefont.tests.cpp
 )
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
   # link the object library
   fifechan_lib
+  # link SDL2 for backend tests
+  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # link SDL2 backend library for Image class
+  fifechan_sdl2
 )
+
+# Copy test resources to the build directory
+set(RESOURCES_SRC_DIR "${CMAKE_SOURCE_DIR}/tests/resources")
+set(RESOURCES_DST_DIR "${CMAKE_CURRENT_BINARY_DIR}/tests/resources")
+
+if(NOT EXISTS "${RESOURCES_DST_DIR}")
+  file(MAKE_DIRECTORY "${RESOURCES_DST_DIR}")
+endif()
+
+file(GLOB RESOURCE_FILES "${RESOURCES_SRC_DIR}/*")
+foreach(file IN LISTS RESOURCE_FILES)
+  get_filename_component(filename ${file} NAME)
+  if(NOT EXISTS "${RESOURCES_DST_DIR}/${filename}")
+    file(COPY "${file}" DESTINATION "${RESOURCES_DST_DIR}")
+  endif()
+endforeach()
 
 set_target_properties(all_tests PROPERTIES
   CXX_STANDARD 20

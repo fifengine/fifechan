@@ -42,30 +42,14 @@ namespace fcn::sdl2
                 }
             }
 
-            if (SDL_LockSurface(surface) == 0) {
-                Uint32* pixels       = static_cast<Uint32*>(surface->pixels);
-                int const pixelCount = surface->w * surface->h;
-                // Get format info for RGBA extraction
-                SDL_PixelFormat const * fmt = surface->format;
-                Uint32 const amask          = fmt->Amask;
-                // Extract RGBA, check for magenta and set alpha to 0 if found.
-                for (int i = 0; i < pixelCount; ++i) {
-                    // Extract RGBA
-                    Uint8 r = 0;
-                    Uint8 g = 0;
-                    Uint8 b = 0;
-                    Uint8 a = 0;
-                    SDL_GetRGBA(pixels[i], fmt, &r, &g, &b, &a);
-
-                    if (r == 255 && g == 0 && b == 255) {
-                        pixels[i] &= ~amask;
-                    }
-                }
-                SDL_UnlockSurface(surface);
+            // Set magenta as color key only if not already set by ImageLoader
+            Uint32 existingKey = 0;
+            if (SDL_GetColorKey(surface, &existingKey) == 0) {
+                // Color key already set - preserve it (from ImageLoader)
+            } else {
+                // No color key set - don't add one in constructor (for font images)
             }
-            // Clear color key as alpha is now used for transparency.
-            SDL_SetColorKey(surface, 0, 0);
-            // --- End Color Key Conversion ---
+
             mTexture = SDL_CreateTextureFromSurface(renderer, surface);
             if (mTexture == nullptr) {
                 throwException(std::string("Failed to create texture: ") + SDL_GetError());
@@ -92,6 +76,14 @@ namespace fcn::sdl2
             } else {
                 SDL_BlitScaled(surface, nullptr, mTransientSurface, nullptr);
             }
+
+            Uint32 transientKey = 0;
+            if (SDL_GetColorKey(mTransientSurface, &transientKey) == 0) {
+                // Color key already set - preserve it (from ImageLoader)
+            } else {
+                // No color key set - don't add one (for font images)
+            }
+            SDL_SetSurfaceRLE(mTransientSurface, 0);
 
             if (autoFree) {
                 SDL_FreeSurface(surface);
@@ -167,6 +159,20 @@ namespace fcn::sdl2
     {
         if (mTexture == nullptr) {
             throwException("Trying to convert a non loaded image to display format.");
+        }
+
+        // Regenerate the texture from the transient surface which has the final pixel data.
+        // This ensures the texture reflects any changes made via getPixel/putPixel.
+        if (mTransientSurface != nullptr && mRenderer != nullptr) {
+            SDL_DestroyTexture(mTexture);
+            mTexture = SDL_CreateTextureFromSurface(mRenderer, mTransientSurface);
+            if (mTexture == nullptr) {
+                throwException(std::string("Failed to create texture in convertToDisplayFormat: ") + SDL_GetError());
+            }
+            SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
+#if SDL_VERSION_ATLEAST(2, 0, 12)
+            SDL_SetTextureScaleMode(mTexture, SDL_ScaleModeNearest);
+#endif
         }
     }
 

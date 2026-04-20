@@ -267,8 +267,8 @@ namespace fcn
             }
         }
 
-        // width now points to the separator pixel; glyph width is one less
-        return {x, y, width - 1, mHeight};
+        // width now points to the separator pixel; glyph width is the measured width
+        return {x, y, width, mHeight};
     }
 
     int ImageFont::getWidth(std::string const & text) const
