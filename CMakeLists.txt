@@ -400,6 +400,7 @@ target_include_directories(${PROJECT_NAME}_lib
 if(USE_VCPKG)
   target_include_directories(${PROJECT_NAME}_lib SYSTEM PUBLIC
       $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include>
+      $<BUILD_INTERFACE:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include>
   )
 endif()
 
