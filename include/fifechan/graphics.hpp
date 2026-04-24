@@ -58,7 +58,7 @@ namespace fcn
     {
     public:
         /**
-         * Alignments for text drawing.
+         * Horizontal alignments for text drawing.
          */
         enum class Alignment : uint8_t
         {
