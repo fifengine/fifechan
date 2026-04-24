@@ -299,14 +299,14 @@ namespace fcn
          *
          * @param widget Hidden widget.
          */
-        void enqueueHiddenWidget(Widget* widget);
+        void addHiddenWidget(Widget* widget);
 
         /**
          * Inform gui that a widget was shown.
          *
          * @param widget Shown widget.
          */
-        void enqueueShownWidget(Widget* widget);
+        void addShownWidget(Widget* widget);
 
         /**
          * Inform gui that a widget was deleted.
@@ -540,12 +540,12 @@ namespace fcn
         /**
          * Holds hidden widgets.
          */
-        std::queue<Widget*> mHiddenWidgets;
+        std::vector<Widget*> mHiddenWidgets;
 
         /**
          * Holds shown widgets.
          */
-        std::queue<Widget*> mShownWidgets;
+        std::vector<Widget*> mShownWidgets;
 
         /**
          * Holds the graphics implementation used.

@@ -15,11 +15,11 @@ namespace fcn
 
     void VisibilityEventHandler::widgetHidden(Event const & e)
     {
-        mGui->enqueueHiddenWidget(e.getSource());
+        mGui->addHiddenWidget(e.getSource());
     }
 
     void VisibilityEventHandler::widgetShown(Event const & e)
     {
-        mGui->enqueueShownWidget(e.getSource());
+        mGui->addShownWidget(e.getSource());
     }
 }; // namespace fcn

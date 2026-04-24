@@ -270,37 +270,20 @@ namespace fcn
         mKeyListeners.remove(keyListener);
     }
 
-    void Gui::enqueueHiddenWidget(Widget* widget)
+    void Gui::addHiddenWidget(Widget* widget)
     {
-        mHiddenWidgets.push(widget);
+        mHiddenWidgets.push_back(widget);
     }
 
-    void Gui::enqueueShownWidget(Widget* widget)
+    void Gui::addShownWidget(Widget* widget)
     {
-        mShownWidgets.push(widget);
+        mShownWidgets.push_back(widget);
     }
 
     void Gui::widgetDied(Widget const * widget)
     {
-        std::queue<Widget*> tmp;
-        while (!mShownWidgets.empty()) {
-            Widget* shownWidget = mShownWidgets.front();
-            if (shownWidget != widget) {
-                tmp.push(shownWidget);
-            }
-            mShownWidgets.pop();
-        }
-        mShownWidgets = tmp;
-
-        tmp = std::queue<Widget*>();
-        while (!mHiddenWidgets.empty()) {
-            Widget* hiddenWidget = mHiddenWidgets.front();
-            if (hiddenWidget != widget) {
-                tmp.push(hiddenWidget);
-            }
-            mHiddenWidgets.pop();
-        }
-        mHiddenWidgets = tmp;
+        std::erase(mShownWidgets, widget);
+        std::erase(mHiddenWidgets, widget);
     }
 
     void Gui::handleMouseInput()
@@ -1009,11 +992,11 @@ namespace fcn
 
     void Gui::handleHiddenWidgets()
     {
-        // process each hidden widget in queue
-        while (!mHiddenWidgets.empty()) {
-            // if the hidden widget had the mouse cursor inside
-            Widget const * hiddenWidget = mHiddenWidgets.front();
+        // process snapshot of hidden widgets and clear the vector
+        std::vector<Widget*> pending = std::move(mHiddenWidgets);
+        mHiddenWidgets.clear();
 
+        for (auto const hiddenWidget : pending) {
             // make sure that the widget wasn't freed after hiding
             if (Widget::widgetExists(hiddenWidget) && hiddenWidget->isEnabled()) {
                 int hiddenWidgetX = 0;
@@ -1036,17 +1019,16 @@ namespace fcn
                         true);
                 }
             }
-
-            mHiddenWidgets.pop();
         }
     }
 
     void Gui::handleShownWidgets()
     {
-        // process each shown widget in queue
-        while (!mShownWidgets.empty()) {
-            Widget* shownWidget = mShownWidgets.front();
+        // process snapshot of shown widgets and clear the vector
+        std::vector<Widget*> pending = std::move(mShownWidgets);
+        mShownWidgets.clear();
 
+        for (auto shownWidget : pending) {
             // if the shown widget has the mouse cursor inside it
             int shownWidgetX = 0;
             int shownWidgetY = 0;
@@ -1080,8 +1062,6 @@ namespace fcn
                     true,
                     true);
             }
-
-            mShownWidgets.pop();
         }
     }
 } // namespace fcn
