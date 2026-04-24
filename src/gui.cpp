@@ -11,7 +11,7 @@
 #include <list>
 #include <memory>
 #include <queue>
-#include <set>
+#include <vector>
 #include <string>
 #include <utility>
 
@@ -417,15 +417,14 @@ namespace fcn
     {
         // Get tha last widgets with the mouse using the
         // last known mouse position.
-        std::set<Widget*> const mLastWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+        std::vector<Widget*> const mLastWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         // Check if the mouse has left the application window.
         if (mouseInput.getX() < 0 || mouseInput.getY() < 0 ||
             !mTop->getDimension().isContaining(mouseInput.getX(), mouseInput.getY())) {
-            std::set<Widget*>::const_iterator iter;
-            for (iter = mLastWidgetsWithMouse.begin(); iter != mLastWidgetsWithMouse.end(); ++iter) {
+            for (auto const & w : mLastWidgetsWithMouse) {
                 distributeMouseEvent(
-                    (*iter),
+                    w,
                     MouseEvent::Type::Exited,
                     static_cast<MouseEvent::Button>(mouseInput.getButton()),
                     mouseInput.getX(),
@@ -439,26 +438,26 @@ namespace fcn
             // Calculate which widgets should receive a mouse exited event
             // and which should receive a mouse entered event by using the
             // last known mouse position and the latest mouse position.
-            std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mouseInput.getX(), mouseInput.getY());
-            std::set<Widget*> mWidgetsWithMouseExited;
-            std::set<Widget*> mWidgetsWithMouseEntered;
-            std::ranges::set_difference(
-                mLastWidgetsWithMouse,
+            std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mouseInput.getX(), mouseInput.getY());
+            std::vector<Widget*> mWidgetsWithMouseExited;
+            std::vector<Widget*> mWidgetsWithMouseEntered;
 
-                mWidgetsWithMouse,
+            // compute difference: last - current => exited
+            for (auto const & w : mLastWidgetsWithMouse) {
+                if (std::find(mWidgetsWithMouse.begin(), mWidgetsWithMouse.end(), w) == mWidgetsWithMouse.end()) {
+                    mWidgetsWithMouseExited.push_back(w);
+                }
+            }
+            // compute difference: current - last => entered
+            for (auto const & w : mWidgetsWithMouse) {
+                if (std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) == mLastWidgetsWithMouse.end()) {
+                    mWidgetsWithMouseEntered.push_back(w);
+                }
+            }
 
-                std::inserter(mWidgetsWithMouseExited, mWidgetsWithMouseExited.begin()));
-            std::ranges::set_difference(
-                mWidgetsWithMouse,
-
-                mLastWidgetsWithMouse,
-
-                std::inserter(mWidgetsWithMouseEntered, mWidgetsWithMouseEntered.begin()));
-
-            std::set<Widget*>::const_iterator iter;
-            for (iter = mWidgetsWithMouseExited.begin(); iter != mWidgetsWithMouseExited.end(); ++iter) {
+            for (auto const & w : mWidgetsWithMouseExited) {
                 distributeMouseEvent(
-                    (*iter),
+                    w,
                     MouseEvent::Type::Exited,
                     static_cast<MouseEvent::Button>(mouseInput.getButton()),
                     mouseInput.getX(),
@@ -471,9 +470,7 @@ namespace fcn
                 mClickCount              = 1;
                 mLastMousePressTimeStamp = 0;
             }
-
-            for (iter = mWidgetsWithMouseEntered.begin(); iter != mWidgetsWithMouseEntered.end(); ++iter) {
-                Widget* widget = (*iter);
+            for (auto const & widget : mWidgetsWithMouseEntered) {
                 // If a widget has modal mouse input focus we
                 // only want to send entered events to that widget
                 // and the widget's parents.
@@ -688,14 +685,14 @@ namespace fcn
         return parent;
     }
 
-    std::set<Widget*> Gui::getWidgetsAt(int x, int y)
+    std::vector<Widget*> Gui::getWidgetsAt(int x, int y)
     {
-        std::set<Widget*> result;
+        std::vector<Widget*> result;
 
         Widget* widget = mTop;
 
         while (widget != nullptr) {
-            result.insert(widget);
+            result.push_back(widget);
             int absoluteX = 0;
             int absoluteY = 0;
             widget->getAbsolutePosition(absoluteX, absoluteY);
@@ -932,15 +929,14 @@ namespace fcn
     {
         // Get all widgets at the last known mouse position
         // and send them a mouse exited event.
-        std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+        std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
-        std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
-            if ((*iter)->isModalFocused() || (*iter)->isModalMouseInputFocused()) {
+        for (auto const & w : mWidgetsWithMouse) {
+            if (w->isModalFocused() || w->isModalMouseInputFocused()) {
                 continue;
             }
             distributeMouseEvent(
-                (*iter),
+                w,
                 MouseEvent::Type::Exited,
                 static_cast<MouseEvent::Button>(mLastMousePressButton),
                 mLastMouseX,
@@ -955,12 +951,11 @@ namespace fcn
     {
         // Get all widgets at the last known mouse position
         // and send them a mouse entered event.
-        std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+        std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
-        std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
+        for (auto const & w : mWidgetsWithMouse) {
             distributeMouseEvent(
-                (*iter),
+                w,
                 MouseEvent::Type::Entered,
                 static_cast<MouseEvent::Button>(mLastMousePressButton),
                 mLastMouseX,
@@ -975,15 +970,14 @@ namespace fcn
     {
         // Get all widgets at the last known mouse position
         // and send them a mouse exited event.
-        std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+        std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
-        std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
-            if ((*iter)->isModalMouseInputFocused()) {
+        for (auto const & w : mWidgetsWithMouse) {
+            if (w->isModalMouseInputFocused()) {
                 continue;
             }
             distributeMouseEvent(
-                (*iter),
+                w,
                 MouseEvent::Type::Exited,
                 static_cast<MouseEvent::Button>(mLastMousePressButton),
                 mLastMouseX,
@@ -998,12 +992,11 @@ namespace fcn
     {
         // Get all widgets at the last known mouse position
         // and send them a mouse entered event.
-        std::set<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
+        std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
-        std::set<Widget*>::const_iterator iter;
-        for (iter = mWidgetsWithMouse.begin(); iter != mWidgetsWithMouse.end(); ++iter) {
+        for (auto const & w : mWidgetsWithMouse) {
             distributeMouseEvent(
-                (*iter),
+                w,
                 MouseEvent::Type::Entered,
                 static_cast<MouseEvent::Button>(mLastMousePressButton),
                 mLastMouseX,

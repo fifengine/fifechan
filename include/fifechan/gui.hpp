@@ -11,7 +11,7 @@
 #include <list>
 #include <memory>
 #include <queue>
-#include <set>
+#include <vector>
 #include <string>
 
 // Platform config include
@@ -528,9 +528,9 @@ namespace fcn
          *
          * @param x The x coordinate.
          * @param y The y coordinate.
-         * @return A set of all widgets at the specified coordinate.
+         * @return A vector of all widgets at the specified coordinate.
          */
-        virtual std::set<Widget*> getWidgetsAt(int x, int y);
+        virtual std::vector<Widget*> getWidgetsAt(int x, int y);
 
         /**
          * Holds the top widget.

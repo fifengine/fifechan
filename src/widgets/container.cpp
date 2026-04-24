@@ -8,7 +8,7 @@
 // Standard library includes
 #include <algorithm>
 #include <list>
-#include <set>
+#include <vector>
 #include <string>
 
 // Project headers (subdirs before local)
@@ -446,7 +446,7 @@ namespace fcn
                     if (!vExpander.empty()) {
                         // simply add one to each expander until free space is empty
                         // or all expanders reached the max height
-                        std::set<Widget*> maxExpanders;
+                        std::vector<Widget*> maxExpanders;
                         while ((freeSpace != 0) && maxExpanders.size() < vExpander.size()) {
                             auto it = vExpander.begin();
                             for (; it != vExpander.end(); ++it) {
@@ -458,7 +458,9 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    maxExpanders.insert(*it);
+                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) == maxExpanders.end()) {
+                                        maxExpanders.push_back(*it);
+                                    }
                                 }
                             }
                         }
@@ -537,7 +539,7 @@ namespace fcn
                     if (!hExpander.empty()) {
                         // simply add one to each expander until free space is empty
                         // or all expanders reached the max width
-                        std::set<Widget*> maxExpanders;
+                        std::vector<Widget*> maxExpanders;
                         while ((freeSpace != 0) && maxExpanders.size() < hExpander.size()) {
                             auto it = hExpander.begin();
                             for (; it != hExpander.end(); ++it) {
@@ -549,7 +551,9 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    maxExpanders.insert(*it);
+                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) == maxExpanders.end()) {
+                                        maxExpanders.push_back(*it);
+                                    }
                                 }
                             }
                         }
