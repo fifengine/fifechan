@@ -398,8 +398,7 @@ namespace fcn
 
     void Gui::handleMouseMoved(MouseInput const & mouseInput)
     {
-        // Get tha last widgets with the mouse using the
-        // last known mouse position.
+        // Get the last widgets with the mouse using the last known mouse position.
         std::vector<Widget*> const mLastWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         // Check if the mouse has left the application window.
@@ -426,18 +425,22 @@ namespace fcn
             std::vector<Widget*> mWidgetsWithMouseEntered;
 
             // compute difference: last - current => exited
-            for (auto const & w : mLastWidgetsWithMouse) {
-                if (std::find(mWidgetsWithMouse.begin(), mWidgetsWithMouse.end(), w) == mWidgetsWithMouse.end()) {
-                    mWidgetsWithMouseExited.push_back(w);
-                }
-            }
+            std::copy_if(
+                mLastWidgetsWithMouse.begin(),
+                mLastWidgetsWithMouse.end(),
+                std::back_inserter(mWidgetsWithMouseExited),
+                [&](Widget* w) {
+                    return std::find(mWidgetsWithMouse.begin(), mWidgetsWithMouse.end(), w) == mWidgetsWithMouse.end();
+                });
             // compute difference: current - last => entered
-            for (auto const & w : mWidgetsWithMouse) {
-                if (std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) ==
-                    mLastWidgetsWithMouse.end()) {
-                    mWidgetsWithMouseEntered.push_back(w);
-                }
-            }
+            std::copy_if(
+                mWidgetsWithMouse.begin(),
+                mWidgetsWithMouse.end(),
+                std::back_inserter(mWidgetsWithMouseEntered),
+                [&](Widget* w) {
+                    return std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) ==
+                           mLastWidgetsWithMouse.end();
+                });
 
             for (auto const & w : mWidgetsWithMouseExited) {
                 distributeMouseEvent(

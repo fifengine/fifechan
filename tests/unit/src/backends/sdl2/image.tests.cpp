@@ -4,6 +4,7 @@
 // Corresponding header include
 
 // Standard library includes
+#include <algorithm>
 #include <filesystem>
 #include <stdexcept>
 #include <string>
@@ -103,6 +104,10 @@ namespace
         uint32_t gmask = 0x00ff0000;
         uint32_t bmask = 0x0000ff00;
         uint32_t amask = 0x000000ff;
+        (void)rmask;
+        (void)gmask;
+        (void)bmask;
+        (void)amask;
 #else
         uint32_t const rmask = 0x000000ff;
         uint32_t const gmask = 0x0000ff00;
@@ -213,7 +218,7 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
     // autoFree=true to manage surface lifetime
     fcn::sdl2::Image image(surfaceWithColorKey, true, env.mRenderer);
 
-    SDL_Texture* originalTexture = image.getTexture();
+    SDL_Texture const * originalTexture = image.getTexture();
     REQUIRE(originalTexture != nullptr);
 
     // Verify magenta pixel is transparent before conversion
@@ -224,7 +229,7 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
     // This regenerates the texture without changing transient surface data.
     image.convertToDisplayFormat();
 
-    SDL_Texture* newTexture = image.getTexture();
+    SDL_Texture const * newTexture = image.getTexture();
     REQUIRE(newTexture != nullptr);
 
     // The pixel should still be transparent after conversion
@@ -279,11 +284,11 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
     };
 
     std::filesystem::path fontPath;
-    for (auto const & path : searchPaths) {
-        if (std::filesystem::exists(path)) {
-            fontPath = path;
-            break;
-        }
+    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+        return std::filesystem::exists(p);
+    });
+    if (it != searchPaths.end()) {
+        fontPath = *it;
     }
 
     if (fontPath.empty()) {
@@ -339,6 +344,10 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     uint32_t gmask = 0x00ff0000;
     uint32_t bmask = 0x0000ff00;
     uint32_t amask = 0x000000ff;
+    (void)rmask;
+    (void)gmask;
+    (void)bmask;
+    (void)amask;
 #else
     uint32_t const rmask = 0x000000ff;
     uint32_t const gmask = 0x0000ff00;
@@ -429,11 +438,11 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
     };
 
     std::filesystem::path fontPath;
-    for (auto const & path : searchPaths) {
-        if (std::filesystem::exists(path)) {
-            fontPath = path;
-            break;
-        }
+    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+        return std::filesystem::exists(p);
+    });
+    if (it != searchPaths.end()) {
+        fontPath = *it;
     }
 
     if (fontPath.empty()) {
@@ -490,11 +499,11 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
     };
 
     std::filesystem::path fontPath;
-    for (auto const & path : searchPaths) {
-        if (std::filesystem::exists(path)) {
-            fontPath = path;
-            break;
-        }
+    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+        return std::filesystem::exists(p);
+    });
+    if (it != searchPaths.end()) {
+        fontPath = *it;
     }
 
     if (fontPath.empty()) {

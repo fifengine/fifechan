@@ -4,6 +4,7 @@
 // Corresponding header include
 
 // Standard library includes
+#include <algorithm>
 #include <filesystem>
 #include <string>
 #include <vector>
@@ -87,6 +88,9 @@ namespace
             SDL_Quit();
         }
 
+        SDL2Environment(SDL2Environment const &)            = delete;
+        SDL2Environment& operator=(SDL2Environment const &) = delete;
+
         SDL_Window* mWindow                  = nullptr;
         SDL_Renderer* mRenderer              = nullptr;
         fcn::sdl2::ImageLoader* mImageLoader = nullptr;
@@ -101,10 +105,11 @@ namespace
             std::filesystem::path("./tests/resources") / fontName,
         };
 
-        for (auto const & path : searchPaths) {
-            if (std::filesystem::exists(path)) {
-                return path;
-            }
+        auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+            return std::filesystem::exists(p);
+        });
+        if (it != searchPaths.end()) {
+            return *it;
         }
         return {};
     }
