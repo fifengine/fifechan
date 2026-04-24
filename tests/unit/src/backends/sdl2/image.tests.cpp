@@ -6,6 +6,7 @@
 // Standard library includes
 #include <filesystem>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 // Third-party library includes

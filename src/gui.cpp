@@ -11,9 +11,9 @@
 #include <list>
 #include <memory>
 #include <queue>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 // Platform config include
 #include "fifechan/platform.hpp"
@@ -433,7 +433,8 @@ namespace fcn
             }
             // compute difference: current - last => entered
             for (auto const & w : mWidgetsWithMouse) {
-                if (std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) == mLastWidgetsWithMouse.end()) {
+                if (std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) ==
+                    mLastWidgetsWithMouse.end()) {
                     mWidgetsWithMouseEntered.push_back(w);
                 }
             }

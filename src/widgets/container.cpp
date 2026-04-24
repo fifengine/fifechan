@@ -8,8 +8,8 @@
 // Standard library includes
 #include <algorithm>
 #include <list>
-#include <vector>
 #include <string>
+#include <vector>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -458,7 +458,8 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) == maxExpanders.end()) {
+                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) ==
+                                        maxExpanders.end()) {
                                         maxExpanders.push_back(*it);
                                     }
                                 }
@@ -551,7 +552,8 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) == maxExpanders.end()) {
+                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) ==
+                                        maxExpanders.end()) {
                                         maxExpanders.push_back(*it);
                                     }
                                 }

@@ -5,6 +5,7 @@
 
 // Standard library includes
 #include <filesystem>
+#include <string>
 #include <vector>
 
 // Third-party library includes

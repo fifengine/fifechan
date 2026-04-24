@@ -11,8 +11,8 @@
 #include <list>
 #include <memory>
 #include <queue>
-#include <vector>
 #include <string>
+#include <vector>
 
 // Platform config include
 #include "fifechan/platform.hpp"
