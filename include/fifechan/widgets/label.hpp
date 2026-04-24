@@ -75,6 +75,22 @@ namespace fcn
          */
         Graphics::Alignment getAlignment() const;
 
+        /**
+         * Sets the vertical alignment of the caption.
+         *
+         * @param alignment The vertical alignment of the caption.
+         * @see getVerticalAlignment
+         */
+        void setVerticalAlignment(Graphics::VerticalAlignment alignment);
+
+        /**
+         * Gets the vertical alignment of the caption.
+         *
+         * @return The vertical alignment of the caption.
+         * @see setVerticalAlignment
+         */
+        Graphics::VerticalAlignment getVerticalAlignment() const;
+
         // Inherited from Widget
 
         using Widget::resizeToContent;
@@ -101,9 +117,14 @@ namespace fcn
         std::string mCaption;
 
         /**
-         * Holds the alignment of the caption.
+         * Holds the horizontal alignment of the caption.
          */
-        Graphics::Alignment mAlignment;
+        Graphics::Alignment mAlignment{Graphics::Alignment::Left};
+
+        /**
+         * Holds the vertical alignment of the caption.
+         */
+        Graphics::VerticalAlignment mVerticalAlignment{Graphics::VerticalAlignment::Center};
     };
 } // namespace fcn
 

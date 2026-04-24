@@ -67,6 +67,16 @@ namespace fcn
             Right
         };
 
+        /**
+         * Vertical alignments for text drawing.
+         */
+        enum class VerticalAlignment : uint8_t
+        {
+            Top = 0,
+            Center,
+            Bottom
+        };
+
         Graphics() = default;
 
         virtual ~Graphics() = default;

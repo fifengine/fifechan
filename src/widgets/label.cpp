@@ -16,12 +16,12 @@
 
 namespace fcn
 {
-    Label::Label() : mAlignment(Graphics::Alignment::Left)
+    Label::Label()
     {
         adjustSizeImpl();
     }
 
-    Label::Label(std::string caption) : mCaption(std::move(caption)), mAlignment(Graphics::Alignment::Left)
+    Label::Label(std::string caption) : mCaption(std::move(caption))
     {
         adjustSizeImpl();
     }
@@ -45,6 +45,16 @@ namespace fcn
     Graphics::Alignment Label::getAlignment() const
     {
         return mAlignment;
+    }
+
+    void Label::setVerticalAlignment(Graphics::VerticalAlignment alignment)
+    {
+        mVerticalAlignment = alignment;
+    }
+
+    Graphics::VerticalAlignment Label::getVerticalAlignment() const
+    {
+        return mVerticalAlignment;
     }
 
     void Label::resizeToContent(bool recursion)
@@ -76,22 +86,47 @@ namespace fcn
                 drawBorder(graphics);
             }
         }
-        Rectangle const offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
-        int textX = 0;
-        int const textY =
-            offsetRec.y + getPaddingTop() +
-            ((getHeight() - offsetRec.height - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2);
 
+        Rectangle const offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+
+        int const contentLeft   = offsetRec.x + getPaddingLeft();
+        int const contentRight  = getWidth() - offsetRec.x - getPaddingRight();
+        int const contentTop    = offsetRec.y + getPaddingTop();
+        int const contentBottom = getHeight() - offsetRec.y - getPaddingBottom();
+
+        int const contentWidth  = contentRight - contentLeft;
+        int const contentHeight = contentBottom - contentTop;
+
+        int const fontHeight = getFont()->getHeight();
+
+        int textX = 0;
+        int textY = 0;
+
+        // Vertical alignment
+        switch (mVerticalAlignment) {
+        case Graphics::VerticalAlignment::Top:
+            textY = contentTop;
+            break;
+        case Graphics::VerticalAlignment::Center:
+            textY = contentTop + (contentHeight - fontHeight) / 2;
+            break;
+        case Graphics::VerticalAlignment::Bottom:
+            textY = contentBottom - fontHeight;
+            break;
+        default:
+            throwException("Unknown vertical alignment.");
+        }
+
+        // Horizontal alignment
         switch (getAlignment()) {
         case Graphics::Alignment::Left:
-            textX = offsetRec.x + getPaddingLeft();
+            textX = contentLeft;
             break;
         case Graphics::Alignment::Center:
-            textX = offsetRec.x + getPaddingLeft() +
-                    (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+            textX = contentLeft + contentWidth / 2;
             break;
         case Graphics::Alignment::Right:
-            textX = getWidth() - offsetRec.x - getPaddingRight();
+            textX = contentRight;
             break;
         default:
             throwException("Unknown alignment.");
