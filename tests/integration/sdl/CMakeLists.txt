@@ -199,3 +199,53 @@ copy_resources_folder(sdllabels "${RESOURCES_FOLDER}")
 install(TARGETS sdlhelloworld sdlwidgets sdllabels
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+#------------------------------------------------------------------------------
+# sdldragdrop
+#------------------------------------------------------------------------------
+
+add_executable(sdldragdrop sdldragdrop.cpp)
+
+target_include_directories(sdldragdrop PRIVATE
+  ${SDL2_INCLUDE_DIRS}
+  ${FIFEGUI_INCLUDE_DIR}
+  ${FIFEGUI_VERSION_FILE_DIR}
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+)
+
+target_link_libraries(sdldragdrop PRIVATE
+  # SDL2
+  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+  # SDL2_image
+  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # SDL2_ttf
+  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # FifeGUI
+  fifechan::fifechan
+  # FifeGUI SDL extension
+  fifechan::fifechan_sdl2
+)
+
+set_target_properties(sdldragdrop PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
+
+if(WIN32)
+  set_target_properties(sdldragdrop PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
+# This toggles the FIFEGUI_BUILD type (fifechan_EXPORTS, fifegui_EXPORTS)
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(sdldragdrop PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(sdldragdrop INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
+show_build_target_properties(sdldragdrop)
+
+# Copy resources
+copy_resources_folder(sdldragdrop "${RESOURCES_FOLDER}")

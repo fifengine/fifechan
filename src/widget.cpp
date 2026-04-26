@@ -15,12 +15,14 @@
 // Project headers (subdirs before local)
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/actionevent.hpp"
+#include "fifechan/events/dragevent.hpp"
 #include "fifechan/events/event.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/listeners/actionlistener.hpp"
 #include "fifechan/listeners/deathlistener.hpp"
+#include "fifechan/listeners/droptargetlistener.hpp"
 #include "fifechan/listeners/keylistener.hpp"
 #include "fifechan/listeners/mouselistener.hpp"
 #include "fifechan/listeners/visibilityeventhandler.hpp"
@@ -816,6 +818,55 @@ namespace fcn
     void Widget::removeWidgetListener(WidgetListener* widgetListener)
     {
         mWidgetListeners.remove(widgetListener);
+    }
+
+    bool Widget::distributeDragEnter(DragEvent& event)
+    {
+        bool accepted = false;
+        for (auto listener : mDropTargetListeners) {
+            if (listener && listener->dragEntered(event)) {
+                accepted = true;
+            }
+        }
+        return accepted;
+    }
+
+    void Widget::distributeDragLeave(DragEvent& event)
+    {
+        for (auto listener : mDropTargetListeners) {
+            if (listener) {
+                listener->dragExited(event);
+            }
+        }
+    }
+
+    void Widget::distributeDragHover(DragEvent& event)
+    {
+        for (auto listener : mDropTargetListeners) {
+            if (listener) {
+                listener->dragHovered(event);
+            }
+        }
+    }
+
+    void Widget::distributeDragDrop(DragEvent& event)
+    {
+        for (auto listener : mDropTargetListeners) {
+            if (listener) {
+                listener->dragDropped(event);
+            }
+        }
+    }
+
+    void Widget::addDropTargetListener(DropTargetListener* listener)
+    {
+        mDropTargetListeners.push_back(listener);
+    }
+
+    // cppcheck-suppress constParameterPointer
+    void Widget::removeDropTargetListener(DropTargetListener* listener)
+    {
+        mDropTargetListeners.remove(listener);
     }
 
     void Widget::getAbsolutePosition(int& x, int& y) const

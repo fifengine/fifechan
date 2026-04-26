@@ -16,7 +16,10 @@ namespace fcn
 
     Tooltip::Tooltip() : mWidgetId(0), mIsHovering(false), mHoverTimer(0), mModifierState(0), mIsExtended(false)
     {
-        // Tooltips are typically transparent, handled in draw()
+        // Tooltips should not draw a container background.
+        // They only render their own background, then
+        // let child widgets (like a Label) draw the text.
+        setOpaque(false);
     }
 
     void Tooltip::setSpec(TooltipSpec spec)
@@ -83,12 +86,11 @@ namespace fcn
             return;
         }
 
-        if (mIsExtended && mSpec.modifierBehavior.modifiedContent) {
+        // Generate normal content first, then extended content if active.
+        generateNormalContent();
+
+        if (mIsExtended) {
             generateExtendedContent();
-        } else if (mSpec.content) {
-            generateNormalContent();
-        } else {
-            mCurrentContent.clear();
         }
     }
 
@@ -113,10 +115,28 @@ namespace fcn
 
     void Tooltip::generateExtendedContent()
     {
-        if (mSpec.modifierBehavior.modifiedContent) {
-            mCurrentContent = mSpec.modifierBehavior.modifiedContent(mWidgetId);
-        } else {
-            mCurrentContent.clear();
+        if (!mSpec.modifierBehavior.modifiedContent) {
+            return;
+        }
+
+        std::string modified = mSpec.modifierBehavior.modifiedContent(mWidgetId);
+
+        // TODO: consider a more robust way to combine normal and modified content
+        // If modified begins with the normal content, strip the duplicate prefix and
+        // any leading newlines so the extended text appears underneath.
+        if (!mCurrentContent.empty() && !modified.empty()) {
+            if (modified.rfind(mCurrentContent, 0) == 0) { // modified starts with normal
+                modified.erase(0, mCurrentContent.size());
+                while (!modified.empty() && (modified.front() == '\n' || modified.front() == '\r')) {
+                    modified.erase(modified.begin());
+                }
+            }
+        }
+
+        if (mCurrentContent.empty()) {
+            mCurrentContent = modified;
+        } else if (!modified.empty()) {
+            mCurrentContent = mCurrentContent + "\n" + modified;
         }
     }
 
@@ -130,29 +150,35 @@ namespace fcn
             return;
         }
 
-        // Render: only draw background + text; the backends can override
-        graphics->setColor(Color(40, 40, 60, 230)); // Semi-transparent dark background
-        graphics->fillRectangle(getDimension());
+        // Render: draw background + border relative to this widget (graphics is relative)
+        Rectangle dim(0, 0, getWidth(), getHeight());
 
-        graphics->setColor(Color(150, 150, 150)); // Light gray border
-        graphics->drawRectangle(getDimension());
-
-        // Text rendering would go here
-        // Draw placeholder filled rectangles representing text lines.
-        Rectangle dim  = getDimension();
-        int lineHeight = 18;
-        int padding    = 8;
-
-        // Simple representation: draw 3 colored lines for text
-        graphics->setColor(Color(200, 200, 200));
-        for (size_t i = 0; i < 3; ++i) {
-            Rectangle lineRect(
-                dim.x + padding,
-                dim.y + padding + static_cast<int>(i) * lineHeight,
-                dim.width - padding * 2,
-                lineHeight - 2);
-            graphics->fillRectangle(lineRect);
+        // Choose background color to indicate extended view
+        if (mIsExtended) {
+            graphics->setColor(Color(60, 40, 80, 230));
+        } else {
+            graphics->setColor(Color(40, 40, 60, 230));
         }
+        graphics->fillRectangle(dim);
+
+        graphics->setColor(Color(150, 150, 150));
+        graphics->drawRectangle(dim);
+
+        // Draw child widgets (e.g., Label)
+        // they will render text within this widget's coordinate space
+        Container::draw(graphics);
+    }
+
+    Rectangle Tooltip::getChildrenArea()
+    {
+        // While the tooltip is not hovered long enough or not in delay,
+        // do not expose the children area, so Widget::_draw() will skip
+        // drawing children.
+        // Once ready, fall back to the normal container children area.
+        if (!mIsHovering || mHoverTimer < mSpec.delayMs) {
+            return {0, 0, 0, 0};
+        }
+        return Container::getChildrenArea();
     }
 
 } // namespace fcn

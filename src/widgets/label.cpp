@@ -6,8 +6,10 @@
 #include "fifechan/widgets/label.hpp"
 
 // Standard library includes
+#include <algorithm>
 #include <string>
 #include <utility>
+#include <vector>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -71,9 +73,32 @@ namespace fcn
 
     void Label::adjustSizeImpl()
     {
+        // Support multi-line captions by measuring each line separately.
+        std::vector<std::string> lines;
+        {
+            std::string::size_type start = 0;
+            while (start <= mCaption.size()) {
+                auto pos = mCaption.find('\n', start);
+                if (pos == std::string::npos) {
+                    lines.push_back(mCaption.substr(start));
+                    break;
+                }
+                lines.push_back(mCaption.substr(start, pos - start));
+                start = pos + 1;
+            }
+        }
+
+        int maxWidth = 0;
+        for (auto const & line : lines) {
+            maxWidth = std::max(maxWidth, getFont()->getWidth(line));
+        }
+
+        int lineCount   = static_cast<int>(lines.size());
+        int totalHeight = lineCount * getFont()->getHeight();
+
         setSize(
-            (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight() + getFont()->getWidth(mCaption),
-            (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() + getFont()->getHeight());
+            (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight() + maxWidth,
+            (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() + totalHeight);
     }
 
     void Label::draw(Graphics* graphics)
@@ -99,6 +124,13 @@ namespace fcn
 
         int const fontHeight = getFont()->getHeight();
 
+        // Count lines to compute total text block height for proper vertical alignment
+        int lineCount = 1;
+        for (char c : getCaption())
+            if (c == '\n')
+                ++lineCount;
+        int const totalTextHeight = lineCount * fontHeight;
+
         int textX = 0;
         int textY = 0;
 
@@ -108,10 +140,10 @@ namespace fcn
             textY = contentTop;
             break;
         case Graphics::VerticalAlignment::Center:
-            textY = contentTop + (contentHeight - fontHeight) / 2;
+            textY = contentTop + (contentHeight - totalTextHeight) / 2;
             break;
         case Graphics::VerticalAlignment::Bottom:
-            textY = contentBottom - fontHeight;
+            textY = contentBottom - totalTextHeight;
             break;
         default:
             throwException("Unknown vertical alignment.");
@@ -134,6 +166,28 @@ namespace fcn
 
         graphics->setFont(getFont());
         graphics->setColor(getForegroundColor());
-        graphics->drawText(getCaption(), textX, textY, getAlignment());
+
+        // Draw multi-line caption by splitting on '\n' and drawing each line with font height spacing.
+        std::string::size_type start = 0;
+        int lineIndex                = 0;
+        int const fontHeightLocal    = getFont()->getHeight();
+        while (start <= getCaption().size()) {
+            auto pos = getCaption().find('\n', start);
+            std::string line;
+            if (pos == std::string::npos) {
+                line  = getCaption().substr(start);
+                start = getCaption().size() + 1; // exit
+            } else {
+                line  = getCaption().substr(start, pos - start);
+                start = pos + 1;
+            }
+
+            int y = textY + lineIndex * fontHeightLocal;
+
+            // For center/right alignment, Graphics::drawText uses alignment to offset x accordingly.
+            graphics->drawText(line, textX, y, getAlignment());
+
+            ++lineIndex;
+        }
     }
 } // namespace fcn

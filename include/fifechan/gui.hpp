@@ -32,6 +32,7 @@ namespace fcn
     class KeyListener;
     class VisibilityEventHandler;
     class Widget;
+    class DragHandler;
 
     // The following comment will appear in the doxygen main page.
     /**
@@ -106,6 +107,7 @@ namespace fcn
     class FIFEGUI_API Gui
     {
     public:
+        friend class DragHandler;
         Gui();
 
         virtual ~Gui();

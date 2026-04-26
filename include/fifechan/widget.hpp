@@ -16,6 +16,7 @@
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
+#include "fifechan/events/dragevent.hpp"
 #include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/rectangle.hpp"
 #include "fifechan/size.hpp"
@@ -36,6 +37,7 @@ namespace fcn
     class MouseListener;
     class VisibilityEventHandler;
     class WidgetListener;
+    class DropTargetListener;
 
     /**
      * Abstract base class defining the common behavior,
@@ -77,6 +79,8 @@ namespace fcn
         Widget& operator=(Widget const &) = delete;
         Widget(Widget&&)                  = delete;
         Widget& operator=(Widget&&)       = delete;
+
+        friend class DragHandler;
 
         /**
          * Draws the widget.
@@ -964,6 +968,23 @@ namespace fcn
         void removeWidgetListener(WidgetListener* widgetListener);
 
         /**
+         * Adds a drop target listener to the widget. When a drag event is
+         * fired the drop target listeners of the widget will get notified.
+         *
+         * @param listener The listener to add (non-owning).
+         * @see removeDropTargetListener
+         */
+        void addDropTargetListener(DropTargetListener* listener);
+
+        /**
+         * Removes an added drop target listener from the widget.
+         *
+         * @param listener The listener to remove.
+         * @see addDropTargetListener
+         */
+        void removeDropTargetListener(DropTargetListener* listener);
+
+        /**
          * Sets the action event identifier of the widget. The identifier is
          * used to be able to identify which action has occurred.
          *
@@ -1612,6 +1633,16 @@ namespace fcn
          */
         std::list<Widget*> const & getChildren() const;
 
+    protected:
+        /**
+         * Distribute drag events to registered drop target listeners.
+         * These are called by DragHandler during update/drop.
+         */
+        bool distributeDragEnter(DragEvent& event);
+        void distributeDragLeave(DragEvent& event);
+        void distributeDragHover(DragEvent& event);
+        void distributeDragDrop(DragEvent& event);
+
         /**
          * Holds the mouse listeners of the widget.
          */
@@ -1641,6 +1672,11 @@ namespace fcn
          * Holds the widget listeners of the widget.
          */
         std::list<WidgetListener*> mWidgetListeners;
+
+        /**
+         * Holds the drop target listeners of the widget.
+         */
+        std::list<DropTargetListener*> mDropTargetListeners;
 
         /**
          * Holds the foreground color of the widget.

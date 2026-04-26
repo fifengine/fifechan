@@ -214,8 +214,10 @@ set(FIFECHAN_HEADERS
     include/fifechan/cliprectangle.hpp
     include/fifechan/color.hpp
     include/fifechan/defaultfont.hpp
+    include/fifechan/dragdrop.hpp
     include/fifechan/events/actionevent.hpp
     include/fifechan/events/containerevent.hpp
+    include/fifechan/events/dragevent.hpp
     include/fifechan/events/event.hpp
     include/fifechan/events/inputevent.hpp
     include/fifechan/events/keyevent.hpp
@@ -237,6 +239,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/listeners/actionlistener.hpp
     include/fifechan/listeners/containerlistener.hpp
     include/fifechan/listeners/deathlistener.hpp
+    include/fifechan/listeners/droptargetlistener.hpp
     include/fifechan/listeners/focuslistener.hpp
     include/fifechan/listeners/keylistener.hpp
     include/fifechan/listeners/mouselistener.hpp
@@ -291,8 +294,10 @@ set(FIFECHAN_SRC
     src/cliprectangle.cpp
     src/color.cpp
     src/defaultfont.cpp
+    src/dragdrop.cpp
     src/events/actionevent.cpp
     src/events/containerevent.cpp
+    src/events/dragevent.cpp
     src/events/event.cpp
     src/events/inputevent.cpp
     src/events/keyevent.cpp
@@ -341,8 +346,8 @@ set(FIFECHAN_SRC
     src/widgets/tabbedarea.cpp
     src/widgets/textbox.cpp
     src/widgets/textfield.cpp
-    src/widgets/tooltip.cpp
     src/widgets/togglebutton.cpp
+    src/widgets/tooltip.cpp
     src/widgets/window.cpp
 )
 

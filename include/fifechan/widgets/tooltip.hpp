@@ -7,7 +7,7 @@
 #include <functional>
 #include <string>
 
-#include "fifechan/widget.hpp"
+#include "fifechan/widgets/container.hpp"
 
 namespace fcn
 {
@@ -64,7 +64,7 @@ namespace fcn
      * - the Tooltip content can be extended
      *   - by holding a modifier key (e.g., ALT), if configured in TooltipSpec.
      */
-    class Tooltip : public Widget
+    class Tooltip : public Container
     {
     public:
         Tooltip();
@@ -91,6 +91,7 @@ namespace fcn
 
         // Rendering
         void draw(Graphics* graphics) override;
+        Rectangle getChildrenArea() override;
 
     private:
         void generateNormalContent();
