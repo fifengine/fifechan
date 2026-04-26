@@ -27,11 +27,17 @@ endif()
 
 add_executable(all_tests ${UNIT_TEST_SOURCES})
 
+# Link the fifechan implementation.
+if(MSVC)
+  # on MSVC link the public library target
+  target_link_libraries(all_tests PRIVATE fifechan::fifechan)
+else()
+ # Use object files for coverage on Linux
+  target_link_libraries(all_tests PRIVATE $<TARGET_OBJECTS:fifechan_lib>)
+endif()
+
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
-  # link the object library
-  fifechan_lib
-  # link SDL2 for backend tests
   $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
   $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
   # link SDL2 backend library for Image class
