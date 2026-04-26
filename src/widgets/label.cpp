@@ -7,10 +7,10 @@
 
 // Standard library includes
 #include <algorithm>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
-#include <numeric>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -125,7 +125,7 @@ namespace fcn
         int const fontHeight = getFont()->getHeight();
 
         // Count lines to compute total text block height for proper vertical alignment
-        int lineCount = static_cast<int>(std::count(getCaption().begin(), getCaption().end(), '\n')) + 1;
+        int lineCount             = static_cast<int>(std::count(getCaption().begin(), getCaption().end(), '\n')) + 1;
         int const totalTextHeight = lineCount * fontHeight;
 
         int textX = 0;

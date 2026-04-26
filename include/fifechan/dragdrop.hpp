@@ -4,13 +4,16 @@
 #ifndef INCLUDE_FIFECHAN_DRAGDROP_HPP
 #define INCLUDE_FIFECHAN_DRAGDROP_HPP
 
-#include <fifechan/gui.hpp>
-#include <fifechan/widget.hpp>
-
+// Standard library includes
 #include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
+#include <utility>
+
+// Project headers (subdirs before local)
+#include <fifechan/gui.hpp>
+#include <fifechan/widget.hpp>
 
 namespace fcn
 {
