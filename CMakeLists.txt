@@ -280,6 +280,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/widgets/textbox.hpp
     include/fifechan/widgets/textfield.hpp
     include/fifechan/widgets/togglebutton.hpp
+    include/fifechan/widgets/tooltip.hpp
     include/fifechan/widgets/window.hpp
 )
 set(FIFECHAN_VERSION_HEADER
@@ -340,6 +341,7 @@ set(FIFECHAN_SRC
     src/widgets/tabbedarea.cpp
     src/widgets/textbox.cpp
     src/widgets/textfield.cpp
+    src/widgets/tooltip.cpp
     src/widgets/togglebutton.cpp
     src/widgets/window.cpp
 )
