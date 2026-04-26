@@ -92,7 +92,7 @@ namespace fcn
         }
     }
 
-    const std::string & Tooltip::getCurrentContent() const
+    std::string const & Tooltip::getCurrentContent() const
     {
         return mCurrentContent;
     }

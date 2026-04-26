@@ -86,7 +86,7 @@ namespace fcn
 
         // Content generation
         void generateContent();
-        const std::string & getCurrentContent() const;
+        std::string const & getCurrentContent() const;
         bool isExtendedView() const;
 
         // Rendering
