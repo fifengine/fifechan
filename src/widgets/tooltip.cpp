@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <string>
 
 // Project headers (subdirs before local)
 #include "fifechan/graphics.hpp"

@@ -68,7 +68,7 @@ namespace fcn
     {
     public:
         Tooltip();
-        virtual ~Tooltip() override = default;
+        ~Tooltip() override = default;
 
         // Set tooltip specification
         void setSpec(TooltipSpec spec);
@@ -90,7 +90,7 @@ namespace fcn
         bool isExtendedView() const;
 
         // Rendering
-        virtual void draw(Graphics* graphics) override;
+        void draw(Graphics* graphics) override;
 
     private:
         void generateNormalContent();

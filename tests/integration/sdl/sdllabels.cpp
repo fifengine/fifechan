@@ -153,22 +153,18 @@ void Application::init_gui(int width, int height)
 
     // Define alignment combinations
     std::array<fcn::Graphics::Alignment, 3> hAlignments = {
-        fcn::Graphics::Alignment::Left,
-        fcn::Graphics::Alignment::Center,
-        fcn::Graphics::Alignment::Right
-    };
+        fcn::Graphics::Alignment::Left, fcn::Graphics::Alignment::Center, fcn::Graphics::Alignment::Right};
 
     std::array<fcn::Graphics::VerticalAlignment, 3> vAlignments = {
         fcn::Graphics::VerticalAlignment::Top,
         fcn::Graphics::VerticalAlignment::Center,
-        fcn::Graphics::VerticalAlignment::Bottom
-    };
+        fcn::Graphics::VerticalAlignment::Bottom};
 
-    const char* hLabels[] = {"Left", "Center", "Right"};
-    const char* vLabels[] = {"Top", "Center", "Bottom"};
+    char const * hLabels[] = {"Left", "Center", "Right"};
+    char const * vLabels[] = {"Top", "Center", "Bottom"};
 
     // Calculate grid cell dimensions
-    int const cellWidth = width / 3;
+    int const cellWidth  = width / 3;
     int const cellHeight = height / 3;
 
     // Create 3x3 grid of labels
@@ -180,8 +176,7 @@ void Application::init_gui(int width, int height)
             cell->setDimension(fcn::Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight));
 
             // Create label with descriptive text
-            auto label = std::make_unique<fcn::Label>(
-                std::format("{} {}", vLabels[row], hLabels[col]));
+            auto label = std::make_unique<fcn::Label>(std::format("{} {}", vLabels[row], hLabels[col]));
 
             // Set horizontal alignment
             label->setAlignment(hAlignments[col]);
@@ -275,7 +270,8 @@ int main(int argc, char** argv)
     try {
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Label Alignment Test (1024x768)", fifeguiVersion);
+        std::string const title =
+            std::format("FifeGUI v{} using SDL2 Backend: Label Alignment Test (1024x768)", fifeguiVersion);
         Application app(title, 1024, 768);
         app.run();
     } catch (fcn::Exception const & e) {
