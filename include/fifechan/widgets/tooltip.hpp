@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 #ifndef FIFEGUI_TOOLTIP_H
 #define FIFEGUI_TOOLTIP_H
@@ -7,6 +7,8 @@
 #include <functional>
 #include <string>
 
+// Platform config include (for FIFEGUI_API)
+#include "fifechan/platform.hpp"
 #include "fifechan/widgets/container.hpp"
 
 namespace fcn
@@ -64,7 +66,7 @@ namespace fcn
      * - the Tooltip content can be extended
      *   - by holding a modifier key (e.g., ALT), if configured in TooltipSpec.
      */
-    class Tooltip : public Container
+    class FIFEGUI_API Tooltip : public Container
     {
     public:
         Tooltip();

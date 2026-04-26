@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <numeric>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -88,10 +89,9 @@ namespace fcn
             }
         }
 
-        int maxWidth = 0;
-        for (auto const & line : lines) {
-            maxWidth = std::max(maxWidth, getFont()->getWidth(line));
-        }
+        int maxWidth = std::accumulate(lines.begin(), lines.end(), 0, [&](int acc, std::string const & line) {
+            return std::max(acc, getFont()->getWidth(line));
+        });
 
         int lineCount   = static_cast<int>(lines.size());
         int totalHeight = lineCount * getFont()->getHeight();
@@ -125,10 +125,7 @@ namespace fcn
         int const fontHeight = getFont()->getHeight();
 
         // Count lines to compute total text block height for proper vertical alignment
-        int lineCount = 1;
-        for (char c : getCaption())
-            if (c == '\n')
-                ++lineCount;
+        int lineCount = static_cast<int>(std::count(getCaption().begin(), getCaption().end(), '\n')) + 1;
         int const totalTextHeight = lineCount * fontHeight;
 
         int textX = 0;

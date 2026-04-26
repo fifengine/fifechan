@@ -1,4 +1,17 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+
+// Corresponding header include
 #include <fifechan/dragdrop.hpp>
+
+// Standard library includes
+#include <memory>
+#include <utility>
+
+// Platform config include
+#include "fifechan/platform.hpp"
+
+// Project headers (subdirs before local)
 #include <fifechan/events/dragevent.hpp>
 #include <fifechan/graphics.hpp>
 #include <fifechan/listeners/droptargetlistener.hpp>

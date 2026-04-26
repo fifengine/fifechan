@@ -1,4 +1,11 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+
+// Corresponding header include
 #include "fifechan/events/dragevent.hpp"
+
+// Platform config include
+#include "fifechan/platform.hpp"
 
 namespace fcn
 {
