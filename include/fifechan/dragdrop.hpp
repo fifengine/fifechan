@@ -11,6 +11,9 @@
 #include <string>
 #include <utility>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
 // Project headers (subdirs before local)
 #include <fifechan/gui.hpp>
 #include <fifechan/widget.hpp>
@@ -39,7 +42,7 @@ namespace fcn
         Cancelled
     };
 
-    class DragPayload
+    class FIFEGUI_API DragPayload
     {
     public:
         using RenderCallback = std::function<void(Graphics&, DragPoint const & screenPos)>;
@@ -102,7 +105,7 @@ namespace fcn
         static HighlightRenderer defaultHighlight();
     };
 
-    class DragHandler
+    class FIFEGUI_API DragHandler
     {
     public:
         explicit DragHandler(Gui* gui);
