@@ -10,16 +10,35 @@ set(UNIT_TEST_SOURCES
   src/color.tests.cpp
   src/size.tests.cpp
   src/rectangle.tests.cpp
+  # Input and key tests
+  src/key.tests.cpp
+  src/keyinput.tests.cpp
+  src/mouseinput.tests.cpp
+  src/genericinput.tests.cpp
+  # Event tests
+  src/events/event.tests.cpp
+  src/events/actionevent.tests.cpp
+  src/events/inputevent.tests.cpp
+  src/events/keyevent.tests.cpp
+  src/events/mouseevent.tests.cpp
+  src/events/selectionevent.tests.cpp
+  src/events/containerevent.tests.cpp
+  # Focus handler tests
+  src/widgets/focus.tests.cpp
+  # Text Input and UTF-8 tests
+  src/text.tests.cpp
   src/utf8stringeditor.tests.cpp
+  # Widgets
   src/widgets/textbox.tests.cpp
 )
 
+# TODO: this can be tested with software rasterizer backend in CI.
 # Skip some tests in CI env.
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
 if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
   list(APPEND UNIT_TEST_SOURCES
     src/backends/sdl2/image.tests.cpp
-    src/backends/sdl2/imagefont.tests.cpp
+    src/imagefont.tests.cpp
   )
 else()
   message(STATUS "CI detected: some tests are skipped as they require a non-headless environment.")

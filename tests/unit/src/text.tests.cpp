@@ -183,7 +183,8 @@ TEST_CASE("Text insert character", "[unit][text]")
         text.insert('\n');
         REQUIRE(text.getNumberOfRows() == 3);
         REQUIRE(text.getRow(0) == "Line");
-        REQUIRE(text.getRow(1) == "1Line2");
+        REQUIRE(text.getRow(1) == "1");
+        REQUIRE(text.getRow(2) == "Line2");
     }
 }
 

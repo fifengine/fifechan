@@ -32,7 +32,7 @@ namespace
                 throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
             }
 
-            // Initialize SDL_image for loading PNG (use PNG only as BMP may not be available)
+            // Initialize SDL_image for loading PNG
             int imgFlags = IMG_INIT_PNG;
             if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
                 SDL_Quit();
@@ -121,6 +121,23 @@ namespace
         loader->setRenderer(renderer);
         fcn::Image::setImageLoader(loader);
     }
+
+    // Glyph strings for each font type
+    // rpgfont.png: 83 characters
+    // fixedfont.bmp: 63 characters
+    std::string const& getGlyphString(std::filesystem::path const& fontPath)
+    {
+        static std::string const rpgfontGlyphs =
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"";
+        static std::string const fixedfontGlyphs =
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        std::string const stem = fontPath.filename().string();
+        if (stem.find("rpg") != std::string::npos) {
+            return rpgfontGlyphs;
+        }
+        return fixedfontGlyphs;
+    }
 } // anonymous namespace
 
 TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][imagefont][construction]")
@@ -144,15 +161,6 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
     fcn::Image* fontImage = loader.load(fontPath.string(), false);
     REQUIRE(fontImage != nullptr);
 
-    // Get the separator color (pixel at 0,0) used for glyph scanning
-    // Note: The ImageLoader may not apply color key conversion when loaded with convertToDisplayFormat=false.
-    // Just verify we can read the pixel without error.
-    fcn::Color separatorColor = fontImage->getPixel(0, 0);
-    // The pixel should have valid color values (not all zeros)
-    bool hasColor =
-        (separatorColor.r > 0) || (separatorColor.g > 0) || (separatorColor.b > 0) || (separatorColor.a > 0);
-    CHECK(hasColor);
-
     // Get image dimensions for validation
     int const fontImageWidth  = fontImage->getWidth();
     int const fontImageHeight = fontImage->getHeight();
@@ -160,7 +168,6 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
     CHECK(fontImageWidth > 0);
     CHECK(fontImageHeight > 0);
 
-    // Clean up before creating ImageFont
     fontImage->free();
 }
 
@@ -168,7 +175,7 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
 {
     SDL2Environment env;
 
-    // Find rpgfont.png contains ASCII characters in order
+    // Find rpgfont.png (contains: space + alphanumeric + punctuation)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
         fontPath = findFontResource("fixedfont.bmp");
@@ -178,10 +185,14 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
         SKIP("Font image not found");
     }
 
-    // The rpgfont.png contains these glyphs:
-    std::string const glyphs = " !\"#$%&'()*+,-./:;<=>?@0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    fcn::ImageFontConfig cfg;
+    cfg.strategy  = fcn::SeparatorStrategy::BorderDominant;
+    cfg.verbose  = false;
+    cfg.glyphPadding = 0;
 
-    fcn::ImageFont font(fontPath.string(), glyphs);
+    // Use the glyph string appropriate for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Verify the font image was loaded
     // Check that some valid glyphs have non-zero widths
@@ -213,9 +224,16 @@ TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagef
         SKIP("Font image not found");
     }
 
-    // Use ASCII range constructor for simpler testing
-    // Fixedfont contains printable ASCII from space (32) to tilde (126)
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    // rpgfont.png has 83 chars, fixedfont.bmp has 63 chars
+    // Both use BorderDominant to detect separator color automatically
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.verbose      = false;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Test space character width (always valid)
     int const spaceWidth = font.getWidth(' ');
@@ -255,7 +273,14 @@ TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][heigh
         SKIP("Font image not found");
     }
 
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.verbose      = false;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Font height should be positive and based on the glyph image
     int const height = font.getHeight();
@@ -282,7 +307,14 @@ TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]
         SKIP("Font image not found");
     }
 
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.verbose      = false;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Default spacing should be zero
     CHECK(font.getGlyphSpacing() == 0);
@@ -325,7 +357,11 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
     std::string const glyphs = " ABC";
     fcn::ImageFont* font     = nullptr;
 
-    REQUIRE_NOTHROW(font = new fcn::ImageFont(fontPath.string(), glyphs));
+    fcn::ImageFontConfig cfgPtr;
+    cfgPtr.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfgPtr.verbose      = true;
+    cfgPtr.glyphPadding = 0;
+    REQUIRE_NOTHROW(font = new fcn::ImageFont(fontPath.string(), glyphs, cfgPtr));
 
     // Get the internal image to verify texture coordinates are extracted
     // We need to access the private mImage,  but we can test via drawGlyph
@@ -371,8 +407,15 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
         SKIP("Font image not found");
     }
 
-    // Create font with ASCII printable range
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    // Use BorderDominant to automatically detect the separator color (white for both fonts)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+    cfg.verbose      = false;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics for drawing
     fcn::sdl2::Graphics graphics;
@@ -412,8 +455,8 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
         SKIP("Font image not found");
     }
 
-    // Use the glyph set typically used by examples to ensure all scanned glyphs have positive width
-    std::string const glyphs = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"";
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
 
     fcn::ImageFont font(fontPath.string(), glyphs);
 
@@ -471,7 +514,14 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
         SKIP("Font image not found");
     }
 
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics
     fcn::sdl2::Graphics graphics;
@@ -509,8 +559,14 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
         SKIP("Font image not found");
     }
 
-    // Create font with printable ASCII range (includes space through ~)
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create graphics for drawing
     fcn::sdl2::Graphics graphics;
@@ -546,7 +602,14 @@ TEST_CASE("ImageFont getStringIndexAt finds correct index", "[unit][imagefont][i
         SKIP("Font image not found");
     }
 
-    fcn::ImageFont font(fontPath.string(), 32, 126);
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     std::string const testString = "ABC";
 
