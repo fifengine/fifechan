@@ -102,10 +102,7 @@ namespace tests::integration::sdl::widgets
         std::unique_ptr<fcn::ListModel> demoListModel;
         std::unique_ptr<fcn::TextBox> ownedTextBox;
         std::unique_ptr<fcn::Container> ownedNestedContainer;
-        std::unique_ptr<fcn::Tab> ownedTabOne;
-        std::unique_ptr<fcn::Tab> ownedTabTwo;
-        std::unique_ptr<fcn::Label> ownedTabOneContent;
-        std::unique_ptr<fcn::Label> ownedTabTwoContent;
+        std::vector<std::unique_ptr<fcn::Widget>> tabWidgets;
         std::unique_ptr<fcn::Image> ownedProgressFillImage;
     };
 

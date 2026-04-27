@@ -15,6 +15,7 @@
 #include "fifechan/focushandler.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
+#include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/tab.hpp"
 
 namespace fcn
@@ -155,6 +156,15 @@ namespace fcn
         for (i = 0; i < mTabs.size(); i++) {
             if (mTabs[i].first == tab) {
                 mSelectedTab = tab;
+                // TODO: check if this is still needed
+                // If the widget is already parented elsewhere, remove it first
+                if (mTabs[i].second != nullptr) {
+                    if (mTabs[i].second->getParent() != nullptr) {
+                        if (auto parentContainer = dynamic_cast<Container*>(mTabs[i].second->getParent())) {
+                            parentContainer->remove(mTabs[i].second);
+                        }
+                    }
+                }
                 mWidgetContainer->add(mTabs[i].second);
             }
         }

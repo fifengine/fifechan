@@ -168,21 +168,23 @@ void Application::cleanup()
         }
         top->removeAllChildren();
         for (fcn::Widget* child : children) {
-            if (child == ownedTextBox.get() || child == ownedNestedContainer.get() || child == ownedTabOne.get() ||
-                child == ownedTabTwo.get()) {
+            bool ownedByExample = (child == ownedTextBox.get() || child == ownedNestedContainer.get());
+            if (!ownedByExample) {
+                // skip widgets that are stored in tabWidgets (tabs and their content)
+                for (auto const & wptr : tabWidgets) {
+                    if (wptr.get() == child) {
+                        ownedByExample = true;
+                        break;
+                    }
+                }
+            }
+            if (ownedByExample) {
                 continue;
             }
             deleteWidgetAndChildren(child);
         }
     }
-    deleteWidgetAndChildren(ownedTabOne.get());
-    [[maybe_unused]] auto* releasedTabOne = ownedTabOne.release();
-    (void)releasedTabOne;
-    deleteWidgetAndChildren(ownedTabTwo.get());
-    [[maybe_unused]] auto* releasedTabTwo = ownedTabTwo.release();
-    (void)releasedTabTwo;
-    ownedTabOneContent.reset();
-    ownedTabTwoContent.reset();
+    tabWidgets.clear();
     deleteWidgetAndChildren(ownedNestedContainer.get());
     [[maybe_unused]] auto* releasedNested = ownedNestedContainer.release();
     (void)releasedNested;
@@ -194,6 +196,8 @@ void Application::cleanup()
     input.reset();
     renderer.reset();
     window.reset();
+    // Ensure SDL text input is stopped before quitting SDL.
+    SDL_StopTextInput();
     TTF_Quit();
     SDL_Quit();
 }
@@ -277,6 +281,20 @@ void Application::init_GUI(int width, int height)
 
     auto showLastWidget = [this]() {
         top->getChild(top->getChildrenCount() - 1)->setVisible(true);
+    };
+
+    // Helper lambdas to keep ownership of widgets in `tabWidgets`
+    auto keep = [this](std::unique_ptr<fcn::Widget> w) -> fcn::Widget* {
+        fcn::Widget* raw = w.get();
+        tabWidgets.push_back(std::move(w));
+        return raw;
+    };
+
+    auto keepTab = [this](std::unique_ptr<fcn::Tab> t) -> fcn::Tab* {
+        fcn::Tab* raw = t.get();
+        // Tab derives from Widget, so store as Widget in tabWidgets
+        tabWidgets.push_back(std::move(t));
+        return static_cast<fcn::Tab*>(raw);
     };
 
     auto addCaption = [&](std::string const & caption, int x, int y) {
@@ -529,22 +547,23 @@ void Application::init_GUI(int width, int height)
     addCaption("TabbedArea", col4X, 468);
     auto tabbedAreaPtr = std::make_unique<fcn::TabbedArea>();
     tabbedAreaPtr->setSize(224, 108);
-    ownedTabOne    = std::make_unique<fcn::Tab>();
-    auto tab1Label = std::make_unique<fcn::Label>("Tab 1");
-    tab1Label->adjustSize();
-    ownedTabOne->addWidget(std::move(tab1Label));
-    ownedTabOne->adjustSize();
-    ownedTabOneContent = std::make_unique<fcn::Label>("Tab 1 content");
-    ownedTabOneContent->adjustSize();
-    tabbedAreaPtr->addTab(ownedTabOne.get(), ownedTabOneContent.get());
-    ownedTabTwo    = std::make_unique<fcn::Tab>();
-    auto tab2Label = std::make_unique<fcn::Label>("Tab 2");
-    tab2Label->adjustSize();
-    ownedTabTwo->addWidget(std::move(tab2Label));
-    ownedTabTwo->adjustSize();
-    ownedTabTwoContent = std::make_unique<fcn::Label>("Tab 2 content");
-    ownedTabTwoContent->adjustSize();
-    tabbedAreaPtr->addTab(ownedTabTwo.get(), ownedTabTwoContent.get());
+
+    auto addTabText = [&](std::string const & tabTitle, std::string const & contentText) {
+        auto tab      = std::make_unique<fcn::Tab>();
+        auto tabLabel = std::make_unique<fcn::Label>(tabTitle);
+        tabLabel->adjustSize();
+        tab->addWidget(std::move(tabLabel));
+        tab->adjustSize();
+
+        auto content = std::make_unique<fcn::Label>(contentText);
+        content->adjustSize();
+
+        tabbedAreaPtr->addTab(keepTab(std::move(tab)), keep(std::move(content)));
+    };
+
+    addTabText("Tab 1", "Tab 1 content");
+    addTabText("Tab 2", "Tab 2 content");
+
     top->addWidget(std::move(tabbedAreaPtr), col4X, 468 + labelGap);
     showLastWidget();
     tabbedArea = dynamic_cast<fcn::TabbedArea*>(top->getChild(top->getChildrenCount() - 1));
