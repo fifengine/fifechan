@@ -34,6 +34,11 @@
 // Third-party library includes
 #include <SDL2/SDL_ttf.h>
 
+// Platform-specific includes
+#if defined(_WIN32)
+    #include <windows.h>
+#endif // _WIN32
+
 using tests::integration::sdl::mdedit::Application;
 
 Application::Application(std::string const & title, int width, int height)
