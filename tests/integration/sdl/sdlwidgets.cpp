@@ -171,11 +171,10 @@ void Application::cleanup()
             bool ownedByExample = (child == ownedTextBox.get() || child == ownedNestedContainer.get());
             if (!ownedByExample) {
                 // skip widgets that are stored in tabWidgets (tabs and their content)
-                for (auto const & wptr : tabWidgets) {
-                    if (wptr.get() == child) {
-                        ownedByExample = true;
-                        break;
-                    }
+                if (std::any_of(tabWidgets.begin(), tabWidgets.end(), [child](auto const & wptr) {
+                        return wptr.get() == child;
+                    })) {
+                    ownedByExample = true;
                 }
             }
             if (ownedByExample) {

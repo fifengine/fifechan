@@ -4,6 +4,10 @@
 // Project headers
 #include "fifechan/widgets/activitybaritem.hpp"
 
+// Standard library includes
+#include <string>
+
+// Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"
 
 namespace fcn

@@ -1,23 +1,35 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 /**
  * SDL Markdown Editor Demo
  *
  * This demo application validates the new widget elements:
- * - StatusBar
- * - ActivityBar
- * - PrimaryPanel/SecondaryPanel
  * - MenuBar
- * - MenuPopup/MenuItem
+ *   - Menu, Menuitem, MenuPopup
+ * - StatusBar
+ *   - BarSection
+ * - ActivityBar
+ *   - ActivityBarItem
+ * - Panel
+ *   - PrimaryPanel
+ *   - SecondaryPanel
+ *
+ * The demo also uses a Glyph font to demonstrate the usage of
+ * glyph icons in the menu and activity bar.
  */
 
 // Corresponding header include
 #include "sdlmdedit.hpp"
 
 // Standard library includes
+#include <algorithm>
 #include <filesystem>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 // Third-party library includes
 #include <SDL2/SDL_ttf.h>
@@ -152,11 +164,11 @@ void Application::init_GUI(int width, int height)
         };
 
         std::filesystem::path chosen;
-        for (auto const & p : candidates) {
-            if (std::filesystem::exists(p)) {
-                chosen = p;
-                break;
-            }
+        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
+            return std::filesystem::exists(p);
+        });
+        if (it != candidates.end()) {
+            chosen = *it;
         }
 
         if (chosen.empty()) {
@@ -193,11 +205,11 @@ void Application::init_GUI(int width, int height)
         };
 
         std::filesystem::path openmoji;
-        for (auto const & p : candidates) {
-            if (std::filesystem::exists(p)) {
-                openmoji = p;
-                break;
-            }
+        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
+            return std::filesystem::exists(p);
+        });
+        if (it != candidates.end()) {
+            openmoji = *it;
         }
 
         if (!openmoji.empty()) {
@@ -302,11 +314,11 @@ void Application::init_GUI(int width, int height)
             };
 
             std::filesystem::path openmoji;
-            for (auto const & p : candidates) {
-                if (std::filesystem::exists(p)) {
-                    openmoji = p;
-                    break;
-                }
+            auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
+                return std::filesystem::exists(p);
+            });
+            if (it != candidates.end()) {
+                openmoji = *it;
             }
 
             if (!openmoji.empty()) {

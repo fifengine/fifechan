@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -178,7 +179,8 @@ namespace fcn
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
-               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Detected separator: R:" << static_cast<int>(sep.r) << " G:" << static_cast<int>(sep.g)
+               << " B:" << static_cast<int>(sep.b) << "\n"
                << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
             throwException(os.str());
         }
@@ -189,19 +191,19 @@ namespace fcn
 
         if (config.verbose) {
             std::cerr << "[ImageFont] Loaded '" << mFilename << "' ExpectedGlyphs=" << expected
-                      << " Found=" << found.size() << " Separator=R:" << (int)sep.r << " G:" << (int)sep.g
-                      << " B:" << (int)sep.b << "\n";
+                      << " Found=" << found.size() << " Separator=R:" << static_cast<int>(sep.r)
+                      << " G:" << static_cast<int>(sep.g) << " B:" << static_cast<int>(sep.b) << "\n";
             for (size_t i = 0; i < glyphs.size(); ++i) {
                 unsigned char const c = static_cast<unsigned char>(glyphs[i]);
                 Rectangle const & r   = mGlyph[c];
-                std::cerr << "  glyph '" << glyphs[i] << "' (" << (int)c << ") -> x=" << r.x << " y=" << r.y
-                          << " w=" << r.width << " h=" << r.height << "\n";
+                std::cerr << "  glyph '" << glyphs[i] << "' (" << static_cast<int>(c) << ") -> x=" << r.x
+                          << " y=" << r.y << " w=" << r.width << " h=" << r.height << "\n";
             }
         }
 
-        mHeight = 0;
-        for (auto const & r : found)
-            mHeight = std::max(mHeight, r.height);
+        mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxHeight, auto const & r) {
+            return std::max(maxHeight, r.height);
+        });
 
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
@@ -320,7 +322,8 @@ namespace fcn
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
-               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Detected separator: R:" << static_cast<int>(sep.r) << " G:" << static_cast<int>(sep.g)
+               << " B:" << static_cast<int>(sep.b) << "\n"
                << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
             throwException(os.str());
         }
@@ -329,9 +332,9 @@ namespace fcn
             mGlyph[static_cast<unsigned char>(glyphs[i])] = found[i];
         }
 
-        mHeight = 0;
-        for (auto const & r : found)
-            mHeight = std::max(mHeight, r.height);
+        mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxHeight, auto const & r) {
+            return std::max(maxHeight, r.height);
+        });
 
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
@@ -399,7 +402,8 @@ namespace fcn
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
-               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Detected separator: R:" << static_cast<int>(sep.r) << " G:" << static_cast<int>(sep.g)
+               << " B:" << static_cast<int>(sep.b) << "\n"
                << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
             throwException(os.str());
         }

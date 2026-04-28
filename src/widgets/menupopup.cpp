@@ -5,6 +5,8 @@
 #include "fifechan/widgets/menupopup.hpp"
 
 // Standard library includes
+#include <algorithm>
+#include <memory>
 #include <unordered_map>
 
 // Project headers

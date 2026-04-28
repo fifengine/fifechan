@@ -21,7 +21,7 @@ namespace fcn
 
     ModalBackdrop::~ModalBackdrop() = default;
 
-    void ModalBackdrop::draw(Graphics* /*graphics*/)
+    void ModalBackdrop::draw([[maybe_unused]] Graphics*)
     {
         // Intentionally transparent; no drawing required.
     }
@@ -68,7 +68,7 @@ namespace fcn
         event.consume();
     }
 
-    void ModalBackdrop::mouseReleased(MouseEvent& /*event*/) { }
-    void ModalBackdrop::mouseEntered(MouseEvent& /*event*/) { }
-    void ModalBackdrop::mouseExited(MouseEvent& /*event*/) { }
+    void ModalBackdrop::mouseReleased([[maybe_unused]] MouseEvent&) { }
+    void ModalBackdrop::mouseEntered([[maybe_unused]] MouseEvent&) { }
+    void ModalBackdrop::mouseExited([[maybe_unused]] MouseEvent&) { }
 } // namespace fcn

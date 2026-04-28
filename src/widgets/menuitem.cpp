@@ -4,6 +4,11 @@
 // Corresponding header include
 #include "fifechan/widgets/menuitem.hpp"
 
+// Standard library includes
+#include <algorithm>
+#include <memory>
+#include <string>
+
 // Project headers
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"

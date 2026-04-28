@@ -4,6 +4,9 @@
 // Corresponding header include
 #include "fifechan/widgets/secondarypanel.hpp"
 
+// Standard library includes
+#include <string>
+
 namespace fcn
 {
     SecondaryPanel::SecondaryPanel(std::string const & title) : mDefaultWidth(250)

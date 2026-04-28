@@ -33,7 +33,7 @@ namespace fcn
          * @param icon The icon to display (can be image path or emoji).
          * @param tooltip The tooltip text.
          */
-        ActivityBarItem(std::string const & icon, std::string const & tooltip = "", Widget* panel = nullptr);
+        explicit ActivityBarItem(std::string const & icon, std::string const & tooltip = "", Widget* panel = nullptr);
 
         ~ActivityBarItem() override;
 

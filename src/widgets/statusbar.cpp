@@ -6,6 +6,8 @@
 
 // Standard library includes
 #include <cstdio>
+#include <memory>
+#include <string>
 
 // Project headers
 #include "fifechan/font.hpp"
@@ -13,7 +15,6 @@
 
 namespace fcn
 {
-#include <cstdio>
 
     StatusBar::StatusBar()
     {

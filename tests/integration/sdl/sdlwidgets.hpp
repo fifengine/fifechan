@@ -10,6 +10,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 
 // Third-party library includes
 #include <SDL2/SDL.h>

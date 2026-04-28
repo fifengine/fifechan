@@ -7,6 +7,9 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
+// Standard library includes
+#include <string>
+
 // Project headers (subdirs before local)
 #include "fifechan/widgets/panel.hpp"
 

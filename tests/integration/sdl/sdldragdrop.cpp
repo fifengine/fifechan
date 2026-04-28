@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
-//
 
 /**
  * SDL Drag-and-Drop Inventory Demo with Tooltip Widget
