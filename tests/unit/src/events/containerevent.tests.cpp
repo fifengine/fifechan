@@ -5,7 +5,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
-#include <fifechan/container.hpp>
+#include <fifechan/widgets/container.hpp>
 #include <fifechan/events/containerevent.hpp>
 #include <fifechan/widget.hpp>
 
