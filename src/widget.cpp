@@ -1089,7 +1089,7 @@ namespace fcn
         return mFocusHandler->getFocusOwner() == this;
     }
 
-    bool Widget::isUnderMouseModal() const noexcept
+    bool Widget::isUnderMouseModal() const
     {
         if (mFocusHandler == nullptr) {
             throwException("No focus handler is set (did you add the widget to the GUI?)");
@@ -1636,7 +1636,7 @@ namespace fcn
         if (!fh) {
             return false;
         }
-        Widget* modal = fh->getMouseCaptureOwner();
+        Widget const * modal = fh->getMouseCaptureOwner();
         return modal && isDescendantOf(modal);
     }
 } // namespace fcn

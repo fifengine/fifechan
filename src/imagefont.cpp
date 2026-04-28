@@ -97,13 +97,12 @@ namespace fcn
         int w = img->getWidth(), h = img->getHeight();
         std::vector<Rectangle> found;
 
-        int startY = 0, startX = 0;
+        int startY      = 0;
         bool foundStart = false;
         for (int y = 0; y < h && !foundStart; ++y) {
             for (int x = 0; x < w; ++x) {
                 if (!isSeparator(img->getPixel(x, y), sep)) {
                     startY     = y;
-                    startX     = x;
                     foundStart = true;
                     break;
                 }
@@ -413,9 +412,9 @@ namespace fcn
             mGlyph[glyph]       = found[i];
         }
 
-        mHeight = 0;
-        for (auto const & r : found)
-            mHeight = std::max(mHeight, r.height);
+        mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxH, auto const & r) {
+            return std::max(maxH, r.height);
+        });
 
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;

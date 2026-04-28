@@ -136,7 +136,6 @@ namespace fcn
         if (!textToDraw.empty()) {
 
             // Do we have a font?
-            Font* font = getFont();
             if (font) {
                 graphics->setFont(font);
 

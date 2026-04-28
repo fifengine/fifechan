@@ -36,7 +36,7 @@ namespace fcn
         }
 
         // Get font to use for measurements
-        Font* font = getFont();
+        Font const * font = getFont();
         if (!font) {
             return;
         }
@@ -375,8 +375,8 @@ namespace fcn
             // If the click landed on a top-level MenuBar/MenuItem, allow the
             // event to propagate so the MenuBar can toggle the popup. Otherwise
             // hide the popup and consume the event.
-            bool clickHitsMenuBar   = false;
-            Container* topContainer = dynamic_cast<Container*>(getTop());
+            bool clickHitsMenuBar          = false;
+            Container const * topContainer = dynamic_cast<Container*>(getTop());
             if (topContainer) {
                 for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
                     Widget* child = topContainer->getChild(i);

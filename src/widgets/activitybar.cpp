@@ -47,6 +47,7 @@ namespace fcn
         mActionListeners.push_back(listener);
     }
 
+    // cppcheck-suppress constParameterPointer
     void ActivityBar::removeActionListener(ActionListener* listener)
     {
         mActionListeners.remove(listener);

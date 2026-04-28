@@ -82,7 +82,7 @@ namespace fcn
         // Post-process: shrink bar to fit content exactly (don't expand to container width)
         if (!mExpandChildren) {
             int contentW = 0;
-            for (auto* child : getChildren()) {
+            for (auto const * child : getChildren()) {
                 if (!child || !child->isVisible())
                     continue;
                 int childEnd = child->getX() + child->getWidth() + child->getMarginRight();
@@ -117,7 +117,7 @@ namespace fcn
         // Post-process: shrink bar to fit content exactly
         if (!mExpandChildren) {
             int contentW = 0;
-            for (auto* child : getChildren()) {
+            for (auto const * child : getChildren()) {
                 if (!child || !child->isVisible())
                     continue;
                 int childEnd = child->getX() + child->getWidth() + child->getMarginRight();

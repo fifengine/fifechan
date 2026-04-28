@@ -393,7 +393,7 @@ void Application::init_GUI(int width, int height)
     }
 
     // Wire ActivityBar items to panels (first item = primary panel, second = secondary panel)
-    if (activityBar != nullptr && contentPtr != nullptr) {
+    if (activityBar != nullptr) {
         // First ActivityBarItem (📁) toggles PrimaryPanel
         if (contentPtr->getChildrenCount() >= 2) {
             fcn::ActivityBarItem* firstItem = dynamic_cast<fcn::ActivityBarItem*>(activityBar->getChild(0));
@@ -437,7 +437,8 @@ void Application::init_GUI(int width, int height)
     if (menuBar != nullptr) {
         // Manually reposition menu items for horizontal layout since
         // automatic layout doesn't seem to work properly
-        fcn::Container* mbc = dynamic_cast<fcn::Container*>(menuBar);
+        auto const * mbc = dynamic_cast<fcn::Container*>(menuBar);
+        int maxX         = 0;
         if (mbc) {
             int xPos = 0;
             for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
@@ -449,17 +450,16 @@ void Application::init_GUI(int width, int height)
                 item->setDimension(dim);
                 xPos += dim.width + 8; // spacing
             }
-        }
 
-        // Calculate menu bar width from children positions
-        int maxX = 0;
-        for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
-            fcn::Widget* item = mbc->getChild(j);
-            if (!item)
-                continue;
-            int itemRight = item->getX() + item->getWidth();
-            if (itemRight > maxX)
-                maxX = itemRight;
+            // Calculate menu bar width from children positions
+            for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
+                fcn::Widget const * item = mbc->getChild(j);
+                if (!item)
+                    continue;
+                int itemRight = item->getX() + item->getWidth();
+                if (itemRight > maxX)
+                    maxX = itemRight;
+            }
         }
         int menuBarWidth = maxX + 4; // padding
 
@@ -476,43 +476,41 @@ void Application::init_GUI(int width, int height)
     int const contentY   = menuBarHeight;
     int const contentH   = height - menuBarHeight - statusBarHeight;
     int const panelWidth = 250;
-    if (contentPtr != nullptr) {
-        contentPtr->setFixedSize(fcn::Size(width, contentH));
-        contentPtr->setDimension(fcn::Rectangle(0, contentY, width, contentH));
-        // ActivityBar (index 0) - first child
-        if (contentPtr->getChildrenCount() >= 1) {
-            fcn::Widget* activityWidget = contentPtr->getChild(0);
-            if (activityWidget != nullptr) {
-                activityWidget->setFixedSize(fcn::Size(48, contentH));
-                activityWidget->setDimension(fcn::Rectangle(0, contentY, 48, contentH));
-            }
+    contentPtr->setFixedSize(fcn::Size(width, contentH));
+    contentPtr->setDimension(fcn::Rectangle(0, contentY, width, contentH));
+    // ActivityBar (index 0) - first child
+    if (contentPtr->getChildrenCount() >= 1) {
+        fcn::Widget* activityWidget = contentPtr->getChild(0);
+        if (activityWidget != nullptr) {
+            activityWidget->setFixedSize(fcn::Size(48, contentH));
+            activityWidget->setDimension(fcn::Rectangle(0, contentY, 48, contentH));
         }
-        // PrimaryPanel (index 1) - left panel
-        if (contentPtr->getChildrenCount() >= 2) {
-            fcn::Widget* primaryWidget = contentPtr->getChild(1);
-            if (primaryWidget != nullptr) {
-                primaryWidget->setFixedSize(fcn::Size(panelWidth, contentH));
-                primaryWidget->setDimension(fcn::Rectangle(48, contentY, panelWidth, contentH));
-            }
+    }
+    // PrimaryPanel (index 1) - left panel
+    if (contentPtr->getChildrenCount() >= 2) {
+        fcn::Widget* primaryWidget = contentPtr->getChild(1);
+        if (primaryWidget != nullptr) {
+            primaryWidget->setFixedSize(fcn::Size(panelWidth, contentH));
+            primaryWidget->setDimension(fcn::Rectangle(48, contentY, panelWidth, contentH));
         }
-        // Editor area (index 2) - middle, flexible width
-        if (contentPtr->getChildrenCount() >= 3) {
-            fcn::Widget* editorAreaWidget = contentPtr->getChild(2);
-            if (editorAreaWidget != nullptr) {
-                int const editorX = 48 + panelWidth;
-                int const editorW = width - 48 - panelWidth - panelWidth;
-                editorAreaWidget->setFixedSize(fcn::Size(editorW, contentH));
-                editorAreaWidget->setDimension(fcn::Rectangle(editorX, contentY, editorW, contentH));
-            }
+    }
+    // Editor area (index 2) - middle, flexible width
+    if (contentPtr->getChildrenCount() >= 3) {
+        fcn::Widget* editorAreaWidget = contentPtr->getChild(2);
+        if (editorAreaWidget != nullptr) {
+            int const editorX = 48 + panelWidth;
+            int const editorW = width - 48 - panelWidth - panelWidth;
+            editorAreaWidget->setFixedSize(fcn::Size(editorW, contentH));
+            editorAreaWidget->setDimension(fcn::Rectangle(editorX, contentY, editorW, contentH));
         }
-        // SecondaryPanel (index 3) - right panel
-        if (contentPtr->getChildrenCount() >= 4) {
-            fcn::Widget* secondaryWidget = contentPtr->getChild(3);
-            if (secondaryWidget != nullptr) {
-                int const secondaryX = width - panelWidth;
-                secondaryWidget->setFixedSize(fcn::Size(panelWidth, contentH));
-                secondaryWidget->setDimension(fcn::Rectangle(secondaryX, contentY, panelWidth, contentH));
-            }
+    }
+    // SecondaryPanel (index 3) - right panel
+    if (contentPtr->getChildrenCount() >= 4) {
+        fcn::Widget* secondaryWidget = contentPtr->getChild(3);
+        if (secondaryWidget != nullptr) {
+            int const secondaryX = width - panelWidth;
+            secondaryWidget->setFixedSize(fcn::Size(panelWidth, contentH));
+            secondaryWidget->setDimension(fcn::Rectangle(secondaryX, contentY, panelWidth, contentH));
         }
     }
     if (statusBar != nullptr) {

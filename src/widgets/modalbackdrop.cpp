@@ -35,8 +35,8 @@ namespace fcn
         int x = event.getX();
         int y = event.getY();
 
-        bool clickHitsMenuBar   = false;
-        Container* topContainer = dynamic_cast<Container*>(getTop());
+        bool clickHitsMenuBar          = false;
+        Container const * topContainer = dynamic_cast<Container*>(getTop());
         if (topContainer) {
             for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
                 Widget* child = topContainer->getChild(i);

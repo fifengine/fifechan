@@ -284,16 +284,14 @@ void Application::init_GUI(int width, int height)
 
     // Helper lambdas to keep ownership of widgets in `tabWidgets`
     auto keep = [this](std::unique_ptr<fcn::Widget> w) -> fcn::Widget* {
-        fcn::Widget* raw = w.get();
         tabWidgets.push_back(std::move(w));
-        return raw;
+        return tabWidgets.back().get();
     };
 
     auto keepTab = [this](std::unique_ptr<fcn::Tab> t) -> fcn::Tab* {
-        fcn::Tab* raw = t.get();
         // Tab derives from Widget, so store as Widget in tabWidgets
         tabWidgets.push_back(std::move(t));
-        return static_cast<fcn::Tab*>(raw);
+        return static_cast<fcn::Tab*>(tabWidgets.back().get());
     };
 
     auto addCaption = [&](std::string const & caption, int x, int y) {

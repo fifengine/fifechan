@@ -86,7 +86,7 @@ namespace fcn
             return;
         }
 
-        if (source && source->getSubmenu()) {
+        if (source->getSubmenu()) {
             MenuPopup* popup = source->getSubmenu();
 
             if (mOpenMenu == popup) {
@@ -165,7 +165,7 @@ namespace fcn
         if (key.getValue() == Key::Enter || key.getValue() == Key::Down) {
             if (mSelectedIndex >= 0 && mSelectedIndex < static_cast<int>(getChildrenCount())) {
                 Widget* child = getChild(mSelectedIndex);
-                if (auto* menuItem = dynamic_cast<MenuItem*>(child)) {
+                if (auto const * menuItem = dynamic_cast<MenuItem*>(child)) {
                     if (menuItem->getSubmenu()) {
                         action(ActionEvent(this, ""));
                     }
@@ -195,7 +195,7 @@ namespace fcn
         //   the event.
         if (mOpenMenu) {
             Widget* target = getWidgetAt(event.getX(), event.getY());
-            if (auto* mi = dynamic_cast<MenuItem*>(target)) {
+            if (auto const * mi = dynamic_cast<MenuItem*>(target)) {
                 if (mi->getSubmenu() == mOpenMenu) {
                     // Let the MenuItem's action handler toggle the popup.
                     return;

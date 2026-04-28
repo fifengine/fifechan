@@ -1235,7 +1235,7 @@ namespace fcn
          *
          * @return True if the widget has modal mouse input focus, false otherwise.
          */
-        virtual bool isUnderMouseModal() const noexcept;
+        virtual bool isUnderMouseModal() const;
 
         /**
          * Gets a widget at a certain position in the widget.
