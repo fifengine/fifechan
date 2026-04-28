@@ -123,14 +123,12 @@ namespace
     }
 
     // Glyph strings for each font type
-    // rpgfont.png: 83 characters
-    // fixedfont.bmp: 63 characters
-    std::string const& getGlyphString(std::filesystem::path const& fontPath)
+    std::string const & getGlyphString(std::filesystem::path const & fontPath)
     {
         static std::string const rpgfontGlyphs =
-            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"";
-        static std::string const fixedfontGlyphs =
-            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"";
+
+        static std::string const fixedfontGlyphs = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         std::string const stem = fontPath.filename().string();
         if (stem.find("rpg") != std::string::npos) {
@@ -186,8 +184,8 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
     }
 
     fcn::ImageFontConfig cfg;
-    cfg.strategy  = fcn::SeparatorStrategy::BorderDominant;
-    cfg.verbose  = false;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.verbose      = false;
     cfg.glyphPadding = 0;
 
     // Use the glyph string appropriate for the font being loaded

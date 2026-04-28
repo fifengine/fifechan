@@ -81,7 +81,7 @@ int main(int /*argc*/, char** /*argv*/)
         input = std::make_unique<fcn::sdl2::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
-            "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
         fcn::Widget::setGlobalFont(font.get());
 
         gui = std::make_unique<fcn::Gui>();

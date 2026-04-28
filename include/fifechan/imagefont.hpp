@@ -13,6 +13,7 @@
 #include "fifechan/platform.hpp"
 
 // Project headers (subdirs before local)
+#include "fifechan/color.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/rectangle.hpp"
 
@@ -21,6 +22,46 @@ namespace fcn
     class Color;
     class Graphics;
     class Image;
+
+    /**
+     * Defines a font implementation using an image atlas containing glyph data.
+     *
+     * Strategies:
+     * - PixelAtOrigin: Use the color of the pixel at (0,0) as the separator.
+     *   This is the legacy behavior and works for most font sheets that follow
+     *   the convention of using the top-left pixel as a separator color.
+     * - BorderDominant: Scan the edges of the image to find the most frequent RGB color,
+     *   which is likely the separator. This is highly reliable for font sheets that
+     *   use a solid background color as a separator, even if that color isn't at (0,0).
+     * - ExplicitColor: Use a user-specified RGB color as the separator. This is useful for font sheets
+     *   that don't follow conventions or have noisy edges, but requires manual configuration.
+     * - Auto: Try PixelAtOrigin first; if the number of detected glyphs is significantly lower
+     *   than expected, automatically fall back to BorderDominant.
+     */
+    enum class SeparatorStrategy
+    {
+        PixelAtOrigin,
+        BorderDominant,
+        ExplicitColor,
+        Auto
+    };
+
+    /**
+     * Configuration struct for ImageFont constructors.
+     *
+     * Strategy: The method used to determine the separator color in the font image.
+     * ExplicitSeparator: The RGB color to use as a separator when using the ExplicitColor strategy (default magenta).
+     * GlyphPadding: The number of pixels to ignore around detected glyphs when scanning (useful for anti-aliased
+     * fonts). Verbose: If true, the constructor will print debug information about the scanning process to standard
+     * error.
+     */
+    struct ImageFontConfig
+    {
+        SeparatorStrategy strategy = SeparatorStrategy::Auto;
+        Color explicitSeparator    = Color{255, 0, 255, 255};
+        int glyphPadding           = 0;
+        bool verbose               = false;
+    };
 
     /**
      * A font implementation using an image atlas containing glyph data.
@@ -43,11 +84,27 @@ namespace fcn
      *     " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
      * @endcode
      *
-     * Noteworthy is that the first glyph actually gives the width of space.
-     * Glyphs can, as seen in the second image example above, be separated with
-     * horizontal lines making it possible to draw glyphs on more then one
-     * line in the image. However, these horizontal lines must have a height of
-     * one pixel!
+     * The first glyph defines the width of a space.
+     *
+     * Glyphs can span multiple lines using horizontal separators,
+     * but these must be exactly 1 pixel high.
+     *
+     * Space glyph:
+     * If included (e.g. as the first glyph), its width defines
+     * the logical space width. Otherwise, ImageFont uses a default.
+     *
+     * Vertical separators:
+     * Glyphs are divided by columns of a single color.
+     * These may span multiple adjacent columns; any column where all pixels
+     * match the separator color is treated as part of a separator.
+     * This allows flexible spacing (e.g. wider gaps before punctuation).
+     *
+     * Horizontal separators:
+     * Used to split glyph rows and must be exactly
+     * 1 pixel high. Multi-pixel rows are not recognized and may break row
+     * detection. If your atlas uses thicker dividers, convert them to 1-pixel
+     * rows or use an explicit separator strategy.
+     * Support for multi-pixel separators can be added if needed.
      *
      * @ingroup fonts
      */
@@ -65,6 +122,8 @@ namespace fcn
          *                   corrupt or if no ImageLoader exists.
          */
         ImageFont(std::string const & filename, std::string const & glyphs);
+        // New constructor with configuration
+        ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config);
 
         /**
          * Constructor. Takes an image containing the font and
@@ -78,6 +137,8 @@ namespace fcn
          *                   is missing.
          */
         ImageFont(Image* image, std::string const & glyphs);
+        // New constructor with configuration
+        ImageFont(Image* image, std::string const & glyphs, ImageFontConfig const & config);
 
         /**
          * Constructor. Takes an image file containing the font and
@@ -94,6 +155,12 @@ namespace fcn
          *                   file is corrupt or if no ImageLoader exists.
          */
         explicit ImageFont(std::string const & filename, unsigned char glyphsFrom = 32, unsigned char glyphsTo = 126);
+        // New constructor with configuration
+        ImageFont(
+            std::string const & filename,
+            unsigned char glyphsFrom,
+            unsigned char glyphsTo,
+            ImageFontConfig const & config);
 
         ~ImageFont() override;
 

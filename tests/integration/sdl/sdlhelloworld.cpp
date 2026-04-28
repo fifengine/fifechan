@@ -152,14 +152,25 @@ void Application::init_gui(int width, int height)
     fcn::Widget::setGlobalFont(font.get());
 
     // Load RPG bitmap font for the second label.
-    rpgFont = std::make_unique<fcn::ImageFont>(
-        "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"");
+    {
+        fcn::ImageFontConfig cfg;
+        cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+        cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+        cfg.verbose           = true;
+        rpgFont               = std::make_unique<fcn::ImageFont>(
+            "rpgfont.png",
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+            cfg);
+    }
 
     // Now we create a label with the text "Hello World".
     label = std::make_unique<fcn::Label>("Hello World");
 
     // Create a second label with the RPG font.
     label2 = std::make_unique<fcn::Label>("Hello from FifeGui");
+    // TODO we have to manually set the width,
+    // because currently we can not get the width from ImageFont
+    label2->setWidth(180);
     label2->setFont(rpgFont.get());
 
     int const labelX  = std::max(0, (width - label->getWidth()) / 2);

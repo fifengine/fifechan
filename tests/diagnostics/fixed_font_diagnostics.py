@@ -6,7 +6,7 @@ from pathlib import Path
 
 KNOWN_FONT_MAPS: dict[str, str] = {
     "fixedfont.bmp": " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    "rpgfont.png": " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#[]\"",
+    "rpgfont.png": " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
 }
 
 
