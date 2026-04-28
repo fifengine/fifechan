@@ -49,6 +49,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `Widget::onFocusGained`/`onFocusLost` callback hooks
 - Added stacked modal system (`ModalState`, `ModalScope`, `pushModal`/`popModal`/`clearModal`), issue #33
 - Added `getFocusOwner()`/`getMouseCaptureOwner()` to FocusHandler
+- Added Menu, MenuBar, MenuItem, MenuPopup widgets
+- Added Tooltip widget
+- Added Panel, PrimaryPanel, SecondaryPanel widgets
+- Added Statusbar, BarSection widgets
+- Added ActivityBar, ActivityBarSection widgets
+- Added support for rendering Glyph fonts
 
 ### Changed
 
