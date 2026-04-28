@@ -156,8 +156,8 @@ void Application::init_gui(int width, int height)
         fcn::ImageFontConfig cfg;
         cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
         cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
-        //cfg.verbose           = true;
-        rpgFont               = std::make_unique<fcn::ImageFont>(
+        // cfg.verbose           = true;
+        rpgFont = std::make_unique<fcn::ImageFont>(
             "rpgfont.png",
             " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
             cfg);
