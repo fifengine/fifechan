@@ -41,7 +41,8 @@ namespace fcn::sdl2
     {
         int w = 0;
         int h = 0;
-        TTF_SizeText(mFont, text.c_str(), &w, &h);
+        // Use UTF-8 aware measurement to handle multi-byte glyphs (emoji)
+        TTF_SizeUTF8(mFont, text.c_str(), &w, &h);
 
         return w;
     }
@@ -75,10 +76,11 @@ namespace fcn::sdl2
         sdlCol.a = col.a;
 
         SDL_Surface* textSurface = nullptr;
+        // Use UTF-8 aware rendering to avoid mangling multi-byte sequences
         if (mAntiAlias) {
-            textSurface = TTF_RenderText_Blended(mFont, text.c_str(), sdlCol);
+            textSurface = TTF_RenderUTF8_Blended(mFont, text.c_str(), sdlCol);
         } else {
-            textSurface = TTF_RenderText_Solid(mFont, text.c_str(), sdlCol);
+            textSurface = TTF_RenderUTF8_Solid(mFont, text.c_str(), sdlCol);
         }
 
         if (textSurface == nullptr) {

@@ -37,10 +37,18 @@ namespace fcn
     public:
         /**
          * The layout policy of the container.
+         *
+         * Absolute: manual positioning by user, no layout management.
+         * AutoSize: container is resized based on its children, no layout management.
+         * Vertical: children are stacked vertically, container is resized based on its children.
+         * Horizontal: children are stacked horizontally, container is resized based on its children.
+         * Circular: children are arranged in a circular pattern, container is resized based on its children.
+         *
+         * @see setLayout, getLayout
          */
         enum class LayoutPolicy : uint8_t
         {
-            Absolute,
+            Absolute = 0,
             AutoSize,
             Vertical,
             Horizontal,
@@ -48,8 +56,15 @@ namespace fcn
         };
 
         /**
-         * Constructor. A container is opaque as default, if you want a
-         * none opaque container call setOpaque(false).
+         * Constructor.
+         *
+         * A container is opaque as default.
+         * If you want a non-opaque container call setOpaque(false).
+         *
+         * The default layout policy of the container is Absolute, which means that the position of the children.
+         * setLayout stores the layout policy of the container, and getLayout returns the current layout policy of the
+         * container. resizeToContent and expandContent will only have an effect if the layout policy is not Absolute.
+         * expandContent will only have an effect if the layout policy is Vertical, Horizontal or Circular.
          *
          * @see setOpaque, isOpaque
          */
@@ -61,6 +76,17 @@ namespace fcn
         Container& operator=(Container const &) = delete;
         Container(Container&&)                  = delete;
         Container& operator=(Container&&)       = delete;
+
+        /**
+         * Sets the opacity of the container.
+         *
+         * A container is opaque (setOpaque(true)) when it is fully opaque (opacity = 1.0).
+         * A container is transparent (setOpaque(false)) when it is fully transparent (opacity = 0.0).
+         *
+         * @param opacity Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).
+         * @see isOpaque, setOpaque
+         */
+        virtual void setOpacity(float opacity);
 
         /**
          * Sets the container to be opaque or not.
@@ -301,6 +327,11 @@ namespace fcn
          * @param source The source widget of the event.
          */
         void distributeWidgetRemovedEvent(Widget* source);
+
+        /**
+         * Opacity of the container, between 0.0 (fully transparent) and 1.0 (fully opaque).
+         */
+        float mOpacity{1.0f};
 
         /**
          * True if the container is opaque, false otherwise.

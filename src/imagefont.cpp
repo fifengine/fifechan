@@ -6,9 +6,13 @@
 #include "fifechan/imagefont.hpp"
 
 // Standard library includes
+#include <algorithm>
+#include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
 #include <utility>
+#include <vector>
 
 // Platform config include
 #include "fifechan/platform.hpp"
@@ -22,6 +26,188 @@
 
 namespace fcn
 {
+    /**
+     * Find most frequent RGB color along image borders
+     */
+    static Color getBorderDominantColor(Image* img)
+    {
+        int w = img->getWidth(), h = img->getHeight();
+        if (w <= 0 || h <= 0)
+            return Color{0, 0, 0, 255};
+
+        struct RGB
+        {
+            uint8_t r, g, b;
+            bool operator<(RGB const & o) const
+            {
+                return r != o.r ? r < o.r : g != o.g ? g < o.g : b < o.b;
+            }
+        };
+        std::map<RGB, int> freq;
+
+        auto count = [&](int x, int y) {
+            Color c = img->getPixel(x, y);
+            ++freq[{c.r, c.g, c.b}];
+        };
+
+        for (int x = 0; x < w; ++x) {
+            count(x, 0);
+            count(x, h - 1);
+        }
+        for (int y = 1; y < h - 1; ++y) {
+            count(0, y);
+            count(w - 1, y);
+        }
+
+        RGB best     = {0, 0, 0};
+        int maxCount = 0;
+        for (auto const & p : freq) {
+            if (p.second > maxCount) {
+                maxCount = p.second;
+                best     = p.first;
+            }
+        }
+        return Color{best.r, best.g, best.b, static_cast<uint8_t>(255)};
+    }
+
+    static Color resolveSeparator(Image* img, ImageFontConfig const & cfg)
+    {
+        switch (cfg.strategy) {
+        case SeparatorStrategy::ExplicitColor:
+            return cfg.explicitSeparator;
+        case SeparatorStrategy::BorderDominant:
+            return getBorderDominantColor(img);
+        case SeparatorStrategy::PixelAtOrigin:
+            return img->getPixel(0, 0);
+        case SeparatorStrategy::Auto:
+        default:
+            return img->getPixel(0, 0);
+        }
+    }
+
+    static inline bool isSeparator(Color const & p, Color const & sep)
+    {
+        return p.r == sep.r && p.g == sep.g && p.b == sep.b;
+    }
+
+    static std::vector<Rectangle> scanGlyphs(
+        Image* img, int expectedCount, Color const & sep, int padding, bool verbose)
+    {
+        int w = img->getWidth(), h = img->getHeight();
+        std::vector<Rectangle> found;
+
+        int startY = 0, startX = 0;
+        bool foundStart = false;
+        for (int y = 0; y < h && !foundStart; ++y) {
+            for (int x = 0; x < w; ++x) {
+                if (!isSeparator(img->getPixel(x, y), sep)) {
+                    startY     = y;
+                    startX     = x;
+                    foundStart = true;
+                    break;
+                }
+            }
+        }
+        if (!foundStart)
+            throwException("Image contains no glyph content");
+
+        int ycur         = startY;
+        int maxRowHeight = 0;
+
+        while (ycur < h && static_cast<int>(found.size()) < expectedCount) {
+            int rowEnd = ycur;
+            for (; rowEnd < h; ++rowEnd) {
+                bool hasContent = false;
+                for (int x = 0; x < w; ++x) {
+                    if (!isSeparator(img->getPixel(x, rowEnd), sep)) {
+                        hasContent = true;
+                        break;
+                    }
+                }
+                if (!hasContent)
+                    break;
+            }
+            if (rowEnd == ycur)
+                break;
+
+            int rowH     = rowEnd - ycur;
+            maxRowHeight = std::max(maxRowHeight, rowH);
+
+            auto isSepCol = [&](int col) {
+                // Check top and bottom of column (matches fixedfont.bmp and rpgfont.png)
+                return isSeparator(img->getPixel(col, ycur), sep) && isSeparator(img->getPixel(col, rowEnd - 1), sep);
+            };
+
+            int xcur = 0;
+            while (xcur < w && static_cast<int>(found.size()) < expectedCount) {
+                while (xcur < w && isSepCol(xcur))
+                    ++xcur;
+                if (xcur >= w)
+                    break;
+
+                int sx = xcur;
+                while (xcur < w && !isSepCol(xcur))
+                    ++xcur;
+
+                int width  = std::max(1, xcur - sx - padding * 2);
+                int height = std::max(1, rowH - padding * 2);
+                found.push_back({sx + padding, ycur + padding, width, height});
+            }
+            ycur = rowEnd + 1;
+        }
+        return found;
+    }
+
+    ImageFont::ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config) :
+        mFilename(filename), mImage(Image::load(filename, false))
+    {
+        if (!mImage)
+            throwException(std::string("Failed to load image: ") + filename);
+
+        int expected = static_cast<int>(glyphs.size());
+        Color sep    = resolveSeparator(mImage, config);
+
+        auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+
+        if (config.strategy == SeparatorStrategy::Auto && static_cast<int>(found.size()) < expected * 0.8) {
+            sep   = getBorderDominantColor(mImage);
+            found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+        }
+
+        if (static_cast<int>(found.size()) < expected) {
+            std::ostringstream os;
+            os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
+               << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
+               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
+            throwException(os.str());
+        }
+
+        for (size_t i = 0; i < glyphs.size(); ++i) {
+            mGlyph[static_cast<unsigned char>(glyphs[i])] = found[i];
+        }
+
+        if (config.verbose) {
+            std::cerr << "[ImageFont] Loaded '" << mFilename << "' ExpectedGlyphs=" << expected
+                      << " Found=" << found.size() << " Separator=R:" << (int)sep.r << " G:" << (int)sep.g
+                      << " B:" << (int)sep.b << "\n";
+            for (size_t i = 0; i < glyphs.size(); ++i) {
+                unsigned char const c = static_cast<unsigned char>(glyphs[i]);
+                Rectangle const & r   = mGlyph[c];
+                std::cerr << "  glyph '" << glyphs[i] << "' (" << (int)c << ") -> x=" << r.x << " y=" << r.y
+                          << " w=" << r.width << " h=" << r.height << "\n";
+            }
+        }
+
+        mHeight = 0;
+        for (auto const & r : found)
+            mHeight = std::max(mHeight, r.height);
+
+        mImage->convertToDisplayFormat();
+        mRowSpacing   = 0;
+        mGlyphSpacing = 0;
+    }
+
     ImageFont::ImageFont(std::string const & filename, std::string const & glyphs) :
         mFilename(filename), mImage(Image::load(filename, false))
     {
@@ -113,6 +299,45 @@ namespace fcn
         mGlyphSpacing = 0;
     }
 
+    ImageFont::ImageFont(Image* image, std::string const & glyphs, ImageFontConfig const & config) : mFilename("Image*")
+    {
+        if (image == nullptr) {
+            throwException("Font image is nullptr.");
+        }
+        mImage = image;
+
+        int expected = static_cast<int>(glyphs.size());
+        Color sep    = resolveSeparator(mImage, config);
+
+        auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+
+        if (config.strategy == SeparatorStrategy::Auto && static_cast<int>(found.size()) < expected * 0.8) {
+            sep   = getBorderDominantColor(mImage);
+            found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+        }
+
+        if (static_cast<int>(found.size()) < expected) {
+            std::ostringstream os;
+            os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
+               << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
+               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
+            throwException(os.str());
+        }
+
+        for (size_t i = 0; i < glyphs.size(); ++i) {
+            mGlyph[static_cast<unsigned char>(glyphs[i])] = found[i];
+        }
+
+        mHeight = 0;
+        for (auto const & r : found)
+            mHeight = std::max(mHeight, r.height);
+
+        mImage->convertToDisplayFormat();
+        mRowSpacing   = 0;
+        mGlyphSpacing = 0;
+    }
+
     ImageFont::ImageFont(std::string const & filename, unsigned char glyphsFrom, unsigned char glyphsTo) :
         mFilename(filename), mImage(Image::load(filename, false))
     {
@@ -146,6 +371,49 @@ namespace fcn
 
         mImage->convertToDisplayFormat();
 
+        mRowSpacing   = 0;
+        mGlyphSpacing = 0;
+    }
+
+    ImageFont::ImageFont(
+        std::string const & filename,
+        unsigned char glyphsFrom,
+        unsigned char glyphsTo,
+        ImageFontConfig const & config) :
+        mFilename(filename), mImage(Image::load(filename, false))
+    {
+        if (!mImage)
+            throwException(std::string("Failed to load image: ") + filename);
+
+        int expected = static_cast<int>(glyphsTo) - static_cast<int>(glyphsFrom) + 1;
+        Color sep    = resolveSeparator(mImage, config);
+
+        auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+
+        if (config.strategy == SeparatorStrategy::Auto && static_cast<int>(found.size()) < expected * 0.8) {
+            sep   = getBorderDominantColor(mImage);
+            found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
+        }
+
+        if (static_cast<int>(found.size()) < expected) {
+            std::ostringstream os;
+            os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
+               << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
+               << "Detected separator: R:" << (int)sep.r << " G:" << (int)sep.g << " B:" << (int)sep.b << "\n"
+               << "Suggestion: Use ExplicitColor strategy with magenta (255,0,255)";
+            throwException(os.str());
+        }
+
+        for (int i = 0; i < expected; ++i) {
+            unsigned char glyph = static_cast<unsigned char>(static_cast<int>(glyphsFrom) + i);
+            mGlyph[glyph]       = found[i];
+        }
+
+        mHeight = 0;
+        for (auto const & r : found)
+            mHeight = std::max(mHeight, r.height);
+
+        mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }

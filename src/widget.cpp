@@ -37,6 +37,7 @@ namespace fcn
     std::list<Widget*> Widget::mWidgetInstances;
     VisibilityEventHandler* Widget::mVisibilityEventHandler = nullptr;
     DeathListener* Widget::mGuiDeathListener                = nullptr;
+    Widget* Widget::sMouseCapture                           = nullptr;
 
     Widget::Widget()
     {
@@ -48,6 +49,10 @@ namespace fcn
         // We're in a destructor, we can't throw.
         // We can only catch and print the error message.
         try {
+
+            if (Widget::hasMouseCapture()) {
+                releaseMouse();
+            }
 
             // Remove from Parent
             if (mParent != nullptr) {
@@ -91,11 +96,11 @@ namespace fcn
             // - prevent focus handler from referencing a destroyed widget
             if (mFocusHandler != nullptr) {
                 mFocusHandler->releaseFocus(this);
-                Widget const * modalMouse = mFocusHandler->getActiveMouseInputRoot();
+                Widget const * modalMouse = mFocusHandler->getMouseCaptureOwner();
                 if (modalMouse == this) {
                     mFocusHandler->popModal();
                 }
-                Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+                Widget const * modalFocus = mFocusHandler->getFocusOwner();
                 if (modalFocus == this) {
                     mFocusHandler->popModal();
                 }
@@ -140,25 +145,62 @@ namespace fcn
 
     void Widget::drawBorder(Graphics* graphics)
     {
+        drawBorder(graphics, mBorderSides);
+    }
+
+    void Widget::drawBorder(Graphics* graphics, unsigned int sides)
+    {
         Color const borderColor = getBorderColor();
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
         int const width  = getWidth() - 1;
         int const height = getHeight() - 1;
-
         highlightColor   = borderColor + 0x303030;
         highlightColor.a = alpha;
         shadowColor      = borderColor - 0x303030;
         shadowColor.a    = alpha;
 
-        for (int i = 0; i < getBorderSize(); ++i) {
-            graphics->setColor(shadowColor);
-            graphics->drawLine(i, i, width - i, i);
-            graphics->drawLine(i, i + 1, i, height - i - 1);
-            graphics->setColor(highlightColor);
-            graphics->drawLine(width - i, i + 1, width - i, height - i);
-            graphics->drawLine(i, height - i, width - i - 1, height - i);
+        unsigned int const style = mBorderStyle;
+
+        for (int i = 0; i < static_cast<int>(getBorderSize()); ++i) {
+            if (style == BORDER_STYLE_FLAT) {
+                // Flat style: use borderColor for all requested sides
+                if (sides & Widget::BORDER_TOP) {
+                    graphics->setColor(borderColor);
+                    graphics->drawLine(i, i, width - i, i);
+                }
+                if (sides & Widget::BORDER_LEFT) {
+                    graphics->setColor(borderColor);
+                    graphics->drawLine(i, i + 1, i, height - i - 1);
+                }
+                if (sides & Widget::BORDER_RIGHT) {
+                    graphics->setColor(borderColor);
+                    graphics->drawLine(width - i, i + 1, width - i, height - i);
+                }
+                if (sides & Widget::BORDER_BOTTOM) {
+                    graphics->setColor(borderColor);
+                    graphics->drawLine(i, height - i, width - i - 1, height - i);
+                }
+            } else {
+                // Bevel style (default): shadow on top/left, highlight on right/bottom
+                if (sides & Widget::BORDER_TOP) {
+                    graphics->setColor(shadowColor);
+                    graphics->drawLine(i, i, width - i, i);
+                }
+                if (sides & Widget::BORDER_LEFT) {
+                    graphics->setColor(shadowColor);
+                    graphics->drawLine(i, i + 1, i, height - i - 1);
+                }
+                if (sides & Widget::BORDER_RIGHT) {
+                    graphics->setColor(highlightColor);
+                    graphics->drawLine(width - i, i + 1, width - i, height - i);
+                }
+                if (sides & Widget::BORDER_BOTTOM) {
+                    graphics->setColor(highlightColor);
+                    graphics->drawLine(i, height - i, width - i - 1, height - i);
+                }
+            }
         }
     }
 
@@ -423,6 +465,40 @@ namespace fcn
         return mBorderSize;
     }
 
+    void Widget::setBorderSides(unsigned int sides)
+    {
+        mBorderSides = sides;
+    }
+
+    unsigned int Widget::getBorderSides() const
+    {
+        return mBorderSides;
+    }
+
+    void Widget::setBorderStyle(unsigned int style)
+    {
+        mBorderStyle = style;
+    }
+
+    unsigned int Widget::getBorderStyle() const
+    {
+        return mBorderStyle;
+    }
+
+    void Widget::setBorderTop(unsigned int size, unsigned int style)
+    {
+        setBorderSize(size);
+        setBorderSides(BORDER_TOP);
+        setBorderStyle(style);
+    }
+
+    void Widget::setBorderBottom(unsigned int size, unsigned int style)
+    {
+        setBorderSize(size);
+        setBorderSides(BORDER_BOTTOM);
+        setBorderStyle(style);
+    }
+
     void Widget::setMargin(int margin)
     {
         mMarginTop    = margin;
@@ -536,11 +612,24 @@ namespace fcn
 
     bool Widget::isFocused() const
     {
-        if (mFocusHandler == nullptr) {
-            return false;
+        return mFocused;
+    }
+
+    void Widget::setFocused(bool focused)
+    {
+        if (mFocused == focused) {
+            return;
         }
 
-        return (mFocusHandler->isFocused(this));
+        mFocused = focused;
+
+        if (focused) {
+            onFocusGained();
+        } else {
+            onFocusLost();
+        }
+
+        onFocusChanged();
     }
 
     void Widget::setFocusable(bool focusable)
@@ -702,10 +791,10 @@ namespace fcn
     {
         if (mFocusHandler != nullptr) {
             mFocusHandler->releaseFocus(this);
-            if (mFocusHandler->getActiveMouseInputRoot() == this) {
+            if (mFocusHandler->getMouseCaptureOwner() == this) {
                 mFocusHandler->popModal();
             }
-            if (mFocusHandler->getActiveFocusRoot() == this) {
+            if (mFocusHandler->getFocusOwner() == this) {
                 mFocusHandler->popModal();
             }
             mFocusHandler->remove(this);
@@ -984,7 +1073,7 @@ namespace fcn
             throwException("No focus handler is set (did you add the widget to the GUI?)");
             return false;
         }
-        return mFocusHandler->getModalMouseInputFocused() == nullptr;
+        return mFocusHandler->getMouseCaptureOwner() == nullptr;
     }
 
     bool Widget::isModalFocused() const
@@ -994,23 +1083,23 @@ namespace fcn
         }
 
         if (getParent() != nullptr) {
-            return (mFocusHandler->getModalFocused() == this) || getParent()->isModalFocused();
+            return (mFocusHandler->getFocusOwner() == this) || getParent()->isModalFocused();
         }
 
-        return mFocusHandler->getModalFocused() == this;
+        return mFocusHandler->getFocusOwner() == this;
     }
 
-    bool Widget::isModalMouseInputFocused() const
+    bool Widget::isUnderMouseModal() const noexcept
     {
         if (mFocusHandler == nullptr) {
             throwException("No focus handler is set (did you add the widget to the GUI?)");
         }
 
         if (getParent() != nullptr) {
-            return (mFocusHandler->getModalMouseInputFocused() == this) || getParent()->isModalMouseInputFocused();
+            return (mFocusHandler->getMouseCaptureOwner() == this) || getParent()->isUnderMouseModal();
         }
 
-        return mFocusHandler->getModalMouseInputFocused() == this;
+        return mFocusHandler->getMouseCaptureOwner() == this;
     }
 
     Widget* Widget::getWidgetAt(int x, int y, Widget* exclude)
@@ -1494,5 +1583,60 @@ namespace fcn
     bool Widget::isLastPositionSet() const
     {
         return mLastX != 0 || mLastY != 0;
+    }
+
+    bool Widget::captureMouse()
+    {
+        // disallow capture if another widget already has it
+        if (sMouseCapture != nullptr) {
+            return false;
+        }
+        sMouseCapture = this;
+        return true;
+    }
+
+    void Widget::releaseMouse()
+    {
+        // safe to call even if we don't have capture
+        if (sMouseCapture == this) {
+            sMouseCapture = nullptr;
+        }
+    }
+
+    Widget* Widget::getMouseCapture()
+    {
+        return sMouseCapture;
+    }
+
+    bool Widget::hasMouseCapture() const
+    {
+        return sMouseCapture == this;
+    }
+
+    bool Widget::isDescendantOf(Widget const * ancestor) const noexcept
+    {
+        if (!ancestor) {
+            return false;
+        }
+        Widget const * current = this;
+        while (current) {
+            if (current == ancestor) {
+                return true;
+            }
+            current = current->getParent();
+        }
+        return false;
+    }
+
+    bool Widget::isInsideActiveMouseModal() const noexcept
+    {
+        // Note: We use const_cast to call the non-const _getFocusHandler.
+        // This is safe because _getFocusHandler doesn't modify the widget.
+        FocusHandler* fh = const_cast<Widget*>(this)->_getFocusHandler();
+        if (!fh) {
+            return false;
+        }
+        Widget* modal = fh->getMouseCaptureOwner();
+        return modal && isDescendantOf(modal);
     }
 } // namespace fcn

@@ -232,7 +232,27 @@ namespace fcn
         assert("font is not null" && getFont() != nullptr);
 
         Rectangle const & dim = mText->getDimension(getFont());
-        setSize(dim.width, dim.height);
+
+        // Default to measured content size
+        int newWidth  = static_cast<int>(dim.width);
+        int newHeight = static_cast<int>(dim.height);
+
+        if (isFixedSize()) {
+            return;
+        }
+
+        // Handle expand flags:
+        // if the widget is set to expand in an axis,
+        // keep the current size in that axis so parent layout can
+        // control it instead of content-driven resizing.
+        if (isHorizontalExpand()) {
+            newWidth = getWidth();
+        }
+        if (isVerticalExpand()) {
+            newHeight = getHeight();
+        }
+
+        setSize(newWidth, newHeight);
     }
 
     void TextBox::setCaretPosition(unsigned int position)

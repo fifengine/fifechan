@@ -25,6 +25,13 @@ namespace fcn
     void Container::draw(Graphics* graphics)
     {
         bool const active = isFocused();
+        // Compute per-side border offsets so widgets using side-only borders
+        // (e.g., bottom-only) don't get inset on all sides.
+        int leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) ? static_cast<int>(getBorderSize()) : 0;
+        int topBorder    = (getBorderSides() & Widget::BORDER_TOP) ? static_cast<int>(getBorderSize()) : 0;
+        int rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) ? static_cast<int>(getBorderSize()) : 0;
+        int bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) ? static_cast<int>(getBorderSize()) : 0;
+
         if (isOpaque()) {
             if (active &&
                 ((getSelectionMode() & Widget::SelectionMode::Background) == Widget::SelectionMode::Background)) {
@@ -32,18 +39,19 @@ namespace fcn
             } else {
                 graphics->setColor(getBaseColor());
             }
+
             graphics->fillRectangle(
-                getBorderSize(),
-                getBorderSize(),
-                getWidth() - (2 * getBorderSize()),
-                getHeight() - (2 * getBorderSize()));
+                leftBorder,
+                topBorder,
+                getWidth() - (leftBorder + rightBorder),
+                getHeight() - (topBorder + bottomBorder));
         }
         if (mBackgroundWidget != nullptr) {
             Rectangle const rec(
-                getBorderSize(),
-                getBorderSize(),
-                getWidth() - (2 * getBorderSize()),
-                getHeight() - (2 * getBorderSize()));
+                leftBorder,
+                topBorder,
+                getWidth() - (leftBorder + rightBorder),
+                getHeight() - (topBorder + bottomBorder));
             mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
@@ -53,6 +61,21 @@ namespace fcn
             } else {
                 drawBorder(graphics);
             }
+        }
+
+        // Children are drawn by Widget::_draw after `draw()` returns.
+        // Avoid drawing them here to prevent double-rendering.
+    }
+
+    // TODO opacity with 0.0 = fully transparent, 1.0 = fully visible
+    void Container::setOpacity(float opacity)
+    {
+        mOpacity = std::clamp(opacity, 0.0f, 1.0f);
+
+        if (mOpacity < 1.0f) {
+            setOpaque(false);
+        } else {
+            setOpaque(true);
         }
     }
 
@@ -222,6 +245,15 @@ namespace fcn
             totalW += diffW;
             totalH += diffH;
         } else if (mLayout == LayoutPolicy::Vertical && visibleChilds > 0) {
+            /**
+             * Positioning Algorithm for Vertical Layout:
+             * The children are stacked verically one below the other.
+             * - Each child's X position is set to its left margin.
+             * - Each child's Y position accumulates:
+             *   previous_y + margin_top + height + margin_bottom + vertical_spacing.
+             * - Width: uses child's width, but can be expanded if layoutMaxW > child's width (uniform sizing).
+             * - Container height = sum of all children's heights + margins + vertical spacing + diffH.
+             */
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
@@ -232,7 +264,7 @@ namespace fcn
                 dimensions.y += (*currChild)->getMarginTop();
                 int const layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() +
                                     ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
-                dimensions.width  = (*currChild)->getWidth() + (layoutMaxW - layoutW);
+                dimensions.width  = (*currChild)->getWidth() + (layoutMaxW - layoutW); // may expand
                 dimensions.height = (*currChild)->getHeight();
                 (*currChild)->setDimension(dimensions);
                 dimensions.y += (*currChild)->getHeight() + (*currChild)->getMarginBottom() + getVerticalSpacing();
@@ -242,6 +274,15 @@ namespace fcn
             totalW = std::max(layoutMaxW, childMaxW) + diffW;
             totalH = dimensions.y + diffH;
         } else if (mLayout == LayoutPolicy::Horizontal && visibleChilds > 0) {
+            /**
+             * Positioning Algorithm for Horizontal Layout:
+             * Children are stacked horizontally side-by-side.
+             * - Each child's Y position is set to its top margin.
+             * - Each child's X position accumulates:
+             *   previous_x + margin_left + width + margin_right + horizontal_spacing.
+             * - Height: uses child's height, but can be expanded if layoutMaxH > child's height (uniform sizing).
+             * - Container width = sum of all children's widths + margins + horizontal spacing + diffW.
+             */
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
@@ -253,7 +294,7 @@ namespace fcn
                 dimensions.width  = (*currChild)->getWidth();
                 int const layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() +
                                     ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
-                dimensions.height = (*currChild)->getHeight() + (layoutMaxH - layoutH);
+                dimensions.height = (*currChild)->getHeight() + (layoutMaxH - layoutH); // may expand
                 (*currChild)->setDimension(dimensions);
                 dimensions.x += (*currChild)->getWidth() + (*currChild)->getMarginRight() + getHorizontalSpacing();
             }
@@ -666,11 +707,21 @@ namespace fcn
 
     Rectangle Container::getChildrenArea()
     {
+        // Set per-side border offsets.
+        // Widgets using side-only borders (e.g. border-bottom only) don't get inset on all sides.
+        int const leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) ? static_cast<int>(getBorderSize()) : 0;
+        int const topBorder    = (getBorderSides() & Widget::BORDER_TOP) ? static_cast<int>(getBorderSize()) : 0;
+        int const rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) ? static_cast<int>(getBorderSize()) : 0;
+        int const bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) ? static_cast<int>(getBorderSize()) : 0;
+
+        int const horizontalBorders = leftBorder + rightBorder;
+        int const verticalBorders   = topBorder + bottomBorder;
+
         Rectangle rec;
-        rec.x      = getBorderSize() + getPaddingLeft();
-        rec.y      = getBorderSize() + getPaddingTop();
-        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        rec.x      = leftBorder + getPaddingLeft();
+        rec.y      = topBorder + getPaddingTop();
+        rec.width  = getWidth() - horizontalBorders - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - verticalBorders - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 

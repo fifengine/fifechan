@@ -55,6 +55,27 @@ namespace fcn
     {
     public:
         /**
+         * Border side flags for flexible border drawing.
+         */
+        enum BorderSide : uint8_t
+        {
+            BORDER_NONE   = 0,
+            BORDER_LEFT   = 1 << 0,
+            BORDER_TOP    = 1 << 1,
+            BORDER_RIGHT  = 1 << 2,
+            BORDER_BOTTOM = 1 << 3,
+            BORDER_ALL    = BORDER_LEFT | BORDER_TOP | BORDER_RIGHT | BORDER_BOTTOM
+        };
+
+        /**
+         * Border drawing style.
+         */
+        enum BorderStyle : uint8_t
+        {
+            BORDER_STYLE_BEVEL = 0,
+            BORDER_STYLE_FLAT  = 1
+        };
+        /**
          * Selection mode.
          */
         enum class SelectionMode : uint8_t
@@ -132,6 +153,12 @@ namespace fcn
         virtual void drawBorder(Graphics* graphics);
 
         /**
+         * Draw the border for the given sides.
+         * This overload allows callers to draw a subset of sides.
+         */
+        void drawBorder(Graphics* graphics, unsigned int sides);
+
+        /**
          * Called when a widget is "active" and the selection mode is Frame or FrameWithBackground.
          * Currently the size of the border is used, so it will replace the border with the frame.
          *
@@ -199,6 +226,39 @@ namespace fcn
          * @see setBorderSize, drawBorder
          */
         unsigned int getBorderSize() const;
+
+        /**
+         * Select which sides the border should be drawn on.
+         * Default is `BORDER_ALL`.
+         */
+        void setBorderSides(unsigned int sides);
+
+        /**
+         * Get the currently selected border sides.
+         */
+        unsigned int getBorderSides() const;
+
+        /**
+         * Set border drawing style (bevel or flat).
+         */
+        void setBorderStyle(unsigned int style);
+
+        /**
+         * Get the current border drawing style.
+         */
+        unsigned int getBorderStyle() const;
+
+        /**
+         * Convenience helper: set a top-only border with size and style.
+         * This sets the border size, selects the top side and applies style.
+         */
+        void setBorderTop(unsigned int size, unsigned int style);
+
+        /**
+         * Convenience helper: set a bottom-only border with size and style.
+         * This sets the border size, selects the bottom side and applies style.
+         */
+        void setBorderBottom(unsigned int size, unsigned int style);
 
         /**
          * Sets all 4 margins to one value.
@@ -644,6 +704,18 @@ namespace fcn
         virtual bool isFocused() const;
 
         /**
+         * Sets the widget as focused, or not.
+         *
+         * This method handles focus state changes and calls
+         * onFocusGained(), onFocusLost(), and onFocusChanged() hooks.
+         *
+         * @param focused True if the widget should be focused,
+         *               false otherwise.
+         * @see isFocused
+         */
+        virtual void setFocused(bool focused);
+
+        /**
          * Sets the widget to enabled, or not. A disabled
          * widget will never receive mouse or key events.
          *
@@ -1076,6 +1148,13 @@ namespace fcn
         virtual void onFocusLost() { }
 
         /**
+         * Called when the widget focus changes.
+         *
+         * Override this to perform custom actions when focus is gained or lost.
+         */
+        virtual void onFocusChanged() { }
+
+        /**
          * Checks if a widget exists or not, that is if it still exists
          * an instance of the object.
          *
@@ -1152,12 +1231,11 @@ namespace fcn
         virtual bool isModalFocused() const;
 
         /**
-         * Checks if the widget or it's parent has modal mouse input focus.
+         * Checks if the widget or its parent is under a mouse modal.
          *
-         * @return True if the widget has modal mouse input focus, false
-         *         otherwise.
+         * @return True if the widget has modal mouse input focus, false otherwise.
          */
-        virtual bool isModalMouseInputFocused() const;
+        virtual bool isUnderMouseModal() const noexcept;
 
         /**
          * Gets a widget at a certain position in the widget.
@@ -1521,6 +1599,62 @@ namespace fcn
          */
         bool isLastPositionSet() const;
 
+        /**
+         * Attempts to capture mouse input to this widget.
+         *
+         * @return True if capture was successfully acquired, false if another widget
+         *         already has mouse capture.
+         * @see releaseMouse, getMouseCapture, hasMouseCapture
+         */
+        bool captureMouse();
+
+        /**
+         * Releases mouse capture from this widget, if it has capture.
+         *
+         * This method is idempotent - it's safe to call even if this widget
+         * doesn't currently have mouse capture.
+         * @see captureMouse, getMouseCapture
+         */
+        void releaseMouse();
+
+        /**
+         * Gets the widget that currently has mouse capture.
+         *
+         * @return The widget with mouse capture, or nullptr if no widget has capture.
+         * @see captureMouse, releaseMouse, hasMouseCapture
+         */
+        static Widget* getMouseCapture();
+
+        /**
+         * Checks if this widget currently has mouse capture.
+         *
+         * @return True if this widget has mouse capture, false otherwise.
+         * @see captureMouse, releaseMouse, getMouseCapture
+         */
+        bool hasMouseCapture() const;
+
+        /**
+         * Checks if this widget is a descendant of (or equal to) the given ancestor.
+         *
+         * Walks the parent chain to determine if this widget is somewhere
+         * in the ancestor's child tree.
+         *
+         * @param ancestor The potential ancestor to check against.
+         * @return True if this widget is a descendant of ancestor, false otherwise.
+         *         Returns false if ancestor is nullptr.
+         */
+        bool isDescendantOf(Widget const * ancestor) const noexcept;
+
+        /**
+         * Checks if this widget is inside the active mouse modal root.
+         *
+         * Walks up from this widget to find if it is contained within
+         * the widget returned by FocusHandler::getActiveMouseInputRoot().
+         *
+         * @return True if this widget is inside the active mouse modal, false otherwise.
+         */
+        bool isInsideActiveMouseModal() const noexcept;
+
     protected:
         /**
          * Distributes an action event to all action listeners of the widget.
@@ -1746,6 +1880,20 @@ namespace fcn
         unsigned int mBorderSize{0};
 
         /**
+         * Which sides to draw the border on (bitmask of BorderSide).
+         *
+         * @see BorderSide enum
+         */
+        unsigned int mBorderSides{BORDER_ALL};
+
+        /**
+         * Border drawing style (see BorderStyle).
+         *
+         * @see BorderStyle enum
+         */
+        unsigned int mBorderStyle{BORDER_STYLE_FLAT};
+
+        /**
          * Holds the selection mode.
          */
         SelectionMode mSelectionMode{SelectionMode::None};
@@ -1799,6 +1947,11 @@ namespace fcn
          * True if the widget focusable, false otherwise.
          */
         bool mFocusable{false};
+
+        /**
+         * True if the widget has focus, false otherwise.
+         */
+        bool mFocused{false};
 
         /**
          * True if the widget visible, false otherwise.
@@ -1891,6 +2044,11 @@ namespace fcn
          * Holds the death listener used by the widgets.
          */
         static DeathListener* mGuiDeathListener;
+
+        /**
+         * Holds the widget that currently has mouse capture.
+         */
+        static Widget* sMouseCapture;
 
         /**
          * Holds all children of the widget.

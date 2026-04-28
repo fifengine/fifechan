@@ -240,6 +240,12 @@ namespace fcn
             return;
         }
 
+        // Debug: log top widget and graphics state to stderr to help
+        // diagnose white main window issues.
+        // fprintf(stderr, "Gui::draw: top=%p visible=%d width=%d height=%d graphics=%p\n",
+        //    static_cast<void*>(mTop), mTop->isVisible(), mTop->getWidth(), mTop->getHeight(),
+        //    static_cast<void*>(mGraphics));
+
         mGraphics->_beginDraw();
         mTop->_draw(mGraphics);
         mGraphics->_endDraw();
@@ -461,7 +467,7 @@ namespace fcn
                 // If a widget has modal mouse input focus we
                 // only want to send entered events to that widget
                 // and the widget's parents.
-                if (!mFocusHandler->hasModalFocus() || widget->isModalMouseInputFocused()) {
+                if (!mFocusHandler->hasModalFocus() || widget->isUnderMouseModal()) {
                     distributeMouseEvent(
                         widget,
                         MouseEvent::Type::Entered,
@@ -689,16 +695,93 @@ namespace fcn
         return result;
     }
 
-    Widget* Gui::getMouseEventSource(int x, int y)
-    {
-        Widget* widget = getWidgetAt(x, y);
+    // =========================================================================
+    // Helper functions for mouse event source routing
+    // =========================================================================
 
-        Widget* modalMouse = mFocusHandler->getActiveMouseInputRoot();
-        if (modalMouse != nullptr && widget != modalMouse && !widget->isModalMouseInputFocused()) {
-            return modalMouse;
+    namespace
+    {
+        /**
+         * Checks if 'child' is a descendant of (or equal to) 'ancestor'.
+         * Traverses up the widget hierarchy via getParent().
+         */
+        bool isDescendantOf(fcn::Widget const * child, fcn::Widget const * ancestor) noexcept
+        {
+            if (!child || !ancestor) {
+                return false;
+            }
+
+            fcn::Widget const * current = child;
+            while (current != nullptr) {
+                if (current == ancestor) {
+                    return true;
+                }
+                current = current->getParent();
+            }
+            return false;
         }
 
-        return widget;
+        /**
+         * Return the widget that currently holds explicit mouse capture.
+         * Delegate to the Widget-level capture storage so there is a
+         * single authoritative capture location for the whole GUI.
+         */
+        fcn::Widget* getMouseCapture()
+        {
+            return fcn::Widget::getMouseCapture();
+        }
+    } // anonymous namespace
+
+    // =========================================================================
+    // Public API for explicit mouse capture (can be called from application code)
+    // =========================================================================
+
+    void Gui::captureMouse(Widget* widget)
+    {
+        if (widget != nullptr) {
+            widget->captureMouse();
+        }
+    }
+
+    void Gui::releaseMouse(Widget* widget)
+    {
+        if (widget != nullptr) {
+            widget->releaseMouse();
+        }
+    }
+
+    // =========================================================================
+    // Gui::getMouseEventSource - Main implementation
+    // =========================================================================
+
+    Widget* Gui::getMouseEventSource(int x, int y)
+    {
+        Widget* leaf = getWidgetAt(x, y);
+        if (!leaf) {
+            return nullptr;
+        }
+
+        // 1. Check explicit capture first (platform-level) - HIGHEST PRECEDENCE
+        if (Widget* explicitCapture = getMouseCapture()) {
+            if (isDescendantOf(leaf, explicitCapture)) {
+                return leaf;
+            }
+            return explicitCapture;
+        }
+
+        // 2. Fallback to modal stack's mouse owner
+        Widget* modalRoot = mFocusHandler->getMouseCaptureOwner();
+        if (!modalRoot) {
+            return leaf;
+        }
+
+        // 3. If leaf is inside modal tree, let it receive events
+        if (isDescendantOf(leaf, modalRoot)) {
+            return leaf;
+        }
+
+        // 4. Outside modal tree -> block interaction by returning modal root
+        return modalRoot;
     }
 
     Widget* Gui::getKeyEventSource()
@@ -719,13 +802,13 @@ namespace fcn
         Widget* parent = source;
         Widget* widget = source;
 
-        Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+        Widget const * modalFocus = mFocusHandler->getFocusOwner();
         if (modalFocus != nullptr && !widget->isModalFocused() && !force) {
             return;
         }
 
-        Widget const * modalMouse = mFocusHandler->getActiveMouseInputRoot();
-        if (modalMouse != nullptr && !widget->isModalMouseInputFocused() && !force) {
+        Widget const * modalMouse = mFocusHandler->getMouseCaptureOwner();
+        if (modalMouse != nullptr && !widget->isUnderMouseModal() && !force) {
             return;
         }
 
@@ -797,15 +880,15 @@ namespace fcn
 
             // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
-            Widget const * modalFocusLoop = mFocusHandler->getActiveFocusRoot();
+            Widget const * modalFocusLoop = mFocusHandler->getFocusOwner();
             if (modalFocusLoop != nullptr && widget != nullptr && !widget->isModalFocused()) {
                 break;
             }
 
             // If a non-modal mouse input focused widget has been reached
             // and we have modal mouse input focus cancel the distribution.
-            Widget const * modalMouseLoop = mFocusHandler->getActiveMouseInputRoot();
-            if (modalMouseLoop != nullptr && widget != nullptr && !widget->isModalMouseInputFocused()) {
+            Widget const * modalMouseLoop = mFocusHandler->getMouseCaptureOwner();
+            if (modalMouseLoop != nullptr && widget != nullptr && !widget->isUnderMouseModal()) {
                 break;
             }
         }
@@ -816,7 +899,7 @@ namespace fcn
         Widget* parent = keyEvent.getSource();
         Widget* widget = keyEvent.getSource();
 
-        Widget const * modalFocus = mFocusHandler->getActiveFocusRoot();
+        Widget const * modalFocus = mFocusHandler->getFocusOwner();
         if (modalFocus != nullptr && !widget->isModalFocused()) {
             return;
         }
@@ -855,7 +938,7 @@ namespace fcn
 
             // If a non-modal focused widget has been reached
             // and we have modal focus cancel the distribution.
-            Widget const * modalFocusLoop = mFocusHandler->getActiveFocusRoot();
+            Widget const * modalFocusLoop = mFocusHandler->getFocusOwner();
             if (modalFocusLoop != nullptr && !widget->isModalFocused()) {
                 break;
             }
@@ -887,12 +970,12 @@ namespace fcn
     void Gui::handleModalMouseInputFocus()
     {
         // Check if modal mouse input focus has been gained by a widget.
-        if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getActiveMouseInputRoot()) &&
+        if ((mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getMouseCaptureOwner()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() == nullptr)) {
             handleModalMouseInputFocusGained();
         } else if (
             // Check if modal mouse input focus has been released.
-            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getActiveMouseInputRoot()) &&
+            (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != mFocusHandler->getMouseCaptureOwner()) &&
             (mFocusHandler->getLastWidgetWithModalMouseInputFocus() != nullptr)) {
             handleModalMouseInputFocusReleased();
         }
@@ -901,12 +984,12 @@ namespace fcn
     void Gui::handleModalFocus()
     {
         // Check if modal focus has been gained by a widget.
-        if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getActiveFocusRoot()) &&
+        if ((mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getFocusOwner()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() == nullptr)) {
             handleModalFocusGained();
         } else if (
             // Check if modal focus has been released.
-            (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getActiveFocusRoot()) &&
+            (mFocusHandler->getLastWidgetWithModalFocus() != mFocusHandler->getFocusOwner()) &&
             (mFocusHandler->getLastWidgetWithModalFocus() != nullptr)) {
             handleModalFocusReleased();
         }
@@ -919,7 +1002,7 @@ namespace fcn
         std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         for (auto const & w : mWidgetsWithMouse) {
-            if (w->isModalFocused() || w->isModalMouseInputFocused()) {
+            if (w->isModalFocused() || w->isUnderMouseModal()) {
                 continue;
             }
             distributeMouseEvent(
@@ -931,7 +1014,7 @@ namespace fcn
                 true,
                 true);
         }
-        mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getActiveFocusRoot());
+        mFocusHandler->setLastWidgetWithModalFocus(mFocusHandler->getFocusOwner());
     }
 
     void Gui::handleModalFocusReleased()
@@ -960,7 +1043,7 @@ namespace fcn
         std::vector<Widget*> const mWidgetsWithMouse = getWidgetsAt(mLastMouseX, mLastMouseY);
 
         for (auto const & w : mWidgetsWithMouse) {
-            if (w->isModalMouseInputFocused()) {
+            if (w->isUnderMouseModal()) {
                 continue;
             }
             distributeMouseEvent(
@@ -972,7 +1055,7 @@ namespace fcn
                 true,
                 true);
         }
-        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getActiveMouseInputRoot());
+        mFocusHandler->setLastWidgetWithModalMouseInputFocus(mFocusHandler->getMouseCaptureOwner());
     }
 
     void Gui::handleModalMouseInputFocusReleased()

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
-## [0.2.0] - 2026-03-15
+## [0.2.0] - 2026-04-19
 
 ### Added
 
@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `Widget::contains(int x, int y)` and `Widget::isMouseInside(const MouseEvent&)` helper methods
 - Added `Widget::onFocusGained`/`onFocusLost` callback hooks
 - Added stacked modal system (`ModalState`, `ModalScope`, `pushModal`/`popModal`/`clearModal`), issue #33
-- Added `getActiveFocusRoot()`/`getActiveMouseInputRoot()` to FocusHandler
+- Added `getFocusOwner()`/`getMouseCaptureOwner()` to FocusHandler
 
 ### Changed
 
@@ -84,7 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove usage of do-while loops
 - removed all extern "c" helper functions for extension detection by autotools
 - removed source_group() support for Visual Studio IDE
-- Deprecated `getModalFocused()`/`getModalMouseInputFocused()` in favor of `getActiveFocusRoot()`/`getActiveMouseInputRoot()`
+- Deprecated `getModalFocused()`/`getModalMouseInputFocused()` in favor of `getFocusOwner()`/`getMouseCaptureOwner()`
 
 
 ## [0.1.5] - 2019-01-11

@@ -519,6 +519,23 @@ namespace fcn
         virtual Widget* getMouseEventSource(int x, int y);
 
         /**
+         * Explicitly captures mouse input to a widget.
+         *
+         * When a widget has explicit capture, all mouse events are
+         * routed to that widget regardless of cursor position.
+         *
+         * @param widget The widget to capture mouse to, or nullptr to release.
+         */
+        void captureMouse(Widget* widget);
+
+        /**
+         * Releases explicit mouse capture from a widget.
+         *
+         * @param widget The widget to release capture from.
+         */
+        void releaseMouse(Widget* widget);
+
+        /**
          * Gets the source of the key event.
          *
          * @return The source widget of the key event.

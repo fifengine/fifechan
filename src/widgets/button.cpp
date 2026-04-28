@@ -196,8 +196,10 @@ namespace fcn
     void Button::mousePressed(MouseEvent& mouseEvent)
     {
         if (mouseEvent.getButton() == MouseEvent::Button::Left) {
-            mMousePressed = true;
-            mouseEvent.consume();
+            if (mHasMouse || isMouseInside(mouseEvent)) {
+                mMousePressed = true;
+                mouseEvent.consume();
+            }
         }
     }
 

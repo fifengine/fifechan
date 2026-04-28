@@ -231,8 +231,7 @@ namespace fcn
             }
         } else if (
             // If we have a mouse press outside the widget
-            0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
-            mouseEvent.getX() >= getWidth()) {
+            !isMouseInside(mouseEvent)) {
             mPushed = false;
             foldUp();
         }
@@ -245,9 +244,7 @@ namespace fcn
         }
 
         // Released outside of widget. Can happen when we have modal input focus.
-        if ((0 > mouseEvent.getY() || mouseEvent.getY() >= getHeight() || mouseEvent.getX() < 0 ||
-             mouseEvent.getX() >= getWidth()) &&
-            mouseEvent.getButton() == MouseEvent::Button::Left && isModalMouseInputFocused()) {
+        if (!isMouseInside(mouseEvent) && mouseEvent.getButton() == MouseEvent::Button::Left && isUnderMouseModal()) {
             if (mFocusHandler != nullptr) {
                 mFocusHandler->popModal();
             }

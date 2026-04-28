@@ -22,7 +22,11 @@
 
 namespace fcn
 {
-    Text::Text() = default;
+    Text::Text()
+    {
+        // Ensure at least one empty row exists for default constructed Text
+        mRows.emplace_back();
+    }
 
     Text::Text(std::string const & content)
     {
@@ -172,10 +176,9 @@ namespace fcn
             }
         } else {
             if (c == '\n') {
-                mRows.insert(
-                    mRows.begin() + mCaretRow + 1,
-                    mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn));
+                std::string tail = mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn);
                 mRows[mCaretRow].resize(mCaretColumn);
+                mRows.insert(mRows.begin() + mCaretRow + 1, tail);
             } else {
                 mRows[mCaretRow].insert(mCaretColumn, std::string(1, c));
             }
@@ -257,28 +260,51 @@ namespace fcn
             return;
         }
 
-        // Loop through all rows until we find the
-        // position of the caret.
-        unsigned int i     = 0;
+        unsigned int pos   = static_cast<unsigned int>(position);
         unsigned int total = 0;
-        for (i = 0; i < mRows.size(); i++) {
-            if (std::cmp_less_equal(position, total + mRows[i].size())) {
+
+        for (unsigned int i = 0; i < mRows.size(); ++i) {
+            unsigned int const rowLen = static_cast<unsigned int>(mRows[i].size());
+
+            if (pos < total + rowLen) {
                 mCaretRow      = i;
-                mCaretColumn   = position - total;
+                mCaretColumn   = static_cast<int>(pos - total);
                 mCaretPosition = position;
                 return;
             }
 
-            // Add one for the line feed.
-            total += mRows[i].size() + 1;
+            if (pos == total + rowLen) {
+                // Caret at the boundary between this row and the next row.
+                if (i + 1 < mRows.size()) {
+                    mCaretRow      = i + 1;
+                    mCaretColumn   = 0;
+                    mCaretPosition = position;
+                    return;
+                }
+
+                // At end of content (last row), place caret at end of last row.
+                mCaretRow      = i;
+                mCaretColumn   = static_cast<int>(rowLen);
+                mCaretPosition = position;
+                return;
+            }
+
+            // Move to the start of the next row (include newline)
+            total += rowLen + 1;
         }
 
-        // The position is beyond the content.
+        // Position is beyond the content: clamp to end.
+        unsigned int const contentChars = getNumberOfCharacters();
+        if (contentChars == 0) {
+            mCaretPosition = 0;
+            mCaretRow      = 0;
+            mCaretColumn   = 0;
+            return;
+        }
 
-        // Remove one as the last line doesn't have a line feed.
-        mCaretPosition = total - 1;
+        mCaretPosition = static_cast<int>(contentChars - 1);
         mCaretRow      = mRows.size() - 1;
-        mCaretColumn   = mRows[mCaretRow].size();
+        mCaretColumn   = static_cast<int>(mRows.back().size());
     }
 
     void Text::setCaretPosition(int x, int y, Font* font)

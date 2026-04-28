@@ -6,6 +6,7 @@
 
 // Project headers (subdirs before local)
 #include <fifechan/widgets/container.hpp>
+
 #include <fifechan/events/containerevent.hpp>
 #include <fifechan/widget.hpp>
 

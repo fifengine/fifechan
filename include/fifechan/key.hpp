@@ -100,7 +100,7 @@ namespace fcn
             Delete,
             End,
             PageDown,
-            Escape,
+            Escape = -1012,
             CapsLock,
             Backspace,
             F1,
@@ -123,10 +123,10 @@ namespace fcn
             Pause,
             NumLock,
             AltGr,
-            Left,
-            Right,
-            Up,
-            Down,
+            Left  = -1026,
+            Right = -1027,
+            Up    = -1028,
+            Down  = -1029,
             At
         };
 

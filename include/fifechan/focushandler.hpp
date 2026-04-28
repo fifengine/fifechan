@@ -63,20 +63,12 @@ namespace fcn
         virtual bool isFocused(Widget const * widget) const;
 
         /**
-         * Gets the widget with modal focus.
-         *
-         * @return The widget with modal focus. Nullptr if no widget has
-         *         modal focus.
-         */
-        virtual Widget* getModalFocused() const;
-
-        /**
          * Gets the widget with modal mouse input focus.
          *
          * @return The widget with modal mouse input focus. Nullptr if
          *         no widget has modal mouse input focus.
          */
-        virtual Widget* getModalMouseInputFocused() const;
+        virtual Widget* getMouseCaptureOwner() const;
 
         /**
          * Checks if any modal state is active.
@@ -120,12 +112,26 @@ namespace fcn
         public:
             ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr);
             ~ModalScope() noexcept;
+
+            ModalScope(ModalScope const &)            = delete;
+            ModalScope& operator=(ModalScope const &) = delete;
+            ModalScope(ModalScope&&)                  = delete;
+            ModalScope& operator=(ModalScope&&)       = delete;
+
             void release();
 
         private:
             FocusHandler* mHandler;
             bool mReleased;
+            bool mWasPopped;
         };
+
+        /**
+         * Alias for ModalScope to clarify its purpose for input handling.
+         *
+         * @deprecated Use InputModalScope instead.
+         */
+        using InputModalScope [[deprecated("Use InputModalScope instead")]] = ModalScope;
 
         /**
          * Gets the active input root widget for focus routing.
@@ -134,16 +140,7 @@ namespace fcn
          *
          * @return The widget that currently owns modal focus, or nullptr.
          */
-        virtual Widget* getActiveFocusRoot() const;
-
-        /**
-         * Gets the active input root widget for mouse input routing.
-         *
-         * Returns the top of the modal stack for mouse input, or nullptr if no modal.
-         *
-         * @return The widget that currently owns modal mouse input, or nullptr.
-         */
-        virtual Widget* getActiveMouseInputRoot() const;
+        virtual Widget* getFocusOwner() const;
 
         /**
          * Releases focus for the specified widget if it is currently focused.

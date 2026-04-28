@@ -122,7 +122,7 @@ namespace fcn
          *                   corrupt or if no ImageLoader exists.
          */
         ImageFont(std::string const & filename, std::string const & glyphs);
-        // New constructor with configuration
+
         ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config);
 
         /**
@@ -137,7 +137,7 @@ namespace fcn
          *                   is missing.
          */
         ImageFont(Image* image, std::string const & glyphs);
-        // New constructor with configuration
+
         ImageFont(Image* image, std::string const & glyphs, ImageFontConfig const & config);
 
         /**

@@ -47,7 +47,7 @@ namespace fcn
         Widget* oldFocused = mFocusedWidget;
 
         if (oldFocused != widget) {
-            mFocusedWidget = *itFoundWidget;
+            setFocusedWidget(*itFoundWidget);
 
             if (oldFocused != nullptr) {
                 Event const focusEvent(oldFocused);
@@ -68,6 +68,14 @@ namespace fcn
     {
         if (focusOwner == nullptr && mouseOwner == nullptr) {
             return;
+        }
+
+        // Capture the mouseOwner
+        // release existing mouse capture, if it conflicts
+        if (Widget* existingCapture = Widget::getMouseCapture()) {
+            if (mouseOwner && !mouseOwner->isDescendantOf(existingCapture)) {
+                existingCapture->releaseMouse();
+            }
         }
 
         ModalState state{};
@@ -127,11 +135,11 @@ namespace fcn
         mFocusedWidget = widget;
 
         if (old != nullptr) {
-            old->onFocusLost();
+            old->setFocused(false);
         }
 
         if (widget != nullptr) {
-            widget->onFocusGained();
+            widget->setFocused(true);
         }
     }
 
@@ -140,7 +148,7 @@ namespace fcn
         return mFocusedWidget;
     }
 
-    Widget* FocusHandler::getModalFocused() const
+    Widget* FocusHandler::getFocusOwner() const
     {
         if (mModalStack.empty()) {
             return nullptr;
@@ -149,25 +157,7 @@ namespace fcn
         return mModalStack.back().focusOwner;
     }
 
-    Widget* FocusHandler::getModalMouseInputFocused() const
-    {
-        if (mModalStack.empty()) {
-            return nullptr;
-        }
-
-        return mModalStack.back().mouseOwner;
-    }
-
-    Widget* FocusHandler::getActiveFocusRoot() const
-    {
-        if (mModalStack.empty()) {
-            return nullptr;
-        }
-
-        return mModalStack.back().focusOwner;
-    }
-
-    Widget* FocusHandler::getActiveMouseInputRoot() const
+    Widget* FocusHandler::getMouseCaptureOwner() const
     {
         if (mModalStack.empty()) {
             return nullptr;
@@ -381,7 +371,8 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (getModalFocused() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
+                    (getFocusOwner()) == nullptr ||
+                mWidgets.at(focusedWidget)->isModalFocused()) {
                 break;
             }
         }
@@ -441,7 +432,7 @@ namespace fcn
             }
 
             if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (getModalFocused() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
+                (getFocusOwner() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
                 break;
             }
         }
@@ -535,7 +526,7 @@ namespace fcn
     void FocusHandler::widgetHidden(Widget* widget) { }
 
     FocusHandler::ModalScope::ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner) :
-        mHandler(handler), mReleased(false)
+        mHandler(handler), mReleased(false), mWasPopped(false)
     {
         if (mHandler != nullptr) {
             mHandler->pushModal(focusOwner, mouseOwner);
@@ -545,14 +536,25 @@ namespace fcn
     FocusHandler::ModalScope::~ModalScope() noexcept
     {
         if (mHandler != nullptr && !mReleased) {
+            mWasPopped = true;
             // cppcheck-suppress throwInNoexceptFunction
             mHandler->popModal();
+        }
+
+        if (!mWasPopped && !mReleased) {
+            // ModalScope was destroyed without calling release() or popModal()
+            // This indicates a bug where the modal was not properly released
+            fprintf(
+                stderr,
+                "Warning: ModalScope destroyed without calling release() or popModal(). "
+                "Did you forget to call release()?\n");
         }
     }
 
     void FocusHandler::ModalScope::release()
     {
-        mReleased = true;
+        mReleased  = true;
+        mWasPopped = true;
     }
 
 } // namespace fcn

@@ -170,11 +170,14 @@ namespace fcn::sdl2
 
                 keyInput.setKey(Key(value));
                 keyInput.setType(KeyInput::Type::Pressed);
-                keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
-                keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
-                keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
-                keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
-                keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
+                // SDL_TEXTINPUT events do not populate the `key` union member.
+                // Use SDL_GetModState() to query modifier keys instead.
+                SDL_Keymod mods = SDL_GetModState();
+                keyInput.setShiftPressed((mods & KMOD_SHIFT) != 0);
+                keyInput.setControlPressed((mods & KMOD_CTRL) != 0);
+                keyInput.setAltPressed((mods & KMOD_ALT) != 0);
+                keyInput.setMetaPressed((mods & KMOD_GUI) != 0);
+                keyInput.setNumericPad((mods & KMOD_NUM) != 0);
                 mKeyInputQueue.push(keyInput);
             }
             break;

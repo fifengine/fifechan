@@ -188,7 +188,7 @@ namespace fcn
         /**
          * Holds the type of the key input.
          */
-        Type mType{Type::Released};
+        Type mType{Type::Pressed};
 
         /**
          * True if shift was pressed at the same time as the key,

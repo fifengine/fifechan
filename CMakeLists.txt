@@ -257,13 +257,17 @@ set(FIFECHAN_HEADERS
     include/fifechan/utf8stringeditor.hpp
     include/fifechan/widget.hpp
     include/fifechan/widgets/adjustingcontainer.hpp
+    include/fifechan/widgets/activitybar.hpp
+    include/fifechan/widgets/activitybaritem.hpp
     include/fifechan/widgets/bargraph.hpp
+    include/fifechan/widgets/barsection.hpp
     include/fifechan/widgets/button.hpp
     include/fifechan/widgets/checkbox.hpp
     include/fifechan/widgets/container.hpp
     include/fifechan/widgets/curvegraph.hpp
     include/fifechan/widgets/dropdown.hpp
     include/fifechan/widgets/flowcontainer.hpp
+    include/fifechan/widgets/horizontalbar.hpp
     include/fifechan/widgets/icon.hpp
     include/fifechan/widgets/iconprogressbar.hpp
     include/fifechan/widgets/imagebutton.hpp
@@ -271,13 +275,19 @@ set(FIFECHAN_HEADERS
     include/fifechan/widgets/label.hpp
     include/fifechan/widgets/linegraph.hpp
     include/fifechan/widgets/listbox.hpp
+    include/fifechan/widgets/menuitem.hpp
+    include/fifechan/widgets/menupopup.hpp
+    include/fifechan/widgets/menubar.hpp
     include/fifechan/widgets/passwordfield.hpp
     include/fifechan/widgets/piegraph.hpp
     include/fifechan/widgets/pointgraph.hpp
+    include/fifechan/widgets/primarypanel.hpp
     include/fifechan/widgets/radiobutton.hpp
     include/fifechan/widgets/scrollarea.hpp
+    include/fifechan/widgets/secondarypanel.hpp
     include/fifechan/widgets/slider.hpp
     include/fifechan/widgets/spacer.hpp
+    include/fifechan/widgets/statusbar.hpp
     include/fifechan/widgets/tab.hpp
     include/fifechan/widgets/tabbedarea.hpp
     include/fifechan/widgets/textbox.hpp
@@ -321,13 +331,17 @@ set(FIFECHAN_SRC
     src/visibilityeventhandler.cpp
     src/widget.cpp
     src/widgets/adjustingcontainer.cpp
+    src/widgets/activitybar.cpp
+    src/widgets/activitybaritem.cpp
     src/widgets/bargraph.cpp
+    src/widgets/barsection.cpp
     src/widgets/button.cpp
     src/widgets/checkbox.cpp
     src/widgets/container.cpp
     src/widgets/curvegraph.cpp
     src/widgets/dropdown.cpp
     src/widgets/flowcontainer.cpp
+    src/widgets/horizontalbar.cpp
     src/widgets/icon.cpp
     src/widgets/iconprogressbar.cpp
     src/widgets/imagebutton.cpp
@@ -335,13 +349,21 @@ set(FIFECHAN_SRC
     src/widgets/label.cpp
     src/widgets/linegraph.cpp
     src/widgets/listbox.cpp
+    src/widgets/menuitem.cpp
+    src/widgets/menubar.cpp
+    src/widgets/menupopup.cpp
+    src/widgets/modalbackdrop.cpp
+    src/widgets/panel.cpp
     src/widgets/passwordfield.cpp
     src/widgets/piegraph.cpp
     src/widgets/pointgraph.cpp
+    src/widgets/primarypanel.cpp
     src/widgets/radiobutton.cpp
     src/widgets/scrollarea.cpp
+    src/widgets/secondarypanel.cpp
     src/widgets/slider.cpp
     src/widgets/spacer.cpp
+    src/widgets/statusbar.cpp
     src/widgets/tab.cpp
     src/widgets/tabbedarea.cpp
     src/widgets/textbox.cpp
