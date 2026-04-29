@@ -697,6 +697,10 @@ if(ENABLE_SDL)
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     # SDL2::SDL2_image
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  )
+
+  # SDL2::SDL2_ttf needs to be linked PUBLIC so consumers get the symbols (TTF_Init, TTF_Quit)
+  target_link_libraries(${PROJECT_NAME}_sdl2 PUBLIC
     # SDL2::SDL2_ttf
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     # Fifechan
