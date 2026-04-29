@@ -191,7 +191,7 @@ jobs:
       - name: Install System Dependencies for VCPKG packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y autoconf autoconf-archive automake libtool
+          sudo apt-get install -y autoconf autoconf-archive automake libtool libltdl-dev
 
       - name: 🛠️ Setup VCPKG
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
@@ -371,6 +371,11 @@ jobs:
           fi
 
           git checkout "${LATEST_VCPKG_TAG}"
+
+      - name: Install System Dependencies for VCPKG packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf autoconf-archive automake libtool libltdl-dev
 
       - name: 🛠️ Setup VCPKG
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
