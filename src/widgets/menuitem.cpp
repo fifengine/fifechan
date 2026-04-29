@@ -105,11 +105,13 @@ namespace fcn
         return mChecked;
     }
 
+    // cppcheck-suppress duplInheritedMember
     void MenuItem::setEnabled(bool enabled)
     {
         mEnabled = enabled;
     }
 
+    // cppcheck-suppress duplInheritedMember
     bool MenuItem::isEnabled() const
     {
         return mEnabled;

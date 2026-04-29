@@ -104,9 +104,11 @@ namespace fcn
 
                 // Open new menu at absolute coordinates
                 // Get absolute position from the menu item's position + parent's position chain
-                int ax         = source->getX();
-                int ay         = source->getY();
-                Widget* parent = source->getParent();
+                int ax = source->getX();
+                int ay = source->getY();
+
+                Widget const * parent = source->getParent();
+
                 while (parent != nullptr) {
                     ax += parent->getX();
                     ay += parent->getY();

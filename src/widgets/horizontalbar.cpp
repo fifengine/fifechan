@@ -26,6 +26,7 @@ namespace fcn
         return mSpacing;
     }
 
+    // cppcheck-suppress duplInheritedMember
     void HorizontalBar::setPadding(unsigned int padding)
     {
         mPadding = padding;

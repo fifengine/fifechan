@@ -271,6 +271,7 @@ namespace fcn
         }
     }
 
+    // cppcheck-suppress duplInheritedMember
     bool MenuPopup::isVisible() const
     {
         return mVisible;

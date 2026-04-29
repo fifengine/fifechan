@@ -24,6 +24,7 @@ namespace fcn
         setSize(mWidth, getHeight());
     }
 
+    // cppcheck-suppress duplInheritedMember
     int ActivityBar::getWidth() const
     {
         return mWidth;
@@ -40,12 +41,14 @@ namespace fcn
         return mSpacing;
     }
 
+    // cppcheck-suppress duplInheritedMember
     void ActivityBar::addActionListener(ActionListener* listener)
     {
         mActionListeners.push_back(listener);
     }
 
     // cppcheck-suppress constParameterPointer
+    // cppcheck-suppress duplInheritedMember
     void ActivityBar::removeActionListener(ActionListener* listener)
     {
         mActionListeners.remove(listener);

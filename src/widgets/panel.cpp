@@ -41,6 +41,7 @@ namespace fcn
         return mCollapsedWidth;
     }
 
+    // cppcheck-suppress duplInheritedMember
     void Panel::setVisible(bool visible)
     {
         if (visible) {
