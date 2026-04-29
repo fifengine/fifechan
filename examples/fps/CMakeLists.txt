@@ -2,8 +2,8 @@ message(STATUS "---------------------------------------------------------------"
 message(STATUS "[ 🛠️ ] Building example: fps")
 message(STATUS "---------------------------------------------------------------")
 
-if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_LIBRARY)
-  find_package(SDL2_mixer CONFIG REQUIRED)
+if(ENABLE_SDL AND SDL3_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_LIBRARY)
+  find_package(SDL3_mixer CONFIG REQUIRED)
   find_package(PNG REQUIRED)
 
   if(WIN32 AND BUILD_SHARED_LIBS)
@@ -35,12 +35,11 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
   )
 
   target_link_libraries(fps_demo PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-    $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+    $<IF:$<TARGET_EXISTS:SDL3_mixer::SDL3_mixer>,SDL3_mixer::SDL3_mixer,SDL3_mixer::SDL3_mixer-static>
     fifechan::fifechan
-    fifechan::fifechan_sdl2
+    fifechan::fifechan_sdl3
     fifechan::fifechan_opengl
   )
 
@@ -94,5 +93,5 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND AND OPENGL_glu_L
   endif()
 
 else()
-  message(STATUS "[INFO] Skipping example 'fps': requires ENABLE_SDL+SDL2_FOUND, ENABLE_OPENGL+OPENGL_FOUND, and GLU (OPENGL_glu_LIBRARY).")
+  message(STATUS "[INFO] Skipping example 'fps': requires ENABLE_SDL+SDL3_FOUND, ENABLE_OPENGL+OPENGL_FOUND, and GLU (OPENGL_glu_LIBRARY).")
 endif()

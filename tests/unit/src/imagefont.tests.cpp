@@ -10,15 +10,15 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/graphics.hpp"
-#include "fifechan/backends/sdl2/image.hpp"
-#include "fifechan/backends/sdl2/imageloader.hpp"
+#include "fifechan/backends/sdl3/graphics.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
+#include "fifechan/backends/sdl3/imageloader.hpp"
 #include "fifechan/imagefont.hpp"
 
 namespace
@@ -32,32 +32,17 @@ namespace
                 throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
             }
 
-            // Initialize SDL_image for loading PNG
-            int imgFlags = IMG_INIT_PNG;
-            if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
-                SDL_Quit();
-                throw std::runtime_error(std::string("IMG_Init failed: ") + SDL_GetError());
-            }
-
-            // Create a window for SDL2 hardware acceleration
-            mWindow = SDL_CreateWindow(
-                "FifeGUI ImageFont Test",
-                SDL_WINDOWPOS_CENTERED,
-                SDL_WINDOWPOS_CENTERED,
-                256,
-                256,
-                SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+            // Create a window for SDL3 hardware acceleration
+            mWindow = SDL_CreateWindow("FifeGUI ImageFont Test", 256, 256, SDL_WINDOW_RESIZABLE);
             if (mWindow == nullptr) {
-                IMG_Quit();
                 SDL_Quit();
                 throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
             }
 
-            mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            mRenderer = SDL_CreateRenderer(mWindow, nullptr);
             if (mRenderer == nullptr) {
                 SDL_DestroyWindow(mWindow);
                 mWindow = nullptr;
-                IMG_Quit();
                 SDL_Quit();
                 throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
             }
@@ -84,7 +69,6 @@ namespace
                 SDL_DestroyWindow(mWindow);
                 mWindow = nullptr;
             }
-            IMG_Quit();
             SDL_Quit();
         }
 

@@ -14,7 +14,7 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
@@ -63,7 +63,7 @@ namespace fcn::sdl2
          *
          * @note The clip areas will be taken into account.
          */
-        virtual void drawSDLTexture(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination);
+        virtual void drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination);
 
         // Inherited from Graphics
 

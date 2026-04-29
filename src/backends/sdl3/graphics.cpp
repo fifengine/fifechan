@@ -4,7 +4,7 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 // Corresponding header include
-#include "fifechan/backends/sdl2/graphics.hpp"
+#include "fifechan/backends/sdl3/graphics.hpp"
 
 // Standard library includes
 #include <algorithm>
@@ -16,11 +16,11 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL_render.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/image.hpp"
-#include "fifechan/backends/sdl2/truetypefont.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
+#include "fifechan/backends/sdl3/truetypefont.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
@@ -66,7 +66,7 @@ namespace fcn::sdl2
             rect.y = clip_rect.y;
             rect.w = clip_rect.width;
             rect.h = clip_rect.height;
-            SDL_RenderSetClipRect(mRenderTarget, &rect);
+            SDL_SetRenderClipRect(mRenderTarget, &rect);
         }
 
         return result;
@@ -88,7 +88,7 @@ namespace fcn::sdl2
         rect.w = clip_rect.width;
         rect.h = clip_rect.height;
 
-        SDL_RenderSetClipRect(mRenderTarget, &rect);
+        SDL_SetRenderClipRect(mRenderTarget, &rect);
     }
 
     SDL_Renderer* Graphics::getRenderTarget() const
@@ -105,16 +105,16 @@ namespace fcn::sdl2
         }
 
         ClipRectangle const & top = mClipStack.top();
-        SDL_Rect src;
-        SDL_Rect dst;
-        src.x = srcX;
-        src.y = srcY;
-        src.w = width;
-        src.h = height;
-        dst.x = dstX + top.xOffset;
-        dst.y = dstY + top.yOffset;
-        dst.w = width;
-        dst.h = height;
+        SDL_FRect src;
+        SDL_FRect dst;
+        src.x = static_cast<float>(srcX);
+        src.y = static_cast<float>(srcY);
+        src.w = static_cast<float>(width);
+        src.h = static_cast<float>(height);
+        dst.x = static_cast<float>(dstX + top.xOffset);
+        dst.y = static_cast<float>(dstY + top.yOffset);
+        dst.w = static_cast<float>(width);
+        dst.h = static_cast<float>(height);
 
         auto const * srcImage = dynamic_cast<Image const *>(image);
 
@@ -124,7 +124,7 @@ namespace fcn::sdl2
 
         SDL_Texture* texture = srcImage->getTexture();
         if (texture != nullptr) {
-            SDL_RenderCopy(mRenderTarget, texture, &src, &dst);
+            SDL_RenderTexture(mRenderTarget, texture, &src, &dst);
         }
     }
 
@@ -146,11 +146,11 @@ namespace fcn::sdl2
             return;
         }
 
-        SDL_Rect rect;
-        rect.x = area.x;
-        rect.y = area.y;
-        rect.w = area.width;
-        rect.h = area.height;
+        SDL_FRect rect;
+        rect.x = static_cast<float>(area.x);
+        rect.y = static_cast<float>(area.y);
+        rect.w = static_cast<float>(area.width);
+        rect.h = static_cast<float>(area.height);
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
@@ -177,7 +177,7 @@ namespace fcn::sdl2
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-        SDL_RenderDrawPoint(mRenderTarget, x, y);
+        SDL_RenderPoint(mRenderTarget, x, y);
         restoreRenderColor();
     }
 
@@ -220,7 +220,7 @@ namespace fcn::sdl2
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-        SDL_RenderDrawLine(mRenderTarget, x1, y, x2, y);
+        SDL_RenderLine(mRenderTarget, x1, y, x2, y);
         restoreRenderColor();
     }
 
@@ -263,7 +263,7 @@ namespace fcn::sdl2
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-        SDL_RenderDrawLine(mRenderTarget, x, y1, x, y2);
+        SDL_RenderLine(mRenderTarget, x, y1, x, y2);
         restoreRenderColor();
     }
 
@@ -298,7 +298,7 @@ namespace fcn::sdl2
 
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-        SDL_RenderDrawLine(mRenderTarget, x1, y1, x2, y2);
+        SDL_RenderLine(mRenderTarget, x1, y1, x2, y2);
         restoreRenderColor();
     }
 
@@ -340,7 +340,7 @@ namespace fcn::sdl2
             int const startY = static_cast<int>(y1 - (static_cast<float>(i) * offsetY));
             int const endX   = static_cast<int>(x2 + (static_cast<float>(i) * offsetX));
             int const endY   = static_cast<int>(y2 - (static_cast<float>(i) * offsetY));
-            SDL_RenderDrawLine(mRenderTarget, startX, startY, endX, endY);
+            SDL_RenderLine(mRenderTarget, startX, startY, endX, endY);
         }
 
         restoreRenderColor();
@@ -377,7 +377,7 @@ namespace fcn::sdl2
             for (int offsetY = -radius; offsetY <= radius; ++offsetY) {
                 for (int offsetX = -radius; offsetX <= radius; ++offsetX) {
                     if ((offsetX * offsetX) + (offsetY * offsetY) <= (radius * radius)) {
-                        SDL_RenderDrawPoint(mRenderTarget, centerX + offsetX, centerY + offsetY);
+                        SDL_RenderPoint(mRenderTarget, centerX + offsetX, centerY + offsetY);
                     }
                 }
             }
@@ -416,7 +416,7 @@ namespace fcn::sdl2
         for (int y = -radius; std::cmp_less_equal(y, radius); y++) {
             for (int x = -radius; std::cmp_less_equal(x, radius); x++) {
                 if (x * x + y * y <= radius * radius) {
-                    SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
+                    SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
                 }
             }
         }
@@ -478,7 +478,7 @@ namespace fcn::sdl2
                     }
 
                     if (angle >= startAngle && angle <= endAngle) {
-                        SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
+                        SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
                     }
                 }
             }
@@ -519,14 +519,14 @@ namespace fcn::sdl2
         int p = 1 - radius;
 
         while (x >= y) {
-            SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
-            SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 + y);
-            SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 - y);
-            SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 - y);
-            SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 + x);
-            SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 + x);
-            SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 - x);
-            SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 - x);
+            SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
+            SDL_RenderPoint(mRenderTarget, x0 - x, y0 + y);
+            SDL_RenderPoint(mRenderTarget, x0 + x, y0 - y);
+            SDL_RenderPoint(mRenderTarget, x0 - x, y0 - y);
+            SDL_RenderPoint(mRenderTarget, x0 + y, y0 + x);
+            SDL_RenderPoint(mRenderTarget, x0 - y, y0 + x);
+            SDL_RenderPoint(mRenderTarget, x0 + y, y0 - x);
+            SDL_RenderPoint(mRenderTarget, x0 - y, y0 - x);
 
             y++;
 
@@ -577,28 +577,28 @@ namespace fcn::sdl2
 
         while (x >= y) {
             if (isInSegment(x, y)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 + y);
+                SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
             }
             if (isInSegment(-x, y)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 + y);
+                SDL_RenderPoint(mRenderTarget, x0 - x, y0 + y);
             }
             if (isInSegment(x, -y)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 + x, y0 - y);
+                SDL_RenderPoint(mRenderTarget, x0 + x, y0 - y);
             }
             if (isInSegment(-x, -y)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 - x, y0 - y);
+                SDL_RenderPoint(mRenderTarget, x0 - x, y0 - y);
             }
             if (isInSegment(y, x)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 + x);
+                SDL_RenderPoint(mRenderTarget, x0 + y, y0 + x);
             }
             if (isInSegment(-y, x)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 + x);
+                SDL_RenderPoint(mRenderTarget, x0 - y, y0 + x);
             }
             if (isInSegment(y, -x)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 + y, y0 - x);
+                SDL_RenderPoint(mRenderTarget, x0 + y, y0 - x);
             }
             if (isInSegment(-y, -x)) {
-                SDL_RenderDrawPoint(mRenderTarget, x0 - y, y0 - x);
+                SDL_RenderPoint(mRenderTarget, x0 - y, y0 - x);
             }
 
             y++;
@@ -676,7 +676,7 @@ namespace fcn::sdl2
         return std::make_shared<TrueTypeFont>(filename, size);
     }
 
-    void Graphics::drawSDLTexture(SDL_Texture* texture, SDL_Rect source, SDL_Rect destination)
+    void Graphics::drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination)
     {
         if (mClipStack.empty()) {
             throwException(
@@ -686,12 +686,12 @@ namespace fcn::sdl2
 
         ClipRectangle const & top = mClipStack.top();
 
-        destination.x += top.xOffset;
-        destination.y += top.yOffset;
+        destination.x += static_cast<float>(top.xOffset);
+        destination.y += static_cast<float>(top.yOffset);
         destination.w = source.w;
         destination.h = source.h;
 
-        SDL_RenderCopy(mRenderTarget, texture, &source, &destination);
+        SDL_RenderTexture(mRenderTarget, texture, &source, &destination);
     }
 
     void Graphics::saveRenderColor()

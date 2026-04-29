@@ -25,7 +25,7 @@
 #endif
 
 // Third-party library includes
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 
 #include <fifechan.hpp>
 
@@ -52,8 +52,7 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* rawWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    SDL_Window* rawWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (rawWindow == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Window: ") + SDL_GetError());
     }
@@ -61,12 +60,12 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
     return fcn::sdl2::makeSDLSharedPtr(rawWindow);
 }
 
-std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window, int flags)
+std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* rawRenderer = SDL_CreateRenderer(window.get(), -1, flags);
+    SDL_Renderer* rawRenderer = SDL_CreateRenderer(window.get(), nullptr);
     if (rawRenderer == nullptr) {
         std::string const rendererError = SDL_GetError();
-        rawRenderer                     = SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_SOFTWARE);
+        rawRenderer                     = SDL_CreateRenderer(window.get(), nullptr);
         if (rawRenderer == nullptr) {
             throw std::runtime_error(
                 std::string("Failed to create SDL_Renderer: ") + rendererError + " -> " + SDL_GetError());
@@ -98,15 +97,13 @@ void Application::init_sdl(std::string const & title, int width, int height)
     std::filesystem::current_path(Application::getExecutableDir());
 
     // We setup an SDL window and renderer.
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         throw std::runtime_error(std::string("Failed to initialize SDL: ") + SDL_GetError());
     }
 
-    auto const windowFlags = static_cast<int>(SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
-    window                 = initWindow(title, width, height, windowFlags);
+    window = initWindow(title, width, height, 0);
 
-    auto const rendererFlags = static_cast<int>(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    renderer                 = initRenderer(window, rendererFlags);
+    renderer = initRenderer(window);
 
     // Now it's time to initialise the SDL backend.
 
@@ -232,17 +229,17 @@ void Application::run()
 
         SDL_Event event;
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     this->running = false;
                 }
-                if (event.key.keysym.sym == SDLK_f) {
-                    if ((event.key.keysym.mod & KMOD_CTRL) != 0) {
-                        uint32_t const fullscreen = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-                        SDL_SetWindowFullscreen(window.get(), fullscreen ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+                if (event.key.key == SDLK_F) {
+                    if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
+                        uint32_t const fullscreen = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
+                        SDL_SetWindowFullscreen(window.get(), fullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
                     }
                 }
-            } else if (event.type == SDL_QUIT) {
+            } else if (event.type == SDL_EVENT_QUIT) {
                 this->running = false;
             }
 

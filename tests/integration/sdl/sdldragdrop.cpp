@@ -33,11 +33,11 @@
 #endif
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <fifechan/widgets/tooltip.hpp>
 
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/dragdrop.hpp>
 
 #include <fifechan.hpp>
@@ -333,30 +333,38 @@ namespace
             SDL_RenderClear(renderer);
 
             // Draw player inventory background
-            SDL_Rect playerBg = {
-                PLAYER_INV_START_X - 10,
-                PLAYER_INV_START_Y - 10,
-                PLAYER_COLS * SLOT_SIZE + 20,
-                PLAYER_ROWS * SLOT_SIZE + 20};
+            SDL_FRect playerBg = {
+                static_cast<float>(PLAYER_INV_START_X - 10),
+                static_cast<float>(PLAYER_INV_START_Y - 10),
+                static_cast<float>(PLAYER_COLS * SLOT_SIZE + 20),
+                static_cast<float>(PLAYER_ROWS * SLOT_SIZE + 20)};
             SDL_SetRenderDrawColor(renderer, 60, 60, 60, 255);
             SDL_RenderFillRect(renderer, &playerBg);
 
             // Draw "Player Inventory" label background
-            SDL_Rect playerLabelBg = {PLAYER_INV_START_X, PLAYER_INV_START_Y - 25, PLAYER_COLS * SLOT_SIZE, 20};
+            SDL_FRect playerLabelBg = {
+                static_cast<float>(PLAYER_INV_START_X),
+                static_cast<float>(PLAYER_INV_START_Y - 25),
+                static_cast<float>(PLAYER_COLS * SLOT_SIZE),
+                20.0f};
             SDL_SetRenderDrawColor(renderer, 80, 80, 80, 255);
             SDL_RenderFillRect(renderer, &playerLabelBg);
 
             // Draw stash background
-            SDL_Rect stashBg = {
-                STASH_INV_START_X - 10,
-                STASH_INV_START_Y - 10,
-                STASH_COLS * SLOT_SIZE + 20,
-                STASH_ROWS * SLOT_SIZE + 20};
+            SDL_FRect stashBg = {
+                static_cast<float>(STASH_INV_START_X - 10),
+                static_cast<float>(STASH_INV_START_Y - 10),
+                static_cast<float>(STASH_COLS * SLOT_SIZE + 20),
+                static_cast<float>(STASH_ROWS * SLOT_SIZE + 20)};
             SDL_SetRenderDrawColor(renderer, 30, 30, 50, 255);
             SDL_RenderFillRect(renderer, &stashBg);
 
             // Draw "Stash Box" label background
-            SDL_Rect stashLabelBg = {STASH_INV_START_X, STASH_INV_START_Y - 25, STASH_COLS * SLOT_SIZE, 20};
+            SDL_FRect stashLabelBg = {
+                static_cast<float>(STASH_INV_START_X),
+                static_cast<float>(STASH_INV_START_Y - 25),
+                static_cast<float>(STASH_COLS * SLOT_SIZE),
+                20.0f};
             SDL_SetRenderDrawColor(renderer, 50, 50, 80, 255);
             SDL_RenderFillRect(renderer, &stashLabelBg);
 
@@ -365,13 +373,21 @@ namespace
                 auto& slot = slots[i];
 
                 // Draw slot border
-                SDL_Rect rect = {slot.x, slot.y, slot.width, slot.height};
+                SDL_FRect rect = {
+                    static_cast<float>(slot.x),
+                    static_cast<float>(slot.y),
+                    static_cast<float>(slot.width),
+                    static_cast<float>(slot.height)};
                 SDL_SetRenderDrawColor(renderer, 80, 80, 80, 255);
-                SDL_RenderDrawRect(renderer, &rect);
+                SDL_RenderRect(renderer, &rect);
 
                 // Draw item if present
                 if (slot.item.has_value()) {
-                    SDL_Rect itemRect = {slot.x + 2, slot.y + 2, slot.width - 4, slot.height - 4};
+                    SDL_FRect itemRect = {
+                        static_cast<float>(slot.x + 2),
+                        static_cast<float>(slot.y + 2),
+                        static_cast<float>(slot.width - 4),
+                        static_cast<float>(slot.height - 4)};
 
                     // Get item color from database
                     auto const * itemData = findItemData(slot.item->itemId);
@@ -396,7 +412,11 @@ namespace
             // Draw drag ghost and drop target highlight
             if (dragState.isDragging) {
                 // Draw drag ghost
-                SDL_Rect ghostRect = {mouseX - dragState.offsetX, mouseY - dragState.offsetY, SLOT_SIZE, SLOT_SIZE};
+                SDL_FRect ghostRect = {
+                    static_cast<float>(mouseX - dragState.offsetX),
+                    static_cast<float>(mouseY - dragState.offsetY),
+                    static_cast<float>(SLOT_SIZE),
+                    static_cast<float>(SLOT_SIZE)};
 
                 // Enable alpha blending for ghost
                 SDL_BlendMode oldBlendMode;
@@ -412,12 +432,12 @@ namespace
                 // Draw drop target highlight
                 int hoveredSlot = getSlotIndexAtPosition(mouseX, mouseY);
                 if (hoveredSlot >= 0) {
-                    bool valid        = isValidDrop(hoveredSlot);
-                    SDL_Rect slotRect = {
-                        slots[hoveredSlot].x,
-                        slots[hoveredSlot].y,
-                        slots[hoveredSlot].width,
-                        slots[hoveredSlot].height};
+                    bool valid         = isValidDrop(hoveredSlot);
+                    SDL_FRect slotRect = {
+                        static_cast<float>(slots[hoveredSlot].x),
+                        static_cast<float>(slots[hoveredSlot].y),
+                        static_cast<float>(slots[hoveredSlot].width),
+                        static_cast<float>(slots[hoveredSlot].height)};
 
                     // Draw highlight border (green for valid, red for invalid)
                     if (valid) {
@@ -425,7 +445,7 @@ namespace
                     } else {
                         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
                     }
-                    SDL_RenderDrawRect(renderer, &slotRect);
+                    SDL_RenderRect(renderer, &slotRect);
                 }
             }
         }
@@ -436,7 +456,7 @@ namespace
 int main(int argc, char* argv[])
 {
     // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
@@ -460,13 +480,7 @@ int main(int argc, char* argv[])
     std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Drag-and-Drop Example", fifeguiVersion);
 
     // Create window
-    SDL_Window* window = SDL_CreateWindow(
-        title.c_str(),
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        640,
-        360,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
     if (window == nullptr) {
         std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << std::endl;
@@ -475,11 +489,11 @@ int main(int argc, char* argv[])
     }
 
     // Create renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
 
     if (renderer == nullptr) {
         std::string const rendererError = SDL_GetError();
-        renderer                        = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+        renderer                        = SDL_CreateRenderer(window, nullptr);
         if (renderer == nullptr) {
             std::cerr << "Failed to create SDL_Renderer: " << rendererError << " -> " << SDL_GetError() << std::endl;
             SDL_DestroyWindow(window);
@@ -504,8 +518,8 @@ int main(int argc, char* argv[])
     gui->setInput(input.get());
 
     // Prefer a TrueType font so text color can be tinted by the backend.
-    if (TTF_Init() == -1) {
-        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << TTF_GetError() << '\n';
+    if (!TTF_Init()) {
+        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << SDL_GetError() << '\n';
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();
@@ -538,7 +552,7 @@ int main(int argc, char* argv[])
         return inventory.getTooltipContent(widgetId);
     };
     spec.modifierBehavior.enabled         = true;
-    spec.modifierBehavior.modifier        = 0x100; // KMOD_ALT
+    spec.modifierBehavior.modifier        = SDL_KMOD_ALT;
     spec.modifierBehavior.modifiedContent = [&inventory](int widgetId) {
         return inventory.getExtendedTooltipContent(widgetId);
     };
@@ -599,17 +613,20 @@ int main(int argc, char* argv[])
         Uint32 currentTime = SDL_GetTicks();
         lastTime           = currentTime;
 
-        int mouseX, mouseY;
-        SDL_GetMouseState(&mouseX, &mouseY);
+        float mouseXf, mouseYf;
+        SDL_GetMouseState(&mouseXf, &mouseYf);
+        int mouseX = static_cast<int>(mouseXf);
+        int mouseY = static_cast<int>(mouseYf);
 
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
-            } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
-                    int slotIdx = inventory.getSlotIndexAtPosition(event.button.x, event.button.y);
+                    int slotIdx = inventory.getSlotIndexAtPosition(
+                        static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
-                        SDL_Point pt = {event.button.x, event.button.y};
+                        SDL_Point pt = {static_cast<int>(event.button.x), static_cast<int>(event.button.y)};
                         inventory.startDrag(slotIdx, pt);
 
                         // Create a simple DragPayload carrying the item id (application data)
@@ -622,16 +639,21 @@ int main(int argc, char* argv[])
                                 (void)g;
                                 (void)pos;
                             });
-                            dragHandler.beginDrag(nullptr, std::move(payload), event.button.x, event.button.y);
+                            dragHandler.beginDrag(
+                                nullptr,
+                                std::move(payload),
+                                static_cast<int>(event.button.x),
+                                static_cast<int>(event.button.y));
                         }
                     }
                 }
-            } else if (event.type == SDL_MOUSEBUTTONUP) {
+            } else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
                 if (event.button.button == SDL_BUTTON_LEFT && inventory.isDragging()) {
-                    int slotIdx = inventory.getSlotIndexAtPosition(event.button.x, event.button.y);
+                    int slotIdx = inventory.getSlotIndexAtPosition(
+                        static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
                         inventory.tryDrop(slotIdx);
-                        dragHandler.drop(event.button.x, event.button.y);
+                        dragHandler.drop(static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     } else {
                         inventory.endDrag();
                         dragHandler.cancel();
@@ -659,7 +681,7 @@ int main(int argc, char* argv[])
 
         // Update tooltip (pass modifier state: ALT key)
         // Update tooltip (read modifier state fresh each frame via SDL_GetModState())
-        int modifierState = (SDL_GetModState() & KMOD_ALT) ? 0x100 : 0;
+        int modifierState = (SDL_GetModState() & SDL_KMOD_ALT) ? 0x100 : 0;
         tooltip->update(frameDelay, modifierState);
 
         // Position the tooltip near the mouse cursor and size it to content

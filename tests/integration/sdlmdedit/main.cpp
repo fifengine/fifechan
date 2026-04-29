@@ -32,7 +32,7 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 // Platform-specific includes
 #if defined(_WIN32)
@@ -72,8 +72,7 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (createdWindow == nullptr) {
         throw std::runtime_error("Failed to create SDL_Window");
     }
@@ -81,9 +80,9 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
     return fcn::sdl2::makeSDLSharedPtr(createdWindow);
 }
 
-std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window, int flags)
+std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), -1, flags);
+    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), nullptr);
     if (createdRenderer == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + SDL_GetError());
     }
@@ -93,20 +92,16 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
 
-    auto const windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
-
-    window = initWindow(title, width, height, windowFlags);
+    window = initWindow(title, width, height, 0);
 
     SDL_RaiseWindow(window.get());
 
-    auto const rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-
-    renderer = initRenderer(window, rendererFlags);
+    SDL_SetRenderVSync(renderer.get(), 1);
 }
 
 void Application::cleanup()
@@ -157,7 +152,7 @@ void Application::init_GUI(int width, int height)
     }
 
     // TODO we need a better FONT finding and loading API
-    if (TTF_Init() == -1) {
+    if (!TTF_Init()) {
         // SDL_ttf initialization failed - continue without text rendering
     } else {
         std::filesystem::path fontPath = getExecutableDir() / "ArchitectsDaughter.ttf";
@@ -578,10 +573,10 @@ void Application::run()
 
     while (running) {
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
-            } else if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            } else if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
             }

@@ -12,7 +12,7 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/imageloader.hpp"

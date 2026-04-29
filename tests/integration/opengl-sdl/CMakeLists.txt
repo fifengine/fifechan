@@ -1,5 +1,5 @@
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[ 🛠️ ] Building Integration Tests for OpenGL+SDL2")
+message(STATUS "[ 🛠️ ] Building Integration Tests for OpenGL+SDL3")
 message(STATUS "---------------------------------------------------------------")
 
 set(FIFEGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
@@ -18,26 +18,24 @@ endif()
 add_executable(openglsdlhelloworld openglsdlhelloworld.cpp openglsdlhelloworld.hpp)
 
 target_include_directories(openglsdlhelloworld PRIVATE
-  ${SDL2_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${FIFEGUI_INCLUDE_DIR}
   ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
   ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
 )
 
 target_link_libraries(openglsdlhelloworld PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
   # OpenGL
   OpenGL::GL
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
   # FifeGUI OpenGL extension
   fifechan::fifechan_opengl
 )
@@ -71,26 +69,24 @@ copy_resources_folder(openglsdlhelloworld "${RESOURCES_FOLDER}")
 add_executable(openglsdlwidgets openglsdlwidgets.cpp openglsdlwidgets.hpp)
 
 target_include_directories(openglsdlwidgets PRIVATE
-  ${SDL2_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
   ${FIFEGUI_INCLUDE_DIR}
   ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
   ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
 )
 
 target_link_libraries(openglsdlwidgets PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
   # OpenGL
   OpenGL::GL
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
   # FifeGUI OpenGL extension
   fifechan::fifechan_opengl
 )

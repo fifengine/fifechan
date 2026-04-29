@@ -11,14 +11,14 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/image.hpp"
-#include "fifechan/backends/sdl2/imageloader.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
+#include "fifechan/backends/sdl3/imageloader.hpp"
 
 namespace
 {
@@ -52,19 +52,13 @@ namespace
             }
 
             // Create a window for SDL2 hardware acceleration
-            mWindow = SDL_CreateWindow(
-                "FifeGUI Image Test",
-                SDL_WINDOWPOS_CENTERED,
-                SDL_WINDOWPOS_CENTERED,
-                256,
-                256,
-                SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+            mWindow = SDL_CreateWindow("FifeGUI Image Test", 256, 256, SDL_WINDOW_RESIZABLE);
             if (mWindow == nullptr) {
                 SDL_Quit();
                 throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
             }
 
-            mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            mRenderer = SDL_CreateRenderer(mWindow, nullptr);
             if (mRenderer == nullptr) {
                 SDL_DestroyWindow(mWindow);
                 mWindow = nullptr;
@@ -99,31 +93,14 @@ namespace
     // +------------------+
     SDL_Surface* createTestSurfaceWithColorKey()
     {
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        uint32_t rmask = 0xff000000;
-        uint32_t gmask = 0x00ff0000;
-        uint32_t bmask = 0x0000ff00;
-        uint32_t amask = 0x000000ff;
-        (void)rmask;
-        (void)gmask;
-        (void)bmask;
-        (void)amask;
-#else
-        uint32_t const rmask = 0x000000ff;
-        uint32_t const gmask = 0x0000ff00;
-        uint32_t const bmask = 0x00ff0000;
-        uint32_t const amask = 0xff000000;
-#endif
-
-        SDL_Surface* surface =
-            SDL_CreateRGBSurfaceWithFormat(0, TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, 32, SDL_PIXELFORMAT_RGBA8888);
+        SDL_Surface* surface = SDL_CreateSurface(TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, SDL_PIXELFORMAT_RGBA8888);
 
         if (surface == nullptr) {
             return nullptr;
         }
 
         // Fill with transparent (black with full alpha)
-        SDL_FillRect(surface, nullptr, SDL_MapRGBA(surface->format, 0, 0, 0, 255));
+        SDL_FillSurfaceRect(surface, nullptr, SDL_MapSurfaceRGBA(surface, 0, 0, 0, 255));
 
         // Lock surface for direct pixel access
         SDL_LockSurface(surface);
@@ -132,33 +109,33 @@ namespace
 
         // Row 0: Magenta (top-left), Red (top-right)
         // (0,0) = Magenta (color key), (1,0) = Red
-        pixels[0] = SDL_MapRGBA(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
-        pixels[1] = SDL_MapRGBA(surface->format, RED_R, RED_G, RED_B, 255);
-        pixels[2] = SDL_MapRGBA(surface->format, RED_R, RED_G, RED_B, 255);
-        pixels[3] = SDL_MapRGBA(surface->format, RED_R, RED_G, RED_B, 255);
+        pixels[0] = SDL_MapSurfaceRGBA(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
+        pixels[1] = SDL_MapSurfaceRGBA(surface, RED_R, RED_G, RED_B, 255);
+        pixels[2] = SDL_MapSurfaceRGBA(surface, RED_R, RED_G, RED_B, 255);
+        pixels[3] = SDL_MapSurfaceRGBA(surface, RED_R, RED_G, RED_B, 255);
 
         // Row 1: Green, Magenta (x3)
-        pixels[4] = SDL_MapRGBA(surface->format, GREEN_R, GREEN_G, GREEN_B, 255);
-        pixels[5] = SDL_MapRGBA(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
-        pixels[6] = SDL_MapRGBA(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
-        pixels[7] = SDL_MapRGBA(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
+        pixels[4] = SDL_MapSurfaceRGBA(surface, GREEN_R, GREEN_G, GREEN_B, 255);
+        pixels[5] = SDL_MapSurfaceRGBA(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
+        pixels[6] = SDL_MapSurfaceRGBA(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
+        pixels[7] = SDL_MapSurfaceRGBA(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
 
         // Row 2: Blue, Blue, Magenta, Blue
-        pixels[8]  = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
-        pixels[9]  = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
-        pixels[10] = SDL_MapRGBA(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
-        pixels[11] = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[8]  = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[9]  = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[10] = SDL_MapSurfaceRGBA(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B, 255);
+        pixels[11] = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
 
         // Row 3: All blue
-        pixels[12] = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
-        pixels[13] = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
-        pixels[14] = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
-        pixels[15] = SDL_MapRGBA(surface->format, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[12] = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[13] = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[14] = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
+        pixels[15] = SDL_MapSurfaceRGBA(surface, BLUE_R, BLUE_G, BLUE_B, 255);
 
         SDL_UnlockSurface(surface);
 
         // Set magenta as color key (for testing)
-        SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, MAGENTA_R, MAGENTA_G, MAGENTA_B));
+        SDL_SetSurfaceColorKey(surface, true, SDL_MapSurfaceRGB(surface, MAGENTA_R, MAGENTA_G, MAGENTA_B));
 
         return surface;
     }
@@ -252,9 +229,10 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
     REQUIRE(texture != nullptr);
 
     // getTexture returns a valid SDL texture for rendering
-    int texW = 0;
-    int texH = 0;
-    SDL_QueryTexture(texture, nullptr, nullptr, &texW, &texH);
+    float texWFloat = 0, texHFloat = 0;
+    SDL_GetTextureSize(texture, &texWFloat, &texHFloat);
+    int texW = static_cast<int>(texWFloat);
+    int texH = static_cast<int>(texHFloat);
     REQUIRE(texW == TEST_IMAGE_WIDTH);
     REQUIRE(texH == TEST_IMAGE_HEIGHT);
 
@@ -339,29 +317,12 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
 
     // Create a test surface WITHOUT magenta and WITHOUT color key
     // Using only RGB colors (no transparency key)
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    uint32_t rmask = 0xff000000;
-    uint32_t gmask = 0x00ff0000;
-    uint32_t bmask = 0x0000ff00;
-    uint32_t amask = 0x000000ff;
-    (void)rmask;
-    (void)gmask;
-    (void)bmask;
-    (void)amask;
-#else
-    uint32_t const rmask = 0x000000ff;
-    uint32_t const gmask = 0x0000ff00;
-    uint32_t const bmask = 0x00ff0000;
-    uint32_t const amask = 0xff000000;
-#endif
-
-    SDL_Surface* surface =
-        SDL_CreateRGBSurfaceWithFormat(0, TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, 32, SDL_PIXELFORMAT_RGBA8888);
+    SDL_Surface* surface = SDL_CreateSurface(TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, SDL_PIXELFORMAT_RGBA8888);
 
     REQUIRE(surface != nullptr);
 
     // Fill with black
-    SDL_FillRect(surface, nullptr, SDL_MapRGBA(surface->format, 0, 0, 0, 255));
+    SDL_FillSurfaceRect(surface, nullptr, SDL_MapSurfaceRGBA(surface, 0, 0, 0, 255));
 
     // Lock for direct pixel access
     SDL_LockSurface(surface);
@@ -369,26 +330,26 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     auto* pixels = static_cast<uint32_t*>(surface->pixels);
 
     // Row 0: Red, Green, Blue, Yellow
-    pixels[0] = SDL_MapRGBA(surface->format, 255, 0, 0, 255);
-    pixels[1] = SDL_MapRGBA(surface->format, 0, 255, 0, 255);
-    pixels[2] = SDL_MapRGBA(surface->format, 0, 0, 255, 255);
-    pixels[3] = SDL_MapRGBA(surface->format, 255, 255, 0, 255);
+    pixels[0] = SDL_MapSurfaceRGBA(surface, 255, 0, 0, 255);
+    pixels[1] = SDL_MapSurfaceRGBA(surface, 0, 255, 0, 255);
+    pixels[2] = SDL_MapSurfaceRGBA(surface, 0, 0, 255, 255);
+    pixels[3] = SDL_MapSurfaceRGBA(surface, 255, 255, 0, 255);
 
     // Row 1: Cyan, Magenta, White, Black
-    pixels[4] = SDL_MapRGBA(surface->format, 0, 255, 255, 255);
-    pixels[5] = SDL_MapRGBA(surface->format, 255, 0, 255, 255);
-    pixels[6] = SDL_MapRGBA(surface->format, 255, 255, 255, 255);
-    pixels[7] = SDL_MapRGBA(surface->format, 0, 0, 0, 255);
+    pixels[4] = SDL_MapSurfaceRGBA(surface, 0, 255, 255, 255);
+    pixels[5] = SDL_MapSurfaceRGBA(surface, 255, 0, 255, 255);
+    pixels[6] = SDL_MapSurfaceRGBA(surface, 255, 255, 255, 255);
+    pixels[7] = SDL_MapSurfaceRGBA(surface, 0, 0, 0, 255);
 
     // Row 2-3: More colors
     for (int i = 8; i < 16; ++i) {
-        pixels[i] = SDL_MapRGBA(surface->format, 128, 128, 128, 255);
+        pixels[i] = SDL_MapSurfaceRGBA(surface, 128, 128, 128, 255);
     }
 
     SDL_UnlockSurface(surface);
 
     // Ensure NO color key is set (important for this test)
-    CHECK(SDL_GetColorKey(surface, nullptr) != 0);
+    CHECK(SDL_GetSurfaceColorKey(surface, nullptr) != 0);
 
     // Create Image from surface WITHOUT color key
     fcn::sdl2::Image image(surface, true, env.mRenderer);

@@ -12,14 +12,14 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
-#include <fifechan/backends/sdl2/graphics.hpp>
-#include <fifechan/backends/sdl2/image.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
-#include <fifechan/backends/sdl2/truetypefont.hpp>
+#include <fifechan/backends/sdl3/graphics.hpp>
+#include <fifechan/backends/sdl3/image.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
+#include <fifechan/backends/sdl3/truetypefont.hpp>
 
 namespace fcn::sdl2
 {
@@ -63,7 +63,7 @@ namespace fcn::sdl2
     {
         return std::shared_ptr<SDL_Surface>{surface, [](SDL_Surface* value) {
                                                 if (value != nullptr) {
-                                                    SDL_FreeSurface(value);
+                                                    SDL_DestroySurface(value);
                                                 }
                                             }};
     }

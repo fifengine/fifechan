@@ -9,7 +9,7 @@
   "dependencies": [
     "freetype",
     {
-      "name": "sdl2",
+      "name": "sdl3",
       "default-features": false,
       "platform": "linux",
       "features": [
@@ -17,14 +17,14 @@
       ]
     },
     {
-      "name": "sdl2",
+      "name": "sdl3",
       "default-features": false,
       "platform": "windows",
       "features": []
     },
-    "sdl2-image",
-    "sdl2-mixer",
-    "sdl2-ttf",
+    "sdl3-image",
+    "sdl3-mixer",
+    "sdl3-ttf",
     "utfcpp",
     "catch2"
   ],

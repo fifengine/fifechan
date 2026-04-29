@@ -16,11 +16,11 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
-#include <fifechan/backends/sdl2/graphics.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
+#include <fifechan/backends/sdl3/graphics.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
 
 #include <fifechan.hpp>
 
@@ -55,14 +55,8 @@ int main(int /*argc*/, char** /*argv*/)
 
     std::stack<fcn::Spacer*> spacers;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
-        return 1;
-    }
-
-    if (SDL_CreateWindowAndRenderer(800, 600, 0, &sdlWindow, &renderer) != 0) {
-        std::cerr << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << "\n";
-        SDL_Quit();
         return 1;
     }
 
@@ -70,7 +64,11 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Dynamic Remove Spacers", fifeguiVersion);
 
-    SDL_SetWindowTitle(sdlWindow, title.c_str());
+    if (SDL_CreateWindowAndRenderer(title.c_str(), 800, 600, 0, &sdlWindow, &renderer) != 0) {
+        std::cerr << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << "\n";
+        SDL_Quit();
+        return 1;
+    }
 
     try {
         imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
@@ -161,10 +159,10 @@ int main(int /*argc*/, char** /*argv*/)
         SDL_Event evt;
         while (running) {
             while (SDL_PollEvent(&evt) != 0) {
-                if (evt.type == SDL_QUIT) {
+                if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
-                } else if (evt.type == SDL_KEYDOWN) {
-                    if (evt.key.keysym.sym == SDLK_d) {
+                } else if (evt.type == SDL_EVENT_KEY_DOWN) {
+                    if (evt.key.key == SDLK_D) {
                         if (!spacers.empty()) {
                             fcn::Spacer* spacer = spacers.top();
 

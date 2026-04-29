@@ -9,7 +9,7 @@
 #include <memory>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <fifechan.hpp>
 

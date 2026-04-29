@@ -37,7 +37,7 @@ set(UNIT_TEST_SOURCES
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
 if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
   list(APPEND UNIT_TEST_SOURCES
-    src/backends/sdl2/image.tests.cpp
+    src/backends/sdl3/image.tests.cpp
     src/imagefont.tests.cpp
   )
 else()
@@ -57,10 +57,10 @@ endif()
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # link SDL2 backend library for Image class
-  fifechan_sdl2
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # link SDL3 backend library for Image class
+  fifechan_sdl3
 )
 
 # Copy test resources to the build directory

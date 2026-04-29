@@ -14,11 +14,11 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <fifechan/backends/opengl/graphics.hpp>
 #include <fifechan/backends/opengl/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
 
 #include <fifechan.hpp>
 
@@ -40,7 +40,7 @@ int main(int /*argc*/, char** /*argv*/)
     auto gui                = std::unique_ptr<fcn::Gui>();
     auto top                = std::unique_ptr<fcn::Container>();
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return 1;
     }
@@ -49,7 +49,7 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
 
-    window = SDL_CreateWindow(title.c_str(), 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_OPENGL);
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
         SDL_Quit();
@@ -94,7 +94,7 @@ int main(int /*argc*/, char** /*argv*/)
         SDL_Event evt;
         while (running) {
             while (SDL_PollEvent(&evt) != 0) {
-                if (evt.type == SDL_QUIT) {
+                if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
                 }
 
@@ -117,7 +117,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     fcn::Image::setImageLoader(nullptr);
 
-    SDL_GL_DeleteContext(glContext);
+    SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 

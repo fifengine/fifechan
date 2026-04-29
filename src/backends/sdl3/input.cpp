@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 // Corresponding header include
-#include "fifechan/backends/sdl2/input.hpp"
+#include "fifechan/backends/sdl3/input.hpp"
 
 // Standard library includes
 #include <string>
@@ -63,42 +63,42 @@ namespace fcn::sdl2
         MouseInput mouseInput{};
 
         switch (event.type) {
-        case SDL_KEYDOWN: {
+        case SDL_EVENT_KEY_DOWN: {
             int const value = convertSDLEventToFifechanKeyValue(event);
 
             keyInput.setKey(Key(value));
             keyInput.setType(KeyInput::Type::Pressed);
-            keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
-            keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
-            keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
-            keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
-            keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
+            keyInput.setShiftPressed((event.key.mod & SDL_KMOD_SHIFT) != 0);
+            keyInput.setControlPressed((event.key.mod & SDL_KMOD_CTRL) != 0);
+            keyInput.setAltPressed((event.key.mod & SDL_KMOD_ALT) != 0);
+            keyInput.setMetaPressed((event.key.mod & SDL_KMOD_GUI) != 0);
+            keyInput.setNumericPad((event.key.mod & SDL_KMOD_NUM) != 0);
             mKeyInputQueue.push(keyInput);
             break;
         }
 
-        case SDL_KEYUP: {
+        case SDL_EVENT_KEY_UP: {
             int value = convertSDLEventToFifechanKeyValue(event);
 
             if (value == -1) {
-                value = static_cast<int>(event.key.keysym.sym);
+                value = static_cast<int>(event.key.key);
             }
 
             keyInput.setKey(Key(value));
             keyInput.setType(KeyInput::Type::Released);
-            keyInput.setShiftPressed((event.key.keysym.mod & KMOD_SHIFT) != 0);
-            keyInput.setControlPressed((event.key.keysym.mod & KMOD_CTRL) != 0);
-            keyInput.setAltPressed((event.key.keysym.mod & KMOD_ALT) != 0);
-            keyInput.setMetaPressed((event.key.keysym.mod & KMOD_GUI) != 0);
-            keyInput.setNumericPad((event.key.keysym.mod & KMOD_NUM) != 0);
+            keyInput.setShiftPressed((event.key.mod & SDL_KMOD_SHIFT) != 0);
+            keyInput.setControlPressed((event.key.mod & SDL_KMOD_CTRL) != 0);
+            keyInput.setAltPressed((event.key.mod & SDL_KMOD_ALT) != 0);
+            keyInput.setMetaPressed((event.key.mod & SDL_KMOD_GUI) != 0);
+            keyInput.setNumericPad((event.key.mod & SDL_KMOD_NUM) != 0);
             mKeyInputQueue.push(keyInput);
             break;
         }
 
-        case SDL_MOUSEBUTTONDOWN: {
+        case SDL_EVENT_MOUSE_BUTTON_DOWN: {
             mMouseDown = true;
-            mouseInput.setX(event.button.x);
-            mouseInput.setY(event.button.y);
+            mouseInput.setX(static_cast<int>(event.button.x));
+            mouseInput.setY(static_cast<int>(event.button.y));
             mouseInput.setButton(convertMouseButton(event.button.button));
             mouseInput.setType(MouseInput::Type::Pressed);
             mouseInput.setTimeStamp(SDL_GetTicks());
@@ -106,10 +106,10 @@ namespace fcn::sdl2
             break;
         }
 
-        case SDL_MOUSEBUTTONUP: {
+        case SDL_EVENT_MOUSE_BUTTON_UP: {
             mMouseDown = false;
-            mouseInput.setX(event.button.x);
-            mouseInput.setY(event.button.y);
+            mouseInput.setX(static_cast<int>(event.button.x));
+            mouseInput.setY(static_cast<int>(event.button.y));
             mouseInput.setButton(convertMouseButton(event.button.button));
             mouseInput.setType(MouseInput::Type::Released);
             mouseInput.setTimeStamp(SDL_GetTicks());
@@ -117,9 +117,9 @@ namespace fcn::sdl2
             break;
         }
 
-        case SDL_MOUSEMOTION: {
-            mouseInput.setX(event.motion.x);
-            mouseInput.setY(event.motion.y);
+        case SDL_EVENT_MOUSE_MOTION: {
+            mouseInput.setX(static_cast<int>(event.motion.x));
+            mouseInput.setY(static_cast<int>(event.motion.y));
             mouseInput.setButton(MouseInput::Button::Empty);
             mouseInput.setType(MouseInput::Type::Moved);
             mouseInput.setTimeStamp(SDL_GetTicks());
@@ -127,17 +127,7 @@ namespace fcn::sdl2
             break;
         }
 
-        case SDL_MOUSEWHEEL: {
-            /*if (event.wheel.y > 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.y < 0)) {
-                mouseInput.setType(MouseInput::WheelMovedUp);
-            } else if (event.wheel.y < 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.y > 0)) {
-                mouseInput.setType(MouseInput::WheelMovedDown);
-            }*/
-            /*if (event.wheel.x > 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.x < 0)) {
-                mouseInput.setType(MouseInput::WheelMovedRight);
-            } else if (event.wheel.x < 0 || (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED && event.wheel.x > 0)) {
-                mouseInput.setType(MouseInput::WheelMovedLeft);
-            }*/
+        case SDL_EVENT_MOUSE_WHEEL: {
             if (event.wheel.y > 0) {
                 mouseInput.setType(MouseInput::Type::WheelMovedUp);
             } else if (event.wheel.y < 0) {
@@ -148,19 +138,19 @@ namespace fcn::sdl2
             } else if (event.wheel.x < 0) {
                 mouseInput.setType(MouseInput::Type::WheelMovedLeft);
             }
-            int x = 0;
-            int y = 0;
+            float x = 0;
+            float y = 0;
             SDL_GetMouseState(&x, &y);
-            mouseInput.setX(x);
-            mouseInput.setY(y);
+            mouseInput.setX(static_cast<int>(x));
+            mouseInput.setY(static_cast<int>(y));
             mouseInput.setButton(convertMouseButton(SDL_BUTTON_LEFT));
             mouseInput.setTimeStamp(SDL_GetTicks());
             mMouseInputQueue.push(mouseInput);
             break;
         }
 
-        // case SDL_TEXTEDITING:
-        case SDL_TEXTINPUT: {
+        // case SDL_EVENT_TEXT_EDITING:
+        case SDL_EVENT_TEXT_INPUT: {
             std::string text(static_cast<char const *>(event.text.text));
             if (!text.empty()) {
                 // hack to transport text
@@ -170,37 +160,25 @@ namespace fcn::sdl2
 
                 keyInput.setKey(Key(value));
                 keyInput.setType(KeyInput::Type::Pressed);
-                // SDL_TEXTINPUT events do not populate the `key` union member.
+                // SDL_EVENT_TEXT_INPUT events do not populate the `key` union member.
                 // Use SDL_GetModState() to query modifier keys instead.
                 SDL_Keymod const mods = SDL_GetModState();
-                keyInput.setShiftPressed((mods & KMOD_SHIFT) != 0);
-                keyInput.setControlPressed((mods & KMOD_CTRL) != 0);
-                keyInput.setAltPressed((mods & KMOD_ALT) != 0);
-                keyInput.setMetaPressed((mods & KMOD_GUI) != 0);
-                keyInput.setNumericPad((mods & KMOD_NUM) != 0);
+                keyInput.setShiftPressed((mods & SDL_KMOD_SHIFT) != 0);
+                keyInput.setControlPressed((mods & SDL_KMOD_CTRL) != 0);
+                keyInput.setAltPressed((mods & SDL_KMOD_ALT) != 0);
+                keyInput.setMetaPressed((mods & SDL_KMOD_GUI) != 0);
+                keyInput.setNumericPad((mods & SDL_KMOD_NUM) != 0);
                 mKeyInputQueue.push(keyInput);
             }
             break;
         }
 
-        case SDL_WINDOWEVENT: {
-            /*
-             * This occurs when the mouse enters/leaves the window
-             * and the gui application gains/loses its mousefocus.
-             */
-            if (event.window.event == SDL_WINDOWEVENT_ENTER) {
-                mMouseInWindow = true;
-            } else if (event.window.event == SDL_WINDOWEVENT_LEAVE) {
-                mMouseInWindow = false;
-                // Why???
-                /*if (!mMouseDown) {
-                    mouseInput.setX(-1);
-                    mouseInput.setY(-1);
-                    mouseInput.setButton(MouseInput::Empty);
-                    mouseInput.setType(MouseInput::Moved);
-                    mMouseInputQueue.push(mouseInput);
-                }*/
-            }
+        case SDL_EVENT_WINDOW_MOUSE_ENTER: {
+            mMouseInWindow = true;
+            break;
+        }
+        case SDL_EVENT_WINDOW_MOUSE_LEAVE: {
+            mMouseInWindow = false;
             break;
         }
 
@@ -237,7 +215,7 @@ namespace fcn::sdl2
     {
         int value = -1;
 
-        switch (event.key.keysym.sym) {
+        switch (event.key.key) {
         case SDLK_TAB:
             value = Key::Tab;
             break;
@@ -270,8 +248,8 @@ namespace fcn::sdl2
             // with the keysym.sym SDLK_SPACE which
             // without this check would be lost. The check
             // is only valid on key up events in SDL.
-            // if (event.type == SDL_KEYUP || event.key.keysym.unicode == ' ')
-            if (event.type == SDL_KEYUP) {
+            // if (event.type == SDL_EVENT_KEY_UP || event.key.key.unicode == ' ')
+            if (event.type == SDL_EVENT_KEY_UP) {
                 value = Key::Space;
             }
             break;
@@ -383,8 +361,8 @@ namespace fcn::sdl2
             break;
         }
 
-        if ((event.key.keysym.mod & KMOD_NUM) == 0) {
-            switch (event.key.keysym.sym) {
+        if ((event.key.mod & SDL_KMOD_NUM) == 0) {
+            switch (event.key.key) {
             case SDLK_KP_0:
                 value = Key::Insert;
                 break;

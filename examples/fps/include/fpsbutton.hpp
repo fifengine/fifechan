@@ -9,7 +9,7 @@
 #include <string>
 
 // Third-party library includes
-#include <SDL2/SDL_mixer.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include <fifechan.hpp>
 
@@ -50,10 +50,15 @@ public:
 private:
     fcn::Font* mHighLightFont{};
     bool mHasMouse;
-    // The sound (see SDL_mixer docs)
-    static Mix_Chunk* mHoverSound;
+
+    // The sound (SDL3_mixer: MIX_Audio + MIX_Track for playback)
+    // Made public so FPSDemo can initialize them after mixer creation
+    static MIX_Audio* mHoverAudio;
+    static MIX_Track* mHoverTrack;
     // Keep track of instances to be able to free the sound
     static int mInstances;
+
+    friend class FPSDemo;
 };
 
 #endif // FPSBUTTON_HPP

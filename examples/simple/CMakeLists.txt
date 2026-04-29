@@ -2,7 +2,7 @@ message(STATUS "---------------------------------------------------------------"
 message(STATUS "[ 🛠️ ] Building example: simple")
 message(STATUS "---------------------------------------------------------------")
 
-if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
+if(ENABLE_SDL AND SDL3_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
   if(WIN32 AND BUILD_SHARED_LIBS)
     set(SIMPLE_WINDOWS_RUNTIME_FILES
       "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
@@ -23,11 +23,10 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
   add_executable(simple_textbox_demo simple_textbox_demo.cpp)
 
   target_link_libraries(simple_textbox_demo PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
     fifechan::fifechan
-    fifechan::fifechan_sdl2
+    fifechan::fifechan_sdl3
     fifechan::fifechan_opengl
   )
 
@@ -62,5 +61,5 @@ if(ENABLE_SDL AND SDL2_FOUND AND ENABLE_OPENGL AND OPENGL_FOUND)
     )
   endif()
 else()
-  message(STATUS "[INFO] Skipping example 'simple': requires ENABLE_SDL+SDL2_FOUND and ENABLE_OPENGL+OPENGL_FOUND.")
+  message(STATUS "[INFO] Skipping example 'simple': requires ENABLE_SDL+SDL3_FOUND and ENABLE_OPENGL+OPENGL_FOUND.")
 endif()

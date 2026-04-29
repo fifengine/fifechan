@@ -11,11 +11,11 @@
 #include <string>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <fifechan/backends/opengl/imageloader.hpp>
 #include <fifechan/backends/opengl/opengl.hpp>
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>

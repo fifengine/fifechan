@@ -27,7 +27,7 @@
 #endif
 
 // Third-party library includes
-#include <fifechan/backends/sdl2/image.hpp>
+#include <fifechan/backends/sdl3/image.hpp>
 
 #include <fifechan.hpp>
 
@@ -96,8 +96,7 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (createdWindow == nullptr) {
         throw std::runtime_error("Failed to create SDL_Window");
     }
@@ -105,13 +104,13 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
     return fcn::sdl2::makeSDLSharedPtr(createdWindow);
 }
 
-std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window, int flags)
+std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), -1, flags);
+    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), nullptr);
     if (createdRenderer == nullptr) {
         std::string const err = SDL_GetError();
 
-        createdRenderer = SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_SOFTWARE);
+        createdRenderer = SDL_CreateRenderer(window.get(), nullptr);
         if (createdRenderer == nullptr) {
             std::string const err2 = SDL_GetError();
             throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + err + " -> " + err2);
@@ -123,20 +122,16 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
 
-    auto const windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
-
-    window = initWindow(title, width, height, windowFlags);
+    window = initWindow(title, width, height, 0);
 
     SDL_RaiseWindow(window.get());
 
-    auto const rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-
-    renderer = initRenderer(window, rendererFlags);
+    renderer = initRenderer(window);
 }
 
 namespace
@@ -196,7 +191,7 @@ void Application::cleanup()
     renderer.reset();
     window.reset();
     // Ensure SDL text input is stopped before quitting SDL.
-    SDL_StopTextInput();
+    SDL_StopTextInput(window.get());
     TTF_Quit();
     SDL_Quit();
 }
@@ -228,8 +223,8 @@ void Application::init_GUI(int width, int height)
     top->setBaseColor(fcn::Color(220, 220, 220, 255));
     gui->setTop(top.get());
 
-    if (TTF_Init() == -1) {
-        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << TTF_GetError() << '\n';
+    if (!TTF_Init()) {
+        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << SDL_GetError() << '\n';
         exit(2);
     }
 
@@ -477,18 +472,17 @@ void Application::init_GUI(int width, int height)
 
     addCaption("IconProgressBar", col3X, 596);
     if (hasIcon) {
-        SDL_Surface* progressSurface =
-            SDL_CreateRGBSurface(0, 10, 18, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+        SDL_Surface* progressSurface = SDL_CreateSurface(10, 18, SDL_PIXELFORMAT_RGBA8888);
         if (progressSurface == nullptr) {
             std::cerr << "[ERROR] Failed to create IconProgressBar fill surface: " << SDL_GetError() << '\n';
             exit(7);
         }
 
-        SDL_FillRect(progressSurface, nullptr, SDL_MapRGBA(progressSurface->format, 0, 0, 0, 0));
+        SDL_FillSurfaceRect(progressSurface, nullptr, SDL_MapSurfaceRGBA(progressSurface, 0, 0, 0, 0));
         SDL_Rect const outlineRect{0, 2, 10, 14};
-        SDL_FillRect(progressSurface, &outlineRect, SDL_MapRGBA(progressSurface->format, 132, 152, 89, 255));
+        SDL_FillSurfaceRect(progressSurface, &outlineRect, SDL_MapSurfaceRGBA(progressSurface, 132, 152, 89, 255));
         SDL_Rect const fillRect{1, 3, 8, 12};
-        SDL_FillRect(progressSurface, &fillRect, SDL_MapRGBA(progressSurface->format, 177, 198, 120, 255));
+        SDL_FillSurfaceRect(progressSurface, &fillRect, SDL_MapSurfaceRGBA(progressSurface, 177, 198, 120, 255));
 
         ownedProgressFillImage = std::make_unique<fcn::sdl2::Image>(progressSurface, true, renderer.get());
 
@@ -664,16 +658,16 @@ void Application::run()
 
     while (running) {
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
-                if (event.key.keysym.sym == SDLK_f && ((event.key.keysym.mod & KMOD_CTRL) != 0)) {
-                    uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-                    SDL_SetWindowFullscreen(window.get(), flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+                if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
+                    uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
+                    SDL_SetWindowFullscreen(window.get(), flags ? 0 : SDL_WINDOW_FULLSCREEN);
                 }
             }
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             }
             input->pushInput(event);

@@ -2,8 +2,8 @@ message(STATUS "---------------------------------------------------------------"
 message(STATUS "[ 🛠️ ] Building example: ff")
 message(STATUS "---------------------------------------------------------------")
 
-if(ENABLE_SDL AND SDL2_FOUND)
-  find_package(SDL2_mixer CONFIG REQUIRED)
+if(ENABLE_SDL AND SDL3_FOUND)
+  find_package(SDL3_mixer CONFIG REQUIRED)
 
   if(WIN32 AND BUILD_SHARED_LIBS)
     set(FF_WINDOWS_RUNTIME_FILES
@@ -36,12 +36,11 @@ if(ENABLE_SDL AND SDL2_FOUND)
   )
 
   target_link_libraries(ff_demo PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-    $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+    $<IF:$<TARGET_EXISTS:SDL3_mixer::SDL3_mixer>,SDL3_mixer::SDL3_mixer,SDL3_mixer::SDL3_mixer-static>
     fifechan::fifechan
-    fifechan::fifechan_sdl2
+    fifechan::fifechan_sdl3
   )
 
   set_target_properties(ff_demo PROPERTIES
@@ -86,5 +85,5 @@ if(ENABLE_SDL AND SDL2_FOUND)
     )
   endif()
 else()
-  message(STATUS "[INFO] Skipping example 'ff': requires ENABLE_SDL+SDL2_FOUND.")
+  message(STATUS "[INFO] Skipping example 'ff': requires ENABLE_SDL+SDL3_FOUND.")
 endif()

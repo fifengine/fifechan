@@ -57,36 +57,56 @@ FPSDemo::FPSDemo() :
     mResolutionChange(false),
     mHaveFullscreen(false),
     mAudioAvailable(false),
-    mChooseSound(nullptr),
-    mEscapeSound(nullptr),
-    mOptionsSound(nullptr),
-    mMusic(nullptr),
+    mMixer(nullptr),
+    mChooseAudio(nullptr),
+    mEscapeAudio(nullptr),
+    mOptionsAudio(nullptr),
+    mMusicAudio(nullptr),
+    mMusicTrack(nullptr),
+    mEffectTrack(nullptr),
     window(nullptr),
     glcontext(nullptr)
 {
     // Init SDL
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - FPS demo", fifeguiVersion);
 
     // Create window and GL context after SDL is initialized
-    window    = SDL_CreateWindow(title.c_str(), 0, 0, mWidth, mHeight, SDL_WINDOW_OPENGL);
+    window    = SDL_CreateWindow(title.c_str(), mWidth, mHeight, SDL_WINDOW_OPENGL);
     glcontext = SDL_GL_CreateContext(window);
 
-    // Init SDL_Mixer
-    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == 0) {
-        mAudioAvailable = true;
+    // Init SDL3_mixer
+    if (MIX_Init()) {
+        // Create a mixer that outputs to the default audio device
+        mMixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+        if (mMixer != nullptr) {
+            mAudioAvailable = true;
 
-        // Load sounds and music
-        mChooseSound  = Mix_LoadWAV("sound/sound4.wav");
-        mEscapeSound  = Mix_LoadWAV("sound/sound3.wav");
-        mOptionsSound = Mix_LoadWAV("sound/sound2.wav");
-        mMusic        = Mix_LoadMUS("sound/space.ogg");
+            // Load sounds and music
+            mChooseAudio  = MIX_LoadAudio(mMixer, "sound/sound4.wav", false);
+            mEscapeAudio  = MIX_LoadAudio(mMixer, "sound/sound3.wav", false);
+            mOptionsAudio = MIX_LoadAudio(mMixer, "sound/sound2.wav", false);
+            mMusicAudio   = MIX_LoadAudio(mMixer, "sound/space.ogg", false);
 
-        // Set the mixer volume
-        Mix_Volume(-1, static_cast<int>(MIX_MAX_VOLUME * 0.7));
+            // Create a shared track for UI sound effects
+            mEffectTrack = MIX_CreateTrack(mMixer);
+
+            // Create a track for music
+            mMusicTrack = MIX_CreateTrack(mMixer);
+
+            // Set the mixer volume (gain 0.0 - 1.0)
+            MIX_SetMixerGain(mMixer, 0.7f);
+
+            // Set up FPSButton hover sound
+            FPSButton::mHoverAudio = MIX_LoadAudio(mMixer, "sound/sound5.wav", false);
+            if (FPSButton::mHoverAudio != nullptr) {
+                FPSButton::mHoverTrack = MIX_CreateTrack(mMixer);
+                MIX_SetTrackGain(FPSButton::mHoverTrack, 0.6f);
+            }
+        }
     }
 
     // Create some GLU quadrics
@@ -117,13 +137,22 @@ FPSDemo::~FPSDemo()
 {
     cleanGui();
     if (mAudioAvailable) {
-        Mix_FreeChunk(mChooseSound);
-        Mix_FreeChunk(mEscapeSound);
-        Mix_FreeChunk(mOptionsSound);
-        Mix_FreeMusic(mMusic);
-        Mix_CloseAudio();
+        MIX_DestroyAudio(mChooseAudio);
+        MIX_DestroyAudio(mEscapeAudio);
+        MIX_DestroyAudio(mOptionsAudio);
+        MIX_DestroyAudio(mMusicAudio);
+        MIX_DestroyTrack(mMusicTrack);
+        MIX_DestroyTrack(mEffectTrack);
+        if (FPSButton::mHoverTrack != nullptr) {
+            MIX_DestroyTrack(FPSButton::mHoverTrack);
+        }
+        if (FPSButton::mHoverAudio != nullptr) {
+            MIX_DestroyAudio(FPSButton::mHoverAudio);
+        }
+        MIX_DestroyMixer(mMixer);
+        MIX_Quit();
     }
-    SDL_GL_DeleteContext(glcontext);
+    SDL_GL_DestroyContext(glcontext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
@@ -671,8 +700,13 @@ void FPSDemo::runIntro()
 
     mGui->setTop(mTop.get());
 
-    if (mAudioAvailable && mMusic != nullptr) {
-        Mix_FadeInMusic(mMusic, -1, 2000);
+    if (mAudioAvailable && mMusicAudio != nullptr && mMusicTrack != nullptr) {
+        MIX_SetTrackAudio(mMusicTrack, mMusicAudio);
+        SDL_PropertiesID musicProps = SDL_CreateProperties();
+        SDL_SetNumberProperty(musicProps, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+        SDL_SetNumberProperty(musicProps, MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER, 2000);
+        MIX_PlayTrack(mMusicTrack, musicProps);
+        SDL_DestroyProperties(musicProps);
     }
 }
 
@@ -723,17 +757,18 @@ void FPSDemo::input()
 {
     while (SDL_PollEvent(&mEvent) != 0) {
         // We ignore keyboard input and just sends mouse input to Fifechan
-        if (mEvent.type == SDL_KEYDOWN) {
-            if (mEvent.key.keysym.sym == SDLK_ESCAPE) {
+        if (mEvent.type == SDL_EVENT_KEY_DOWN) {
+            if (mEvent.key.key == SDLK_ESCAPE) {
                 mMain->setVisible(true);
                 mSingleplay->setVisible(false);
                 mMultiplay->setVisible(false);
                 mOptions->setVisible(false);
             }
-        } else if (mEvent.type == SDL_QUIT) {
+        } else if (mEvent.type == SDL_EVENT_QUIT) {
             mRunning = false;
         } else if (
-            mEvent.type == SDL_MOUSEMOTION || mEvent.type == SDL_MOUSEBUTTONDOWN || mEvent.type == SDL_MOUSEBUTTONUP) {
+            mEvent.type == SDL_EVENT_MOUSE_MOTION || mEvent.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
+            mEvent.type == SDL_EVENT_MOUSE_BUTTON_UP) {
             mSDLInput->pushInput(mEvent);
         }
     }
@@ -747,39 +782,45 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
     std::string const & id = actionEvent.getId();
 
     if (id == "quit") {
-        if (mAudioAvailable && mEscapeSound != nullptr) {
-            Mix_PlayChannel(-1, mEscapeSound, 0);
+        if (mAudioAvailable && mEscapeAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mEscapeAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         mRunning = false;
     } else if (id == "singleplay") {
-        if (mAudioAvailable && mChooseSound != nullptr) {
-            Mix_PlayChannel(-1, mChooseSound, 0);
+        if (mAudioAvailable && mChooseAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mChooseAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         mMain->setVisible(false);
         mSingleplay->setVisible(true);
     } else if (id == "multiplay") {
-        if (mAudioAvailable && mChooseSound != nullptr) {
-            Mix_PlayChannel(-1, mChooseSound, 0);
+        if (mAudioAvailable && mChooseAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mChooseAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         mMain->setVisible(false);
         mMultiplay->setVisible(true);
     } else if (id == "options") {
-        if (mAudioAvailable && mChooseSound != nullptr) {
-            Mix_PlayChannel(-1, mChooseSound, 0);
+        if (mAudioAvailable && mChooseAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mChooseAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         mMain->setVisible(false);
         mOptions->setVisible(true);
     } else if (id == "back") {
-        if (mAudioAvailable && mEscapeSound != nullptr) {
-            Mix_PlayChannel(-1, mEscapeSound, 0);
+        if (mAudioAvailable && mEscapeAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mEscapeAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         mMain->setVisible(true);
         mSingleplay->setVisible(false);
         mMultiplay->setVisible(false);
         mOptions->setVisible(false);
     } else if (id == "fullscreen" || id == "resolution") {
-        if (mAudioAvailable && mOptionsSound != nullptr) {
-            Mix_PlayChannel(-1, mOptionsSound, 0);
+        if (mAudioAvailable && mOptionsAudio != nullptr && mEffectTrack != nullptr) {
+            MIX_SetTrackAudio(mEffectTrack, mOptionsAudio);
+            MIX_PlayTrack(mEffectTrack, 0);
         }
         initVideo();
     } else if (id == "volume") {
@@ -788,9 +829,7 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
         mVolumePercent->setCaption(os.str());
         mVolumePercent->adjustSize();
         if (mAudioAvailable) {
-            double const m = MIX_MAX_VOLUME;
-            double const p = mVolume->getValue();
-            Mix_Volume(-1, static_cast<int>(m * p));
+            MIX_SetMixerGain(mMixer, static_cast<float>(mVolume->getValue()));
         }
     }
 }
@@ -808,11 +847,11 @@ void FPSDemo::initVideo()
     }
     if (mFullScreen->isSelected()) {
         SDL_SetWindowSize(window, mWidth, mHeight);
-        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+        SDL_SetWindowFullscreen(window, true);
         mHaveFullscreen = true;
     } else {
         mHaveFullscreen = false;
-        SDL_SetWindowFullscreen(window, 0);
+        SDL_SetWindowFullscreen(window, false);
         SDL_SetWindowSize(window, mWidth, mHeight);
     }
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);

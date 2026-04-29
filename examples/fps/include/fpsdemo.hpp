@@ -26,12 +26,12 @@
 #endif // __APPLE__
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include <fifechan/backends/opengl/graphics.hpp>
 #include <fifechan/backends/opengl/imageloader.hpp>
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 
 #include <fifechan.hpp>
 
@@ -78,6 +78,12 @@ public:
     void run();
     void action(fcn::ActionEvent const & actionEvent) override;
 
+    // Expose mixer for FPSButton to use
+    MIX_Mixer* getMixer() const
+    {
+        return mMixer;
+    }
+
 private:
     void runIntro();
     void runMain();
@@ -120,10 +126,14 @@ private:
     SDL_GLContext glcontext = nullptr;
     SDL_Event mEvent{};
 
-    Mix_Chunk* mChooseSound;
-    Mix_Chunk* mEscapeSound;
-    Mix_Chunk* mOptionsSound;
-    Mix_Music* mMusic;
+    // SDL3_mixer: mixer device, audio data, and tracks
+    MIX_Mixer* mMixer;
+    MIX_Audio* mChooseAudio;
+    MIX_Audio* mEscapeAudio;
+    MIX_Audio* mOptionsAudio;
+    MIX_Audio* mMusicAudio;
+    MIX_Track* mMusicTrack;
+    MIX_Track* mEffectTrack; // Shared track for UI sound effects
 
     std::unique_ptr<fcn::opengl::Graphics> mOpenGLGraphics;
     std::unique_ptr<fcn::sdl2::Input> mSDLInput;

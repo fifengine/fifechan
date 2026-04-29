@@ -11,8 +11,7 @@
 #include <span>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_stdinc.h> // for Uint8, Uint16, Uint32
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
@@ -30,7 +29,8 @@ namespace fcn::sdl2
      */
     inline Color SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
-        int const bpp = surface->format->BytesPerPixel;
+        SDL_PixelFormatDetails const * details = SDL_GetPixelFormatDetails(surface->format);
+        int const bpp                          = details->bytes_per_pixel;
 
         SDL_LockSurface(surface);
 
@@ -82,7 +82,7 @@ namespace fcn::sdl2
         unsigned char b = 0;
         unsigned char a = 0;
 
-        SDL_GetRGBA(color, surface->format, &r, &g, &b, &a);
+        SDL_GetRGBA(color, details, SDL_GetSurfacePalette(surface), &r, &g, &b, &a);
         SDL_UnlockSurface(surface);
 
         return {r, g, b, a};
@@ -98,7 +98,8 @@ namespace fcn::sdl2
      */
     inline void SDLputPixel(SDL_Surface* surface, int x, int y, Color const & color)
     {
-        int const bpp = surface->format->BytesPerPixel;
+        SDL_PixelFormatDetails const * details = SDL_GetPixelFormatDetails(surface->format);
+        int const bpp                          = details->bytes_per_pixel;
 
         SDL_LockSurface(surface);
 
@@ -110,7 +111,7 @@ namespace fcn::sdl2
             static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
         size_t const idx = static_cast<size_t>(offset);
 
-        Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+        Uint32 const pixel = SDL_MapSurfaceRGB(surface, color.r, color.g, color.b);
 
         switch (bpp) {
         case 1:
@@ -162,15 +163,15 @@ namespace fcn::sdl2
     }
 
     /**
-     * Blends two packed color values together using the supplied pixel format.
+     * Blends two packed color values together using the supplied pixel format details.
      *
      * @param src the source packed color value.
      * @param dst the destination packed color value.
      * @param alpha alpha value (0-255) used for blending.
-     * @param f pixel format describing masks/shifts for color components.
+     * @param f pixel format details describing masks/shifts for color components.
      */
     template <typename T>
-    inline T SDLBlendColor(T src, T dst, unsigned char alpha, SDL_PixelFormat const * f)
+    inline T SDLBlendColor(T src, T dst, unsigned char alpha, SDL_PixelFormatDetails const * f)
     {
         return (SDLBlend(src & f->Rmask, dst & f->Rmask, alpha) & f->Rmask) |
                (SDLBlend(src & f->Gmask, dst & f->Gmask, alpha) & f->Gmask) |
@@ -206,13 +207,8 @@ namespace fcn::sdl2
             return;
         }
 
-        int const bpp = surface->format->BytesPerPixel;
-
-        // avoids overhead and truncation artifacts
-        if (color.a == 255) {
-            SDLputPixel(surface, x, y, color);
-            return;
-        }
+        SDL_PixelFormatDetails const * details = SDL_GetPixelFormatDetails(surface->format);
+        int const bpp                          = details->bytes_per_pixel;
 
         SDL_LockSurface(surface);
 
@@ -226,24 +222,24 @@ namespace fcn::sdl2
 
         switch (bpp) {
         case 1: {
-            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint32 const pixel = SDL_MapSurfaceRGB(surface, color.r, color.g, color.b);
 
-            SDL_Color const * colors      = surface->format->palette->colors;
+            SDL_Color const * colors      = SDL_GetSurfacePalette(surface)->colors;
             SDL_Color const & sourceColor = colors[pixel];
             SDL_Color const & destColor   = colors[pixels[idx]];
 
-            pixels[idx] = static_cast<Uint8>(SDL_MapRGB(
-                surface->format,
+            pixels[idx] = static_cast<Uint8>(SDL_MapSurfaceRGB(
+                surface,
                 SDLBlend(sourceColor.r, destColor.r, color.a),
                 SDLBlend(sourceColor.g, destColor.g, color.a),
                 SDLBlend(sourceColor.b, destColor.b, color.a)));
             break;
         }
         case 2: {
-            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint32 const pixel = SDL_MapSurfaceRGB(surface, color.r, color.g, color.b);
             Uint16 dest        = 0;
             std::memcpy(&dest, &pixels[idx], sizeof(Uint16));
-            Uint16 result = SDLBlendColor<Uint16>(pixel, dest, color.a, surface->format);
+            Uint16 result = SDLBlendColor<Uint16>(pixel, dest, color.a, details);
             std::memcpy(&pixels[idx], &result, sizeof(Uint16));
             break;
         }
@@ -260,10 +256,10 @@ namespace fcn::sdl2
             break;
         }
         case 4: {
-            Uint32 const pixel = SDL_MapRGB(surface->format, color.r, color.g, color.b);
+            Uint32 const pixel = SDL_MapSurfaceRGB(surface, color.r, color.g, color.b);
             Uint32 dest        = 0;
             std::memcpy(&dest, &pixels[idx], sizeof(Uint32));
-            Uint32 result = SDLBlendColor<Uint32>(pixel, dest, color.a, surface->format);
+            Uint32 result = SDLBlendColor<Uint32>(pixel, dest, color.a, details);
             std::memcpy(&pixels[idx], &result, sizeof(Uint32));
             break;
         }

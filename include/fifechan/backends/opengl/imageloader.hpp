@@ -16,7 +16,7 @@
 
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
 #include <fifechan/exception.hpp>
 
 namespace fcn::opengl
@@ -37,7 +37,7 @@ namespace fcn::opengl
             }
 
             SDL_Surface* surface = convertToStandardFormat(loadedSurface);
-            SDL_FreeSurface(loadedSurface);
+            SDL_DestroySurface(loadedSurface);
 
             if (surface == nullptr) {
                 std::string const msg = "Not enough memory to load: " + filename;
@@ -60,7 +60,7 @@ namespace fcn::opengl
             }
 
             fcn::Image* image = new fcn::opengl::Image(packedPixels, surface->w, surface->h, convertToDisplayFormat);
-            SDL_FreeSurface(surface);
+            SDL_DestroySurface(surface);
 
             return image;
         }

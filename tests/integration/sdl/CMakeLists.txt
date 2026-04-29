@@ -1,9 +1,9 @@
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[ 🛠️ ] Building Integration Tests for SDL2")
+message(STATUS "[ 🛠️ ] Building Integration Tests for SDL3")
 message(STATUS "---------------------------------------------------------------")
 
-# Find SDL2_ttf
-find_package(SDL2_ttf REQUIRED)
+# Find SDL3_ttf
+find_package(SDL3_ttf CONFIG REQUIRED)
 
 set(FIFEGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 # Build folder of the generated files from fifechan, e.g. "version.hpp"
@@ -21,24 +21,22 @@ endif()
 add_executable(sdlhelloworld sdlhelloworld.cpp sdlhelloworld.hpp)
 
 target_include_directories(sdlhelloworld PRIVATE
-  ${SDL2_INCLUDE_DIRS}
   ${FIFEGUI_INCLUDE_DIR}
   ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
 )
 
 target_link_libraries(sdlhelloworld PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # SDL3_ttf
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdlhelloworld PROPERTIES
@@ -92,27 +90,26 @@ endif()
 add_executable(sdlwidgets sdlwidgets.cpp sdlwidgets.hpp)
 
 # target_include_directories(sdlwidgets PRIVATE
-#   ${SDL2_INCLUDE_DIR}
+#   ${SDL3_INCLUDE_DIR}
 #   ${FIFEGUI_INCLUDE_DIR}
 # )
 target_include_directories(sdlwidgets PRIVATE
-  ${SDL2_INCLUDE_DIR}
+  ${SDL3_INCLUDE_DIR}
   ${FIFEGUI_INCLUDE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
 )
 
 target_link_libraries(sdlwidgets PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # SDL3_ttf
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdlwidgets PROPERTIES
@@ -151,24 +148,22 @@ install(TARGETS sdlhelloworld sdlwidgets
 add_executable(sdllabels sdllabels.cpp sdllabels.hpp)
 
 target_include_directories(sdllabels PRIVATE
-  ${SDL2_INCLUDE_DIRS}
   ${FIFEGUI_INCLUDE_DIR}
   ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
 )
 
 target_link_libraries(sdllabels PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # SDL3_ttf
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdllabels PROPERTIES
@@ -207,24 +202,22 @@ install(TARGETS sdlhelloworld sdlwidgets sdllabels
 add_executable(sdldragdrop sdldragdrop.cpp)
 
 target_include_directories(sdldragdrop PRIVATE
-  ${SDL2_INCLUDE_DIRS}
   ${FIFEGUI_INCLUDE_DIR}
   ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
+  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
 )
 
 target_link_libraries(sdldragdrop PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # SDL3_ttf
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   # FifeGUI
   fifechan::fifechan
   # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdldragdrop PROPERTIES

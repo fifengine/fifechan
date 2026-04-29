@@ -11,9 +11,9 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/gui.hpp>
 
 #include <fifechan.hpp>
@@ -40,7 +40,7 @@ namespace tests::integration::sdl::labels
         void cleanup();
 
         static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
-        static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window, int flags);
+        static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window);
 
         bool running{true};
 

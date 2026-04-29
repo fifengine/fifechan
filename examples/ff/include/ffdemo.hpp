@@ -12,10 +12,10 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
-#include <fifechan/backends/sdl2/sdl.hpp>
+#include <fifechan/backends/sdl3/sdl.hpp>
 
 #include <fifechan.hpp>
 
@@ -57,8 +57,12 @@ private:
     SDL_Window* mWindow{};
     SDL_Renderer* mRenderer{};
     SDL_Event mEvent{};
-    Mix_Chunk* mChooseSound;
-    Mix_Chunk* mEscapeSound;
+
+    // SDL3_mixer: mixer device, audio data, and track
+    MIX_Mixer* mMixer{};
+    MIX_Audio* mChooseAudio{};
+    MIX_Audio* mEscapeAudio{};
+    MIX_Track* mEffectTrack{};
 
     std::unique_ptr<fcn::sdl2::Graphics> mSDLGraphics;
     std::unique_ptr<fcn::sdl2::Input> mSDLInput;

@@ -11,7 +11,7 @@
 #include <memory>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 int FFContainer::mInstances                          = 0;
 std::unique_ptr<fcn::Image> FFContainer::mCornerUL   = nullptr;
