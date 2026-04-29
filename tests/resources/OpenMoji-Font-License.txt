@@ -1,0 +1,7 @@
+
+- Website: https://openmoji.org
+- Repository: https://github.com/hfg-gmuend/openmoji
+- File: OpenMoji-color-color0_svg.ttf
+- SPDX-FileCopyrightText: hfg-gmuend
+- SPDX-License-Identifier: CC-BY-SA-4.0
+- License: https://github.com/hfg-gmuend/openmoji/blob/master/LICENSE.txt

@@ -537,9 +537,13 @@ TEST_CASE("MouseEvent Type enum values", "[unit][mouseevent]")
 {
     SECTION("enum ordering")
     {
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Moved) == 0);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Pressed) == 1);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Released) == 2);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Type::WheelMovedDown) == 3);
     }
 }
@@ -548,11 +552,17 @@ TEST_CASE("MouseEvent Button enum values", "[unit][mouseevent]")
 {
     SECTION("enum ordering")
     {
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Empty) == 0);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Left) == 1);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Middle) == 2);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Right) == 3);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::X1) == 4);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::MouseEvent::Button::X2) == 5);
     }
 }

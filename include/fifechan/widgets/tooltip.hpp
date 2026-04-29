@@ -73,7 +73,7 @@ namespace fcn
         ~Tooltip() override = default;
 
         // Set tooltip specification
-        void setSpec(TooltipSpec spec);
+        void setSpec(TooltipSpec const & spec);
         TooltipSpec const & getSpec() const;
 
         // Widget ID this tooltip is attached to

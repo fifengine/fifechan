@@ -33,7 +33,7 @@ namespace fcn
          */
         explicit SecondaryPanel(std::string const & title = "Secondary");
 
-        ~SecondaryPanel() override;
+        ~SecondaryPanel() override = default;
 
         SecondaryPanel(SecondaryPanel const &)            = delete;
         SecondaryPanel& operator=(SecondaryPanel const &) = delete;

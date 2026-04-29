@@ -23,8 +23,6 @@ namespace fcn
         addMouseListener(this);
     }
 
-    MenuBar::~MenuBar() { }
-
     Widget* MenuBar::addMenu(std::string const & text, MenuPopup* popup)
     {
         auto* item = new MenuItem(text);
@@ -35,19 +33,19 @@ namespace fcn
         // menu item are routed to MenuBar::action.
         item->addActionListener(this);
 
-        if (popup) {
+        if (popup != nullptr) {
             item->setSubmenu(popup);
             popup->setParentMenuItem(item);
         }
 
         // If a popup is supplied, add it to the top-level container so
         // it becomes part of the widget tree and can be shown/hidden.
-        if (popup) {
+        if (popup != nullptr) {
             Container* topContainer = nullptr;
             if (auto* p = getTop()) {
                 topContainer = dynamic_cast<Container*>(p);
             }
-            if (topContainer) {
+            if (topContainer != nullptr) {
                 // Ensure popup is hidden initially
                 popup->setVisible(false);
                 // Add popup at position 0,0 initially (will be repositioned when shown)
@@ -61,7 +59,7 @@ namespace fcn
 
     void MenuBar::closeAll()
     {
-        if (mOpenMenu) {
+        if (mOpenMenu != nullptr) {
             mOpenMenu->hide();
             mOpenMenu = nullptr;
         }
@@ -82,11 +80,11 @@ namespace fcn
         // Handle menu item click
         auto* source = dynamic_cast<MenuItem*>(event.getSource());
 
-        if (!source) {
+        if (source == nullptr) {
             return;
         }
 
-        if (source->getSubmenu()) {
+        if (source->getSubmenu() != nullptr) {
             MenuPopup* popup = source->getSubmenu();
 
             if (mOpenMenu == popup) {
@@ -97,7 +95,7 @@ namespace fcn
                 mOpenMenu = nullptr;
             } else {
                 // Close previously open menu
-                if (mOpenMenu) {
+                if (mOpenMenu != nullptr) {
                     mOpenMenu->hide();
                 }
 
@@ -109,7 +107,7 @@ namespace fcn
                 int ax         = source->getX();
                 int ay         = source->getY();
                 Widget* parent = source->getParent();
-                while (parent) {
+                while (parent != nullptr) {
                     ax += parent->getX();
                     ay += parent->getY();
                     parent = parent->getParent();
@@ -130,7 +128,7 @@ namespace fcn
 
         // ESC closes any open menu
         if (key.getValue() == Key::Escape) {
-            if (mOpenMenu) {
+            if (mOpenMenu != nullptr) {
                 mOpenMenu->hide();
                 // Restore focus to MenuBar when ESC closes menu
                 requestFocus();
@@ -142,9 +140,10 @@ namespace fcn
 
         // Left/Right to navigate between menu items
         if (key.getValue() == Key::Left || key.getValue() == Key::Right) {
-            unsigned childCount = getChildrenCount();
-            if (childCount == 0)
+            unsigned const childCount = getChildrenCount();
+            if (childCount == 0) {
                 return;
+            }
 
             if (key.getValue() == Key::Left) {
                 mSelectedIndex = (mSelectedIndex - 1 + static_cast<int>(childCount)) % static_cast<int>(childCount);
@@ -154,7 +153,7 @@ namespace fcn
 
             // Focus the selected menu item
             Widget* child = getChild(mSelectedIndex);
-            if (child) {
+            if (child != nullptr) {
                 child->requestFocus();
                 event.consume();
             }
@@ -166,7 +165,7 @@ namespace fcn
             if (mSelectedIndex >= 0 && mSelectedIndex < static_cast<int>(getChildrenCount())) {
                 Widget* child = getChild(mSelectedIndex);
                 if (auto const * menuItem = dynamic_cast<MenuItem*>(child)) {
-                    if (menuItem->getSubmenu()) {
+                    if (menuItem->getSubmenu() != nullptr) {
                         action(ActionEvent(this, ""));
                     }
                 }
@@ -193,7 +192,7 @@ namespace fcn
         //   event so the other MenuItem's action can open its popup.
         // - Clicking elsewhere on the MenuBar: close current popup and consume
         //   the event.
-        if (mOpenMenu) {
+        if (mOpenMenu != nullptr) {
             Widget* target = getWidgetAt(event.getX(), event.getY());
             if (auto const * mi = dynamic_cast<MenuItem*>(target)) {
                 if (mi->getSubmenu() == mOpenMenu) {

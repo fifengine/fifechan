@@ -14,7 +14,7 @@
 namespace fcn
 {
 
-    Tooltip::Tooltip() : mWidgetId(0), mIsHovering(false), mHoverTimer(0), mModifierState(0), mIsExtended(false)
+    Tooltip::Tooltip()
     {
         // Tooltips should not draw a container background.
         // They only render their own background, then
@@ -22,7 +22,7 @@ namespace fcn
         setOpaque(false);
     }
 
-    void Tooltip::setSpec(TooltipSpec spec)
+    void Tooltip::setSpec(TooltipSpec const & spec)
     {
         mSpec = spec;
     }
@@ -68,12 +68,8 @@ namespace fcn
             mHoverTimer += deltaMs;
 
             // Check if we should show extended content (ALT key)
-            bool altPressed = (mModifierState & 0x100) != 0; // KMOD_ALT
-            if (mSpec.modifierBehavior.enabled && altPressed) {
-                mIsExtended = true;
-            } else {
-                mIsExtended = false;
-            }
+            bool const altPressed = (mModifierState & 0x100) != 0; // KMOD_ALT
+            mIsExtended           = mSpec.modifierBehavior.enabled && altPressed;
 
             generateContent();
         }
@@ -151,7 +147,7 @@ namespace fcn
         }
 
         // Render: draw background + border relative to this widget (graphics is relative)
-        Rectangle dim(0, 0, getWidth(), getHeight());
+        Rectangle const dim(0, 0, getWidth(), getHeight());
 
         // Choose background color to indicate extended view
         if (mIsExtended) {

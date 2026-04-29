@@ -29,7 +29,7 @@ namespace fcn
          */
         StatusBar();
 
-        ~StatusBar() override;
+        ~StatusBar() override = default;
 
         StatusBar(StatusBar const &)            = delete;
         StatusBar& operator=(StatusBar const &) = delete;

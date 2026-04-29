@@ -148,7 +148,6 @@ TEST_CASE("UTF8StringEditor getOffset gets byte offset for character index", "[u
 }
 
 // cppcheck-suppress-begin knownConditionTrueFalse
-// The warning suggests to remove sections that are always true or false.
 // False positive: analyzer cannot model UTF-8 encoding of \UXXXXXXXX literals,
 // so `text.size()` for multi-byte characters is evaluated wrongly.
 
@@ -157,6 +156,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Chinese")
     {
         std::string const text = "\u4F60\u597D\u4E16\u754C";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "你好世界");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 4);
     }
@@ -164,6 +164,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Japanese")
     {
         std::string const text = "\u3053\u3093\u306B\u3061\u306F";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "こんにちは");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 5);
     }
@@ -171,6 +172,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Arabic")
     {
         std::string const text = "\u0645\u0631\u062D\u0628\u0627\u064B";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "مرحباً");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 6);
     }
@@ -178,6 +180,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Russian")
     {
         std::string const text = "\u041F\u0440\u0438\u0432\u0435\u0442";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "Привет");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 6);
     }
@@ -185,6 +188,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Greek")
     {
         std::string const text = "\u0393\u03B5\u03B9\u03AC";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "Γειά");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 4);
     }
@@ -192,6 +196,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Korean")
     {
         std::string const text = "\uC548\uB155\uD558\uC138\uC694";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "안녕하세요");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 5);
     }
@@ -199,6 +204,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Hebrew")
     {
         std::string const text = "\u05E9\u05DC\u05D5\u05DD";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "שלום");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 4);
     }
@@ -206,6 +212,7 @@ TEST_CASE("UTF8StringEditor handles hello world in multiple languages", "[unit][
     SECTION("Thai")
     {
         std::string const text = "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "สวัสดี");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 6);
     }
@@ -216,6 +223,7 @@ TEST_CASE("UTF8StringEditor handles UTF emojis", "[unit][utf8stringeditor]")
     SECTION("waving hand emoji")
     {
         std::string const text = "\U0001F44B";
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(text == "\U0001F44B");
         REQUIRE(fcn::UTF8StringEditor::countChars(text, static_cast<int>(text.size())) == 1);
         REQUIRE(text.size() == 4);

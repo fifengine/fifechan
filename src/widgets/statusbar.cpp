@@ -46,8 +46,6 @@ namespace fcn
         add(mRightArea.get());
     }
 
-    StatusBar::~StatusBar() { }
-
     void StatusBar::setText(std::string const & text)
     {
         mText = text;
@@ -78,33 +76,33 @@ namespace fcn
         // Get text width if we have text
         int textWidth = 0;
         Font* font    = getFont();
-        if (!mText.empty() && font) {
+        if (!mText.empty() && font != nullptr) {
             textWidth = font->getWidth(mText);
         }
 
         // Calculate minimum width needed
         // iconArea (24) + rightArea (100) + text (with padding) = 128 + textWidth
-        int minimumWidth = iconAreaWidth + rightAreaWidth + textWidth + textPadding;
-        int currentWidth = getWidth();
+        int const minimumWidth = iconAreaWidth + rightAreaWidth + textWidth + textPadding;
+        int const currentWidth = getWidth();
 
         // Apply shrink priority logic if enabled
         if (mShrinkPriorityEnabled && currentWidth < minimumWidth) {
             // First, calculate how much space is available for text after fixed areas
-            int availableForText = currentWidth - iconAreaWidth - rightAreaWidth - textPadding;
+            int const availableForText = currentWidth - iconAreaWidth - rightAreaWidth - textPadding;
 
             // If there's still not enough space, truncate the text
             if (availableForText < textWidth && availableForText > 0) {
                 if (mTruncateWithEllipsis && availableForText > 3) {
                     // Calculate how many characters fit, accounting for "..."
-                    int ellipsisWidth           = font ? font->getWidth("...") : 15;
-                    int availableForTextContent = availableForText - ellipsisWidth;
+                    int const ellipsisWidth           = font != nullptr ? font->getWidth("...") : 15;
+                    int const availableForTextContent = availableForText - ellipsisWidth;
 
                     if (availableForTextContent > 0) {
                         // Find characters that fit
                         int charWidth   = 0;
                         int charsToShow = 0;
                         for (size_t i = 0; i < mText.size(); ++i) {
-                            charWidth += font ? font->getWidth(std::string(1, mText[i])) : 8;
+                            charWidth += font != nullptr ? font->getWidth(std::string(1, mText[i])) : 8;
                             if (charWidth > availableForTextContent) {
                                 break;
                             }
@@ -120,7 +118,7 @@ namespace fcn
                     int charWidth   = 0;
                     int charsToShow = 0;
                     for (size_t i = 0; i < mText.size(); ++i) {
-                        charWidth += font ? font->getWidth(std::string(1, mText[i])) : 8;
+                        charWidth += font != nullptr ? font->getWidth(std::string(1, mText[i])) : 8;
                         if (charWidth > availableForText) {
                             break;
                         }
@@ -136,11 +134,11 @@ namespace fcn
         if (!textToDraw.empty()) {
 
             // Do we have a font?
-            if (font) {
+            if (font != nullptr) {
                 graphics->setFont(font);
 
                 // Vertically center text similar to other widgets
-                int textY =
+                int const textY =
                     getPaddingTop() + ((getHeight() - getPaddingTop() - getPaddingBottom() - font->getHeight()) / 2);
 
                 // Clip text to avoid overlapping icon/right areas

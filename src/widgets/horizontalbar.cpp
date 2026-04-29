@@ -15,8 +15,6 @@ namespace fcn
         setOpaque(true);
     }
 
-    HorizontalBar::~HorizontalBar() { }
-
     void HorizontalBar::setSpacing(unsigned int spacing)
     {
         mSpacing = spacing;
@@ -71,10 +69,10 @@ namespace fcn
     void HorizontalBar::resizeToContent(bool recursion)
     {
         // Disable all expansion to prevent equal sizing
-        bool savedHExpand = isHorizontalExpand();
+        bool const savedHExpand = isHorizontalExpand();
         setHorizontalExpand(false);
 
-        bool savedUniform = isUniformSize();
+        bool const savedUniform = isUniformSize();
         setUniformSize(false);
 
         Container::resizeToContent(recursion);
@@ -83,10 +81,11 @@ namespace fcn
         if (!mExpandChildren) {
             int contentW = 0;
             for (auto const * child : getChildren()) {
-                if (!child || !child->isVisible())
+                if (child == nullptr || !child->isVisible()) {
                     continue;
-                int childEnd = child->getX() + child->getWidth() + child->getMarginRight();
-                contentW     = std::max(contentW, childEnd);
+                }
+                int const childEnd = child->getX() + child->getWidth() + child->getMarginRight();
+                contentW           = std::max(contentW, childEnd);
             }
             contentW += getPaddingLeft() + getPaddingRight();
             if (contentW > 0 && contentW < getWidth()) {
@@ -106,10 +105,10 @@ namespace fcn
     void HorizontalBar::adjustSize()
     {
         // Disable all expansion to prevent equal sizing
-        bool savedHExpand = isHorizontalExpand();
+        bool const savedHExpand = isHorizontalExpand();
         setHorizontalExpand(false);
 
-        bool savedUniform = isUniformSize();
+        bool const savedUniform = isUniformSize();
         setUniformSize(false);
 
         Container::adjustSize();
@@ -118,10 +117,11 @@ namespace fcn
         if (!mExpandChildren) {
             int contentW = 0;
             for (auto const * child : getChildren()) {
-                if (!child || !child->isVisible())
+                if (child == nullptr || !child->isVisible()) {
                     continue;
-                int childEnd = child->getX() + child->getWidth() + child->getMarginRight();
-                contentW     = std::max(contentW, childEnd);
+                }
+                int const childEnd = child->getX() + child->getWidth() + child->getMarginRight();
+                contentW           = std::max(contentW, childEnd);
             }
             contentW += getPaddingLeft() + getPaddingRight();
             if (contentW > 0 && contentW < getWidth()) {

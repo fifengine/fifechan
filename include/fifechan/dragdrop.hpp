@@ -146,10 +146,10 @@ namespace fcn
         Widget* m_activeTarget{nullptr};
         Widget* m_modalWidget{nullptr};
 
-        DragPoint m_dragOffset{};
+        DragPoint m_dragOffset;
         DragRenderConfig m_renderConfig{};
 
-        DragPoint m_lastMousePos{};
+        DragPoint m_lastMousePos;
     };
 
 } // namespace fcn

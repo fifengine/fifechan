@@ -92,7 +92,6 @@ namespace fcn
         void widgetHidden(Event const & event) override;
         void widgetShown(Event const & event) override;
 
-    protected:
         /**
          * Panel that this item controls.
          */

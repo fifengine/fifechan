@@ -18,12 +18,17 @@ namespace fcn
 {
     /**
      * Defines the visibility state of a Panel.
+     *
+     * Visible: The panel is fully visible and occupies its normal layout space.
+     * Hidden: The panel is not rendered and does not occupy any layout space.
+     * Collapsed: The panel is rendered in a collapsed state, occupying minimal width (e.g., a thin strip) but still
+     * visible.
      */
-    enum class VisibilityState
+    enum class VisibilityState : std::uint8_t
     {
-        Visible,  //!< Fully visible
-        Hidden,   //!< Not rendered, no layout space
-        Collapsed //!< Minimal width visible (thin strip)
+        Visible,
+        Hidden,
+        Collapsed
     };
 
     /**
@@ -81,6 +86,7 @@ namespace fcn
          * @param visible True if panel should be visible, false otherwise.
          * @see isVisible
          */
+        // cppcheck-suppress duplInheritedMember
         void setVisible(bool visible);
 
         /**

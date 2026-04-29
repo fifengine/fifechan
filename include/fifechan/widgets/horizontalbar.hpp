@@ -25,12 +25,16 @@ namespace fcn
     public:
         /**
          * Alignment options for children within the bar.
+         *
+         * Start: Left-aligned (default)
+         * Center: Center-aligned
+         * End: Right-aligned
          */
         enum class Alignment
         {
-            Start,  // Left-aligned
-            Center, // Center-aligned
-            End     // Right-aligned
+            Start,
+            Center,
+            End
         };
 
         /**
@@ -40,7 +44,7 @@ namespace fcn
          */
         HorizontalBar();
 
-        ~HorizontalBar() override;
+        ~HorizontalBar() override = default;
 
         HorizontalBar(HorizontalBar const &)            = delete;
         HorizontalBar& operator=(HorizontalBar const &) = delete;
@@ -69,6 +73,7 @@ namespace fcn
          * @param padding The padding in pixels.
          * @see getPadding
          */
+        // cppcheck-suppress duplInheritedMember
         void setPadding(unsigned int padding);
 
         /**

@@ -160,7 +160,9 @@ TEST_CASE("KeyEvent Type enum values", "[unit][keyevent]")
 {
     SECTION("enum ordering")
     {
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::KeyEvent::Type::Pressed) == 0);
+        // cppcheck-suppress knownConditionTrueFalse
         REQUIRE(static_cast<int>(fcn::KeyEvent::Type::Released) == 1);
     }
 }

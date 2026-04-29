@@ -15,13 +15,11 @@
 
 namespace fcn
 {
-    MenuItem::MenuItem(std::string const & text) : mType(Type::Action)
+    MenuItem::MenuItem(std::string const & text)
     {
         setCaption(text);
         setBorderSize(0);
     }
-
-    MenuItem::~MenuItem() { }
 
     void MenuItem::setType(Type type)
     {
@@ -36,7 +34,7 @@ namespace fcn
     void MenuItem::setSubmenu(MenuPopup* popup)
     {
         mSubmenu = popup;
-        if (popup) {
+        if (popup != nullptr) {
             mType = Type::Submenu;
         }
     }
@@ -131,21 +129,21 @@ namespace fcn
         }
 
         // Use column layout if available, otherwise use legacy positioning
-        if (mColumnLayout) {
+        if (mColumnLayout != nullptr) {
             // Compute vertical text position for the main font
             int const textY =
                 getPaddingTop() + ((getHeight() - getPaddingTop() - getPaddingBottom() - getFont()->getHeight()) / 2);
 
             // Draw icon glyph (if present) or image/checkmark in icon column
             if (!mIconGlyph.empty()) {
-                Font* iconFont = mIconGlyphFont ? mIconGlyphFont : getFont();
+                Font* iconFont = mIconGlyphFont != nullptr ? mIconGlyphFont : getFont();
                 graphics->setFont(iconFont);
                 graphics->setColor(getForegroundColor());
                 int const iconY = getPaddingTop() +
                                   ((getHeight() - getPaddingTop() - getPaddingBottom() - iconFont->getHeight()) / 2);
                 graphics->drawText(mIconGlyph, mColumnLayout->xIcon, iconY, Graphics::Alignment::Left);
-            } else if (mIcon) {
-                int iconY = (getHeight() - mIcon->getHeight()) / 2;
+            } else if (mIcon != nullptr) {
+                int const iconY = (getHeight() - mIcon->getHeight()) / 2;
                 graphics->drawImage(mIcon, mColumnLayout->xIcon, iconY);
             } else if (mType == Type::Checkable && mChecked) {
                 graphics->setFont(getFont());
@@ -184,14 +182,14 @@ namespace fcn
 
             // Draw icon if present
             if (!mIconGlyph.empty()) {
-                Font* iconFont = mIconGlyphFont ? mIconGlyphFont : getFont();
+                Font* iconFont = mIconGlyphFont != nullptr ? mIconGlyphFont : getFont();
                 graphics->setFont(iconFont);
                 int const iconY = getPaddingTop() +
                                   ((getHeight() - getPaddingTop() - getPaddingBottom() - iconFont->getHeight()) / 2);
                 graphics->setColor(getForegroundColor());
                 graphics->drawText(mIconGlyph, 4, iconY, Graphics::Alignment::Left);
                 textX += iconFont->getWidth(mIconGlyph) + 4;
-            } else if (mIcon) {
+            } else if (mIcon != nullptr) {
                 graphics->drawImage(mIcon, 4, (getHeight() - mIcon->getHeight()) / 2);
                 textX += mIcon->getWidth() + 4;
             }
@@ -252,10 +250,10 @@ namespace fcn
         }
 
         // Icon width: image, glyph, or checkmark space
-        if (mIcon) {
+        if (mIcon != nullptr) {
             m.iconW = mIcon->getWidth();
         } else if (!mIconGlyph.empty()) {
-            if (mIconGlyphFont) {
+            if (mIconGlyphFont != nullptr) {
                 m.iconW = mIconGlyphFont->getWidth(mIconGlyph);
             } else {
                 m.iconW = font.getWidth(mIconGlyph);
@@ -282,16 +280,16 @@ namespace fcn
 
         // Height: max of icon height or font height, plus vertical padding
         int contentH = font.getHeight();
-        if (mIcon) {
+        if (mIcon != nullptr) {
             contentH = std::max(contentH, mIcon->getHeight());
         }
         if (!mIconGlyph.empty()) {
-            int iconFontH = mIconGlyphFont ? mIconGlyphFont->getHeight() : font.getHeight();
-            contentH      = std::max(contentH, iconFontH);
+            int const iconFontH = mIconGlyphFont != nullptr ? mIconGlyphFont->getHeight() : font.getHeight();
+            contentH            = std::max(contentH, iconFontH);
         }
         // Add vertical padding (top + bottom)
-        int vpad = getPaddingTop() + getPaddingBottom();
-        m.height = contentH + vpad;
+        int const vpad = getPaddingTop() + getPaddingBottom();
+        m.height       = contentH + vpad;
 
         return m;
     }

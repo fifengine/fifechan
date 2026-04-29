@@ -1767,7 +1767,6 @@ namespace fcn
          */
         std::list<Widget*> const & getChildren() const;
 
-    protected:
         /**
          * Distribute drag events to registered drop target listeners.
          * These are called by DragHandler during update/drop.

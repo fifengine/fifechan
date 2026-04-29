@@ -331,7 +331,7 @@ namespace fcn
         /**
          * Opacity of the container, between 0.0 (fully transparent) and 1.0 (fully opaque).
          */
-        float mOpacity{1.0f};
+        float mOpacity{1.0F};
 
         /**
          * True if the container is opaque, false otherwise.

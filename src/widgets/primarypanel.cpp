@@ -9,13 +9,11 @@
 
 namespace fcn
 {
-    PrimaryPanel::PrimaryPanel(std::string const & title) : mDefaultWidth(250)
+    PrimaryPanel::PrimaryPanel(std::string const & title)
     {
         setTitle(title);
         setWidth(mDefaultWidth);
     }
-
-    PrimaryPanel::~PrimaryPanel() { }
 
     void PrimaryPanel::setDefaultWidth(int width)
     {

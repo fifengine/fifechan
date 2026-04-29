@@ -78,7 +78,7 @@ namespace fcn
          * Separator: Non-interactive divider (a line between items).
          * Checkable: An item that can be toggled on/off (e.g. with a checkmark).
          */
-        enum class Type
+        enum class Type : std::uint8_t
         {
             Action,
             Submenu,
@@ -93,7 +93,7 @@ namespace fcn
          */
         explicit MenuItem(std::string const & text);
 
-        ~MenuItem() override;
+        ~MenuItem() override = default;
 
         MenuItem(MenuItem const &)            = delete;
         MenuItem& operator=(MenuItem const &) = delete;
@@ -191,6 +191,7 @@ namespace fcn
          * @param enabled True if enabled.
          * @see isEnabled
          */
+        // cppcheck-suppress duplInheritedMember
         void setEnabled(bool enabled);
 
         /**
@@ -199,6 +200,7 @@ namespace fcn
          * @return True if enabled.
          * @see setEnabled
          */
+        // cppcheck-suppress duplInheritedMember
         bool isEnabled() const;
 
         // Override draw for custom rendering
@@ -258,6 +260,7 @@ namespace fcn
         /**
          * Enabled state.
          */
+        // cppcheck-suppress duplInheritedMember
         bool mEnabled{true};
 
         /**

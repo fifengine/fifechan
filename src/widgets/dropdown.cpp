@@ -383,7 +383,7 @@ namespace fcn
     void DropDown::action([[maybe_unused]] ActionEvent const & actionEvent)
     {
         foldUp();
-        if (mFocusHandler) {
+        if (mFocusHandler != nullptr) {
             mFocusHandler->popModal();
         }
         distributeActionEvent();

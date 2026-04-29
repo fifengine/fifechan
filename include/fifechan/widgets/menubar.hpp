@@ -36,7 +36,7 @@ namespace fcn
          */
         MenuBar();
 
-        ~MenuBar() override;
+        ~MenuBar() override = default;
 
         MenuBar(MenuBar const &)            = delete;
         MenuBar& operator=(MenuBar const &) = delete;

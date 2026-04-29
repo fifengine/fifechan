@@ -32,20 +32,22 @@ namespace fcn
         // If the click targets the top MenuBar or a MenuItem,
         // we should allow the event to propagate,
         // so the MenuBar can toggle the popup.
-        int x = event.getX();
-        int y = event.getY();
+        int const x = event.getX();
+        int const y = event.getY();
 
         bool clickHitsMenuBar          = false;
         Container const * topContainer = dynamic_cast<Container*>(getTop());
-        if (topContainer) {
+        if (topContainer != nullptr) {
             for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
                 Widget* child = topContainer->getChild(i);
-                if (!child || child == this)
+                if (child == nullptr || child == this) {
                     continue;
-                int cx = 0, cy = 0;
+                }
+                int cx = 0;
+                int cy = 0;
                 child->getAbsolutePosition(cx, cy);
                 if (x >= cx && x < cx + child->getWidth() && y >= cy && y < cy + child->getHeight()) {
-                    if (dynamic_cast<MenuBar*>(child) || dynamic_cast<MenuItem*>(child)) {
+                    if (dynamic_cast<MenuBar*>(child) != nullptr || dynamic_cast<MenuItem*>(child) != nullptr) {
                         clickHitsMenuBar = true;
                         break;
                     }
@@ -61,7 +63,7 @@ namespace fcn
 
         // Otherwise close the owning popup and consume the event
         // so other widgets don't react to the click.
-        if (mOwner) {
+        if (mOwner != nullptr) {
             mOwner->hide();
         }
 

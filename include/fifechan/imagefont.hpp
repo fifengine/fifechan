@@ -38,7 +38,7 @@ namespace fcn
      * - Auto: Try PixelAtOrigin first; if the number of detected glyphs is significantly lower
      *   than expected, automatically fall back to BorderDominant.
      */
-    enum class SeparatorStrategy
+    enum class SeparatorStrategy : std::uint8_t
     {
         PixelAtOrigin,
         BorderDominant,

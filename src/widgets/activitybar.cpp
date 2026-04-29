@@ -17,8 +17,6 @@ namespace fcn
         setOpaque(true);
     }
 
-    ActivityBar::~ActivityBar() { }
-
     void ActivityBar::setWidth(int width)
     {
         mWidth = width;
@@ -55,9 +53,9 @@ namespace fcn
 
     void ActivityBar::showAll()
     {
-        for (auto child : getChildren()) {
+        for (auto* child : getChildren()) {
             auto* toggle = dynamic_cast<ToggleButton*>(child);
-            if (toggle) {
+            if (toggle != nullptr) {
                 toggle->setSelected(true);
             }
         }
@@ -65,9 +63,9 @@ namespace fcn
 
     void ActivityBar::hideAll()
     {
-        for (auto child : getChildren()) {
+        for (auto* child : getChildren()) {
             auto* toggle = dynamic_cast<ToggleButton*>(child);
-            if (toggle) {
+            if (toggle != nullptr) {
                 toggle->setSelected(false);
             }
         }

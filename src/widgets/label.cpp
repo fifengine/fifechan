@@ -93,8 +93,8 @@ namespace fcn
             return std::max(acc, getFont()->getWidth(line));
         });
 
-        int lineCount   = static_cast<int>(lines.size());
-        int totalHeight = lineCount * getFont()->getHeight();
+        int const lineCount   = static_cast<int>(lines.size());
+        int const totalHeight = lineCount * getFont()->getHeight();
 
         setSize(
             (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight() + maxWidth,
@@ -179,7 +179,7 @@ namespace fcn
                 start = pos + 1;
             }
 
-            int y = textY + lineIndex * fontHeightLocal;
+            int const y = textY + (lineIndex * fontHeightLocal);
 
             // For center/right alignment, Graphics::drawText uses alignment to offset x accordingly.
             graphics->drawText(line, textX, y, getAlignment());

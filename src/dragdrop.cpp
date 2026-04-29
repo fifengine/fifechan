@@ -47,8 +47,9 @@ namespace fcn
 
     bool DragHandler::beginDrag(Widget* source, std::unique_ptr<DragPayload> payload, int mouseX, int mouseY)
     {
-        if (m_state == DragState::Dragging || !payload)
+        if (m_state == DragState::Dragging || !payload) {
             return false;
+        }
         m_sourceWidget = source;
         m_payload      = std::move(payload);
         m_state        = DragState::Dragging;
@@ -64,12 +65,14 @@ namespace fcn
 
     void DragHandler::update(int mouseX, int mouseY)
     {
-        if (m_state != DragState::Dragging)
+        if (m_state != DragState::Dragging) {
             return;
+        }
         m_lastMousePos = DragPoint(mouseX, mouseY);
 
-        if (!m_gui)
+        if (m_gui == nullptr) {
             return;
+        }
 
         Widget* candidate = m_gui->getWidgetAt(mouseX, mouseY);
 
@@ -79,11 +82,12 @@ namespace fcn
             updateActiveTarget();
         } else {
             // same hovered widget, forward hover to active target if any
-            if (m_activeTarget) {
-                int absX = 0, absY = 0;
+            if (m_activeTarget != nullptr) {
+                int absX = 0;
+                int absY = 0;
                 m_activeTarget->getAbsolutePosition(absX, absY);
-                int localX = mouseX - absX;
-                int localY = mouseY - absY;
+                int const localX = mouseX - absX;
+                int const localY = mouseY - absY;
                 DragEvent hoverEvt(
                     m_activeTarget, m_payload.get(), DragEvent::Type::Hover, localX, localY, mouseX, mouseY);
                 m_activeTarget->distributeDragHover(hoverEvt);
@@ -93,15 +97,17 @@ namespace fcn
 
     DropResult DragHandler::drop(int /*mouseX*/, int /*mouseY*/)
     {
-        if (m_state != DragState::Dragging)
+        if (m_state != DragState::Dragging) {
             return DropResult::Cancelled;
-        if (m_activeTarget) {
-            int mouseX = m_lastMousePos.x;
-            int mouseY = m_lastMousePos.y;
-            int absX = 0, absY = 0;
+        }
+        if (m_activeTarget != nullptr) {
+            int const mouseX = m_lastMousePos.x;
+            int const mouseY = m_lastMousePos.y;
+            int absX         = 0;
+            int absY         = 0;
             m_activeTarget->getAbsolutePosition(absX, absY);
-            int localX = mouseX - absX;
-            int localY = mouseY - absY;
+            int const localX = mouseX - absX;
+            int const localY = mouseY - absY;
             DragEvent dropEvt(m_activeTarget, m_payload.get(), DragEvent::Type::Drop, localX, localY, mouseX, mouseY);
             m_activeTarget->distributeDragDrop(dropEvt);
             m_payload.reset();
@@ -117,10 +123,11 @@ namespace fcn
 
     void DragHandler::cancel()
     {
-        if (m_state != DragState::Dragging)
+        if (m_state != DragState::Dragging) {
             return;
+        }
         // notify active target about leave if needed
-        if (m_activeTarget) {
+        if (m_activeTarget != nullptr) {
             distributeDragLeave();
             m_activeTarget = nullptr;
         }
@@ -155,39 +162,44 @@ namespace fcn
     Widget* DragHandler::findWidgetAt(Widget* root, int x, int y, bool mustBeVisible, bool mustBeEnabled)
     {
         // Defer to Widget's existing hit test - this helper is a convenience placeholder.
-        if (!root)
+        if (root == nullptr) {
             return nullptr;
+        }
         return root->getWidgetAt(x, y);
     }
 
     void DragHandler::distributeDragLeave()
     {
-        if (!m_activeTarget || !m_payload)
+        if (m_activeTarget == nullptr || m_payload == nullptr) {
             return;
+        }
 
-        int mouseX = m_lastMousePos.x;
-        int mouseY = m_lastMousePos.y;
-        int absX = 0, absY = 0;
+        int const mouseX = m_lastMousePos.x;
+        int const mouseY = m_lastMousePos.y;
+        int absX         = 0;
+        int absY         = 0;
         m_activeTarget->getAbsolutePosition(absX, absY);
-        int localX = mouseX - absX;
-        int localY = mouseY - absY;
+        int const localX = mouseX - absX;
+        int const localY = mouseY - absY;
         DragEvent leaveEvt(m_activeTarget, m_payload.get(), DragEvent::Type::Leave, localX, localY, mouseX, mouseY);
         m_activeTarget->distributeDragLeave(leaveEvt);
     }
 
     void DragHandler::distributeDragEnter(Widget* candidate)
     {
-        if (!candidate || !m_payload)
+        if (candidate == nullptr || m_payload == nullptr) {
             return;
+        }
 
-        int mouseX = m_lastMousePos.x;
-        int mouseY = m_lastMousePos.y;
-        int absX = 0, absY = 0;
+        int const mouseX = m_lastMousePos.x;
+        int const mouseY = m_lastMousePos.y;
+        int absX         = 0;
+        int absY         = 0;
         candidate->getAbsolutePosition(absX, absY);
-        int localX = mouseX - absX;
-        int localY = mouseY - absY;
+        int const localX = mouseX - absX;
+        int const localY = mouseY - absY;
         DragEvent enterEvt(candidate, m_payload.get(), DragEvent::Type::Enter, localX, localY, mouseX, mouseY);
-        bool accepted = candidate->distributeDragEnter(enterEvt);
+        bool const accepted = candidate->distributeDragEnter(enterEvt);
         if (accepted) {
             m_activeTarget = candidate;
         }
@@ -196,13 +208,13 @@ namespace fcn
     void DragHandler::updateActiveTarget()
     {
         // If we have an active target but no hovered widget, fire leave.
-        if (m_activeTarget && m_hoveredWidget != m_activeTarget) {
+        if (m_activeTarget != nullptr && m_hoveredWidget != m_activeTarget) {
             distributeDragLeave();
             m_activeTarget = nullptr;
         }
 
         // If we have a hovered widget and no active target, try to enter it.
-        if (m_hoveredWidget && m_activeTarget == nullptr) {
+        if (m_hoveredWidget != nullptr && m_activeTarget == nullptr) {
             distributeDragEnter(m_hoveredWidget);
         }
     }

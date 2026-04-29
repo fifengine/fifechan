@@ -166,37 +166,37 @@ namespace fcn
         for (int i = 0; i < static_cast<int>(getBorderSize()); ++i) {
             if (style == BORDER_STYLE_FLAT) {
                 // Flat style: use borderColor for all requested sides
-                if (sides & Widget::BORDER_TOP) {
+                if ((sides & Widget::BORDER_TOP) != 0U) {
                     graphics->setColor(borderColor);
                     graphics->drawLine(i, i, width - i, i);
                 }
-                if (sides & Widget::BORDER_LEFT) {
+                if ((sides & Widget::BORDER_LEFT) != 0U) {
                     graphics->setColor(borderColor);
                     graphics->drawLine(i, i + 1, i, height - i - 1);
                 }
-                if (sides & Widget::BORDER_RIGHT) {
+                if ((sides & Widget::BORDER_RIGHT) != 0U) {
                     graphics->setColor(borderColor);
                     graphics->drawLine(width - i, i + 1, width - i, height - i);
                 }
-                if (sides & Widget::BORDER_BOTTOM) {
+                if ((sides & Widget::BORDER_BOTTOM) != 0U) {
                     graphics->setColor(borderColor);
                     graphics->drawLine(i, height - i, width - i - 1, height - i);
                 }
             } else {
                 // Bevel style (default): shadow on top/left, highlight on right/bottom
-                if (sides & Widget::BORDER_TOP) {
+                if ((sides & Widget::BORDER_TOP) != 0U) {
                     graphics->setColor(shadowColor);
                     graphics->drawLine(i, i, width - i, i);
                 }
-                if (sides & Widget::BORDER_LEFT) {
+                if ((sides & Widget::BORDER_LEFT) != 0U) {
                     graphics->setColor(shadowColor);
                     graphics->drawLine(i, i + 1, i, height - i - 1);
                 }
-                if (sides & Widget::BORDER_RIGHT) {
+                if ((sides & Widget::BORDER_RIGHT) != 0U) {
                     graphics->setColor(highlightColor);
                     graphics->drawLine(width - i, i + 1, width - i, height - i);
                 }
-                if (sides & Widget::BORDER_BOTTOM) {
+                if ((sides & Widget::BORDER_BOTTOM) != 0U) {
                     graphics->setColor(highlightColor);
                     graphics->drawLine(i, height - i, width - i - 1, height - i);
                 }
@@ -1615,11 +1615,11 @@ namespace fcn
 
     bool Widget::isDescendantOf(Widget const * ancestor) const noexcept
     {
-        if (!ancestor) {
+        if (ancestor == nullptr) {
             return false;
         }
         Widget const * current = this;
-        while (current) {
+        while (current != nullptr) {
             if (current == ancestor) {
                 return true;
             }
@@ -1633,10 +1633,10 @@ namespace fcn
         // Note: We use const_cast to call the non-const _getFocusHandler.
         // This is safe because _getFocusHandler doesn't modify the widget.
         FocusHandler* fh = const_cast<Widget*>(this)->_getFocusHandler();
-        if (!fh) {
+        if (fh == nullptr) {
             return false;
         }
         Widget const * modal = fh->getMouseCaptureOwner();
-        return modal && isDescendantOf(modal);
+        return (modal != nullptr) && isDescendantOf(modal);
     }
 } // namespace fcn

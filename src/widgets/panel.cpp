@@ -54,7 +54,7 @@ namespace fcn
     void Panel::adjustSize()
     {
         if (mVisibilityState == VisibilityState::Collapsed) {
-            int width = mCollapsedWidth + (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+            int const width = mCollapsedWidth + (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
             setWidth(width);
         } else if (mVisibilityState == VisibilityState::Hidden) {
             // Don't adjust size when hidden - maintain original dimensions
@@ -102,7 +102,7 @@ namespace fcn
             }
 
             // Draw title text (clipped to collapsed width)
-            if (!mTitle.empty() && getFont()) {
+            if (!mTitle.empty() && getFont() != nullptr) {
                 graphics->setColor(getForegroundColor());
                 graphics->setFont(getFont());
 
@@ -189,7 +189,7 @@ namespace fcn
             return;
         }
 
-        if (mClosable && mCloseButtonBounds.isEmpty() == false) {
+        if (mClosable && !mCloseButtonBounds.isEmpty()) {
             int const x = event.getX();
             int const y = event.getY();
 

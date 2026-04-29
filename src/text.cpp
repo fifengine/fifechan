@@ -111,7 +111,7 @@ namespace fcn
 
     void Text::addRow(std::string const & row)
     {
-        for (char i : row) {
+        for (char const i : row) {
             if (i == '\n') {
                 throwException("Line feed not allowed in the row to be added!");
             }
@@ -133,7 +133,7 @@ namespace fcn
             throwException("Position out of bounds!");
         }
 
-        for (char i : row) {
+        for (char const i : row) {
             if (i == '\n') {
                 throwException("Line feed not allowed in the row to be inserted!");
             }
@@ -176,7 +176,7 @@ namespace fcn
             }
         } else {
             if (c == '\n') {
-                std::string tail = mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn);
+                std::string const tail = mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn);
                 mRows[mCaretRow].resize(mCaretColumn);
                 mRows.insert(mRows.begin() + mCaretRow + 1, tail);
             } else {
@@ -260,8 +260,8 @@ namespace fcn
             return;
         }
 
-        unsigned int pos   = static_cast<unsigned int>(position);
-        unsigned int total = 0;
+        unsigned int const pos = static_cast<unsigned int>(position);
+        unsigned int total     = 0;
 
         for (unsigned int i = 0; i < mRows.size(); ++i) {
             unsigned int const rowLen = static_cast<unsigned int>(mRows[i].size());

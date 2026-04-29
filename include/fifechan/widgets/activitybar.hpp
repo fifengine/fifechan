@@ -34,7 +34,7 @@ namespace fcn
          */
         explicit ActivityBar(int width = 48);
 
-        ~ActivityBar() override;
+        ~ActivityBar() override = default;
 
         ActivityBar(ActivityBar const &)            = delete;
         ActivityBar& operator=(ActivityBar const &) = delete;
@@ -55,6 +55,7 @@ namespace fcn
          * @return The width in pixels.
          * @see setWidth
          */
+        // cppcheck-suppress duplInheritedMember
         int getWidth() const;
 
         /**
@@ -78,6 +79,7 @@ namespace fcn
          *
          * @param listener The listener to add.
          */
+        // cppcheck-suppress duplInheritedMember
         void addActionListener(ActionListener* listener);
 
         /**
@@ -85,6 +87,7 @@ namespace fcn
          *
          * @param listener The listener to remove.
          */
+        // cppcheck-suppress duplInheritedMember
         void removeActionListener(ActionListener* listener);
 
         /**
@@ -122,6 +125,7 @@ namespace fcn
         /**
          * List of action listeners.
          */
+        // cppcheck-suppress duplInheritedMember
         std::list<ActionListener*> mActionListeners;
     };
 } // namespace fcn

@@ -42,7 +42,7 @@ namespace fcn
          */
         MenuPopup();
 
-        ~MenuPopup() override;
+        ~MenuPopup() override = default;
 
         MenuPopup(MenuPopup const &)            = delete;
         MenuPopup& operator=(MenuPopup const &) = delete;
@@ -67,6 +67,7 @@ namespace fcn
          *
          * @return True if visible.
          */
+        // cppcheck-suppress duplInheritedMember
         bool isVisible() const;
 
         /**
@@ -147,6 +148,7 @@ namespace fcn
         /**
          * Whether the popup is visible.
          */
+        // cppcheck-suppress duplInheritedMember
         bool mVisible{false};
 
         /**

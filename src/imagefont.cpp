@@ -32,9 +32,11 @@ namespace fcn
      */
     static Color getBorderDominantColor(Image* img)
     {
-        int w = img->getWidth(), h = img->getHeight();
-        if (w <= 0 || h <= 0)
+        int const w = img->getWidth();
+        int const h = img->getHeight();
+        if (w <= 0 || h <= 0) {
             return Color{0, 0, 0, 255};
+        }
 
         struct RGB
         {
@@ -94,7 +96,8 @@ namespace fcn
     static std::vector<Rectangle> scanGlyphs(
         Image* img, int expectedCount, Color const & sep, int padding, bool verbose)
     {
-        int w = img->getWidth(), h = img->getHeight();
+        int const w = img->getWidth();
+        int const h = img->getHeight();
         std::vector<Rectangle> found;
 
         int startY      = 0;
@@ -108,8 +111,9 @@ namespace fcn
                 }
             }
         }
-        if (!foundStart)
+        if (!foundStart) {
             throwException("Image contains no glyph content");
+        }
 
         int ycur         = startY;
         int maxRowHeight = 0;
@@ -124,14 +128,16 @@ namespace fcn
                         break;
                     }
                 }
-                if (!hasContent)
+                if (!hasContent) {
                     break;
+                }
             }
-            if (rowEnd == ycur)
+            if (rowEnd == ycur) {
                 break;
+            }
 
-            int rowH     = rowEnd - ycur;
-            maxRowHeight = std::max(maxRowHeight, rowH);
+            int const rowH = rowEnd - ycur;
+            maxRowHeight   = std::max(maxRowHeight, rowH);
 
             auto isSepCol = [&](int col) {
                 // Check top and bottom of column (matches fixedfont.bmp and rpgfont.png)
@@ -140,17 +146,20 @@ namespace fcn
 
             int xcur = 0;
             while (xcur < w && static_cast<int>(found.size()) < expectedCount) {
-                while (xcur < w && isSepCol(xcur))
+                while (xcur < w && isSepCol(xcur)) {
                     ++xcur;
-                if (xcur >= w)
+                }
+                if (xcur >= w) {
                     break;
+                }
 
-                int sx = xcur;
-                while (xcur < w && !isSepCol(xcur))
+                int const sx = xcur;
+                while (xcur < w && !isSepCol(xcur)) {
                     ++xcur;
+                }
 
-                int width  = std::max(1, xcur - sx - padding * 2);
-                int height = std::max(1, rowH - padding * 2);
+                int width  = std::max(1, xcur - sx - (padding * 2));
+                int height = std::max(1, rowH - (padding * 2));
                 found.push_back({sx + padding, ycur + padding, width, height});
             }
             ycur = rowEnd + 1;
@@ -161,8 +170,9 @@ namespace fcn
     ImageFont::ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config) :
         mFilename(filename), mImage(Image::load(filename, false))
     {
-        if (!mImage)
+        if (mImage == nullptr) {
             throwException(std::string("Failed to load image: ") + filename);
+        }
 
         int expected = static_cast<int>(glyphs.size());
         Color sep    = resolveSeparator(mImage, config);
@@ -384,8 +394,9 @@ namespace fcn
         ImageFontConfig const & config) :
         mFilename(filename), mImage(Image::load(filename, false))
     {
-        if (!mImage)
+        if (mImage == nullptr) {
             throwException(std::string("Failed to load image: ") + filename);
+        }
 
         int expected = static_cast<int>(glyphsTo) - static_cast<int>(glyphsFrom) + 1;
         Color sep    = resolveSeparator(mImage, config);
@@ -408,8 +419,8 @@ namespace fcn
         }
 
         for (int i = 0; i < expected; ++i) {
-            unsigned char glyph = static_cast<unsigned char>(static_cast<int>(glyphsFrom) + i);
-            mGlyph[glyph]       = found[i];
+            unsigned char const glyph = static_cast<unsigned char>(static_cast<int>(glyphsFrom) + i);
+            mGlyph[glyph]             = found[i];
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxH, auto const & r) {

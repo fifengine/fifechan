@@ -13,13 +13,13 @@
 namespace fcn
 {
     ActivityBarItem::ActivityBarItem(std::string const & icon, std::string const & tooltip, Widget* panel) :
-        mSize(40), mPanel(panel)
+        mPanel(panel)
     {
         setCaption(icon);
         Widget::setSize(mSize, mSize);
 
         // Register as widget listener on the panel if provided
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->addWidgetListener(this);
         }
     }
@@ -27,7 +27,7 @@ namespace fcn
     ActivityBarItem::~ActivityBarItem()
     {
         // Remove ourselves as a widget listener from the panel
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->removeWidgetListener(this);
         }
     }
@@ -35,14 +35,14 @@ namespace fcn
     void ActivityBarItem::setPanel(Widget* panel)
     {
         // Remove ourselves as a widget listener from the old panel
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->removeWidgetListener(this);
         }
 
         mPanel = panel;
 
         // Register as widget listener on the new panel
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->addWidgetListener(this);
         }
     }
@@ -67,7 +67,7 @@ namespace fcn
     {
         ToggleButton::setSelected(selected);
         // Sync panel visibility with button state
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->setVisible(selected);
         }
     }
@@ -76,7 +76,7 @@ namespace fcn
     {
         ToggleButton::toggleSelected();
         // Toggle panel visibility
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->setVisible(isSelected());
         }
     }
@@ -84,7 +84,7 @@ namespace fcn
     void ActivityBarItem::setPanelVisible(bool visible)
     {
         // Set panel visibility directly
-        if (mPanel) {
+        if (mPanel != nullptr) {
             mPanel->setVisible(visible);
         }
 

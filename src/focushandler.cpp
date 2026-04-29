@@ -73,7 +73,7 @@ namespace fcn
         // Capture the mouseOwner
         // release existing mouse capture, if it conflicts
         if (Widget* existingCapture = Widget::getMouseCapture()) {
-            if (mouseOwner && !mouseOwner->isDescendantOf(existingCapture)) {
+            if (mouseOwner != nullptr && !mouseOwner->isDescendantOf(existingCapture)) {
                 existingCapture->releaseMouse();
             }
         }

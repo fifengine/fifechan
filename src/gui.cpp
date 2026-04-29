@@ -707,7 +707,7 @@ namespace fcn
          */
         bool isDescendantOf(fcn::Widget const * child, fcn::Widget const * ancestor) noexcept
         {
-            if (!child || !ancestor) {
+            if (child == nullptr || ancestor == nullptr) {
                 return false;
             }
 
@@ -757,7 +757,7 @@ namespace fcn
     Widget* Gui::getMouseEventSource(int x, int y)
     {
         Widget* leaf = getWidgetAt(x, y);
-        if (!leaf) {
+        if (leaf == nullptr) {
             return nullptr;
         }
 
@@ -771,7 +771,7 @@ namespace fcn
 
         // 2. Fallback to modal stack's mouse owner
         Widget* modalRoot = mFocusHandler->getMouseCaptureOwner();
-        if (!modalRoot) {
+        if (modalRoot == nullptr) {
             return leaf;
         }
 

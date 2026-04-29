@@ -172,7 +172,7 @@ namespace fcn::sdl2
                 keyInput.setType(KeyInput::Type::Pressed);
                 // SDL_TEXTINPUT events do not populate the `key` union member.
                 // Use SDL_GetModState() to query modifier keys instead.
-                SDL_Keymod mods = SDL_GetModState();
+                SDL_Keymod const mods = SDL_GetModState();
                 keyInput.setShiftPressed((mods & KMOD_SHIFT) != 0);
                 keyInput.setControlPressed((mods & KMOD_CTRL) != 0);
                 keyInput.setAltPressed((mods & KMOD_ALT) != 0);

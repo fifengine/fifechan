@@ -18,7 +18,7 @@
 
 namespace fcn::sdl2
 {
-    ImageLoader::ImageLoader() : mRenderer(nullptr) { }
+    ImageLoader::ImageLoader() { }
 
     namespace
     {

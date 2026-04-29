@@ -37,7 +37,7 @@ namespace fcn
 
         // Get font to use for measurements
         Font const * font = getFont();
-        if (!font) {
+        if (font == nullptr) {
             return;
         }
 
@@ -48,12 +48,14 @@ namespace fcn
         std::unordered_map<MenuItem*, MenuItemMetrics> metricsMap;
 
         for (auto* child : children) {
-            if (!child)
+            if (child == nullptr) {
                 continue;
+            }
 
             auto* mi = dynamic_cast<MenuItem*>(child);
-            if (!mi)
+            if (mi == nullptr) {
                 continue;
+            }
 
             if (mi->getType() == MenuItem::Type::Separator) {
                 continue;
@@ -71,20 +73,20 @@ namespace fcn
         }
 
         // Determine actual gaps (collapse if column is empty)
-        int gapIconCaption     = cols.iconW > 0 ? GAP_ICON_CAPTION : 0;
-        int gapCaptionShortcut = (cols.captionW > 0 && cols.shortcutW > 0) ? GAP_CAPTION_SHORTCUT : 0;
-        int gapShortcutArrow   = (cols.shortcutW > 0 && cols.arrowW > 0) ? GAP_SHORTCUT_ARROW : 0;
+        int const gapIconCaption     = cols.iconW > 0 ? GAP_ICON_CAPTION : 0;
+        int const gapCaptionShortcut = (cols.captionW > 0 && cols.shortcutW > 0) ? GAP_CAPTION_SHORTCUT : 0;
+        int const gapShortcutArrow   = (cols.shortcutW > 0 && cols.arrowW > 0) ? GAP_SHORTCUT_ARROW : 0;
 
         // === Compute Content Width ===
-        int contentW = cols.iconW + gapIconCaption + cols.captionW + gapCaptionShortcut + cols.shortcutW +
-                       gapShortcutArrow + cols.arrowW;
+        int const contentW = cols.iconW + gapIconCaption + cols.captionW + gapCaptionShortcut + cols.shortcutW +
+                             gapShortcutArrow + cols.arrowW;
 
         // === PASS 2: Layout Items ===
         // Compute X positions for each column
-        int xIcon     = 0;
-        int xCaption  = xIcon + cols.iconW + gapIconCaption;
-        int xShortcut = xCaption + cols.captionW + gapCaptionShortcut;
-        int xArrow    = xShortcut + cols.shortcutW + gapShortcutArrow;
+        int const xIcon     = 0;
+        int const xCaption  = xIcon + cols.iconW + gapIconCaption;
+        int const xShortcut = xCaption + cols.captionW + gapCaptionShortcut;
+        int const xArrow    = xShortcut + cols.shortcutW + gapShortcutArrow;
 
         // Create column layout struct
         ColumnLayout layout{};
@@ -99,8 +101,9 @@ namespace fcn
         int y        = 0;
 
         for (auto* child : children) {
-            if (!child)
+            if (child == nullptr) {
                 continue;
+            }
 
             int h = child->getHeight();
 
@@ -127,16 +130,18 @@ namespace fcn
 
         // === Compute Final Popup Size ===
         // Get border and padding
-        int leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) ? static_cast<int>(getBorderSize()) : 0;
-        int rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) ? static_cast<int>(getBorderSize()) : 0;
-        int topBorder    = (getBorderSides() & Widget::BORDER_TOP) ? static_cast<int>(getBorderSize()) : 0;
-        int bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder = ((getBorderSides() & Widget::BORDER_LEFT) != 0U) ? static_cast<int>(getBorderSize()) : 0;
+        int const rightBorder =
+            ((getBorderSides() & Widget::BORDER_RIGHT) != 0U) ? static_cast<int>(getBorderSize()) : 0;
+        int const topBorder = ((getBorderSides() & Widget::BORDER_TOP) != 0U) ? static_cast<int>(getBorderSize()) : 0;
+        int const bottomBorder =
+            ((getBorderSides() & Widget::BORDER_BOTTOM) != 0U) ? static_cast<int>(getBorderSize()) : 0;
 
-        int contentPaddingW = leftBorder + rightBorder + getPaddingLeft() + getPaddingRight();
-        int contentPaddingH = topBorder + bottomBorder + getPaddingTop() + getPaddingBottom();
+        int const contentPaddingW = leftBorder + rightBorder + getPaddingLeft() + getPaddingRight();
+        int const contentPaddingH = topBorder + bottomBorder + getPaddingTop() + getPaddingBottom();
 
-        int popupWidth  = contentW + contentPaddingW;
-        int popupHeight = contentH + contentPaddingH;
+        int const popupWidth  = contentW + contentPaddingW;
+        int const popupHeight = contentH + contentPaddingH;
 
         // Apply final size
         setSize(popupWidth, popupHeight);
@@ -164,10 +169,8 @@ namespace fcn
         addMouseListener(this);
 
         // Initial size: content area 150x10 plus border on both sides
-        setSize(150 + static_cast<int>(getBorderSize()) * 2, 10 + static_cast<int>(getBorderSize()) * 2);
+        setSize(150 + (static_cast<int>(getBorderSize()) * 2), 10 + (static_cast<int>(getBorderSize()) * 2));
     }
-
-    MenuPopup::~MenuPopup() { }
 
     void MenuPopup::show(int x, int y)
     {
@@ -176,16 +179,16 @@ namespace fcn
         Container* topContainer = nullptr;
 
         // Try to find top container
-        if (mParentMenuItem) {
+        if (mParentMenuItem != nullptr) {
             topContainer = dynamic_cast<Container*>(mParentMenuItem->getTop());
         }
-        if (!topContainer) {
+        if (topContainer == nullptr) {
             topContainer = dynamic_cast<Container*>(getTop());
         }
 
         // If currently in a different parent, remove from that parent first
         Widget* currentParent = getParent();
-        if (currentParent && currentParent != topContainer) {
+        if (currentParent != nullptr && currentParent != topContainer) {
             if (auto* parentContainer = dynamic_cast<Container*>(currentParent)) {
                 parentContainer->remove(this);
             }
@@ -193,7 +196,7 @@ namespace fcn
 
         // Add to top container FIRST before calling moveToTop().
         // moveToTop() throws if the widget is not already a child of the container.
-        if (topContainer && currentParent != topContainer) {
+        if (topContainer != nullptr && currentParent != topContainer) {
             topContainer->add(this);
         }
 
@@ -201,7 +204,7 @@ namespace fcn
         setPosition(x, y);
 
         // Now move to top for proper z-ordering (widget is guaranteed to be a child)
-        if (topContainer) {
+        if (topContainer != nullptr) {
             topContainer->moveToTop(this);
         }
 
@@ -211,13 +214,13 @@ namespace fcn
 
         // Use RAII ModalScope so the modal is popped automatically when
         // the popup is hidden or destroyed. Only create for root menus.
-        if (_getFocusHandler() && mParentMenu == nullptr) {
+        if (_getFocusHandler() != nullptr && mParentMenu == nullptr) {
             mModalScope = std::make_unique<FocusHandler::ModalScope>(_getFocusHandler(), this, this);
 
             // Request focus on the popup for keyboard navigation
             requestFocus();
 
-            if (topContainer) {
+            if (topContainer != nullptr) {
                 // Create backdrop, size it to cover top and add it behind menus.
                 ModalBackdrop* backdrop = new ModalBackdrop(this);
                 backdrop->setPosition(0, 0);
@@ -241,19 +244,19 @@ namespace fcn
         mVisible = false;
 
         // Restore focus to parent MenuItem/MenuBar before clearing modal
-        if (mParentMenuItem) {
+        if (mParentMenuItem != nullptr) {
             mParentMenuItem->requestFocus();
         }
 
         // Hide any open child submenu first
-        if (mOpenChild) {
+        if (mOpenChild != nullptr) {
             mOpenChild->hide();
             mOpenChild = nullptr;
         }
 
         // Remove backdrop if we created one for the root popup
-        if (mBackdrop) {
-            if (mBackdrop->getParent()) {
+        if (mBackdrop != nullptr) {
+            if (mBackdrop->getParent() != nullptr) {
                 if (auto* parentContainer = dynamic_cast<Container*>(mBackdrop->getParent())) {
                     parentContainer->remove(mBackdrop);
                 }
@@ -263,7 +266,7 @@ namespace fcn
         }
 
         // Release RAII modal scope for root popup if present
-        if (mModalScope) {
+        if (mModalScope != nullptr) {
             mModalScope.reset();
         }
     }
@@ -316,7 +319,7 @@ namespace fcn
 
         // Listen for actions from items (so we can close the menu on selection)
         auto* mi = dynamic_cast<MenuItem*>(item);
-        if (mi && mi->getType() != MenuItem::Type::Separator) {
+        if (mi != nullptr && mi->getType() != MenuItem::Type::Separator) {
             mi->addActionListener(this);
         }
     }
@@ -339,8 +342,8 @@ namespace fcn
 
     void MenuPopup::draw(Graphics* graphics)
     {
-        int w = getWidth();
-        int h = getHeight();
+        int const w = getWidth();
+        int const h = getHeight();
 
         // Draw shadow
         graphics->setColor(Color(50, 50, 50, 100));
@@ -358,15 +361,16 @@ namespace fcn
     void MenuPopup::mousePressed(MouseEvent& event)
     {
         // Handle click on backdrop to close
-        int relx = event.getX();
-        int rely = event.getY();
+        int const relx = event.getX();
+        int const rely = event.getY();
 
         // Coordinates from MouseEvent are relative to the widget the
         // listener is registered to (this popup). Convert to absolute
         // coordinates for hit-testing against top-level children.
         int absx = relx;
         int absy = rely;
-        int px = 0, py = 0;
+        int px   = 0;
+        int py   = 0;
         getAbsolutePosition(px, py);
         absx += px;
         absy += py;
@@ -377,15 +381,17 @@ namespace fcn
             // hide the popup and consume the event.
             bool clickHitsMenuBar          = false;
             Container const * topContainer = dynamic_cast<Container*>(getTop());
-            if (topContainer) {
+            if (topContainer != nullptr) {
                 for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
                     Widget* child = topContainer->getChild(i);
-                    if (!child || child == this)
+                    if (child == nullptr || child == this) {
                         continue;
-                    int cx = 0, cy = 0;
+                    }
+                    int cx = 0;
+                    int cy = 0;
                     child->getAbsolutePosition(cx, cy);
                     if (absx >= cx && absx < cx + child->getWidth() && absy >= cy && absy < cy + child->getHeight()) {
-                        if (dynamic_cast<MenuBar*>(child) || dynamic_cast<MenuItem*>(child)) {
+                        if (dynamic_cast<MenuBar*>(child) != nullptr || dynamic_cast<MenuItem*>(child) != nullptr) {
                             clickHitsMenuBar = true;
                             break;
                         }
@@ -420,9 +426,9 @@ namespace fcn
                 // If it's a MenuItem with a submenu, open it
                 if (auto* mi = dynamic_cast<MenuItem*>(child)) {
                     MenuPopup* submenu = mi->getSubmenu();
-                    if (submenu) {
+                    if (submenu != nullptr) {
                         // Close previous child if different
-                        if (mOpenChild && mOpenChild != submenu) {
+                        if (mOpenChild != nullptr && mOpenChild != submenu) {
                             mOpenChild->hide();
                         }
 
@@ -430,10 +436,11 @@ namespace fcn
                         submenu->setParentMenu(this);
                         submenu->setParentMenuItem(mi);
 
-                        int ax = 0, ay = 0;
+                        int ax = 0;
+                        int ay = 0;
                         mi->getAbsolutePosition(ax, ay);
-                        int sx = ax + mi->getWidth();
-                        int sy = ay;
+                        int const sx = ax + mi->getWidth();
+                        int const sy = ay;
                         submenu->show(sx, sy);
                         mOpenChild = submenu;
                     }
@@ -458,67 +465,73 @@ namespace fcn
             return;
         }
 
-        // Simple keyboard navigation: up/down to move, right to open submenu, left to close
-        if (key.getValue() == Key::Up || key.getValue() == Key::Down) {
-            auto children = getChildren();
-            if (children.empty())
-                return;
-
-            if (mHoverIndex < 0)
-                mHoverIndex = 0;
-
-            if (key.getValue() == Key::Up) {
-                mHoverIndex = (mHoverIndex - 1 + static_cast<int>(children.size())) % static_cast<int>(children.size());
-            } else {
-                mHoverIndex = (mHoverIndex + 1) % static_cast<int>(children.size());
-            }
-
-            // Advance iterator to the hovered child
-            int i = 0;
-            for (auto* target : children) {
-                if (i == mHoverIndex) {
-                    if (target)
-                        target->requestFocus();
-                    break;
+        if (mParentMenuItem != nullptr) {
+            if (key.getValue() == Key::Up || key.getValue() == Key::Down) {
+                auto children = getChildren();
+                if (children.empty()) {
+                    return;
                 }
-                ++i;
-            }
 
-            event.consume();
-            return;
-        }
+                if (mHoverIndex < 0) {
+                    mHoverIndex = 0;
+                }
 
-        if (key.getValue() == Key::Right) {
-            auto children = getChildren();
-            if (mHoverIndex >= 0) {
+                if (key.getValue() == Key::Up) {
+                    mHoverIndex =
+                        (mHoverIndex - 1 + static_cast<int>(children.size())) % static_cast<int>(children.size());
+                } else {
+                    mHoverIndex = (mHoverIndex + 1) % static_cast<int>(children.size());
+                }
+
+                // Advance iterator to the hovered child
                 int i = 0;
-                for (auto* child : children) {
+                for (auto* target : children) {
                     if (i == mHoverIndex) {
-                        if (auto* mi = dynamic_cast<MenuItem*>(child)) {
-                            if (mi->getSubmenu()) {
-                                MenuPopup* submenu = mi->getSubmenu();
-                                submenu->setParentMenu(this);
-                                submenu->setParentMenuItem(mi);
-                                int ax = 0, ay = 0;
-                                mi->getAbsolutePosition(ax, ay);
-                                submenu->show(ax + mi->getWidth(), ay);
-                                mOpenChild = submenu;
-                                event.consume();
-                                return;
-                            }
+                        if (target != nullptr) {
+                            target->requestFocus();
                         }
                         break;
                     }
                     ++i;
                 }
-            }
-        }
 
-        if (key.getValue() == Key::Left) {
-            if (mParentMenu) {
-                hide();
                 event.consume();
                 return;
+            }
+
+            if (key.getValue() == Key::Right) {
+                auto children = getChildren();
+                if (mHoverIndex >= 0) {
+                    int i = 0;
+                    for (auto* child : children) {
+                        if (i == mHoverIndex) {
+                            if (auto* mi = dynamic_cast<MenuItem*>(child)) {
+                                if (mi->getSubmenu() != nullptr) {
+                                    MenuPopup* submenu = mi->getSubmenu();
+                                    submenu->setParentMenu(this);
+                                    submenu->setParentMenuItem(mi);
+                                    int ax = 0;
+                                    int ay = 0;
+                                    mi->getAbsolutePosition(ax, ay);
+                                    submenu->show(ax + mi->getWidth(), ay);
+                                    mOpenChild = submenu;
+                                    event.consume();
+                                    return;
+                                }
+                            }
+                            break;
+                        }
+                        ++i;
+                    }
+                }
+            }
+
+            if (key.getValue() == Key::Left) {
+                if (mParentMenu != nullptr) {
+                    hide();
+                    event.consume();
+                    return;
+                }
             }
         }
     }
@@ -537,8 +550,9 @@ namespace fcn
     {
         // Handle selection action from child MenuItems.
         auto* source = dynamic_cast<MenuItem*>(event.getSource());
-        if (!source)
+        if (source == nullptr) {
             return;
+        }
 
         // Toggle checkable items
         if (source->getType() == MenuItem::Type::Checkable) {
@@ -547,8 +561,9 @@ namespace fcn
 
         // Close the entire menu tree: find root and hide it
         MenuPopup* root = this;
-        while (root->getParentMenu())
+        while (root->getParentMenu() != nullptr) {
             root = root->getParentMenu();
+        }
         root->hide();
     }
 } // namespace fcn
