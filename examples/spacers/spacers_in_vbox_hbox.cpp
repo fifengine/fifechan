@@ -18,6 +18,7 @@
 
 // Third-party library includes
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #include <fifechan/backends/sdl3/graphics.hpp>
 #include <fifechan/backends/sdl3/imageloader.hpp>

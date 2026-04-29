@@ -27,6 +27,7 @@
 #endif
 
 // Third-party library includes
+#include <SDL3/SDL_main.h>
 #include <fifechan/backends/sdl3/image.hpp>
 
 #include <fifechan.hpp>

@@ -25,6 +25,8 @@
 #endif
 
 // Third-party library includes
+#include <SDL3/SDL_main.h>
+
 #include <fifechan/backends/opengl/graphics.hpp>
 
 #include <fifechan.hpp>

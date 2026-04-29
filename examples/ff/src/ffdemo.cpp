@@ -13,6 +13,9 @@
 #include <stdexcept>
 #include <string>
 
+// Third-party library includes
+#include <SDL3/SDL_main.h>
+
 namespace
 {
     constexpr int kUiWidth      = 320;

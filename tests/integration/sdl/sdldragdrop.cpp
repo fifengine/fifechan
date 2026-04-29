@@ -34,6 +34,7 @@
 
 // Third-party library includes
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #include <fifechan/widgets/tooltip.hpp>
 

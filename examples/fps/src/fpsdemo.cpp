@@ -12,6 +12,9 @@
 #include <sstream>
 #include <string>
 
+// Third-party library includes
+#include <SDL3/SDL_main.h>
+
 namespace
 {
     std::unique_ptr<fcn::Image> loadSplashImageWithWhiteAsTransparent(std::string const & filename)

@@ -21,11 +21,14 @@
 
 // Platform config include
 #include "fifechan/platform.hpp"
+
 #ifdef _WIN32
     #include <windows.h>
 #endif
 
 // Third-party library includes
+#include <SDL3/SDL_main.h>
+
 #include <fifechan/backends/opengl/graphics.hpp>
 
 #include <fifechan.hpp>

@@ -31,13 +31,14 @@
 #include <utility>
 #include <vector>
 
-// Third-party library includes
-#include <SDL3_ttf/SDL_ttf.h>
-
 // Platform-specific includes
 #if defined(_WIN32)
     #include <windows.h>
 #endif // _WIN32
+
+// Third-party library includes
+#include <SDL3/SDL_main.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 using tests::integration::sdl::mdedit::Application;
 
