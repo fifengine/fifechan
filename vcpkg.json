@@ -13,14 +13,14 @@
       "default-features": false,
       "platform": "linux",
       "features": [
-        "x11"
+        "x11",
+        "alsa"
       ]
     },
     {
       "name": "sdl3",
-      "default-features": false,
-      "platform": "windows",
-      "features": []
+      "default-features": true,
+      "platform": "windows"
     },
     "sdl3-image",
     "sdl3-mixer",
