@@ -33,7 +33,7 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
         throw std::runtime_error(SDL_GetError());
     }
 
-    if (SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight, 0, &mWindow, &mRenderer) != 0) {
+    if (!SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight, 0, &mWindow, &mRenderer)) {
         SDL_Quit();
         throw std::runtime_error(SDL_GetError());
     }

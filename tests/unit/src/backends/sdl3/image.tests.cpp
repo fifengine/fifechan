@@ -52,15 +52,16 @@ namespace
                 }
 
                 mWindow = SDL_CreateWindow("FifeGUI Image Test", 256, 256, SDL_WINDOW_RESIZABLE);
+
                 if (mWindow == nullptr) {
                     SDL_Quit();
                     throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
                 }
 
                 mRenderer = SDL_CreateRenderer(mWindow, nullptr);
+
                 if (mRenderer == nullptr) {
                     SDL_DestroyWindow(mWindow);
-                    mWindow = nullptr;
                     SDL_Quit();
                     throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
                 }
@@ -70,11 +71,9 @@ namespace
             {
                 if (mRenderer != nullptr) {
                     SDL_DestroyRenderer(mRenderer);
-                    mRenderer = nullptr;
                 }
                 if (mWindow != nullptr) {
                     SDL_DestroyWindow(mWindow);
-                    mWindow = nullptr;
                 }
                 SDL_Quit();
             }

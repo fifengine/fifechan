@@ -73,22 +73,24 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
-    if (createdWindow == nullptr) {
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
+
+    if (window == nullptr) {
         throw std::runtime_error("Failed to create SDL_Window");
     }
 
-    return fcn::sdl3::makeSDLSharedPtr(createdWindow);
+    return fcn::sdl3::makeSDLSharedPtr(window);
 }
 
 std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), nullptr);
-    if (createdRenderer == nullptr) {
+    SDL_Renderer* renderer = SDL_CreateRenderer(window.get(), nullptr);
+
+    if (renderer == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + SDL_GetError());
     }
 
-    return fcn::sdl3::makeSDLSharedPtr(createdRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(renderer);
 }
 
 void Application::init_SDL(std::string const & title, int width, int height)

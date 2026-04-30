@@ -32,14 +32,12 @@
  */
 int main(int /*argc*/, char** /*argv*/)
 {
-    SDL_Window* window      = nullptr;
-    SDL_GLContext glContext = nullptr;
-    auto input              = std::unique_ptr<fcn::sdl3::Input>();
-    auto graphics           = std::unique_ptr<fcn::opengl::Graphics>();
-    auto imageLoader        = std::unique_ptr<fcn::opengl::ImageLoader>();
-    auto font               = std::unique_ptr<fcn::ImageFont>();
-    auto gui                = std::unique_ptr<fcn::Gui>();
-    auto top                = std::unique_ptr<fcn::Container>();
+    auto input       = std::unique_ptr<fcn::sdl3::Input>();
+    auto graphics    = std::unique_ptr<fcn::opengl::Graphics>();
+    auto imageLoader = std::unique_ptr<fcn::opengl::ImageLoader>();
+    auto font        = std::unique_ptr<fcn::ImageFont>();
+    auto gui         = std::unique_ptr<fcn::Gui>();
+    auto top         = std::unique_ptr<fcn::Container>();
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -50,14 +48,14 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
 
-    window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_OPENGL);
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
         SDL_Quit();
         return 1;
     }
 
-    glContext = SDL_GL_CreateContext(window);
+    SDL_GLContext glContext = SDL_GL_CreateContext(window);
     if (glContext == nullptr) {
         std::cerr << "SDL_GL_CreateContext Error: " << SDL_GetError() << "\n";
         SDL_DestroyWindow(window);

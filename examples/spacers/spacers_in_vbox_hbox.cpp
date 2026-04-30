@@ -47,15 +47,13 @@ class MyActionListener : public fcn::ActionListener
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    SDL_Window* sdlWindow  = nullptr;
-    SDL_Renderer* renderer = nullptr;
-    auto input             = std::unique_ptr<fcn::sdl3::Input>();
-    auto graphics          = std::unique_ptr<fcn::sdl3::Graphics>();
-    auto imageLoader       = std::unique_ptr<fcn::sdl3::ImageLoader>();
-    auto font              = std::unique_ptr<fcn::ImageFont>();
-    auto gui               = std::unique_ptr<fcn::Gui>();
-    auto top               = std::unique_ptr<fcn::Container>();
-    int exitCode           = 0;
+    auto input       = std::unique_ptr<fcn::sdl3::Input>();
+    auto graphics    = std::unique_ptr<fcn::sdl3::Graphics>();
+    auto imageLoader = std::unique_ptr<fcn::sdl3::ImageLoader>();
+    auto font        = std::unique_ptr<fcn::ImageFont>();
+    auto gui         = std::unique_ptr<fcn::Gui>();
+    auto top         = std::unique_ptr<fcn::Container>();
+    int exitCode     = 0;
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
@@ -66,8 +64,21 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Spacers In VBox/HBox", fifeguiVersion);
 
-    if (SDL_CreateWindowAndRenderer(title.c_str(), 800, 600, 0, &sdlWindow, &renderer) != 0) {
-        std::cerr << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << "\n";
+    // Create window
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+
+    if (window == nullptr) {
+        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
+
+    // Create renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+
+    if (renderer == nullptr) {
+        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
@@ -147,7 +158,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         testVBox->resizeToContent();
 
-        auto demoWindow = std::make_unique<fcn::Window>("Window");
+        auto demoWindow = std::make_unique<fcn::Window>("Dragable Window");
         demoWindow->addWidget(std::move(testVBox));
         demoWindow->adjustSize();
 
@@ -186,15 +197,9 @@ int main(int /*argc*/, char** /*argv*/)
     }
 
     fcn::Widget::setGlobalFont(nullptr);
-
     fcn::Image::setImageLoader(nullptr);
-
-    if (renderer != nullptr) {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (sdlWindow != nullptr) {
-        SDL_DestroyWindow(sdlWindow);
-    }
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 
     return exitCode;

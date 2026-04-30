@@ -507,14 +507,10 @@ int main(int argc, char* argv[])
     SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
 
     if (renderer == nullptr) {
-        std::string const rendererError = SDL_GetError();
-        renderer                        = SDL_CreateRenderer(window, nullptr);
-        if (renderer == nullptr) {
-            std::cerr << "Failed to create SDL_Renderer: " << rendererError << " -> " << SDL_GetError() << std::endl;
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-            return 1;
-        }
+        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
     }
 
     // Initialize fifechan GUI system
