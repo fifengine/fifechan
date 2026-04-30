@@ -15,7 +15,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     Input::Input() : mMouseInWindow(true) { }
 
@@ -400,4 +400,4 @@ namespace fcn::sdl2
 
         return value;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

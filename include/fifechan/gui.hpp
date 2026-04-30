@@ -50,7 +50,7 @@ namespace fcn
      * underlying technologies. The core logic is separated from the implementation
      * details via abstract interfaces:
      * - <b>Graphics:</b> Supports multiple backends (e.g., @ref fcn::opengl::Graphics "OpenGL", @ref
-     * fcn::sdl2::Graphics "SDL2").
+     * fcn::sdl3::Graphics "SDL2").
      * - <b>Input:</b> Abstracts keyboard and mouse input (@ref fcn::Input "Input" interface).
      * - <b>Fonts & Images:</b> Pluggable loaders and renderers for assets.
      *

@@ -78,7 +78,7 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
         throw std::runtime_error("Failed to create SDL_Window");
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdWindow);
+    return fcn::sdl3::makeSDLSharedPtr(createdWindow);
 }
 
 std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
@@ -88,7 +88,7 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
         throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + SDL_GetError());
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(createdRenderer);
 }
 
 void Application::init_SDL(std::string const & title, int width, int height)
@@ -123,10 +123,10 @@ void Application::cleanup()
 
 void Application::init_GUI(int width, int height)
 {
-    graphics = std::make_unique<fcn::sdl2::Graphics>();
+    graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(graphics.get());

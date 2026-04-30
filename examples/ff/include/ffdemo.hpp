@@ -64,9 +64,9 @@ private:
     MIX_Audio* mEscapeAudio{};
     MIX_Track* mEffectTrack{};
 
-    std::unique_ptr<fcn::sdl2::Graphics> mSDLGraphics;
-    std::unique_ptr<fcn::sdl2::Input> mSDLInput;
-    std::unique_ptr<fcn::sdl2::ImageLoader> mSDLImageLoader;
+    std::unique_ptr<fcn::sdl3::Graphics> mSDLGraphics;
+    std::unique_ptr<fcn::sdl3::Input> mSDLInput;
+    std::unique_ptr<fcn::sdl3::ImageLoader> mSDLImageLoader;
     std::unique_ptr<fcn::Gui> mGui;
 
     std::unique_ptr<fcn::Container> mTop;

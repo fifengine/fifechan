@@ -16,7 +16,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
 
     /**
@@ -270,6 +270,6 @@ namespace fcn::sdl2
 
         SDL_UnlockSurface(surface);
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLPIXEL_HPP_

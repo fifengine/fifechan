@@ -17,7 +17,7 @@
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     TrueTypeFont::TrueTypeFont(std::string const & filename, int size) :
         mRowSpacing(0),
@@ -58,10 +58,10 @@ namespace fcn::sdl2
             return;
         }
 
-        auto* sdlGraphics = dynamic_cast<fcn::sdl2::Graphics*>(graphics);
+        auto* sdlGraphics = dynamic_cast<fcn::sdl3::Graphics*>(graphics);
 
         if (sdlGraphics == nullptr) {
-            throwException("TrueTypeFont::drawString. Graphics object must be fcn::sdl2::Graphics!");
+            throwException("TrueTypeFont::drawString. Graphics object must be fcn::sdl3::Graphics!");
             return;
         }
 
@@ -143,4 +143,4 @@ namespace fcn::sdl2
     {
         return mAntiAlias;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

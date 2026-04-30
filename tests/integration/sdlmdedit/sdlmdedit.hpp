@@ -56,8 +56,8 @@ namespace tests::integration::sdl::mdedit
         std::shared_ptr<SDL_Window> window{nullptr};
         std::shared_ptr<SDL_Renderer> renderer{nullptr};
 
-        std::unique_ptr<fcn::sdl2::Graphics> graphics;
-        std::unique_ptr<fcn::sdl2::Input> input;
+        std::unique_ptr<fcn::sdl3::Graphics> graphics;
+        std::unique_ptr<fcn::sdl3::Input> input;
 
         // New widgets used in demo
         std::unique_ptr<fcn::Container> top{nullptr};

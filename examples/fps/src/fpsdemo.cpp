@@ -12,9 +12,6 @@
 #include <sstream>
 #include <string>
 
-// Third-party library includes
-#include <SDL3/SDL_main.h>
-
 namespace
 {
     std::unique_ptr<fcn::Image> loadSplashImageWithWhiteAsTransparent(std::string const & filename)
@@ -166,7 +163,7 @@ void FPSDemo::initGui()
     fcn::Image::setImageLoader(mOpenGLImageLoader.get());
     mOpenGLGraphics = std::make_unique<fcn::opengl::Graphics>();
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
-    mSDLInput = std::make_unique<fcn::sdl2::Input>();
+    mSDLInput = std::make_unique<fcn::sdl3::Input>();
 
     mTop = std::make_unique<fcn::Container>();
     mTop->setOpaque(false);

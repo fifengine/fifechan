@@ -150,7 +150,7 @@ TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][ima
 
     // Create Image from surface with color key
     // autoFree=true to manage surface lifetime
-    fcn::sdl2::Image image(surfaceWithColorKey, true, env.mRenderer);
+    fcn::sdl3::Image image(surfaceWithColorKey, true, env.mRenderer);
 
     // Verify image dimensions
     REQUIRE(image.getWidth() == TEST_IMAGE_WIDTH);
@@ -193,7 +193,7 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
 
     // Create Image from surface with color key
     // autoFree=true to manage surface lifetime
-    fcn::sdl2::Image image(surfaceWithColorKey, true, env.mRenderer);
+    fcn::sdl3::Image image(surfaceWithColorKey, true, env.mRenderer);
 
     SDL_Texture const * originalTexture = image.getTexture();
     REQUIRE(originalTexture != nullptr);
@@ -223,7 +223,7 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
 
     // Create Image from surface with color key
     // autoFree=true to manage surface lifetime
-    fcn::sdl2::Image image(surfaceWithColorKey, true, env.mRenderer);
+    fcn::sdl3::Image image(surfaceWithColorKey, true, env.mRenderer);
 
     SDL_Texture* texture = image.getTexture();
     REQUIRE(texture != nullptr);
@@ -274,7 +274,7 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
     }
 
     // Load font image using ImageLoader
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     // Load without convertToDisplayFormat to test getPixel reads
@@ -352,7 +352,7 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     CHECK(SDL_GetSurfaceColorKey(surface, nullptr) != 0);
 
     // Create Image from surface WITHOUT color key
-    fcn::sdl2::Image image(surface, true, env.mRenderer);
+    fcn::sdl3::Image image(surface, true, env.mRenderer);
 
     // Verify image dimensions
     REQUIRE(image.getWidth() == TEST_IMAGE_WIDTH);
@@ -411,7 +411,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
     }
 
     // Load font image using ImageLoader
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     // Load with convertToDisplayFormat=false to preserve raw pixel colors
@@ -472,7 +472,7 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
     }
 
     // Load font image using ImageLoader
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     // Load with convertToDisplayFormat=false to preserve raw pixel colors

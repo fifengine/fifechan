@@ -50,9 +50,9 @@ namespace tests::integration::sdl::widgets
         std::shared_ptr<SDL_Window> window{nullptr};
         std::shared_ptr<SDL_Renderer> renderer{nullptr};
 
-        std::unique_ptr<fcn::sdl2::Graphics> graphics;
-        std::unique_ptr<fcn::sdl2::Input> input;
-        std::shared_ptr<fcn::sdl2::ImageLoader> imageLoader;
+        std::unique_ptr<fcn::sdl3::Graphics> graphics;
+        std::unique_ptr<fcn::sdl3::Input> input;
+        std::shared_ptr<fcn::sdl3::ImageLoader> imageLoader;
 
         std::string exePath;
 

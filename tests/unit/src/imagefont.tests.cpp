@@ -48,7 +48,7 @@ namespace
             }
 
             // Set up global ImageLoader for Image::load() to work
-            mImageLoader = new fcn::sdl2::ImageLoader();
+            mImageLoader = new fcn::sdl3::ImageLoader();
             mImageLoader->setRenderer(mRenderer);
             fcn::Image::setImageLoader(mImageLoader);
         }
@@ -77,7 +77,7 @@ namespace
 
         SDL_Window* mWindow                  = nullptr;
         SDL_Renderer* mRenderer              = nullptr;
-        fcn::sdl2::ImageLoader* mImageLoader = nullptr;
+        fcn::sdl3::ImageLoader* mImageLoader = nullptr;
     };
 
     // Find font resource in common test locations
@@ -101,7 +101,7 @@ namespace
     // Set up global ImageLoader for Image::load() to work
     void setupImageLoader(SDL_Renderer* renderer)
     {
-        fcn::sdl2::ImageLoader* loader = new fcn::sdl2::ImageLoader();
+        fcn::sdl3::ImageLoader* loader = new fcn::sdl3::ImageLoader();
         loader->setRenderer(renderer);
         fcn::Image::setImageLoader(loader);
     }
@@ -137,7 +137,7 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
     }
 
     // Load the font image first to analyze its properties
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     fcn::Image* fontImage = loader.load(fontPath.string(), false);
@@ -350,7 +350,7 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
     // The key is that drawGlyph correctly uses the stored glyph rectangle
 
     // Create SDL Graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
 
     // Prepare for drawing
@@ -400,7 +400,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 
@@ -463,7 +463,7 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
     }
 
     // Load the font image directly
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     fcn::Image* fontImage = loader.load(fontPath.string(), false);
@@ -506,7 +506,7 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 
@@ -551,7 +551,7 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 

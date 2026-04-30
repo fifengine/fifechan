@@ -26,7 +26,7 @@ namespace fcn
     class Rectangle;
 } // namespace fcn
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     /**
      * SDL2 renderer-specific implementation of the Graphics interface.
@@ -148,6 +148,6 @@ namespace fcn::sdl2
         /** Whether alpha blending is enabled. */
         bool mAlpha;
     };
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_GRAPHICS_HPP_

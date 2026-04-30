@@ -34,7 +34,7 @@ int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* window      = nullptr;
     SDL_GLContext glContext = nullptr;
-    auto input              = std::unique_ptr<fcn::sdl2::Input>();
+    auto input              = std::unique_ptr<fcn::sdl3::Input>();
     auto graphics           = std::unique_ptr<fcn::opengl::Graphics>();
     auto imageLoader        = std::unique_ptr<fcn::opengl::ImageLoader>();
     auto font               = std::unique_ptr<fcn::ImageFont>();
@@ -70,7 +70,7 @@ int main(int /*argc*/, char** /*argv*/)
         fcn::Image::setImageLoader(imageLoader.get());
 
         graphics = std::make_unique<fcn::opengl::Graphics>(800, 600);
-        input    = std::make_unique<fcn::sdl2::Input>();
+        input    = std::make_unique<fcn::sdl3::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");

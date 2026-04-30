@@ -18,7 +18,7 @@
 #include "fifechan/color.hpp"
 #include "fifechan/image.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     /**
      * SDL2-specific implementation of Image.
@@ -85,6 +85,6 @@ namespace fcn::sdl2
         /** Whether the transient surface should be freed on destruction. */
         bool mAutoFree;
     };
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGE_HPP_

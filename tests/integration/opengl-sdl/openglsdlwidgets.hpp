@@ -49,7 +49,7 @@ namespace tests::integration::opengl_sdl::widgets
         SDL_GLContext glContext{nullptr};
 
         std::unique_ptr<fcn::opengl::Graphics> graphics;
-        std::unique_ptr<fcn::sdl2::Input> input;
+        std::unique_ptr<fcn::sdl3::Input> input;
         std::shared_ptr<fcn::opengl::ImageLoader> imageLoader;
 
         std::unique_ptr<fcn::Gui> gui;

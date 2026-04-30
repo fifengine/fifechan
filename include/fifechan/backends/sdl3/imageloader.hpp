@@ -22,7 +22,7 @@ namespace fcn
     class Image;
 }
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
 
     /**
@@ -65,6 +65,6 @@ namespace fcn::sdl2
         /** Optional renderer used when creating textures. */
         SDL_Renderer* mRenderer{nullptr};
     };
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLIMAGELOADER_HPP_

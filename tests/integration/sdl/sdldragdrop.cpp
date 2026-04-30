@@ -504,13 +504,13 @@ int main(int argc, char* argv[])
     }
 
     // Initialize fifechan GUI system
-    auto graphics = std::make_unique<fcn::sdl2::Graphics>();
+    auto graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer, 640, 360);
 
-    auto input = std::make_unique<fcn::sdl2::Input>();
+    auto input = std::make_unique<fcn::sdl3::Input>();
 
     // Set up image loader for fifechan
-    auto imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
+    auto imageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
     imageLoader->setRenderer(renderer);
     fcn::Image::setImageLoader(imageLoader.get());
 

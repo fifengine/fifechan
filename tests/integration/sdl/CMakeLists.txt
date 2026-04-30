@@ -20,12 +20,6 @@ endif()
 
 add_executable(sdlhelloworld sdlhelloworld.cpp sdlhelloworld.hpp)
 
-target_include_directories(sdlhelloworld PRIVATE
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-)
-
 target_link_libraries(sdlhelloworld PRIVATE
   # SDL3
   $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
@@ -83,21 +77,17 @@ endif()
 # Install the .pdb file if it exists (for MSVC)
 #install(FILES "$<TARGET_PDB_FILE:sdlhelloworld>" DESTINATION "${CMAKE_INSTALL_BINDIR}" OPTIONAL)
 
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdlhelloworld
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
 #------------------------------------------------------------------------------
 # sdlwidgets
 #------------------------------------------------------------------------------
 
 add_executable(sdlwidgets sdlwidgets.cpp sdlwidgets.hpp)
-
-# target_include_directories(sdlwidgets PRIVATE
-#   ${SDL3_INCLUDE_DIR}
-#   ${FIFEGUI_INCLUDE_DIR}
-# )
-target_include_directories(sdlwidgets PRIVATE
-  ${SDL3_INCLUDE_DIR}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-)
 
 target_link_libraries(sdlwidgets PRIVATE
   # SDL3
@@ -137,7 +127,7 @@ copy_resources_folder(sdlwidgets "${RESOURCES_FOLDER}")
 
 # Install the executables so the installed tree contains the binaries
 # next to the installed resources.
-install(TARGETS sdlhelloworld sdlwidgets
+install(TARGETS sdlwidgets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
@@ -146,12 +136,6 @@ install(TARGETS sdlhelloworld sdlwidgets
 #------------------------------------------------------------------------------
 
 add_executable(sdllabels sdllabels.cpp sdllabels.hpp)
-
-target_include_directories(sdllabels PRIVATE
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-)
 
 target_link_libraries(sdllabels PRIVATE
   # SDL3
@@ -191,7 +175,7 @@ copy_resources_folder(sdllabels "${RESOURCES_FOLDER}")
 
 # Install the executables so the installed tree contains the binaries
 # next to the installed resources.
-install(TARGETS sdlhelloworld sdlwidgets sdllabels
+install(TARGETS sdllabels
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
@@ -200,12 +184,6 @@ install(TARGETS sdlhelloworld sdlwidgets sdllabels
 #------------------------------------------------------------------------------
 
 add_executable(sdldragdrop sdldragdrop.cpp)
-
-target_include_directories(sdldragdrop PRIVATE
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-)
 
 target_link_libraries(sdldragdrop PRIVATE
   # SDL3
@@ -242,3 +220,55 @@ show_build_target_properties(sdldragdrop)
 
 # Copy resources
 copy_resources_folder(sdldragdrop "${RESOURCES_FOLDER}")
+
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdldragdrop
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+#------------------------------------------------------------------------------
+# sdltest
+#------------------------------------------------------------------------------
+
+add_executable(sdltest sdltest.cpp)
+
+target_link_libraries(sdltest PRIVATE
+  # SDL3
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  # SDL3_image
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  # SDL3_ttf
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
+  # FifeGUI
+  fifechan::fifechan
+  # FifeGUI SDL extension
+  fifechan::fifechan_sdl3
+)
+
+set_target_properties(sdltest PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
+
+if(WIN32)
+  set_target_properties(sdltest PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(sdltest PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(sdltest INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
+show_build_target_properties(sdltest)
+
+copy_resources_folder(sdltest "${RESOURCES_FOLDER}")
+
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdltest
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)

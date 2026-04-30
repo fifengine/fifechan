@@ -136,7 +136,7 @@ private:
     MIX_Track* mEffectTrack; // Shared track for UI sound effects
 
     std::unique_ptr<fcn::opengl::Graphics> mOpenGLGraphics;
-    std::unique_ptr<fcn::sdl2::Input> mSDLInput;
+    std::unique_ptr<fcn::sdl3::Input> mSDLInput;
     std::unique_ptr<fcn::opengl::ImageLoader> mOpenGLImageLoader;
     std::unique_ptr<fcn::Gui> mGui;
     std::unique_ptr<fcn::Container> mTop;

@@ -13,9 +13,6 @@
 #include <stdexcept>
 #include <string>
 
-// Third-party library includes
-#include <SDL3/SDL_main.h>
-
 namespace
 {
     constexpr int kUiWidth      = 320;
@@ -83,12 +80,12 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
         throw std::runtime_error("Failed to initialize SDL3_mixer");
     }
 
-    mSDLImageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
+    mSDLImageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
     mSDLImageLoader->setRenderer(mRenderer);
     fcn::Image::setImageLoader(mSDLImageLoader.get());
-    mSDLGraphics = std::make_unique<fcn::sdl2::Graphics>();
+    mSDLGraphics = std::make_unique<fcn::sdl3::Graphics>();
     mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
-    mSDLInput = std::make_unique<fcn::sdl2::Input>();
+    mSDLInput = std::make_unique<fcn::sdl3::Input>();
 
     mSplashImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/splash.png"));
 
@@ -625,7 +622,7 @@ void FFDemo::run()
             dst.w = static_cast<float>(mSplashImage->getWidth());
             dst.h = static_cast<float>(mSplashImage->getHeight());
 
-            auto* image = dynamic_cast<fcn::sdl2::Image*>(mSplashImage.get());
+            auto* image = dynamic_cast<fcn::sdl3::Image*>(mSplashImage.get());
             SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
             SDL_RenderClear(mRenderer);
             SDL_RenderTexture(mRenderer, image->getTexture(), nullptr, &dst);

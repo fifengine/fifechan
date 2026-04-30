@@ -47,9 +47,9 @@ int main(int /*argc*/, char** /*argv*/)
 {
     SDL_Window* sdlWindow  = nullptr;
     SDL_Renderer* renderer = nullptr;
-    auto input             = std::unique_ptr<fcn::sdl2::Input>();
-    auto graphics          = std::unique_ptr<fcn::sdl2::Graphics>();
-    auto imageLoader       = std::unique_ptr<fcn::sdl2::ImageLoader>();
+    auto input             = std::unique_ptr<fcn::sdl3::Input>();
+    auto graphics          = std::unique_ptr<fcn::sdl3::Graphics>();
+    auto imageLoader       = std::unique_ptr<fcn::sdl3::ImageLoader>();
     auto font              = std::unique_ptr<fcn::ImageFont>();
     auto gui               = std::unique_ptr<fcn::Gui>();
     auto top               = std::unique_ptr<fcn::Container>();
@@ -71,13 +71,13 @@ int main(int /*argc*/, char** /*argv*/)
     }
 
     try {
-        imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
+        imageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
         imageLoader->setRenderer(renderer);
         fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = std::make_unique<fcn::sdl2::Graphics>();
+        graphics = std::make_unique<fcn::sdl3::Graphics>();
         graphics->setTarget(renderer, 800, 600);
-        input = std::make_unique<fcn::sdl2::Input>();
+        input = std::make_unique<fcn::sdl3::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");

@@ -102,7 +102,7 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
         throw std::runtime_error("Failed to create SDL_Window");
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdWindow);
+    return fcn::sdl3::makeSDLSharedPtr(createdWindow);
 }
 
 std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
@@ -118,7 +118,7 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
         }
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(createdRenderer);
 }
 
 void Application::init_SDL(std::string const & title, int width, int height)
@@ -199,10 +199,10 @@ void Application::cleanup()
 
 void Application::init_GUI(int width, int height)
 {
-    graphics = std::make_unique<fcn::sdl2::Graphics>();
+    graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
-    input       = std::make_unique<fcn::sdl2::Input>();
-    imageLoader = std::make_shared<fcn::sdl2::ImageLoader>();
+    input       = std::make_unique<fcn::sdl3::Input>();
+    imageLoader = std::make_shared<fcn::sdl3::ImageLoader>();
     imageLoader->setRenderer(renderer.get());
     fcn::Image::setImageLoader(imageLoader.get());
 
@@ -485,7 +485,7 @@ void Application::init_GUI(int width, int height)
         SDL_Rect const fillRect{1, 3, 8, 12};
         SDL_FillSurfaceRect(progressSurface, &fillRect, SDL_MapSurfaceRGBA(progressSurface, 177, 198, 120, 255));
 
-        ownedProgressFillImage = std::make_unique<fcn::sdl2::Image>(progressSurface, true, renderer.get());
+        ownedProgressFillImage = std::make_unique<fcn::sdl3::Image>(progressSurface, true, renderer.get());
 
         auto iconProgressBarPtr = std::make_unique<fcn::IconProgressBar>(ownedProgressFillImage.get(), 20);
         iconProgressBarPtr->setIconCount(13);

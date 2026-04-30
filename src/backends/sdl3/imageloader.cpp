@@ -16,7 +16,7 @@
 #include "fifechan/backends/sdl3/image.hpp"
 #include "fifechan/exception.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     ImageLoader::ImageLoader() { }
 
@@ -161,4 +161,4 @@ namespace fcn::sdl2
     {
         mPixelFormat = format;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

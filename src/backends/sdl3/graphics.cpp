@@ -25,7 +25,7 @@
 #include "fifechan/font.hpp"
 #include "fifechan/image.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
 
     Graphics::Graphics() : mAlpha(false) { }
@@ -704,4 +704,4 @@ namespace fcn::sdl2
         SDL_SetRenderDrawColor(mRenderTarget, r, g, b, a);
     }
 
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

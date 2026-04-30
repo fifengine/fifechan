@@ -13,6 +13,9 @@
 // Third-party library includes
 #include <fifechan.hpp>
 
+// SDL main entry point (provides WinMain on Windows) - must be in the file with main()
+#include <SDL3/SDL_main.h>
+
 // Project headers (subdirs before local)
 #include "fpsdemo.hpp"
 

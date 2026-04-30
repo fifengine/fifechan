@@ -18,7 +18,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/font.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
 
     /**
@@ -121,6 +121,6 @@ namespace fcn::sdl2
         /** Whether anti-aliasing is enabled for rendering. */
         bool mAntiAlias;
     };
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLTRUETYPEFONT_HPP_

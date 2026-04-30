@@ -24,7 +24,7 @@ namespace fcn::opengl
     /**
      * OpenGL ImageLoader that loads images with SDL.
      */
-    class ImageLoader : public fcn::sdl2::ImageLoader
+    class ImageLoader : public fcn::sdl3::ImageLoader
     {
     public:
         fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override

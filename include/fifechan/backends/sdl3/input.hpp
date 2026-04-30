@@ -24,7 +24,7 @@ namespace fcn
     class Key;
 }
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
 
     /**
@@ -95,6 +95,6 @@ namespace fcn::sdl2
         /** True if the mouse cursor is currently within the application window. */
         bool mMouseInWindow{false};
     };
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDLINPUT_HPP_

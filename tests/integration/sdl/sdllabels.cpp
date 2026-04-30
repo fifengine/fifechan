@@ -59,7 +59,7 @@ std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, i
         throw std::runtime_error(std::string("Failed to create SDL_Window: ") + SDL_GetError());
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(rawWindow);
+    return fcn::sdl3::makeSDLSharedPtr(rawWindow);
 }
 
 std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
@@ -74,7 +74,7 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
         }
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(rawRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(rawRenderer);
 }
 
 std::filesystem::path Application::getExecutableDir()
@@ -110,18 +110,18 @@ void Application::init_sdl(std::string const & title, int width, int height)
     // Now it's time to initialise the SDL backend.
 
     // The SDLImageLoader object is used to load images from the file system.
-    imageLoader = std::make_shared<fcn::sdl2::ImageLoader>();
+    imageLoader = std::make_shared<fcn::sdl3::ImageLoader>();
     imageLoader->setRenderer(renderer.get());
 
     // Set the ImageLoader by calling a static function of the Image class.
     fcn::Image::setImageLoader(imageLoader.get());
 
     // The SDLGraphics object is used to draw to the screen.
-    graphics = std::make_unique<fcn::sdl2::Graphics>();
+    graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     // Finally, we create the GUI object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();

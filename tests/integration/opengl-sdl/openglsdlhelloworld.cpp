@@ -105,7 +105,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics = std::make_unique<fcn::opengl::Graphics>();
     graphics->setTargetPlane(width, height);
 
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));

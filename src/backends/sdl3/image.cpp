@@ -17,7 +17,7 @@
 #include "fifechan/backends/sdl3/pixel.hpp"
 #include "fifechan/exception.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mAutoFree(autoFree), mRenderer(renderer)
     {
@@ -178,4 +178,4 @@ namespace fcn::sdl2
         SDL_DestroyTexture(mTexture);
         mTexture = nullptr;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
