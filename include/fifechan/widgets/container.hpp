@@ -34,347 +34,348 @@ namespace fcn
      */
     class FIFEGUI_API Container : public Widget
     {
-    public:
-        /**
-         * The layout policy of the container.
-         *
-         * Absolute: manual positioning by user, no layout management.
-         * AutoSize: container is resized based on its children, no layout management.
-         * Vertical: children are stacked vertically, container is resized based on its children.
-         * Horizontal: children are stacked horizontally, container is resized based on its children.
-         * Circular: children are arranged in a circular pattern, container is resized based on its children.
-         *
-         * @see setLayout, getLayout
-         */
-        enum class LayoutPolicy : uint8_t
-        {
-            Absolute = 0,
-            AutoSize,
-            Vertical,
-            Horizontal,
-            Circular
-        };
+        public:
+            /**
+             * The layout policy of the container.
+             *
+             * Absolute: manual positioning by user, no layout management.
+             * AutoSize: container is resized based on its children, no layout management.
+             * Vertical: children are stacked vertically, container is resized based on its children.
+             * Horizontal: children are stacked horizontally, container is resized based on its children.
+             * Circular: children are arranged in a circular pattern, container is resized based on its children.
+             *
+             * @see setLayout, getLayout
+             */
+            enum class LayoutPolicy : uint8_t
+            {
+                Absolute = 0,
+                AutoSize,
+                Vertical,
+                Horizontal,
+                Circular
+            };
 
-        /**
-         * Constructor.
-         *
-         * A container is opaque as default.
-         * If you want a non-opaque container call setOpaque(false).
-         *
-         * The default layout policy of the container is Absolute, which means that the position of the children.
-         * setLayout stores the layout policy of the container, and getLayout returns the current layout policy of the
-         * container. resizeToContent and expandContent will only have an effect if the layout policy is not Absolute.
-         * expandContent will only have an effect if the layout policy is Vertical, Horizontal or Circular.
-         *
-         * @see setOpaque, isOpaque
-         */
-        Container();
+            /**
+             * Constructor.
+             *
+             * A container is opaque as default.
+             * If you want a non-opaque container call setOpaque(false).
+             *
+             * The default layout policy of the container is Absolute, which means that the position of the children.
+             * setLayout stores the layout policy of the container, and getLayout returns the current layout policy of
+             * the container. resizeToContent and expandContent will only have an effect if the layout policy is not
+             * Absolute. expandContent will only have an effect if the layout policy is Vertical, Horizontal or
+             * Circular.
+             *
+             * @see setOpaque, isOpaque
+             */
+            Container();
 
-        ~Container() override;
+            ~Container() override;
 
-        Container(Container const &)            = delete;
-        Container& operator=(Container const &) = delete;
-        Container(Container&&)                  = delete;
-        Container& operator=(Container&&)       = delete;
+            Container(Container const &)            = delete;
+            Container& operator=(Container const &) = delete;
+            Container(Container&&)                  = delete;
+            Container& operator=(Container&&)       = delete;
 
-        /**
-         * Sets the opacity of the container.
-         *
-         * A container is opaque (setOpaque(true)) when it is fully opaque (opacity = 1.0).
-         * A container is transparent (setOpaque(false)) when it is fully transparent (opacity = 0.0).
-         *
-         * @param opacity Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).
-         * @see isOpaque, setOpaque
-         */
-        virtual void setOpacity(float opacity);
+            /**
+             * Sets the opacity of the container.
+             *
+             * A container is opaque (setOpaque(true)) when it is fully opaque (opacity = 1.0).
+             * A container is transparent (setOpaque(false)) when it is fully transparent (opacity = 0.0).
+             *
+             * @param opacity Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).
+             * @see isOpaque, setOpaque
+             */
+            virtual void setOpacity(float opacity);
 
-        /**
-         * Sets the container to be opaque or not.
-         *
-         * If the container is opaque its background will be drawn,
-         * if it's not opaque its background will not be drawn,
-         * and thus making the container completely transparent.
-         *
-         * @note
-         * This is not the same as setting the visibility.
-         * A non-visible container is not drawn, and neither is its content.
-         *
-         * @param opaque True if the container should be opaque, false otherwise.
-         * @see isOpaque
-         */
-        virtual void setOpaque(bool opaque);
+            /**
+             * Sets the container to be opaque or not.
+             *
+             * If the container is opaque its background will be drawn,
+             * if it's not opaque its background will not be drawn,
+             * and thus making the container completely transparent.
+             *
+             * @note
+             * This is not the same as setting the visibility.
+             * A non-visible container is not drawn, and neither is its content.
+             *
+             * @param opaque True if the container should be opaque, false otherwise.
+             * @see isOpaque
+             */
+            virtual void setOpaque(bool opaque);
 
-        /**
-         * Checks if the container is opaque or not.
-         *
-         * @return True if the container is opaque, false otherwise.
-         * @see setOpaque
-         */
-        virtual bool isOpaque() const;
+            /**
+             * Checks if the container is opaque or not.
+             *
+             * @return True if the container is opaque, false otherwise.
+             * @see setOpaque
+             */
+            virtual bool isOpaque() const;
 
-        /**
-         * Adds a widget to the container.
-         *
-         * @param widget The widget to add.
-         * @see remove, clear
-         */
-        virtual void add(Widget* widget);
+            /**
+             * Adds a widget to the container.
+             *
+             * @param widget The widget to add.
+             * @see remove, clear
+             */
+            virtual void add(Widget* widget);
 
-        /**
-         * Adds a widget to the container, transferring ownership.
-         *
-         * @param widget The widget to add.
-         */
-        virtual void addWidget(std::unique_ptr<Widget> widget);
+            /**
+             * Adds a widget to the container, transferring ownership.
+             *
+             * @param widget The widget to add.
+             */
+            virtual void addWidget(std::unique_ptr<Widget> widget);
 
-        /**
-         * Adds a widget to the container at a given position.
-         *
-         * The position is relative to the container (not the screen).
-         *
-         * @param widget The widget to add.
-         * @param x The x coordinate for the widget.
-         * @param y The y coordinate for the widget.
-         * @see remove, clear
-         */
-        virtual void add(Widget* widget, int x, int y);
+            /**
+             * Adds a widget to the container at a given position.
+             *
+             * The position is relative to the container (not the screen).
+             *
+             * @param widget The widget to add.
+             * @param x The x coordinate for the widget.
+             * @param y The y coordinate for the widget.
+             * @see remove, clear
+             */
+            virtual void add(Widget* widget, int x, int y);
 
-        /**
-         * Adds a widget to the container at position, transferring ownership.
-         *
-         * @param widget The widget to add.
-         * @param x X coordinate.
-         * @param y Y coordinate.
-         */
-        virtual void addWidget(std::unique_ptr<Widget> widget, int x, int y);
+            /**
+             * Adds a widget to the container at position, transferring ownership.
+             *
+             * @param widget The widget to add.
+             * @param x X coordinate.
+             * @param y Y coordinate.
+             */
+            virtual void addWidget(std::unique_ptr<Widget> widget, int x, int y);
 
-        /**
-         * Removes a widget from the Container.
-         *
-         * @param widget The widget to remove.
-         * @throws Exception when the widget has not been added to the
-         *                   container.
-         * @see add, clear
-         */
-        void remove(Widget* widget) override;
+            /**
+             * Removes a widget from the Container.
+             *
+             * @param widget The widget to remove.
+             * @throws Exception when the widget has not been added to the
+             *                   container.
+             * @see add, clear
+             */
+            void remove(Widget* widget) override;
 
-        /**
-         * Removes all widgets from the the container.
-         *
-         * @see add, remove
-         */
-        void removeAllChildren() override;
+            /**
+             * Removes all widgets from the the container.
+             *
+             * @see add, remove
+             */
+            void removeAllChildren() override;
 
-        /**
-         * Finds a widget given an id.
-         *
-         * @param id The id to find a widget by.
-         * @return A widget with a corresponding id, Nullptr if no widget found.
-         * @see Widget::setId
-         */
-        Widget* findWidgetById(std::string const & id) override;
+            /**
+             * Finds a widget given an id.
+             *
+             * @param id The id to find a widget by.
+             * @return A widget with a corresponding id, Nullptr if no widget found.
+             * @see Widget::setId
+             */
+            Widget* findWidgetById(std::string const & id) override;
 
-        /**
-         * Adds a container listener to the container. When a widget is
-         * added or removed an event will be sent to all container
-         * listeners of the container
-         *
-         * @param containerListener The container listener to add.
-         */
-        void addContainerListener(ContainerListener* containerListener);
+            /**
+             * Adds a container listener to the container. When a widget is
+             * added or removed an event will be sent to all container
+             * listeners of the container
+             *
+             * @param containerListener The container listener to add.
+             */
+            void addContainerListener(ContainerListener* containerListener);
 
-        /**
-         * Removes a container listener from the container.
-         *
-         * @param containerListener The container listener to remove.
-         */
-        void removeContainerListener(ContainerListener* containerListener);
+            /**
+             * Removes a container listener from the container.
+             *
+             * @param containerListener The container listener to remove.
+             */
+            void removeContainerListener(ContainerListener* containerListener);
 
-        /**
-         * Gets child by index.
-         *
-         * @param index Child index.
-         * @return Child widget or nullptr when index is out of range.
-         */
-        Widget* getChild(unsigned int index) const;
+            /**
+             * Gets child by index.
+             *
+             * @param index Child index.
+             * @return Child widget or nullptr when index is out of range.
+             */
+            Widget* getChild(unsigned int index) const;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        using Widget::expandContent;
-        using Widget::resizeToContent;
+            using Widget::expandContent;
+            using Widget::resizeToContent;
 
-        /**
-         * Resize this container to fit its children.
-         *
-         * @param recursion If true, resize children recursively.
-         */
-        void resizeToContent(bool recursion = true) override;
+            /**
+             * Resize this container to fit its children.
+             *
+             * @param recursion If true, resize children recursively.
+             */
+            void resizeToContent(bool recursion = true) override;
 
-        /**
-         * Adjust the size of the container after layout computations.
-         */
-        void adjustSize() override;
+            /**
+             * Adjust the size of the container after layout computations.
+             */
+            void adjustSize() override;
 
-        /**
-         * Expand children to occupy available space in this container.
-         *
-         * @param recursion If true, expand children recursively.
-         */
-        void expandContent(bool recursion) override;
-        void draw(Graphics* graphics) override;
-        Rectangle getChildrenArea() override;
-        bool isLayouted() override
-        {
-            return mLayout != LayoutPolicy::Absolute;
-        };
+            /**
+             * Expand children to occupy available space in this container.
+             *
+             * @param recursion If true, expand children recursively.
+             */
+            void expandContent(bool recursion) override;
+            void draw(Graphics* graphics) override;
+            Rectangle getChildrenArea() override;
+            bool isLayouted() override
+            {
+                return mLayout != LayoutPolicy::Absolute;
+            };
 
-        /**
-         * Sets the layout of the container.
-         * @see LayoutPolicy
-         *
-         * @param policy The LayoutPolicy of the container.
-         * @see getLayout
-         */
-        virtual void setLayout(LayoutPolicy policy);
+            /**
+             * Sets the layout of the container.
+             * @see LayoutPolicy
+             *
+             * @param policy The LayoutPolicy of the container.
+             * @see getLayout
+             */
+            virtual void setLayout(LayoutPolicy policy);
 
-        /**
-         * Gets the layout of the container.
-         * @see LayoutPolicy
-         *
-         * @return The LayoutPolicy of the container.
-         * @see setLayout
-         */
-        virtual LayoutPolicy getLayout() const;
+            /**
+             * Gets the layout of the container.
+             * @see LayoutPolicy
+             *
+             * @return The LayoutPolicy of the container.
+             * @see setLayout
+             */
+            virtual LayoutPolicy getLayout() const;
 
-        /**
-         * If enabled, the free space is distributed in a way that the size of the
-         * childrens will be equal (if possible).
-         * Otherwise the free space will evenly distributed.
-         *
-         * @param uniform Indicates if uniform size is enabled or not.
-         * @see isUniformSize
-         */
-        virtual void setUniformSize(bool uniform);
+            /**
+             * If enabled, the free space is distributed in a way that the size of the
+             * childrens will be equal (if possible).
+             * Otherwise the free space will evenly distributed.
+             *
+             * @param uniform Indicates if uniform size is enabled or not.
+             * @see isUniformSize
+             */
+            virtual void setUniformSize(bool uniform);
 
-        /**
-         * True if the container tries to expand the childs
-         * to a uniform size.
-         *
-         * @return True if uniform size is set, otherwise false.
-         * @see setUniformSize
-         */
-        virtual bool isUniformSize() const;
+            /**
+             * True if the container tries to expand the childs
+             * to a uniform size.
+             *
+             * @return True if uniform size is set, otherwise false.
+             * @see setUniformSize
+             */
+            virtual bool isUniformSize() const;
 
-        /**
-         * Set the vertical spacing between rows.
-         *
-         * @param spacing spacing in pixels.
-         * @see getVerticalSpacing
-         */
-        virtual void setVerticalSpacing(unsigned int spacing);
+            /**
+             * Set the vertical spacing between rows.
+             *
+             * @param spacing spacing in pixels.
+             * @see getVerticalSpacing
+             */
+            virtual void setVerticalSpacing(unsigned int spacing);
 
-        /**
-         * Get the vertical spacing between rows.
-         *
-         * @return vertical spacing in pixels.
-         * @see setVerticalSpacing
-         */
-        virtual unsigned int getVerticalSpacing() const;
+            /**
+             * Get the vertical spacing between rows.
+             *
+             * @return vertical spacing in pixels.
+             * @see setVerticalSpacing
+             */
+            virtual unsigned int getVerticalSpacing() const;
 
-        /**
-         * Set the horizontal spacing between columns.
-         *
-         * @param spacing spacing in pixels.
-         * @see getHorizontalSpacing
-         */
-        virtual void setHorizontalSpacing(unsigned int spacing);
+            /**
+             * Set the horizontal spacing between columns.
+             *
+             * @param spacing spacing in pixels.
+             * @see getHorizontalSpacing
+             */
+            virtual void setHorizontalSpacing(unsigned int spacing);
 
-        /**
-         * Get the horizontal spacing between rows.
-         *
-         * @return horizontal spacing in pixels.
-         * @see setHorizontalSpacing
-         */
-        virtual unsigned int getHorizontalSpacing() const;
+            /**
+             * Get the horizontal spacing between rows.
+             *
+             * @return horizontal spacing in pixels.
+             * @see setHorizontalSpacing
+             */
+            virtual unsigned int getHorizontalSpacing() const;
 
-        /**
-         * Set a widget that will be rendered behind other children as the background.
-         *
-         * @param widget Background widget (ownership is not transferred).
-         */
-        void setBackgroundWidget(Widget* widget);
+            /**
+             * Set a widget that will be rendered behind other children as the background.
+             *
+             * @param widget Background widget (ownership is not transferred).
+             */
+            void setBackgroundWidget(Widget* widget);
 
-        /**
-         * Get the background widget if one is set.
-         *
-         * @return The background widget or nullptr if none is set.
-         */
-        Widget* getBackgroundWidget();
+            /**
+             * Get the background widget if one is set.
+             *
+             * @return The background widget or nullptr if none is set.
+             */
+            Widget* getBackgroundWidget();
 
-    protected:
-        /**
-         * Distributes a widget added container event to all container listeners
-         * of the container.
-         *
-         * @param source The source widget of the event.
-         */
-        void distributeWidgetAddedEvent(Widget* source);
+        protected:
+            /**
+             * Distributes a widget added container event to all container listeners
+             * of the container.
+             *
+             * @param source The source widget of the event.
+             */
+            void distributeWidgetAddedEvent(Widget* source);
 
-        /**
-         * Distributes a widget removed container event to all container listeners
-         * of the container.
-         *
-         * @param source The source widget of the event.
-         */
-        void distributeWidgetRemovedEvent(Widget* source);
+            /**
+             * Distributes a widget removed container event to all container listeners
+             * of the container.
+             *
+             * @param source The source widget of the event.
+             */
+            void distributeWidgetRemovedEvent(Widget* source);
 
-        /**
-         * Opacity of the container, between 0.0 (fully transparent) and 1.0 (fully opaque).
-         */
-        float mOpacity{1.0F};
+            /**
+             * Opacity of the container, between 0.0 (fully transparent) and 1.0 (fully opaque).
+             */
+            float mOpacity{1.0F};
 
-        /**
-         * True if the container is opaque, false otherwise.
-         */
-        bool mOpaque{true};
+            /**
+             * True if the container is opaque, false otherwise.
+             */
+            bool mOpaque{true};
 
-        /**
-         * Typdef.
-         */
-        using ContainerListenerList = std::list<ContainerListener*>;
+            /**
+             * Typdef.
+             */
+            using ContainerListenerList = std::list<ContainerListener*>;
 
-        /**
-         * The container listeners of the container.
-         */
-        ContainerListenerList mContainerListeners;
+            /**
+             * The container listeners of the container.
+             */
+            ContainerListenerList mContainerListeners;
 
-        /** Iterator for ContainerListenerList. */
-        using ContainerListenerIterator = ContainerListenerList::iterator;
+            /** Iterator for ContainerListenerList. */
+            using ContainerListenerIterator = ContainerListenerList::iterator;
 
-        /**
-         * Layout
-         */
-        LayoutPolicy mLayout{LayoutPolicy::Absolute};
+            /**
+             * Layout
+             */
+            LayoutPolicy mLayout{LayoutPolicy::Absolute};
 
-        /**
-         * Indicates if the childs should be expanded to a uniform size
-         */
-        bool mUniform{false};
+            /**
+             * Indicates if the childs should be expanded to a uniform size
+             */
+            bool mUniform{false};
 
-        /**
-         * VerticalSpacing
-         */
-        unsigned int mVerticalSpacing{2};
+            /**
+             * VerticalSpacing
+             */
+            unsigned int mVerticalSpacing{2};
 
-        /**
-         * HorizontalSpacing
-         */
-        unsigned int mHorizontalSpacing{2};
+            /**
+             * HorizontalSpacing
+             */
+            unsigned int mHorizontalSpacing{2};
 
-        /**
-         * Optional widget that is rendered behind other children as the container background.
-         */
-        Widget* mBackgroundWidget{nullptr};
+            /**
+             * Optional widget that is rendered behind other children as the container background.
+             */
+            Widget* mBackgroundWidget{nullptr};
     };
 } // namespace fcn
 

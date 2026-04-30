@@ -15,32 +15,32 @@ namespace fcn
 
     class FIFEGUI_API DragEvent : public Event
     {
-    public:
-        enum class Type : std::uint8_t
-        {
-            Enter,
-            Leave,
-            Hover,
-            Drop,
-            Cancel
-        };
+        public:
+            enum class Type : std::uint8_t
+            {
+                Enter,
+                Leave,
+                Hover,
+                Drop,
+                Cancel
+            };
 
-        DragEvent(Widget* source, DragPayload const * payload, Type type, int x, int y, int screenX, int screenY);
+            DragEvent(Widget* source, DragPayload const * payload, Type type, int x, int y, int screenX, int screenY);
 
-        Type getType() const;
-        DragPayload const * getPayload() const;
-        int getX() const;
-        int getY() const;
-        int getScreenX() const;
-        int getScreenY() const;
+            Type getType() const;
+            DragPayload const * getPayload() const;
+            int getX() const;
+            int getY() const;
+            int getScreenX() const;
+            int getScreenY() const;
 
-    protected:
-        Type mType;
-        DragPayload const * mPayload;
-        int mX, mY;
-        int mScreenX, mScreenY;
+        protected:
+            Type mType;
+            DragPayload const * mPayload;
+            int mX, mY;
+            int mScreenX, mScreenY;
 
-        friend class DragHandler;
+            friend class DragHandler;
     };
 } // namespace fcn
 

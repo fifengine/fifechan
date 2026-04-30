@@ -19,51 +19,51 @@ namespace fcn
      */
     class FIFEGUI_API Size
     {
-    public:
-        /**
-         * Constructor initializes size values.
-         *
-         * @param width Width of size.
-         * @param height Height of size.
-         */
-        explicit Size(int width = 0, int height = 0);
+        public:
+            /**
+             * Constructor initializes size values.
+             *
+             * @param width Width of size.
+             * @param height Height of size.
+             */
+            explicit Size(int width = 0, int height = 0);
 
-        ~Size() = default;
+            ~Size() = default;
 
-        Size(Size const &)            = default;
-        Size& operator=(Size const &) = default;
-        Size(Size&&)                  = default;
-        Size& operator=(Size&&)       = default;
+            Size(Size const &)            = default;
+            Size& operator=(Size const &) = default;
+            Size(Size&&)                  = default;
+            Size& operator=(Size&&)       = default;
 
-        /**
-         * @return Width of size.
-         */
-        int getWidth() const;
+            /**
+             * @return Width of size.
+             */
+            int getWidth() const;
 
-        /**
-         * @return Height of size.
-         */
-        int getHeight() const;
+            /**
+             * @return Height of size.
+             */
+            int getHeight() const;
 
-        /**
-         * Sets the width of size.
-         *
-         * @param width Desired width.
-         */
-        void setWidth(int width);
+            /**
+             * Sets the width of size.
+             *
+             * @param width Desired width.
+             */
+            void setWidth(int width);
 
-        /**
-         * Sets the height of size.
-         *
-         * @param height Desired height.
-         */
-        void setHeight(int height);
+            /**
+             * Sets the height of size.
+             *
+             * @param height Desired height.
+             */
+            void setHeight(int height);
 
-    private:
-        // width of the size
-        int mWidth = 0;
-        // height of the size
-        int mHeight = 0;
+        private:
+            // width of the size
+            int mWidth = 0;
+            // height of the size
+            int mHeight = 0;
     };
 }; // namespace fcn
 

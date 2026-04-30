@@ -10,7 +10,9 @@
 
 namespace fcn
 {
-    KeyInput::KeyInput(Key const & key, Type type) : mKey(key), mType(type) { }
+    KeyInput::KeyInput(Key const & key, Type type) : mKey(key), mType(type)
+    {
+    }
 
     void KeyInput::setType(Type type)
     {

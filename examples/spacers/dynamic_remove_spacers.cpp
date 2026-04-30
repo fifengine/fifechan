@@ -27,19 +27,21 @@
 
 class MyActionListener : public fcn::ActionListener
 {
-    fcn::Container* mParent;
+        fcn::Container* mParent;
 
-public:
-    explicit MyActionListener(fcn::Container* parent) : mParent(parent) { }
-
-    void action(fcn::ActionEvent const & e) override
-    {
-        fcn::Widget* w = e.getSource();
-
-        if (w->getParent() == mParent) {
-            mParent->remove(w);
+    public:
+        explicit MyActionListener(fcn::Container* parent) : mParent(parent)
+        {
         }
-    }
+
+        void action(fcn::ActionEvent const & e) override
+        {
+            fcn::Widget* w = e.getSource();
+
+            if (w->getParent() == mParent) {
+                mParent->remove(w);
+            }
+        }
 };
 
 int main(int /*argc*/, char** /*argv*/)

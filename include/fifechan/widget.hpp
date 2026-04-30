@@ -53,2012 +53,2028 @@ namespace fcn
      */
     class FIFEGUI_API Widget
     {
-    public:
-        /**
-         * Border side flags for flexible border drawing.
-         */
-        enum BorderSide : uint8_t
-        {
-            BORDER_NONE   = 0,
-            BORDER_LEFT   = 1 << 0,
-            BORDER_TOP    = 1 << 1,
-            BORDER_RIGHT  = 1 << 2,
-            BORDER_BOTTOM = 1 << 3,
-            BORDER_ALL    = BORDER_LEFT | BORDER_TOP | BORDER_RIGHT | BORDER_BOTTOM
-        };
-
-        /**
-         * Border drawing style.
-         */
-        enum BorderStyle : uint8_t
-        {
-            BORDER_STYLE_BEVEL = 0,
-            BORDER_STYLE_FLAT  = 1
-        };
-        /**
-         * Selection mode.
-         */
-        enum class SelectionMode : uint8_t
-        {
-            None       = 0,
-            Border     = 1,
-            Background = 2
-        };
-
-        /**
-         * Constructor.
-         * Resets member variables.
-         * Notably, a widget is not focusable as default, therefore,
-         * widgets that are supposed to be focusable should override
-         * this default in their own constructor.
-         */
-        Widget();
-
-        virtual ~Widget();
-
-        Widget(Widget const &)            = delete;
-        Widget& operator=(Widget const &) = delete;
-        Widget(Widget&&)                  = delete;
-        Widget& operator=(Widget&&)       = delete;
-
-        friend class DragHandler;
-
-        /**
-         * Draws the widget.
-         *
-         * The call to draw is initiated by the widget's
-         * parent. The graphics object is set up so that all drawing is relative
-         * to the widget, i.e coordinate (0,0) is the top left corner of the widget.
-         * It is not possible to draw outside of a widget's dimension. If a widget
-         * has children, the parent's draw function will always be called before
-         * the children's draw functions are called.
-         *
-         * @note A widget with children won't draw its children unless the
-         *       children area given by Widget::getChildrenArea returns a
-         *       none empty rectangle inside the widgets dimension. The children
-         *       area is considered relative to the widget's position.
-         *
-         * @param graphics A graphics object to draw with.
-         * @see getChildrenArea, drawOutline, drawBorder
-         */
-        virtual void draw(Graphics* graphics) = 0;
-
-        /**
-         * Called when a widget is given a chance to draw a outline around itself.
-         * The outline is not considered as part of the widget, it only allows a outline
-         * to be drawn around the widget, thus a outline will never be included when
-         * calculating if a widget should receive events from user input. Also
-         * a widget's outline will never be included when calculating a widget's
-         * position.
-         *
-         * The size of the outline is calculated using the widget's outline size.
-         * If a widget has a outline size of 10 pixels than the area the drawOutline
-         * function can draw to will be the size of the widget with an additional
-         * extension of 10 pixels in each direction.
-         *
-         * An example when drawOutline is a useful function is if a widget needs
-         * a glow around itself.
-         *
-         * @param graphics A graphics object to draw with.
-         * @see setOutlineSize, getOutlineSize
-         */
-        virtual void drawOutline(Graphics* graphics);
-
-        /**
-         * Called when a widget have a border.
-         *
-         * @param graphics A graphics object to draw with.
-         * @see setBorderSize, getBorderSize
-         */
-        virtual void drawBorder(Graphics* graphics);
-
-        /**
-         * Draw the border for the given sides.
-         * This overload allows callers to draw a subset of sides.
-         */
-        void drawBorder(Graphics* graphics, unsigned int sides);
-
-        /**
-         * Called when a widget is "active" and the selection mode is Frame or FrameWithBackground.
-         * Currently the size of the border is used, so it will replace the border with the frame.
-         *
-         * @param graphics A graphics object to draw with.
-         * @see setSelectionMode, getSelectionMode, setSelectionColor, getSelectionColor
-         */
-        virtual void drawSelectionFrame(Graphics* graphics);
-
-        /**
-         * Sets the size of the widget's outline.
-         *
-         * The outline is not considered as part of
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline
-         * will never be included when calculating if a widget should receive events
-         * from user input. Also a widget's outline will never be included when calculating
-         * a widget's position.
-         *
-         * A outline size of 0 means that the widget has no outline. The default outline size
-         * is 0.
-         *
-         * @param size The size of the widget's outline.
-         * @see getOutlineSize, drawOutline
-         */
-        void setOutlineSize(unsigned int size);
-
-        /**
-         * Gets the size of the widget's outline.
-         *
-         * The outline is not considered as part of
-         * the widget, it only allows a outline to be drawn around the widget, thus a outline
-         * will never be included when calculating if a widget should receive events
-         * from user input. Also a widget's outline will never be included when calculating
-         * a widget's position.
-         *
-         * A outline size of 0 means that the widget has no outline. The default outline size
-         * is 0.
-         *
-         * @return The size of the widget's outline.
-         * @see setOutlineSize, drawOutline
-         */
-        unsigned int getOutlineSize() const;
-
-        /**
-         * Sets the size of the widget's border.
-         *
-         * The border is considered a part of the widget.
-         *
-         * A border size of 0 means that the widget has no border.
-         * The default border size is 0.
-         *
-         * @param size The size of the widget's border.
-         * @see getBorderSize, drawBorder
-         */
-        void setBorderSize(unsigned int size);
-
-        /**
-         * Gets the size of the widget's border.
-         *
-         * The border is considered as part of the widget.
-         *
-         * A border size of 0 means that the widget has no border.
-         * The default border size is 0.
-         *
-         * @return The size of the widget's border.
-         * @see setBorderSize, drawBorder
-         */
-        unsigned int getBorderSize() const;
-
-        /**
-         * Select which sides the border should be drawn on.
-         * Default is `BORDER_ALL`.
-         */
-        void setBorderSides(unsigned int sides);
-
-        /**
-         * Get the currently selected border sides.
-         */
-        unsigned int getBorderSides() const;
-
-        /**
-         * Set border drawing style (bevel or flat).
-         */
-        void setBorderStyle(unsigned int style);
-
-        /**
-         * Get the current border drawing style.
-         */
-        unsigned int getBorderStyle() const;
-
-        /**
-         * Convenience helper: set a top-only border with size and style.
-         * This sets the border size, selects the top side and applies style.
-         */
-        void setBorderTop(unsigned int size, unsigned int style);
-
-        /**
-         * Convenience helper: set a bottom-only border with size and style.
-         * This sets the border size, selects the bottom side and applies style.
-         */
-        void setBorderBottom(unsigned int size, unsigned int style);
-
-        /**
-         * Sets all 4 margins to one value.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @param margin The margin of the widget.
-         * @see setMarginTop, setMarginRight, setMarginBottom, setMarginRight
-         */
-        void setMargin(int margin);
-
-        /**
-         * Sets the top margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @param margin The top margin of the widget.
-         * @see getMarginTop
-         */
-        void setMarginTop(int margin);
-
-        /**
-         * Gets the top margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @return The top margin of the widget.
-         * @see setMarginTop
-         */
-        int getMarginTop() const;
-
-        /**
-         * Sets the right margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @param margin The right margin of the widget.
-         * @see getMarginRight
-         */
-        void setMarginRight(int margin);
-
-        /**
-         * Gets the right margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @return The right margin of the widget.
-         * @see setMarginRight
-         */
-        int getMarginRight() const;
-
-        /**
-         * Sets the bottom margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @param margin The bottom margin of the widget.
-         * @see getMarginBottom
-         */
-        void setMarginBottom(int margin);
-
-        /**
-         * Gets the bottom margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @return The bottom margin of the widget.
-         * @see setMarginBottom
-         */
-        int getMarginBottom() const;
-
-        /**
-         * Sets the left margin.
-         *
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @param margin The left margin of the widget.
-         * @see getMarginLeft
-         */
-        void setMarginLeft(int margin);
-
-        /**
-         * Gets the left margin.
-         * The margin clears an area around an element (outside the border).
-         * The margin does not have a background color, and is completely transparent.
-         * It is also possible to use negative values, to overlap content.
-
-         * @return The left margin of the widget.
-         * @see setMarginLeft
-         */
-        int getMarginLeft() const;
-
-        /**
-         * Sets all 4 paddings to one value.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @param padding The top padding of the widget.
-         * @see setPaddingTop, setPaddingRight, setPaddingBottom, setPaddingLeft
-         */
-        void setPadding(unsigned int padding);
-
-        /**
-         * Sets the top padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @param padding The top padding of the widget.
-         * @see getPaddingTop
-         */
-        void setPaddingTop(unsigned int padding);
-
-        /**
-         * Gets the top padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @return The top padding of the widget.
-         * @see setPaddingTop
-         */
-        unsigned int getPaddingTop() const;
-
-        /**
-         * Sets the right padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @param padding The right padding of the widget.
-         * @see getPaddingRight
-         */
-        void setPaddingRight(unsigned int padding);
-
-        /**
-         * Gets the right padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @return The right padding of the widget.
-         * @see setPaddingRight
-         */
-        unsigned int getPaddingRight() const;
-
-        /**
-         * Sets the bottom padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @param padding The bottom padding of the widget.
-         * @see getPaddingBottom
-         */
-        void setPaddingBottom(unsigned int padding);
-
-        /**
-         * Gets the bottom padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @return The bottom padding of the widget.
-         * @see setPaddingBottom
-         */
-        unsigned int getPaddingBottom() const;
-
-        /**
-         * Sets the left padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @param padding The left padding of the widget.
-         * @see getPaddingLeft
-         */
-        void setPaddingLeft(unsigned int padding);
-
-        /**
-         * Gets the left padding.
-         * The padding clears an area around the content (inside the border) of
-         * an element. The padding is affected by the background color of the element.
-
-         * @return The left padding of the widget.
-         * @see setPaddingLeft
-         */
-        unsigned int getPaddingLeft() const;
-
-        /**
-         * Called for all widgets in the GUI each time Gui::logic is called.
-         * You can do logic stuff here like playing an animation.
-         *
-         * @see Gui::logic
-         */
-        virtual void logic() { }
-
-        /**
-         * Gets the widget's parent container.
-         *
-         * @return The widget's parent container. Nullptr if the widget
-         *         has no parent.
-         */
-        virtual Widget* getParent() const;
-
-        /**
-         * Gets the top widget, or top parent, of this widget.
-         *
-         * @return The top widget, or top parent, for this widget. Nullptr if no top widget
-         *         exists (this widget doesn't have a parent).
-         */
-        virtual Widget* getTop() const;
-
-        /**
-         * Sets the width of the widget.
-         *
-         * @param width The width of the widget.
-         * @see getWidth, setHeight, getHeight, setSize,
-         *      setDimension, getDimension
-         */
-        virtual void setWidth(int width);
-
-        /**
-         * Gets the width of the widget.
-         *
-         * @return The width of the widget.
-         * @see setWidth, setHeight, getHeight, setSize,
-         *      setDimension, getDimension
-         */
-        int getWidth() const;
-
-        /**
-         * Sets the height of the widget.
-         *
-         * @param height The height of the widget.
-         * @see getHeight, setWidth, getWidth, setSize,
-         *      setDimension, getDimension
-         */
-        virtual void setHeight(int height);
-
-        /**
-         * Gets the height of the widget.
-         *
-         * @return The height of the widget.
-         * @see setHeight, setWidth, getWidth, setSize,
-         *      setDimension, getDimension
-         */
-        int getHeight() const;
-
-        /**
-         * Checks if a point is within the widget's bounds.
-         *
-         * @param x The x coordinate (relative to widget origin).
-         * @param y The y coordinate (relative to widget origin).
-         * @return True if the point is within bounds.
-         */
-        bool contains(int x, int y) const;
-
-        /**
-         * Checks if a mouse event occurred within this widget.
-         *
-         * @param mouseEvent The mouse event to check.
-         * @return True if the event coordinates are within bounds.
-         */
-        bool isMouseInside(MouseEvent const & mouseEvent) const;
-
-        /**
-         * Sets the size of the widget.
-         *
-         * @param width The width of the widget.
-         * @param height The height of the widget.
-         * @see setWidth, setHeight, getWidth, getHeight,
-         *      setDimension, getDimension
-         */
-        virtual void setSize(int width, int height);
-
-        /**
-         * Sets the x coordinate of the widget. The coordinate is
-         * relative to the widget's parent.
-         *
-         * @param x The x coordinate of the widget.
-         * @see getX, setY, getY, setPosition, setDimension, getDimension
-         */
-        void setX(int x);
-
-        /**
-         * Gets the x coordinate of the widget. The coordinate is
-         * relative to the widget's parent.
-         *
-         * @return The x coordinate of the widget.
-         * @see setX, setY, getY, setPosition, setDimension, getDimension
-         */
-        int getX() const;
-
-        /**
-         * Sets the y coordinate of the widget. The coordinate is
-         * relative to the widget's parent.
-         *
-         * @param y The y coordinate of the widget.
-         * @see setY, setX, getX, setPosition, setDimension, getDimension
-         */
-        void setY(int y);
-
-        /**
-         * Gets the y coordinate of the widget. The coordinate is
-         * relative to the widget's parent.
-         *
-         * @return The y coordinate of the widget.
-         * @see setY, setX, getX, setPosition, setDimension, getDimension
-         */
-        int getY() const;
-
-        /**
-         * Sets position of the widget. The position is relative
-         * to the widget's parent.
-         *
-         * @param x The x coordinate of the widget.
-         * @param y The y coordinate of the widget.
-         * @see setX, getX, setY, getY, setDimension, getDimension
-         */
-        void setPosition(int x, int y);
-
-        /**
-         * Sets the dimension of the widget. The dimension is
-         * relative to the widget's parent.
-         *
-         * @param dimension The dimension of the widget.
-         * @see getDimension, setX, getX, setY, getY, setPosition
-         */
-        virtual void setDimension(Rectangle const & dimension);
-
-        /**
-         * Gets the dimension of the widget. The dimension is
-         * relative to the widget's parent.
-         *
-         * @return The dimension of the widget.
-         * @see getDimension, setX, getX, setY, getY, setPosition
-         */
-        Rectangle const & getDimension() const;
-
-        /**
-         * Gets how many childs the widget have.
-         *
-         * @return The children count of the widget.
-         */
-        unsigned int getChildrenCount() const;
-
-        /**
-         * Gets how many visible childs the widget have.
-         *
-         * @return The visible children count of the widget.
-         */
-        unsigned int getVisibleChildrenCount() const;
-
-        /**
-         * Sets the minimal dimension of the widget.
-         *
-         * @param size The minimal size of the widget.
-         * @see getMinSize
-         */
-        void setMinSize(Size const & size);
-
-        /**
-         * Gets the minimal dimension of the widget.
-         *
-         * @return The minimal size of the widget.
-         * @see setMinSize
-         */
-        Size const & getMinSize() const;
-
-        /**
-         * Sets the maximal dimension of the widget.
-         *
-         * @param size The maximal size of the widget.
-         * @see getMaxSize
-         */
-        void setMaxSize(Size const & size);
-
-        /**
-         * Gets the maximal dimension of the widget.
-         *
-         * @return The maximal size of the widget.
-         * @see setMaxSize
-         */
-        Size const & getMaxSize() const;
-
-        /**
-         * Sets the dimension of the widget to a fixed size.
-         * To disable it, provide a size with negative values.
-         *
-         * @param size The fixed size of the widget.
-         * @see getFixedSize, isFixedSize
-         */
-        void setFixedSize(Size const & size);
-
-        /**
-         * Gets the fixed size of the widget.
-         *
-         * @return The fixed size of the widget.
-         * @see setFixedSize, isFixedSize
-         */
-        Size const & getFixedSize() const;
-
-        /**
-         * Gets if the widget use a fixed size.
-         *
-         * @return True if the widget use a fixed size, otherwise false.
-         * @see setFixedSize, getFixedSize
-         */
-        bool isFixedSize() const;
-
-        /**
-         * Sets the widget to be focusable, or not.
-         *
-         * @param focusable True if the widget should be focusable,
-         *                  false otherwise.
-         * @see isFocusable
-         */
-        void setFocusable(bool focusable);
-
-        /**
-         * Checks if a widget is focusable.
-         *
-         * @return True if the widget should be focusable, false otherwise.
-         * @see setFocusable
-         */
-        bool isFocusable() const;
-
-        /**
-         * Checks if the widget is focused.
-         *
-         * @return True if the widget is focused, false otherwise.
-         */
-        virtual bool isFocused() const;
-
-        /**
-         * Sets the widget as focused, or not.
-         *
-         * This method handles focus state changes and calls
-         * onFocusGained(), onFocusLost(), and onFocusChanged() hooks.
-         *
-         * @param focused True if the widget should be focused,
-         *               false otherwise.
-         * @see isFocused
-         */
-        virtual void setFocused(bool focused);
-
-        /**
-         * Sets the widget to enabled, or not. A disabled
-         * widget will never receive mouse or key events.
-         *
-         * @param enabled True if widget should be enabled,
-         *                false otherwise.
-         * @see isEnabled
-         */
-        void setEnabled(bool enabled);
-
-        /**
-         * Checks if the widget is enabled. A disabled
-         * widget will never receive mouse or key events.
-         *
-         * @return True if widget is enabled, false otherwise.
-         * @see setEnabled
-         */
-        bool isEnabled() const;
-
-        /**
-         * Sets the widget to be visible, or not.
-         *
-         * @param visible True if widget should be visible, false otherwise.
-         * @see isVisible
-         */
-        void setVisible(bool visible);
-
-        /**
-         * Checks if the widget is visible.
-         *
-         * @return True if widget is be visible, false otherwise.
-         * @see setVisible
-         */
-        bool isVisible() const;
-
-        /**
-         * Checks if the widget setting is visible.
-         *
-         * @return True if widget setting is be visible, false otherwise.
-         */
-        bool isSetVisible() const;
-
-        /**
-         * Sets the base color of the widget.
-         *
-         * @param color The base color.
-         * @see getBaseColor
-         */
-        virtual void setBaseColor(Color const & color);
-
-        /**
-         * Gets the base color.
-         *
-         * @return The base color.
-         * @see setBaseColor
-         */
-        Color const & getBaseColor() const;
-
-        /**
-         * Sets the foreground color.
-         *
-         * @param color The foreground color.
-         * @see getForegroundColor
-         */
-        virtual void setForegroundColor(Color const & color);
-
-        /**
-         * Gets the foreground color.
-         *
-         * @see setForegroundColor
-         */
-        Color const & getForegroundColor() const;
-
-        /**
-         * Sets the background color.
-         *
-         * @param color The background Color.
-         * @see setBackgroundColor
-         */
-        virtual void setBackgroundColor(Color const & color);
-
-        /**
-         * Gets the background color.
-         *
-         * @see setBackgroundColor
-         */
-        Color const & getBackgroundColor() const;
-
-        /**
-         * Sets the selection color.
-         *
-         * @param color The selection color.
-         * @see getSelectionColor
-         */
-        virtual void setSelectionColor(Color const & color);
-
-        /**
-         * Gets the selection color.
-         *
-         * @return The selection color.
-         * @see setSelectionColor
-         */
-        Color const & getSelectionColor() const;
-
-        /**
-         * Sets the outline color.
-         *
-         * @param color The outline color.
-         * @see getOutlineColor
-         */
-        virtual void setOutlineColor(Color const & color);
-
-        /**
-         * Gets the outline color.
-         *
-         * @return The outline color.
-         * @see setOutlineColor
-         */
-        Color const & getOutlineColor() const;
-
-        /**
-         * Sets the border color.
-         *
-         * @param color The border color.
-         * @see getBorderColor
-         */
-        virtual void setBorderColor(Color const & color);
-
-        /**
-         * Gets the border color.
-         *
-         * @return The border color.
-         * @see setBorderColor
-         */
-        Color const & getBorderColor() const;
-
-        /**
-         * Sets the selection mode.
-         *
-         * @param mode The selection mode that is used when the widget is "active".
-         * @see getSelectionMode
-         */
-        virtual void setSelectionMode(SelectionMode mode);
-
-        /**
-         * Gets the selection mode.
-         *
-         * @return The selection mode that is used when the widget is "active".
-         * @see setSelectionMode
-         */
-        SelectionMode getSelectionMode() const;
-
-        /**
-         * Requests focus for the widget. A widget will only receive focus
-         * if it is focusable.
-         *
-         */
-        virtual void requestFocus();
-
-        /**
-         * Requests a move to the top in the parent widget.
-         *
-         */
-        virtual void requestMoveToTop();
-
-        /**
-         * Requests a move to the bottom in the parent widget.
-         *
-         */
-        virtual void requestMoveToBottom();
-
-        /**
-         * Called whenever a widget should draw itself. The function will
-         * set up clip areas and call the draw function for this widget
-         * and for all its children.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * or overloaded unless you know what you are doing.
-         */
-        virtual void _draw(Graphics* graphics);
-
-        /**
-         * Called whenever a widget should perform logic. The function will
-         * call the logic function for this widget and for all its children.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * or overloaded unless you know what you are doing.
-         */
-        virtual void _logic();
-
-        /**
-         * Sets the focus handler to be used.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * or overloaded unless you know what you are doing.
-         *
-         * @param focusHandler The focus handler to use.
-         * @see _getFocusHandler
-         */
-        virtual void _setFocusHandler(FocusHandler* focusHandler);
-
-        /**
-         * Gets the focus handler used.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * or overloaded unless you know what you are doing.
-         *
-         * @return The focus handler used.
-         * @see _setFocusHandler
-         */
-        virtual FocusHandler* _getFocusHandler();
-
-        /**
-         * Adds an action listener to the widget. When an action event
-         * is fired by the widget the action listeners of the widget
-         * will get notified.
-         *
-         * @param actionListener The action listener to add.
-         * @see removeActionListener
-         */
-        void addActionListener(ActionListener* actionListener);
-
-        /**
-         * Removes an added action listener from the widget.
-         *
-         * @param actionListener The action listener to remove.
-         * @see addActionListener
-         */
-        void removeActionListener(ActionListener* actionListener);
-
-        /**
-         * Adds a death listener to the widget. When a death event is
-         * fired by the widget the death listeners of the widget will
-         * get notified.
-         *
-         * @param deathListener The death listener to add.
-         * @see removeDeathListener
-         */
-        void addDeathListener(DeathListener* deathListener);
-
-        /**
-         * Removes an added death listener from the widget.
-         *
-         * @param deathListener The death listener to remove.
-         * @see addDeathListener
-         */
-        void removeDeathListener(DeathListener* deathListener);
-
-        /**
-         * Adds a mouse listener to the widget. When a mouse event is
-         * fired by the widget the mouse listeners of the widget will
-         * get notified.
-         *
-         * @param mouseListener The mouse listener to add.
-         * @see removeMouseListener
-         */
-        void addMouseListener(MouseListener* mouseListener);
-
-        /**
-         * Removes an added mouse listener from the widget.
-         *
-         * @param mouseListener The mouse listener to remove.
-         * @see addMouseListener
-         */
-        void removeMouseListener(MouseListener* mouseListener);
-
-        /**
-         * Adds a key listener to the widget. When a key event is
-         * fired by the widget the key listeners of the widget will
-         * get notified.
-         *
-         * @param keyListener The key listener to add.
-         * @see removeKeyListener
-         */
-        void addKeyListener(KeyListener* keyListener);
-
-        /**
-         * Removes an added key listener from the widget.
-         *
-         * @param keyListener The key listener to remove.
-         * @see addKeyListener
-         */
-        void removeKeyListener(KeyListener* keyListener);
-
-        /**
-         * Adds a focus listener to the widget. When a focus event is
-         * fired by the widget the key listeners of the widget will
-         * get notified.
-         *
-         * @param focusListener The focus listener to add.
-         * @see removeFocusListener
-         */
-        void addFocusListener(FocusListener* focusListener);
-
-        /**
-         * Removes an added focus listener from the widget.
-         *
-         * @param focusListener The focus listener to remove.
-         * @see addFocusListener
-         */
-        void removeFocusListener(FocusListener* focusListener);
-
-        /**
-         * Adds a widget listener to the widget. When a widget event is
-         * fired by the widget the key listeners of the widget will
-         * get notified.
-         *
-         * @param widgetListener The widget listener to add.
-         * @see removeWidgetListener
-         */
-        void addWidgetListener(WidgetListener* widgetListener);
-
-        /**
-         * Removes an added widget listener from the widget.
-         *
-         * @param widgetListener The widget listener to remove.
-         * @see addWidgetListener
-         */
-        void removeWidgetListener(WidgetListener* widgetListener);
-
-        /**
-         * Adds a drop target listener to the widget. When a drag event is
-         * fired the drop target listeners of the widget will get notified.
-         *
-         * @param listener The listener to add (non-owning).
-         * @see removeDropTargetListener
-         */
-        void addDropTargetListener(DropTargetListener* listener);
-
-        /**
-         * Removes an added drop target listener from the widget.
-         *
-         * @param listener The listener to remove.
-         * @see addDropTargetListener
-         */
-        void removeDropTargetListener(DropTargetListener* listener);
-
-        /**
-         * Sets the action event identifier of the widget. The identifier is
-         * used to be able to identify which action has occurred.
-         *
-         * @note
-         * An action event identifier should not be used to identify a
-         * certain widget but rather a certain event in your application.
-         * Several widgets can have the same action event identifier.
-         *
-         * @param actionEventId The action event identifier.
-         * @see getActionEventId
-         */
-        void setActionEventId(std::string const & actionEventId);
-
-        /**
-         * Gets the action event identifier of the widget.
-         *
-         * @return The action event identifier of the widget.
-         * @see setActionEventId
-         */
-        std::string const & getActionEventId() const;
-
-        /**
-         * Gets the absolute position on the screen for the widget.
-         *
-         * @param x The absolute x coordinate will be stored in this parameter.
-         * @param y The absolute y coordinate will be stored in this parameter.
-         */
-        virtual void getAbsolutePosition(int& x, int& y) const;
-
-        /**
-         * Sets the parent of the widget. A parent must be a Container.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * or overloaded unless you know what you are doing.
-         *
-         * @param parent The parent of the widget.
-         * @see getParent
-         */
-        virtual void _setParent(Widget* parent);
-
-        /**
-         * Gets the font set for the widget. If no font has been set,
-         * the global font will be returned. If no global font has been set,
-         * the default font will be returned.
-         *
-         * @return The font set for the widget.
-         * @see setFont, setGlobalFont
-         */
-        Font* getFont() const;
-
-        /**
-         * Sets the global font to be used by default for all widgets.
-         *
-         * @param font The global font.
-         * @see getGlobalFont
-         */
-        static void setGlobalFont(Font* font);
-
-        /**
-         * Sets the font for the widget. If Nullptr is passed, the global font
-         * will be used.
-         *
-         * @param font The font to set for the widget.
-         * @see getFont
-         */
-        virtual void setFont(Font* font);
-
-        /**
-         * Called when the font has changed. If the change is global,
-         * this function will only be called if the widget doesn't have a
-         * font already set.
-         *
-         */
-        virtual void fontChanged() { }
-
-        /**
-         * Called when the widget gains focus.
-         *
-         * Override this to perform custom actions when focus is gained.
-         */
-        virtual void onFocusGained() { }
-
-        /**
-         * Called when the widget loses focus.
-         *
-         * Override this to perform custom actions when focus is lost.
-         */
-        virtual void onFocusLost() { }
-
-        /**
-         * Called when the widget focus changes.
-         *
-         * Override this to perform custom actions when focus is gained or lost.
-         */
-        virtual void onFocusChanged() { }
-
-        /**
-         * Checks if a widget exists or not, that is if it still exists
-         * an instance of the object.
-         *
-         * @param widget The widget to check.
-         * @return True if an instance of the widget exists, false otherwise.
-         */
-        static bool widgetExists(Widget const * widget);
-
-        /**
-         * Checks if tab in is enabled. Tab in means that you can set focus
-         * to this widget by pressing the tab button. If tab in is disabled
-         * then the focus handler will skip this widget and focus the next
-         * in its focus order.
-         *
-         * @return True if tab in is enabled, false otherwise.
-         * @see setTabInEnabled
-         */
-        bool isTabInEnabled() const;
-
-        /**
-         * Sets tab in enabled, or not. Tab in means that you can set focus
-         * to this widget by pressing the tab button. If tab in is disabled
-         * then the FocusHandler will skip this widget and focus the next
-         * in its focus order.
-         *
-         * @param enabled True if tab in should be enabled, false otherwise.
-         * @see isTabInEnabled
-         */
-        void setTabInEnabled(bool enabled);
-
-        /**
-         * Checks if tab out is enabled. Tab out means that you can lose
-         * focus to this widget by pressing the tab button. If tab out is
-         * disabled then the FocusHandler ignores tabbing and focus will
-         * stay with this widget.
-         *
-         * @return True if tab out is enabled, false otherwise.
-         * @see setTabOutEnabled
-         */
-        bool isTabOutEnabled() const;
-
-        /**
-         * Sets tab out enabled.
-         *
-         * Tab out means that you can lose
-         * focus to this widget by pressing the tab button. If tab out is
-         * disabled then the FocusHandler ignores tabbing and focus will
-         * stay with this widget.
-         *
-         * @param enabled True if tab out should be enabled, false otherwise.
-         * @see isTabOutEnabled
-         */
-        void setTabOutEnabled(bool enabled);
-
-        /**
-         * Checks if a widget is modal focusable.
-         *
-         * @return True if no other widget is modal focused, false otherwise.
-         */
-        virtual bool isModalFocusable() const;
-
-        /**
-         * Checks if a widget is modal mouse input focusable.
-         *
-         * @return True if no other widget is modal mouse input focused, false otherwise.
-         */
-        virtual bool isModalMouseInputFocusable() const;
-
-        /**
-         * Checks if the widget or it's parent has modal focus.
-         *
-         * @return True if the widget has modal focus, false otherwise.
-         */
-        virtual bool isModalFocused() const;
-
-        /**
-         * Checks if the widget or its parent is under a mouse modal.
-         *
-         * @return True if the widget has modal mouse input focus, false otherwise.
-         */
-        virtual bool isUnderMouseModal() const;
-
-        /**
-         * Gets a widget at a certain position in the widget.
-         * This function is used to decide which gets mouse input,
-         * thus it can be overloaded to change that behaviour.
-         *
-         * @note
-         * This always returns Nullptr if the widget is not a container.
-         *
-         * @param x The x coordinate of the widget to get.
-         * @param y The y coordinate of the widget to get.
-         * @return The widget at the specified coordinate, Nullptr
-         *         if no widget is found.
-         */
-        Widget* getWidgetAt(int x, int y)
-        {
-            return getWidgetAt(x, y, nullptr);
-        }
-
-        /**
-         * Variant of getWidgetAt that allows excluding a specific widget
-         * from the hit-test.
-         *
-         * @param x The x coordinate of the widget to get.
-         * @param y The y coordinate of the widget to get.
-         * @param exclude Widget to exclude from search, if Nullptr no widgets get excluded.
-         * @return The widget at the specified coordinate, Nullptr if no widget is found.
-         */
-        virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
-
-        /**
-         * Gets all widgets inside a certain area of the widget.
-         *
-         * @note
-         * This always returns an empty list if the widget is not a container.
-         *
-         * @param area The area to check.
-         * @return A list of widgets. An empty list if no widgets was found.
-         */
-        std::list<Widget*> getWidgetsIn(Rectangle const & area)
-        {
-            return getWidgetsIn(area, nullptr);
-        }
-
-        /**
-         * Gets all widgets inside a certain area of the widget.
-         *
-         * @note
-         * This always returns an empty list if the widget is not a container.
-         *
-         * @param area The area to check.
-         * @param ignore Optional widget pointer to exclude from the results.
-         * @return A list of widgets found inside `area`. Empty list if none.
-         */
-        virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore);
-
-        /**
-         * Gets the mouse listeners of the widget.
-         *
-         * @return The mouse listeners of the widget.
-         */
-        virtual std::list<MouseListener*> const & _getMouseListeners();
-
-        /**
-         * Gets the key listeners of the widget.
-         *
-         * @return The key listeners of the widget.
-         */
-        virtual std::list<KeyListener*> const & _getKeyListeners();
-
-        /**
-         * Gets the focus listeners of the widget.
-         *
-         * @return The focus listeners of the widget.
-         */
-        virtual std::list<FocusListener*> const & _getFocusListeners();
-
-        /**
-         * Gets the area of the widget occupied by the widget's children.
-         * By default this method returns an empty rectangle as not all
-         * widgets are containers. If you want to make a container this
-         * method should return the area where the children resides. This
-         * method is used when drawing children of a widget when computing
-         * clip rectangles for the children.
-         *
-         * @note The returned rectangle should be relative to the widget,
-         *       i.e a rectangle with x and y coordinate (0,0) and with
-         *       width and height the same as the widget will let the
-         *       children draw themselves in the whole widget.
-         *
-         * An example of a widget that overloads this method is ScrollArea.
-         * A ScrollArea has a view of its constant and that view is the
-         * children area. The size of a ScrollArea's children area might
-         * vary depending on if the scroll bars of the ScrollArea is shown
-         * or not.
-         *
-         * @return The area of the widget occupied by the widget's children.
-         */
-        virtual Rectangle getChildrenArea();
-
-        /**
-         * Gets the internal focus handler used.
-         *
-         * @return the internalFocusHandler used. If no internal focus handler
-         *         is used, Nullptr will be returned.
-         * @see setInternalFocusHandler
-         */
-        virtual FocusHandler* _getInternalFocusHandler();
-
-        /**
-         * Sets the internal focus handler.
-         *
-         * An internal focus handler is needed, if both
-         * 'a widget in the widget' and 'the widget itself'
-         * should be focused at the same time.
-         *
-         * @param internalFocusHandler The internal focus handler to be used.
-         * @see getInternalFocusHandler
-         */
-        void setInternalFocusHandler(FocusHandler* internalFocusHandler);
-
-        /**
-         * Moves a widget to the top of this widget.
-         *
-         * The moved widget will be drawn above all other widgets in this widget.
-         *
-         * This method is safe to call at any time.
-         *
-         * @param widget The widget to move to the top.
-         * @see moveToBottom
-         */
-        virtual void moveToTop(Widget* widget);
-
-        /**
-         * Moves a widget in this widget to the bottom of this widget.
-         *
-         * The moved widget will be drawn below all other widgets in this widget.
-         *
-         * This method is safe to call at any time.
-         *
-         * @param widget The widget to move to the bottom.
-         * @see moveToTop
-         */
-        virtual void moveToBottom(Widget* widget);
-
-        /**
-         * Focuses the next widget in the widget.
-         *
-         * @see moveToBottom
-         */
-        virtual void focusNext();
-
-        /**
-         * Focuses the previous widget in the widget.
-         *
-         * @see moveToBottom
-         */
-        virtual void focusPrevious();
-
-        /**
-         * Tries to show a specific part of a widget by moving it.
-         *
-         * Used if the widget should act as a container.
-         *
-         * @param widget The target widget.
-         * @param area The area to show.
-         */
-        virtual void showWidgetPart(Widget* widget, Rectangle area);
-
-        /**
-         * Sets an id of a widget.
-         *
-         * The id is useful if a widget needs to be identified in a container.
-         * For example, if widgets are created by an XML document,
-         * a certain widget can be retrieved given that the widget has an id.
-         *
-         * @param id The id to set to the widget.
-         * @see getId, Container::findWidgetById
-         */
-        void setId(std::string const & id);
-
-        /**
-         * Gets the id of a widget.
-         *
-         * The id is useful if a widget needs to be identified in a container.
-         * For example, if widgets are created by an XML document,
-         * a certain widget can be retrieved given that the widget has an id.
-         *
-         * @return The id of the widget.
-         * @see setId, Container::findWidgetById
-         */
-        std::string const & getId() const;
-
-        /**
-         * Shows a certain part of a widget in the widget's parent.
-         *
-         * Used when widgets want a specific part to be visible in
-         * its parent. An example is a TextArea that wants a specific
-         * part of its text to be visible when a TextArea is a child
-         * of a ScrollArea.
-         *
-         * @param rectangle The rectangle to be shown.
-         */
-        virtual void showPart(Rectangle rectangle);
-
-        /**
-         * Sets the visibility event handler to be used.
-         *
-         * @warning
-         * This function is used internally and should not be called unless
-         * you know what you are doing.
-         *
-         * @todo
-         * We don't like the visibility handler being static, but we leave
-         * it as is for the moment, until we come up a better solution.
-         *
-         * @param visibilityEventHandler The visibility event handler to be used.
-         */
-        static void _setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler);
-
-        /**
-         * Gets the visibility event handler of this widget.
-         *
-         * @warning
-         * This function is used internally and should not be called
-         * unless you know what you are doing.
-         *
-         * @todo
-         * We don't like the visibility handler being static, but we leave
-         * it as is for the moment, until we come up a better solution.
-         */
-        static VisibilityEventHandler* _getVisibilityEventHandler();
-
-        /**
-         * Set the global GUI death listener used to observe widget deletions.
-         *
-         * @param deathListener Pointer to a DeathListener instance (ownership not transferred).
-         */
-        static void _setGuiDeathListener(DeathListener* deathListener);
-
-        /**
-         * Get the global GUI death listener.
-         *
-         * @return The current DeathListener or nullptr if none is set.
-         */
-        static DeathListener* _getGuiDeathListener();
-
-        /**
-         * Sets the widget to vertical expandable.
-         *
-         * @param expand True if the widget can be vertical expanded, otherwise false.
-         * @see isVerticalExpand
-         */
-        void setVerticalExpand(bool expand);
-
-        /**
-         * Gets if widget is vertical expandable.
-         *
-         * @return True if the widget can be vertical expanded, otherwise false.
-         * @see setVerticalExpand
-         */
-        bool isVerticalExpand() const;
-
-        /**
-         * Sets the widget to horizontal expandable.
-         *
-         * @param expand True if the widget can be horizontal expanded, otherwise false.
-         * @see isHorizontalExpand
-         */
-        void setHorizontalExpand(bool expand);
-
-        /**
-         * Gets if widget is horizontal expandable.
-         *
-         * @return True if the widget can be horizontal expanded, otherwise false.
-         * @see setHorizontalExpand
-         */
-        bool isHorizontalExpand() const;
-
-        /**
-         * Execute the layouting.
-         *
-         * In case you want to relayout a visible widget. This function will
-         * automatically perform the layout adaption from the widget.
-         *
-         * This is a convenience wrapper that calls `adaptLayout(true)`.
-         */
-        void adaptLayout()
-        {
-            adaptLayout(true);
-        }
-
-        /**
-         * Execute the layouting for this widget.
-         *
-         * @param top If true, perform top-level layout adaptations as well.
-         */
-        virtual void adaptLayout(bool top);
-
-        /**
-         * Resizes the widget's size to fit the content exactly,
-         * calls recursively all childs.
-         *
-         * The default value true allows callers to use `resizeToContent()` without argument.
-         *
-         * @param recursion If true, perform the resize operation recursively on children.
-         */
-        virtual void resizeToContent(bool recursion = true) { }
-
-        /**
-         * Resizes the widget's size to fit the content exactly.
-         */
-        virtual void adjustSize() { }
-
-        /**
-         * Expands the child widgets to the size of this widget,
-         * calls recursively all childs.
-         *
-         * This is a convenience wrapper that calls `expandContent(true)`.
-         */
-        void expandContent()
-        {
-            expandContent(true);
-        }
-
-        /**
-         * Expands child widgets to fit this widget's size.
-         *
-         * @param recursion If true, call expandContent recursively on children.
-         */
-        virtual void expandContent(bool recursion) { }
-
-        /**
-         * Helper function to decide if we need to layout.
-         */
-        virtual bool isLayouted()
-        {
-            return false;
-        }
-
-        /**
-         * Retrieves the last stored position used by layout or event logic.
-         *
-         * @param x Output parameter receiving the last x coordinate.
-         * @param y Output parameter receiving the last y coordinate.
-         */
-        void getLastPosition(int& x, int& y) const;
-
-        /**
-         * Stores the last known position for this widget.
-         *
-         * @param x The x coordinate to store.
-         * @param y The y coordinate to store.
-         */
-        void setLastPosition(int x, int y);
-
-        /**
-         * Returns whether a last position has been stored for this widget.
-         *
-         * @return True if a last position is set, false otherwise.
-         */
-        bool isLastPositionSet() const;
-
-        /**
-         * Attempts to capture mouse input to this widget.
-         *
-         * @return True if capture was successfully acquired, false if another widget
-         *         already has mouse capture.
-         * @see releaseMouse, getMouseCapture, hasMouseCapture
-         */
-        bool captureMouse();
-
-        /**
-         * Releases mouse capture from this widget, if it has capture.
-         *
-         * This method is idempotent - it's safe to call even if this widget
-         * doesn't currently have mouse capture.
-         * @see captureMouse, getMouseCapture
-         */
-        void releaseMouse();
-
-        /**
-         * Gets the widget that currently has mouse capture.
-         *
-         * @return The widget with mouse capture, or nullptr if no widget has capture.
-         * @see captureMouse, releaseMouse, hasMouseCapture
-         */
-        static Widget* getMouseCapture();
-
-        /**
-         * Checks if this widget currently has mouse capture.
-         *
-         * @return True if this widget has mouse capture, false otherwise.
-         * @see captureMouse, releaseMouse, getMouseCapture
-         */
-        bool hasMouseCapture() const;
-
-        /**
-         * Checks if this widget is a descendant of (or equal to) the given ancestor.
-         *
-         * Walks the parent chain to determine if this widget is somewhere
-         * in the ancestor's child tree.
-         *
-         * @param ancestor The potential ancestor to check against.
-         * @return True if this widget is a descendant of ancestor, false otherwise.
-         *         Returns false if ancestor is nullptr.
-         */
-        bool isDescendantOf(Widget const * ancestor) const noexcept;
-
-        /**
-         * Checks if this widget is inside the active mouse modal root.
-         *
-         * Walks up from this widget to find if it is contained within
-         * the widget returned by FocusHandler::getActiveMouseInputRoot().
-         *
-         * @return True if this widget is inside the active mouse modal, false otherwise.
-         */
-        bool isInsideActiveMouseModal() const noexcept;
-
-    protected:
-        /**
-         * Distributes an action event to all action listeners of the widget.
-         */
-        void distributeActionEvent();
-
-        /**
-         * Distributes resized events to all of the widget's listeners.
-         */
-        void distributeResizedEvent();
-
-        /**
-         * Distributes moved events to all of the widget's listeners.
-         */
-        void distributeMovedEvent();
-
-        /**
-         * Distributes hidden events to all of the widget's listeners.
-         */
-        void distributeHiddenEvent();
-
-        /**
-         * Distributes shown events to all of the widget's listeners.
-         */
-        void distributeShownEvent();
-
-        /**
-         * Distributes ancestor moved events to all of the widget's listeners.
-         * All children will also distribute the same event.
-         *
-         * @param ancestor Ancestor widget that was moved.
-         */
-        void distributeAncestorMovedEvent(Widget* ancestor);
-
-        /**
-         * Distributes ancestor hidden events to all of the widget's listeners.
-         * All children will also distribute the same event.
-         *
-         * @param ancestor Ancestor widget that was hidden.
-         */
-        void distributeAncestorHiddenEvent(Widget* ancestor);
-
-        /**
-         * Distributes ancestor shown events to all of the widget's listeners.
-         * All children will also distribute the same event.
-         *
-         * @param ancestor Ancestor widget that was shown.
-         */
-        void distributeAncestorShownEvent(Widget* ancestor);
-
-        /**
-         * Adds a child to the widget.
-         *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
-         *
-         * @param widget The widget to add.
-         * @see remove, clear
-         */
-        void add(Widget* widget);
-
-        /**
-         * Removes a specific child from the widget.
-         *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
-         *
-         * @param widget The widget to remove.
-         * @see removeAllChildren
-         */
-        virtual void remove(Widget* widget);
-
-        /**
-         * Remvoes all children from the widget.
-         *
-         * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
-         * INSIDE ANY LISTER FUNCTIONS!
-         *
-         * @see remove
-         */
-        virtual void removeAllChildren();
-
-        /**
-         * Finds a widget by id.
-         *
-         * This function can be useful when implementing a GUI generator,
-         * such as the ability to create a GUI from an XML file.
-         *
-         * @param id The id to find a widget by.
-         * @return The widget with the corresponding id, Nullptr if no widget is found.
-         */
-        virtual Widget* findWidgetById(std::string const & id);
-
-        /**
-         * Resizes the widget to fit it's children exactly.
-         *
-         */
-        void resizeToChildren();
-
-        /**
-         * Checks the size against the size constraints. Used by setDimension.
-         *
-         */
-        void calculateSize();
-
-        /**
-         * Gets the children of the widget.
-         *
-         * @return A list of the widgets children.
-         */
-        std::list<Widget*> const & getChildren() const;
-
-        /**
-         * Distribute drag events to registered drop target listeners.
-         * These are called by DragHandler during update/drop.
-         */
-        bool distributeDragEnter(DragEvent& event);
-        void distributeDragLeave(DragEvent& event);
-        void distributeDragHover(DragEvent& event);
-        void distributeDragDrop(DragEvent& event);
-
-        /**
-         * Holds the mouse listeners of the widget.
-         */
-        std::list<MouseListener*> mMouseListeners;
-
-        /**
-         * Holds the key listeners of the widget.
-         */
-        std::list<KeyListener*> mKeyListeners;
-
-        /**
-         * Holds the action listeners of the widget.
-         */
-        std::list<ActionListener*> mActionListeners;
-
-        /**
-         * Holds the death listeners of the widget.
-         */
-        std::list<DeathListener*> mDeathListeners;
-
-        /**
-         * Holds the focus listeners of the widget.
-         */
-        std::list<FocusListener*> mFocusListeners;
-
-        /**
-         * Holds the widget listeners of the widget.
-         */
-        std::list<WidgetListener*> mWidgetListeners;
-
-        /**
-         * Holds the drop target listeners of the widget.
-         */
-        std::list<DropTargetListener*> mDropTargetListeners;
-
-        /**
-         * Holds the foreground color of the widget.
-         */
-        Color mForegroundColor{0x1f2933};
-
-        /**
-         * Holds the background color of the widget.
-         */
-        Color mBackgroundColor{0xf9fafb};
-
-        /**
-         * Holds the base color of the widget.
-         */
-        Color mBaseColor{0xe5e7eb};
-
-        /**
-         * Holds the selection color of the widget.
-         */
-        Color mSelectionColor{0x3b82f6};
-
-        /**
-         * Holds the outline color of the widget.
-         */
-        Color mOutlineColor{0x9ca3af};
-
-        /**
-         * Holds the border color of the widget.
-         */
-        Color mBorderColor{0xd1d5db};
-
-        /**
-         * Holds the focus handler used by the widget.
-         */
-        FocusHandler* mFocusHandler{nullptr};
-
-        /**
-         * Holds the focus handler used by the widget.
-         * Nullptr if no internal focus handler is used.
-         */
-        FocusHandler* mInternalFocusHandler{nullptr};
-
-        /**
-         * Holds the parent of the widget.
-         * Nullptr if the widget has no parent.
-         */
-        Widget* mParent{nullptr};
-
-        /**
-         * Holds the dimension of the widget.
-         */
-        Rectangle mDimension;
-
-        /**
-         * Holds the offset dimension of the widget.
-         */
-        Rectangle mOffsetRect;
-
-        /**
-         * Holds the outline size of the widget.
-         */
-        unsigned int mOutlineSize{0};
-
-        /**
-         * Holds the border size of the widget.
-         */
-        unsigned int mBorderSize{0};
-
-        /**
-         * Which sides to draw the border on (bitmask of BorderSide).
-         *
-         * @see BorderSide enum
-         */
-        unsigned int mBorderSides{BORDER_ALL};
-
-        /**
-         * Border drawing style (see BorderStyle).
-         *
-         * @see BorderStyle enum
-         */
-        unsigned int mBorderStyle{BORDER_STYLE_FLAT};
-
-        /**
-         * Holds the selection mode.
-         */
-        SelectionMode mSelectionMode{SelectionMode::None};
-
-        /**
-         * Holds the top margin of the widget.
-         */
-        int mMarginTop{0};
-
-        /**
-         * Holds the top right of the widget.
-         */
-        int mMarginRight{0};
-
-        /**
-         * Holds the bottom margin of the widget.
-         */
-        int mMarginBottom{0};
-
-        /**
-         * Holds the left margin of the widget.
-         */
-        int mMarginLeft{0};
-
-        /**
-         * Holds the top padding of the widget.
-         */
-        unsigned int mPaddingTop{0};
-
-        /**
-         * Holds the right padding of the widget.
-         */
-        unsigned int mPaddingRight{0};
-
-        /**
-         * Holds the bottom padding of the widget.
-         */
-        unsigned int mPaddingBottom{0};
-
-        /**
-         * Holds the left padding of the widget.
-         */
-        unsigned int mPaddingLeft{0};
-
-        /**
-         * Holds the action event of the widget.
-         */
-        std::string mActionEventId;
-
-        /**
-         * True if the widget focusable, false otherwise.
-         */
-        bool mFocusable{false};
-
-        /**
-         * True if the widget has focus, false otherwise.
-         */
-        bool mFocused{false};
-
-        /**
-         * True if the widget visible, false otherwise.
-         */
-        bool mVisible{true};
-
-        /**
-         * True if the widget has tab in enabled, false otherwise.
-         */
-        bool mTabIn{true};
-
-        /**
-         * True if the widget has tab in enabled, false otherwise.
-         */
-        bool mTabOut{true};
-
-        /**
-         * True if the widget is enabled, false otherwise.
-         */
-        bool mEnabled{true};
-
-        /**
-         * Holds the id of the widget.
-         */
-        std::string mId;
-
-        /**
-         * Holds the min size.
-         */
-        Size mMinSize{0, 0};
-
-        /**
-         * Holds the max size.
-         *
-         * Default to a very large value so widgets are not clamped to zero
-         * when the user does not explicitly set a max size.
-         */
-        Size mMaxSize{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
-
-        /**
-         * Holds the fixed size.
-         */
-        Size mFixedSize{-1, -1};
-
-        /**
-         * True if the widget used a fixed size.
-         */
-        bool mFixedSizeUsed{false};
-
-        /**
-         * True if the widget can be vertical expanded.
-         */
-        bool mVExpand{false};
-
-        /**
-         * True if the widget can be horizontal expanded.
-         */
-        bool mHExpand{false};
-
-        /**
-         * Holds the font used by the widget.
-         */
-        Font* mCurrentFont{nullptr};
-
-        /**
-         * Holds the default font used by the widget.
-         */
-        static DefaultFont mDefaultFont;
-
-        /**
-         * Holds the global font used by the widget.
-         */
-        static Font* mGlobalFont;
-
-        /**
-         * Holds a list of all instances of widgets.
-         */
-        static std::list<Widget*> mWidgetInstances;
-
-        /**
-         * Holds the visibility event handler used by the widgets.
-         *
-         * @todo
-         * We don't like the visibility handler being static, but we leave
-         * it as is for the moment, until we come up a better solution.
-         */
-        static VisibilityEventHandler* mVisibilityEventHandler;
-
-        /**
-         * Holds the death listener used by the widgets.
-         */
-        static DeathListener* mGuiDeathListener;
-
-        /**
-         * Holds the widget that currently has mouse capture.
-         */
-        static Widget* sMouseCapture;
-
-        /**
-         * Holds all children of the widget.
-         */
-        std::list<Widget*> mChildren;
-
-        /** Last stored X coordinate used for layout and event calculations. */
-        int mLastX{0};
-
-        /** Last stored Y coordinate used for layout and event calculations. */
-        int mLastY{0};
+        public:
+            /**
+             * Border side flags for flexible border drawing.
+             */
+            enum BorderSide : uint8_t
+            {
+                BORDER_NONE   = 0,
+                BORDER_LEFT   = 1 << 0,
+                BORDER_TOP    = 1 << 1,
+                BORDER_RIGHT  = 1 << 2,
+                BORDER_BOTTOM = 1 << 3,
+                BORDER_ALL    = BORDER_LEFT | BORDER_TOP | BORDER_RIGHT | BORDER_BOTTOM
+            };
+
+            /**
+             * Border drawing style.
+             */
+            enum BorderStyle : uint8_t
+            {
+                BORDER_STYLE_BEVEL = 0,
+                BORDER_STYLE_FLAT  = 1
+            };
+            /**
+             * Selection mode.
+             */
+            enum class SelectionMode : uint8_t
+            {
+                None       = 0,
+                Border     = 1,
+                Background = 2
+            };
+
+            /**
+             * Constructor.
+             * Resets member variables.
+             * Notably, a widget is not focusable as default, therefore,
+             * widgets that are supposed to be focusable should override
+             * this default in their own constructor.
+             */
+            Widget();
+
+            virtual ~Widget();
+
+            Widget(Widget const &)            = delete;
+            Widget& operator=(Widget const &) = delete;
+            Widget(Widget&&)                  = delete;
+            Widget& operator=(Widget&&)       = delete;
+
+            friend class DragHandler;
+
+            /**
+             * Draws the widget.
+             *
+             * The call to draw is initiated by the widget's
+             * parent. The graphics object is set up so that all drawing is relative
+             * to the widget, i.e coordinate (0,0) is the top left corner of the widget.
+             * It is not possible to draw outside of a widget's dimension. If a widget
+             * has children, the parent's draw function will always be called before
+             * the children's draw functions are called.
+             *
+             * @note A widget with children won't draw its children unless the
+             *       children area given by Widget::getChildrenArea returns a
+             *       none empty rectangle inside the widgets dimension. The children
+             *       area is considered relative to the widget's position.
+             *
+             * @param graphics A graphics object to draw with.
+             * @see getChildrenArea, drawOutline, drawBorder
+             */
+            virtual void draw(Graphics* graphics) = 0;
+
+            /**
+             * Called when a widget is given a chance to draw a outline around itself.
+             * The outline is not considered as part of the widget, it only allows a outline
+             * to be drawn around the widget, thus a outline will never be included when
+             * calculating if a widget should receive events from user input. Also
+             * a widget's outline will never be included when calculating a widget's
+             * position.
+             *
+             * The size of the outline is calculated using the widget's outline size.
+             * If a widget has a outline size of 10 pixels than the area the drawOutline
+             * function can draw to will be the size of the widget with an additional
+             * extension of 10 pixels in each direction.
+             *
+             * An example when drawOutline is a useful function is if a widget needs
+             * a glow around itself.
+             *
+             * @param graphics A graphics object to draw with.
+             * @see setOutlineSize, getOutlineSize
+             */
+            virtual void drawOutline(Graphics* graphics);
+
+            /**
+             * Called when a widget have a border.
+             *
+             * @param graphics A graphics object to draw with.
+             * @see setBorderSize, getBorderSize
+             */
+            virtual void drawBorder(Graphics* graphics);
+
+            /**
+             * Draw the border for the given sides.
+             * This overload allows callers to draw a subset of sides.
+             */
+            void drawBorder(Graphics* graphics, unsigned int sides);
+
+            /**
+             * Called when a widget is "active" and the selection mode is Frame or FrameWithBackground.
+             * Currently the size of the border is used, so it will replace the border with the frame.
+             *
+             * @param graphics A graphics object to draw with.
+             * @see setSelectionMode, getSelectionMode, setSelectionColor, getSelectionColor
+             */
+            virtual void drawSelectionFrame(Graphics* graphics);
+
+            /**
+             * Sets the size of the widget's outline.
+             *
+             * The outline is not considered as part of
+             * the widget, it only allows a outline to be drawn around the widget, thus a outline
+             * will never be included when calculating if a widget should receive events
+             * from user input. Also a widget's outline will never be included when calculating
+             * a widget's position.
+             *
+             * A outline size of 0 means that the widget has no outline. The default outline size
+             * is 0.
+             *
+             * @param size The size of the widget's outline.
+             * @see getOutlineSize, drawOutline
+             */
+            void setOutlineSize(unsigned int size);
+
+            /**
+             * Gets the size of the widget's outline.
+             *
+             * The outline is not considered as part of
+             * the widget, it only allows a outline to be drawn around the widget, thus a outline
+             * will never be included when calculating if a widget should receive events
+             * from user input. Also a widget's outline will never be included when calculating
+             * a widget's position.
+             *
+             * A outline size of 0 means that the widget has no outline. The default outline size
+             * is 0.
+             *
+             * @return The size of the widget's outline.
+             * @see setOutlineSize, drawOutline
+             */
+            unsigned int getOutlineSize() const;
+
+            /**
+             * Sets the size of the widget's border.
+             *
+             * The border is considered a part of the widget.
+             *
+             * A border size of 0 means that the widget has no border.
+             * The default border size is 0.
+             *
+             * @param size The size of the widget's border.
+             * @see getBorderSize, drawBorder
+             */
+            void setBorderSize(unsigned int size);
+
+            /**
+             * Gets the size of the widget's border.
+             *
+             * The border is considered as part of the widget.
+             *
+             * A border size of 0 means that the widget has no border.
+             * The default border size is 0.
+             *
+             * @return The size of the widget's border.
+             * @see setBorderSize, drawBorder
+             */
+            unsigned int getBorderSize() const;
+
+            /**
+             * Select which sides the border should be drawn on.
+             * Default is `BORDER_ALL`.
+             */
+            void setBorderSides(unsigned int sides);
+
+            /**
+             * Get the currently selected border sides.
+             */
+            unsigned int getBorderSides() const;
+
+            /**
+             * Set border drawing style (bevel or flat).
+             */
+            void setBorderStyle(unsigned int style);
+
+            /**
+             * Get the current border drawing style.
+             */
+            unsigned int getBorderStyle() const;
+
+            /**
+             * Convenience helper: set a top-only border with size and style.
+             * This sets the border size, selects the top side and applies style.
+             */
+            void setBorderTop(unsigned int size, unsigned int style);
+
+            /**
+             * Convenience helper: set a bottom-only border with size and style.
+             * This sets the border size, selects the bottom side and applies style.
+             */
+            void setBorderBottom(unsigned int size, unsigned int style);
+
+            /**
+             * Sets all 4 margins to one value.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @param margin The margin of the widget.
+             * @see setMarginTop, setMarginRight, setMarginBottom, setMarginRight
+             */
+            void setMargin(int margin);
+
+            /**
+             * Sets the top margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @param margin The top margin of the widget.
+             * @see getMarginTop
+             */
+            void setMarginTop(int margin);
+
+            /**
+             * Gets the top margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @return The top margin of the widget.
+             * @see setMarginTop
+             */
+            int getMarginTop() const;
+
+            /**
+             * Sets the right margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @param margin The right margin of the widget.
+             * @see getMarginRight
+             */
+            void setMarginRight(int margin);
+
+            /**
+             * Gets the right margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @return The right margin of the widget.
+             * @see setMarginRight
+             */
+            int getMarginRight() const;
+
+            /**
+             * Sets the bottom margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @param margin The bottom margin of the widget.
+             * @see getMarginBottom
+             */
+            void setMarginBottom(int margin);
+
+            /**
+             * Gets the bottom margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @return The bottom margin of the widget.
+             * @see setMarginBottom
+             */
+            int getMarginBottom() const;
+
+            /**
+             * Sets the left margin.
+             *
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @param margin The left margin of the widget.
+             * @see getMarginLeft
+             */
+            void setMarginLeft(int margin);
+
+            /**
+             * Gets the left margin.
+             * The margin clears an area around an element (outside the border).
+             * The margin does not have a background color, and is completely transparent.
+             * It is also possible to use negative values, to overlap content.
+
+             * @return The left margin of the widget.
+             * @see setMarginLeft
+             */
+            int getMarginLeft() const;
+
+            /**
+             * Sets all 4 paddings to one value.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @param padding The top padding of the widget.
+             * @see setPaddingTop, setPaddingRight, setPaddingBottom, setPaddingLeft
+             */
+            void setPadding(unsigned int padding);
+
+            /**
+             * Sets the top padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @param padding The top padding of the widget.
+             * @see getPaddingTop
+             */
+            void setPaddingTop(unsigned int padding);
+
+            /**
+             * Gets the top padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @return The top padding of the widget.
+             * @see setPaddingTop
+             */
+            unsigned int getPaddingTop() const;
+
+            /**
+             * Sets the right padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @param padding The right padding of the widget.
+             * @see getPaddingRight
+             */
+            void setPaddingRight(unsigned int padding);
+
+            /**
+             * Gets the right padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @return The right padding of the widget.
+             * @see setPaddingRight
+             */
+            unsigned int getPaddingRight() const;
+
+            /**
+             * Sets the bottom padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @param padding The bottom padding of the widget.
+             * @see getPaddingBottom
+             */
+            void setPaddingBottom(unsigned int padding);
+
+            /**
+             * Gets the bottom padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @return The bottom padding of the widget.
+             * @see setPaddingBottom
+             */
+            unsigned int getPaddingBottom() const;
+
+            /**
+             * Sets the left padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @param padding The left padding of the widget.
+             * @see getPaddingLeft
+             */
+            void setPaddingLeft(unsigned int padding);
+
+            /**
+             * Gets the left padding.
+             * The padding clears an area around the content (inside the border) of
+             * an element. The padding is affected by the background color of the element.
+
+             * @return The left padding of the widget.
+             * @see setPaddingLeft
+             */
+            unsigned int getPaddingLeft() const;
+
+            /**
+             * Called for all widgets in the GUI each time Gui::logic is called.
+             * You can do logic stuff here like playing an animation.
+             *
+             * @see Gui::logic
+             */
+            virtual void logic()
+            {
+            }
+
+            /**
+             * Gets the widget's parent container.
+             *
+             * @return The widget's parent container. Nullptr if the widget
+             *         has no parent.
+             */
+            virtual Widget* getParent() const;
+
+            /**
+             * Gets the top widget, or top parent, of this widget.
+             *
+             * @return The top widget, or top parent, for this widget. Nullptr if no top widget
+             *         exists (this widget doesn't have a parent).
+             */
+            virtual Widget* getTop() const;
+
+            /**
+             * Sets the width of the widget.
+             *
+             * @param width The width of the widget.
+             * @see getWidth, setHeight, getHeight, setSize,
+             *      setDimension, getDimension
+             */
+            virtual void setWidth(int width);
+
+            /**
+             * Gets the width of the widget.
+             *
+             * @return The width of the widget.
+             * @see setWidth, setHeight, getHeight, setSize,
+             *      setDimension, getDimension
+             */
+            int getWidth() const;
+
+            /**
+             * Sets the height of the widget.
+             *
+             * @param height The height of the widget.
+             * @see getHeight, setWidth, getWidth, setSize,
+             *      setDimension, getDimension
+             */
+            virtual void setHeight(int height);
+
+            /**
+             * Gets the height of the widget.
+             *
+             * @return The height of the widget.
+             * @see setHeight, setWidth, getWidth, setSize,
+             *      setDimension, getDimension
+             */
+            int getHeight() const;
+
+            /**
+             * Checks if a point is within the widget's bounds.
+             *
+             * @param x The x coordinate (relative to widget origin).
+             * @param y The y coordinate (relative to widget origin).
+             * @return True if the point is within bounds.
+             */
+            bool contains(int x, int y) const;
+
+            /**
+             * Checks if a mouse event occurred within this widget.
+             *
+             * @param mouseEvent The mouse event to check.
+             * @return True if the event coordinates are within bounds.
+             */
+            bool isMouseInside(MouseEvent const & mouseEvent) const;
+
+            /**
+             * Sets the size of the widget.
+             *
+             * @param width The width of the widget.
+             * @param height The height of the widget.
+             * @see setWidth, setHeight, getWidth, getHeight,
+             *      setDimension, getDimension
+             */
+            virtual void setSize(int width, int height);
+
+            /**
+             * Sets the x coordinate of the widget. The coordinate is
+             * relative to the widget's parent.
+             *
+             * @param x The x coordinate of the widget.
+             * @see getX, setY, getY, setPosition, setDimension, getDimension
+             */
+            void setX(int x);
+
+            /**
+             * Gets the x coordinate of the widget. The coordinate is
+             * relative to the widget's parent.
+             *
+             * @return The x coordinate of the widget.
+             * @see setX, setY, getY, setPosition, setDimension, getDimension
+             */
+            int getX() const;
+
+            /**
+             * Sets the y coordinate of the widget. The coordinate is
+             * relative to the widget's parent.
+             *
+             * @param y The y coordinate of the widget.
+             * @see setY, setX, getX, setPosition, setDimension, getDimension
+             */
+            void setY(int y);
+
+            /**
+             * Gets the y coordinate of the widget. The coordinate is
+             * relative to the widget's parent.
+             *
+             * @return The y coordinate of the widget.
+             * @see setY, setX, getX, setPosition, setDimension, getDimension
+             */
+            int getY() const;
+
+            /**
+             * Sets position of the widget. The position is relative
+             * to the widget's parent.
+             *
+             * @param x The x coordinate of the widget.
+             * @param y The y coordinate of the widget.
+             * @see setX, getX, setY, getY, setDimension, getDimension
+             */
+            void setPosition(int x, int y);
+
+            /**
+             * Sets the dimension of the widget. The dimension is
+             * relative to the widget's parent.
+             *
+             * @param dimension The dimension of the widget.
+             * @see getDimension, setX, getX, setY, getY, setPosition
+             */
+            virtual void setDimension(Rectangle const & dimension);
+
+            /**
+             * Gets the dimension of the widget. The dimension is
+             * relative to the widget's parent.
+             *
+             * @return The dimension of the widget.
+             * @see getDimension, setX, getX, setY, getY, setPosition
+             */
+            Rectangle const & getDimension() const;
+
+            /**
+             * Gets how many childs the widget have.
+             *
+             * @return The children count of the widget.
+             */
+            unsigned int getChildrenCount() const;
+
+            /**
+             * Gets how many visible childs the widget have.
+             *
+             * @return The visible children count of the widget.
+             */
+            unsigned int getVisibleChildrenCount() const;
+
+            /**
+             * Sets the minimal dimension of the widget.
+             *
+             * @param size The minimal size of the widget.
+             * @see getMinSize
+             */
+            void setMinSize(Size const & size);
+
+            /**
+             * Gets the minimal dimension of the widget.
+             *
+             * @return The minimal size of the widget.
+             * @see setMinSize
+             */
+            Size const & getMinSize() const;
+
+            /**
+             * Sets the maximal dimension of the widget.
+             *
+             * @param size The maximal size of the widget.
+             * @see getMaxSize
+             */
+            void setMaxSize(Size const & size);
+
+            /**
+             * Gets the maximal dimension of the widget.
+             *
+             * @return The maximal size of the widget.
+             * @see setMaxSize
+             */
+            Size const & getMaxSize() const;
+
+            /**
+             * Sets the dimension of the widget to a fixed size.
+             * To disable it, provide a size with negative values.
+             *
+             * @param size The fixed size of the widget.
+             * @see getFixedSize, isFixedSize
+             */
+            void setFixedSize(Size const & size);
+
+            /**
+             * Gets the fixed size of the widget.
+             *
+             * @return The fixed size of the widget.
+             * @see setFixedSize, isFixedSize
+             */
+            Size const & getFixedSize() const;
+
+            /**
+             * Gets if the widget use a fixed size.
+             *
+             * @return True if the widget use a fixed size, otherwise false.
+             * @see setFixedSize, getFixedSize
+             */
+            bool isFixedSize() const;
+
+            /**
+             * Sets the widget to be focusable, or not.
+             *
+             * @param focusable True if the widget should be focusable,
+             *                  false otherwise.
+             * @see isFocusable
+             */
+            void setFocusable(bool focusable);
+
+            /**
+             * Checks if a widget is focusable.
+             *
+             * @return True if the widget should be focusable, false otherwise.
+             * @see setFocusable
+             */
+            bool isFocusable() const;
+
+            /**
+             * Checks if the widget is focused.
+             *
+             * @return True if the widget is focused, false otherwise.
+             */
+            virtual bool isFocused() const;
+
+            /**
+             * Sets the widget as focused, or not.
+             *
+             * This method handles focus state changes and calls
+             * onFocusGained(), onFocusLost(), and onFocusChanged() hooks.
+             *
+             * @param focused True if the widget should be focused,
+             *               false otherwise.
+             * @see isFocused
+             */
+            virtual void setFocused(bool focused);
+
+            /**
+             * Sets the widget to enabled, or not. A disabled
+             * widget will never receive mouse or key events.
+             *
+             * @param enabled True if widget should be enabled,
+             *                false otherwise.
+             * @see isEnabled
+             */
+            void setEnabled(bool enabled);
+
+            /**
+             * Checks if the widget is enabled. A disabled
+             * widget will never receive mouse or key events.
+             *
+             * @return True if widget is enabled, false otherwise.
+             * @see setEnabled
+             */
+            bool isEnabled() const;
+
+            /**
+             * Sets the widget to be visible, or not.
+             *
+             * @param visible True if widget should be visible, false otherwise.
+             * @see isVisible
+             */
+            void setVisible(bool visible);
+
+            /**
+             * Checks if the widget is visible.
+             *
+             * @return True if widget is be visible, false otherwise.
+             * @see setVisible
+             */
+            bool isVisible() const;
+
+            /**
+             * Checks if the widget setting is visible.
+             *
+             * @return True if widget setting is be visible, false otherwise.
+             */
+            bool isSetVisible() const;
+
+            /**
+             * Sets the base color of the widget.
+             *
+             * @param color The base color.
+             * @see getBaseColor
+             */
+            virtual void setBaseColor(Color const & color);
+
+            /**
+             * Gets the base color.
+             *
+             * @return The base color.
+             * @see setBaseColor
+             */
+            Color const & getBaseColor() const;
+
+            /**
+             * Sets the foreground color.
+             *
+             * @param color The foreground color.
+             * @see getForegroundColor
+             */
+            virtual void setForegroundColor(Color const & color);
+
+            /**
+             * Gets the foreground color.
+             *
+             * @see setForegroundColor
+             */
+            Color const & getForegroundColor() const;
+
+            /**
+             * Sets the background color.
+             *
+             * @param color The background Color.
+             * @see setBackgroundColor
+             */
+            virtual void setBackgroundColor(Color const & color);
+
+            /**
+             * Gets the background color.
+             *
+             * @see setBackgroundColor
+             */
+            Color const & getBackgroundColor() const;
+
+            /**
+             * Sets the selection color.
+             *
+             * @param color The selection color.
+             * @see getSelectionColor
+             */
+            virtual void setSelectionColor(Color const & color);
+
+            /**
+             * Gets the selection color.
+             *
+             * @return The selection color.
+             * @see setSelectionColor
+             */
+            Color const & getSelectionColor() const;
+
+            /**
+             * Sets the outline color.
+             *
+             * @param color The outline color.
+             * @see getOutlineColor
+             */
+            virtual void setOutlineColor(Color const & color);
+
+            /**
+             * Gets the outline color.
+             *
+             * @return The outline color.
+             * @see setOutlineColor
+             */
+            Color const & getOutlineColor() const;
+
+            /**
+             * Sets the border color.
+             *
+             * @param color The border color.
+             * @see getBorderColor
+             */
+            virtual void setBorderColor(Color const & color);
+
+            /**
+             * Gets the border color.
+             *
+             * @return The border color.
+             * @see setBorderColor
+             */
+            Color const & getBorderColor() const;
+
+            /**
+             * Sets the selection mode.
+             *
+             * @param mode The selection mode that is used when the widget is "active".
+             * @see getSelectionMode
+             */
+            virtual void setSelectionMode(SelectionMode mode);
+
+            /**
+             * Gets the selection mode.
+             *
+             * @return The selection mode that is used when the widget is "active".
+             * @see setSelectionMode
+             */
+            SelectionMode getSelectionMode() const;
+
+            /**
+             * Requests focus for the widget. A widget will only receive focus
+             * if it is focusable.
+             *
+             */
+            virtual void requestFocus();
+
+            /**
+             * Requests a move to the top in the parent widget.
+             *
+             */
+            virtual void requestMoveToTop();
+
+            /**
+             * Requests a move to the bottom in the parent widget.
+             *
+             */
+            virtual void requestMoveToBottom();
+
+            /**
+             * Called whenever a widget should draw itself. The function will
+             * set up clip areas and call the draw function for this widget
+             * and for all its children.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * or overloaded unless you know what you are doing.
+             */
+            virtual void _draw(Graphics* graphics);
+
+            /**
+             * Called whenever a widget should perform logic. The function will
+             * call the logic function for this widget and for all its children.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * or overloaded unless you know what you are doing.
+             */
+            virtual void _logic();
+
+            /**
+             * Sets the focus handler to be used.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * or overloaded unless you know what you are doing.
+             *
+             * @param focusHandler The focus handler to use.
+             * @see _getFocusHandler
+             */
+            virtual void _setFocusHandler(FocusHandler* focusHandler);
+
+            /**
+             * Gets the focus handler used.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * or overloaded unless you know what you are doing.
+             *
+             * @return The focus handler used.
+             * @see _setFocusHandler
+             */
+            virtual FocusHandler* _getFocusHandler();
+
+            /**
+             * Adds an action listener to the widget. When an action event
+             * is fired by the widget the action listeners of the widget
+             * will get notified.
+             *
+             * @param actionListener The action listener to add.
+             * @see removeActionListener
+             */
+            void addActionListener(ActionListener* actionListener);
+
+            /**
+             * Removes an added action listener from the widget.
+             *
+             * @param actionListener The action listener to remove.
+             * @see addActionListener
+             */
+            void removeActionListener(ActionListener* actionListener);
+
+            /**
+             * Adds a death listener to the widget. When a death event is
+             * fired by the widget the death listeners of the widget will
+             * get notified.
+             *
+             * @param deathListener The death listener to add.
+             * @see removeDeathListener
+             */
+            void addDeathListener(DeathListener* deathListener);
+
+            /**
+             * Removes an added death listener from the widget.
+             *
+             * @param deathListener The death listener to remove.
+             * @see addDeathListener
+             */
+            void removeDeathListener(DeathListener* deathListener);
+
+            /**
+             * Adds a mouse listener to the widget. When a mouse event is
+             * fired by the widget the mouse listeners of the widget will
+             * get notified.
+             *
+             * @param mouseListener The mouse listener to add.
+             * @see removeMouseListener
+             */
+            void addMouseListener(MouseListener* mouseListener);
+
+            /**
+             * Removes an added mouse listener from the widget.
+             *
+             * @param mouseListener The mouse listener to remove.
+             * @see addMouseListener
+             */
+            void removeMouseListener(MouseListener* mouseListener);
+
+            /**
+             * Adds a key listener to the widget. When a key event is
+             * fired by the widget the key listeners of the widget will
+             * get notified.
+             *
+             * @param keyListener The key listener to add.
+             * @see removeKeyListener
+             */
+            void addKeyListener(KeyListener* keyListener);
+
+            /**
+             * Removes an added key listener from the widget.
+             *
+             * @param keyListener The key listener to remove.
+             * @see addKeyListener
+             */
+            void removeKeyListener(KeyListener* keyListener);
+
+            /**
+             * Adds a focus listener to the widget. When a focus event is
+             * fired by the widget the key listeners of the widget will
+             * get notified.
+             *
+             * @param focusListener The focus listener to add.
+             * @see removeFocusListener
+             */
+            void addFocusListener(FocusListener* focusListener);
+
+            /**
+             * Removes an added focus listener from the widget.
+             *
+             * @param focusListener The focus listener to remove.
+             * @see addFocusListener
+             */
+            void removeFocusListener(FocusListener* focusListener);
+
+            /**
+             * Adds a widget listener to the widget. When a widget event is
+             * fired by the widget the key listeners of the widget will
+             * get notified.
+             *
+             * @param widgetListener The widget listener to add.
+             * @see removeWidgetListener
+             */
+            void addWidgetListener(WidgetListener* widgetListener);
+
+            /**
+             * Removes an added widget listener from the widget.
+             *
+             * @param widgetListener The widget listener to remove.
+             * @see addWidgetListener
+             */
+            void removeWidgetListener(WidgetListener* widgetListener);
+
+            /**
+             * Adds a drop target listener to the widget. When a drag event is
+             * fired the drop target listeners of the widget will get notified.
+             *
+             * @param listener The listener to add (non-owning).
+             * @see removeDropTargetListener
+             */
+            void addDropTargetListener(DropTargetListener* listener);
+
+            /**
+             * Removes an added drop target listener from the widget.
+             *
+             * @param listener The listener to remove.
+             * @see addDropTargetListener
+             */
+            void removeDropTargetListener(DropTargetListener* listener);
+
+            /**
+             * Sets the action event identifier of the widget. The identifier is
+             * used to be able to identify which action has occurred.
+             *
+             * @note
+             * An action event identifier should not be used to identify a
+             * certain widget but rather a certain event in your application.
+             * Several widgets can have the same action event identifier.
+             *
+             * @param actionEventId The action event identifier.
+             * @see getActionEventId
+             */
+            void setActionEventId(std::string const & actionEventId);
+
+            /**
+             * Gets the action event identifier of the widget.
+             *
+             * @return The action event identifier of the widget.
+             * @see setActionEventId
+             */
+            std::string const & getActionEventId() const;
+
+            /**
+             * Gets the absolute position on the screen for the widget.
+             *
+             * @param x The absolute x coordinate will be stored in this parameter.
+             * @param y The absolute y coordinate will be stored in this parameter.
+             */
+            virtual void getAbsolutePosition(int& x, int& y) const;
+
+            /**
+             * Sets the parent of the widget. A parent must be a Container.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * or overloaded unless you know what you are doing.
+             *
+             * @param parent The parent of the widget.
+             * @see getParent
+             */
+            virtual void _setParent(Widget* parent);
+
+            /**
+             * Gets the font set for the widget. If no font has been set,
+             * the global font will be returned. If no global font has been set,
+             * the default font will be returned.
+             *
+             * @return The font set for the widget.
+             * @see setFont, setGlobalFont
+             */
+            Font* getFont() const;
+
+            /**
+             * Sets the global font to be used by default for all widgets.
+             *
+             * @param font The global font.
+             * @see getGlobalFont
+             */
+            static void setGlobalFont(Font* font);
+
+            /**
+             * Sets the font for the widget. If Nullptr is passed, the global font
+             * will be used.
+             *
+             * @param font The font to set for the widget.
+             * @see getFont
+             */
+            virtual void setFont(Font* font);
+
+            /**
+             * Called when the font has changed. If the change is global,
+             * this function will only be called if the widget doesn't have a
+             * font already set.
+             *
+             */
+            virtual void fontChanged()
+            {
+            }
+
+            /**
+             * Called when the widget gains focus.
+             *
+             * Override this to perform custom actions when focus is gained.
+             */
+            virtual void onFocusGained()
+            {
+            }
+
+            /**
+             * Called when the widget loses focus.
+             *
+             * Override this to perform custom actions when focus is lost.
+             */
+            virtual void onFocusLost()
+            {
+            }
+
+            /**
+             * Called when the widget focus changes.
+             *
+             * Override this to perform custom actions when focus is gained or lost.
+             */
+            virtual void onFocusChanged()
+            {
+            }
+
+            /**
+             * Checks if a widget exists or not, that is if it still exists
+             * an instance of the object.
+             *
+             * @param widget The widget to check.
+             * @return True if an instance of the widget exists, false otherwise.
+             */
+            static bool widgetExists(Widget const * widget);
+
+            /**
+             * Checks if tab in is enabled. Tab in means that you can set focus
+             * to this widget by pressing the tab button. If tab in is disabled
+             * then the focus handler will skip this widget and focus the next
+             * in its focus order.
+             *
+             * @return True if tab in is enabled, false otherwise.
+             * @see setTabInEnabled
+             */
+            bool isTabInEnabled() const;
+
+            /**
+             * Sets tab in enabled, or not. Tab in means that you can set focus
+             * to this widget by pressing the tab button. If tab in is disabled
+             * then the FocusHandler will skip this widget and focus the next
+             * in its focus order.
+             *
+             * @param enabled True if tab in should be enabled, false otherwise.
+             * @see isTabInEnabled
+             */
+            void setTabInEnabled(bool enabled);
+
+            /**
+             * Checks if tab out is enabled. Tab out means that you can lose
+             * focus to this widget by pressing the tab button. If tab out is
+             * disabled then the FocusHandler ignores tabbing and focus will
+             * stay with this widget.
+             *
+             * @return True if tab out is enabled, false otherwise.
+             * @see setTabOutEnabled
+             */
+            bool isTabOutEnabled() const;
+
+            /**
+             * Sets tab out enabled.
+             *
+             * Tab out means that you can lose
+             * focus to this widget by pressing the tab button. If tab out is
+             * disabled then the FocusHandler ignores tabbing and focus will
+             * stay with this widget.
+             *
+             * @param enabled True if tab out should be enabled, false otherwise.
+             * @see isTabOutEnabled
+             */
+            void setTabOutEnabled(bool enabled);
+
+            /**
+             * Checks if a widget is modal focusable.
+             *
+             * @return True if no other widget is modal focused, false otherwise.
+             */
+            virtual bool isModalFocusable() const;
+
+            /**
+             * Checks if a widget is modal mouse input focusable.
+             *
+             * @return True if no other widget is modal mouse input focused, false otherwise.
+             */
+            virtual bool isModalMouseInputFocusable() const;
+
+            /**
+             * Checks if the widget or it's parent has modal focus.
+             *
+             * @return True if the widget has modal focus, false otherwise.
+             */
+            virtual bool isModalFocused() const;
+
+            /**
+             * Checks if the widget or its parent is under a mouse modal.
+             *
+             * @return True if the widget has modal mouse input focus, false otherwise.
+             */
+            virtual bool isUnderMouseModal() const;
+
+            /**
+             * Gets a widget at a certain position in the widget.
+             * This function is used to decide which gets mouse input,
+             * thus it can be overloaded to change that behaviour.
+             *
+             * @note
+             * This always returns Nullptr if the widget is not a container.
+             *
+             * @param x The x coordinate of the widget to get.
+             * @param y The y coordinate of the widget to get.
+             * @return The widget at the specified coordinate, Nullptr
+             *         if no widget is found.
+             */
+            Widget* getWidgetAt(int x, int y)
+            {
+                return getWidgetAt(x, y, nullptr);
+            }
+
+            /**
+             * Variant of getWidgetAt that allows excluding a specific widget
+             * from the hit-test.
+             *
+             * @param x The x coordinate of the widget to get.
+             * @param y The y coordinate of the widget to get.
+             * @param exclude Widget to exclude from search, if Nullptr no widgets get excluded.
+             * @return The widget at the specified coordinate, Nullptr if no widget is found.
+             */
+            virtual Widget* getWidgetAt(int x, int y, Widget* exclude);
+
+            /**
+             * Gets all widgets inside a certain area of the widget.
+             *
+             * @note
+             * This always returns an empty list if the widget is not a container.
+             *
+             * @param area The area to check.
+             * @return A list of widgets. An empty list if no widgets was found.
+             */
+            std::list<Widget*> getWidgetsIn(Rectangle const & area)
+            {
+                return getWidgetsIn(area, nullptr);
+            }
+
+            /**
+             * Gets all widgets inside a certain area of the widget.
+             *
+             * @note
+             * This always returns an empty list if the widget is not a container.
+             *
+             * @param area The area to check.
+             * @param ignore Optional widget pointer to exclude from the results.
+             * @return A list of widgets found inside `area`. Empty list if none.
+             */
+            virtual std::list<Widget*> getWidgetsIn(Rectangle const & area, Widget* ignore);
+
+            /**
+             * Gets the mouse listeners of the widget.
+             *
+             * @return The mouse listeners of the widget.
+             */
+            virtual std::list<MouseListener*> const & _getMouseListeners();
+
+            /**
+             * Gets the key listeners of the widget.
+             *
+             * @return The key listeners of the widget.
+             */
+            virtual std::list<KeyListener*> const & _getKeyListeners();
+
+            /**
+             * Gets the focus listeners of the widget.
+             *
+             * @return The focus listeners of the widget.
+             */
+            virtual std::list<FocusListener*> const & _getFocusListeners();
+
+            /**
+             * Gets the area of the widget occupied by the widget's children.
+             * By default this method returns an empty rectangle as not all
+             * widgets are containers. If you want to make a container this
+             * method should return the area where the children resides. This
+             * method is used when drawing children of a widget when computing
+             * clip rectangles for the children.
+             *
+             * @note The returned rectangle should be relative to the widget,
+             *       i.e a rectangle with x and y coordinate (0,0) and with
+             *       width and height the same as the widget will let the
+             *       children draw themselves in the whole widget.
+             *
+             * An example of a widget that overloads this method is ScrollArea.
+             * A ScrollArea has a view of its constant and that view is the
+             * children area. The size of a ScrollArea's children area might
+             * vary depending on if the scroll bars of the ScrollArea is shown
+             * or not.
+             *
+             * @return The area of the widget occupied by the widget's children.
+             */
+            virtual Rectangle getChildrenArea();
+
+            /**
+             * Gets the internal focus handler used.
+             *
+             * @return the internalFocusHandler used. If no internal focus handler
+             *         is used, Nullptr will be returned.
+             * @see setInternalFocusHandler
+             */
+            virtual FocusHandler* _getInternalFocusHandler();
+
+            /**
+             * Sets the internal focus handler.
+             *
+             * An internal focus handler is needed, if both
+             * 'a widget in the widget' and 'the widget itself'
+             * should be focused at the same time.
+             *
+             * @param internalFocusHandler The internal focus handler to be used.
+             * @see getInternalFocusHandler
+             */
+            void setInternalFocusHandler(FocusHandler* internalFocusHandler);
+
+            /**
+             * Moves a widget to the top of this widget.
+             *
+             * The moved widget will be drawn above all other widgets in this widget.
+             *
+             * This method is safe to call at any time.
+             *
+             * @param widget The widget to move to the top.
+             * @see moveToBottom
+             */
+            virtual void moveToTop(Widget* widget);
+
+            /**
+             * Moves a widget in this widget to the bottom of this widget.
+             *
+             * The moved widget will be drawn below all other widgets in this widget.
+             *
+             * This method is safe to call at any time.
+             *
+             * @param widget The widget to move to the bottom.
+             * @see moveToTop
+             */
+            virtual void moveToBottom(Widget* widget);
+
+            /**
+             * Focuses the next widget in the widget.
+             *
+             * @see moveToBottom
+             */
+            virtual void focusNext();
+
+            /**
+             * Focuses the previous widget in the widget.
+             *
+             * @see moveToBottom
+             */
+            virtual void focusPrevious();
+
+            /**
+             * Tries to show a specific part of a widget by moving it.
+             *
+             * Used if the widget should act as a container.
+             *
+             * @param widget The target widget.
+             * @param area The area to show.
+             */
+            virtual void showWidgetPart(Widget* widget, Rectangle area);
+
+            /**
+             * Sets an id of a widget.
+             *
+             * The id is useful if a widget needs to be identified in a container.
+             * For example, if widgets are created by an XML document,
+             * a certain widget can be retrieved given that the widget has an id.
+             *
+             * @param id The id to set to the widget.
+             * @see getId, Container::findWidgetById
+             */
+            void setId(std::string const & id);
+
+            /**
+             * Gets the id of a widget.
+             *
+             * The id is useful if a widget needs to be identified in a container.
+             * For example, if widgets are created by an XML document,
+             * a certain widget can be retrieved given that the widget has an id.
+             *
+             * @return The id of the widget.
+             * @see setId, Container::findWidgetById
+             */
+            std::string const & getId() const;
+
+            /**
+             * Shows a certain part of a widget in the widget's parent.
+             *
+             * Used when widgets want a specific part to be visible in
+             * its parent. An example is a TextArea that wants a specific
+             * part of its text to be visible when a TextArea is a child
+             * of a ScrollArea.
+             *
+             * @param rectangle The rectangle to be shown.
+             */
+            virtual void showPart(Rectangle rectangle);
+
+            /**
+             * Sets the visibility event handler to be used.
+             *
+             * @warning
+             * This function is used internally and should not be called unless
+             * you know what you are doing.
+             *
+             * @todo
+             * We don't like the visibility handler being static, but we leave
+             * it as is for the moment, until we come up a better solution.
+             *
+             * @param visibilityEventHandler The visibility event handler to be used.
+             */
+            static void _setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler);
+
+            /**
+             * Gets the visibility event handler of this widget.
+             *
+             * @warning
+             * This function is used internally and should not be called
+             * unless you know what you are doing.
+             *
+             * @todo
+             * We don't like the visibility handler being static, but we leave
+             * it as is for the moment, until we come up a better solution.
+             */
+            static VisibilityEventHandler* _getVisibilityEventHandler();
+
+            /**
+             * Set the global GUI death listener used to observe widget deletions.
+             *
+             * @param deathListener Pointer to a DeathListener instance (ownership not transferred).
+             */
+            static void _setGuiDeathListener(DeathListener* deathListener);
+
+            /**
+             * Get the global GUI death listener.
+             *
+             * @return The current DeathListener or nullptr if none is set.
+             */
+            static DeathListener* _getGuiDeathListener();
+
+            /**
+             * Sets the widget to vertical expandable.
+             *
+             * @param expand True if the widget can be vertical expanded, otherwise false.
+             * @see isVerticalExpand
+             */
+            void setVerticalExpand(bool expand);
+
+            /**
+             * Gets if widget is vertical expandable.
+             *
+             * @return True if the widget can be vertical expanded, otherwise false.
+             * @see setVerticalExpand
+             */
+            bool isVerticalExpand() const;
+
+            /**
+             * Sets the widget to horizontal expandable.
+             *
+             * @param expand True if the widget can be horizontal expanded, otherwise false.
+             * @see isHorizontalExpand
+             */
+            void setHorizontalExpand(bool expand);
+
+            /**
+             * Gets if widget is horizontal expandable.
+             *
+             * @return True if the widget can be horizontal expanded, otherwise false.
+             * @see setHorizontalExpand
+             */
+            bool isHorizontalExpand() const;
+
+            /**
+             * Execute the layouting.
+             *
+             * In case you want to relayout a visible widget. This function will
+             * automatically perform the layout adaption from the widget.
+             *
+             * This is a convenience wrapper that calls `adaptLayout(true)`.
+             */
+            void adaptLayout()
+            {
+                adaptLayout(true);
+            }
+
+            /**
+             * Execute the layouting for this widget.
+             *
+             * @param top If true, perform top-level layout adaptations as well.
+             */
+            virtual void adaptLayout(bool top);
+
+            /**
+             * Resizes the widget's size to fit the content exactly,
+             * calls recursively all childs.
+             *
+             * The default value true allows callers to use `resizeToContent()` without argument.
+             *
+             * @param recursion If true, perform the resize operation recursively on children.
+             */
+            virtual void resizeToContent(bool recursion = true)
+            {
+            }
+
+            /**
+             * Resizes the widget's size to fit the content exactly.
+             */
+            virtual void adjustSize()
+            {
+            }
+
+            /**
+             * Expands the child widgets to the size of this widget,
+             * calls recursively all childs.
+             *
+             * This is a convenience wrapper that calls `expandContent(true)`.
+             */
+            void expandContent()
+            {
+                expandContent(true);
+            }
+
+            /**
+             * Expands child widgets to fit this widget's size.
+             *
+             * @param recursion If true, call expandContent recursively on children.
+             */
+            virtual void expandContent(bool recursion)
+            {
+            }
+
+            /**
+             * Helper function to decide if we need to layout.
+             */
+            virtual bool isLayouted()
+            {
+                return false;
+            }
+
+            /**
+             * Retrieves the last stored position used by layout or event logic.
+             *
+             * @param x Output parameter receiving the last x coordinate.
+             * @param y Output parameter receiving the last y coordinate.
+             */
+            void getLastPosition(int& x, int& y) const;
+
+            /**
+             * Stores the last known position for this widget.
+             *
+             * @param x The x coordinate to store.
+             * @param y The y coordinate to store.
+             */
+            void setLastPosition(int x, int y);
+
+            /**
+             * Returns whether a last position has been stored for this widget.
+             *
+             * @return True if a last position is set, false otherwise.
+             */
+            bool isLastPositionSet() const;
+
+            /**
+             * Attempts to capture mouse input to this widget.
+             *
+             * @return True if capture was successfully acquired, false if another widget
+             *         already has mouse capture.
+             * @see releaseMouse, getMouseCapture, hasMouseCapture
+             */
+            bool captureMouse();
+
+            /**
+             * Releases mouse capture from this widget, if it has capture.
+             *
+             * This method is idempotent - it's safe to call even if this widget
+             * doesn't currently have mouse capture.
+             * @see captureMouse, getMouseCapture
+             */
+            void releaseMouse();
+
+            /**
+             * Gets the widget that currently has mouse capture.
+             *
+             * @return The widget with mouse capture, or nullptr if no widget has capture.
+             * @see captureMouse, releaseMouse, hasMouseCapture
+             */
+            static Widget* getMouseCapture();
+
+            /**
+             * Checks if this widget currently has mouse capture.
+             *
+             * @return True if this widget has mouse capture, false otherwise.
+             * @see captureMouse, releaseMouse, getMouseCapture
+             */
+            bool hasMouseCapture() const;
+
+            /**
+             * Checks if this widget is a descendant of (or equal to) the given ancestor.
+             *
+             * Walks the parent chain to determine if this widget is somewhere
+             * in the ancestor's child tree.
+             *
+             * @param ancestor The potential ancestor to check against.
+             * @return True if this widget is a descendant of ancestor, false otherwise.
+             *         Returns false if ancestor is nullptr.
+             */
+            bool isDescendantOf(Widget const * ancestor) const noexcept;
+
+            /**
+             * Checks if this widget is inside the active mouse modal root.
+             *
+             * Walks up from this widget to find if it is contained within
+             * the widget returned by FocusHandler::getActiveMouseInputRoot().
+             *
+             * @return True if this widget is inside the active mouse modal, false otherwise.
+             */
+            bool isInsideActiveMouseModal() const noexcept;
+
+        protected:
+            /**
+             * Distributes an action event to all action listeners of the widget.
+             */
+            void distributeActionEvent();
+
+            /**
+             * Distributes resized events to all of the widget's listeners.
+             */
+            void distributeResizedEvent();
+
+            /**
+             * Distributes moved events to all of the widget's listeners.
+             */
+            void distributeMovedEvent();
+
+            /**
+             * Distributes hidden events to all of the widget's listeners.
+             */
+            void distributeHiddenEvent();
+
+            /**
+             * Distributes shown events to all of the widget's listeners.
+             */
+            void distributeShownEvent();
+
+            /**
+             * Distributes ancestor moved events to all of the widget's listeners.
+             * All children will also distribute the same event.
+             *
+             * @param ancestor Ancestor widget that was moved.
+             */
+            void distributeAncestorMovedEvent(Widget* ancestor);
+
+            /**
+             * Distributes ancestor hidden events to all of the widget's listeners.
+             * All children will also distribute the same event.
+             *
+             * @param ancestor Ancestor widget that was hidden.
+             */
+            void distributeAncestorHiddenEvent(Widget* ancestor);
+
+            /**
+             * Distributes ancestor shown events to all of the widget's listeners.
+             * All children will also distribute the same event.
+             *
+             * @param ancestor Ancestor widget that was shown.
+             */
+            void distributeAncestorShownEvent(Widget* ancestor);
+
+            /**
+             * Adds a child to the widget.
+             *
+             * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+             * INSIDE ANY LISTER FUNCTIONS!
+             *
+             * @param widget The widget to add.
+             * @see remove, clear
+             */
+            void add(Widget* widget);
+
+            /**
+             * Removes a specific child from the widget.
+             *
+             * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+             * INSIDE ANY LISTER FUNCTIONS!
+             *
+             * @param widget The widget to remove.
+             * @see removeAllChildren
+             */
+            virtual void remove(Widget* widget);
+
+            /**
+             * Remvoes all children from the widget.
+             *
+             * THIS METHOD IS NOT SAFE TO CALL INSIDE A WIDGETS LOGIC FUNCTION
+             * INSIDE ANY LISTER FUNCTIONS!
+             *
+             * @see remove
+             */
+            virtual void removeAllChildren();
+
+            /**
+             * Finds a widget by id.
+             *
+             * This function can be useful when implementing a GUI generator,
+             * such as the ability to create a GUI from an XML file.
+             *
+             * @param id The id to find a widget by.
+             * @return The widget with the corresponding id, Nullptr if no widget is found.
+             */
+            virtual Widget* findWidgetById(std::string const & id);
+
+            /**
+             * Resizes the widget to fit it's children exactly.
+             *
+             */
+            void resizeToChildren();
+
+            /**
+             * Checks the size against the size constraints. Used by setDimension.
+             *
+             */
+            void calculateSize();
+
+            /**
+             * Gets the children of the widget.
+             *
+             * @return A list of the widgets children.
+             */
+            std::list<Widget*> const & getChildren() const;
+
+            /**
+             * Distribute drag events to registered drop target listeners.
+             * These are called by DragHandler during update/drop.
+             */
+            bool distributeDragEnter(DragEvent& event);
+            void distributeDragLeave(DragEvent& event);
+            void distributeDragHover(DragEvent& event);
+            void distributeDragDrop(DragEvent& event);
+
+            /**
+             * Holds the mouse listeners of the widget.
+             */
+            std::list<MouseListener*> mMouseListeners;
+
+            /**
+             * Holds the key listeners of the widget.
+             */
+            std::list<KeyListener*> mKeyListeners;
+
+            /**
+             * Holds the action listeners of the widget.
+             */
+            std::list<ActionListener*> mActionListeners;
+
+            /**
+             * Holds the death listeners of the widget.
+             */
+            std::list<DeathListener*> mDeathListeners;
+
+            /**
+             * Holds the focus listeners of the widget.
+             */
+            std::list<FocusListener*> mFocusListeners;
+
+            /**
+             * Holds the widget listeners of the widget.
+             */
+            std::list<WidgetListener*> mWidgetListeners;
+
+            /**
+             * Holds the drop target listeners of the widget.
+             */
+            std::list<DropTargetListener*> mDropTargetListeners;
+
+            /**
+             * Holds the foreground color of the widget.
+             */
+            Color mForegroundColor{0x1f2933};
+
+            /**
+             * Holds the background color of the widget.
+             */
+            Color mBackgroundColor{0xf9fafb};
+
+            /**
+             * Holds the base color of the widget.
+             */
+            Color mBaseColor{0xe5e7eb};
+
+            /**
+             * Holds the selection color of the widget.
+             */
+            Color mSelectionColor{0x3b82f6};
+
+            /**
+             * Holds the outline color of the widget.
+             */
+            Color mOutlineColor{0x9ca3af};
+
+            /**
+             * Holds the border color of the widget.
+             */
+            Color mBorderColor{0xd1d5db};
+
+            /**
+             * Holds the focus handler used by the widget.
+             */
+            FocusHandler* mFocusHandler{nullptr};
+
+            /**
+             * Holds the focus handler used by the widget.
+             * Nullptr if no internal focus handler is used.
+             */
+            FocusHandler* mInternalFocusHandler{nullptr};
+
+            /**
+             * Holds the parent of the widget.
+             * Nullptr if the widget has no parent.
+             */
+            Widget* mParent{nullptr};
+
+            /**
+             * Holds the dimension of the widget.
+             */
+            Rectangle mDimension;
+
+            /**
+             * Holds the offset dimension of the widget.
+             */
+            Rectangle mOffsetRect;
+
+            /**
+             * Holds the outline size of the widget.
+             */
+            unsigned int mOutlineSize{0};
+
+            /**
+             * Holds the border size of the widget.
+             */
+            unsigned int mBorderSize{0};
+
+            /**
+             * Which sides to draw the border on (bitmask of BorderSide).
+             *
+             * @see BorderSide enum
+             */
+            unsigned int mBorderSides{BORDER_ALL};
+
+            /**
+             * Border drawing style (see BorderStyle).
+             *
+             * @see BorderStyle enum
+             */
+            unsigned int mBorderStyle{BORDER_STYLE_FLAT};
+
+            /**
+             * Holds the selection mode.
+             */
+            SelectionMode mSelectionMode{SelectionMode::None};
+
+            /**
+             * Holds the top margin of the widget.
+             */
+            int mMarginTop{0};
+
+            /**
+             * Holds the top right of the widget.
+             */
+            int mMarginRight{0};
+
+            /**
+             * Holds the bottom margin of the widget.
+             */
+            int mMarginBottom{0};
+
+            /**
+             * Holds the left margin of the widget.
+             */
+            int mMarginLeft{0};
+
+            /**
+             * Holds the top padding of the widget.
+             */
+            unsigned int mPaddingTop{0};
+
+            /**
+             * Holds the right padding of the widget.
+             */
+            unsigned int mPaddingRight{0};
+
+            /**
+             * Holds the bottom padding of the widget.
+             */
+            unsigned int mPaddingBottom{0};
+
+            /**
+             * Holds the left padding of the widget.
+             */
+            unsigned int mPaddingLeft{0};
+
+            /**
+             * Holds the action event of the widget.
+             */
+            std::string mActionEventId;
+
+            /**
+             * True if the widget focusable, false otherwise.
+             */
+            bool mFocusable{false};
+
+            /**
+             * True if the widget has focus, false otherwise.
+             */
+            bool mFocused{false};
+
+            /**
+             * True if the widget visible, false otherwise.
+             */
+            bool mVisible{true};
+
+            /**
+             * True if the widget has tab in enabled, false otherwise.
+             */
+            bool mTabIn{true};
+
+            /**
+             * True if the widget has tab in enabled, false otherwise.
+             */
+            bool mTabOut{true};
+
+            /**
+             * True if the widget is enabled, false otherwise.
+             */
+            bool mEnabled{true};
+
+            /**
+             * Holds the id of the widget.
+             */
+            std::string mId;
+
+            /**
+             * Holds the min size.
+             */
+            Size mMinSize{0, 0};
+
+            /**
+             * Holds the max size.
+             *
+             * Default to a very large value so widgets are not clamped to zero
+             * when the user does not explicitly set a max size.
+             */
+            Size mMaxSize{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
+
+            /**
+             * Holds the fixed size.
+             */
+            Size mFixedSize{-1, -1};
+
+            /**
+             * True if the widget used a fixed size.
+             */
+            bool mFixedSizeUsed{false};
+
+            /**
+             * True if the widget can be vertical expanded.
+             */
+            bool mVExpand{false};
+
+            /**
+             * True if the widget can be horizontal expanded.
+             */
+            bool mHExpand{false};
+
+            /**
+             * Holds the font used by the widget.
+             */
+            Font* mCurrentFont{nullptr};
+
+            /**
+             * Holds the default font used by the widget.
+             */
+            static DefaultFont mDefaultFont;
+
+            /**
+             * Holds the global font used by the widget.
+             */
+            static Font* mGlobalFont;
+
+            /**
+             * Holds a list of all instances of widgets.
+             */
+            static std::list<Widget*> mWidgetInstances;
+
+            /**
+             * Holds the visibility event handler used by the widgets.
+             *
+             * @todo
+             * We don't like the visibility handler being static, but we leave
+             * it as is for the moment, until we come up a better solution.
+             */
+            static VisibilityEventHandler* mVisibilityEventHandler;
+
+            /**
+             * Holds the death listener used by the widgets.
+             */
+            static DeathListener* mGuiDeathListener;
+
+            /**
+             * Holds the widget that currently has mouse capture.
+             */
+            static Widget* sMouseCapture;
+
+            /**
+             * Holds all children of the widget.
+             */
+            std::list<Widget*> mChildren;
+
+            /** Last stored X coordinate used for layout and event calculations. */
+            int mLastX{0};
+
+            /** Last stored Y coordinate used for layout and event calculations. */
+            int mLastY{0};
     };
 } // namespace fcn
 

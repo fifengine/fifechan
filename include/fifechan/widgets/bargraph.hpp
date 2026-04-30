@@ -24,116 +24,116 @@ namespace fcn
      */
     class FIFEGUI_API BarGraph : public Widget
     {
-    public:
-        BarGraph();
+        public:
+            BarGraph();
 
-        /**
-         * Constructor.
-         */
-        BarGraph(int x, int y, int w, int h);
+            /**
+             * Constructor.
+             */
+            BarGraph(int x, int y, int w, int h);
 
-        ~BarGraph() override = default;
+            ~BarGraph() override = default;
 
-        BarGraph(BarGraph const &)            = delete;
-        BarGraph& operator=(BarGraph const &) = delete;
-        BarGraph(BarGraph&&)                  = delete;
-        BarGraph& operator=(BarGraph&&)       = delete;
+            BarGraph(BarGraph const &)            = delete;
+            BarGraph& operator=(BarGraph const &) = delete;
+            BarGraph(BarGraph&&)                  = delete;
+            BarGraph& operator=(BarGraph&&)       = delete;
 
-        /**
-         * Sets the x position of the bar.
-         */
-        void setBarX(int x);
+            /**
+             * Sets the x position of the bar.
+             */
+            void setBarX(int x);
 
-        /**
-         * @return The x position of the bar.
-         */
-        int getBarX() const;
+            /**
+             * @return The x position of the bar.
+             */
+            int getBarX() const;
 
-        /**
-         * Sets the y position of the bar.
-         *
-         * @param y The y position of the bar.
-         */
-        void setBarY(int y);
+            /**
+             * Sets the y position of the bar.
+             *
+             * @param y The y position of the bar.
+             */
+            void setBarY(int y);
 
-        /**
-         * @return The y position of the bar.
-         */
-        int getBarY() const;
+            /**
+             * @return The y position of the bar.
+             */
+            int getBarY() const;
 
-        /**
-         * Sets the position of the bar.
-         *
-         * @param x The x position of the bar.
-         * @param y The y position of the bar.
-         */
-        void setBarPosition(int x, int y);
+            /**
+             * Sets the position of the bar.
+             *
+             * @param x The x position of the bar.
+             * @param y The y position of the bar.
+             */
+            void setBarPosition(int x, int y);
 
-        /**
-         * Sets the position of the bar.
-         *
-         * @param pos The position of the bar.
-         */
-        void setBarPosition(Point const & pos);
+            /**
+             * Sets the position of the bar.
+             *
+             * @param pos The position of the bar.
+             */
+            void setBarPosition(Point const & pos);
 
-        /**
-         * Sets the width of the bar.
-         *
-         * @param w The width of the bar.
-         */
-        void setBarWidth(int w);
+            /**
+             * Sets the width of the bar.
+             *
+             * @param w The width of the bar.
+             */
+            void setBarWidth(int w);
 
-        /**
-         * @return The width of the bar.
-         */
-        int getBarWidth() const;
+            /**
+             * @return The width of the bar.
+             */
+            int getBarWidth() const;
 
-        /**
-         * Sets the height of the bar.
-         * @param h The height of the bar.
-         */
-        void setBarHeight(int h);
+            /**
+             * Sets the height of the bar.
+             * @param h The height of the bar.
+             */
+            void setBarHeight(int h);
 
-        /**
-         * @return The height of the bar.
-         */
-        int getBarHeight() const;
+            /**
+             * @return The height of the bar.
+             */
+            int getBarHeight() const;
 
-        /**
-         * Sets the size of the bar.
-         *
-         * @param w The width of the bar.
-         * @param h The height of the bar.
-         */
-        void setBarSize(int w, int h);
+            /**
+             * Sets the size of the bar.
+             *
+             * @param w The width of the bar.
+             * @param h The height of the bar.
+             */
+            void setBarSize(int w, int h);
 
-        /**
-         * Sets the opacity of the graph.
-         *
-         * @param opaque True if opaque, false otherwise.
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the opacity of the graph.
+             *
+             * @param opaque True if opaque, false otherwise.
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * @return Whether this graph is opaque or not.
-         */
-        bool isOpaque() const;
+            /**
+             * @return Whether this graph is opaque or not.
+             */
+            bool isOpaque() const;
 
-        /**
-         * Draws this widget.
-         */
-        void draw(Graphics* graphics) override;
+            /**
+             * Draws this widget.
+             */
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /**
-         * m_opaque is true if the graph is opaque, false otherwise.
-         */
-        bool m_opaque{false};
+        protected:
+            /**
+             * m_opaque is true if the graph is opaque, false otherwise.
+             */
+            bool m_opaque{false};
 
-        /**
-         * m_rec is the rectangle that represents the bar.
-         */
-        Rectangle m_rec;
+            /**
+             * m_rec is the rectangle that represents the bar.
+             */
+            Rectangle m_rec;
     };
 }; // namespace fcn
 

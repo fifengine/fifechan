@@ -25,30 +25,30 @@ namespace fcn
      */
     class FIFEGUI_API DeathListener
     {
-    public:
-        virtual ~DeathListener() = default;
+        public:
+            virtual ~DeathListener() = default;
 
-        DeathListener(DeathListener const &)            = delete;
-        DeathListener& operator=(DeathListener const &) = delete;
-        DeathListener(DeathListener&&)                  = delete;
-        DeathListener& operator=(DeathListener&&)       = delete;
+            DeathListener(DeathListener const &)            = delete;
+            DeathListener& operator=(DeathListener const &) = delete;
+            DeathListener(DeathListener&&)                  = delete;
+            DeathListener& operator=(DeathListener&&)       = delete;
 
-        /**
-         * Called when a widget dies. It is used to be able to receive
-         * a notification when a death of a widget occurs.
-         *
-         * @param event The event of the death.
-         */
-        virtual void death(Event const & event) = 0;
+            /**
+             * Called when a widget dies. It is used to be able to receive
+             * a notification when a death of a widget occurs.
+             *
+             * @param event The event of the death.
+             */
+            virtual void death(Event const & event) = 0;
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        DeathListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            DeathListener() = default;
     };
 } // namespace fcn
 

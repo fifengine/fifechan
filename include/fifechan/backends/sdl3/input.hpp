@@ -34,66 +34,68 @@ namespace fcn::sdl3
      */
     class FIFEGUI_EXT_API Input : public fcn::Input
     {
-    public:
-        /**
-         * Constructor.
-         */
-        Input();
+        public:
+            /**
+             * Constructor.
+             */
+            Input();
 
-        /**
-         * Pushes an SDL event. It should be called at least once per frame to
-         * update input with user input.
-         *
-         * @param event an event from SDL.
-         */
-        virtual void pushInput(SDL_Event event);
+            /**
+             * Pushes an SDL event. It should be called at least once per frame to
+             * update input with user input.
+             *
+             * @param event an event from SDL.
+             */
+            virtual void pushInput(SDL_Event event);
 
-        /**
-         * Polls all input. It exists for input driver compatibility. If you
-         * only use SDL and plan sticking with SDL you can safely ignore this
-         * function as it in the SDL case does nothing.
-         */
-        void _pollInput() override { }
+            /**
+             * Polls all input. It exists for input driver compatibility. If you
+             * only use SDL and plan sticking with SDL you can safely ignore this
+             * function as it in the SDL case does nothing.
+             */
+            void _pollInput() override
+            {
+            }
 
-        // Inherited from Input
+            // Inherited from Input
 
-        bool isKeyQueueEmpty() override;
+            bool isKeyQueueEmpty() override;
 
-        KeyInput dequeueKeyInput() override;
+            KeyInput dequeueKeyInput() override;
 
-        bool isMouseQueueEmpty() override;
+            bool isMouseQueueEmpty() override;
 
-        MouseInput dequeueMouseInput() override;
+            MouseInput dequeueMouseInput() override;
 
-    protected:
-        /**
-         * Converts a mouse button from SDL to a FifeGUI mouse button.
-         *
-         * @param button an SDL mouse button.
-         * @return a FifeGUI mouse button.
-         */
-        static MouseInput::Button convertMouseButton(int button);
+        protected:
+            /**
+             * Converts a mouse button from SDL to a FifeGUI mouse button.
+             *
+             * @param button an SDL mouse button.
+             * @return a FifeGUI mouse button.
+             */
+            static MouseInput::Button convertMouseButton(int button);
 
-        /**
-         * Converts an SDL event to a FifeGUI key value.
-         *
-         * @param event The SDL event to convert.
-         * @return A FifeGUI key value. -1 if no conversion took place.
-         * @see Key
-         */
-        static int convertSDLEventToFifechanKeyValue(SDL_Event event);
+            /**
+             * Converts an SDL event to a FifeGUI key value.
+             *
+             * @param event The SDL event to convert.
+             * @return A FifeGUI key value. -1 if no conversion took place.
+             * @see Key
+             */
+            static int convertSDLEventToFifechanKeyValue(SDL_Event event);
 
-        /** Queue of key inputs waiting to be processed. */
-        std::queue<KeyInput> mKeyInputQueue;
+            /** Queue of key inputs waiting to be processed. */
+            std::queue<KeyInput> mKeyInputQueue;
 
-        /** Queue of mouse inputs waiting to be processed. */
-        std::queue<MouseInput> mMouseInputQueue;
+            /** Queue of mouse inputs waiting to be processed. */
+            std::queue<MouseInput> mMouseInputQueue;
 
-        /** True if a mouse button is currently held down. */
-        bool mMouseDown{false};
+            /** True if a mouse button is currently held down. */
+            bool mMouseDown{false};
 
-        /** True if the mouse cursor is currently within the application window. */
-        bool mMouseInWindow{false};
+            /** True if the mouse cursor is currently within the application window. */
+            bool mMouseInWindow{false};
     };
 } // namespace fcn::sdl3
 

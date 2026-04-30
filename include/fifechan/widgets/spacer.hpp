@@ -19,31 +19,31 @@ namespace fcn
      */
     class FIFEGUI_API Spacer : public Widget
     {
-    public:
-        /**
-         * Initializes the spacer.
-         */
-        Spacer();
+        public:
+            /**
+             * Initializes the spacer.
+             */
+            Spacer();
 
-        ~Spacer() override;
+            ~Spacer() override;
 
-        Spacer(Spacer const &)            = delete;
-        Spacer& operator=(Spacer const &) = delete;
-        Spacer(Spacer&&)                  = delete;
-        Spacer& operator=(Spacer&&)       = delete;
+            Spacer(Spacer const &)            = delete;
+            Spacer& operator=(Spacer const &) = delete;
+            Spacer(Spacer&&)                  = delete;
+            Spacer& operator=(Spacer&&)       = delete;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        using Widget::resizeToContent;
+            using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion = true) override;
+            void resizeToContent(bool recursion = true) override;
 
-        /**
-         * Overrides this so that the spacer doesn't draw nothing.
-         *
-         * @param graphics A graphics object to draw with.
-         */
-        void draw(Graphics* graphics) override;
+            /**
+             * Overrides this so that the spacer doesn't draw nothing.
+             *
+             * @param graphics A graphics object to draw with.
+             */
+            void draw(Graphics* graphics) override;
     };
 }; // namespace fcn
 

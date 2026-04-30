@@ -31,189 +31,189 @@ namespace fcn
      */
     class FIFEGUI_API CheckBox : public fcn::ImageButton
     {
-    public:
-        /**
-         * Marker style.
-         */
-        enum class MarkerStyle : uint8_t
-        {
-            Checkmark = 0,
-            Cross,
-            Dot,
-            Rhombus,
-            Image
-        };
+        public:
+            /**
+             * Marker style.
+             */
+            enum class MarkerStyle : uint8_t
+            {
+                Checkmark = 0,
+                Cross,
+                Dot,
+                Rhombus,
+                Image
+            };
 
-        CheckBox();
+            CheckBox();
 
-        /**
-         * Constructor. The check box will be automatically resized
-         * to fit the caption.
-         *
-         * @param caption The caption of the check box.
-         * @param selected True if the check box is selected, false otherwise.
-         */
-        explicit CheckBox(std::string const & caption, bool selected = false);
+            /**
+             * Constructor. The check box will be automatically resized
+             * to fit the caption.
+             *
+             * @param caption The caption of the check box.
+             * @param selected True if the check box is selected, false otherwise.
+             */
+            explicit CheckBox(std::string const & caption, bool selected = false);
 
-        ~CheckBox() override;
+            ~CheckBox() override;
 
-        CheckBox(CheckBox const &)            = delete;
-        CheckBox& operator=(CheckBox const &) = delete;
-        CheckBox(CheckBox&&)                  = delete;
-        CheckBox& operator=(CheckBox&&)       = delete;
+            CheckBox(CheckBox const &)            = delete;
+            CheckBox& operator=(CheckBox const &) = delete;
+            CheckBox(CheckBox&&)                  = delete;
+            CheckBox& operator=(CheckBox&&)       = delete;
 
-        /**
-         * Checks if the check box is selected.
-         *
-         * @return True if the check box is selected, false otherwise.
-         * @see setSelected
-         */
-        virtual bool isSelected() const;
+            /**
+             * Checks if the check box is selected.
+             *
+             * @return True if the check box is selected, false otherwise.
+             * @see setSelected
+             */
+            virtual bool isSelected() const;
 
-        /**
-         * Sets the check box to be selected or not.
-         *
-         * @param selected True if the check box should be set as selected.
-         * @see isSelected
-         */
-        virtual void setSelected(bool selected);
+            /**
+             * Sets the check box to be selected or not.
+             *
+             * @param selected True if the check box should be set as selected.
+             * @see isSelected
+             */
+            virtual void setSelected(bool selected);
 
-        /**
-         * Toggles the check box between being selected and
-         * not being selected. It distribute a ActionEvent.
-         */
-        virtual void toggleSelected();
+            /**
+             * Toggles the check box between being selected and
+             * not being selected. It distribute a ActionEvent.
+             */
+            virtual void toggleSelected();
 
-        /**
-         * Sets the background image to display, that includes the caption region.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the up image to display.
-         */
-        void setBackgroundImage(std::string const & filename);
+            /**
+             * Sets the background image to display, that includes the caption region.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the up image to display.
+             */
+            void setBackgroundImage(std::string const & filename);
 
-        /**
-         * Sets the background image to display, that includes the caption region.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The up image to display.
-         */
-        void setBackgroundImage(Image const * image);
+            /**
+             * Sets the background image to display, that includes the caption region.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The up image to display.
+             */
+            void setBackgroundImage(Image const * image);
 
-        /**
-         * Gets background image.
-         *
-         * @return The background image.
-         */
-        Image const * getBackgroundImage() const;
+            /**
+             * Gets background image.
+             *
+             * @return The background image.
+             */
+            Image const * getBackgroundImage() const;
 
-        /**
-         * Gets the marker mode of the check box.
-         * @return The mode of the check box.
-         * @see setMarkerStyle, MarkerStyle
-         */
-        MarkerStyle getMarkerStyle() const;
+            /**
+             * Gets the marker mode of the check box.
+             * @return The mode of the check box.
+             * @see setMarkerStyle, MarkerStyle
+             */
+            MarkerStyle getMarkerStyle() const;
 
-        /**
-         * Set the marker style of the check box.
-         * @param mode The style of the check box.
-         * @see getMarkerStyle, MarkerStyle
-         */
-        void setMarkerStyle(MarkerStyle mode);
+            /**
+             * Set the marker style of the check box.
+             * @param mode The style of the check box.
+             * @see getMarkerStyle, MarkerStyle
+             */
+            void setMarkerStyle(MarkerStyle mode);
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        void adjustSize() override;
-        void draw(Graphics* graphics) override;
+            void adjustSize() override;
+            void draw(Graphics* graphics) override;
 
-        // Inherited from KeyListener
+            // Inherited from KeyListener
 
-        void keyPressed(KeyEvent& keyEvent) override;
-        void keyReleased(KeyEvent& keyEvent) override;
+            void keyPressed(KeyEvent& keyEvent) override;
+            void keyReleased(KeyEvent& keyEvent) override;
 
-        // Inherited from MouseListener
+            // Inherited from MouseListener
 
-        void mousePressed(MouseEvent& mouseEvent) override;
-        void mouseReleased(MouseEvent& mouseEvent) override;
-        void mouseClicked(MouseEvent& mouseEvent) override;
+            void mousePressed(MouseEvent& mouseEvent) override;
+            void mouseReleased(MouseEvent& mouseEvent) override;
+            void mouseClicked(MouseEvent& mouseEvent) override;
 
-    protected:
-        /**
-         * Draws the box of the check box.
-         *
-         * @param graphics A Graphics object to draw with.
-         */
-        virtual void drawBox(Graphics* graphics);
+        protected:
+            /**
+             * Draws the box of the check box.
+             *
+             * @param graphics A Graphics object to draw with.
+             */
+            virtual void drawBox(Graphics* graphics);
 
-        /**
-         * Adjusts the size of the checkbox to fit the caption.
-         *
-         * The public `adjustSize()` method serves as a virtual entry point
-         * for polymorphism, while this `adjustSizeImpl()` method contains
-         * the concrete implementation of the resizing logic.
-         *
-         * @see adjustSize (virtual entry point for polymorphism)
-         */
-        void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
+            /**
+             * Adjusts the size of the checkbox to fit the caption.
+             *
+             * The public `adjustSize()` method serves as a virtual entry point
+             * for polymorphism, while this `adjustSizeImpl()` method contains
+             * the concrete implementation of the resizing logic.
+             *
+             * @see adjustSize (virtual entry point for polymorphism)
+             */
+            void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
 
-        /**
-         * Draws the checkmark.
-         *
-         * @param graphics A Graphics object to draw with.
-         * @param rec The rectangle that defines the position and size.
-         */
-        static void drawCheckmark(Graphics* graphics, Rectangle const & rec);
+            /**
+             * Draws the checkmark.
+             *
+             * @param graphics A Graphics object to draw with.
+             * @param rec The rectangle that defines the position and size.
+             */
+            static void drawCheckmark(Graphics* graphics, Rectangle const & rec);
 
-        /**
-         * Draws the cross.
-         *
-         * @param graphics A Graphics object to draw with.
-         * @param rec The rectangle that defines the position and size.
-         */
-        static void drawCross(Graphics* graphics, Rectangle const & rec);
+            /**
+             * Draws the cross.
+             *
+             * @param graphics A Graphics object to draw with.
+             * @param rec The rectangle that defines the position and size.
+             */
+            static void drawCross(Graphics* graphics, Rectangle const & rec);
 
-        /**
-         * Draws the dot.
-         *
-         * @param graphics A Graphics object to draw with.
-         * @param rec The rectangle that defines the position and size.
-         */
-        static void drawDot(Graphics* graphics, Rectangle const & rec);
+            /**
+             * Draws the dot.
+             *
+             * @param graphics A Graphics object to draw with.
+             * @param rec The rectangle that defines the position and size.
+             */
+            static void drawDot(Graphics* graphics, Rectangle const & rec);
 
-        /**
-         * Draws the marker image.
-         *
-         * @param graphics A Graphics object to draw with.
-         * @param rec The rectangle that defines the position and size.
-         */
-        void drawMarkerImage(Graphics* graphics, Rectangle const & rec);
+            /**
+             * Draws the marker image.
+             *
+             * @param graphics A Graphics object to draw with.
+             * @param rec The rectangle that defines the position and size.
+             */
+            void drawMarkerImage(Graphics* graphics, Rectangle const & rec);
 
-        /**
-         * Draws the rhombus. Box, marker and selection.
-         *
-         * @param graphics A Graphics object to draw with.
-         */
-        void drawRhombus(Graphics* graphics);
+            /**
+             * Draws the rhombus. Box, marker and selection.
+             *
+             * @param graphics A Graphics object to draw with.
+             */
+            void drawRhombus(Graphics* graphics);
 
-        /**
-         * Holds the background image, that includes the caption region.
-         */
-        Image const * mBackgroundImage{nullptr};
+            /**
+             * Holds the background image, that includes the caption region.
+             */
+            Image const * mBackgroundImage{nullptr};
 
-        /**
-         * True if the background image was loaded internally, false otherwise.
-         */
-        bool mInternalBackgroundImage{false};
+            /**
+             * True if the background image was loaded internally, false otherwise.
+             */
+            bool mInternalBackgroundImage{false};
 
-        /**
-         * True if the check box is selected, false otherwise.
-         */
-        bool mSelected{false};
+            /**
+             * True if the check box is selected, false otherwise.
+             */
+            bool mSelected{false};
 
-        /**
-         * Holds the marker style of the check box.
-         */
-        MarkerStyle mMode{MarkerStyle::Checkmark};
+            /**
+             * Holds the marker style of the check box.
+             */
+            MarkerStyle mMode{MarkerStyle::Checkmark};
     };
 } // namespace fcn
 

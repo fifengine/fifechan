@@ -37,9 +37,9 @@ namespace fcn
      */
     struct TooltipModifierBehavior
     {
-        bool enabled = false;
-        int modifier = 0x100; // KMOD_ALT from SDL
-        std::function<std::string(int widgetId)> modifiedContent;
+            bool enabled = false;
+            int modifier = 0x100; // KMOD_ALT from SDL
+            std::function<std::string(int widgetId)> modifiedContent;
     };
 
     /**
@@ -47,11 +47,11 @@ namespace fcn
      */
     struct TooltipSpec
     {
-        std::function<std::string(int widgetId)> content;
-        int delayMs                = 300;
-        TooltipTrigger trigger     = TooltipTrigger::Hover;
-        TooltipPlacement placement = TooltipPlacement::Cursor;
-        TooltipModifierBehavior modifierBehavior;
+            std::function<std::string(int widgetId)> content;
+            int delayMs                = 300;
+            TooltipTrigger trigger     = TooltipTrigger::Hover;
+            TooltipPlacement placement = TooltipPlacement::Cursor;
+            TooltipModifierBehavior modifierBehavior;
     };
 
     /**
@@ -68,45 +68,45 @@ namespace fcn
      */
     class FIFEGUI_API Tooltip : public Container
     {
-    public:
-        Tooltip();
-        ~Tooltip() override = default;
+        public:
+            Tooltip();
+            ~Tooltip() override = default;
 
-        // Set tooltip specification
-        void setSpec(TooltipSpec const & spec);
-        TooltipSpec const & getSpec() const;
+            // Set tooltip specification
+            void setSpec(TooltipSpec const & spec);
+            TooltipSpec const & getSpec() const;
 
-        // Widget ID this tooltip is attached to
-        void setWidgetId(int id);
-        int getWidgetId() const;
+            // Widget ID this tooltip is attached to
+            void setWidgetId(int id);
+            int getWidgetId() const;
 
-        // Hover state management
-        void startHover();
-        void endHover();
-        bool isHovering() const;
-        void update(int deltaMs, int modifierState);
+            // Hover state management
+            void startHover();
+            void endHover();
+            bool isHovering() const;
+            void update(int deltaMs, int modifierState);
 
-        // Content generation
-        void generateContent();
-        std::string const & getCurrentContent() const;
-        bool isExtendedView() const;
+            // Content generation
+            void generateContent();
+            std::string const & getCurrentContent() const;
+            bool isExtendedView() const;
 
-        // Rendering
-        void draw(Graphics* graphics) override;
-        Rectangle getChildrenArea() override;
+            // Rendering
+            void draw(Graphics* graphics) override;
+            Rectangle getChildrenArea() override;
 
-    private:
-        void generateNormalContent();
-        void generateExtendedContent();
+        private:
+            void generateNormalContent();
+            void generateExtendedContent();
 
-        TooltipSpec mSpec;
-        int mWidgetId{0};
-        bool mIsHovering{false};
-        int mHoverTimer{0};
-        int mModifierState{0};
+            TooltipSpec mSpec;
+            int mWidgetId{0};
+            bool mIsHovering{false};
+            int mHoverTimer{0};
+            int mModifierState{0};
 
-        std::string mCurrentContent;
-        bool mIsExtended{false};
+            std::string mCurrentContent;
+            bool mIsExtended{false};
     };
 
 } // namespace fcn

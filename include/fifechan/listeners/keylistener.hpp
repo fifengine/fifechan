@@ -26,38 +26,42 @@ namespace fcn
      */
     class FIFEGUI_API KeyListener
     {
-    public:
-        virtual ~KeyListener() = default;
+        public:
+            virtual ~KeyListener() = default;
 
-        KeyListener(KeyListener const &)            = default;
-        KeyListener& operator=(KeyListener const &) = default;
-        KeyListener(KeyListener&&)                  = default;
-        KeyListener& operator=(KeyListener&&)       = default;
+            KeyListener(KeyListener const &)            = default;
+            KeyListener& operator=(KeyListener const &) = default;
+            KeyListener(KeyListener&&)                  = default;
+            KeyListener& operator=(KeyListener&&)       = default;
 
-        /**
-         * Called if a key is pressed when the widget has keyboard focus.
-         * If a key is held down the widget will generate multiple key
-         * presses.
-         *
-         * @param keyEvent Describes the event.
-         */
-        virtual void keyPressed(KeyEvent& keyEvent) { }
+            /**
+             * Called if a key is pressed when the widget has keyboard focus.
+             * If a key is held down the widget will generate multiple key
+             * presses.
+             *
+             * @param keyEvent Describes the event.
+             */
+            virtual void keyPressed(KeyEvent& keyEvent)
+            {
+            }
 
-        /**
-         * Called if a key is released when the widget has keyboard focus.
-         *
-         * @param keyEvent Describes the event.
-         */
-        virtual void keyReleased(KeyEvent& keyEvent) { }
+            /**
+             * Called if a key is released when the widget has keyboard focus.
+             *
+             * @param keyEvent Describes the event.
+             */
+            virtual void keyReleased(KeyEvent& keyEvent)
+            {
+            }
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        KeyListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            KeyListener() = default;
     };
 } // namespace fcn
 

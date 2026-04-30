@@ -13,20 +13,20 @@
 
 class FFListBox : public fcn::ListBox
 {
-public:
-    FFListBox();
-    ~FFListBox() override;
-    FFListBox(FFListBox const &)            = delete;
-    FFListBox& operator=(FFListBox const &) = delete;
-    FFListBox(FFListBox&&)                  = delete;
-    FFListBox& operator=(FFListBox&&)       = delete;
+    public:
+        FFListBox();
+        ~FFListBox() override;
+        FFListBox(FFListBox const &)            = delete;
+        FFListBox& operator=(FFListBox const &) = delete;
+        FFListBox(FFListBox&&)                  = delete;
+        FFListBox& operator=(FFListBox&&)       = delete;
 
-    void draw(fcn::Graphics* graphics) override;
-    void setSelected(int i);
+        void draw(fcn::Graphics* graphics) override;
+        void setSelected(int i);
 
-private:
-    static std::unique_ptr<fcn::Image> mHand;
-    static int mInstances;
+    private:
+        static std::unique_ptr<fcn::Image> mHand;
+        static int mInstances;
 };
 
 #endif // FFLISTBOX_HPP

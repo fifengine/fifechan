@@ -24,133 +24,133 @@ namespace fcn
      */
     class FIFEGUI_API Icon : public Widget
     {
-    public:
-        Icon();
+        public:
+            Icon();
 
-        /**
-         * Constructor.
-         *
-         * @param filename The filename of the image to display.
-         */
-        explicit Icon(std::string const & filename);
+            /**
+             * Constructor.
+             *
+             * @param filename The filename of the image to display.
+             */
+            explicit Icon(std::string const & filename);
 
-        /**
-         * Constructor.
-         *
-         * @param image The image to display.
-         */
-        explicit Icon(Image const * image);
+            /**
+             * Constructor.
+             *
+             * @param image The image to display.
+             */
+            explicit Icon(Image const * image);
 
-        ~Icon() override;
+            ~Icon() override;
 
-        Icon(Icon const &)            = delete;
-        Icon& operator=(Icon const &) = delete;
-        Icon(Icon&&)                  = delete;
-        Icon& operator=(Icon&&)       = delete;
+            Icon(Icon const &)            = delete;
+            Icon& operator=(Icon const &) = delete;
+            Icon(Icon&&)                  = delete;
+            Icon& operator=(Icon&&)       = delete;
 
-        /**
-         * Sets the image to display. Existing image is freed automatically
-         * if it was loaded internally.
-         *
-         * @param filename The image to display.
-         */
-        void setImage(std::string const & filename);
+            /**
+             * Sets the image to display. Existing image is freed automatically
+             * if it was loaded internally.
+             *
+             * @param filename The image to display.
+             */
+            void setImage(std::string const & filename);
 
-        /**
-         * Sets the image to display. Existing image is freed automatically
-         * if it was loaded internally.
-         *
-         * @param image The image to display.
-         */
-        void setImage(Image const * image);
+            /**
+             * Sets the image to display. Existing image is freed automatically
+             * if it was loaded internally.
+             *
+             * @param image The image to display.
+             */
+            void setImage(Image const * image);
 
-        /**
-         * Gets the current image.
-         *
-         * @return The current image.
-         */
-        Image const * getImage() const;
+            /**
+             * Gets the current image.
+             *
+             * @return The current image.
+             */
+            Image const * getImage() const;
 
-        /**
-         * Sets if the image should be scaled to widget size.
-         *
-         * @param scale True if the image should be scaled.
-         */
-        void setScaling(bool scale);
+            /**
+             * Sets if the image should be scaled to widget size.
+             *
+             * @param scale True if the image should be scaled.
+             */
+            void setScaling(bool scale);
 
-        /**
-         * Gets if the image is scaled to widget size.
-         *
-         * @return True if the image is scaled to widget size, otherwise false.
-         */
-        bool isScaling() const;
+            /**
+             * Gets if the image is scaled to widget size.
+             *
+             * @return True if the image is scaled to widget size, otherwise false.
+             */
+            bool isScaling() const;
 
-        /**
-         * Sets if the image should be tiled to widget size.
-         *
-         * @param tile True if the image should be tiled.
-         */
-        void setTiling(bool tile);
+            /**
+             * Sets if the image should be tiled to widget size.
+             *
+             * @param tile True if the image should be tiled.
+             */
+            void setTiling(bool tile);
 
-        /**
-         * Gets if the image is tiled to widget size.
-         *
-         * @return True if the image is tiled to widget size, otherwise false.
-         */
-        bool isTiling() const;
+            /**
+             * Gets if the image is tiled to widget size.
+             *
+             * @return True if the image is tiled to widget size, otherwise false.
+             */
+            bool isTiling() const;
 
-        /**
-         * Sets the opacity of the background.
-         *
-         * @param opaque True if opaque, false otherwise.
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the opacity of the background.
+             *
+             * @param opaque True if opaque, false otherwise.
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * @return Whether this icons background is opaque or not.
-         */
-        bool isOpaque() const;
+            /**
+             * @return Whether this icons background is opaque or not.
+             */
+            bool isOpaque() const;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        using Widget::resizeToContent;
+            using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion = true) override;
-        void adjustSize() override;
-        void draw(Graphics* graphics) override;
+            void resizeToContent(bool recursion = true) override;
+            void adjustSize() override;
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /**
-         * The image to display.
-         */
-        Image const * mImage{nullptr};
+        protected:
+            /**
+             * The image to display.
+             */
+            Image const * mImage{nullptr};
 
-        /**
-         * True if the image has been loaded internally, false otherwise.
-         * An image not loaded internally should not be deleted in the
-         * destructor.
-         */
-        bool mInternalImage{false};
+            /**
+             * True if the image has been loaded internally, false otherwise.
+             * An image not loaded internally should not be deleted in the
+             * destructor.
+             */
+            bool mInternalImage{false};
 
-        /** True if scaling is enabled, otherwise false. */
-        bool mScale{false};
+            /** True if scaling is enabled, otherwise false. */
+            bool mScale{false};
 
-        /** True if tiling is enabled, otherwise false. */
-        bool mTile{false};
+            /** True if tiling is enabled, otherwise false. */
+            bool mTile{false};
 
-        /** True if opaque, otherwise false. */
-        bool mOpaque{true};
+            /** True if opaque, otherwise false. */
+            bool mOpaque{true};
 
-        /**
-         * Adjusts the size of the icon to fit the image.
-         *
-         * The public `adjustSize()` method serves as a virtual entry point
-         * for polymorphism, while this `adjustSizeImpl()` method contains
-         * the concrete implementation of the resizing logic.
-         *
-         * @see adjustSize (virtual entry point for polymorphism)
-         */
-        void adjustSizeImpl();
+            /**
+             * Adjusts the size of the icon to fit the image.
+             *
+             * The public `adjustSize()` method serves as a virtual entry point
+             * for polymorphism, while this `adjustSizeImpl()` method contains
+             * the concrete implementation of the resizing logic.
+             *
+             * @see adjustSize (virtual entry point for polymorphism)
+             */
+            void adjustSizeImpl();
     };
 } // namespace fcn
 

@@ -17,19 +17,16 @@ namespace fcn
 {
     Icon::Icon()
     {
-
         adjustSizeImpl();
     }
 
     Icon::Icon(std::string const & filename) : mImage(Image::load(filename)), mInternalImage(true)
     {
-
         adjustSizeImpl();
     }
 
     Icon::Icon(Image const * image) : mImage(image)
     {
-
         adjustSizeImpl();
     }
 

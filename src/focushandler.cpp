@@ -523,7 +523,9 @@ namespace fcn
         mLastWidgetPressed = lastWidgetPressed;
     }
 
-    void FocusHandler::widgetHidden(Widget* widget) { }
+    void FocusHandler::widgetHidden(Widget* widget)
+    {
+    }
 
     FocusHandler::ModalScope::ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner) :
         mHandler(handler), mReleased(false), mWasPopped(false)

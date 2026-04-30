@@ -269,14 +269,15 @@ int main(int argc, char** argv)
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
 
-        int const sdlVersion = SDL_GetVersion();
-        std::string const sdlVersionStr = std::format("{}.{}.{}",
+        int const sdlVersion            = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format(
+            "{}.{}.{}",
             SDL_VERSIONNUM_MAJOR(sdlVersion),
             SDL_VERSIONNUM_MINOR(sdlVersion),
-            SDL_VERSIONNUM_MICRO(sdlVersion)
-        );
+            SDL_VERSIONNUM_MICRO(sdlVersion));
 
-        std::string const title = std::format("FifeGUI v{} using SDL {}: Label Alignment Test", fifeguiVersion, sdlVersionStr);
+        std::string const title =
+            std::format("FifeGUI v{} using SDL {}: Label Alignment Test", fifeguiVersion, sdlVersionStr);
 
         Application app(title, 1024, 768);
         app.run();

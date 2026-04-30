@@ -28,75 +28,89 @@ namespace fcn
      */
     class FIFEGUI_API WidgetListener
     {
-    public:
-        virtual ~WidgetListener() = default;
+        public:
+            virtual ~WidgetListener() = default;
 
-        WidgetListener(WidgetListener const &)            = default;
-        WidgetListener& operator=(WidgetListener const &) = default;
-        WidgetListener(WidgetListener&&)                  = default;
-        WidgetListener& operator=(WidgetListener&&)       = default;
+            WidgetListener(WidgetListener const &)            = default;
+            WidgetListener& operator=(WidgetListener const &) = default;
+            WidgetListener(WidgetListener&&)                  = default;
+            WidgetListener& operator=(WidgetListener&&)       = default;
 
-        /**
-         * Invoked when a widget changes its size.
-         *
-         * @param event Describes the event.
-         */
-        virtual void widgetResized(Event const & event) { }
+            /**
+             * Invoked when a widget changes its size.
+             *
+             * @param event Describes the event.
+             */
+            virtual void widgetResized(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when a widget is moved.
-         *
-         * @param event Describes the event.
-         */
-        virtual void widgetMoved(Event const & event) { }
+            /**
+             * Invoked when a widget is moved.
+             *
+             * @param event Describes the event.
+             */
+            virtual void widgetMoved(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when a widget is hidden, i.e it's set to be
-         * not visible.
-         *
-         * @param event Describes the event.
-         */
-        virtual void widgetHidden(Event const & event) { }
+            /**
+             * Invoked when a widget is hidden, i.e it's set to be
+             * not visible.
+             *
+             * @param event Describes the event.
+             */
+            virtual void widgetHidden(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when a widget is shown, i.e it's set to be
-         * visible.
-         *
-         * @param event Describes the event.
-         */
-        virtual void widgetShown(Event const & event) { }
+            /**
+             * Invoked when a widget is shown, i.e it's set to be
+             * visible.
+             *
+             * @param event Describes the event.
+             */
+            virtual void widgetShown(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when an ancestor of a widget is moved.
-         *
-         * @param event Describes the event.
-         */
-        virtual void ancestorMoved(Event const & event) { }
+            /**
+             * Invoked when an ancestor of a widget is moved.
+             *
+             * @param event Describes the event.
+             */
+            virtual void ancestorMoved(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when an ancestor of a widget is hidden, i.e its
-         * set to be not visible.
-         *
-         * @param event Describes the event.
-         */
-        virtual void ancestorHidden(Event const & event) { }
+            /**
+             * Invoked when an ancestor of a widget is hidden, i.e its
+             * set to be not visible.
+             *
+             * @param event Describes the event.
+             */
+            virtual void ancestorHidden(Event const & event)
+            {
+            }
 
-        /**
-         * Invoked when an ancestor of a widget is shown, i.e its
-         * set to be visible.
-         *
-         * @param event Describes the event.
-         */
-        virtual void ancestorShown(Event const & event) { }
+            /**
+             * Invoked when an ancestor of a widget is shown, i.e its
+             * set to be visible.
+             *
+             * @param event Describes the event.
+             */
+            virtual void ancestorShown(Event const & event)
+            {
+            }
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        WidgetListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            WidgetListener() = default;
     };
 } // namespace fcn
 

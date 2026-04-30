@@ -26,26 +26,26 @@ namespace fcn
      */
     class FIFEGUI_API ModalBackdrop : public Container, public MouseListener
     {
-    public:
-        explicit ModalBackdrop(MenuPopup* owner);
-        ~ModalBackdrop() override;
+        public:
+            explicit ModalBackdrop(MenuPopup* owner);
+            ~ModalBackdrop() override;
 
-        ModalBackdrop(ModalBackdrop const &)            = delete;
-        ModalBackdrop& operator=(ModalBackdrop const &) = delete;
-        ModalBackdrop(ModalBackdrop&&)                  = delete;
-        ModalBackdrop& operator=(ModalBackdrop&&)       = delete;
+            ModalBackdrop(ModalBackdrop const &)            = delete;
+            ModalBackdrop& operator=(ModalBackdrop const &) = delete;
+            ModalBackdrop(ModalBackdrop&&)                  = delete;
+            ModalBackdrop& operator=(ModalBackdrop&&)       = delete;
 
-        // Widget
-        void draw(Graphics* graphics) override;
+            // Widget
+            void draw(Graphics* graphics) override;
 
-        // MouseListener
-        void mousePressed(MouseEvent& event) override;
-        void mouseReleased(MouseEvent& event) override;
-        void mouseEntered(MouseEvent& event) override;
-        void mouseExited(MouseEvent& event) override;
+            // MouseListener
+            void mousePressed(MouseEvent& event) override;
+            void mouseReleased(MouseEvent& event) override;
+            void mouseEntered(MouseEvent& event) override;
+            void mouseExited(MouseEvent& event) override;
 
-    private:
-        MenuPopup* mOwner{nullptr};
+        private:
+            MenuPopup* mOwner{nullptr};
     };
 } // namespace fcn
 

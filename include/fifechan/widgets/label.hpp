@@ -24,107 +24,107 @@ namespace fcn
      */
     class FIFEGUI_API Label : public Widget
     {
-    public:
-        Label();
+        public:
+            Label();
 
-        /**
-         * Constructor.
-         *
-         * The label will be automatically resized to fit the caption.
-         *
-         * @param caption The caption of the label.
-         */
-        explicit Label(std::string caption);
+            /**
+             * Constructor.
+             *
+             * The label will be automatically resized to fit the caption.
+             *
+             * @param caption The caption of the label.
+             */
+            explicit Label(std::string caption);
 
-        /**
-         * Gets the caption of the label.
-         *
-         * @return The caption of the label.
-         * @see setCaption
-         */
-        std::string const & getCaption() const;
+            /**
+             * Gets the caption of the label.
+             *
+             * @return The caption of the label.
+             * @see setCaption
+             */
+            std::string const & getCaption() const;
 
-        /**
-         * Sets the caption of the label.
-         *
-         * After updating the caption, call adjustSize() to ensure
-         * the label resizes to fit the new content.
-         *
-         * @param caption The caption of the label.
-         * @see getCaption, adjustSize
-         */
-        void setCaption(std::string const & caption);
+            /**
+             * Sets the caption of the label.
+             *
+             * After updating the caption, call adjustSize() to ensure
+             * the label resizes to fit the new content.
+             *
+             * @param caption The caption of the label.
+             * @see getCaption, adjustSize
+             */
+            void setCaption(std::string const & caption);
 
-        /**
-         * Sets the alignment of the caption.
-         *
-         * The alignment is relative to the center of the label.
-         *
-         * @param alignment The alignment of the caption of the label.
-         * @see getAlignment, Graphics
-         */
-        void setAlignment(Graphics::Alignment alignment);
+            /**
+             * Sets the alignment of the caption.
+             *
+             * The alignment is relative to the center of the label.
+             *
+             * @param alignment The alignment of the caption of the label.
+             * @see getAlignment, Graphics
+             */
+            void setAlignment(Graphics::Alignment alignment);
 
-        /**
-         * Gets the alignment of the caption.
-         *
-         * The alignment is relative to the center of the label.
-         *
-         * @return The alignment of caption of the label.
-         * @see setAlignment Graphics
-         */
-        Graphics::Alignment getAlignment() const;
+            /**
+             * Gets the alignment of the caption.
+             *
+             * The alignment is relative to the center of the label.
+             *
+             * @return The alignment of caption of the label.
+             * @see setAlignment Graphics
+             */
+            Graphics::Alignment getAlignment() const;
 
-        /**
-         * Sets the vertical alignment of the caption.
-         *
-         * @param alignment The vertical alignment of the caption.
-         * @see getVerticalAlignment
-         */
-        void setVerticalAlignment(Graphics::VerticalAlignment alignment);
+            /**
+             * Sets the vertical alignment of the caption.
+             *
+             * @param alignment The vertical alignment of the caption.
+             * @see getVerticalAlignment
+             */
+            void setVerticalAlignment(Graphics::VerticalAlignment alignment);
 
-        /**
-         * Gets the vertical alignment of the caption.
-         *
-         * @return The vertical alignment of the caption.
-         * @see setVerticalAlignment
-         */
-        Graphics::VerticalAlignment getVerticalAlignment() const;
+            /**
+             * Gets the vertical alignment of the caption.
+             *
+             * @return The vertical alignment of the caption.
+             * @see setVerticalAlignment
+             */
+            Graphics::VerticalAlignment getVerticalAlignment() const;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        using Widget::resizeToContent;
+            using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion = true) override;
-        void adjustSize() override;
-        void draw(Graphics* graphics) override;
+            void resizeToContent(bool recursion = true) override;
+            void adjustSize() override;
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /**
-         * Adjusts the size of the label to fit the caption.
-         *
-         * The public `adjustSize()` method serves as a virtual entry point
-         * for polymorphism, while this `adjustSizeImpl()` method contains
-         * the concrete implementation of the resizing logic.
-         *
-         * @see adjustSize (virtual entry point for polymorphism)
-         */
-        void adjustSizeImpl();
+        protected:
+            /**
+             * Adjusts the size of the label to fit the caption.
+             *
+             * The public `adjustSize()` method serves as a virtual entry point
+             * for polymorphism, while this `adjustSizeImpl()` method contains
+             * the concrete implementation of the resizing logic.
+             *
+             * @see adjustSize (virtual entry point for polymorphism)
+             */
+            void adjustSizeImpl();
 
-        /**
-         * Holds the caption of the label.
-         */
-        std::string mCaption;
+            /**
+             * Holds the caption of the label.
+             */
+            std::string mCaption;
 
-        /**
-         * Holds the horizontal alignment of the caption.
-         */
-        Graphics::Alignment mAlignment{Graphics::Alignment::Left};
+            /**
+             * Holds the horizontal alignment of the caption.
+             */
+            Graphics::Alignment mAlignment{Graphics::Alignment::Left};
 
-        /**
-         * Holds the vertical alignment of the caption.
-         */
-        Graphics::VerticalAlignment mVerticalAlignment{Graphics::VerticalAlignment::Center};
+            /**
+             * Holds the vertical alignment of the caption.
+             */
+            Graphics::VerticalAlignment mVerticalAlignment{Graphics::VerticalAlignment::Center};
     };
 } // namespace fcn
 

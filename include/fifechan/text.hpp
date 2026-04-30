@@ -30,275 +30,275 @@ namespace fcn
      */
     class FIFEGUI_API Text
     {
-    public:
-        Text();
+        public:
+            Text();
 
-        /**
-         * Constructor.
-         *
-         * @param content The content of the text.
-         */
-        explicit Text(std::string const & content);
+            /**
+             * Constructor.
+             *
+             * @param content The content of the text.
+             */
+            explicit Text(std::string const & content);
 
-        virtual ~Text();
+            virtual ~Text();
 
-        Text(Text const &)            = default;
-        Text& operator=(Text const &) = default;
-        Text(Text&&)                  = default;
-        Text& operator=(Text&&)       = default;
+            Text(Text const &)            = default;
+            Text& operator=(Text const &) = default;
+            Text(Text&&)                  = default;
+            Text& operator=(Text&&)       = default;
 
-        /**
-         * Sets the content of the text. Will completely remove
-         * any previous text and reset the caret position.
-         *
-         * @param content The content of the text.
-         */
-        virtual void setContent(std::string const & content);
+            /**
+             * Sets the content of the text. Will completely remove
+             * any previous text and reset the caret position.
+             *
+             * @param content The content of the text.
+             */
+            virtual void setContent(std::string const & content);
 
-        /**
-         * Gets the content of the text.
-         *
-         * @return The content of the text.
-         */
-        virtual std::string getContent() const;
+            /**
+             * Gets the content of the text.
+             *
+             * @return The content of the text.
+             */
+            virtual std::string getContent() const;
 
-        /**
-         * Sets the content of a row.
-         *
-         * @param row The row to set the text of.
-         * @param content The content of the row.
-         * @throws Exception when the row does not exist.
-         */
-        virtual void setRow(unsigned int row, std::string const & content);
+            /**
+             * Sets the content of a row.
+             *
+             * @param row The row to set the text of.
+             * @param content The content of the row.
+             * @throws Exception when the row does not exist.
+             */
+            virtual void setRow(unsigned int row, std::string const & content);
 
-        /**
-         * Adds a row to the content. Calling this method will
-         * not change the current caret position.
-         *
-         * @param row The row to add.
-         */
-        virtual void addRow(std::string const & row);
+            /**
+             * Adds a row to the content. Calling this method will
+             * not change the current caret position.
+             *
+             * @param row The row to add.
+             */
+            virtual void addRow(std::string const & row);
 
-        /**
-         * Inserts a row before the specified row position. Calling this method
-         * will not change the current caret position.
-         *
-         * @param row The row to add.
-         * @param position Inserts new row before this row.
-         */
-        virtual void insertRow(std::string const & row, unsigned int position);
+            /**
+             * Inserts a row before the specified row position. Calling this method
+             * will not change the current caret position.
+             *
+             * @param row The row to add.
+             * @param position Inserts new row before this row.
+             */
+            virtual void insertRow(std::string const & row, unsigned int position);
 
-        /**
-         * Erases the given row. Calling this method will not change the current
-         * caret position.
-         *
-         * @param row Row to be erased.
-         */
-        virtual void eraseRow(unsigned int row);
+            /**
+             * Erases the given row. Calling this method will not change the current
+             * caret position.
+             *
+             * @param row Row to be erased.
+             */
+            virtual void eraseRow(unsigned int row);
 
-        /**
-         * Gets a reference to a row.
-         *
-         * @param row The row to get the content of.
-         * @return The reference to a row.
-         * @throws Exception when no such row exists.
-         */
-        virtual std::string& getRow(unsigned int row);
+            /**
+             * Gets a reference to a row.
+             *
+             * @param row The row to get the content of.
+             * @return The reference to a row.
+             * @throws Exception when no such row exists.
+             */
+            virtual std::string& getRow(unsigned int row);
 
-        /**
-         * Inserts a character at the current caret position.
-         *
-         * @param character The character to insert.
-         */
-        virtual void insert(int character);
+            /**
+             * Inserts a character at the current caret position.
+             *
+             * @param character The character to insert.
+             */
+            virtual void insert(int character);
 
-        /**
-         * Removes a given number of characters at starting
-         * at the current caret position.
-         *
-         * If the number of characters to remove is negative
-         * characters will be removed left of the caret position.
-         * If the number is positive characters will be removed
-         * right of the caret position. If a line feed is
-         * removed the row with the line feed will be merged
-         * with the row above the line feed.
-         *
-         * @param numberOfCharacters The number of characters to remove.
-         */
-        virtual void remove(int numberOfCharacters);
+            /**
+             * Removes a given number of characters at starting
+             * at the current caret position.
+             *
+             * If the number of characters to remove is negative
+             * characters will be removed left of the caret position.
+             * If the number is positive characters will be removed
+             * right of the caret position. If a line feed is
+             * removed the row with the line feed will be merged
+             * with the row above the line feed.
+             *
+             * @param numberOfCharacters The number of characters to remove.
+             */
+            virtual void remove(int numberOfCharacters);
 
-        /**
-         * Gets the caret position.
-         *
-         * @return The caret position.
-         */
-        virtual int getCaretPosition() const;
+            /**
+             * Gets the caret position.
+             *
+             * @return The caret position.
+             */
+            virtual int getCaretPosition() const;
 
-        /**
-         * Sets the caret position. The position will be
-         * clamp to the dimension of the content.
-         *
-         * @param position The position of the caret.
-         */
-        virtual void setCaretPosition(int position);
+            /**
+             * Sets the caret position. The position will be
+             * clamp to the dimension of the content.
+             *
+             * @param position The position of the caret.
+             */
+            virtual void setCaretPosition(int position);
 
-        /**
-         * Sets the caret position given an x and y coordinate in pixels
-         * relative to the text. The coordinates will be clamp to the content.
-         *
-         * @param x The x coordinate of the caret.
-         * @param y The y coordinate of the caret.
-         * @param font The font to use when calculating the position.
-         */
-        virtual void setCaretPosition(int x, int y, Font* font);
+            /**
+             * Sets the caret position given an x and y coordinate in pixels
+             * relative to the text. The coordinates will be clamp to the content.
+             *
+             * @param x The x coordinate of the caret.
+             * @param y The y coordinate of the caret.
+             * @param font The font to use when calculating the position.
+             */
+            virtual void setCaretPosition(int x, int y, Font* font);
 
-        /**
-         * Gets the column the caret is currently in.
-         *
-         * @return The column the caret is currently in.
-         */
-        virtual int getCaretColumn() const;
+            /**
+             * Gets the column the caret is currently in.
+             *
+             * @return The column the caret is currently in.
+             */
+            virtual int getCaretColumn() const;
 
-        /**
-         * Gets the row the caret is currently in.
-         *
-         * @return The row the caret is currently in.
-         */
-        virtual int getCaretRow() const;
+            /**
+             * Gets the row the caret is currently in.
+             *
+             * @return The row the caret is currently in.
+             */
+            virtual int getCaretRow() const;
 
-        /**
-         * Sets the column the caret should be in. The column
-         * will be clamp to the current row.
-         *
-         * @param column The column the caret should be in.
-         */
-        virtual void setCaretColumn(int column);
+            /**
+             * Sets the column the caret should be in. The column
+             * will be clamp to the current row.
+             *
+             * @param column The column the caret should be in.
+             */
+            virtual void setCaretColumn(int column);
 
-        /**
-         * Sets the row the caret should be in. If the row lies o
-         * outside of the text, the row will be set to zero or the
-         * maximum row depending on where the row lies outside of the
-         * text.
-         *
-         * Calling this function trigger a recalculation of the caret
-         * column.
-         *
-         * @param row The row the caret should be in.
-         */
-        virtual void setCaretRow(int row);
+            /**
+             * Sets the row the caret should be in. If the row lies o
+             * outside of the text, the row will be set to zero or the
+             * maximum row depending on where the row lies outside of the
+             * text.
+             *
+             * Calling this function trigger a recalculation of the caret
+             * column.
+             *
+             * @param row The row the caret should be in.
+             */
+            virtual void setCaretRow(int row);
 
-        /**
-         * Gets the x coordinate of the caret in pixels given a font.
-         *
-         * @param font The font to use when calculating the x coordinate.
-         * @return The x coordinate of the caret in pixels.
-         */
-        virtual int getCaretX(Font* font) const;
+            /**
+             * Gets the x coordinate of the caret in pixels given a font.
+             *
+             * @param font The font to use when calculating the x coordinate.
+             * @return The x coordinate of the caret in pixels.
+             */
+            virtual int getCaretX(Font* font) const;
 
-        /**
-         * Gets the y coordinate of the caret in pixels given a font.
-         *
-         * @param font The font to use when calculating the y coordinate.
-         * @return The y coordinate of the caret in pixels.
-         */
-        virtual int getCaretY(Font* font) const;
+            /**
+             * Gets the y coordinate of the caret in pixels given a font.
+             *
+             * @param font The font to use when calculating the y coordinate.
+             * @return The y coordinate of the caret in pixels.
+             */
+            virtual int getCaretY(Font* font) const;
 
-        /**
-         * Gets the dimension in pixels of the text given a font. If there
-         * is no text present a dimension of a white space will be returned.
-         *
-         * @param font The font to use when calculating the dimension.
-         * @return The dimension in pixels of the text given a font.
-         */
-        virtual Rectangle getDimension(Font* font) const;
+            /**
+             * Gets the dimension in pixels of the text given a font. If there
+             * is no text present a dimension of a white space will be returned.
+             *
+             * @param font The font to use when calculating the dimension.
+             * @return The dimension in pixels of the text given a font.
+             */
+            virtual Rectangle getDimension(Font* font) const;
 
-        /**
-         * Gets the caret dimension relative to this text.
-         * The returned dimension is perfect for use with Widget::showPart
-         * so the caret is always shown.
-         *
-         * @param font The font to use when calculating the dimension.
-         * @return The dimension of the caret.
-         */
-        virtual Rectangle getCaretDimension(Font* font) const;
+            /**
+             * Gets the caret dimension relative to this text.
+             * The returned dimension is perfect for use with Widget::showPart
+             * so the caret is always shown.
+             *
+             * @param font The font to use when calculating the dimension.
+             * @return The dimension of the caret.
+             */
+            virtual Rectangle getCaretDimension(Font* font) const;
 
-        /**
-         * Gets the width in pixels of a row. If the row is not
-         * present in the text zero will be returned.
-         *
-         * @param row The row to get the width of.
-         * @param font The font to use when calculating the width.
-         * @return The width in pixels of a row.
-         */
-        virtual int getWidth(int row, Font* font) const;
+            /**
+             * Gets the width in pixels of a row. If the row is not
+             * present in the text zero will be returned.
+             *
+             * @param row The row to get the width of.
+             * @param font The font to use when calculating the width.
+             * @return The width in pixels of a row.
+             */
+            virtual int getWidth(int row, Font* font) const;
 
-        /**
-         * Gets the maximum row the caret can be in.
-         *
-         * @return The maximum row the caret can be in.
-         */
-        virtual unsigned int getMaximumCaretRow() const;
+            /**
+             * Gets the maximum row the caret can be in.
+             *
+             * @return The maximum row the caret can be in.
+             */
+            virtual unsigned int getMaximumCaretRow() const;
 
-        /**
-         * Gets the maximum column of a row the caret can be in.
-         *
-         * @param row The row of the caret.
-         * @return The maximum column of a row the caret can be in.
-         */
-        virtual unsigned int getMaximumCaretRow(unsigned int row) const;
+            /**
+             * Gets the maximum column of a row the caret can be in.
+             *
+             * @param row The row of the caret.
+             * @return The maximum column of a row the caret can be in.
+             */
+            virtual unsigned int getMaximumCaretRow(unsigned int row) const;
 
-        /**
-         * Gets the number of rows in the text.
-         *
-         * @return The number of rows in the text.
-         */
-        virtual unsigned int getNumberOfRows() const;
+            /**
+             * Gets the number of rows in the text.
+             *
+             * @return The number of rows in the text.
+             */
+            virtual unsigned int getNumberOfRows() const;
 
-        /**
-         * Gets the number of characters in the text.
-         *
-         * @return The number of characters in the text.
-         */
-        virtual unsigned int getNumberOfCharacters() const;
+            /**
+             * Gets the number of characters in the text.
+             *
+             * @return The number of characters in the text.
+             */
+            virtual unsigned int getNumberOfCharacters() const;
 
-        /**
-         * Gets the number of characters in a certain row in the text.
-         * If the row does not exist, zero will be returned.
-         *
-         * @param row The row to get the number of characters in.
-         * @return The number of characters in a certain row, or zero
-         *         if the row does not exist.
-         */
-        virtual unsigned int getNumberOfCharacters(unsigned int row) const;
+            /**
+             * Gets the number of characters in a certain row in the text.
+             * If the row does not exist, zero will be returned.
+             *
+             * @param row The row to get the number of characters in.
+             * @return The number of characters in a certain row, or zero
+             *         if the row does not exist.
+             */
+            virtual unsigned int getNumberOfCharacters(unsigned int row) const;
 
-    protected:
-        /**
-         * Calculates the caret position from the caret row and caret column.
-         */
-        void calculateCaretPositionFromRowAndColumn();
+        protected:
+            /**
+             * Calculates the caret position from the caret row and caret column.
+             */
+            void calculateCaretPositionFromRowAndColumn();
 
-        /**
-         * Holds the text row by row.
-         */
-        std::vector<std::string> mRows;
+            /**
+             * Holds the text row by row.
+             */
+            std::vector<std::string> mRows;
 
-        /**
-         * Holds the position of the caret. This variable should
-         * always be valid.
-         */
-        unsigned int mCaretPosition{0};
+            /**
+             * Holds the position of the caret. This variable should
+             * always be valid.
+             */
+            unsigned int mCaretPosition{0};
 
-        /**
-         * Holds the row the caret is in. This variable should always
-         * be valid.
-         */
-        unsigned int mCaretRow{0};
+            /**
+             * Holds the row the caret is in. This variable should always
+             * be valid.
+             */
+            unsigned int mCaretRow{0};
 
-        /**
-         * Holds the column the caret is in. This variable should always
-         * be valid.
-         */
-        unsigned int mCaretColumn{0};
+            /**
+             * Holds the column the caret is in. This variable should always
+             * be valid.
+             */
+            unsigned int mCaretColumn{0};
     };
 } // namespace fcn
 

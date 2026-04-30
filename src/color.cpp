@@ -13,7 +13,9 @@
 namespace fcn
 {
     // Constructs a color from the bytes in an integer (int).
-    Color::Color(int color) : r((color >> 16) & 0xFF), g((color >> 8) & 0xFF), b((color >> 0) & 0xFF) { }
+    Color::Color(int color) : r((color >> 16) & 0xFF), g((color >> 8) & 0xFF), b((color >> 0) & 0xFF)
+    {
+    }
 
     // Constructor with integer parameters for each color component (int RGBA).
     Color::Color(int red, int green, int blue, int alpha) :
@@ -25,7 +27,9 @@ namespace fcn
     }
 
     // Constructor with uint8_t parameters for each color component and an optional alpha component (uint8_t RGBA).
-    Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) : r(red), g(green), b(blue), a(alpha) { }
+    Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) : r(red), g(green), b(blue), a(alpha)
+    {
+    }
 
     // Constructor accepting a string for hex or RGB.
     Color::Color(std::string const & colorString)

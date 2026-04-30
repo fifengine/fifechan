@@ -14,7 +14,9 @@
 
 namespace fcn
 {
-    ActionEvent::ActionEvent(Widget* source, std::string id) : Event(source), mId(std::move(id)) { }
+    ActionEvent::ActionEvent(Widget* source, std::string id) : Event(source), mId(std::move(id))
+    {
+    }
 
     std::string const & ActionEvent::getId() const
     {

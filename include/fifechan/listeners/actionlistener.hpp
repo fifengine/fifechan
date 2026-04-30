@@ -26,32 +26,32 @@ namespace fcn
      */
     class FIFEGUI_API ActionListener
     {
-    public:
-        virtual ~ActionListener() = default;
+        public:
+            virtual ~ActionListener() = default;
 
-        ActionListener(ActionListener const &)            = delete;
-        ActionListener& operator=(ActionListener const &) = delete;
-        ActionListener(ActionListener&&)                  = delete;
-        ActionListener& operator=(ActionListener&&)       = delete;
+            ActionListener(ActionListener const &)            = delete;
+            ActionListener& operator=(ActionListener const &) = delete;
+            ActionListener(ActionListener&&)                  = delete;
+            ActionListener& operator=(ActionListener&&)       = delete;
 
-        /**
-         * Handles an action event emitted by a widget.
-         *
-         * Invoked when a widget triggers an action, providing details about
-         * the event via the ActionEvent object.
-         *
-         * @param actionEvent The action event data.
-         */
-        virtual void action(ActionEvent const & actionEvent) = 0;
+            /**
+             * Handles an action event emitted by a widget.
+             *
+             * Invoked when a widget triggers an action, providing details about
+             * the event via the ActionEvent object.
+             *
+             * @param actionEvent The action event data.
+             */
+            virtual void action(ActionEvent const & actionEvent) = 0;
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        ActionListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            ActionListener() = default;
     };
 } // namespace fcn
 

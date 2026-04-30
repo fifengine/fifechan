@@ -24,44 +24,44 @@ namespace fcn
      */
     class FIFEGUI_API ClipRectangle : public Rectangle
     {
-    public:
-        ClipRectangle() = default;
+        public:
+            ClipRectangle() = default;
 
-        /**
-         * Constructor.
-         *
-         * @param x The rectangle x coordinate.
-         * @param y The rectangle y coordinate.
-         * @param width The rectangle width.
-         * @param height The rectangle height.
-         * @param xOffset The offset of the x coordinate. Used to for
-         *                calculating the actual screen coordinate from
-         *                the relative screen coordinate.
-         * @param yOffset The offset of the y coordinate. Used to for
-         *                calculating the actual screen coordinate from
-         *                the relative screen coordinate.
-         */
-        ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset);
+            /**
+             * Constructor.
+             *
+             * @param x The rectangle x coordinate.
+             * @param y The rectangle y coordinate.
+             * @param width The rectangle width.
+             * @param height The rectangle height.
+             * @param xOffset The offset of the x coordinate. Used to for
+             *                calculating the actual screen coordinate from
+             *                the relative screen coordinate.
+             * @param yOffset The offset of the y coordinate. Used to for
+             *                calculating the actual screen coordinate from
+             *                the relative screen coordinate.
+             */
+            ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset);
 
-        /**
-         * Copy constructor.
-         *
-         * Copies x, y, width and height field from a rectangle to a clip rectangle.
-         *
-         * @param other The rectangle to copy data from.
-         * @returns A clip rectangle with data copied from a rectangle.
-         */
-        ClipRectangle& operator=(Rectangle const & other);
+            /**
+             * Copy constructor.
+             *
+             * Copies x, y, width and height field from a rectangle to a clip rectangle.
+             *
+             * @param other The rectangle to copy data from.
+             * @returns A clip rectangle with data copied from a rectangle.
+             */
+            ClipRectangle& operator=(Rectangle const & other);
 
-        /**
-         * Holds the x offset of the x coordinate.
-         */
-        int xOffset{0};
+            /**
+             * Holds the x offset of the x coordinate.
+             */
+            int xOffset{0};
 
-        /**
-         * Holds the y offset of the y coordinate.
-         */
-        int yOffset{0};
+            /**
+             * Holds the y offset of the y coordinate.
+             */
+            int yOffset{0};
     };
 } // namespace fcn
 

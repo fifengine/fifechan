@@ -11,7 +11,9 @@
 
 namespace fcn
 {
-    VisibilityEventHandler::VisibilityEventHandler(Gui* gui) : mGui(gui) { }
+    VisibilityEventHandler::VisibilityEventHandler(Gui* gui) : mGui(gui)
+    {
+    }
 
     void VisibilityEventHandler::widgetHidden(Event const & e)
     {

@@ -14,11 +14,11 @@ TEST_CASE("Clicking TextField focuses and sets caret", "[integration][focus]")
 {
     class TestGui : public fcn::Gui
     {
-    public:
-        void callHandleMousePressed(fcn::MouseInput const & mi)
-        {
-            handleMousePressed(mi);
-        }
+        public:
+            void callHandleMousePressed(fcn::MouseInput const & mi)
+            {
+                handleMousePressed(mi);
+            }
     };
 
     // Create GUI

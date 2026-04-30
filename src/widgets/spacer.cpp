@@ -24,5 +24,7 @@ namespace fcn
         setSize(getMinSize().getWidth(), getMinSize().getHeight());
     }
 
-    void Spacer::draw(Graphics* graphics) { }
+    void Spacer::draw(Graphics* graphics)
+    {
+    }
 }; // namespace fcn

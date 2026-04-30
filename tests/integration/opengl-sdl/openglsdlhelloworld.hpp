@@ -25,39 +25,39 @@ namespace tests::integration::opengl_sdl::helloworld
 
     class Application
     {
-    public:
-        explicit Application(std::string const & title, int width = 640, int height = 480);
-        ~Application();
-        Application(Application const &)            = delete;
-        Application& operator=(Application const &) = delete;
-        Application(Application&&)                  = delete;
-        Application& operator=(Application&&)       = delete;
+        public:
+            explicit Application(std::string const & title, int width = 640, int height = 480);
+            ~Application();
+            Application(Application const &)            = delete;
+            Application& operator=(Application const &) = delete;
+            Application(Application&&)                  = delete;
+            Application& operator=(Application&&)       = delete;
 
-        void run();
+            void run();
 
-    private:
-        static std::filesystem::path getExecutableDir();
-        void init_sdl(std::string const & title, int width, int height);
-        void init_gui(int width, int height);
-        void cleanup();
+        private:
+            static std::filesystem::path getExecutableDir();
+            void init_sdl(std::string const & title, int width, int height);
+            void init_gui(int width, int height);
+            void cleanup();
 
-        static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
-        static SDL_GLContext initGLContext(SDL_Window* window);
+            static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
+            static SDL_GLContext initGLContext(SDL_Window* window);
 
-        bool running{true};
+            bool running{true};
 
-        SDL_Window* window{nullptr};
-        SDL_GLContext glContext{nullptr};
+            SDL_Window* window{nullptr};
+            SDL_GLContext glContext{nullptr};
 
-        std::unique_ptr<fcn::opengl::Graphics> graphics;
-        std::unique_ptr<fcn::sdl3::Input> input;
-        std::shared_ptr<fcn::opengl::ImageLoader> imageLoader;
+            std::unique_ptr<fcn::opengl::Graphics> graphics;
+            std::unique_ptr<fcn::sdl3::Input> input;
+            std::shared_ptr<fcn::opengl::ImageLoader> imageLoader;
 
-        std::unique_ptr<fcn::Gui> gui;
+            std::unique_ptr<fcn::Gui> gui;
 
-        std::unique_ptr<fcn::Container> top;
-        std::unique_ptr<fcn::ImageFont> font;
-        std::unique_ptr<fcn::Label> label;
+            std::unique_ptr<fcn::Container> top;
+            std::unique_ptr<fcn::ImageFont> font;
+            std::unique_ptr<fcn::Label> label;
     };
 
 } // namespace tests::integration::opengl_sdl::helloworld

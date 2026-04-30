@@ -17,7 +17,9 @@
 
 namespace fcn::sdl3
 {
-    Input::Input() : mMouseInWindow(true) { }
+    Input::Input() : mMouseInWindow(true)
+    {
+    }
 
     bool Input::isKeyQueueEmpty()
     {

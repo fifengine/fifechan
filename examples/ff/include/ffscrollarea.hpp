@@ -10,16 +10,16 @@
 
 class FFScrollArea : public fcn::ScrollArea, public fcn::KeyListener
 {
-public:
-    FFScrollArea();
-    ~FFScrollArea() override                      = default;
-    FFScrollArea(FFScrollArea const &)            = delete;
-    FFScrollArea& operator=(FFScrollArea const &) = delete;
-    FFScrollArea(FFScrollArea&&)                  = delete;
-    FFScrollArea& operator=(FFScrollArea&&)       = delete;
+    public:
+        FFScrollArea();
+        ~FFScrollArea() override                      = default;
+        FFScrollArea(FFScrollArea const &)            = delete;
+        FFScrollArea& operator=(FFScrollArea const &) = delete;
+        FFScrollArea(FFScrollArea&&)                  = delete;
+        FFScrollArea& operator=(FFScrollArea&&)       = delete;
 
-    void draw(fcn::Graphics* graphics) override;
-    void keyPressed(fcn::KeyEvent& keyEvent) override;
+        void draw(fcn::Graphics* graphics) override;
+        void keyPressed(fcn::KeyEvent& keyEvent) override;
 };
 
 #endif // FFSCROLLAREA_HPP

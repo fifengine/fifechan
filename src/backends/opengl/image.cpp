@@ -156,9 +156,9 @@ namespace fcn::opengl
         }
 
 #ifdef __BIG_ENDIAN__
-        const unsigned int c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
+        unsigned int const c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
 #else
-        const unsigned int c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
+        unsigned int const c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
 #endif
 
         mPixels[x + (y * mTextureWidth)] = c;

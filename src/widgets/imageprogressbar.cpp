@@ -48,7 +48,6 @@ namespace fcn
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
-
         adjustSizeImpl();
     }
 

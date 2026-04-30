@@ -37,116 +37,117 @@ namespace fcn::sdl3
      */
     class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {
-    public:
-        Graphics();
+        public:
+            Graphics();
 
-        ~Graphics() override;
+            ~Graphics() override;
 
-        /**
-         *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
-         *
-         *  @param renderer the SDL_Renderer to use for drawing.
-         *  @param width screen width
-         *  @param height screen height
-         */
-        virtual void setTarget(SDL_Renderer* renderer, int width, int height);
+            /**
+             *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
+             *
+             *  @param renderer the SDL_Renderer to use for drawing.
+             *  @param width screen width
+             *  @param height screen height
+             */
+            virtual void setTarget(SDL_Renderer* renderer, int width, int height);
 
-        /**
-         * Gets the target SDL_Renderer.
-         *
-         * @return the target SDL_Renderer.
-         */
-        virtual SDL_Renderer* getRenderTarget() const;
+            /**
+             * Gets the target SDL_Renderer.
+             *
+             * @return the target SDL_Renderer.
+             */
+            virtual SDL_Renderer* getRenderTarget() const;
 
-        /**
-         * Draws an SDL_Texture on the target surface.
-         *
-         * @note The clip areas will be taken into account.
-         */
-        virtual void drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination);
+            /**
+             * Draws an SDL_Texture on the target surface.
+             *
+             * @note The clip areas will be taken into account.
+             */
+            virtual void drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination);
 
-        // Inherited from Graphics
+            // Inherited from Graphics
 
-        void _beginDraw() override;
-        void _endDraw() override;
-        bool pushClipArea(fcn::Rectangle area) override;
-        void popClipArea() override;
-        void drawImage(
-            fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
-        void drawPoint(int x, int y) override;
-        void drawLine(int x1, int y1, int x2, int y2) override;
-        void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
-        void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width) override;
+            void _beginDraw() override;
+            void _endDraw() override;
+            bool pushClipArea(fcn::Rectangle area) override;
+            void popClipArea() override;
+            void drawImage(
+                fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
+            void drawPoint(int x, int y) override;
+            void drawLine(int x1, int y1, int x2, int y2) override;
+            void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
+            void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width) override;
 
-        void drawRectangle(Rectangle const & rectangle) override;
-        void fillRectangle(Rectangle const & rectangle) override;
+            void drawRectangle(Rectangle const & rectangle) override;
+            void fillRectangle(Rectangle const & rectangle) override;
 
-        void drawPolyLine(PointVector const & points, unsigned int width) override;
-        void drawBezier(PointVector const & points, int segments, unsigned int width) override;
+            void drawPolyLine(PointVector const & points, unsigned int width) override;
+            void drawBezier(PointVector const & points, int segments, unsigned int width) override;
 
-        void drawCircle(Point const & center, unsigned int radius) override;
-        void drawFillCircle(Point const & center, unsigned int radius) override;
-        void drawCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
-        void drawFillCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
+            void drawCircle(Point const & center, unsigned int radius) override;
+            void drawFillCircle(Point const & center, unsigned int radius) override;
+            void drawCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
+            void drawFillCircleSegment(
+                Point const & center, unsigned int radius, int startAngle, int endAngle) override;
 
-        void setColor(Color const & color) override;
-        Color const & getColor() const override;
-        std::shared_ptr<Font> createFont(std::string const & filename, int size) override;
+            void setColor(Color const & color) override;
+            Color const & getColor() const override;
+            std::shared_ptr<Font> createFont(std::string const & filename, int size) override;
 
-    protected:
-        /**
-         * Draws a horizontal line.
-         *
-         * @param x1 the start coordinate of the line.
-         * @param y the y coordinate of the line.
-         * @param x2 the end coordinate of the line.
-         */
-        void drawHorizontalLine(int x1, int y, int x2);
+        protected:
+            /**
+             * Draws a horizontal line.
+             *
+             * @param x1 the start coordinate of the line.
+             * @param y the y coordinate of the line.
+             * @param x2 the end coordinate of the line.
+             */
+            void drawHorizontalLine(int x1, int y, int x2);
 
-        /**
-         * Draws a vertical line.
-         *
-         * @param x the x coordinate of the line.
-         * @param y1 the start coordinate of the line.
-         * @param y2 the end coordinate of the line.
-         */
-        void drawVerticalLine(int x, int y1, int y2);
+            /**
+             * Draws a vertical line.
+             *
+             * @param x the x coordinate of the line.
+             * @param y1 the start coordinate of the line.
+             * @param y2 the end coordinate of the line.
+             */
+            void drawVerticalLine(int x, int y1, int y2);
 
-        /**
-         *  Save the current rendering color before drawing.
-         *  Does not affect the mColor attribute.
-         */
-        void saveRenderColor();
+            /**
+             *  Save the current rendering color before drawing.
+             *  Does not affect the mColor attribute.
+             */
+            void saveRenderColor();
 
-        /**
-         *  Restore the rendering color after drawing
-         */
-        void restoreRenderColor();
+            /**
+             *  Restore the rendering color after drawing
+             */
+            void restoreRenderColor();
 
-        /** The SDL_Renderer used for accelerated drawing. */
-        SDL_Renderer* mRenderTarget{};
+            /** The SDL_Renderer used for accelerated drawing. */
+            SDL_Renderer* mRenderTarget{};
 
-        /** Screen width. */
-        int mWidth = 0;
+            /** Screen width. */
+            int mWidth = 0;
 
-        /** Screen height. */
-        int mHeight = 0;
+            /** Screen height. */
+            int mHeight = 0;
 
-        /** Current drawing color. */
-        Color mColor;
+            /** Current drawing color. */
+            Color mColor;
 
-        /** Cached renderer color components (previous renderer color). */
-        /** Previous red component from renderer. */
-        Uint8 r{};
-        /** Previous green component from renderer. */
-        Uint8 g{};
-        /** Previous blue component from renderer. */
-        Uint8 b{};
-        /** Previous alpha component from renderer. */
-        Uint8 a{};
+            /** Cached renderer color components (previous renderer color). */
+            /** Previous red component from renderer. */
+            Uint8 r{};
+            /** Previous green component from renderer. */
+            Uint8 g{};
+            /** Previous blue component from renderer. */
+            Uint8 b{};
+            /** Previous alpha component from renderer. */
+            Uint8 a{};
 
-        /** Whether alpha blending is enabled. */
-        bool mAlpha;
+            /** Whether alpha blending is enabled. */
+            bool mAlpha;
     };
 } // namespace fcn::sdl3
 

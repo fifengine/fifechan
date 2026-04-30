@@ -15,7 +15,9 @@
 
 namespace fcn
 {
-    IconProgressBar::IconProgressBar() : mImage(nullptr) { }
+    IconProgressBar::IconProgressBar() : mImage(nullptr)
+    {
+    }
 
     IconProgressBar::IconProgressBar(Image* image, int maxIcons) : mImage(image), mMaxIcons(maxIcons)
     {

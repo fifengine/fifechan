@@ -26,107 +26,107 @@ namespace fcn
      */
     class FIFEGUI_API ActivityBar : public Container, public ActionListener
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param width The width of the activity bar.
-         */
-        explicit ActivityBar(int width = 48);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param width The width of the activity bar.
+             */
+            explicit ActivityBar(int width = 48);
 
-        ~ActivityBar() override = default;
+            ~ActivityBar() override = default;
 
-        ActivityBar(ActivityBar const &)            = delete;
-        ActivityBar& operator=(ActivityBar const &) = delete;
-        ActivityBar(ActivityBar&&)                  = delete;
-        ActivityBar& operator=(ActivityBar&&)       = delete;
+            ActivityBar(ActivityBar const &)            = delete;
+            ActivityBar& operator=(ActivityBar const &) = delete;
+            ActivityBar(ActivityBar&&)                  = delete;
+            ActivityBar& operator=(ActivityBar&&)       = delete;
 
-        /**
-         * Sets the width of the activity bar.
-         *
-         * @param width The width in pixels.
-         * @see getWidth
-         */
-        void setWidth(int width) override;
+            /**
+             * Sets the width of the activity bar.
+             *
+             * @param width The width in pixels.
+             * @see getWidth
+             */
+            void setWidth(int width) override;
 
-        /**
-         * Gets the width of the activity bar.
-         *
-         * @return The width in pixels.
-         * @see setWidth
-         */
-        // cppcheck-suppress duplInheritedMember
-        int getWidth() const;
+            /**
+             * Gets the width of the activity bar.
+             *
+             * @return The width in pixels.
+             * @see setWidth
+             */
+            // cppcheck-suppress duplInheritedMember
+            int getWidth() const;
 
-        /**
-         * Sets the spacing between items.
-         *
-         * @param spacing The spacing in pixels.
-         * @see getSpacing
-         */
-        void setSpacing(unsigned int spacing);
+            /**
+             * Sets the spacing between items.
+             *
+             * @param spacing The spacing in pixels.
+             * @see getSpacing
+             */
+            void setSpacing(unsigned int spacing);
 
-        /**
-         * Gets the spacing between items.
-         *
-         * @return The spacing in pixels.
-         * @see setSpacing
-         */
-        unsigned int getSpacing() const;
+            /**
+             * Gets the spacing between items.
+             *
+             * @return The spacing in pixels.
+             * @see setSpacing
+             */
+            unsigned int getSpacing() const;
 
-        /**
-         * Adds an action listener to the activity bar.
-         *
-         * @param listener The listener to add.
-         */
-        // cppcheck-suppress duplInheritedMember
-        void addActionListener(ActionListener* listener);
+            /**
+             * Adds an action listener to the activity bar.
+             *
+             * @param listener The listener to add.
+             */
+            // cppcheck-suppress duplInheritedMember
+            void addActionListener(ActionListener* listener);
 
-        /**
-         * Removes an action listener from the activity bar.
-         *
-         * @param listener The listener to remove.
-         */
-        // cppcheck-suppress duplInheritedMember
-        void removeActionListener(ActionListener* listener);
+            /**
+             * Removes an action listener from the activity bar.
+             *
+             * @param listener The listener to remove.
+             */
+            // cppcheck-suppress duplInheritedMember
+            void removeActionListener(ActionListener* listener);
 
-        /**
-         * Shows all panels (toggles all buttons to selected state).
-         */
-        void showAll();
+            /**
+             * Shows all panels (toggles all buttons to selected state).
+             */
+            void showAll();
 
-        /**
-         * Hides all panels (toggles all buttons to unselected state).
-         */
-        void hideAll();
+            /**
+             * Hides all panels (toggles all buttons to unselected state).
+             */
+            void hideAll();
 
-        // Inherited from Container
+            // Inherited from Container
 
-        void resizeToContent(bool recursion = true) override;
-        void adjustSize() override;
-        void draw(Graphics* graphics) override;
+            void resizeToContent(bool recursion = true) override;
+            void adjustSize() override;
+            void draw(Graphics* graphics) override;
 
-    protected:
-        // Inherited from ActionListener
+        protected:
+            // Inherited from ActionListener
 
-        void action(ActionEvent const & event) override;
+            void action(ActionEvent const & event) override;
 
-    private:
-        /**
-         * Width of the activity bar.
-         */
-        int mWidth;
+        private:
+            /**
+             * Width of the activity bar.
+             */
+            int mWidth;
 
-        /**
-         * Spacing between items.
-         */
-        unsigned int mSpacing{4};
+            /**
+             * Spacing between items.
+             */
+            unsigned int mSpacing{4};
 
-        /**
-         * List of action listeners.
-         */
-        // cppcheck-suppress duplInheritedMember
-        std::list<ActionListener*> mActionListeners;
+            /**
+             * List of action listeners.
+             */
+            // cppcheck-suppress duplInheritedMember
+            std::list<ActionListener*> mActionListeners;
     };
 } // namespace fcn
 

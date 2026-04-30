@@ -10,7 +10,9 @@
 
 namespace fcn
 {
-    Event::Event(Widget* source) : mSource(source) { }
+    Event::Event(Widget* source) : mSource(source)
+    {
+    }
 
     Widget* Event::getSource() const
     {

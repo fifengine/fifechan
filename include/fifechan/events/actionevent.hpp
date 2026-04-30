@@ -44,31 +44,31 @@ namespace fcn
      */
     class FIFEGUI_API ActionEvent : public Event
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param source The source widget of the event.
-         * @param id An identifier of the event.
-         */
-        ActionEvent(Widget* source, std::string id);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param source The source widget of the event.
+             * @param id An identifier of the event.
+             */
+            ActionEvent(Widget* source, std::string id);
 
-        /**
-         * Returns the event identifier.
-         *
-         * The identifier can be used to distinguish between different actions
-         * from the same widget, or to group actions from multiple widgets that
-         * should be handled equivalently.
-         *
-         * @return Reference to the event identifier string.
-         */
-        std::string const & getId() const;
+            /**
+             * Returns the event identifier.
+             *
+             * The identifier can be used to distinguish between different actions
+             * from the same widget, or to group actions from multiple widgets that
+             * should be handled equivalently.
+             *
+             * @return Reference to the event identifier string.
+             */
+            std::string const & getId() const;
 
-    protected:
-        /**
-         * Holds the identifier of the event.
-         */
-        std::string mId;
+        protected:
+            /**
+             * Holds the identifier of the event.
+             */
+            std::string mId;
     };
 } // namespace fcn
 

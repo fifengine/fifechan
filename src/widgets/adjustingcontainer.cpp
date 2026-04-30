@@ -67,7 +67,9 @@ namespace fcn
         adjustContent();
     }
 
-    void AdjustingContainer::expandContent(bool recursion) { }
+    void AdjustingContainer::expandContent(bool recursion)
+    {
+    }
 
     Rectangle AdjustingContainer::getChildrenArea()
     {

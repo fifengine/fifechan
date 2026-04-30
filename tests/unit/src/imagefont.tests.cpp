@@ -26,58 +26,58 @@ namespace
     // SDL test environment (lifecycle managed per test case)
     struct SDLEnvironment
     {
-        SDLEnvironment()
-        {
-            if (!SDL_Init(SDL_INIT_VIDEO)) {
-                throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
+            SDLEnvironment()
+            {
+                if (!SDL_Init(SDL_INIT_VIDEO)) {
+                    throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
+                }
+
+                // Create a window for SDL3 hardware acceleration
+                mWindow = SDL_CreateWindow("FifeGUI ImageFont Test", 256, 256, SDL_WINDOW_RESIZABLE);
+                if (mWindow == nullptr) {
+                    SDL_Quit();
+                    throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
+                }
+
+                mRenderer = SDL_CreateRenderer(mWindow, nullptr);
+                if (mRenderer == nullptr) {
+                    SDL_DestroyWindow(mWindow);
+                    mWindow = nullptr;
+                    SDL_Quit();
+                    throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
+                }
+
+                // Set up global ImageLoader for Image::load() to work
+                mImageLoader = new fcn::sdl3::ImageLoader();
+                mImageLoader->setRenderer(mRenderer);
+                fcn::Image::setImageLoader(mImageLoader);
             }
 
-            // Create a window for SDL3 hardware acceleration
-            mWindow = SDL_CreateWindow("FifeGUI ImageFont Test", 256, 256, SDL_WINDOW_RESIZABLE);
-            if (mWindow == nullptr) {
+            ~SDLEnvironment()
+            {
+                // Clean up the global ImageLoader
+                if (mImageLoader != nullptr) {
+                    fcn::Image::setImageLoader(nullptr);
+                    delete mImageLoader;
+                    mImageLoader = nullptr;
+                }
+                if (mRenderer != nullptr) {
+                    SDL_DestroyRenderer(mRenderer);
+                    mRenderer = nullptr;
+                }
+                if (mWindow != nullptr) {
+                    SDL_DestroyWindow(mWindow);
+                    mWindow = nullptr;
+                }
                 SDL_Quit();
-                throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
             }
 
-            mRenderer = SDL_CreateRenderer(mWindow, nullptr);
-            if (mRenderer == nullptr) {
-                SDL_DestroyWindow(mWindow);
-                mWindow = nullptr;
-                SDL_Quit();
-                throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
-            }
+            SDLEnvironment(SDLEnvironment const &)            = delete;
+            SDLEnvironment& operator=(SDLEnvironment const &) = delete;
 
-            // Set up global ImageLoader for Image::load() to work
-            mImageLoader = new fcn::sdl3::ImageLoader();
-            mImageLoader->setRenderer(mRenderer);
-            fcn::Image::setImageLoader(mImageLoader);
-        }
-
-        ~SDLEnvironment()
-        {
-            // Clean up the global ImageLoader
-            if (mImageLoader != nullptr) {
-                fcn::Image::setImageLoader(nullptr);
-                delete mImageLoader;
-                mImageLoader = nullptr;
-            }
-            if (mRenderer != nullptr) {
-                SDL_DestroyRenderer(mRenderer);
-                mRenderer = nullptr;
-            }
-            if (mWindow != nullptr) {
-                SDL_DestroyWindow(mWindow);
-                mWindow = nullptr;
-            }
-            SDL_Quit();
-        }
-
-        SDLEnvironment(SDLEnvironment const &)            = delete;
-        SDLEnvironment& operator=(SDLEnvironment const &) = delete;
-
-        SDL_Window* mWindow                  = nullptr;
-        SDL_Renderer* mRenderer              = nullptr;
-        fcn::sdl3::ImageLoader* mImageLoader = nullptr;
+            SDL_Window* mWindow                  = nullptr;
+            SDL_Renderer* mRenderer              = nullptr;
+            fcn::sdl3::ImageLoader* mImageLoader = nullptr;
     };
 
     // Find font resource in common test locations

@@ -20,7 +20,9 @@ namespace fcn
 
     CurveGraph::CurveGraph() = default;
 
-    CurveGraph::CurveGraph(PointVector data) : m_data(std::move(data)) { }
+    CurveGraph::CurveGraph(PointVector data) : m_data(std::move(data))
+    {
+    }
 
     void CurveGraph::setPointVector(PointVector const & data)
     {

@@ -40,11 +40,11 @@ namespace fcn
 
         struct RGB
         {
-            uint8_t r, g, b;
-            bool operator<(RGB const & o) const
-            {
-                return r != o.r ? r < o.r : g != o.g ? g < o.g : b < o.b;
-            }
+                uint8_t r, g, b;
+                bool operator<(RGB const & o) const
+                {
+                    return r != o.r ? r < o.r : g != o.g ? g < o.g : b < o.b;
+                }
         };
         std::map<RGB, int> freq;
 
@@ -278,7 +278,8 @@ namespace fcn
         Color const separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) { }
+        for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) {
+        }
 
         if (i >= mImage->getWidth()) {
             throwException("Corrupt image.");
@@ -357,7 +358,8 @@ namespace fcn
         Color const separator = mImage->getPixel(0, 0);
 
         int i = 0;
-        for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) { }
+        for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) {
+        }
 
         if (i >= mImage->getWidth()) {
             throwException("Corrupt image.");

@@ -28,7 +28,9 @@
 namespace fcn::sdl3
 {
 
-    Graphics::Graphics() : mAlpha(false) { }
+    Graphics::Graphics() : mAlpha(false)
+    {
+    }
 
     Graphics::~Graphics() = default;
 

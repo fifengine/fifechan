@@ -42,23 +42,25 @@ namespace fcn
      */
     class GuiDeathListener : public DeathListener
     {
-    public:
-        /** Construct a GuiDeathListener bound to a Gui instance. */
-        explicit GuiDeathListener(Gui* gui) : mGui(gui) { }
-        ~GuiDeathListener() override = default;
+        public:
+            /** Construct a GuiDeathListener bound to a Gui instance. */
+            explicit GuiDeathListener(Gui* gui) : mGui(gui)
+            {
+            }
+            ~GuiDeathListener() override = default;
 
-        void death(Event const & event) override
-        {
-            mGui->widgetDied(event.getSource());
-        }
+            void death(Event const & event) override
+            {
+                mGui->widgetDied(event.getSource());
+            }
 
-        GuiDeathListener(GuiDeathListener const &)            = delete;
-        GuiDeathListener& operator=(GuiDeathListener const &) = delete;
-        GuiDeathListener(GuiDeathListener&&)                  = delete;
-        GuiDeathListener& operator=(GuiDeathListener&&)       = delete;
+            GuiDeathListener(GuiDeathListener const &)            = delete;
+            GuiDeathListener& operator=(GuiDeathListener const &) = delete;
+            GuiDeathListener(GuiDeathListener&&)                  = delete;
+            GuiDeathListener& operator=(GuiDeathListener&&)       = delete;
 
-    private:
-        Gui* mGui;
+        private:
+            Gui* mGui;
     };
 
     Gui::Gui() :

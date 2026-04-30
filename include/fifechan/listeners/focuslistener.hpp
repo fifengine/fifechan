@@ -25,36 +25,40 @@ namespace fcn
      */
     class FIFEGUI_API FocusListener
     {
-    public:
-        virtual ~FocusListener() = default;
+        public:
+            virtual ~FocusListener() = default;
 
-        FocusListener(FocusListener const &)            = delete;
-        FocusListener& operator=(FocusListener const &) = delete;
-        FocusListener(FocusListener&&)                  = delete;
-        FocusListener& operator=(FocusListener&&)       = delete;
+            FocusListener(FocusListener const &)            = delete;
+            FocusListener& operator=(FocusListener const &) = delete;
+            FocusListener(FocusListener&&)                  = delete;
+            FocusListener& operator=(FocusListener&&)       = delete;
 
-        /**
-         * Called when a widget gains focus.
-         *
-         * @param event Describes the event.
-         */
-        virtual void focusGained(Event const & event) { }
+            /**
+             * Called when a widget gains focus.
+             *
+             * @param event Describes the event.
+             */
+            virtual void focusGained(Event const & event)
+            {
+            }
 
-        /**
-         * Called when a widget loses focus.
-         *
-         * @param event Describes the event.
-         */
-        virtual void focusLost(Event const & event) { }
+            /**
+             * Called when a widget loses focus.
+             *
+             * @param event Describes the event.
+             */
+            virtual void focusLost(Event const & event)
+            {
+            }
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        FocusListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            FocusListener() = default;
     };
 } // namespace fcn
 

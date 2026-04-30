@@ -15,7 +15,9 @@
 
 namespace fcn
 {
-    Slider::Slider(double scaleEnd) : Slider(0, scaleEnd) { }
+    Slider::Slider(double scaleEnd) : Slider(0, scaleEnd)
+    {
+    }
 
     Slider::Slider(double scaleStart, double scaleEnd) : mScaleStart(scaleStart), mScaleEnd(scaleEnd)
     {

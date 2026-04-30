@@ -10,7 +10,9 @@
 
 namespace fcn
 {
-    ContainerEvent::ContainerEvent(Widget* source, Container* container) : Event(source), mContainer(container) { }
+    ContainerEvent::ContainerEvent(Widget* source, Container* container) : Event(source), mContainer(container)
+    {
+    }
 
     Container* ContainerEvent::getContainer() const
     {

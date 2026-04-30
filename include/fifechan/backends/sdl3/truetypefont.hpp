@@ -34,92 +34,92 @@ namespace fcn::sdl3
      */
     class FIFEGUI_EXT_API TrueTypeFont : public Font
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param filename the filename of the True Type Font.
-         * @param size the size the font should be in.
-         */
-        TrueTypeFont(std::string const & filename, int size);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param filename the filename of the True Type Font.
+             * @param size the size the font should be in.
+             */
+            TrueTypeFont(std::string const & filename, int size);
 
-        ~TrueTypeFont() override;
+            ~TrueTypeFont() override;
 
-        TrueTypeFont(TrueTypeFont const &)            = delete;
-        TrueTypeFont& operator=(TrueTypeFont const &) = delete;
-        TrueTypeFont(TrueTypeFont&&)                  = delete;
-        TrueTypeFont& operator=(TrueTypeFont&&)       = delete;
+            TrueTypeFont(TrueTypeFont const &)            = delete;
+            TrueTypeFont& operator=(TrueTypeFont const &) = delete;
+            TrueTypeFont(TrueTypeFont&&)                  = delete;
+            TrueTypeFont& operator=(TrueTypeFont&&)       = delete;
 
-        /**
-         * Sets the spacing between rows in pixels. Default is 0 pixels.
-         * The spacing can be negative.
-         *
-         * @param spacing the spacing in pixels.
-         */
-        virtual void setRowSpacing(int spacing);
+            /**
+             * Sets the spacing between rows in pixels. Default is 0 pixels.
+             * The spacing can be negative.
+             *
+             * @param spacing the spacing in pixels.
+             */
+            virtual void setRowSpacing(int spacing);
 
-        /**
-         * Gets the spacing between rows in pixels.
-         *
-         * @return the spacing.
-         */
-        virtual int getRowSpacing();
+            /**
+             * Gets the spacing between rows in pixels.
+             *
+             * @return the spacing.
+             */
+            virtual int getRowSpacing();
 
-        /**
-         * Sets the spacing between letters in pixels. Default is 0 pixels.
-         * The spacing can be negative.
-         *
-         * @param spacing the spacing in pixels.
-         */
-        virtual void setGlyphSpacing(int spacing);
+            /**
+             * Sets the spacing between letters in pixels. Default is 0 pixels.
+             * The spacing can be negative.
+             *
+             * @param spacing the spacing in pixels.
+             */
+            virtual void setGlyphSpacing(int spacing);
 
-        /**
-         * Gets the spacing between letters in pixels.
-         *
-         * @return the spacing.
-         */
-        virtual int getGlyphSpacing();
+            /**
+             * Gets the spacing between letters in pixels.
+             *
+             * @return the spacing.
+             */
+            virtual int getGlyphSpacing();
 
-        /**
-         * Enable or disable anti-aliasing for rendered glyphs.
-         *
-         * @param antiAlias True to enable anti-aliasing, false to disable.
-         */
-        virtual void setAntiAlias(bool antiAlias);
+            /**
+             * Enable or disable anti-aliasing for rendered glyphs.
+             *
+             * @param antiAlias True to enable anti-aliasing, false to disable.
+             */
+            virtual void setAntiAlias(bool antiAlias);
 
-        /**
-         * Checks if anti aliasing is used.
-         *
-         * @return true if anti aliasing is used.
-         */
-        virtual bool isAntiAlias();
+            /**
+             * Checks if anti aliasing is used.
+             *
+             * @return true if anti aliasing is used.
+             */
+            virtual bool isAntiAlias();
 
-        // Inherited from Font
+            // Inherited from Font
 
-        int getWidth(std::string const & text) const override;
+            int getWidth(std::string const & text) const override;
 
-        int getHeight() const override;
+            int getHeight() const override;
 
-        void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y) override;
+            void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y) override;
 
-    protected:
-        /** Underlying TTF_Font pointer from SDL_ttf. */
-        TTF_Font* mFont;
+        protected:
+            /** Underlying TTF_Font pointer from SDL_ttf. */
+            TTF_Font* mFont;
 
-        /** Cached font height in pixels. */
-        int mHeight{};
+            /** Cached font height in pixels. */
+            int mHeight{};
 
-        /** Additional spacing between glyphs in pixels. */
-        int mGlyphSpacing;
+            /** Additional spacing between glyphs in pixels. */
+            int mGlyphSpacing;
 
-        /** Additional spacing between rows in pixels. */
-        int mRowSpacing;
+            /** Additional spacing between rows in pixels. */
+            int mRowSpacing;
 
-        /** Filename of the font used to create mFont. */
-        std::string mFilename;
+            /** Filename of the font used to create mFont. */
+            std::string mFilename;
 
-        /** Whether anti-aliasing is enabled for rendering. */
-        bool mAntiAlias;
+            /** Whether anti-aliasing is enabled for rendering. */
+            bool mAntiAlias;
     };
 } // namespace fcn::sdl3
 

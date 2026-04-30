@@ -36,151 +36,151 @@ namespace fcn
         public FocusListener,
         public ActionListener
     {
-    public:
-        /**
-         * Constructor.
-         */
-        MenuPopup();
+        public:
+            /**
+             * Constructor.
+             */
+            MenuPopup();
 
-        ~MenuPopup() override = default;
+            ~MenuPopup() override = default;
 
-        MenuPopup(MenuPopup const &)            = delete;
-        MenuPopup& operator=(MenuPopup const &) = delete;
-        MenuPopup(MenuPopup&&)                  = delete;
-        MenuPopup& operator=(MenuPopup&&)       = delete;
+            MenuPopup(MenuPopup const &)            = delete;
+            MenuPopup& operator=(MenuPopup const &) = delete;
+            MenuPopup(MenuPopup&&)                  = delete;
+            MenuPopup& operator=(MenuPopup&&)       = delete;
 
-        /**
-         * Shows the popup at a specific position.
-         *
-         * @param x The x position.
-         * @param y The y position.
-         */
-        void show(int x, int y);
+            /**
+             * Shows the popup at a specific position.
+             *
+             * @param x The x position.
+             * @param y The y position.
+             */
+            void show(int x, int y);
 
-        /**
-         * Hides the popup.
-         */
-        void hide();
+            /**
+             * Hides the popup.
+             */
+            void hide();
 
-        /**
-         * Checks if the popup is visible.
-         *
-         * @return True if visible.
-         */
-        // cppcheck-suppress duplInheritedMember
-        bool isVisible() const;
+            /**
+             * Checks if the popup is visible.
+             *
+             * @return True if visible.
+             */
+            // cppcheck-suppress duplInheritedMember
+            bool isVisible() const;
 
-        /**
-         * Sets the parent menu item that opened this popup.
-         *
-         * @param parent The parent MenuItem.
-         * @see getParentMenuItem
-         */
-        void setParentMenuItem(Widget* parent);
+            /**
+             * Sets the parent menu item that opened this popup.
+             *
+             * @param parent The parent MenuItem.
+             * @see getParentMenuItem
+             */
+            void setParentMenuItem(Widget* parent);
 
-        /**
-         * Gets the parent menu item.
-         *
-         * @return The parent MenuItem, or nullptr.
-         * @see setParentMenuItem
-         */
-        Widget* getParentMenuItem() const;
+            /**
+             * Gets the parent menu item.
+             *
+             * @return The parent MenuItem, or nullptr.
+             * @see setParentMenuItem
+             */
+            Widget* getParentMenuItem() const;
 
-        /**
-         * Gets the parent MenuPopup (for nested menus).
-         *
-         * @return The parent MenuPopup, or nullptr.
-         */
-        MenuPopup* getParentMenu() const;
+            /**
+             * Gets the parent MenuPopup (for nested menus).
+             *
+             * @return The parent MenuPopup, or nullptr.
+             */
+            MenuPopup* getParentMenu() const;
 
-        /**
-         * Sets the parent MenuPopup (for nested menus).
-         *
-         * @param parent The parent popup.
-         */
-        void setParentMenu(MenuPopup* parent);
+            /**
+             * Sets the parent MenuPopup (for nested menus).
+             *
+             * @param parent The parent popup.
+             */
+            void setParentMenu(MenuPopup* parent);
 
-        /**
-         * Adds a menu item to the popup.
-         *
-         * @param item The menu item to add.
-         */
-        void addItem(Widget* item);
+            /**
+             * Adds a menu item to the popup.
+             *
+             * @param item The menu item to add.
+             */
+            void addItem(Widget* item);
 
-        /**
-         * Adds a separator to the popup.
-         */
-        void addSeparator();
+            /**
+             * Adds a separator to the popup.
+             */
+            void addSeparator();
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        void draw(Graphics* graphics) override;
+            void draw(Graphics* graphics) override;
 
-    protected:
-        // Inherited from MouseListener
+        protected:
+            // Inherited from MouseListener
 
-        void mousePressed(MouseEvent& event) override;
-        void mouseReleased(MouseEvent& event) override;
-        void mouseEntered(MouseEvent& event) override;
-        void mouseExited(MouseEvent& event) override;
+            void mousePressed(MouseEvent& event) override;
+            void mouseReleased(MouseEvent& event) override;
+            void mouseEntered(MouseEvent& event) override;
+            void mouseExited(MouseEvent& event) override;
 
-        // Inherited from KeyListener
+            // Inherited from KeyListener
 
-        void keyPressed(KeyEvent& event) override;
-        void keyReleased(KeyEvent& event) override;
+            void keyPressed(KeyEvent& event) override;
+            void keyReleased(KeyEvent& event) override;
 
-        // Inherited from FocusListener
+            // Inherited from FocusListener
 
-        void focusLost(Event const & event) override;
+            void focusLost(Event const & event) override;
 
-        // Inherited from ActionListener
+            // Inherited from ActionListener
 
-        void action(ActionEvent const & actionEvent) override;
+            void action(ActionEvent const & actionEvent) override;
 
-    private:
-        /**
-         * Performs two-pass column-based layout.
-         * Pass 1: Measures all items and aggregates column widths.
-         * Pass 2: Lays out each item with column positions.
-         */
-        void layoutItems();
+        private:
+            /**
+             * Performs two-pass column-based layout.
+             * Pass 1: Measures all items and aggregates column widths.
+             * Pass 2: Lays out each item with column positions.
+             */
+            void layoutItems();
 
-        /**
-         * Whether the popup is visible.
-         */
-        // cppcheck-suppress duplInheritedMember
-        bool mVisible{false};
+            /**
+             * Whether the popup is visible.
+             */
+            // cppcheck-suppress duplInheritedMember
+            bool mVisible{false};
 
-        /**
-         * Parent menu item that opened this popup.
-         */
-        Widget* mParentMenuItem{nullptr};
+            /**
+             * Parent menu item that opened this popup.
+             */
+            Widget* mParentMenuItem{nullptr};
 
-        /**
-         * Parent popup (for nested menus).
-         */
-        MenuPopup* mParentMenu{nullptr};
+            /**
+             * Parent popup (for nested menus).
+             */
+            MenuPopup* mParentMenu{nullptr};
 
-        /**
-         * Currently opened child submenu (if any).
-         */
-        MenuPopup* mOpenChild{nullptr};
+            /**
+             * Currently opened child submenu (if any).
+             */
+            MenuPopup* mOpenChild{nullptr};
 
-        /**
-         * Backdrop widget added to the GUI top when this is a root popup.
-         * Clicks on the backdrop will close the menu.
-         */
-        ModalBackdrop* mBackdrop{nullptr};
+            /**
+             * Backdrop widget added to the GUI top when this is a root popup.
+             * Clicks on the backdrop will close the menu.
+             */
+            ModalBackdrop* mBackdrop{nullptr};
 
-        /**
-         * Hovered child index for keyboard navigation.
-         */
-        int mHoverIndex{-1};
+            /**
+             * Hovered child index for keyboard navigation.
+             */
+            int mHoverIndex{-1};
 
-        /**
-         * RAII modal scope for root popups.
-         */
-        std::unique_ptr<FocusHandler::ModalScope> mModalScope;
+            /**
+             * RAII modal scope for root popups.
+             */
+            std::unique_ptr<FocusHandler::ModalScope> mModalScope;
     };
 } // namespace fcn
 

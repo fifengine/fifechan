@@ -25,42 +25,42 @@ namespace fcn
      */
     class FIFEGUI_API SecondaryPanel : public Panel
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param title The title to display in the panel title bar.
-         */
-        explicit SecondaryPanel(std::string const & title = "Secondary");
+        public:
+            /**
+             * Constructor.
+             *
+             * @param title The title to display in the panel title bar.
+             */
+            explicit SecondaryPanel(std::string const & title = "Secondary");
 
-        ~SecondaryPanel() override = default;
+            ~SecondaryPanel() override = default;
 
-        SecondaryPanel(SecondaryPanel const &)            = delete;
-        SecondaryPanel& operator=(SecondaryPanel const &) = delete;
-        SecondaryPanel(SecondaryPanel&&)                  = delete;
-        SecondaryPanel& operator=(SecondaryPanel&&)       = delete;
+            SecondaryPanel(SecondaryPanel const &)            = delete;
+            SecondaryPanel& operator=(SecondaryPanel const &) = delete;
+            SecondaryPanel(SecondaryPanel&&)                  = delete;
+            SecondaryPanel& operator=(SecondaryPanel&&)       = delete;
 
-        /**
-         * Sets the default width of the panel.
-         *
-         * @param width The width in pixels.
-         * @see getDefaultWidth
-         */
-        void setDefaultWidth(int width);
+            /**
+             * Sets the default width of the panel.
+             *
+             * @param width The width in pixels.
+             * @see getDefaultWidth
+             */
+            void setDefaultWidth(int width);
 
-        /**
-         * Gets the default width of the panel.
-         *
-         * @return The default width in pixels.
-         * @see setDefaultWidth
-         */
-        int getDefaultWidth() const;
+            /**
+             * Gets the default width of the panel.
+             *
+             * @return The default width in pixels.
+             * @see setDefaultWidth
+             */
+            int getDefaultWidth() const;
 
-    private:
-        /**
-         * Default width of the panel.
-         */
-        int mDefaultWidth{250};
+        private:
+            /**
+             * Default width of the panel.
+             */
+            int mDefaultWidth{250};
     };
 } // namespace fcn
 

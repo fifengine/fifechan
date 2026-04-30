@@ -25,40 +25,40 @@
  */
 class FPSButton : public fcn::Button
 {
-public:
-    explicit FPSButton(std::string const & caption);
-    ~FPSButton() override;
+    public:
+        explicit FPSButton(std::string const & caption);
+        ~FPSButton() override;
 
-    FPSButton(FPSButton const &)            = delete;
-    FPSButton& operator=(FPSButton const &) = delete;
+        FPSButton(FPSButton const &)            = delete;
+        FPSButton& operator=(FPSButton const &) = delete;
 
-    FPSButton(FPSButton&&)            = delete;
-    FPSButton& operator=(FPSButton&&) = delete;
+        FPSButton(FPSButton&&)            = delete;
+        FPSButton& operator=(FPSButton&&) = delete;
 
-    /*
-     * Just sets the font to by used on mouse hover.
-     */
-    void setHighLightFont(fcn::Font* font);
+        /*
+         * Just sets the font to by used on mouse hover.
+         */
+        void setHighLightFont(fcn::Font* font);
 
-    /*
-     * Inherited from Widget
-     */
-    void draw(fcn::Graphics* graphics) override;
-    void mouseEntered(fcn::MouseEvent& mouseEvent) override;
-    void mouseExited(fcn::MouseEvent& mouseEvent) override;
+        /*
+         * Inherited from Widget
+         */
+        void draw(fcn::Graphics* graphics) override;
+        void mouseEntered(fcn::MouseEvent& mouseEvent) override;
+        void mouseExited(fcn::MouseEvent& mouseEvent) override;
 
-private:
-    fcn::Font* mHighLightFont{};
-    bool mHasMouse;
+    private:
+        fcn::Font* mHighLightFont{};
+        bool mHasMouse;
 
-    // The sound (SDL3_mixer: MIX_Audio + MIX_Track for playback)
-    // Made public so FPSDemo can initialize them after mixer creation
-    static MIX_Audio* mHoverAudio;
-    static MIX_Track* mHoverTrack;
-    // Keep track of instances to be able to free the sound
-    static int mInstances;
+        // The sound (SDL3_mixer: MIX_Audio + MIX_Track for playback)
+        // Made public so FPSDemo can initialize them after mixer creation
+        static MIX_Audio* mHoverAudio;
+        static MIX_Track* mHoverTrack;
+        // Keep track of instances to be able to free the sound
+        static int mInstances;
 
-    friend class FPSDemo;
+        friend class FPSDemo;
 };
 
 #endif // FPSBUTTON_HPP

@@ -10,9 +10,13 @@
 
 namespace fcn
 {
-    Rectangle::Rectangle() : x(0), y(0), width(0), height(0) { }
+    Rectangle::Rectangle() : x(0), y(0), width(0), height(0)
+    {
+    }
 
-    Rectangle::Rectangle(int x_, int y_, int width_, int height_) : x(x_), y(y_), width(width_), height(height_) { }
+    Rectangle::Rectangle(int x_, int y_, int width_, int height_) : x(x_), y(y_), width(width_), height(height_)
+    {
+    }
 
     void Rectangle::setAll(int x_, int y_, int width_, int height_)
     {

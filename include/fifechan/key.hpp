@@ -20,122 +20,122 @@ namespace fcn
      */
     class FIFEGUI_API Key
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param value The ascii or enum value for the key.
-         */
-        explicit Key(int value = 0);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param value The ascii or enum value for the key.
+             */
+            explicit Key(int value = 0);
 
-        /**
-         * Checks if a key is a character.
-         *
-         * @return True if the key is a letter, number or whitespace,
-         *         false otherwise.
-         */
-        bool isCharacter() const;
+            /**
+             * Checks if a key is a character.
+             *
+             * @return True if the key is a letter, number or whitespace,
+             *         false otherwise.
+             */
+            bool isCharacter() const;
 
-        /**
-         * Checks if a key is a number.
-         *
-         * @return True if the key is a number (0-9),
-         *         false otherwise.
-         */
-        bool isNumber() const;
+            /**
+             * Checks if a key is a number.
+             *
+             * @return True if the key is a number (0-9),
+             *         false otherwise.
+             */
+            bool isNumber() const;
 
-        /**
-         * Checks if a key is a letter.
-         *
-         * @return True if the key is a letter (a-z,A-Z),
-         *         false otherwise.
-         */
-        bool isLetter() const;
+            /**
+             * Checks if a key is a letter.
+             *
+             * @return True if the key is a letter (a-z,A-Z),
+             *         false otherwise.
+             */
+            bool isLetter() const;
 
-        /**
-         * Gets the value of the key. If an ascii value exists it
-         * will be returned. Otherwise an enum value will be returned.
-         *
-         * @return the value of the key.
-         */
-        int getValue() const;
+            /**
+             * Gets the value of the key. If an ascii value exists it
+             * will be returned. Otherwise an enum value will be returned.
+             *
+             * @return the value of the key.
+             */
+            int getValue() const;
 
-        /**
-         * Compares two keys.
-         *
-         * @param key The key to compare this key with.
-         * @return True if the keys are equal, false otherwise.
-         */
-        bool operator==(Key const & key) const;
+            /**
+             * Compares two keys.
+             *
+             * @param key The key to compare this key with.
+             * @return True if the keys are equal, false otherwise.
+             */
+            bool operator==(Key const & key) const;
 
-        /**
-         * Compares two keys.
-         *
-         * @param key The key to compare this key with.
-         * @return True if the keys are not equal, false otherwise.
-         */
-        bool operator!=(Key const & key) const;
+            /**
+             * Compares two keys.
+             *
+             * @param key The key to compare this key with.
+             * @return True if the keys are not equal, false otherwise.
+             */
+            bool operator!=(Key const & key) const;
 
-        /**
-         * An enum with key values.
-         */
-        enum : std::int16_t
-        {
-            Space        = ' ',
-            Tab          = '\t',
-            Enter        = '\n',
-            LeftAlt      = -1000,
-            RightAlt     = -999,
-            LeftShift    = -998,
-            RightShift   = -997,
-            LeftControl  = -996,
-            RightControl = -995,
-            LeftMeta     = -994,
-            RightMeta    = -993,
-            LeftSuper    = -992,
-            RightSuper   = -991,
-            Insert       = -990,
-            Home,
-            PageUp,
-            Delete,
-            End,
-            PageDown,
-            Escape = -1012,
-            CapsLock,
-            Backspace,
-            F1,
-            F2,
-            F3,
-            F4,
-            F5,
-            F6,
-            F7,
-            F8,
-            F9,
-            F10,
-            F11,
-            F12,
-            F13,
-            F14,
-            F15,
-            PrintScreen,
-            ScrollLock,
-            Pause,
-            NumLock,
-            AltGr,
-            Left  = -1026,
-            Right = -1027,
-            Up    = -1028,
-            Down  = -1029,
-            At
-        };
+            /**
+             * An enum with key values.
+             */
+            enum : std::int16_t
+            {
+                Space        = ' ',
+                Tab          = '\t',
+                Enter        = '\n',
+                LeftAlt      = -1000,
+                RightAlt     = -999,
+                LeftShift    = -998,
+                RightShift   = -997,
+                LeftControl  = -996,
+                RightControl = -995,
+                LeftMeta     = -994,
+                RightMeta    = -993,
+                LeftSuper    = -992,
+                RightSuper   = -991,
+                Insert       = -990,
+                Home,
+                PageUp,
+                Delete,
+                End,
+                PageDown,
+                Escape = -1012,
+                CapsLock,
+                Backspace,
+                F1,
+                F2,
+                F3,
+                F4,
+                F5,
+                F6,
+                F7,
+                F8,
+                F9,
+                F10,
+                F11,
+                F12,
+                F13,
+                F14,
+                F15,
+                PrintScreen,
+                ScrollLock,
+                Pause,
+                NumLock,
+                AltGr,
+                Left  = -1026,
+                Right = -1027,
+                Up    = -1028,
+                Down  = -1029,
+                At
+            };
 
-    protected:
-        /**
-         * Holds the value of the key. It may be an ascii value
-         * or an enum value.
-         */
-        int mValue;
+        protected:
+            /**
+             * Holds the value of the key. It may be an ascii value
+             * or an enum value.
+             */
+            int mValue;
     };
 } // namespace fcn
 

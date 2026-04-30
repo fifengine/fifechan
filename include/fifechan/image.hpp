@@ -32,106 +32,106 @@ namespace fcn
      */
     class FIFEGUI_API Image
     {
-    public:
-        Image();
+        public:
+            Image();
 
-        virtual ~Image();
+            virtual ~Image();
 
-        Image(Image const &)            = delete;
-        Image& operator=(Image const &) = delete;
-        Image(Image&&)                  = delete;
-        Image& operator=(Image&&)       = delete;
+            Image(Image const &)            = delete;
+            Image& operator=(Image const &) = delete;
+            Image(Image&&)                  = delete;
+            Image& operator=(Image&&)       = delete;
 
-        /**
-         * Loads an image by using the class' image loader.
-         * All image loaders implemented in FifeGUI return a newly instantiated
-         * image which must be deleted in order to avoid a memory leak.
-         *
-         * @note The functions getPixel and putPixel are only guaranteed to work
-         *       before an image has been converted to display format.
-         *
-         * @param filename The file to load.
-         * @param convertToDisplayFormat True if the image should be converted
-         *                               to display, false otherwise.
-         */
-        static Image* load(std::string const & filename, bool convertToDisplayFormat = true);
+            /**
+             * Loads an image by using the class' image loader.
+             * All image loaders implemented in FifeGUI return a newly instantiated
+             * image which must be deleted in order to avoid a memory leak.
+             *
+             * @note The functions getPixel and putPixel are only guaranteed to work
+             *       before an image has been converted to display format.
+             *
+             * @param filename The file to load.
+             * @param convertToDisplayFormat True if the image should be converted
+             *                               to display, false otherwise.
+             */
+            static Image* load(std::string const & filename, bool convertToDisplayFormat = true);
 
-        /**
-         * Gets the image loader used for loading images.
-         *
-         * @return The image loader used for loading images.
-         * @see setImageLoader, OpenGLSDLImageLoader, SDLImageLoader
-         */
-        static ImageLoader* getImageLoader();
+            /**
+             * Gets the image loader used for loading images.
+             *
+             * @return The image loader used for loading images.
+             * @see setImageLoader, OpenGLSDLImageLoader, SDLImageLoader
+             */
+            static ImageLoader* getImageLoader();
 
-        /**
-         * Sets the ImageLoader to be used for loading images.
-         *
-         * IMPORTANT: The image loader is static and MUST be set before
-         *            loading images!
-         *
-         * @param imageLoader The image loader to be used for loading images.
-         * @see getImageLoader, OpenGLSDLImageLoader, SDLImageLoader
-         */
-        static void setImageLoader(ImageLoader* imageLoader);
+            /**
+             * Sets the ImageLoader to be used for loading images.
+             *
+             * IMPORTANT: The image loader is static and MUST be set before
+             *            loading images!
+             *
+             * @param imageLoader The image loader to be used for loading images.
+             * @see getImageLoader, OpenGLSDLImageLoader, SDLImageLoader
+             */
+            static void setImageLoader(ImageLoader* imageLoader);
 
-        /**
-         * Frees an image.
-         *
-         */
-        virtual void free() = 0;
+            /**
+             * Frees an image.
+             *
+             */
+            virtual void free() = 0;
 
-        /**
-         * Gets the width of the image.
-         *
-         * @return The width of the image.
-         *
-         */
-        virtual int getWidth() const = 0;
+            /**
+             * Gets the width of the image.
+             *
+             * @return The width of the image.
+             *
+             */
+            virtual int getWidth() const = 0;
 
-        /**
-         * Gets the height of the image.
-         *
-         * @return The height of the image.
-         *
-         */
-        virtual int getHeight() const = 0;
+            /**
+             * Gets the height of the image.
+             *
+             * @return The height of the image.
+             *
+             */
+            virtual int getHeight() const = 0;
 
-        /**
-         * Gets the color of a pixel at coordinate (x, y) in the image.
-         *
-         * IMPORTANT: Only guaranteed to work before the image has been
-         *            converted to display format.
-         *
-         * @param x The x coordinate.
-         * @param y The y coordinate.
-         * @return The color of the pixel.
-         *
-         */
-        virtual Color getPixel(int x, int y) = 0;
+            /**
+             * Gets the color of a pixel at coordinate (x, y) in the image.
+             *
+             * IMPORTANT: Only guaranteed to work before the image has been
+             *            converted to display format.
+             *
+             * @param x The x coordinate.
+             * @param y The y coordinate.
+             * @return The color of the pixel.
+             *
+             */
+            virtual Color getPixel(int x, int y) = 0;
 
-        /**
-         * Puts a pixel with a certain color at coordinate (x, y).
-         *
-         * @param x The x coordinate.
-         * @param y The y coordinate.
-         * @param color The color of the pixel to put.
-         */
-        virtual void putPixel(int x, int y, Color const & color) = 0;
+            /**
+             * Puts a pixel with a certain color at coordinate (x, y).
+             *
+             * @param x The x coordinate.
+             * @param y The y coordinate.
+             * @param color The color of the pixel to put.
+             */
+            virtual void putPixel(int x, int y, Color const & color) = 0;
 
-        /**
-         * Converts the image, if possible, to display format.
-         *
-         * IMPORTANT: Only guaranteed to work before the image has been
-         *            converted to display format.
-         */
-        virtual void convertToDisplayFormat() = 0;
+            /**
+             * Converts the image, if possible, to display format.
+             *
+             * IMPORTANT: Only guaranteed to work before the image has been
+             *            converted to display format.
+             */
+            virtual void convertToDisplayFormat() = 0;
 
-    protected:
-        /**
-         * Holds the image loader to be used when loading images.
-         */
-        static ImageLoader* mImageLoader;
+        protected:
+            /**
+             * Holds the image loader to be used when loading images.
+             */
+            static ImageLoader* mImageLoader;
     };
 } // namespace fcn
 

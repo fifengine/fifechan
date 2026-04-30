@@ -13,24 +13,24 @@
 
 class FFCharacterChooser : public fcn::Widget, fcn::KeyListener
 {
-public:
-    FFCharacterChooser();
-    ~FFCharacterChooser() override                            = default;
-    FFCharacterChooser(FFCharacterChooser const &)            = delete;
-    FFCharacterChooser& operator=(FFCharacterChooser const &) = delete;
-    FFCharacterChooser(FFCharacterChooser&&)                  = delete;
-    FFCharacterChooser& operator=(FFCharacterChooser&&)       = delete;
+    public:
+        FFCharacterChooser();
+        ~FFCharacterChooser() override                            = default;
+        FFCharacterChooser(FFCharacterChooser const &)            = delete;
+        FFCharacterChooser& operator=(FFCharacterChooser const &) = delete;
+        FFCharacterChooser(FFCharacterChooser&&)                  = delete;
+        FFCharacterChooser& operator=(FFCharacterChooser&&)       = delete;
 
-    void draw(fcn::Graphics* graphics) override;
-    int getSelected() const;
-    void setSelected(int selected);
-    void setDistance(int distance);
-    void keyPressed(fcn::KeyEvent& keyEvent) override;
+        void draw(fcn::Graphics* graphics) override;
+        int getSelected() const;
+        void setSelected(int selected);
+        void setDistance(int distance);
+        void keyPressed(fcn::KeyEvent& keyEvent) override;
 
-private:
-    int mSelected;
-    int mDistance;
-    std::unique_ptr<fcn::Image> mHand;
+    private:
+        int mSelected;
+        int mDistance;
+        std::unique_ptr<fcn::Image> mHand;
 };
 
 #endif // FFCHARACTERCHOOSER_HPP

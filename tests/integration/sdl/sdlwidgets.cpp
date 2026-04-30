@@ -28,6 +28,7 @@
 
 // Third-party library includes
 #include <SDL3/SDL_main.h>
+
 #include <fifechan/backends/sdl3/image.hpp>
 
 #include <fifechan.hpp>
@@ -691,14 +692,15 @@ int main(int argc, char** argv)
         // Append library versions to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
 
-        int const sdlVersion = SDL_GetVersion();
-        std::string const sdlVersionStr = std::format("{}.{}.{}",
+        int const sdlVersion            = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format(
+            "{}.{}.{}",
             SDL_VERSIONNUM_MAJOR(sdlVersion),
             SDL_VERSIONNUM_MINOR(sdlVersion),
-            SDL_VERSIONNUM_MICRO(sdlVersion)
-        );
+            SDL_VERSIONNUM_MICRO(sdlVersion));
 
-        std::string const title = std::format("FifeGUI v{} using SDL {}: Widgets Example", fifeguiVersion, sdlVersionStr);
+        std::string const title =
+            std::format("FifeGUI v{} using SDL {}: Widgets Example", fifeguiVersion, sdlVersionStr);
 
         Application app(title, 1280, 1024);
         app.run();

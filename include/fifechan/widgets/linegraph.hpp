@@ -20,69 +20,69 @@ namespace fcn
      */
     class FIFEGUI_API LineGraph : public Widget
     {
-    public:
-        /** Default constructor. */
-        LineGraph();
+        public:
+            /** Default constructor. */
+            LineGraph();
 
-        /** Construct with initial data points. */
-        explicit LineGraph(PointVector data);
+            /** Construct with initial data points. */
+            explicit LineGraph(PointVector data);
 
-        ~LineGraph() override = default;
+            ~LineGraph() override = default;
 
-        LineGraph(LineGraph const &)            = delete;
-        LineGraph& operator=(LineGraph const &) = delete;
-        LineGraph(LineGraph&&)                  = delete;
-        LineGraph& operator=(LineGraph&&)       = delete;
+            LineGraph(LineGraph const &)            = delete;
+            LineGraph& operator=(LineGraph const &) = delete;
+            LineGraph(LineGraph&&)                  = delete;
+            LineGraph& operator=(LineGraph&&)       = delete;
 
-        /**
-         * Set the raw point vector used to draw the graph.
-         *
-         * @param data The point vector used to draw the graph.
-         */
-        void setPointVector(PointVector const & data);
+            /**
+             * Set the raw point vector used to draw the graph.
+             *
+             * @param data The point vector used to draw the graph.
+             */
+            void setPointVector(PointVector const & data);
 
-        /** Get the current point vector. */
-        PointVector const & getPointVector() const;
+            /** Get the current point vector. */
+            PointVector const & getPointVector() const;
 
-        /** Reset the stored data to an empty vector. */
-        void resetPointVector();
+            /** Reset the stored data to an empty vector. */
+            void resetPointVector();
 
-        /**
-         * Set stroke thickness in pixels.
-         *
-         * @param thickness The stroke thickness in pixels.
-         */
-        void setThickness(unsigned int thickness);
+            /**
+             * Set stroke thickness in pixels.
+             *
+             * @param thickness The stroke thickness in pixels.
+             */
+            void setThickness(unsigned int thickness);
 
-        /** Get stroke thickness in pixels. */
-        unsigned int getThickness() const;
+            /** Get stroke thickness in pixels. */
+            unsigned int getThickness() const;
 
-        /**
-         * Sets the opacity of the graph.
-         *
-         * @param opaque True if opaque, false otherwise.
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the opacity of the graph.
+             *
+             * @param opaque True if opaque, false otherwise.
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * @return Whether this graph is opaque or not.
-         */
-        bool isOpaque() const;
+            /**
+             * @return Whether this graph is opaque or not.
+             */
+            bool isOpaque() const;
 
-        /**
-         * Draws this widget.
-         */
-        void draw(Graphics* graphics) override;
+            /**
+             * Draws this widget.
+             */
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /** True if the graph is drawn opaque. */
-        bool m_opaque;
+        protected:
+            /** True if the graph is drawn opaque. */
+            bool m_opaque;
 
-        /** Stroke thickness in pixels. */
-        unsigned int m_thickness;
+            /** Stroke thickness in pixels. */
+            unsigned int m_thickness;
 
-        /** The point data used to draw the graph. */
-        PointVector m_data;
+            /** The point data used to draw the graph. */
+            PointVector m_data;
     };
 }; // namespace fcn
 

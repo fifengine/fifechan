@@ -32,27 +32,27 @@ namespace fcn
      */
     class FIFEGUI_API ContainerEvent : public Event
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param source The source widget of the event.
-         * @param container The container the event concerns.
-         */
-        ContainerEvent(Widget* source, Container* container);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param source The source widget of the event.
+             * @param container The container the event concerns.
+             */
+            ContainerEvent(Widget* source, Container* container);
 
-        /**
-         * Gets the container the event concerns.
-         *
-         * @return The container the event concerns.
-         */
-        Container* getContainer() const;
+            /**
+             * Gets the container the event concerns.
+             *
+             * @return The container the event concerns.
+             */
+            Container* getContainer() const;
 
-    protected:
-        /**
-         * Holds the container the event concerns.
-         */
-        Container* mContainer;
+        protected:
+            /**
+             * Holds the container the event concerns.
+             */
+            Container* mContainer;
     };
 } // namespace fcn
 
