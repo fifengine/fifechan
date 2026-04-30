@@ -604,10 +604,10 @@ int main(int argc, char* argv[])
         "Use the mouse to drag and drop your inventory items into your stash box.\n"
         "You are not allowed to put them back.\n"
         "When you press ALT you can see additional stats in the tooltip overlay.");
-    rulesTextBox->setPosition(70, 240);
+    rulesTextBox->setPosition(60, 260);
     rulesTextBox->setWidth(540);
     rulesTextBox->setHeight(80);
-    rulesTextBox->setOpaque(true);
+    rulesTextBox->setOpaque(false);
     rulesTextBox->setBackgroundColor(fcn::Color(50, 50, 50));
     rulesTextBox->setForegroundColor(fcn::Color(255, 255, 255));
     rulesTextBox->setEditable(false);
