@@ -21,7 +21,7 @@
 namespace fcn::sdl3
 {
     /**
-     * SDL2-specific implementation of Image.
+     * SDL3-specific implementation of Image.
      *
      * @ingroup graphics
      */

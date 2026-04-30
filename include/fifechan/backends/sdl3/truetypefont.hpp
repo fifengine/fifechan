@@ -22,7 +22,7 @@ namespace fcn::sdl3
 {
 
     /**
-     * SDL2/FreeType implementation for rendering TrueType fonts.
+     * SDL3/FreeType implementation for rendering TrueType fonts.
      *
      * It uses the SDL_ttf library to display True Type Fonts with SDL.
      *

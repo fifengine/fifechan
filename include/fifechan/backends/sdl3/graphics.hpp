@@ -29,7 +29,7 @@ namespace fcn
 namespace fcn::sdl3
 {
     /**
-     * SDL2 renderer-specific implementation of the Graphics interface.
+     * SDL3 renderer-specific implementation of the Graphics interface.
      *
      * This is the primary graphics backend - it uses SDL_Renderer for all drawing operations.
      *

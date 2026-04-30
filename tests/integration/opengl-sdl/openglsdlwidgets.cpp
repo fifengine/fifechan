@@ -113,7 +113,7 @@ SDL_GLContext Application::initGLContext(SDL_Window* window)
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
@@ -578,7 +578,7 @@ int main(int argc, char** argv)
 
     try {
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using OpenGL SDL2 Backend: Widgets Example", fifeguiVersion);
+        std::string const title = std::format("FifeGUI v{} using OpenGL SDL Backend: Widgets Example", fifeguiVersion);
         Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {

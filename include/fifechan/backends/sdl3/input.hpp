@@ -28,7 +28,7 @@ namespace fcn::sdl3
 {
 
     /**
-     * SDL2-specific implementation of Input.
+     * SDL3-specific implementation of Input.
      *
      * @ingroup input
      */

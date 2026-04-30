@@ -123,7 +123,7 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
@@ -225,7 +225,7 @@ void Application::init_GUI(int width, int height)
     gui->setTop(top.get());
 
     if (!TTF_Init()) {
-        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << SDL_GetError() << '\n';
+        std::cerr << "[ERROR] Failed to initialize SDL3_ttf: " << SDL_GetError() << '\n';
         exit(2);
     }
 
@@ -688,9 +688,18 @@ int main(int argc, char** argv)
     (void)argv;
 
     try {
-        // Append library version to window title
+        // Append library versions to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Widgets Example", fifeguiVersion);
+
+        int const sdlVersion = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format("{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion)
+        );
+
+        std::string const title = std::format("FifeGUI v{} using SDL {}: Widgets Example", fifeguiVersion, sdlVersionStr);
+
         Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {

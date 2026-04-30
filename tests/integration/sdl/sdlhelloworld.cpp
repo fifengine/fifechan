@@ -96,7 +96,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     std::filesystem::current_path(Application::getExecutableDir());
 
     // We setup an SDL window and renderer.
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error(std::string("Failed to initialize SDL: ") + SDL_GetError());
     }
 
@@ -260,9 +260,18 @@ int main(int argc, char** argv)
     (void)argv; // Unused variable.
 
     try {
-        // Append library version to window title
+        // Append library versions to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Hello World Example", fifeguiVersion);
+
+        int const sdlVersion = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format("{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion)
+        );
+
+        std::string const title = std::format("FifeGUI v{} using SDL {} - Hello World Example", fifeguiVersion, sdlVersionStr);
+
         Application app(title, 640, 480);
         app.run();
     } catch (fcn::Exception const & e) {

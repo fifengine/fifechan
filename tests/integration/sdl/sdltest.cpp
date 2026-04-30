@@ -1,12 +1,16 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
+
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL.h>
+
 #include <stdio.h>
 
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window = SDL_CreateWindow("SDL3 Test - RedScreen", 640, 480, 0);
+    SDL_Window* window = SDL_CreateWindow("SDL3 RedScreen Test", 640, 480, 0);
 
     if (window == nullptr)
     {

@@ -55,7 +55,7 @@ int main(int /*argc*/, char** /*argv*/)
     auto top               = std::unique_ptr<fcn::Container>();
     int exitCode           = 0;
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return 1;
     }

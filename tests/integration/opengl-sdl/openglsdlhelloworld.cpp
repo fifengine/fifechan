@@ -84,7 +84,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
 {
     std::filesystem::current_path(Application::getExecutableDir());
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error(std::string("Failed to initialize SDL: ") + SDL_GetError());
     }
 
@@ -191,7 +191,7 @@ int main(int argc, char** argv)
     try {
         std::string const fifeguiVersion = fcn::fifechanVersion();
         std::string const title =
-            std::format("FifeGUI v{} using OpenGL SDL2 Backend: Hello World Example", fifeguiVersion);
+            std::format("FifeGUI v{} using OpenGL SDL Backend: Hello World Example", fifeguiVersion);
         Application app(title, 640, 480);
         app.run();
     } catch (fcn::Exception const & e) {

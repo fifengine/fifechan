@@ -3,7 +3,7 @@
 This is a demo demonstrating FifeGui and overloading of widgets to get an FPS
 look alike menu system.
 
-This demo requires SDL2, SDL2_image, SDL2_mixer, OpenGL, and GLU development headers.
+This demo requires SDL3, SDL3_image, SDL3_mixer, OpenGL, and GLU development headers.
 
 If GLU is missing, install it with your distro package manager:
 

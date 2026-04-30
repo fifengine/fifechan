@@ -23,7 +23,7 @@
 
 namespace fcn::sdl3
 {
-    /** Backend alias for the SDL2 graphics implementation. */
+    /** Backend alias for the SDL3 graphics implementation. */
     using Graphics = fcn::sdl3::Graphics;
 
     /** Backend alias for the SDL image implementation. */

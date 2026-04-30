@@ -93,7 +93,7 @@ std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Wind
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
@@ -609,7 +609,15 @@ int main(int argc, char** argv)
     try {
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Markdown Editor", fifeguiVersion);
+
+        int const sdlVersion = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format("{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion)
+        );
+
+        std::string const title = std::format("FifeGUI v{} using SDL {}: Markdown Editor", fifeguiVersion, sdlVersionStr);
         Application app(title, 1024, 768);
         app.run();
     } catch (fcn::Exception const & e) {

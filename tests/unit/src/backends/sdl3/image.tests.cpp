@@ -42,16 +42,15 @@ namespace
     constexpr uint8_t BLUE_G  = 0;
     constexpr uint8_t BLUE_B  = 255;
 
-    // SDL2 test environment (lifecycle managed per test case)
-    struct SDL2Environment
+    // SDL test environment (lifecycle managed per test case)
+    struct SDLEnvironment
     {
-        SDL2Environment()
+        SDLEnvironment()
         {
-            if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+            if (!SDL_Init(SDL_INIT_VIDEO)) {
                 throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
             }
 
-            // Create a window for SDL2 hardware acceleration
             mWindow = SDL_CreateWindow("FifeGUI Image Test", 256, 256, SDL_WINDOW_RESIZABLE);
             if (mWindow == nullptr) {
                 SDL_Quit();
@@ -67,7 +66,7 @@ namespace
             }
         }
 
-        ~SDL2Environment()
+        ~SDLEnvironment()
         {
             if (mRenderer != nullptr) {
                 SDL_DestroyRenderer(mRenderer);
@@ -143,7 +142,7 @@ namespace
 
 TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][image][colorkey]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -186,7 +185,7 @@ TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][ima
 
 TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][convert]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -216,7 +215,7 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
 
 TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[unit][image][transient]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -251,7 +250,7 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
 
 TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Look for RPG font in common locations
     // The test runs from the build directory, look in tests/resources/
@@ -313,7 +312,7 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
 
 TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Create a test surface WITHOUT magenta and WITHOUT color key
     // Using only RGB colors (no transparency key)
@@ -389,7 +388,7 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
 
 TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][font][bmp]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Look for fixedfont BMP in common locations
     std::vector<std::filesystem::path> searchPaths = {
@@ -449,7 +448,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
 
 TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][font][png]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Look for rpgfont PNG in common locations
     std::vector<std::filesystem::path> searchPaths = {

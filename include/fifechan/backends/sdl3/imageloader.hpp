@@ -26,7 +26,7 @@ namespace fcn::sdl3
 {
 
     /**
-     * SDL2-specific implementation of ImageLoader.
+     * SDL3-specific implementation of ImageLoader.
      *
      * @ingroup graphics
      */

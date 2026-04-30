@@ -23,12 +23,12 @@
 
 namespace
 {
-    // SDL2 test environment (lifecycle managed per test case)
-    struct SDL2Environment
+    // SDL test environment (lifecycle managed per test case)
+    struct SDLEnvironment
     {
-        SDL2Environment()
+        SDLEnvironment()
         {
-            if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+            if (!SDL_Init(SDL_INIT_VIDEO)) {
                 throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
             }
 
@@ -53,7 +53,7 @@ namespace
             fcn::Image::setImageLoader(mImageLoader);
         }
 
-        ~SDL2Environment()
+        ~SDLEnvironment()
         {
             // Clean up the global ImageLoader
             if (mImageLoader != nullptr) {
@@ -72,8 +72,8 @@ namespace
             SDL_Quit();
         }
 
-        SDL2Environment(SDL2Environment const &)            = delete;
-        SDL2Environment& operator=(SDL2Environment const &) = delete;
+        SDLEnvironment(SDLEnvironment const &)            = delete;
+        SDLEnvironment& operator=(SDLEnvironment const &) = delete;
 
         SDL_Window* mWindow                  = nullptr;
         SDL_Renderer* mRenderer              = nullptr;
@@ -124,7 +124,7 @@ namespace
 
 TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][imagefont][construction]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Find rpgfont.png (typical test font with clear glyphs)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -155,7 +155,7 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
 
 TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[unit][imagefont][glyphs]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Find rpgfont.png (contains: space + alphanumeric + punctuation)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -195,7 +195,7 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
 
 TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagefont][width]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -244,7 +244,7 @@ TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagef
 
 TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][height]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -278,7 +278,7 @@ TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][heigh
 
 TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -324,7 +324,7 @@ TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]
 
 TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagefont][draw]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -378,7 +378,7 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
 
 TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][render]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -426,7 +426,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
 
 TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][nozero]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -451,7 +451,7 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
 
 TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][imageptr]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -485,7 +485,7 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
 
 TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstring]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -530,7 +530,7 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
 
 TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unknown]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -573,7 +573,7 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
 
 TEST_CASE("ImageFont getStringIndexAt finds correct index", "[unit][imagefont][index]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {

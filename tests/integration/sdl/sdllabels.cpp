@@ -99,7 +99,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     std::filesystem::current_path(Application::getExecutableDir());
 
     // We setup an SDL window and renderer.
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error(std::string("Failed to initialize SDL: ") + SDL_GetError());
     }
 
@@ -268,8 +268,16 @@ int main(int argc, char** argv)
     try {
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title =
-            std::format("FifeGUI v{} using SDL2 Backend: Label Alignment Test (1024x768)", fifeguiVersion);
+
+        int const sdlVersion = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format("{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion)
+        );
+
+        std::string const title = std::format("FifeGUI v{} using SDL {}: Label Alignment Test", fifeguiVersion, sdlVersionStr);
+
         Application app(title, 1024, 768);
         app.run();
     } catch (fcn::Exception const & e) {

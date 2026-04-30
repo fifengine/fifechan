@@ -26,7 +26,7 @@ and powerful enough to be used in any type of game.
 
 ### SDLWidgets Demo
 
-The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL2 backend.
+The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL3 backend.
 
 ![SDLWidgets Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdlwidgets.png)
 
@@ -83,10 +83,10 @@ We use vcpkg to manage the dependencies.
 The following libraries installed:
 
 For [SDL](https://libsdl.org) support:
- - SDL2
- - SDL2_image
- - SDL2_ttf
- - SDL2_mixer (optional) (FPS demo)
+ - SDL3
+ - SDL3_image
+ - SDL3_ttf
+ - SDL3_mixer (optional) (FPS demo)
  - utfcpp
 
 For OpenGL support:
@@ -101,5 +101,5 @@ You can disable the usage of VCPKG with the build flag: `-DUSE_VCPKG=OFF` and th
 install system packages for the dependencies with the following command:
 
 ```bash
-apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libutfcpp-dev libglew-dev libcatch2-dev
+apt install libsdl3-dev libsdl3-image-dev libsdl3-ttf-dev libsdl3-mixer-dev libutfcpp-dev libglew-dev libcatch2-dev
 ```

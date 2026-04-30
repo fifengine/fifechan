@@ -24,7 +24,7 @@
 #include <fifechan.hpp>
 
 /**
- * Demonstrates the minimal SDL2 + OpenGL integration path for Fifechan.
+ * Demonstrates the minimal SDL3 + OpenGL integration path for Fifechan.
  *
  * The example creates an SDL window, wires SDL input into a FifeGUI GUI,
  * uses the OpenGL graphics backend and SDL-based image loader, loads a bitmap
@@ -41,7 +41,7 @@ int main(int /*argc*/, char** /*argv*/)
     auto gui                = std::unique_ptr<fcn::Gui>();
     auto top                = std::unique_ptr<fcn::Container>();
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return 1;
     }

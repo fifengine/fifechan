@@ -37,6 +37,7 @@
 #include <SDL3/SDL_main.h>
 
 #include <fifechan/widgets/tooltip.hpp>
+#include <fifechan/widgets/textbox.hpp>
 
 #include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/dragdrop.hpp>
@@ -457,7 +458,7 @@ namespace
 int main(int argc, char* argv[])
 {
     // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
@@ -476,9 +477,18 @@ int main(int argc, char* argv[])
     }();
     std::filesystem::current_path(execDir);
 
-    // Append library version to window title
+    // Append library versions to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
-    std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Drag-and-Drop Example", fifeguiVersion);
+
+    int const sdlVersion = SDL_GetVersion();
+    std::string const sdlVersionStr = std::format("{}.{}.{}",
+        SDL_VERSIONNUM_MAJOR(sdlVersion),
+        SDL_VERSIONNUM_MINOR(sdlVersion),
+        SDL_VERSIONNUM_MICRO(sdlVersion)
+    );
+
+    std::string const title = std::format("FifeGUI v{} using SDL {}: Drag-and-Drop Example", fifeguiVersion, sdlVersionStr);
+
 
     // Create window
     SDL_Window* window = SDL_CreateWindow(title.c_str(), 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY);
@@ -520,7 +530,7 @@ int main(int argc, char* argv[])
 
     // Prefer a TrueType font so text color can be tinted by the backend.
     if (!TTF_Init()) {
-        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << SDL_GetError() << '\n';
+        std::cerr << "[ERROR] Failed to initialize SDL3_ttf: " << SDL_GetError() << '\n';
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();
@@ -585,12 +595,24 @@ int main(int argc, char* argv[])
     stashLabel->setForegroundColor(fcn::Color(255, 255, 255)); // white text
     stashLabel->setAlignment(fcn::Graphics::Alignment::Center);
 
+    // Create a TextBox with usage rules underneath the drag and drop areas
+    auto rulesTextBox = std::make_unique<fcn::TextBox>(
+        "Use the mouse to drag and drop your inventory items into your stash box. You are not allowed to put them back. When you press ALT you can see additional stats in the tooltip overlay.");
+    rulesTextBox->setPosition(50, 240);
+    rulesTextBox->setWidth(540);
+    rulesTextBox->setHeight(80);
+    rulesTextBox->setOpaque(true);
+    rulesTextBox->setBackgroundColor(fcn::Color(50, 50, 50));
+    rulesTextBox->setForegroundColor(fcn::Color(255, 255, 255));
+    rulesTextBox->setEditable(false);
+
     // Create top container and add labels
     auto topContainer = std::make_unique<fcn::Container>();
     topContainer->setLayout(fcn::Container::LayoutPolicy::Absolute);
     topContainer->setDimension(fcn::Rectangle(0, 0, 640, 360));
     topContainer->add(playerLabel.get(), playerLabel->getX(), playerLabel->getY());
     topContainer->add(stashLabel.get(), stashLabel->getX(), stashLabel->getY());
+    topContainer->add(rulesTextBox.get(), rulesTextBox->getX(), rulesTextBox->getY());
 
     // Add tooltip widget to the top container so it's drawn by gui->draw()
     topContainer->add(tooltip.get(), tooltip->getX(), tooltip->getY());
@@ -700,7 +722,7 @@ int main(int argc, char* argv[])
 
         prevHoverSlot = hoverSlot;
 
-        // Render custom inventory UI with SDL2
+        // Render custom inventory UI
         inventory.render(renderer, mouseX, mouseY);
 
         // Tooltip and its label will be drawn by gui->draw() as part of the top container.

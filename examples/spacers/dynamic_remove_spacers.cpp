@@ -56,7 +56,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     std::stack<fcn::Spacer*> spacers;
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return 1;
     }
