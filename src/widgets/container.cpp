@@ -521,7 +521,8 @@ namespace fcn
                     if (hexpand || (*currChild)->isHorizontalExpand()) {
                         int const layoutW = (*currChild)->getMarginLeft() +
                                             ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
-                        rec.width         = spaceW - layoutW;
+
+                        rec.width = spaceW - layoutW;
                     } else {
                         rec.width = (*currChild)->getWidth();
                     }
@@ -562,8 +563,9 @@ namespace fcn
                             // divide the space so that all expanders get the same size
                             int const layoutW = (*it)->getWidth() + (*it)->getMarginLeft() +
                                                 ((*it)->getMarginRight() > 0 ? (*it)->getMarginRight() : 0);
-                            int const diff    = w > 0 ? 0 : (*it)->getWidth() + (maxHExpander - layoutW);
-                            int delta         = ((freeSpace - diff) / expanders) + diff;
+
+                            int const diff = w > 0 ? 0 : (*it)->getWidth() + (maxHExpander - layoutW);
+                            int delta      = ((freeSpace - diff) / expanders) + diff;
                             if (delta == 0) {
                                 delta = 1;
                             }
@@ -615,7 +617,8 @@ namespace fcn
                     if (vexpand || (*currChild)->isVerticalExpand()) {
                         int const layoutH = (*currChild)->getMarginTop() +
                                             ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
-                        rec.height        = spaceH - layoutH;
+
+                        rec.height = spaceH - layoutH;
                     } else {
                         rec.height = (*currChild)->getHeight();
                     }
