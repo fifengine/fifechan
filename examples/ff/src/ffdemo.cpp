@@ -33,16 +33,28 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
         throw std::runtime_error(SDL_GetError());
     }
 
-    if (!SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight, 0, &mWindow, &mRenderer)) {
+    // Create window
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), kWindowWidth, kWindowHeight, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+
+    if (window == nullptr) {
         SDL_Quit();
-        throw std::runtime_error(SDL_GetError());
+        throw std::runtime_error("Failed to create SDL_Window: " + std::string(SDL_GetError()));
     }
 
-    if (SDL_SetRenderLogicalPresentation(mRenderer, kUiWidth, kUiHeight, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE) != 0) {
+    // Create renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+
+    if (renderer == nullptr) {
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        throw std::runtime_error("Failed to create SDL_Renderer: " + std::string(SDL_GetError()));
+    }
+
+    if (!SDL_SetRenderLogicalPresentation(mRenderer, kUiWidth, kUiHeight, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE)) {
         SDL_DestroyRenderer(mRenderer);
         SDL_DestroyWindow(mWindow);
         SDL_Quit();
-        throw std::runtime_error(SDL_GetError());
+        throw std::runtime_error(std::string(SDL_GetError()));
     }
 
     SDL_HideCursor();
@@ -97,10 +109,15 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
     mGui->setGraphics(mSDLGraphics.get());
     mGui->setInput(mSDLInput.get());
     mGui->setTop(mTop.get());
+
+    fcn::ImageFontConfig cfg;
+    cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+    cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+
     mFontWhite = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        "images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"", cfg);
     mFontCyan = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        "images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"", cfg);
     fcn::Widget::setGlobalFont(mFontWhite.get());
 
     initMain();

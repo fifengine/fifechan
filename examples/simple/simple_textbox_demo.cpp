@@ -70,8 +70,18 @@ int main(int /*argc*/, char** /*argv*/)
         graphics = std::make_unique<fcn::opengl::Graphics>(800, 600);
         input    = std::make_unique<fcn::sdl3::Input>();
 
-        font = std::make_unique<fcn::ImageFont>(
-            "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        {
+            fcn::ImageFontConfig cfg;
+            cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+            cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+            //cfg.verbose           = true;
+
+            font = std::make_unique<fcn::ImageFont>(
+                "rpgfont.png",
+                " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+                cfg);
+        }
+
         fcn::Widget::setGlobalFont(font.get());
 
         gui = std::make_unique<fcn::Gui>();

@@ -29,61 +29,12 @@ namespace fcn::sdl3
      */
     inline Color SDLgetPixel(SDL_Surface* surface, int x, int y)
     {
-        SDL_PixelFormatDetails const * details = SDL_GetPixelFormatDetails(surface->format);
-        int const bpp                          = details->bytes_per_pixel;
-
-        SDL_LockSurface(surface);
-
-        std::ptrdiff_t const offset = (static_cast<std::ptrdiff_t>(y) * static_cast<std::ptrdiff_t>(surface->pitch)) +
-                                      (static_cast<std::ptrdiff_t>(x) * static_cast<std::ptrdiff_t>(bpp));
-
-        std::span<Uint8 const> const pixels(
-            reinterpret_cast<Uint8*>(surface->pixels),
-            static_cast<size_t>(surface->h) * static_cast<size_t>(surface->pitch));
-        size_t const idx = static_cast<size_t>(offset);
-
-        unsigned int color = 0U;
-
-        switch (bpp) {
-        case 1:
-            color = pixels[idx];
-            break;
-
-        case 2: {
-            Uint16 tmp = 0;
-            std::memcpy(&tmp, &pixels[idx], sizeof(Uint16));
-            color = static_cast<unsigned int>(tmp);
-            break;
-        }
-
-        case 3:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                color = (static_cast<unsigned int>(pixels[idx]) << 16) |
-                        (static_cast<unsigned int>(pixels[idx + 1]) << 8) | static_cast<unsigned int>(pixels[idx + 2]);
-            } else {
-                color = static_cast<unsigned int>(pixels[idx]) | (static_cast<unsigned int>(pixels[idx + 1]) << 8) |
-                        (static_cast<unsigned int>(pixels[idx + 2]) << 16);
-            }
-            break;
-
-        case 4: {
-            Uint32 tmp = 0;
-            std::memcpy(&tmp, &pixels[idx], sizeof(Uint32));
-            color = static_cast<unsigned int>(tmp);
-            break;
-        }
-
-        default:
-            break;
-        }
-
         unsigned char r = 0;
         unsigned char g = 0;
         unsigned char b = 0;
         unsigned char a = 0;
 
-        SDL_GetRGBA(color, details, SDL_GetSurfacePalette(surface), &r, &g, &b, &a);
-        SDL_UnlockSurface(surface);
+        SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
 
         return {r, g, b, a};
     }

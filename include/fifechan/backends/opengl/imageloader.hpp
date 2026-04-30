@@ -46,19 +46,15 @@ namespace fcn::opengl
 
                 std::vector<unsigned int> packedPixels(
                     static_cast<size_t>(surface->w) * static_cast<size_t>(surface->h));
-                unsigned int const * srcPixels = static_cast<unsigned int const *>(surface->pixels);
-                size_t const srcPitchPixels =
-                    static_cast<size_t>(static_cast<size_t>(surface->pitch) / sizeof(unsigned int));
 
-                std::span<unsigned int const> const srcSpan(
-                    srcPixels, srcPitchPixels * static_cast<size_t>(surface->h));
-                std::span<unsigned int> const dstSpan(packedPixels.data(), packedPixels.size());
-
+                // Read pixels using SDL_ReadSurfacePixel to get correct R,G,B,A
                 for (int y = 0; y < surface->h; ++y) {
-                    size_t const rowIndex = static_cast<size_t>(y);
-                    auto srcIt            = srcSpan.begin() + (rowIndex * srcPitchPixels);
-                    auto dstIt            = dstSpan.begin() + (rowIndex * static_cast<size_t>(surface->w));
-                    std::copy_n(srcIt, static_cast<size_t>(surface->w), dstIt);
+                    for (int x = 0; x < surface->w; ++x) {
+                        unsigned char r, g, b, a;
+                        SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
+                        // Pack as R in bits 0-7, G in 8-15, B in 16-23, A in 24-31
+                        packedPixels[x + y * surface->w] = r | (g << 8) | (b << 16) | (a << 24);
+                    }
                 }
 
                 fcn::Image* image =

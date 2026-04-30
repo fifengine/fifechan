@@ -347,7 +347,9 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     SDL_UnlockSurface(surface);
 
     // Ensure NO color key is set (important for this test)
-    CHECK(SDL_GetSurfaceColorKey(surface, nullptr) != 0);
+    // In SDL3, SDL_GetSurfaceColorKey returns true on success (color key exists)
+    // If no color key is set, it returns false
+    CHECK_FALSE(SDL_GetSurfaceColorKey(surface, nullptr));
 
     // Create Image from surface WITHOUT color key
     fcn::sdl3::Image image(surface, true, env.mRenderer);

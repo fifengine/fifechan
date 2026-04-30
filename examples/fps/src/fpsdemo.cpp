@@ -74,9 +74,22 @@ FPSDemo::FPSDemo() :
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - FPS demo", fifeguiVersion);
 
-    // Create window and GL context after SDL is initialized
-    window    = SDL_CreateWindow(title.c_str(), mWidth, mHeight, SDL_WINDOW_OPENGL);
+    // Create window
+    window = SDL_CreateWindow(title.c_str(), mWidth, mHeight, SDL_WINDOW_OPENGL);
+
+    if (window == nullptr) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
+        SDL_Quit();
+    }
+
+    // Create GL context
     glcontext = SDL_GL_CreateContext(window);
+
+    if (glcontext == nullptr) {
+        std::cerr << "SDL_GL_CreateContext Error: " << SDL_GetError() << "\n";
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+    }
 
     // Init SDL3_mixer
     if (MIX_Init()) {
@@ -172,18 +185,59 @@ void FPSDemo::initGui()
     mGui->setGraphics(mOpenGLGraphics.get());
     mGui->setInput(mSDLInput.get());
 
-    mFont = std::make_unique<fcn::ImageFont>(
-        "images/techyfontbig2.png",
-        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mHighLightFont = std::make_unique<fcn::ImageFont>(
-        "images/techyfontbighighlight.png",
-        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mSmallBlackFont = std::make_unique<fcn::ImageFont>(
-        "images/techyfontblack.png",
-        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
-    mWhiteFont = std::make_unique<fcn::ImageFont>(
-        "images/techyfontwhite.png",
-        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+    {
+        // techyfontbig2.png: pixel00=46,0,0,255, 84 glyphRuns
+        fcn::ImageFontConfig cfg1;
+        cfg1.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+        cfg1.explicitSeparator = fcn::Color{ 46,0,0,255}; // Dark red
+
+        mFont = std::make_unique<fcn::ImageFont>(
+            "images/techyfontbig2.png",
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+            cfg1
+        );
+    }
+
+    {
+        // techyfontbighighlight.png: pixel00=36,16,16,255, 84 glyphRuns
+        fcn::ImageFontConfig cfg2;
+        cfg2.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+        cfg2.explicitSeparator = fcn::Color{36, 16, 16, 255};
+
+        mHighLightFont = std::make_unique<fcn::ImageFont>(
+          "images/techyfontbighighlight.png",
+          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+          cfg2
+        );
+    }
+
+    {
+        // techyfontblack.png: pixel00=255,250,0,255, 84 glyphRuns
+        fcn::ImageFontConfig cfg3;
+        cfg3.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+        cfg3.explicitSeparator = fcn::Color{255, 250, 0, 255};
+
+        mSmallBlackFont = std::make_unique<fcn::ImageFont>(
+          "images/techyfontblack.png",
+          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+          cfg3
+        );
+    }
+
+    {
+        // techyfontwhite.png: pixel00=255,0,0,255, 84 glyphRuns
+        fcn::ImageFontConfig cfg4;
+        cfg4.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+        cfg4.explicitSeparator = fcn::Color{255, 0, 0, 255};
+
+        mWhiteFont = std::make_unique<fcn::ImageFont>(
+          "images/techyfontwhite.png",
+          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+          cfg4
+        );
+
+    }
+
     fcn::Widget::setGlobalFont(mWhiteFont.get());
 
     mTitleImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/title2.png"));

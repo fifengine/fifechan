@@ -124,18 +124,14 @@ namespace fcn::sdl3
             return nullptr;
         }
 
-        auto* fmt     = SDL_GetPixelFormatDetails(converted->format);
-        auto* palette = SDL_GetSurfacePalette(converted);
-
         for (int y = 0; y < converted->h; ++y) {
-            auto* row = static_cast<Uint8*>(converted->pixels) + y * converted->pitch;
             for (int x = 0; x < converted->w; ++x) {
                 uint8_t r{};
                 uint8_t g{};
                 uint8_t b{};
                 uint8_t a{};
 
-                SDL_GetRGBA(reinterpret_cast<Uint32*>(row)[x], fmt, palette, &r, &g, &b, &a);
+                SDL_ReadSurfacePixel(converted, x, y, &r, &g, &b, &a);
 
                 if (r == 255 && g == 0 && b == 255) {
                     hasPink = true;
