@@ -412,17 +412,44 @@ namespace fcn::sdl3
         int const x0 = center.x + top.xOffset;
         int const y0 = center.y + top.yOffset;
 
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        // Use SDL_RenderGeometry for hardware-accelerated circle rendering
+        // Generate triangle fan vertices for the circle
+        int const numSegments = std::max(8, static_cast<int>(radius / 2));
+        std::vector<SDL_Vertex> vertices;
+        vertices.reserve(numSegments + 2);
 
-        for (int y = -radius; std::cmp_less_equal(y, radius); y++) {
-            for (int x = -radius; std::cmp_less_equal(x, radius); x++) {
-                if (x * x + y * y <= radius * radius) {
-                    SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
-                }
-            }
+        // Center vertex
+        vertices.push_back(SDL_Vertex{
+            .position = {static_cast<float>(x0), static_cast<float>(y0)},
+            .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                       static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+        });
+
+        // Circle edge vertices
+        for (int i = 0; i <= numSegments; ++i) {
+            float const angle = 2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
+            float const x = static_cast<float>(x0) + radius * std::cos(angle);
+            float const y = static_cast<float>(y0) + radius * std::sin(angle);
+            vertices.push_back(SDL_Vertex{
+                .position = {x, y},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            });
         }
 
+        // Generate indices for triangle fan
+        std::vector<int> indices;
+        indices.reserve(numSegments * 3);
+        for (int i = 1; i <= numSegments; ++i) {
+            indices.push_back(0);  // Center
+            indices.push_back(i);
+            indices.push_back(i + 1 <= numSegments ? i + 1 : 1);
+        }
+
+        saveRenderColor();
+        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                          indices.data(), static_cast<int>(indices.size()));
         restoreRenderColor();
     }
 
@@ -461,9 +488,7 @@ namespace fcn::sdl3
         int const x0 = center.x + top.xOffset;
         int const y0 = center.y + top.yOffset;
 
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-
+        // Normalize angles
         startAngle = startAngle % 360;
         endAngle   = endAngle % 360;
 
@@ -471,21 +496,47 @@ namespace fcn::sdl3
             endAngle += 360;
         }
 
-        for (int y = -radius; std::cmp_less_equal(y, radius); y++) {
-            for (int x = -radius; std::cmp_less_equal(x, radius); x++) {
-                if (x * x + y * y <= radius * radius) {
-                    float angle = std::atan2(y, x) * 180.0F / std::numbers::pi_v<float>;
-                    if (angle < 0) {
-                        angle += 360;
-                    }
+        // Use SDL_RenderGeometry for hardware-accelerated filled circle segment
+        // Generate triangle fan vertices for the circle segment
+        int const numSegments = std::max(8, static_cast<int>(radius / 2));
+        std::vector<SDL_Vertex> vertices;
+        vertices.reserve(numSegments + 2);
 
-                    if (angle >= startAngle && angle <= endAngle) {
-                        SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
-                    }
-                }
-            }
+        // Center vertex
+        vertices.push_back(SDL_Vertex{
+            .position = {static_cast<float>(x0), static_cast<float>(y0)},
+            .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                       static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+        });
+
+        float const startRad = static_cast<float>(startAngle) * std::numbers::pi_v<float> / 180.0F;
+        float const endRad = static_cast<float>(endAngle) * std::numbers::pi_v<float> / 180.0F;
+
+        for (int i = 0; i <= numSegments; ++i) {
+            float const t = static_cast<float>(i) / static_cast<float>(numSegments);
+            float const angle = startRad + t * (endRad - startRad);
+            float const x = static_cast<float>(x0) + radius * std::cos(angle);
+            float const y = static_cast<float>(y0) + radius * std::sin(angle);
+            vertices.push_back(SDL_Vertex{
+                .position = {x, y},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            });
         }
 
+        // Generate indices for triangle fan
+        std::vector<int> indices;
+        indices.reserve(numSegments * 3);
+        for (int i = 1; i <= numSegments; ++i) {
+            indices.push_back(0);  // Center
+            indices.push_back(i);
+            indices.push_back(i + 1 <= numSegments ? i + 1 : 1);
+        }
+
+        saveRenderColor();
+        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                          indices.data(), static_cast<int>(indices.size()));
         restoreRenderColor();
     }
 
@@ -513,33 +564,35 @@ namespace fcn::sdl3
         int const x0 = center.x + top.xOffset;
         int const y0 = center.y + top.yOffset;
 
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        // Use SDL_RenderGeometry for hardware-accelerated circle outline
+        // Generate vertices along the circle and connect with line segments
+        int const numSegments = std::max(8, static_cast<int>(radius / 2));
+        std::vector<SDL_Vertex> vertices;
+        vertices.reserve(numSegments + 1);
 
-        int x = radius;
-        int y = 0;
-        int p = 1 - radius;
-
-        while (x >= y) {
-            SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
-            SDL_RenderPoint(mRenderTarget, x0 - x, y0 + y);
-            SDL_RenderPoint(mRenderTarget, x0 + x, y0 - y);
-            SDL_RenderPoint(mRenderTarget, x0 - x, y0 - y);
-            SDL_RenderPoint(mRenderTarget, x0 + y, y0 + x);
-            SDL_RenderPoint(mRenderTarget, x0 - y, y0 + x);
-            SDL_RenderPoint(mRenderTarget, x0 + y, y0 - x);
-            SDL_RenderPoint(mRenderTarget, x0 - y, y0 - x);
-
-            y++;
-
-            if (p <= 0) {
-                p = p + 2 * y + 1;
-            } else {
-                x--;
-                p = p + 2 * y - 2 * x + 1;
-            }
+        for (int i = 0; i <= numSegments; ++i) {
+            float const angle = 2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
+            float const x = static_cast<float>(x0) + radius * std::cos(angle);
+            float const y = static_cast<float>(y0) + radius * std::sin(angle);
+            vertices.push_back(SDL_Vertex{
+                .position = {x, y},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            });
         }
 
+        // Generate indices for line loop (connect consecutive vertices)
+        std::vector<int> indices;
+        indices.reserve(numSegments * 2);
+        for (int i = 0; i < numSegments; ++i) {
+            indices.push_back(i);
+            indices.push_back(i + 1);
+        }
+
+        saveRenderColor();
+        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                          indices.data(), static_cast<int>(indices.size()));
         restoreRenderColor();
     }
 
@@ -555,9 +608,7 @@ namespace fcn::sdl3
         int const x0 = center.x + top.xOffset;
         int const y0 = center.y + top.yOffset;
 
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
-
+        // Normalize angles
         startAngle = normalizeAngle(startAngle);
         endAngle   = normalizeAngle(endAngle);
 
@@ -565,53 +616,39 @@ namespace fcn::sdl3
             endAngle += 360;
         }
 
-        int x = radius;
-        int y = 0;
-        int p = 1 - radius;
+        // Use SDL_RenderGeometry for hardware-accelerated circle segment outline
+        // Generate vertices along the arc from startAngle to endAngle
+        int const numSegments = std::max(8, static_cast<int>(radius / 2));
+        std::vector<SDL_Vertex> vertices;
+        vertices.reserve(numSegments + 1);
 
-        auto isInSegment = [&](int x, int y) {
-            float angle = std::atan2(static_cast<float>(y), static_cast<float>(x)) * 180.0F / std::numbers::pi_v<float>;
-            if (angle < 0) {
-                angle += 360;
-            }
-            return angle >= startAngle && angle <= endAngle;
-        };
+        float const startRad = static_cast<float>(startAngle) * std::numbers::pi_v<float> / 180.0F;
+        float const endRad = static_cast<float>(endAngle) * std::numbers::pi_v<float> / 180.0F;
 
-        while (x >= y) {
-            if (isInSegment(x, y)) {
-                SDL_RenderPoint(mRenderTarget, x0 + x, y0 + y);
-            }
-            if (isInSegment(-x, y)) {
-                SDL_RenderPoint(mRenderTarget, x0 - x, y0 + y);
-            }
-            if (isInSegment(x, -y)) {
-                SDL_RenderPoint(mRenderTarget, x0 + x, y0 - y);
-            }
-            if (isInSegment(-x, -y)) {
-                SDL_RenderPoint(mRenderTarget, x0 - x, y0 - y);
-            }
-            if (isInSegment(y, x)) {
-                SDL_RenderPoint(mRenderTarget, x0 + y, y0 + x);
-            }
-            if (isInSegment(-y, x)) {
-                SDL_RenderPoint(mRenderTarget, x0 - y, y0 + x);
-            }
-            if (isInSegment(y, -x)) {
-                SDL_RenderPoint(mRenderTarget, x0 + y, y0 - x);
-            }
-            if (isInSegment(-y, -x)) {
-                SDL_RenderPoint(mRenderTarget, x0 - y, y0 - x);
-            }
-
-            y++;
-            if (p <= 0) {
-                p = p + 2 * y + 1;
-            } else {
-                x--;
-                p = p + 2 * y - 2 * x + 1;
-            }
+        for (int i = 0; i <= numSegments; ++i) {
+            float const t = static_cast<float>(i) / static_cast<float>(numSegments);
+            float const angle = startRad + t * (endRad - startRad);
+            float const x = static_cast<float>(x0) + radius * std::cos(angle);
+            float const y = static_cast<float>(y0) + radius * std::sin(angle);
+            vertices.push_back(SDL_Vertex{
+                .position = {x, y},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            });
         }
 
+        // Generate indices for line loop
+        std::vector<int> indices;
+        indices.reserve(numSegments * 2);
+        for (int i = 0; i < numSegments; ++i) {
+            indices.push_back(i);
+            indices.push_back(i + 1);
+        }
+
+        saveRenderColor();
+        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                          indices.data(), static_cast<int>(indices.size()));
         restoreRenderColor();
     }
 

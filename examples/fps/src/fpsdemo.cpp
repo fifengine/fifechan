@@ -249,7 +249,7 @@ void FPSDemo::initGui()
         "This is a Demo demonstrating FifeGUI with SDL and OpenGL.\n"
         "FifeGUI is dual-licensed under LGPL v2.1 and BSD.\n"
         "For more information visit http://fifengine.github.io/fifechan/\n");
-    mDemoInfo->setFont(mSmallBlackFont.get());
+    mDemoInfo->setFont(mWhiteFont.get());
     mDemoInfo->setOpaque(false);
     mDemoInfo->setEditable(false);
     mDemoInfo->setFocusable(false);
@@ -257,7 +257,7 @@ void FPSDemo::initGui()
     mTop->add(mDemoInfo.get());
 
     mVersionLabel = std::make_unique<fcn::Label>("Version 1.01");
-    mVersionLabel->setFont(mSmallBlackFont.get());
+    mVersionLabel->setFont(mWhiteFont.get());
     mTop->add(mVersionLabel.get());
 
     mBoxImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/box.png"));
@@ -966,8 +966,8 @@ void FPSDemo::resize()
     int const mHalfHeight = mHeight / 2;
 
     mTitle->setPosition(mHalfWidth - 330, mHalfHeight - 290);
-    mDemoInfo->setPosition(mHalfWidth - 390, mHeight - 50);
-    mVersionLabel->setPosition(mWidth - 100, mHeight - 80);
+    mDemoInfo->setPosition(mHalfWidth - 390, mHeight - 65);
+    mVersionLabel->setPosition(mWidth - 130, mHeight - 30);
 
     mTop->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));
     mMain->setDimension(fcn::Rectangle(0, 0, mWidth, mHeight));

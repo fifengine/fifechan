@@ -641,7 +641,6 @@ if(ENABLE_SDL)
     include/fifechan/backends/sdl3/image.hpp
     include/fifechan/backends/sdl3/imageloader.hpp
     include/fifechan/backends/sdl3/input.hpp
-    include/fifechan/backends/sdl3/pixel.hpp
     include/fifechan/backends/sdl3/sdl.hpp
     include/fifechan/backends/sdl3/truetypefont.hpp
   )

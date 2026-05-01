@@ -4,7 +4,6 @@ message(STATUS "---------------------------------------------------------------"
 
 if(TARGET fifechan_sdl3)
   add_subdirectory(sdl)
-  add_subdirectory(sdlmdedit)
 endif()
 
 if(ENABLE_OPENGL AND OPENGL_FOUND AND ENABLE_SDL AND SDL3_FOUND)

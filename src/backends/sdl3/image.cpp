@@ -14,7 +14,6 @@
 
 // Project headers (subdirs before local)
 #include "fifechan/backends/sdl3/imageloader.hpp"
-#include "fifechan/backends/sdl3/pixel.hpp"
 #include "fifechan/exception.hpp"
 
 namespace fcn::sdl3
@@ -140,7 +139,12 @@ namespace fcn::sdl3
             throwException("Trying to get a pixel from a non loaded image.");
         }
 
-        return SDLgetPixel(mTransientSurface, x, y);
+        unsigned char r = 0;
+        unsigned char g = 0;
+        unsigned char b = 0;
+        unsigned char a = 0;
+        SDL_ReadSurfacePixel(mTransientSurface, x, y, &r, &g, &b, &a);
+        return {r, g, b, a};
     }
 
     void Image::putPixel(int x, int y, Color const & color)
@@ -149,7 +153,7 @@ namespace fcn::sdl3
             throwException("Trying to put a pixel in a non loaded image.");
         }
 
-        SDLputPixel(mTransientSurface, x, y, color);
+        SDL_WriteSurfacePixel(mTransientSurface, x, y, color.r, color.g, color.b, color.a);
     }
 
     void Image::convertToDisplayFormat()

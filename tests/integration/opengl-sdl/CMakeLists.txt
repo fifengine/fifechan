@@ -17,14 +17,6 @@ endif()
 
 add_executable(openglsdlhelloworld openglsdlhelloworld.cpp openglsdlhelloworld.hpp)
 
-target_include_directories(openglsdlhelloworld PRIVATE
-  ${OPENGL_INCLUDE_DIR}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
-)
-
 target_link_libraries(openglsdlhelloworld PRIVATE
   # SDL3
   $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
@@ -67,14 +59,6 @@ copy_resources_folder(openglsdlhelloworld "${RESOURCES_FOLDER}")
 #------------------------------------------------------------------------------
 
 add_executable(openglsdlwidgets openglsdlwidgets.cpp openglsdlwidgets.hpp)
-
-target_include_directories(openglsdlwidgets PRIVATE
-  ${OPENGL_INCLUDE_DIR}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl3
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/opengl
-)
 
 target_link_libraries(openglsdlwidgets PRIVATE
   # SDL3

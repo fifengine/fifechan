@@ -107,39 +107,46 @@ namespace fcn::sdl3
             return nullptr;
         }
 
-        bool hasPink = false;
-
-        // Create a 32-bit RGBA surface to standardize format
-        auto* targetFormatSurface = SDL_CreateSurface(surface->w, surface->h, SDL_PIXELFORMAT_RGBA8888);
-
-        if (targetFormatSurface == nullptr) {
-            return nullptr;
-        }
-
         // Convert the original surface to the standard format
         auto* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA8888);
-        SDL_DestroySurface(targetFormatSurface);
 
         if (converted == nullptr) {
             return nullptr;
         }
 
-        for (int y = 0; y < converted->h; ++y) {
-            for (int x = 0; x < converted->w; ++x) {
-                uint8_t r{};
-                uint8_t g{};
-                uint8_t b{};
-                uint8_t a{};
+        // Check if the surface already has a color key set (e.g., from the original surface)
+        // SDL_ConvertSurface should preserve color key information
+        bool hasPink = false;
+        Uint32 colorKey = 0;
 
-                SDL_ReadSurfacePixel(converted, x, y, &r, &g, &b, &a);
-
+        if (SDL_SurfaceHasColorKey(converted)) {
+            if (SDL_GetSurfaceColorKey(converted, &colorKey) == 0) {
+                // For SDL_PIXELFORMAT_RGBA8888, the color key is stored as a 32-bit value
+                // Extract RGB components (assuming the color key was set with SDL_MapSurfaceRGB)
+                Uint8 r = (colorKey >> 16) & 0xFF;  // R is typically in bits 16-23 for RGBA8888
+                Uint8 g = (colorKey >> 8) & 0xFF;   // G is typically in bits 8-15
+                Uint8 b = colorKey & 0xFF;            // B is typically in bits 0-7
                 if (r == 255 && g == 0 && b == 255) {
                     hasPink = true;
-                    break;
                 }
             }
-            if (hasPink) {
-                break;
+        }
+
+        // Fallback: if no color key set, scan for magenta pixels (O(n²) - rare case)
+        if (!hasPink) {
+            for (int y = 0; y < converted->h && !hasPink; ++y) {
+                for (int x = 0; x < converted->w && !hasPink; ++x) {
+                    uint8_t r{};
+                    uint8_t g{};
+                    uint8_t b{};
+                    uint8_t a{};
+
+                    SDL_ReadSurfacePixel(converted, x, y, &r, &g, &b, &a);
+
+                    if (r == 255 && g == 0 && b == 255) {
+                        hasPink = true;
+                    }
+                }
             }
         }
 
