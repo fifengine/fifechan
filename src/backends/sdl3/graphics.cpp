@@ -324,26 +324,57 @@ namespace fcn::sdl3
         }
 
         if (x1 == x2 && y1 == y2) {
-            drawRoundStroke(x1 - top.xOffset, y1 - top.yOffset, x2 - top.xOffset, y2 - top.yOffset, width);
+            // For a single point with width, draw a filled circle
+            drawFillCircle(fcn::Point{x1 - top.xOffset, y1 - top.yOffset}, width / 2);
             return;
         }
 
+        // Use SDL_RenderGeometry with quad primitives for thick line
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         auto const dx       = static_cast<float>(x2 - x1);
         auto const dy       = static_cast<float>(y2 - y1);
         float const length  = std::sqrt((dx * dx) + (dy * dy));
+        
+        if (length < 0.001f) {
+            restoreRenderColor();
+            return;
+        }
+
+        // Calculate perpendicular offset for line width
         float const offsetX = (dy / length) * (static_cast<float>(width) / 2.0F);
         float const offsetY = (dx / length) * (static_cast<float>(width) / 2.0F);
 
-        for (int i = -static_cast<int>(width) / 2; i <= static_cast<int>(width) / 2; ++i) {
-            int const startX = static_cast<int>(x1 + (static_cast<float>(i) * offsetX));
-            int const startY = static_cast<int>(y1 - (static_cast<float>(i) * offsetY));
-            int const endX   = static_cast<int>(x2 + (static_cast<float>(i) * offsetX));
-            int const endY   = static_cast<int>(y2 - (static_cast<float>(i) * offsetY));
-            SDL_RenderLine(mRenderTarget, startX, startY, endX, endY);
-        }
+        // Create quad vertices (two triangles)
+        std::vector<SDL_Vertex> vertices = {
+            SDL_Vertex{
+                .position = {static_cast<float>(x1) - offsetX, static_cast<float>(y1) + offsetY},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            },
+            SDL_Vertex{
+                .position = {static_cast<float>(x1) + offsetX, static_cast<float>(y1) - offsetY},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            },
+            SDL_Vertex{
+                .position = {static_cast<float>(x2) + offsetX, static_cast<float>(y2) - offsetY},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            },
+            SDL_Vertex{
+                .position = {static_cast<float>(x2) - offsetX, static_cast<float>(y2) + offsetY},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            }
+        };
+
+        // Two triangles forming a quad
+        int const indices[] = {0, 1, 2, 0, 2, 3};
+
+        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                          indices, 6);
 
         restoreRenderColor();
     }
@@ -367,34 +398,64 @@ namespace fcn::sdl3
             return;
         }
 
+        int const radius = std::max(1, static_cast<int>(width) / 2);
+
+        // For a single point, just draw a filled circle
+        if (x1 == x2 && y1 == y2) {
+            drawFillCircle(fcn::Point{x1 - top.xOffset, y1 - top.yOffset}, static_cast<unsigned int>(radius));
+            return;
+        }
+
+        // Draw filled circles along the line path using SDL_RenderGeometry
         saveRenderColor();
         SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
 
         int const dx        = x2 - x1;
         int const dy        = y2 - y1;
-        int const radius    = std::max(1, static_cast<int>(width) / 2);
         int const stepCount = std::max(std::abs(dx), std::abs(dy));
 
-        auto drawFilledDisk = [&](int centerX, int centerY) {
-            for (int offsetY = -radius; offsetY <= radius; ++offsetY) {
-                for (int offsetX = -radius; offsetX <= radius; ++offsetX) {
-                    if ((offsetX * offsetX) + (offsetY * offsetY) <= (radius * radius)) {
-                        SDL_RenderPoint(mRenderTarget, centerX + offsetX, centerY + offsetY);
-                    }
-                }
-            }
-        };
-
-        if (stepCount == 0) {
-            drawFilledDisk(x1, y1);
-            restoreRenderColor();
-            return;
-        }
+        // For each step, draw a filled circle using triangle fan
+        // Use adaptive segment count based on radius for quality
+        int const circleSegments = std::max(8, radius * 2);
 
         for (int step = 0; step <= stepCount; ++step) {
             int const centerX = x1 + ((dx * step) / stepCount);
             int const centerY = y1 + ((dy * step) / stepCount);
-            drawFilledDisk(centerX, centerY);
+
+            // Generate triangle fan vertices for filled circle
+            std::vector<SDL_Vertex> vertices;
+            vertices.reserve(circleSegments + 2);
+
+            // Center vertex
+            vertices.push_back(SDL_Vertex{
+                .position = {static_cast<float>(centerX), static_cast<float>(centerY)},
+                .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                           static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+            });
+
+            // Circle edge vertices
+            for (int i = 0; i <= circleSegments; ++i) {
+                float const angle = 2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(circleSegments);
+                float const x = static_cast<float>(centerX) + radius * std::cos(angle);
+                float const y = static_cast<float>(centerY) + radius * std::sin(angle);
+                vertices.push_back(SDL_Vertex{
+                    .position = {x, y},
+                    .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                               static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                });
+            }
+
+            // Generate indices for triangle fan
+            std::vector<int> indices;
+            indices.reserve(circleSegments * 3);
+            for (int i = 1; i <= circleSegments; ++i) {
+                indices.push_back(0);  // Center
+                indices.push_back(i);
+                indices.push_back(i + 1 <= circleSegments ? i + 1 : 1);
+            }
+
+            SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                              indices.data(), static_cast<int>(indices.size()));
         }
 
         restoreRenderColor();
@@ -659,21 +720,87 @@ namespace fcn::sdl3
                 "Clip stack is empty, perhaps you"
                 "called a draw function outside of _beginDraw() and _endDraw()?");
         }
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        ClipRectangle const & top = mClipStack.top();
 
-        fcn::Point previousPoint = bezierPoint(controlPoints, 0.0F);
-
-        for (int i = 1; i <= segments; ++i) {
-            float const t                 = static_cast<float>(i) / static_cast<float>(segments);
-            fcn::Point const currentPoint = bezierPoint(controlPoints, t);
-
-            drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y, width);
-
-            previousPoint = currentPoint;
+        if (segments < 1) {
+            return;
         }
 
-        restoreRenderColor();
+        // Generate all points along the Bezier curve
+        std::vector<SDL_FPoint> points;
+        points.reserve(segments + 1);
+
+        for (int i = 0; i <= segments; ++i) {
+            float const t = static_cast<float>(i) / static_cast<float>(segments);
+            fcn::Point const point = bezierPoint(controlPoints, t);
+            points.push_back(SDL_FPoint{
+                static_cast<float>(point.x + top.xOffset),
+                static_cast<float>(point.y + top.yOffset)
+            });
+        }
+
+        if (width <= 1) {
+            // Use SDL_RenderLines for thin lines (batched rendering)
+            saveRenderColor();
+            SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+            SDL_RenderLines(mRenderTarget, points.data(), static_cast<int>(points.size()));
+            restoreRenderColor();
+        } else {
+            // For thick lines, draw multiple quads along the path using SDL_RenderGeometry
+            saveRenderColor();
+            SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+
+            float const halfWidth = static_cast<float>(width) / 2.0F;
+
+            for (size_t i = 0; i < points.size() - 1; ++i) {
+                float const x1 = points[i].x;
+                float const y1 = points[i].y;
+                float const x2 = points[i + 1].x;
+                float const y2 = points[i + 1].y;
+
+                float const dx = x2 - x1;
+                float const dy = y2 - y1;
+                float const length = std::sqrt((dx * dx) + (dy * dy));
+
+                if (length < 0.001f) {
+                    continue;
+                }
+
+                // Calculate perpendicular offset for line width
+                float const offsetX = (dy / length) * halfWidth;
+                float const offsetY = (dx / length) * halfWidth;
+
+                // Create quad vertices (two triangles)
+                std::vector<SDL_Vertex> vertices = {
+                    SDL_Vertex{
+                        .position = {x1 - offsetX, y1 + offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x1 + offsetX, y1 - offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x2 + offsetX, y2 - offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x2 - offsetX, y2 + offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    }
+                };
+
+                int const indices[] = {0, 1, 2, 0, 2, 3};
+                SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                                  indices, 6);
+            }
+
+            restoreRenderColor();
+        }
     }
 
     void Graphics::drawPolyLine(PointVector const & points, unsigned int width)
@@ -688,14 +815,80 @@ namespace fcn::sdl3
             return;
         }
 
-        saveRenderColor();
-        SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+        ClipRectangle const & top = mClipStack.top();
 
-        for (size_t i = 0; i < points.size() - 1; ++i) {
-            drawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, width);
+        // Convert points to SDL_FPoint array with offset applied
+        std::vector<SDL_FPoint> sdlPoints;
+        sdlPoints.reserve(points.size());
+        for (auto const & point : points) {
+            sdlPoints.push_back(SDL_FPoint{
+                static_cast<float>(point.x + top.xOffset),
+                static_cast<float>(point.y + top.yOffset)
+            });
         }
 
-        restoreRenderColor();
+        if (width <= 1) {
+            // Use SDL_RenderLines for batched rendering of thin lines
+            saveRenderColor();
+            SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+            SDL_RenderLines(mRenderTarget, sdlPoints.data(), static_cast<int>(sdlPoints.size()));
+            restoreRenderColor();
+        } else {
+            // For thick lines, draw quads between each pair of points
+            saveRenderColor();
+            SDL_SetRenderDrawColor(mRenderTarget, mColor.r, mColor.g, mColor.b, mColor.a);
+
+            float const halfWidth = static_cast<float>(width) / 2.0F;
+
+            for (size_t i = 0; i < sdlPoints.size() - 1; ++i) {
+                float const x1 = sdlPoints[i].x;
+                float const y1 = sdlPoints[i].y;
+                float const x2 = sdlPoints[i + 1].x;
+                float const y2 = sdlPoints[i + 1].y;
+
+                float const dx = x2 - x1;
+                float const dy = y2 - y1;
+                float const length = std::sqrt((dx * dx) + (dy * dy));
+
+                if (length < 0.001f) {
+                    continue;
+                }
+
+                // Calculate perpendicular offset for line width
+                float const offsetX = (dy / length) * halfWidth;
+                float const offsetY = (dx / length) * halfWidth;
+
+                // Create quad vertices (two triangles)
+                std::vector<SDL_Vertex> vertices = {
+                    SDL_Vertex{
+                        .position = {x1 - offsetX, y1 + offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x1 + offsetX, y1 - offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x2 + offsetX, y2 - offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    },
+                    SDL_Vertex{
+                        .position = {x2 - offsetX, y2 + offsetY},
+                        .color = {static_cast<float>(mColor.r), static_cast<float>(mColor.g),
+                                   static_cast<float>(mColor.b), static_cast<float>(mColor.a)}
+                    }
+                };
+
+                int const indices[] = {0, 1, 2, 0, 2, 3};
+                SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()),
+                                  indices, 6);
+            }
+
+            restoreRenderColor();
+        }
     }
 
     void Graphics::setColor(Color const & color)
