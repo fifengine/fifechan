@@ -9,11 +9,12 @@
 
 // Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"
+#include "fifechan/widgets/tooltip.hpp"
 
 namespace fcn
 {
     ActivityBarItem::ActivityBarItem(std::string const & icon, std::string const & tooltip, Widget* panel) :
-        mPanel(panel)
+        mPanel(panel), mTooltip(tooltip)
     {
         setCaption(icon);
         Widget::setSize(mSize, mSize);
@@ -61,6 +62,64 @@ namespace fcn
     int ActivityBarItem::getSize() const
     {
         return mSize;
+    }
+
+    void ActivityBarItem::setTooltip(std::string const & tooltip)
+    {
+        mTooltip = tooltip;
+    }
+
+    std::string const & ActivityBarItem::getTooltip() const
+    {
+        return mTooltip;
+    }
+
+    void ActivityBarItem::mouseEntered(MouseEvent& mouseEvent)
+    {
+        // Call base class implementation
+        Button::mouseEntered(mouseEvent);
+
+        // Show tooltip if we have tooltip text
+        if (!mTooltip.empty()) {
+            // Lazily create tooltip widget if needed
+            if (!mTooltipWidget) {
+                mTooltipWidget = std::make_unique<Tooltip>();
+                mTooltipWidget->setSize(150, 30); // Default size, can be adjusted
+
+                // Set up tooltip spec with content callback
+                TooltipSpec spec;
+                spec.content = [this](int /*widgetId*/) {
+                    return mTooltip;
+                };
+                spec.delayMs = 500; // 500ms delay before showing
+                mTooltipWidget->setSpec(spec);
+            }
+
+            // Position tooltip relative to this widget (offset to the right)
+            int const tooltipX = getWidth() + 5; // 5px offset to the right
+            int const tooltipY = 0;
+            mTooltipWidget->setPosition(tooltipX, tooltipY);
+
+            // Start hover state
+            mTooltipWidget->startHover();
+
+            // Add tooltip as a child of this widget
+            add(mTooltipWidget.get());
+        }
+    }
+
+    void ActivityBarItem::mouseExited(MouseEvent& mouseEvent)
+    {
+        // Call base class implementation
+        Button::mouseExited(mouseEvent);
+
+        // Hide tooltip if it exists
+        if (mTooltipWidget) {
+            mTooltipWidget->endHover();
+
+            // Remove tooltip from this widget
+            remove(mTooltipWidget.get());
+        }
     }
 
     void ActivityBarItem::setSelected(bool selected)

@@ -189,13 +189,12 @@ void FPSDemo::initGui()
         // techyfontbig2.png: pixel00=46,0,0,255, 84 glyphRuns
         fcn::ImageFontConfig cfg1;
         cfg1.strategy          = fcn::SeparatorStrategy::ExplicitColor;
-        cfg1.explicitSeparator = fcn::Color{ 46,0,0,255}; // Dark red
+        cfg1.explicitSeparator = fcn::Color{46, 0, 0, 255}; // Dark red
 
         mFont = std::make_unique<fcn::ImageFont>(
             "images/techyfontbig2.png",
             " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
-            cfg1
-        );
+            cfg1);
     }
 
     {
@@ -205,10 +204,9 @@ void FPSDemo::initGui()
         cfg2.explicitSeparator = fcn::Color{36, 16, 16, 255};
 
         mHighLightFont = std::make_unique<fcn::ImageFont>(
-          "images/techyfontbighighlight.png",
-          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
-          cfg2
-        );
+            "images/techyfontbighighlight.png",
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+            cfg2);
     }
 
     {
@@ -218,10 +216,9 @@ void FPSDemo::initGui()
         cfg3.explicitSeparator = fcn::Color{255, 250, 0, 255};
 
         mSmallBlackFont = std::make_unique<fcn::ImageFont>(
-          "images/techyfontblack.png",
-          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
-          cfg3
-        );
+            "images/techyfontblack.png",
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+            cfg3);
     }
 
     {
@@ -231,11 +228,9 @@ void FPSDemo::initGui()
         cfg4.explicitSeparator = fcn::Color{255, 0, 0, 255};
 
         mWhiteFont = std::make_unique<fcn::ImageFont>(
-          "images/techyfontwhite.png",
-          " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
-          cfg4
-        );
-
+            "images/techyfontwhite.png",
+            " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+            cfg4);
     }
 
     fcn::Widget::setGlobalFont(mWhiteFont.get());
@@ -286,8 +281,8 @@ void FPSDemo::cleanGui()
     if (mGui != nullptr) {
         mGui->setTop(nullptr);
     }
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     cleanTextures();
     cleanMain();

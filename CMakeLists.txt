@@ -226,6 +226,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/exception.hpp
     include/fifechan/focushandler.hpp
     include/fifechan/font.hpp
+    include/fifechan/fontloader.hpp
     include/fifechan/genericinput.hpp
     include/fifechan/graphics.hpp
     include/fifechan/groups.hpp
@@ -314,9 +315,10 @@ set(FIFECHAN_SRC
     src/events/mouseevent.cpp
     src/events/selectionevent.cpp
     src/fifechan.cpp
-    src/focushandler.cpp
-    src/font.cpp
-    src/genericinput.cpp
+     src/focushandler.cpp
+     src/font.cpp
+     src/fontloader.cpp
+     src/genericinput.cpp
     src/graphics.cpp
     src/gui.cpp
     src/image.cpp

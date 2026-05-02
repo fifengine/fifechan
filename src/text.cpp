@@ -91,7 +91,7 @@ namespace fcn
 
         std::string result;
         for (size_t i = 0; i < mRows.size() - 1; ++i) {
-            result.append(mRows[i]).append("\n");
+            result.append(mRows.at(i)).append("\n");
         }
 
         result.append(mRows.back());
@@ -106,7 +106,7 @@ namespace fcn
         }
         assert("content is valid utf8" && utf8::is_valid(content.begin(), content.end()));
 
-        mRows[row] = content;
+        mRows.at(row) = content;
     }
 
     void Text::addRow(std::string const & row)
@@ -158,7 +158,7 @@ namespace fcn
             throwException("Row out of bounds!");
         }
 
-        return mRows[row];
+        return mRows.at(row);
     }
 
     void Text::insert(int character)
@@ -176,11 +176,12 @@ namespace fcn
             }
         } else {
             if (c == '\n') {
-                std::string const tail = mRows[mCaretRow].substr(mCaretColumn, mRows[mCaretRow].size() - mCaretColumn);
-                mRows[mCaretRow].resize(mCaretColumn);
+                std::string const tail =
+                    mRows.at(mCaretRow).substr(mCaretColumn, mRows.at(mCaretRow).size() - mCaretColumn);
+                mRows.at(mCaretRow).resize(mCaretColumn);
                 mRows.insert(mRows.begin() + mCaretRow + 1, tail);
             } else {
-                mRows[mCaretRow].insert(mCaretColumn, std::string(1, c));
+                mRows.at(mCaretRow).insert(mCaretColumn, std::string(1, c));
             }
         }
 
@@ -209,12 +210,12 @@ namespace fcn
                 // and the row is not the first row we
                 // need to merge two rows.
                 if (mCaretColumn == 0 && mCaretRow != 0) {
-                    mRows[mCaretRow - 1] += mRows[mCaretRow];
+                    mRows.at(mCaretRow - 1) += mRows.at(mCaretRow);
                     mRows.erase(mRows.begin() + mCaretRow);
                     setCaretRow(mCaretRow - 1);
                     setCaretColumn(getNumberOfCharacters(mCaretRow));
                 } else {
-                    mRows[mCaretRow].erase(mCaretColumn - 1, 1);
+                    mRows.at(mCaretRow).erase(mCaretColumn - 1, 1);
                     setCaretPosition(mCaretPosition - 1);
                 }
 
@@ -231,12 +232,12 @@ namespace fcn
 
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two rows.
-                if (mCaretRow < mRows.size() && mCaretColumn == mRows[mCaretRow].size() &&
+                if (mCaretRow < mRows.size() && mCaretColumn == mRows.at(mCaretRow).size() &&
                     mCaretRow < (mRows.size() - 1)) {
-                    mRows[mCaretRow] += mRows[mCaretRow + 1];
+                    mRows.at(mCaretRow) += mRows.at(mCaretRow + 1);
                     mRows.erase(mRows.begin() + mCaretRow + 1);
                 } else {
-                    mRows[mCaretRow].erase(mCaretColumn, 1);
+                    mRows.at(mCaretRow).erase(mCaretColumn, 1);
                 }
 
                 numberOfCharacters--;
@@ -264,7 +265,7 @@ namespace fcn
         unsigned int total     = 0;
 
         for (unsigned int i = 0; i < mRows.size(); ++i) {
-            unsigned int const rowLen = static_cast<unsigned int>(mRows[i].size());
+            unsigned int const rowLen = static_cast<unsigned int>(mRows.at(i).size());
 
             if (pos < total + rowLen) {
                 mCaretRow      = i;
@@ -317,7 +318,7 @@ namespace fcn
         }
 
         setCaretRow(y / font->getHeight());
-        setCaretColumn(font->getStringIndexAt(mRows[mCaretRow], x));
+        setCaretColumn(font->getStringIndexAt(mRows.at(mCaretRow), x));
     }
 
     int Text::getCaretColumn() const
@@ -334,8 +335,8 @@ namespace fcn
     {
         if (mRows.empty() || column < 0) {
             mCaretColumn = 0;
-        } else if (std::cmp_greater(column, mRows[mCaretRow].size())) {
-            mCaretColumn = mRows[mCaretRow].size();
+        } else if (std::cmp_greater(column, mRows.at(mCaretRow).size())) {
+            mCaretColumn = mRows.at(mCaretRow).size();
         } else {
             mCaretColumn = column;
         }
@@ -364,7 +365,7 @@ namespace fcn
             return 0;
         }
 
-        return font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn));
+        return font->getWidth(mRows.at(mCaretRow).substr(0, mCaretColumn));
     }
 
     int Text::getCaretY(Font* font) const
@@ -402,7 +403,7 @@ namespace fcn
         assert("font height is positive" && font->getHeight() > 0);
 
         Rectangle dim;
-        dim.x      = !mRows.empty() ? font->getWidth(mRows[mCaretRow].substr(0, mCaretColumn)) : 0;
+        dim.x      = !mRows.empty() ? font->getWidth(mRows.at(mCaretRow).substr(0, mCaretColumn)) : 0;
         dim.y      = font->getHeight() * mCaretRow;
         dim.width  = font->getWidth(" ");
         dim.height = font->getHeight() + 2;
@@ -442,7 +443,7 @@ namespace fcn
             return 0;
         }
 
-        return mRows[row].size();
+        return mRows.at(row).size();
     }
 
     void Text::calculateCaretPositionFromRowAndColumn()
@@ -450,7 +451,7 @@ namespace fcn
         unsigned int total = 0;
         for (auto i = 0; std::cmp_less(i, mCaretRow); i++) {
             // Add one for the line feed.
-            total += mRows[i].size() + 1;
+            total += mRows.at(i).size() + 1;
         }
 
         mCaretPosition = total + mCaretColumn;

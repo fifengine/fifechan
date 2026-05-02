@@ -98,9 +98,9 @@ namespace fcn
                 Rectangle const rec = Rectangle(
                     getBorderSize() + getPaddingLeft(),
                     getBorderSize() + getPaddingTop() +
-                        (mBarImage->getHeight() - mBarImage->getHeight() * mValue / mMaxValue),
+                        (mBarImage->getHeight() - (mBarImage->getHeight() * mValue / mMaxValue)),
                     mBarImage->getWidth(),
-                    mBarImage->getHeight() * mValue / mMaxValue);
+                    (mBarImage->getHeight() * mValue / mMaxValue));
                 graphics->pushClipArea(rec);
                 graphics->drawImage(mBarImage, 0, 0);
                 graphics->popClipArea();
@@ -213,8 +213,8 @@ namespace fcn
             w = mBarImage->getWidth();
             h = mBarImage->getHeight();
         }
-        w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        w += (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+        h += (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 }; // namespace fcn

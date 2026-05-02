@@ -53,7 +53,8 @@ namespace fcn::opengl
                         unsigned char r, g, b, a;
                         SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
                         // Pack as R in bits 0-7, G in 8-15, B in 16-23, A in 24-31
-                        packedPixels[x + y * surface->w] = r | (g << 8) | (b << 16) | (a << 24);
+                        packedPixels.at(static_cast<size_t>(x + (y * surface->w))) =
+                            r | (g << 8) | (b << 16) | (a << 24);
                     }
                 }
 

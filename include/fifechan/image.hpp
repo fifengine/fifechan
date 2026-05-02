@@ -68,12 +68,21 @@ namespace fcn
              * Sets the ImageLoader to be used for loading images.
              *
              * IMPORTANT: The image loader is static and MUST be set before
-             *            loading images!
+             *            loading images! This method does not support resetting
+             *            the loader (use resetImageLoader() instead).
              *
-             * @param imageLoader The image loader to be used for loading images.
-             * @see getImageLoader, OpenGLSDLImageLoader, SDLImageLoader
+             * @param imageLoader The image loader to be used for loading images (must not be null).
+             * @see getImageLoader, resetImageLoader, OpenGLSDLImageLoader, SDLImageLoader
              */
             static void setImageLoader(ImageLoader* imageLoader);
+
+            /**
+             * Resets the image loader used for loading images, detaching it from the Image class.
+             * This allows the loader to be destroyed externally after being detached.
+             *
+             * @see setImageLoader
+             */
+            static void resetImageLoader();
 
             /**
              * Frees an image.

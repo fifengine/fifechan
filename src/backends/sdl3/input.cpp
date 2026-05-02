@@ -158,7 +158,7 @@ namespace fcn::sdl3
                 // hack to transport text
                 std::vector<char16_t> result;
                 utf8::utf8to16(text.begin(), text.end(), std::back_inserter(result));
-                int const value = result[0];
+                int const value = result.at(0);
 
                 keyInput.setKey(Key(value));
                 keyInput.setType(KeyInput::Type::Pressed);

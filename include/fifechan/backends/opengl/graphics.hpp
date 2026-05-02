@@ -53,25 +53,7 @@ namespace fcn::opengl
              */
             void setTargetPlane(int width, int height);
 
-        protected:
-            virtual void setTargetPlaneImpl(int width, int height);
-
-            /**
-             * Gets the target plane width.
-             *
-             * @return The target plane width.
-             */
-            virtual int getTargetPlaneWidth() const;
-
-            /**
-             * Gets the target plane height.
-             *
-             * @return The target plane height.
-             */
-            virtual int getTargetPlaneHeight() const;
-
             // Inherited from Graphics
-
             void _beginDraw() override;
 
             void _endDraw() override;
@@ -122,6 +104,23 @@ namespace fcn::opengl
             void setColor(Color const & color) override;
 
             Color const & getColor() const override;
+
+        protected:
+            virtual void setTargetPlaneImpl(int width, int height);
+
+            /**
+             * Gets the target plane width.
+             *
+             * @return The target plane width.
+             */
+            virtual int getTargetPlaneWidth() const;
+
+            /**
+             * Gets the target plane height.
+             *
+             * @return The target plane height.
+             */
+            virtual int getTargetPlaneHeight() const;
 
             /** Width of the logical target plane. */
             int mWidth{};

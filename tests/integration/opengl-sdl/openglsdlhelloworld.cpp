@@ -138,8 +138,8 @@ void Application::init_gui(int width, int height)
 
 void Application::cleanup()
 {
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     label.reset();
     font.reset();

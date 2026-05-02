@@ -43,7 +43,7 @@ namespace fcn::sdl3
 
             // Set magenta as color key only if not already set by ImageLoader
             Uint32 existingKey = 0;
-            if (SDL_GetSurfaceColorKey(surface, &existingKey) == 0) {
+            if (SDL_GetSurfaceColorKey(surface, &existingKey) == false) {
                 // Color key already set - preserve it (from ImageLoader)
             } else {
                 // No color key set - don't add one in constructor (for font images)
@@ -76,7 +76,7 @@ namespace fcn::sdl3
             }
 
             Uint32 transientKey = 0;
-            if (SDL_GetSurfaceColorKey(mTransientSurface, &transientKey) == 0) {
+            if (SDL_GetSurfaceColorKey(mTransientSurface, &transientKey) == false) {
                 // Color key already set - preserve it (from ImageLoader)
             } else {
                 // No color key set - don't add one (for font images)

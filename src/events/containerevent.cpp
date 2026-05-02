@@ -5,6 +5,9 @@
 // Corresponding header include
 #include "fifechan/events/containerevent.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Project headers (subdirs before local)
 #include "fifechan/events/event.hpp"
 
@@ -12,6 +15,7 @@ namespace fcn
 {
     ContainerEvent::ContainerEvent(Widget* source, Container* container) : Event(source), mContainer(container)
     {
+        assert("Source widget must not be null" && source != nullptr);
     }
 
     Container* ContainerEvent::getContainer() const

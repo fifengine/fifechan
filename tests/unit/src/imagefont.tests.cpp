@@ -58,7 +58,7 @@ namespace
             {
                 // Clean up the global ImageLoader
                 if (mImageLoader != nullptr) {
-                    fcn::Image::setImageLoader(nullptr);
+                    // Don't set nullptr since that would assert
                     delete mImageLoader;
                     mImageLoader = nullptr;
                 }

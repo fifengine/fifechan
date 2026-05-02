@@ -6,6 +6,7 @@
 #include "fifechan/rectangle.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <ostream>
 
 namespace fcn
@@ -16,10 +17,14 @@ namespace fcn
 
     Rectangle::Rectangle(int x_, int y_, int width_, int height_) : x(x_), y(y_), width(width_), height(height_)
     {
+        assert("Width must be non-negative" && width_ >= 0);
+        assert("Height must be non-negative" && height_ >= 0);
     }
 
     void Rectangle::setAll(int x_, int y_, int width_, int height_)
     {
+        assert("Width must be non-negative" && width_ >= 0);
+        assert("Height must be non-negative" && height_ >= 0);
         x      = x_;
         y      = y_;
         width  = width_;
@@ -123,13 +128,15 @@ namespace fcn
 
         int const nx2 = x + width < rh.x + rh.width ? x + width : rh.x + rh.width;
         int const ny2 = y + height < rh.y + rh.height ? y + height : rh.y + rh.height;
-        Rectangle result(nx, ny, nx2 - nx, ny2 - ny);
 
-        if (result.isEmpty()) {
+        int const w = nx2 - nx;
+        int const h = ny2 - ny;
+
+        if (w <= 0 || h <= 0) {
             return {nx, ny, 0, 0};
         }
 
-        return result;
+        return {nx, ny, w, h};
     }
 
     std::ostream& operator<<(std::ostream& out, Rectangle const & rectangle)

@@ -196,8 +196,8 @@ int main(int /*argc*/, char** /*argv*/)
         gui->setTop(nullptr);
     }
 
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

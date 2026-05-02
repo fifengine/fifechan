@@ -6,6 +6,7 @@
 #include "fifechan/events/actionevent.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <string>
 #include <utility>
 
@@ -16,6 +17,7 @@ namespace fcn
 {
     ActionEvent::ActionEvent(Widget* source, std::string id) : Event(source), mId(std::move(id))
     {
+        assert("Source widget must not be null" && source != nullptr);
     }
 
     std::string const & ActionEvent::getId() const

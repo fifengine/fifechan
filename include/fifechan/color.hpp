@@ -318,7 +318,7 @@ namespace fcn
              * @param out The stream to output to.
              * @param color The color to output.
              */
-            friend std::ostream& operator<<(std::ostream& out, Color const & color);
+            friend FIFEGUI_API std::ostream& operator<<(std::ostream& out, Color const & color);
 
             /** Red color component (0-255). */
             uint8_t r{0};

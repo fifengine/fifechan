@@ -41,6 +41,7 @@
 
 #include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/dragdrop.hpp>
+#include <fifechan/fontloader.hpp>
 
 #include <fifechan.hpp>
 
@@ -537,10 +538,19 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    std::string const fontPath = execDir.string() + "/ArchitectsDaughter.ttf";
-    int const fontSize         = std::max(12, std::min(640, 360) / 64);
+    // Use the new font loading API to find ArchitectsDaughter font
+    std::filesystem::path fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+    if (fontPath.empty()) {
+        std::cerr << "[ERROR] Could not find ArchitectsDaughter.ttf in search paths\n";
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 5;
+    }
+
+    int const fontSize = std::max(12, std::min(640, 360) / 64);
     try {
-        gui->setGlobalFont(fontPath, fontSize);
+        gui->setGlobalFont(fontPath.string(), fontSize);
     } catch (std::exception const & e) {
         std::cerr << "[ERROR] Exception loading font: " << e.what() << '\n';
         SDL_DestroyRenderer(renderer);
@@ -750,8 +760,8 @@ int main(int argc, char* argv[])
     }
 
     // Cleanup
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     gui.reset();
     input.reset();

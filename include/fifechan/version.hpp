@@ -56,7 +56,7 @@ namespace fcn
             .minor = 2,
             .patch = 0,
         };
-        static constexpr int version_id = 0 * 10000 + 2 * 100 + 0;
+        static constexpr int version_id = (0 * 10000) + (2 * 100) + 0;
             // clang-format on
 
             /**

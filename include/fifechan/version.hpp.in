@@ -33,17 +33,17 @@ namespace fcn
     class semantic_version
     {
     public:
-        // clang-format off
+    // clang-format off
         int major = @PROJECT_VERSION_MAJOR@;
         int minor = @PROJECT_VERSION_MINOR@;
         int patch = @PROJECT_VERSION_PATCH@;
-        // clang-format on
+    // clang-format on
     };
 
     class app_version
     {
     public:
-        // clang-format off
+    // clang-format off
         static constexpr std::string_view nice_name   = "@FIFECHAN_NAME@";
         static constexpr std::string_view name        = "@FIFECHAN_NAME@";
         static constexpr std::string_view version     = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@";
@@ -56,8 +56,8 @@ namespace fcn
             .minor = @PROJECT_VERSION_MINOR@,
             .patch = @PROJECT_VERSION_PATCH@,
         };
-        static constexpr int version_id = @PROJECT_VERSION_MAJOR@ * 10000 + @PROJECT_VERSION_MINOR@ * 100 + @PROJECT_VERSION_PATCH@;
-        // clang-format on
+        static constexpr int version_id = (@PROJECT_VERSION_MAJOR@ * 10000) + (@PROJECT_VERSION_MINOR@ * 100) + @PROJECT_VERSION_PATCH@;
+    // clang-format on
 
         /**
          * Getters - c_str() types

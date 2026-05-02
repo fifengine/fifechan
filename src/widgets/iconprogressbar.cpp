@@ -181,8 +181,8 @@ namespace fcn
                 h *= mMaxIcons;
             }
         }
-        w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        w += (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+        h += (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 }; // namespace fcn

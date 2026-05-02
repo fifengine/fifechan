@@ -400,6 +400,7 @@ namespace fcn
             mDimension.height = mFixedSize.getHeight();
             return;
         }
+
         int const minWidth   = mMinSize.getWidth();
         int const minHeight  = mMinSize.getHeight();
         int const maxWidth   = mMaxSize.getWidth();
@@ -995,6 +996,7 @@ namespace fcn
 
     void Widget::setGlobalFont(Font* font)
     {
+        assert("Global font must not be null" && font != nullptr);
         mGlobalFont = font;
 
         std::list<Widget*>::iterator iter;
@@ -1003,6 +1005,11 @@ namespace fcn
                 (*iter)->fontChanged();
             }
         }
+    }
+
+    void Widget::resetGlobalFont()
+    {
+        mGlobalFont = nullptr;
     }
 
     void Widget::setFont(Font* font)

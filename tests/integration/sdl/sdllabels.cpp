@@ -201,8 +201,8 @@ void Application::init_gui(int width, int height)
 void Application::cleanup()
 {
     // Reset global GUI hooks before releasing the GUI-owned widget tree.
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     labels.clear();
     cells.clear();

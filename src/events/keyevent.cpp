@@ -5,6 +5,9 @@
 // Corresponding header include
 #include "fifechan/events/keyevent.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -29,6 +32,7 @@ namespace fcn
         mIsNumericPad(isNumericPad),
         mKey(key)
     {
+        assert("Type must be Pressed or Released" && (type == Type::Pressed || type == Type::Released));
     }
 
     KeyEvent::Type KeyEvent::getType() const

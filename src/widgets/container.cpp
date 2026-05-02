@@ -27,10 +27,10 @@ namespace fcn
         bool const active = isFocused();
         // Compute per-side border offsets so widgets using side-only borders
         // (e.g., bottom-only) don't get inset on all sides.
-        int leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) ? static_cast<int>(getBorderSize()) : 0;
-        int topBorder    = (getBorderSides() & Widget::BORDER_TOP) ? static_cast<int>(getBorderSize()) : 0;
-        int rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) ? static_cast<int>(getBorderSize()) : 0;
-        int bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) ? static_cast<int>(getBorderSize()) : 0;
+        int leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int topBorder    = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
 
         if (isOpaque()) {
             if (active &&
@@ -70,9 +70,9 @@ namespace fcn
     // TODO opacity with 0.0 = fully transparent, 1.0 = fully visible
     void Container::setOpacity(float opacity)
     {
-        mOpacity = std::clamp(opacity, 0.0f, 1.0f);
+        mOpacity = std::clamp(opacity, 0.0F, 1.0F);
 
-        if (mOpacity < 1.0f) {
+        if (mOpacity < 1.0F) {
             setOpaque(false);
         } else {
             setOpaque(true);
@@ -712,10 +712,11 @@ namespace fcn
     {
         // Set per-side border offsets.
         // Widgets using side-only borders (e.g. border-bottom only) don't get inset on all sides.
-        int const leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) ? static_cast<int>(getBorderSize()) : 0;
-        int const topBorder    = (getBorderSides() & Widget::BORDER_TOP) ? static_cast<int>(getBorderSize()) : 0;
-        int const rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) ? static_cast<int>(getBorderSize()) : 0;
-        int const bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder  = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const topBorder   = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const rightBorder = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const bottomBorder =
+            (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
 
         int const horizontalBorders = leftBorder + rightBorder;
         int const verticalBorders   = topBorder + bottomBorder;

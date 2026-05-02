@@ -102,7 +102,7 @@ namespace fcn
                         int charWidth   = 0;
                         int charsToShow = 0;
                         for (size_t i = 0; i < mText.size(); ++i) {
-                            charWidth += font != nullptr ? font->getWidth(std::string(1, mText[i])) : 8;
+                            charWidth += font != nullptr ? font->getWidth(std::string(1, mText.at(i))) : 8;
                             if (charWidth > availableForTextContent) {
                                 break;
                             }
@@ -118,7 +118,7 @@ namespace fcn
                     int charWidth   = 0;
                     int charsToShow = 0;
                     for (size_t i = 0; i < mText.size(); ++i) {
-                        charWidth += font != nullptr ? font->getWidth(std::string(1, mText[i])) : 8;
+                        charWidth += font != nullptr ? font->getWidth(std::string(1, mText.at(i))) : 8;
                         if (charWidth > availableForText) {
                             break;
                         }

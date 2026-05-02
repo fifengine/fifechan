@@ -150,7 +150,7 @@ namespace fcn
             textX = 0;
             break;
         case Graphics::Alignment::Center:
-            textX = (getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight()) / 2;
+            textX = (getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight()) / 2;
             break;
         case Graphics::Alignment::Right:
             textX = getWidth() - getBorderSize() - getPaddingRight();
@@ -220,11 +220,12 @@ namespace fcn
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;
-        rec.x      = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
-        rec.y      = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
-        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight() - 2 * getInnerBorderSize();
-        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom() -
-                     2 * getInnerBorderSize() - getTitleBarHeight();
+        rec.x = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
+        rec.y = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
+        rec.width =
+            getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight() - (2 * getInnerBorderSize());
+        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom() -
+                     (2 * getInnerBorderSize()) - getTitleBarHeight();
         return rec;
     }
 

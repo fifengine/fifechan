@@ -103,6 +103,8 @@ namespace fcn::sdl3
         SDL_FRect src;
         dst.x = static_cast<float>(x);
         dst.y = static_cast<float>(y + yoffset);
+        dst.w = static_cast<float>(textSurface->w);
+        dst.h = static_cast<float>(textSurface->h);
         src.w = static_cast<float>(textSurface->w);
         src.h = static_cast<float>(textSurface->h);
         src.x = 0.0F;

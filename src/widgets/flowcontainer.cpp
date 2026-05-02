@@ -127,7 +127,7 @@ namespace fcn
                     dim.x += x;
                     break;
                 case Alignment::Center:
-                    dim.x += x + (columnW - layoutW) / 2;
+                    dim.x += x + ((columnW - layoutW) / 2);
                     break;
                 case Alignment::Right:
                     dim.x += x + (columnW - layoutW);
@@ -179,7 +179,7 @@ namespace fcn
                     dim.y += y;
                     break;
                 case Alignment::Center:
-                    dim.y += y + (rowH - layoutH) / 2;
+                    dim.y += y + ((rowH - layoutH) / 2);
                     break;
                 case Alignment::Bottom:
                     dim.y += y + (rowH - layoutH);

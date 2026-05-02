@@ -115,9 +115,13 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
     cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
 
     mFontWhite = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"", cfg);
+        "images/rpgfont.png",
+        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+        cfg);
     mFontCyan = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"", cfg);
+        "images/rpgfont2.png",
+        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+        cfg);
     fcn::Widget::setGlobalFont(mFontWhite.get());
 
     initMain();
@@ -188,8 +192,8 @@ FFDemo::~FFDemo()
     if (mGui != nullptr) {
         mGui->setTop(nullptr);
     }
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     cleanStatus();
     cleanAbout();

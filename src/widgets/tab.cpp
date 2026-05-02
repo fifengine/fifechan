@@ -44,8 +44,8 @@ namespace fcn
         Rectangle rec;
         rec.x      = getBorderSize() + getPaddingLeft();
         rec.y      = getBorderSize() + getPaddingTop();
-        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        rec.width  = getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 

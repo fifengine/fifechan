@@ -195,7 +195,7 @@ namespace fcn
         }
 
         for (size_t i = 0; i < glyphs.size(); ++i) {
-            mGlyph[static_cast<unsigned char>(glyphs[i])] = found[i];
+            mGlyph.at(static_cast<unsigned char>(glyphs.at(i))) = found.at(i);
         }
 
         if (config.verbose) {
@@ -203,9 +203,9 @@ namespace fcn
                       << " Found=" << found.size() << " Separator=R:" << static_cast<int>(sep.r)
                       << " G:" << static_cast<int>(sep.g) << " B:" << static_cast<int>(sep.b) << "\n";
             for (size_t i = 0; i < glyphs.size(); ++i) {
-                unsigned char const c = static_cast<unsigned char>(glyphs[i]);
-                Rectangle const & r   = mGlyph[c];
-                std::cerr << "  glyph '" << glyphs[i] << "' (" << static_cast<int>(c) << ") -> x=" << r.x
+                unsigned char const c = static_cast<unsigned char>(glyphs.at(i));
+                Rectangle const & r   = mGlyph.at(c);
+                std::cerr << "  glyph '" << glyphs.at(i) << "' (" << static_cast<int>(c) << ") -> x=" << r.x
                           << " y=" << r.y << " w=" << r.width << " h=" << r.height << "\n";
             }
         }
@@ -255,10 +255,10 @@ namespace fcn
         // Scan for all glyphs
         for (char const glyph : glyphs) {
             auto const k = static_cast<unsigned char>(glyph);
-            mGlyph[k]    = scanForGlyph(k, x, y, separator);
+            mGlyph.at(k) = scanForGlyph(k, x, y, separator);
             // Update x and y with new coordinates.
-            x = mGlyph[k].x + mGlyph[k].width;
-            y = mGlyph[k].y;
+            x = mGlyph.at(k).x + mGlyph.at(k).width;
+            y = mGlyph.at(k).y;
         }
 
         mImage->convertToDisplayFormat();
@@ -299,10 +299,10 @@ namespace fcn
         for (i = 0; std::cmp_less(i, glyphs.size()); ++i) {
             unsigned char const glyph = glyphs.at(i);
 
-            mGlyph[glyph] = scanForGlyph(glyph, x, y, separator);
+            mGlyph.at(glyph) = scanForGlyph(glyph, x, y, separator);
             // Update x and y with new coordinates.
-            x = mGlyph[glyph].x + mGlyph[glyph].width;
-            y = mGlyph[glyph].y;
+            x = mGlyph.at(glyph).x + mGlyph.at(glyph).width;
+            y = mGlyph.at(glyph).y;
         }
 
         mImage->convertToDisplayFormat();
@@ -339,7 +339,7 @@ namespace fcn
         }
 
         for (size_t i = 0; i < glyphs.size(); ++i) {
-            mGlyph[static_cast<unsigned char>(glyphs[i])] = found[i];
+            mGlyph.at(static_cast<unsigned char>(glyphs.at(i))) = found.at(i);
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxHeight, auto const & r) {
@@ -377,10 +377,10 @@ namespace fcn
         int y   = 0;
 
         for (i = glyphsFrom; i < glyphsTo + 1; i++) {
-            mGlyph[i] = scanForGlyph(i, x, y, separator);
+            mGlyph.at(i) = scanForGlyph(i, x, y, separator);
             // Update x och y with new coordinates.
-            x = mGlyph[i].x + mGlyph[i].width;
-            y = mGlyph[i].y;
+            x = mGlyph.at(i).x + mGlyph.at(i).width;
+            y = mGlyph.at(i).y;
         }
 
         mImage->convertToDisplayFormat();
@@ -422,7 +422,7 @@ namespace fcn
 
         for (int i = 0; i < expected; ++i) {
             unsigned char const glyph = static_cast<unsigned char>(static_cast<int>(glyphsFrom) + i);
-            mGlyph[glyph]             = found[i];
+            mGlyph.at(glyph)          = found.at(i);
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxH, auto const & r) {
@@ -441,11 +441,11 @@ namespace fcn
 
     int ImageFont::getWidth(unsigned char glyph) const
     {
-        if (mGlyph[glyph].width == 0) {
-            return mGlyph[static_cast<int>((' '))].width + mGlyphSpacing;
+        if (mGlyph.at(glyph).width == 0) {
+            return mGlyph.at(static_cast<int>(' ')).width + mGlyphSpacing;
         }
 
-        return mGlyph[glyph].width + mGlyphSpacing;
+        return mGlyph.at(glyph).width + mGlyphSpacing;
     }
 
     int ImageFont::getHeight() const
@@ -459,20 +459,26 @@ namespace fcn
         // if we have spacing.
         int const yoffset = getRowSpacing() / 2;
 
-        if (mGlyph[glyph].width == 0) {
+        if (mGlyph.at(glyph).width == 0) {
             graphics->drawRectangle(
                 x,
                 y + 1 + yoffset,
-                mGlyph[static_cast<int>((' '))].width - 1,
-                mGlyph[static_cast<int>((' '))].height - 2);
+                mGlyph.at(static_cast<int>(' ')).width - 1,
+                mGlyph.at(static_cast<int>(' ')).height - 2);
 
-            return mGlyph[static_cast<int>((' '))].width + mGlyphSpacing;
+            return mGlyph.at(static_cast<int>(' ')).width + mGlyphSpacing;
         }
 
         graphics->drawImage(
-            mImage, mGlyph[glyph].x, mGlyph[glyph].y, x, y + yoffset, mGlyph[glyph].width, mGlyph[glyph].height);
+            mImage,
+            mGlyph.at(glyph).x,
+            mGlyph.at(glyph).y,
+            x,
+            y + yoffset,
+            mGlyph.at(glyph).width,
+            mGlyph.at(glyph).height);
 
-        return mGlyph[glyph].width + mGlyphSpacing;
+        return mGlyph.at(glyph).width + mGlyphSpacing;
     }
 
     void ImageFont::drawString(Graphics* graphics, std::string const & text, int x, int y)

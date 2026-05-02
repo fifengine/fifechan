@@ -307,7 +307,7 @@ namespace fcn
             int& operator[](int ind)
             {
                 assert(ind > -1 && ind < 2);
-                return val[ind];
+                return val.at(static_cast<size_t>(ind));
             }
 
             /**

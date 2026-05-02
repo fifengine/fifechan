@@ -1,123 +1,90 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Third-party library includes
+#include <string>
+
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
-#include <fifechan/events/actionevent.hpp>
-#include <fifechan/widget.hpp>
+// Project headers
+#include "fifechan/events/actionevent.hpp"
+#include "fifechan/widgets/label.hpp" // Use concrete widget
 
-TEST_CASE("ActionEvent constructors initialize properly", "[unit][actionevent]")
+using namespace fcn;
+
+// ============================================================================
+// ActionEvent constructor and getId
+// ============================================================================
+
+TEST_CASE("ActionEvent constructor sets source and id", "[unit][actionevent]")
 {
-    SECTION("empty id constructor")
-    {
-        fcn::Widget* widget = reinterpret_cast<fcn::Widget*>(1);
-        fcn::ActionEvent event(widget, "");
+    Label widget;
+    ActionEvent event(&widget, "test_id");
 
-        REQUIRE(event.getSource() == widget);
-        REQUIRE(event.getId() == "");
-    }
-
-    SECTION("non-empty id constructor")
-    {
-        fcn::Widget* widget = reinterpret_cast<fcn::Widget*>(2);
-        fcn::ActionEvent event(widget, "click");
-
-        REQUIRE(event.getSource() == widget);
-        REQUIRE(event.getId() == "click");
-    }
-
-    SECTION("null source with empty id")
-    {
-        fcn::ActionEvent event(nullptr, "");
-
-        REQUIRE(event.getSource() == nullptr);
-        REQUIRE(event.getId() == "");
-    }
-
-    SECTION("null source with id")
-    {
-        fcn::ActionEvent event(nullptr, "action");
-
-        REQUIRE(event.getSource() == nullptr);
-        REQUIRE(event.getId() == "action");
-    }
+    REQUIRE(event.getSource() == &widget);
+    REQUIRE(event.getId() == "test_id");
 }
 
 TEST_CASE("ActionEvent getId returns correct id", "[unit][actionevent]")
 {
-    SECTION("empty string")
-    {
-        fcn::ActionEvent event(nullptr, "");
-        REQUIRE(event.getId() == "");
-    }
+    Label widget;
 
     SECTION("simple id")
     {
-        fcn::ActionEvent event(nullptr, "button_click");
+        ActionEvent event(&widget, "button_click");
         REQUIRE(event.getId() == "button_click");
     }
 
-    SECTION("long id")
+    SECTION("empty id")
     {
-        fcn::ActionEvent event(nullptr, "very_long_action_identifier_that_describes_the_action");
-        REQUIRE(event.getId() == "very_long_action_identifier_that_describes_the_action");
+        ActionEvent event(&widget, "");
+        REQUIRE(event.getId() == "");
     }
 
-    SECTION("special characters in id")
+    SECTION("id with special characters")
     {
-        fcn::ActionEvent event(nullptr, "action_123");
-        REQUIRE(event.getId() == "action_123");
-    }
-
-    SECTION("multiple ids from different events")
-    {
-        fcn::ActionEvent event1(nullptr, "open");
-        fcn::ActionEvent event2(nullptr, "save");
-        fcn::ActionEvent event3(nullptr, "cancel");
-
-        REQUIRE(event1.getId() == "open");
-        REQUIRE(event2.getId() == "save");
-        REQUIRE(event3.getId() == "cancel");
+        ActionEvent event(&widget, "btn_123!@#");
+        REQUIRE(event.getId() == "btn_123!@#");
     }
 }
 
-TEST_CASE("ActionEvent inherits from Event", "[unit][actionevent]")
+TEST_CASE("ActionEvent with different widgets", "[unit][actionevent]")
 {
-    SECTION("source is accessible via getSource")
-    {
-        fcn::Widget* widget = reinterpret_cast<fcn::Widget*>(1);
-        fcn::ActionEvent event(widget, "test");
+    Label widget1;
+    Label widget2;
 
-        // getSource is inherited from Event
-        REQUIRE(event.getSource() == widget);
-    }
+    ActionEvent event1(&widget1, "action1");
+    ActionEvent event2(&widget2, "action2");
+
+    REQUIRE(event1.getSource() == &widget1);
+    REQUIRE(event2.getSource() == &widget2);
+    REQUIRE(event1.getId() == "action1");
+    REQUIRE(event2.getId() == "action2");
 }
 
-TEST_CASE("ActionEvent edge cases", "[unit][actionevent]")
+// ============================================================================
+// ActionEvent - edge cases
+// ============================================================================
+
+TEST_CASE("ActionEvent with long id string", "[unit][actionevent]")
 {
-    SECTION("whitespace id")
-    {
-        fcn::ActionEvent event(nullptr, " ");
-        REQUIRE(event.getId() == " ");
-    }
+    Label widget;
+    std::string longId(1000, 'x'); // 1000 character string
 
-    SECTION("id with spaces")
-    {
-        fcn::ActionEvent event(nullptr, "hello world");
-        REQUIRE(event.getId() == "hello world");
-    }
+    ActionEvent event(&widget, longId);
+    REQUIRE(event.getId() == longId);
+}
 
-    SECTION("numeric id")
-    {
-        fcn::ActionEvent event(nullptr, "12345");
-        REQUIRE(event.getId() == "12345");
-    }
+TEST_CASE("ActionEvent id is copied not referenced", "[unit][actionevent]")
+{
+    Label widget;
+    std::string id = "original";
 
-    SECTION("unicode id")
-    {
-        fcn::ActionEvent event(nullptr, "\u4F60\u597D");
-        REQUIRE(event.getId() == "\u4F60\u597D");
-    }
+    ActionEvent event(&widget, id);
+
+    // Modify original string
+    id = "modified";
+
+    // Event should still have original id
+    REQUIRE(event.getId() == "original");
 }

@@ -5,6 +5,9 @@
 // Corresponding header include
 #include "fifechan/events/inputevent.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -28,6 +31,8 @@ namespace fcn
         mIsConsumed(false),
         mDistributor(distributor)
     {
+        assert("Source widget must not be null" && source != nullptr);
+        assert("Distributor widget must not be null" && distributor != nullptr);
     }
 
     bool InputEvent::isShiftPressed() const

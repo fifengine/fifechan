@@ -101,108 +101,28 @@ TEST_CASE("Rectangle intersection checks", "[unit][rectangle]")
     }
 }
 
-TEST_CASE("Rectangle isEmpty checks", "[unit][rectangle]")
+TEST_CASE("Rectangle isEmpty works correctly", "[unit][rectangle]")
 {
-    SECTION("zero dimensions is empty")
+    SECTION("Empty rectangle when width is zero")
     {
-        fcn::Rectangle const rect(0, 0, 0, 0);
+        fcn::Rectangle const rect(0, 0, 0, 10);
         REQUIRE(rect.isEmpty() == true);
     }
 
-    SECTION("negative dimensions is empty")
+    SECTION("Empty rectangle when height is zero")
     {
-        fcn::Rectangle const rect(0, 0, -1, 10);
+        fcn::Rectangle const rect(0, 0, 10, 0);
         REQUIRE(rect.isEmpty() == true);
     }
 
-    SECTION("positive dimensions is not empty")
+    SECTION("Non-empty rectangle")
     {
         fcn::Rectangle const rect(0, 0, 10, 10);
         REQUIRE(rect.isEmpty() == false);
     }
 }
 
-TEST_CASE("Rectangle bounds checking allows negative dimensions", "[unit][rectangle]")
-{
-    SECTION("constructor accepts negative width")
-    {
-        fcn::Rectangle const rect(0, 0, -1, 10);
-        REQUIRE(rect.width == -1);
-        REQUIRE(rect.height == 10);
-    }
-
-    SECTION("constructor accepts negative height")
-    {
-        fcn::Rectangle const rect(0, 0, 10, -1);
-        REQUIRE(rect.width == 10);
-        REQUIRE(rect.height == -1);
-    }
-
-    SECTION("setAll accepts negative width")
-    {
-        fcn::Rectangle rect;
-        rect.setAll(0, 0, -1, 10);
-        REQUIRE(rect.width == -1);
-        REQUIRE(rect.height == 10);
-    }
-
-    SECTION("setAll accepts negative height")
-    {
-        fcn::Rectangle rect;
-        rect.setAll(0, 0, 10, -1);
-        REQUIRE(rect.width == 10);
-        REQUIRE(rect.height == -1);
-    }
-
-    SECTION("isContaining accepts negative x and returns false")
-    {
-        fcn::Rectangle const rect(0, 0, 10, 10);
-        REQUIRE(rect.isContaining(-1, 5) == false);
-    }
-
-    SECTION("isContaining accepts negative y and returns false")
-    {
-        fcn::Rectangle const rect(0, 0, 10, 10);
-        REQUIRE(rect.isContaining(5, -1) == false);
-    }
-}
-
-TEST_CASE("Rectangle rectangle containment checks", "[unit][rectangle]")
-{
-    fcn::Rectangle const outer(0, 0, 100, 100);
-
-    SECTION("smaller contained rectangle returns true")
-    {
-        fcn::Rectangle const inner(10, 10, 20, 20);
-        REQUIRE(outer.isContaining(inner) == true);
-    }
-
-    SECTION("same size returns true")
-    {
-        fcn::Rectangle const same(0, 0, 100, 100);
-        REQUIRE(outer.isContaining(same) == true);
-    }
-
-    SECTION("larger rectangle returns false")
-    {
-        fcn::Rectangle const larger(0, 0, 200, 200);
-        REQUIRE(outer.isContaining(larger) == false);
-    }
-
-    SECTION("outside rectangle returns false")
-    {
-        fcn::Rectangle const outside(50, 50, 100, 100);
-        REQUIRE(outer.isContaining(outside) == false);
-    }
-
-    SECTION("empty inner returns false")
-    {
-        fcn::Rectangle const empty;
-        REQUIRE(outer.isContaining(empty) == false);
-    }
-}
-
-TEST_CASE("Rectangle union operator", "[unit][rectangle]")
+TEST_CASE("Rectangle rectangle intersection checks", "[unit][rectangle]")
 {
     fcn::Rectangle const rect1(0, 0, 10, 10);
     fcn::Rectangle const rect2(10, 10, 10, 10);

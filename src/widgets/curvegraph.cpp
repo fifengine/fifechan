@@ -115,8 +115,8 @@ namespace fcn
         }
 
         for (size_t i = 0; i < m_curveData.size() - 1; ++i) {
-            Point const & start = m_curveData[i];
-            Point const & end   = m_curveData[i + 1];
+            Point const & start = m_curveData.at(i);
+            Point const & end   = m_curveData.at(i + 1);
             graphics->drawRoundStroke(start.x, start.y, end.x, end.y, m_thickness);
         }
     }
@@ -165,7 +165,7 @@ namespace fcn
     Point CurveGraph::getBezierPoint(PointVector const & points, int elements, float t)
     {
         if (t < 0.0) {
-            return points[0];
+            return points.at(0);
         }
 
         if (t >= static_cast<double>(elements)) {
@@ -199,8 +199,8 @@ namespace fcn
                     diffn--;
                 }
             }
-            px += static_cast<double>(points[i].x) * blend;
-            py += static_cast<double>(points[i].y) * blend;
+            px += static_cast<double>(points.at(i).x) * blend;
+            py += static_cast<double>(points.at(i).y) * blend;
         }
 
         return Point(static_cast<int>(px), static_cast<int>(py));
@@ -222,14 +222,14 @@ namespace fcn
         Point p;
         // straight line
         if (n == 1) {
-            newPoints.push_back(points[0]);
-            p.x = (2 * points[0].x + points[1].x) / 3;
-            p.y = (2 * points[0].y + points[1].y) / 3;
+            newPoints.push_back(points.at(0));
+            p.x = ((2 * points.at(0).x) + points.at(1).x) / 3;
+            p.y = ((2 * points.at(0).y) + points.at(1).y) / 3;
             newPoints.push_back(p);
-            p.x = 2 * p.x - points[0].x;
-            p.y = 2 * p.y - points[0].y;
+            p.x = (2 * p.x) - points.at(0).x;
+            p.y = (2 * p.y) - points.at(0).y;
             newPoints.push_back(p);
-            newPoints.push_back(points[1]);
+            newPoints.push_back(points.at(1));
             return;
         }
 
@@ -237,15 +237,15 @@ namespace fcn
         std::vector<float> xrhs(static_cast<size_t>(n));
         std::vector<float> yrhs(static_cast<size_t>(n));
         // first
-        xrhs[0] = static_cast<float>(points[0].x + (2 * points[1].x));
-        yrhs[0] = static_cast<float>(points[0].y + (2 * points[1].y));
+        xrhs[0] = static_cast<float>(points.at(0).x + (2 * points.at(1).x));
+        yrhs[0] = static_cast<float>(points.at(0).y + (2 * points.at(1).y));
         // last
-        xrhs[n - 1] = static_cast<float>((8 * points[n - 1].x + points[n].x) / 2.0F);
-        yrhs[n - 1] = static_cast<float>((8 * points[n - 1].y + points[n].y) / 2.0F);
+        xrhs[n - 1] = static_cast<float>(((8 * points.at(n - 1).x) + points.at(n).x) / 2.0F);
+        yrhs[n - 1] = static_cast<float>(((8 * points.at(n - 1).y) + points.at(n).y) / 2.0F);
         // rest
         for (int i = 1; i < n - 1; ++i) {
-            xrhs[i] = static_cast<float>((4 * points[i].x) + (2 * points[i + 1].x));
-            yrhs[i] = static_cast<float>((4 * points[i].y) + (2 * points[i + 1].y));
+            xrhs[i] = static_cast<float>((4 * points.at(i).x) + (2 * points.at(i + 1).x));
+            yrhs[i] = static_cast<float>((4 * points.at(i).y) + (2 * points.at(i + 1).y));
         }
 
         std::vector<float> x(static_cast<size_t>(n));
@@ -272,24 +272,24 @@ namespace fcn
         }
 
         // start point
-        newPoints.push_back(points[0]);
+        newPoints.push_back(points.at(0));
         for (int i = 0; i < n - 1; ++i) {
             p.x = static_cast<int>(x[i]);
             p.y = static_cast<int>(y[i]);
             newPoints.push_back(p);
-            p.x = static_cast<int>((2 * points[i + 1].x) - x[i + 1]);
-            p.y = static_cast<int>((2 * points[i + 1].y) - y[i + 1]);
+            p.x = static_cast<int>((2 * points.at(i + 1).x) - x[i + 1]);
+            p.y = static_cast<int>((2 * points.at(i + 1).y) - y[i + 1]);
             newPoints.push_back(p);
 
-            newPoints.push_back(points[i + 1]);
+            newPoints.push_back(points.at(i + 1));
         }
         p.x = static_cast<int>(x[n - 1]);
         p.y = static_cast<int>(y[n - 1]);
         newPoints.push_back(p);
-        p.x = static_cast<int>((points[n].x + x[n - 1]) / 2);
-        p.y = static_cast<int>((points[n].y + y[n - 1]) / 2);
+        p.x = static_cast<int>((points.at(n).x + x[n - 1]) / 2);
+        p.y = static_cast<int>((points.at(n).y + y[n - 1]) / 2);
         newPoints.push_back(p);
         // end point
-        newPoints.push_back(points[n]);
+        newPoints.push_back(points.at(n));
     }
 }; // namespace fcn

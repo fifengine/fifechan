@@ -74,7 +74,7 @@ int main(int /*argc*/, char** /*argv*/)
             fcn::ImageFontConfig cfg;
             cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
             cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
-            //cfg.verbose           = true;
+            // cfg.verbose           = true;
 
             font = std::make_unique<fcn::ImageFont>(
                 "rpgfont.png",
@@ -122,9 +122,9 @@ int main(int /*argc*/, char** /*argv*/)
         gui->setTop(nullptr);
     }
 
-    fcn::Widget::setGlobalFont(nullptr);
+    fcn::Widget::resetGlobalFont();
 
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
 
     SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);

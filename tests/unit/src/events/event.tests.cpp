@@ -1,67 +1,45 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
-#include <fifechan/events/event.hpp>
-#include <fifechan/widget.hpp>
+// Project headers
+#include "fifechan/events/event.hpp"
+#include "fifechan/widgets/label.hpp" // Use concrete widget
 
-TEST_CASE("Event constructors initialize properly", "[unit][event]")
+using namespace fcn;
+
+// ============================================================================
+// Event constructor and getSource
+// ============================================================================
+
+TEST_CASE("Event constructor sets source", "[unit][event]")
 {
-    SECTION("nullptr source constructor")
-    {
-        fcn::Event event(nullptr);
-        REQUIRE(event.getSource() == nullptr);
-    }
+    Label widget;
+    Event event(&widget);
 
-    SECTION("widget source constructor")
-    {
-        // Fake widget pointer - never dereferenced, just stored/returned
-        fcn::Widget* widget = reinterpret_cast<fcn::Widget*>(1);
-        fcn::Event event(widget);
-        REQUIRE(event.getSource() == widget);
-    }
+    REQUIRE(event.getSource() == &widget);
 }
 
 TEST_CASE("Event getSource returns correct source", "[unit][event]")
 {
-    SECTION("null source")
-    {
-        fcn::Event event(nullptr);
-        REQUIRE(event.getSource() == nullptr);
-    }
+    Label widget1;
+    Label widget2;
 
-    SECTION("various widget addresses")
-    {
-        fcn::Widget* widget1 = reinterpret_cast<fcn::Widget*>(1);
-        fcn::Widget* widget2 = reinterpret_cast<fcn::Widget*>(2);
-        fcn::Widget* widget3 = nullptr;
+    Event event1(&widget1);
+    Event event2(&widget2);
 
-        fcn::Event event1(widget1);
-        fcn::Event event2(widget2);
-        fcn::Event event3(widget3);
-
-        REQUIRE(event1.getSource() == widget1);
-        REQUIRE(event2.getSource() == widget2);
-        REQUIRE(event3.getSource() == nullptr);
-    }
+    REQUIRE(event1.getSource() == &widget1);
+    REQUIRE(event2.getSource() == &widget2);
 }
 
-TEST_CASE("Event edge cases", "[unit][event]")
+TEST_CASE("Event multiple events different sources", "[unit][event]")
 {
-    SECTION("zero address is null")
-    {
-        fcn::Widget* zeroWidget = reinterpret_cast<fcn::Widget*>(0);
-        fcn::Event event(zeroWidget);
-        REQUIRE(event.getSource() == nullptr);
-    }
+    Label widgets[5];
 
-    SECTION("max address is valid source")
-    {
-        fcn::Widget* maxWidget = reinterpret_cast<fcn::Widget*>(UINTPTR_MAX);
-        fcn::Event event(maxWidget);
-        REQUIRE(event.getSource() == maxWidget);
+    for (int i = 0; i < 5; ++i) {
+        Event event(&widgets[i]);
+        REQUIRE(event.getSource() == &widgets[i]);
     }
 }

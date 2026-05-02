@@ -13,11 +13,11 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-#if defined(_WIN32)
+#ifdef _WIN32
     #include <windows.h>
 #endif // _WIN32
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
     #include <OpenGL/gl.h>
 #else
     #include <GL/gl.h>

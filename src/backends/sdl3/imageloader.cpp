@@ -116,16 +116,16 @@ namespace fcn::sdl3
 
         // Check if the surface already has a color key set (e.g., from the original surface)
         // SDL_ConvertSurface should preserve color key information
-        bool hasPink = false;
+        bool hasPink    = false;
         Uint32 colorKey = 0;
 
         if (SDL_SurfaceHasColorKey(converted)) {
-            if (SDL_GetSurfaceColorKey(converted, &colorKey) == 0) {
+            if (SDL_GetSurfaceColorKey(converted, &colorKey) == false) {
                 // For SDL_PIXELFORMAT_RGBA8888, the color key is stored as a 32-bit value
                 // Extract RGB components (assuming the color key was set with SDL_MapSurfaceRGB)
-                Uint8 r = (colorKey >> 16) & 0xFF;  // R is typically in bits 16-23 for RGBA8888
-                Uint8 g = (colorKey >> 8) & 0xFF;   // G is typically in bits 8-15
-                Uint8 b = colorKey & 0xFF;            // B is typically in bits 0-7
+                Uint8 r = (colorKey >> 16) & 0xFF; // R is typically in bits 16-23 for RGBA8888
+                Uint8 g = (colorKey >> 8) & 0xFF;  // G is typically in bits 8-15
+                Uint8 b = colorKey & 0xFF;         // B is typically in bits 0-7
                 if (r == 255 && g == 0 && b == 255) {
                     hasPink = true;
                 }

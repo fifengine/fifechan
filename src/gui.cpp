@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <list>
 #include <memory>
@@ -105,6 +106,8 @@ namespace fcn
 
     void Gui::setTop(Widget* top)
     {
+        assert("Top widget can be null to clear" || top != nullptr || top == nullptr); // Always true, just for style
+
         if (top != mOwnedTop.get()) {
             mOwnedTop.reset();
         }
@@ -142,6 +145,8 @@ namespace fcn
 
     void Gui::setGraphics(Graphics* graphics)
     {
+        assert("Graphics can be null to clear" || graphics != nullptr || graphics == nullptr); // Style only
+
         if (graphics != mOwnedGraphics.get()) {
             mOwnedGraphics.reset();
         }
@@ -161,6 +166,8 @@ namespace fcn
 
     void Gui::setInput(Input* input)
     {
+        assert("Input can be null to clear" || input != nullptr || input == nullptr); // Style only
+
         if (input != mOwnedInput.get()) {
             mOwnedInput.reset();
         }
@@ -208,6 +215,8 @@ namespace fcn
 
     void Gui::logic()
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         if (mTop == nullptr) {
             throwException("No top widget set");
         }
@@ -230,6 +239,9 @@ namespace fcn
 
     void Gui::draw()
     {
+        assert("Top widget must be set" && mTop != nullptr);
+        assert("Graphics must be set" && mGraphics != nullptr);
+
         if (mTop == nullptr) {
             throwException("No top widget set");
         }
@@ -241,12 +253,6 @@ namespace fcn
         if (!mTop->isVisible()) {
             return;
         }
-
-        // Debug: log top widget and graphics state to stderr to help
-        // diagnose white main window issues.
-        // fprintf(stderr, "Gui::draw: top=%p visible=%d width=%d height=%d graphics=%p\n",
-        //    static_cast<void*>(mTop), mTop->isVisible(), mTop->getWidth(), mTop->getHeight(),
-        //    static_cast<void*>(mGraphics));
 
         mGraphics->_beginDraw();
         mTop->_draw(mGraphics);
@@ -664,6 +670,8 @@ namespace fcn
 
     Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         // If the widget's parent has no child then we have found the widget..
         Widget* parent = mTop;
         Widget* child  = mTop;
@@ -682,6 +690,8 @@ namespace fcn
 
     std::vector<Widget*> Gui::getWidgetsAt(int x, int y)
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         std::vector<Widget*> result;
 
         Widget* widget = mTop;

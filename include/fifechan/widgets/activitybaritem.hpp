@@ -13,6 +13,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/widgets/togglebutton.hpp"
+#include "fifechan/widgets/tooltip.hpp"
 
 namespace fcn
 {
@@ -82,10 +83,31 @@ namespace fcn
              */
             int getSize() const;
 
+            /**
+             * Sets the tooltip text for this activity bar item.
+             *
+             * @param tooltip The tooltip text to display on hover.
+             * @see getTooltip
+             */
+            void setTooltip(std::string const & tooltip);
+
+            /**
+             * Gets the tooltip text for this activity bar item.
+             *
+             * @return The tooltip text.
+             * @see setTooltip
+             */
+            std::string const & getTooltip() const;
+
             // Inherited from ToggleButton
 
             void setSelected(bool selected) override;
             void toggleSelected() override;
+
+            // Inherited from Button/MouseListener
+
+            void mouseEntered(MouseEvent& mouseEvent) override;
+            void mouseExited(MouseEvent& mouseEvent) override;
 
         protected:
             // Inherited from WidgetListener (via ToggleButton/Button)
@@ -102,6 +124,16 @@ namespace fcn
              * Default size for items.
              */
             int mSize{40};
+
+            /**
+             * Tooltip text for this item.
+             */
+            std::string mTooltip;
+
+            /**
+             * Tooltip widget instance (lazily created).
+             */
+            std::unique_ptr<Tooltip> mTooltipWidget;
 
         private:
             /**

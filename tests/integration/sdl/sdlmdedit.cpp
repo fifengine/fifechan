@@ -40,6 +40,9 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+// Project headers
+#include "fifechan/fontloader.hpp"
+
 using tests::integration::sdl::mdedit::Application;
 
 Application::Application(std::string const & title, int width, int height)
@@ -104,6 +107,8 @@ void Application::init_SDL(std::string const & title, int width, int height)
 
     SDL_RaiseWindow(window.get());
 
+    renderer = initRenderer(window);
+
     SDL_SetRenderVSync(renderer.get(), 1);
 }
 
@@ -158,34 +163,8 @@ void Application::init_GUI(int width, int height)
     if (!TTF_Init()) {
         // SDL_ttf initialization failed - continue without text rendering
     } else {
-        std::filesystem::path fontPath = getExecutableDir() / "ArchitectsDaughter.ttf";
-        // Try fallbacks if the font isn't next to the executable (CMake may not copy it for this test)
-        std::vector<std::filesystem::path> candidates = {
-            fontPath,
-            std::filesystem::current_path() / "tests" / "resources" / "ArchitectsDaughter.ttf",
-            std::filesystem::path("tests") / "resources" / "ArchitectsDaughter.ttf",
-        };
-
-        std::filesystem::path chosen;
-        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
-            return std::filesystem::exists(p);
-        });
-        if (it != candidates.end()) {
-            chosen = *it;
-        }
-
-        if (chosen.empty()) {
-            // Try source tree relative to this source file (tests/resources)
-            try {
-                auto src = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path().parent_path() /
-                           "tests" / "resources" / "ArchitectsDaughter.ttf";
-                if (std::filesystem::exists(src)) {
-                    chosen = src;
-                }
-            } catch (...) {
-                // ignore
-            }
-        }
+        // Use the new font loading API to find ArchitectsDaughter font
+        std::filesystem::path chosen = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
 
         if (!chosen.empty()) {
             try {
@@ -201,26 +180,14 @@ void Application::init_GUI(int width, int height)
     // Try to preload an OpenMoji font for menu/activity icons so menu items
     // can use glyph icons (e.g. "📁" for Open).
     try {
-        std::vector<std::filesystem::path> candidates = {
-            std::filesystem::path("/workspaces/fifechan_new/tests/resources/OpenMoji-color-colr0_svg.ttf"),
-            std::filesystem::current_path() / "tests" / "resources" / "OpenMoji-color-colr0_svg.ttf",
-            std::filesystem::path("tests") / "resources" / "OpenMoji-color-colr0_svg.ttf",
-        };
-
-        std::filesystem::path openmoji;
-        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
-            return std::filesystem::exists(p);
-        });
-        if (it != candidates.end()) {
-            openmoji = *it;
-        }
+        std::filesystem::path openmoji = fcn::font::FontLoader::findFontFile("OpenMoji-color-colr0_svg.ttf");
 
         if (!openmoji.empty()) {
             // Use a size suitable for menu icons (slightly larger than default font)
             this->activityFont = gui->getGraphics()->createFont(openmoji.string(), 18);
         }
     } catch (std::exception const &) {
-        // ignore
+        // Failed to load OpenMoji font - continue without activity icons
     }
 
     // Create MenuBar (owned by `top` container)

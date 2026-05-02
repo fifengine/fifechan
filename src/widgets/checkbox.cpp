@@ -436,8 +436,8 @@ namespace fcn
         int w = 0;
         int h = 0;
         if (mBackgroundImage != nullptr) {
-            w += mBackgroundImage->getWidth() + 2 * getBorderSize();
-            h += mBackgroundImage->getHeight() + 2 * getBorderSize();
+            w += mBackgroundImage->getWidth() + (2 * getBorderSize());
+            h += mBackgroundImage->getHeight() + (2 * getBorderSize());
         } else {
             if (!getCaption().empty()) {
                 w = getFont()->getWidth(getCaption());
@@ -451,8 +451,8 @@ namespace fcn
                 // without image we need extra space for the mark
                 w += h;
             }
-            w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-            h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+            w += (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+            h += (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
         }
         setSize(w, h);
     }

@@ -195,7 +195,7 @@ namespace fcn
             if (caretX - mXScroll >= getWidth() - 4) {
                 mXScroll = caretX - getWidth() + 4;
             } else if (caretX - mXScroll <= 0) {
-                mXScroll = caretX - getWidth() / 2;
+                mXScroll = caretX - (getWidth() / 2);
 
                 mXScroll = std::max(mXScroll, 0);
             }

@@ -134,7 +134,7 @@ void Application::init_SDL(std::string const & title, int width, int height)
 
 void Application::cleanup()
 {
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
     gui.reset();
     top.reset();
     ownedTabTwoContent.reset();

@@ -30,6 +30,7 @@
 #include <SDL3/SDL_main.h>
 
 #include <fifechan/backends/sdl3/image.hpp>
+#include <fifechan/fontloader.hpp>
 
 #include <fifechan.hpp>
 
@@ -152,7 +153,7 @@ namespace
 
 void Application::cleanup()
 {
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
     gui.reset();
     if (top) {
         std::vector<fcn::Widget*> children;
@@ -226,10 +227,16 @@ void Application::init_GUI(int width, int height)
         exit(2);
     }
 
-    std::string const fontPath = exePath + "/ArchitectsDaughter.ttf";
-    int const fontSize         = std::max(12, std::min(width, height) / 64);
+    // Use the new font loading API to find ArchitectsDaughter font
+    std::filesystem::path fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+    if (fontPath.empty()) {
+        std::cerr << "[ERROR] Could not find ArchitectsDaughter.ttf in search paths\n";
+        exit(5);
+    }
+
+    int const fontSize = std::max(12, std::min(width, height) / 64);
     try {
-        gui->setGlobalFont(fontPath, fontSize);
+        gui->setGlobalFont(fontPath.string(), fontSize);
     } catch (std::exception const & e) {
         std::cerr << "[ERROR] Exception loading font: " << e.what() << '\n';
         exit(5);

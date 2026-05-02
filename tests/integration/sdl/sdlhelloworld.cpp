@@ -152,7 +152,7 @@ void Application::init_gui(int width, int height)
         fcn::ImageFontConfig cfg;
         cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
         cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
-        //cfg.verbose           = true;
+        // cfg.verbose           = true;
 
         rpgFont = std::make_unique<fcn::ImageFont>(
             "rpgfont.png",
@@ -186,8 +186,8 @@ void Application::init_gui(int width, int height)
 void Application::cleanup()
 {
     // Reset global GUI hooks before releasing the GUI-owned widget tree.
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     label2.reset();
     label.reset();

@@ -1113,10 +1113,21 @@ namespace fcn
             /**
              * Sets the global font to be used by default for all widgets.
              *
-             * @param font The global font.
-             * @see getGlobalFont
+             * IMPORTANT: This method does not support resetting the font
+             *            (use resetGlobalFont() instead).
+             *
+             * @param font The global font (must not be null).
+             * @see getGlobalFont, resetGlobalFont
              */
             static void setGlobalFont(Font* font);
+
+            /**
+             * Resets the global font, detaching it from the Widget class.
+             * This allows the font to be destroyed externally after being detached.
+             *
+             * @see setGlobalFont
+             */
+            static void resetGlobalFont();
 
             /**
              * Sets the font for the widget. If Nullptr is passed, the global font
@@ -1773,6 +1784,7 @@ namespace fcn
             /**
              * Checks the size against the size constraints. Used by setDimension.
              *
+             * Prevents negative sizes and sizes larger than the maximum size.
              */
             void calculateSize();
 

@@ -6,6 +6,7 @@
 #include "fifechan/font.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Platform config include
@@ -15,6 +16,8 @@ namespace fcn
 {
     int Font::getStringIndexAt(std::string const & text, int x) const
     {
+        assert("x must be non-negative" && x >= 0);
+
         for (unsigned int i = 0; i < text.size(); ++i) {
             if (getWidth(text.substr(0, i)) > x) {
                 return i;

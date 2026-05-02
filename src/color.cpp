@@ -34,7 +34,7 @@ namespace fcn
     // Constructor accepting a string for hex or RGB.
     Color::Color(std::string const & colorString)
     {
-        if (colorString[0] == '#') {
+        if (colorString.at(0) == '#') {
             // handle hex string, remove '#' and parse
             parseHex(colorString.substr(1));
         } else if (colorString.find("rgba") != std::string::npos) {
@@ -74,9 +74,9 @@ namespace fcn
             throw std::invalid_argument("Invalid RGB format. Expected 3 components (r,g,b)");
         }
 
-        r = static_cast<uint8_t>(components[0]);
-        g = static_cast<uint8_t>(components[1]);
-        b = static_cast<uint8_t>(components[2]);
+        r = static_cast<uint8_t>(components.at(0));
+        g = static_cast<uint8_t>(components.at(1));
+        b = static_cast<uint8_t>(components.at(2));
         a = 255; // Default alpha
     }
 
@@ -96,10 +96,10 @@ namespace fcn
             throw std::invalid_argument("Invalid RGBA format. Expected 4 components (r,g,b,a)");
         }
 
-        r = static_cast<uint8_t>(components[0]);
-        g = static_cast<uint8_t>(components[1]);
-        b = static_cast<uint8_t>(components[2]);
-        a = static_cast<uint8_t>(components[3]);
+        r = static_cast<uint8_t>(components.at(0));
+        g = static_cast<uint8_t>(components.at(1));
+        b = static_cast<uint8_t>(components.at(2));
+        a = static_cast<uint8_t>(components.at(3));
     }
 
     std::vector<int> Color::parseColorComponents(std::string const & colorString, bool withAlpha)
@@ -309,7 +309,7 @@ namespace fcn
         return !(*this == color);
     }
 
-    std::ostream& operator<<(std::ostream& out, Color const & color)
+    FIFEGUI_API std::ostream& operator<<(std::ostream& out, Color const & color)
     {
         out << "Color [r = " << static_cast<int>(color.r) << ", g = " << static_cast<int>(color.g)
             << ", b = " << static_cast<int>(color.b) << ", a = " << static_cast<int>(color.a) << "]";

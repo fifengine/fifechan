@@ -165,7 +165,7 @@ namespace fcn
 
         int value = 0;
 
-        value = getContent()->getHeight() - getChildrenArea().height + 2 * getContent()->getBorderSize();
+        value = getContent()->getHeight() - getChildrenArea().height + (2 * getContent()->getBorderSize());
 
         if (value < 0) {
             return 0;

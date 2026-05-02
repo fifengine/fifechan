@@ -172,7 +172,7 @@ namespace fcn
         int focusedWidget = -1;
 
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -226,7 +226,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -344,7 +344,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -405,7 +405,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
