@@ -15,7 +15,7 @@ namespace fcn
 {
     ContainerEvent::ContainerEvent(Widget* source, Container* container) : Event(source), mContainer(container)
     {
-        assert("Source widget must not be null" && source != nullptr);
+        (void)source;
     }
 
     Container* ContainerEvent::getContainer() const

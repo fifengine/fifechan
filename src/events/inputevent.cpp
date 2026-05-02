@@ -31,8 +31,8 @@ namespace fcn
         mIsConsumed(false),
         mDistributor(distributor)
     {
-        assert("Source widget must not be null" && source != nullptr);
-        assert("Distributor widget must not be null" && distributor != nullptr);
+        (void)source;
+        (void)distributor;
     }
 
     bool InputEvent::isShiftPressed() const

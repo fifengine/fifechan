@@ -110,6 +110,8 @@ void Application::init_SDL(std::string const & title, int width, int height)
     renderer = initRenderer(window);
 
     SDL_SetRenderVSync(renderer.get(), 1);
+    // Enable SDL text input events so widgets receive text characters
+    SDL_StartTextInput(window.get());
 }
 
 void Application::cleanup()
@@ -121,6 +123,11 @@ void Application::cleanup()
     input.reset();
     renderer.reset();
     window.reset();
+    if (window) {
+        SDL_StopTextInput(window.get());
+    } else {
+        SDL_StopTextInput(nullptr);
+    }
     // Release any fonts held by the Application before shutting down SDL_ttf
     // to ensure TTF_CloseFont is called while the library is still initialized.
     activityFont.reset();

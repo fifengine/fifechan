@@ -19,7 +19,7 @@ namespace fcn
         assert(
             "Type must be valid" && (type == Type::Enter || type == Type::Leave || type == Type::Hover ||
                                      type == Type::Drop || type == Type::Cancel));
-        assert("Source widget must not be null" && source != nullptr);
+        (void)source;
     }
 
     DragEvent::Type DragEvent::getType() const

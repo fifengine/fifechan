@@ -15,7 +15,6 @@ namespace fcn
 {
     Event::Event(Widget* source) : mSource(source)
     {
-        assert("Source widget must not be null" && source != nullptr);
     }
 
     Widget* Event::getSource() const

@@ -17,7 +17,7 @@ namespace fcn
 {
     ActionEvent::ActionEvent(Widget* source, std::string id) : Event(source), mId(std::move(id))
     {
-        assert("Source widget must not be null" && source != nullptr);
+        (void)source;
     }
 
     std::string const & ActionEvent::getId() const
