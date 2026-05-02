@@ -527,36 +527,5 @@ namespace fcn
     {
     }
 
-    FocusHandler::ModalScope::ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner) :
-        mHandler(handler), mReleased(false), mWasPopped(false)
-    {
-        if (mHandler != nullptr) {
-            mHandler->pushModal(focusOwner, mouseOwner);
-        }
-    }
-
-    FocusHandler::ModalScope::~ModalScope() noexcept
-    {
-        if (mHandler != nullptr && !mReleased) {
-            mWasPopped = true;
-            // cppcheck-suppress throwInNoexceptFunction
-            mHandler->popModal();
-        }
-
-        if (!mWasPopped && !mReleased) {
-            // ModalScope was destroyed without calling release() or popModal()
-            // This indicates a bug where the modal was not properly released
-            fprintf(
-                stderr,
-                "Warning: ModalScope destroyed without calling release() or popModal(). "
-                "Did you forget to call release()?\n");
-        }
-    }
-
-    void FocusHandler::ModalScope::release()
-    {
-        mReleased  = true;
-        mWasPopped = true;
-    }
 
 } // namespace fcn

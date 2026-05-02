@@ -12,7 +12,9 @@
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
 
-using namespace fcn;
+using fcn::GenericInput;
+using fcn::KeyInput;
+using fcn::MouseInput;
 
 // ============================================================================
 // Key input queue operations

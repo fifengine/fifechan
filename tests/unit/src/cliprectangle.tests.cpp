@@ -8,7 +8,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-using namespace fcn;
+using fcn::ClipRectangle;
+using fcn::Rectangle;
 
 TEST_CASE("ClipRectangle default constructor creates valid rectangle", "[cliprectangle]")
 {

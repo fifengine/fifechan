@@ -3,6 +3,9 @@
 
 // Standard library includes
 #include <stdexcept>
+#include <string>
+#include <algorithm>
+#include <utility>
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>

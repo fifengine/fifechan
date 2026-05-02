@@ -9,7 +9,7 @@
 // Project headers
 #include "fifechan/widgets/primarypanel.hpp"
 
-using namespace fcn;
+using fcn::PrimaryPanel;
 
 // ============================================================================
 // PrimaryPanel constructor

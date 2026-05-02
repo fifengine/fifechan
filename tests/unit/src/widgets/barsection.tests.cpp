@@ -7,7 +7,7 @@
 // Project headers
 #include "fifechan/widgets/barsection.hpp"
 
-using namespace fcn;
+using fcn::BarSection;
 
 // ============================================================================
 // BarSection constructor

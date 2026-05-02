@@ -343,7 +343,7 @@ namespace fcn
         auto currChild(mChildren.begin());
         auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
-            if (isVisible()) {
+            if ((*currChild)->isVisible()) {
                 ++childs;
             }
         }
@@ -677,11 +677,15 @@ namespace fcn
         VisibilityEventHandler* visibilityEventHandler = _getVisibilityEventHandler();
 
         if (!visible && isFocused()) {
-            mFocusHandler->focusNone();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->focusNone();
+            }
         }
 
         if (visible) {
-            visibilityEventHandler->widgetShown(Event(this));
+            if (visibilityEventHandler != nullptr) {
+                visibilityEventHandler->widgetShown(Event(this));
+            }
             distributeShownEvent();
 
             auto currChild(mChildren.begin());
@@ -691,7 +695,9 @@ namespace fcn
                 (*currChild)->distributeAncestorShownEvent(this);
             }
         } else {
-            visibilityEventHandler->widgetHidden(Event(this));
+            if (visibilityEventHandler != nullptr) {
+                visibilityEventHandler->widgetHidden(Event(this));
+            }
             distributeHiddenEvent();
 
             auto currChild(mChildren.begin());
@@ -1229,7 +1235,9 @@ namespace fcn
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
-        _getVisibilityEventHandler()->widgetHidden(Event(this));
+        if (_getVisibilityEventHandler() != nullptr) {
+            _getVisibilityEventHandler()->widgetHidden(Event(this));
+        }
 
         auto currWidgetListener(mWidgetListeners.begin());
         auto const endWidgetListeners(mWidgetListeners.end());
@@ -1250,7 +1258,9 @@ namespace fcn
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
-        _getVisibilityEventHandler()->widgetShown(Event(this));
+        if (_getVisibilityEventHandler() != nullptr) {
+            _getVisibilityEventHandler()->widgetShown(Event(this));
+        }
 
         auto currWidgetListener(mWidgetListeners.begin());
         auto const endWidgetListeners(mWidgetListeners.end());

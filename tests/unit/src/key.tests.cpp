@@ -7,7 +7,7 @@
 // Project headers
 #include "fifechan/key.hpp"
 
-using namespace fcn;
+using fcn::Key;
 
 // ============================================================================
 // Key constructor

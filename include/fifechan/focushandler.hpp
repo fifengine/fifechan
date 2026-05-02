@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <vector>
+#include <cstdio>
 
 // Project headers (subdirs before local)
 #include "fifechan/events/event.hpp"
@@ -110,15 +111,41 @@ namespace fcn
             class ModalScope
             {
                 public:
-                    ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr);
-                    ~ModalScope() noexcept;
+                    ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr) :
+                        mHandler(handler), mReleased(false), mWasPopped(false)
+                    {
+                        if (mHandler != nullptr) {
+                            mHandler->pushModal(focusOwner, mouseOwner);
+                        }
+                    }
+
+                    ~ModalScope() noexcept
+                    {
+                        if (mHandler != nullptr && !mReleased) {
+                            mWasPopped = true;
+                            // cppcheck-suppress throwInNoexceptFunction
+                            mHandler->popModal();
+                        }
+
+                        if (!mWasPopped && !mReleased) {
+                            // ModalScope was destroyed without calling release() or popModal()
+                            // This indicates a bug where the modal was not properly released
+                            std::fprintf(
+                                stderr,
+                                "Warning: ModalScope destroyed without calling release() or popModal(). Did you forget to call release()?\n");
+                        }
+                    }
 
                     ModalScope(ModalScope const &)            = delete;
                     ModalScope& operator=(ModalScope const &) = delete;
                     ModalScope(ModalScope&&)                  = delete;
                     ModalScope& operator=(ModalScope&&)       = delete;
 
-                    void release();
+                    void release()
+                    {
+                        mReleased  = true;
+                        mWasPopped = true;
+                    }
 
                 private:
                     FocusHandler* mHandler;

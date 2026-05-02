@@ -7,11 +7,14 @@
 #include "fifechan/font.hpp"
 
 #include <memory>
+#include <string>
 
-#include "fifechan/imagefont.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include "fifechan/imagefont.hpp"
 
-using namespace fcn;
+using fcn::Font;
+using fcn::Graphics;
+using fcn::ImageFont;
 
 // Mock font for testing the base Font class functionality
 class MockFont : public Font
@@ -86,10 +89,11 @@ TEST_CASE("Font::getStringIndexAt handles multi-byte UTF-8 characters", "[font]"
     // Width calculation in MockFont uses text.size() (bytes) * charWidth
     // So "Hello " (6 bytes) = 60px, "Hello 🎉" (10 bytes) = 100px
 
-    // getWidth("")=0, "H"=10, "He"=20, "Hel"=30, "Hell"=40, "Hello"=50, "Hello "=60, "Hello �"=70, etc.
+    // getWidth("")=0, "H"=10, "He"=20, "Hel"=30, "Hell"=40, "Hello"=50, "Hello "=60,
+    // and the emoji adds 4 more bytes making the full string 10 bytes long.
     REQUIRE(font.getStringIndexAt(text, 0) == 1);    // getWidth("H")=10>0, return 1
     REQUIRE(font.getStringIndexAt(text, 30) == 4);   // getWidth("Hell")=40>30, return 4
-    REQUIRE(font.getStringIndexAt(text, 60) == 7);   // getWidth("Hello �")=70>60, return 7
+    REQUIRE(font.getStringIndexAt(text, 60) == 7);   // position falls into bytes after the space, return 7
     REQUIRE(font.getStringIndexAt(text, 100) == 10); // loop ends, return text.size()=10
 }
 

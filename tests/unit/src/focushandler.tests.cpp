@@ -68,7 +68,15 @@ namespace fcn
 
 } // namespace fcn
 
-using namespace fcn;
+using fcn::FocusHandler;
+using fcn::Label;
+using fcn::Event;
+using fcn::Widget;
+using fcn::FocusListener;
+using fcn::TestFocusListener;
+using fcn::FocusableLabel;
+using fcn::Exception;
+using fcn::Container;
 
 // ============================================================================
 // FocusHandler constructor and initial state
@@ -96,7 +104,7 @@ TEST_CASE("FocusHandler constructor initializes to empty state", "[unit][focusha
 TEST_CASE("FocusHandler add tracks widgets", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     // After adding, widget is tracked but not focused yet
@@ -106,7 +114,7 @@ TEST_CASE("FocusHandler add tracks widgets", "[unit][focushandler]")
 TEST_CASE("FocusHandler remove untracks widgets", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.remove(&lbl);
@@ -118,7 +126,7 @@ TEST_CASE("FocusHandler remove untracks widgets", "[unit][focushandler]")
 TEST_CASE("FocusHandler remove clears focus if focused widget removed", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(&lbl);
@@ -131,7 +139,7 @@ TEST_CASE("FocusHandler remove clears focus if focused widget removed", "[unit][
 TEST_CASE("FocusHandler remove clears dragged widget reference", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.setDraggedWidget(&lbl);
@@ -144,7 +152,7 @@ TEST_CASE("FocusHandler remove clears dragged widget reference", "[unit][focusha
 TEST_CASE("FocusHandler remove clears last widget with mouse reference", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.setLastWidgetWithMouse(&lbl);
@@ -157,7 +165,7 @@ TEST_CASE("FocusHandler remove clears last widget with mouse reference", "[unit]
 TEST_CASE("FocusHandler remove clears last widget with modal focus reference", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.setLastWidgetWithModalFocus(&lbl);
@@ -170,7 +178,7 @@ TEST_CASE("FocusHandler remove clears last widget with modal focus reference", "
 TEST_CASE("FocusHandler remove clears last widget with modal mouse input focus reference", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.setLastWidgetWithModalMouseInputFocus(&lbl);
@@ -183,7 +191,7 @@ TEST_CASE("FocusHandler remove clears last widget with modal mouse input focus r
 TEST_CASE("FocusHandler remove clears last widget pressed reference", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.setLastWidgetPressed(&lbl);
@@ -196,7 +204,7 @@ TEST_CASE("FocusHandler remove clears last widget pressed reference", "[unit][fo
 TEST_CASE("FocusHandler remove non-existent widget is safe", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     // Removing a widget that was never added should not throw
     REQUIRE_NOTHROW(fh.remove(&lbl));
@@ -209,7 +217,7 @@ TEST_CASE("FocusHandler remove non-existent widget is safe", "[unit][focushandle
 TEST_CASE("FocusHandler requestFocus sets focused widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(&lbl);
@@ -222,7 +230,7 @@ TEST_CASE("FocusHandler requestFocus sets focused widget", "[unit][focushandler]
 TEST_CASE("FocusHandler requestFocus with nullptr is no-op", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(nullptr);
@@ -233,7 +241,7 @@ TEST_CASE("FocusHandler requestFocus with nullptr is no-op", "[unit][focushandle
 TEST_CASE("FocusHandler requestFocus with already focused widget is no-op", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(&lbl);
@@ -247,7 +255,7 @@ TEST_CASE("FocusHandler requestFocus with already focused widget is no-op", "[un
 TEST_CASE("FocusHandler requestFocus throws for untracked widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     // Widget not added to focus handler
     REQUIRE_THROWS_AS(fh.requestFocus(&lbl), Exception);
@@ -256,8 +264,8 @@ TEST_CASE("FocusHandler requestFocus throws for untracked widget", "[unit][focus
 TEST_CASE("FocusHandler requestFocus switches focus between widgets", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -274,8 +282,8 @@ TEST_CASE("FocusHandler requestFocus switches focus between widgets", "[unit][fo
 TEST_CASE("FocusHandler requestFocus distributes focus events", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -303,7 +311,7 @@ TEST_CASE("FocusHandler requestFocus distributes focus events", "[unit][focushan
 TEST_CASE("FocusHandler setFocusedWidget sets focus directly", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.setFocusedWidget(&lbl);
 
@@ -314,7 +322,7 @@ TEST_CASE("FocusHandler setFocusedWidget sets focus directly", "[unit][focushand
 TEST_CASE("FocusHandler setFocusedWidget with nullptr clears focus", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.setFocusedWidget(&lbl);
     fh.setFocusedWidget(nullptr);
@@ -326,8 +334,8 @@ TEST_CASE("FocusHandler setFocusedWidget with nullptr clears focus", "[unit][foc
 TEST_CASE("FocusHandler setFocusedWidget switches focus", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.setFocusedWidget(&lbl1);
     REQUIRE(fh.getFocused() == &lbl1);
@@ -341,7 +349,7 @@ TEST_CASE("FocusHandler setFocusedWidget switches focus", "[unit][focushandler]"
 TEST_CASE("FocusHandler setFocusedWidget same widget is no-op", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.setFocusedWidget(&lbl);
     fh.setFocusedWidget(&lbl);
@@ -352,7 +360,7 @@ TEST_CASE("FocusHandler setFocusedWidget same widget is no-op", "[unit][focushan
 TEST_CASE("FocusHandler releaseFocus clears focus for matching widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
     TestFocusListener listener;
 
     lbl.addFocusListener(&listener);
@@ -369,7 +377,7 @@ TEST_CASE("FocusHandler releaseFocus clears focus for matching widget", "[unit][
 TEST_CASE("FocusHandler releaseFocus with nullptr is no-op", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(&lbl);
@@ -381,8 +389,8 @@ TEST_CASE("FocusHandler releaseFocus with nullptr is no-op", "[unit][focushandle
 TEST_CASE("FocusHandler releaseFocus with non-focused widget is no-op", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -399,7 +407,7 @@ TEST_CASE("FocusHandler releaseFocus with non-focused widget is no-op", "[unit][
 TEST_CASE("FocusHandler focusNone clears focus", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
     TestFocusListener listener;
 
     lbl.addFocusListener(&listener);
@@ -428,8 +436,8 @@ TEST_CASE("FocusHandler focusNone when no focus is no-op", "[unit][focushandler]
 TEST_CASE("FocusHandler focusNext focuses first widget when none focused", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -441,9 +449,9 @@ TEST_CASE("FocusHandler focusNext focuses first widget when none focused", "[uni
 TEST_CASE("FocusHandler focusNext cycles to next widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -462,8 +470,8 @@ TEST_CASE("FocusHandler focusNext cycles to next widget", "[unit][focushandler]"
 TEST_CASE("FocusHandler focusNext wraps around", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -476,9 +484,9 @@ TEST_CASE("FocusHandler focusNext wraps around", "[unit][focushandler]")
 TEST_CASE("FocusHandler focusNext skips non-focusable widgets", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl1("first");
     Label lbl2("non-focusable"); // Label is not focusable by default
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl3("third");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -514,8 +522,8 @@ TEST_CASE("FocusHandler focusNext with all non-focusable widgets", "[unit][focus
 TEST_CASE("FocusHandler focusPrevious focuses last widget when none focused", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -527,9 +535,9 @@ TEST_CASE("FocusHandler focusPrevious focuses last widget when none focused", "[
 TEST_CASE("FocusHandler focusPrevious cycles backwards", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -546,8 +554,8 @@ TEST_CASE("FocusHandler focusPrevious cycles backwards", "[unit][focushandler]")
 TEST_CASE("FocusHandler focusPrevious wraps around", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -560,9 +568,9 @@ TEST_CASE("FocusHandler focusPrevious wraps around", "[unit][focushandler]")
 TEST_CASE("FocusHandler focusPrevious skips non-focusable widgets", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl1("first");
     Label lbl2("non-focusable");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl3("third");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -588,8 +596,8 @@ TEST_CASE("FocusHandler focusPrevious with empty widget list", "[unit][focushand
 TEST_CASE("FocusHandler tabNext focuses first tab-in enabled widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -604,9 +612,9 @@ TEST_CASE("FocusHandler tabNext focuses first tab-in enabled widget", "[unit][fo
 TEST_CASE("FocusHandler tabNext cycles forward", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -626,8 +634,8 @@ TEST_CASE("FocusHandler tabNext cycles forward", "[unit][focushandler]")
 TEST_CASE("FocusHandler tabNext wraps around", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -643,9 +651,9 @@ TEST_CASE("FocusHandler tabNext wraps around", "[unit][focushandler]")
 TEST_CASE("FocusHandler tabNext skips widgets with tab-in disabled", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -665,8 +673,8 @@ TEST_CASE("FocusHandler tabNext skips widgets with tab-in disabled", "[unit][foc
 TEST_CASE("FocusHandler tabNext respects tab-out disabled on current widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -693,8 +701,8 @@ TEST_CASE("FocusHandler tabNext with empty widget list", "[unit][focushandler]")
 TEST_CASE("FocusHandler tabPrevious focuses last tab-in enabled widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -710,9 +718,9 @@ TEST_CASE("FocusHandler tabPrevious focuses last tab-in enabled widget", "[unit]
 TEST_CASE("FocusHandler tabPrevious cycles backward", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -733,8 +741,8 @@ TEST_CASE("FocusHandler tabPrevious cycles backward", "[unit][focushandler]")
 TEST_CASE("FocusHandler tabPrevious wraps around", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -750,9 +758,9 @@ TEST_CASE("FocusHandler tabPrevious wraps around", "[unit][focushandler]")
 TEST_CASE("FocusHandler tabPrevious skips widgets with tab-in disabled", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -772,8 +780,8 @@ TEST_CASE("FocusHandler tabPrevious skips widgets with tab-in disabled", "[unit]
 TEST_CASE("FocusHandler tabPrevious respects tab-out disabled on current widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -838,7 +846,7 @@ TEST_CASE("FocusHandler pushModal with nullptr for both is no-op", "[unit][focus
 TEST_CASE("FocusHandler pushModal clears existing focus when modal is pushed", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel regular("regular");
+    fcn::FocusableLabel regular("regular");
     FocusableLabel modal("modal");
 
     regular._setFocusHandler(&fh);
@@ -856,7 +864,7 @@ TEST_CASE("FocusHandler pushModal clears existing focus when modal is pushed", "
 TEST_CASE("FocusHandler popModal restores previous state", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel modal1("modal1");
+    fcn::FocusableLabel modal1("modal1");
     FocusableLabel modal2("modal2");
 
     fh.add(&modal1);
@@ -895,7 +903,7 @@ TEST_CASE("FocusHandler popModal clears focus owner when stack becomes empty", "
 TEST_CASE("FocusHandler clearModal removes all modal states", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel modal1("modal1");
+    fcn::FocusableLabel modal1("modal1");
     FocusableLabel modal2("modal2");
 
     fh.pushModal(&modal1);
@@ -1014,7 +1022,7 @@ TEST_CASE("FocusHandler ModalScope nested scopes work correctly", "[unit][focush
 TEST_CASE("FocusHandler dragged widget getter/setter", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     REQUIRE(fh.getDraggedWidget() == nullptr);
 
@@ -1028,7 +1036,7 @@ TEST_CASE("FocusHandler dragged widget getter/setter", "[unit][focushandler]")
 TEST_CASE("FocusHandler last widget with mouse getter/setter", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     REQUIRE(fh.getLastWidgetWithMouse() == nullptr);
 
@@ -1042,7 +1050,7 @@ TEST_CASE("FocusHandler last widget with mouse getter/setter", "[unit][focushand
 TEST_CASE("FocusHandler last widget with modal focus getter/setter", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     REQUIRE(fh.getLastWidgetWithModalFocus() == nullptr);
 
@@ -1056,7 +1064,7 @@ TEST_CASE("FocusHandler last widget with modal focus getter/setter", "[unit][foc
 TEST_CASE("FocusHandler last widget with modal mouse input focus getter/setter", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     REQUIRE(fh.getLastWidgetWithModalMouseInputFocus() == nullptr);
 
@@ -1070,7 +1078,7 @@ TEST_CASE("FocusHandler last widget with modal mouse input focus getter/setter",
 TEST_CASE("FocusHandler last widget pressed getter/setter", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     REQUIRE(fh.getLastWidgetPressed() == nullptr);
 
@@ -1088,7 +1096,7 @@ TEST_CASE("FocusHandler last widget pressed getter/setter", "[unit][focushandler
 TEST_CASE("FocusHandler widgetHidden is callable", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     // widgetHidden is currently a no-op but should be callable
     REQUIRE_NOTHROW(fh.widgetHidden(&lbl));
@@ -1108,7 +1116,7 @@ TEST_CASE("FocusHandler widgetHidden with nullptr is safe", "[unit][focushandler
 TEST_CASE("FocusHandler focus events distributed to multiple listeners", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1125,8 +1133,8 @@ TEST_CASE("FocusHandler focus events distributed to multiple listeners", "[unit]
 TEST_CASE("FocusHandler focus lost events distributed on focus switch", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1152,8 +1160,8 @@ TEST_CASE("FocusHandler focus lost events distributed on focus switch", "[unit][
 TEST_CASE("FocusHandler focusNext distributes focus events", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1174,8 +1182,8 @@ TEST_CASE("FocusHandler focusNext distributes focus events", "[unit][focushandle
 TEST_CASE("FocusHandler focusPrevious distributes focus events", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1197,8 +1205,8 @@ TEST_CASE("FocusHandler focusPrevious distributes focus events", "[unit][focusha
 TEST_CASE("FocusHandler tabNext distributes focus events", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1222,8 +1230,8 @@ TEST_CASE("FocusHandler tabNext distributes focus events", "[unit][focushandler]
 TEST_CASE("FocusHandler tabPrevious distributes focus events", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
     TestFocusListener listener1;
     TestFocusListener listener2;
 
@@ -1249,8 +1257,8 @@ TEST_CASE("FocusHandler with Container and child widgets", "[unit][focushandler]
 {
     FocusHandler fh;
     Container container;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     container.add(&lbl1);
     container.add(&lbl2);
@@ -1269,8 +1277,8 @@ TEST_CASE("FocusHandler with Container and child widgets", "[unit][focushandler]
 TEST_CASE("FocusHandler isFocused returns false for non-focused widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     fh.add(&lbl1);
     fh.add(&lbl2);
@@ -1284,7 +1292,7 @@ TEST_CASE("FocusHandler isFocused returns false for non-focused widget", "[unit]
 TEST_CASE("FocusHandler isFocused with nullptr returns false", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("test");
+    fcn::FocusableLabel lbl("test");
 
     fh.add(&lbl);
     fh.requestFocus(&lbl);
@@ -1295,7 +1303,7 @@ TEST_CASE("FocusHandler isFocused with nullptr returns false", "[unit][focushand
 TEST_CASE("FocusHandler focusNext with single focusable widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("only");
+    fcn::FocusableLabel lbl("only");
 
     fh.add(&lbl);
 
@@ -1310,7 +1318,7 @@ TEST_CASE("FocusHandler focusNext with single focusable widget", "[unit][focusha
 TEST_CASE("FocusHandler focusPrevious with single focusable widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("only");
+    fcn::FocusableLabel lbl("only");
 
     fh.add(&lbl);
 
@@ -1331,7 +1339,7 @@ TEST_CASE("FocusHandler focusPrevious with single focusable widget", "[unit][foc
 TEST_CASE("FocusHandler tabNext with single focusable widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("only");
+    fcn::FocusableLabel lbl("only");
 
     lbl._setFocusHandler(&fh);
 
@@ -1344,7 +1352,7 @@ TEST_CASE("FocusHandler tabNext with single focusable widget", "[unit][focushand
 TEST_CASE("FocusHandler tabPrevious with single focusable widget", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl("only");
+    fcn::FocusableLabel lbl("only");
 
     lbl._setFocusHandler(&fh);
 
@@ -1360,8 +1368,8 @@ TEST_CASE("FocusHandler tabPrevious with single focusable widget", "[unit][focus
 TEST_CASE("FocusHandler focusNext with all widgets having tab-in disabled", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1.setTabInEnabled(false);
     lbl2.setTabInEnabled(false);
@@ -1377,8 +1385,8 @@ TEST_CASE("FocusHandler focusNext with all widgets having tab-in disabled", "[un
 TEST_CASE("FocusHandler tabNext with all widgets having tab-in disabled", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
 
     lbl1._setFocusHandler(&fh);
     lbl2._setFocusHandler(&fh);
@@ -1421,10 +1429,10 @@ TEST_CASE("FocusHandler pushModal with only focus owner", "[unit][focushandler]"
 TEST_CASE("FocusHandler multiple widgets focus cycling", "[unit][focushandler]")
 {
     FocusHandler fh;
-    FocusableLabel lbl1("first");
-    FocusableLabel lbl2("second");
-    FocusableLabel lbl3("third");
-    FocusableLabel lbl4("fourth");
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::FocusableLabel lbl3("third");
+    fcn::FocusableLabel lbl4("fourth");
 
     fh.add(&lbl1);
     fh.add(&lbl2);

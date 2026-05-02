@@ -3,9 +3,11 @@
 
 #include "fifechan/image.hpp"
 
+#include <string>
+#include <catch2/catch_test_macros.hpp>
+
 #include "fifechan/exception.hpp"
 #include "fifechan/imageloader.hpp"
-#include <catch2/catch_test_macros.hpp>
 
 // Mock ImageLoader for testing
 class MockImageLoader : public fcn::ImageLoader

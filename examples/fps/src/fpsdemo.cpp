@@ -11,6 +11,7 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <iostream>
 
 namespace
 {

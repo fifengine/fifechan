@@ -26,7 +26,28 @@
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
 
-using namespace fcn;
+using fcn::Color;
+using fcn::ActionEvent;
+using fcn::DragEvent;
+using fcn::Event;
+using fcn::MouseEvent;
+using fcn::FocusHandler;
+using fcn::Gui;
+using fcn::ActionListener;
+using fcn::DeathListener;
+using fcn::DropTargetListener;
+using fcn::FocusListener;
+using fcn::KeyListener;
+using fcn::MouseListener;
+using fcn::WidgetListener;
+using fcn::Rectangle;
+using fcn::Size;
+using fcn::Widget;
+using fcn::Container;
+using fcn::Label;
+using fcn::KeyEvent;
+using fcn::Graphics;
+using fcn::Font;
 
 // ============================================================================
 // Mock / helper classes

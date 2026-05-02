@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <string>
+#include <memory>
 
 // Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"

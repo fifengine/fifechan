@@ -9,7 +9,7 @@
 // Project headers
 #include "fifechan/widgets/secondarypanel.hpp"
 
-using namespace fcn;
+using fcn::SecondaryPanel;
 
 // ============================================================================
 // SecondaryPanel constructor

@@ -1,10 +1,17 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+
+// Corresponding header include
 #include "fifechan/fontloader.hpp"
 
+// Standard library includes
 #include <algorithm>
 #include <filesystem>
+#include <iterator>
 #include <string>
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
 
 #ifdef _WIN32
@@ -96,11 +103,10 @@ namespace fcn
 
             // Remove duplicates while preserving order
             std::vector<std::filesystem::path> uniquePaths;
-            for (auto const & p : paths) {
-                if (std::find(uniquePaths.begin(), uniquePaths.end(), p) == uniquePaths.end()) {
-                    uniquePaths.push_back(p);
-                }
-            }
+            std::copy_if(paths.begin(), paths.end(), std::back_inserter(uniquePaths),
+                         [&uniquePaths](std::filesystem::path const & p) {
+                             return std::find(uniquePaths.begin(), uniquePaths.end(), p) == uniquePaths.end();
+                         });
 
             return uniquePaths;
         }

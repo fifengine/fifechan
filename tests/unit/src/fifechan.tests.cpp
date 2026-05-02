@@ -11,7 +11,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-using namespace fcn;
+using fcn::fifechanVersion;
 
 TEST_CASE("fifechanVersion returns valid version string", "[fifechan]")
 {

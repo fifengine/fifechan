@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <string>
+#include <memory>
 
 // Platform config include
 #include "fifechan/platform.hpp"

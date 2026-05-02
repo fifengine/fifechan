@@ -7,7 +7,8 @@
 // Project headers
 #include "fifechan/widgets/bargraph.hpp"
 
-using namespace fcn;
+using fcn::BarGraph;
+using fcn::Point;
 
 // ============================================================================
 // BarGraph constructors

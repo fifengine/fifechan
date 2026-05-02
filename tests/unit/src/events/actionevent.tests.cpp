@@ -10,7 +10,8 @@
 #include "fifechan/events/actionevent.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using namespace fcn;
+using fcn::Label;
+using fcn::ActionEvent;
 
 // ============================================================================
 // ActionEvent constructor and getId

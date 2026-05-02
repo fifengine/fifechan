@@ -7,7 +7,7 @@
 // Project headers
 #include "fifechan/widgets/spacer.hpp"
 
-using namespace fcn;
+using fcn::Spacer;
 
 // ============================================================================
 // Spacer constructor

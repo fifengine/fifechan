@@ -18,7 +18,17 @@
 #include "fifechan/rectangle.hpp"
 #include "fifechan/widgets/label.hpp"
 
-using namespace fcn;
+using fcn::Color;
+using fcn::DefaultFont;
+using fcn::Font;
+using fcn::Graphics;
+using fcn::Image;
+using fcn::Point;
+using fcn::Rectangle;
+using fcn::Label;
+using fcn::PointVector;
+// `Alignment` is defined under `fcn::Graphics`
+using Alignment = fcn::Graphics::Alignment;
 
 namespace
 {
@@ -164,9 +174,9 @@ namespace
             }
 
             // getCurrentClipArea (virtual, returns ClipRectangle const&)
-            ClipRectangle const & getCurrentClipArea() override
+            fcn::ClipRectangle const & getCurrentClipArea() override
             {
-                static ClipRectangle r;
+                static fcn::ClipRectangle r;
                 return r;
             }
     };

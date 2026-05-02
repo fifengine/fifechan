@@ -8,21 +8,30 @@
 
 #include <memory>
 #include <vector>
+#include <string>
+
+#include <catch2/catch_test_macros.hpp>
 
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/point.hpp"
-#include <catch2/catch_test_macros.hpp>
 
-using namespace fcn;
+using fcn::Graphics;
+using fcn::Image;
+using fcn::Color;
+using fcn::Font;
+using fcn::Point;
+using fcn::PointVector;
+using fcn::Rectangle;
+using fcn::ClipRectangle;
 
 // Mock font for testing Graphics::drawText
 class MockFont : public Font
 {
     public:
         bool drawStringCalled = false;
-        MockFont(int charWidth = 10, int height = 16) : m_charWidth(charWidth), m_height(height)
+        explicit MockFont(int charWidth = 10, int height = 16) : m_charWidth(charWidth), m_height(height)
         {
         }
 
@@ -278,7 +287,7 @@ TEST_CASE("Graphics::popClipArea throws when stack empty", "[graphics][popClipAr
 {
     MockGraphics g;
 
-    REQUIRE_THROWS_AS(g.popClipArea(), Exception);
+    REQUIRE_THROWS_AS(g.popClipArea(), fcn::Exception);
 }
 
 // ============================================
@@ -301,7 +310,7 @@ TEST_CASE("Graphics::getCurrentClipArea throws when stack empty", "[graphics][ge
 {
     MockGraphics g;
 
-    REQUIRE_THROWS_AS(g.getCurrentClipArea(), Exception);
+    REQUIRE_THROWS_AS(g.getCurrentClipArea(), fcn::Exception);
 }
 
 // ============================================
@@ -315,7 +324,7 @@ TEST_CASE("Graphics::setFont with nullptr", "[graphics][setFont]")
     g.setFont(nullptr);
 
     // Access the font through drawText which should throw
-    REQUIRE_THROWS_AS(g.drawText("test", 0, 0), Exception);
+    REQUIRE_THROWS_AS(g.drawText("test", 0, 0), fcn::Exception);
 }
 
 TEST_CASE("Graphics::setFont with valid font pointer", "[graphics][setFont]")
@@ -339,10 +348,10 @@ TEST_CASE("Graphics::drawText with null font throws", "[graphics][drawText]")
 
     g.setFont(nullptr);
 
-    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0), Exception);
-    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Left), Exception);
-    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Center), Exception);
-    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Right), Exception);
+    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0), fcn::Exception);
+    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Left), fcn::Exception);
+    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Center), fcn::Exception);
+    REQUIRE_THROWS_AS(g.drawText("Hello", 0, 0, Graphics::Alignment::Right), fcn::Exception);
 }
 
 TEST_CASE("Graphics::drawText Left alignment", "[graphics][drawText]")
@@ -385,7 +394,7 @@ TEST_CASE("Graphics::drawText unknown alignment throws", "[graphics][drawText]")
 
     // Cast an invalid value to Alignment to test unknown alignment
     Graphics::Alignment invalidAlignment = static_cast<Graphics::Alignment>(255);
-    REQUIRE_THROWS_AS(g.drawText("Hello", 100, 200, invalidAlignment), Exception);
+    REQUIRE_THROWS_AS(g.drawText("Hello", 100, 200, invalidAlignment), fcn::Exception);
 }
 
 TEST_CASE("Graphics::drawText default overload uses Left alignment", "[graphics][drawText]")
@@ -444,7 +453,7 @@ TEST_CASE("Graphics clip stack operations sequence", "[graphics][integration]")
     MockGraphics g;
 
     // Start with empty stack
-    REQUIRE_THROWS_AS(g.getCurrentClipArea(), Exception);
+    REQUIRE_THROWS_AS(g.getCurrentClipArea(), fcn::Exception);
 
     // Push first area
     g.pushClipArea(Rectangle(0, 0, 100, 100));
@@ -470,5 +479,5 @@ TEST_CASE("Graphics clip stack operations sequence", "[graphics][integration]")
 
     // Pop to empty
     g.popClipArea();
-    REQUIRE_THROWS_AS(g.getCurrentClipArea(), Exception);
+    REQUIRE_THROWS_AS(g.getCurrentClipArea(), fcn::Exception);
 }

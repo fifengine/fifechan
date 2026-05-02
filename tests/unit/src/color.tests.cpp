@@ -7,14 +7,16 @@
 #include <sstream>
 #include <stdexcept>
 
-// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 
-using namespace fcn;
+using fcn::Color;
+
+// Standard library includes (needed by tests)
+#include <string>
 
 // ============================================================================
 // Constructors

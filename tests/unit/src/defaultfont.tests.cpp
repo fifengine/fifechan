@@ -9,7 +9,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/defaultfont.hpp"
 
-using namespace fcn;
+using fcn::DefaultFont;
 
 // ============================================================================
 // DefaultFont basic properties

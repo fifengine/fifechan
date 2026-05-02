@@ -9,7 +9,9 @@
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using namespace fcn;
+using fcn::Label;
+using fcn::Container;
+using fcn::ContainerEvent;
 
 // ============================================================================
 // ContainerEvent constructor and getContainer

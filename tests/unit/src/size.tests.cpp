@@ -10,7 +10,7 @@
 // Project headers
 #include "fifechan/size.hpp"
 
-using namespace fcn;
+using fcn::Size;
 
 // ============================================================================
 // Size constructor

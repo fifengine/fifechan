@@ -8,7 +8,8 @@
 #include "fifechan/events/selectionevent.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using namespace fcn;
+using fcn::Label;
+using fcn::SelectionEvent;
 
 // ============================================================================
 // SelectionEvent constructor and getSource

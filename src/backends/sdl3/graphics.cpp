@@ -9,6 +9,7 @@
 // Standard library includes
 #include <algorithm>
 #include <cstdio>
+#include <iterator>
 #include <memory>
 #include <numbers>
 #include <string>
@@ -883,10 +884,11 @@ namespace fcn::sdl3
         // Convert points to SDL_FPoint array with offset applied
         std::vector<SDL_FPoint> sdlPoints;
         sdlPoints.reserve(points.size());
-        for (auto const & point : points) {
-            sdlPoints.push_back(
-                SDL_FPoint{static_cast<float>(point.x + top.xOffset), static_cast<float>(point.y + top.yOffset)});
-        }
+        std::transform(points.begin(), points.end(), std::back_inserter(sdlPoints),
+                       [&top](auto const & point) {
+                           return SDL_FPoint{static_cast<float>(point.x + top.xOffset),
+                                              static_cast<float>(point.y + top.yOffset)};
+                       });
 
         if (width <= 1) {
             // Use SDL_RenderLines for batched rendering of thin lines

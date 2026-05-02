@@ -4,16 +4,22 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers
+// Standard library includes
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "fifechan/events/containerevent.hpp"
 #include "fifechan/listeners/containerlistener.hpp"
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
 
-using namespace fcn;
+using fcn::Container;
+using fcn::Label;
+using fcn::Widget;
+using fcn::Rectangle;
+using fcn::ContainerEvent;
+using fcn::ContainerListener;
 
 // ============================================================================
 // Helper class for testing container listeners

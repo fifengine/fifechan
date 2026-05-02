@@ -9,7 +9,9 @@
 #include "fifechan/events/dragevent.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using namespace fcn;
+using fcn::Label;
+using fcn::DragPayload;
+using fcn::DragEvent;
 
 // ============================================================================
 // DragEvent constructor and getters
