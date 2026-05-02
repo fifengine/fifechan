@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-/**
- * Unit tests for TrueTypeFont rendering with color emoji fonts (OpenMoji).
- *
- * Validates that OT-SVG color emoji fonts render correctly via SDL3_ttf
- * with PlutoSVG support enabled.
- */
-
 // Standard library includes
 #include <algorithm>
 #include <filesystem>

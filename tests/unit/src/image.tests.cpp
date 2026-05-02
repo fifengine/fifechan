@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/image.hpp"
 
+// Standard library includes
 #include <string>
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
 #include "fifechan/imageloader.hpp"
 

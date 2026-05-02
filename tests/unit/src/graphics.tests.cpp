@@ -1,17 +1,18 @@
-// SPDX-License-Identifier: MIT
-// SPDX-FileCopyrightText: 2026 Jens A. Koch.
-// This file is part of fifengine/fifechan.
-//
-// Unit tests for fifechan::Graphics
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/graphics.hpp"
 
+// Standard library includes
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

@@ -1,11 +1,16 @@
-#ifndef FIFECHAN_FONTLOADER_HPP
-#define FIFECHAN_FONTLOADER_HPP
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+#ifndef INCLUDE_FIFECHAN_FONTLOADER_HPP
+#define INCLUDE_FIFECHAN_FONTLOADER_HPP
+
+// Standard library includes
 #include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
 
+// Project headers (subdirs before local)
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 
@@ -39,4 +44,4 @@ namespace fcn
     } // namespace font
 } // namespace fcn
 
-#endif // FIFECHAN_FONTLOADER_HPP
+#endif // INCLUDE_FIFECHAN_FONTLOADER_HPP

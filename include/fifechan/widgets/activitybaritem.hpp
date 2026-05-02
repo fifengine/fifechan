@@ -5,8 +5,8 @@
 #define INCLUDE_FIFECHAN_WIDGETS_ACTIVITYBARITEM_HPP_
 
 // Standard library includes
-#include <string>
 #include <memory>
+#include <string>
 
 // Platform config include
 #include "fifechan/platform.hpp"

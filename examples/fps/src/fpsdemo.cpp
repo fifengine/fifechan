@@ -8,10 +8,10 @@
 // Standard library includes
 #include <cmath>
 #include <format>
+#include <iostream>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <iostream>
 
 namespace
 {

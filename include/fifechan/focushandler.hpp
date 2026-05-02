@@ -6,8 +6,8 @@
 #define INCLUDE_FIFECHAN_FOCUSHANDLER_HPP_
 
 // Standard library includes
-#include <vector>
 #include <cstdio>
+#include <vector>
 
 // Project headers (subdirs before local)
 #include "fifechan/events/event.hpp"

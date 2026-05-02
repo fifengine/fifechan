@@ -1,11 +1,9 @@
-// SPDX-License-Identifier: MIT
-// SPDX-FileCopyrightText: 2026 Jens A. Koch.
-// This file is part of fifengine/fifechan.
-//
-// Unit tests for fifechan::ClipRectangle
+// SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 #include "fifechan/cliprectangle.hpp"
 
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 using fcn::ClipRectangle;

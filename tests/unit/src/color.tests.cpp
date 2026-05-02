@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-// Corresponding header include
-
 // Standard library includes
 #include <sstream>
 #include <stdexcept>
 
+// Standard library includes
+#include <string>
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
@@ -14,9 +16,6 @@
 #include "fifechan/color.hpp"
 
 using fcn::Color;
-
-// Standard library includes (needed by tests)
-#include <string>
 
 // ============================================================================
 // Constructors
