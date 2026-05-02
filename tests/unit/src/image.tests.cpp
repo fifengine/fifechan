@@ -62,7 +62,7 @@ TEST_CASE("Image load calls image loader when set", "[image]")
     fcn::Image::setImageLoader(&loader);
 
     // This will call loader.load() which returns nullptr
-    fcn::Image* result = fcn::Image::load("test.png", false);
+    fcn::Image const * result = fcn::Image::load("test.png", false);
     REQUIRE(result == nullptr);
 
     // Restore original only if it was not null

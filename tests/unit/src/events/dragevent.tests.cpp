@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/events/dragevent.hpp"
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers
 #include "fifechan/dragdrop.hpp"
-#include "fifechan/events/dragevent.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using fcn::Label;
-using fcn::DragPayload;
 using fcn::DragEvent;
+using fcn::DragPayload;
+using fcn::Label;
 
 // ============================================================================
 // DragEvent constructor and getters

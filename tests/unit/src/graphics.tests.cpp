@@ -18,43 +18,17 @@
 #include "fifechan/font.hpp"
 #include "fifechan/point.hpp"
 
-using fcn::Graphics;
-using fcn::Image;
+using fcn::ClipRectangle;
 using fcn::Color;
 using fcn::Font;
+using fcn::Graphics;
+using fcn::Image;
 using fcn::Point;
 using fcn::PointVector;
 using fcn::Rectangle;
-using fcn::ClipRectangle;
 
-// Mock font for testing Graphics::drawText
-class MockFont : public Font
-{
-    public:
-        bool drawStringCalled = false;
-        explicit MockFont(int charWidth = 10, int height = 16) : m_charWidth(charWidth), m_height(height)
-        {
-        }
-
-        int getWidth(std::string const & text) const override
-        {
-            return static_cast<int>(text.size()) * m_charWidth;
-        }
-
-        int getHeight() const override
-        {
-            return m_height;
-        }
-
-        void drawString(Graphics* /*graphics*/, std::string const & /*text*/, int /*x*/, int /*y*/) override
-        {
-            drawStringCalled = true;
-        }
-
-    private:
-        int m_charWidth;
-        int m_height;
-};
+// Use shared mock font to avoid ODR violations
+#include "mock_font.hpp"
 
 // Mock Graphics implementation for testing base class functionality
 class MockGraphics : public Graphics

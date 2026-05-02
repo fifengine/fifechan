@@ -17,34 +17,8 @@
 using fcn::Font;
 using fcn::Graphics;
 using fcn::ImageFont;
-
-// Mock font for testing the base Font class functionality
-class MockFont : public Font
-{
-    public:
-        MockFont(int charWidth, int height) : m_charWidth(charWidth), m_height(height)
-        {
-        }
-
-        int getWidth(std::string const & text) const override
-        {
-            return static_cast<int>(text.size()) * m_charWidth;
-        }
-
-        int getHeight() const override
-        {
-            return m_height;
-        }
-
-        void drawString(Graphics* graphics, std::string const & text, int x, int y) override
-        {
-            // Mock implementation - do nothing
-        }
-
-    private:
-        int m_charWidth;
-        int m_height;
-};
+// Use shared mock font to avoid ODR violations
+#include "mock_font.hpp"
 
 TEST_CASE("Font::getStringIndexAt returns correct index for position", "[font]")
 {

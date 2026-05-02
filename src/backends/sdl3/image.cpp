@@ -57,14 +57,19 @@ namespace fcn::sdl3
             SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
             SDL_SetTextureScaleMode(mTexture, SDL_SCALEMODE_NEAREST);
 
-            float wFloat = 0, hFloat = 0;
+            float wFloat = 0;
+            float hFloat = 0;
             SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
-            int w             = static_cast<int>(wFloat);
-            int h             = static_cast<int>(hFloat);
+
+            int const w = static_cast<int>(wFloat);
+            int const h = static_cast<int>(hFloat);
+
             mTransientSurface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA8888);
+
             if (mTransientSurface == nullptr) {
                 throwException(std::string("Failed to create transient surface: ") + SDL_GetError());
             }
+
             if (mTransientSurface->format != surface->format) {
                 SDL_Surface* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA8888);
                 if (converted != nullptr) {
@@ -117,8 +122,10 @@ namespace fcn::sdl3
             throwException("Trying to get the width of a non loaded image.");
         }
 
-        float wFloat = 0, hFloat = 0;
+        float wFloat = 0;
+        float hFloat = 0;
         SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
+
         return static_cast<int>(wFloat);
     }
 
@@ -128,8 +135,10 @@ namespace fcn::sdl3
             throwException("Trying to get the height of a non loaded image.");
         }
 
-        float wFloat = 0, hFloat = 0;
+        float wFloat = 0;
+        float hFloat = 0;
         SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
+
         return static_cast<int>(hFloat);
     }
 
@@ -144,6 +153,7 @@ namespace fcn::sdl3
         unsigned char b = 0;
         unsigned char a = 0;
         SDL_ReadSurfacePixel(mTransientSurface, x, y, &r, &g, &b, &a);
+
         return {r, g, b, a};
     }
 

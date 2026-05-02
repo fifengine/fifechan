@@ -206,9 +206,8 @@ namespace fcn
             // Override draw for custom rendering
             void draw(Graphics* graphics) override;
 
-            // Override mouse events for debug tracing
-            void mousePressed(MouseEvent& mouseEvent) override;
-            void mouseReleased(MouseEvent& mouseEvent) override;
+            // Mouse event handlers are inherited from `Button`.
+            // (Previously overridden for tracing; no custom logic required.)
 
             /**
              * Measures the content metrics of this menu item.

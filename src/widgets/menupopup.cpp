@@ -477,9 +477,7 @@ namespace fcn
                     return;
                 }
 
-                if (mHoverIndex < 0) {
-                    mHoverIndex = 0;
-                }
+                mHoverIndex = std::max(mHoverIndex, 0);
 
                 if (key.getValue() == Key::Up) {
                     mHoverIndex =

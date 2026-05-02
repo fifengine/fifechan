@@ -52,7 +52,7 @@ TEST_CASE("ClipRectangle copy assignment returns reference to self", "[cliprecta
     Rectangle baseRect(10, 20, 30, 40);
     ClipRectangle clipRect(1, 2, 3, 4, 5, 6);
 
-    ClipRectangle& result = (clipRect = baseRect);
+    ClipRectangle const & result = (clipRect = baseRect);
 
     REQUIRE(&result == &clipRect);
 }
@@ -64,13 +64,14 @@ TEST_CASE("ClipRectangle can be used with different offset values", "[cliprectan
     rect.yOffset = 200;
 
     REQUIRE(rect.xOffset == 100);
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(rect.yOffset == 200);
 }
 
 TEST_CASE("ClipRectangle is subclass of Rectangle", "[cliprectangle]")
 {
     ClipRectangle clipRect(5, 10, 15, 20, 25, 30);
-    Rectangle* rectPtr = &clipRect;
+    Rectangle const * rectPtr = &clipRect;
 
     REQUIRE(rectPtr->x == 5);
     REQUIRE(rectPtr->y == 10);

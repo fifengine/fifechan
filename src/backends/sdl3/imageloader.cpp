@@ -18,9 +18,7 @@
 
 namespace fcn::sdl3
 {
-    ImageLoader::ImageLoader()
-    {
-    }
+    ImageLoader::ImageLoader() = default;
 
     namespace
     {
@@ -35,7 +33,6 @@ namespace fcn::sdl3
             if (basePathRaw == nullptr) {
                 return filename;
             }
-
             std::filesystem::path const candidate = std::filesystem::path(basePathRaw) / requestedPath;
             SDL_free(const_cast<char*>(basePathRaw));
             return candidate.string();
@@ -120,7 +117,7 @@ namespace fcn::sdl3
         Uint32 colorKey = 0;
 
         if (SDL_SurfaceHasColorKey(converted)) {
-            if (SDL_GetSurfaceColorKey(converted, &colorKey) == false) {
+            if (!SDL_GetSurfaceColorKey(converted, &colorKey)) {
                 // For SDL_PIXELFORMAT_RGBA8888, the color key is stored as a 32-bit value
                 // Extract RGB components (assuming the color key was set with SDL_MapSurfaceRGB)
                 Uint8 r = (colorKey >> 16) & 0xFF; // R is typically in bits 16-23 for RGBA8888

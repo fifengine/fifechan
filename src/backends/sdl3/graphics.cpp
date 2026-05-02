@@ -8,6 +8,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <array>
 #include <cstdio>
 #include <iterator>
 #include <memory>
@@ -379,9 +380,15 @@ namespace fcn::sdl3
                     static_cast<float>(mColor.a)}}};
 
         // Two triangles forming a quad
-        int const indices[] = {0, 1, 2, 0, 2, 3};
+        std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
 
-        SDL_RenderGeometry(mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()), indices, 6);
+        SDL_RenderGeometry(
+            mRenderTarget,
+            nullptr,
+            vertices.data(),
+            static_cast<int>(vertices.size()),
+            indices.data(),
+            static_cast<int>(indices.size()));
 
         restoreRenderColor();
     }
@@ -858,9 +865,14 @@ namespace fcn::sdl3
                             static_cast<float>(mColor.b),
                             static_cast<float>(mColor.a)}}};
 
-                int const indices[] = {0, 1, 2, 0, 2, 3};
+                std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
                 SDL_RenderGeometry(
-                    mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()), indices, 6);
+                    mRenderTarget,
+                    nullptr,
+                    vertices.data(),
+                    static_cast<int>(vertices.size()),
+                    indices.data(),
+                    static_cast<int>(indices.size()));
             }
 
             restoreRenderColor();
@@ -884,11 +896,9 @@ namespace fcn::sdl3
         // Convert points to SDL_FPoint array with offset applied
         std::vector<SDL_FPoint> sdlPoints;
         sdlPoints.reserve(points.size());
-        std::transform(points.begin(), points.end(), std::back_inserter(sdlPoints),
-                       [&top](auto const & point) {
-                           return SDL_FPoint{static_cast<float>(point.x + top.xOffset),
-                                              static_cast<float>(point.y + top.yOffset)};
-                       });
+        std::transform(points.begin(), points.end(), std::back_inserter(sdlPoints), [&top](auto const & point) {
+            return SDL_FPoint{static_cast<float>(point.x + top.xOffset), static_cast<float>(point.y + top.yOffset)};
+        });
 
         if (width <= 1) {
             // Use SDL_RenderLines for batched rendering of thin lines
@@ -952,9 +962,14 @@ namespace fcn::sdl3
                             static_cast<float>(mColor.b),
                             static_cast<float>(mColor.a)}}};
 
-                int const indices[] = {0, 1, 2, 0, 2, 3};
+                std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
                 SDL_RenderGeometry(
-                    mRenderTarget, nullptr, vertices.data(), static_cast<int>(vertices.size()), indices, 6);
+                    mRenderTarget,
+                    nullptr,
+                    vertices.data(),
+                    static_cast<int>(vertices.size()),
+                    indices.data(),
+                    static_cast<int>(indices.size()));
             }
 
             restoreRenderColor();

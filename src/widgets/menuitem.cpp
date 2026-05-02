@@ -235,17 +235,7 @@ namespace fcn
         }
     }
 
-    void MenuItem::mousePressed(MouseEvent& mouseEvent)
-    {
-        // Call parent Button handler
-        Button::mousePressed(mouseEvent);
-    }
-
-    void MenuItem::mouseReleased(MouseEvent& mouseEvent)
-    {
-        // Call parent Button handler
-        Button::mouseReleased(mouseEvent);
-    }
+    // Mouse events use the base `Button` implementations; no overrides needed.
 
     MenuItemMetrics MenuItem::measure(Font const & font) const
     {

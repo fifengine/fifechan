@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-// Third-party library includes
+// Corresponding header include
+#include "fifechan/events/actionevent.hpp"
+
+// Standard library includes
 #include <string>
 
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers
-#include "fifechan/events/actionevent.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using fcn::Label;
 using fcn::ActionEvent;
+using fcn::Label;
 
 // ============================================================================
 // ActionEvent constructor and getId

@@ -106,7 +106,7 @@ namespace fcn
 
     void Gui::setTop(Widget* top)
     {
-        assert("Top widget can be null to clear" && (top != nullptr || top == nullptr));
+        // `top` may be nullptr to clear the current top widget; no assertion needed.
 
         if (top != mOwnedTop.get()) {
             mOwnedTop.reset();
@@ -145,7 +145,7 @@ namespace fcn
 
     void Gui::setGraphics(Graphics* graphics)
     {
-        assert("Graphics can be null to clear" && (graphics != nullptr || graphics == nullptr));
+        // `graphics` may be nullptr to clear the current graphics; no assertion needed.
 
         if (graphics != mOwnedGraphics.get()) {
             mOwnedGraphics.reset();
@@ -166,7 +166,7 @@ namespace fcn
 
     void Gui::setInput(Input* input)
     {
-        assert("Input can be null to clear" && (input != nullptr || input == nullptr));
+        // `input` may be nullptr to clear the current input; no assertion needed.
 
         if (input != mOwnedInput.get()) {
             mOwnedInput.reset();

@@ -68,15 +68,15 @@ namespace fcn
 
 } // namespace fcn
 
-using fcn::FocusHandler;
-using fcn::Label;
-using fcn::Event;
-using fcn::Widget;
-using fcn::FocusListener;
-using fcn::TestFocusListener;
-using fcn::FocusableLabel;
-using fcn::Exception;
 using fcn::Container;
+using fcn::Event;
+using fcn::Exception;
+using fcn::FocusableLabel;
+using fcn::FocusHandler;
+using fcn::FocusListener;
+using fcn::Label;
+using fcn::TestFocusListener;
+using fcn::Widget;
 
 // ============================================================================
 // FocusHandler constructor and initial state

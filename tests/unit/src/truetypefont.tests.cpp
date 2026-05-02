@@ -267,7 +267,7 @@ TEST_CASE("TTF_RenderText_Blended produces non-empty pixel data for emoji", "[un
     // Check that the surface has non-zero pixel data
     // For a color emoji, we expect actual color values, not just alpha
     bool hasColorData     = false;
-    Uint8* pixels         = static_cast<Uint8*>(surface->pixels);
+    Uint8 const * pixels  = static_cast<Uint8 const *>(surface->pixels);
     int const totalPixels = surface->w * surface->h;
 
     for (int i = 0; i < totalPixels; ++i) {

@@ -26,28 +26,28 @@
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
 
-using fcn::Color;
 using fcn::ActionEvent;
-using fcn::DragEvent;
-using fcn::Event;
-using fcn::MouseEvent;
-using fcn::FocusHandler;
-using fcn::Gui;
 using fcn::ActionListener;
+using fcn::Color;
+using fcn::Container;
 using fcn::DeathListener;
+using fcn::DragEvent;
 using fcn::DropTargetListener;
+using fcn::Event;
+using fcn::FocusHandler;
 using fcn::FocusListener;
+using fcn::Font;
+using fcn::Graphics;
+using fcn::Gui;
+using fcn::KeyEvent;
 using fcn::KeyListener;
+using fcn::Label;
+using fcn::MouseEvent;
 using fcn::MouseListener;
-using fcn::WidgetListener;
 using fcn::Rectangle;
 using fcn::Size;
 using fcn::Widget;
-using fcn::Container;
-using fcn::Label;
-using fcn::KeyEvent;
-using fcn::Graphics;
-using fcn::Font;
+using fcn::WidgetListener;
 
 // ============================================================================
 // Mock / helper classes
@@ -1609,11 +1609,12 @@ TEST_CASE("Widget widgetExists returns true for live widget", "[unit][widget]")
 TEST_CASE("Widget widgetExists returns false for destroyed widget", "[unit][widget]")
 {
     Label* labelPtr = nullptr;
-    {
-        Label label;
-        labelPtr = &label;
-        REQUIRE(Widget::widgetExists(&label));
-    }
+    // Allocate on the heap and delete to simulate destruction without
+    // taking the address of a stack-local that goes out of scope.
+    Label* label = new Label();
+    labelPtr     = label;
+    REQUIRE(Widget::widgetExists(label));
+    delete label;
     REQUIRE_FALSE(Widget::widgetExists(labelPtr));
 }
 
@@ -1819,7 +1820,7 @@ TEST_CASE("Container findWidgetById finds direct child", "[unit][widget]")
     l2.setPosition(50, 0);
     l2.setSize(50, 50);
 
-    Widget* found = container.findWidgetById("second");
+    Widget const * found = container.findWidgetById("second");
     REQUIRE(found == &l2);
 }
 
@@ -1836,7 +1837,7 @@ TEST_CASE("Container findWidgetById finds nested child", "[unit][widget]")
     target.setPosition(0, 0);
     target.setSize(50, 50);
 
-    Widget* found = root.findWidgetById("deep");
+    Widget const * found = root.findWidgetById("deep");
     REQUIRE(found == &target);
 }
 
@@ -2029,7 +2030,7 @@ TEST_CASE("Widget _setParent nullptr", "[unit][widget]")
 TEST_CASE("Widget getFont returns default font when no font set", "[unit][widget]")
 {
     Label label;
-    Font* font = label.getFont();
+    Font const * font = label.getFont();
     REQUIRE(font != nullptr);
 }
 

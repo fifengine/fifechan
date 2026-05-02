@@ -284,8 +284,8 @@ namespace fcn
     {
         // int totalTabWidth  = 0;  // UNUSED - possibly for future scrollable tabs feature
         // int totalTabHeight = 0;  // UNUSED - possibly for future scrollable tabs feature
-        int maxTabWidth  = 0;
-        int maxTabHeight = 0;
+        int maxTabWidth  = 0; // NOLINT(misc-const-correctness)
+        int maxTabHeight = 0; // NOLINT(misc-const-correctness)
 
         // Rectangle const area = getChildrenArea();  // UNUSED - possibly for future scrollable tabs feature
 

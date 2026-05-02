@@ -112,7 +112,7 @@ namespace fcn
             {
                 public:
                     ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr) :
-                        mHandler(handler), mReleased(false), mWasPopped(false)
+                        mHandler(handler)
                     {
                         if (mHandler != nullptr) {
                             mHandler->pushModal(focusOwner, mouseOwner);
@@ -132,7 +132,8 @@ namespace fcn
                             // This indicates a bug where the modal was not properly released
                             std::fprintf(
                                 stderr,
-                                "Warning: ModalScope destroyed without calling release() or popModal(). Did you forget to call release()?\n");
+                                "Warning: ModalScope destroyed without calling release() or popModal(). Did you forget "
+                                "to call release()?\n");
                         }
                     }
 
@@ -148,9 +149,9 @@ namespace fcn
                     }
 
                 private:
-                    FocusHandler* mHandler;
-                    bool mReleased;
-                    bool mWasPopped;
+                    FocusHandler* mHandler{nullptr};
+                    bool mReleased{false};
+                    bool mWasPopped{false};
             };
 
             /**

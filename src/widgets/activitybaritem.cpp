@@ -5,8 +5,8 @@
 #include "fifechan/widgets/activitybaritem.hpp"
 
 // Standard library includes
-#include <string>
 #include <memory>
+#include <string>
 
 // Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"

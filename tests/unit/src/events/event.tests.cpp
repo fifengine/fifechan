@@ -8,8 +8,8 @@
 #include "fifechan/events/event.hpp"
 #include "fifechan/widgets/label.hpp" // Use concrete widget
 
-using fcn::Label;
 using fcn::Event;
+using fcn::Label;
 
 // ============================================================================
 // Event constructor and getSource

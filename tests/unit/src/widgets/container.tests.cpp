@@ -15,11 +15,11 @@
 #include "fifechan/widgets/label.hpp"
 
 using fcn::Container;
-using fcn::Label;
-using fcn::Widget;
-using fcn::Rectangle;
 using fcn::ContainerEvent;
 using fcn::ContainerListener;
+using fcn::Label;
+using fcn::Rectangle;
+using fcn::Widget;
 
 // ============================================================================
 // Helper class for testing container listeners
@@ -114,8 +114,8 @@ TEST_CASE("Container addWidget with unique_ptr", "[unit][container]")
 {
     Container container;
 
-    auto label      = std::make_unique<Label>("Test");
-    Label* rawLabel = label.get();
+    auto label             = std::make_unique<Label>("Test");
+    Label const * rawLabel = label.get();
 
     container.addWidget(std::move(label));
 
@@ -127,8 +127,8 @@ TEST_CASE("Container addWidget with unique_ptr and position", "[unit][container]
 {
     Container container;
 
-    auto label      = std::make_unique<Label>("Test");
-    Label* rawLabel = label.get();
+    auto label             = std::make_unique<Label>("Test");
+    Label const * rawLabel = label.get();
 
     container.addWidget(std::move(label), 50, 60);
 
@@ -511,8 +511,8 @@ TEST_CASE("Container events fire with addWidget unique_ptr", "[unit][container]"
 
     container.addContainerListener(&listener);
 
-    auto label      = std::make_unique<Label>("Test");
-    Label* rawLabel = label.get();
+    auto label             = std::make_unique<Label>("Test");
+    Label const * rawLabel = label.get();
 
     container.addWidget(std::move(label));
 

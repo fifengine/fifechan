@@ -527,5 +527,4 @@ namespace fcn
     {
     }
 
-
 } // namespace fcn

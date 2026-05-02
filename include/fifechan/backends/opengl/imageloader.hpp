@@ -50,14 +50,17 @@ namespace fcn::opengl
                 // Read pixels using SDL_ReadSurfacePixel to get correct R,G,B,A
                 for (int y = 0; y < surface->h; ++y) {
                     for (int x = 0; x < surface->w; ++x) {
-                        unsigned char r, g, b, a;
+                        unsigned char r = 0;
+                        unsigned char g = 0;
+                        unsigned char b = 0;
+                        unsigned char a = 0;
                         SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
                         // Pack as R in bits 0-7, G in 8-15, B in 16-23, A in 24-31
-                        packedPixels.at(static_cast<size_t>(x + (y * surface->w))) =
-                            r | (g << 8) | (b << 16) | (a << 24);
+                        size_t const idx =
+                            static_cast<size_t>(x) + ((static_cast<size_t>(y) * static_cast<size_t>(surface->w)));
+                        packedPixels.at(idx) = r | (g << 8) | (b << 16) | (a << 24);
                     }
                 }
-
                 fcn::Image* image =
                     new fcn::opengl::Image(packedPixels, surface->w, surface->h, convertToDisplayFormat);
                 SDL_DestroySurface(surface);

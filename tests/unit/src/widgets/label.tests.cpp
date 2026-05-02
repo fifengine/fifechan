@@ -23,10 +23,10 @@ using fcn::DefaultFont;
 using fcn::Font;
 using fcn::Graphics;
 using fcn::Image;
-using fcn::Point;
-using fcn::Rectangle;
 using fcn::Label;
+using fcn::Point;
 using fcn::PointVector;
+using fcn::Rectangle;
 // `Alignment` is defined under `fcn::Graphics`
 using Alignment = fcn::Graphics::Alignment;
 
