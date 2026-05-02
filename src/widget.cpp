@@ -32,6 +32,15 @@
 
 namespace fcn
 {
+    namespace
+    {
+        std::list<Widget*>& widgetInstancesRegistry()
+        {
+            static auto* instances = new std::list<Widget*>();
+            return *instances;
+        }
+    } // namespace
+
     Font* Widget::mGlobalFont = nullptr;
     DefaultFont Widget::mDefaultFont;
     std::list<Widget*> Widget::mWidgetInstances;
@@ -41,7 +50,7 @@ namespace fcn
 
     Widget::Widget()
     {
-        mWidgetInstances.push_back(this);
+        widgetInstancesRegistry().push_back(this);
     }
 
     Widget::~Widget()
@@ -109,7 +118,7 @@ namespace fcn
             }
 
             // Remove from global Widget registry
-            mWidgetInstances.remove(this);
+            widgetInstancesRegistry().remove(this);
 
         } catch (fcn::Exception const & e) {
             std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
@@ -1006,7 +1015,7 @@ namespace fcn
         mGlobalFont = font;
 
         std::list<Widget*>::iterator iter;
-        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter) {
+        for (iter = widgetInstancesRegistry().begin(); iter != widgetInstancesRegistry().end(); ++iter) {
             if ((*iter)->mCurrentFont == nullptr) {
                 (*iter)->fontChanged();
             }
@@ -1026,10 +1035,10 @@ namespace fcn
 
     bool Widget::widgetExists(Widget const * widget)
     {
-        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget const * w) {
+        auto iter = std::ranges::find_if(widgetInstancesRegistry(), [widget](Widget const * w) {
             return w == widget;
         });
-        return iter != mWidgetInstances.end();
+        return iter != widgetInstancesRegistry().end();
     }
 
     bool Widget::isTabInEnabled() const
