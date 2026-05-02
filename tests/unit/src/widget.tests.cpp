@@ -722,7 +722,7 @@ TEST_CASE("Container getVisibleChildrenCount", "[unit][widget]")
     gui.setTop(&container);
 
     l2.setVisible(false);
-    REQUIRE(container.getVisibleChildrenCount() == 2);
+    REQUIRE(container.getVisibleChildrenCount() == 1);
 }
 
 TEST_CASE("Container remove widget", "[unit][widget]")
