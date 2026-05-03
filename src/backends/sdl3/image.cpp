@@ -3,21 +3,20 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 // Corresponding header include
-#include "fifechan/backends/sdl2/image.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
 
 // Standard library includes
 #include <string>
 
 // Third-party library includes
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_render.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/imageloader.hpp"
-#include "fifechan/backends/sdl2/pixel.hpp"
+#include "fifechan/backends/sdl3/imageloader.hpp"
 #include "fifechan/exception.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mAutoFree(autoFree), mRenderer(renderer)
     {
@@ -30,13 +29,13 @@ namespace fcn::sdl2
             // color-keyed surfaces to alpha transparency.
 
             // The color key exists. Disable RLE first to access raw pixels.
-            SDL_SetSurfaceRLE(surface, 0);
+            SDL_SetSurfaceRLE(surface, false);
 
-            if (surface->format->BitsPerPixel != 32) {
-                SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
+            if (SDL_GetPixelFormatDetails(surface->format)->bits_per_pixel != 32) {
+                SDL_Surface* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA8888);
                 if (converted != nullptr) {
                     if (autoFree) {
-                        SDL_FreeSurface(surface);
+                        SDL_DestroySurface(surface);
                     }
                     surface = converted;
                 }
@@ -44,7 +43,7 @@ namespace fcn::sdl2
 
             // Set magenta as color key only if not already set by ImageLoader
             Uint32 existingKey = 0;
-            if (SDL_GetColorKey(surface, &existingKey) == 0) {
+            if (SDL_GetSurfaceColorKey(surface, &existingKey) == false) {
                 // Color key already set - preserve it (from ImageLoader)
             } else {
                 // No color key set - don't add one in constructor (for font images)
@@ -56,47 +55,51 @@ namespace fcn::sdl2
             }
 
             SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
-#if SDL_VERSION_ATLEAST(2, 0, 12)
-            SDL_SetTextureScaleMode(mTexture, SDL_ScaleModeNearest);
-#endif
+            SDL_SetTextureScaleMode(mTexture, SDL_SCALEMODE_NEAREST);
 
-            int w{};
-            int h{};
-            SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
-            mTransientSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA8888);
+            float wFloat = 0;
+            float hFloat = 0;
+            SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
+
+            int const w = static_cast<int>(wFloat);
+            int const h = static_cast<int>(hFloat);
+
+            mTransientSurface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA8888);
+
             if (mTransientSurface == nullptr) {
                 throwException(std::string("Failed to create transient surface: ") + SDL_GetError());
             }
+
             if (mTransientSurface->format != surface->format) {
-                SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
+                SDL_Surface* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA8888);
                 if (converted != nullptr) {
-                    SDL_BlitScaled(converted, nullptr, mTransientSurface, nullptr);
-                    SDL_FreeSurface(converted);
+                    SDL_BlitSurface(converted, nullptr, mTransientSurface, nullptr);
+                    SDL_DestroySurface(converted);
                 }
             } else {
-                SDL_BlitScaled(surface, nullptr, mTransientSurface, nullptr);
+                SDL_BlitSurface(surface, nullptr, mTransientSurface, nullptr);
             }
 
             Uint32 transientKey = 0;
-            if (SDL_GetColorKey(mTransientSurface, &transientKey) == 0) {
+            if (SDL_GetSurfaceColorKey(mTransientSurface, &transientKey) == false) {
                 // Color key already set - preserve it (from ImageLoader)
             } else {
                 // No color key set - don't add one (for font images)
             }
-            SDL_SetSurfaceRLE(mTransientSurface, 0);
+            SDL_SetSurfaceRLE(mTransientSurface, false);
 
             if (autoFree) {
-                SDL_FreeSurface(surface);
+                SDL_DestroySurface(surface);
             }
         } else if (autoFree && surface != nullptr) {
-            SDL_FreeSurface(surface);
+            SDL_DestroySurface(surface);
         }
     }
 
     Image::~Image()
     {
         if (mAutoFree) {
-            SDL_FreeSurface(mTransientSurface);
+            SDL_DestroySurface(mTransientSurface);
             mTransientSurface = nullptr;
             SDL_DestroyTexture(mTexture);
             mTexture = nullptr;
@@ -119,10 +122,11 @@ namespace fcn::sdl2
             throwException("Trying to get the width of a non loaded image.");
         }
 
-        int w{};
-        int h{};
-        SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
-        return w;
+        float wFloat = 0;
+        float hFloat = 0;
+        SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
+
+        return static_cast<int>(wFloat);
     }
 
     int Image::getHeight() const
@@ -131,10 +135,11 @@ namespace fcn::sdl2
             throwException("Trying to get the height of a non loaded image.");
         }
 
-        int w{};
-        int h{};
-        SDL_QueryTexture(mTexture, nullptr, nullptr, &w, &h);
-        return h;
+        float wFloat = 0;
+        float hFloat = 0;
+        SDL_GetTextureSize(mTexture, &wFloat, &hFloat);
+
+        return static_cast<int>(hFloat);
     }
 
     Color Image::getPixel(int x, int y)
@@ -143,7 +148,13 @@ namespace fcn::sdl2
             throwException("Trying to get a pixel from a non loaded image.");
         }
 
-        return SDLgetPixel(mTransientSurface, x, y);
+        unsigned char r = 0;
+        unsigned char g = 0;
+        unsigned char b = 0;
+        unsigned char a = 0;
+        SDL_ReadSurfacePixel(mTransientSurface, x, y, &r, &g, &b, &a);
+
+        return {r, g, b, a};
     }
 
     void Image::putPixel(int x, int y, Color const & color)
@@ -152,7 +163,7 @@ namespace fcn::sdl2
             throwException("Trying to put a pixel in a non loaded image.");
         }
 
-        SDLputPixel(mTransientSurface, x, y, color);
+        SDL_WriteSurfacePixel(mTransientSurface, x, y, color.r, color.g, color.b, color.a);
     }
 
     void Image::convertToDisplayFormat()
@@ -170,17 +181,15 @@ namespace fcn::sdl2
                 throwException(std::string("Failed to create texture in convertToDisplayFormat: ") + SDL_GetError());
             }
             SDL_SetTextureBlendMode(mTexture, SDL_BLENDMODE_BLEND);
-#if SDL_VERSION_ATLEAST(2, 0, 12)
-            SDL_SetTextureScaleMode(mTexture, SDL_ScaleModeNearest);
-#endif
+            SDL_SetTextureScaleMode(mTexture, SDL_SCALEMODE_NEAREST);
         }
     }
 
     void Image::free()
     {
-        SDL_FreeSurface(mTransientSurface);
+        SDL_DestroySurface(mTransientSurface);
         mTransientSurface = nullptr;
         SDL_DestroyTexture(mTexture);
         mTexture = nullptr;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

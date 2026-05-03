@@ -34,43 +34,43 @@ namespace fcn
      */
     class FIFEGUI_API ImageLoader
     {
-    public:
-        virtual ~ImageLoader() = default;
+        public:
+            virtual ~ImageLoader() = default;
 
-        ImageLoader(ImageLoader const &)            = default;
-        ImageLoader& operator=(ImageLoader const &) = default;
-        ImageLoader(ImageLoader&&)                  = default;
-        ImageLoader& operator=(ImageLoader&&)       = default;
+            ImageLoader(ImageLoader const &)            = default;
+            ImageLoader& operator=(ImageLoader const &) = default;
+            ImageLoader(ImageLoader&&)                  = default;
+            ImageLoader& operator=(ImageLoader&&)       = default;
 
-    protected:
-        ImageLoader() = default;
+        protected:
+            ImageLoader() = default;
 
-    public:
-        /**
-         * Loads an image.
-         *
-         * The single-argument overload forwards to the
-         * two-argument overload requesting conversion to display format.
-         *
-         * @note The functions Image::getPixel and Image::putPixel
-         *       are only guaranteed to work before an image has
-         *       been converted to display format.
-         *
-         * @param filename The filename of the image to load.
-         */
-        Image* load(std::string const & filename)
-        {
-            return load(filename, true);
-        }
+        public:
+            /**
+             * Loads an image.
+             *
+             * The single-argument overload forwards to the
+             * two-argument overload requesting conversion to display format.
+             *
+             * @note The functions Image::getPixel and Image::putPixel
+             *       are only guaranteed to work before an image has
+             *       been converted to display format.
+             *
+             * @param filename The filename of the image to load.
+             */
+            Image* load(std::string const & filename)
+            {
+                return load(filename, true);
+            }
 
-        /**
-         * Loads an image, optionally converting it to display format.
-         *
-         * @param filename The filename of the image to load.
-         * @param convertToDisplayFormat True if the image should be converted
-         *                               to display format, false otherwise.
-         */
-        virtual Image* load(std::string const & filename, bool convertToDisplayFormat) = 0;
+            /**
+             * Loads an image, optionally converting it to display format.
+             *
+             * @param filename The filename of the image to load.
+             * @param convertToDisplayFormat True if the image should be converted
+             *                               to display format, false otherwise.
+             */
+            virtual Image* load(std::string const & filename, bool convertToDisplayFormat) = 0;
     };
 } // namespace fcn
 

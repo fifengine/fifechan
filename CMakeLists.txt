@@ -226,6 +226,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/exception.hpp
     include/fifechan/focushandler.hpp
     include/fifechan/font.hpp
+    include/fifechan/fontloader.hpp
     include/fifechan/genericinput.hpp
     include/fifechan/graphics.hpp
     include/fifechan/groups.hpp
@@ -314,9 +315,10 @@ set(FIFECHAN_SRC
     src/events/mouseevent.cpp
     src/events/selectionevent.cpp
     src/fifechan.cpp
-    src/focushandler.cpp
-    src/font.cpp
-    src/genericinput.cpp
+     src/focushandler.cpp
+     src/font.cpp
+     src/fontloader.cpp
+     src/genericinput.cpp
     src/graphics.cpp
     src/gui.cpp
     src/image.cpp
@@ -379,16 +381,9 @@ set(FIFECHAN_SRC
 find_package(utf8cpp CONFIG REQUIRED)
 
 if(ENABLE_SDL)
-  find_package(SDL2 CONFIG REQUIRED)
-  find_package(SDL2_image CONFIG REQUIRED)
-  find_package(SDL2_ttf CONFIG REQUIRED)
-
-  if(APPLE)
-    find_library(SDL2_LIBRARY SDL2)
-    find_library(SDL2_IMAGE_LIBRARY SDL2_image)
-    mark_as_advanced(SDL2_LIBRARY SDL2_IMAGE_LIBRARY)
-    set(EXTRA_LIBS ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
-  endif()
+  find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
+  find_package(SDL3_image CONFIG REQUIRED)
+  find_package(SDL3_ttf CONFIG REQUIRED)
 endif()
 
 if(ENABLE_OPENGL)
@@ -644,90 +639,79 @@ if(ENABLE_SDL)
 
   # The FifeGUI SDL extension sources
   set(FIFECHAN_SDL_HEADERS
-    include/fifechan/backends/sdl2/graphics.hpp
-    include/fifechan/backends/sdl2/image.hpp
-    include/fifechan/backends/sdl2/imageloader.hpp
-    include/fifechan/backends/sdl2/input.hpp
-    include/fifechan/backends/sdl2/pixel.hpp
-    include/fifechan/backends/sdl2/sdl.hpp
-    include/fifechan/backends/sdl2/truetypefont.hpp
+    include/fifechan/backends/sdl3/graphics.hpp
+    include/fifechan/backends/sdl3/image.hpp
+    include/fifechan/backends/sdl3/imageloader.hpp
+    include/fifechan/backends/sdl3/input.hpp
+    include/fifechan/backends/sdl3/sdl.hpp
+    include/fifechan/backends/sdl3/truetypefont.hpp
   )
   set(FIFECHAN_SDL_SRC
-    src/backends/sdl2/graphics.cpp
-    src/backends/sdl2/image.cpp
-    src/backends/sdl2/imageloader.cpp
-    src/backends/sdl2/input.cpp
-    src/backends/sdl2/truetypefont.cpp
+    src/backends/sdl3/graphics.cpp
+    src/backends/sdl3/image.cpp
+    src/backends/sdl3/imageloader.cpp
+    src/backends/sdl3/input.cpp
+    src/backends/sdl3/truetypefont.cpp
   )
 
-  add_library(${PROJECT_NAME}_sdl2)
+  add_library(${PROJECT_NAME}_sdl3)
 
-  # Provide a namespace alias for the library (fifechan::fifechan_sdl2)
-  add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl2 ALIAS ${PROJECT_NAME}_sdl2)
+  # Provide a namespace alias for the library (fifechan::fifechan_sdl3)
+  add_library(${PROJECT_NAME}::${PROJECT_NAME}_sdl3 ALIAS ${PROJECT_NAME}_sdl3)
 
   # define public interface for the extension
-  target_sources(${PROJECT_NAME}_sdl2
+  target_sources(${PROJECT_NAME}_sdl3
     PUBLIC
-    FILE_SET public_headers_sdl2 TYPE HEADERS
+    FILE_SET public_headers_sdl3 TYPE HEADERS
     BASE_DIRS include
     FILES
       ${FIFECHAN_SDL_HEADERS}
   )
 
   # define private sources for the extension
-  target_sources(${PROJECT_NAME}_sdl2
+  target_sources(${PROJECT_NAME}_sdl3
     PRIVATE
     ${FIFECHAN_SDL_SRC}
   )
 
-  target_include_directories(${PROJECT_NAME}_sdl2 PUBLIC
-    # Only set the SDL2 include dir, SDL2_image and SDL2_ttf are included in the SDL2 include directory.
-    $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-    $<INSTALL_INTERFACE:include>
-  )
-
-  target_compile_definitions(${PROJECT_NAME}_sdl2 PUBLIC
+  target_compile_definitions(${PROJECT_NAME}_sdl3 PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
     FIFECHAN_EXTENSION_BUILD
   )
 
-  target_link_libraries(${PROJECT_NAME}_sdl2 PRIVATE
-    # SDL2::SDL2
-    #$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    # SDL2::SDL2_image
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+  target_link_libraries(${PROJECT_NAME}_sdl3 PRIVATE
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
   )
 
-  # SDL2::SDL2_ttf needs to be linked PUBLIC so consumers get the symbols (TTF_Init, TTF_Quit)
-  target_link_libraries(${PROJECT_NAME}_sdl2 PUBLIC
-    # SDL2::SDL2_ttf
-    $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+  # SDL3::SDL3_ttf needs to be linked PUBLIC so consumers get the symbols (TTF_Init, TTF_Quit)
+  target_link_libraries(${PROJECT_NAME}_sdl3 PUBLIC
+    $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
     # Fifechan
     ${PROJECT_NAME}
   )
 
-  set_target_properties(${PROJECT_NAME}_sdl2 PROPERTIES
+  set_target_properties(${PROJECT_NAME}_sdl3 PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
     SOVERSION              ${FIFECHAN_VERSION}
     CLEAN_DIRECT_OUTPUT    1                               # Allow creating static and shared libraries without conflict
-    OUTPUT_NAME            ${PROJECT_NAME}_sdl2            # Avoid conflicts between library and binary target names
+    OUTPUT_NAME            ${PROJECT_NAME}_sdl3            # Avoid conflicts between library and binary target names
     LINKER_LANGUAGE        CXX
     CXX_STANDARD           20
     CXX_STANDARD_REQUIRED  ON
     # Verify that all headers in the header set can be included on their own.
-    # This creates the target: fifechan_sdl2_verify_interface_header_sets
+    # This creates the target: fifechan_sdl3_verify_interface_header_sets
     VERIFY_INTERFACE_HEADER_SETS ON
   )
 
-  install(TARGETS ${PROJECT_NAME}_sdl2
+  install(TARGETS ${PROJECT_NAME}_sdl3
     EXPORT ${PROJECT_NAME}-targets
 
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 
-    FILE_SET public_headers_sdl2
+    FILE_SET public_headers_sdl3
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 
     PERMISSIONS

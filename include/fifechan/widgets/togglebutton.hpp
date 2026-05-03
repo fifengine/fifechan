@@ -29,104 +29,104 @@ namespace fcn
      */
     class FIFEGUI_API ToggleButton : public fcn::ImageButton
     {
-    public:
-        ToggleButton();
+        public:
+            ToggleButton();
 
-        /**
-         * Constructor.
-         *
-         * The toggle button will be automatically resized to fit the caption.
-         *
-         * @param caption The caption of the toggle button.
-         * @param group The group the toggle button should belong to.
-         * @param selected True if the toggle button should be selected.
-         */
-        ToggleButton(std::string const & caption, std::string const & group, bool selected = false);
+            /**
+             * Constructor.
+             *
+             * The toggle button will be automatically resized to fit the caption.
+             *
+             * @param caption The caption of the toggle button.
+             * @param group The group the toggle button should belong to.
+             * @param selected True if the toggle button should be selected.
+             */
+            ToggleButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        ~ToggleButton() override;
+            ~ToggleButton() override;
 
-        ToggleButton(ToggleButton const &)            = delete;
-        ToggleButton& operator=(ToggleButton const &) = delete;
-        ToggleButton(ToggleButton&&)                  = delete;
-        ToggleButton& operator=(ToggleButton&&)       = delete;
+            ToggleButton(ToggleButton const &)            = delete;
+            ToggleButton& operator=(ToggleButton const &) = delete;
+            ToggleButton(ToggleButton&&)                  = delete;
+            ToggleButton& operator=(ToggleButton&&)       = delete;
 
-        /**
-         * Checks if the check box is selected.
-         *
-         * @return True if the check box is selected, false otherwise.
-         * @see setSelected
-         */
-        virtual bool isSelected() const;
+            /**
+             * Checks if the check box is selected.
+             *
+             * @return True if the check box is selected, false otherwise.
+             * @see setSelected
+             */
+            virtual bool isSelected() const;
 
-        /**
-         * Sets the check box to be selected or not.
-         *
-         * @param selected True if the check box should be set as selected.
-         * @see isSelected
-         */
-        virtual void setSelected(bool selected);
+            /**
+             * Sets the check box to be selected or not.
+             *
+             * @param selected True if the check box should be set as selected.
+             * @see isSelected
+             */
+            virtual void setSelected(bool selected);
 
-        /**
-         * Toggles the check box between being selected and
-         * not being selected. It distribute a ActionEvent.
-         */
-        virtual void toggleSelected();
+            /**
+             * Toggles the check box between being selected and
+             * not being selected. It distribute a ActionEvent.
+             */
+            virtual void toggleSelected();
 
-        /**
-         * Sets the group the toggle button should belong to. Note that
-         * a toggle button group is unique per application, not per Gui object
-         * as the group is stored in a static map.
-         *
-         * @param group The name of the group.
-         * @see getGroup
-         */
-        void setGroup(std::string const & group);
+            /**
+             * Sets the group the toggle button should belong to. Note that
+             * a toggle button group is unique per application, not per Gui object
+             * as the group is stored in a static map.
+             *
+             * @param group The name of the group.
+             * @see getGroup
+             */
+            void setGroup(std::string const & group);
 
-        /**
-         * Gets the group the toggle button belongs to.
-         *
-         * @return The group the toggle button belongs to.
-         * @see setGroup
-         */
-        std::string const & getGroup() const;
+            /**
+             * Gets the group the toggle button belongs to.
+             *
+             * @return The group the toggle button belongs to.
+             * @see setGroup
+             */
+            std::string const & getGroup() const;
 
-        // Inherited from KeyListener
+            // Inherited from KeyListener
 
-        void keyReleased(KeyEvent& keyEvent) override;
+            void keyReleased(KeyEvent& keyEvent) override;
 
-        // Inherited from MouseListener
+            // Inherited from MouseListener
 
-        void mouseReleased(MouseEvent& mouseEvent) override;
+            void mouseReleased(MouseEvent& mouseEvent) override;
 
-    protected:
-        // Inherited from Button
+        protected:
+            // Inherited from Button
 
-        bool isPressed() const override;
+            bool isPressed() const override;
 
-        /**
-         * True if the check box is selected, false otherwise.
-         */
-        bool mSelected{false};
+            /**
+             * True if the check box is selected, false otherwise.
+             */
+            bool mSelected{false};
 
-        /**
-         * Holds the group of the toggle button.
-         */
-        std::string mGroup;
+            /**
+             * Holds the group of the toggle button.
+             */
+            std::string mGroup;
 
-        /**
-         * Typdef.
-         */
-        using GroupMap = std::multimap<std::string, ToggleButton*>;
+            /**
+             * Typdef.
+             */
+            using GroupMap = std::multimap<std::string, ToggleButton*>;
 
-        /**
-         * Typdef.
-         */
-        using GroupIterator = GroupMap::iterator;
+            /**
+             * Typdef.
+             */
+            using GroupIterator = GroupMap::iterator;
 
-        /**
-         * Holds all available toggle button groups.
-         */
-        static GroupMap mGroupMap;
+            /**
+             * Holds all available toggle button groups.
+             */
+            static GroupMap mGroupMap;
     };
 } // namespace fcn
 

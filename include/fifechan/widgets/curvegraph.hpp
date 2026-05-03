@@ -24,116 +24,116 @@ namespace fcn
      */
     class FIFEGUI_API CurveGraph : public Widget
     {
-    public:
-        /** Default constructor. */
-        CurveGraph();
+        public:
+            /** Default constructor. */
+            CurveGraph();
 
-        /**
-         * Construct with initial data points.
-         *
-         * @param data The initial vector of points to be used for drawing the curve.
-         */
-        explicit CurveGraph(PointVector data);
+            /**
+             * Construct with initial data points.
+             *
+             * @param data The initial vector of points to be used for drawing the curve.
+             */
+            explicit CurveGraph(PointVector data);
 
-        ~CurveGraph() override = default;
+            ~CurveGraph() override = default;
 
-        CurveGraph(CurveGraph const &)            = delete;
-        CurveGraph& operator=(CurveGraph const &) = delete;
-        CurveGraph(CurveGraph&&)                  = delete;
-        CurveGraph& operator=(CurveGraph&&)       = delete;
+            CurveGraph(CurveGraph const &)            = delete;
+            CurveGraph& operator=(CurveGraph const &) = delete;
+            CurveGraph(CurveGraph&&)                  = delete;
+            CurveGraph& operator=(CurveGraph&&)       = delete;
 
-        /**
-         * Set the raw point vector used to draw the curve.
-         *
-         * @param data The vector of points to be used for drawing the curve.
-         */
-        void setPointVector(PointVector const & data);
+            /**
+             * Set the raw point vector used to draw the curve.
+             *
+             * @param data The vector of points to be used for drawing the curve.
+             */
+            void setPointVector(PointVector const & data);
 
-        /** Get the current point vector. */
-        PointVector const & getPointVector() const;
+            /** Get the current point vector. */
+            PointVector const & getPointVector() const;
 
-        /** Reset the stored data to an empty vector. */
-        void resetPointVector();
+            /** Reset the stored data to an empty vector. */
+            void resetPointVector();
 
-        /**
-         *  Set stroke thickness in pixels.
-         *
-         * @param thickness The thickness of the stroke in pixels.
-         */
-        void setThickness(unsigned int thickness);
+            /**
+             *  Set stroke thickness in pixels.
+             *
+             * @param thickness The thickness of the stroke in pixels.
+             */
+            void setThickness(unsigned int thickness);
 
-        /** Get stroke thickness in pixels. */
-        unsigned int getThickness() const;
+            /** Get stroke thickness in pixels. */
+            unsigned int getThickness() const;
 
-        /**
-         * Enable/disable automatic computation of bezier control points.
-         *
-         * @param acp True to enable automatic control points, false to disable.
-         */
-        void setAutomaticControlPoints(bool acp);
+            /**
+             * Enable/disable automatic computation of bezier control points.
+             *
+             * @param acp True to enable automatic control points, false to disable.
+             */
+            void setAutomaticControlPoints(bool acp);
 
-        /** Return whether automatic control points are enabled. */
-        bool isAutomaticControlPoints() const;
+            /** Return whether automatic control points are enabled. */
+            bool isAutomaticControlPoints() const;
 
-        /**
-         * Sets the opacity of the graph.
-         *
-         * @param opaque True if opaque, false otherwise.
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the opacity of the graph.
+             *
+             * @param opaque True if opaque, false otherwise.
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * @return Whether this graph is opaque or not.
-         */
-        bool isOpaque() const;
+            /**
+             * @return Whether this graph is opaque or not.
+             */
+            bool isOpaque() const;
 
-        /**
-         * Draws this widget.
-         *
-         * @param graphics A graphics object to draw with.
-         */
-        void draw(Graphics* graphics) override;
+            /**
+             * Draws this widget.
+             *
+             * @param graphics A graphics object to draw with.
+             */
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /**
-         * Precalculate bezier curve.
-         */
-        void update();
+        protected:
+            /**
+             * Precalculate bezier curve.
+             */
+            void update();
 
-        /**
-         * Helper that returns an interpolated Point
-         *
-         * @param points The control points for the bezier curve.
-         * @param elements The number of control points.
-         * @param t The interpolation parameter, between 0 and 1.
-         */
-        static Point getBezierPoint(PointVector const & points, int elements, float t);
+            /**
+             * Helper that returns an interpolated Point
+             *
+             * @param points The control points for the bezier curve.
+             * @param elements The number of control points.
+             * @param t The interpolation parameter, between 0 and 1.
+             */
+            static Point getBezierPoint(PointVector const & points, int elements, float t);
 
-        /**
-         * Helper that adds the control points for bezier curves.
-         *
-         * @param points The control points for the bezier curve.
-         * @param newPoints The vector to which the new control points will be added.
-         */
-        static void addControlPoints(PointVector const & points, PointVector& newPoints);
+            /**
+             * Helper that adds the control points for bezier curves.
+             *
+             * @param points The control points for the bezier curve.
+             * @param newPoints The vector to which the new control points will be added.
+             */
+            static void addControlPoints(PointVector const & points, PointVector& newPoints);
 
-        /** True if the curve is drawn opaque. */
-        bool m_opaque{false};
+            /** True if the curve is drawn opaque. */
+            bool m_opaque{false};
 
-        /** Whether automatic control points are enabled. */
-        bool m_acp{true};
+            /** Whether automatic control points are enabled. */
+            bool m_acp{true};
 
-        /** Internal flag marking that the precalculated curve data needs update. */
-        bool m_needUpdate{false};
+            /** Internal flag marking that the precalculated curve data needs update. */
+            bool m_needUpdate{false};
 
-        /** Stroke thickness in pixels. */
-        unsigned int m_thickness{1};
+            /** Stroke thickness in pixels. */
+            unsigned int m_thickness{1};
 
-        /** Raw input point data. */
-        PointVector m_data;
+            /** Raw input point data. */
+            PointVector m_data;
 
-        /** Precalculated curve points (bezier/interpolated). */
-        PointVector m_curveData;
+            /** Precalculated curve points (bezier/interpolated). */
+            PointVector m_curveData;
     };
 }; // namespace fcn
 

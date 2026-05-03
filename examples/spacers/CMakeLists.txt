@@ -2,7 +2,7 @@ message(STATUS "---------------------------------------------------------------"
 message(STATUS "[ 🛠️ ] Building example: spacers")
 message(STATUS "---------------------------------------------------------------")
 
-if(ENABLE_SDL AND SDL2_FOUND)
+if(ENABLE_SDL AND SDL3_FOUND)
   if(WIN32 AND BUILD_SHARED_LIBS)
     set(SPACERS_WINDOWS_RUNTIME_FILES
       "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/freetyped.dll>"
@@ -15,8 +15,8 @@ if(ENABLE_SDL AND SDL2_FOUND)
       "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/brotlicommon.dll>"
       "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/bz2d.dll>"
       "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/bz2.dll>"
-      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zlibd1.dll>"
-      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/zlib1.dll>"
+      "$<$<CONFIG:Debug>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin/zd.dll>"
+      "$<$<NOT:$<CONFIG:Debug>>:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/z.dll>"
     )
   endif()
 
@@ -24,19 +24,17 @@ if(ENABLE_SDL AND SDL2_FOUND)
   add_executable(dynamic_remove_spacers dynamic_remove_spacers.cpp)
 
   target_link_libraries(spacers_in_vbox_hbox PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
     fifechan::fifechan
-    fifechan::fifechan_sdl2
+    fifechan::fifechan_sdl3
   )
 
   target_link_libraries(dynamic_remove_spacers PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+    $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+    $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
     fifechan::fifechan
-    fifechan::fifechan_sdl2
+    fifechan::fifechan_sdl3
   )
 
   set_target_properties(spacers_in_vbox_hbox dynamic_remove_spacers PROPERTIES
@@ -77,5 +75,5 @@ if(ENABLE_SDL AND SDL2_FOUND)
     )
   endif()
 else()
-  message(STATUS "[INFO] Skipping example 'spacers': requires ENABLE_SDL+SDL2_FOUND.")
+  message(STATUS "[INFO] Skipping example 'spacers': requires ENABLE_SDL+SDL3_FOUND.")
 endif()

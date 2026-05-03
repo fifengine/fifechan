@@ -69,7 +69,7 @@ namespace fcn
             throwException("No such tab index.");
         }
 
-        removeTab(mTabs[index].first);
+        removeTab(mTabs.at(index).first);
     }
 
     void TabbedArea::removeTab(Tab* tab)
@@ -124,7 +124,7 @@ namespace fcn
             throwException("No such tab index.");
         }
 
-        return mSelectedTab == mTabs[index].first;
+        return mSelectedTab == mTabs.at(index).first;
     }
 
     bool TabbedArea::isTabSelected(Tab* tab) const
@@ -138,7 +138,7 @@ namespace fcn
             throwException("No such tab index.");
         }
 
-        setSelectedTab(mTabs[index].first);
+        setSelectedTab(mTabs.at(index).first);
     }
 
     void TabbedArea::setSelectedTab(Tab* tab)
@@ -148,24 +148,24 @@ namespace fcn
         }
         unsigned int i = 0;
         for (i = 0; i < mTabs.size(); i++) {
-            if (mTabs[i].first == mSelectedTab) {
-                mWidgetContainer->remove(mTabs[i].second);
+            if (mTabs.at(i).first == mSelectedTab) {
+                mWidgetContainer->remove(mTabs.at(i).second);
             }
         }
 
         for (i = 0; i < mTabs.size(); i++) {
-            if (mTabs[i].first == tab) {
+            if (mTabs.at(i).first == tab) {
                 mSelectedTab = tab;
                 // TODO: check if this is still needed
                 // If the widget is already parented elsewhere, remove it first
-                if (mTabs[i].second != nullptr) {
-                    if (mTabs[i].second->getParent() != nullptr) {
-                        if (auto parentContainer = dynamic_cast<Container*>(mTabs[i].second->getParent())) {
-                            parentContainer->remove(mTabs[i].second);
+                if (mTabs.at(i).second != nullptr) {
+                    if (mTabs.at(i).second->getParent() != nullptr) {
+                        if (auto parentContainer = dynamic_cast<Container*>(mTabs.at(i).second->getParent())) {
+                            parentContainer->remove(mTabs.at(i).second);
                         }
                     }
                 }
-                mWidgetContainer->add(mTabs[i].second);
+                mWidgetContainer->add(mTabs.at(i).second);
             }
         }
         adaptLayout();
@@ -254,8 +254,8 @@ namespace fcn
         Rectangle rec;
         rec.x      = getBorderSize() + getPaddingLeft();
         rec.y      = getBorderSize() + getPaddingTop();
-        rec.width  = getWidth() - 2 * getBorderSize() - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() - 2 * getBorderSize() - getPaddingTop() - getPaddingBottom();
+        rec.width  = getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight();
+        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 
@@ -284,8 +284,8 @@ namespace fcn
     {
         // int totalTabWidth  = 0;  // UNUSED - possibly for future scrollable tabs feature
         // int totalTabHeight = 0;  // UNUSED - possibly for future scrollable tabs feature
-        int maxTabWidth  = 0;
-        int maxTabHeight = 0;
+        int maxTabWidth  = 0; // NOLINT(misc-const-correctness)
+        int maxTabHeight = 0; // NOLINT(misc-const-correctness)
 
         // Rectangle const area = getChildrenArea();  // UNUSED - possibly for future scrollable tabs feature
 
@@ -313,21 +313,21 @@ namespace fcn
         int maxTabHeight = 0;
         unsigned int i   = 0;
         for (i = 0; i < mTabs.size(); i++) {
-            maxTabWidth  = std::max(mTabs[i].first->getWidth(), maxTabWidth);
-            maxTabHeight = std::max(mTabs[i].first->getHeight(), maxTabHeight);
+            maxTabWidth  = std::max(mTabs.at(i).first->getWidth(), maxTabWidth);
+            maxTabHeight = std::max(mTabs.at(i).first->getHeight(), maxTabHeight);
         }
 
         if (getLayout() == Container::LayoutPolicy::Vertical) {
             int y = 0;
             for (i = 0; i < mTabs.size(); i++) {
-                Tab* tab = mTabs[i].first;
+                Tab* tab = mTabs.at(i).first;
                 tab->setPosition(maxTabWidth - tab->getWidth(), y);
                 y += tab->getHeight();
             }
         } else if (getLayout() == Container::LayoutPolicy::Horizontal) {
             int x = 0;
             for (i = 0; i < mTabs.size(); i++) {
-                Tab* tab = mTabs[i].first;
+                Tab* tab = mTabs.at(i).first;
                 tab->setPosition(x, maxTabHeight - tab->getHeight());
                 x += tab->getWidth();
             }
@@ -397,7 +397,7 @@ namespace fcn
                 return;
             }
 
-            setSelectedTab(mTabs[index].first);
+            setSelectedTab(mTabs.at(index).first);
 
             keyEvent.consume();
         } else if (keyEvent.getKey().getValue() == Key::Right) {
@@ -408,7 +408,7 @@ namespace fcn
                 return;
             }
 
-            setSelectedTab(mTabs[index].first);
+            setSelectedTab(mTabs.at(index).first);
 
             keyEvent.consume();
         }

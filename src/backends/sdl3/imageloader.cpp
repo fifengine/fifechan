@@ -3,22 +3,22 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 // Corresponding header include
-#include "fifechan/backends/sdl2/imageloader.hpp"
+#include "fifechan/backends/sdl3/imageloader.hpp"
 
 // Standard library includes
 #include <filesystem>
 #include <string>
 
 // Third-party library includes
-#include <SDL2/SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/image.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
 #include "fifechan/exception.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
-    ImageLoader::ImageLoader() { }
+    ImageLoader::ImageLoader() = default;
 
     namespace
     {
@@ -29,13 +29,11 @@ namespace fcn::sdl2
                 return filename;
             }
 
-            char* basePathRaw = SDL_GetBasePath();
+            char const * basePathRaw = SDL_GetBasePath();
             if (basePathRaw == nullptr) {
                 return filename;
             }
-
             std::filesystem::path const candidate = std::filesystem::path(basePathRaw) / requestedPath;
-            SDL_free(basePathRaw);
             return candidate.string();
         }
     } // namespace
@@ -49,7 +47,7 @@ namespace fcn::sdl2
         }
 
         SDL_Surface* surface = convertToStandardFormat(loadedSurface);
-        SDL_FreeSurface(loadedSurface);
+        SDL_DestroySurface(loadedSurface);
 
         if (surface == nullptr) {
             throwException((std::string("Not enough memory to load: ") + filename));
@@ -105,56 +103,52 @@ namespace fcn::sdl2
             return nullptr;
         }
 
-        bool hasPink = false;
-
-        // SDL interprets each pixel as a 32-bit number.
-        // We need to mask depending on the endianness (byte order) of the machine.
-        // Rmask being 0xFF000000 means the red data is stored in the most significant byte
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        uint32_t rmask = 0xff000000;
-        uint32_t gmask = 0x00ff0000;
-        uint32_t bmask = 0x0000ff00;
-        uint32_t amask = 0x000000ff;
-#else
-        uint32_t const rmask = 0x000000ff;
-        uint32_t const gmask = 0x0000ff00;
-        uint32_t const bmask = 0x00ff0000;
-        uint32_t const amask = 0xff000000;
-#endif
-
-        // Create a 32-bit color surface to standardize format
-        auto* targetFormatSurface = SDL_CreateRGBSurface(0, surface->w, surface->h, 32, rmask, gmask, bmask, amask);
-
-        if (targetFormatSurface == nullptr) {
-            return nullptr;
-        }
-
         // Convert the original surface to the standard format
-        auto* converted = SDL_ConvertSurface(surface, targetFormatSurface->format, 0);
-        SDL_FreeSurface(targetFormatSurface);
+        auto* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA8888);
 
         if (converted == nullptr) {
             return nullptr;
         }
 
-        int const pixels = converted->w * converted->h;
-        for (int i = 0; i < pixels; ++i) {
-            uint8_t r{};
-            uint8_t g{};
-            uint8_t b{};
-            uint8_t a{};
+        // Check if the surface already has a color key set (e.g., from the original surface)
+        // SDL_ConvertSurface should preserve color key information
+        bool hasPink    = false;
+        Uint32 colorKey = 0;
 
-            SDL_GetRGBA(reinterpret_cast<Uint32*>(converted->pixels)[i], converted->format, &r, &g, &b, &a);
+        if (SDL_SurfaceHasColorKey(converted)) {
+            if (!SDL_GetSurfaceColorKey(converted, &colorKey)) {
+                // For SDL_PIXELFORMAT_RGBA8888, the color key is stored as a 32-bit value
+                // Extract RGB components (assuming the color key was set with SDL_MapSurfaceRGB)
+                Uint8 r = (colorKey >> 16) & 0xFF; // R is typically in bits 16-23 for RGBA8888
+                Uint8 g = (colorKey >> 8) & 0xFF;  // G is typically in bits 8-15
+                Uint8 b = colorKey & 0xFF;         // B is typically in bits 0-7
+                if (r == 255 && g == 0 && b == 255) {
+                    hasPink = true;
+                }
+            }
+        }
 
-            if (r == 255 && g == 0 && b == 255) {
-                hasPink = true;
-                break;
+        // Fallback: if no color key set, scan for magenta pixels (O(n²) - rare case)
+        if (!hasPink) {
+            for (int y = 0; y < converted->h && !hasPink; ++y) {
+                for (int x = 0; x < converted->w && !hasPink; ++x) {
+                    uint8_t r{};
+                    uint8_t g{};
+                    uint8_t b{};
+                    uint8_t a{};
+
+                    SDL_ReadSurfacePixel(converted, x, y, &r, &g, &b, &a);
+
+                    if (r == 255 && g == 0 && b == 255) {
+                        hasPink = true;
+                    }
+                }
             }
         }
 
         if (hasPink) {
-            SDL_SetColorKey(converted, SDL_TRUE, SDL_MapRGB(converted->format, 255, 0, 255));
-            SDL_SetSurfaceRLE(converted, 1);
+            SDL_SetSurfaceColorKey(converted, true, SDL_MapSurfaceRGB(converted, 255, 0, 255));
+            SDL_SetSurfaceRLE(converted, true);
         }
 
         return converted;
@@ -169,4 +163,4 @@ namespace fcn::sdl2
     {
         mPixelFormat = format;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

@@ -6,6 +6,7 @@
 #include "fifechan/graphics.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <memory>
 #include <string>
 
@@ -25,6 +26,9 @@ namespace fcn
     {
         // Ignore area with a negative width or height by pushing
         // an empty clip area to the stack.
+        assert("Width must be non-negative" && area.width >= 0);
+        assert("Height must be non-negative" && area.height >= 0);
+
         if (area.isEmpty()) {
             ClipRectangle const clip_rect;
             mClipStack.push(clip_rect);
@@ -60,7 +64,6 @@ namespace fcn
 
     void Graphics::popClipArea()
     {
-
         if (mClipStack.empty()) {
             throwException("Tried to pop clip area from empty stack.");
         }
@@ -79,6 +82,9 @@ namespace fcn
 
     void Graphics::drawImage(Image const * image, int dstX, int dstY)
     {
+        if (image == nullptr) {
+            throwException("Image must not be null");
+        }
         drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
 

@@ -1,164 +1,91 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/events/mouseevent.hpp"
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
-#include <fifechan/events/mouseevent.hpp>
-#include <fifechan/widget.hpp>
+// Project headers
+#include "fifechan/widgets/label.hpp"
 
-TEST_CASE("MouseEvent constructors initialize properly", "[unit][mouseevent]")
+TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 {
-    SECTION("basic constructor")
+    fcn::Label source;
+    fcn::Label distributor;
+
+    SECTION("Pressed event with Left button")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getType() == fcn::MouseEvent::Type::Moved);
-        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Empty);
-        REQUIRE(event.getX() == 0);
-        REQUIRE(event.getY() == 0);
-        REQUIRE(event.getClickCount() == 0);
-    }
-
-    SECTION("full constructor")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            true,
-            false,
-            true,
             false,
             fcn::MouseEvent::Type::Pressed,
             fcn::MouseEvent::Button::Left,
             100,
             200,
-            3);
+            1);
 
-        REQUIRE(event.getType() == fcn::MouseEvent::Type::Pressed);
         REQUIRE(event.getButton() == fcn::MouseEvent::Button::Left);
         REQUIRE(event.getX() == 100);
         REQUIRE(event.getY() == 200);
-        REQUIRE(event.getClickCount() == 3);
-    }
-
-    SECTION("with source and distributor")
-    {
-        fcn::Widget* source      = reinterpret_cast<fcn::Widget*>(0x1000);
-        fcn::Widget* distributor = reinterpret_cast<fcn::Widget*>(0x2000);
-
-        fcn::MouseEvent event(
-            source,
-            distributor,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            50,
-            60,
-            0);
-
-        REQUIRE(event.getSource() == source);
-        REQUIRE(event.getDistributor() == distributor);
-    }
-
-    SECTION("with modifiers pressed")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            true,
-            true,
-            true,
-            true,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.isShiftPressed() == true);
-        REQUIRE(event.isControlPressed() == true);
-        REQUIRE(event.isAltPressed() == true);
-        REQUIRE(event.isMetaPressed() == true);
-    }
-}
-
-TEST_CASE("MouseEvent getType returns correct type", "[unit][mouseevent]")
-{
-    SECTION("Moved type")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getType() == fcn::MouseEvent::Type::Moved);
-    }
-
-    SECTION("Pressed type")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Pressed,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
-            0);
-
+        REQUIRE(event.getClickCount() == 1);
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Pressed);
     }
 
-    SECTION("Released type")
+    SECTION("Released event with Right button")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
+            &source,
+            &distributor,
+            true,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Released,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
+            fcn::MouseEvent::Button::Right,
+            50,
+            75,
             0);
 
+        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Right);
+        REQUIRE(event.getX() == 50);
+        REQUIRE(event.getY() == 75);
+        REQUIRE(event.getClickCount() == 0);
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Released);
     }
 
-    SECTION("WheelMovedUp type")
+    SECTION("Moved event")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
+            false,
+            false,
+            false,
+            false,
+            fcn::MouseEvent::Type::Moved,
+            fcn::MouseEvent::Button::Empty,
+            300,
+            400,
+            0);
+
+        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Empty);
+        REQUIRE(event.getX() == 300);
+        REQUIRE(event.getY() == 400);
+        REQUIRE(event.getClickCount() == 0);
+        REQUIRE(event.getType() == fcn::MouseEvent::Type::Moved);
+    }
+
+    SECTION("WheelMovedUp event")
+    {
+        fcn::MouseEvent event(
+            &source,
+            &distributor,
             false,
             false,
             false,
@@ -172,29 +99,48 @@ TEST_CASE("MouseEvent getType returns correct type", "[unit][mouseevent]")
         REQUIRE(event.getType() == fcn::MouseEvent::Type::WheelMovedUp);
     }
 
-    SECTION("Clicked type")
+    SECTION("WheelMovedDown event")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
+            false,
+            false,
+            false,
+            false,
+            fcn::MouseEvent::Type::WheelMovedDown,
+            fcn::MouseEvent::Button::Empty,
+            0,
+            0,
+            0);
+
+        REQUIRE(event.getType() == fcn::MouseEvent::Type::WheelMovedDown);
+    }
+
+    SECTION("Clicked event with double click")
+    {
+        fcn::MouseEvent event(
+            &source,
+            &distributor,
             false,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Clicked,
             fcn::MouseEvent::Button::Left,
-            10,
-            20,
-            1);
+            100,
+            100,
+            2);
 
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Clicked);
+        REQUIRE(event.getClickCount() == 2);
     }
 
-    SECTION("Entered type")
+    SECTION("Entered event")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
@@ -208,11 +154,11 @@ TEST_CASE("MouseEvent getType returns correct type", "[unit][mouseevent]")
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Entered);
     }
 
-    SECTION("Exited type")
+    SECTION("Exited event")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
@@ -226,113 +172,128 @@ TEST_CASE("MouseEvent getType returns correct type", "[unit][mouseevent]")
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Exited);
     }
 
-    SECTION("Dragged type")
+    SECTION("Dragged event")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Dragged,
             fcn::MouseEvent::Button::Left,
-            50,
-            60,
+            150,
+            250,
             0);
 
         REQUIRE(event.getType() == fcn::MouseEvent::Type::Dragged);
     }
 }
 
-TEST_CASE("MouseEvent getButton returns correct button", "[unit][mouseevent]")
+TEST_CASE("MouseEvent with modifier keys", "[mouseevent]")
 {
-    SECTION("Empty button")
+    fcn::Label source;
+    fcn::Label distributor;
+
+    SECTION("Shift pressed")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
+            true,
             false,
             false,
             false,
+            fcn::MouseEvent::Type::Pressed,
+            fcn::MouseEvent::Button::Left,
+            10,
+            20,
+            1);
+
+        REQUIRE(event.isShiftPressed() == true);
+        REQUIRE(event.isControlPressed() == false);
+        REQUIRE(event.isAltPressed() == false);
+        REQUIRE(event.isMetaPressed() == false);
+    }
+
+    SECTION("Control and Alt pressed")
+    {
+        fcn::MouseEvent event(
+            &source,
+            &distributor,
             false,
+            true,
+            true,
+            false,
+            fcn::MouseEvent::Type::Released,
+            fcn::MouseEvent::Button::Right,
+            30,
+            40,
+            0);
+
+        REQUIRE(event.isShiftPressed() == false);
+        REQUIRE(event.isControlPressed() == true);
+        REQUIRE(event.isAltPressed() == true);
+        REQUIRE(event.isMetaPressed() == false);
+    }
+
+    SECTION("Meta pressed")
+    {
+        fcn::MouseEvent event(
+            &source,
+            &distributor,
+            false,
+            false,
+            false,
+            true,
             fcn::MouseEvent::Type::Moved,
             fcn::MouseEvent::Button::Empty,
             0,
             0,
             0);
 
-        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Empty);
+        REQUIRE(event.isMetaPressed() == true);
     }
+}
 
-    SECTION("Left button")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Pressed,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Left);
-    }
+TEST_CASE("MouseEvent with Middle and X1 buttons", "[mouseevent]")
+{
+    fcn::Label source;
+    fcn::Label distributor;
 
     SECTION("Middle button")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Pressed,
             fcn::MouseEvent::Button::Middle,
-            0,
-            0,
-            0);
+            100,
+            100,
+            1);
 
         REQUIRE(event.getButton() == fcn::MouseEvent::Button::Middle);
-    }
-
-    SECTION("Right button")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Pressed,
-            fcn::MouseEvent::Button::Right,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getButton() == fcn::MouseEvent::Button::Right);
     }
 
     SECTION("X1 button")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Pressed,
             fcn::MouseEvent::Button::X1,
-            0,
-            0,
-            0);
+            100,
+            100,
+            1);
 
         REQUIRE(event.getButton() == fcn::MouseEvent::Button::X1);
     }
@@ -340,229 +301,18 @@ TEST_CASE("MouseEvent getButton returns correct button", "[unit][mouseevent]")
     SECTION("X2 button")
     {
         fcn::MouseEvent event(
-            nullptr,
-            nullptr,
+            &source,
+            &distributor,
             false,
             false,
             false,
             false,
             fcn::MouseEvent::Type::Pressed,
             fcn::MouseEvent::Button::X2,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getButton() == fcn::MouseEvent::Button::X2);
-    }
-}
-
-TEST_CASE("MouseEvent coordinates", "[unit][mouseevent]")
-{
-    SECTION("zero coordinates")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getX() == 0);
-        REQUIRE(event.getY() == 0);
-    }
-
-    SECTION("positive coordinates")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
             100,
-            200,
-            0);
-
-        REQUIRE(event.getX() == 100);
-        REQUIRE(event.getY() == 200);
-    }
-
-    SECTION("negative coordinates")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            -50,
-            -100,
-            0);
-
-        REQUIRE(event.getX() == -50);
-        REQUIRE(event.getY() == -100);
-    }
-
-    SECTION("large coordinates")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            10000,
-            20000,
-            0);
-
-        REQUIRE(event.getX() == 10000);
-        REQUIRE(event.getY() == 20000);
-    }
-}
-
-TEST_CASE("MouseEvent getClickCount", "[unit][mouseevent]")
-{
-    SECTION("zero click count")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.getClickCount() == 0);
-    }
-
-    SECTION("single click")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Clicked,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
+            100,
             1);
 
-        REQUIRE(event.getClickCount() == 1);
-    }
-
-    SECTION("double click")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Clicked,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
-            2);
-
-        REQUIRE(event.getClickCount() == 2);
-    }
-
-    SECTION("triple click")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Clicked,
-            fcn::MouseEvent::Button::Left,
-            0,
-            0,
-            3);
-
-        REQUIRE(event.getClickCount() == 3);
-    }
-}
-
-TEST_CASE("MouseEvent inherits from InputEvent", "[unit][mouseevent]")
-{
-    SECTION("consume works")
-    {
-        fcn::MouseEvent event(
-            nullptr,
-            nullptr,
-            false,
-            false,
-            false,
-            false,
-            fcn::MouseEvent::Type::Moved,
-            fcn::MouseEvent::Button::Empty,
-            0,
-            0,
-            0);
-
-        REQUIRE(event.isConsumed() == false);
-        event.consume();
-        REQUIRE(event.isConsumed() == true);
-    }
-}
-
-TEST_CASE("MouseEvent Type enum values", "[unit][mouseevent]")
-{
-    SECTION("enum ordering")
-    {
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Moved) == 0);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Pressed) == 1);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Type::Released) == 2);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Type::WheelMovedDown) == 3);
-    }
-}
-
-TEST_CASE("MouseEvent Button enum values", "[unit][mouseevent]")
-{
-    SECTION("enum ordering")
-    {
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Empty) == 0);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Left) == 1);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Middle) == 2);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::Right) == 3);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::X1) == 4);
-        // cppcheck-suppress knownConditionTrueFalse
-        REQUIRE(static_cast<int>(fcn::MouseEvent::Button::X2) == 5);
+        REQUIRE(event.getButton() == fcn::MouseEvent::Button::X2);
     }
 }

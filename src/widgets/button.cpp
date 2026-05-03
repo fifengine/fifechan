@@ -148,7 +148,7 @@ namespace fcn
             break;
         case Graphics::Alignment::Center:
             textX = offsetRec.x + getPaddingLeft() +
-                    (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+                    ((getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2);
             break;
         case Graphics::Alignment::Right:
             textX = getWidth() - offsetRec.x - getPaddingRight();

@@ -172,7 +172,7 @@ namespace fcn
         int focusedWidget = -1;
 
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -226,7 +226,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -344,7 +344,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -405,7 +405,7 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
         for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets[i] == mFocusedWidget) {
+            if (mWidgets.at(i) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -523,38 +523,8 @@ namespace fcn
         mLastWidgetPressed = lastWidgetPressed;
     }
 
-    void FocusHandler::widgetHidden(Widget* widget) { }
-
-    FocusHandler::ModalScope::ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner) :
-        mHandler(handler), mReleased(false), mWasPopped(false)
+    void FocusHandler::widgetHidden(Widget* widget)
     {
-        if (mHandler != nullptr) {
-            mHandler->pushModal(focusOwner, mouseOwner);
-        }
-    }
-
-    FocusHandler::ModalScope::~ModalScope() noexcept
-    {
-        if (mHandler != nullptr && !mReleased) {
-            mWasPopped = true;
-            // cppcheck-suppress throwInNoexceptFunction
-            mHandler->popModal();
-        }
-
-        if (!mWasPopped && !mReleased) {
-            // ModalScope was destroyed without calling release() or popModal()
-            // This indicates a bug where the modal was not properly released
-            fprintf(
-                stderr,
-                "Warning: ModalScope destroyed without calling release() or popModal(). "
-                "Did you forget to call release()?\n");
-        }
-    }
-
-    void FocusHandler::ModalScope::release()
-    {
-        mReleased  = true;
-        mWasPopped = true;
     }
 
 } // namespace fcn

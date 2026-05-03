@@ -31,13 +31,17 @@
 #include <utility>
 #include <vector>
 
-// Third-party library includes
-#include <SDL2/SDL_ttf.h>
-
 // Platform-specific includes
 #if defined(_WIN32)
     #include <windows.h>
 #endif // _WIN32
+
+// Third-party library includes
+#include <SDL3/SDL_main.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
+// Project headers
+#include "fifechan/fontloader.hpp"
 
 using tests::integration::sdl::mdedit::Application;
 
@@ -72,41 +76,42 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
-    if (createdWindow == nullptr) {
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
+
+    if (window == nullptr) {
         throw std::runtime_error("Failed to create SDL_Window");
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdWindow);
+    return fcn::sdl3::makeSDLSharedPtr(window);
 }
 
-std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window, int flags)
+std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), -1, flags);
-    if (createdRenderer == nullptr) {
+    SDL_Renderer* renderer = SDL_CreateRenderer(window.get(), nullptr);
+
+    if (renderer == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + SDL_GetError());
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(renderer);
 }
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
 
-    auto const windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
-
-    window = initWindow(title, width, height, windowFlags);
+    window = initWindow(title, width, height, 0);
 
     SDL_RaiseWindow(window.get());
 
-    auto const rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+    renderer = initRenderer(window);
 
-    renderer = initRenderer(window, rendererFlags);
+    SDL_SetRenderVSync(renderer.get(), 1);
+    // Enable SDL text input events so widgets receive text characters
+    SDL_StartTextInput(window.get());
 }
 
 void Application::cleanup()
@@ -117,6 +122,11 @@ void Application::cleanup()
     graphics.reset();
     input.reset();
     renderer.reset();
+    if (window) {
+        SDL_StopTextInput(window.get());
+    } else {
+        SDL_StopTextInput(nullptr);
+    }
     window.reset();
     // Release any fonts held by the Application before shutting down SDL_ttf
     // to ensure TTF_CloseFont is called while the library is still initialized.
@@ -127,10 +137,10 @@ void Application::cleanup()
 
 void Application::init_GUI(int width, int height)
 {
-    graphics = std::make_unique<fcn::sdl2::Graphics>();
+    graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(graphics.get());
@@ -157,37 +167,11 @@ void Application::init_GUI(int width, int height)
     }
 
     // TODO we need a better FONT finding and loading API
-    if (TTF_Init() == -1) {
+    if (!TTF_Init()) {
         // SDL_ttf initialization failed - continue without text rendering
     } else {
-        std::filesystem::path fontPath = getExecutableDir() / "ArchitectsDaughter.ttf";
-        // Try fallbacks if the font isn't next to the executable (CMake may not copy it for this test)
-        std::vector<std::filesystem::path> candidates = {
-            fontPath,
-            std::filesystem::current_path() / "tests" / "resources" / "ArchitectsDaughter.ttf",
-            std::filesystem::path("tests") / "resources" / "ArchitectsDaughter.ttf",
-        };
-
-        std::filesystem::path chosen;
-        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
-            return std::filesystem::exists(p);
-        });
-        if (it != candidates.end()) {
-            chosen = *it;
-        }
-
-        if (chosen.empty()) {
-            // Try source tree relative to this source file (tests/resources)
-            try {
-                auto src = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path().parent_path() /
-                           "tests" / "resources" / "ArchitectsDaughter.ttf";
-                if (std::filesystem::exists(src)) {
-                    chosen = src;
-                }
-            } catch (...) {
-                // ignore
-            }
-        }
+        // Use the new font loading API to find ArchitectsDaughter font
+        std::filesystem::path chosen = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
 
         if (!chosen.empty()) {
             try {
@@ -203,26 +187,14 @@ void Application::init_GUI(int width, int height)
     // Try to preload an OpenMoji font for menu/activity icons so menu items
     // can use glyph icons (e.g. "📁" for Open).
     try {
-        std::vector<std::filesystem::path> candidates = {
-            std::filesystem::path("/workspaces/fifechan_new/tests/resources/OpenMoji-color-colr0_svg.ttf"),
-            std::filesystem::current_path() / "tests" / "resources" / "OpenMoji-color-colr0_svg.ttf",
-            std::filesystem::path("tests") / "resources" / "OpenMoji-color-colr0_svg.ttf",
-        };
-
-        std::filesystem::path openmoji;
-        auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
-            return std::filesystem::exists(p);
-        });
-        if (it != candidates.end()) {
-            openmoji = *it;
-        }
+        std::filesystem::path openmoji = fcn::font::FontLoader::findFontFile("OpenMoji-color-colr0_svg.ttf");
 
         if (!openmoji.empty()) {
             // Use a size suitable for menu icons (slightly larger than default font)
             this->activityFont = gui->getGraphics()->createFont(openmoji.string(), 18);
         }
     } catch (std::exception const &) {
-        // ignore
+        // Failed to load OpenMoji font - continue without activity icons
     }
 
     // Create MenuBar (owned by `top` container)
@@ -578,10 +550,10 @@ void Application::run()
 
     while (running) {
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
-            } else if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            } else if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
             }
@@ -613,7 +585,16 @@ int main(int argc, char** argv)
     try {
         // Append library version to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Markdown Editor", fifeguiVersion);
+
+        int const sdlVersion            = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format(
+            "{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion));
+
+        std::string const title =
+            std::format("FifeGUI v{} using SDL {}: Markdown Editor", fifeguiVersion, sdlVersionStr);
         Application app(title, 1024, 768);
         app.run();
     } catch (fcn::Exception const & e) {

@@ -16,7 +16,7 @@
 
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
 #include <fifechan/exception.hpp>
 
 namespace fcn::opengl
@@ -24,46 +24,49 @@ namespace fcn::opengl
     /**
      * OpenGL ImageLoader that loads images with SDL.
      */
-    class ImageLoader : public fcn::sdl2::ImageLoader
+    class ImageLoader : public fcn::sdl3::ImageLoader
     {
-    public:
-        fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override
-        {
-            SDL_Surface* loadedSurface = loadSDLSurface(filename);
+        public:
+            fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override
+            {
+                SDL_Surface* loadedSurface = loadSDLSurface(filename);
 
-            if (loadedSurface == nullptr) {
-                std::string const msg = "Unable to load image file: " + filename;
-                throwException(msg);
+                if (loadedSurface == nullptr) {
+                    std::string const msg = "Unable to load image file: " + filename;
+                    throwException(msg);
+                }
+
+                SDL_Surface* surface = convertToStandardFormat(loadedSurface);
+                SDL_DestroySurface(loadedSurface);
+
+                if (surface == nullptr) {
+                    std::string const msg = "Not enough memory to load: " + filename;
+                    throwException(msg);
+                }
+
+                std::vector<unsigned int> packedPixels(
+                    static_cast<size_t>(surface->w) * static_cast<size_t>(surface->h));
+
+                // Read pixels using SDL_ReadSurfacePixel to get correct R,G,B,A
+                for (int y = 0; y < surface->h; ++y) {
+                    for (int x = 0; x < surface->w; ++x) {
+                        unsigned char r = 0;
+                        unsigned char g = 0;
+                        unsigned char b = 0;
+                        unsigned char a = 0;
+                        SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
+                        // Pack as R in bits 0-7, G in 8-15, B in 16-23, A in 24-31
+                        size_t const idx =
+                            static_cast<size_t>(x) + ((static_cast<size_t>(y) * static_cast<size_t>(surface->w)));
+                        packedPixels.at(idx) = r | (g << 8) | (b << 16) | (a << 24);
+                    }
+                }
+                fcn::Image* image =
+                    new fcn::opengl::Image(packedPixels, surface->w, surface->h, convertToDisplayFormat);
+                SDL_DestroySurface(surface);
+
+                return image;
             }
-
-            SDL_Surface* surface = convertToStandardFormat(loadedSurface);
-            SDL_FreeSurface(loadedSurface);
-
-            if (surface == nullptr) {
-                std::string const msg = "Not enough memory to load: " + filename;
-                throwException(msg);
-            }
-
-            std::vector<unsigned int> packedPixels(static_cast<size_t>(surface->w) * static_cast<size_t>(surface->h));
-            unsigned int const * srcPixels = static_cast<unsigned int const *>(surface->pixels);
-            size_t const srcPitchPixels =
-                static_cast<size_t>(static_cast<size_t>(surface->pitch) / sizeof(unsigned int));
-
-            std::span<unsigned int const> const srcSpan(srcPixels, srcPitchPixels * static_cast<size_t>(surface->h));
-            std::span<unsigned int> const dstSpan(packedPixels.data(), packedPixels.size());
-
-            for (int y = 0; y < surface->h; ++y) {
-                size_t const rowIndex = static_cast<size_t>(y);
-                auto srcIt            = srcSpan.begin() + (rowIndex * srcPitchPixels);
-                auto dstIt            = dstSpan.begin() + (rowIndex * static_cast<size_t>(surface->w));
-                std::copy_n(srcIt, static_cast<size_t>(surface->w), dstIt);
-            }
-
-            fcn::Image* image = new fcn::opengl::Image(packedPixels, surface->w, surface->h, convertToDisplayFormat);
-            SDL_FreeSurface(surface);
-
-            return image;
-        }
     };
 } // namespace fcn::opengl
 

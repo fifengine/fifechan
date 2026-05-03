@@ -37,8 +37,8 @@
 #endif
 
 // Static builds do not use import/export decorations on Windows.
-#if !defined(FIFECHAN_STATIC)
-  #if defined(FIFECHAN_STATICLIB)
+#ifndef FIFECHAN_STATIC
+  #ifdef FIFECHAN_STATICLIB
     #define FIFECHAN_STATIC 1
   #endif
 #endif
@@ -81,7 +81,7 @@
 // Additionally CMake automatically defines target_EXPORTS when building a shared library, e.g
 // fifechan_EXPORTS when building the library.
 
-#if defined(FIFEGUI_OS_LINUX)
+#ifdef FIFEGUI_OS_LINUX
   // For Linux, we only need to use __attribute__ for visibility.
   #if defined(FIFECHAN_BUILD) || defined(fifechan_EXPORTS)
       // Building the library

@@ -13,6 +13,8 @@
 
 namespace fcn
 {
-    SelectionEvent::SelectionEvent(Widget* source) : Event(source) { }
+    SelectionEvent::SelectionEvent(Widget* source) : Event(source)
+    {
+    }
 
 } // namespace fcn

@@ -25,6 +25,8 @@
 #endif
 
 // Third-party library includes
+#include <SDL3/SDL_main.h>
+
 #include <fifechan/backends/opengl/graphics.hpp>
 
 #include <fifechan.hpp>
@@ -60,8 +62,7 @@ std::filesystem::path Application::getExecutableDir()
 
 SDL_Window* Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* rawWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    SDL_Window* rawWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (rawWindow == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Window: ") + SDL_GetError());
     }
@@ -83,19 +84,20 @@ void Application::init_sdl(std::string const & title, int width, int height)
 {
     std::filesystem::current_path(Application::getExecutableDir());
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error(std::string("Failed to initialize SDL: ") + SDL_GetError());
     }
 
-    auto const windowFlags = static_cast<int>(SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
-    window                 = initWindow(title, width, height, windowFlags);
+    auto const windowFlags = static_cast<int>(SDL_WINDOW_OPENGL | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+
+    window = initWindow(title, width, height, windowFlags);
 
     glContext = initGLContext(window);
 
     glViewport(0, 0, width, height);
     glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
-    SDL_StartTextInput();
+    SDL_StartTextInput(window);
 
     imageLoader = std::make_shared<fcn::opengl::ImageLoader>();
     fcn::Image::setImageLoader(imageLoader.get());
@@ -103,7 +105,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics = std::make_unique<fcn::opengl::Graphics>();
     graphics->setTargetPlane(width, height);
 
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));
@@ -136,8 +138,8 @@ void Application::init_gui(int width, int height)
 
 void Application::cleanup()
 {
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     label.reset();
     font.reset();
@@ -147,7 +149,7 @@ void Application::cleanup()
     input.reset();
     graphics.reset();
 
-    SDL_GL_DeleteContext(glContext);
+    SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
@@ -157,17 +159,17 @@ void Application::run()
     while (running) {
         SDL_Event event;
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
-                if (event.key.keysym.sym == SDLK_f) {
-                    if ((event.key.keysym.mod & KMOD_CTRL) != 0) {
-                        uint32_t const fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-                        SDL_SetWindowFullscreen(window, fullscreen ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+                if (event.key.key == SDLK_F) {
+                    if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
+                        uint32_t const fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
+                        SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
                     }
                 }
-            } else if (event.type == SDL_QUIT) {
+            } else if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             }
 
@@ -189,7 +191,7 @@ int main(int argc, char** argv)
     try {
         std::string const fifeguiVersion = fcn::fifechanVersion();
         std::string const title =
-            std::format("FifeGUI v{} using OpenGL SDL2 Backend: Hello World Example", fifeguiVersion);
+            std::format("FifeGUI v{} using OpenGL SDL Backend: Hello World Example", fifeguiVersion);
         Application app(title, 640, 480);
         app.run();
     } catch (fcn::Exception const & e) {

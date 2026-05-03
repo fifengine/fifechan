@@ -2,7 +2,8 @@
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
-// Corresponding header include
+// SDL main entry point
+#include <SDL3/SDL_main.h>
 
 // Standard library includes
 #include <iostream>

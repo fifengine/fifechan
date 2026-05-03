@@ -5,15 +5,24 @@
 // Corresponding header include
 #include "fifechan/keyinput.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Project headers (subdirs before local)
 #include "fifechan/key.hpp"
 
 namespace fcn
 {
-    KeyInput::KeyInput(Key const & key, Type type) : mKey(key), mType(type) { }
+    KeyInput::KeyInput(Key const & key, Type type) : mKey(key), mType(type)
+    {
+        assert("Key must be valid" && key.getValue() != 0);
+        assert("Type must be valid" && (type == KeyInput::Type::Pressed || type == KeyInput::Type::Released));
+    }
 
     void KeyInput::setType(Type type)
     {
+        assert("Type must be valid" && (type == KeyInput::Type::Pressed || type == KeyInput::Type::Released));
+
         mType = type;
     }
 
@@ -24,6 +33,8 @@ namespace fcn
 
     void KeyInput::setKey(Key const & key)
     {
+        assert("Key must be valid" && key.getValue() != 0);
+
         mKey = key;
     }
 

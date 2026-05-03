@@ -43,7 +43,7 @@
 
 /**
  * @defgroup graphics Graphics & Rendering
- * @brief Abstract drawing interfaces and backend implementations (OpenGL/SDL2).
+ * @brief Abstract drawing interfaces and backend implementations (OpenGL/SDL3).
  */
 
 /**

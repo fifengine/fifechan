@@ -165,7 +165,7 @@ namespace fcn
 
         int value = 0;
 
-        value = getContent()->getHeight() - getChildrenArea().height + 2 * getContent()->getBorderSize();
+        value = getContent()->getHeight() - getChildrenArea().height + (2 * getContent()->getBorderSize());
 
         if (value < 0) {
             return 0;
@@ -308,10 +308,10 @@ namespace fcn
 
         graphics->pushClipArea(dim);
 
-        int const alpha   = getBaseColor().a;
-        Color trackColor  = getBaseColor() - 0x101010;
+        int const alpha   = getBackgroundColor().a;
+        Color trackColor  = getBackgroundColor() - Color(0x101010);
         trackColor.a      = alpha;
-        Color shadowColor = getBaseColor() - 0x303030;
+        Color shadowColor = getBackgroundColor() - Color(0x303030);
         shadowColor.a     = alpha;
 
         graphics->setColor(trackColor);
@@ -329,10 +329,10 @@ namespace fcn
 
         graphics->pushClipArea(dim);
 
-        int const alpha   = getBaseColor().a;
-        Color trackColor  = getBaseColor() - 0x101010;
+        int const alpha   = getBackgroundColor().a;
+        Color trackColor  = getBackgroundColor() - Color(0x101010);
         trackColor.a      = alpha;
-        Color shadowColor = getBaseColor() - 0x303030;
+        Color shadowColor = getBackgroundColor() - Color(0x303030);
         shadowColor.a     = alpha;
 
         graphics->setColor(trackColor);
@@ -365,9 +365,9 @@ namespace fcn
         int const alpha = getBaseColor().a;
 
         if (mUpButtonPressed) {
-            faceColor        = getBaseColor() - 0x303030;
+            faceColor        = getBaseColor() - Color(0x303030);
             faceColor.a      = alpha;
-            highlightColor   = faceColor - 0x303030;
+            highlightColor   = faceColor - Color(0x303030);
             highlightColor.a = alpha;
             shadowColor      = getBaseColor();
             shadowColor.a    = alpha;
@@ -376,9 +376,9 @@ namespace fcn
         } else {
             faceColor        = getBaseColor();
             faceColor.a      = alpha;
-            highlightColor   = faceColor + 0x303030;
+            highlightColor   = faceColor + Color(0x303030);
             highlightColor.a = alpha;
-            shadowColor      = faceColor - 0x303030;
+            shadowColor      = faceColor - Color(0x303030);
             shadowColor.a    = alpha;
 
             offset = 0;
@@ -420,9 +420,9 @@ namespace fcn
         int const alpha = getBaseColor().a;
 
         if (mDownButtonPressed) {
-            faceColor        = getBaseColor() - 0x303030;
+            faceColor        = getBaseColor() - Color(0x303030);
             faceColor.a      = alpha;
-            highlightColor   = faceColor - 0x303030;
+            highlightColor   = faceColor - Color(0x303030);
             highlightColor.a = alpha;
             shadowColor      = getBaseColor();
             shadowColor.a    = alpha;
@@ -431,9 +431,9 @@ namespace fcn
         } else {
             faceColor        = getBaseColor();
             faceColor.a      = alpha;
-            highlightColor   = faceColor + 0x303030;
+            highlightColor   = faceColor + Color(0x303030);
             highlightColor.a = alpha;
-            shadowColor      = faceColor - 0x303030;
+            shadowColor      = faceColor - Color(0x303030);
             shadowColor.a    = alpha;
 
             offset = 0;
@@ -474,9 +474,9 @@ namespace fcn
         int const alpha = getBaseColor().a;
 
         if (mLeftButtonPressed) {
-            faceColor        = getBaseColor() - 0x303030;
+            faceColor        = getBaseColor() - Color(0x303030);
             faceColor.a      = alpha;
-            highlightColor   = faceColor - 0x303030;
+            highlightColor   = faceColor - Color(0x303030);
             highlightColor.a = alpha;
             shadowColor      = getBaseColor();
             shadowColor.a    = alpha;
@@ -485,9 +485,9 @@ namespace fcn
         } else {
             faceColor        = getBaseColor();
             faceColor.a      = alpha;
-            highlightColor   = faceColor + 0x303030;
+            highlightColor   = faceColor + Color(0x303030);
             highlightColor.a = alpha;
-            shadowColor      = faceColor - 0x303030;
+            shadowColor      = faceColor - Color(0x303030);
             shadowColor.a    = alpha;
 
             offset = 0;
@@ -529,9 +529,9 @@ namespace fcn
         int const alpha = getBaseColor().a;
 
         if (mRightButtonPressed) {
-            faceColor        = getBaseColor() - 0x303030;
+            faceColor        = getBaseColor() - Color(0x303030);
             faceColor.a      = alpha;
-            highlightColor   = faceColor - 0x303030;
+            highlightColor   = faceColor - Color(0x303030);
             highlightColor.a = alpha;
             shadowColor      = getBaseColor();
             shadowColor.a    = alpha;
@@ -540,9 +540,9 @@ namespace fcn
         } else {
             faceColor        = getBaseColor();
             faceColor.a      = alpha;
-            highlightColor   = faceColor + 0x303030;
+            highlightColor   = faceColor + Color(0x303030);
             highlightColor.a = alpha;
-            shadowColor      = faceColor - 0x303030;
+            shadowColor      = faceColor - Color(0x303030);
             shadowColor.a    = alpha;
 
             offset = 0;
@@ -579,9 +579,9 @@ namespace fcn
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
-        Color highlightColor = faceColor + 0x303030;
+        Color highlightColor = faceColor + Color(0x303030);
         highlightColor.a     = alpha;
-        Color shadowColor    = faceColor - 0x303030;
+        Color shadowColor    = faceColor - Color(0x303030);
         shadowColor.a        = alpha;
 
         graphics->setColor(faceColor);
@@ -606,9 +606,9 @@ namespace fcn
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
-        Color highlightColor = faceColor + 0x303030;
+        Color highlightColor = faceColor + Color(0x303030);
         highlightColor.a     = alpha;
-        Color shadowColor    = faceColor - 0x303030;
+        Color shadowColor    = faceColor - Color(0x303030);
         shadowColor.a        = alpha;
 
         graphics->setColor(faceColor);
@@ -768,11 +768,10 @@ namespace fcn
 
     Rectangle ScrollArea::getChildrenArea()
     {
-        Rectangle area = Rectangle(
-            0,
-            0,
-            mVBarVisible ? getWidth() - mScrollbarWidth : getWidth(),
-            mHBarVisible ? getHeight() - mScrollbarWidth : getHeight());
+        int const childrenWidth  = std::max(0, mVBarVisible ? getWidth() - mScrollbarWidth : getWidth());
+        int const childrenHeight = std::max(0, mHBarVisible ? getHeight() - mScrollbarWidth : getHeight());
+
+        Rectangle area = Rectangle(0, 0, childrenWidth, childrenHeight);
 
         if (area.isEmpty()) {
             return {};

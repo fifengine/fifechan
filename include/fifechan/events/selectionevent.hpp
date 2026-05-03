@@ -22,13 +22,13 @@ namespace fcn
      */
     class FIFEGUI_API SelectionEvent : public Event
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param source source The widget of the selection event.
-         */
-        explicit SelectionEvent(Widget* source);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param source source The widget of the selection event.
+             */
+            explicit SelectionEvent(Widget* source);
     };
 } // namespace fcn
 

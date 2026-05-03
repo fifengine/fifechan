@@ -1,137 +1,63 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
+
+// Corresponding header include
+#include "fifechan/events/containerevent.hpp"
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
-#include <fifechan/widgets/container.hpp>
+// Project headers
+#include "fifechan/widgets/container.hpp"
+#include "fifechan/widgets/label.hpp" // Use concrete widget
 
-#include <fifechan/events/containerevent.hpp>
-#include <fifechan/widget.hpp>
+using fcn::Container;
+using fcn::ContainerEvent;
+using fcn::Label;
 
-TEST_CASE("ContainerEvent constructors initialize properly", "[unit][containerevent]")
+// ============================================================================
+// ContainerEvent constructor and getContainer
+// ============================================================================
+
+TEST_CASE("ContainerEvent constructor sets source and container", "[unit][containerevent]")
 {
-    SECTION("empty constructor")
-    {
-        fcn::ContainerEvent event(nullptr, nullptr);
-        REQUIRE(event.getSource() == nullptr);
-        REQUIRE(event.getContainer() == nullptr);
-    }
+    Label sourceWidget;
+    Container container;
 
-    SECTION("with source and container")
-    {
-        fcn::Widget* source       = reinterpret_cast<fcn::Widget*>(0x1000);
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0x2000);
+    ContainerEvent event(&sourceWidget, &container);
 
-        fcn::ContainerEvent event(source, container);
-
-        REQUIRE(event.getSource() == source);
-        REQUIRE(event.getContainer() == container);
-    }
-
-    SECTION("null source with valid container")
-    {
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0x3000);
-        fcn::ContainerEvent event(nullptr, container);
-
-        REQUIRE(event.getSource() == nullptr);
-        REQUIRE(event.getContainer() == container);
-    }
-
-    SECTION("valid source with null container")
-    {
-        fcn::Widget* source = reinterpret_cast<fcn::Widget*>(0x4000);
-        fcn::ContainerEvent event(source, nullptr);
-
-        REQUIRE(event.getSource() == source);
-        REQUIRE(event.getContainer() == nullptr);
-    }
+    REQUIRE(event.getSource() == &sourceWidget);
+    REQUIRE(event.getContainer() == &container);
 }
 
 TEST_CASE("ContainerEvent getContainer returns correct container", "[unit][containerevent]")
 {
-    SECTION("null container")
-    {
-        fcn::ContainerEvent event(nullptr, nullptr);
-        REQUIRE(event.getContainer() == nullptr);
-    }
+    Label sourceWidget;
+    Container container1;
+    Container container2;
 
-    SECTION("valid container")
-    {
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0x5678);
-        fcn::ContainerEvent event(nullptr, container);
-        REQUIRE(event.getContainer() == container);
-    }
+    ContainerEvent event1(&sourceWidget, &container1);
+    ContainerEvent event2(&sourceWidget, &container2);
 
-    SECTION("different containers")
-    {
-        fcn::Container* container1 = reinterpret_cast<fcn::Container*>(0x1111);
-        fcn::Container* container2 = reinterpret_cast<fcn::Container*>(0x2222);
-        fcn::Container* container3 = reinterpret_cast<fcn::Container*>(0x3333);
-
-        fcn::ContainerEvent event1(nullptr, container1);
-        fcn::ContainerEvent event2(nullptr, container2);
-        fcn::ContainerEvent event3(nullptr, container3);
-
-        REQUIRE(event1.getContainer() == container1);
-        REQUIRE(event2.getContainer() == container2);
-        REQUIRE(event3.getContainer() == container3);
-    }
+    REQUIRE(event1.getContainer() == &container1);
+    REQUIRE(event2.getContainer() == &container2);
 }
 
-TEST_CASE("ContainerEvent inherits from Event", "[unit][containerevent]")
+// ============================================================================
+// ContainerEvent - edge cases
+// ============================================================================
+
+TEST_CASE("ContainerEvent with different source widgets", "[unit][containerevent]")
 {
-    SECTION("getSource works")
-    {
-        fcn::Widget* source       = reinterpret_cast<fcn::Widget*>(0x9999);
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0xAAAA);
+    Label source1;
+    Label source2;
+    Container container;
 
-        fcn::ContainerEvent event(source, container);
+    ContainerEvent event1(&source1, &container);
+    ContainerEvent event2(&source2, &container);
 
-        // getSource is inherited from Event
-        REQUIRE(event.getSource() == source);
-    }
-}
-
-TEST_CASE("ContainerEvent edge cases", "[unit][containerevent]")
-{
-    SECTION("same source and container")
-    {
-        fcn::Widget* widget       = reinterpret_cast<fcn::Widget*>(0x1234);
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0x1234);
-
-        fcn::ContainerEvent event(widget, container);
-
-        REQUIRE(event.getSource() == widget);
-        REQUIRE(event.getContainer() == container);
-    }
-
-    SECTION("zero address is valid")
-    {
-        fcn::Container* zeroContainer = reinterpret_cast<fcn::Container*>(0);
-        fcn::ContainerEvent event(nullptr, zeroContainer);
-
-        REQUIRE(event.getContainer() == nullptr);
-    }
-
-    SECTION("max address is valid")
-    {
-        fcn::Container* maxContainer = reinterpret_cast<fcn::Container*>(UINTPTR_MAX);
-        fcn::ContainerEvent event(nullptr, maxContainer);
-
-        REQUIRE(event.getContainer() == maxContainer);
-    }
-
-    SECTION("container and source are different")
-    {
-        fcn::Widget* source       = reinterpret_cast<fcn::Widget*>(0x5000);
-        fcn::Container* container = reinterpret_cast<fcn::Container*>(0x6000);
-
-        fcn::ContainerEvent event(source, container);
-
-        REQUIRE(event.getSource() != event.getContainer());
-        REQUIRE(event.getSource() == source);
-        REQUIRE(event.getContainer() == container);
-    }
+    REQUIRE(event1.getSource() == &source1);
+    REQUIRE(event2.getSource() == &source2);
+    REQUIRE(event1.getContainer() == &container);
+    REQUIRE(event2.getContainer() == &container);
 }

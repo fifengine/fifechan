@@ -9,7 +9,8 @@
 #include <string>
 
 int FPSButton::mInstances         = 0;
-Mix_Chunk* FPSButton::mHoverSound = nullptr;
+MIX_Audio* FPSButton::mHoverAudio = nullptr;
+MIX_Track* FPSButton::mHoverTrack = nullptr;
 
 /*
  * It is very important to call Buttons constructor in the constructor
@@ -22,10 +23,10 @@ FPSButton::FPSButton(std::string const & caption) : Button(caption), mHasMouse(f
     setBorderSize(0);
 
     if (mInstances == 0) {
-        mHoverSound = Mix_LoadWAV("sound/sound5.wav");
-        if (mHoverSound != nullptr) {
-            Mix_VolumeChunk(mHoverSound, 60);
-        }
+        // SDL3_mixer: Load audio via the global mixer (accessed through FPSDemo)
+        // We'll set this from FPSDemo after mixer is created
+        mHoverAudio = nullptr;
+        mHoverTrack = nullptr;
     }
 
     ++mInstances;
@@ -39,8 +40,13 @@ FPSButton::~FPSButton()
     --mInstances;
 
     if (mInstances == 0) {
-        if (mHoverSound != nullptr) {
-            Mix_FreeChunk(mHoverSound);
+        if (mHoverTrack != nullptr) {
+            MIX_DestroyTrack(mHoverTrack);
+            mHoverTrack = nullptr;
+        }
+        if (mHoverAudio != nullptr) {
+            MIX_DestroyAudio(mHoverAudio);
+            mHoverAudio = nullptr;
         }
     }
 }
@@ -74,8 +80,9 @@ void FPSButton::setHighLightFont(fcn::Font* font)
 void FPSButton::mouseEntered(fcn::MouseEvent& mouseEvent)
 {
     Button::mouseEntered(mouseEvent);
-    if (mHoverSound != nullptr) {
-        Mix_PlayChannel(-1, mHoverSound, 0);
+    if (mHoverAudio != nullptr && mHoverTrack != nullptr) {
+        MIX_SetTrackAudio(mHoverTrack, mHoverAudio);
+        MIX_PlayTrack(mHoverTrack, 0);
     }
     mHasMouse = true;
 }

@@ -7,29 +7,44 @@ find_package(Catch2 CONFIG REQUIRED)
 message(STATUS "All tests are linked into a single executable `all_tests`.")
 
 set(UNIT_TEST_SOURCES
+  src/cliprectangle.tests.cpp
+  src/font.tests.cpp
+  src/graphics.tests.cpp
+  src/fifechan.tests.cpp
   src/color.tests.cpp
   src/size.tests.cpp
   src/rectangle.tests.cpp
+  src/genericinput.tests.cpp
+  src/defaultfont.tests.cpp
+  src/visibilityeventhandler.tests.cpp
+  src/image.tests.cpp
   # Input and key tests
   src/key.tests.cpp
   src/keyinput.tests.cpp
   src/mouseinput.tests.cpp
-  src/genericinput.tests.cpp
   # Event tests
   src/events/event.tests.cpp
   src/events/actionevent.tests.cpp
-  src/events/inputevent.tests.cpp
-  src/events/keyevent.tests.cpp
-  src/events/mouseevent.tests.cpp
-  src/events/selectionevent.tests.cpp
   src/events/containerevent.tests.cpp
-  # Focus handler tests
+  src/events/selectionevent.tests.cpp
+  src/events/dragevent.tests.cpp
+  src/events/mouseevent.tests.cpp
+  # Widget tests
+  src/widget.tests.cpp
   src/widgets/focus.tests.cpp
+  src/focushandler.tests.cpp
+  src/widgets/primarypanel.tests.cpp
+  src/widgets/secondarypanel.tests.cpp
+  src/widgets/spacer.tests.cpp
+  src/widgets/barsection.tests.cpp
+  src/widgets/bargraph.tests.cpp
+  src/widgets/container.tests.cpp
   # Text Input and UTF-8 tests
   src/text.tests.cpp
   src/utf8stringeditor.tests.cpp
   # Widgets
   src/widgets/textbox.tests.cpp
+  src/widgets/label.tests.cpp
 )
 
 # TODO: this can be tested with software rasterizer backend in CI.
@@ -37,8 +52,9 @@ set(UNIT_TEST_SOURCES
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
 if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
   list(APPEND UNIT_TEST_SOURCES
-    src/backends/sdl2/image.tests.cpp
+    src/backends/sdl3/image.tests.cpp
     src/imagefont.tests.cpp
+    src/truetypefont.tests.cpp
   )
 else()
   message(STATUS "CI detected: some tests are skipped as they require a non-headless environment.")
@@ -57,10 +73,11 @@ endif()
 
 target_link_libraries(all_tests PRIVATE
   Catch2::Catch2WithMain
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # link SDL2 backend library for Image class
-  fifechan_sdl2
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
+  # link SDL3 backend library for Image class
+  fifechan_sdl3
 )
 
 # Copy test resources to the build directory

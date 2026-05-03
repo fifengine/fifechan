@@ -56,369 +56,374 @@ namespace fcn
      */
     class FIFEGUI_API Graphics
     {
-    public:
-        /**
-         * Horizontal alignments for text drawing.
-         */
-        enum class Alignment : uint8_t
-        {
-            Left = 0,
-            Center,
-            Right
-        };
+        public:
+            /**
+             * Horizontal alignments for text drawing.
+             */
+            enum class Alignment : uint8_t
+            {
+                Left = 0,
+                Center,
+                Right
+            };
 
-        /**
-         * Vertical alignments for text drawing.
-         */
-        enum class VerticalAlignment : uint8_t
-        {
-            Top = 0,
-            Center,
-            Bottom
-        };
+            /**
+             * Vertical alignments for text drawing.
+             */
+            enum class VerticalAlignment : uint8_t
+            {
+                Top = 0,
+                Center,
+                Bottom
+            };
 
-        Graphics() = default;
+            Graphics() = default;
 
-        virtual ~Graphics() = default;
+            virtual ~Graphics() = default;
 
-        Graphics(Graphics const &)            = delete;
-        Graphics& operator=(Graphics const &) = delete;
-        Graphics(Graphics&&)                  = delete;
-        Graphics& operator=(Graphics&&)       = delete;
+            Graphics(Graphics const &)            = delete;
+            Graphics& operator=(Graphics const &) = delete;
+            Graphics(Graphics&&)                  = delete;
+            Graphics& operator=(Graphics&&)       = delete;
 
-        /**
-         * Initializes drawing.
-         *
-         * Called by the GUI when Gui::draw() is called.
-         * It is needed by some implementations of Graphics to perform
-         * preparations before drawing. An example of such an implementation
-         * is the OpenGLGraphics.
-         *
-         * @note
-         * You will never need to call this function yourself, unless
-         * you use a Graphics object outside the library.
-         *
-         * @see _endDraw, Gui::draw
-         */
-        virtual void _beginDraw() { }
+            /**
+             * Initializes drawing.
+             *
+             * Called by the GUI when Gui::draw() is called.
+             * It is needed by some implementations of Graphics to perform
+             * preparations before drawing. An example of such an implementation
+             * is the OpenGLGraphics.
+             *
+             * @note
+             * You will never need to call this function yourself, unless
+             * you use a Graphics object outside the library.
+             *
+             * @see _endDraw, Gui::draw
+             */
+            virtual void _beginDraw()
+            {
+            }
 
-        /**
-         * Deinitializes the drawing process.
-         *
-         * Called by the GUI when `Gui::draw()` is complete.
-         * It should reset any state changes made by `_beginDraw()`.
-         *
-         * \note You generally won't need to call this function yourself unless
-         *       you are using a `Graphics` object outside of the library.
-         *
-         * @see _beginDraw, Gui::draw
-         */
-        virtual void _endDraw() { }
+            /**
+             * Deinitializes the drawing process.
+             *
+             * Called by the GUI when `Gui::draw()` is complete.
+             * It should reset any state changes made by `_beginDraw()`.
+             *
+             * \note You generally won't need to call this function yourself unless
+             *       you are using a `Graphics` object outside of the library.
+             *
+             * @see _beginDraw, Gui::draw
+             */
+            virtual void _endDraw()
+            {
+            }
 
-        /**
-         * Pushes a clip area onto the stack.
-         *
-         * The x and y coordinates in the
-         * rectangle is  relative to the last pushed clip area.
-         * If the new area falls outside the current clip area, it will be
-         * clipped as necessary.
-         *
-         * If a clip area is outside of the top clip area a clip area with
-         * zero width and height will be pushed.
-         *
-         * @param area The clip area to be pushed onto the stack.
-         * @return False if the the new area lays outside the current clip
-         *         area.
-         */
-        virtual bool pushClipArea(Rectangle area);
+            /**
+             * Pushes a clip area onto the stack.
+             *
+             * The x and y coordinates in the
+             * rectangle is  relative to the last pushed clip area.
+             * If the new area falls outside the current clip area, it will be
+             * clipped as necessary.
+             *
+             * If a clip area is outside of the top clip area a clip area with
+             * zero width and height will be pushed.
+             *
+             * @param area The clip area to be pushed onto the stack.
+             * @return False if the the new area lays outside the current clip
+             *         area.
+             */
+            virtual bool pushClipArea(Rectangle area);
 
-        /**
-         * Removes the top most clip area from the stack.
-         *
-         * @throws Exception if the stack is empty.
-         */
-        virtual void popClipArea();
+            /**
+             * Removes the top most clip area from the stack.
+             *
+             * @throws Exception if the stack is empty.
+             */
+            virtual void popClipArea();
 
-        /**
-         * Gets the current clip area.
-         *
-         * Useful if you want to do drawing bypassing Graphics.
-         *
-         * @return The current clip area.
-         */
-        virtual ClipRectangle const & getCurrentClipArea();
+            /**
+             * Gets the current clip area.
+             *
+             * Useful if you want to do drawing bypassing Graphics.
+             *
+             * @return The current clip area.
+             */
+            virtual ClipRectangle const & getCurrentClipArea();
 
-        /**
-         * Draws a part of an image.
-         *
-         * @note
-         * Width and height arguments will not scale the image but
-         * specifies the size of the part to be drawn. If you want
-         * to draw the whole image there is a simplified version of
-         * this function.
-         *
-         * @par Example
-         * @code
-         * drawImage(myImage, 10, 10, 20, 20, 40, 40);
-         * @endcode
-         * This draws a rectangular region of `myImage` starting at (10, 10) with
-         * width and height 40. The extracted region is placed with its top-left
-         * corner at (20, 20).
-         *
-         * @param image The image to draw.
-         * @param srcX The source image x coordinate.
-         * @param srcY The source image y coordinate.
-         * @param dstX The destination x coordinate.
-         * @param dstY The destination y coordinate.
-         * @param width The width of the piece.
-         * @param height The height of the piece.
-         * @see drawImage(const Image& image, int dstX, int dstY)
-         */
-        virtual void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) = 0;
+            /**
+             * Draws a part of an image.
+             *
+             * @note
+             * Width and height arguments will not scale the image but
+             * specifies the size of the part to be drawn. If you want
+             * to draw the whole image there is a simplified version of
+             * this function.
+             *
+             * @par Example
+             * @code
+             * drawImage(myImage, 10, 10, 20, 20, 40, 40);
+             * @endcode
+             * This draws a rectangular region of `myImage` starting at (10, 10) with
+             * width and height 40. The extracted region is placed with its top-left
+             * corner at (20, 20).
+             *
+             * @param image The image to draw.
+             * @param srcX The source image x coordinate.
+             * @param srcY The source image y coordinate.
+             * @param dstX The destination x coordinate.
+             * @param dstY The destination y coordinate.
+             * @param width The width of the piece.
+             * @param height The height of the piece.
+             * @see drawImage(const Image& image, int dstX, int dstY)
+             */
+            virtual void drawImage(
+                Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) = 0;
 
-        /**
-         * Draws an image.
-         *
-         * A simplified version of the other drawImage.
-         * It will draw a whole image at the coordinate you specify.
-         *
-         * @par Example
-         * It is equivalent to calling:
-         * @code
-         * drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
-         * @endcode
-         *
-         * @param image The image to draw.
-         * @param dstX The destination x coordinate.
-         * @param dstY The destination y coordinate.
-         */
-        virtual void drawImage(Image const * image, int dstX, int dstY);
+            /**
+             * Draws an image.
+             *
+             * A simplified version of the other drawImage.
+             * It will draw a whole image at the coordinate you specify.
+             *
+             * @par Example
+             * It is equivalent to calling:
+             * @code
+             * drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
+             * @endcode
+             *
+             * @param image The image to draw.
+             * @param dstX The destination x coordinate.
+             * @param dstY The destination y coordinate.
+             */
+            virtual void drawImage(Image const * image, int dstX, int dstY);
 
-        /**
-         * Draws a single point/pixel.
-         *
-         * @param x The x coordinate.
-         * @param y The y coordinate.
-         */
-        virtual void drawPoint(int x, int y) = 0;
+            /**
+             * Draws a single point/pixel.
+             *
+             * @param x The x coordinate.
+             * @param y The y coordinate.
+             */
+            virtual void drawPoint(int x, int y) = 0;
 
-        /**
-         * Draws a line.
-         *
-         * @param x1 The first x coordinate.
-         * @param y1 The first y coordinate.
-         * @param x2 The second x coordinate.
-         * @param y2 The second y coordinate.
-         */
-        virtual void drawLine(int x1, int y1, int x2, int y2) = 0;
+            /**
+             * Draws a line.
+             *
+             * @param x1 The first x coordinate.
+             * @param y1 The first y coordinate.
+             * @param x2 The second x coordinate.
+             * @param y2 The second y coordinate.
+             */
+            virtual void drawLine(int x1, int y1, int x2, int y2) = 0;
 
-        /**
-         * Draws a thick line.
-         *
-         * @param x1    The first x coordinate.
-         * @param y1    The first y coordinate.
-         * @param x2    The second x coordinate.
-         * @param y2    The second y coordinate.
-         * @param width	The line width.
-         */
-        virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width) = 0;
+            /**
+             * Draws a thick line.
+             *
+             * @param x1    The first x coordinate.
+             * @param y1    The first y coordinate.
+             * @param x2    The second x coordinate.
+             * @param y2    The second y coordinate.
+             * @param width	The line width.
+             */
+            virtual void drawLine(int x1, int y1, int x2, int y2, unsigned int width) = 0;
 
-        /**
-         * Draws a round brush stroke along the line segment.
-         *
-         * Unlike drawLine(..., width), this uses a round brush footprint and
-         * therefore produces round caps and a softer joint shape.
-         *
-         * Backends that do not provide a dedicated implementation fall back to
-         * drawLine(..., width).
-         *
-         * @param x1    The first x coordinate.
-         * @param y1    The first y coordinate.
-         * @param x2    The second x coordinate.
-         * @param y2    The second y coordinate.
-         * @param width The brush width.
-         */
-        virtual void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width)
-        {
-            drawLine(x1, y1, x2, y2, width);
-        }
+            /**
+             * Draws a round brush stroke along the line segment.
+             *
+             * Unlike drawLine(..., width), this uses a round brush footprint and
+             * therefore produces round caps and a softer joint shape.
+             *
+             * Backends that do not provide a dedicated implementation fall back to
+             * drawLine(..., width).
+             *
+             * @param x1    The first x coordinate.
+             * @param y1    The first y coordinate.
+             * @param x2    The second x coordinate.
+             * @param y2    The second y coordinate.
+             * @param width The brush width.
+             */
+            virtual void drawRoundStroke(int x1, int y1, int x2, int y2, unsigned int width)
+            {
+                drawLine(x1, y1, x2, y2, width);
+            }
 
-        /**
-         * Draws lines between points with given width.
-         *
-         * @param points Contains the points that are used for drawing.
-         * @param width  The line width.
-         */
-        virtual void drawPolyLine(PointVector const & points, unsigned int width) = 0;
+            /**
+             * Draws lines between points with given width.
+             *
+             * @param points Contains the points that are used for drawing.
+             * @param width  The line width.
+             */
+            virtual void drawPolyLine(PointVector const & points, unsigned int width) = 0;
 
-        /**
-         * Draws a bezier curve.
-         *
-         * @param points The coordinates as points in a vector.
-         * @param steps  The steps for each line between two points.
-         * @param width  The line width.
-         */
-        virtual void drawBezier(PointVector const & points, int steps, unsigned int width) = 0;
+            /**
+             * Draws a bezier curve.
+             *
+             * @param points The coordinates as points in a vector.
+             * @param steps  The steps for each line between two points.
+             * @param width  The line width.
+             */
+            virtual void drawBezier(PointVector const & points, int steps, unsigned int width) = 0;
 
-        /**
-         * Draws a simple, non-filled rectangle with a one pixel width.
-         *
-         * @param rectangle The rectangle to draw.
-         */
-        virtual void drawRectangle(Rectangle const & rectangle) = 0;
+            /**
+             * Draws a simple, non-filled rectangle with a one pixel width.
+             *
+             * @param rectangle The rectangle to draw.
+             */
+            virtual void drawRectangle(Rectangle const & rectangle) = 0;
 
-        /**
-         * Draws a simple, non-filled rectangle with a one pixel width.
-         *
-         * This is an overload provided for convenience.
-         *
-         * @param x      The x coordinate of the rectangle
-         * @param y      The y coordinate of the rectangle
-         * @param width  The width of the rectangle
-         * @param height The height of the rectangle
-         */
-        void drawRectangle(int x, int y, int width, int height)
-        {
-            drawRectangle(Rectangle(x, y, width, height));
-        }
+            /**
+             * Draws a simple, non-filled rectangle with a one pixel width.
+             *
+             * This is an overload provided for convenience.
+             *
+             * @param x      The x coordinate of the rectangle
+             * @param y      The y coordinate of the rectangle
+             * @param width  The width of the rectangle
+             * @param height The height of the rectangle
+             */
+            void drawRectangle(int x, int y, int width, int height)
+            {
+                drawRectangle(Rectangle(x, y, width, height));
+            }
 
-        /**
-         * Draws a filled rectangle.
-         *
-         * @param rectangle The filled rectangle to draw.
-         */
-        virtual void fillRectangle(Rectangle const & rectangle) = 0;
+            /**
+             * Draws a filled rectangle.
+             *
+             * @param rectangle The filled rectangle to draw.
+             */
+            virtual void fillRectangle(Rectangle const & rectangle) = 0;
 
-        /**
-         * Draws a filled rectangle.
-         *
-         * This is an overload provided for convenience.
-         *
-         * @param x      The x coordinate of the rectangle
-         * @param y      The y coordinate of the rectangle
-         * @param width  The width of the rectangle
-         * @param height The height of the rectangle
-         */
-        void fillRectangle(int x, int y, int width, int height)
-        {
-            fillRectangle(Rectangle(x, y, width, height));
-        }
+            /**
+             * Draws a filled rectangle.
+             *
+             * This is an overload provided for convenience.
+             *
+             * @param x      The x coordinate of the rectangle
+             * @param y      The y coordinate of the rectangle
+             * @param width  The width of the rectangle
+             * @param height The height of the rectangle
+             */
+            void fillRectangle(int x, int y, int width, int height)
+            {
+                fillRectangle(Rectangle(x, y, width, height));
+            }
 
-        /**
-         * Draws a simple, non-filled circle with a one pixel width.
-         *
-         * @param p      The circle center coordinate as point.
-         * @param radius The circle radius.
-         */
-        virtual void drawCircle(Point const & p, unsigned int radius) = 0;
+            /**
+             * Draws a simple, non-filled circle with a one pixel width.
+             *
+             * @param p      The circle center coordinate as point.
+             * @param radius The circle radius.
+             */
+            virtual void drawCircle(Point const & p, unsigned int radius) = 0;
 
-        /**
-         * Draws a filled circle.
-         *
-         * @param p      The circle center coordinate as point.
-         * @param radius The circle radius.
-         */
-        virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
+            /**
+             * Draws a filled circle.
+             *
+             * @param p      The circle center coordinate as point.
+             * @param radius The circle radius.
+             */
+            virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
 
-        /**
-         * Draws a simple, non-filled circle segment with a one pixel width.
-         *
-         * @note
-         * The start angle must be less than the end angle.
-         * 0 angle is right side.
-         *
-         * @param p      The circle center coordinate as point.
-         * @param radius The circle radius.
-         * @param sangle The start angle of the segment.
-         * @param eangle The end angle of the segment.
-         */
-        virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
+            /**
+             * Draws a simple, non-filled circle segment with a one pixel width.
+             *
+             * @note
+             * The start angle must be less than the end angle.
+             * 0 angle is right side.
+             *
+             * @param p      The circle center coordinate as point.
+             * @param radius The circle radius.
+             * @param sangle The start angle of the segment.
+             * @param eangle The end angle of the segment.
+             */
+            virtual void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
-        /**
-         * Draws a filled circle segment.
-         *
-         * @note
-         * The start angle must be less than the end angle.
-         * 0 angle is right side.
-         *
-         * @param p      The circle center coordinate as point.
-         * @param radius The circle radius.
-         * @param sangle The start angle of the segment.
-         * @param eangle The end angle of the segment.
-         */
-        virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
+            /**
+             * Draws a filled circle segment.
+             *
+             * @note
+             * The start angle must be less than the end angle.
+             * 0 angle is right side.
+             *
+             * @param p      The circle center coordinate as point.
+             * @param radius The circle radius.
+             * @param sangle The start angle of the segment.
+             * @param eangle The end angle of the segment.
+             */
+            virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
 
-        /**
-         * Sets the color to use when drawing.
-         *
-         * @param color A color.
-         * @see getColor
-         */
-        virtual void setColor(Color const & color) = 0;
+            /**
+             * Sets the color to use when drawing.
+             *
+             * @param color A color.
+             * @see getColor
+             */
+            virtual void setColor(Color const & color) = 0;
 
-        /**
-         * Gets the color to use when drawing.
-         *
-         * @return The color used when drawing.
-         * @see setColor
-         */
-        virtual Color const & getColor() const = 0;
+            /**
+             * Gets the color to use when drawing.
+             *
+             * @return The color used when drawing.
+             * @see setColor
+             */
+            virtual Color const & getColor() const = 0;
 
-        /**
-         * Sets the font to use when drawing text.
-         *
-         * @param font The font to use when drawing.
-         */
-        virtual void setFont(Font* font);
+            /**
+             * Sets the font to use when drawing text.
+             *
+             * @param font The font to use when drawing.
+             */
+            virtual void setFont(Font* font);
 
-        /**
-         * Creates a font for this graphics backend.
-         *
-         * Backends that do not provide runtime font loading may return nullptr.
-         *
-         * @param filename Path to the font file.
-         * @param size Requested point size.
-         * @return Shared pointer to a created font, or nullptr.
-         */
-        virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
+            /**
+             * Creates a font for this graphics backend.
+             *
+             * Backends that do not provide runtime font loading may return nullptr.
+             *
+             * @param filename Path to the font file.
+             * @param size Requested point size.
+             * @return Shared pointer to a created font, or nullptr.
+             */
+            virtual std::shared_ptr<Font> createFont(std::string const & filename, int size);
 
-        /**
-         * Draws text with a default left alignment.
-         *
-         * This overload forwards to the alignment-aware overload
-         * using Alignment::Left.
-         *
-         * @param text The text to draw.
-         * @param x The x coordinate where to draw the text.
-         * @param y The y coordinate where to draw the text.
-         * @throws Exception when no font has been set.
-         */
-        void drawText(std::string const & text, int x, int y)
-        {
-            drawText(text, x, y, Alignment::Left);
-        }
+            /**
+             * Draws text with a default left alignment.
+             *
+             * This overload forwards to the alignment-aware overload
+             * using Alignment::Left.
+             *
+             * @param text The text to draw.
+             * @param x The x coordinate where to draw the text.
+             * @param y The y coordinate where to draw the text.
+             * @throws Exception when no font has been set.
+             */
+            void drawText(std::string const & text, int x, int y)
+            {
+                drawText(text, x, y, Alignment::Left);
+            }
 
-        /**
-         * Draws text with the requested alignment.
-         *
-         * @param text The text to draw.
-         * @param x The x coordinate where to draw the text.
-         * @param y The y coordinate where to draw the text.
-         * @param alignment The alignment to use when drawing (Left/Center/Right).
-         * @throws Exception when no font has been set.
-         */
-        virtual void drawText(std::string const & text, int x, int y, Alignment alignment);
+            /**
+             * Draws text with the requested alignment.
+             *
+             * @param text The text to draw.
+             * @param x The x coordinate where to draw the text.
+             * @param y The y coordinate where to draw the text.
+             * @param alignment The alignment to use when drawing (Left/Center/Right).
+             * @throws Exception when no font has been set.
+             */
+            virtual void drawText(std::string const & text, int x, int y, Alignment alignment);
 
-    protected:
-        /**
-         * Holds the clip area stack.
-         */
-        std::stack<ClipRectangle> mClipStack;
+        protected:
+            /**
+             * Holds the clip area stack.
+             */
+            std::stack<ClipRectangle> mClipStack;
 
-        /**
-         * Holds the current font.
-         */
-        Font* mFont{nullptr};
+            /**
+             * Holds the current font.
+             */
+            Font* mFont{nullptr};
     };
 } // namespace fcn
 

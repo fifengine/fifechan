@@ -14,26 +14,26 @@
 
 class StringListModel : public fcn::ListModel
 {
-public:
-    StringListModel() = default;
+    public:
+        StringListModel() = default;
 
-    int getNumberOfElements() override
-    {
-        return static_cast<int>(mStrings.size());
-    }
+        int getNumberOfElements() override
+        {
+            return static_cast<int>(mStrings.size());
+        }
 
-    std::string getElementAt(int i) override
-    {
-        return mStrings.at(i);
-    }
+        std::string getElementAt(int i) override
+        {
+            return mStrings.at(i);
+        }
 
-    void add(std::string const & str)
-    {
-        mStrings.push_back(str);
-    }
+        void add(std::string const & str)
+        {
+            mStrings.push_back(str);
+        }
 
-private:
-    std::vector<std::string> mStrings;
+    private:
+        std::vector<std::string> mStrings;
 };
 
 #endif // STRINGLISTMODEL_HPP

@@ -41,122 +41,122 @@ namespace fcn
      */
     class FIFEGUI_API Panel : public Container, public MouseListener
     {
-    public:
-        /**
-         * Constructor.
-         */
-        Panel();
+        public:
+            /**
+             * Constructor.
+             */
+            Panel();
 
-        /**
-         * Sets the visibility state of the panel.
-         *
-         * @param state The visibility state to set.
-         * @see getVisibilityState
-         */
-        void setVisibilityState(VisibilityState state);
+            /**
+             * Sets the visibility state of the panel.
+             *
+             * @param state The visibility state to set.
+             * @see getVisibilityState
+             */
+            void setVisibilityState(VisibilityState state);
 
-        /**
-         * Gets the visibility state of the panel.
-         *
-         * @return The current visibility state.
-         * @see setVisibilityState
-         */
-        VisibilityState getVisibilityState() const;
+            /**
+             * Gets the visibility state of the panel.
+             *
+             * @return The current visibility state.
+             * @see setVisibilityState
+             */
+            VisibilityState getVisibilityState() const;
 
-        /**
-         * Sets the width when the panel is collapsed.
-         *
-         * @param width The width in pixels when collapsed (default 10).
-         * @see getCollapsedWidth
-         */
-        void setCollapsedWidth(int width);
+            /**
+             * Sets the width when the panel is collapsed.
+             *
+             * @param width The width in pixels when collapsed (default 10).
+             * @see getCollapsedWidth
+             */
+            void setCollapsedWidth(int width);
 
-        /**
-         * Gets the collapsed width.
-         *
-         * @return The width in pixels when collapsed.
-         * @see setCollapsedWidth
-         */
-        int getCollapsedWidth() const;
+            /**
+             * Gets the collapsed width.
+             *
+             * @return The width in pixels when collapsed.
+             * @see setCollapsedWidth
+             */
+            int getCollapsedWidth() const;
 
-        /**
-         * Sets whether the panel is visible.
-         * Maps to VisibilityState for backward compatibility.
-         *
-         * @param visible True if panel should be visible, false otherwise.
-         * @see isVisible
-         */
-        // cppcheck-suppress duplInheritedMember
-        void setVisible(bool visible);
+            /**
+             * Sets whether the panel is visible.
+             * Maps to VisibilityState for backward compatibility.
+             *
+             * @param visible True if panel should be visible, false otherwise.
+             * @see isVisible
+             */
+            // cppcheck-suppress duplInheritedMember
+            void setVisible(bool visible);
 
-        /**
-         * Adjusts the panel size based on its visibility state.
-         * When collapsed, the width is limited to the collapsed width.
-         */
-        void adjustSize() override;
+            /**
+             * Adjusts the panel size based on its visibility state.
+             * When collapsed, the width is limited to the collapsed width.
+             */
+            void adjustSize() override;
 
-        /**
-         * Sets the panel title.
-         *
-         * @param title The title text to display in the title bar.
-         * @see getTitle
-         */
-        void setTitle(std::string const & title);
+            /**
+             * Sets the panel title.
+             *
+             * @param title The title text to display in the title bar.
+             * @see getTitle
+             */
+            void setTitle(std::string const & title);
 
-        /**
-         * Gets the panel title.
-         *
-         * @return The title text.
-         * @see setTitle
-         */
-        std::string const & getTitle() const;
+            /**
+             * Gets the panel title.
+             *
+             * @return The title text.
+             * @see setTitle
+             */
+            std::string const & getTitle() const;
 
-        /**
-         * Sets whether the panel has a close button.
-         *
-         * @param closable True to show close button, false to hide.
-         * @see isClosable
-         */
-        void setClosable(bool closable);
+            /**
+             * Sets whether the panel has a close button.
+             *
+             * @param closable True to show close button, false to hide.
+             * @see isClosable
+             */
+            void setClosable(bool closable);
 
-        /**
-         * Checks if the panel has a close button.
-         *
-         * @return True if closable, false otherwise.
-         * @see setClosable
-         */
-        bool isClosable() const;
+            /**
+             * Checks if the panel has a close button.
+             *
+             * @return True if closable, false otherwise.
+             * @see setClosable
+             */
+            bool isClosable() const;
 
-    protected:
-        /**
-         * Draws the panel content.
-         *
-         * @param graphics A graphics object to draw with.
-         */
-        void draw(Graphics* graphics) override;
+        protected:
+            /**
+             * Draws the panel content.
+             *
+             * @param graphics A graphics object to draw with.
+             */
+            void draw(Graphics* graphics) override;
 
-        /**
-         * @see MouseListener
-         */
-        void mousePressed(MouseEvent& event) override;
+            /**
+             * @see MouseListener
+             */
+            void mousePressed(MouseEvent& event) override;
 
-        /**
-         * Handles content area mouse clicks.
-         * Called when click is in content area (below title bar).
-         *
-         * @param event The mouse event.
-         * @return true if handled.
-         */
-        virtual bool handleContentClick(MouseEvent& event);
+            /**
+             * Handles content area mouse clicks.
+             * Called when click is in content area (below title bar).
+             *
+             * @param event The mouse event.
+             * @return true if handled.
+             */
+            virtual bool handleContentClick(MouseEvent& event);
 
-    private:
-        std::string mTitle;
-        bool mClosable = true;
+        private:
+            std::string mTitle;
+            bool mClosable = true;
 
-        Rectangle mCloseButtonBounds;
+            Rectangle mCloseButtonBounds;
 
-        VisibilityState mVisibilityState = VisibilityState::Visible;
-        int mCollapsedWidth              = 10;
+            VisibilityState mVisibilityState = VisibilityState::Visible;
+            int mCollapsedWidth              = 10;
     };
 } // namespace fcn
 

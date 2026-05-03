@@ -410,7 +410,9 @@ namespace fcn
         }
     }
 
-    void MenuPopup::mouseReleased(MouseEvent& event) { }
+    void MenuPopup::mouseReleased(MouseEvent& event)
+    {
+    }
 
     void MenuPopup::mouseEntered(MouseEvent& event)
     {
@@ -453,7 +455,9 @@ namespace fcn
         }
     }
 
-    void MenuPopup::mouseExited(MouseEvent& event) { }
+    void MenuPopup::mouseExited(MouseEvent& event)
+    {
+    }
 
     void MenuPopup::keyPressed(KeyEvent& event)
     {
@@ -473,9 +477,7 @@ namespace fcn
                     return;
                 }
 
-                if (mHoverIndex < 0) {
-                    mHoverIndex = 0;
-                }
+                mHoverIndex = std::max(mHoverIndex, 0);
 
                 if (key.getValue() == Key::Up) {
                     mHoverIndex =
@@ -537,7 +539,9 @@ namespace fcn
         }
     }
 
-    void MenuPopup::keyReleased(KeyEvent& event) { }
+    void MenuPopup::keyReleased(KeyEvent& event)
+    {
+    }
 
     void MenuPopup::focusLost(Event const & event)
     {

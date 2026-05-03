@@ -31,57 +31,57 @@ namespace fcn
      */
     class FIFEGUI_API Input
     {
-    public:
-        virtual ~Input() = default;
+        public:
+            virtual ~Input() = default;
 
-        Input(Input const &)            = delete;
-        Input& operator=(Input const &) = delete;
-        Input(Input&&)                  = delete;
-        Input& operator=(Input&&)       = delete;
+            Input(Input const &)            = delete;
+            Input& operator=(Input const &) = delete;
+            Input(Input&&)                  = delete;
+            Input& operator=(Input&&)       = delete;
 
-        /**
-         * Checks if the key queue is empty, or not.
-         *
-         * @return True if the key queue is empty,
-         *         false otherwise.
-         */
-        virtual bool isKeyQueueEmpty() = 0;
+            /**
+             * Checks if the key queue is empty, or not.
+             *
+             * @return True if the key queue is empty,
+             *         false otherwise.
+             */
+            virtual bool isKeyQueueEmpty() = 0;
 
-        /**
-         * Dequeues the key input queue.
-         *
-         * @return The first key input in the key input queue.
-         */
-        virtual KeyInput dequeueKeyInput() = 0;
+            /**
+             * Dequeues the key input queue.
+             *
+             * @return The first key input in the key input queue.
+             */
+            virtual KeyInput dequeueKeyInput() = 0;
 
-        /**
-         * Checks if the mouse queue is empyt, or not.
-         *
-         * @return True if the mouse queue is empty,
-         *         false otherwise.
-         */
-        virtual bool isMouseQueueEmpty() = 0;
+            /**
+             * Checks if the mouse queue is empyt, or not.
+             *
+             * @return True if the mouse queue is empty,
+             *         false otherwise.
+             */
+            virtual bool isMouseQueueEmpty() = 0;
 
-        /**
-         * Dequeues the mouse input queue.
-         *
-         * @return The first mouse input in the mouse input queue.
-         */
-        virtual MouseInput dequeueMouseInput() = 0;
+            /**
+             * Dequeues the mouse input queue.
+             *
+             * @return The first mouse input in the mouse input queue.
+             */
+            virtual MouseInput dequeueMouseInput() = 0;
 
-        /**
-         * Polls all existing input.
-         *
-         * Called when input should be polled.
-         *
-         * @note
-         * Provided for compatibility with backend libraries that require input
-         * polling at a fixed update rate.
-         */
-        virtual void _pollInput() = 0;
+            /**
+             * Polls all existing input.
+             *
+             * Called when input should be polled.
+             *
+             * @note
+             * Provided for compatibility with backend libraries that require input
+             * polling at a fixed update rate.
+             */
+            virtual void _pollInput() = 0;
 
-    protected:
-        Input() = default;
+        protected:
+            Input() = default;
     };
 } // namespace fcn
 

@@ -21,11 +21,14 @@
 
 // Platform config include
 #include "fifechan/platform.hpp"
+
 #ifdef _WIN32
     #include <windows.h>
 #endif
 
 // Third-party library includes
+#include <SDL3/SDL_main.h>
+
 #include <fifechan/backends/opengl/graphics.hpp>
 
 #include <fifechan.hpp>
@@ -90,8 +93,7 @@ Application::~Application()
 
 SDL_Window* Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (createdWindow == nullptr) {
         throw std::runtime_error("Failed to create SDL_Window");
     }
@@ -111,12 +113,12 @@ SDL_GLContext Application::initGLContext(SDL_Window* window)
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
 
-    auto const windowFlags = static_cast<int>(SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
+    auto const windowFlags = static_cast<int>(SDL_WINDOW_OPENGL | SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
     window = initWindow(title, width, height, windowFlags);
 
@@ -127,12 +129,12 @@ void Application::init_SDL(std::string const & title, int width, int height)
     glViewport(0, 0, width, height);
     glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
-    SDL_StartTextInput();
+    SDL_StartTextInput(window);
 }
 
 void Application::cleanup()
 {
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
     gui.reset();
     top.reset();
     ownedTabTwoContent.reset();
@@ -144,7 +146,7 @@ void Application::cleanup()
     imageLoader.reset();
     graphics.reset();
     input.reset();
-    SDL_GL_DeleteContext(glContext);
+    SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
@@ -157,7 +159,7 @@ void Application::init_GUI(int width, int height)
     graphics = std::make_unique<fcn::opengl::Graphics>();
     graphics->setTargetPlane(width, height);
 
-    input = std::make_unique<fcn::sdl2::Input>();
+    input = std::make_unique<fcn::sdl3::Input>();
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));
@@ -545,16 +547,16 @@ void Application::run()
 
     while (running) {
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
-                if (event.key.keysym.sym == SDLK_f && ((event.key.keysym.mod & KMOD_CTRL) != 0)) {
-                    uint32_t const flags = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-                    SDL_SetWindowFullscreen(window, flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+                if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
+                    uint32_t const flags = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
+                    SDL_SetWindowFullscreen(window, flags ? 0 : SDL_WINDOW_FULLSCREEN);
                 }
             }
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             }
             input->pushInput(event);
@@ -576,7 +578,7 @@ int main(int argc, char** argv)
 
     try {
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using OpenGL SDL2 Backend: Widgets Example", fifeguiVersion);
+        std::string const title = std::format("FifeGUI v{} using OpenGL SDL Backend: Widgets Example", fifeguiVersion);
         Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {

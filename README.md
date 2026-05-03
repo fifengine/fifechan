@@ -26,7 +26,7 @@ and powerful enough to be used in any type of game.
 
 ### SDLWidgets Demo
 
-The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL2 backend.
+The SDLWidgets demo shows the built-in SDL rendering and input handling capabilities of FifeGUI. It demonstrates a variety of widgets, including buttons, sliders, text boxes, and more, all rendered using the SDL3 backend.
 
 ![SDLWidgets Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdlwidgets.png)
 
@@ -41,6 +41,28 @@ A demo showcasing a custom in-game overlay for a first-person shooter game, demo
 A menu in the style of the Final Fantasy series, demonstrating the flexibility of FifeGUI in creating custom interfaces.
 
 ![FF Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/examples-ff.png)
+
+### SDLDRAGDROP
+
+The SDLDRAGDROP demo demonstrates the drag and drop functionality of FifeGUI.
+It allows users to drag items from one panel to another, showcasing the library's support for interactive UI elements.
+
+On the left side is a user invenory panel with items that can be dragged, and on the right side is a character equipment panel where items can be dropped. Items can only be moved from the inventory to the equipment panel, and not the other way around. Blocked drops are indicated with a red highlight, while valid drops are highlighted in green.
+
+When user hovers over an item, a tooltip is displayed showing the name of the item and its stats.
+The tooltip information area is extended, when the user presses the ALT key, to show additional information about the item, such as additional stats, descriptions and or lore.
+
+![SDLDRAGDROP](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdldragdrop.png)
+
+### SDLMDEDIT
+
+The SDLMDEDIT application showcases key interface components, including a Menu, MenuItem, Menubar, and ActivityBar enhanced with OpenMoji glyph icons. It features a PrimaryPanel on the left and a SecondaryPanel on the right for structured layout organization.
+
+At the center is a textarea that serves as the main Markdown editing area. A Statusbar at the bottom of the window displays the current cursor position, including line and column information.
+
+This is not a fully working Markdown editor, but rather a demonstration of how FifeGUI can be used to create a complex user interface with various interactive components.
+
+![SDLMDEDIT](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdlmdedit.png)
 
 ## Downloads
 
@@ -83,10 +105,10 @@ We use vcpkg to manage the dependencies.
 The following libraries installed:
 
 For [SDL](https://libsdl.org) support:
- - SDL2
- - SDL2_image
- - SDL2_ttf
- - SDL2_mixer (optional) (FPS demo)
+ - SDL3
+ - SDL3_image
+ - SDL3_ttf
+ - SDL3_mixer (optional) (FPS demo)
  - utfcpp
 
 For OpenGL support:
@@ -101,5 +123,5 @@ You can disable the usage of VCPKG with the build flag: `-DUSE_VCPKG=OFF` and th
 install system packages for the dependencies with the following command:
 
 ```bash
-apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libutfcpp-dev libglew-dev libcatch2-dev
+apt install libsdl3-dev libsdl3-image-dev libsdl3-ttf-dev libsdl3-mixer-dev libutfcpp-dev libglew-dev libcatch2-dev
 ```

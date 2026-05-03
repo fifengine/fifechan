@@ -25,77 +25,77 @@ namespace fcn
      */
     class FIFEGUI_API BarSection : public Container
     {
-    public:
-        /**
-         * Alignment options for children within the section.
-         *
-         * Start: Left-aligned (or top for vertical),
-         * Center: Center-aligned,
-         * End: Right-aligned (or bottom for vertical).
-         */
-        enum class Alignment : uint8_t
-        {
-            Start = 0,
-            Center,
-            End
-        };
+        public:
+            /**
+             * Alignment options for children within the section.
+             *
+             * Start: Left-aligned (or top for vertical),
+             * Center: Center-aligned,
+             * End: Right-aligned (or bottom for vertical).
+             */
+            enum class Alignment : uint8_t
+            {
+                Start = 0,
+                Center,
+                End
+            };
 
-        /**
-         * Constructor.
-         *
-         * Sets up the container with horizontal layout policy.
-         */
-        BarSection();
+            /**
+             * Constructor.
+             *
+             * Sets up the container with horizontal layout policy.
+             */
+            BarSection();
 
-        ~BarSection() override;
+            ~BarSection() override;
 
-        BarSection(BarSection const &)            = delete;
-        BarSection& operator=(BarSection const &) = delete;
-        BarSection(BarSection&&)                  = delete;
-        BarSection& operator=(BarSection&&)       = delete;
+            BarSection(BarSection const &)            = delete;
+            BarSection& operator=(BarSection const &) = delete;
+            BarSection(BarSection&&)                  = delete;
+            BarSection& operator=(BarSection&&)       = delete;
 
-        /**
-         * Sets the alignment of children within the section.
-         *
-         * @param alignment The alignment to use.
-         * @see getAlignment
-         */
-        void setAlignment(Alignment alignment);
+            /**
+             * Sets the alignment of children within the section.
+             *
+             * @param alignment The alignment to use.
+             * @see getAlignment
+             */
+            void setAlignment(Alignment alignment);
 
-        /**
-         * Gets the alignment of children within the section.
-         *
-         * @return The current alignment.
-         * @see setAlignment
-         */
-        Alignment getAlignment() const;
+            /**
+             * Gets the alignment of children within the section.
+             *
+             * @return The current alignment.
+             * @see setAlignment
+             */
+            Alignment getAlignment() const;
 
-        /**
-         * Sets whether the section expands to fill available space.
-         *
-         * @param expand True to expand the section.
-         * @see isExpand
-         */
-        void setExpand(bool expand);
+            /**
+             * Sets whether the section expands to fill available space.
+             *
+             * @param expand True to expand the section.
+             * @see isExpand
+             */
+            void setExpand(bool expand);
 
-        /**
-         * Checks if the section expands to fill available space.
-         *
-         * @return True if expanding.
-         * @see setExpand
-         */
-        bool isExpand() const;
+            /**
+             * Checks if the section expands to fill available space.
+             *
+             * @return True if expanding.
+             * @see setExpand
+             */
+            bool isExpand() const;
 
-    protected:
-        /**
-         * Alignment of children within the section.
-         */
-        Alignment mAlignment{Alignment::Start};
+        protected:
+            /**
+             * Alignment of children within the section.
+             */
+            Alignment mAlignment{Alignment::Start};
 
-        /**
-         * Whether the section expands to fill available space.
-         */
-        bool mExpand{false};
+            /**
+             * Whether the section expands to fill available space.
+             */
+            bool mExpand{false};
     };
 } // namespace fcn
 

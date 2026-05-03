@@ -5,6 +5,7 @@
 #define INCLUDE_FIFECHAN_WIDGETS_ACTIVITYBARITEM_HPP_
 
 // Standard library includes
+#include <memory>
 #include <string>
 
 // Platform config include
@@ -13,6 +14,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/listeners/widgetlistener.hpp"
 #include "fifechan/widgets/togglebutton.hpp"
+#include "fifechan/widgets/tooltip.hpp"
 
 namespace fcn
 {
@@ -26,92 +28,124 @@ namespace fcn
      */
     class FIFEGUI_API ActivityBarItem : public ToggleButton
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param icon The icon to display (can be image path or emoji).
-         * @param tooltip The tooltip text.
-         */
-        explicit ActivityBarItem(std::string const & icon, std::string const & tooltip = "", Widget* panel = nullptr);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param icon The icon to display (can be image path or emoji).
+             * @param tooltip The tooltip text.
+             */
+            explicit ActivityBarItem(
+                std::string const & icon, std::string const & tooltip = "", Widget* panel = nullptr);
 
-        ~ActivityBarItem() override;
+            ~ActivityBarItem() override;
 
-        ActivityBarItem(ActivityBarItem const &)            = delete;
-        ActivityBarItem& operator=(ActivityBarItem const &) = delete;
-        ActivityBarItem(ActivityBarItem&&)                  = delete;
-        ActivityBarItem& operator=(ActivityBarItem&&)       = delete;
+            ActivityBarItem(ActivityBarItem const &)            = delete;
+            ActivityBarItem& operator=(ActivityBarItem const &) = delete;
+            ActivityBarItem(ActivityBarItem&&)                  = delete;
+            ActivityBarItem& operator=(ActivityBarItem&&)       = delete;
 
-        /**
-         * Sets the target panel that this item controls.
-         *
-         * @param panel The panel widget to show/hide.
-         * @see getPanel
-         */
-        void setPanel(Widget* panel);
+            /**
+             * Sets the target panel that this item controls.
+             *
+             * @param panel The panel widget to show/hide.
+             * @see getPanel
+             */
+            void setPanel(Widget* panel);
 
-        /**
-         * Gets the target panel that this item controls.
-         *
-         * @return The panel widget, or nullptr if not set.
-         * @see setPanel
-         */
-        Widget* getPanel() const;
+            /**
+             * Gets the target panel that this item controls.
+             *
+             * @return The panel widget, or nullptr if not set.
+             * @see setPanel
+             */
+            Widget* getPanel() const;
 
-        /**
-         * Sets the panel visibility and updates button state accordingly.
-         *
-         * @param visible True to show the panel, false to hide.
-         * @see setPanel
-         * @see isSelected
-         */
-        void setPanelVisible(bool visible);
+            /**
+             * Sets the panel visibility and updates button state accordingly.
+             *
+             * @param visible True to show the panel, false to hide.
+             * @see setPanel
+             * @see isSelected
+             */
+            void setPanelVisible(bool visible);
 
-        /**
-         * Sets the default size for activity bar items.
-         *
-         * @param size The size in pixels (width and height).
-         */
-        void setSize(int size);
+            /**
+             * Sets the default size for activity bar items.
+             *
+             * @param size The size in pixels (width and height).
+             */
+            void setSize(int size);
 
-        /**
-         * Gets the default size.
-         *
-         * @return The size in pixels.
-         */
-        int getSize() const;
+            /**
+             * Gets the default size.
+             *
+             * @return The size in pixels.
+             */
+            int getSize() const;
 
-        // Inherited from ToggleButton
+            /**
+             * Sets the tooltip text for this activity bar item.
+             *
+             * @param tooltip The tooltip text to display on hover.
+             * @see getTooltip
+             */
+            void setTooltip(std::string const & tooltip);
 
-        void setSelected(bool selected) override;
-        void toggleSelected() override;
+            /**
+             * Gets the tooltip text for this activity bar item.
+             *
+             * @return The tooltip text.
+             * @see setTooltip
+             */
+            std::string const & getTooltip() const;
 
-    protected:
-        // Inherited from WidgetListener (via ToggleButton/Button)
+            // Inherited from ToggleButton
 
-        void widgetHidden(Event const & event) override;
-        void widgetShown(Event const & event) override;
+            void setSelected(bool selected) override;
+            void toggleSelected() override;
 
-        /**
-         * Panel that this item controls.
-         */
-        Widget* mPanel{nullptr};
+            // Inherited from Button/MouseListener
 
-        /**
-         * Default size for items.
-         */
-        int mSize{40};
+            void mouseEntered(MouseEvent& mouseEvent) override;
+            void mouseExited(MouseEvent& mouseEvent) override;
 
-    private:
-        /**
-         * Syncs button selected state to panel visibility.
-         */
-        void syncButtonToPanel();
+        protected:
+            // Inherited from WidgetListener (via ToggleButton/Button)
 
-        /**
-         * Syncs panel visibility to button selected state.
-         */
-        void syncPanelToButton();
+            void widgetHidden(Event const & event) override;
+            void widgetShown(Event const & event) override;
+
+            /**
+             * Panel that this item controls.
+             */
+            Widget* mPanel{nullptr};
+
+            /**
+             * Default size for items.
+             */
+            int mSize{40};
+
+            /**
+             * Tooltip text for this item.
+             */
+            std::string mTooltip;
+
+            /**
+             * Tooltip widget instance (lazily created).
+             */
+            std::unique_ptr<Tooltip> mTooltipWidget;
+
+        private:
+            /**
+             * Syncs button selected state to panel visibility.
+             */
+            void syncButtonToPanel();
+
+            /**
+             * Syncs panel visibility to button selected state.
+             */
+            void syncPanelToButton();
     };
 } // namespace fcn
 

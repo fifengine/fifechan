@@ -6,6 +6,7 @@
 #include "fifechan/image.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Platform config include
@@ -26,6 +27,7 @@ namespace fcn
 
     void Image::setImageLoader(ImageLoader* imageLoader)
     {
+        assert("Image loader must not be null" && imageLoader != nullptr);
         mImageLoader = imageLoader;
     }
 
@@ -34,11 +36,15 @@ namespace fcn
         return mImageLoader;
     }
 
+    void Image::resetImageLoader()
+    {
+        mImageLoader = nullptr;
+    }
+
     Image* Image::load(std::string const & filename, bool convertToDisplayFormat)
     {
-        if (mImageLoader == nullptr) {
-            throwException("Trying to load an image but no image loader is set.");
-        }
+        assert("Image loader must be set before loading" && mImageLoader != nullptr);
+        assert("Filename must not be empty" && !filename.empty());
 
         return mImageLoader->load(filename, convertToDisplayFormat);
     }

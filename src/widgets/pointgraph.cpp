@@ -16,9 +16,13 @@
 namespace fcn
 {
 
-    PointGraph::PointGraph() : m_opaque(false), m_thickness(1) { }
+    PointGraph::PointGraph() : m_opaque(false), m_thickness(1)
+    {
+    }
 
-    PointGraph::PointGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data)) { }
+    PointGraph::PointGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data))
+    {
+    }
 
     void PointGraph::setPointVector(PointVector const & data)
     {

@@ -27,7 +27,10 @@
 #endif
 
 // Third-party library includes
-#include <fifechan/backends/sdl2/image.hpp>
+#include <SDL3/SDL_main.h>
+
+#include <fifechan/backends/sdl3/image.hpp>
+#include <fifechan/fontloader.hpp>
 
 #include <fifechan.hpp>
 
@@ -96,47 +99,38 @@ Application::~Application()
 
 std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
 {
-    SDL_Window* createdWindow =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
-    if (createdWindow == nullptr) {
-        throw std::runtime_error("Failed to create SDL_Window");
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
+
+    if (window == nullptr) {
+        throw std::runtime_error(std::string("Failed to create SDL_Window: ") + SDL_GetError());
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdWindow);
+    return fcn::sdl3::makeSDLSharedPtr(window);
 }
 
-std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window, int flags)
+std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
 {
-    SDL_Renderer* createdRenderer = SDL_CreateRenderer(window.get(), -1, flags);
-    if (createdRenderer == nullptr) {
-        std::string const err = SDL_GetError();
+    SDL_Renderer* renderer = SDL_CreateRenderer(window.get(), nullptr);
 
-        createdRenderer = SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_SOFTWARE);
-        if (createdRenderer == nullptr) {
-            std::string const err2 = SDL_GetError();
-            throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + err + " -> " + err2);
-        }
+    if (renderer == nullptr) {
+        throw std::runtime_error(std::string("Failed to create SDL_Renderer: ") + SDL_GetError());
     }
 
-    return fcn::sdl2::makeSDLSharedPtr(createdRenderer);
+    return fcn::sdl3::makeSDLSharedPtr(renderer);
 }
 
 void Application::init_SDL(std::string const & title, int width, int height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         exit(1);
     }
 
-    auto const windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
-
-    window = initWindow(title, width, height, windowFlags);
+    window = initWindow(title, width, height, 0);
 
     SDL_RaiseWindow(window.get());
 
-    auto const rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-
-    renderer = initRenderer(window, rendererFlags);
+    renderer = initRenderer(window);
 }
 
 namespace
@@ -159,7 +153,7 @@ namespace
 
 void Application::cleanup()
 {
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
     gui.reset();
     if (top) {
         std::vector<fcn::Widget*> children;
@@ -196,17 +190,17 @@ void Application::cleanup()
     renderer.reset();
     window.reset();
     // Ensure SDL text input is stopped before quitting SDL.
-    SDL_StopTextInput();
+    SDL_StopTextInput(window.get());
     TTF_Quit();
     SDL_Quit();
 }
 
 void Application::init_GUI(int width, int height)
 {
-    graphics = std::make_unique<fcn::sdl2::Graphics>();
+    graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
-    input       = std::make_unique<fcn::sdl2::Input>();
-    imageLoader = std::make_shared<fcn::sdl2::ImageLoader>();
+    input       = std::make_unique<fcn::sdl3::Input>();
+    imageLoader = std::make_shared<fcn::sdl3::ImageLoader>();
     imageLoader->setRenderer(renderer.get());
     fcn::Image::setImageLoader(imageLoader.get());
 
@@ -228,15 +222,21 @@ void Application::init_GUI(int width, int height)
     top->setBaseColor(fcn::Color(220, 220, 220, 255));
     gui->setTop(top.get());
 
-    if (TTF_Init() == -1) {
-        std::cerr << "[ERROR] Failed to initialize SDL2_ttf: " << TTF_GetError() << '\n';
+    if (!TTF_Init()) {
+        std::cerr << "[ERROR] Failed to initialize SDL3_ttf: " << SDL_GetError() << '\n';
         exit(2);
     }
 
-    std::string const fontPath = exePath + "/ArchitectsDaughter.ttf";
-    int const fontSize         = std::max(12, std::min(width, height) / 64);
+    // Use the new font loading API to find ArchitectsDaughter font
+    std::filesystem::path fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+    if (fontPath.empty()) {
+        std::cerr << "[ERROR] Could not find ArchitectsDaughter.ttf in search paths\n";
+        exit(5);
+    }
+
+    int const fontSize = std::max(12, std::min(width, height) / 64);
     try {
-        gui->setGlobalFont(fontPath, fontSize);
+        gui->setGlobalFont(fontPath.string(), fontSize);
     } catch (std::exception const & e) {
         std::cerr << "[ERROR] Exception loading font: " << e.what() << '\n';
         exit(5);
@@ -477,20 +477,19 @@ void Application::init_GUI(int width, int height)
 
     addCaption("IconProgressBar", col3X, 596);
     if (hasIcon) {
-        SDL_Surface* progressSurface =
-            SDL_CreateRGBSurface(0, 10, 18, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+        SDL_Surface* progressSurface = SDL_CreateSurface(10, 18, SDL_PIXELFORMAT_RGBA8888);
         if (progressSurface == nullptr) {
             std::cerr << "[ERROR] Failed to create IconProgressBar fill surface: " << SDL_GetError() << '\n';
             exit(7);
         }
 
-        SDL_FillRect(progressSurface, nullptr, SDL_MapRGBA(progressSurface->format, 0, 0, 0, 0));
+        SDL_FillSurfaceRect(progressSurface, nullptr, SDL_MapSurfaceRGBA(progressSurface, 0, 0, 0, 0));
         SDL_Rect const outlineRect{0, 2, 10, 14};
-        SDL_FillRect(progressSurface, &outlineRect, SDL_MapRGBA(progressSurface->format, 132, 152, 89, 255));
+        SDL_FillSurfaceRect(progressSurface, &outlineRect, SDL_MapSurfaceRGBA(progressSurface, 132, 152, 89, 255));
         SDL_Rect const fillRect{1, 3, 8, 12};
-        SDL_FillRect(progressSurface, &fillRect, SDL_MapRGBA(progressSurface->format, 177, 198, 120, 255));
+        SDL_FillSurfaceRect(progressSurface, &fillRect, SDL_MapSurfaceRGBA(progressSurface, 177, 198, 120, 255));
 
-        ownedProgressFillImage = std::make_unique<fcn::sdl2::Image>(progressSurface, true, renderer.get());
+        ownedProgressFillImage = std::make_unique<fcn::sdl3::Image>(progressSurface, true, renderer.get());
 
         auto iconProgressBarPtr = std::make_unique<fcn::IconProgressBar>(ownedProgressFillImage.get(), 20);
         iconProgressBarPtr->setIconCount(13);
@@ -664,16 +663,16 @@ void Application::run()
 
     while (running) {
         while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
-                if (event.key.keysym.sym == SDLK_f && ((event.key.keysym.mod & KMOD_CTRL) != 0)) {
-                    uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-                    SDL_SetWindowFullscreen(window.get(), flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+                if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
+                    uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
+                    SDL_SetWindowFullscreen(window.get(), flags ? 0 : SDL_WINDOW_FULLSCREEN);
                 }
             }
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             }
             input->pushInput(event);
@@ -693,9 +692,19 @@ int main(int argc, char** argv)
     (void)argv;
 
     try {
-        // Append library version to window title
+        // Append library versions to window title
         std::string const fifeguiVersion = fcn::fifechanVersion();
-        std::string const title = std::format("FifeGUI v{} using SDL2 Backend: Widgets Example", fifeguiVersion);
+
+        int const sdlVersion            = SDL_GetVersion();
+        std::string const sdlVersionStr = std::format(
+            "{}.{}.{}",
+            SDL_VERSIONNUM_MAJOR(sdlVersion),
+            SDL_VERSIONNUM_MINOR(sdlVersion),
+            SDL_VERSIONNUM_MICRO(sdlVersion));
+
+        std::string const title =
+            std::format("FifeGUI v{} using SDL {}: Widgets Example", fifeguiVersion, sdlVersionStr);
+
         Application app(title, 1280, 1024);
         app.run();
     } catch (fcn::Exception const & e) {

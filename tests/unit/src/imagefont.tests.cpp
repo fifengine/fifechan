@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
-
-// Corresponding header include
+// SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Standard library includes
 #include <algorithm>
@@ -10,90 +8,70 @@
 #include <vector>
 
 // Third-party library includes
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/graphics.hpp"
-#include "fifechan/backends/sdl2/image.hpp"
-#include "fifechan/backends/sdl2/imageloader.hpp"
+#include "fifechan/backends/sdl3/graphics.hpp"
+#include "fifechan/backends/sdl3/image.hpp"
+#include "fifechan/backends/sdl3/imageloader.hpp"
 #include "fifechan/imagefont.hpp"
 
 namespace
 {
-    // SDL2 test environment (lifecycle managed per test case)
-    struct SDL2Environment
+    // SDL test environment (lifecycle managed per test case)
+    struct SDLEnvironment
     {
-        SDL2Environment()
-        {
-            if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-                throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
+            SDLEnvironment()
+            {
+                if (!SDL_Init(SDL_INIT_VIDEO)) {
+                    throw std::runtime_error(std::string("SDL_Init failed: ") + SDL_GetError());
+                }
+
+                // Create a window for SDL3 hardware acceleration
+                mWindow = SDL_CreateWindow("FifeGUI ImageFont Test", 256, 256, SDL_WINDOW_RESIZABLE);
+
+                if (mWindow == nullptr) {
+                    SDL_Quit();
+                    throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
+                }
+
+                mRenderer = SDL_CreateRenderer(mWindow, nullptr);
+
+                if (mRenderer == nullptr) {
+                    SDL_DestroyWindow(mWindow);
+                    SDL_Quit();
+                    throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
+                }
+
+                // Set up global ImageLoader for Image::load() to work
+                mImageLoader = new fcn::sdl3::ImageLoader();
+                mImageLoader->setRenderer(mRenderer);
+                fcn::Image::setImageLoader(mImageLoader);
             }
 
-            // Initialize SDL_image for loading PNG
-            int imgFlags = IMG_INIT_PNG;
-            if ((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
-                SDL_Quit();
-                throw std::runtime_error(std::string("IMG_Init failed: ") + SDL_GetError());
-            }
-
-            // Create a window for SDL2 hardware acceleration
-            mWindow = SDL_CreateWindow(
-                "FifeGUI ImageFont Test",
-                SDL_WINDOWPOS_CENTERED,
-                SDL_WINDOWPOS_CENTERED,
-                256,
-                256,
-                SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-            if (mWindow == nullptr) {
-                IMG_Quit();
-                SDL_Quit();
-                throw std::runtime_error(std::string("SDL_CreateWindow failed: ") + SDL_GetError());
-            }
-
-            mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-            if (mRenderer == nullptr) {
-                SDL_DestroyWindow(mWindow);
-                mWindow = nullptr;
-                IMG_Quit();
-                SDL_Quit();
-                throw std::runtime_error(std::string("SDL_CreateRenderer failed: ") + SDL_GetError());
-            }
-
-            // Set up global ImageLoader for Image::load() to work
-            mImageLoader = new fcn::sdl2::ImageLoader();
-            mImageLoader->setRenderer(mRenderer);
-            fcn::Image::setImageLoader(mImageLoader);
-        }
-
-        ~SDL2Environment()
-        {
-            // Clean up the global ImageLoader
-            if (mImageLoader != nullptr) {
-                fcn::Image::setImageLoader(nullptr);
-                delete mImageLoader;
-                mImageLoader = nullptr;
-            }
-            if (mRenderer != nullptr) {
+            ~SDLEnvironment()
+            {
+                // Clean up the global ImageLoader
+                if (mImageLoader != nullptr) {
+                    // Don't set nullptr since that would assert
+                    delete mImageLoader;
+                    mImageLoader = nullptr;
+                }
                 SDL_DestroyRenderer(mRenderer);
-                mRenderer = nullptr;
-            }
-            if (mWindow != nullptr) {
                 SDL_DestroyWindow(mWindow);
-                mWindow = nullptr;
+                SDL_Quit();
             }
-            IMG_Quit();
-            SDL_Quit();
-        }
 
-        SDL2Environment(SDL2Environment const &)            = delete;
-        SDL2Environment& operator=(SDL2Environment const &) = delete;
+            SDLEnvironment(SDLEnvironment const &)            = delete;
+            SDLEnvironment& operator=(SDLEnvironment const &) = delete;
 
-        SDL_Window* mWindow                  = nullptr;
-        SDL_Renderer* mRenderer              = nullptr;
-        fcn::sdl2::ImageLoader* mImageLoader = nullptr;
+            SDL_Window* mWindow                  = nullptr;
+            SDL_Renderer* mRenderer              = nullptr;
+            fcn::sdl3::ImageLoader* mImageLoader = nullptr;
     };
 
     // Find font resource in common test locations
@@ -117,7 +95,7 @@ namespace
     // Set up global ImageLoader for Image::load() to work
     void setupImageLoader(SDL_Renderer* renderer)
     {
-        fcn::sdl2::ImageLoader* loader = new fcn::sdl2::ImageLoader();
+        fcn::sdl3::ImageLoader* loader = new fcn::sdl3::ImageLoader();
         loader->setRenderer(renderer);
         fcn::Image::setImageLoader(loader);
     }
@@ -140,7 +118,7 @@ namespace
 
 TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][imagefont][construction]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Find rpgfont.png (typical test font with clear glyphs)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -153,7 +131,7 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
     }
 
     // Load the font image first to analyze its properties
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     fcn::Image* fontImage = loader.load(fontPath.string(), false);
@@ -171,7 +149,7 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
 
 TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[unit][imagefont][glyphs]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     // Find rpgfont.png (contains: space + alphanumeric + punctuation)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -211,7 +189,7 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
 
 TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagefont][width]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -260,7 +238,7 @@ TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagef
 
 TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][height]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -294,7 +272,7 @@ TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][heigh
 
 TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -340,7 +318,7 @@ TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]
 
 TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagefont][draw]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -366,7 +344,7 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
     // The key is that drawGlyph correctly uses the stored glyph rectangle
 
     // Create SDL Graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
 
     // Prepare for drawing
@@ -394,7 +372,7 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
 
 TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][render]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -416,7 +394,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 
@@ -442,7 +420,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
 
 TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][nozero]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -467,7 +445,7 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
 
 TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][imageptr]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -479,7 +457,7 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
     }
 
     // Load the font image directly
-    fcn::sdl2::ImageLoader loader;
+    fcn::sdl3::ImageLoader loader;
     loader.setRenderer(env.mRenderer);
 
     fcn::Image* fontImage = loader.load(fontPath.string(), false);
@@ -501,7 +479,7 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
 
 TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstring]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -522,7 +500,7 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create SDL Graphics
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 
@@ -546,7 +524,7 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
 
 TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unknown]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -567,7 +545,7 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
     fcn::ImageFont font(fontPath.string(), glyphs, cfg);
 
     // Create graphics for drawing
-    fcn::sdl2::Graphics graphics;
+    fcn::sdl3::Graphics graphics;
     graphics.setTarget(env.mRenderer, 256, 256);
     graphics._beginDraw();
 
@@ -589,7 +567,7 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
 
 TEST_CASE("ImageFont getStringIndexAt finds correct index", "[unit][imagefont][index]")
 {
-    SDL2Environment env;
+    SDLEnvironment env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {

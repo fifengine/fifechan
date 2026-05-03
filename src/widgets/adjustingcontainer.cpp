@@ -49,14 +49,14 @@ namespace fcn
     void AdjustingContainer::setColumnAlignment(unsigned int column, Alignment alignment)
     {
         if (column < mColumnAlignment.size()) {
-            mColumnAlignment[column] = alignment;
+            mColumnAlignment.at(column) = alignment;
         }
     }
 
     AdjustingContainer::Alignment AdjustingContainer::getColumnAlignment(unsigned int column) const
     {
         if (column < mColumnAlignment.size()) {
-            return mColumnAlignment[column];
+            return mColumnAlignment.at(column);
         }
         return Alignment::Left;
     }
@@ -67,15 +67,17 @@ namespace fcn
         adjustContent();
     }
 
-    void AdjustingContainer::expandContent(bool recursion) { }
+    void AdjustingContainer::expandContent(bool recursion)
+    {
+    }
 
     Rectangle AdjustingContainer::getChildrenArea()
     {
         Rectangle rec;
         rec.x      = getBorderSize();
         rec.y      = getBorderSize();
-        rec.width  = getWidth() - 2 * getBorderSize();
-        rec.height = getHeight() - 2 * getBorderSize();
+        rec.width  = getWidth() - (2 * getBorderSize());
+        rec.height = getHeight() - (2 * getBorderSize());
         return rec;
     }
 
@@ -116,7 +118,7 @@ namespace fcn
     void AdjustingContainer::adjustSize()
     {
         // TODO(jakoch): is this calc correct?
-        mNumberOfRows = mContainedWidgets.size() / mNumberOfColumns + mContainedWidgets.size() % mNumberOfColumns;
+        mNumberOfRows = (mContainedWidgets.size() / mNumberOfColumns) + (mContainedWidgets.size() % mNumberOfColumns);
 
         mColumnWidths.clear();
 
@@ -135,11 +137,13 @@ namespace fcn
         for (i = 0; i < mNumberOfColumns; i++) {
             unsigned int j = 0;
             for (j = 0; j < mNumberOfRows && (mNumberOfColumns * j) + i < mContainedWidgets.size(); j++) {
-                if (std::cmp_greater(mContainedWidgets[(mNumberOfColumns * j) + i]->getWidth(), mColumnWidths[i])) {
-                    mColumnWidths[i] = mContainedWidgets[(mNumberOfColumns * j) + i]->getWidth();
+                if (std::cmp_greater(
+                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth(), mColumnWidths.at(i))) {
+                    mColumnWidths.at(i) = mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth();
                 }
-                if (std::cmp_greater(mContainedWidgets[(mNumberOfColumns * j) + i]->getHeight(), mRowHeights[j])) {
-                    mRowHeights[j] = mContainedWidgets[(mNumberOfColumns * j) + i]->getHeight();
+                if (std::cmp_greater(
+                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight(), mRowHeights.at(j))) {
+                    mRowHeights.at(j) = mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight();
                 }
             }
         }
@@ -182,15 +186,15 @@ namespace fcn
                 basex = mPaddingLeft;
             }
 
-            switch (mColumnAlignment[columnCount]) {
+            switch (mColumnAlignment.at(columnCount)) {
             case Alignment::Left:
                 mContainedWidget->setX(basex);
                 break;
             case Alignment::Center:
-                mContainedWidget->setX(basex + ((mColumnWidths[columnCount] - mContainedWidget->getWidth()) / 2));
+                mContainedWidget->setX(basex + ((mColumnWidths.at(columnCount) - mContainedWidget->getWidth()) / 2));
                 break;
             case Alignment::Right:
-                mContainedWidget->setX(basex + mColumnWidths[columnCount] - mContainedWidget->getWidth());
+                mContainedWidget->setX(basex + mColumnWidths.at(columnCount) - mContainedWidget->getWidth());
                 break;
             default:
                 throwException("Unknown alignment.");
@@ -201,7 +205,7 @@ namespace fcn
 
             if (columnCount == mNumberOfColumns) {
                 columnCount = 0;
-                y += mRowHeights[rowCount] + mVerticalSpacing;
+                y += mRowHeights.at(rowCount) + mVerticalSpacing;
                 rowCount++;
             }
         }

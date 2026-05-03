@@ -24,78 +24,78 @@ namespace fcn
      */
     class FIFEGUI_API KeyEvent : public InputEvent
     {
-    public:
-        /**
-         * Key event types.
-         */
-        enum class Type : std::uint8_t
-        {
-            Pressed = 0,
-            Released
-        };
+        public:
+            /**
+             * Key event types.
+             */
+            enum class Type : std::uint8_t
+            {
+                Pressed = 0,
+                Released
+            };
 
-        /**
-         * Constructor.
-         *
-         * @param source The widget the event concerns..
-         * @param distributor The distributor of the event.
-         * @param isShiftPressed True if shift is pressed, false otherwise.
-         * @param isControlPressed True if control is pressed, false otherwise.
-         * @param isAltPressed True if alt is pressed, false otherwise.
-         * @param isMetaPressed True if meta is pressed, false otherwise.
-         * @param type The type of the event. A value from KeyEventType.
-         * @param isNumericPad True if the event occurred on the numeric pad,
-         *                     false otherwise.
-         * @param key The key of the event.
-         */
-        KeyEvent(
-            Widget* source,
-            Widget* distributor,
-            bool isShiftPressed,
-            bool isControlPressed,
-            bool isAltPressed,
-            bool isMetaPressed,
-            Type type,
-            bool isNumericPad,
-            Key const & key);
+            /**
+             * Constructor.
+             *
+             * @param source The widget the event concerns..
+             * @param distributor The distributor of the event.
+             * @param isShiftPressed True if shift is pressed, false otherwise.
+             * @param isControlPressed True if control is pressed, false otherwise.
+             * @param isAltPressed True if alt is pressed, false otherwise.
+             * @param isMetaPressed True if meta is pressed, false otherwise.
+             * @param type The type of the event. A value from KeyEventType.
+             * @param isNumericPad True if the event occurred on the numeric pad,
+             *                     false otherwise.
+             * @param key The key of the event.
+             */
+            KeyEvent(
+                Widget* source,
+                Widget* distributor,
+                bool isShiftPressed,
+                bool isControlPressed,
+                bool isAltPressed,
+                bool isMetaPressed,
+                Type type,
+                bool isNumericPad,
+                Key const & key);
 
-        /**
-         * Gets the type of the event.
-         *
-         * @return The type of the event.
-         */
-        Type getType() const;
+            /**
+             * Gets the type of the event.
+             *
+             * @return The type of the event.
+             */
+            Type getType() const;
 
-        /**
-         * Checks if the key event occurred on the numeric pad.
-         *
-         * @return True if key event occurred on the numeric pad,
-         *         false otherwise.
-         */
-        bool isNumericPad() const;
+            /**
+             * Checks if the key event occurred on the numeric pad.
+             *
+             * @return True if key event occurred on the numeric pad,
+             *         false otherwise.
+             */
+            bool isNumericPad() const;
 
-        /**
-         * Gets the key of the event.
-         *
-         * @return The key of the event.
-         */
-        Key const & getKey() const;
+            /**
+             * Gets the key of the event.
+             *
+             * @return The key of the event.
+             */
+            Key const & getKey() const;
 
-    protected:
-        /**
-         * Holds the type of the key event.
-         */
-        Type mType;
+        protected:
+            /**
+             * Holds the type of the key event.
+             */
+            Type mType;
 
-        /**
-         * True if the numeric pad was used, false otherwise.
-         */
-        bool mIsNumericPad;
+            /**
+             * True if the numeric pad was used, false otherwise.
+             */
+            bool mIsNumericPad;
 
-        /**
-         * Holds the key of the key event.
-         */
-        Key mKey;
+            /**
+             * Holds the key of the key event.
+             */
+            Key mKey;
     };
 } // namespace fcn
 

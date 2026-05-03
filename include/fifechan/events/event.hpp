@@ -23,27 +23,27 @@ namespace fcn
      */
     class FIFEGUI_API Event
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param source The source widget of the event.
-         */
-        explicit Event(Widget* source);
+        public:
+            /**
+             * Constructor.
+             *
+             * @param source The source widget of the event.
+             */
+            explicit Event(Widget* source);
 
-        /**
-         * Gets the source widget of the event. The function
-         * is used to tell which widget fired an event.
-         *
-         * @return The source widget of the event.
-         */
-        Widget* getSource() const;
+            /**
+             * Gets the source widget of the event. The function
+             * is used to tell which widget fired an event.
+             *
+             * @return The source widget of the event.
+             */
+            Widget* getSource() const;
 
-    protected:
-        /**
-         * Holds the source widget of the event.
-         */
-        Widget* mSource{nullptr};
+        protected:
+            /**
+             * Holds the source widget of the event.
+             */
+            Widget* mSource{nullptr};
     };
 } // namespace fcn
 

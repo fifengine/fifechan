@@ -23,39 +23,39 @@ namespace fcn
      */
     class FIFEGUI_API ContainerListener
     {
-    public:
-        virtual ~ContainerListener() = default;
+        public:
+            virtual ~ContainerListener() = default;
 
-        // Hide from doxygen - special member functions
-        //! \cond PRIVATE
-        ContainerListener(ContainerListener const &)            = default;
-        ContainerListener& operator=(ContainerListener const &) = default;
-        ContainerListener(ContainerListener&&)                  = default;
-        ContainerListener& operator=(ContainerListener&&)       = default;
-        //! \endcond
+            // Hide from doxygen - special member functions
+            //! \cond PRIVATE
+            ContainerListener(ContainerListener const &)            = default;
+            ContainerListener& operator=(ContainerListener const &) = default;
+            ContainerListener(ContainerListener&&)                  = default;
+            ContainerListener& operator=(ContainerListener&&)       = default;
+            //! \endcond
 
-        /**
-         * Called when a widget is added to a container.
-         *
-         * @param containerEvent The event of the action.
-         */
-        virtual void widgetAdded(ContainerEvent const & containerEvent) = 0;
+            /**
+             * Called when a widget is added to a container.
+             *
+             * @param containerEvent The event of the action.
+             */
+            virtual void widgetAdded(ContainerEvent const & containerEvent) = 0;
 
-        /**
-         * Called when a widget is removed from a container.
-         *
-         * @param containerEvent The event of the action.
-         */
-        virtual void widgetRemoved(ContainerEvent const & containerEvent) = 0;
+            /**
+             * Called when a widget is removed from a container.
+             *
+             * @param containerEvent The event of the action.
+             */
+            virtual void widgetRemoved(ContainerEvent const & containerEvent) = 0;
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        ContainerListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            ContainerListener() = default;
     };
 } // namespace fcn
 

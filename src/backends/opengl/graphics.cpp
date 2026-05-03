@@ -8,11 +8,11 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-#if defined(_WIN32)
+#ifdef _WIN32
     #include <windows.h>
 #endif
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
     #include <OpenGL/gl.h>
 #else
     #include <GL/gl.h>
@@ -25,9 +25,13 @@
 
 namespace fcn::opengl
 {
-    Graphics::Graphics() : mWidth(640), mHeight(480) { }
+    Graphics::Graphics() : mWidth(640), mHeight(480)
+    {
+    }
 
-    Graphics::Graphics(int width, int height) : mWidth(width), mHeight(height) { }
+    Graphics::Graphics(int width, int height) : mWidth(width), mHeight(height)
+    {
+    }
 
     void Graphics::setTargetPlane(int width, int height)
     {

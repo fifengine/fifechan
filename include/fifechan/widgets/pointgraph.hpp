@@ -26,81 +26,81 @@ namespace fcn
      */
     class FIFEGUI_API PointGraph : public Widget
     {
-    public:
-        /**
-         * Default constructor.
-         */
-        PointGraph();
-        /**
-         * Construct with initial data points.
-         *
-         * @param data Initial data points to show in the graph.
-         */
-        explicit PointGraph(PointVector data);
-        ~PointGraph() override = default;
+        public:
+            /**
+             * Default constructor.
+             */
+            PointGraph();
+            /**
+             * Construct with initial data points.
+             *
+             * @param data Initial data points to show in the graph.
+             */
+            explicit PointGraph(PointVector data);
+            ~PointGraph() override = default;
 
-        PointGraph(PointGraph const &)            = delete;
-        PointGraph& operator=(PointGraph const &) = delete;
-        PointGraph(PointGraph&&)                  = delete;
-        PointGraph& operator=(PointGraph&&)       = delete;
+            PointGraph(PointGraph const &)            = delete;
+            PointGraph& operator=(PointGraph const &) = delete;
+            PointGraph(PointGraph&&)                  = delete;
+            PointGraph& operator=(PointGraph&&)       = delete;
 
-        /**
-         * Sets the data to draw.
-         *
-         * @param data The data to draw.
-         */
-        void setPointVector(PointVector const & data);
+            /**
+             * Sets the data to draw.
+             *
+             * @param data The data to draw.
+             */
+            void setPointVector(PointVector const & data);
 
-        /**
-         * @return The data to draw.
-         */
-        PointVector const & getPointVector() const;
+            /**
+             * @return The data to draw.
+             */
+            PointVector const & getPointVector() const;
 
-        /**
-         * Resets the data to draw.
-         */
-        void resetPointVector();
+            /**
+             * Resets the data to draw.
+             */
+            void resetPointVector();
 
-        /**
-         * Set the thickness of the lines drawn between points.
-         *
-         * @param thickness Line thickness in pixels.
-         */
-        void setThickness(unsigned int thickness);
+            /**
+             * Set the thickness of the lines drawn between points.
+             *
+             * @param thickness Line thickness in pixels.
+             */
+            void setThickness(unsigned int thickness);
 
-        /**
-         * Get the thickness of the lines drawn between points.
-         *
-         * @return Line thickness in pixels.
-         */
-        unsigned int getThickness() const;
+            /**
+             * Get the thickness of the lines drawn between points.
+             *
+             * @return Line thickness in pixels.
+             */
+            unsigned int getThickness() const;
 
-        /**
-         * Sets the opacity of the graph.
-         *
-         * @param opaque True if opaque, false otherwise.
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the opacity of the graph.
+             *
+             * @param opaque True if opaque, false otherwise.
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * @return Whether this graph is opaque or not.
-         */
-        bool isOpaque() const;
+            /**
+             * @return Whether this graph is opaque or not.
+             */
+            bool isOpaque() const;
 
-        /**
-         * Draws this widget.
-         */
-        void draw(Graphics* graphics) override;
+            /**
+             * Draws this widget.
+             */
+            void draw(Graphics* graphics) override;
 
-    protected:
-        /** True if the graph is drawn opaque. */
-        bool m_opaque;
+        protected:
+            /** True if the graph is drawn opaque. */
+            bool m_opaque;
 
-        /** Line thickness in pixels. */
-        unsigned int m_thickness;
+            /** Line thickness in pixels. */
+            unsigned int m_thickness;
 
-        /** The point data used to draw the graph. */
-        PointVector m_data;
+            /** The point data used to draw the graph. */
+            PointVector m_data;
     };
 }; // namespace fcn
 

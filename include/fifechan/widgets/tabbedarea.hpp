@@ -35,290 +35,290 @@ namespace fcn
      */
     class FIFEGUI_API TabbedArea : public ActionListener, public KeyListener, public MouseListener, public Widget
     {
-        friend class Tab;
+            friend class Tab;
 
-    public:
-        TabbedArea();
+        public:
+            TabbedArea();
 
-        ~TabbedArea() override;
+            ~TabbedArea() override;
 
-        TabbedArea(TabbedArea const &)            = delete;
-        TabbedArea& operator=(TabbedArea const &) = delete;
-        TabbedArea(TabbedArea&&)                  = delete;
-        TabbedArea& operator=(TabbedArea&&)       = delete;
+            TabbedArea(TabbedArea const &)            = delete;
+            TabbedArea& operator=(TabbedArea const &) = delete;
+            TabbedArea(TabbedArea&&)                  = delete;
+            TabbedArea& operator=(TabbedArea&&)       = delete;
 
-        /**
-         * Sets the tabbed area to be opaque or not.
-         *
-         * If the tabbed area is opaque its background will be drawn,
-         * if it's not opaque its background will not be drawn.
-         * By default, a tabbed area is not opaque.
-         *
-         * The tabbed area's background is normally only visible behind the
-         * tabs, since the container holding the tab contents is opaque by
-         * default.
-         *
-         * @param opaque True if the tabbed area should be opaque, false
-         *               otherwise.
-         * @see isOpaque
-         */
-        void setOpaque(bool opaque);
+            /**
+             * Sets the tabbed area to be opaque or not.
+             *
+             * If the tabbed area is opaque its background will be drawn,
+             * if it's not opaque its background will not be drawn.
+             * By default, a tabbed area is not opaque.
+             *
+             * The tabbed area's background is normally only visible behind the
+             * tabs, since the container holding the tab contents is opaque by
+             * default.
+             *
+             * @param opaque True if the tabbed area should be opaque, false
+             *               otherwise.
+             * @see isOpaque
+             */
+            void setOpaque(bool opaque);
 
-        /**
-         * Checks if the tabbed area is opaque or not.
-         *
-         * @return true if the tabbed area is opaque, false otherwise.
-         * @see setOpaque
-         */
-        bool isOpaque() const;
+            /**
+             * Checks if the tabbed area is opaque or not.
+             *
+             * @return true if the tabbed area is opaque, false otherwise.
+             * @see setOpaque
+             */
+            bool isOpaque() const;
 
-        /**
-         * Adds a tab to the tabbed area.
-         *
-         * The tab will not be deleted by the tabbed area when it is removed.
-         *
-         * @param tab The tab widget for the tab.
-         * @param widget The widget to view when the tab is selected.
-         * @see removeTab, removeTabWithIndex
-         */
-        virtual void addTab(Tab* tab, Widget* widget);
+            /**
+             * Adds a tab to the tabbed area.
+             *
+             * The tab will not be deleted by the tabbed area when it is removed.
+             *
+             * @param tab The tab widget for the tab.
+             * @param widget The widget to view when the tab is selected.
+             * @see removeTab, removeTabWithIndex
+             */
+            virtual void addTab(Tab* tab, Widget* widget);
 
-        /**
-         * Removes a tab from the tabbed area.
-         *
-         * @param index The index of the tab to remove.
-         * @see addTab
-         */
-        virtual void removeTabWithIndex(unsigned int index);
+            /**
+             * Removes a tab from the tabbed area.
+             *
+             * @param index The index of the tab to remove.
+             * @see addTab
+             */
+            virtual void removeTabWithIndex(unsigned int index);
 
-        /**
-         * Removes a tab from the tabbed area.
-         *
-         * @param tab The tab to remove.
-         * @see addTab
-         */
-        virtual void removeTab(Tab* tab);
+            /**
+             * Removes a tab from the tabbed area.
+             *
+             * @param tab The tab to remove.
+             * @see addTab
+             */
+            virtual void removeTab(Tab* tab);
 
-        /**
-         * Returns the number of tabs in this tabbed area.
-         *
-         */
-        int getNumberOfTabs() const;
+            /**
+             * Returns the number of tabs in this tabbed area.
+             *
+             */
+            int getNumberOfTabs() const;
 
-        /**
-         * Checks if a tab given an index is selected or not.
-         *
-         * @param index The index of the tab to check.
-         * @return True if the tab is selected, false otherwise.
-         * @see setSelectedTab
-         */
-        virtual bool isTabSelected(unsigned int index) const;
+            /**
+             * Checks if a tab given an index is selected or not.
+             *
+             * @param index The index of the tab to check.
+             * @return True if the tab is selected, false otherwise.
+             * @see setSelectedTab
+             */
+            virtual bool isTabSelected(unsigned int index) const;
 
-        /**
-         * Checks if a tab is selected or not.
-         *
-         * @param tab The tab to check.
-         * @return True if the tab is selected, false otherwise.
-         * @see setSelectedTab
-         */
-        virtual bool isTabSelected(Tab* tab) const;
+            /**
+             * Checks if a tab is selected or not.
+             *
+             * @param tab The tab to check.
+             * @return True if the tab is selected, false otherwise.
+             * @see setSelectedTab
+             */
+            virtual bool isTabSelected(Tab* tab) const;
 
-        /**
-         * Sets a tab given an index to be selected.
-         *
-         * @param index The index of the tab to be selected.
-         * @see isTabSelected, getSelectedTab
-         */
-        virtual void setSelectedTab(unsigned int index);
+            /**
+             * Sets a tab given an index to be selected.
+             *
+             * @param index The index of the tab to be selected.
+             * @see isTabSelected, getSelectedTab
+             */
+            virtual void setSelectedTab(unsigned int index);
 
-        /**
-         * Sets a tab to be selected or not.
-         *
-         * @param tab The tab to be selected.
-         * @see isTabSelected, getSelectedTab
-         */
-        virtual void setSelectedTab(Tab* tab);
+            /**
+             * Sets a tab to be selected or not.
+             *
+             * @param tab The tab to be selected.
+             * @see isTabSelected, getSelectedTab
+             */
+            virtual void setSelectedTab(Tab* tab);
 
-        /**
-         * Gets the index of the selected tab.
-         *
-         * @return The index of the selected tab.
-         *         If no tab is selected -1 will be returned.
-         * @see isTabSelected, setSelectedTab
-         */
-        virtual int getSelectedTabIndex() const;
+            /**
+             * Gets the index of the selected tab.
+             *
+             * @return The index of the selected tab.
+             *         If no tab is selected -1 will be returned.
+             * @see isTabSelected, setSelectedTab
+             */
+            virtual int getSelectedTabIndex() const;
 
-        /**
-         * Gets the selected tab.
-         *
-         * @return The selected tab.
-         * @see isTabSelected, setSelectedTab
-         */
-        Tab* getSelectedTab() const;
+            /**
+             * Gets the selected tab.
+             *
+             * @return The selected tab.
+             * @see isTabSelected, setSelectedTab
+             */
+            Tab* getSelectedTab() const;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        using Widget::expandContent;
-        using Widget::resizeToContent;
+            using Widget::expandContent;
+            using Widget::resizeToContent;
 
-        void resizeToContent(bool recursion = true) override;
+            void resizeToContent(bool recursion = true) override;
 
-        void expandContent(bool recursion) override;
+            void expandContent(bool recursion) override;
 
-        /**
-         * Adjusts the size of the tab container and the widget container.
-         */
-        void adjustSize() override;
+            /**
+             * Adjusts the size of the tab container and the widget container.
+             */
+            void adjustSize() override;
 
-        Rectangle getChildrenArea() override;
+            Rectangle getChildrenArea() override;
 
-        void draw(Graphics* graphics) override;
+            void draw(Graphics* graphics) override;
 
-        /** Set the width of the tabbed area in pixels. */
-        void setWidth(int width) override;
+            /** Set the width of the tabbed area in pixels. */
+            void setWidth(int width) override;
 
-        /** Set the height of the tabbed area in pixels. */
-        void setHeight(int height) override;
+            /** Set the height of the tabbed area in pixels. */
+            void setHeight(int height) override;
 
-        /** Set the size (width and height) of the tabbed area in pixels. */
-        void setSize(int width, int height) override;
+            /** Set the size (width and height) of the tabbed area in pixels. */
+            void setSize(int width, int height) override;
 
-        /** Set the area dimension for the tabbed area. */
-        void setDimension(Rectangle const & dimension) override;
+            /** Set the area dimension for the tabbed area. */
+            void setDimension(Rectangle const & dimension) override;
 
-        /** Set the base/background color used for the tabbed area. */
-        void setBaseColor(Color const & color) override;
+            /** Set the base/background color used for the tabbed area. */
+            void setBaseColor(Color const & color) override;
 
-        /** Set the background widget which is drawn behind tabs. */
-        void setBackgroundWidget(Widget* widget);
+            /** Set the background widget which is drawn behind tabs. */
+            void setBackgroundWidget(Widget* widget);
 
-        /** Get the background widget, or nullptr if none is set. */
-        Widget* getBackgroundWidget();
+            /** Get the background widget, or nullptr if none is set. */
+            Widget* getBackgroundWidget();
 
-        /**
-         * Sets the layout of the tabbedarea.
-         *
-         * @param policy The LayoutPolicy of the tabbedarea.
-         * @see getLayout, LayoutPolicy
-         */
-        void setLayout(Container::LayoutPolicy policy);
+            /**
+             * Sets the layout of the tabbedarea.
+             *
+             * @param policy The LayoutPolicy of the tabbedarea.
+             * @see getLayout, LayoutPolicy
+             */
+            void setLayout(Container::LayoutPolicy policy);
 
-        /**
-         * Gets the layout of the tabbedarea.
-         *
-         * @return The LayoutPolicy of the tabbedarea.
-         * @see setLayout, LayoutPolicy
-         */
-        Container::LayoutPolicy getLayout() const;
+            /**
+             * Gets the layout of the tabbedarea.
+             *
+             * @return The LayoutPolicy of the tabbedarea.
+             * @see setLayout, LayoutPolicy
+             */
+            Container::LayoutPolicy getLayout() const;
 
-        /**
-         * Enables or disables uniform sizing of child elements.
-         *
-         * When enabled, available space is distributed so that all children
-         * have equal size, if possible. When disabled, free space is distributed
-         * evenly without enforcing equal sizes.
-         *
-         * @param uniform True to enforce uniform child sizes; false otherwise.
-         * @see isUniformSize()
-         */
-        virtual void setUniformSize(bool uniform);
+            /**
+             * Enables or disables uniform sizing of child elements.
+             *
+             * When enabled, available space is distributed so that all children
+             * have equal size, if possible. When disabled, free space is distributed
+             * evenly without enforcing equal sizes.
+             *
+             * @param uniform True to enforce uniform child sizes; false otherwise.
+             * @see isUniformSize()
+             */
+            virtual void setUniformSize(bool uniform);
 
-        /**
-         * True if the tab container tries to expand the childs
-         * to a uniform size.
-         *
-         * @return True if uniform size is set, otherwise false.
-         * @see setUniformSize
-         */
-        virtual bool isUniformSize() const;
+            /**
+             * True if the tab container tries to expand the childs
+             * to a uniform size.
+             *
+             * @return True if uniform size is set, otherwise false.
+             * @see setUniformSize
+             */
+            virtual bool isUniformSize() const;
 
-        /**
-         * Set the vertical spacing between rows.
-         *
-         * @param spacing spacing in pixels.
-         * @see getVerticalSpacing
-         */
-        virtual void setVerticalSpacing(unsigned int spacing);
+            /**
+             * Set the vertical spacing between rows.
+             *
+             * @param spacing spacing in pixels.
+             * @see getVerticalSpacing
+             */
+            virtual void setVerticalSpacing(unsigned int spacing);
 
-        /**
-         * Get the vertical spacing between rows.
-         *
-         * @return vertical spacing in pixels.
-         * @see setVerticalSpacing
-         */
-        virtual unsigned int getVerticalSpacing() const;
+            /**
+             * Get the vertical spacing between rows.
+             *
+             * @return vertical spacing in pixels.
+             * @see setVerticalSpacing
+             */
+            virtual unsigned int getVerticalSpacing() const;
 
-        /**
-         * Set the horizontal spacing between columns.
-         *
-         * @param spacing spacing in pixels.
-         * @see getHorizontalSpacing
-         */
-        virtual void setHorizontalSpacing(unsigned int spacing);
+            /**
+             * Set the horizontal spacing between columns.
+             *
+             * @param spacing spacing in pixels.
+             * @see getHorizontalSpacing
+             */
+            virtual void setHorizontalSpacing(unsigned int spacing);
 
-        /**
-         * Get the horizontal spacing between rows.
-         *
-         * @return horizontal spacing in pixels.
-         * @see setHorizontalSpacing
-         */
-        virtual unsigned int getHorizontalSpacing() const;
+            /**
+             * Get the horizontal spacing between rows.
+             *
+             * @return horizontal spacing in pixels.
+             * @see setHorizontalSpacing
+             */
+            virtual unsigned int getHorizontalSpacing() const;
 
-        // Inherited from ActionListener
+            // Inherited from ActionListener
 
-        void action(ActionEvent const & actionEvent) override;
+            void action(ActionEvent const & actionEvent) override;
 
-        // Inherited from DeathListener
+            // Inherited from DeathListener
 
-        /** DeathListener callback invoked when a child widget dies. */
-        virtual void death(Event const & event);
+            /** DeathListener callback invoked when a child widget dies. */
+            virtual void death(Event const & event);
 
-        // Inherited from KeyListener
+            // Inherited from KeyListener
 
-        void keyPressed(KeyEvent& keyEvent) override;
+            void keyPressed(KeyEvent& keyEvent) override;
 
-        // Inherited from MouseListener
+            // Inherited from MouseListener
 
-        void mousePressed(MouseEvent& mouseEvent) override;
+            void mousePressed(MouseEvent& mouseEvent) override;
 
-    protected:
-        /**
-         * Adjusts the positions of the tabs.
-         */
-        void adjustTabPositions();
+        protected:
+            /**
+             * Adjusts the positions of the tabs.
+             */
+            void adjustTabPositions();
 
-        /**
-         * Holds the selected tab.
-         */
-        Tab* mSelectedTab{nullptr};
+            /**
+             * Holds the selected tab.
+             */
+            Tab* mSelectedTab{nullptr};
 
-        /**
-         * Holds the container for the tabs.
-         */
-        Container* mTabContainer;
+            /**
+             * Holds the container for the tabs.
+             */
+            Container* mTabContainer;
 
-        /**
-         * Holds the container for the widgets.
-         */
-        Container* mWidgetContainer;
+            /**
+             * Holds the container for the widgets.
+             */
+            Container* mWidgetContainer;
 
-        /**
-         * Stores tabs owned by this instance for automatic destruction.
-         *
-         * Contains tabs that were created internally by the tabbed area and
-         * must be deleted in the destructor.
-         */
-        std::vector<std::unique_ptr<Tab>> mTabsToDelete;
+            /**
+             * Stores tabs owned by this instance for automatic destruction.
+             *
+             * Contains tabs that were created internally by the tabbed area and
+             * must be deleted in the destructor.
+             */
+            std::vector<std::unique_ptr<Tab>> mTabsToDelete;
 
-        /**
-         * Associates each tab with the widget displayed when it is selected.
-         */
-        std::vector<std::pair<Tab*, Widget*>> mTabs;
+            /**
+             * Associates each tab with the widget displayed when it is selected.
+             */
+            std::vector<std::pair<Tab*, Widget*>> mTabs;
 
-        /**
-         * True if the tabbed area is opaque, false otherwise.
-         */
-        bool mOpaque{false};
+            /**
+             * True if the tabbed area is opaque, false otherwise.
+             */
+            bool mOpaque{false};
     };
 } // namespace fcn
 

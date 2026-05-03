@@ -21,9 +21,13 @@ namespace fcn
 {
 
     // Merge: provide DragPayload implementation here to avoid a separate translation unit.
-    DragPayload::DragPayload(std::shared_ptr<void> data) : m_data(std::move(data)) { }
+    DragPayload::DragPayload(std::shared_ptr<void> data) : m_data(std::move(data))
+    {
+    }
 
-    DragHandler::DragHandler(Gui* gui) : m_gui(gui) { }
+    DragHandler::DragHandler(Gui* gui) : m_gui(gui)
+    {
+    }
 
     DragState DragHandler::getState() const
     {

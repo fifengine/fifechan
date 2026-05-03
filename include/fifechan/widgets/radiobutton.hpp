@@ -29,70 +29,70 @@ namespace fcn
      */
     class FIFEGUI_API RadioButton : public fcn::CheckBox
     {
-    public:
-        RadioButton();
+        public:
+            RadioButton();
 
-        /**
-         * Constructor. The radio button will be automatically resized
-         * to fit the caption.
-         *
-         * @param caption The caption of the radio button.
-         * @param group The group the radio button should belong to.
-         * @param selected True if the radio button should be selected.
-         */
-        RadioButton(std::string const & caption, std::string const & group, bool selected = false);
+            /**
+             * Constructor. The radio button will be automatically resized
+             * to fit the caption.
+             *
+             * @param caption The caption of the radio button.
+             * @param group The group the radio button should belong to.
+             * @param selected True if the radio button should be selected.
+             */
+            RadioButton(std::string const & caption, std::string const & group, bool selected = false);
 
-        ~RadioButton() override;
+            ~RadioButton() override;
 
-        RadioButton(RadioButton const &)            = delete;
-        RadioButton& operator=(RadioButton const &) = delete;
-        RadioButton(RadioButton&&)                  = delete;
-        RadioButton& operator=(RadioButton&&)       = delete;
+            RadioButton(RadioButton const &)            = delete;
+            RadioButton& operator=(RadioButton const &) = delete;
+            RadioButton(RadioButton&&)                  = delete;
+            RadioButton& operator=(RadioButton&&)       = delete;
 
-        /**
-         * Sets the group the radio button should belong to.
-         *
-         * Note that a radio button group is unique per application,
-         * not per Gui object as the group is stored in a static map.
-         *
-         * @param group The name of the group.
-         * @see getGroup
-         */
-        void setGroup(std::string const & group);
+            /**
+             * Sets the group the radio button should belong to.
+             *
+             * Note that a radio button group is unique per application,
+             * not per Gui object as the group is stored in a static map.
+             *
+             * @param group The name of the group.
+             * @see getGroup
+             */
+            void setGroup(std::string const & group);
 
-        /**
-         * Gets the group the radio button belongs to.
-         *
-         * @return The group the radio button belongs to.
-         * @see setGroup
-         */
-        std::string const & getGroup() const;
+            /**
+             * Gets the group the radio button belongs to.
+             *
+             * @return The group the radio button belongs to.
+             * @see setGroup
+             */
+            std::string const & getGroup() const;
 
-        // Inherited from CheckBox
+            // Inherited from CheckBox
 
-        void setSelected(bool selected) override; // cppcheck-suppress virtualCallInConstructor
-        void toggleSelected() override;
+            void setSelected(bool selected) override; // cppcheck-suppress virtualCallInConstructor
+            void toggleSelected() override;
 
-    protected:
-        /**
-         * Holds the group of the radio button.
-         */
-        std::string mGroup;
+        protected:
+            /**
+             * Holds the group of the radio button.
+             */
+            std::string mGroup;
 
-        /**
-         * Typdef.
-         */
-        using GroupMap = std::multimap<std::string, RadioButton*>;
+            /**
+             * Typdef.
+             */
+            using GroupMap = std::multimap<std::string, RadioButton*>;
 
-        /**
-         * Typdef.
-         */
-        using GroupIterator = GroupMap::iterator;
+            /**
+             * Typdef.
+             */
+            using GroupIterator = GroupMap::iterator;
 
-        /**
-         * Holds all available radio button groups.
-         */
-        static GroupMap mGroupMap;
+            /**
+             * Holds all available radio button groups.
+             */
+            static GroupMap mGroupMap;
     };
 } // namespace fcn
 

@@ -30,73 +30,73 @@ namespace fcn
      */
     class FIFEGUI_API MenuBar : public HorizontalBar, public ActionListener, public KeyListener, public MouseListener
     {
-    public:
-        /**
-         * Constructor.
-         */
-        MenuBar();
+        public:
+            /**
+             * Constructor.
+             */
+            MenuBar();
 
-        ~MenuBar() override = default;
+            ~MenuBar() override = default;
 
-        MenuBar(MenuBar const &)            = delete;
-        MenuBar& operator=(MenuBar const &) = delete;
-        MenuBar(MenuBar&&)                  = delete;
-        MenuBar& operator=(MenuBar&&)       = delete;
+            MenuBar(MenuBar const &)            = delete;
+            MenuBar& operator=(MenuBar const &) = delete;
+            MenuBar(MenuBar&&)                  = delete;
+            MenuBar& operator=(MenuBar&&)       = delete;
 
-        /**
-         * Adds a menu item to the menu bar.
-         *
-         * @param text The menu text (e.g., "File", "Edit").
-         * @param popup The popup to open when clicked (can be nullptr for non-dropdown items).
-         * @return The created MenuItem.
-         */
-        Widget* addMenu(std::string const & text, MenuPopup* popup = nullptr);
+            /**
+             * Adds a menu item to the menu bar.
+             *
+             * @param text The menu text (e.g., "File", "Edit").
+             * @param popup The popup to open when clicked (can be nullptr for non-dropdown items).
+             * @return The created MenuItem.
+             */
+            Widget* addMenu(std::string const & text, MenuPopup* popup = nullptr);
 
-        /**
-         * Closes all open menus.
-         */
-        void closeAll();
+            /**
+             * Closes all open menus.
+             */
+            void closeAll();
 
-        /**
-         * Checks if any menu is currently open.
-         *
-         * @return True if a menu is open.
-         */
-        bool isMenuOpen() const;
+            /**
+             * Checks if any menu is currently open.
+             *
+             * @return True if a menu is open.
+             */
+            bool isMenuOpen() const;
 
-        /**
-         * Gets the currently open menu popup.
-         *
-         * @return The open popup, or nullptr if none.
-         */
-        MenuPopup* getOpenMenu() const;
+            /**
+             * Gets the currently open menu popup.
+             *
+             * @return The open popup, or nullptr if none.
+             */
+            MenuPopup* getOpenMenu() const;
 
-    protected:
-        // Inherited from KeyListener
-        void keyPressed(KeyEvent& event) override;
-        void keyReleased(KeyEvent& event) override;
+        protected:
+            // Inherited from KeyListener
+            void keyPressed(KeyEvent& event) override;
+            void keyReleased(KeyEvent& event) override;
 
-        // Inherited from MouseListener
-        void mousePressed(MouseEvent& event) override;
+            // Inherited from MouseListener
+            void mousePressed(MouseEvent& event) override;
 
-        /**
-         * Draws the menu bar (background and bottom border).
-         */
-        void draw(Graphics* graphics) override;
-        // Inherited from ActionListener
+            /**
+             * Draws the menu bar (background and bottom border).
+             */
+            void draw(Graphics* graphics) override;
+            // Inherited from ActionListener
 
-        void action(ActionEvent const & event) override;
+            void action(ActionEvent const & event) override;
 
-    private:
-        /**
-         * Currently open menu popup.
-         */
-        MenuPopup* mOpenMenu{nullptr};
+        private:
+            /**
+             * Currently open menu popup.
+             */
+            MenuPopup* mOpenMenu{nullptr};
 
-        /**
-         * Currently selected menu item index (-1 if none).
-         */
-        int mSelectedIndex{-1};
+            /**
+             * Currently selected menu item index (-1 if none).
+             */
+            int mSelectedIndex{-1};
     };
 } // namespace fcn
 

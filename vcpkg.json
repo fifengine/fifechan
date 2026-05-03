@@ -1,32 +1,41 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "fifechan",
   "version": "0.2.0",
   "description": "FifeGUI is a C++ GUI library designed for games.",
   "homepage": "https://github.com/fifengine/fifechan",
   "license": "LGPL-2.1-or-later",
-  "supports": "windows,linux,osx",
-  "builtin-baseline": "c3867e714dd3a51c272826eea77267876517ed99",
+  "supports": "windows, (linux, osx)",
+  "builtin-baseline": "56bb2411609227288b70117ead2c47585ba07713",
   "dependencies": [
+    "catch2",
     "freetype",
     {
-      "name": "sdl2",
+      "name": "sdl3",
       "default-features": false,
-      "platform": "linux",
       "features": [
+        "alsa",
         "x11"
-      ]
+      ],
+      "platform": "linux"
     },
     {
-      "name": "sdl2",
-      "default-features": false,
-      "platform": "windows",
-      "features": []
+      "name": "sdl3",
+      "platform": "windows"
     },
-    "sdl2-image",
-    "sdl2-mixer",
-    "sdl2-ttf",
-    "utfcpp",
-    "catch2"
-  ],
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"
+    {
+      "name": "sdl3-image",
+      "features": [
+        "png"
+      ]
+    },
+    "sdl3-mixer",
+    {
+      "name": "sdl3-ttf",
+      "features": [
+        "svg"
+      ]
+    },
+    "utfcpp"
+  ]
 }

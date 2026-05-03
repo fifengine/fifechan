@@ -24,59 +24,59 @@ namespace fcn
      */
     class FIFEGUI_API Font
     {
-    public:
-        virtual ~Font() = default;
+        public:
+            virtual ~Font() = default;
 
-        Font(Font const &)            = default;
-        Font& operator=(Font const &) = default;
-        Font(Font&&)                  = default;
-        Font& operator=(Font&&)       = default;
+            Font(Font const &)            = default;
+            Font& operator=(Font const &) = default;
+            Font(Font&&)                  = default;
+            Font& operator=(Font&&)       = default;
 
-        /**
-         * Gets the width of a string.
-         *
-         * The width of a string is not necessarily the sum
-         * of all the widths of its glyphs.
-         *
-         * @param text The string to return the width of.
-         * @return The width of a string.
-         */
-        virtual int getWidth(std::string const & text) const = 0;
+            /**
+             * Gets the width of a string.
+             *
+             * The width of a string is not necessarily the sum
+             * of all the widths of its glyphs.
+             *
+             * @param text The string to return the width of.
+             * @return The width of a string.
+             */
+            virtual int getWidth(std::string const & text) const = 0;
 
-        /**
-         * Gets the height of the glyphs in the font.
-         *
-         * @return The height of the glyphs int the font.
-         */
-        virtual int getHeight() const = 0;
+            /**
+             * Gets the height of the glyphs in the font.
+             *
+             * @return The height of the glyphs int the font.
+             */
+            virtual int getHeight() const = 0;
 
-        /**
-         * Gets a string index in a string providing an x coordinate.
-         *
-         * Used to retrieve a string index (for a character in a
-         * string) at a certain x position. It is especially useful
-         * when a mouse clicks in a TextField and you want to know which
-         * character was clicked.
-         *
-         * @return A string index in a string providing an x coordinate.
-         */
-        virtual int getStringIndexAt(std::string const & text, int x) const;
+            /**
+             * Gets a string index in a string providing an x coordinate.
+             *
+             * Used to retrieve a string index (for a character in a
+             * string) at a certain x position. It is especially useful
+             * when a mouse clicks in a TextField and you want to know which
+             * character was clicked.
+             *
+             * @return A string index in a string providing an x coordinate.
+             */
+            virtual int getStringIndexAt(std::string const & text, int x) const;
 
-        /**
-         * Draws a string.
-         *
-         * @note You normally won't use this function to draw text since
-         *       Graphics contains better functions for drawing text.
-         *
-         * @param graphics A Graphics object to use for drawing.
-         * @param text The string to draw.
-         * @param x The x coordinate where to draw the string.
-         * @param y The y coordinate where to draw the string.
-         */
-        virtual void drawString(Graphics* graphics, std::string const & text, int x, int y) = 0;
+            /**
+             * Draws a string.
+             *
+             * @note You normally won't use this function to draw text since
+             *       Graphics contains better functions for drawing text.
+             *
+             * @param graphics A Graphics object to use for drawing.
+             * @param text The string to draw.
+             * @param x The x coordinate where to draw the string.
+             * @param y The y coordinate where to draw the string.
+             */
+            virtual void drawString(Graphics* graphics, std::string const & text, int x, int y) = 0;
 
-    protected:
-        Font() = default;
+        protected:
+            Font() = default;
     };
 } // namespace fcn
 

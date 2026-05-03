@@ -29,60 +29,60 @@ namespace fcn
      */
     class FIFEGUI_API Tab : public MouseListener, public Container
     {
-    public:
-        Tab();
+        public:
+            Tab();
 
-        ~Tab() override;
+            ~Tab() override;
 
-        Tab(Tab const &)            = delete;
-        Tab& operator=(Tab const &) = delete;
-        Tab(Tab&&)                  = delete;
-        Tab& operator=(Tab&&)       = delete;
+            Tab(Tab const &)            = delete;
+            Tab& operator=(Tab const &) = delete;
+            Tab(Tab&&)                  = delete;
+            Tab& operator=(Tab&&)       = delete;
 
-        /**
-         * Sets the tabbed area the tab should be a part of.
-         *
-         * @param tabbedArea The tabbed area the tab should be a part of.
-         * @see getTabbedArea
-         */
-        void setTabbedArea(TabbedArea* tabbedArea);
+            /**
+             * Sets the tabbed area the tab should be a part of.
+             *
+             * @param tabbedArea The tabbed area the tab should be a part of.
+             * @see getTabbedArea
+             */
+            void setTabbedArea(TabbedArea* tabbedArea);
 
-        /**
-         * Gets the tabbed are the tab is a part of.
-         *
-         * @return The tabbed are the tab is a part of.
-         * @see setTabbedArea
-         */
-        TabbedArea* getTabbedArea();
+            /**
+             * Gets the tabbed are the tab is a part of.
+             *
+             * @return The tabbed are the tab is a part of.
+             * @see setTabbedArea
+             */
+            TabbedArea* getTabbedArea();
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        /**
-         * Adjusts the size of the tab to fit the caption. If this tab was
-         * added to a TabbedArea, it will also adjust the tab positions.
-         */
-        void adjustSize() override;
+            /**
+             * Adjusts the size of the tab to fit the caption. If this tab was
+             * added to a TabbedArea, it will also adjust the tab positions.
+             */
+            void adjustSize() override;
 
-        Rectangle getChildrenArea() override;
+            Rectangle getChildrenArea() override;
 
-        void draw(Graphics* graphics) override;
+            void draw(Graphics* graphics) override;
 
-        // Inherited from MouseListener
+            // Inherited from MouseListener
 
-        void mouseEntered(MouseEvent& mouseEvent) override;
+            void mouseEntered(MouseEvent& mouseEvent) override;
 
-        void mouseExited(MouseEvent& mouseEvent) override;
+            void mouseExited(MouseEvent& mouseEvent) override;
 
-    protected:
-        /**
-         * True if the tab has the mouse, false otherwise.
-         */
-        bool mHasMouse{false};
+        protected:
+            /**
+             * True if the tab has the mouse, false otherwise.
+             */
+            bool mHasMouse{false};
 
-        /**
-         * Holds the tabbed area the tab is a part of.
-         */
-        TabbedArea* mTabbedArea{nullptr};
+            /**
+             * Holds the tabbed area the tab is a part of.
+             */
+            TabbedArea* mTabbedArea{nullptr};
     };
 } // namespace fcn
 

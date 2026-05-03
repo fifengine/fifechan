@@ -16,53 +16,48 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
-#include <fifechan/backends/sdl2/graphics.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
+#include <fifechan/backends/sdl3/graphics.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
 
 #include <fifechan.hpp>
 
 class MyActionListener : public fcn::ActionListener
 {
-    fcn::Container* mParent;
+        fcn::Container* mParent;
 
-public:
-    explicit MyActionListener(fcn::Container* parent) : mParent(parent) { }
-
-    void action(fcn::ActionEvent const & e) override
-    {
-        fcn::Widget* w = e.getSource();
-
-        if (w->getParent() == mParent) {
-            mParent->remove(w);
+    public:
+        explicit MyActionListener(fcn::Container* parent) : mParent(parent)
+        {
         }
-    }
+
+        void action(fcn::ActionEvent const & e) override
+        {
+            fcn::Widget* w = e.getSource();
+
+            if (w->getParent() == mParent) {
+                mParent->remove(w);
+            }
+        }
 };
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    SDL_Window* sdlWindow  = nullptr;
-    SDL_Renderer* renderer = nullptr;
-    auto input             = std::unique_ptr<fcn::sdl2::Input>();
-    auto graphics          = std::unique_ptr<fcn::sdl2::Graphics>();
-    auto imageLoader       = std::unique_ptr<fcn::sdl2::ImageLoader>();
-    auto font              = std::unique_ptr<fcn::ImageFont>();
-    auto gui               = std::unique_ptr<fcn::Gui>();
-    auto top               = std::unique_ptr<fcn::Container>();
-    int exitCode           = 0;
+    auto input       = std::unique_ptr<fcn::sdl3::Input>();
+    auto graphics    = std::unique_ptr<fcn::sdl3::Graphics>();
+    auto imageLoader = std::unique_ptr<fcn::sdl3::ImageLoader>();
+    auto font        = std::unique_ptr<fcn::ImageFont>();
+    auto gui         = std::unique_ptr<fcn::Gui>();
+    auto top         = std::unique_ptr<fcn::Container>();
+    int exitCode     = 0;
 
     std::stack<fcn::Spacer*> spacers;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
-        return 1;
-    }
-
-    if (SDL_CreateWindowAndRenderer(800, 600, 0, &sdlWindow, &renderer) != 0) {
-        std::cerr << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << "\n";
-        SDL_Quit();
         return 1;
     }
 
@@ -70,16 +65,33 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Dynamic Remove Spacers", fifeguiVersion);
 
-    SDL_SetWindowTitle(sdlWindow, title.c_str());
+    // Create window
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+
+    if (window == nullptr) {
+        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
+
+    // Create renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+
+    if (renderer == nullptr) {
+        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
 
     try {
-        imageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
+        imageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
         imageLoader->setRenderer(renderer);
         fcn::Image::setImageLoader(imageLoader.get());
 
-        graphics = std::make_unique<fcn::sdl2::Graphics>();
+        graphics = std::make_unique<fcn::sdl3::Graphics>();
         graphics->setTarget(renderer, 800, 600);
-        input = std::make_unique<fcn::sdl2::Input>();
+        input = std::make_unique<fcn::sdl3::Input>();
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
@@ -149,7 +161,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         testVBox->resizeToContent();
 
-        auto demoWindow   = std::make_unique<fcn::Window>("Window");
+        auto demoWindow   = std::make_unique<fcn::Window>("Dragable Window");
         auto* testVBoxRaw = testVBox.get();
         demoWindow->addWidget(std::move(testVBox));
         auto* demoWindowRaw = demoWindow.get();
@@ -161,10 +173,10 @@ int main(int /*argc*/, char** /*argv*/)
         SDL_Event evt;
         while (running) {
             while (SDL_PollEvent(&evt) != 0) {
-                if (evt.type == SDL_QUIT) {
+                if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
-                } else if (evt.type == SDL_KEYDOWN) {
-                    if (evt.key.keysym.sym == SDLK_d) {
+                } else if (evt.type == SDL_EVENT_KEY_DOWN) {
+                    if (evt.key.key == SDLK_D) {
                         if (!spacers.empty()) {
                             fcn::Spacer* spacer = spacers.top();
 
@@ -209,16 +221,10 @@ int main(int /*argc*/, char** /*argv*/)
         gui->setTop(nullptr);
     }
 
-    fcn::Widget::setGlobalFont(nullptr);
-
-    fcn::Image::setImageLoader(nullptr);
-
-    if (renderer != nullptr) {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (sdlWindow != nullptr) {
-        SDL_DestroyWindow(sdlWindow);
-    }
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 
     return exitCode;

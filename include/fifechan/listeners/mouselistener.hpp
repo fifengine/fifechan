@@ -22,107 +22,129 @@ namespace fcn
      */
     class FIFEGUI_API MouseListener
     {
-    public:
-        virtual ~MouseListener() = default;
+        public:
+            virtual ~MouseListener() = default;
 
-        MouseListener(MouseListener const &)            = default;
-        MouseListener& operator=(MouseListener const &) = default;
-        MouseListener(MouseListener&&)                  = default;
-        MouseListener& operator=(MouseListener&&)       = default;
+            MouseListener(MouseListener const &)            = default;
+            MouseListener& operator=(MouseListener const &) = default;
+            MouseListener(MouseListener&&)                  = default;
+            MouseListener& operator=(MouseListener&&)       = default;
 
-        /**
-         * Called when the mouse has entered into the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseEntered(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse has entered into the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseEntered(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse has exited the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseExited(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse has exited the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseExited(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when a mouse button has been pressed down on the widget area.
-         *
-         * @note
-         * A mouse press is NOT equal to a mouse click.
-         * Use mouseClicked() for "pressed AND released" (full click) on a widget.
-         *
-         * @see mouseClicked
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mousePressed(MouseEvent& mouseEvent) { }
+            /**
+             * Called when a mouse button has been pressed down on the widget area.
+             *
+             * @note
+             * A mouse press is NOT equal to a mouse click.
+             * Use mouseClicked() for "pressed AND released" (full click) on a widget.
+             *
+             * @see mouseClicked
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mousePressed(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when a mouse button has been released on the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseReleased(MouseEvent& mouseEvent) { }
+            /**
+             * Called when a mouse button has been released on the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseReleased(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when a mouse button is pressed and released (clicked) on
-         * the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseClicked(MouseEvent& mouseEvent) { }
+            /**
+             * Called when a mouse button is pressed and released (clicked) on
+             * the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseClicked(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse wheel has moved up on the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseWheelMovedUp(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse wheel has moved up on the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseWheelMovedUp(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse wheel has moved down on the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseWheelMovedDown(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse wheel has moved down on the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseWheelMovedDown(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse wheel has moved right on the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseWheelMovedRight(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse wheel has moved right on the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseWheelMovedRight(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse wheel has moved left on the widget area.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse wheel has moved left on the widget area.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseWheelMovedLeft(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse has moved in the widget area and no mouse button
-         * has been pressed (i.e no widget is being dragged).
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseMoved(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse has moved in the widget area and no mouse button
+             * has been pressed (i.e no widget is being dragged).
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseMoved(MouseEvent& mouseEvent)
+            {
+            }
 
-        /**
-         * Called when the mouse has moved and the mouse has previously been
-         * pressed on the widget.
-         *
-         * @param mouseEvent Describes the event.
-         */
-        virtual void mouseDragged(MouseEvent& mouseEvent) { }
+            /**
+             * Called when the mouse has moved and the mouse has previously been
+             * pressed on the widget.
+             *
+             * @param mouseEvent Describes the event.
+             */
+            virtual void mouseDragged(MouseEvent& mouseEvent)
+            {
+            }
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        MouseListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            MouseListener() = default;
     };
 } // namespace fcn
 

@@ -12,31 +12,31 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
-#include <fifechan/backends/sdl2/graphics.hpp>
-#include <fifechan/backends/sdl2/image.hpp>
-#include <fifechan/backends/sdl2/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
-#include <fifechan/backends/sdl2/truetypefont.hpp>
+#include <fifechan/backends/sdl3/graphics.hpp>
+#include <fifechan/backends/sdl3/image.hpp>
+#include <fifechan/backends/sdl3/imageloader.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
+#include <fifechan/backends/sdl3/truetypefont.hpp>
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
-    /** Backend alias for the SDL2 graphics implementation. */
-    using Graphics = fcn::sdl2::Graphics;
+    /** Backend alias for the SDL3 graphics implementation. */
+    using Graphics = fcn::sdl3::Graphics;
 
     /** Backend alias for the SDL image implementation. */
-    using Image = fcn::sdl2::Image;
+    using Image = fcn::sdl3::Image;
 
     /** Backend alias for the SDL image loader. */
-    using ImageLoader = fcn::sdl2::ImageLoader;
+    using ImageLoader = fcn::sdl3::ImageLoader;
 
     /** Backend alias for the SDL input implementation. */
-    using Input = fcn::sdl2::Input;
+    using Input = fcn::sdl3::Input;
 
     /** Backend alias for the SDL TrueType font wrapper. */
-    using TrueTypeFont = fcn::sdl2::TrueTypeFont;
+    using TrueTypeFont = fcn::sdl3::TrueTypeFont;
 
     /** Create a shared_ptr that will destroy the SDL_Window when released. */
     inline std::shared_ptr<SDL_Window> makeSDLSharedPtr(SDL_Window* window)
@@ -63,7 +63,7 @@ namespace fcn::sdl2
     {
         return std::shared_ptr<SDL_Surface>{surface, [](SDL_Surface* value) {
                                                 if (value != nullptr) {
-                                                    SDL_FreeSurface(value);
+                                                    SDL_DestroySurface(value);
                                                 }
                                             }};
     }
@@ -77,6 +77,6 @@ namespace fcn::sdl2
                                                 }
                                             }};
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_SDL_SDL_HPP_

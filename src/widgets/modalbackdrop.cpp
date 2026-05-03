@@ -70,7 +70,13 @@ namespace fcn
         event.consume();
     }
 
-    void ModalBackdrop::mouseReleased([[maybe_unused]] MouseEvent&) { }
-    void ModalBackdrop::mouseEntered([[maybe_unused]] MouseEvent&) { }
-    void ModalBackdrop::mouseExited([[maybe_unused]] MouseEvent&) { }
+    void ModalBackdrop::mouseReleased([[maybe_unused]] MouseEvent&)
+    {
+    }
+    void ModalBackdrop::mouseEntered([[maybe_unused]] MouseEvent&)
+    {
+    }
+    void ModalBackdrop::mouseExited([[maybe_unused]] MouseEvent&)
+    {
+    }
 } // namespace fcn

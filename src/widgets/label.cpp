@@ -137,7 +137,7 @@ namespace fcn
             textY = contentTop;
             break;
         case Graphics::VerticalAlignment::Center:
-            textY = contentTop + (contentHeight - totalTextHeight) / 2;
+            textY = contentTop + ((contentHeight - totalTextHeight) / 2);
             break;
         case Graphics::VerticalAlignment::Bottom:
             textY = contentBottom - totalTextHeight;
@@ -152,7 +152,7 @@ namespace fcn
             textX = contentLeft;
             break;
         case Graphics::Alignment::Center:
-            textX = contentLeft + contentWidth / 2;
+            textX = contentLeft + (contentWidth / 2);
             break;
         case Graphics::Alignment::Right:
             textX = contentRight;

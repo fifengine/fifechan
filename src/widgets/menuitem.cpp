@@ -140,7 +140,13 @@ namespace fcn
             if (!mIconGlyph.empty()) {
                 Font* iconFont = mIconGlyphFont != nullptr ? mIconGlyphFont : getFont();
                 graphics->setFont(iconFont);
-                graphics->setColor(getForegroundColor());
+                // Use white for emoji glyphs to preserve native OT-SVG color font colors
+                unsigned char const first = static_cast<unsigned char>(mIconGlyph.at(0));
+                if (first >= 0xF0 || first == 0xE2) {
+                    graphics->setColor(Color(255, 255, 255, 255));
+                } else {
+                    graphics->setColor(getForegroundColor());
+                }
                 int const iconY = getPaddingTop() +
                                   ((getHeight() - getPaddingTop() - getPaddingBottom() - iconFont->getHeight()) / 2);
                 graphics->drawText(mIconGlyph, mColumnLayout->xIcon, iconY, Graphics::Alignment::Left);
@@ -229,17 +235,7 @@ namespace fcn
         }
     }
 
-    void MenuItem::mousePressed(MouseEvent& mouseEvent)
-    {
-        // Call parent Button handler
-        Button::mousePressed(mouseEvent);
-    }
-
-    void MenuItem::mouseReleased(MouseEvent& mouseEvent)
-    {
-        // Call parent Button handler
-        Button::mouseReleased(mouseEvent);
-    }
+    // Mouse events use the base `Button` implementations; no overrides needed.
 
     MenuItemMetrics MenuItem::measure(Font const & font) const
     {

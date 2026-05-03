@@ -6,6 +6,7 @@
 #include "ffdemo.hpp"
 
 // Standard library includes
+#include <cstdlib>
 #include <format>
 #include <iostream>
 #include <memory>
@@ -15,62 +16,119 @@
 
 namespace
 {
-    constexpr int kUiWidth      = 320;
-    constexpr int kUiHeight     = 240;
-    constexpr int kWindowScale  = 2;
-    constexpr int kWindowWidth  = kUiWidth * kWindowScale;
-    constexpr int kWindowHeight = kUiHeight * kWindowScale;
+    constexpr int kUiWidth             = 320;
+    constexpr int kUiHeight            = 240;
+    constexpr int kDefaultWindowScale  = 2;
+    constexpr int kMinWindowScale      = 1;
+    constexpr int kMaxWindowScale      = 6;
+    constexpr char kUiScaleEnvVar[]    = "FFDEMO_UI_SCALE";
+    constexpr char kHideCursorEnvVar[] = "FFDEMO_HIDE_SYSTEM_CURSOR";
+
+    int resolveWindowScale()
+    {
+        char const * envValue = std::getenv(kUiScaleEnvVar);
+        if (envValue == nullptr || *envValue == '\0') {
+            return kDefaultWindowScale;
+        }
+
+        int parsed = std::atoi(envValue);
+        if (parsed < kMinWindowScale || parsed > kMaxWindowScale) {
+            return kDefaultWindowScale;
+        }
+
+        return parsed;
+    }
+
+    bool shouldHideSystemCursor()
+    {
+        char const * envValue = std::getenv(kHideCursorEnvVar);
+        if (envValue == nullptr || *envValue == '\0') {
+            return false;
+        }
+
+        return std::string(envValue) == "1";
+    }
 } // namespace
 
-FFDemo::FFDemo() : mRunning(true)
+FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEscapeAudio(nullptr), mEffectTrack(nullptr)
 {
-
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-        throw std::runtime_error(SDL_GetError());
-    }
-
-    if (SDL_CreateWindowAndRenderer(kWindowWidth, kWindowHeight, 0, &mWindow, &mRenderer) < 0) {
-        SDL_Quit();
-        throw std::runtime_error(SDL_GetError());
-    }
-
-    if (SDL_RenderSetLogicalSize(mRenderer, kUiWidth, kUiHeight) < 0) {
-        SDL_DestroyRenderer(mRenderer);
-        SDL_DestroyWindow(mWindow);
-        SDL_Quit();
-        throw std::runtime_error(SDL_GetError());
-    }
+    int const windowScale  = resolveWindowScale();
+    int const windowWidth  = kUiWidth * windowScale;
+    int const windowHeight = kUiHeight * windowScale;
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Final Fantasy demo", fifeguiVersion);
 
-    SDL_SetWindowTitle(mWindow, title.c_str());
-
-    SDL_ShowCursor(SDL_DISABLE);
-
-    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
-        SDL_DestroyWindow(mWindow);
-        SDL_Quit();
-        throw std::runtime_error(Mix_GetError());
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
+        throw std::runtime_error(SDL_GetError());
     }
 
-    mChooseSound = Mix_LoadWAV("sound/sound1.wav");
-    mEscapeSound = Mix_LoadWAV("sound/sound2.wav");
+    // Create window
+    mWindow = SDL_CreateWindow(title.c_str(), windowWidth, windowHeight, SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
-    if (mChooseSound == nullptr || mEscapeSound == nullptr) {
-        Mix_CloseAudio();
-        SDL_DestroyWindow(mWindow);
+    if (mWindow == nullptr) {
         SDL_Quit();
-        throw std::runtime_error(Mix_GetError());
+        throw std::runtime_error("Failed to create SDL_Window: " + std::string(SDL_GetError()));
     }
 
-    mSDLImageLoader = std::make_unique<fcn::sdl2::ImageLoader>();
+    // Create renderer
+    mRenderer = SDL_CreateRenderer(mWindow, nullptr);
+
+    if (mRenderer == nullptr) {
+        SDL_DestroyWindow(mWindow);
+        mWindow = nullptr;
+        SDL_Quit();
+        throw std::runtime_error("Failed to create SDL_Renderer: " + std::string(SDL_GetError()));
+    }
+
+    if (!SDL_SetRenderLogicalPresentation(mRenderer, kUiWidth, kUiHeight, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE)) {
+        SDL_DestroyRenderer(mRenderer);
+        SDL_DestroyWindow(mWindow);
+        SDL_Quit();
+        throw std::runtime_error(std::string(SDL_GetError()));
+    }
+
+    if (shouldHideSystemCursor()) {
+        SDL_HideCursor();
+    } else {
+        SDL_ShowCursor();
+    }
+
+    // Init SDL3_mixer (optional: demo should still run without audio device)
+    if (MIX_Init()) {
+        mMixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+        if (mMixer != nullptr) {
+            mChooseAudio = MIX_LoadAudio(mMixer, "sound/sound1.wav", false);
+            mEscapeAudio = MIX_LoadAudio(mMixer, "sound/sound2.wav", false);
+            mEffectTrack = MIX_CreateTrack(mMixer);
+
+            if (mChooseAudio == nullptr || mEscapeAudio == nullptr || mEffectTrack == nullptr) {
+                std::cerr << "[WARN] Audio disabled: failed to load mixer assets." << '\n';
+                MIX_DestroyTrack(mEffectTrack);
+                MIX_DestroyAudio(mChooseAudio);
+                MIX_DestroyAudio(mEscapeAudio);
+                MIX_DestroyMixer(mMixer);
+                mEffectTrack = nullptr;
+                mChooseAudio = nullptr;
+                mEscapeAudio = nullptr;
+                mMixer       = nullptr;
+                MIX_Quit();
+            }
+        } else {
+            std::cerr << "[WARN] Audio disabled: failed to create mixer device." << '\n';
+            MIX_Quit();
+        }
+    } else {
+        std::cerr << "[WARN] Audio disabled: failed to initialize SDL3_mixer." << '\n';
+    }
+
+    mSDLImageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
     mSDLImageLoader->setRenderer(mRenderer);
     fcn::Image::setImageLoader(mSDLImageLoader.get());
-    mSDLGraphics = std::make_unique<fcn::sdl2::Graphics>();
+    mSDLGraphics = std::make_unique<fcn::sdl3::Graphics>();
     mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
-    mSDLInput = std::make_unique<fcn::sdl2::Input>();
+    mSDLInput = std::make_unique<fcn::sdl3::Input>();
 
     mSplashImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/splash.png"));
 
@@ -82,10 +140,25 @@ FFDemo::FFDemo() : mRunning(true)
     mGui->setGraphics(mSDLGraphics.get());
     mGui->setInput(mSDLInput.get());
     mGui->setTop(mTop.get());
+
+    fcn::ImageFontConfig cfg;
+    cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+    cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+
     mFontWhite = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        "images/rpgfont.png",
+        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+        cfg);
+
+    fcn::ImageFontConfig cfg2;
+    cfg2.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+    cfg2.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+
     mFontCyan = std::make_unique<fcn::ImageFont>(
-        "images/rpgfont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        "images/rpgfont2.png",
+        " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+        cfg2);
+
     fcn::Widget::setGlobalFont(mFontWhite.get());
 
     initMain();
@@ -156,8 +229,8 @@ FFDemo::~FFDemo()
     if (mGui != nullptr) {
         mGui->setTop(nullptr);
     }
-    fcn::Widget::setGlobalFont(nullptr);
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Widget::resetGlobalFont();
+    fcn::Image::resetImageLoader();
 
     cleanStatus();
     cleanAbout();
@@ -165,9 +238,11 @@ FFDemo::~FFDemo()
     cleanMagicSkills();
     cleanMain();
 
-    Mix_FreeChunk(mChooseSound);
-    Mix_FreeChunk(mEscapeSound);
-    Mix_CloseAudio();
+    MIX_DestroyTrack(mEffectTrack);
+    MIX_DestroyAudio(mChooseAudio);
+    MIX_DestroyAudio(mEscapeAudio);
+    MIX_DestroyMixer(mMixer);
+    MIX_Quit();
 
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
@@ -450,8 +525,6 @@ void FFDemo::cleanStatus()
 
 void FFDemo::initItems()
 {
-    mItems = std::make_unique<FFContainer>();
-
     mItemsListModel     = std::make_unique<StringListModel>();
     mItemsInfoListModel = std::make_unique<StringListModel>();
     mItemsListModel->add("23 x Potion");
@@ -601,18 +674,16 @@ void FFDemo::run()
         mTimeLabel2->adjustSize();
 
         if (SDL_GetTicks() < 3000) {
-            SDL_Rect src;
-            SDL_Rect dst;
-            src.x = src.y = 0;
-            src.w = dst.w = mSplashImage->getWidth();
-            src.h = dst.h = mSplashImage->getHeight();
-            dst.x         = 10;
-            dst.y         = 50;
+            SDL_FRect dst;
+            dst.x = 10;
+            dst.y = 50;
+            dst.w = static_cast<float>(mSplashImage->getWidth());
+            dst.h = static_cast<float>(mSplashImage->getHeight());
 
-            auto* image = dynamic_cast<fcn::sdl2::Image*>(mSplashImage.get());
+            auto* image = dynamic_cast<fcn::sdl3::Image*>(mSplashImage.get());
             SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
             SDL_RenderClear(mRenderer);
-            SDL_RenderCopy(mRenderer, image->getTexture(), &src, &dst);
+            SDL_RenderTexture(mRenderer, image->getTexture(), nullptr, &dst);
         } else {
             mGui->logic();
             mGui->draw();
@@ -743,25 +814,30 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
 void FFDemo::input()
 {
     while (SDL_PollEvent(&mEvent) != 0) {
-        if (mEvent.type == SDL_KEYDOWN) {
-            if (mEvent.key.keysym.sym == SDLK_ESCAPE) {
-                Mix_PlayChannel(-1, mEscapeSound, 0);
+        if (mEvent.type == SDL_EVENT_KEY_DOWN) {
+            if (mEvent.key.key == SDLK_ESCAPE) {
+                if (mEscapeAudio != nullptr && mEffectTrack != nullptr) {
+                    MIX_SetTrackAudio(mEffectTrack, mEscapeAudio);
+                    MIX_PlayTrack(mEffectTrack, 0);
+                }
 
                 action(fcn::ActionEvent(nullptr, "escape"));
-            } else if (
-                mEvent.key.keysym.sym == SDLK_RETURN || mEvent.key.keysym.sym == SDLK_UP ||
-                mEvent.key.keysym.sym == SDLK_DOWN) {
-                Mix_PlayChannel(-1, mChooseSound, 0);
-            } else if (mEvent.key.keysym.sym == SDLK_f) {
-                bool const isFullscreen = (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0;
-                SDL_SetWindowFullscreen(mWindow, isFullscreen ? 0 : SDL_WINDOW_FULLSCREEN_DESKTOP);
-                SDL_RenderSetLogicalSize(mRenderer, kUiWidth, kUiHeight);
+            } else if (mEvent.key.key == SDLK_RETURN || mEvent.key.key == SDLK_UP || mEvent.key.key == SDLK_DOWN) {
+                if (mChooseAudio != nullptr && mEffectTrack != nullptr) {
+                    MIX_SetTrackAudio(mEffectTrack, mChooseAudio);
+                    MIX_PlayTrack(mEffectTrack, 0);
+                }
+            } else if (mEvent.key.key == SDLK_F) {
+                bool const isFullscreen = (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_FULLSCREEN) != 0;
+                SDL_SetWindowFullscreen(mWindow, !isFullscreen);
+                SDL_SetRenderLogicalPresentation(
+                    mRenderer, kUiWidth, kUiHeight, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
                 mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
             }
             mSDLInput->pushInput(mEvent);
-        } else if (mEvent.type == SDL_KEYUP) {
+        } else if (mEvent.type == SDL_EVENT_KEY_UP) {
             mSDLInput->pushInput(mEvent);
-        } else if (mEvent.type == SDL_QUIT) {
+        } else if (mEvent.type == SDL_EVENT_QUIT) {
             mRunning = false;
         }
     }

@@ -22,33 +22,33 @@ namespace fcn
      */
     class FIFEGUI_API DefaultFont : public Font
     {
-    public:
-        /**
-         * Draws a glyph as a rectangle.
-         *
-         * The glyphs will always be drawn as rectangles no matter the glyph.
-         *
-         * @note You normally won't use this function to draw text since
-         *       the Graphics class contains better functions for drawing
-         *       text.
-         *
-         * @param graphics A Graphics object to be used for drawing.
-         * @param glyph The glyph to draw.
-         * @param x The x coordinate where to draw the glyph.
-         * @param y The y coordinate where to draw the glyph.
-         * @return The width of the drawn glyph in pixels.
-         */
-        virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
+        public:
+            /**
+             * Draws a glyph as a rectangle.
+             *
+             * The glyphs will always be drawn as rectangles no matter the glyph.
+             *
+             * @note You normally won't use this function to draw text since
+             *       the Graphics class contains better functions for drawing
+             *       text.
+             *
+             * @param graphics A Graphics object to be used for drawing.
+             * @param glyph The glyph to draw.
+             * @param x The x coordinate where to draw the glyph.
+             * @param y The y coordinate where to draw the glyph.
+             * @return The width of the drawn glyph in pixels.
+             */
+            virtual int drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y);
 
-        // Inherited from Font
+            // Inherited from Font
 
-        void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
+            void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
 
-        int getWidth(std::string const & text) const override;
+            int getWidth(std::string const & text) const override;
 
-        int getHeight() const override;
+            int getHeight() const override;
 
-        int getStringIndexAt(std::string const & text, int x) const override;
+            int getStringIndexAt(std::string const & text, int x) const override;
     };
 } // namespace fcn
 

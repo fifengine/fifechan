@@ -15,9 +15,13 @@
 namespace fcn
 {
 
-    LineGraph::LineGraph() : m_opaque(false), m_thickness(1) { }
+    LineGraph::LineGraph() : m_opaque(false), m_thickness(1)
+    {
+    }
 
-    LineGraph::LineGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data)) { }
+    LineGraph::LineGraph(PointVector data) : m_opaque(false), m_thickness(1), m_data(std::move(data))
+    {
+    }
 
     void LineGraph::setPointVector(PointVector const & data)
     {

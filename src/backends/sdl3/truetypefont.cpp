@@ -3,32 +3,32 @@
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
 // Corresponding header include
-#include "fifechan/backends/sdl2/truetypefont.hpp"
+#include "fifechan/backends/sdl3/truetypefont.hpp"
 
 // Standard library includes
 #include <string>
 
 // Third-party library includes
-#include <SDL2/SDL_render.h>
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl2/graphics.hpp"
+#include "fifechan/backends/sdl3/graphics.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
 
-namespace fcn::sdl2
+namespace fcn::sdl3
 {
     TrueTypeFont::TrueTypeFont(std::string const & filename, int size) :
         mRowSpacing(0),
         mGlyphSpacing(0),
         mAntiAlias(true),
         mFilename(filename),
-        mFont(TTF_OpenFont(filename.c_str(), size))
+        mFont(TTF_OpenFont(filename.c_str(), static_cast<float>(size)))
     {
 
         if (mFont == nullptr) {
-            throwException("TrueTypeFont::TrueTypeFont. " + std::string(TTF_GetError()));
+            throwException("TrueTypeFont::TrueTypeFont. " + std::string(SDL_GetError()));
         }
     }
 
@@ -42,14 +42,14 @@ namespace fcn::sdl2
         int w = 0;
         int h = 0;
         // Use UTF-8 aware measurement to handle multi-byte glyphs (emoji)
-        TTF_SizeUTF8(mFont, text.c_str(), &w, &h);
+        TTF_GetStringSize(mFont, text.c_str(), text.length(), &w, &h);
 
         return w;
     }
 
     int TrueTypeFont::getHeight() const
     {
-        return TTF_FontHeight(mFont) + mRowSpacing;
+        return TTF_GetFontHeight(mFont) + mRowSpacing;
     }
 
     void TrueTypeFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
@@ -58,10 +58,10 @@ namespace fcn::sdl2
             return;
         }
 
-        auto* sdlGraphics = dynamic_cast<fcn::sdl2::Graphics*>(graphics);
+        auto* sdlGraphics = dynamic_cast<fcn::sdl3::Graphics*>(graphics);
 
         if (sdlGraphics == nullptr) {
-            throwException("TrueTypeFont::drawString. Graphics object must be fcn::sdl2::Graphics!");
+            throwException("TrueTypeFont::drawString. Graphics object must be fcn::sdl3::Graphics!");
             return;
         }
 
@@ -78,42 +78,42 @@ namespace fcn::sdl2
         SDL_Surface* textSurface = nullptr;
         // Use UTF-8 aware rendering to avoid mangling multi-byte sequences
         if (mAntiAlias) {
-            textSurface = TTF_RenderUTF8_Blended(mFont, text.c_str(), sdlCol);
+            textSurface = TTF_RenderText_Blended(mFont, text.c_str(), text.length(), sdlCol);
         } else {
-            textSurface = TTF_RenderUTF8_Solid(mFont, text.c_str(), sdlCol);
+            textSurface = TTF_RenderText_Solid(mFont, text.c_str(), text.length(), sdlCol);
         }
 
         if (textSurface == nullptr) {
-            throwException("TrueTypeFont::drawString. " + std::string(TTF_GetError()));
+            throwException("TrueTypeFont::drawString. " + std::string(SDL_GetError()));
             return;
         }
 
         SDL_Renderer* renderer = sdlGraphics->getRenderTarget();
         SDL_Texture* texture   = SDL_CreateTextureFromSurface(renderer, textSurface);
         if (texture == nullptr) {
-            SDL_FreeSurface(textSurface);
+            SDL_DestroySurface(textSurface);
             throwException("TrueTypeFont::drawString. Failed to create texture: " + std::string(SDL_GetError()));
             return;
         }
 
         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-#if SDL_VERSION_ATLEAST(2, 0, 12)
-        SDL_SetTextureScaleMode(texture, SDL_ScaleModeNearest);
-#endif
+        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
-        SDL_Rect dst;
-        SDL_Rect src;
-        dst.x = x;
-        dst.y = y + yoffset;
-        src.w = textSurface->w;
-        src.h = textSurface->h;
-        src.x = 0;
-        src.y = 0;
+        SDL_FRect dst;
+        SDL_FRect src;
+        dst.x = static_cast<float>(x);
+        dst.y = static_cast<float>(y + yoffset);
+        dst.w = static_cast<float>(textSurface->w);
+        dst.h = static_cast<float>(textSurface->h);
+        src.w = static_cast<float>(textSurface->w);
+        src.h = static_cast<float>(textSurface->h);
+        src.x = 0.0F;
+        src.y = 0.0F;
 
         sdlGraphics->drawSDLTexture(texture, src, dst);
 
         SDL_DestroyTexture(texture);
-        SDL_FreeSurface(textSurface);
+        SDL_DestroySurface(textSurface);
     }
 
     void TrueTypeFont::setRowSpacing(int spacing)
@@ -145,4 +145,4 @@ namespace fcn::sdl2
     {
         return mAntiAlias;
     }
-} // namespace fcn::sdl2
+} // namespace fcn::sdl3

@@ -1,12 +1,12 @@
 ## # FifeGui Example: FF Demo
 
-This example recreates the classic Final Fantasy-style GUI demo using FifeGUI with the SDL2 backend.
+This example recreates the classic Final Fantasy-style GUI demo using FifeGUI with the SDL3 backend.
 
 It demonstrates:
 - custom themed widgets (`FFContainer`, `FFListBox`, `FFScrollArea`, `FFCharacterChooser`)
 - menu navigation and panel switching (Items, Status, Skills, Magic, About)
 - image/font based UI skinning
-- sound feedback via `SDL2_mixer`
+- sound feedback via `SDL3_mixer`
 
 ## Controls
 
@@ -47,12 +47,12 @@ SDL_AUDIODRIVER=dummy ./out/build/examples/ff/ff_demo
 
 ## Dependencies
 
-`ff_demo` requires SDL2 support in this project and links:
-- SDL2
-- SDL2_image
-- SDL2_mixer
+`ff_demo` requires SDL3 support in this project and links:
+- SDL3
+- SDL3_image
+- SDL3_mixer
 - `fifechan::fifechan`
-- `fifechan::fifechan_sdl2`
+- `fifechan::fifechan_sdl3`
 
 # Original Authors
 

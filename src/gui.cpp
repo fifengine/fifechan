@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <list>
 #include <memory>
@@ -42,23 +43,25 @@ namespace fcn
      */
     class GuiDeathListener : public DeathListener
     {
-    public:
-        /** Construct a GuiDeathListener bound to a Gui instance. */
-        explicit GuiDeathListener(Gui* gui) : mGui(gui) { }
-        ~GuiDeathListener() override = default;
+        public:
+            /** Construct a GuiDeathListener bound to a Gui instance. */
+            explicit GuiDeathListener(Gui* gui) : mGui(gui)
+            {
+            }
+            ~GuiDeathListener() override = default;
 
-        void death(Event const & event) override
-        {
-            mGui->widgetDied(event.getSource());
-        }
+            void death(Event const & event) override
+            {
+                mGui->widgetDied(event.getSource());
+            }
 
-        GuiDeathListener(GuiDeathListener const &)            = delete;
-        GuiDeathListener& operator=(GuiDeathListener const &) = delete;
-        GuiDeathListener(GuiDeathListener&&)                  = delete;
-        GuiDeathListener& operator=(GuiDeathListener&&)       = delete;
+            GuiDeathListener(GuiDeathListener const &)            = delete;
+            GuiDeathListener& operator=(GuiDeathListener const &) = delete;
+            GuiDeathListener(GuiDeathListener&&)                  = delete;
+            GuiDeathListener& operator=(GuiDeathListener&&)       = delete;
 
-    private:
-        Gui* mGui;
+        private:
+            Gui* mGui;
     };
 
     Gui::Gui() :
@@ -103,6 +106,8 @@ namespace fcn
 
     void Gui::setTop(Widget* top)
     {
+        // `top` may be nullptr to clear the current top widget; no assertion needed.
+
         if (top != mOwnedTop.get()) {
             mOwnedTop.reset();
         }
@@ -140,6 +145,8 @@ namespace fcn
 
     void Gui::setGraphics(Graphics* graphics)
     {
+        // `graphics` may be nullptr to clear the current graphics; no assertion needed.
+
         if (graphics != mOwnedGraphics.get()) {
             mOwnedGraphics.reset();
         }
@@ -159,6 +166,8 @@ namespace fcn
 
     void Gui::setInput(Input* input)
     {
+        // `input` may be nullptr to clear the current input; no assertion needed.
+
         if (input != mOwnedInput.get()) {
             mOwnedInput.reset();
         }
@@ -206,6 +215,8 @@ namespace fcn
 
     void Gui::logic()
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         if (mTop == nullptr) {
             throwException("No top widget set");
         }
@@ -228,6 +239,9 @@ namespace fcn
 
     void Gui::draw()
     {
+        assert("Top widget must be set" && mTop != nullptr);
+        assert("Graphics must be set" && mGraphics != nullptr);
+
         if (mTop == nullptr) {
             throwException("No top widget set");
         }
@@ -239,12 +253,6 @@ namespace fcn
         if (!mTop->isVisible()) {
             return;
         }
-
-        // Debug: log top widget and graphics state to stderr to help
-        // diagnose white main window issues.
-        // fprintf(stderr, "Gui::draw: top=%p visible=%d width=%d height=%d graphics=%p\n",
-        //    static_cast<void*>(mTop), mTop->isVisible(), mTop->getWidth(), mTop->getHeight(),
-        //    static_cast<void*>(mGraphics));
 
         mGraphics->_beginDraw();
         mTop->_draw(mGraphics);
@@ -662,6 +670,8 @@ namespace fcn
 
     Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         // If the widget's parent has no child then we have found the widget..
         Widget* parent = mTop;
         Widget* child  = mTop;
@@ -680,6 +690,8 @@ namespace fcn
 
     std::vector<Widget*> Gui::getWidgetsAt(int x, int y)
     {
+        assert("Top widget must be set" && mTop != nullptr);
+
         std::vector<Widget*> result;
 
         Widget* widget = mTop;

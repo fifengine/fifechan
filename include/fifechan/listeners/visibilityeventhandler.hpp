@@ -23,34 +23,34 @@ namespace fcn
      */
     class FIFEGUI_API VisibilityEventHandler : public WidgetListener
     {
-    public:
-        /**
-         * Construct a VisibilityEventHandler bound to a Gui instance.
-         *
-         * @param gui the GUI instance to inform about visibility changes.
-         */
-        explicit VisibilityEventHandler(Gui* gui);
+        public:
+            /**
+             * Construct a VisibilityEventHandler bound to a Gui instance.
+             *
+             * @param gui the GUI instance to inform about visibility changes.
+             */
+            explicit VisibilityEventHandler(Gui* gui);
 
-        ~VisibilityEventHandler() override = default;
+            ~VisibilityEventHandler() override = default;
 
-        VisibilityEventHandler(VisibilityEventHandler const &)            = delete;
-        VisibilityEventHandler& operator=(VisibilityEventHandler const &) = delete;
-        VisibilityEventHandler(VisibilityEventHandler&&)                  = delete;
-        VisibilityEventHandler& operator=(VisibilityEventHandler&&)       = delete;
+            VisibilityEventHandler(VisibilityEventHandler const &)            = delete;
+            VisibilityEventHandler& operator=(VisibilityEventHandler const &) = delete;
+            VisibilityEventHandler(VisibilityEventHandler&&)                  = delete;
+            VisibilityEventHandler& operator=(VisibilityEventHandler&&)       = delete;
 
-        /**
-         * Informs gui that a widget was hidden.
-         */
-        void widgetHidden(Event const & e) override;
+            /**
+             * Informs gui that a widget was hidden.
+             */
+            void widgetHidden(Event const & e) override;
 
-        /**
-         * Informs gui that a widget was shown.
-         */
-        void widgetShown(Event const & e) override;
+            /**
+             * Informs gui that a widget was shown.
+             */
+            void widgetShown(Event const & e) override;
 
-    protected:
-        /** Pointer to the GUI used to handle visibility-related updates. */
-        Gui* mGui;
+        protected:
+            /** Pointer to the GUI used to handle visibility-related updates. */
+            Gui* mGui;
     };
 } // namespace fcn
 

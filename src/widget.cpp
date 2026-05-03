@@ -32,6 +32,15 @@
 
 namespace fcn
 {
+    namespace
+    {
+        std::list<Widget*>& widgetInstancesRegistry()
+        {
+            static auto* instances = new std::list<Widget*>();
+            return *instances;
+        }
+    } // namespace
+
     Font* Widget::mGlobalFont = nullptr;
     DefaultFont Widget::mDefaultFont;
     std::list<Widget*> Widget::mWidgetInstances;
@@ -41,7 +50,7 @@ namespace fcn
 
     Widget::Widget()
     {
-        mWidgetInstances.push_back(this);
+        widgetInstancesRegistry().push_back(this);
     }
 
     Widget::~Widget()
@@ -109,7 +118,7 @@ namespace fcn
             }
 
             // Remove from global Widget registry
-            mWidgetInstances.remove(this);
+            widgetInstancesRegistry().remove(this);
 
         } catch (fcn::Exception const & e) {
             std::cerr << "Exception caught in Widget destructor: " << e.what() << '\n';
@@ -343,7 +352,7 @@ namespace fcn
         auto currChild(mChildren.begin());
         auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
-            if (isVisible()) {
+            if ((*currChild)->isVisible()) {
                 ++childs;
             }
         }
@@ -400,6 +409,7 @@ namespace fcn
             mDimension.height = mFixedSize.getHeight();
             return;
         }
+
         int const minWidth   = mMinSize.getWidth();
         int const minHeight  = mMinSize.getHeight();
         int const maxWidth   = mMaxSize.getWidth();
@@ -676,11 +686,15 @@ namespace fcn
         VisibilityEventHandler* visibilityEventHandler = _getVisibilityEventHandler();
 
         if (!visible && isFocused()) {
-            mFocusHandler->focusNone();
+            if (mFocusHandler != nullptr) {
+                mFocusHandler->focusNone();
+            }
         }
 
         if (visible) {
-            visibilityEventHandler->widgetShown(Event(this));
+            if (visibilityEventHandler != nullptr) {
+                visibilityEventHandler->widgetShown(Event(this));
+            }
             distributeShownEvent();
 
             auto currChild(mChildren.begin());
@@ -690,7 +704,9 @@ namespace fcn
                 (*currChild)->distributeAncestorShownEvent(this);
             }
         } else {
-            visibilityEventHandler->widgetHidden(Event(this));
+            if (visibilityEventHandler != nullptr) {
+                visibilityEventHandler->widgetHidden(Event(this));
+            }
             distributeHiddenEvent();
 
             auto currChild(mChildren.begin());
@@ -995,14 +1011,20 @@ namespace fcn
 
     void Widget::setGlobalFont(Font* font)
     {
+        assert("Global font must not be null" && font != nullptr);
         mGlobalFont = font;
 
         std::list<Widget*>::iterator iter;
-        for (iter = mWidgetInstances.begin(); iter != mWidgetInstances.end(); ++iter) {
+        for (iter = widgetInstancesRegistry().begin(); iter != widgetInstancesRegistry().end(); ++iter) {
             if ((*iter)->mCurrentFont == nullptr) {
                 (*iter)->fontChanged();
             }
         }
+    }
+
+    void Widget::resetGlobalFont()
+    {
+        mGlobalFont = nullptr;
     }
 
     void Widget::setFont(Font* font)
@@ -1013,10 +1035,10 @@ namespace fcn
 
     bool Widget::widgetExists(Widget const * widget)
     {
-        auto iter = std::ranges::find_if(mWidgetInstances, [widget](Widget const * w) {
+        auto iter = std::ranges::find_if(widgetInstancesRegistry(), [widget](Widget const * w) {
             return w == widget;
         });
-        return iter != mWidgetInstances.end();
+        return iter != widgetInstancesRegistry().end();
     }
 
     bool Widget::isTabInEnabled() const
@@ -1222,7 +1244,9 @@ namespace fcn
     void Widget::distributeAncestorHiddenEvent(Widget* ancestor)
     {
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
-        _getVisibilityEventHandler()->widgetHidden(Event(this));
+        if (_getVisibilityEventHandler() != nullptr) {
+            _getVisibilityEventHandler()->widgetHidden(Event(this));
+        }
 
         auto currWidgetListener(mWidgetListeners.begin());
         auto const endWidgetListeners(mWidgetListeners.end());
@@ -1243,7 +1267,9 @@ namespace fcn
     void Widget::distributeAncestorShownEvent(Widget* ancestor)
     {
         // additional call VisibilityEventHandler, needed to get new focus / MouseEvent::Entered or Exited
-        _getVisibilityEventHandler()->widgetShown(Event(this));
+        if (_getVisibilityEventHandler() != nullptr) {
+            _getVisibilityEventHandler()->widgetShown(Event(this));
+        }
 
         auto currWidgetListener(mWidgetListeners.begin());
         auto const endWidgetListeners(mWidgetListeners.end());

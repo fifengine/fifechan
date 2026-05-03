@@ -35,16 +35,16 @@ namespace fcn::opengl
         for (int y = 0; y < mTextureHeight; ++y) {
             for (int x = 0; x < mTextureWidth; ++x) {
                 if (x < mWidth && y < mHeight) {
-                    unsigned int c = pixels[x + (y * mWidth)];
+                    unsigned int c = pixels[static_cast<size_t>(x + (y * mWidth))];
 
                     // Magic pink to transparent
                     if (c == magicPink) {
                         c = 0x00000000;
                     }
 
-                    mPixels[x + (y * mTextureWidth)] = c;
+                    mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = c;
                 } else {
-                    mPixels[x + (y * mTextureWidth)] = 0x00000000;
+                    mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = 0x00000000;
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace fcn::opengl
             throwException("Coordinates outside of the image");
         }
 
-        unsigned int const c = mPixels[x + (y * mTextureWidth)];
+        unsigned int const c = mPixels.at(static_cast<size_t>(x + (y * mTextureWidth)));
 
 #ifdef __BIG_ENDIAN__
         auto const r = static_cast<unsigned char>((c >> 24) & 0xff);
@@ -152,16 +152,16 @@ namespace fcn::opengl
         }
 
         if (x < 0 || x >= mWidth || y < 0 || y >= mHeight) {
-            throwException(("Coordinates outside of the image"));
+            throwException("Coordinates outside of the image");
         }
 
 #ifdef __BIG_ENDIAN__
-        const unsigned int c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
+        unsigned int const c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
 #else
-        const unsigned int c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
+        unsigned int const c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
 #endif
 
-        mPixels[x + (y * mTextureWidth)] = c;
+        mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = c;
     }
 
     void Image::convertToDisplayFormat()

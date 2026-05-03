@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - converted build scripts from autotools to cmake, https://github.com/fifengine/fifechan-demos/issues/1
 - added Catch2 as a testing framework for unit tests.
   - prepped a `tests/unit` folder for someone inclined to work on unit tests.
-- added SDL2Graphics
+- added SDL3Graphics
 - added support for target and package config (find_package), https://github.com/fifengine/fifechan/issues/19
 - added pkg-config support to CMakeLists (for pkg-config), https://github.com/fifengine/fifechan/issues/19
 - added handling of conditional dependencies in exported CMake configs
@@ -82,10 +82,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated modal API to use new stacked modal methods (21 call sites in gui.cpp)
 - switched the library build system to compile the core and each extension as object libraries
   - these object libraries are then linked into the final shared and static library targets
+- migration to SDL3
 
 ### Removed
 
-- removed backends: allegro, cairo, irrlicht, glut, hge, openlayer
+- removed backends: allegro, cairo, irrlicht, glut, hge, openlayer, sdl1, sdl2
 - removed usage of deprecated std::iterator
 - remove usage of do-while loops
 - removed all extern "c" helper functions for extension detection by autotools

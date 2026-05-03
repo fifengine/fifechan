@@ -28,31 +28,33 @@ namespace fcn
      */
     class FIFEGUI_API SelectionListener
     {
-    public:
-        virtual ~SelectionListener() = default;
+        public:
+            virtual ~SelectionListener() = default;
 
-        SelectionListener(SelectionListener const &)            = default;
-        SelectionListener& operator=(SelectionListener const &) = default;
-        SelectionListener(SelectionListener&&)                  = default;
-        SelectionListener& operator=(SelectionListener&&)       = default;
+            SelectionListener(SelectionListener const &)            = default;
+            SelectionListener& operator=(SelectionListener const &) = default;
+            SelectionListener(SelectionListener&&)                  = default;
+            SelectionListener& operator=(SelectionListener&&)       = default;
 
-        /**
-         * Called when the value of a selection has been changed in a Widget.
-         * It is used to be able to receive a notification that a value has
-         * been changed.
-         *
-         * @param event The event of the value change.
-         */
-        virtual void valueChanged(SelectionEvent const & event) { }
+            /**
+             * Called when the value of a selection has been changed in a Widget.
+             * It is used to be able to receive a notification that a value has
+             * been changed.
+             *
+             * @param event The event of the value change.
+             */
+            virtual void valueChanged(SelectionEvent const & event)
+            {
+            }
 
-    protected:
-        /**
-         * Protected default constructor.
-         *
-         * Instances should not be created directly,
-         * therefore the constructor is declared protected.
-         */
-        SelectionListener() = default;
+        protected:
+            /**
+             * Protected default constructor.
+             *
+             * Instances should not be created directly,
+             * therefore the constructor is declared protected.
+             */
+            SelectionListener() = default;
     };
 } // namespace fcn
 

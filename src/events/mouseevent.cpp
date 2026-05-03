@@ -5,6 +5,9 @@
 // Corresponding header include
 #include "fifechan/events/mouseevent.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -32,6 +35,19 @@ namespace fcn
         mY(y),
         mClickCount(clickCount)
     {
+        assert(
+            "Type must be valid" &&
+            (type == MouseEvent::Type::Pressed || type == MouseEvent::Type::Released ||
+             type == MouseEvent::Type::Moved || type == MouseEvent::Type::WheelMovedDown ||
+             type == MouseEvent::Type::WheelMovedUp || type == MouseEvent::Type::WheelMovedRight ||
+             type == MouseEvent::Type::WheelMovedLeft || type == MouseEvent::Type::Clicked ||
+             type == MouseEvent::Type::Entered || type == MouseEvent::Type::Exited ||
+             type == MouseEvent::Type::Dragged));
+        assert(
+            "Button must be valid" && (button == MouseEvent::Button::Empty || button == MouseEvent::Button::Left ||
+                                       button == MouseEvent::Button::Right || button == MouseEvent::Button::Middle ||
+                                       button == MouseEvent::Button::X1 || button == MouseEvent::Button::X2));
+        assert("Click count must be non-negative" && clickCount >= 0);
     }
 
     MouseEvent::Button MouseEvent::getButton() const

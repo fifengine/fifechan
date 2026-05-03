@@ -1,6 +1,7 @@
 {
   "name": "Fife DevBox",
-  "image": "ghcr.io/jakoch/cpp-devbox:trixie-latest",
+  //"image": "ghcr.io/jakoch/cpp-devbox:trixie-with-vulkansdk-latest",
+  "image": "ghcr.io/jakoch/cpp-devbox:trixie-with-vulkansdk-20260426",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -21,5 +22,11 @@
         "hbenl.vscode-test-explorer"
       ]
     }
-  }
+  },
+  "runArgs": [
+    "--add-host=host.docker.internal:host-gateway",
+    "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
+    "--env=DISPLAY=${localEnv:DISPLAY}"
+  ],
+  "postStartCommand": "./build-tools/setup-vcpkg.sh"
 }

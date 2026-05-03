@@ -13,38 +13,38 @@
 
 class FFContainer : public fcn::Container
 {
-public:
-    FFContainer();
-    ~FFContainer() override;
-    FFContainer(FFContainer const &)            = delete;
-    FFContainer& operator=(FFContainer const &) = delete;
-    FFContainer(FFContainer&&)                  = delete;
-    FFContainer& operator=(FFContainer&&)       = delete;
+    public:
+        FFContainer();
+        ~FFContainer() override;
+        FFContainer(FFContainer const &)            = delete;
+        FFContainer& operator=(FFContainer const &) = delete;
+        FFContainer(FFContainer&&)                  = delete;
+        FFContainer& operator=(FFContainer&&)       = delete;
 
-    void logic() override;
-    void draw(fcn::Graphics* graphics) override;
-    void setVisible(bool visible);
-    void setWidth(int width) override;
-    void setHeight(int height) override;
-    void setDimension(fcn::Rectangle const & dimension) override;
-    void slideContentTo(int y);
-    fcn::Rectangle getChildrenArea() override;
+        void logic() override;
+        void draw(fcn::Graphics* graphics) override;
+        void setVisible(bool visible);
+        void setWidth(int width) override;
+        void setHeight(int height) override;
+        void setDimension(fcn::Rectangle const & dimension) override;
+        void slideContentTo(int y);
+        fcn::Rectangle getChildrenArea() override;
 
-private:
-    int mRealWidth;
-    int mRealHeight;
-    int mSlideTarget;
-    int mCurrentSlide;
-    int mTime;
-    bool mShow;
+    private:
+        int mRealWidth;
+        int mRealHeight;
+        int mSlideTarget;
+        int mCurrentSlide;
+        int mTime;
+        bool mShow;
 
-    static int mInstances;
-    static std::unique_ptr<fcn::Image> mCornerUL;
-    static std::unique_ptr<fcn::Image> mCornerUR;
-    static std::unique_ptr<fcn::Image> mCornerDL;
-    static std::unique_ptr<fcn::Image> mCornerDR;
-    static std::unique_ptr<fcn::Image> mHorizontal;
-    static std::unique_ptr<fcn::Image> mVertical;
+        static int mInstances;
+        static std::unique_ptr<fcn::Image> mCornerUL;
+        static std::unique_ptr<fcn::Image> mCornerUR;
+        static std::unique_ptr<fcn::Image> mCornerDL;
+        static std::unique_ptr<fcn::Image> mCornerDR;
+        static std::unique_ptr<fcn::Image> mHorizontal;
+        static std::unique_ptr<fcn::Image> mVertical;
 };
 
 #endif // FFCONTAINER_HPP

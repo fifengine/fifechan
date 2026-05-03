@@ -1,15 +1,14 @@
 message(STATUS "---------------------------------------------------------------")
-message(STATUS "[ 🛠️ ] Building Integration Tests for SDL2")
+message(STATUS "[ 🛠️ ] Building Integration Tests for SDL3")
 message(STATUS "---------------------------------------------------------------")
 
-# Find SDL2_ttf
-find_package(SDL2_ttf REQUIRED)
+find_package(SDL3_ttf CONFIG REQUIRED)
 
 set(FIFEGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-# Build folder of the generated files from fifechan, e.g. "version.hpp"
+
+# For "version.hpp"
 set(FIFEGUI_VERSION_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/../../../include")
 
-# Include the VCPKG toolchain file if it is defined
 if(DEFINED ENV{VCPKG_ROOT})
   include("$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 endif()
@@ -20,25 +19,12 @@ endif()
 
 add_executable(sdlhelloworld sdlhelloworld.cpp sdlhelloworld.hpp)
 
-target_include_directories(sdlhelloworld PRIVATE
-  ${SDL2_INCLUDE_DIRS}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
-)
-
 target_link_libraries(sdlhelloworld PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # FifeGUI
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   fifechan::fifechan
-  # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdlhelloworld PROPERTIES
@@ -61,7 +47,6 @@ endif()
 
 show_build_target_properties(sdlhelloworld)
 
-# Copy resources
 set(RESOURCES_FOLDER "${PROJECT_SOURCE_DIR}/tests/resources")
 copy_resources_folder(sdlhelloworld "${RESOURCES_FOLDER}")
 
@@ -85,34 +70,24 @@ endif()
 # Install the .pdb file if it exists (for MSVC)
 #install(FILES "$<TARGET_PDB_FILE:sdlhelloworld>" DESTINATION "${CMAKE_INSTALL_BINDIR}" OPTIONAL)
 
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdlhelloworld
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
 #------------------------------------------------------------------------------
 # sdlwidgets
 #------------------------------------------------------------------------------
 
 add_executable(sdlwidgets sdlwidgets.cpp sdlwidgets.hpp)
 
-# target_include_directories(sdlwidgets PRIVATE
-#   ${SDL2_INCLUDE_DIR}
-#   ${FIFEGUI_INCLUDE_DIR}
-# )
-target_include_directories(sdlwidgets PRIVATE
-  ${SDL2_INCLUDE_DIR}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
-)
-
 target_link_libraries(sdlwidgets PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # FifeGUI
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   fifechan::fifechan
-  # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdlwidgets PROPERTIES
@@ -135,12 +110,11 @@ endif()
 
 show_build_target_properties(sdlwidgets)
 
-# Copy resources
 copy_resources_folder(sdlwidgets "${RESOURCES_FOLDER}")
 
 # Install the executables so the installed tree contains the binaries
 # next to the installed resources.
-install(TARGETS sdlhelloworld sdlwidgets
+install(TARGETS sdlwidgets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
@@ -150,25 +124,12 @@ install(TARGETS sdlhelloworld sdlwidgets
 
 add_executable(sdllabels sdllabels.cpp sdllabels.hpp)
 
-target_include_directories(sdllabels PRIVATE
-  ${SDL2_INCLUDE_DIRS}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
-)
-
 target_link_libraries(sdllabels PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # FifeGUI
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   fifechan::fifechan
-  # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdllabels PROPERTIES
@@ -191,12 +152,11 @@ endif()
 
 show_build_target_properties(sdllabels)
 
-# Copy resources
 copy_resources_folder(sdllabels "${RESOURCES_FOLDER}")
 
 # Install the executables so the installed tree contains the binaries
 # next to the installed resources.
-install(TARGETS sdlhelloworld sdlwidgets sdllabels
+install(TARGETS sdllabels
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
@@ -206,25 +166,12 @@ install(TARGETS sdlhelloworld sdlwidgets sdllabels
 
 add_executable(sdldragdrop sdldragdrop.cpp)
 
-target_include_directories(sdldragdrop PRIVATE
-  ${SDL2_INCLUDE_DIRS}
-  ${FIFEGUI_INCLUDE_DIR}
-  ${FIFEGUI_VERSION_FILE_DIR}
-  ${PROJECT_SOURCE_DIR}/include/fifechan/backends/sdl2
-)
-
 target_link_libraries(sdldragdrop PRIVATE
-  # SDL2
-  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-  $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-  # SDL2_image
-  $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-  # SDL2_ttf
-  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-  # FifeGUI
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
   fifechan::fifechan
-  # FifeGUI SDL extension
-  fifechan::fifechan_sdl2
+  fifechan::fifechan_sdl3
 )
 
 set_target_properties(sdldragdrop PROPERTIES
@@ -247,5 +194,51 @@ endif()
 
 show_build_target_properties(sdldragdrop)
 
-# Copy resources
 copy_resources_folder(sdldragdrop "${RESOURCES_FOLDER}")
+
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdldragdrop
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+#------------------------------------------------------------------------------
+# sdlmdedit
+#------------------------------------------------------------------------------
+
+add_executable(sdlmdedit sdlmdedit.cpp)
+
+target_link_libraries(sdlmdedit PRIVATE
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  fifechan::fifechan
+  fifechan::fifechan_sdl3
+)
+
+set_target_properties(sdlmdedit PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
+
+if(WIN32)
+  set_target_properties(sdlmdedit PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
+# This toggles the FIFEGUI_BUILD type (fifechan_EXPORTS, fifegui_EXPORTS)
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(sdlmdedit PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(sdlmdedit INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
+show_build_target_properties(sdlmdedit)
+
+copy_resources_folder(sdlmdedit "${RESOURCES_FOLDER}")
+
+# Install the executables so the installed tree contains the binaries
+# next to the installed resources.
+install(TARGETS sdlmdedit
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)

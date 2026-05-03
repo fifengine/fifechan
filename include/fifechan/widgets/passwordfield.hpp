@@ -20,47 +20,47 @@ namespace fcn
      */
     class FIFEGUI_API PasswordField : public TextField
     {
-    public:
-        /**
-         * Constructor.
-         *
-         * @param text Initializes password field's text.
-         */
-        explicit PasswordField(std::string const & text = "");
+        public:
+            /**
+             * Constructor.
+             *
+             * @param text Initializes password field's text.
+             */
+            explicit PasswordField(std::string const & text = "");
 
-        ~PasswordField() override;
+            ~PasswordField() override;
 
-        PasswordField(PasswordField const &)            = delete;
-        PasswordField& operator=(PasswordField const &) = delete;
-        PasswordField(PasswordField&&)                  = delete;
-        PasswordField& operator=(PasswordField&&)       = delete;
+            PasswordField(PasswordField const &)            = delete;
+            PasswordField& operator=(PasswordField const &) = delete;
+            PasswordField(PasswordField&&)                  = delete;
+            PasswordField& operator=(PasswordField&&)       = delete;
 
-        // Inherited from TextField
+            // Inherited from TextField
 
-        void keyPressed(KeyEvent& keyEvent) override;
+            void keyPressed(KeyEvent& keyEvent) override;
 
-        void setText(std::string const & text) override; // cppcheck-suppress virtualCallInConstructor
+            void setText(std::string const & text) override; // cppcheck-suppress virtualCallInConstructor
 
-        std::string getText() const override;
+            std::string getText() const override;
 
-    private:
-        /**
-         * @return Caret position of the actual text.
-         */
-        unsigned int getActualTextCaretPosition() const;
+        private:
+            /**
+             * @return Caret position of the actual text.
+             */
+            unsigned int getActualTextCaretPosition() const;
 
-        /**
-         * Sets the caret position of the actual text.
-         *
-         * @param position The new caret position of the actual text.
-         */
-        void setActualTextCaretPosition(unsigned int position);
+            /**
+             * Sets the caret position of the actual text.
+             *
+             * @param position The new caret position of the actual text.
+             */
+            void setActualTextCaretPosition(unsigned int position);
 
-        /**
-         * Holds the actual text of the password field. The standard text
-         * will hold asterisks instead.
-         */
-        Text* mActualText;
+            /**
+             * Holds the actual text of the password field. The standard text
+             * will hold asterisks instead.
+             */
+            Text* mActualText;
     };
 }; // namespace fcn
 

@@ -7,7 +7,9 @@
 
 namespace fcn
 {
-    Key::Key(int value) : mValue(value) { }
+    Key::Key(int value) : mValue(value)
+    {
+    }
 
     bool Key::isCharacter() const
     {

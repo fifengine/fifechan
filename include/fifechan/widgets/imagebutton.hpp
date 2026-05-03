@@ -35,258 +35,258 @@ namespace fcn
      */
     class FIFEGUI_API ImageButton : public fcn::Button
     {
-    public:
-        /**
-         * Types of images used by ImageButton.
-         *
-         * Up/Down/Hover indicate the visual state; *_Inactive variants are used
-         * when the button is disabled.
-         */
-        enum class ImageType : uint8_t
-        {
-            Up             = 0,
-            Down           = 1,
-            Hover          = 2,
-            Up_Inactive    = 3,
-            Down_Inactive  = 4,
-            Hover_Inactive = 5
-        };
+        public:
+            /**
+             * Types of images used by ImageButton.
+             *
+             * Up/Down/Hover indicate the visual state; *_Inactive variants are used
+             * when the button is disabled.
+             */
+            enum class ImageType : uint8_t
+            {
+                Up             = 0,
+                Down           = 1,
+                Hover          = 2,
+                Up_Inactive    = 3,
+                Down_Inactive  = 4,
+                Hover_Inactive = 5
+            };
 
-        ImageButton();
+            ImageButton();
 
-        /**
-         * Constructor.
-         *
-         * @param filename The filename of the up image to display.
-         */
-        explicit ImageButton(std::string const & filename);
+            /**
+             * Constructor.
+             *
+             * @param filename The filename of the up image to display.
+             */
+            explicit ImageButton(std::string const & filename);
 
-        /**
-         * Constructor.
-         * Existing Images are freed automatically, if they were loaded internally.
-         *
-         * @param image The up image to display.
-         */
-        explicit ImageButton(Image const * image);
+            /**
+             * Constructor.
+             * Existing Images are freed automatically, if they were loaded internally.
+             *
+             * @param image The up image to display.
+             */
+            explicit ImageButton(Image const * image);
 
-        ImageButton(ImageButton const &)            = delete;
-        ImageButton& operator=(ImageButton const &) = delete;
-        ImageButton(ImageButton&&)                  = delete;
-        ImageButton& operator=(ImageButton&&)       = delete;
+            ImageButton(ImageButton const &)            = delete;
+            ImageButton& operator=(ImageButton const &) = delete;
+            ImageButton(ImageButton&&)                  = delete;
+            ImageButton& operator=(ImageButton&&)       = delete;
 
-        ~ImageButton() override;
+            ~ImageButton() override;
 
-        /**
-         * Sets the up image to display.
-         *
-         * That is the basic image that is also used if other images are not set.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the up image to display.
-         */
-        void setUpImage(std::string const & filename);
+            /**
+             * Sets the up image to display.
+             *
+             * That is the basic image that is also used if other images are not set.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the up image to display.
+             */
+            void setUpImage(std::string const & filename);
 
-        /**
-         * Sets the up image to display.
-         *
-         * That is the basic image that is also used if other images are not set.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The up image to display.
-         */
-        void setUpImage(Image const * image);
+            /**
+             * Sets the up image to display.
+             *
+             * That is the basic image that is also used if other images are not set.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The up image to display.
+             */
+            void setUpImage(Image const * image);
 
-        /**
-         * Gets current up image.
-         *
-         * @return The current up image.
-         */
-        Image const * getUpImage() const;
+            /**
+             * Gets current up image.
+             *
+             * @return The current up image.
+             */
+            Image const * getUpImage() const;
 
-        /**
-         * Sets the down image to display.
-         *
-         * That is the image that is used if the button is pressed.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the down image to display.
-         */
-        void setDownImage(std::string const & filename);
+            /**
+             * Sets the down image to display.
+             *
+             * That is the image that is used if the button is pressed.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the down image to display.
+             */
+            void setDownImage(std::string const & filename);
 
-        /**
-         * Sets the down image to display.
-         *
-         * That is the image that is used if the button is pressed.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The down image to display.
-         */
-        void setDownImage(Image const * image);
+            /**
+             * Sets the down image to display.
+             *
+             * That is the image that is used if the button is pressed.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The down image to display.
+             */
+            void setDownImage(Image const * image);
 
-        /**
-         * Gets current down image.
-         *
-         * @return The current down image.
-         */
-        Image const * getDownImage() const;
+            /**
+             * Gets current down image.
+             *
+             * @return The current down image.
+             */
+            Image const * getDownImage() const;
 
-        /**
-         * Sets the hover image to display.
-         *
-         * That is the image that is used if the mouse is over the button.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the hover image to display.
-         */
-        void setHoverImage(std::string const & filename);
+            /**
+             * Sets the hover image to display.
+             *
+             * That is the image that is used if the mouse is over the button.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the hover image to display.
+             */
+            void setHoverImage(std::string const & filename);
 
-        /**
-         * Sets the hover image to display.
-         *
-         * That is the image that is used if the mouse is over the button.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The hover image to display.
-         */
-        void setHoverImage(Image const * image);
+            /**
+             * Sets the hover image to display.
+             *
+             * That is the image that is used if the mouse is over the button.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The hover image to display.
+             */
+            void setHoverImage(Image const * image);
 
-        /**
-         * Gets current hover image.
-         *
-         * @return The current hover image.
-         */
-        Image const * getHoverImage() const;
+            /**
+             * Gets current hover image.
+             *
+             * @return The current hover image.
+             */
+            Image const * getHoverImage() const;
 
-        /**
-         * Sets the up image to display if the button is inactive.
-         *
-         * If not provided the active up image is used.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the inactive up image to display.
-         */
-        void setInactiveUpImage(std::string const & filename);
+            /**
+             * Sets the up image to display if the button is inactive.
+             *
+             * If not provided the active up image is used.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the inactive up image to display.
+             */
+            void setInactiveUpImage(std::string const & filename);
 
-        /**
-         * Sets the up image to display if the button is inactive.
-         *
-         * If not provided the active up image is used.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The inactive up image to display.
-         */
-        void setInactiveUpImage(Image const * image);
+            /**
+             * Sets the up image to display if the button is inactive.
+             *
+             * If not provided the active up image is used.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The inactive up image to display.
+             */
+            void setInactiveUpImage(Image const * image);
 
-        /**
-         * Gets inactive up image.
-         *
-         * @return The inactive up image.
-         */
-        Image const * getInactiveUpImage() const;
+            /**
+             * Gets inactive up image.
+             *
+             * @return The inactive up image.
+             */
+            Image const * getInactiveUpImage() const;
 
-        /**
-         * Sets the down image to display if the button is inactive.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the inactive down image to display.
-         */
-        void setInactiveDownImage(std::string const & filename);
+            /**
+             * Sets the down image to display if the button is inactive.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the inactive down image to display.
+             */
+            void setInactiveDownImage(std::string const & filename);
 
-        /**
-         * Sets the down image to display if the button is inactive.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The inactive down image to display.
-         */
-        void setInactiveDownImage(Image const * image);
+            /**
+             * Sets the down image to display if the button is inactive.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The inactive down image to display.
+             */
+            void setInactiveDownImage(Image const * image);
 
-        /**
-         * Gets inactive down image.
-         *
-         * @return The inactive down image.
-         */
-        Image const * getInactiveDownImage() const;
+            /**
+             * Gets inactive down image.
+             *
+             * @return The inactive down image.
+             */
+            Image const * getInactiveDownImage() const;
 
-        /**
-         * Sets the hover image to display if the button is inactive.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param filename The filename of the inactive hover image to display.
-         */
-        void setInactiveHoverImage(std::string const & filename);
+            /**
+             * Sets the hover image to display if the button is inactive.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param filename The filename of the inactive hover image to display.
+             */
+            void setInactiveHoverImage(std::string const & filename);
 
-        /**
-         * Sets the hover image to display if the button is inactive.
-         * Existing Image is freed automatically, if it was loaded internally.
-         *
-         * @param image The inactive hover image to display.
-         */
-        void setInactiveHoverImage(Image const * image);
+            /**
+             * Sets the hover image to display if the button is inactive.
+             * Existing Image is freed automatically, if it was loaded internally.
+             *
+             * @param image The inactive hover image to display.
+             */
+            void setInactiveHoverImage(Image const * image);
 
-        /**
-         * Gets inactive hover image.
-         *
-         * @return The inactive hover image.
-         */
-        Image const * getInactiveHoverImage() const;
+            /**
+             * Gets inactive hover image.
+             *
+             * @return The inactive hover image.
+             */
+            Image const * getInactiveHoverImage() const;
 
-        // Inherited from Widget
+            // Inherited from Widget
 
-        /**
-         * Resize the button to fit its image content.
-         *
-         * @param recursion If true, resize children recursively (no-op for button).
-         */
-        void resizeToContent(bool recursion = true) override;
+            /**
+             * Resize the button to fit its image content.
+             *
+             * @param recursion If true, resize children recursively (no-op for button).
+             */
+            void resizeToContent(bool recursion = true) override;
 
-        /**
-         * Adjust internal size after layout or image changes.
-         */
-        void adjustSize() override;
+            /**
+             * Adjust internal size after layout or image changes.
+             */
+            void adjustSize() override;
 
-        /**
-         * Draw the button using the provided graphics backend.
-         *
-         * @param graphics Graphics backend to draw with.
-         */
-        void draw(fcn::Graphics* graphics) override;
+            /**
+             * Draw the button using the provided graphics backend.
+             *
+             * @param graphics Graphics backend to draw with.
+             */
+            void draw(fcn::Graphics* graphics) override;
 
-    protected:
-        /**
-         * Adjusts the size of the button to fit the caption.
-         *
-         * The public `adjustSize()` method serves as a virtual entry point
-         * for polymorphism, while this `adjustSizeImpl()` method contains
-         * the concrete implementation of the resizing logic.
-         *
-         * @see adjustSize (virtual entry point for polymorphism)
-         */
-        void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
+        protected:
+            /**
+             * Adjusts the size of the button to fit the caption.
+             *
+             * The public `adjustSize()` method serves as a virtual entry point
+             * for polymorphism, while this `adjustSizeImpl()` method contains
+             * the concrete implementation of the resizing logic.
+             *
+             * @see adjustSize (virtual entry point for polymorphism)
+             */
+            void adjustSizeImpl() override; // cppcheck-suppress virtualCallInConstructor
 
-        /**
-         * Internal helper to set an image for a specific ImageType by filename.
-         * @param filename image file to load and assign for the given type.
-         * @param type the image type slot to set.
-         */
-        void setImage(std::string const & filename, ImageType type);
+            /**
+             * Internal helper to set an image for a specific ImageType by filename.
+             * @param filename image file to load and assign for the given type.
+             * @param type the image type slot to set.
+             */
+            void setImage(std::string const & filename, ImageType type);
 
-        /**
-         * Internal helper to set an image for a specific ImageType using an
-         * existing Image pointer.
-         * @param image image pointer to assign for the given type.
-         * @param type the image type slot to set.
-         */
-        void setImage(Image const * image, ImageType type);
+            /**
+             * Internal helper to set an image for a specific ImageType using an
+             * existing Image pointer.
+             * @param image image pointer to assign for the given type.
+             * @param type the image type slot to set.
+             */
+            void setImage(Image const * image, ImageType type);
 
-        /**
-         * The images to display.
-         */
-        std::vector<Image const *> mImages;
+            /**
+             * The images to display.
+             */
+            std::vector<Image const *> mImages;
 
-        /**
-         * Owned images loaded by filename.
-         */
-        std::vector<std::unique_ptr<Image const>> mOwnedImages;
+            /**
+             * Owned images loaded by filename.
+             */
+            std::vector<std::unique_ptr<Image const>> mOwnedImages;
     };
 } // namespace fcn
 

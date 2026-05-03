@@ -7,6 +7,12 @@
 - [ ] include/fifechan/keys.hpp: has an enum with -1000 init which causes tidy warnings
     - [ ] should it be refactored to a class enum?
 
+- [ ] listeners
+  - replace listeners with signals/slots?
+  - or std::vector<std::function<void(const MouseEvent&)>> mouseListeners;
+- [ ] tests/unit/CMakeLists.txt
+   - [ ] try to run the non-headless tests with software rasterizer backend in CI
+
 ### Clang Tidy
 
 #### Issues Summary

@@ -11,24 +11,30 @@ namespace fcn
 {
     class FIFEGUI_API DropTargetListener
     {
-    public:
-        virtual ~DropTargetListener() = default;
+        public:
+            virtual ~DropTargetListener() = default;
 
-        DropTargetListener(DropTargetListener const &)            = delete;
-        DropTargetListener& operator=(DropTargetListener const &) = delete;
-        DropTargetListener(DropTargetListener&&)                  = delete;
-        DropTargetListener& operator=(DropTargetListener&&)       = delete;
+            DropTargetListener(DropTargetListener const &)            = delete;
+            DropTargetListener& operator=(DropTargetListener const &) = delete;
+            DropTargetListener(DropTargetListener&&)                  = delete;
+            DropTargetListener& operator=(DropTargetListener&&)       = delete;
 
-        virtual bool dragEntered(DragEvent& dragEvent)
-        {
-            return false;
-        }
-        virtual void dragExited(DragEvent& dragEvent) { }
-        virtual void dragHovered(DragEvent& dragEvent) { }
-        virtual void dragDropped(DragEvent& dragEvent) { }
+            virtual bool dragEntered(DragEvent& dragEvent)
+            {
+                return false;
+            }
+            virtual void dragExited(DragEvent& dragEvent)
+            {
+            }
+            virtual void dragHovered(DragEvent& dragEvent)
+            {
+            }
+            virtual void dragDropped(DragEvent& dragEvent)
+            {
+            }
 
-    protected:
-        DropTargetListener() = default;
+        protected:
+            DropTargetListener() = default;
     };
 } // namespace fcn
 

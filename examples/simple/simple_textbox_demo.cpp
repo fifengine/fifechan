@@ -14,16 +14,17 @@
 #include "fifechan/platform.hpp"
 
 // Third-party library includes
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #include <fifechan/backends/opengl/graphics.hpp>
 #include <fifechan/backends/opengl/imageloader.hpp>
-#include <fifechan/backends/sdl2/input.hpp>
+#include <fifechan/backends/sdl3/input.hpp>
 
 #include <fifechan.hpp>
 
 /**
- * Demonstrates the minimal SDL2 + OpenGL integration path for Fifechan.
+ * Demonstrates the minimal SDL3 + OpenGL integration path for Fifechan.
  *
  * The example creates an SDL window, wires SDL input into a FifeGUI GUI,
  * uses the OpenGL graphics backend and SDL-based image loader, loads a bitmap
@@ -31,16 +32,14 @@
  */
 int main(int /*argc*/, char** /*argv*/)
 {
-    SDL_Window* window      = nullptr;
-    SDL_GLContext glContext = nullptr;
-    auto input              = std::unique_ptr<fcn::sdl2::Input>();
-    auto graphics           = std::unique_ptr<fcn::opengl::Graphics>();
-    auto imageLoader        = std::unique_ptr<fcn::opengl::ImageLoader>();
-    auto font               = std::unique_ptr<fcn::ImageFont>();
-    auto gui                = std::unique_ptr<fcn::Gui>();
-    auto top                = std::unique_ptr<fcn::Container>();
+    auto input       = std::unique_ptr<fcn::sdl3::Input>();
+    auto graphics    = std::unique_ptr<fcn::opengl::Graphics>();
+    auto imageLoader = std::unique_ptr<fcn::opengl::ImageLoader>();
+    auto font        = std::unique_ptr<fcn::ImageFont>();
+    auto gui         = std::unique_ptr<fcn::Gui>();
+    auto top         = std::unique_ptr<fcn::Container>();
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return 1;
     }
@@ -49,14 +48,14 @@ int main(int /*argc*/, char** /*argv*/)
     std::string const fifeguiVersion = fcn::fifechanVersion();
     std::string const title          = std::format("FifeGUI v{} - Simple TextBox Demo", fifeguiVersion);
 
-    window = SDL_CreateWindow(title.c_str(), 0, 0, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_OPENGL);
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
         SDL_Quit();
         return 1;
     }
 
-    glContext = SDL_GL_CreateContext(window);
+    SDL_GLContext glContext = SDL_GL_CreateContext(window);
     if (glContext == nullptr) {
         std::cerr << "SDL_GL_CreateContext Error: " << SDL_GetError() << "\n";
         SDL_DestroyWindow(window);
@@ -69,10 +68,20 @@ int main(int /*argc*/, char** /*argv*/)
         fcn::Image::setImageLoader(imageLoader.get());
 
         graphics = std::make_unique<fcn::opengl::Graphics>(800, 600);
-        input    = std::make_unique<fcn::sdl2::Input>();
+        input    = std::make_unique<fcn::sdl3::Input>();
 
-        font = std::make_unique<fcn::ImageFont>(
-            "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
+        {
+            fcn::ImageFontConfig cfg;
+            cfg.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+            cfg.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+            // cfg.verbose           = true;
+
+            font = std::make_unique<fcn::ImageFont>(
+                "rpgfont.png",
+                " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
+                cfg);
+        }
+
         fcn::Widget::setGlobalFont(font.get());
 
         gui = std::make_unique<fcn::Gui>();
@@ -94,7 +103,7 @@ int main(int /*argc*/, char** /*argv*/)
         SDL_Event evt;
         while (running) {
             while (SDL_PollEvent(&evt) != 0) {
-                if (evt.type == SDL_QUIT) {
+                if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
                 }
 
@@ -113,11 +122,11 @@ int main(int /*argc*/, char** /*argv*/)
         gui->setTop(nullptr);
     }
 
-    fcn::Widget::setGlobalFont(nullptr);
+    fcn::Widget::resetGlobalFont();
 
-    fcn::Image::setImageLoader(nullptr);
+    fcn::Image::resetImageLoader();
 
-    SDL_GL_DeleteContext(glContext);
+    SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 

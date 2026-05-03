@@ -38,15 +38,15 @@ namespace fcn
 
     void ImageButton::setImage(std::string const & filename, ImageType type)
     {
-        mOwnedImages[static_cast<size_t>(type)].reset(Image::load(filename));
-        mImages[static_cast<size_t>(type)] = mOwnedImages[static_cast<size_t>(type)].get();
+        mOwnedImages.at(static_cast<size_t>(type)).reset(Image::load(filename));
+        mImages.at(static_cast<size_t>(type)) = mOwnedImages.at(static_cast<size_t>(type)).get();
         adjustSizeImpl();
     }
 
     void ImageButton::setImage(Image const * image, ImageType type)
     {
-        mOwnedImages[static_cast<size_t>(type)].reset();
-        mImages[static_cast<size_t>(type)] = image;
+        mOwnedImages.at(static_cast<size_t>(type)).reset();
+        mImages.at(static_cast<size_t>(type)) = image;
         adjustSizeImpl();
     }
 
@@ -62,7 +62,7 @@ namespace fcn
 
     Image const * ImageButton::getUpImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Up)];
+        return mImages.at(static_cast<size_t>(ImageType::Up));
     }
 
     void ImageButton::setDownImage(std::string const & filename)
@@ -77,7 +77,7 @@ namespace fcn
 
     Image const * ImageButton::getDownImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Down)];
+        return mImages.at(static_cast<size_t>(ImageType::Down));
     }
 
     void ImageButton::setHoverImage(std::string const & filename)
@@ -92,7 +92,7 @@ namespace fcn
 
     Image const * ImageButton::getHoverImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Hover)];
+        return mImages.at(static_cast<size_t>(ImageType::Hover));
     }
 
     void ImageButton::setInactiveUpImage(std::string const & filename)
@@ -107,7 +107,7 @@ namespace fcn
 
     Image const * ImageButton::getInactiveUpImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Up_Inactive)];
+        return mImages.at(static_cast<size_t>(ImageType::Up_Inactive));
     }
 
     void ImageButton::setInactiveDownImage(std::string const & filename)
@@ -122,7 +122,7 @@ namespace fcn
 
     Image const * ImageButton::getInactiveDownImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Down_Inactive)];
+        return mImages.at(static_cast<size_t>(ImageType::Down_Inactive));
     }
 
     void ImageButton::setInactiveHoverImage(std::string const & filename)
@@ -137,7 +137,7 @@ namespace fcn
 
     Image const * ImageButton::getInactiveHoverImage() const
     {
-        return mImages[static_cast<size_t>(ImageType::Hover_Inactive)];
+        return mImages.at(static_cast<size_t>(ImageType::Hover_Inactive));
     }
 
     void ImageButton::resizeToContent([[maybe_unused]] bool recursion)
@@ -155,7 +155,7 @@ namespace fcn
         int w = 0;
         int h = 0;
         for (unsigned int i = 0; i < 6; ++i) {
-            Image const * img = mImages[i];
+            Image const * img = mImages.at(i);
             if (img != nullptr) {
                 w = std::max(w, img->getWidth());
                 h = std::max(h, img->getHeight());
@@ -165,8 +165,8 @@ namespace fcn
             w = std::max(getFont()->getWidth(getCaption()), w);
             h = std::max(getFont()->getHeight(), h);
         }
-        w += 2 * getBorderSize() + getPaddingLeft() + getPaddingRight();
-        h += 2 * getBorderSize() + getPaddingTop() + getPaddingBottom();
+        w += (2 * getBorderSize()) + getPaddingLeft() + getPaddingRight();
+        h += (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom();
         setSize(w, h);
     }
 
@@ -181,7 +181,7 @@ namespace fcn
             }
         }
 
-        Rectangle offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        Rectangle offsetRec(getBorderSize(), getBorderSize(), (2 * getBorderSize()), (2 * getBorderSize()));
         // fetch the image, down, hover or up
         Image const * img = !isActive() && (getInactiveUpImage() != nullptr) ? getInactiveUpImage() : getUpImage();
         if (isPressed()) {
@@ -243,7 +243,7 @@ namespace fcn
                 break;
             case Graphics::Alignment::Center:
                 textX = offsetRec.x + getPaddingLeft() +
-                        (getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2;
+                        ((getWidth() - offsetRec.width - getPaddingLeft() - getPaddingRight()) / 2);
                 break;
             case Graphics::Alignment::Right:
                 textX = getWidth() - offsetRec.x - getPaddingRight();
@@ -253,7 +253,21 @@ namespace fcn
             }
             // set font and color
             graphics->setFont(getFont());
-            graphics->setColor(getForegroundColor());
+            // Use white for emoji captions to preserve native OT-SVG color font colors
+            // Emoji UTF-8 sequences typically start with 0xF0 (4-byte, U+10000+)
+            // or 0xE2 (3-byte, includes many symbols/emoji like ⭐ U+2B50, ⚙ U+2699)
+            std::string const & cap = getCaption();
+            if (!cap.empty()) {
+                unsigned char const first = static_cast<unsigned char>(cap.at(0));
+                // Check for emoji ranges: 0xF0+ (most emoji) or 0xE2 (common symbol emoji)
+                if (first >= 0xF0 || first == 0xE2) {
+                    graphics->setColor(Color(255, 255, 255, 255));
+                } else {
+                    graphics->setColor(getForegroundColor());
+                }
+            } else {
+                graphics->setColor(getForegroundColor());
+            }
             graphics->drawText(getCaption(), textX, textY, getAlignment());
         }
     }

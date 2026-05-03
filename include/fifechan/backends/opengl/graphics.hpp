@@ -22,117 +22,117 @@ namespace fcn::opengl
      */
     class FIFEGUI_EXT_API Graphics : public fcn::Graphics
     {
-    public:
-        using fcn::Graphics::drawImage;
+        public:
+            using fcn::Graphics::drawImage;
 
-        /**
-         * Constructor.
-         */
-        Graphics();
+            /**
+             * Constructor.
+             */
+            Graphics();
 
-        /**
-         * Constructor.
-         *
-         * @param width the width of the logical drawing surface. Should be the
-         *              same as the screen resolution.
-         *
-         * @param height the height ot the logical drawing surface. Should be
-         *               the same as the screen resolution.
-         */
-        Graphics(int width, int height);
+            /**
+             * Constructor.
+             *
+             * @param width the width of the logical drawing surface. Should be the
+             *              same as the screen resolution.
+             *
+             * @param height the height ot the logical drawing surface. Should be
+             *               the same as the screen resolution.
+             */
+            Graphics(int width, int height);
 
-        ~Graphics() override;
+            ~Graphics() override;
 
-        /**
-         * Sets the target plane on where to draw.
-         *
-         * @param width the width of the logical drawing surface. Should be the
-         *              same as the screen resolution.
-         * @param height the height ot the logical drawing surface. Should be
-         *               the same as the screen resolution.
-         */
-        void setTargetPlane(int width, int height);
+            /**
+             * Sets the target plane on where to draw.
+             *
+             * @param width the width of the logical drawing surface. Should be the
+             *              same as the screen resolution.
+             * @param height the height ot the logical drawing surface. Should be
+             *               the same as the screen resolution.
+             */
+            void setTargetPlane(int width, int height);
 
-    protected:
-        virtual void setTargetPlaneImpl(int width, int height);
+            // Inherited from Graphics
+            void _beginDraw() override;
 
-        /**
-         * Gets the target plane width.
-         *
-         * @return The target plane width.
-         */
-        virtual int getTargetPlaneWidth() const;
+            void _endDraw() override;
 
-        /**
-         * Gets the target plane height.
-         *
-         * @return The target plane height.
-         */
-        virtual int getTargetPlaneHeight() const;
+            bool pushClipArea(Rectangle area) override;
 
-        // Inherited from Graphics
+            void popClipArea() override;
 
-        void _beginDraw() override;
+            void drawImage(
+                fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
 
-        void _endDraw() override;
+            /**
+             * Draws an OpenGL-specific image.
+             *
+             * @param image Pointer to the OpenGL image to draw.
+             * @param srcX Source X coordinate.
+             * @param srcY Source Y coordinate.
+             * @param dstX Destination X coordinate.
+             * @param dstY Destination Y coordinate.
+             * @param width Width of the region to draw.
+             * @param height Height of the region to draw.
+             */
+            void drawImage(
+                fcn::opengl::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
 
-        bool pushClipArea(Rectangle area) override;
+            void drawPoint(int x, int y) override;
 
-        void popClipArea() override;
+            void drawLine(int x1, int y1, int x2, int y2) override;
 
-        void drawImage(
-            fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
+            void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
 
-        /**
-         * Draws an OpenGL-specific image.
-         *
-         * @param image Pointer to the OpenGL image to draw.
-         * @param srcX Source X coordinate.
-         * @param srcY Source Y coordinate.
-         * @param dstX Destination X coordinate.
-         * @param dstY Destination Y coordinate.
-         * @param width Width of the region to draw.
-         * @param height Height of the region to draw.
-         */
-        void drawImage(fcn::opengl::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height);
+            void drawPolyLine(PointVector const & points, unsigned int width) override;
 
-        void drawPoint(int x, int y) override;
+            void drawBezier(PointVector const & points, int steps, unsigned int width) override;
 
-        void drawLine(int x1, int y1, int x2, int y2) override;
+            void drawRectangle(Rectangle const & rectangle) override;
 
-        void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override;
+            void fillRectangle(Rectangle const & rectangle) override;
 
-        void drawPolyLine(PointVector const & points, unsigned int width) override;
+            void drawCircle(Point const & p, unsigned int radius) override;
 
-        void drawBezier(PointVector const & points, int steps, unsigned int width) override;
+            void drawFillCircle(Point const & p, unsigned int radius) override;
 
-        void drawRectangle(Rectangle const & rectangle) override;
+            void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
 
-        void fillRectangle(Rectangle const & rectangle) override;
+            void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
 
-        void drawCircle(Point const & p, unsigned int radius) override;
+            void setColor(Color const & color) override;
 
-        void drawFillCircle(Point const & p, unsigned int radius) override;
+            Color const & getColor() const override;
 
-        void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
+        protected:
+            virtual void setTargetPlaneImpl(int width, int height);
 
-        void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
+            /**
+             * Gets the target plane width.
+             *
+             * @return The target plane width.
+             */
+            virtual int getTargetPlaneWidth() const;
 
-        void setColor(Color const & color) override;
+            /**
+             * Gets the target plane height.
+             *
+             * @return The target plane height.
+             */
+            virtual int getTargetPlaneHeight() const;
 
-        Color const & getColor() const override;
+            /** Width of the logical target plane. */
+            int mWidth{};
 
-        /** Width of the logical target plane. */
-        int mWidth{};
+            /** Height of the logical target plane. */
+            int mHeight{};
 
-        /** Height of the logical target plane. */
-        int mHeight{};
+            /** Whether alpha blending is enabled. */
+            bool mAlpha{};
 
-        /** Whether alpha blending is enabled. */
-        bool mAlpha{};
-
-        /** Current drawing color. */
-        Color mColor;
+            /** Current drawing color. */
+            Color mColor;
     };
 } // namespace fcn::opengl
 

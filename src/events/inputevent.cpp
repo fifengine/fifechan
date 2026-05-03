@@ -5,6 +5,9 @@
 // Corresponding header include
 #include "fifechan/events/inputevent.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -28,6 +31,8 @@ namespace fcn
         mIsConsumed(false),
         mDistributor(distributor)
     {
+        (void)source;
+        (void)distributor;
     }
 
     bool InputEvent::isShiftPressed() const

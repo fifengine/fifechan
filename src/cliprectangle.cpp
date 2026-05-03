@@ -9,6 +9,8 @@
 #include "fifechan/platform.hpp"
 
 // Project headers (subdirs before local)
+#include <cassert>
+
 #include "fifechan/rectangle.hpp"
 
 namespace fcn
@@ -16,10 +18,15 @@ namespace fcn
     ClipRectangle::ClipRectangle(int x, int y, int width, int height, int xOffset, int yOffset) :
         Rectangle(x, y, width, height), xOffset(xOffset), yOffset(yOffset)
     {
+        assert("Width must be non-negative" && width >= 0);
+        assert("Height must be non-negative" && height >= 0);
     }
 
     ClipRectangle& ClipRectangle::operator=(Rectangle const & other)
     {
+        assert("Rectangle width must be non-negative" && other.width >= 0);
+        assert("Rectangle height must be non-negative" && other.height >= 0);
+
         x      = other.x;
         y      = other.y;
         width  = other.width;
