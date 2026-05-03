@@ -28,5 +28,5 @@
     "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
     "--env=DISPLAY=${localEnv:DISPLAY}"
   ],
-  "postStartCommand": "./build-tools/setup-vcpkg.sh"
+  "postStartCommand": "chmod +x ./build-tools/setup-vcpkg.sh && ./build-tools/setup-vcpkg.sh"
 }
