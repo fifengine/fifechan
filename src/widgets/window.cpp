@@ -159,8 +159,8 @@ namespace fcn
         }
         // text clip area
         Rectangle const rec(
-            getBorderSize() + getPaddingLeft(),
-            getBorderSize() + getPaddingTop(),
+            borderSize + paddingLeft,
+            borderSize + paddingTop,
             std::max(0, getWidth() - (2 * borderSize) - paddingLeft - paddingRight),
             std::max(0, static_cast<int>(getTitleBarHeight()) - 1));
 

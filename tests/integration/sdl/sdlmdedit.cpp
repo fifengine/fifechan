@@ -122,12 +122,12 @@ void Application::cleanup()
     graphics.reset();
     input.reset();
     renderer.reset();
-    window.reset();
     if (window) {
         SDL_StopTextInput(window.get());
     } else {
         SDL_StopTextInput(nullptr);
     }
+    window.reset();
     // Release any fonts held by the Application before shutting down SDL_ttf
     // to ensure TTF_CloseFont is called while the library is still initialized.
     activityFont.reset();

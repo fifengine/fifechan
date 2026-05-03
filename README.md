@@ -42,6 +42,28 @@ A menu in the style of the Final Fantasy series, demonstrating the flexibility o
 
 ![FF Demo](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/examples-ff.png)
 
+### SDLDRAGDROP
+
+The SDLDRAGDROP demo demonstrates the drag and drop functionality of FifeGUI.
+It allows users to drag items from one panel to another, showcasing the library's support for interactive UI elements.
+
+On the left side is a user invenory panel with items that can be dragged, and on the right side is a character equipment panel where items can be dropped. Items can only be moved from the inventory to the equipment panel, and not the other way around. Blocked drops are indicated with a red highlight, while valid drops are highlighted in green.
+
+When user hovers over an item, a tooltip is displayed showing the name of the item and its stats.
+The tooltip information area is extended, when the user presses the ALT key, to show additional information about the item, such as additional stats, descriptions and or lore.
+
+![SDLDRAGDROP](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdldragdrop.png)
+
+### SDLMDEDIT
+
+The SDLMDEDIT application showcases key interface components, including a Menu, MenuItem, Menubar, and ActivityBar enhanced with OpenMoji glyph icons. It features a PrimaryPanel on the left and a SecondaryPanel on the right for structured layout organization.
+
+At the center is a textarea that serves as the main Markdown editing area. A Statusbar at the bottom of the window displays the current cursor position, including line and column information.
+
+This is not a fully working Markdown editor, but rather a demonstration of how FifeGUI can be used to create a complex user interface with various interactive components.
+
+![SDLMDEDIT](https://raw.githubusercontent.com/fifengine/fifechan/main/docs/images/tests-sdlmdedit.png)
+
 ## Downloads
 
 #### Latest Releases
