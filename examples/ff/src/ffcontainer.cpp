@@ -55,43 +55,58 @@ FFContainer::~FFContainer()
 
 void FFContainer::draw(fcn::Graphics* graphics)
 {
-    int i = 0;
+    int i       = 0;
+    int const w = getWidth();
+    int const h = getHeight();
 
-    if (isOpaque()) {
-        double const height = (mRealHeight - 8) / 16.0;
+    if (w <= 0 || h <= 0) {
+        return;
+    }
+
+    if (isOpaque() && w > 8 && h > 8) {
+        double const height = (h - 8) / 16.0;
         fcn::Color const c(0x7070FF);
 
         for (i = 0; i < 16; ++i) {
             graphics->setColor(c * (1.0 - (i / 18.0)));
             graphics->fillRectangle(
-                4, static_cast<int>((i * height) + 4), getWidth() - 8, static_cast<int>((i * height) + height));
+                4,
+                static_cast<int>((i * height) + 4),
+                std::max(0, w - 8),
+                std::max(0, static_cast<int>((i * height) + height)));
         }
     }
 
-    graphics->pushClipArea(fcn::Rectangle(0, mCurrentSlide, getWidth(), getHeight()));
+    graphics->pushClipArea(fcn::Rectangle(0, mCurrentSlide, w, h));
     for (auto* child : getChildren()) {
         child->_draw(graphics);
     }
     graphics->popClipArea();
 
-    for (i = 5; i < getHeight() - 10; i += 5) {
+    for (i = 5; i < h - 10; i += 5) {
         graphics->drawImage(mVertical.get(), 0, i);
-        graphics->drawImage(mVertical.get(), getWidth() - 4, i);
+        graphics->drawImage(mVertical.get(), w - 4, i);
     }
-    graphics->drawImage(mVertical.get(), 0, 0, 0, i, 4, getHeight() - 5 - i);
-    graphics->drawImage(mVertical.get(), 0, 0, getWidth() - 4, i, 4, getHeight() - 5 - i);
+    int const remainingVertical = std::max(0, h - 5 - i);
+    if (remainingVertical > 0) {
+        graphics->drawImage(mVertical.get(), 0, 0, 0, i, 4, remainingVertical);
+        graphics->drawImage(mVertical.get(), 0, 0, w - 4, i, 4, remainingVertical);
+    }
 
-    for (i = 5; i < getWidth() - 10; i += 5) {
+    for (i = 5; i < w - 10; i += 5) {
         graphics->drawImage(mHorizontal.get(), i, 0);
-        graphics->drawImage(mHorizontal.get(), i, getHeight() - 4);
+        graphics->drawImage(mHorizontal.get(), i, h - 4);
     }
-    graphics->drawImage(mHorizontal.get(), 0, 0, i, 0, getWidth() - 5 - i, 4);
-    graphics->drawImage(mHorizontal.get(), 0, 0, i, getHeight() - 4, getWidth() - 5 - i, 4);
+    int const remainingHorizontal = std::max(0, w - 5 - i);
+    if (remainingHorizontal > 0) {
+        graphics->drawImage(mHorizontal.get(), 0, 0, i, 0, remainingHorizontal, 4);
+        graphics->drawImage(mHorizontal.get(), 0, 0, i, h - 4, remainingHorizontal, 4);
+    }
 
     graphics->drawImage(mCornerUL.get(), 0, 0);
-    graphics->drawImage(mCornerUR.get(), getWidth() - 5, 0);
-    graphics->drawImage(mCornerDL.get(), 0, getHeight() - 5);
-    graphics->drawImage(mCornerDR.get(), getWidth() - 5, getHeight() - 5);
+    graphics->drawImage(mCornerUR.get(), w - 5, 0);
+    graphics->drawImage(mCornerDL.get(), 0, h - 5);
+    graphics->drawImage(mCornerDR.get(), w - 5, h - 5);
 }
 
 void FFContainer::logic()
@@ -105,48 +120,35 @@ void FFContainer::logic()
     mTime                 = currentTime;
 
     if (!mShow) {
-        Container::setWidth(getWidth() - deltaTime);
-
-        if (getWidth() < 0) {
-            Container::setWidth(0);
-        }
-
-        Container::setHeight(getHeight() - deltaTime);
-
-        if (getHeight() < 0) {
-            Container::setHeight(0);
-        }
+        // Update the *current* animated size via base setDimension to avoid
+        // calling back into FFContainer::setDimension, which manages targets.
+        fcn::Rectangle current = Container::getDimension();
+        current.width          = std::max(0, getWidth() - deltaTime);
+        current.height         = std::max(0, getHeight() - deltaTime);
+        Container::setDimension(current);
 
         if (getHeight() == 0 && getWidth() == 0) {
             Container::setVisible(false);
         }
     } else {
         if (getWidth() < mRealWidth) {
-            Container::setWidth(getWidth() + deltaTime);
-
-            if (getWidth() > mRealWidth) {
-                Container::setWidth(mRealWidth);
-            }
+            fcn::Rectangle current = Container::getDimension();
+            current.width          = std::min(mRealWidth, getWidth() + deltaTime);
+            Container::setDimension(current);
         } else if (getWidth() > mRealWidth) {
-            Container::setWidth(getWidth() - deltaTime);
-
-            if (getWidth() < mRealWidth) {
-                Container::setWidth(mRealWidth);
-            }
+            fcn::Rectangle current = Container::getDimension();
+            current.width          = std::max(mRealWidth, getWidth() - deltaTime);
+            Container::setDimension(current);
         }
 
         if (getHeight() < mRealHeight) {
-            Container::setHeight(getHeight() + deltaTime);
-
-            if (getHeight() > mRealHeight) {
-                Container::setHeight(mRealHeight);
-            }
+            fcn::Rectangle current = Container::getDimension();
+            current.height         = std::min(mRealHeight, getHeight() + deltaTime);
+            Container::setDimension(current);
         } else if (getHeight() > mRealHeight) {
-            Container::setHeight(getHeight() - deltaTime);
-
-            if (getHeight() < mRealHeight) {
-                Container::setHeight(mRealHeight);
-            }
+            fcn::Rectangle current = Container::getDimension();
+            current.height         = std::max(mRealHeight, getHeight() - deltaTime);
+            Container::setDimension(current);
         }
     }
 
@@ -165,9 +167,19 @@ void FFContainer::logic()
 
 void FFContainer::setDimension(fcn::Rectangle const & dimension)
 {
-    setPosition(dimension.x, dimension.y);
-    setWidth(dimension.width);
-    setHeight(dimension.height);
+    fcn::Rectangle current = fcn::Container::getDimension();
+
+    // Only update animation targets when the requested size actually changes.
+    // Position-only updates (e.g. setPosition/setX/setY) should not clobber
+    // the intended target dimensions with current transient size.
+    if (dimension.width != current.width || dimension.height != current.height) {
+        mRealWidth  = std::max(0, dimension.width);
+        mRealHeight = std::max(0, dimension.height);
+    }
+
+    current.x = dimension.x;
+    current.y = dimension.y;
+    fcn::Container::setDimension(current);
 }
 
 void FFContainer::setVisible(bool visible)
@@ -181,12 +193,20 @@ void FFContainer::setVisible(bool visible)
 
 void FFContainer::setWidth(int width)
 {
-    mRealWidth = width;
+    // Width changes requested through the generic widget/layout API should
+    // update the current size only. Bypass Widget::setWidth (which delegates
+    // to virtual setDimension) to avoid rewriting animation targets.
+    fcn::Rectangle current = Container::getDimension();
+    current.width          = std::max(0, width);
+    Container::setDimension(current);
 }
 
 void FFContainer::setHeight(int height)
 {
-    mRealHeight = height;
+    // See setWidth(). Keep target size management in setDimension().
+    fcn::Rectangle current = Container::getDimension();
+    current.height         = std::max(0, height);
+    Container::setDimension(current);
 }
 
 void FFContainer::slideContentTo(int y)

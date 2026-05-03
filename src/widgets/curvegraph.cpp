@@ -154,7 +154,7 @@ namespace fcn
 
         float const step = 1.0F / static_cast<float>(lines - 1);
         float t          = 0.0F;
-        m_curveData.push_back(getBezierPoint(newPoints, newPoints.size() + 1, t));
+        m_curveData.push_back(getBezierPoint(newPoints, static_cast<int>(newPoints.size()), t));
         for (int i = 0; i <= (elements * lines); ++i) {
             t += step;
             m_curveData.push_back(getBezierPoint(newPoints, newPoints.size(), t));

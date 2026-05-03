@@ -114,21 +114,20 @@ namespace fcn
         shadowColor      = faceColor - 0x303030;
         shadowColor.a    = alpha;
 
-        if (isOpaque()) {
+        int const borderSize    = static_cast<int>(getBorderSize());
+        int const paddingLeft   = static_cast<int>(getPaddingLeft());
+        int const paddingTop    = static_cast<int>(getPaddingTop());
+        int const paddingRight  = static_cast<int>(getPaddingRight());
+        int const contentWidth  = std::max(0, getWidth() - (2 * borderSize));
+        int const contentHeight = std::max(0, getHeight() - (2 * borderSize));
+
+        if (isOpaque() && contentWidth > 0 && contentHeight > 0) {
             // Fill the background around the content
             graphics->setColor(faceColor);
-            graphics->fillRectangle(
-                getBorderSize(),
-                getBorderSize(),
-                getWidth() - (2 * getBorderSize()),
-                getHeight() - (2 * getBorderSize()));
+            graphics->fillRectangle(getBorderSize(), getBorderSize(), contentWidth, contentHeight);
         }
         if (mBackgroundWidget != nullptr) {
-            Rectangle const rec(
-                getBorderSize(),
-                getBorderSize(),
-                getWidth() - (2 * getBorderSize()),
-                getHeight() - (2 * getBorderSize()));
+            Rectangle const rec(borderSize, borderSize, contentWidth, contentHeight);
             mBackgroundWidget->setDimension(rec);
             mBackgroundWidget->_draw(graphics);
         }
@@ -162,8 +161,8 @@ namespace fcn
         Rectangle const rec(
             getBorderSize() + getPaddingLeft(),
             getBorderSize() + getPaddingTop(),
-            getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight(),
-            getTitleBarHeight() - 1);
+            std::max(0, getWidth() - (2 * borderSize) - paddingLeft - paddingRight),
+            std::max(0, static_cast<int>(getTitleBarHeight()) - 1));
 
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
@@ -220,12 +219,19 @@ namespace fcn
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;
-        rec.x = getBorderSize() + getPaddingLeft() + getInnerBorderSize();
-        rec.y = getBorderSize() + getPaddingTop() + getInnerBorderSize() + getTitleBarHeight();
-        rec.width =
-            getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight() - (2 * getInnerBorderSize());
-        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom() -
-                     (2 * getInnerBorderSize()) - getTitleBarHeight();
+        int const borderSize     = static_cast<int>(getBorderSize());
+        int const paddingLeft    = static_cast<int>(getPaddingLeft());
+        int const paddingTop     = static_cast<int>(getPaddingTop());
+        int const paddingRight   = static_cast<int>(getPaddingRight());
+        int const paddingBottom  = static_cast<int>(getPaddingBottom());
+        int const innerBorder    = static_cast<int>(getInnerBorderSize());
+        int const titleBarHeight = static_cast<int>(getTitleBarHeight());
+
+        rec.x      = borderSize + paddingLeft + innerBorder;
+        rec.y      = borderSize + paddingTop + innerBorder + titleBarHeight;
+        rec.width  = std::max(0, getWidth() - (2 * borderSize) - paddingLeft - paddingRight - (2 * innerBorder));
+        rec.height = std::max(
+            0, getHeight() - (2 * borderSize) - paddingTop - paddingBottom - (2 * innerBorder) - titleBarHeight);
         return rec;
     }
 

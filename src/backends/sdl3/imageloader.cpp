@@ -34,7 +34,6 @@ namespace fcn::sdl3
                 return filename;
             }
             std::filesystem::path const candidate = std::filesystem::path(basePathRaw) / requestedPath;
-            SDL_free(const_cast<char*>(basePathRaw));
             return candidate.string();
         }
     } // namespace

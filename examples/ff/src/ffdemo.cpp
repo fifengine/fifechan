@@ -6,6 +6,7 @@
 #include "ffdemo.hpp"
 
 // Standard library includes
+#include <cstdlib>
 #include <format>
 #include <iostream>
 #include <memory>
@@ -15,15 +16,45 @@
 
 namespace
 {
-    constexpr int kUiWidth      = 320;
-    constexpr int kUiHeight     = 240;
-    constexpr int kWindowScale  = 2;
-    constexpr int kWindowWidth  = kUiWidth * kWindowScale;
-    constexpr int kWindowHeight = kUiHeight * kWindowScale;
+    constexpr int kUiWidth             = 320;
+    constexpr int kUiHeight            = 240;
+    constexpr int kDefaultWindowScale  = 2;
+    constexpr int kMinWindowScale      = 1;
+    constexpr int kMaxWindowScale      = 6;
+    constexpr char kUiScaleEnvVar[]    = "FFDEMO_UI_SCALE";
+    constexpr char kHideCursorEnvVar[] = "FFDEMO_HIDE_SYSTEM_CURSOR";
+
+    int resolveWindowScale()
+    {
+        char const * envValue = std::getenv(kUiScaleEnvVar);
+        if (envValue == nullptr || *envValue == '\0') {
+            return kDefaultWindowScale;
+        }
+
+        int parsed = std::atoi(envValue);
+        if (parsed < kMinWindowScale || parsed > kMaxWindowScale) {
+            return kDefaultWindowScale;
+        }
+
+        return parsed;
+    }
+
+    bool shouldHideSystemCursor()
+    {
+        char const * envValue = std::getenv(kHideCursorEnvVar);
+        if (envValue == nullptr || *envValue == '\0') {
+            return false;
+        }
+
+        return std::string(envValue) == "1";
+    }
 } // namespace
 
 FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEscapeAudio(nullptr), mEffectTrack(nullptr)
 {
+    int const windowScale  = resolveWindowScale();
+    int const windowWidth  = kUiWidth * windowScale;
+    int const windowHeight = kUiHeight * windowScale;
 
     // Append library version to window title
     std::string const fifeguiVersion = fcn::fifechanVersion();
@@ -34,18 +65,19 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
     }
 
     // Create window
-    SDL_Window* window = SDL_CreateWindow(title.c_str(), kWindowWidth, kWindowHeight, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    mWindow = SDL_CreateWindow(title.c_str(), windowWidth, windowHeight, SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
-    if (window == nullptr) {
+    if (mWindow == nullptr) {
         SDL_Quit();
         throw std::runtime_error("Failed to create SDL_Window: " + std::string(SDL_GetError()));
     }
 
     // Create renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+    mRenderer = SDL_CreateRenderer(mWindow, nullptr);
 
-    if (renderer == nullptr) {
-        SDL_DestroyWindow(window);
+    if (mRenderer == nullptr) {
+        SDL_DestroyWindow(mWindow);
+        mWindow = nullptr;
         SDL_Quit();
         throw std::runtime_error("Failed to create SDL_Renderer: " + std::string(SDL_GetError()));
     }
@@ -57,39 +89,38 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
         throw std::runtime_error(std::string(SDL_GetError()));
     }
 
-    SDL_HideCursor();
+    if (shouldHideSystemCursor()) {
+        SDL_HideCursor();
+    } else {
+        SDL_ShowCursor();
+    }
 
-    // Init SDL3_mixer
+    // Init SDL3_mixer (optional: demo should still run without audio device)
     if (MIX_Init()) {
         mMixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
-        if (mMixer == nullptr) {
-            MIX_Quit();
-            SDL_DestroyRenderer(mRenderer);
-            SDL_DestroyWindow(mWindow);
-            SDL_Quit();
-            throw std::runtime_error("Failed to create mixer");
-        }
+        if (mMixer != nullptr) {
+            mChooseAudio = MIX_LoadAudio(mMixer, "sound/sound1.wav", false);
+            mEscapeAudio = MIX_LoadAudio(mMixer, "sound/sound2.wav", false);
+            mEffectTrack = MIX_CreateTrack(mMixer);
 
-        mChooseAudio = MIX_LoadAudio(mMixer, "sound/sound1.wav", false);
-        mEscapeAudio = MIX_LoadAudio(mMixer, "sound/sound2.wav", false);
-        mEffectTrack = MIX_CreateTrack(mMixer);
-
-        if (mChooseAudio == nullptr || mEscapeAudio == nullptr) {
-            MIX_DestroyTrack(mEffectTrack);
-            MIX_DestroyAudio(mChooseAudio);
-            MIX_DestroyAudio(mEscapeAudio);
-            MIX_DestroyMixer(mMixer);
+            if (mChooseAudio == nullptr || mEscapeAudio == nullptr || mEffectTrack == nullptr) {
+                std::cerr << "[WARN] Audio disabled: failed to load mixer assets." << '\n';
+                MIX_DestroyTrack(mEffectTrack);
+                MIX_DestroyAudio(mChooseAudio);
+                MIX_DestroyAudio(mEscapeAudio);
+                MIX_DestroyMixer(mMixer);
+                mEffectTrack = nullptr;
+                mChooseAudio = nullptr;
+                mEscapeAudio = nullptr;
+                mMixer       = nullptr;
+                MIX_Quit();
+            }
+        } else {
+            std::cerr << "[WARN] Audio disabled: failed to create mixer device." << '\n';
             MIX_Quit();
-            SDL_DestroyRenderer(mRenderer);
-            SDL_DestroyWindow(mWindow);
-            SDL_Quit();
-            throw std::runtime_error("Failed to load audio files");
         }
     } else {
-        SDL_DestroyRenderer(mRenderer);
-        SDL_DestroyWindow(mWindow);
-        SDL_Quit();
-        throw std::runtime_error("Failed to initialize SDL3_mixer");
+        std::cerr << "[WARN] Audio disabled: failed to initialize SDL3_mixer." << '\n';
     }
 
     mSDLImageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
@@ -118,10 +149,16 @@ FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEsca
         "images/rpgfont.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
         cfg);
+
+    fcn::ImageFontConfig cfg2;
+    cfg2.strategy          = fcn::SeparatorStrategy::ExplicitColor;
+    cfg2.explicitSeparator = fcn::Color{255, 255, 0, 255}; // Yellow separator
+
     mFontCyan = std::make_unique<fcn::ImageFont>(
         "images/rpgfont2.png",
         " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"",
-        cfg);
+        cfg2);
+
     fcn::Widget::setGlobalFont(mFontWhite.get());
 
     initMain();

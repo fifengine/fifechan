@@ -24,6 +24,9 @@ namespace fcn
         setFocusable(true);
         setBorderSize(1);
         setOrientation(Orientation::Horizontal);
+        setBackgroundColor(Color(220, 226, 237, 255));
+        setBaseColor(Color(154, 169, 196, 255));
+        setForegroundColor(Color(58, 72, 100, 255));
         setValue(scaleStart);
         setStepLength((scaleEnd - scaleStart) / 10);
         setMarkerLength(10);
@@ -64,11 +67,11 @@ namespace fcn
 
     void Slider::draw(fcn::Graphics* graphics)
     {
-        Color shadowColor = getBaseColor() - 0x101010;
-        int const alpha   = getBaseColor().a;
-        shadowColor.a     = alpha;
+        Color trackColor = getBackgroundColor() - Color(0x101010);
+        int const alpha  = getBackgroundColor().a;
+        trackColor.a     = alpha;
 
-        graphics->setColor(shadowColor);
+        graphics->setColor(trackColor);
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
         drawMarker(graphics);
@@ -80,9 +83,9 @@ namespace fcn
         fcn::Color highlightColor;
         fcn::Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + 0x303030;
+        highlightColor   = faceColor + Color(0x303030);
         highlightColor.a = alpha;
-        shadowColor      = faceColor - 0x303030;
+        shadowColor      = faceColor - Color(0x303030);
         shadowColor.a    = alpha;
 
         graphics->setColor(faceColor);
