@@ -25,12 +25,30 @@ namespace fcn
     class FIFEGUI_API Font
     {
         public:
+            /**
+             * Virtual destructor.
+             */
             virtual ~Font() = default;
 
-            Font(Font const &)            = default;
+            /**
+             * Copy constructor.
+             */
+            Font(Font const &) = default;
+
+            /**
+             * Copy assignment operator.
+             */
             Font& operator=(Font const &) = default;
-            Font(Font&&)                  = default;
-            Font& operator=(Font&&)       = default;
+
+            /**
+             * Move constructor.
+             */
+            Font(Font&&) = default;
+
+            /**
+             * Move assignment operator.
+             */
+            Font& operator=(Font&&) = default;
 
             /**
              * Gets the width of a string.

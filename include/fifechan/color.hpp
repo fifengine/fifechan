@@ -58,13 +58,30 @@ namespace fcn
     {
         public:
             /**
-             * Constructor. Initializes the color to black.
+             * Default constructor.
+             * Initializes to black with full alpha.
              */
-            Color()                         = default;
-            Color(Color const &)            = default;
+            Color() = default;
+
+            /**
+             * Copy constructor.
+             */
+            Color(Color const &) = default;
+
+            /**
+             * Copy assignment operator.
+             */
             Color& operator=(Color const &) = default;
-            Color(Color&&)                  = default;
-            Color& operator=(Color&&)       = default;
+
+            /**
+             * Move constructor.
+             */
+            Color(Color&&) = default;
+
+            /**
+             * Move assignment operator.
+             */
+            Color& operator=(Color&&) = default;
 
             /**
              * Constructor.

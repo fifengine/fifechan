@@ -106,6 +106,14 @@ namespace fcn::opengl
             Color const & getColor() const override;
 
         protected:
+            /**
+             * Backend hook that actually applies the logical target plane size.
+             *
+             * Subclasses may override to update platform or API specific state.
+             *
+             * @param width Logical plane width in pixels.
+             * @param height Logical plane height in pixels.
+             */
             virtual void setTargetPlaneImpl(int width, int height);
 
             /**
@@ -138,7 +146,10 @@ namespace fcn::opengl
 
 namespace fcn
 {
+    /**
+     * Alias for the OpenGL graphics implementation.
+     */
     using OpenGLGraphics = fcn::opengl::Graphics;
-}
+} // namespace fcn
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_GRAPHICS_HPP_

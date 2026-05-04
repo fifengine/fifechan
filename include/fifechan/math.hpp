@@ -390,7 +390,14 @@ namespace fcn
             static bool Equal(T _val1, T _val2);
     };
 
+    /**
+     * Math utilities for floats.
+     */
     using Mathf = Math<float>;
+
+    /**
+     * Math utilities for doubles.
+     */
     using Mathd = Math<double>;
 
     template <typename T>

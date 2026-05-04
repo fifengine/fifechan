@@ -30,74 +30,151 @@
  */
 namespace fcn
 {
+    /**
+     * Simple semantic version container.
+     */
     class semantic_version
     {
     public:
     // clang-format off
+
+        /**
+         * Major version number.
+         */
         int major = @PROJECT_VERSION_MAJOR@;
+        /**
+         * Minor version number.
+         */
         int minor = @PROJECT_VERSION_MINOR@;
+        /**
+         * Patch version number.
+         */
         int patch = @PROJECT_VERSION_PATCH@;
+
     // clang-format on
     };
 
+    /**
+     * Static application version and metadata.
+     */
     class app_version
     {
     public:
     // clang-format off
+
+        /**
+         * User facing short product name.
+         */
         static constexpr std::string_view nice_name   = "@FIFECHAN_NAME@";
+
+        /**
+         * Machine friendly package name.
+         */
         static constexpr std::string_view name        = "@FIFECHAN_NAME@";
+
+        /**
+         * Version string suitable for display.
+         */
         static constexpr std::string_view version     = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@";
+
+        /**
+         * SPDX or textual license identifier.
+         */
         static constexpr std::string_view license     = "@FIFECHAN_LICENSE@";
+
+        /**
+         * Short descriptive text for the project.
+         */
         static constexpr std::string_view description = "@FIFECHAN_DESC@";
+
+        /**
+         * Project homepage URL.
+         */
         static constexpr std::string_view homepage    = "@FIFECHAN_HOMEPAGE@";
+
+        /**
+         * Copyright notice text.
+         */
         static constexpr std::string_view copyright   = "Copyright (c) Fifengine contributors, 2012-@CURRENT_YEAR@.";
+
+        /**
+         * Semantic version instance for compile-time access.
+         */
         static constexpr semantic_version semver{
             .major = @PROJECT_VERSION_MAJOR@,
             .minor = @PROJECT_VERSION_MINOR@,
             .patch = @PROJECT_VERSION_PATCH@,
         };
+
         static constexpr int version_id = (@PROJECT_VERSION_MAJOR@ * 10000) + (@PROJECT_VERSION_MINOR@ * 100) + @PROJECT_VERSION_PATCH@;
+
     // clang-format on
 
         /**
-         * Getters - c_str() types
+         * --------------------------------------
+         * Getters (c_str() types)
+         * --------------------------------------
          */
 
+        /**
+         * Get the machine friendly package name.
+         */
         static constexpr char const* get_name()
         {
             return name.data();
         }
 
+        /**
+         * Name suitable for display.
+         */
         static constexpr char const* get_nice_name()
         {
             return nice_name.data();
         }
 
+        /**
+         * Get the license string for the project.
+         */
         static constexpr char const* get_license()
         {
             return license.data();
         }
 
+        /**
+         * Short description of the project.
+         */
         static constexpr char const* get_description()
         {
             return description.data();
         }
 
+        /**
+         * Get the textual project version.
+         */
         static constexpr char const* get_version()
         {
             return version.data();
         }
 
+        /**
+         * Project homepage URL.
+         */
         static constexpr char const* get_homepage()
         {
             return homepage.data();
         }
 
+        /**
+         * Get the copyright notice text.
+         */
         static constexpr char const* get_copyright()
         {
             return copyright.data();
         }
 
+        /**
+         * Get pointer to numeric version id.
+         */
         static constexpr int const* get_version_num()
         {
             return &version_id;

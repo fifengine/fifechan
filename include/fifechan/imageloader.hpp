@@ -35,12 +35,30 @@ namespace fcn
     class FIFEGUI_API ImageLoader
     {
         public:
+            /**
+             * Virtual destructor.
+             */
             virtual ~ImageLoader() = default;
 
-            ImageLoader(ImageLoader const &)            = default;
+            /**
+             * Copy constructor.
+             */
+            ImageLoader(ImageLoader const &) = default;
+
+            /**
+             * Copy assignment operator.
+             */
             ImageLoader& operator=(ImageLoader const &) = default;
-            ImageLoader(ImageLoader&&)                  = default;
-            ImageLoader& operator=(ImageLoader&&)       = default;
+
+            /**
+             * Move constructor.
+             */
+            ImageLoader(ImageLoader&&) = default;
+
+            /**
+             * Move assignment operator.
+             */
+            ImageLoader& operator=(ImageLoader&&) = default;
 
         protected:
             ImageLoader() = default;

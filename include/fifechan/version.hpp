@@ -30,32 +30,83 @@
  */
 namespace fcn
 {
+    /**
+     * Simple semantic version container.
+     */
     class semantic_version
     {
         public:
             // clang-format off
+        /**
+         * Major version number.
+         */
         int major = 0;
+
+        /**
+         * Minor version number.
+         */
         int minor = 2;
+
+        /**
+         * Patch version number.
+         */
         int patch = 0;
             // clang-format on
     };
 
+    /**
+     * Static application version and metadata.
+     */
     class app_version
     {
         public:
             // clang-format off
+        /**
+         * User facing short product name.
+         */
         static constexpr std::string_view nice_name   = "fifechan";
+
+        /**
+         * Machine friendly package name.
+         */
         static constexpr std::string_view name        = "fifechan";
+
+        /**
+         * Version string suitable for display.
+         */
         static constexpr std::string_view version     = "0.2.0";
+
+        /**
+         * SPDX or textual license identifier.
+         */
         static constexpr std::string_view license     = "LGPL-2.1-or-later";
+
+        /**
+         * Short descriptive text for the project.
+         */
         static constexpr std::string_view description = "FifeGUI is a C++ GUI library designed for games.";
+
+        /**
+         * Project homepage URL.
+         */
         static constexpr std::string_view homepage    = "https://github.com/fifengine/fifechan";
+
+        /**
+         * Copyright notice text.
+         */
         static constexpr std::string_view copyright   = "Copyright (c) Fifengine contributors, 2012-2026.";
+        /**
+         * Semantic version instance for compile-time access.
+         */
         static constexpr semantic_version semver{
             .major = 0,
             .minor = 2,
             .patch = 0,
         };
+
+        /**
+         * Numeric version id computed from major/minor/patch.
+         */
         static constexpr int version_id = (0 * 10000) + (2 * 100) + 0;
             // clang-format on
 
@@ -68,36 +119,57 @@ namespace fcn
                 return name.data();
             }
 
+            /**
+             * Name suitable for display.
+             */
             static constexpr char const * get_nice_name()
             {
                 return nice_name.data();
             }
 
+            /**
+             * Get the license string for the project.
+             */
             static constexpr char const * get_license()
             {
                 return license.data();
             }
 
+            /**
+             * Short description of the project.
+             */
             static constexpr char const * get_description()
             {
                 return description.data();
             }
 
+            /**
+             * Get the textual project version.
+             */
             static constexpr char const * get_version()
             {
                 return version.data();
             }
 
+            /**
+             * Project homepage URL.
+             */
             static constexpr char const * get_homepage()
             {
                 return homepage.data();
             }
 
+            /**
+             * Copyright text for the project.
+             */
             static constexpr char const * get_copyright()
             {
                 return copyright.data();
             }
 
+            /**
+             * Get pointer to numeric version id.
+             */
             static constexpr int const * get_version_num()
             {
                 return &version_id;

@@ -325,6 +325,9 @@ namespace fcn
             }
     };
 
+    /**
+     * A list of points.
+     */
     using PointVector = std::vector<Point>;
 } // namespace fcn
 

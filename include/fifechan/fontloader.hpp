@@ -27,11 +27,33 @@ namespace fcn::font
     class FIFEGUI_API FontLoader
     {
         public:
+            /**
+             * Returns default search paths used when locating font files
+             * on the current platform.
+             */
             static std::vector<std::filesystem::path> getDefaultSearchPaths();
 
+            /**
+             * Find a font file by name searching the provided paths.
+             *
+             * @param fontName Font family or filename to search for.
+             * @param searchPaths Optional list of paths to search. If empty
+             *                    the default search paths are used.
+             * @return Path to the found font file or empty path when not found.
+             */
             static std::filesystem::path findFontFile(
                 std::string const & fontName, std::vector<std::filesystem::path> const & searchPaths = {});
 
+            /**
+             * Load a `Font` object for the given font name and size using
+             * the provided `Graphics` implementation.
+             *
+             * @param graphics Graphics instance used for creating font resources.
+             * @param fontName Font family or filename.
+             * @param size Requested font size in points.
+             * @param searchPaths Optional search paths for locating font files.
+             * @return Shared pointer to a `Font` instance or nullptr on failure.
+             */
             static std::shared_ptr<Font> loadFont(
                 Graphics& graphics,
                 std::string const & fontName,

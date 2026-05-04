@@ -111,6 +111,14 @@ namespace fcn
             class ModalScope
             {
                 public:
+                    /**
+                     * RAII helper that pushes a modal state on construction and
+                     * pops it on destruction unless `release()` is called.
+                     *
+                     * @param handler The focus handler managing modal states.
+                     * @param focusOwner Widget that will receive modal focus.
+                     * @param mouseOwner Optional widget for modal mouse input focus.
+                     */
                     ModalScope(FocusHandler* handler, Widget* focusOwner, Widget* mouseOwner = nullptr) :
                         mHandler(handler)
                     {
@@ -142,6 +150,11 @@ namespace fcn
                     ModalScope(ModalScope&&)                  = delete;
                     ModalScope& operator=(ModalScope&&)       = delete;
 
+                    /**
+                     * Release ownership so the modal is not popped during destruction.
+                     * After calling `release()` the ModalScope destructor will not
+                     * call `popModal()`.
+                     */
                     void release()
                     {
                         mReleased  = true;
@@ -383,8 +396,15 @@ namespace fcn
              */
             struct ModalState
             {
-                    Widget* focusOwner; // Widget with modal focus at this level
-                    Widget* mouseOwner; // Widget with modal mouse input at this level
+                    /**
+                     * Widget with modal focus at this level.
+                     */
+                    Widget* focusOwner;
+
+                    /**
+                     * Widget with modal mouse input at this level.
+                     */
+                    Widget* mouseOwner;
             };
 
             /**

@@ -26,11 +26,30 @@ namespace fcn
      */
     struct MenuItemMetrics
     {
-            int iconW{0};     // Width of icon column (or checkmark space)
-            int captionW{0};  // Width of caption text
-            int shortcutW{0}; // Width of shortcut text
-            int arrowW{0};    // Width of submenu arrow
-            int height{0};    // Height of the item
+            /**
+             * Width of icon column (or checkmark space).
+             */
+            int iconW{0};
+
+            /**
+             * Width of caption text.
+             */
+            int captionW{0};
+
+            /**
+             * Width of shortcut text.
+             */
+            int shortcutW{0};
+
+            /**
+             * Width of submenu arrow.
+             */
+            int arrowW{0};
+
+            /**
+             * Height of the item.
+             */
+            int height{0};
     };
 
     /**
@@ -38,10 +57,25 @@ namespace fcn
      */
     struct MenuColumns
     {
-            int iconW{0};     // Maximum icon width across all items
-            int captionW{0};  // Maximum caption width across all items
-            int shortcutW{0}; // Maximum shortcut width across all items
-            int arrowW{0};    // Maximum arrow width across all items
+            /**
+             * Maximum icon width across all items.
+             */
+            int iconW{0};
+
+            /**
+             * Maximum caption width across all items.
+             */
+            int captionW{0};
+
+            /**
+             * Maximum shortcut width across all items.
+             */
+            int shortcutW{0};
+
+            /**
+             * Maximum arrow width across all items.
+             */
+            int arrowW{0};
     };
 
     /**
@@ -49,11 +83,30 @@ namespace fcn
      */
     struct ColumnLayout
     {
-            int xIcon;        // X position of icon column
-            int xCaption;     // X position of caption column
-            int xShortcut;    // X position of shortcut column
-            int xArrow;       // X position of arrow column
-            MenuColumns cols; // Column widths
+            /**
+             * X position of icon column.
+             */
+            int xIcon;
+
+            /**
+             * X position of caption column.
+             */
+            int xCaption;
+
+            /**
+             * X position of shortcut column.
+             */
+            int xShortcut;
+
+            /**
+             * X position of arrow column.
+             */
+            int xArrow;
+
+            /**
+             * Column widths aggregated across items.
+             */
+            MenuColumns cols;
     };
 
     /**
@@ -152,12 +205,20 @@ namespace fcn
              * Text API aliases for compatibility.
              */
             void setText(std::string const & text);
+            /**
+             * Get the menu item text.
+             */
             std::string const & getText() const;
 
             /**
              * Icon support (optional image to render at the left).
              */
             void setIcon(Image const * image);
+            /**
+             * Get the optional icon image.
+             *
+             * @return Pointer to the image or nullptr if none.
+             */
             Image const * getIcon() const;
 
             /**
@@ -165,8 +226,19 @@ namespace fcn
              * The glyph is rendered using the provided font when available.
              */
             void setIconGlyph(std::string const & glyph, Font* font = nullptr);
+            /**
+             * Get the icon glyph string.
+             */
             std::string const & getIconGlyph() const;
+
+            /**
+             * Set the font used to render the icon glyph.
+             */
             void setIconGlyphFont(Font* font);
+
+            /**
+             * Get the font used for the icon glyph.
+             */
             Font* getIconGlyphFont() const;
 
             /**
@@ -249,6 +321,9 @@ namespace fcn
              * Optional icon glyph (emoji or glyph string) and font to render it.
              */
             std::string mIconGlyph;
+            /**
+             * Font used to render `mIconGlyph` when set.
+             */
             Font* mIconGlyphFont{nullptr};
 
             /**

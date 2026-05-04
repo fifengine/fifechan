@@ -57,10 +57,25 @@ namespace fcn
      */
     struct ImageFontConfig
     {
+            /**
+             * Strategy used to detect separator color in the image.
+             */
             SeparatorStrategy strategy = SeparatorStrategy::Auto;
-            Color explicitSeparator    = Color{255, 0, 255, 255};
-            int glyphPadding           = 0;
-            bool verbose               = false;
+
+            /**
+             * Explicit separator color used when `ExplicitColor` strategy is selected.
+             */
+            Color explicitSeparator = Color{255, 0, 255, 255};
+
+            /**
+             * Number of pixels to pad/ignore around detected glyphs.
+             */
+            int glyphPadding = 0;
+
+            /**
+             * If true, enable verbose debug output while scanning fonts.
+             */
+            bool verbose = false;
     };
 
     /**
@@ -123,6 +138,13 @@ namespace fcn
              */
             ImageFont(std::string const & filename, std::string const & glyphs);
 
+            /**
+             * Constructor with configuration.
+             *
+             * @param filename The filename of the image.
+             * @param glyphs The glyphs found in the image.
+             * @param config Configuration for parsing the image font.
+             */
             ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config);
 
             /**
@@ -138,6 +160,14 @@ namespace fcn
              */
             ImageFont(Image* image, std::string const & glyphs);
 
+            /**
+             * Constructor from an image with configuration.
+             * The image will be owned by the ImageFont instance.
+             *
+             * @param image The image with font glyphs.
+             * @param glyphs The glyphs found in the image.
+             * @param config Configuration for parsing the image font.
+             */
             ImageFont(Image* image, std::string const & glyphs, ImageFontConfig const & config);
 
             /**
@@ -157,6 +187,14 @@ namespace fcn
             explicit ImageFont(
                 std::string const & filename, unsigned char glyphsFrom = 32, unsigned char glyphsTo = 126);
             // New constructor with configuration
+            /**
+             * Constructor defining glyph range with configuration.
+             *
+             * @param filename The filename of the image.
+             * @param glyphsFrom ASCII of the first glyph (inclusive).
+             * @param glyphsTo ASCII of the last glyph (inclusive).
+             * @param config Configuration for parsing the image font.
+             */
             ImageFont(
                 std::string const & filename,
                 unsigned char glyphsFrom,

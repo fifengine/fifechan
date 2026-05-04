@@ -13,6 +13,11 @@
 
 namespace fcn
 {
+    /**
+     * Returns the textual library version.
+     *
+     * Convenience wrapper around `app_version::get_version()`.
+     */
     FIFEGUI_API char const * fifechanVersion()
     {
         return app_version::get_version();

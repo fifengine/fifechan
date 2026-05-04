@@ -27,6 +27,13 @@ namespace fcn
     class FIFEGUI_API ModalBackdrop : public Container, public MouseListener
     {
         public:
+            /**
+             * Constructor.
+             *
+             * @param owner The MenuPopup this backdrop belongs to. The backdrop
+             *              will notify the owner when clicks outside the popup
+             *              should close it.
+             */
             explicit ModalBackdrop(MenuPopup* owner);
             ~ModalBackdrop() override;
 

@@ -121,6 +121,12 @@ namespace fcn
             unsigned int mLine = 0;
     };
 
+    /**
+     * Throw an Exception capturing the current source location.
+     *
+     * @param message The error message of the exception.
+     * @param location The source location of where the exception occurred.
+     */
     inline void throwException(
         std::string const & message, std::source_location location = std::source_location::current())
     {

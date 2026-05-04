@@ -37,8 +37,20 @@ namespace fcn
      */
     struct TooltipModifierBehavior
     {
+            /**
+             * True if modifier-based extended content is enabled.
+             */
             bool enabled = false;
+
+            /**
+             * Modifier key mask used to trigger extended content (SDL mask value).
+             */
             int modifier = 0x100; // KMOD_ALT from SDL
+
+            /**
+             * Function that returns modified content when the modifier is active.
+             * The argument is the widget id for which to generate content.
+             */
             std::function<std::string(int widgetId)> modifiedContent;
     };
 
@@ -47,10 +59,29 @@ namespace fcn
      */
     struct TooltipSpec
     {
+            /**
+             * Function that generates tooltip content for a widget id.
+             */
             std::function<std::string(int widgetId)> content;
-            int delayMs                = 300;
-            TooltipTrigger trigger     = TooltipTrigger::Hover;
+
+            /**
+             * Delay in milliseconds before showing the tooltip.
+             */
+            int delayMs = 300;
+
+            /**
+             * Trigger mechanism for the tooltip (e.g., hover).
+             */
+            TooltipTrigger trigger = TooltipTrigger::Hover;
+
+            /**
+             * Preferred placement for the tooltip relative to cursor/widget.
+             */
             TooltipPlacement placement = TooltipPlacement::Cursor;
+
+            /**
+             * Behavior configuration for modifier-extended content.
+             */
             TooltipModifierBehavior modifierBehavior;
     };
 
@@ -69,30 +100,82 @@ namespace fcn
     class FIFEGUI_API Tooltip : public Container
     {
         public:
+            /**
+             * Constructor.
+             */
             Tooltip();
+
+            /**
+             * Destructor.
+             */
             ~Tooltip() override = default;
 
-            // Set tooltip specification
+            /**
+             * Set the tooltip specification describing content and behavior.
+             */
             void setSpec(TooltipSpec const & spec);
+
+            /**
+             * Get the current tooltip specification.
+             */
             TooltipSpec const & getSpec() const;
 
-            // Widget ID this tooltip is attached to
+            /**
+             * Attach this tooltip to a widget id.
+             */
             void setWidgetId(int id);
+
+            /**
+             * Get the widget id this tooltip is attached to.
+             */
             int getWidgetId() const;
 
-            // Hover state management
+            /**
+             * Begin hover tracking for the attached widget.
+             */
             void startHover();
+
+            /**
+             * End hover tracking for the attached widget.
+             */
             void endHover();
+
+            /**
+             * Query whether the tooltip is currently hovering.
+             */
             bool isHovering() const;
+
+            /**
+             * Periodic update to advance timers and compute modifier state.
+             *
+             * @param deltaMs Milliseconds since last update.
+             * @param modifierState Current modifier key state mask.
+             */
             void update(int deltaMs, int modifierState);
 
-            // Content generation
+            /**
+             * Generate tooltip content based on `mSpec` and widget id.
+             */
             void generateContent();
+
+            /**
+             * Get the currently generated content string.
+             */
             std::string const & getCurrentContent() const;
+
+            /**
+             * True if the tooltip is showing extended (modifier) content.
+             */
             bool isExtendedView() const;
 
-            // Rendering
+            /**
+             * Draw the tooltip.
+             */
             void draw(Graphics* graphics) override;
+
+            /**
+             * Compute the children area for layout.
+             */
             Rectangle getChildrenArea() override;
 
         private:

@@ -34,6 +34,7 @@ namespace fcn
              *
              * @param icon The icon to display (can be image path or emoji).
              * @param tooltip The tooltip text.
+             * @param panel Optional panel widget that this item will show or hide.
              */
             explicit ActivityBarItem(
                 std::string const & icon, std::string const & tooltip = "", Widget* panel = nullptr);

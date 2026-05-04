@@ -1795,13 +1795,16 @@ namespace fcn
              */
             std::list<Widget*> const & getChildren() const;
 
-            /**
-             * Distribute drag events to registered drop target listeners.
-             * These are called by DragHandler during update/drop.
-             */
+            /** Distribute a drag enter event to listeners. */
             bool distributeDragEnter(DragEvent& event);
+
+            /** Distribute a drag leave event to listeners. */
             void distributeDragLeave(DragEvent& event);
+
+            /** Distribute a drag hover event to listeners. */
             void distributeDragHover(DragEvent& event);
+
+            /** Distribute a drop event to listeners. */
             void distributeDragDrop(DragEvent& event);
 
             /**
@@ -2093,29 +2096,44 @@ namespace fcn
 // Bitwise operators for Widget::SelectionMode (enum class)
 namespace fcn
 {
+    /**
+     * Bitwise OR operator for `Widget::SelectionMode`.
+     *
+     * Allows combining selection mode flags using the `|` operator.
+     */
     constexpr Widget::SelectionMode operator|(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
     {
         using T = std::underlying_type_t<Widget::SelectionMode>;
         return static_cast<Widget::SelectionMode>(static_cast<T>(a) | static_cast<T>(b));
     }
 
+    /**
+     * Bitwise or for selection modes.
+     */
     constexpr Widget::SelectionMode operator&(Widget::SelectionMode a, Widget::SelectionMode b) noexcept
     {
         using T = std::underlying_type_t<Widget::SelectionMode>;
         return static_cast<Widget::SelectionMode>(static_cast<T>(a) & static_cast<T>(b));
     }
 
+    /**
+     * Bitwise and for selection modes.
+     */
     constexpr Widget::SelectionMode& operator|=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
     {
         a = a | b;
         return a;
     }
 
+    /**
+     * Bitwise or assign for selection modes.
+     */
     constexpr Widget::SelectionMode& operator&=(Widget::SelectionMode& a, Widget::SelectionMode b) noexcept
     {
         a = a & b;
         return a;
     }
+
 } // namespace fcn
 
 #endif // INCLUDE_FIFECHAN_WIDGET_HPP_

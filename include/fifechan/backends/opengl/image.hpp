@@ -131,7 +131,10 @@ namespace fcn::opengl
 
 namespace fcn
 {
+    /**
+     * Alias for the OpenGL image implementation.
+     */
     using OpenGLImage = fcn::opengl::Image;
-}
+} // namespace fcn
 
 #endif // INCLUDE_FIFECHAN_BACKENDS_OPENGL_IMAGE_HPP_
