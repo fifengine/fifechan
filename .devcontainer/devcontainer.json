@@ -24,9 +24,19 @@
     }
   },
   "runArgs": [
-    "--add-host=host.docker.internal:host-gateway",
-    "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
-    "--env=DISPLAY=${localEnv:DISPLAY}"
+    "--runtime=nvidia",
+    "--gpus", "all",
+    "--network", "host"
   ],
+  "mounts": [
+    "source=/run/desktop/mnt/host/wslg/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+    "source=/run/desktop/mnt/host/wslg,target=/mnt/wslg,type=bind,consistency=cached"
+  ],
+  "remoteEnv": {
+    "DISPLAY": ":0",
+    "WAYLAND_DISPLAY": "wayland-0",
+    "XDG_RUNTIME_DIR": "/mnt/wslg/runtime-dir",
+    "PULSE_SERVER": "/mnt/wslg/PulseServer"
+  },
   "postStartCommand": "chmod +x ./build-tools/setup-vcpkg.sh && ./build-tools/setup-vcpkg.sh"
 }
