@@ -79,7 +79,11 @@ CONFLICT_RENAME = {
     'LESS': 'KEY_LESS',
     'GREATER': 'KEY_GREATER',
     'UNKNOWN': 'KEY_UNKNOWN',
-    'DELETE': 'KEY_DELETE',
+    'DELETE': 'KEY_DELETE',   # <winnt.h> #define DELETE
+    'OUT': 'KEY_OUT',         # <windef.h> #define OUT
+    'IN': 'KEY_IN',           # <windef.h> #define IN
+    'NEAR': 'KEY_NEAR',       # <windef.h> #define NEAR
+    'FAR': 'KEY_FAR',         # <windef.h> #define FAR
 }
 
 def to_enum_name(name: str) -> str:
