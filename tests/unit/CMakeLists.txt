@@ -22,6 +22,7 @@ set(UNIT_TEST_SOURCES
   src/key.tests.cpp
   src/keyinput.tests.cpp
   src/mouseinput.tests.cpp
+  src/shortcut.tests.cpp
   # Event tests
   src/events/event.tests.cpp
   src/events/actionevent.tests.cpp

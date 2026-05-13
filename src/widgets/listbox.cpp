@@ -139,10 +139,10 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Enter || key.getValue() == Key::Space) {
+        if (key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) {
             distributeActionEvent();
             keyEvent.consume();
-        } else if (key.getValue() == Key::Up) {
+        } else if (key.getValue() == fcn::UP) {
             setSelected(mSelected - 1);
 
             if (mSelected == -1) {
@@ -154,7 +154,7 @@ namespace fcn
             }
 
             keyEvent.consume();
-        } else if (key.getValue() == Key::Down) {
+        } else if (key.getValue() == fcn::DOWN) {
             if (mWrappingEnabled && getSelected() == getListModel()->getNumberOfElements() - 1) {
                 setSelected(0);
             } else {
@@ -162,10 +162,10 @@ namespace fcn
             }
 
             keyEvent.consume();
-        } else if (key.getValue() == Key::Home) {
+        } else if (key.getValue() == fcn::HOME) {
             setSelected(0);
             keyEvent.consume();
-        } else if (key.getValue() == Key::End) {
+        } else if (key.getValue() == fcn::END) {
             setSelected(getListModel()->getNumberOfElements() - 1);
             keyEvent.consume();
         }

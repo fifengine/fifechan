@@ -22,6 +22,7 @@
 // Project headers (subdirs before local)
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/mouseevent.hpp"
+#include "fifechan/events/textinputevent.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/graphics.hpp"
@@ -228,6 +229,7 @@ namespace fcn
             mInput->_pollInput();
 
             handleKeyInput();
+            handleTextInput();
             handleMouseInput();
         }
 
@@ -341,6 +343,30 @@ namespace fcn
         }
     }
 
+    void Gui::handleTextInput()
+    {
+        while (!mInput->isTextQueueEmpty()) {
+            std::string text = mInput->dequeueTextInput();
+
+            Widget* focused = mFocusHandler->getFocused();
+            if (focused == nullptr || !focused->isEnabled()) {
+                continue;
+            }
+
+            TextInputEvent textEvent(
+                focused,
+                focused,
+                mShiftPressed,
+                mControlPressed,
+                mAltPressed,
+                mMetaPressed,
+                text,
+                TextInputEvent::Type::Input);
+
+            focused->textInput(textEvent);
+        }
+    }
+
     void Gui::handleKeyInput()
     {
         while (!mInput->isKeyQueueEmpty()) {
@@ -399,7 +425,7 @@ namespace fcn
             // If the key event hasn't been consumed and
             // tabbing is enable check for tab press and
             // change focus.
-            if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == Key::Tab &&
+            if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == fcn::TAB &&
                 keyInput.getType() == KeyInput::Type::Pressed) {
                 if (keyInput.isShiftPressed()) {
                     mFocusHandler->tabPrevious();

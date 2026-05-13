@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
+### Added
+
+- key system refactor (issue #981): auto-generated `key_gen.h` from SDL3 headers, `fcn::Shortcut` class for hotkey bindings, `TextInputEvent` for IME/dead-key text, `InputEvent` bitmask modifier storage
+
+### Changed
+
+- `Key::X` enum removed in favour of generated `fcn::X` (uint32_t SDLK_* values, 1:1 with SDL3). All widgets migrated. Backward compatibility broken.
+- SDL3 input backend: `convertSDLEventToFifechanKeyValue()` removed, `SDL_EVENT_TEXT_INPUT` routed to dedicated text queue instead of `KeyInput` hack
+
 ## [0.2.0] - 2026-05-04
 
 ### Added

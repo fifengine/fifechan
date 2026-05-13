@@ -331,6 +331,12 @@ namespace fcn
             virtual void handleKeyInput();
 
             /**
+             * Handles text input from the backend.
+             *
+             */
+            virtual void handleTextInput();
+
+            /**
              * Handles mouse moved input.
              *
              * @param mouseInput The mouse input to handle.

@@ -5,6 +5,10 @@
 #ifndef INCLUDE_FIFECHAN_INPUT_HPP_
 #define INCLUDE_FIFECHAN_INPUT_HPP_
 
+// Standard library includes
+#include <cstdint>
+#include <string>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -68,6 +72,32 @@ namespace fcn
              * @return The first mouse input in the mouse input queue.
              */
             virtual MouseInput dequeueMouseInput() = 0;
+
+            /**
+             * Checks if the text input queue is empty.
+             *
+             * Base implementation returns true (no text queue).
+             * Override in backends that support text input (e.g. SDL3).
+             *
+             * @return True if the text queue is empty, false otherwise.
+             */
+            virtual bool isTextQueueEmpty()
+            {
+                return true;
+            }
+
+            /**
+             * Dequeues a UTF-8 text string from the text input queue.
+             *
+             * Base implementation returns an empty string.
+             * Override in backends that support text input (e.g. SDL3).
+             *
+             * @return The UTF-8 text string.
+             */
+            virtual std::string dequeueTextInput()
+            {
+                return {};
+            }
 
             /**
              * Polls all existing input.

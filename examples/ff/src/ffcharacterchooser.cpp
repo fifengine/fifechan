@@ -41,13 +41,13 @@ void FFCharacterChooser::setDistance(int distance)
 
 void FFCharacterChooser::keyPressed(fcn::KeyEvent& keyEvent)
 {
-    if (keyEvent.getKey().getValue() == fcn::Key::Up) {
+    if (keyEvent.getKey().getValue() == fcn::UP) {
         --mSelected;
         mSelected = std::max(mSelected, 0);
-    } else if (keyEvent.getKey().getValue() == fcn::Key::Down) {
+    } else if (keyEvent.getKey().getValue() == fcn::DOWN) {
         ++mSelected;
         mSelected = std::min(mSelected, 2);
-    } else if (keyEvent.getKey().getValue() == fcn::Key::Enter) {
+    } else if (keyEvent.getKey().getValue() == fcn::RETURN) {
         distributeActionEvent();
     }
 }

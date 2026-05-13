@@ -5,6 +5,9 @@
 #ifndef INCLUDE_FIFECHAN_INPUTEVENT_HPP_
 #define INCLUDE_FIFECHAN_INPUTEVENT_HPP_
 
+// Standard library includes
+#include <cstdint>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
@@ -16,11 +19,21 @@ namespace fcn
     /**
      * Base class for all input-related events (keyboard, mouse).
      *
+     * Modifier state is stored as a bitmask. The public query methods
+     * (isShiftPressed(), etc.) are retained for backward compatibility.
+     *
      * @ingroup events
      */
     class FIFEGUI_API InputEvent : public Event
     {
         public:
+            /// Modifier bitmask flags, matching Shortcut::Modifier positions.
+            /// @see getModMask
+            static constexpr uint16_t ModShift   = 1 << 0;  ///< Shift key.
+            static constexpr uint16_t ModControl = 1 << 1;  ///< Control key.
+            static constexpr uint16_t ModAlt     = 1 << 2;  ///< Alt key.
+            static constexpr uint16_t ModMeta    = 1 << 3;  ///< Meta (GUI/Command) key.
+
             /**
              * Constructor.
              *
@@ -72,6 +85,13 @@ namespace fcn
             bool isMetaPressed() const;
 
             /**
+             * Gets the modifier bitmask.
+             *
+             * @return The modifier bitmask.
+             */
+            uint16_t getModMask() const;
+
+            /**
              * Marks this event as consumed.
              *
              * Consumed events may be ignored by some listeners or handled differently.
@@ -105,24 +125,9 @@ namespace fcn
 
         protected:
             /**
-             * True if shift is pressed, false otherwise.
+             * Modifier bitmask (ModShift | ModControl | ModAlt | ModMeta).
              */
-            bool mShiftPressed;
-
-            /**
-             * True if control is pressed, false otherwise.
-             */
-            bool mControlPressed;
-
-            /**
-             * True if alt is pressed, false otherwise.
-             */
-            bool mAltPressed;
-
-            /**
-             * True if meta is pressed, false otherwise.
-             */
-            bool mMetaPressed;
+            uint16_t mModMask{0};
 
             /**
              * True if the input event is consumed,

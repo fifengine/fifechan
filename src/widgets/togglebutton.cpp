@@ -100,7 +100,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && mKeyPressed) {
+        if ((key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) && mKeyPressed) {
             mKeyPressed = false;
             toggleSelected();
             keyEvent.consume();

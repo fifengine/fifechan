@@ -199,13 +199,13 @@ namespace fcn
 
         Key const key = keyEvent.getKey();
 
-        if ((key.getValue() == Key::Enter || key.getValue() == Key::Space) && !mDroppedDown) {
+        if ((key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) && !mDroppedDown) {
             dropDown();
             keyEvent.consume();
-        } else if (key.getValue() == Key::Up) {
+        } else if (key.getValue() == fcn::UP) {
             setSelected(getSelected() - 1);
             keyEvent.consume();
-        } else if (key.getValue() == Key::Down) {
+        } else if (key.getValue() == fcn::DOWN) {
             setSelected(getSelected() + 1);
             keyEvent.consume();
         }

@@ -223,6 +223,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/events/keyevent.hpp
     include/fifechan/events/mouseevent.hpp
     include/fifechan/events/selectionevent.hpp
+    include/fifechan/events/textinputevent.hpp
     include/fifechan/exception.hpp
     include/fifechan/focushandler.hpp
     include/fifechan/font.hpp
@@ -237,6 +238,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/input.hpp
     include/fifechan/key.hpp
     include/fifechan/keyinput.hpp
+    include/fifechan/shortcut.hpp
     include/fifechan/listeners/actionlistener.hpp
     include/fifechan/listeners/containerlistener.hpp
     include/fifechan/listeners/deathlistener.hpp
@@ -314,11 +316,12 @@ set(FIFECHAN_SRC
     src/events/keyevent.cpp
     src/events/mouseevent.cpp
     src/events/selectionevent.cpp
+    src/events/textinputevent.cpp
     src/fifechan.cpp
-     src/focushandler.cpp
-     src/font.cpp
-     src/fontloader.cpp
-     src/genericinput.cpp
+    src/focushandler.cpp
+    src/font.cpp
+    src/fontloader.cpp
+    src/genericinput.cpp
     src/graphics.cpp
     src/gui.cpp
     src/image.cpp
@@ -327,6 +330,7 @@ set(FIFECHAN_SRC
     src/keyinput.cpp
     src/mouseinput.cpp
     src/rectangle.cpp
+    src/shortcut.cpp
     src/size.cpp
     src/text.cpp
     src/utf8stringeditor.cpp
@@ -384,6 +388,81 @@ if(ENABLE_SDL)
   find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
   find_package(SDL3_image CONFIG REQUIRED)
   find_package(SDL3_ttf CONFIG REQUIRED)
+
+  #------------------------------------------------------------------------------
+  # Auto-regenerate key_gen.h when SDL3 headers change
+  #------------------------------------------------------------------------------
+
+  find_package(Python3 COMPONENTS Interpreter QUIET)
+
+  if(Python3_EXECUTABLE AND TARGET SDL3::SDL3)
+
+    get_target_property(_SDL3_INC_DIRS SDL3::SDL3 INTERFACE_INCLUDE_DIRECTORIES)
+
+    find_path(SDL3_INCLUDE_DIR
+      NAMES SDL_keycode.h
+      HINTS ${_SDL3_INC_DIRS}
+      PATH_SUFFIXES SDL3
+    )
+
+    if(SDL3_INCLUDE_DIR)
+
+      set(KEYGEN_HDR    "${PROJECT_BINARY_DIR}/generated/fifechan/key_gen.h")
+      set(KEYGEN_SCRIPT "${PROJECT_SOURCE_DIR}/tools/keygen/generate.py")
+      set(SDL3_KEYCODE  "${SDL3_INCLUDE_DIR}/SDL_keycode.h")
+      set(SDL3_VERSION  "${SDL3_INCLUDE_DIR}/SDL_version.h")
+
+      # One-shot generation at configure time: generate to .tmp, compare,
+      # and only overwrite when content differs (avoids unnecessary rebuilds).
+      file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/generated/fifechan")
+      execute_process(
+        COMMAND ${Python3_EXECUTABLE}
+                "${KEYGEN_SCRIPT}"
+                "${SDL3_KEYCODE}"
+                -o "${KEYGEN_HDR}.tmp"
+        RESULT_VARIABLE _keygen_res
+      )
+      if(_keygen_res EQUAL 0)
+        execute_process(
+          COMMAND ${CMAKE_COMMAND} -E compare_files "${KEYGEN_HDR}.tmp" "${KEYGEN_HDR}"
+          RESULT_VARIABLE _cmp_res
+          OUTPUT_QUIET ERROR_QUIET
+        )
+        if(NOT _cmp_res EQUAL 0)
+          file(RENAME "${KEYGEN_HDR}.tmp" "${KEYGEN_HDR}")
+          message(STATUS "Generated ${KEYGEN_HDR}")
+        else()
+          file(REMOVE "${KEYGEN_HDR}.tmp")
+        endif()
+      else()
+        message(WARNING "Failed to generate ${KEYGEN_HDR}")
+      endif()
+
+      # Build-time custom target for explicit regeneration (e.g. after SDL3 update)
+      add_custom_command(
+        OUTPUT  "${KEYGEN_HDR}"
+        COMMAND ${Python3_EXECUTABLE}
+                "${KEYGEN_SCRIPT}"
+                "${SDL3_KEYCODE}"
+                -o "${KEYGEN_HDR}"
+        DEPENDS
+          "${KEYGEN_SCRIPT}"
+          "${SDL3_KEYCODE}"
+          "${SDL3_VERSION}"
+        COMMENT "Checking SDL3 keycode bindings"
+        VERBATIM
+      )
+
+      add_custom_target(sync_keys_with_SDL3 DEPENDS "${KEYGEN_HDR}")
+
+      include_directories("${PROJECT_BINARY_DIR}/generated")
+
+      # Install the generated header alongside key.hpp
+      install(FILES "${KEYGEN_HDR}"
+              DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/fifechan")
+
+    endif()
+  endif()
 endif()
 
 if(ENABLE_OPENGL)
@@ -406,6 +485,10 @@ endif()
 
 add_library(${PROJECT_NAME}_lib OBJECT)
 add_library(${PROJECT_NAME}::${PROJECT_NAME}_lib ALIAS ${PROJECT_NAME}_lib)
+
+if(TARGET sync_keys_with_SDL3)
+  add_dependencies(${PROJECT_NAME}_lib sync_keys_with_SDL3)
+endif()
 
 target_sources(${PROJECT_NAME}_lib
     PRIVATE
@@ -464,6 +547,7 @@ target_sources(${PROJECT_NAME}
     BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/include
     FILES
       ${FIFECHAN_VERSION_HEADER}
+
 )
 
 # Inherit include dirs, dependencies, and compile definitions from object library

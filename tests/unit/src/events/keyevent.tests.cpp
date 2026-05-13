@@ -133,25 +133,17 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
             false,
             fcn::KeyEvent::Type::Pressed,
             false,
-            fcn::Key(fcn::Key::Escape));
+            fcn::Key(fcn::ESCAPE));
 
-        REQUIRE(event.getKey().getValue() == fcn::Key::Escape);
+        REQUIRE(event.getKey().getValue() == fcn::ESCAPE);
     }
 
     SECTION("tab key")
     {
         fcn::KeyEvent event(
-            &source,
-            &distributor,
-            false,
-            false,
-            false,
-            false,
-            fcn::KeyEvent::Type::Pressed,
-            false,
-            fcn::Key(fcn::Key::Tab));
+            &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(fcn::TAB));
 
-        REQUIRE(event.getKey().getValue() == fcn::Key::Tab);
+        REQUIRE(event.getKey().getValue() == fcn::TAB);
     }
 }
 

@@ -33,6 +33,7 @@ namespace fcn
     class KeyInput;
     class KeyListener;
     class MouseEvent;
+    class TextInputEvent;
     class MouseInput;
     class MouseListener;
     class VisibilityEventHandler;
@@ -464,6 +465,18 @@ namespace fcn
              * @see Gui::logic
              */
             virtual void logic()
+            {
+            }
+
+            /**
+             * Called when text input (IME, dead-key, paste) is received.
+             *
+             * Override this to handle text input in your widget.
+             * The default implementation does nothing.
+             *
+             * @param event The text input event containing the UTF-8 text.
+             */
+            virtual void textInput(TextInputEvent& event)
             {
             }
 

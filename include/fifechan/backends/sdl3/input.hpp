@@ -67,6 +67,10 @@ namespace fcn::sdl3
 
             MouseInput dequeueMouseInput() override;
 
+            bool isTextQueueEmpty() override;
+
+            std::string dequeueTextInput() override;
+
         protected:
             /**
              * Converts a mouse button from SDL to a FifeGUI mouse button.
@@ -76,20 +80,14 @@ namespace fcn::sdl3
              */
             static MouseInput::Button convertMouseButton(int button);
 
-            /**
-             * Converts an SDL event to a FifeGUI key value.
-             *
-             * @param event The SDL event to convert.
-             * @return A FifeGUI key value. -1 if no conversion took place.
-             * @see Key
-             */
-            static int convertSDLEventToFifechanKeyValue(SDL_Event event);
-
             /** Queue of key inputs waiting to be processed. */
             std::queue<KeyInput> mKeyInputQueue;
 
             /** Queue of mouse inputs waiting to be processed. */
             std::queue<MouseInput> mMouseInputQueue;
+
+            /** Queue of text input strings waiting to be processed. */
+            std::queue<std::string> mTextInputQueue;
 
             /** True if a mouse button is currently held down. */
             bool mMouseDown{false};

@@ -96,7 +96,7 @@ namespace fcn
         layout.xArrow    = xArrow;
         layout.cols      = cols;
 
-        // Layout each item — use measured heights when available
+        // Layout each item, use measured heights when available
         int contentH = 0;
         int y        = 0;
 
@@ -463,7 +463,7 @@ namespace fcn
     {
         Key const key = event.getKey();
         // ESC closes this menu (and its root will pop modal)
-        if (key.getValue() == Key::Escape) {
+        if (key.getValue() == fcn::ESCAPE) {
             // If this menu has a parent, close self; otherwise close root
             hide();
             event.consume();
@@ -471,7 +471,7 @@ namespace fcn
         }
 
         if (mParentMenuItem != nullptr) {
-            if (key.getValue() == Key::Up || key.getValue() == Key::Down) {
+            if (key.getValue() == fcn::UP || key.getValue() == fcn::DOWN) {
                 auto children = getChildren();
                 if (children.empty()) {
                     return;
@@ -479,7 +479,7 @@ namespace fcn
 
                 mHoverIndex = std::max(mHoverIndex, 0);
 
-                if (key.getValue() == Key::Up) {
+                if (key.getValue() == fcn::UP) {
                     mHoverIndex =
                         (mHoverIndex - 1 + static_cast<int>(children.size())) % static_cast<int>(children.size());
                 } else {
@@ -502,7 +502,7 @@ namespace fcn
                 return;
             }
 
-            if (key.getValue() == Key::Right) {
+            if (key.getValue() == fcn::RIGHT) {
                 auto children = getChildren();
                 if (mHoverIndex >= 0) {
                     int i = 0;
@@ -529,7 +529,7 @@ namespace fcn
                 }
             }
 
-            if (key.getValue() == Key::Left) {
+            if (key.getValue() == fcn::LEFT) {
                 if (mParentMenu != nullptr) {
                     hide();
                     event.consume();

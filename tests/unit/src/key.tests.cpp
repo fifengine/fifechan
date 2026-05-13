@@ -215,36 +215,32 @@ TEST_CASE("Key comparison with same object", "[unit][key]")
 }
 
 // ============================================================================
-// Key enum values (function keys)
+// Key SDL3 keycode values (from generated key_gen.h)
 // ============================================================================
 
-TEST_CASE("Key function key values are negative", "[unit][key]")
+TEST_CASE("Key SDL3 keycode values are uint32_t", "[unit][key]")
 {
-    // These are the enum values defined in key.hpp
-    REQUIRE(Key::LeftAlt < 0);
-    REQUIRE(Key::RightAlt < 0);
-    REQUIRE(Key::LeftShift < 0);
-    REQUIRE(Key::RightShift < 0);
-    REQUIRE(Key::F1 < 0);
-    REQUIRE(Key::F12 < 0);
+    REQUIRE(fcn::F1 == 0x4000003Au);
+    REQUIRE(fcn::F12 == 0x40000045u);
+    REQUIRE(fcn::RETURN == 0x0000000Du);
+    REQUIRE(fcn::ESCAPE == 0x0000001Bu);
+    REQUIRE(fcn::TAB == 0x00000009u);
 }
 
-TEST_CASE("Key function keys are not characters", "[unit][key]")
+TEST_CASE("Key SDL3 keycode function keys are not characters", "[unit][key]")
 {
-    REQUIRE(Key(Key::LeftAlt).isCharacter() == false);
-    REQUIRE(Key(Key::RightAlt).isCharacter() == false);
-    REQUIRE(Key(Key::F1).isCharacter() == false);
-    REQUIRE(Key(Key::F12).isCharacter() == false);
+    REQUIRE(Key(fcn::F1).isCharacter() == false);
+    REQUIRE(Key(fcn::F12).isCharacter() == false);
 }
 
-TEST_CASE("Key function keys are not numbers", "[unit][key]")
+TEST_CASE("Key SDL3 keycode function keys are not numbers", "[unit][key]")
 {
-    REQUIRE(Key(Key::LeftAlt).isNumber() == false);
-    REQUIRE(Key(Key::F5).isNumber() == false);
+    REQUIRE(Key(fcn::F1).isNumber() == false);
+    REQUIRE(Key(fcn::F5).isNumber() == false);
 }
 
-TEST_CASE("Key function keys are not letters", "[unit][key]")
+TEST_CASE("Key SDL3 keycode function keys are not letters", "[unit][key]")
 {
-    REQUIRE(Key(Key::LeftShift).isLetter() == false);
-    REQUIRE(Key(Key::F10).isLetter() == false);
+    REQUIRE(Key(fcn::F1).isLetter() == false);
+    REQUIRE(Key(fcn::F10).isLetter() == false);
 }

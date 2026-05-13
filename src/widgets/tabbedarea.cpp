@@ -389,7 +389,7 @@ namespace fcn
             return;
         }
 
-        if (keyEvent.getKey().getValue() == Key::Left) {
+        if (keyEvent.getKey().getValue() == fcn::LEFT) {
             int index = getSelectedTabIndex();
             index--;
 
@@ -400,7 +400,7 @@ namespace fcn
             setSelectedTab(mTabs.at(index).first);
 
             keyEvent.consume();
-        } else if (keyEvent.getKey().getValue() == Key::Right) {
+        } else if (keyEvent.getKey().getValue() == fcn::RIGHT) {
             int index = getSelectedTabIndex();
             index++;
 

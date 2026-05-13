@@ -128,32 +128,33 @@ namespace fcn
 
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Left && getCaretPosition() > 0) {
+        if (key.getValue() == fcn::LEFT && getCaretPosition() > 0) {
             setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == Key::Right && getCaretPosition() < getText().size()) {
+        } else if (key.getValue() == fcn::RIGHT && getCaretPosition() < getText().size()) {
             setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getCaretPosition())));
         } else if (
-            key.getValue() == Key::Delete && getCaretPosition() < getText().size() && mText->getNumberOfRows() > 0) {
+            key.getValue() == fcn::KEY_DELETE && getCaretPosition() < getText().size() &&
+            mText->getNumberOfRows() > 0) {
             setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == Key::Backspace && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
+        } else if (key.getValue() == fcn::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
             setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
             setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == Key::Enter) {
+        } else if (key.getValue() == fcn::RETURN) {
             distributeActionEvent();
-        } else if (key.getValue() == Key::Home) {
+        } else if (key.getValue() == fcn::HOME) {
             setCaretPosition(0);
-        } else if (key.getValue() == Key::End) {
+        } else if (key.getValue() == fcn::END) {
             setCaretPosition(getText().size());
         } else if (
             // Add character to text, if key is really an ASCII character
             // or is greater than 8bits long and the character is not
             // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
-            key.getValue() != Key::Tab) {
+            key.getValue() != fcn::TAB) {
             setCaretPosition(fcn::UTF8StringEditor::insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));
         }
 
-        if (key.getValue() != Key::Tab) {
+        if (key.getValue() != fcn::TAB) {
             // consume all characters except TAB which is needed
             // for traversing through widgets in a container.
             keyEvent.consume();

@@ -98,7 +98,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == Key::Left) {
+        if (key.getValue() == fcn::LEFT) {
             // Move caret left, or to end of previous row if at column 0
             if (getCaretColumn() == 0) {
                 if (getCaretRow() > 0) {
@@ -108,7 +108,7 @@ namespace fcn
             } else {
                 setCaretColumn(fcn::UTF8StringEditor::prevChar(getTextRow(getCaretRow()), getCaretColumn()));
             }
-        } else if (key.getValue() == Key::Right) {
+        } else if (key.getValue() == fcn::RIGHT) {
             // Move caret right, or to start of next row if at end of line
             if (getCaretColumn() < getTextRow(getCaretRow()).size()) {
                 setCaretColumn(fcn::UTF8StringEditor::nextChar(getTextRow(getCaretRow()), getCaretColumn()));
@@ -118,15 +118,15 @@ namespace fcn
                     setCaretColumn(0);
                 }
             }
-        } else if (key.getValue() == Key::Down) {
+        } else if (key.getValue() == fcn::DOWN) {
             setCaretRowUTF8(getCaretRow() + 1);
-        } else if (key.getValue() == Key::Up) {
+        } else if (key.getValue() == fcn::UP) {
             setCaretRowUTF8(getCaretRow() - 1);
-        } else if (key.getValue() == Key::Home) {
+        } else if (key.getValue() == fcn::HOME) {
             setCaretColumn(0);
-        } else if (key.getValue() == Key::End) {
+        } else if (key.getValue() == fcn::END) {
             setCaretColumn(getTextRow(getCaretRow()).size());
-        } else if (key.getValue() == Key::Enter && mEditable) {
+        } else if (key.getValue() == fcn::RETURN && mEditable) {
             // Split current row at caret: text after caret becomes new row
             mText->insertRow(
                 getTextRow(getCaretRow()).substr(getCaretColumn(), getTextRow(getCaretRow()).size() - getCaretColumn()),
@@ -135,12 +135,12 @@ namespace fcn
             mText->getRow(getCaretRow()).resize(getCaretColumn());
             setCaretRow(getCaretRow() + 1);
             setCaretColumn(0);
-        } else if (key.getValue() == Key::Backspace && getCaretColumn() != 0 && mEditable) {
+        } else if (key.getValue() == fcn::BACKSPACE && getCaretColumn() != 0 && mEditable) {
             // Delete character before caret within current row
             std::string& currRow = mText->getRow(getCaretRow());
             setCaretColumn(fcn::UTF8StringEditor::prevChar(currRow, static_cast<int>(getCaretColumn())));
             setCaretColumn(fcn::UTF8StringEditor::eraseChar(currRow, static_cast<int>(getCaretColumn())));
-        } else if (key.getValue() == Key::Backspace && getCaretColumn() == 0 && getCaretRow() != 0 && mEditable) {
+        } else if (key.getValue() == fcn::BACKSPACE && getCaretColumn() == 0 && getCaretRow() != 0 && mEditable) {
             // Merge with previous row: delete row, append to previous row
             unsigned const newCaretColumn = getTextRow(getCaretRow() - 1).size();
             mText->getRow(getCaretRow() - 1) += getTextRow(getCaretRow());
@@ -148,17 +148,18 @@ namespace fcn
             setCaretRow(getCaretRow() - 1);
             setCaretColumn(newCaretColumn);
         } else if (
-            key.getValue() == Key::Delete && getCaretColumn() < static_cast<int>(getTextRow(getCaretRow()).size()) &&
-            mEditable) {
+            key.getValue() == fcn::KEY_DELETE &&
+            getCaretColumn() < static_cast<int>(getTextRow(getCaretRow()).size()) && mEditable) {
             // Delete character after caret within current row
             setCaretColumn(fcn::UTF8StringEditor::eraseChar(mText->getRow(getCaretRow()), getCaretColumn()));
         } else if (
-            key.getValue() == Key::Delete && getCaretColumn() == static_cast<int>(getTextRow(getCaretRow()).size()) &&
+            key.getValue() == fcn::KEY_DELETE &&
+            getCaretColumn() == static_cast<int>(getTextRow(getCaretRow()).size()) &&
             getCaretRow() < (static_cast<int>(getNumberOfRows()) - 1) && mEditable) {
             // Merge with next row: append next row to current, then delete next row
             mText->getRow(getCaretRow()) += getTextRow((getCaretRow() + 1));
             mText->eraseRow(getCaretRow() + 1);
-        } else if (key.getValue() == Key::PageUp) {
+        } else if (key.getValue() == fcn::PAGEUP) {
             // Move caret up by rowsPerPage, preserving column position
             Widget* par = getParent();
 
@@ -173,7 +174,7 @@ namespace fcn
                 }
                 setCaretColumn(fcn::UTF8StringEditor::getOffset(getTextRow(getCaretRow()), chars));
             }
-        } else if (key.getValue() == Key::PageDown) {
+        } else if (key.getValue() == fcn::PAGEDOWN) {
             // Move caret down by rowsPerPage, preserving column position
             Widget* par = getParent();
 
@@ -188,7 +189,7 @@ namespace fcn
 
                 setCaretColumn(fcn::UTF8StringEditor::getOffset(getTextRow(getCaretRow()), chars));
             }
-        } else if (key.getValue() == Key::Tab && mEditable) {
+        } else if (key.getValue() == fcn::TAB && mEditable) {
             // Insert spaces to align to next tab stop
             int constexpr tabSize    = 4;
             int const spacesToInsert = tabSize - (getCaretColumn() % tabSize);

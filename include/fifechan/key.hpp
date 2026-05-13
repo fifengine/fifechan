@@ -11,10 +11,28 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
+// Project headers (subdirs before local)
+#include "fifechan/key_gen.h"
+
 namespace fcn
 {
     /**
      * Represents a keyboard key or character code.
+     *
+     * Key values are defined by the auto-generated key_gen.h as
+     * fcn::KeyType (uint32_t), mirroring SDL3 SDLK_* constants 1:1.
+     *
+     * @section key_semantic Semantic Key Model
+     *
+     * Keycodes are SEMANTIC SDLK_a is the "a" key on any keyboard layout
+     * (QWERTY, AZERTY, Dvorak). The OS handles scancode-to-keycode mapping.
+     * Scancodes are PHYSICAL raw SDL_Scancode values are used internally
+     * by the backend for physical-position queries (e.g. WASD game controls),
+     * but never exposed to widget or game code.
+     *
+     * The key_gen.h header is automatically generated from SDL3's
+     * SDL_keycode.h at configure time by tools/keygen/. To regenerate
+     * after an SDL3 update: cmake --build . --target sync_keys_with_SDL3
      *
      * @ingroup input
      */
@@ -24,7 +42,7 @@ namespace fcn
             /**
              * Constructor.
              *
-             * @param value The ascii or enum value for the key.
+             * @param value The keycode value (SDL3 SDLK_* or 0).
              */
             explicit Key(int value = 0);
 
@@ -54,7 +72,7 @@ namespace fcn
 
             /**
              * Gets the value of the key. If an ascii value exists it
-             * will be returned. Otherwise an enum value will be returned.
+             * will be returned. Otherwise the SDLK_* keycode is returned.
              *
              * @return the value of the key.
              */
@@ -76,64 +94,10 @@ namespace fcn
              */
             bool operator!=(Key const & key) const;
 
-            /**
-             * An enum with key values.
-             */
-            enum : std::int16_t
-            {
-                Space        = ' ',
-                Tab          = '\t',
-                Enter        = '\n',
-                LeftAlt      = -1000,
-                RightAlt     = -999,
-                LeftShift    = -998,
-                RightShift   = -997,
-                LeftControl  = -996,
-                RightControl = -995,
-                LeftMeta     = -994,
-                RightMeta    = -993,
-                LeftSuper    = -992,
-                RightSuper   = -991,
-                Insert       = -990,
-                Home,
-                PageUp,
-                Delete,
-                End,
-                PageDown,
-                Escape = -1012,
-                CapsLock,
-                Backspace,
-                F1,
-                F2,
-                F3,
-                F4,
-                F5,
-                F6,
-                F7,
-                F8,
-                F9,
-                F10,
-                F11,
-                F12,
-                F13,
-                F14,
-                F15,
-                PrintScreen,
-                ScrollLock,
-                Pause,
-                NumLock,
-                AltGr,
-                Left  = -1026,
-                Right = -1027,
-                Up    = -1028,
-                Down  = -1029,
-                At
-            };
-
         protected:
             /**
              * Holds the value of the key. It may be an ascii value
-             * or an enum value.
+             * or a uint32_t SDLK_* keycode.
              */
             int mValue;
     };

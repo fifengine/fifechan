@@ -23,36 +23,43 @@ namespace fcn
         bool isControlPressed,
         bool isAltPressed,
         bool isMetaPressed) :
-        Event(source),
-        mShiftPressed(isShiftPressed),
-        mControlPressed(isControlPressed),
-        mAltPressed(isAltPressed),
-        mMetaPressed(isMetaPressed),
-        mIsConsumed(false),
-        mDistributor(distributor)
+        Event(source), mIsConsumed(false), mDistributor(distributor)
     {
         (void)source;
         (void)distributor;
+        if (isShiftPressed)
+            mModMask |= ModShift;
+        if (isControlPressed)
+            mModMask |= ModControl;
+        if (isAltPressed)
+            mModMask |= ModAlt;
+        if (isMetaPressed)
+            mModMask |= ModMeta;
     }
 
     bool InputEvent::isShiftPressed() const
     {
-        return mShiftPressed;
+        return (mModMask & ModShift) != 0;
     }
 
     bool InputEvent::isControlPressed() const
     {
-        return mControlPressed;
+        return (mModMask & ModControl) != 0;
     }
 
     bool InputEvent::isAltPressed() const
     {
-        return mAltPressed;
+        return (mModMask & ModAlt) != 0;
     }
 
     bool InputEvent::isMetaPressed() const
     {
-        return mMetaPressed;
+        return (mModMask & ModMeta) != 0;
+    }
+
+    uint16_t InputEvent::getModMask() const
+    {
+        return mModMask;
     }
 
     void InputEvent::consume()

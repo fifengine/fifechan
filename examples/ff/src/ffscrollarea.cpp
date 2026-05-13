@@ -41,9 +41,9 @@ void FFScrollArea::keyPressed(fcn::KeyEvent& keyEvent)
         return;
     }
 
-    if (keyEvent.getKey().getValue() == fcn::Key::Down) {
+    if (keyEvent.getKey().getValue() == fcn::DOWN) {
         setVerticalScrollAmount(getVerticalScrollAmount() + 16);
-    } else if (keyEvent.getKey().getValue() == fcn::Key::Up) {
+    } else if (keyEvent.getKey().getValue() == fcn::UP) {
         setVerticalScrollAmount(getVerticalScrollAmount() - 16);
     }
 }
