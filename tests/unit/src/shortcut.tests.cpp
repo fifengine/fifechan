@@ -2,13 +2,17 @@
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Corresponding header include
-#include <fifechan/shortcut.hpp>
+#include <fifechan/shortcut.hpp>^
+
+// Standard library includes
+#include <string>
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
 #include <fifechan/widgets/label.hpp>
+
 #include <fifechan/events/keyevent.hpp>
 
 using fcn::Key;

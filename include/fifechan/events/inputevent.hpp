@@ -29,10 +29,10 @@ namespace fcn
         public:
             /// Modifier bitmask flags, matching Shortcut::Modifier positions.
             /// @see getModMask
-            static constexpr uint16_t ModShift   = 1 << 0;  ///< Shift key.
-            static constexpr uint16_t ModControl = 1 << 1;  ///< Control key.
-            static constexpr uint16_t ModAlt     = 1 << 2;  ///< Alt key.
-            static constexpr uint16_t ModMeta    = 1 << 3;  ///< Meta (GUI/Command) key.
+            static constexpr uint16_t ModShift   = 1 << 0; ///< Shift key.
+            static constexpr uint16_t ModControl = 1 << 1; ///< Control key.
+            static constexpr uint16_t ModAlt     = 1 << 2; ///< Alt key.
+            static constexpr uint16_t ModMeta    = 1 << 3; ///< Meta (GUI/Command) key.
 
             /**
              * Constructor.

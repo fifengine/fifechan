@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <queue>
+#include <string>
 
 // Platform config include
 #include "fifechan/platform.hpp"

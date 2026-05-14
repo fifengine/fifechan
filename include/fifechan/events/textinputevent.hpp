@@ -7,6 +7,7 @@
 // Standard library includes
 #include <cstdint>
 #include <string>
+#include <utility>
 
 // Platform config include
 #include "fifechan/platform.hpp"
@@ -17,16 +18,17 @@
 namespace fcn
 {
     /**
-     * Represents a text input event (IME composition, dead-key, or paste).
+     * Text input event for IME (input method editor) composition,
+     * dead keys, and pasted text.
      *
-     * Fired when SDL_EVENT_TEXT_INPUT is received. Carries a UTF-8 string
-     * and is separate from KeyEvent so that IME composition and dead-key
-     * sequences work correctly without being forced into a single keycode.
+     * Fired on `SDL_EVENT_TEXT_INPUT`. Carries UTF-8 text and remains
+     * separate from `KeyEvent` so composed input is not collapsed into
+     * a single keycode.
      *
-     * Inherits InputEvent so it has modifier-state queries
-     * (isShiftPressed(), etc.) and the consume() mechanism essential
-     * so an IME-aware widget (e.g. TextField) can consume the text event
-     * to prevent the keystrokes from also being processed as hotkeys.
+     * Inherits `InputEvent`, including modifier-state queries
+     * (`isShiftPressed()`, etc.) and the `consume()` mechanism. This allows
+     * IME-aware widgets such as `TextField` to consume text input before the
+     * originating keystrokes are processed as hotkeys.
      *
      * @ingroup events
      */

@@ -19,14 +19,14 @@ namespace fcn
     class KeyEvent;
 
     /**
-     * A high-level shortcut binding a semantic key with a modifier mask.
+     * High-level shortcut binding a semantic key with a modifier mask.
      *
-     * Shortcut is the primary key-representation object exposed to widget
-     * and game code. It stores a fcn::Key (semantic keycode, uint32_t) and
-     * a uint16_t modifier bitmask, hiding raw scancode details.
+     * `Shortcut` is the primary key representation exposed to widgets and
+     * game code. It stores an `fcn::Key` semantic keycode and a `uint16_t`
+     * modifier bitmask, hiding raw scancode details.
      *
      * Scancode-based construction and matching are handled internally by
-     * the input backend; widget code only interacts with the semantic API.
+     * the input backend. Widget code interacts only with the semantic API.
      *
      * @section shortcut_usage Usage
      *
@@ -43,11 +43,14 @@ namespace fcn
      *
      * @section layout Layout Independence
      *
-     * Shortcuts are layout-independent by design. A shortcut registered with
-     * fromKeycode(SDLK_a) matches the "a" key on QWERTY, AZERTY, and Dvorak
-     * because keycodes are semantic the OS maps the physical scancode to the
-     * correct SDLK_* value. For physical-position bindings (WASD), the backend
-     * internally calls SDL_GetKeyFromScancode() which is OS layout-aware.
+     * Shortcuts are layout-independent by design. A shortcut created with
+     * `fromKeycode(SDLK_a)` matches the logical "A" key across keyboard
+     * layouts because SDL keycodes are semantic and derived from the active
+     * OS keyboard layout.
+     *
+     * Physical-position bindings such as WASD are resolved internally with
+     * `SDL_GetKeyFromScancode()`, which maps a physical key position to the
+     * correct semantic keycode for the current layout.
      *
      * @ingroup input
      */
