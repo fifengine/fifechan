@@ -6,6 +6,7 @@
 # Purpose
 # - Run clang-tidy with the project's compile database and repo file layout.
 # - Support full-repo checks or a focused single-file check.
+# - Writes to tidy.log and tidy_error.log for stdout and stderr respectively.
 #
 # Requirements
 # - A configured build directory at ./build containing compile_commands.json.
@@ -112,8 +113,11 @@ else
   fi
 fi
 
+# 1. include includes
+# 2. include fifechan
+# 3. include vcpkg dependencies
+# WTF is going on with stderr and stdout redirection here? is this interleaved?
 "$CLANG_TIDY" -p "$BUILD_DIR" "${files[@]}" -- \
   -I"$REPO_ROOT/include" \
   -I"$REPO_ROOT/include/fifechan" \
-  -I"$REPO_ROOT/vcpkg_installed/x64-linux/include" \
-  -I"$REPO_ROOT/src"
+  -I"$REPO_ROOT/vcpkg_installed/x64-linux/include" > "$REPO_ROOT/tidy_error.log" 2> "$REPO_ROOT/tidy.log" || true

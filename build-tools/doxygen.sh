@@ -7,13 +7,13 @@
 # - This mimics the CI docs workflow locally.
 # - Ensure Doxygen, Graphviz and Sphinx are available.
 # - Build API docs using `doxygen doxygen.conf`.
+# - Writes to doxygen.log and doxygen_error.log for stdout and stderr respectively.
 #
 # Usage
 # - ./build-tools/doxygen.sh
 #     Checks for required tools and builds docs.
 # - ./build-tools/doxygen.sh --install
 #     Installs tools with apt-get and latest Doxygen from latest release tag.
-# - ./build-tools/doxygen.sh > doxygen.log 2> doxygen-error.log
 #
 # Notes
 # - This script targets Debian/Ubuntu-like systems for package installation.
@@ -137,7 +137,7 @@ sphinx-build --version
 echo "Building API documentation from ${DOXYFILE_PATH}"
 (
   cd "$REPO_ROOT"
-  doxygen doxygen.conf > doxygen.log 2> doxygen-error.log
+  doxygen doxygen.conf > doxygen.log 2> doxygen_error.log
 )
 
 if [[ -d "$OUTPUT_DIR" ]]; then

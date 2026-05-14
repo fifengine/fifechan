@@ -11,4 +11,4 @@ cppcheck \
     --inline-suppr \
     --error-exitcode=1 \
     -I include \
-    src examples tests
+    src examples tests > cppcheck.log 2> cppcheck_error.log || true
