@@ -10,6 +10,7 @@
 #include <string>
 
 // Project headers (subdirs before local)
+#include "fifechan/events/textinputevent.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/key.hpp"
@@ -145,14 +146,8 @@ namespace fcn
             setCaretPosition(0);
         } else if (key.getValue() == fcn::Key::END) {
             setCaretPosition(getText().size());
-        } else if (
-            // Add character to text, if key is really an ASCII character
-            // or is greater than 8bits long and the character is not
-            // the tab key.
-            (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
-            key.getValue() != fcn::Key::TAB) {
-            setCaretPosition(fcn::UTF8StringEditor::insertChar(mText->getRow(0), getCaretPosition(), key.getValue()));
         }
+        // Printable characters are handled by textInput(TextInputEvent&).
 
         if (key.getValue() != fcn::Key::TAB) {
             // consume all characters except TAB which is needed
@@ -161,6 +156,17 @@ namespace fcn
         }
 
         fixScroll();
+    }
+
+    void TextField::textInput(TextInputEvent& event)
+    {
+        std::string const& text = event.getText();
+        if (!text.empty() && mText->getNumberOfRows() > 0) {
+            std::string& row = mText->getRow(0);
+            row.insert(getCaretPosition(), text);
+            setCaretPosition(getCaretPosition() + text.size());
+            fixScroll();
+        }
     }
 
     void TextField::resizeToContent(bool recursion)

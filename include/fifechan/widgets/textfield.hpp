@@ -131,6 +131,8 @@ namespace fcn
 
             void keyPressed(KeyEvent& keyEvent) override;
 
+            void textInput(TextInputEvent& event) override;
+
         protected:
             /**
              * Adjusts the size of the button to fit the caption.

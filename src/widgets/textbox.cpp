@@ -13,6 +13,7 @@
 #include <utf8cpp/utf8.h>
 
 // Project headers (subdirs before local)
+#include "fifechan/events/textinputevent.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/key.hpp"
@@ -195,16 +196,8 @@ namespace fcn
             int const spacesToInsert = tabSize - (getCaretColumn() % tabSize);
             mText->getRow(getCaretRow()).insert(getCaretColumn(), std::string(spacesToInsert, ' '));
             setCaretColumn(getCaretColumn() + spacesToInsert);
-        } else if (mEditable) {
-            // Insert character at caret position (ASCII or valid Unicode code point)
-            int const keyValue = key.getValue();
-            bool const isValidCodePoint =
-                keyValue >= 0 && keyValue <= 0x10FFFF && (keyValue < 0xD800 || keyValue > 0xDFFF);
-            if (key.isCharacter() || (keyValue > 255 && isValidCodePoint)) {
-                setCaretColumn(
-                    fcn::UTF8StringEditor::insertChar(mText->getRow(getCaretRow()), getCaretColumn(), keyValue));
-            }
         }
+        // Printable characters are handled by textInput(TextInputEvent&).
 
         adjustSizeImpl();
         scrollToCaret();
@@ -215,6 +208,17 @@ namespace fcn
         assert("caret column position is valid" && utf8::is_valid(row.begin(), row.begin() + getCaretColumn()));
 
         keyEvent.consume();
+    }
+
+    void TextBox::textInput(TextInputEvent& event)
+    {
+        std::string const& text = event.getText();
+        if (!text.empty() && mEditable) {
+            mText->getRow(getCaretRow()).insert(getCaretColumn(), text);
+            setCaretColumn(getCaretColumn() + static_cast<int>(text.size()));
+            adjustSizeImpl();
+            scrollToCaret();
+        }
     }
 
     void TextBox::resizeToContent(bool recursion)

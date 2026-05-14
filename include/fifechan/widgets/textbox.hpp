@@ -213,6 +213,8 @@ namespace fcn
 
             void keyPressed(KeyEvent& keyEvent) override;
 
+            void textInput(TextInputEvent& event) override;
+
             // Inherited from MouseListener
 
             void mousePressed(MouseEvent& mouseEvent) override;
