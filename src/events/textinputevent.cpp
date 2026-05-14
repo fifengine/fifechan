@@ -4,6 +4,10 @@
 // Corresponding header include
 #include "fifechan/events/textinputevent.hpp"
 
+// Standard library includes
+#include <string>
+#include <utility>
+
 namespace fcn
 {
     TextInputEvent::TextInputEvent(

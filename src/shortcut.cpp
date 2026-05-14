@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <cassert>
+#include <string>
 
 // Project headers (subdirs before local)
 #include "fifechan/events/keyevent.hpp"
