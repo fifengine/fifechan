@@ -83,9 +83,9 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
 
     SECTION("matching key and modifiers")
     {
-        Shortcut sc(Key(fcn::RETURN), Shortcut::Modifier::None);
+        Shortcut sc(Key(fcn::Key::KEY_RETURN), Shortcut::Modifier::None);
         fcn::KeyEvent event(
-            &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::RETURN));
+            &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::KEY_RETURN));
 
         REQUIRE(sc.matches(event));
     }
@@ -193,7 +193,7 @@ TEST_CASE("Shortcut unbound (key=0)", "[unit][shortcut][edge]")
     fcn::Label source;
     fcn::Label distributor;
     fcn::KeyEvent event(
-        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::RETURN));
+        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::KEY_RETURN));
 
     REQUIRE(sc.matches(event) == false);
 }
@@ -332,12 +332,12 @@ TEST_CASE("ShortcutLayoutIndependence: different layout same symbol same keycode
 TEST_CASE("ShortcutLayoutIndependence: non-printable keycodes are layout-stable", "[unit][shortcut][layout]")
 {
     // Function keys, arrows, etc. have the same SDLK_* value on all layouts.
-    Shortcut sc{Key(fcn::F1)};
+    Shortcut sc{Key(fcn::Key::F1)};
 
     fcn::Label source;
     fcn::Label distributor;
     fcn::KeyEvent event(
-        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::F1));
+        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::F1));
 
     REQUIRE(sc.matches(event));
 }
@@ -393,7 +393,7 @@ TEST_CASE("Shortcut to_string", "[unit][shortcut]")
 
     SECTION("non-printable key")
     {
-        Shortcut sc{Key(fcn::F1)};
+        Shortcut sc{Key(fcn::Key::F1)};
         // Without SDL_GetKeyName(), falls back to "Key(<value>)" format.
         REQUIRE(sc.to_string().find("Key(") != std::string::npos);
     }

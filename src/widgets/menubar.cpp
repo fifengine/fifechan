@@ -129,7 +129,7 @@ namespace fcn
         Key const key = event.getKey();
 
         // ESC closes any open menu
-        if (key.getValue() == fcn::ESCAPE) {
+        if (key.getValue() == fcn::Key::ESCAPE) {
             if (mOpenMenu != nullptr) {
                 mOpenMenu->hide();
                 // Restore focus to MenuBar when ESC closes menu
@@ -141,13 +141,13 @@ namespace fcn
         }
 
         // Left/Right to navigate between menu items
-        if (key.getValue() == fcn::LEFT || key.getValue() == fcn::RIGHT) {
+        if (key.getValue() == fcn::Key::LEFT || key.getValue() == fcn::Key::RIGHT) {
             unsigned const childCount = getChildrenCount();
             if (childCount == 0) {
                 return;
             }
 
-            if (key.getValue() == fcn::LEFT) {
+            if (key.getValue() == fcn::Key::LEFT) {
                 mSelectedIndex = (mSelectedIndex - 1 + static_cast<int>(childCount)) % static_cast<int>(childCount);
             } else {
                 mSelectedIndex = (mSelectedIndex + 1) % static_cast<int>(childCount);
@@ -163,7 +163,7 @@ namespace fcn
         }
 
         // Enter or Down to open the selected menu
-        if (key.getValue() == fcn::RETURN || key.getValue() == fcn::DOWN) {
+        if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::DOWN) {
             if (mSelectedIndex >= 0 && mSelectedIndex < static_cast<int>(getChildrenCount())) {
                 Widget* child = getChild(mSelectedIndex);
                 if (auto const * menuItem = dynamic_cast<MenuItem*>(child)) {

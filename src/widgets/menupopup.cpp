@@ -463,7 +463,7 @@ namespace fcn
     {
         Key const key = event.getKey();
         // ESC closes this menu (and its root will pop modal)
-        if (key.getValue() == fcn::ESCAPE) {
+        if (key.getValue() == fcn::Key::ESCAPE) {
             // If this menu has a parent, close self; otherwise close root
             hide();
             event.consume();
@@ -471,7 +471,7 @@ namespace fcn
         }
 
         if (mParentMenuItem != nullptr) {
-            if (key.getValue() == fcn::UP || key.getValue() == fcn::DOWN) {
+            if (key.getValue() == fcn::Key::UP || key.getValue() == fcn::Key::DOWN) {
                 auto children = getChildren();
                 if (children.empty()) {
                     return;
@@ -479,7 +479,7 @@ namespace fcn
 
                 mHoverIndex = std::max(mHoverIndex, 0);
 
-                if (key.getValue() == fcn::UP) {
+                if (key.getValue() == fcn::Key::UP) {
                     mHoverIndex =
                         (mHoverIndex - 1 + static_cast<int>(children.size())) % static_cast<int>(children.size());
                 } else {
@@ -502,7 +502,7 @@ namespace fcn
                 return;
             }
 
-            if (key.getValue() == fcn::RIGHT) {
+            if (key.getValue() == fcn::Key::RIGHT) {
                 auto children = getChildren();
                 if (mHoverIndex >= 0) {
                     int i = 0;
@@ -529,7 +529,7 @@ namespace fcn
                 }
             }
 
-            if (key.getValue() == fcn::LEFT) {
+            if (key.getValue() == fcn::Key::LEFT) {
                 if (mParentMenu != nullptr) {
                     hide();
                     event.consume();

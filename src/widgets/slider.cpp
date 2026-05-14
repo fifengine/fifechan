@@ -183,21 +183,21 @@ namespace fcn
         Key const key = keyEvent.getKey();
 
         if (getOrientation() == Orientation::Horizontal) {
-            if (key.getValue() == fcn::RIGHT) {
+            if (key.getValue() == fcn::Key::RIGHT) {
                 setValue(getValue() + getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
-            } else if (key.getValue() == fcn::LEFT) {
+            } else if (key.getValue() == fcn::Key::LEFT) {
                 setValue(getValue() - getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
             }
         } else {
-            if (key.getValue() == fcn::UP) {
+            if (key.getValue() == fcn::Key::UP) {
                 setValue(getValue() + getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();
-            } else if (key.getValue() == fcn::DOWN) {
+            } else if (key.getValue() == fcn::Key::DOWN) {
                 setValue(getValue() - getStepLength());
                 distributeActionEvent();
                 keyEvent.consume();

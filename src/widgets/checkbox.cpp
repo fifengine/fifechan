@@ -383,7 +383,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) {
+        if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::SPACE) {
             toggleSelected();
             keyEvent.consume();
             distributeActionEvent();
@@ -394,7 +394,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) {
+        if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::SPACE) {
             keyEvent.consume();
         }
     }

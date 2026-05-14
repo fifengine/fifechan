@@ -425,7 +425,7 @@ namespace fcn
             // If the key event hasn't been consumed and
             // tabbing is enable check for tab press and
             // change focus.
-            if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == fcn::TAB &&
+            if (!keyEventConsumed && mTabbing && keyInput.getKey().getValue() == fcn::Key::TAB &&
                 keyInput.getType() == KeyInput::Type::Pressed) {
                 if (keyInput.isShiftPressed()) {
                     mFocusHandler->tabPrevious();

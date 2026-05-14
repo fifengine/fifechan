@@ -29,23 +29,23 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == fcn::LEFT && getCaretPosition() > 0) {
+        if (key.getValue() == fcn::Key::LEFT && getCaretPosition() > 0) {
             mText->setCaretPosition(mText->getCaretPosition() - 1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getActualTextCaretPosition())));
-        } else if (key.getValue() == fcn::RIGHT && getCaretPosition() < getText().size()) {
+        } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < getText().size()) {
             mText->setCaretPosition(mText->getCaretPosition() + 1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getActualTextCaretPosition())));
         } else if (
-            mEditable && key.getValue() == fcn::KEY_DELETE && getCaretPosition() < getText().size() &&
+            mEditable && key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < getText().size() &&
             mText->getNumberOfRows() > 0) {
             mText->remove(1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::eraseChar(
                     mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
         } else if (
-            mEditable && key.getValue() == fcn::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
+            mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
             mText->remove(-1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::prevChar(
@@ -53,12 +53,12 @@ namespace fcn
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::eraseChar(
                     mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
-        } else if (key.getValue() == fcn::RETURN) {
+        } else if (key.getValue() == fcn::Key::KEY_RETURN) {
             distributeActionEvent();
-        } else if (key.getValue() == fcn::HOME) {
+        } else if (key.getValue() == fcn::Key::HOME) {
             mText->setCaretColumn(0);
             setActualTextCaretPosition(0);
-        } else if (key.getValue() == fcn::END) {
+        } else if (key.getValue() == fcn::Key::END) {
             mText->setCaretColumn(mText->getNumberOfCharacters(0));
             setActualTextCaretPosition(getText().size());
         } else if (
@@ -66,14 +66,14 @@ namespace fcn
             // or is greater than 8bits long and the character is not
             // the tab key.
             (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
-            key.getValue() != fcn::TAB) {
+            key.getValue() != fcn::Key::TAB) {
             mText->insert('*');
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::insertChar(
                     mActualText->getRow(0), getActualTextCaretPosition(), key.getValue()));
         }
 
-        if (key.getValue() != fcn::TAB) {
+        if (key.getValue() != fcn::Key::TAB) {
             // consume all characters except TAB which is needed
             // for traversing through widgets in a container.
             keyEvent.consume();

@@ -29,31 +29,41 @@ HEADER = """\
 
 #include <cstdint>
 
+// Platform config include
+#include "fifechan/platform.hpp"
+
 /** SDL3 version used to generate this key map. */
 #define FIFECHAN_SDL_KEYMAP_VERSION {version_num}u
 
 namespace fcn
 {{
 
-/**
- * Mirrors SDL3 `SDLK_*` constants as `uint32_t`.
- *
- * Keycodes are semantic and represent the intended character or symbol.
- * `SDLK_a` refers to the logical "A" key regardless of keyboard layout.
- *
- * Scancodes are physical and identify a fixed key position.
- * `SDL_SCANCODE_A` always refers to the same physical key.
- * The OS maps scancodes to keycodes using the active keyboard layout.
- */
-enum KeyType : uint32_t
+class FIFEGUI_API Key
 {{
+    public:
+        explicit Key(int value = 0);
+
+        bool isCharacter() const;
+        bool isNumber() const;
+        bool isLetter() const;
+        int getValue() const;
+
+        bool operator==(Key const & other) const;
+        bool operator!=(Key const & other) const;
+
+        enum KeyType : uint32_t
+        {{
 {body}
+        }};
+
+        static_assert(sizeof(KeyType) == sizeof(uint32_t),
+                      "KeyType must be 32-bit to match SDL_Keycode");
+
+    protected:
+        int mValue;
 }};
 
 }} // namespace fcn
-
-static_assert(sizeof(fcn::KeyType) == sizeof(uint32_t),
-              "KeyType must be 32-bit to match SDL_Keycode");
 
 #endif // FIFECHAN_KEY_GEN_H
 """
@@ -75,6 +85,7 @@ CONFLICT_RENAME = {
     'GREATER': 'KEY_GREATER',
     'UNKNOWN': 'KEY_UNKNOWN',
     'DELETE': 'KEY_DELETE',   # <winnt.h>
+    'RETURN': 'KEY_RETURN',   # `return` is a C++ keyword
     'OUT': 'KEY_OUT',         # <windef.h>
     'IN': 'KEY_IN',           # <windef.h>
     'NEAR': 'KEY_NEAR',       # <windef.h>
@@ -111,6 +122,7 @@ def generate(data: dict) -> str:
             lines.append(f'    {enum_entry:45s} = {value}u,')
 
     body = '\n'.join(lines)
+
     return HEADER.format(
         version=f'{maj}.{min_}.{mic}',
         version_num=version_num,

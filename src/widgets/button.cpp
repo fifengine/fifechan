@@ -234,7 +234,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if (key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) {
+        if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::SPACE) {
             mKeyPressed = true;
             keyEvent.consume();
         }
@@ -244,7 +244,7 @@ namespace fcn
     {
         Key const key = keyEvent.getKey();
 
-        if ((key.getValue() == fcn::RETURN || key.getValue() == fcn::SPACE) && mKeyPressed) {
+        if ((key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::SPACE) && mKeyPressed) {
             mKeyPressed = false;
             distributeActionEvent();
             keyEvent.consume();
