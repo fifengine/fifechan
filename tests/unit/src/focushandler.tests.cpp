@@ -55,7 +55,7 @@ namespace fcn
     class FocusableLabel : public Label
     {
         public:
-            FocusableLabel() : Label()
+            FocusableLabel()
             {
                 setFocusable(true);
             }
@@ -69,14 +69,11 @@ namespace fcn
 } // namespace fcn
 
 using fcn::Container;
-using fcn::Event;
 using fcn::Exception;
 using fcn::FocusableLabel;
 using fcn::FocusHandler;
-using fcn::FocusListener;
 using fcn::Label;
 using fcn::TestFocusListener;
-using fcn::Widget;
 
 // ============================================================================
 // FocusHandler constructor and initial state
@@ -955,7 +952,7 @@ TEST_CASE("FocusHandler ModalScope pushes modal on construction", "[unit][focush
     REQUIRE_FALSE(fh.hasModalFocus());
 
     {
-        FocusHandler::ModalScope scope(&fh, &modal);
+        FocusHandler::ModalScope const scope(&fh, &modal);
         REQUIRE(fh.hasModalFocus());
         REQUIRE(fh.getFocusOwner() == &modal);
     }
@@ -969,7 +966,7 @@ TEST_CASE("FocusHandler ModalScope with nullptr handler is safe", "[unit][focush
     FocusableLabel modal("modal");
 
     // Should not crash even with nullptr handler
-    FocusHandler::ModalScope scope(nullptr, &modal);
+    FocusHandler::ModalScope const scope(nullptr, &modal);
 }
 
 TEST_CASE("FocusHandler ModalScope release prevents pop on destruction", "[unit][focushandler]")
@@ -1001,11 +998,11 @@ TEST_CASE("FocusHandler ModalScope nested scopes work correctly", "[unit][focush
     fh.add(&m2);
 
     {
-        FocusHandler::ModalScope scope1(&fh, &m1);
+        FocusHandler::ModalScope const scope1(&fh, &m1);
         REQUIRE(fh.getFocusOwner() == &m1);
 
         {
-            FocusHandler::ModalScope scope2(&fh, &m2);
+            FocusHandler::ModalScope const scope2(&fh, &m2);
             REQUIRE(fh.getFocusOwner() == &m2);
         }
 

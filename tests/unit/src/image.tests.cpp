@@ -18,7 +18,7 @@
 class MockImageLoader : public fcn::ImageLoader
 {
     public:
-        fcn::Image* load(std::string const & filename, bool convertToDisplayFormat) override
+        fcn::Image* load(std::string const & /*filename*/, bool /*convertToDisplayFormat*/) override
         {
             return nullptr; // Simple mock
         }

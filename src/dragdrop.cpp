@@ -163,7 +163,7 @@ namespace fcn
         return m_modalWidget;
     }
 
-    Widget* DragHandler::findWidgetAt(Widget* root, int x, int y, bool mustBeVisible, bool mustBeEnabled)
+    Widget* DragHandler::findWidgetAt(Widget* root, int x, int y, bool /*mustBeVisible*/, bool /*mustBeEnabled*/)
     {
         // Defer to Widget's existing hit test - this helper is a convenience placeholder.
         if (root == nullptr) {

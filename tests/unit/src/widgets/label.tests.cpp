@@ -176,7 +176,7 @@ namespace
             // getCurrentClipArea (virtual, returns ClipRectangle const&)
             fcn::ClipRectangle const & getCurrentClipArea() override
             {
-                static fcn::ClipRectangle r;
+                static fcn::ClipRectangle const r;
                 return r;
             }
     };
@@ -577,7 +577,7 @@ TEST_CASE("Label multi-line caption handling", "[unit][label]")
 
     SECTION("Very long text")
     {
-        std::string longText(100, 'x'); // 100 chars *8=800 width
+        std::string const longText(100, 'x'); // 100 chars *8=800 width
         label.setCaption(longText);
         REQUIRE(label.getWidth() == 800);
         REQUIRE(label.getHeight() == 8);

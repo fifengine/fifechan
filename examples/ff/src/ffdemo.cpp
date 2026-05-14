@@ -31,7 +31,7 @@ namespace
             return kDefaultWindowScale;
         }
 
-        int parsed = std::atoi(envValue);
+        int const parsed = std::atoi(envValue);
         if (parsed < kMinWindowScale || parsed > kMaxWindowScale) {
             return kDefaultWindowScale;
         }
@@ -50,7 +50,7 @@ namespace
     }
 } // namespace
 
-FFDemo::FFDemo() : mRunning(true), mMixer(nullptr), mChooseAudio(nullptr), mEscapeAudio(nullptr), mEffectTrack(nullptr)
+FFDemo::FFDemo()
 {
     int const windowScale  = resolveWindowScale();
     int const windowWidth  = kUiWidth * windowScale;
@@ -813,7 +813,7 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
 
 void FFDemo::input()
 {
-    while (SDL_PollEvent(&mEvent) != 0) {
+    while (SDL_PollEvent(&mEvent)) {
         if (mEvent.type == SDL_EVENT_KEY_DOWN) {
             if (mEvent.key.key == SDLK_ESCAPE) {
                 if (mEscapeAudio != nullptr && mEffectTrack != nullptr) {

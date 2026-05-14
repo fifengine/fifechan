@@ -19,20 +19,20 @@ TEST_CASE("Text constructors initialize properly", "[unit][text]")
 {
     SECTION("default constructor creates empty text")
     {
-        fcn::Text text;
-        REQUIRE(text.getContent() == "");
+        fcn::Text const text;
+        REQUIRE(text.getContent().empty());
         REQUIRE(text.getNumberOfRows() == 1);
     }
 
     SECTION("string constructor creates rows")
     {
-        fcn::Text text("Line1\nLine2\nLine3");
+        fcn::Text const text("Line1\nLine2\nLine3");
         REQUIRE(text.getNumberOfRows() == 3);
     }
 
     SECTION("string constructor handles no newlines")
     {
-        fcn::Text text("Single line");
+        fcn::Text const text("Single line");
         REQUIRE(text.getNumberOfRows() == 1);
         REQUIRE(text.getContent() == "Single line");
     }
@@ -42,20 +42,20 @@ TEST_CASE("Text getContent reconstructs original", "[unit][text]")
 {
     SECTION("single line")
     {
-        fcn::Text text("Hello");
+        fcn::Text const text("Hello");
         REQUIRE(text.getContent() == "Hello");
     }
 
     SECTION("multiple lines")
     {
-        fcn::Text text("Line1\nLine2\nLine3");
+        fcn::Text const text("Line1\nLine2\nLine3");
         REQUIRE(text.getContent() == "Line1\nLine2\nLine3");
     }
 
     SECTION("empty text")
     {
-        fcn::Text text;
-        REQUIRE(text.getContent() == "");
+        fcn::Text const text;
+        REQUIRE(text.getContent().empty());
     }
 }
 
@@ -225,20 +225,20 @@ TEST_CASE("Text getNumberOfCharacters", "[unit][text]")
 {
     SECTION("single line")
     {
-        fcn::Text text("ABC");
+        fcn::Text const text("ABC");
         REQUIRE(text.getNumberOfCharacters() == 4);
     }
 
     SECTION("multiple lines")
     {
-        fcn::Text text("AB\nCD");
+        fcn::Text const text("AB\nCD");
         REQUIRE(text.getNumberOfCharacters() == 6);
     }
 }
 
 TEST_CASE("Text getNumberOfCharacters for row", "[unit][text]")
 {
-    fcn::Text text("AB\nCD\nEF");
+    fcn::Text const text("AB\nCD\nEF");
     REQUIRE(text.getNumberOfCharacters(0) == 2);
     REQUIRE(text.getNumberOfCharacters(1) == 2);
     REQUIRE(text.getNumberOfCharacters(2) == 2);
@@ -256,7 +256,7 @@ TEST_CASE("Text handles UTF-8", "[unit][text]")
 
     SECTION("emoji")
     {
-        fcn::Text text("Hello \U0001F44B");
+        fcn::Text const text("Hello \U0001F44B");
         REQUIRE(text.getNumberOfRows() == 1);
     }
 
@@ -295,9 +295,9 @@ TEST_CASE("Text string constructor edge cases", "[unit][text]")
 {
     SECTION("empty string creates single empty row")
     {
-        fcn::Text text("");
+        fcn::Text const text("");
         REQUIRE(text.getNumberOfRows() == 1);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 
     SECTION("string ending with newline")
@@ -310,9 +310,9 @@ TEST_CASE("Text string constructor edge cases", "[unit][text]")
 
     SECTION("string with only newline")
     {
-        fcn::Text text("\n");
+        fcn::Text const text("\n");
         REQUIRE(text.getNumberOfRows() == 1);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 
     SECTION("string with consecutive newlines")
@@ -341,7 +341,7 @@ TEST_CASE("Text setContent edge cases", "[unit][text]")
         fcn::Text text("Original");
         text.setContent("");
         REQUIRE(text.getNumberOfRows() == 1);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 
     SECTION("setContent resets caret position")
@@ -506,7 +506,7 @@ TEST_CASE("Text remove edge cases", "[unit][text]")
         fcn::Text text;
         text.remove(5);
         REQUIRE(text.getNumberOfRows() == 1);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 
     SECTION("remove backward on empty text does nothing")
@@ -514,7 +514,7 @@ TEST_CASE("Text remove edge cases", "[unit][text]")
         fcn::Text text;
         text.remove(-5);
         REQUIRE(text.getNumberOfRows() == 1);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 }
 
@@ -653,14 +653,14 @@ TEST_CASE("Text font-dependent methods with empty text", "[unit][text]")
 
     SECTION("getDimension on empty text returns space dimension")
     {
-        fcn::Rectangle dim = text.getDimension(&font);
+        fcn::Rectangle const dim = text.getDimension(&font);
         REQUIRE(dim.width == font.getWidth(" "));
         REQUIRE(dim.height == font.getHeight());
     }
 
     SECTION("getCaretDimension on empty text")
     {
-        fcn::Rectangle dim = text.getCaretDimension(&font);
+        fcn::Rectangle const dim = text.getCaretDimension(&font);
         REQUIRE(dim.x == 0);
         REQUIRE(dim.y == 0);
         REQUIRE(dim.width == font.getWidth(" "));
@@ -693,9 +693,9 @@ TEST_CASE("Text font-dependent methods with content", "[unit][text]")
 
     SECTION("getDimension calculates correctly")
     {
-        fcn::Rectangle dim = text.getDimension(&font);
+        fcn::Rectangle const dim = text.getDimension(&font);
         // Width is max row width + space width
-        int maxWidth = std::max(font.getWidth("ABC"), font.getWidth("DE"));
+        int const maxWidth = std::max(font.getWidth("ABC"), font.getWidth("DE"));
         REQUIRE(dim.width == maxWidth + font.getWidth(" "));
         // Height is font height * number of rows
         REQUIRE(dim.height == font.getHeight() * 2);
@@ -704,7 +704,7 @@ TEST_CASE("Text font-dependent methods with content", "[unit][text]")
     SECTION("getCaretDimension calculates correctly")
     {
         text.setCaretPosition(2);
-        fcn::Rectangle dim = text.getCaretDimension(&font);
+        fcn::Rectangle const dim = text.getCaretDimension(&font);
         REQUIRE(dim.x == font.getWidth("AB"));
         REQUIRE(dim.y == 0);
         REQUIRE(dim.width == font.getWidth(" "));
@@ -728,7 +728,7 @@ TEST_CASE("Text font-dependent methods with content", "[unit][text]")
 TEST_CASE("Text getWidth and getMaximumCaretRow", "[unit][text]")
 {
     fcn::DefaultFont font;
-    fcn::Text text("ABC\nDE");
+    fcn::Text const text("ABC\nDE");
 
     SECTION("getWidth always returns 0")
     {
@@ -753,25 +753,25 @@ TEST_CASE("Text getNumberOfCharacters edge cases", "[unit][text]")
 {
     SECTION("empty text returns 1 (for the implicit newline)")
     {
-        fcn::Text text;
+        fcn::Text const text;
         REQUIRE(text.getNumberOfCharacters() == 1);
     }
 
     SECTION("single character returns 2")
     {
-        fcn::Text text("A");
+        fcn::Text const text("A");
         REQUIRE(text.getNumberOfCharacters() == 2);
     }
 
     SECTION("getNumberOfCharacters for out of bounds row returns 0")
     {
-        fcn::Text text("ABC");
+        fcn::Text const text("ABC");
         REQUIRE(text.getNumberOfCharacters(100) == 0);
     }
 
     SECTION("getNumberOfCharacters for empty row returns 0")
     {
-        fcn::Text text("A\n\nB");
+        fcn::Text const text("A\n\nB");
         REQUIRE(text.getNumberOfCharacters(1) == 0);
     }
 }
@@ -831,21 +831,21 @@ TEST_CASE("Text special characters and edge cases", "[unit][text]")
 {
     SECTION("text with spaces")
     {
-        fcn::Text text("Hello World");
+        fcn::Text const text("Hello World");
         REQUIRE(text.getContent() == "Hello World");
         REQUIRE(text.getNumberOfRows() == 1);
     }
 
     SECTION("text with tabs")
     {
-        fcn::Text text("A\tB");
+        fcn::Text const text("A\tB");
         REQUIRE(text.getContent() == "A\tB");
     }
 
     SECTION("very long single line")
     {
         std::string longStr(10000, 'A');
-        fcn::Text text(longStr);
+        fcn::Text const text(longStr);
         REQUIRE(text.getNumberOfRows() == 1);
         REQUIRE(text.getContent() == longStr);
     }
@@ -856,7 +856,7 @@ TEST_CASE("Text special characters and edge cases", "[unit][text]")
         for (int i = 0; i < 100; ++i) {
             multiRow += "Row" + std::to_string(i) + "\n";
         }
-        fcn::Text text(multiRow);
+        fcn::Text const text(multiRow);
         REQUIRE(text.getNumberOfRows() == 100);
     }
 
@@ -877,7 +877,7 @@ TEST_CASE("Text copy and move operations", "[unit][text]")
     {
         fcn::Text original("ABC\nDEF");
         original.setCaretPosition(4);
-        fcn::Text copy(original);
+        fcn::Text const copy(original);
         REQUIRE(copy.getContent() == "ABC\nDEF");
         REQUIRE(copy.getCaretPosition() == 4);
     }
@@ -896,7 +896,7 @@ TEST_CASE("Text copy and move operations", "[unit][text]")
     {
         fcn::Text original("ABC\nDEF");
         original.setCaretPosition(3);
-        fcn::Text moved(std::move(original));
+        fcn::Text const moved(std::move(original));
         REQUIRE(moved.getContent() == "ABC\nDEF");
         REQUIRE(moved.getCaretPosition() == 3);
     }
@@ -1005,12 +1005,12 @@ TEST_CASE("Text getContent with various row states", "[unit][text]")
     {
         fcn::Text text("ABC");
         text.eraseRow(0);
-        REQUIRE(text.getContent() == "");
+        REQUIRE(text.getContent().empty());
     }
 
     SECTION("getContent with empty rows")
     {
-        fcn::Text text("A\n\nB");
+        fcn::Text const text("A\n\nB");
         REQUIRE(text.getContent() == "A\n\nB");
     }
 

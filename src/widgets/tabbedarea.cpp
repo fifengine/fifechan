@@ -160,7 +160,7 @@ namespace fcn
                 // If the widget is already parented elsewhere, remove it first
                 if (mTabs.at(i).second != nullptr) {
                     if (mTabs.at(i).second->getParent() != nullptr) {
-                        if (auto parentContainer = dynamic_cast<Container*>(mTabs.at(i).second->getParent())) {
+                        if (auto* parentContainer = dynamic_cast<Container*>(mTabs.at(i).second->getParent())) {
                             parentContainer->remove(mTabs.at(i).second);
                         }
                     }
@@ -173,7 +173,7 @@ namespace fcn
 
     int TabbedArea::getSelectedTabIndex() const
     {
-        auto it = std::find_if(mTabs.begin(), mTabs.end(), [this](auto const & tab) {
+        auto it = std::ranges::find_if(mTabs, [this](auto const & tab) {
             return tab.first == mSelectedTab;
         });
 

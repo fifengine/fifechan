@@ -148,7 +148,7 @@ TEST_CASE("Color operator* scales and keeps alpha", "[unit][color]")
 {
     Color const color(100, 150, 200, 128);
 
-    Color const result = color * 2.0f;
+    Color const result = color * 2.0F;
     REQUIRE(result.r == 200);
     REQUIRE(result.g == 255); // Clamped
     REQUIRE(result.b == 255); // Clamped
@@ -163,7 +163,7 @@ TEST_CASE("Color operator+ float clamps and keeps alpha", "[unit][color]")
 {
     Color const color(250, 10, 5, 200);
 
-    Color const result = color + 20.0f;
+    Color const result = color + 20.0F;
     REQUIRE(result.r == 255); // Clamped
     REQUIRE(result.g == 30);
     REQUIRE(result.b == 25);
@@ -174,7 +174,7 @@ TEST_CASE("Color operator- float clamps and keeps alpha", "[unit][color]")
 {
     Color const color(10, 20, 30, 200);
 
-    Color const result = color - 20.0f;
+    Color const result = color - 20.0F;
     REQUIRE(result.r == 0); // Clamped
     REQUIRE(result.g == 0); // Clamped
     REQUIRE(result.b == 10);
@@ -213,7 +213,7 @@ TEST_CASE("Color operator*= modifies and keeps alpha", "[unit][color]")
 {
     Color color(100, 150, 200, 128);
 
-    color *= 2.0f;
+    color *= 2.0F;
     REQUIRE(color.r == 200);
     REQUIRE(color.g == 255); // Clamped
     REQUIRE(color.b == 255); // Clamped
@@ -228,7 +228,7 @@ TEST_CASE("Color lighten increases brightness", "[unit][color]")
 {
     Color const color(100, 100, 100, 128);
 
-    Color const result = color.lighten(0.5f);
+    Color const result = color.lighten(0.5F);
     REQUIRE(result.r == 150);
     REQUIRE(result.g == 150);
     REQUIRE(result.b == 150);
@@ -239,7 +239,7 @@ TEST_CASE("Color lighten clamps to 255", "[unit][color]")
 {
     Color const color(200, 200, 200, 128);
 
-    Color const result = color.lighten(1.0f);
+    Color const result = color.lighten(1.0F);
     REQUIRE(result.r == 255);
     REQUIRE(result.g == 255);
     REQUIRE(result.b == 255);
@@ -250,7 +250,7 @@ TEST_CASE("Color darken decreases brightness", "[unit][color]")
 {
     Color const color(100, 100, 100, 128);
 
-    Color const result = color.darken(0.5f);
+    Color const result = color.darken(0.5F);
     REQUIRE(result.r == 50);
     REQUIRE(result.g == 50);
     REQUIRE(result.b == 50);
@@ -261,7 +261,7 @@ TEST_CASE("Color darken clamps to 0", "[unit][color]")
 {
     Color const color(100, 100, 100, 128);
 
-    Color const result = color.darken(1.0f);
+    Color const result = color.darken(1.0F);
     REQUIRE(result.r == 0);
     REQUIRE(result.g == 0);
     REQUIRE(result.b == 0);

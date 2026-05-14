@@ -119,9 +119,9 @@ namespace fcn::sdl3
             if (!SDL_GetSurfaceColorKey(converted, &colorKey)) {
                 // For SDL_PIXELFORMAT_RGBA8888, the color key is stored as a 32-bit value
                 // Extract RGB components (assuming the color key was set with SDL_MapSurfaceRGB)
-                Uint8 r = (colorKey >> 16) & 0xFF; // R is typically in bits 16-23 for RGBA8888
-                Uint8 g = (colorKey >> 8) & 0xFF;  // G is typically in bits 8-15
-                Uint8 b = colorKey & 0xFF;         // B is typically in bits 0-7
+                Uint8 const r = (colorKey >> 16) & 0xFF; // R is typically in bits 16-23 for RGBA8888
+                Uint8 const g = (colorKey >> 8) & 0xFF;  // G is typically in bits 8-15
+                Uint8 const b = colorKey & 0xFF;         // B is typically in bits 0-7
                 if (r == 255 && g == 0 && b == 255) {
                     hasPink = true;
                 }

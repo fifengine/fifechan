@@ -220,11 +220,11 @@ TEST_CASE("Key comparison with same object", "[unit][key]")
 
 TEST_CASE("Key SDL3 keycode values are uint32_t", "[unit][key]")
 {
-    REQUIRE(fcn::Key::F1 == 0x4000003Au);
-    REQUIRE(fcn::Key::F12 == 0x40000045u);
-    REQUIRE(fcn::Key::KEY_RETURN == 0x0000000Du);
-    REQUIRE(fcn::Key::ESCAPE == 0x0000001Bu);
-    REQUIRE(fcn::Key::TAB == 0x00000009u);
+    REQUIRE(fcn::Key::F1 == 0x4000003AU);
+    REQUIRE(fcn::Key::F12 == 0x40000045U);
+    REQUIRE(fcn::Key::KEY_RETURN == 0x0000000DU);
+    REQUIRE(fcn::Key::ESCAPE == 0x0000001BU);
+    REQUIRE(fcn::Key::TAB == 0x00000009U);
 }
 
 TEST_CASE("Key SDL3 keycode function keys are not characters", "[unit][key]")

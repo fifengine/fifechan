@@ -24,14 +24,18 @@ namespace fcn
         // Convert SDL_Keymod bitmask to Shortcut::Modifier
         // SDL_KMOD_* map as: SHIFT=1, CTRL=64, ALT=256, GUI=1024
         uint16_t mods = 0;
-        if (sdlMods & 1)
+        if ((sdlMods & 1) != 0) {
             mods |= Modifier::Shift; // SDL_KMOD_SHIFT
-        if (sdlMods & 64)
+        }
+        if ((sdlMods & 64) != 0) {
             mods |= Modifier::Control; // SDL_KMOD_CTRL
-        if (sdlMods & 256)
+        }
+        if ((sdlMods & 256) != 0) {
             mods |= Modifier::Alt; // SDL_KMOD_ALT
-        if (sdlMods & 1024)
+        }
+        if ((sdlMods & 1024) != 0) {
             mods |= Modifier::Meta; // SDL_KMOD_GUI
+        }
 
         return Shortcut(Key(static_cast<int>(keycode)), mods);
     }
@@ -39,18 +43,23 @@ namespace fcn
     bool Shortcut::matches(KeyEvent const & event) const
     {
         assert("event key must be valid" && event.getKey().getValue() != 0);
-        if (mKey.getValue() != event.getKey().getValue())
+        if (mKey.getValue() != event.getKey().getValue()) {
             return false;
+        }
 
         uint16_t eventMods = 0;
-        if (event.isShiftPressed())
+        if (event.isShiftPressed()) {
             eventMods |= Modifier::Shift;
-        if (event.isControlPressed())
+        }
+        if (event.isControlPressed()) {
             eventMods |= Modifier::Control;
-        if (event.isAltPressed())
+        }
+        if (event.isAltPressed()) {
             eventMods |= Modifier::Alt;
-        if (event.isMetaPressed())
+        }
+        if (event.isMetaPressed()) {
             eventMods |= Modifier::Meta;
+        }
 
         return mModMask == eventMods;
     }
@@ -58,8 +67,9 @@ namespace fcn
     bool Shortcut::conflicts(Shortcut const & other) const
     {
         // Same key and overlapping modifier masks
-        if (mKey.getValue() != other.mKey.getValue())
+        if (mKey.getValue() != other.mKey.getValue()) {
             return false;
+        }
 
         return (mModMask & other.mModMask) != 0;
     }
@@ -68,14 +78,18 @@ namespace fcn
     {
         std::string result;
 
-        if (mModMask & Modifier::Control)
+        if ((mModMask & Modifier::Control) != 0) {
             result += "Ctrl+";
-        if (mModMask & Modifier::Shift)
+        }
+        if ((mModMask & Modifier::Shift) != 0) {
             result += "Shift+";
-        if (mModMask & Modifier::Alt)
+        }
+        if ((mModMask & Modifier::Alt) != 0) {
             result += "Alt+";
-        if (mModMask & Modifier::Meta)
+        }
+        if ((mModMask & Modifier::Meta) != 0) {
             result += "Meta+";
+        }
 
         // Append key name using the value
         int const val = mKey.getValue();

@@ -692,7 +692,9 @@ TEST_CASE("Widget getParent returns container after add", "[unit][widget]")
 TEST_CASE("Container getChildrenCount", "[unit][widget]")
 {
     Container container;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -711,7 +713,8 @@ TEST_CASE("Container getVisibleChildrenCount", "[unit][widget]")
 {
     Gui gui;
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -750,7 +753,8 @@ TEST_CASE("Container remove non-existent widget throws", "[unit][widget]")
 TEST_CASE("Container removeAllChildren", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -768,7 +772,8 @@ TEST_CASE("Container removeAllChildren", "[unit][widget]")
 TEST_CASE("Container moveToTop", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -792,7 +797,8 @@ TEST_CASE("Container moveToTop non-existent throws", "[unit][widget]")
 TEST_CASE("Container moveToBottom", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -815,7 +821,8 @@ TEST_CASE("Container moveToBottom non-existent throws", "[unit][widget]")
 TEST_CASE("Widget requestMoveToTop", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -831,7 +838,8 @@ TEST_CASE("Widget requestMoveToTop", "[unit][widget]")
 TEST_CASE("Widget requestMoveToBottom", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -888,7 +896,9 @@ TEST_CASE("Widget removeActionListener", "[unit][widget]")
 TEST_CASE("Widget multiple action listeners", "[unit][widget]")
 {
     TestableWidget label;
-    MockActionListener l1, l2, l3;
+    MockActionListener l1;
+    MockActionListener l2;
+    MockActionListener l3;
     label.addActionListener(&l1);
     label.addActionListener(&l2);
     label.addActionListener(&l3);
@@ -1070,7 +1080,7 @@ TEST_CASE("Widget distributeDragEnter returns true when listener accepts", "[uni
     label.addDropTargetListener(&listener);
 
     DragEvent event(&label, nullptr, DragEvent::Type::Enter, 0, 0, 0, 0);
-    bool result = label.testDistributeDragEnter(event);
+    bool const result = label.testDistributeDragEnter(event);
     REQUIRE(result);
     REQUIRE(listener.enteredCalled);
 }
@@ -1083,7 +1093,7 @@ TEST_CASE("Widget distributeDragEnter returns false when listener rejects", "[un
     label.addDropTargetListener(&listener);
 
     DragEvent event(&label, nullptr, DragEvent::Type::Enter, 0, 0, 0, 0);
-    bool result = label.testDistributeDragEnter(event);
+    bool const result = label.testDistributeDragEnter(event);
     REQUIRE_FALSE(result);
 }
 
@@ -1576,7 +1586,8 @@ TEST_CASE("Widget getAbsolutePosition with parent", "[unit][widget]")
 
 TEST_CASE("Widget getTop returns topmost ancestor", "[unit][widget]")
 {
-    Container root, middle;
+    Container root;
+    Container middle;
     Label label;
 
     root.setSize(300, 300);
@@ -1667,7 +1678,8 @@ TEST_CASE("Widget captureMouse", "[unit][widget]")
 
 TEST_CASE("Widget captureMouse fails when another widget has capture", "[unit][widget]")
 {
-    Label l1, l2;
+    Label l1;
+    Label l2;
     REQUIRE(l1.captureMouse());
     REQUIRE_FALSE(l2.captureMouse());
     l1.releaseMouse();
@@ -1709,7 +1721,8 @@ TEST_CASE("Widget isDescendantOf direct child", "[unit][widget]")
 
 TEST_CASE("Widget isDescendantOf grandchild", "[unit][widget]")
 {
-    Container root, child;
+    Container root;
+    Container child;
     Label grandchild;
     root.setSize(300, 300);
     root.add(&child);
@@ -1731,8 +1744,10 @@ TEST_CASE("Widget isDescendantOf self", "[unit][widget]")
 
 TEST_CASE("Widget isDescendantOf unrelated widget", "[unit][widget]")
 {
-    Container c1, c2;
-    Label l1, l2;
+    Container c1;
+    Container c2;
+    Label l1;
+    Label l2;
     c1.setSize(100, 100);
     c1.add(&l1);
     l1.setPosition(0, 0);
@@ -1759,7 +1774,9 @@ TEST_CASE("Widget isDescendantOf nullptr", "[unit][widget]")
 TEST_CASE("Container getWidgetsIn finds intersecting widgets", "[unit][widget]")
 {
     Container container;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(10, 10);
@@ -1779,7 +1796,8 @@ TEST_CASE("Container getWidgetsIn finds intersecting widgets", "[unit][widget]")
 TEST_CASE("Container getWidgetsIn with ignore parameter", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(10, 10);
@@ -1809,7 +1827,8 @@ TEST_CASE("Widget getWidgetsIn returns empty for non-container", "[unit][widget]
 TEST_CASE("Container findWidgetById finds direct child", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setId("first");
@@ -1826,7 +1845,8 @@ TEST_CASE("Container findWidgetById finds direct child", "[unit][widget]")
 
 TEST_CASE("Container findWidgetById finds nested child", "[unit][widget]")
 {
-    Container root, child;
+    Container root;
+    Container child;
     Label target;
     root.setSize(300, 300);
     root.add(&child);
@@ -1887,7 +1907,9 @@ TEST_CASE("Container focusNext focuses first focusable widget", "[unit][widget]"
 {
     Gui gui;
     Container container;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     container.setSize(200, 200);
     // Add a non-focusable widget first so focusNext skips to l1
     container.add(&l1);
@@ -1911,7 +1933,8 @@ TEST_CASE("Container focusNext focuses first focusable widget", "[unit][widget]"
 TEST_CASE("Container focusNext wraps around", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -1934,7 +1957,9 @@ TEST_CASE("Container focusPrevious focuses last focusable widget", "[unit][widge
 {
     Gui gui;
     Container container;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -1985,7 +2010,8 @@ TEST_CASE("Widget _setFocusHandler and _getFocusHandler", "[unit][widget]")
 TEST_CASE("Widget _setFocusHandler replaces old handler", "[unit][widget]")
 {
     Label label;
-    FocusHandler fh1, fh2;
+    FocusHandler fh1;
+    FocusHandler fh2;
     label._setFocusHandler(&fh1);
     REQUIRE(label._getFocusHandler() == &fh1);
 
@@ -2224,7 +2250,8 @@ TEST_CASE("Widget setInternalFocusHandler", "[unit][widget]")
 TEST_CASE("Container getChild by index", "[unit][widget]")
 {
     Container container;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -2258,10 +2285,10 @@ TEST_CASE("Widget _setGuiDeathListener and _getGuiDeathListener", "[unit][widget
 {
     MockDeathListener dl;
     Label label;
-    label._setGuiDeathListener(&dl);
-    REQUIRE(label._getGuiDeathListener() == &dl);
+    Widget::_setGuiDeathListener(&dl);
+    REQUIRE(Widget::_getGuiDeathListener() == &dl);
     // Reset static listener to avoid dangling pointer after test ends
-    label._setGuiDeathListener(nullptr);
+    Widget::_setGuiDeathListener(nullptr);
 }
 
 // ============================================================================
@@ -2284,7 +2311,8 @@ TEST_CASE("Widget _logic calls logic recursively on children", "[unit][widget]")
     };
 
     Container container;
-    LogicTrackingLabel l1, l2;
+    LogicTrackingLabel l1;
+    LogicTrackingLabel l2;
     container.setSize(200, 200);
     container.add(&l1);
     l1.setPosition(0, 0);
@@ -2316,7 +2344,11 @@ TEST_CASE("Widget setDimension with same values triggers no events", "[unit][wid
 TEST_CASE("Widget multiple listeners of same type", "[unit][widget]")
 {
     TestableWidget label;
-    MockActionListener l1, l2, l3, l4, l5;
+    MockActionListener l1;
+    MockActionListener l2;
+    MockActionListener l3;
+    MockActionListener l4;
+    MockActionListener l5;
     label.addActionListener(&l1);
     label.addActionListener(&l2);
     label.addActionListener(&l3);
@@ -2382,7 +2414,8 @@ TEST_CASE("Widget deep nesting parent chain", "[unit][widget]")
 
 TEST_CASE("Widget getAbsolutePosition with nested containers", "[unit][widget]")
 {
-    Container root, mid;
+    Container root;
+    Container mid;
     Label leaf;
 
     root.setSize(500, 500);

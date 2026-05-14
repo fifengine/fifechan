@@ -89,7 +89,7 @@ namespace fcn
             }
         }
 
-        int maxWidth = std::accumulate(lines.begin(), lines.end(), 0, [&](int acc, std::string const & line) {
+        int const maxWidth = std::accumulate(lines.begin(), lines.end(), 0, [&](int acc, std::string const & line) {
             return std::max(acc, getFont()->getWidth(line));
         });
 
@@ -125,7 +125,7 @@ namespace fcn
         int const fontHeight = getFont()->getHeight();
 
         // Count lines to compute total text block height for proper vertical alignment
-        int lineCount             = static_cast<int>(std::count(getCaption().begin(), getCaption().end(), '\n')) + 1;
+        int const lineCount       = static_cast<int>(std::count(getCaption().begin(), getCaption().end(), '\n')) + 1;
         int const totalTextHeight = lineCount * fontHeight;
 
         int textX = 0;

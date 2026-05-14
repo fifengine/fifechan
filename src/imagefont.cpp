@@ -43,14 +43,20 @@ namespace fcn
                 uint8_t r, g, b;
                 bool operator<(RGB const & o) const
                 {
-                    return r != o.r ? r < o.r : g != o.g ? g < o.g : b < o.b;
+                    if (r != o.r) {
+                        return r < o.r;
+                    }
+                    if (g != o.g) {
+                        return g < o.g;
+                    }
+                    return b < o.b;
                 }
         };
         std::map<RGB, int> freq;
 
         auto count = [&](int x, int y) {
-            Color c = img->getPixel(x, y);
-            ++freq[{c.r, c.g, c.b}];
+            Color const c = img->getPixel(x, y);
+            ++freq[{.r = c.r, .g = c.g, .b = c.b}];
         };
 
         for (int x = 0; x < w; ++x) {
@@ -62,7 +68,7 @@ namespace fcn
             count(w - 1, y);
         }
 
-        RGB best     = {0, 0, 0};
+        RGB best     = {.r = 0, .g = 0, .b = 0};
         int maxCount = 0;
         for (auto const & p : freq) {
             if (p.second > maxCount) {
@@ -94,7 +100,7 @@ namespace fcn
     }
 
     static std::vector<Rectangle> scanGlyphs(
-        Image* img, int expectedCount, Color const & sep, int padding, bool verbose)
+        Image* img, int expectedCount, Color const & sep, int padding, bool /*verbose*/)
     {
         int const w = img->getWidth();
         int const h = img->getHeight();
@@ -118,7 +124,7 @@ namespace fcn
         int ycur         = startY;
         int maxRowHeight = 0;
 
-        while (ycur < h && static_cast<int>(found.size()) < expectedCount) {
+        while (ycur < h && std::cmp_less(found.size(), expectedCount)) {
             int rowEnd = ycur;
             for (; rowEnd < h; ++rowEnd) {
                 bool hasContent = false;
@@ -145,7 +151,7 @@ namespace fcn
             };
 
             int xcur = 0;
-            while (xcur < w && static_cast<int>(found.size()) < expectedCount) {
+            while (xcur < w && std::cmp_less(found.size(), expectedCount)) {
                 while (xcur < w && isSepCol(xcur)) {
                     ++xcur;
                 }
@@ -158,9 +164,9 @@ namespace fcn
                     ++xcur;
                 }
 
-                int width  = std::max(1, xcur - sx - (padding * 2));
-                int height = std::max(1, rowH - (padding * 2));
-                found.push_back({sx + padding, ycur + padding, width, height});
+                int const width  = std::max(1, xcur - sx - (padding * 2));
+                int const height = std::max(1, rowH - (padding * 2));
+                found.emplace_back(sx + padding, ycur + padding, width, height);
             }
             ycur = rowEnd + 1;
         }
@@ -174,8 +180,8 @@ namespace fcn
             throwException(std::string("Failed to load image: ") + filename);
         }
 
-        int expected = static_cast<int>(glyphs.size());
-        Color sep    = resolveSeparator(mImage, config);
+        int const expected = static_cast<int>(glyphs.size());
+        Color sep          = resolveSeparator(mImage, config);
 
         auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
 
@@ -184,7 +190,7 @@ namespace fcn
             found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
         }
 
-        if (static_cast<int>(found.size()) < expected) {
+        if (std::cmp_less(found.size(), expected)) {
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
@@ -202,11 +208,11 @@ namespace fcn
             std::cerr << "[ImageFont] Loaded '" << mFilename << "' ExpectedGlyphs=" << expected
                       << " Found=" << found.size() << " Separator=R:" << static_cast<int>(sep.r)
                       << " G:" << static_cast<int>(sep.g) << " B:" << static_cast<int>(sep.b) << "\n";
-            for (size_t i = 0; i < glyphs.size(); ++i) {
-                unsigned char const c = static_cast<unsigned char>(glyphs.at(i));
+            for (char glyph : glyphs) {
+                unsigned char const c = static_cast<unsigned char>(glyph);
                 Rectangle const & r   = mGlyph.at(c);
-                std::cerr << "  glyph '" << glyphs.at(i) << "' (" << static_cast<int>(c) << ") -> x=" << r.x
-                          << " y=" << r.y << " w=" << r.width << " h=" << r.height << "\n";
+                std::cerr << "  glyph '" << glyph << "' (" << static_cast<int>(c) << ") -> x=" << r.x << " y=" << r.y
+                          << " w=" << r.width << " h=" << r.height << "\n";
             }
         }
 
@@ -318,8 +324,8 @@ namespace fcn
         }
         mImage = image;
 
-        int expected = static_cast<int>(glyphs.size());
-        Color sep    = resolveSeparator(mImage, config);
+        int const expected = static_cast<int>(glyphs.size());
+        Color sep          = resolveSeparator(mImage, config);
 
         auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
 
@@ -328,7 +334,7 @@ namespace fcn
             found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
         }
 
-        if (static_cast<int>(found.size()) < expected) {
+        if (std::cmp_less(found.size(), expected)) {
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"
@@ -400,8 +406,8 @@ namespace fcn
             throwException(std::string("Failed to load image: ") + filename);
         }
 
-        int expected = static_cast<int>(glyphsTo) - static_cast<int>(glyphsFrom) + 1;
-        Color sep    = resolveSeparator(mImage, config);
+        int const expected = static_cast<int>(glyphsTo) - static_cast<int>(glyphsFrom) + 1;
+        Color sep          = resolveSeparator(mImage, config);
 
         auto found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
 
@@ -410,7 +416,7 @@ namespace fcn
             found = scanGlyphs(mImage, expected, sep, config.glyphPadding, config.verbose);
         }
 
-        if (static_cast<int>(found.size()) < expected) {
+        if (std::cmp_less(found.size(), expected)) {
             std::ostringstream os;
             os << "Image " << mFilename << " is corrupt or uses wrong separator.\n"
                << "Expected: " << expected << " glyphs, Found: " << found.size() << "\n"

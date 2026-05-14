@@ -157,6 +157,7 @@ void Application::cleanup()
     gui.reset();
     if (top) {
         std::vector<fcn::Widget*> children;
+        children.reserve(top->getChildrenCount());
         for (unsigned int i = 0; i < top->getChildrenCount(); ++i) {
             children.push_back(top->getChild(i));
         }
@@ -165,7 +166,7 @@ void Application::cleanup()
             bool ownedByExample = (child == ownedTextBox.get() || child == ownedNestedContainer.get());
             if (!ownedByExample) {
                 // skip widgets that are stored in tabWidgets (tabs and their content)
-                if (std::any_of(tabWidgets.begin(), tabWidgets.end(), [child](auto const & wptr) {
+                if (std::ranges::any_of(tabWidgets, [child](auto const & wptr) {
                         return wptr.get() == child;
                     })) {
                     ownedByExample = true;
@@ -228,7 +229,7 @@ void Application::init_GUI(int width, int height)
     }
 
     // Use the new font loading API to find ArchitectsDaughter font
-    std::filesystem::path fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+    std::filesystem::path const fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
     if (fontPath.empty()) {
         std::cerr << "[ERROR] Could not find ArchitectsDaughter.ttf in search paths\n";
         exit(5);
@@ -484,9 +485,9 @@ void Application::init_GUI(int width, int height)
         }
 
         SDL_FillSurfaceRect(progressSurface, nullptr, SDL_MapSurfaceRGBA(progressSurface, 0, 0, 0, 0));
-        SDL_Rect const outlineRect{0, 2, 10, 14};
+        SDL_Rect const outlineRect{.x = 0, .y = 2, .w = 10, .h = 14};
         SDL_FillSurfaceRect(progressSurface, &outlineRect, SDL_MapSurfaceRGBA(progressSurface, 132, 152, 89, 255));
-        SDL_Rect const fillRect{1, 3, 8, 12};
+        SDL_Rect const fillRect{.x = 1, .y = 3, .w = 8, .h = 12};
         SDL_FillSurfaceRect(progressSurface, &fillRect, SDL_MapSurfaceRGBA(progressSurface, 177, 198, 120, 255));
 
         ownedProgressFillImage = std::make_unique<fcn::sdl3::Image>(progressSurface, true, renderer.get());
@@ -662,14 +663,14 @@ void Application::run()
     SDL_Event event;
 
     while (running) {
-        while (SDL_PollEvent(&event) != 0) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_KEY_DOWN) {
                 if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
                 if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
                     uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
-                    SDL_SetWindowFullscreen(window.get(), flags ? 0 : SDL_WINDOW_FULLSCREEN);
+                    SDL_SetWindowFullscreen(window.get(), flags != 0 ? false : SDL_WINDOW_FULLSCREEN);
                 }
             }
             if (event.type == SDL_EVENT_QUIT) {

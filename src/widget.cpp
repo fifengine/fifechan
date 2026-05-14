@@ -11,6 +11,7 @@
 #include <list>
 #include <ranges>
 #include <string>
+#include <utility>
 
 // Project headers (subdirs before local)
 #include "fifechan/defaultfont.hpp"
@@ -157,7 +158,7 @@ namespace fcn
         drawBorder(graphics, mBorderSides);
     }
 
-    void Widget::drawBorder(Graphics* graphics, unsigned int sides)
+    void Widget::drawBorder(Graphics* graphics, unsigned int sides) const
     {
         Color const borderColor = getBorderColor();
         Color highlightColor;
@@ -172,7 +173,7 @@ namespace fcn
 
         unsigned int const style = mBorderStyle;
 
-        for (int i = 0; i < static_cast<int>(getBorderSize()); ++i) {
+        for (int i = 0; std::cmp_less(i, getBorderSize()); ++i) {
             if (style == BORDER_STYLE_FLAT) {
                 // Flat style: use borderColor for all requested sides
                 if ((sides & Widget::BORDER_TOP) != 0U) {
@@ -928,8 +929,8 @@ namespace fcn
     bool Widget::distributeDragEnter(DragEvent& event)
     {
         bool accepted = false;
-        for (auto listener : mDropTargetListeners) {
-            if (listener && listener->dragEntered(event)) {
+        for (auto* listener : mDropTargetListeners) {
+            if (listener != nullptr && listener->dragEntered(event)) {
                 accepted = true;
             }
         }
@@ -938,8 +939,8 @@ namespace fcn
 
     void Widget::distributeDragLeave(DragEvent& event)
     {
-        for (auto listener : mDropTargetListeners) {
-            if (listener) {
+        for (auto* listener : mDropTargetListeners) {
+            if (listener != nullptr) {
                 listener->dragExited(event);
             }
         }
@@ -947,8 +948,8 @@ namespace fcn
 
     void Widget::distributeDragHover(DragEvent& event)
     {
-        for (auto listener : mDropTargetListeners) {
-            if (listener) {
+        for (auto* listener : mDropTargetListeners) {
+            if (listener != nullptr) {
                 listener->dragHovered(event);
             }
         }
@@ -956,8 +957,8 @@ namespace fcn
 
     void Widget::distributeDragDrop(DragEvent& event)
     {
-        for (auto listener : mDropTargetListeners) {
-            if (listener) {
+        for (auto* listener : mDropTargetListeners) {
+            if (listener != nullptr) {
                 listener->dragDropped(event);
             }
         }
@@ -1658,7 +1659,7 @@ namespace fcn
     {
         // Note: We use const_cast to call the non-const _getFocusHandler.
         // This is safe because _getFocusHandler doesn't modify the widget.
-        FocusHandler* fh = const_cast<Widget*>(this)->_getFocusHandler();
+        FocusHandler const * fh = const_cast<Widget*>(this)->_getFocusHandler();
         if (fh == nullptr) {
             return false;
         }

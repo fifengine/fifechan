@@ -17,7 +17,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Pressed event with Left button")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -39,7 +39,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Released event with Right button")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             true,
@@ -61,7 +61,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Moved event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -83,7 +83,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("WheelMovedUp event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -101,7 +101,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("WheelMovedDown event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -119,7 +119,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Clicked event with double click")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -138,7 +138,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Entered event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -156,7 +156,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Exited event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -174,7 +174,7 @@ TEST_CASE("MouseEvent constructor and getters work correctly", "[mouseevent]")
 
     SECTION("Dragged event")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -198,7 +198,7 @@ TEST_CASE("MouseEvent with modifier keys", "[mouseevent]")
 
     SECTION("Shift pressed")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             true,
@@ -219,7 +219,7 @@ TEST_CASE("MouseEvent with modifier keys", "[mouseevent]")
 
     SECTION("Control and Alt pressed")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -240,7 +240,7 @@ TEST_CASE("MouseEvent with modifier keys", "[mouseevent]")
 
     SECTION("Meta pressed")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -264,7 +264,7 @@ TEST_CASE("MouseEvent with Middle and X1 buttons", "[mouseevent]")
 
     SECTION("Middle button")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -282,7 +282,7 @@ TEST_CASE("MouseEvent with Middle and X1 buttons", "[mouseevent]")
 
     SECTION("X1 button")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,
@@ -300,7 +300,7 @@ TEST_CASE("MouseEvent with Middle and X1 buttons", "[mouseevent]")
 
     SECTION("X2 button")
     {
-        fcn::MouseEvent event(
+        fcn::MouseEvent const event(
             &source,
             &distributor,
             false,

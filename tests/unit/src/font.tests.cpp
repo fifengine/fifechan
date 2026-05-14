@@ -16,20 +16,19 @@
 
 using fcn::Font;
 using fcn::Graphics;
-using fcn::ImageFont;
 // Use shared mock font to avoid ODR violations
 #include "mock_font.hpp"
 
 TEST_CASE("Font::getStringIndexAt returns correct index for position", "[font]")
 {
-    MockFont font(10, 16);
+    MockFont const font(10, 16);
 
     // Test with empty string
     REQUIRE(font.getStringIndexAt("", 0) == 0);
     REQUIRE(font.getStringIndexAt("", 5) == 0);
 
     // Test with simple string
-    std::string text = "Hello";
+    std::string const text = "Hello";
     // The function returns the index i where getWidth(text.substr(0, i)) > x
     // For 10px per char: ""=0, "H"=10, "He"=20, "Hel"=30, "Hell"=40, "Hello"=50
     REQUIRE(font.getStringIndexAt(text, 0) == 1);   // getWidth("")=0 not >0, getWidth("H")=10>0, return 1
@@ -45,9 +44,9 @@ TEST_CASE("Font::getStringIndexAt returns correct index for position", "[font]")
 
 TEST_CASE("Font::getStringIndexAt handles single character", "[font]")
 {
-    MockFont font(10, 16);
+    MockFont const font(10, 16);
 
-    std::string text = "A";
+    std::string const text = "A";
     // getWidth("")=0, getWidth("A")=10
     REQUIRE(font.getStringIndexAt(text, 0) == 1);  // getWidth("A")=10>0, return 1
     REQUIRE(font.getStringIndexAt(text, 5) == 1);  // getWidth("A")=10>5, return 1
@@ -57,11 +56,11 @@ TEST_CASE("Font::getStringIndexAt handles single character", "[font]")
 
 TEST_CASE("Font::getStringIndexAt handles multi-byte UTF-8 characters", "[font]")
 {
-    MockFont font(10, 16);
+    MockFont const font(10, 16);
 
     // UTF-8 string with multi-byte characters
     // "Hello 🎉" = 10 bytes: H(1) + e(1) + l(1) + l(1) + o(1) + space(1) + emoji(4)
-    std::string text = "Hello 🎉";
+    std::string const text = "Hello 🎉";
     // Width calculation in MockFont uses text.size() (bytes) * charWidth
     // So "Hello " (6 bytes) = 60px, "Hello 🎉" (10 bytes) = 100px
 
@@ -77,9 +76,9 @@ TEST_CASE("ImageFont getStringIndexAt works correctly", "[font]")
 {
     // Use ImageFont to test through concrete implementation
     // Note: This requires SDL to be initialized, so we test the base class behavior
-    MockFont font(8, 16);
+    MockFont const font(8, 16);
 
-    std::string text = "ABC";
+    std::string const text = "ABC";
     // Width: 3 * 8 = 24
     // getWidth("")=0, "A"=8, "AB"=16, "ABC"=24
     REQUIRE(font.getStringIndexAt(text, 0) == 1);   // getWidth("A")=8>0, return 1

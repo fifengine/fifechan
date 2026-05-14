@@ -157,7 +157,7 @@ namespace fcn
              * Draw the border for the given sides.
              * This overload allows callers to draw a subset of sides.
              */
-            void drawBorder(Graphics* graphics, unsigned int sides);
+            void drawBorder(Graphics* graphics, unsigned int sides) const;
 
             /**
              * Called when a widget is "active" and the selection mode is Frame or FrameWithBackground.

@@ -69,7 +69,7 @@ int main(int /*argc*/, char** /*argv*/)
     SDL_Window* window = SDL_CreateWindow(title.c_str(), 800, 600, SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
     if (window == nullptr) {
-        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << '\n';
         SDL_Quit();
         return 1;
     }
@@ -78,7 +78,7 @@ int main(int /*argc*/, char** /*argv*/)
     SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
 
     if (renderer == nullptr) {
-        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << '\n';
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
@@ -172,7 +172,7 @@ int main(int /*argc*/, char** /*argv*/)
         bool running = true;
         SDL_Event evt;
         while (running) {
-            while (SDL_PollEvent(&evt) != 0) {
+            while (SDL_PollEvent(&evt)) {
                 if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
                 } else if (evt.type == SDL_EVENT_KEY_DOWN) {

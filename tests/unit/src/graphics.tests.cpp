@@ -151,7 +151,7 @@ TEST_CASE("Graphics::pushClipArea with normal rect when stack empty sets xOffset
     MockGraphics g;
 
     Rectangle rect(10, 20, 100, 200);
-    bool result = g.pushClipArea(rect);
+    bool const result = g.pushClipArea(rect);
 
     REQUIRE(result == true);
     ClipRectangle const & clip = g.getCurrentClipArea();
@@ -173,7 +173,7 @@ TEST_CASE("Graphics::pushClipArea with nested clips computes intersection", "[gr
 
     // Push second clip area that intersects
     Rectangle rect2(50, 60, 100, 100);
-    bool result = g.pushClipArea(rect2);
+    bool const result = g.pushClipArea(rect2);
 
     REQUIRE(result == true);
     ClipRectangle const & clip = g.getCurrentClipArea();
@@ -202,7 +202,7 @@ TEST_CASE("Graphics::pushClipArea returns false when intersection empty", "[grap
 
     // Push second clip area that does NOT intersect (outside to the right)
     Rectangle rect2(100, 10, 50, 50); // x=100+10=110, which is outside rect1 (10-60)
-    bool result = g.pushClipArea(rect2);
+    bool const result = g.pushClipArea(rect2);
 
     REQUIRE(result == false);
     ClipRectangle const & clip = g.getCurrentClipArea();
@@ -368,7 +368,7 @@ TEST_CASE("Graphics::drawText unknown alignment throws", "[graphics][drawText]")
     g.setFont(&font);
 
     // Cast an invalid value to Alignment to test unknown alignment
-    Graphics::Alignment invalidAlignment = static_cast<Graphics::Alignment>(255);
+    Graphics::Alignment const invalidAlignment = static_cast<Graphics::Alignment>(255);
     REQUIRE_THROWS_AS(g.drawText("Hello", 100, 200, invalidAlignment), fcn::Exception);
 }
 

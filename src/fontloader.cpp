@@ -38,10 +38,10 @@ namespace fcn::font
             return std::filesystem::path(path);
 #else
             std::array<char, PATH_MAX> path{};
-            ssize_t len = readlink("/proc/self/exe", path.data(), path.size() - 1);
+            ssize_t const len = readlink("/proc/self/exe", path.data(), path.size() - 1);
             if (len != -1) {
                 path[static_cast<size_t>(len)] = '\0';
-                return std::filesystem::path(path.data());
+                return {path.data()};
             }
             return {};
 #endif
@@ -99,12 +99,12 @@ namespace fcn::font
 
         // Remove duplicates while preserving order
         std::vector<std::filesystem::path> uniquePaths;
-        std::copy_if(
-            paths.begin(),
-            paths.end(),
+        std::ranges::copy_if(
+            paths,
+
             std::back_inserter(uniquePaths),
             [&uniquePaths](std::filesystem::path const & p) {
-                return std::find(uniquePaths.begin(), uniquePaths.end(), p) == uniquePaths.end();
+                return std::ranges::find(uniquePaths, p) == uniquePaths.end();
             });
 
         return uniquePaths;
@@ -117,7 +117,7 @@ namespace fcn::font
         auto paths = searchPaths.empty() ? FontLoader::getDefaultSearchPaths() : searchPaths;
 
         // Check if fontName already has an extension
-        std::filesystem::path fontPath(fontName);
+        std::filesystem::path const fontPath(fontName);
         bool const hasExtension = fontPath.has_extension();
 
         auto extensions = getFontExtensions();

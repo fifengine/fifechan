@@ -151,7 +151,7 @@ namespace fcn::sdl3
 
         // case SDL_EVENT_TEXT_EDITING:
         case SDL_EVENT_TEXT_INPUT: {
-            std::string text(static_cast<char const *>(event.text.text));
+            std::string text(event.text.text);
             if (!text.empty()) {
                 mTextInputQueue.push(std::move(text));
             }

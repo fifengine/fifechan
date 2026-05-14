@@ -39,8 +39,8 @@ TEST_CASE("Event multiple events different sources", "[unit][event]")
 {
     Label widgets[5];
 
-    for (int i = 0; i < 5; ++i) {
-        Event event(&widgets[i]);
-        REQUIRE(event.getSource() == &widgets[i]);
+    for (auto& widget : widgets) {
+        Event event(&widget);
+        REQUIRE(event.getSource() == &widget);
     }
 }

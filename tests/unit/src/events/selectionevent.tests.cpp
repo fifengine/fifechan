@@ -48,8 +48,8 @@ TEST_CASE("SelectionEvent multiple events", "[unit][selectionevent]")
 {
     Label widgets[5];
 
-    for (int i = 0; i < 5; ++i) {
-        SelectionEvent event(&widgets[i]);
-        REQUIRE(event.getSource() == &widgets[i]);
+    for (auto& widget : widgets) {
+        SelectionEvent event(&widget);
+        REQUIRE(event.getSource() == &widget);
     }
 }

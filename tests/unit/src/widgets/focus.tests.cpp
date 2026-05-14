@@ -38,7 +38,7 @@ TEST_CASE("Clicking TextField focuses and sets caret", "[integration][focus]")
     // TODO MouseAutomation
     // Simulate a left mouse press inside the textfield.
     // With DefaultFont (8px per char), x=13 maps to character index 1 in "Hello".
-    fcn::MouseInput mi(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 13, 5, 100);
+    fcn::MouseInput const mi(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 13, 5, 100);
 
     gui.callHandleMousePressed(mi);
 

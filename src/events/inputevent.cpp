@@ -27,14 +27,18 @@ namespace fcn
     {
         (void)source;
         (void)distributor;
-        if (isShiftPressed)
+        if (isShiftPressed) {
             mModMask |= ModShift;
-        if (isControlPressed)
+        }
+        if (isControlPressed) {
             mModMask |= ModControl;
-        if (isAltPressed)
+        }
+        if (isAltPressed) {
             mModMask |= ModAlt;
-        if (isMetaPressed)
+        }
+        if (isMetaPressed) {
             mModMask |= ModMeta;
+        }
     }
 
     bool InputEvent::isShiftPressed() const

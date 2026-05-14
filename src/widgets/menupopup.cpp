@@ -417,9 +417,9 @@ namespace fcn
     void MenuPopup::mouseEntered(MouseEvent& event)
     {
         // Determine which child was entered and update hover/focus
-        Widget* src   = event.getSource();
-        auto children = getChildren();
-        int idx       = 0;
+        Widget const * src = event.getSource();
+        auto children      = getChildren();
+        int idx            = 0;
         for (auto* child : children) {
             if (child == src) {
                 // Focus the hovered item for visual feedback and keyboard nav
@@ -543,7 +543,7 @@ namespace fcn
     {
     }
 
-    void MenuPopup::focusLost(Event const & event)
+    void MenuPopup::focusLost(Event const & /*event*/)
     {
         // Close when focus is lost
         if (isVisible()) {

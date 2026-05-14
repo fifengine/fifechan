@@ -12,7 +12,7 @@ TEST_CASE("KeyInput constructors initialize properly", "[unit][keyinput]")
 {
     SECTION("default constructor initializes members")
     {
-        fcn::KeyInput keyInput;
+        fcn::KeyInput const keyInput;
         REQUIRE(keyInput.getKey().getValue() == 0);
         REQUIRE(keyInput.getType() == fcn::KeyInput::Type::Pressed);
     }
@@ -20,7 +20,7 @@ TEST_CASE("KeyInput constructors initialize properly", "[unit][keyinput]")
     SECTION("key and type constructor")
     {
         fcn::Key key(65);
-        fcn::KeyInput keyInput(key, fcn::KeyInput::Type::Released);
+        fcn::KeyInput const keyInput(key, fcn::KeyInput::Type::Released);
         REQUIRE(keyInput.getKey() == key);
         REQUIRE(keyInput.getType() == fcn::KeyInput::Type::Released);
     }
@@ -112,7 +112,7 @@ TEST_CASE("KeyInput numeric pad state", "[unit][keyinput]")
 {
     SECTION("default is false")
     {
-        fcn::KeyInput keyInput;
+        fcn::KeyInput const keyInput;
         REQUIRE(keyInput.isNumericPad() == false);
     }
 

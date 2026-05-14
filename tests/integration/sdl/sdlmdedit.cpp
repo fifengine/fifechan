@@ -32,7 +32,7 @@
 #include <vector>
 
 // Platform-specific includes
-#if defined(_WIN32)
+#ifdef _WIN32
     #include <windows.h>
 #endif // _WIN32
 
@@ -171,7 +171,7 @@ void Application::init_GUI(int width, int height)
         // SDL_ttf initialization failed - continue without text rendering
     } else {
         // Use the new font loading API to find ArchitectsDaughter font
-        std::filesystem::path chosen = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+        std::filesystem::path const chosen = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
 
         if (!chosen.empty()) {
             try {
@@ -187,7 +187,7 @@ void Application::init_GUI(int width, int height)
     // Try to preload an OpenMoji font for menu/activity icons so menu items
     // can use glyph icons (e.g. "📁" for Open).
     try {
-        std::filesystem::path openmoji = fcn::font::FontLoader::findFontFile("OpenMoji-color-colr0_svg.ttf");
+        std::filesystem::path const openmoji = fcn::font::FontLoader::findFontFile("OpenMoji-color-colr0_svg.ttf");
 
         if (!openmoji.empty()) {
             // Use a size suitable for menu icons (slightly larger than default font)
@@ -235,7 +235,7 @@ void Application::init_GUI(int width, int height)
 
             auto* fileItem = dynamic_cast<fcn::MenuItem*>(menuBar->addMenu("File", filePopup));
 
-            if (fileItem) {
+            if (fileItem != nullptr) {
                 fileItem->setPaddingLeft(8);
                 fileItem->setPaddingRight(8);
                 fileItem->setPaddingTop(6);
@@ -252,7 +252,7 @@ void Application::init_GUI(int width, int height)
 
             auto* helpItem = dynamic_cast<fcn::MenuItem*>(menuBar->addMenu("Help", helpPopup));
 
-            if (helpItem) {
+            if (helpItem != nullptr) {
                 helpItem->setPaddingLeft(8);
                 helpItem->setPaddingRight(8);
                 helpItem->setPaddingTop(6);
@@ -291,7 +291,7 @@ void Application::init_GUI(int width, int height)
             };
 
             std::filesystem::path openmoji;
-            auto it = std::find_if(candidates.begin(), candidates.end(), [](auto const & p) {
+            auto it = std::ranges::find_if(candidates, [](auto const & p) {
                 return std::filesystem::exists(p);
             });
             if (it != candidates.end()) {
@@ -311,7 +311,7 @@ void Application::init_GUI(int width, int height)
 
         // Add some emoji activity items (icons are UTF-8 emoji strings)
         if (activityBar != nullptr) {
-            std::vector<std::string> icons = {"📁", "🔍", "⭐", "⚙️"};
+            std::vector<std::string> const icons = {"📁", "🔍", "⭐", "⚙️"};
             for (auto const & ico : icons) {
                 auto item = std::make_unique<fcn::ActivityBarItem>(ico);
                 if (this->activityFont) {
@@ -411,12 +411,13 @@ void Application::init_GUI(int width, int height)
         // automatic layout doesn't seem to work properly
         auto const * mbc = dynamic_cast<fcn::Container*>(menuBar);
         int maxX         = 0;
-        if (mbc) {
+        if (mbc != nullptr) {
             int xPos = 0;
             for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
                 fcn::Widget* item = mbc->getChild(j);
-                if (!item)
+                if (!item) {
                     continue;
+                }
                 fcn::Rectangle dim = item->getDimension();
                 dim.x              = xPos;
                 item->setDimension(dim);
@@ -426,14 +427,14 @@ void Application::init_GUI(int width, int height)
             // Calculate menu bar width from children positions
             for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
                 fcn::Widget const * item = mbc->getChild(j);
-                if (!item)
+                if (!item) {
                     continue;
-                int itemRight = item->getX() + item->getWidth();
-                if (itemRight > maxX)
-                    maxX = itemRight;
+                }
+                int const itemRight = item->getX() + item->getWidth();
+                maxX                = std::max(maxX, itemRight);
             }
         }
-        int menuBarWidth = maxX + 4; // padding
+        int const menuBarWidth = maxX + 4; // padding
 
         // Then set fixed height
         menuBar->setFixedHeight(menuBarHeight);
@@ -493,7 +494,7 @@ void Application::init_GUI(int width, int height)
     // Initialize cursor tracking for status bar updates
     mLastCaretRow    = 0;
     mLastCaretColumn = 0;
-    mLastText        = textBox ? textBox->getText() : "";
+    mLastText        = (textBox != nullptr) ? textBox->getText() : "";
     updateStatusBar();
 }
 
@@ -526,7 +527,7 @@ void Application::updateStatusBar()
         // Calculate word count (count non-whitespace sequences)
         int wordCount = 0;
         bool inWord   = false;
-        for (char c : currentText) {
+        for (char const c : currentText) {
             if (std::isspace(static_cast<unsigned char>(c))) {
                 inWord = false;
             } else if (!inWord) {

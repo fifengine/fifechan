@@ -16,7 +16,7 @@ TEST_CASE("VisibilityEventHandler constructor sets gui pointer", "[visibilityeve
 {
     // Create a Gui object (we don't need to fully initialize it)
     fcn::Gui gui;
-    fcn::VisibilityEventHandler handler(&gui);
+    fcn::VisibilityEventHandler const handler(&gui);
 
     // If we got here without crashing, the constructor works
     REQUIRE(true);
@@ -29,7 +29,7 @@ TEST_CASE("VisibilityEventHandler widgetHidden adds widget to hidden list", "[vi
     fcn::Label label("Test");
 
     // Create an event with the label as source
-    fcn::Event event(&label);
+    fcn::Event const event(&label);
 
     // Call widgetHidden - this should add the widget to gui's hidden list
     handler.widgetHidden(event);
@@ -45,7 +45,7 @@ TEST_CASE("VisibilityEventHandler widgetShown adds widget to shown list", "[visi
     fcn::Label label("Test");
 
     // Create an event with the label as source
-    fcn::Event event(&label);
+    fcn::Event const event(&label);
 
     // Call widgetShown - this should add the widget to gui's shown list
     handler.widgetShown(event);
@@ -62,8 +62,8 @@ TEST_CASE("VisibilityEventHandler handles multiple visibility changes", "[visibi
     fcn::Label label2("Test2");
 
     // Create events
-    fcn::Event event1(&label1);
-    fcn::Event event2(&label2);
+    fcn::Event const event1(&label1);
+    fcn::Event const event2(&label2);
 
     // Call methods multiple times
     handler.widgetHidden(event1);

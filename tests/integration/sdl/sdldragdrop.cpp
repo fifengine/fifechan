@@ -45,6 +45,8 @@
 
 #include <fifechan.hpp>
 
+#include <math.h>
+
 namespace
 {
 
@@ -58,8 +60,8 @@ namespace
             int weight; // Stat 3
             std::string description;
 
-            ItemData(int i, std::string const & n, int dmg, int arm, int wgt, std::string const & desc) :
-                id(i), name(n), damage(dmg), armor(arm), weight(wgt), description(desc)
+            ItemData(int i, std::string n, int dmg, int arm, int wgt, std::string desc) :
+                id(i), name(std::move(n)), damage(dmg), armor(arm), weight(wgt), description(std::move(desc))
             {
             }
     };
@@ -76,12 +78,13 @@ namespace
     // Find item in database by ID
     ItemData const * findItemData(int id)
     {
-        auto it = std::find_if(itemDatabase.begin(), itemDatabase.end(), [id](ItemData const & item) {
+        auto it = std::ranges::find_if(itemDatabase, [id](ItemData const & item) {
             return item.id == id;
         });
 
-        if (it != itemDatabase.end())
+        if (it != itemDatabase.end()) {
             return &*it;
+        }
 
         return nullptr;
     }
@@ -105,8 +108,10 @@ namespace
     // Inventory slot structure
     struct InventorySlot
     {
-            int x, y;          // Position in pixels
-            int width, height; // Pixel dimensions
+            int x; // Position in pixels
+            int y;
+            int width; // Pixel dimensions
+            int height;
             std::optional<InventoryItem> item;
             bool isPlayerInventory; // true = player, false = stash
 
@@ -124,12 +129,13 @@ namespace
     // Drag state structure
     struct DragState
     {
-            bool isDragging;
+            bool isDragging{false};
             InventoryItem item;
-            int startSlotIndex;
-            int offsetX, offsetY;
+            int startSlotIndex{-1};
+            int offsetX{0};
+            int offsetY{0};
 
-            DragState() : isDragging(false), startSlotIndex(-1), offsetX(0), offsetY(0)
+            DragState()
             {
             }
     };
@@ -137,19 +143,19 @@ namespace
     class InventorySystem
     {
         private:
+            static constexpr int PLAYER_INV_START_X = 50;
+            static constexpr int PLAYER_INV_START_Y = 50;
+            static constexpr int WINDOW_WIDTH       = 640;
+            static constexpr int SLOT_SIZE          = 60;
+            static constexpr int PLAYER_COLS        = 3;
+            static constexpr int PLAYER_ROWS        = 3;
+            static constexpr int STASH_COLS         = 4;
+            static constexpr int STASH_ROWS         = 3;
+            static constexpr int STASH_INV_START_X  = WINDOW_WIDTH - PLAYER_INV_START_X - (STASH_COLS * SLOT_SIZE);
+            static constexpr int STASH_INV_START_Y  = 50;
+
             std::vector<InventorySlot> slots;
             DragState dragState;
-
-            int const PLAYER_INV_START_X = 50;
-            int const PLAYER_INV_START_Y = 50;
-            int const WINDOW_WIDTH       = 640;
-            int const STASH_INV_START_X  = WINDOW_WIDTH - PLAYER_INV_START_X - (4 * 60); // Same right margin as left
-            int const STASH_INV_START_Y  = 50;
-            int const SLOT_SIZE          = 60;
-            int const PLAYER_COLS        = 3;
-            int const PLAYER_ROWS        = 3;
-            int const STASH_COLS         = 4;
-            int const STASH_ROWS         = 3;
 
         public:
             InventorySystem()
@@ -163,8 +169,8 @@ namespace
                 for (int row = 0; row < PLAYER_ROWS; ++row) {
                     for (int col = 0; col < PLAYER_COLS; ++col) {
                         slots.emplace_back(
-                            PLAYER_INV_START_X + col * SLOT_SIZE,
-                            PLAYER_INV_START_Y + row * SLOT_SIZE,
+                            PLAYER_INV_START_X + (col * SLOT_SIZE),
+                            PLAYER_INV_START_Y + (row * SLOT_SIZE),
                             SLOT_SIZE,
                             SLOT_SIZE,
                             true);
@@ -175,8 +181,8 @@ namespace
                 for (int row = 0; row < STASH_ROWS; ++row) {
                     for (int col = 0; col < STASH_COLS; ++col) {
                         slots.emplace_back(
-                            STASH_INV_START_X + col * SLOT_SIZE,
-                            STASH_INV_START_Y + row * SLOT_SIZE,
+                            STASH_INV_START_X + (col * SLOT_SIZE),
+                            STASH_INV_START_Y + (row * SLOT_SIZE),
                             SLOT_SIZE,
                             SLOT_SIZE,
                             false);
@@ -201,19 +207,22 @@ namespace
 
             bool isPlayerSlot(int slotIndex) const
             {
-                if (slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
+                }
                 return slots[slotIndex].isPlayerInventory;
             }
 
             bool startDrag(int slotIndex, SDL_Point const & mousePos)
             {
-                if (slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
+                }
 
                 InventorySlot& slot = slots[slotIndex];
-                if (!slot.item.has_value())
+                if (!slot.item.has_value()) {
                     return false;
+                }
 
                 dragState.isDragging     = true;
                 dragState.item           = slot.item.value();
@@ -238,24 +247,27 @@ namespace
 
             bool tryDrop(int slotIndex)
             {
-                if (!dragState.isDragging || slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (!dragState.isDragging || slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
+                }
 
                 // Can't drop on player inventory in this demo (stash only)
-                if (isPlayerSlot(slotIndex))
+                if (isPlayerSlot(slotIndex)) {
                     return false;
+                }
 
                 InventorySlot& targetSlot = slots[slotIndex];
 
                 // Can't drop on occupied slot
-                if (targetSlot.item.has_value())
+                if (targetSlot.item.has_value()) {
                     return false;
+                }
 
                 // Transfer item
                 targetSlot.item = dragState.item;
 
                 // Clear source slot (player inventory)
-                if (dragState.startSlotIndex >= 0 && dragState.startSlotIndex < static_cast<int>(slots.size())) {
+                if (dragState.startSlotIndex >= 0 && std::cmp_less(dragState.startSlotIndex, slots.size())) {
                     slots[dragState.startSlotIndex].item = std::nullopt;
                 }
 
@@ -265,26 +277,32 @@ namespace
 
             bool isValidDrop(int slotIndex) const
             {
-                if (!dragState.isDragging || slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (!dragState.isDragging || slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
-                if (isPlayerSlot(slotIndex))
+                }
+                if (isPlayerSlot(slotIndex)) {
                     return false;
-                if (slots[slotIndex].item.has_value())
+                }
+                if (slots[slotIndex].item.has_value()) {
                     return false;
+                }
                 return true;
             }
 
             std::string getTooltipContent(int slotIndex) const
             {
-                if (slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return "";
+                }
                 auto const & slot = slots[slotIndex];
-                if (!slot.item.has_value())
+                if (!slot.item.has_value()) {
                     return "";
+                }
 
                 auto const * itemData = findItemData(slot.item->itemId);
-                if (!itemData)
+                if (itemData == nullptr) {
                     return "";
+                }
 
                 std::string content = itemData->name + "\n";
                 content += "Damage: " + std::to_string(itemData->damage) + "\n";
@@ -295,15 +313,18 @@ namespace
 
             std::string getExtendedTooltipContent(int slotIndex) const
             {
-                if (slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return "";
+                }
                 auto const & slot = slots[slotIndex];
-                if (!slot.item.has_value())
+                if (!slot.item.has_value()) {
                     return "";
+                }
 
                 auto const * itemData = findItemData(slot.item->itemId);
-                if (!itemData)
+                if (itemData == nullptr) {
                     return "";
+                }
 
                 std::string content = getTooltipContent(slotIndex) + "\n\n";
                 content += "Description:\n" + itemData->description;
@@ -312,11 +333,13 @@ namespace
 
             int getItemIdAtSlot(int slotIndex) const
             {
-                if (slotIndex < 0 || slotIndex >= static_cast<int>(slots.size()))
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return 0;
+                }
                 auto const & slot = slots[slotIndex];
-                if (!slot.item.has_value())
+                if (!slot.item.has_value()) {
                     return 0;
+                }
                 return slot.item->itemId;
             }
 
@@ -340,65 +363,63 @@ namespace
                 SDL_RenderClear(renderer);
 
                 // Draw player inventory background
-                SDL_FRect playerBg = {
-                    static_cast<float>(PLAYER_INV_START_X - 10),
-                    static_cast<float>(PLAYER_INV_START_Y - 10),
-                    static_cast<float>(PLAYER_COLS * SLOT_SIZE + 20),
-                    static_cast<float>(PLAYER_ROWS * SLOT_SIZE + 20)};
+                SDL_FRect const playerBg = {
+                    .x = static_cast<float>(PLAYER_INV_START_X - 10),
+                    .y = static_cast<float>(PLAYER_INV_START_Y - 10),
+                    .w = static_cast<float>((PLAYER_COLS * SLOT_SIZE) + 20),
+                    .h = static_cast<float>((PLAYER_ROWS * SLOT_SIZE) + 20)};
                 SDL_SetRenderDrawColor(renderer, 60, 60, 60, 255);
                 SDL_RenderFillRect(renderer, &playerBg);
 
                 // Draw "Player Inventory" label background
-                SDL_FRect playerLabelBg = {
-                    static_cast<float>(PLAYER_INV_START_X),
-                    static_cast<float>(PLAYER_INV_START_Y - 25),
-                    static_cast<float>(PLAYER_COLS * SLOT_SIZE),
-                    20.0f};
+                SDL_FRect const playerLabelBg = {
+                    .x = static_cast<float>(PLAYER_INV_START_X),
+                    .y = static_cast<float>(PLAYER_INV_START_Y - 25),
+                    .w = static_cast<float>(PLAYER_COLS * SLOT_SIZE),
+                    .h = 20.0F};
                 SDL_SetRenderDrawColor(renderer, 80, 80, 80, 255);
                 SDL_RenderFillRect(renderer, &playerLabelBg);
 
                 // Draw stash background
-                SDL_FRect stashBg = {
-                    static_cast<float>(STASH_INV_START_X - 10),
-                    static_cast<float>(STASH_INV_START_Y - 10),
-                    static_cast<float>(STASH_COLS * SLOT_SIZE + 20),
-                    static_cast<float>(STASH_ROWS * SLOT_SIZE + 20)};
+                SDL_FRect const stashBg = {
+                    .x = static_cast<float>(STASH_INV_START_X - 10),
+                    .y = static_cast<float>(STASH_INV_START_Y - 10),
+                    .w = static_cast<float>((STASH_COLS * SLOT_SIZE) + 20),
+                    .h = static_cast<float>((STASH_ROWS * SLOT_SIZE) + 20)};
                 SDL_SetRenderDrawColor(renderer, 30, 30, 50, 255);
                 SDL_RenderFillRect(renderer, &stashBg);
 
                 // Draw "Stash Box" label background
-                SDL_FRect stashLabelBg = {
-                    static_cast<float>(STASH_INV_START_X),
-                    static_cast<float>(STASH_INV_START_Y - 25),
-                    static_cast<float>(STASH_COLS * SLOT_SIZE),
-                    20.0f};
+                SDL_FRect const stashLabelBg = {
+                    .x = static_cast<float>(STASH_INV_START_X),
+                    .y = static_cast<float>(STASH_INV_START_Y - 25),
+                    .w = static_cast<float>(STASH_COLS * SLOT_SIZE),
+                    .h = 20.0F};
                 SDL_SetRenderDrawColor(renderer, 50, 50, 80, 255);
                 SDL_RenderFillRect(renderer, &stashLabelBg);
 
                 // Draw slots and items
-                for (size_t i = 0; i < slots.size(); ++i) {
-                    auto& slot = slots[i];
-
+                for (auto& slot : slots) {
                     // Draw slot border
-                    SDL_FRect rect = {
-                        static_cast<float>(slot.x),
-                        static_cast<float>(slot.y),
-                        static_cast<float>(slot.width),
-                        static_cast<float>(slot.height)};
+                    SDL_FRect const rect = {
+                        .x = static_cast<float>(slot.x),
+                        .y = static_cast<float>(slot.y),
+                        .w = static_cast<float>(slot.width),
+                        .h = static_cast<float>(slot.height)};
                     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 255);
                     SDL_RenderRect(renderer, &rect);
 
                     // Draw item if present
                     if (slot.item.has_value()) {
-                        SDL_FRect itemRect = {
-                            static_cast<float>(slot.x + 2),
-                            static_cast<float>(slot.y + 2),
-                            static_cast<float>(slot.width - 4),
-                            static_cast<float>(slot.height - 4)};
+                        SDL_FRect const itemRect = {
+                            .x = static_cast<float>(slot.x + 2),
+                            .y = static_cast<float>(slot.y + 2),
+                            .w = static_cast<float>(slot.width - 4),
+                            .h = static_cast<float>(slot.height - 4)};
 
                         // Get item color from database
                         auto const * itemData = findItemData(slot.item->itemId);
-                        if (itemData) {
+                        if (itemData != nullptr) {
                             if (itemData->name == "Sword") {
                                 SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
                             } else if (itemData->name == "Shield") {
@@ -419,14 +440,14 @@ namespace
                 // Draw drag ghost and drop target highlight
                 if (dragState.isDragging) {
                     // Draw drag ghost
-                    SDL_FRect ghostRect = {
-                        static_cast<float>(mouseX - dragState.offsetX),
-                        static_cast<float>(mouseY - dragState.offsetY),
-                        static_cast<float>(SLOT_SIZE),
-                        static_cast<float>(SLOT_SIZE)};
+                    SDL_FRect const ghostRect = {
+                        .x = static_cast<float>(mouseX - dragState.offsetX),
+                        .y = static_cast<float>(mouseY - dragState.offsetY),
+                        .w = static_cast<float>(SLOT_SIZE),
+                        .h = static_cast<float>(SLOT_SIZE)};
 
                     // Enable alpha blending for ghost
-                    SDL_BlendMode oldBlendMode;
+                    SDL_BlendMode oldBlendMode = 0;
                     SDL_GetRenderDrawBlendMode(renderer, &oldBlendMode);
                     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
@@ -437,14 +458,14 @@ namespace
                     SDL_SetRenderDrawBlendMode(renderer, oldBlendMode);
 
                     // Draw drop target highlight
-                    int hoveredSlot = getSlotIndexAtPosition(mouseX, mouseY);
+                    int const hoveredSlot = getSlotIndexAtPosition(mouseX, mouseY);
                     if (hoveredSlot >= 0) {
-                        bool valid         = isValidDrop(hoveredSlot);
-                        SDL_FRect slotRect = {
-                            static_cast<float>(slots[hoveredSlot].x),
-                            static_cast<float>(slots[hoveredSlot].y),
-                            static_cast<float>(slots[hoveredSlot].width),
-                            static_cast<float>(slots[hoveredSlot].height)};
+                        bool const valid         = isValidDrop(hoveredSlot);
+                        SDL_FRect const slotRect = {
+                            .x = static_cast<float>(slots[hoveredSlot].x),
+                            .y = static_cast<float>(slots[hoveredSlot].y),
+                            .w = static_cast<float>(slots[hoveredSlot].width),
+                            .h = static_cast<float>(slots[hoveredSlot].height)};
 
                         // Draw highlight border (green for valid, red for invalid)
                         if (valid) {
@@ -460,11 +481,11 @@ namespace
 
 } // namespace
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
     // Initialize SDL
     if (!SDL_Init(SDL_INIT_VIDEO)) {
-        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
         return 1;
     }
 
@@ -499,7 +520,7 @@ int main(int argc, char* argv[])
     SDL_Window* window = SDL_CreateWindow(title.c_str(), 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY);
 
     if (window == nullptr) {
-        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to create SDL_Window: " << SDL_GetError() << '\n';
         SDL_Quit();
         return 1;
     }
@@ -508,7 +529,7 @@ int main(int argc, char* argv[])
     SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
 
     if (renderer == nullptr) {
-        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to create SDL_Renderer: " << SDL_GetError() << '\n';
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
@@ -539,7 +560,7 @@ int main(int argc, char* argv[])
     }
 
     // Use the new font loading API to find ArchitectsDaughter font
-    std::filesystem::path fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
+    std::filesystem::path const fontPath = fcn::font::FontLoader::findFontFile("ArchitectsDaughter.ttf");
     if (fontPath.empty()) {
         std::cerr << "[ERROR] Could not find ArchitectsDaughter.ttf in search paths\n";
         SDL_DestroyRenderer(renderer);
@@ -645,27 +666,29 @@ int main(int argc, char* argv[])
         // Track ALT key state (scope reduced to main loop)
         // ALT state will be sampled each frame via SDL_GetModState()
 
-        Uint32 currentTime = SDL_GetTicks();
-        lastTime           = currentTime;
+        Uint32 const currentTime = SDL_GetTicks();
+        lastTime                 = currentTime;
 
-        float mouseXf, mouseYf;
+        float mouseXf = NAN;
+        float mouseYf = NAN;
         SDL_GetMouseState(&mouseXf, &mouseYf);
-        int mouseX = static_cast<int>(mouseXf);
-        int mouseY = static_cast<int>(mouseYf);
+        int const mouseX = static_cast<int>(mouseXf);
+        int const mouseY = static_cast<int>(mouseYf);
 
-        while (SDL_PollEvent(&event) != 0) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
-                    int slotIdx = inventory.getSlotIndexAtPosition(
+                    int const slotIdx = inventory.getSlotIndexAtPosition(
                         static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
-                        SDL_Point pt = {static_cast<int>(event.button.x), static_cast<int>(event.button.y)};
+                        SDL_Point const pt = {
+                            .x = static_cast<int>(event.button.x), .y = static_cast<int>(event.button.y)};
                         inventory.startDrag(slotIdx, pt);
 
                         // Create a simple DragPayload carrying the item id (application data)
-                        int itemId = inventory.getItemIdAtSlot(slotIdx);
+                        int const itemId = inventory.getItemIdAtSlot(slotIdx);
                         if (itemId != 0) {
                             auto data    = std::make_shared<int>(itemId);
                             auto payload = std::make_unique<fcn::DragPayload>(data);
@@ -684,7 +707,7 @@ int main(int argc, char* argv[])
                 }
             } else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
                 if (event.button.button == SDL_BUTTON_LEFT && inventory.isDragging()) {
-                    int slotIdx = inventory.getSlotIndexAtPosition(
+                    int const slotIdx = inventory.getSlotIndexAtPosition(
                         static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
                         inventory.tryDrop(slotIdx);
@@ -702,7 +725,7 @@ int main(int argc, char* argv[])
 
         // Tooltip handling: map mouse->slot and update tooltip widget
         static int prevHoverSlot = -1;
-        int hoverSlot            = inventory.getSlotIndexAtPosition(mouseX, mouseY);
+        int const hoverSlot      = inventory.getSlotIndexAtPosition(mouseX, mouseY);
         if (hoverSlot >= 0) {
             tooltip->setWidgetId(hoverSlot);
             if (hoverSlot != prevHoverSlot) {
@@ -716,16 +739,16 @@ int main(int argc, char* argv[])
 
         // Update tooltip (pass modifier state: ALT key)
         // Update tooltip (read modifier state fresh each frame via SDL_GetModState())
-        int modifierState = (SDL_GetModState() & SDL_KMOD_ALT) ? 0x100 : 0;
+        int const modifierState = ((SDL_GetModState() & SDL_KMOD_ALT) != 0) ? 0x100 : 0;
         tooltip->update(frameDelay, modifierState);
 
         // Position the tooltip near the mouse cursor and size it to content
         std::string const & content = tooltip->getCurrentContent();
-        int lines                   = static_cast<int>(std::count(content.begin(), content.end(), '\n')) + 1;
-        int lineHeight              = 18;
+        int const lines             = static_cast<int>(std::count(content.begin(), content.end(), '\n')) + 1;
+        int const lineHeight        = 18;
         int padding                 = 8;
         int width                   = 220;
-        int height                  = padding * 2 + lines * lineHeight;
+        int height                  = (padding * 2) + (lines * lineHeight);
         // Place tooltip slightly offset from cursor to avoid occluding
         // Use a tighter offset so the tooltip appears closer to hover position
         tooltip->setPosition(mouseX + 8, mouseY + 8);
@@ -747,8 +770,8 @@ int main(int argc, char* argv[])
             ttLabelPtr->setCaption(ttContent);
             ttLabelPtr->adjustSize();
             padding = 8;
-            width   = ttLabelPtr->getWidth() + padding * 2;
-            height  = ttLabelPtr->getHeight() + padding * 2;
+            width   = ttLabelPtr->getWidth() + (padding * 2);
+            height  = ttLabelPtr->getHeight() + (padding * 2);
             tooltip->setWidth(width);
             tooltip->setHeight(height);
         }

@@ -27,7 +27,7 @@ TEST_CASE("SecondaryPanel constructor with empty title", "[unit][secondarypanel]
 {
     SecondaryPanel panel("");
 
-    REQUIRE(panel.getTitle() == "");
+    REQUIRE(panel.getTitle().empty());
     REQUIRE(panel.getDefaultWidth() == 250);
 }
 

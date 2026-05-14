@@ -33,13 +33,13 @@ namespace fcn
         return mValue;
     }
 
-    bool Key::operator==(Key const & key) const
+    bool Key::operator==(Key const & other) const
     {
-        return mValue == key.mValue;
+        return mValue == other.mValue;
     }
 
-    bool Key::operator!=(Key const & key) const
+    bool Key::operator!=(Key const & other) const
     {
-        return (mValue != key.mValue);
+        return (mValue != other.mValue);
     }
 } // namespace fcn

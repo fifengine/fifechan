@@ -43,7 +43,7 @@ TEST_CASE("Shortcut key+modifier constructor", "[unit][shortcut]")
 
     SECTION("key with combined modifiers")
     {
-        uint16_t mods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift;
+        uint16_t const mods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift;
         Shortcut sc(Key('A'), mods);
         REQUIRE(sc.getKey().getValue() == 'A');
         REQUIRE(sc.getModMask() == mods);
@@ -84,7 +84,7 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
     SECTION("matching key and modifiers")
     {
         Shortcut sc(Key(fcn::Key::KEY_RETURN), Shortcut::Modifier::None);
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source,
             &distributor,
             false,
@@ -101,7 +101,7 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
     SECTION("matching with control")
     {
         Shortcut sc(Key('C'), Shortcut::Modifier::Control);
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, true, false, false, fcn::KeyEvent::Type::Pressed, false, Key('C'));
 
         REQUIRE(sc.matches(event));
@@ -110,7 +110,7 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
     SECTION("wrong key does not match")
     {
         Shortcut sc(Key('A'), Shortcut::Modifier::None);
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key('B'));
 
         REQUIRE(!sc.matches(event));
@@ -119,7 +119,7 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
     SECTION("wrong modifier does not match")
     {
         Shortcut sc(Key('A'), Shortcut::Modifier::Control);
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key('A'));
 
         REQUIRE(!sc.matches(event));
@@ -166,7 +166,7 @@ TEST_CASE("Shortcut fromKeycode factory", "[unit][shortcut]")
 {
     SECTION("keycode only, no mods")
     {
-        Shortcut sc = Shortcut::fromKeycode(0x00000061u); // SDLK_A = 'a'
+        Shortcut sc = Shortcut::fromKeycode(0x00000061U); // SDLK_A = 'a'
         REQUIRE(sc.getKey().getValue() == 0x61);
         REQUIRE(sc.getModMask() == Shortcut::Modifier::None);
     }
@@ -174,7 +174,7 @@ TEST_CASE("Shortcut fromKeycode factory", "[unit][shortcut]")
     SECTION("keycode with SDL modifier mask")
     {
         // SDL_KMOD_CTRL = 64
-        Shortcut sc = Shortcut::fromKeycode(0x00000063u, 64); // SDLK_C
+        Shortcut sc = Shortcut::fromKeycode(0x00000063U, 64); // SDLK_C
         REQUIRE(sc.getKey().getValue() == 0x63);
         REQUIRE(sc.getModMask() == Shortcut::Modifier::Control);
     }
@@ -182,7 +182,7 @@ TEST_CASE("Shortcut fromKeycode factory", "[unit][shortcut]")
     SECTION("SDL_KMOD_GUI maps to Meta")
     {
         // SDL_KMOD_GUI = 1024
-        Shortcut sc = Shortcut::fromKeycode(0x00000071u, 1024); // SDLK_Q
+        Shortcut sc = Shortcut::fromKeycode(0x00000071U, 1024); // SDLK_Q
         REQUIRE(sc.getModMask() == Shortcut::Modifier::Meta);
     }
 }
@@ -200,7 +200,7 @@ TEST_CASE("Shortcut unbound (key=0)", "[unit][shortcut][edge]")
     // An unbound shortcut should not match any real key
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
+    fcn::KeyEvent const event(
         &source,
         &distributor,
         false,
@@ -216,13 +216,14 @@ TEST_CASE("Shortcut unbound (key=0)", "[unit][shortcut][edge]")
 
 TEST_CASE("Shortcut all modifiers simultaneously", "[unit][shortcut][edge]")
 {
-    uint16_t allMods =
+    uint16_t const allMods =
         Shortcut::Modifier::Shift | Shortcut::Modifier::Control | Shortcut::Modifier::Alt | Shortcut::Modifier::Meta;
     Shortcut sc(Key('P'), allMods);
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(&source, &distributor, true, true, true, true, fcn::KeyEvent::Type::Pressed, false, Key('P'));
+    fcn::KeyEvent const event(
+        &source, &distributor, true, true, true, true, fcn::KeyEvent::Type::Pressed, false, Key('P'));
 
     REQUIRE(sc.matches(event));
 }
@@ -230,7 +231,7 @@ TEST_CASE("Shortcut all modifiers simultaneously", "[unit][shortcut][edge]")
 TEST_CASE("Shortcut fromKeycode with all SDL modifiers", "[unit][shortcut][edge]")
 {
     // SDL_KMOD_SHIFT=1, SDL_KMOD_CTRL=64, SDL_KMOD_ALT=256, SDL_KMOD_GUI=1024
-    auto sc = Shortcut::fromKeycode(0x00000070u, 1 | 64 | 256 | 1024);
+    auto sc = Shortcut::fromKeycode(0x00000070U, 1 | 64 | 256 | 1024);
     REQUIRE(
         sc.getModMask() ==
         (Shortcut::Modifier::Shift | Shortcut::Modifier::Control | Shortcut::Modifier::Alt | Shortcut::Modifier::Meta));
@@ -238,7 +239,7 @@ TEST_CASE("Shortcut fromKeycode with all SDL modifiers", "[unit][shortcut][edge]
 
 TEST_CASE("Shortcut fromKeycode with no SDL modifiers", "[unit][shortcut][edge]")
 {
-    auto sc = Shortcut::fromKeycode(0x00000061u, 0);
+    auto sc = Shortcut::fromKeycode(0x00000061U, 0);
     REQUIRE(sc.getKey().getValue() == 0x61);
     REQUIRE(sc.getModMask() == Shortcut::Modifier::None);
 }
@@ -272,8 +273,8 @@ TEST_CASE("Shortcut to_string edge cases", "[unit][shortcut][edge]")
 
     SECTION("all modifiers")
     {
-        uint16_t allMods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift | Shortcut::Modifier::Alt |
-                           Shortcut::Modifier::Meta;
+        uint16_t const allMods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift | Shortcut::Modifier::Alt |
+                                 Shortcut::Modifier::Meta;
         Shortcut sc(Key('X'), allMods);
         // Order is always Ctrl+Shift+Alt+Meta+X
         REQUIRE(sc.to_string() == "Ctrl+Shift+Alt+Meta+X");
@@ -307,12 +308,12 @@ TEST_CASE("ShortcutLayoutIndependence: fromKeycode matches same keycode", "[unit
     // Register with a semantic keycode (as game code would).
     // The backend receives the same keycode from event.key.key.
     // Matching is a direct comparison → layout-independent.
-    Shortcut sc = Shortcut::fromKeycode(0x00000077u); // SDLK_w
+    Shortcut sc = Shortcut::fromKeycode(0x00000077U); // SDLK_w
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
-        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x00000077u));
+    fcn::KeyEvent const event(
+        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x00000077U));
 
     REQUIRE(sc.matches(event));
 }
@@ -320,12 +321,12 @@ TEST_CASE("ShortcutLayoutIndependence: fromKeycode matches same keycode", "[unit
 TEST_CASE("ShortcutLayoutIndependence: modifier flags survive round-trip", "[unit][shortcut][layout]")
 {
     // SDL_KMOD_SHIFT=1, SDL_KMOD_CTRL=64 → Shortcut::Shift|Control
-    auto sc = Shortcut::fromKeycode(0x00000063u, 1 | 64); // SDLK_c Ctrl+Shift
+    auto sc = Shortcut::fromKeycode(0x00000063U, 1 | 64); // SDLK_c Ctrl+Shift
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
-        &source, &distributor, true, true, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x00000063u));
+    fcn::KeyEvent const event(
+        &source, &distributor, true, true, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x00000063U));
 
     REQUIRE(sc.matches(event));
 }
@@ -335,12 +336,12 @@ TEST_CASE("ShortcutLayoutIndependence: different layout same symbol same keycode
     // On any layout, pressing the key labeled 'M' produces SDLK_m = 0x6D.
     // A shortcut registered with fromKeycode(SDLK_m) matches when the
     // backend receives an event with SDLK_m.
-    Shortcut sc = Shortcut::fromKeycode(0x0000006Du);
+    Shortcut sc = Shortcut::fromKeycode(0x0000006DU);
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
-        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x0000006Du));
+    fcn::KeyEvent const event(
+        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(0x0000006DU));
 
     REQUIRE(sc.matches(event));
 }
@@ -352,7 +353,7 @@ TEST_CASE("ShortcutLayoutIndependence: non-printable keycodes are layout-stable"
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
+    fcn::KeyEvent const event(
         &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::F1));
 
     REQUIRE(sc.matches(event));
@@ -373,12 +374,12 @@ TEST_CASE("ShortcutLayoutIndependence: fromScancode registered shortcut matches 
     //   AZERTY: SDLK_q (0x71)
     //   Dvorak: SDLK_a (0x61)
     // The shortcut would match the corresponding keycode on each layout.
-    int const scancodeResult = 0x00000061u; // what SDL_GetKeyFromScancode returns on THIS system
+    int const scancodeResult = 0x00000061U; // what SDL_GetKeyFromScancode returns on THIS system
     Shortcut sc{Key(scancodeResult)};
 
     fcn::Label source;
     fcn::Label distributor;
-    fcn::KeyEvent event(
+    fcn::KeyEvent const event(
         &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(scancodeResult));
 
     REQUIRE(sc.matches(event));
@@ -402,7 +403,7 @@ TEST_CASE("Shortcut to_string", "[unit][shortcut]")
 
     SECTION("combined modifiers")
     {
-        uint16_t mods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift;
+        uint16_t const mods = Shortcut::Modifier::Control | Shortcut::Modifier::Shift;
         Shortcut sc(Key('W'), mods);
         REQUIRE(sc.to_string() == "Ctrl+Shift+W");
     }

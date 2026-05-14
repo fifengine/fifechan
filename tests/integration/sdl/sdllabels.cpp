@@ -155,8 +155,8 @@ void Application::init_gui(int width, int height)
         fcn::Graphics::VerticalAlignment::Center,
         fcn::Graphics::VerticalAlignment::Bottom};
 
-    char const * hLabels[] = {"Left", "Center", "Right"};
-    char const * vLabels[] = {"Top", "Center", "Bottom"};
+    char const const * hLabels[] = {"Left", "Center", "Right"};
+    char const const * vLabels[] = {"Top", "Center", "Bottom"};
 
     // Calculate grid cell dimensions
     int const cellWidth  = width / 3;
@@ -227,7 +227,7 @@ void Application::run()
     while (this->running) {
 
         SDL_Event event;
-        while (SDL_PollEvent(&event) != 0) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_KEY_DOWN) {
                 if (event.key.key == SDLK_ESCAPE) {
                     this->running = false;
@@ -235,7 +235,7 @@ void Application::run()
                 if (event.key.key == SDLK_F) {
                     if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
                         uint32_t const fullscreen = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
-                        SDL_SetWindowFullscreen(window.get(), fullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
+                        SDL_SetWindowFullscreen(window.get(), fullscreen != 0 ? false : SDL_WINDOW_FULLSCREEN);
                     }
                 }
             } else if (event.type == SDL_EVENT_QUIT) {

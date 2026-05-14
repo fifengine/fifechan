@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <string>
+#include <utility>
 
 // Project headers
 #include "fifechan/graphics.hpp"
@@ -164,7 +165,7 @@ namespace fcn
 
         // Enter or Down to open the selected menu
         if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::DOWN) {
-            if (mSelectedIndex >= 0 && mSelectedIndex < static_cast<int>(getChildrenCount())) {
+            if (mSelectedIndex >= 0 && std::cmp_less(mSelectedIndex, getChildrenCount())) {
                 Widget* child = getChild(mSelectedIndex);
                 if (auto const * menuItem = dynamic_cast<MenuItem*>(child)) {
                     if (menuItem->getSubmenu() != nullptr) {

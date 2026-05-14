@@ -8,6 +8,7 @@
 // Standard library includes
 #include <cassert>
 #include <string>
+#include <utility>
 
 // Third-party library includes
 #include <utf8cpp/utf8.h>
@@ -18,7 +19,7 @@ namespace fcn
     int UTF8StringEditor::nextChar(std::string const & text, int byteOffset)
     {
         assert("byteOffset is non-negative" && byteOffset >= 0);
-        assert("byteOffset is within text" && byteOffset < static_cast<int>(text.size()));
+        assert("byteOffset is within text" && std::cmp_less(byteOffset, text.size()));
         assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
         std::string::const_iterator c;
@@ -34,7 +35,7 @@ namespace fcn
     int UTF8StringEditor::prevChar(std::string const & text, int byteOffset)
     {
         assert("byteOffset is positive" && byteOffset > 0);
-        assert("byteOffset is within text" && byteOffset <= static_cast<int>(text.size()));
+        assert("byteOffset is within text" && std::cmp_less_equal(byteOffset, text.size()));
         assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
         std::string::const_iterator c;
@@ -49,7 +50,7 @@ namespace fcn
 
     int UTF8StringEditor::eraseChar(std::string& text, int byteOffset)
     {
-        assert("byteOffset is within text" && byteOffset >= 0 && byteOffset < static_cast<int>(text.size()));
+        assert("byteOffset is within text" && byteOffset >= 0 && std::cmp_less(byteOffset, text.size()));
         assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
         std::string::iterator begin;
@@ -66,7 +67,7 @@ namespace fcn
     int UTF8StringEditor::insertChar(std::string& text, int byteOffset, int ch)
     {
         assert("byteOffset is non-negative" && byteOffset >= 0);
-        assert("byteOffset is within text" && byteOffset <= static_cast<int>(text.size()));
+        assert("byteOffset is within text" && std::cmp_less_equal(byteOffset, text.size()));
         assert("character is valid unicode code point" && ch >= 0 && ch <= 0x10FFFF && (ch < 0xD800 || ch > 0xDFFF));
 
         std::string newText;
@@ -89,7 +90,7 @@ namespace fcn
     int UTF8StringEditor::countChars(std::string const & text, int byteOffset)
     {
         assert("byteOffset is non-negative" && byteOffset >= 0);
-        assert("byteOffset is within text bounds" && byteOffset <= static_cast<int>(text.size()));
+        assert("byteOffset is within text bounds" && std::cmp_less_equal(byteOffset, text.size()));
         assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
         return utf8::distance(text.begin(), text.begin() + byteOffset);

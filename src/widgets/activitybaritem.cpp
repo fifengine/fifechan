@@ -7,6 +7,7 @@
 // Standard library includes
 #include <memory>
 #include <string>
+#include <utility>
 
 // Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"
@@ -14,8 +15,8 @@
 
 namespace fcn
 {
-    ActivityBarItem::ActivityBarItem(std::string const & icon, std::string const & tooltip, Widget* panel) :
-        mPanel(panel), mTooltip(tooltip)
+    ActivityBarItem::ActivityBarItem(std::string const & icon, std::string tooltip, Widget* panel) :
+        mPanel(panel), mTooltip(std::move(tooltip))
     {
         setCaption(icon);
         Widget::setSize(mSize, mSize);

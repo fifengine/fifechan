@@ -38,7 +38,7 @@ namespace fcn
             return;
         }
 
-        auto itFoundWidget = std::find(mWidgets.begin(), mWidgets.end(), widget);
+        auto itFoundWidget = std::ranges::find(mWidgets, widget);
 
         if (itFoundWidget == mWidgets.end()) {
             throwException("Trying to focus a non-existing widget.");

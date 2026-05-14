@@ -24,7 +24,7 @@ TEST_CASE("fifechanVersion returns valid version string", "[fifechan]")
     REQUIRE(std::strlen(version) > 0);
 
     // Version should contain the version number
-    std::string versionStr(version);
+    std::string const versionStr(version);
     REQUIRE(versionStr.find("0.2.0") != std::string::npos);
 }
 

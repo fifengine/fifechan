@@ -346,7 +346,7 @@ namespace fcn
     void Gui::handleTextInput()
     {
         while (!mInput->isTextQueueEmpty()) {
-            std::string text = mInput->dequeueTextInput();
+            std::string const text = mInput->dequeueTextInput();
 
             Widget* focused = mFocusHandler->getFocused();
             if (focused == nullptr || !focused->isEnabled()) {
@@ -465,21 +465,20 @@ namespace fcn
             std::vector<Widget*> mWidgetsWithMouseEntered;
 
             // compute difference: last - current => exited
-            std::copy_if(
-                mLastWidgetsWithMouse.begin(),
-                mLastWidgetsWithMouse.end(),
+            std::ranges::copy_if(
+                mLastWidgetsWithMouse,
+
                 std::back_inserter(mWidgetsWithMouseExited),
                 [&](Widget* w) {
-                    return std::find(mWidgetsWithMouse.begin(), mWidgetsWithMouse.end(), w) == mWidgetsWithMouse.end();
+                    return std::ranges::find(mWidgetsWithMouse, w) == mWidgetsWithMouse.end();
                 });
             // compute difference: current - last => entered
-            std::copy_if(
-                mWidgetsWithMouse.begin(),
-                mWidgetsWithMouse.end(),
+            std::ranges::copy_if(
+                mWidgetsWithMouse,
+
                 std::back_inserter(mWidgetsWithMouseEntered),
                 [&](Widget* w) {
-                    return std::find(mLastWidgetsWithMouse.begin(), mLastWidgetsWithMouse.end(), w) ==
-                           mLastWidgetsWithMouse.end();
+                    return std::ranges::find(mLastWidgetsWithMouse, w) == mLastWidgetsWithMouse.end();
                 });
 
             for (auto const & w : mWidgetsWithMouseExited) {
@@ -835,7 +834,13 @@ namespace fcn
     }
 
     void Gui::distributeMouseEvent(
-        Widget* source, MouseEvent::Type type, MouseEvent::Button button, int x, int y, bool force, bool toSourceOnly)
+        Widget* source,
+        MouseEvent::Type type,
+        MouseEvent::Button button,
+        int x,
+        int y,
+        bool force,
+        bool /*toSourceOnly*/)
     {
         Widget* parent = source;
         Widget* widget = source;
@@ -1118,10 +1123,10 @@ namespace fcn
     void Gui::handleHiddenWidgets()
     {
         // process snapshot of hidden widgets and clear the vector
-        std::vector<Widget*> pending = std::move(mHiddenWidgets);
+        std::vector<Widget*> const pending = std::move(mHiddenWidgets);
         mHiddenWidgets.clear();
 
-        for (auto const hiddenWidget : pending) {
+        for (auto* const hiddenWidget : pending) {
             // make sure that the widget wasn't freed after hiding
             if (Widget::widgetExists(hiddenWidget) && hiddenWidget->isEnabled()) {
                 int hiddenWidgetX = 0;
@@ -1150,10 +1155,10 @@ namespace fcn
     void Gui::handleShownWidgets()
     {
         // process snapshot of shown widgets and clear the vector
-        std::vector<Widget*> pending = std::move(mShownWidgets);
+        std::vector<Widget*> const pending = std::move(mShownWidgets);
         mShownWidgets.clear();
 
-        for (auto shownWidget : pending) {
+        for (auto* shownWidget : pending) {
             // if the shown widget has the mouse cursor inside it
             int shownWidgetX = 0;
             int shownWidgetY = 0;

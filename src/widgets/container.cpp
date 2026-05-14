@@ -27,10 +27,11 @@ namespace fcn
         bool const active = isFocused();
         // Compute per-side border offsets so widgets using side-only borders
         // (e.g., bottom-only) don't get inset on all sides.
-        int leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int topBorder    = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder  = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const topBorder   = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const rightBorder = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const bottomBorder =
+            (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
 
         if (isOpaque()) {
             if (active &&
@@ -499,8 +500,7 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) ==
-                                        maxExpanders.end()) {
+                                    if (std::ranges::find(maxExpanders, *it) == maxExpanders.end()) {
                                         maxExpanders.push_back(*it);
                                     }
                                 }
@@ -595,8 +595,7 @@ namespace fcn
                                         break;
                                     }
                                 } else {
-                                    if (std::find(maxExpanders.begin(), maxExpanders.end(), *it) ==
-                                        maxExpanders.end()) {
+                                    if (std::ranges::find(maxExpanders, *it) == maxExpanders.end()) {
                                         maxExpanders.push_back(*it);
                                     }
                                 }

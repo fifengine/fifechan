@@ -121,7 +121,7 @@ namespace fcn
         // If modified begins with the normal content, strip the duplicate prefix and
         // any leading newlines so the extended text appears underneath.
         if (!mCurrentContent.empty() && !modified.empty()) {
-            if (modified.rfind(mCurrentContent, 0) == 0) { // modified starts with normal
+            if (modified.starts_with(mCurrentContent)) { // modified starts with normal
                 modified.erase(0, mCurrentContent.size());
                 while (!modified.empty() && (modified.front() == '\n' || modified.front() == '\r')) {
                     modified.erase(modified.begin());

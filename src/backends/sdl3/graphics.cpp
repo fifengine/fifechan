@@ -47,15 +47,15 @@ namespace fcn::sdl3
         SDL_FColor toSDLVertexColor(fcn::Color const & color)
         {
             return SDL_FColor{
-                static_cast<float>(color.r) * kColorNormalizationFactor,
-                static_cast<float>(color.g) * kColorNormalizationFactor,
-                static_cast<float>(color.b) * kColorNormalizationFactor,
-                static_cast<float>(color.a) * kColorNormalizationFactor};
+                .r = static_cast<float>(color.r) * kColorNormalizationFactor,
+                .g = static_cast<float>(color.g) * kColorNormalizationFactor,
+                .b = static_cast<float>(color.b) * kColorNormalizationFactor,
+                .a = static_cast<float>(color.a) * kColorNormalizationFactor};
         }
 
         SDL_Vertex makeSolidVertex(float x, float y, SDL_FColor const & color)
         {
-            return SDL_Vertex{.position = {x, y}, .color = color};
+            return SDL_Vertex{.position = {.x = x, .y = y}, .color = color};
         }
     } // namespace
 
@@ -380,33 +380,33 @@ namespace fcn::sdl3
         // Create quad vertices (two triangles)
         std::vector<SDL_Vertex> vertices = {
             SDL_Vertex{
-                .position = {static_cast<float>(x1) - offsetX, static_cast<float>(y1) + offsetY},
+                .position = {.x = static_cast<float>(x1) - offsetX, .y = static_cast<float>(y1) + offsetY},
                 .color =
-                    {static_cast<float>(mColor.r) / 255.0F,
-                     static_cast<float>(mColor.g) / 255.0F,
-                     static_cast<float>(mColor.b) / 255.0F,
-                     static_cast<float>(mColor.a) / 255.0F}},
+                    {.r = static_cast<float>(mColor.r) / 255.0F,
+                     .g = static_cast<float>(mColor.g) / 255.0F,
+                     .b = static_cast<float>(mColor.b) / 255.0F,
+                     .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
-                .position = {static_cast<float>(x1) + offsetX, static_cast<float>(y1) - offsetY},
+                .position = {.x = static_cast<float>(x1) + offsetX, .y = static_cast<float>(y1) - offsetY},
                 .color =
-                    {static_cast<float>(mColor.r) / 255.0F,
-                     static_cast<float>(mColor.g) / 255.0F,
-                     static_cast<float>(mColor.b) / 255.0F,
-                     static_cast<float>(mColor.a) / 255.0F}},
+                    {.r = static_cast<float>(mColor.r) / 255.0F,
+                     .g = static_cast<float>(mColor.g) / 255.0F,
+                     .b = static_cast<float>(mColor.b) / 255.0F,
+                     .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
-                .position = {static_cast<float>(x2) + offsetX, static_cast<float>(y2) - offsetY},
+                .position = {.x = static_cast<float>(x2) + offsetX, .y = static_cast<float>(y2) - offsetY},
                 .color =
-                    {static_cast<float>(mColor.r) / 255.0F,
-                     static_cast<float>(mColor.g) / 255.0F,
-                     static_cast<float>(mColor.b) / 255.0F,
-                     static_cast<float>(mColor.a) / 255.0F}},
+                    {.r = static_cast<float>(mColor.r) / 255.0F,
+                     .g = static_cast<float>(mColor.g) / 255.0F,
+                     .b = static_cast<float>(mColor.b) / 255.0F,
+                     .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
-                .position = {static_cast<float>(x2) - offsetX, static_cast<float>(y2) + offsetY},
+                .position = {.x = static_cast<float>(x2) - offsetX, .y = static_cast<float>(y2) + offsetY},
                 .color    = {
-                    static_cast<float>(mColor.r) / 255.0F,
-                    static_cast<float>(mColor.g) / 255.0F,
-                    static_cast<float>(mColor.b) / 255.0F,
-                    static_cast<float>(mColor.a) / 255.0F}}};
+                    .r = static_cast<float>(mColor.r) / 255.0F,
+                    .g = static_cast<float>(mColor.g) / 255.0F,
+                    .b = static_cast<float>(mColor.b) / 255.0F,
+                    .a = static_cast<float>(mColor.a) / 255.0F}}};
 
         // Two triangles forming a quad
         std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
@@ -472,27 +472,27 @@ namespace fcn::sdl3
             // Center vertex
             vertices.push_back(
                 SDL_Vertex{
-                    .position = {static_cast<float>(centerX), static_cast<float>(centerY)},
+                    .position = {.x = static_cast<float>(centerX), .y = static_cast<float>(centerY)},
                     .color    = {
-                        static_cast<float>(mColor.r) / 255.0F,
-                        static_cast<float>(mColor.g) / 255.0F,
-                        static_cast<float>(mColor.b) / 255.0F,
-                        static_cast<float>(mColor.a) / 255.0F}});
+                        .r = static_cast<float>(mColor.r) / 255.0F,
+                        .g = static_cast<float>(mColor.g) / 255.0F,
+                        .b = static_cast<float>(mColor.b) / 255.0F,
+                        .a = static_cast<float>(mColor.a) / 255.0F}});
 
             // Circle edge vertices
             for (int i = 0; i <= circleSegments; ++i) {
                 float const angle =
-                    2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(circleSegments);
+                    2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(circleSegments);
                 float const x = static_cast<float>(centerX) + (radius * std::cos(angle));
                 float const y = static_cast<float>(centerY) + (radius * std::sin(angle));
                 vertices.push_back(
                     SDL_Vertex{
-                        .position = {x, y},
+                        .position = {.x = x, .y = y},
                         .color    = {
-                            static_cast<float>(mColor.r) / 255.0F,
-                            static_cast<float>(mColor.g) / 255.0F,
-                            static_cast<float>(mColor.b) / 255.0F,
-                            static_cast<float>(mColor.a) / 255.0F}});
+                            .r = static_cast<float>(mColor.r) / 255.0F,
+                            .g = static_cast<float>(mColor.g) / 255.0F,
+                            .b = static_cast<float>(mColor.b) / 255.0F,
+                            .a = static_cast<float>(mColor.a) / 255.0F}});
             }
 
             // Generate indices for triangle fan
@@ -541,7 +541,7 @@ namespace fcn::sdl3
         // Circle edge vertices
         for (int i = 0; i <= numSegments; ++i) {
             float const angle =
-                2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
+                2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
             float const x = static_cast<float>(x0) + (radius * std::cos(angle));
             float const y = static_cast<float>(y0) + (radius * std::sin(angle));
             vertices.push_back(makeSolidVertex(x, y, vertexColor));
@@ -686,7 +686,7 @@ namespace fcn::sdl3
 
         for (int i = 0; i <= numSegments; ++i) {
             float const angle =
-                2.0f * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
+                2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
             float const x = static_cast<float>(x0) + (radius * std::cos(angle));
             float const y = static_cast<float>(y0) + (radius * std::sin(angle));
             vertices.push_back(makeSolidVertex(x, y, vertexColor));
@@ -791,7 +791,8 @@ namespace fcn::sdl3
             float const t          = static_cast<float>(i) / static_cast<float>(segments);
             fcn::Point const point = bezierPoint(controlPoints, t);
             points.push_back(
-                SDL_FPoint{static_cast<float>(point.x + top.xOffset), static_cast<float>(point.y + top.yOffset)});
+                SDL_FPoint{
+                    .x = static_cast<float>(point.x + top.xOffset), .y = static_cast<float>(point.y + top.yOffset)});
         }
 
         if (width <= 1) {
@@ -828,33 +829,33 @@ namespace fcn::sdl3
                 // Create quad vertices (two triangles)
                 std::vector<SDL_Vertex> vertices = {
                     SDL_Vertex{
-                        .position = {x1 - offsetX, y1 + offsetY},
+                        .position = {.x = x1 - offsetX, .y = y1 + offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x1 + offsetX, y1 - offsetY},
+                        .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x2 + offsetX, y2 - offsetY},
+                        .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x2 - offsetX, y2 + offsetY},
+                        .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
-                            static_cast<float>(mColor.r) / 255.0F,
-                            static_cast<float>(mColor.g) / 255.0F,
-                            static_cast<float>(mColor.b) / 255.0F,
-                            static_cast<float>(mColor.a) / 255.0F}}};
+                            .r = static_cast<float>(mColor.r) / 255.0F,
+                            .g = static_cast<float>(mColor.g) / 255.0F,
+                            .b = static_cast<float>(mColor.b) / 255.0F,
+                            .a = static_cast<float>(mColor.a) / 255.0F}}};
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
                 SDL_RenderGeometry(
@@ -887,8 +888,9 @@ namespace fcn::sdl3
         // Convert points to SDL_FPoint array with offset applied
         std::vector<SDL_FPoint> sdlPoints;
         sdlPoints.reserve(points.size());
-        std::transform(points.begin(), points.end(), std::back_inserter(sdlPoints), [&top](auto const & point) {
-            return SDL_FPoint{static_cast<float>(point.x + top.xOffset), static_cast<float>(point.y + top.yOffset)};
+        std::ranges::transform(points, std::back_inserter(sdlPoints), [&top](auto const & point) {
+            return SDL_FPoint{
+                .x = static_cast<float>(point.x + top.xOffset), .y = static_cast<float>(point.y + top.yOffset)};
         });
 
         if (width <= 1) {
@@ -925,33 +927,33 @@ namespace fcn::sdl3
                 // Create quad vertices (two triangles)
                 std::vector<SDL_Vertex> vertices = {
                     SDL_Vertex{
-                        .position = {x1 - offsetX, y1 + offsetY},
+                        .position = {.x = x1 - offsetX, .y = y1 + offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x1 + offsetX, y1 - offsetY},
+                        .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x2 + offsetX, y2 - offsetY},
+                        .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
-                            {static_cast<float>(mColor.r) / 255.0F,
-                             static_cast<float>(mColor.g) / 255.0F,
-                             static_cast<float>(mColor.b) / 255.0F,
-                             static_cast<float>(mColor.a) / 255.0F}},
+                            {.r = static_cast<float>(mColor.r) / 255.0F,
+                             .g = static_cast<float>(mColor.g) / 255.0F,
+                             .b = static_cast<float>(mColor.b) / 255.0F,
+                             .a = static_cast<float>(mColor.a) / 255.0F}},
                     SDL_Vertex{
-                        .position = {x2 - offsetX, y2 + offsetY},
+                        .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
-                            static_cast<float>(mColor.r) / 255.0F,
-                            static_cast<float>(mColor.g) / 255.0F,
-                            static_cast<float>(mColor.b) / 255.0F,
-                            static_cast<float>(mColor.a) / 255.0F}}};
+                            .r = static_cast<float>(mColor.r) / 255.0F,
+                            .g = static_cast<float>(mColor.g) / 255.0F,
+                            .b = static_cast<float>(mColor.b) / 255.0F,
+                            .a = static_cast<float>(mColor.a) / 255.0F}}};
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
                 SDL_RenderGeometry(

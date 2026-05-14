@@ -42,7 +42,7 @@ TEST_CASE("ActionEvent getId returns correct id", "[unit][actionevent]")
     SECTION("empty id")
     {
         ActionEvent event(&widget, "");
-        REQUIRE(event.getId() == "");
+        REQUIRE(event.getId().empty());
     }
 
     SECTION("id with special characters")

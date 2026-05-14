@@ -554,12 +554,16 @@ target_sources(${PROJECT_NAME}
 # Add DLL export definition for FIFEGUI_API macro
 target_compile_definitions(${PROJECT_NAME} PUBLIC FIFECHAN_BUILD)
 
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION                ${FIFECHAN_VERSION}
   SOVERSION              ${FIFECHAN_VERSION}
   CLEAN_DIRECT_OUTPUT    1                        # Allow creating static and shared libraries without conflict
   OUTPUT_NAME            ${PROJECT_NAME}          # Avoid conflicts between library and binary target names
   LINKER_LANGUAGE        CXX
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
   # Verify that all headers in the header set can be included on their own.
   # This creates the target: fifechan_verify_interface_header_sets
   VERIFY_INTERFACE_HEADER_SETS ON
@@ -680,6 +684,8 @@ if(OPENGL_FOUND)
   # link dependencies to the extension
   target_link_libraries(${PROJECT_NAME}_opengl PRIVATE ${OPENGL_LIBRARY} Freetype::Freetype ${PROJECT_NAME})
 
+  target_compile_features(${PROJECT_NAME}_opengl INTERFACE cxx_std_20)
+
   # set additional properties for the extension
   set_target_properties(${PROJECT_NAME}_opengl PROPERTIES
     VERSION                ${FIFECHAN_VERSION}
@@ -762,6 +768,9 @@ if(ENABLE_SDL)
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
     FIFECHAN_EXTENSION_BUILD
   )
+
+  # Propagate C++20 as an interface requirement for the extension
+  target_compile_features(${PROJECT_NAME}_sdl3 INTERFACE cxx_std_20)
 
   target_link_libraries(${PROJECT_NAME}_sdl3 PRIVATE
     $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>

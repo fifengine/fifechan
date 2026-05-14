@@ -180,7 +180,7 @@ namespace fcn
             unsigned basex = 0;
             if ((columnCount % mNumberOfColumns) != 0U) {
                 basex = mPaddingLeft;
-                basex += std::accumulate(mColumnWidths.begin(), mColumnWidths.begin() + columnCount, 0u);
+                basex += std::accumulate(mColumnWidths.begin(), mColumnWidths.begin() + columnCount, 0U);
                 basex += columnCount * mHorizontalSpacing;
             } else {
                 basex = mPaddingLeft;

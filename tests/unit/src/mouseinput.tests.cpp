@@ -9,7 +9,7 @@
 
 TEST_CASE("MouseInput can be constructed with parameters", "[mouseinput]")
 {
-    fcn::MouseInput input(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 100, 200, 12345);
+    fcn::MouseInput const input(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 100, 200, 12345);
 
     REQUIRE(input.getButton() == fcn::MouseInput::Button::Left);
     REQUIRE(input.getType() == fcn::MouseInput::Type::Pressed);
@@ -20,7 +20,7 @@ TEST_CASE("MouseInput can be constructed with parameters", "[mouseinput]")
 
 TEST_CASE("MouseInput default constructor initializes to defaults", "[mouseinput]")
 {
-    fcn::MouseInput input;
+    fcn::MouseInput const input;
 
     REQUIRE(input.getButton() == fcn::MouseInput::Button::Empty);
     REQUIRE(input.getType() == fcn::MouseInput::Type::Moved);
@@ -128,45 +128,45 @@ TEST_CASE("MouseInput setY and getY work correctly", "[mouseinput]")
 
 TEST_CASE("MouseInput can be constructed with all button types", "[mouseinput]")
 {
-    fcn::MouseInput input1(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input1(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input1.getButton() == fcn::MouseInput::Button::Left);
 
-    fcn::MouseInput input2(fcn::MouseInput::Button::Right, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input2(fcn::MouseInput::Button::Right, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input2.getButton() == fcn::MouseInput::Button::Right);
 
-    fcn::MouseInput input3(fcn::MouseInput::Button::Middle, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input3(fcn::MouseInput::Button::Middle, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input3.getButton() == fcn::MouseInput::Button::Middle);
 
-    fcn::MouseInput input4(fcn::MouseInput::Button::X1, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input4(fcn::MouseInput::Button::X1, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input4.getButton() == fcn::MouseInput::Button::X1);
 
-    fcn::MouseInput input5(fcn::MouseInput::Button::X2, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input5(fcn::MouseInput::Button::X2, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input5.getButton() == fcn::MouseInput::Button::X2);
 
-    fcn::MouseInput input6(fcn::MouseInput::Button::Empty, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input6(fcn::MouseInput::Button::Empty, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input6.getButton() == fcn::MouseInput::Button::Empty);
 }
 
 TEST_CASE("MouseInput can be constructed with all type types", "[mouseinput]")
 {
-    fcn::MouseInput input1(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Moved, 0, 0, 0);
+    fcn::MouseInput const input1(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Moved, 0, 0, 0);
     REQUIRE(input1.getType() == fcn::MouseInput::Type::Moved);
 
-    fcn::MouseInput input2(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 0, 0, 0);
+    fcn::MouseInput const input2(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input2.getType() == fcn::MouseInput::Type::Pressed);
 
-    fcn::MouseInput input3(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Released, 0, 0, 0);
+    fcn::MouseInput const input3(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Released, 0, 0, 0);
     REQUIRE(input3.getType() == fcn::MouseInput::Type::Released);
 
-    fcn::MouseInput input4(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedDown, 0, 0, 0);
+    fcn::MouseInput const input4(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedDown, 0, 0, 0);
     REQUIRE(input4.getType() == fcn::MouseInput::Type::WheelMovedDown);
 
-    fcn::MouseInput input5(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedUp, 0, 0, 0);
+    fcn::MouseInput const input5(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedUp, 0, 0, 0);
     REQUIRE(input5.getType() == fcn::MouseInput::Type::WheelMovedUp);
 
-    fcn::MouseInput input6(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedRight, 0, 0, 0);
+    fcn::MouseInput const input6(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedRight, 0, 0, 0);
     REQUIRE(input6.getType() == fcn::MouseInput::Type::WheelMovedRight);
 
-    fcn::MouseInput input7(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedLeft, 0, 0, 0);
+    fcn::MouseInput const input7(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::WheelMovedLeft, 0, 0, 0);
     REQUIRE(input7.getType() == fcn::MouseInput::Type::WheelMovedLeft);
 }

@@ -389,15 +389,15 @@ TEST_CASE("Container setOpacity with valid values", "[unit][container]")
     REQUIRE(container.isOpaque() == true);
 
     // Test 0.0 (fully transparent)
-    container.setOpacity(0.0f);
+    container.setOpacity(0.0F);
     REQUIRE(container.isOpaque() == false);
 
     // Test 0.5 (semi-transparent)
-    container.setOpacity(0.5f);
+    container.setOpacity(0.5F);
     REQUIRE(container.isOpaque() == false);
 
     // Test 1.0 (fully opaque)
-    container.setOpacity(1.0f);
+    container.setOpacity(1.0F);
     REQUIRE(container.isOpaque() == true);
 }
 
@@ -406,12 +406,12 @@ TEST_CASE("Container setOpacity clamps values", "[unit][container]")
     Container container;
 
     // Test value below 0.0 (should clamp to 0.0)
-    container.setOpacity(-0.5f);
+    container.setOpacity(-0.5F);
     // After clamping, opacity is 0.0, so opaque should be false
     REQUIRE(container.isOpaque() == false);
 
     // Test value above 1.0 (should clamp to 1.0)
-    container.setOpacity(1.5f);
+    container.setOpacity(1.5F);
     // After clamping, opacity is 1.0, so opaque should be true
     REQUIRE(container.isOpaque() == true);
 }
@@ -437,7 +437,7 @@ TEST_CASE("Container setOpacity < 1.0 sets opaque false", "[unit][container]")
     container.setOpaque(true);
     REQUIRE(container.isOpaque() == true);
 
-    container.setOpacity(0.99f);
+    container.setOpacity(0.99F);
     REQUIRE(container.isOpaque() == false);
 }
 
@@ -448,7 +448,7 @@ TEST_CASE("Container setOpacity >= 1.0 sets opaque true", "[unit][container]")
     container.setOpaque(false);
     REQUIRE(container.isOpaque() == false);
 
-    container.setOpacity(1.0f);
+    container.setOpacity(1.0F);
     REQUIRE(container.isOpaque() == true);
 }
 
@@ -549,8 +549,8 @@ TEST_CASE("Container resizeToContent with Absolute layout does nothing", "[unit]
     container.add(label, 10, 10);
 
     // With Absolute layout, resizeToContent should not change container size
-    int originalWidth  = container.getWidth();
-    int originalHeight = container.getHeight();
+    int const originalWidth  = container.getWidth();
+    int const originalHeight = container.getHeight();
 
     container.resizeToContent(false);
 
@@ -931,8 +931,8 @@ TEST_CASE("Container multiple children verify count and order", "[unit][containe
     }
 
     // Cleanup
-    for (int i = 0; i < 5; ++i) {
-        delete labels[i];
+    for (auto& label : labels) {
+        delete label;
     }
 }
 
@@ -955,16 +955,16 @@ TEST_CASE("Container setOpacity multiple times", "[unit][container]")
 {
     Container container;
 
-    container.setOpacity(0.0f);
+    container.setOpacity(0.0F);
     REQUIRE(container.isOpaque() == false);
 
-    container.setOpacity(0.5f);
+    container.setOpacity(0.5F);
     REQUIRE(container.isOpaque() == false);
 
-    container.setOpacity(1.0f);
+    container.setOpacity(1.0F);
     REQUIRE(container.isOpaque() == true);
 
-    container.setOpacity(0.0f);
+    container.setOpacity(0.0F);
     REQUIRE(container.isOpaque() == false);
 }
 

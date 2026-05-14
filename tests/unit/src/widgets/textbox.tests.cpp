@@ -15,7 +15,7 @@ TEST_CASE("TextBox constructors initialize properly", "[unit][textbox]")
     SECTION("default constructor creates empty textbox")
     {
         fcn::TextBox const textBox;
-        REQUIRE(textBox.getText() == "");
+        REQUIRE(textBox.getText().empty());
         REQUIRE(textBox.getNumberOfRows() == 1);
     }
 
@@ -38,7 +38,7 @@ TEST_CASE("TextBox constructors initialize properly", "[unit][textbox]")
 
 TEST_CASE("TextBox caret position starts at beginning", "[unit][textbox]")
 {
-    fcn::TextBox textBox("ABC");
+    fcn::TextBox const textBox("ABC");
     REQUIRE(textBox.getCaretRow() == 0);
     REQUIRE(textBox.getCaretColumn() == 0);
 }
@@ -99,7 +99,7 @@ TEST_CASE("TextBox setCaretPosition validates bounds", "[unit][textbox]")
 
 TEST_CASE("TextBox getTextRow validates row index", "[unit][textbox]")
 {
-    fcn::TextBox textBox("Line1\nLine2\nLine3");
+    fcn::TextBox const textBox("Line1\nLine2\nLine3");
     REQUIRE(textBox.getNumberOfRows() == 3);
 
     SECTION("valid row index returns text")
@@ -169,7 +169,7 @@ TEST_CASE("TextBox setText replaces content", "[unit][textbox]")
 
 TEST_CASE("TextBox UTF8 caret operations", "[unit][textbox]")
 {
-    fcn::TextBox textBox("Héllo");
+    fcn::TextBox const textBox("Héllo");
     REQUIRE(textBox.getCaretColumn() == 0);
 
     SECTION("UTF8 character counts correctly")
@@ -180,7 +180,7 @@ TEST_CASE("TextBox UTF8 caret operations", "[unit][textbox]")
 
 TEST_CASE("TextBox row UTF8 operations", "[unit][textbox]")
 {
-    fcn::TextBox textBox("Héllo\nWörld");
+    fcn::TextBox const textBox("Héllo\nWörld");
 
     SECTION("getTextRow returns correct UTF8 text")
     {
