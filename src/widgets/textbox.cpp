@@ -212,7 +212,7 @@ namespace fcn
 
     void TextBox::textInput(TextInputEvent& event)
     {
-        std::string const& text = event.getText();
+        std::string const & text = event.getText();
         if (!text.empty() && mEditable) {
             mText->getRow(getCaretRow()).insert(getCaretColumn(), text);
             setCaretColumn(getCaretColumn() + static_cast<int>(text.size()));

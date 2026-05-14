@@ -141,7 +141,15 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
     SECTION("tab key")
     {
         fcn::KeyEvent event(
-            &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(fcn::Key::TAB));
+            &source,
+            &distributor,
+            false,
+            false,
+            false,
+            false,
+            fcn::KeyEvent::Type::Pressed,
+            false,
+            fcn::Key(fcn::Key::TAB));
 
         REQUIRE(event.getKey().getValue() == fcn::Key::TAB);
     }

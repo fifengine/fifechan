@@ -160,7 +160,7 @@ namespace fcn
 
     void TextField::textInput(TextInputEvent& event)
     {
-        std::string const& text = event.getText();
+        std::string const & text = event.getText();
         if (!text.empty() && mText->getNumberOfRows() > 0) {
             std::string& row = mText->getRow(0);
             row.insert(getCaretPosition(), text);

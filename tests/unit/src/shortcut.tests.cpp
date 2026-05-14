@@ -85,7 +85,15 @@ TEST_CASE("Shortcut matches KeyEvent", "[unit][shortcut]")
     {
         Shortcut sc(Key(fcn::Key::KEY_RETURN), Shortcut::Modifier::None);
         fcn::KeyEvent event(
-            &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::KEY_RETURN));
+            &source,
+            &distributor,
+            false,
+            false,
+            false,
+            false,
+            fcn::KeyEvent::Type::Pressed,
+            false,
+            Key(fcn::Key::KEY_RETURN));
 
         REQUIRE(sc.matches(event));
     }
@@ -193,7 +201,15 @@ TEST_CASE("Shortcut unbound (key=0)", "[unit][shortcut][edge]")
     fcn::Label source;
     fcn::Label distributor;
     fcn::KeyEvent event(
-        &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, Key(fcn::Key::KEY_RETURN));
+        &source,
+        &distributor,
+        false,
+        false,
+        false,
+        false,
+        fcn::KeyEvent::Type::Pressed,
+        false,
+        Key(fcn::Key::KEY_RETURN));
 
     REQUIRE(sc.matches(event) == false);
 }

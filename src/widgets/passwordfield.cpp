@@ -45,7 +45,8 @@ namespace fcn
                 fcn::UTF8StringEditor::eraseChar(
                     mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
         } else if (
-            mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
+            mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 &&
+            mText->getNumberOfRows() > 0) {
             mText->remove(-1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::prevChar(
