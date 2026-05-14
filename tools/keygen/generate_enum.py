@@ -74,7 +74,15 @@ CONFLICT_RENAME = {
     'LESS': 'KEY_LESS',
     'GREATER': 'KEY_GREATER',
     'UNKNOWN': 'KEY_UNKNOWN',
-    'DELETE': 'KEY_DELETE',   # C++20 has std::delete, so rename to avoid conflict
+    'DELETE': 'KEY_DELETE',   # <winnt.h>
+    'OUT': 'KEY_OUT',         # <windef.h>
+    'IN': 'KEY_IN',           # <windef.h>
+    'NEAR': 'KEY_NEAR',       # <windef.h>
+    'FAR': 'KEY_FAR',         # <windef.h>
+    'CANCEL': 'KEY_CANCEL',   # <winuser.h>
+    'CLEAR': 'KEY_CLEAR',     # <winuser.h>
+    'COPY': 'KEY_COPY',       # <winuser.h>
+    'SELECT': 'KEY_SELECT',   # <winuser.h>
 }
 
 def to_enum_name(name: str) -> str:
