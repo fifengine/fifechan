@@ -155,8 +155,8 @@ void Application::init_gui(int width, int height)
         fcn::Graphics::VerticalAlignment::Center,
         fcn::Graphics::VerticalAlignment::Bottom};
 
-    char const const * hLabels[] = {"Left", "Center", "Right"};
-    char const const * vLabels[] = {"Top", "Center", "Bottom"};
+    char const * hLabels[] = {"Left", "Center", "Right"};
+    char const * vLabels[] = {"Top", "Center", "Bottom"};
 
     // Calculate grid cell dimensions
     int const cellWidth  = width / 3;
