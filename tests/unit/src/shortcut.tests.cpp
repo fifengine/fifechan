@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Corresponding header include
-#include <fifechan/shortcut.hpp>^
+#include <fifechan/shortcut.hpp>
 
 // Standard library includes
 #include <string>
