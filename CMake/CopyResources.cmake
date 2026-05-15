@@ -57,6 +57,14 @@ function(copy_resources_folder target folder_path)
     # Add a custom target to ensure the resource files are copied before the target is built
     add_custom_target(${copy_target_name} ALL)
 
+    # Ensure the target output directory exists before copying resources.
+    # cmake -E copy_if_different does not create parent directories.
+    add_custom_command(
+        TARGET ${copy_target_name} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${target}>"
+        VERBATIM
+    )
+
     # Iterate over the files in the folder
     foreach(file IN LISTS files)
         get_filename_component(file_name ${file} NAME)
