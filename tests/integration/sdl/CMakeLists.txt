@@ -103,9 +103,9 @@ endif()
 
 # This toggles the FIFEGUI_BUILD type (fifechan_EXPORTS, fifegui_EXPORTS)
 if(BUILD_SHARED_LIBS)
-  target_compile_definitions(sdlhelloworld PRIVATE "FIFEGUI_DLL_IMPORT") #"FIFEGUI_BUILD;FIFEGUI_EXTENSION_BUILD")
+  target_compile_definitions(sdlwidgets PRIVATE "FIFEGUI_DLL_IMPORT")
 else()
-  target_compile_definitions(sdlhelloworld INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+  target_compile_definitions(sdlwidgets INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
 endif()
 
 show_build_target_properties(sdlwidgets)
