@@ -56,7 +56,7 @@ namespace fcn
 {body}
             }};
 
-            static_assert(sizeof(Keys::KeyType) == sizeof(uint32_t), "KeyType must be 32-bit to match SDL_Keycode");
+            static_assert(sizeof(Key::KeyType) == sizeof(uint32_t), "KeyType must be 32-bit to match SDL_Keycode");
 
         protected:
             int mValue;
@@ -116,9 +116,9 @@ def generate(data: dict) -> str:
         comment = k['comment']
         enum_entry = to_enum_name(name)
         if comment:
-            lines.append(f'            {enum_entry:20s} = {value}u, // {comment}')
+            lines.append(f'                {enum_entry:20s} = {value}u, // {comment}')
         else:
-            lines.append(f'            {enum_entry:20s} = {value}u,')
+            lines.append(f'                {enum_entry:20s} = {value}u,')
 
     body = '\n'.join(lines)
 
