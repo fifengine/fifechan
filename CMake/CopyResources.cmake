@@ -44,44 +44,17 @@ endfunction(copy_resources)
 #
 #-----------------------------------------------------------------------------
 function(copy_resources_folder target folder_path)
-    # Ensure the target exists
     if(NOT TARGET ${target})
         message(FATAL_ERROR "Target '${target}' does not exist.")
     endif()
 
-    file(GLOB files "${folder_path}/*")
-
-    # Ensure the target output directory exists at configure time.
-    # (Also handled at build-time per-file below; this is a safety net.)
-    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
-
-    # Create a unique name for the copy resources target
-    set(copy_target_name "${target}_copy_resources_folder")
-
-    # Add a custom target to ensure the resource files are copied before the target is built
-    add_custom_target(${copy_target_name} ALL)
-
-    # Iterate over the files in the folder
-    foreach(file IN LISTS files)
-        get_filename_component(file_name ${file} NAME)
-        # this resolves to the directory where the executable/library is placed after it is built
-        set(dest_path "$<TARGET_FILE_DIR:${target}>/${file_name}")
-
-        # Add a custom command to copy the resource file to the destination directory.
-        # cmake -E make_directory is added before each copy because
-        # cmake -E copy_if_different does not create parent directories.
-        add_custom_command(
-            TARGET ${copy_target_name} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Copying resource '${file_name}' for '${target}'"
-            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${target}>"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${file}"
-                "${dest_path}"
-            COMMENT "Copying resource file ${file} to ${dest_path}"
-            VERBATIM
-        )
-    endforeach()
-
-    # Add the dependencies to the target
-    add_dependencies(${target} ${copy_target_name})
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan
+            "Copying resources from '${folder_path}' to target directory for '${target}'"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${folder_path}"
+            "$<TARGET_FILE_DIR:${target}>"
+        COMMENT "Copying resources for ${target}"
+        VERBATIM
+    )
 endfunction(copy_resources_folder)
