@@ -378,35 +378,38 @@ namespace fcn::sdl3
         float const offsetY = (dx / length) * (static_cast<float>(width) / 2.0F);
 
         // Create quad vertices (two triangles)
+        // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+        // clang-format off
         std::vector<SDL_Vertex> vertices = {
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x1) - offsetX, .y = static_cast<float>(y1) + offsetY},
-                .color =
-                    {.r = static_cast<float>(mColor.r) / 255.0F,
-                     .g = static_cast<float>(mColor.g) / 255.0F,
-                     .b = static_cast<float>(mColor.b) / 255.0F,
-                     .a = static_cast<float>(mColor.a) / 255.0F}},
+                .color    = {
+                       .r = static_cast<float>(mColor.r) / 255.0F,
+                       .g = static_cast<float>(mColor.g) / 255.0F,
+                       .b = static_cast<float>(mColor.b) / 255.0F,
+                       .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x1) + offsetX, .y = static_cast<float>(y1) - offsetY},
-                .color =
-                    {.r = static_cast<float>(mColor.r) / 255.0F,
-                     .g = static_cast<float>(mColor.g) / 255.0F,
-                     .b = static_cast<float>(mColor.b) / 255.0F,
-                     .a = static_cast<float>(mColor.a) / 255.0F}},
+                .color    = {
+                       .r = static_cast<float>(mColor.r) / 255.0F,
+                       .g = static_cast<float>(mColor.g) / 255.0F,
+                       .b = static_cast<float>(mColor.b) / 255.0F,
+                       .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) + offsetX, .y = static_cast<float>(y2) - offsetY},
-                .color =
-                    {.r = static_cast<float>(mColor.r) / 255.0F,
-                     .g = static_cast<float>(mColor.g) / 255.0F,
-                     .b = static_cast<float>(mColor.b) / 255.0F,
-                     .a = static_cast<float>(mColor.a) / 255.0F}},
+                .color    = {
+                       .r = static_cast<float>(mColor.r) / 255.0F,
+                       .g = static_cast<float>(mColor.g) / 255.0F,
+                       .b = static_cast<float>(mColor.b) / 255.0F,
+                       .a = static_cast<float>(mColor.a) / 255.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) - offsetX, .y = static_cast<float>(y2) + offsetY},
                 .color    = {
-                    .r = static_cast<float>(mColor.r) / 255.0F,
-                    .g = static_cast<float>(mColor.g) / 255.0F,
-                    .b = static_cast<float>(mColor.b) / 255.0F,
-                    .a = static_cast<float>(mColor.a) / 255.0F}}};
+                       .r = static_cast<float>(mColor.r) / 255.0F,
+                       .g = static_cast<float>(mColor.g) / 255.0F,
+                       .b = static_cast<float>(mColor.b) / 255.0F,
+                       .a = static_cast<float>(mColor.a) / 255.0F}}};
+        // clang-format on
 
         // Two triangles forming a quad
         std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
