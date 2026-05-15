@@ -378,7 +378,7 @@ namespace fcn::sdl3
         float const offsetY = (dx / length) * (static_cast<float>(width) / 2.0F);
 
         // Create quad vertices (two triangles)
-        // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+        // TODO: remove format off. this formatting is inconsistent between clang-format versions
         // clang-format off
         std::vector<SDL_Vertex> vertices = {
             SDL_Vertex{
@@ -473,7 +473,7 @@ namespace fcn::sdl3
             vertices.reserve(circleSegments + 2);
 
             // Center vertex
-            // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+            // TODO: remove format off. this formatting is inconsistent between clang-format versions
             // clang-format off
             vertices.push_back(
                 SDL_Vertex{
@@ -491,7 +491,7 @@ namespace fcn::sdl3
                     2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(circleSegments);
                 float const x = static_cast<float>(centerX) + (radius * std::cos(angle));
                 float const y = static_cast<float>(centerY) + (radius * std::sin(angle));
-                // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+                // TODO: remove format off. this formatting is inconsistent between clang-format versions
                 // clang-format off
                 vertices.push_back(
                     SDL_Vertex{
@@ -836,7 +836,7 @@ namespace fcn::sdl3
                 float const offsetY = (dx / length) * halfWidth;
 
                 // Create quad vertices (two triangles)
-                // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+                // TODO: remove format off. this formatting is inconsistent between clang-format versions
                 // clang-format off
                 std::vector<SDL_Vertex> vertices = {
                     SDL_Vertex{
@@ -937,7 +937,7 @@ namespace fcn::sdl3
                 float const offsetY = (dx / length) * halfWidth;
 
                 // Create quad vertices (two triangles)
-                // TODO: remove format off. this formatting is inconsistent between clang-format versions (CI vs. local v22)
+                // TODO: remove format off. this formatting is inconsistent between clang-format versions
                 // clang-format off
                 std::vector<SDL_Vertex> vertices = {
                     SDL_Vertex{
