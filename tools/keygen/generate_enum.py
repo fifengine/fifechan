@@ -32,36 +32,35 @@ HEADER = """\
 // Platform config include
 #include "fifechan/platform.hpp"
 
-/** SDL3 version used to generate this key map. */
+// SDL3 version used to generate this key map.
 #define FIFECHAN_SDL_KEYMAP_VERSION {version_num}u
 
 namespace fcn
 {{
 
-class FIFEGUI_API Key
-{{
-    public:
-        explicit Key(int value = 0);
+    class FIFEGUI_API Key
+    {{
+        public:
+            explicit Key(int value = 0);
 
-        bool isCharacter() const;
-        bool isNumber() const;
-        bool isLetter() const;
-        int getValue() const;
+            bool isCharacter() const;
+            bool isNumber() const;
+            bool isLetter() const;
+            int getValue() const;
 
-        bool operator==(Key const & other) const;
-        bool operator!=(Key const & other) const;
+            bool operator==(Key const & other) const;
+            bool operator!=(Key const & other) const;
 
-        enum KeyType : uint32_t
-        {{
+            enum KeyType : uint32_t
+            {{
 {body}
-        }};
+            }};
 
-        static_assert(sizeof(KeyType) == sizeof(uint32_t),
-                      "KeyType must be 32-bit to match SDL_Keycode");
+            static_assert(sizeof(Keys::KeyType) == sizeof(uint32_t), "KeyType must be 32-bit to match SDL_Keycode");
 
-    protected:
-        int mValue;
-}};
+        protected:
+            int mValue;
+    }};
 
 }} // namespace fcn
 
@@ -117,9 +116,9 @@ def generate(data: dict) -> str:
         comment = k['comment']
         enum_entry = to_enum_name(name)
         if comment:
-            lines.append(f'    {enum_entry:45s} = {value}u, // {comment}')
+            lines.append(f'            {enum_entry:20s} = {value}u, // {comment}')
         else:
-            lines.append(f'    {enum_entry:45s} = {value}u,')
+            lines.append(f'            {enum_entry:20s} = {value}u,')
 
     body = '\n'.join(lines)
 
