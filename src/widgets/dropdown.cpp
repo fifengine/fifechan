@@ -6,6 +6,7 @@
 #include "fifechan/widgets/dropdown.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <memory>
 
 // Project headers (subdirs before local)
@@ -40,6 +41,9 @@ namespace fcn
             mListBox = listBox;
         }
 
+        assert("mScrollArea must not be null after construction" && mScrollArea != nullptr);
+        assert("mListBox must not be null after construction" && mListBox != nullptr);
+
         mScrollArea->setContent(mListBox);
         add(mScrollArea);
 
@@ -67,6 +71,9 @@ namespace fcn
 
     void DropDown::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+        assert("font must not be null" && getFont() != nullptr);
+
         int h = 0;
 
         if (mDroppedDown) {

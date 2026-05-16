@@ -6,6 +6,7 @@
 #include <fifechan/widgets/passwordfield.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Project headers (subdirs before local)
@@ -17,6 +18,7 @@ namespace fcn
 {
     PasswordField::PasswordField(std::string const & text) : TextField(text), mActualText(new Text)
     {
+        assert("mActualText must not be null after allocation" && mActualText != nullptr);
         setText(text);
     }
 
@@ -85,6 +87,9 @@ namespace fcn
 
     void PasswordField::setText(std::string const & text)
     {
+        assert("mText must not be null" && mText != nullptr);
+        assert("mActualText must not be null" && mActualText != nullptr);
+
         std::string asterisks;
         asterisks.assign(text.size(), '*');
 

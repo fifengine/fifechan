@@ -4,6 +4,9 @@
 // Corresponding header include
 #include "fifechan/widgets/modalbackdrop.hpp"
 
+// Standard library includes
+#include <cassert>
+
 // Project headers
 #include "fifechan/graphics.hpp"
 #include "fifechan/widgets/menubar.hpp"
@@ -14,6 +17,7 @@ namespace fcn
 {
     ModalBackdrop::ModalBackdrop(MenuPopup* owner) : mOwner(owner)
     {
+        assert("owner must not be null" && owner != nullptr);
         setOpaque(false);
         setFocusable(false);
         setEnabled(true);

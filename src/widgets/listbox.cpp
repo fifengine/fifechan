@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 
 // Project headers (subdirs before local)
 #include "fifechan/font.hpp"
@@ -39,6 +40,9 @@ namespace fcn
 
     void ListBox::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+        assert("font must not be null" && getFont() != nullptr);
+
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
 
@@ -112,6 +116,7 @@ namespace fcn
         if (mListModel == nullptr) {
             mSelected = -1;
         } else {
+            assert("selected index must be valid" && mListModel->getNumberOfElements() > 0);
             if (selected < 0) {
                 mSelected = -1;
             } else if (selected >= mListModel->getNumberOfElements()) {
@@ -143,6 +148,7 @@ namespace fcn
             distributeActionEvent();
             keyEvent.consume();
         } else if (key.getValue() == fcn::Key::UP) {
+            assert("list model must exist for UP" && mListModel != nullptr);
             setSelected(mSelected - 1);
 
             if (mSelected == -1) {
@@ -155,6 +161,7 @@ namespace fcn
 
             keyEvent.consume();
         } else if (key.getValue() == fcn::Key::DOWN) {
+            assert("list model must exist for DOWN" && mListModel != nullptr);
             if (mWrappingEnabled && getSelected() == getListModel()->getNumberOfElements() - 1) {
                 setSelected(0);
             } else {
@@ -166,6 +173,7 @@ namespace fcn
             setSelected(0);
             keyEvent.consume();
         } else if (key.getValue() == fcn::Key::END) {
+            assert("list model must exist for END" && mListModel != nullptr);
             setSelected(getListModel()->getNumberOfElements() - 1);
             keyEvent.consume();
         }

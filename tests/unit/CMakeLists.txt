@@ -8,44 +8,65 @@ message(STATUS "All tests are linked into a single executable `all_tests`.")
 
 set(UNIT_TEST_SOURCES
   src/cliprectangle.tests.cpp
-  src/font.tests.cpp
-  src/graphics.tests.cpp
-  src/fifechan.tests.cpp
   src/color.tests.cpp
-  src/size.tests.cpp
-  src/rectangle.tests.cpp
+  src/fifechan.tests.cpp
+  src/focushandler.tests.cpp
+  src/font.tests.cpp
   src/genericinput.tests.cpp
-  src/defaultfont.tests.cpp
-  src/visibilityeventhandler.tests.cpp
+  src/graphics.tests.cpp
   src/image.tests.cpp
+  src/rectangle.tests.cpp
+  src/size.tests.cpp
+  src/visibilityeventhandler.tests.cpp
   # Input and key tests
   src/key.tests.cpp
   src/keyinput.tests.cpp
   src/mouseinput.tests.cpp
   src/shortcut.tests.cpp
   # Event tests
-  src/events/event.tests.cpp
   src/events/actionevent.tests.cpp
   src/events/containerevent.tests.cpp
-  src/events/selectionevent.tests.cpp
   src/events/dragevent.tests.cpp
+  src/events/event.tests.cpp
   src/events/mouseevent.tests.cpp
-  # Widget tests
-  src/widget.tests.cpp
-  src/widgets/focus.tests.cpp
-  src/focushandler.tests.cpp
-  src/widgets/primarypanel.tests.cpp
-  src/widgets/secondarypanel.tests.cpp
-  src/widgets/spacer.tests.cpp
-  src/widgets/barsection.tests.cpp
-  src/widgets/bargraph.tests.cpp
-  src/widgets/container.tests.cpp
+  src/events/selectionevent.tests.cpp
+  src/events/textinputevent.tests.cpp
   # Text Input and UTF-8 tests
   src/text.tests.cpp
   src/utf8stringeditor.tests.cpp
+  # Drag & Drop tests
+  src/dragdrop.tests.cpp
+  # Font related
+  src/defaultfont.tests.cpp
+  src/fontloader.tests.cpp
   # Widgets
-  src/widgets/textbox.tests.cpp
+  src/widget.tests.cpp
+  src/widgets/bargraph.tests.cpp
+  src/widgets/barsection.tests.cpp
+  src/widgets/container.tests.cpp
+  src/widgets/focus.tests.cpp
+  src/widgets/primarypanel.tests.cpp
+  src/widgets/secondarypanel.tests.cpp
+  src/widgets/spacer.tests.cpp
+  src/widgets/button.tests.cpp
+  src/widgets/checkbox.tests.cpp
+  src/widgets/dropdown.tests.cpp
+  src/widgets/icon.tests.cpp
+  src/widgets/imagebutton.tests.cpp
   src/widgets/label.tests.cpp
+  src/widgets/listbox.tests.cpp
+  src/widgets/modalbackdrop.tests.cpp
+  src/widgets/panel.tests.cpp
+  src/widgets/passwordfield.tests.cpp
+  src/widgets/radiobutton.tests.cpp
+  src/widgets/scrollarea.tests.cpp
+  src/widgets/slider.tests.cpp
+  src/widgets/tab.tests.cpp
+  src/widgets/tabbedarea.tests.cpp
+  src/widgets/textbox.tests.cpp
+  src/widgets/textfield.tests.cpp
+  src/widgets/togglebutton.tests.cpp
+  src/widgets/window.tests.cpp
 )
 
 # TODO: this can be tested with software rasterizer backend in CI.

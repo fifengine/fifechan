@@ -179,3 +179,37 @@ TEST_CASE("InputEvent edge cases", "[unit][inputevent]")
         REQUIRE(event.isMetaPressed() == false);
     }
 }
+
+TEST_CASE("InputEvent getModMask", "[unit][inputevent]")
+{
+    SECTION("no modifiers")
+    {
+        fcn::InputEvent event(nullptr, nullptr, false, false, false, false);
+        REQUIRE(event.getModMask() == 0);
+    }
+
+    SECTION("shift only")
+    {
+        fcn::InputEvent event(nullptr, nullptr, true, false, false, false);
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModShift));
+        REQUIRE(!(event.getModMask() & fcn::InputEvent::ModControl));
+    }
+
+    SECTION("all modifiers")
+    {
+        fcn::InputEvent event(nullptr, nullptr, true, true, true, true);
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModShift));
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModControl));
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModAlt));
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModMeta));
+    }
+
+    SECTION("control and alt only")
+    {
+        fcn::InputEvent event(nullptr, nullptr, false, true, true, false);
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModControl));
+        REQUIRE((event.getModMask() & fcn::InputEvent::ModAlt));
+        REQUIRE(!(event.getModMask() & fcn::InputEvent::ModShift));
+        REQUIRE(!(event.getModMask() & fcn::InputEvent::ModMeta));
+    }
+}
