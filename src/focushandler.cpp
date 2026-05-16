@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <iostream>
 #include <list>
 #include <ranges>
 #include <utility>
