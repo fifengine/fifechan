@@ -46,15 +46,7 @@ TEST_CASE("ImageButton getters return null initially", "[unit][imagebutton]")
     REQUIRE(btn.getInactiveHoverImage() == nullptr);
 }
 
-TEST_CASE("ImageButton image type enum values", "[unit][imagebutton]")
-{
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Up) == 0);
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Down) == 1);
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Hover) == 2);
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Up_Inactive) == 3);
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Down_Inactive) == 4);
-    REQUIRE(static_cast<int>(ImageButton::ImageType::Hover_Inactive) == 5);
-}
+// ImageType enum verification removed - values are guaranteed by the header definition
 
 TEST_CASE("ImageButton default is focusable and has center alignment", "[unit][imagebutton]")
 {

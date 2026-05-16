@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Standard library includes
+#include <algorithm>
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
@@ -20,13 +23,9 @@ TEST_CASE("FontLoader getDefaultSearchPaths contains current directory", "[unit]
 {
     auto paths       = FontLoader::getDefaultSearchPaths();
     auto currentPath = std::filesystem::current_path();
-    bool found       = false;
-    for (auto const & p : paths) {
-        if (p == currentPath) {
-            found = true;
-            break;
-        }
-    }
+    bool const found = std::any_of(paths.begin(), paths.end(), [&](auto const & p) {
+        return p == currentPath;
+    });
     REQUIRE(found);
 }
 

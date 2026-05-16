@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Standard library includes
+#include <string>
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 

@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Standard library includes
+#include <memory>
 #include <string>
 
 // Third-party library includes

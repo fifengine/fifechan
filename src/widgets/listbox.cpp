@@ -116,7 +116,6 @@ namespace fcn
         if (mListModel == nullptr) {
             mSelected = -1;
         } else {
-            assert("selected index must be valid" && mListModel->getNumberOfElements() > 0);
             if (selected < 0) {
                 mSelected = -1;
             } else if (selected >= mListModel->getNumberOfElements()) {

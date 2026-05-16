@@ -141,8 +141,7 @@ TEST_CASE("Button setDownOffset sets both x and y", "[unit][button]")
 TEST_CASE("Button adjustSize resizes to caption", "[unit][button]")
 {
     Button btn("Text");
-    int const widthWithText  = btn.getWidth();
-    int const heightWithText = btn.getHeight();
+    int const widthWithText = btn.getWidth();
 
     btn.setCaption("Much longer text for button");
     REQUIRE(btn.getWidth() > widthWithText);
