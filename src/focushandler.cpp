@@ -105,7 +105,7 @@ namespace fcn
             try {
                 requestFocus(prevFocus);
             } catch (...) {
-                // ignore - focus request failed in noexcept context
+                std::cerr << "[FocusHandler] Warning: focus request failed in noexcept context\n";
             }
         }
     }

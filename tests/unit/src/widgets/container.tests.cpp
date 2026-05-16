@@ -22,6 +22,8 @@ using fcn::Label;
 using fcn::Rectangle;
 using fcn::Widget;
 
+namespace
+{
 // ============================================================================
 // Helper class for testing container listeners
 // ============================================================================
@@ -58,6 +60,8 @@ class TestContainerListener : public ContainerListener
         Widget* mLastRemovedWidget{nullptr};
         Container* mLastContainer{nullptr};
 };
+
+} // anonymous namespace
 
 // ============================================================================
 // Container constructors and default values
@@ -855,14 +859,14 @@ TEST_CASE("Container multiple children verify count and order", "[unit][containe
 
     std::array<std::unique_ptr<Label>, 5> labels;
     for (int i = 0; i < 5; ++i) {
-        labels[i] = std::make_unique<Label>("Label" + std::to_string(i));
+        labels.at(i) = std::make_unique<Label>("Label" + std::to_string(i));
         container.add(labels[i].get());
         REQUIRE(container.getChildrenCount() == static_cast<unsigned int>(i + 1));
     }
 
     // Verify all children are in correct order
     for (unsigned int i = 0; i < 5; ++i) {
-        REQUIRE(container.getChild(i) == labels[i].get());
+        REQUIRE(container.getChild(i) == labels.at(i).get());
     }
 }
 

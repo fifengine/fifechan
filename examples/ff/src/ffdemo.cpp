@@ -32,7 +32,7 @@ namespace
             return kDefaultWindowScale;
         }
 
-        char* end;
+        char* end                 = nullptr;
         std::int64_t const parsed = std::strtoll(envValue, &end, 10);
         if (*end != '\0' || parsed < kMinWindowScale || parsed > kMaxWindowScale) {
             return kDefaultWindowScale;

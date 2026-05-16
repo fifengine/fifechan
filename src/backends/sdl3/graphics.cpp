@@ -595,10 +595,10 @@ namespace fcn::sdl3
             while (points.size() > 1) {
                 std::vector<fcn::Point> next;
                 for (size_t i = 0; i + 1 < points.size(); ++i) {
-                    float const x =
-                        (1.0F - t) * static_cast<float>(points.at(i).x) + t * static_cast<float>(points.at(i + 1).x);
-                    float const y =
-                        (1.0F - t) * static_cast<float>(points.at(i).y) + t * static_cast<float>(points.at(i + 1).y);
+                    float const x = ((1.0F - t) * static_cast<float>(points.at(i).x)) +
+                                    (t * static_cast<float>(points.at(i + 1).x));
+                    float const y = ((1.0F - t) * static_cast<float>(points.at(i).y)) +
+                                    (t * static_cast<float>(points.at(i + 1).y));
                     next.emplace_back(static_cast<int>(x), static_cast<int>(y));
                 }
                 points = std::move(next);
