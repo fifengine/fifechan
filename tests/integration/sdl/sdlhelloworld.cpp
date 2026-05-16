@@ -233,7 +233,7 @@ void Application::run()
                 if (event.key.key == SDLK_F) {
                     if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
                         uint32_t const fullscreen = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
-                        SDL_SetWindowFullscreen(window.get(), fullscreen != 0 ? false : SDL_WINDOW_FULLSCREEN);
+                        SDL_SetWindowFullscreen(window.get(), fullscreen == 0);
                     }
                 }
             } else if (event.type == SDL_EVENT_QUIT) {

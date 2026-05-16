@@ -11,6 +11,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <array>
 #include <format>
 #include <iostream>
 #include <memory>
@@ -155,8 +156,8 @@ void Application::init_gui(int width, int height)
         fcn::Graphics::VerticalAlignment::Center,
         fcn::Graphics::VerticalAlignment::Bottom};
 
-    char const * hLabels[] = {"Left", "Center", "Right"};
-    char const * vLabels[] = {"Top", "Center", "Bottom"};
+    std::array<char const *, 3> const hLabels = {"Left", "Center", "Right"};
+    std::array<char const *, 3> const vLabels = {"Top", "Center", "Bottom"};
 
     // Calculate grid cell dimensions
     int const cellWidth  = width / 3;
@@ -171,13 +172,13 @@ void Application::init_gui(int width, int height)
             cell->setDimension(fcn::Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight));
 
             // Create label with descriptive text
-            auto label = std::make_unique<fcn::Label>(std::format("{} {}", vLabels[row], hLabels[col]));
+            auto label = std::make_unique<fcn::Label>(std::format("{} {}", vLabels.at(row), hLabels.at(col)));
 
             // Set horizontal alignment
-            label->setAlignment(hAlignments[col]);
+            label->setAlignment(hAlignments.at(col));
 
             // Set vertical alignment
-            label->setVerticalAlignment(vAlignments[row]);
+            label->setVerticalAlignment(vAlignments.at(row));
 
             // Make label fill the entire cell to demonstrate alignment
             label->setBorderSize(1);
@@ -235,7 +236,7 @@ void Application::run()
                 if (event.key.key == SDLK_F) {
                     if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
                         uint32_t const fullscreen = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
-                        SDL_SetWindowFullscreen(window.get(), fullscreen != 0 ? false : SDL_WINDOW_FULLSCREEN);
+                        SDL_SetWindowFullscreen(window.get(), fullscreen == 0);
                     }
                 }
             } else if (event.type == SDL_EVENT_QUIT) {

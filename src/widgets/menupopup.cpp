@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <iostream>
 #include <memory>
 #include <unordered_map>
 
@@ -222,15 +223,15 @@ namespace fcn
 
             if (topContainer != nullptr) {
                 // Create backdrop, size it to cover top and add it behind menus.
-                ModalBackdrop* backdrop = new ModalBackdrop(this);
+                auto backdrop = std::make_unique<ModalBackdrop>(this);
                 backdrop->setPosition(0, 0);
                 backdrop->setSize(topContainer->getWidth(), topContainer->getHeight());
-                topContainer->add(backdrop);
+                topContainer->add(backdrop.get());
                 // Place backdrop above other top-level widgets so it captures
                 // clicks outside the menu, then ensure the popup stays on top.
-                topContainer->moveToTop(backdrop);
+                topContainer->moveToTop(backdrop.get());
                 topContainer->moveToTop(this);
-                mBackdrop = backdrop;
+                mBackdrop = backdrop.release();
             }
         } else if (mParentMenu != nullptr) {
             // request focus for submenu
@@ -307,6 +308,7 @@ namespace fcn
             item->adjustSize();
         } catch (...) {
             // ignore if widget doesn't implement adjustSize
+            std::cerr << "[MenuPopup] Warning: widget does not implement adjustSize\n";
         }
 
         // Perform two-pass column-based layout

@@ -5,6 +5,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 // Standard library includes
+#include <array>
 #include <memory>
 #include <string>
 #include <utility>
@@ -83,31 +84,25 @@ TEST_CASE("Container default constructor", "[unit][container]")
 TEST_CASE("Container add widget with raw pointer", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
-    container.add(label);
+    container.add(label.get());
 
     REQUIRE(container.getChildrenCount() == 1);
-    REQUIRE(container.getChild(0) == label);
-
-    // Cleanup - container doesn't own raw pointers
-    delete label;
+    REQUIRE(container.getChild(0) == label.get());
 }
 
 TEST_CASE("Container add widget with position", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
-    container.add(label, 10, 20);
+    container.add(label.get(), 10, 20);
 
     REQUIRE(container.getChildrenCount() == 1);
     REQUIRE(label->getX() == 10);
     REQUIRE(label->getY() == 20);
-    REQUIRE(container.getChild(0) == label);
-
-    // Cleanup
-    delete label;
+    REQUIRE(container.getChild(0) == label.get());
 }
 
 TEST_CASE("Container addWidget with unique_ptr", "[unit][container]")
@@ -151,41 +146,38 @@ TEST_CASE("Container add nullptr with unique_ptr does nothing", "[unit][containe
 TEST_CASE("Container remove widget", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
 
-    container.add(label1);
-    container.add(label2);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
     REQUIRE(container.getChildrenCount() == 2);
 
-    container.remove(label1);
-    REQUIRE(container.getChildrenCount() == 1);
-    REQUIRE(container.getChild(0) == label2);
+    container.remove(label1.get());
 
-    // Cleanup
-    delete label1;
-    delete label2;
+    REQUIRE(container.getChildrenCount() == 1);
+    REQUIRE(container.getChild(0) == label2.get());
 }
 
 TEST_CASE("Container removeAllChildren", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
-    container.add(label2);
-    container.add(label3);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
+    container.add(label3.get());
+
     REQUIRE(container.getChildrenCount() == 3);
 
     container.removeAllChildren();
     REQUIRE(container.getChildrenCount() == 0);
-
-    // Cleanup - widgets are still our responsibility
-    delete label1;
-    delete label2;
-    delete label3;
 }
 
 // ============================================================================
@@ -198,55 +190,47 @@ TEST_CASE("Container getChildrenCount returns correct count", "[unit][container]
 
     REQUIRE(container.getChildrenCount() == 0);
 
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
+    container.add(label1.get());
+
     REQUIRE(container.getChildrenCount() == 1);
 
-    container.add(label2);
+    container.add(label2.get());
+
     REQUIRE(container.getChildrenCount() == 2);
 
-    container.add(label3);
-    REQUIRE(container.getChildrenCount() == 3);
+    container.add(label3.get());
 
-    // Cleanup
-    delete label1;
-    delete label2;
-    delete label3;
+    REQUIRE(container.getChildrenCount() == 3);
 }
 
 TEST_CASE("Container getChild with valid index", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
 
-    container.add(label1);
-    container.add(label2);
+    container.add(label1.get());
 
-    REQUIRE(container.getChild(0) == label1);
-    REQUIRE(container.getChild(1) == label2);
+    container.add(label2.get());
 
-    // Cleanup
-    delete label1;
-    delete label2;
+    REQUIRE(container.getChild(0) == label1.get());
+    REQUIRE(container.getChild(1) == label2.get());
 }
 
 TEST_CASE("Container getChild with out-of-range index returns nullptr", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Label1");
+    auto label = std::make_unique<Label>("Label1");
 
-    container.add(label);
+    container.add(label.get());
 
-    REQUIRE(container.getChild(0) == label);
+    REQUIRE(container.getChild(0) == label.get());
     REQUIRE(container.getChild(1) == nullptr);
     REQUIRE(container.getChild(100) == nullptr);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container getChild with index 0 on empty container returns nullptr", "[unit][container]")
@@ -263,36 +247,30 @@ TEST_CASE("Container getChild with index 0 on empty container returns nullptr", 
 TEST_CASE("Container findWidgetById finds correct widget", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
 
     label1->setId("label1");
     label2->setId("label2");
 
-    container.add(label1);
-    container.add(label2);
+    container.add(label1.get());
 
-    REQUIRE(container.findWidgetById("label1") == label1);
-    REQUIRE(container.findWidgetById("label2") == label2);
+    container.add(label2.get());
 
-    // Cleanup
-    delete label1;
-    delete label2;
+    REQUIRE(container.findWidgetById("label1") == label1.get());
+    REQUIRE(container.findWidgetById("label2") == label2.get());
 }
 
 TEST_CASE("Container findWidgetById with non-existent ID returns nullptr", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Label1");
+    auto label = std::make_unique<Label>("Label1");
 
     label->setId("label1");
-    container.add(label);
+    container.add(label.get());
 
     REQUIRE(container.findWidgetById("nonexistent") == nullptr);
     REQUIRE(container.findWidgetById("") == nullptr);
-
-    // Cleanup
-    delete label;
 }
 
 // ============================================================================
@@ -473,35 +451,30 @@ TEST_CASE("Container widgetAdded event fires when adding widget", "[unit][contai
 {
     Container container;
     TestContainerListener listener;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
     container.addContainerListener(&listener);
-    container.add(label);
+    container.add(label.get());
 
     REQUIRE(listener.mWidgetAddedCalled == true);
-    REQUIRE(listener.mLastAddedWidget == label);
+    REQUIRE(listener.mLastAddedWidget == label.get());
     REQUIRE(listener.mLastContainer == &container);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container widgetRemoved event fires when removing widget", "[unit][container]")
 {
     Container container;
     TestContainerListener listener;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
-    container.add(label);
+    container.add(label.get());
+
     container.addContainerListener(&listener);
-    container.remove(label);
+    container.remove(label.get());
 
     REQUIRE(listener.mWidgetRemovedCalled == true);
-    REQUIRE(listener.mLastRemovedWidget == label);
+    REQUIRE(listener.mLastRemovedWidget == label.get());
     REQUIRE(listener.mLastContainer == &container);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container events fire with addWidget unique_ptr", "[unit][container]")
@@ -544,9 +517,9 @@ TEST_CASE("Container resizeToContent with Absolute layout does nothing", "[unit]
     Container container;
     container.setSize(100, 100);
 
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
     label->setSize(50, 30);
-    container.add(label, 10, 10);
+    container.add(label.get(), 10, 10);
 
     // With Absolute layout, resizeToContent should not change container size
     int const originalWidth  = container.getWidth();
@@ -556,9 +529,6 @@ TEST_CASE("Container resizeToContent with Absolute layout does nothing", "[unit]
 
     REQUIRE(container.getWidth() == originalWidth);
     REQUIRE(container.getHeight() == originalHeight);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container resizeToContent with AutoSize layout", "[unit][container]")
@@ -567,10 +537,10 @@ TEST_CASE("Container resizeToContent with AutoSize layout", "[unit][container]")
     container.setLayout(Container::LayoutPolicy::AutoSize);
     container.setSize(200, 200);
 
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
     label->setSize(50, 30);
     label->setPosition(10, 10);
-    container.add(label);
+    container.add(label.get());
 
     container.resizeToContent(false);
 
@@ -578,9 +548,6 @@ TEST_CASE("Container resizeToContent with AutoSize layout", "[unit][container]")
     // The exact size depends on implementation, but should be > 0
     REQUIRE(container.getWidth() > 0);
     REQUIRE(container.getHeight() > 0);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container adjustSize", "[unit][container]")
@@ -588,18 +555,15 @@ TEST_CASE("Container adjustSize", "[unit][container]")
     Container container;
     container.setSize(100, 100);
 
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
     label->setSize(50, 30);
-    container.add(label);
+    container.add(label.get());
 
     container.adjustSize();
 
     // adjustSize should resize container based on children
     REQUIRE(container.getWidth() > 0);
     REQUIRE(container.getHeight() > 0);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container isLayouted returns true when layout != Absolute", "[unit][container]")
@@ -702,65 +666,52 @@ TEST_CASE("Container getChildrenArea with side-only border", "[unit][container]"
 TEST_CASE("Container setBackgroundWidget and getBackgroundWidget", "[unit][container]")
 {
     Container container;
-    Label* bgWidget = new Label("Background");
+    auto bgWidget = std::make_unique<Label>("Background");
 
-    container.setBackgroundWidget(bgWidget);
+    container.setBackgroundWidget(bgWidget.get());
 
-    REQUIRE(container.getBackgroundWidget() == bgWidget);
+    REQUIRE(container.getBackgroundWidget() == bgWidget.get());
 
     // Background widget is not a child
     REQUIRE(container.getChildrenCount() == 0);
-
-    // Cleanup
-    delete bgWidget;
 }
 
 TEST_CASE("Container setBackgroundWidget same widget twice returns early", "[unit][container]")
 {
     Container container;
-    Label* bgWidget = new Label("Background");
+    auto bgWidget = std::make_unique<Label>("Background");
 
-    container.setBackgroundWidget(bgWidget);
-    REQUIRE(container.getBackgroundWidget() == bgWidget);
+    container.setBackgroundWidget(bgWidget.get());
+    REQUIRE(container.getBackgroundWidget() == bgWidget.get());
 
     // Setting same widget again should return early (no crash)
-    container.setBackgroundWidget(bgWidget);
-    REQUIRE(container.getBackgroundWidget() == bgWidget);
-
-    // Cleanup
-    delete bgWidget;
+    container.setBackgroundWidget(bgWidget.get());
+    REQUIRE(container.getBackgroundWidget() == bgWidget.get());
 }
 
 TEST_CASE("Container setBackgroundWidget to nullptr", "[unit][container]")
 {
     Container container;
-    Label* bgWidget = new Label("Background");
+    auto bgWidget = std::make_unique<Label>("Background");
 
-    container.setBackgroundWidget(bgWidget);
-    REQUIRE(container.getBackgroundWidget() == bgWidget);
+    container.setBackgroundWidget(bgWidget.get());
+    REQUIRE(container.getBackgroundWidget() == bgWidget.get());
 
     container.setBackgroundWidget(nullptr);
     REQUIRE(container.getBackgroundWidget() == nullptr);
-
-    // Cleanup
-    delete bgWidget;
 }
 
 TEST_CASE("Container setBackgroundWidget replaces old widget", "[unit][container]")
 {
     Container container;
-    Label* bg1 = new Label("BG1");
-    Label* bg2 = new Label("BG2");
+    auto bg1 = std::make_unique<Label>("BG1");
+    auto bg2 = std::make_unique<Label>("BG2");
 
-    container.setBackgroundWidget(bg1);
-    REQUIRE(container.getBackgroundWidget() == bg1);
+    container.setBackgroundWidget(bg1.get());
+    REQUIRE(container.getBackgroundWidget() == bg1.get());
 
-    container.setBackgroundWidget(bg2);
-    REQUIRE(container.getBackgroundWidget() == bg2);
-
-    // Cleanup
-    delete bg1;
-    delete bg2;
+    container.setBackgroundWidget(bg2.get());
+    REQUIRE(container.getBackgroundWidget() == bg2.get());
 }
 
 // ============================================================================
@@ -770,100 +721,88 @@ TEST_CASE("Container setBackgroundWidget replaces old widget", "[unit][container
 TEST_CASE("Container moveToTop changes widget order", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
-    container.add(label2);
-    container.add(label3);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
+    container.add(label3.get());
 
     // Initially label1 is at index 0, label3 at index 2
-    REQUIRE(container.getChild(0) == label1);
-    REQUIRE(container.getChild(2) == label3);
+    REQUIRE(container.getChild(0) == label1.get());
+    REQUIRE(container.getChild(2) == label3.get());
 
     // Move label1 to top (end of list)
-    container.moveToTop(label1);
+    container.moveToTop(label1.get());
 
     // Now label1 should be at the end
-    REQUIRE(container.getChild(0) == label2);
-    REQUIRE(container.getChild(1) == label3);
-    REQUIRE(container.getChild(2) == label1);
-
-    // Cleanup
-    delete label1;
-    delete label2;
-    delete label3;
+    REQUIRE(container.getChild(0) == label2.get());
+    REQUIRE(container.getChild(1) == label3.get());
+    REQUIRE(container.getChild(2) == label1.get());
 }
 
 TEST_CASE("Container moveToBottom changes widget order", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
-    container.add(label2);
-    container.add(label3);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
+    container.add(label3.get());
 
     // Initially label1 is at index 0, label3 at index 2
-    REQUIRE(container.getChild(0) == label1);
-    REQUIRE(container.getChild(2) == label3);
+    REQUIRE(container.getChild(0) == label1.get());
+    REQUIRE(container.getChild(2) == label3.get());
 
     // Move label3 to bottom (beginning of list)
-    container.moveToBottom(label3);
+    container.moveToBottom(label3.get());
 
     // Now label3 should be at the beginning
-    REQUIRE(container.getChild(0) == label3);
-    REQUIRE(container.getChild(1) == label1);
-    REQUIRE(container.getChild(2) == label2);
-
-    // Cleanup
-    delete label1;
-    delete label2;
-    delete label3;
+    REQUIRE(container.getChild(0) == label3.get());
+    REQUIRE(container.getChild(1) == label1.get());
+    REQUIRE(container.getChild(2) == label2.get());
 }
 
 TEST_CASE("Container verify order preserved after multiple adds", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
-    container.add(label2);
-    container.add(label3);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
+    container.add(label3.get());
 
     // Verify order is preserved
-    REQUIRE(container.getChild(0) == label1);
-    REQUIRE(container.getChild(1) == label2);
-    REQUIRE(container.getChild(2) == label3);
-
-    // Cleanup
-    delete label1;
-    delete label2;
-    delete label3;
+    REQUIRE(container.getChild(0) == label1.get());
+    REQUIRE(container.getChild(1) == label2.get());
+    REQUIRE(container.getChild(2) == label3.get());
 }
 
 TEST_CASE("Container moveToTop non-existent widget throws", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
 
-    container.add(label1);
+    container.add(label1.get());
+
     REQUIRE(container.getChildrenCount() == 1);
 
     // Moving widget not in container should throw
-    REQUIRE_THROWS(container.moveToTop(label2));
+    REQUIRE_THROWS(container.moveToTop(label2.get()));
     REQUIRE(container.getChildrenCount() == 1);
-    REQUIRE(container.getChild(0) == label1);
-
-    // Cleanup
-    delete label1;
-    delete label2;
+    REQUIRE(container.getChild(0) == label1.get());
 }
 
 // ============================================================================
@@ -888,28 +827,24 @@ TEST_CASE("Container operations on empty container", "[unit][container]")
 
     // moveToTop/moveToBottom with widget not in container throws
     // These are expected to throw, so we test they throw
-    Label* notInContainer = new Label("not in");
-    REQUIRE_THROWS(container.moveToTop(notInContainer));
-    REQUIRE_THROWS(container.moveToBottom(notInContainer));
-    delete notInContainer;
+    auto notInContainer = std::make_unique<Label>("not in");
+    REQUIRE_THROWS(container.moveToTop(notInContainer.get()));
+    REQUIRE_THROWS(container.moveToBottom(notInContainer.get()));
 }
 
 TEST_CASE("Container remove widget not in container", "[unit][container]")
 {
     Container container;
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
 
-    container.add(label1);
+    container.add(label1.get());
+
     REQUIRE(container.getChildrenCount() == 1);
 
     // Removing widget not in container should throw
-    REQUIRE_THROWS(container.remove(label2));
+    REQUIRE_THROWS(container.remove(label2.get()));
     REQUIRE(container.getChildrenCount() == 1);
-
-    // Cleanup
-    delete label1;
-    delete label2;
 }
 
 TEST_CASE("Container multiple children verify count and order", "[unit][container]")
@@ -918,37 +853,29 @@ TEST_CASE("Container multiple children verify count and order", "[unit][containe
 
     REQUIRE(container.getChildrenCount() == 0);
 
-    Label* labels[5];
+    std::array<std::unique_ptr<Label>, 5> labels;
     for (int i = 0; i < 5; ++i) {
-        labels[i] = new Label("Label" + std::to_string(i));
-        container.add(labels[i]);
+        labels[i] = std::make_unique<Label>("Label" + std::to_string(i));
+        container.add(labels[i].get());
         REQUIRE(container.getChildrenCount() == static_cast<unsigned int>(i + 1));
     }
 
     // Verify all children are in correct order
     for (unsigned int i = 0; i < 5; ++i) {
-        REQUIRE(container.getChild(i) == labels[i]);
-    }
-
-    // Cleanup
-    for (auto& label : labels) {
-        delete label;
+        REQUIRE(container.getChild(i) == labels[i].get());
     }
 }
 
 TEST_CASE("Container add widget with negative position", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
-    container.add(label, -10, -20);
+    container.add(label.get(), -10, -20);
 
     REQUIRE(container.getChildrenCount() == 1);
     REQUIRE(label->getX() == -10);
     REQUIRE(label->getY() == -20);
-
-    // Cleanup
-    delete label;
 }
 
 TEST_CASE("Container setOpacity multiple times", "[unit][container]")
@@ -971,9 +898,9 @@ TEST_CASE("Container setOpacity multiple times", "[unit][container]")
 TEST_CASE("Container visibility", "[unit][container]")
 {
     Container container;
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
 
-    container.add(label);
+    container.add(label.get());
 
     // Container visible by default
     REQUIRE(container.isVisible() == true);
@@ -985,8 +912,7 @@ TEST_CASE("Container visibility", "[unit][container]")
     REQUIRE(container.isVisible() == true);
 
     // Cleanup - remove from container before deleting
-    container.remove(label);
-    delete label;
+    container.remove(label.get());
 }
 
 TEST_CASE("Container resizeToContent with recursion", "[unit][container]")
@@ -995,23 +921,19 @@ TEST_CASE("Container resizeToContent with recursion", "[unit][container]")
     container.setLayout(Container::LayoutPolicy::Vertical);
 
     // Create child container with its own children
-    Container* childContainer = new Container();
+    auto childContainer = std::make_unique<Container>();
     childContainer->setLayout(Container::LayoutPolicy::Vertical);
-    Label* label = new Label("Test");
+    auto label = std::make_unique<Label>("Test");
     label->setSize(50, 20);
-    childContainer->add(label);
+    childContainer->add(label.get());
 
-    container.add(childContainer);
+    container.add(childContainer.get());
 
     // With recursion=true, child container should also resize
     container.resizeToContent(true);
 
     REQUIRE(container.getWidth() > 0);
     REQUIRE(container.getHeight() > 0);
-
-    // Cleanup
-    delete label;
-    delete childContainer;
 }
 
 TEST_CASE("Container expandContent with Vertical layout", "[unit][container]")
@@ -1020,13 +942,14 @@ TEST_CASE("Container expandContent with Vertical layout", "[unit][container]")
     container.setLayout(Container::LayoutPolicy::Vertical);
     container.setSize(200, 200);
 
-    Label* label1 = new Label("Label1");
+    auto label1 = std::make_unique<Label>("Label1");
     label1->setSize(50, 30);
-    Label* label2 = new Label("Label2");
+    auto label2 = std::make_unique<Label>("Label2");
     label2->setSize(50, 30);
 
-    container.add(label1);
-    container.add(label2);
+    container.add(label1.get());
+
+    container.add(label2.get());
 
     // First position children with resizeToContent, then expand
     container.resizeToContent(false);
@@ -1035,10 +958,6 @@ TEST_CASE("Container expandContent with Vertical layout", "[unit][container]")
     // Children should have been positioned by the layout
     // After resizeToContent + expandContent, label2 should be below label1
     REQUIRE(label2->getY() > label1->getY());
-
-    // Cleanup
-    delete label1;
-    delete label2;
 }
 
 TEST_CASE("Container expandContent with Horizontal layout", "[unit][container]")
@@ -1047,13 +966,14 @@ TEST_CASE("Container expandContent with Horizontal layout", "[unit][container]")
     container.setLayout(Container::LayoutPolicy::Horizontal);
     container.setSize(200, 200);
 
-    Label* label1 = new Label("Label1");
+    auto label1 = std::make_unique<Label>("Label1");
     label1->setSize(50, 30);
-    Label* label2 = new Label("Label2");
+    auto label2 = std::make_unique<Label>("Label2");
     label2->setSize(50, 30);
 
-    container.add(label1);
-    container.add(label2);
+    container.add(label1.get());
+
+    container.add(label2.get());
 
     // expandContent should distribute space among children
     container.expandContent(false);
@@ -1061,10 +981,6 @@ TEST_CASE("Container expandContent with Horizontal layout", "[unit][container]")
     // Children should have been positioned by the layout
     REQUIRE(label1->getX() >= 0);
     REQUIRE(label2->getX() > label1->getX()); // label2 should be to the right of label1
-
-    // Cleanup
-    delete label1;
-    delete label2;
 }
 
 TEST_CASE("Container with hidden children in layout", "[unit][container]")
@@ -1072,13 +988,15 @@ TEST_CASE("Container with hidden children in layout", "[unit][container]")
     Container container;
     container.setLayout(Container::LayoutPolicy::Vertical);
 
-    Label* label1 = new Label("Label1");
-    Label* label2 = new Label("Label2");
-    Label* label3 = new Label("Label3");
+    auto label1 = std::make_unique<Label>("Label1");
+    auto label2 = std::make_unique<Label>("Label2");
+    auto label3 = std::make_unique<Label>("Label3");
 
-    container.add(label1);
-    container.add(label2);
-    container.add(label3);
+    container.add(label1.get());
+
+    container.add(label2.get());
+
+    container.add(label3.get());
 
     // Hide one child
     label2->setVisible(false);
@@ -1090,9 +1008,6 @@ TEST_CASE("Container with hidden children in layout", "[unit][container]")
 
     // Remove widgets from container before deleting to avoid segfault
     container.removeAllChildren();
-    delete label1;
-    delete label2;
-    delete label3;
 }
 
 TEST_CASE("Container child widget positions with Vertical layout", "[unit][container]")
@@ -1101,27 +1016,24 @@ TEST_CASE("Container child widget positions with Vertical layout", "[unit][conta
     container.setLayout(Container::LayoutPolicy::Vertical);
     container.setSize(300, 300);
 
-    Label* label1 = new Label("Label1");
+    auto label1 = std::make_unique<Label>("Label1");
     label1->setSize(100, 20);
-    Label* label2 = new Label("Label2");
+    auto label2 = std::make_unique<Label>("Label2");
     label2->setSize(100, 20);
-    Label* label3 = new Label("Label3");
+    auto label3 = std::make_unique<Label>("Label3");
     label3->setSize(100, 20);
 
-    container.add(label1, 0, 0);
-    container.add(label2, 0, 0);
-    container.add(label3, 0, 0);
+    container.add(label1.get(), 0, 0);
+
+    container.add(label2.get(), 0, 0);
+
+    container.add(label3.get(), 0, 0);
 
     container.resizeToContent(false);
 
     // In vertical layout, Y positions should increase
     // (assuming resizeToContent positions them)
     REQUIRE(container.getChildrenCount() == 3);
-
-    // Cleanup
-    delete label1;
-    delete label2;
-    delete label3;
 }
 
 TEST_CASE("Container draw method can be called", "[unit][container]")

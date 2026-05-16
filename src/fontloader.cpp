@@ -40,7 +40,7 @@ namespace fcn::font
             std::array<char, PATH_MAX> path{};
             ssize_t const len = readlink("/proc/self/exe", path.data(), path.size() - 1);
             if (len != -1) {
-                path[static_cast<size_t>(len)] = '\0';
+                path.at(static_cast<size_t>(len)) = '\0';
                 return {path.data()};
             }
             return {};

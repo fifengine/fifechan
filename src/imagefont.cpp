@@ -27,151 +27,155 @@
 
 namespace fcn
 {
-    /**
-     * Find most frequent RGB color along image borders
-     */
-    static Color getBorderDominantColor(Image* img)
+    namespace
     {
-        int const w = img->getWidth();
-        int const h = img->getHeight();
-        if (w <= 0 || h <= 0) {
-            return Color{0, 0, 0, 255};
-        }
-
-        struct RGB
+        /**
+         * Find most frequent RGB color along image borders
+         */
+        Color getBorderDominantColor(Image* img)
         {
-                uint8_t r, g, b;
-                bool operator<(RGB const & o) const
-                {
-                    if (r != o.r) {
-                        return r < o.r;
-                    }
-                    if (g != o.g) {
-                        return g < o.g;
-                    }
-                    return b < o.b;
-                }
-        };
-        std::map<RGB, int> freq;
-
-        auto count = [&](int x, int y) {
-            Color const c = img->getPixel(x, y);
-            ++freq[{.r = c.r, .g = c.g, .b = c.b}];
-        };
-
-        for (int x = 0; x < w; ++x) {
-            count(x, 0);
-            count(x, h - 1);
-        }
-        for (int y = 1; y < h - 1; ++y) {
-            count(0, y);
-            count(w - 1, y);
-        }
-
-        RGB best     = {.r = 0, .g = 0, .b = 0};
-        int maxCount = 0;
-        for (auto const & p : freq) {
-            if (p.second > maxCount) {
-                maxCount = p.second;
-                best     = p.first;
+            int const w = img->getWidth();
+            int const h = img->getHeight();
+            if (w <= 0 || h <= 0) {
+                return Color{0, 0, 0, 255};
             }
-        }
-        return Color{best.r, best.g, best.b, static_cast<uint8_t>(255)};
-    }
 
-    static Color resolveSeparator(Image* img, ImageFontConfig const & cfg)
-    {
-        switch (cfg.strategy) {
-        case SeparatorStrategy::ExplicitColor:
-            return cfg.explicitSeparator;
-        case SeparatorStrategy::BorderDominant:
-            return getBorderDominantColor(img);
-        case SeparatorStrategy::PixelAtOrigin:
-            return img->getPixel(0, 0);
-        case SeparatorStrategy::Auto:
-        default:
-            return img->getPixel(0, 0);
-        }
-    }
+            struct RGB
+            {
+                    uint8_t r, g, b;
+                    bool operator<(RGB const & o) const
+                    {
+                        if (r != o.r) {
+                            return r < o.r;
+                        }
+                        if (g != o.g) {
+                            return g < o.g;
+                        }
+                        return b < o.b;
+                    }
+            };
+            std::map<RGB, int> freq;
 
-    static inline bool isSeparator(Color const & p, Color const & sep)
-    {
-        return p.r == sep.r && p.g == sep.g && p.b == sep.b;
-    }
+            auto count = [&](int x, int y) {
+                Color const c = img->getPixel(x, y);
+                ++freq[{.r = c.r, .g = c.g, .b = c.b}];
+            };
 
-    static std::vector<Rectangle> scanGlyphs(
-        Image* img, int expectedCount, Color const & sep, int padding, bool /*verbose*/)
-    {
-        int const w = img->getWidth();
-        int const h = img->getHeight();
-        std::vector<Rectangle> found;
-
-        int startY      = 0;
-        bool foundStart = false;
-        for (int y = 0; y < h && !foundStart; ++y) {
             for (int x = 0; x < w; ++x) {
-                if (!isSeparator(img->getPixel(x, y), sep)) {
-                    startY     = y;
-                    foundStart = true;
-                    break;
+                count(x, 0);
+                count(x, h - 1);
+            }
+            for (int y = 1; y < h - 1; ++y) {
+                count(0, y);
+                count(w - 1, y);
+            }
+
+            RGB best     = {.r = 0, .g = 0, .b = 0};
+            int maxCount = 0;
+            for (auto const & p : freq) {
+                if (p.second > maxCount) {
+                    maxCount = p.second;
+                    best     = p.first;
                 }
             }
-        }
-        if (!foundStart) {
-            throwException("Image contains no glyph content");
+            return Color{best.r, best.g, best.b, static_cast<uint8_t>(255)};
         }
 
-        int ycur         = startY;
-        int maxRowHeight = 0;
+        Color resolveSeparator(Image* img, ImageFontConfig const & cfg)
+        {
+            switch (cfg.strategy) {
+            case SeparatorStrategy::ExplicitColor:
+                return cfg.explicitSeparator;
+            case SeparatorStrategy::BorderDominant:
+                return getBorderDominantColor(img);
+            case SeparatorStrategy::PixelAtOrigin:
+            case SeparatorStrategy::Auto:
+            default:
+                return img->getPixel(0, 0);
+            }
+        }
 
-        while (ycur < h && std::cmp_less(found.size(), expectedCount)) {
-            int rowEnd = ycur;
-            for (; rowEnd < h; ++rowEnd) {
-                bool hasContent = false;
+        bool isSeparator(Color const & p, Color const & sep)
+        {
+            return p.r == sep.r && p.g == sep.g && p.b == sep.b;
+        }
+
+        std::vector<Rectangle> scanGlyphs(
+            Image* img, int expectedCount, Color const & sep, int padding, bool /*verbose*/)
+        {
+            int const w = img->getWidth();
+            int const h = img->getHeight();
+            std::vector<Rectangle> found;
+
+            int startY      = 0;
+            bool foundStart = false;
+            for (int y = 0; y < h && !foundStart; ++y) {
                 for (int x = 0; x < w; ++x) {
-                    if (!isSeparator(img->getPixel(x, rowEnd), sep)) {
-                        hasContent = true;
+                    if (!isSeparator(img->getPixel(x, y), sep)) {
+                        startY     = y;
+                        foundStart = true;
                         break;
                     }
                 }
-                if (!hasContent) {
+            }
+            if (!foundStart) {
+                throwException("Image contains no glyph content");
+            }
+
+            int ycur         = startY;
+            int maxRowHeight = 0;
+
+            while (ycur < h && std::cmp_less(found.size(), expectedCount)) {
+                int rowEnd = ycur;
+                for (; rowEnd < h; ++rowEnd) {
+                    bool hasContent = false;
+                    for (int x = 0; x < w; ++x) {
+                        if (!isSeparator(img->getPixel(x, rowEnd), sep)) {
+                            hasContent = true;
+                            break;
+                        }
+                    }
+                    if (!hasContent) {
+                        break;
+                    }
+                }
+                if (rowEnd == ycur) {
                     break;
                 }
-            }
-            if (rowEnd == ycur) {
-                break;
-            }
 
-            int const rowH = rowEnd - ycur;
-            maxRowHeight   = std::max(maxRowHeight, rowH);
+                int const rowH = rowEnd - ycur;
+                maxRowHeight   = std::max(maxRowHeight, rowH);
 
-            auto isSepCol = [&](int col) {
-                // Check top and bottom of column (matches fixedfont.bmp and rpgfont.png)
-                return isSeparator(img->getPixel(col, ycur), sep) && isSeparator(img->getPixel(col, rowEnd - 1), sep);
-            };
+                auto isSepCol = [&](int col) {
+                    // Check top and bottom of column (matches fixedfont.bmp and rpgfont.png)
+                    return isSeparator(img->getPixel(col, ycur), sep) &&
+                           isSeparator(img->getPixel(col, rowEnd - 1), sep);
+                };
 
-            int xcur = 0;
-            while (xcur < w && std::cmp_less(found.size(), expectedCount)) {
-                while (xcur < w && isSepCol(xcur)) {
-                    ++xcur;
+                int xcur = 0;
+                while (xcur < w && std::cmp_less(found.size(), expectedCount)) {
+                    while (xcur < w && isSepCol(xcur)) {
+                        ++xcur;
+                    }
+                    if (xcur >= w) {
+                        break;
+                    }
+
+                    int const sx = xcur;
+                    while (xcur < w && !isSepCol(xcur)) {
+                        ++xcur;
+                    }
+
+                    int const width  = std::max(1, xcur - sx - (padding * 2));
+                    int const height = std::max(1, rowH - (padding * 2));
+                    found.emplace_back(sx + padding, ycur + padding, width, height);
                 }
-                if (xcur >= w) {
-                    break;
-                }
-
-                int const sx = xcur;
-                while (xcur < w && !isSepCol(xcur)) {
-                    ++xcur;
-                }
-
-                int const width  = std::max(1, xcur - sx - (padding * 2));
-                int const height = std::max(1, rowH - (padding * 2));
-                found.emplace_back(sx + padding, ycur + padding, width, height);
+                ycur = rowEnd + 1;
             }
-            ycur = rowEnd + 1;
+            return found;
         }
-        return found;
-    }
+
+    } // anonymous namespace
 
     ImageFont::ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config) :
         mFilename(filename), mImage(Image::load(filename, false))
@@ -208,7 +212,7 @@ namespace fcn
             std::cerr << "[ImageFont] Loaded '" << mFilename << "' ExpectedGlyphs=" << expected
                       << " Found=" << found.size() << " Separator=R:" << static_cast<int>(sep.r)
                       << " G:" << static_cast<int>(sep.g) << " B:" << static_cast<int>(sep.b) << "\n";
-            for (char glyph : glyphs) {
+            for (char const glyph : glyphs) {
                 unsigned char const c = static_cast<unsigned char>(glyph);
                 Rectangle const & r   = mGlyph.at(c);
                 std::cerr << "  glyph '" << glyph << "' (" << static_cast<int>(c) << ") -> x=" << r.x << " y=" << r.y

@@ -237,15 +237,15 @@ namespace fcn
         std::vector<float> xrhs(static_cast<size_t>(n));
         std::vector<float> yrhs(static_cast<size_t>(n));
         // first
-        xrhs[0] = static_cast<float>(points.at(0).x + (2 * points.at(1).x));
-        yrhs[0] = static_cast<float>(points.at(0).y + (2 * points.at(1).y));
+        xrhs.at(0) = static_cast<float>(points.at(0).x + (2 * points.at(1).x));
+        yrhs.at(0) = static_cast<float>(points.at(0).y + (2 * points.at(1).y));
         // last
-        xrhs[n - 1] = static_cast<float>(((8 * points.at(n - 1).x) + points.at(n).x) / 2.0F);
-        yrhs[n - 1] = static_cast<float>(((8 * points.at(n - 1).y) + points.at(n).y) / 2.0F);
+        xrhs.at(n - 1) = static_cast<float>(((8 * points.at(n - 1).x) + points.at(n).x) / 2.0F);
+        yrhs.at(n - 1) = static_cast<float>(((8 * points.at(n - 1).y) + points.at(n).y) / 2.0F);
         // rest
         for (int i = 1; i < n - 1; ++i) {
-            xrhs[i] = static_cast<float>((4 * points.at(i).x) + (2 * points.at(i + 1).x));
-            yrhs[i] = static_cast<float>((4 * points.at(i).y) + (2 * points.at(i + 1).y));
+            xrhs.at(i) = static_cast<float>((4 * points.at(i).x) + (2 * points.at(i + 1).x));
+            yrhs.at(i) = static_cast<float>((4 * points.at(i).y) + (2 * points.at(i + 1).y));
         }
 
         std::vector<float> x(static_cast<size_t>(n));
@@ -254,40 +254,40 @@ namespace fcn
         std::vector<float> ytmp(static_cast<size_t>(n));
         float xb = 2.0;
         float yb = 2.0;
-        x[0]     = xrhs[0] / xb;
-        y[0]     = yrhs[0] / yb;
+        x.at(0)  = xrhs.at(0) / xb;
+        y.at(0)  = yrhs.at(0) / yb;
         // Decomposition and forward substitution.
         for (int i = 1; i < n; i++) {
-            xtmp[i] = 1 / xb;
-            ytmp[i] = 1 / yb;
-            xb      = (i < n - 1 ? 4.0F : 3.5F) - xtmp[i];
-            yb      = (i < n - 1 ? 4.0F : 3.5F) - ytmp[i];
-            x[i]    = (xrhs[i] - x[i - 1]) / xb;
-            y[i]    = (yrhs[i] - y[i - 1]) / yb;
+            xtmp.at(i) = 1 / xb;
+            ytmp.at(i) = 1 / yb;
+            xb         = (i < n - 1 ? 4.0F : 3.5F) - xtmp.at(i);
+            yb         = (i < n - 1 ? 4.0F : 3.5F) - ytmp.at(i);
+            x.at(i)    = (xrhs.at(i) - x.at(i - 1)) / xb;
+            y.at(i)    = (yrhs.at(i) - y.at(i - 1)) / yb;
         }
         // Backward substitution
         for (int i = 1; i < n; i++) {
-            x[n - i - 1] -= xtmp[n - i] * x[n - i];
-            y[n - i - 1] -= ytmp[n - i] * y[n - i];
+            x.at(n - i - 1) -= xtmp.at(n - i) * x.at(n - i);
+            y.at(n - i - 1) -= ytmp.at(n - i) * y.at(n - i);
         }
 
         // start point
         newPoints.push_back(points.at(0));
         for (int i = 0; i < n - 1; ++i) {
-            p.x = static_cast<int>(x[i]);
-            p.y = static_cast<int>(y[i]);
+            p.x = static_cast<int>(x.at(i));
+            p.y = static_cast<int>(y.at(i));
             newPoints.push_back(p);
-            p.x = static_cast<int>((2 * points.at(i + 1).x) - x[i + 1]);
-            p.y = static_cast<int>((2 * points.at(i + 1).y) - y[i + 1]);
+            p.x = static_cast<int>((2 * points.at(i + 1).x) - x.at(i + 1));
+            p.y = static_cast<int>((2 * points.at(i + 1).y) - y.at(i + 1));
             newPoints.push_back(p);
 
             newPoints.push_back(points.at(i + 1));
         }
-        p.x = static_cast<int>(x[n - 1]);
-        p.y = static_cast<int>(y[n - 1]);
+        p.x = static_cast<int>(x.at(n - 1));
+        p.y = static_cast<int>(y.at(n - 1));
         newPoints.push_back(p);
-        p.x = static_cast<int>((points.at(n).x + x[n - 1]) / 2);
-        p.y = static_cast<int>((points.at(n).y + y[n - 1]) / 2);
+        p.x = static_cast<int>((points.at(n).x + x.at(n - 1)) / 2);
+        p.y = static_cast<int>((points.at(n).y + y.at(n - 1)) / 2);
         newPoints.push_back(p);
         // end point
         newPoints.push_back(points.at(n));

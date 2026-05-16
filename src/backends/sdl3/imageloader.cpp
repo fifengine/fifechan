@@ -53,13 +53,13 @@ namespace fcn::sdl3
             throwException((std::string("Not enough memory to load: ") + filename));
         }
 
-        Image* image = new Image(surface, true, mRenderer);
+        auto image = std::make_unique<Image>(surface, true, mRenderer);
 
         if (convertToDisplayFormat) {
             image->convertToDisplayFormat();
         }
 
-        return image;
+        return image.release();
     }
 
     void ImageLoader::setRenderer(SDL_Renderer* renderer)

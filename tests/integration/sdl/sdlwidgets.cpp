@@ -147,6 +147,7 @@ namespace
             }
         }
 
+        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         delete widget;
     }
 } // namespace
@@ -292,7 +293,7 @@ void Application::init_GUI(int width, int height)
     auto keepTab = [this](std::unique_ptr<fcn::Tab> t) -> fcn::Tab* {
         // Tab derives from Widget, so store as Widget in tabWidgets
         tabWidgets.push_back(std::move(t));
-        return static_cast<fcn::Tab*>(tabWidgets.back().get());
+        return dynamic_cast<fcn::Tab*>(tabWidgets.back().get());
     };
 
     auto addCaption = [&](std::string const & caption, int x, int y) {
@@ -670,7 +671,7 @@ void Application::run()
                 }
                 if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
                     uint32_t const flags = SDL_GetWindowFlags(window.get()) & SDL_WINDOW_FULLSCREEN;
-                    SDL_SetWindowFullscreen(window.get(), flags != 0 ? false : SDL_WINDOW_FULLSCREEN);
+                    SDL_SetWindowFullscreen(window.get(), flags == 0);
                 }
             }
             if (event.type == SDL_EVENT_QUIT) {

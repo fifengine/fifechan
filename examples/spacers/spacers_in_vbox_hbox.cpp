@@ -26,27 +26,30 @@
 
 #include <fifechan.hpp>
 
-class MyActionListener : public fcn::ActionListener
+namespace
 {
-        fcn::Container* mParent;
+    class MyActionListener : public fcn::ActionListener
+    {
+            fcn::Container* mParent;
 
-    public:
-        explicit MyActionListener(fcn::Container* parent) : mParent(parent)
-        {
-        }
-
-        void action(fcn::ActionEvent const & e) override
-        {
-            fcn::Widget* w = e.getSource();
-
-            if (w->getParent() == mParent) {
-                mParent->remove(w);
+        public:
+            explicit MyActionListener(fcn::Container* parent) : mParent(parent)
+            {
             }
-        }
-};
+
+            void action(fcn::ActionEvent const & e) override
+            {
+                fcn::Widget* w = e.getSource();
+
+                if (w->getParent() == mParent) {
+                    mParent->remove(w);
+                }
+            }
+    };
+} // anonymous namespace
 
 int main(int /*argc*/, char** /*argv*/)
-{
+try {
     auto input       = std::unique_ptr<fcn::sdl3::Input>();
     auto graphics    = std::unique_ptr<fcn::sdl3::Graphics>();
     auto imageLoader = std::unique_ptr<fcn::sdl3::ImageLoader>();
@@ -203,4 +206,6 @@ int main(int /*argc*/, char** /*argv*/)
     SDL_Quit();
 
     return exitCode;
+} catch (...) {
+    return 1;
 }

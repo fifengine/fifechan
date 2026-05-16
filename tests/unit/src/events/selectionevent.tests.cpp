@@ -4,6 +4,9 @@
 // Corresponding header include
 #include "fifechan/events/selectionevent.hpp"
 
+// Standard library includes
+#include <array>
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
@@ -46,7 +49,7 @@ TEST_CASE("SelectionEvent with different widgets", "[unit][selectionevent]")
 
 TEST_CASE("SelectionEvent multiple events", "[unit][selectionevent]")
 {
-    Label widgets[5];
+    std::array<Label, 5> widgets;
 
     for (auto& widget : widgets) {
         SelectionEvent event(&widget);

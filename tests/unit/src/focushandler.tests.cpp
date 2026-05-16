@@ -17,54 +17,58 @@
 
 namespace fcn
 {
-    // ========================================================================
-    // Helper: concrete FocusListener that records events
-    // ========================================================================
-    class TestFocusListener : public FocusListener
+    namespace
     {
-        public:
-            void focusGained(Event const & event) override
-            {
-                mFocusGainedCount++;
-                mLastGainedSource = event.getSource();
-            }
+        // ========================================================================
+        // Helper: concrete FocusListener that records events
+        // ========================================================================
+        class TestFocusListener : public FocusListener
+        {
+            public:
+                void focusGained(Event const & event) override
+                {
+                    mFocusGainedCount++;
+                    mLastGainedSource = event.getSource();
+                }
 
-            void focusLost(Event const & event) override
-            {
-                mFocusLostCount++;
-                mLastLostSource = event.getSource();
-            }
+                void focusLost(Event const & event) override
+                {
+                    mFocusLostCount++;
+                    mLastLostSource = event.getSource();
+                }
 
-            int mFocusGainedCount     = 0;
-            int mFocusLostCount       = 0;
-            Widget* mLastGainedSource = nullptr;
-            Widget* mLastLostSource   = nullptr;
+                int mFocusGainedCount     = 0;
+                int mFocusLostCount       = 0;
+                Widget* mLastGainedSource = nullptr;
+                Widget* mLastLostSource   = nullptr;
 
-            void reset()
-            {
-                mFocusGainedCount = 0;
-                mFocusLostCount   = 0;
-                mLastGainedSource = nullptr;
-                mLastLostSource   = nullptr;
-            }
-    };
+                void reset()
+                {
+                    mFocusGainedCount = 0;
+                    mFocusLostCount   = 0;
+                    mLastGainedSource = nullptr;
+                    mLastLostSource   = nullptr;
+                }
+        };
 
-    // ========================================================================
-    // Helper: focusable Label subclass for testing
-    // ========================================================================
-    class FocusableLabel : public Label
-    {
-        public:
-            FocusableLabel()
-            {
-                setFocusable(true);
-            }
+        // ========================================================================
+        // Helper: focusable Label subclass for testing
+        // ========================================================================
+        class FocusableLabel : public Label
+        {
+            public:
+                FocusableLabel()
+                {
+                    setFocusable(true);
+                }
 
-            explicit FocusableLabel(std::string const & caption) : Label(caption)
-            {
-                setFocusable(true);
-            }
-    };
+                explicit FocusableLabel(std::string const & caption) : Label(caption)
+                {
+                    setFocusable(true);
+                }
+        };
+
+    } // anonymous namespace
 
 } // namespace fcn
 

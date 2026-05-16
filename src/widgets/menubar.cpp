@@ -26,7 +26,7 @@ namespace fcn
 
     Widget* MenuBar::addMenu(std::string const & text, MenuPopup* popup)
     {
-        auto* item = new MenuItem(text);
+        auto item = std::make_unique<MenuItem>(text);
 
         item->setType(MenuItem::Type::Submenu);
 
@@ -36,7 +36,7 @@ namespace fcn
 
         if (popup != nullptr) {
             item->setSubmenu(popup);
-            popup->setParentMenuItem(item);
+            popup->setParentMenuItem(item.get());
         }
 
         // If a popup is supplied, add it to the top-level container so
@@ -54,8 +54,8 @@ namespace fcn
             }
         }
 
-        add(item);
-        return item;
+        add(item.get());
+        return item.release();
     }
 
     void MenuBar::closeAll()
@@ -227,6 +227,6 @@ namespace fcn
         }
 
         // Draw children (Container::draw will call drawBorder when border size > 0)
-        Container::draw(graphics);
+        HorizontalBar::draw(graphics);
     }
 } // namespace fcn

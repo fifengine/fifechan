@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Standard library includes
+#include <array>
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
@@ -37,7 +40,7 @@ TEST_CASE("Event getSource returns correct source", "[unit][event]")
 
 TEST_CASE("Event multiple events different sources", "[unit][event]")
 {
-    Label widgets[5];
+    std::array<Label, 5> widgets;
 
     for (auto& widget : widgets) {
         Event event(&widget);

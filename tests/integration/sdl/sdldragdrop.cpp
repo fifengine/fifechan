@@ -45,7 +45,7 @@
 
 #include <fifechan.hpp>
 
-#include <math.h>
+#include <cmath>
 
 namespace
 {
@@ -67,18 +67,23 @@ namespace
     };
 
     // Hardcoded item database (internal to demo)
-    std::vector<ItemData> const itemDatabase = {
-        {1, "Sword", 15, 0, 3, "A sharp blade for close combat."},
-        {2, "Shield", 0, 10, 5, "A sturdy shield for protection."},
-        {3, "Potion", 0, 0, 1, "Restores health when consumed."},
-        {4, "Bow", 12, 0, 2, "A ranged weapon for hunters."},
-        {5, "Helmet", 0, 5, 2, "Protects the head from damage."},
-    };
+    std::vector<ItemData> const & getItemDatabase()
+    {
+        static std::vector<ItemData> const itemDatabase = {
+            {1, "Sword", 15, 0, 3, "A sharp blade for close combat."},
+            {2, "Shield", 0, 10, 5, "A sturdy shield for protection."},
+            {3, "Potion", 0, 0, 1, "Restores health when consumed."},
+            {4, "Bow", 12, 0, 2, "A ranged weapon for hunters."},
+            {5, "Helmet", 0, 5, 2, "Protects the head from damage."},
+        };
+        return itemDatabase;
+    }
 
     // Find item in database by ID
     ItemData const * findItemData(int id)
     {
-        auto it = std::ranges::find_if(itemDatabase, [id](ItemData const & item) {
+        auto const & itemDatabase = getItemDatabase();
+        auto it                   = std::ranges::find_if(itemDatabase, [id](ItemData const & item) {
             return item.id == id;
         });
 
@@ -135,9 +140,7 @@ namespace
             int offsetX{0};
             int offsetY{0};
 
-            DragState()
-            {
-            }
+            DragState() = default;
     };
 
     class InventorySystem
@@ -190,15 +193,15 @@ namespace
                 }
 
                 // Add some test items to player inventory (slots 0, 1, 2)
-                slots[0].item = InventoryItem(1, 1); // Sword
-                slots[1].item = InventoryItem(2, 1); // Shield
-                slots[2].item = InventoryItem(3, 5); // Potion (qty 5)
+                slots.at(0).item = InventoryItem(1, 1); // Sword
+                slots.at(1).item = InventoryItem(2, 1); // Shield
+                slots.at(2).item = InventoryItem(3, 5); // Potion (qty 5)
             }
 
             int getSlotIndexAtPosition(int mouseX, int mouseY) const
             {
                 for (size_t i = 0; i < slots.size(); ++i) {
-                    if (slots[i].contains(mouseX, mouseY)) {
+                    if (slots.at(i).contains(mouseX, mouseY)) {
                         return static_cast<int>(i);
                     }
                 }
@@ -210,7 +213,7 @@ namespace
                 if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
                 }
-                return slots[slotIndex].isPlayerInventory;
+                return slots.at(slotIndex).isPlayerInventory;
             }
 
             bool startDrag(int slotIndex, SDL_Point const & mousePos)
@@ -219,7 +222,7 @@ namespace
                     return false;
                 }
 
-                InventorySlot& slot = slots[slotIndex];
+                InventorySlot& slot = slots.at(slotIndex);
                 if (!slot.item.has_value()) {
                     return false;
                 }
@@ -256,7 +259,7 @@ namespace
                     return false;
                 }
 
-                InventorySlot& targetSlot = slots[slotIndex];
+                InventorySlot& targetSlot = slots.at(slotIndex);
 
                 // Can't drop on occupied slot
                 if (targetSlot.item.has_value()) {
@@ -268,7 +271,7 @@ namespace
 
                 // Clear source slot (player inventory)
                 if (dragState.startSlotIndex >= 0 && std::cmp_less(dragState.startSlotIndex, slots.size())) {
-                    slots[dragState.startSlotIndex].item = std::nullopt;
+                    slots.at(dragState.startSlotIndex).item = std::nullopt;
                 }
 
                 endDrag();
@@ -283,7 +286,7 @@ namespace
                 if (isPlayerSlot(slotIndex)) {
                     return false;
                 }
-                if (slots[slotIndex].item.has_value()) {
+                if (slots.at(slotIndex).item.has_value()) {
                     return false;
                 }
                 return true;
@@ -294,7 +297,7 @@ namespace
                 if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return "";
                 }
-                auto const & slot = slots[slotIndex];
+                auto const & slot = slots.at(slotIndex);
                 if (!slot.item.has_value()) {
                     return "";
                 }
@@ -316,7 +319,7 @@ namespace
                 if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return "";
                 }
-                auto const & slot = slots[slotIndex];
+                auto const & slot = slots.at(slotIndex);
                 if (!slot.item.has_value()) {
                     return "";
                 }
@@ -336,7 +339,7 @@ namespace
                 if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return 0;
                 }
-                auto const & slot = slots[slotIndex];
+                auto const & slot = slots.at(slotIndex);
                 if (!slot.item.has_value()) {
                     return 0;
                 }
@@ -462,10 +465,10 @@ namespace
                     if (hoveredSlot >= 0) {
                         bool const valid         = isValidDrop(hoveredSlot);
                         SDL_FRect const slotRect = {
-                            .x = static_cast<float>(slots[hoveredSlot].x),
-                            .y = static_cast<float>(slots[hoveredSlot].y),
-                            .w = static_cast<float>(slots[hoveredSlot].width),
-                            .h = static_cast<float>(slots[hoveredSlot].height)};
+                            .x = static_cast<float>(slots.at(hoveredSlot).x),
+                            .y = static_cast<float>(slots.at(hoveredSlot).y),
+                            .w = static_cast<float>(slots.at(hoveredSlot).width),
+                            .h = static_cast<float>(slots.at(hoveredSlot).height)};
 
                         // Draw highlight border (green for valid, red for invalid)
                         if (valid) {
@@ -482,7 +485,7 @@ namespace
 } // namespace
 
 int main(int /*argc*/, char* /*argv*/[])
-{
+try {
     // Initialize SDL
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << '\n';
@@ -796,4 +799,6 @@ int main(int /*argc*/, char* /*argv*/[])
     SDL_Quit();
 
     return 0;
+} catch (...) {
+    return 1;
 }

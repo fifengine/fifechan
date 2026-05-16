@@ -37,8 +37,8 @@ namespace fcn
     {
         std::list<Widget*>& widgetInstancesRegistry()
         {
-            static auto* instances = new std::list<Widget*>();
-            return *instances;
+            static std::list<Widget*> instances;
+            return instances;
         }
     } // namespace
 
@@ -1334,9 +1334,7 @@ namespace fcn
     {
         std::list<Widget*> result;
 
-        std::list<Widget*>::const_iterator iter;
-        for (iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            Widget* widget = (*iter);
+        for (auto const & widget : mChildren) {
             if (ignore != widget && widget->getDimension().isIntersecting(area)) {
                 result.push_back(widget);
             }
@@ -1657,13 +1655,10 @@ namespace fcn
 
     bool Widget::isInsideActiveMouseModal() const noexcept
     {
-        // Note: We use const_cast to call the non-const _getFocusHandler.
-        // This is safe because _getFocusHandler doesn't modify the widget.
-        FocusHandler const * fh = const_cast<Widget*>(this)->_getFocusHandler();
-        if (fh == nullptr) {
+        if (mFocusHandler == nullptr) {
             return false;
         }
-        Widget const * modal = fh->getMouseCaptureOwner();
+        Widget const * modal = mFocusHandler->getMouseCaptureOwner();
         return (modal != nullptr) && isDescendantOf(modal);
     }
 } // namespace fcn

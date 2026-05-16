@@ -164,6 +164,7 @@ void Application::init_GUI(int width, int height)
         std::filesystem::current_path(getExecutableDir());
     } catch (...) {
         // ignore; continue with current working directory
+        std::cerr << "[sdlmdedit] Warning: Could not change to executable directory\n";
     }
 
     // TODO we need a better FONT finding and loading API
@@ -180,6 +181,7 @@ void Application::init_GUI(int width, int height)
                 this->font = gui->getTop()->getFont();
             } catch (std::exception const &) {
                 // Failed to load font - continue without global font
+                std::cerr << "[sdlmdedit] Warning: Could not load global font\n";
             }
         }
     }
@@ -195,6 +197,7 @@ void Application::init_GUI(int width, int height)
         }
     } catch (std::exception const &) {
         // Failed to load OpenMoji font - continue without activity icons
+        std::cerr << "[sdlmdedit] Warning: Could not load OpenMoji font\n";
     }
 
     // Create MenuBar (owned by `top` container)
@@ -216,11 +219,11 @@ void Application::init_GUI(int width, int height)
         // Create basic menus
         {
             // File menu
-            auto* filePopup = new fcn::MenuPopup();
-            filePopup->addItem(new fcn::MenuItem("New"));
+            auto* filePopup = std::make_unique<fcn::MenuPopup>().release();
+            filePopup->addItem(std::make_unique<fcn::MenuItem>("New").release());
             // Create Open item with glyph icon and shortcut
             {
-                auto* openItem = new fcn::MenuItem("Open");
+                auto* openItem = std::make_unique<fcn::MenuItem>("Open").release();
                 openItem->setShortcut("Ctrl+O");
                 if (this->activityFont) {
                     openItem->setIconGlyph(std::string("📁"), this->activityFont.get());
@@ -231,7 +234,7 @@ void Application::init_GUI(int width, int height)
                 filePopup->addItem(openItem);
             }
             filePopup->addSeparator();
-            filePopup->addItem(new fcn::MenuItem("Exit"));
+            filePopup->addItem(std::make_unique<fcn::MenuItem>("Exit").release());
 
             auto* fileItem = dynamic_cast<fcn::MenuItem*>(menuBar->addMenu("File", filePopup));
 
@@ -247,8 +250,8 @@ void Application::init_GUI(int width, int height)
             }
 
             // Help menu
-            auto* helpPopup = new fcn::MenuPopup();
-            helpPopup->addItem(new fcn::MenuItem("About"));
+            auto* helpPopup = std::make_unique<fcn::MenuPopup>().release();
+            helpPopup->addItem(std::make_unique<fcn::MenuItem>("About").release());
 
             auto* helpItem = dynamic_cast<fcn::MenuItem*>(menuBar->addMenu("Help", helpPopup));
 
@@ -307,6 +310,7 @@ void Application::init_GUI(int width, int height)
             }
         } catch (std::exception const &) {
             // Failed to load OpenMoji font - continue without activity icons
+            std::cerr << "[sdlmdedit] Warning: Could not load OpenMoji activity font\n";
         }
 
         // Add some emoji activity items (icons are UTF-8 emoji strings)
@@ -415,7 +419,7 @@ void Application::init_GUI(int width, int height)
             int xPos = 0;
             for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
                 fcn::Widget* item = mbc->getChild(j);
-                if (!item) {
+                if (item == nullptr) {
                     continue;
                 }
                 fcn::Rectangle dim = item->getDimension();
@@ -427,7 +431,7 @@ void Application::init_GUI(int width, int height)
             // Calculate menu bar width from children positions
             for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
                 fcn::Widget const * item = mbc->getChild(j);
-                if (!item) {
+                if (item == nullptr) {
                     continue;
                 }
                 int const itemRight = item->getX() + item->getWidth();
@@ -528,7 +532,7 @@ void Application::updateStatusBar()
         int wordCount = 0;
         bool inWord   = false;
         for (char const c : currentText) {
-            if (std::isspace(static_cast<unsigned char>(c))) {
+            if (std::isspace(static_cast<unsigned char>(c)) != 0) {
                 inWord = false;
             } else if (!inWord) {
                 inWord = true;

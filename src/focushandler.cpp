@@ -102,7 +102,11 @@ namespace fcn
         }
 
         if (prevFocus != nullptr) {
-            requestFocus(prevFocus); // cppcheck-suppress throwInNoexceptFunction
+            try {
+                requestFocus(prevFocus);
+            } catch (...) {
+                // ignore - focus request failed in noexcept context
+            }
         }
     }
 

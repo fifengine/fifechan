@@ -14,15 +14,18 @@
 #include "fifechan/exception.hpp"
 #include "fifechan/imageloader.hpp"
 
-// Mock ImageLoader for testing
-class MockImageLoader : public fcn::ImageLoader
+namespace
 {
-    public:
-        fcn::Image* load(std::string const & /*filename*/, bool /*convertToDisplayFormat*/) override
-        {
-            return nullptr; // Simple mock
-        }
-};
+    // Mock ImageLoader for testing
+    class MockImageLoader : public fcn::ImageLoader
+    {
+        public:
+            fcn::Image* load(std::string const & /*filename*/, bool /*convertToDisplayFormat*/) override
+            {
+                return nullptr; // Simple mock
+            }
+    };
+} // anonymous namespace
 
 TEST_CASE("Image setImageLoader and getImageLoader work correctly", "[image]")
 {

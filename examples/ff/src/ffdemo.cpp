@@ -16,13 +16,13 @@
 
 namespace
 {
-    constexpr int kUiWidth             = 320;
-    constexpr int kUiHeight            = 240;
-    constexpr int kDefaultWindowScale  = 2;
-    constexpr int kMinWindowScale      = 1;
-    constexpr int kMaxWindowScale      = 6;
-    constexpr char kUiScaleEnvVar[]    = "FFDEMO_UI_SCALE";
-    constexpr char kHideCursorEnvVar[] = "FFDEMO_HIDE_SYSTEM_CURSOR";
+    constexpr int kUiWidth                   = 320;
+    constexpr int kUiHeight                  = 240;
+    constexpr int kDefaultWindowScale        = 2;
+    constexpr int kMinWindowScale            = 1;
+    constexpr int kMaxWindowScale            = 6;
+    constexpr char const * kUiScaleEnvVar    = "FFDEMO_UI_SCALE";
+    constexpr char const * kHideCursorEnvVar = "FFDEMO_HIDE_SYSTEM_CURSOR";
 
     int resolveWindowScale()
     {
@@ -31,12 +31,13 @@ namespace
             return kDefaultWindowScale;
         }
 
-        int const parsed = std::atoi(envValue);
-        if (parsed < kMinWindowScale || parsed > kMaxWindowScale) {
+        char* end;
+        long const parsed = std::strtol(envValue, &end, 10);
+        if (*end != '\0' || parsed < kMinWindowScale || parsed > kMaxWindowScale) {
             return kDefaultWindowScale;
         }
 
-        return parsed;
+        return static_cast<int>(parsed);
     }
 
     bool shouldHideSystemCursor()
@@ -50,7 +51,7 @@ namespace
     }
 } // namespace
 
-FFDemo::FFDemo()
+FFDemo::FFDemo() : mRunning(true)
 {
     int const windowScale  = resolveWindowScale();
     int const windowWidth  = kUiWidth * windowScale;

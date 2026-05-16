@@ -30,96 +30,101 @@ using fcn::Rectangle;
 // Use shared mock font to avoid ODR violations
 #include "mock_font.hpp"
 
-// Mock Graphics implementation for testing base class functionality
-class MockGraphics : public Graphics
+namespace
 {
-    public:
-        MockGraphics() : m_color(255, 255, 255, 255)
-        {
-        }
+    // Mock Graphics implementation for testing base class functionality
+    class MockGraphics : public Graphics
+    {
+        public:
+            MockGraphics() : m_color(255, 255, 255, 255)
+            {
+            }
 
-        // Pure virtual methods from Graphics - minimal implementations
-        void drawImage(
-            Image const * /*image*/,
-            int /*srcX*/,
-            int /*srcY*/,
-            int /*dstX*/,
-            int /*dstY*/,
-            int /*width*/,
-            int /*height*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            // Pure virtual methods from Graphics - minimal implementations
+            void drawImage(
+                Image const * /*image*/,
+                int /*srcX*/,
+                int /*srcY*/,
+                int /*dstX*/,
+                int /*dstY*/,
+                int /*width*/,
+                int /*height*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawPoint(int /*x*/, int /*y*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawPoint(int /*x*/, int /*y*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, unsigned int /*width*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, unsigned int /*width*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawPolyLine(PointVector const & /*points*/, unsigned int /*width*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawPolyLine(PointVector const & /*points*/, unsigned int /*width*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawBezier(PointVector const & /*points*/, int /*steps*/, unsigned int /*width*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawBezier(PointVector const & /*points*/, int /*steps*/, unsigned int /*width*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawRectangle(Rectangle const & /*rectangle*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawRectangle(Rectangle const & /*rectangle*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void fillRectangle(Rectangle const & /*rectangle*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void fillRectangle(Rectangle const & /*rectangle*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawCircle(Point const & /*p*/, unsigned int /*radius*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawCircle(Point const & /*p*/, unsigned int /*radius*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawFillCircle(Point const & /*p*/, unsigned int /*radius*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawFillCircle(Point const & /*p*/, unsigned int /*radius*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawCircleSegment(Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawCircleSegment(
+                Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void drawFillCircleSegment(
-            Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
-        {
-            // Mock implementation - do nothing
-        }
+            void drawFillCircleSegment(
+                Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+                // Mock implementation - do nothing
+            }
 
-        void setColor(Color const & color) override
-        {
-            m_color = color;
-        }
+            void setColor(Color const & color) override
+            {
+                m_color = color;
+            }
 
-        Color const & getColor() const override
-        {
-            return m_color;
-        }
+            Color const & getColor() const override
+            {
+                return m_color;
+            }
 
-    private:
-        Color m_color;
-};
+        private:
+            Color m_color;
+    };
+
+} // anonymous namespace
 
 // ============================================
 // Tests for pushClipArea

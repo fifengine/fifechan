@@ -49,173 +49,177 @@ using fcn::Size;
 using fcn::Widget;
 using fcn::WidgetListener;
 
-// ============================================================================
-// Mock / helper classes
-// ============================================================================
-
-class MockActionListener : public ActionListener
+namespace
 {
-    public:
-        void action(ActionEvent const & /*actionEvent*/) override
-        {
-            actionCalled = true;
-        }
-        bool actionCalled = false;
-};
+    // ============================================================================
+    // Mock / helper classes
+    // ============================================================================
 
-class MockDeathListener : public DeathListener
-{
-    public:
-        void death(Event const & /*event*/) override
-        {
-            deathCalled = true;
-        }
-        bool deathCalled = false;
-};
+    class MockActionListener : public ActionListener
+    {
+        public:
+            void action(ActionEvent const & /*actionEvent*/) override
+            {
+                actionCalled = true;
+            }
+            bool actionCalled = false;
+    };
 
-class MockFocusListener : public FocusListener
-{
-    public:
-        void focusGained(Event const & /*event*/) override
-        {
-            gainedCalled = true;
-        }
-        void focusLost(Event const & /*event*/) override
-        {
-            lostCalled = true;
-        }
-        bool gainedCalled = false;
-        bool lostCalled   = false;
-};
+    class MockDeathListener : public DeathListener
+    {
+        public:
+            void death(Event const & /*event*/) override
+            {
+                deathCalled = true;
+            }
+            bool deathCalled = false;
+    };
 
-class MockMouseListener : public MouseListener
-{
-    public:
-        void mouseEntered(MouseEvent& /*mouseEvent*/) override
-        {
-            enteredCalled = true;
-        }
-        void mouseExited(MouseEvent& /*mouseEvent*/) override
-        {
-            exitedCalled = true;
-        }
-        bool enteredCalled = false;
-        bool exitedCalled  = false;
-};
+    class MockFocusListener : public FocusListener
+    {
+        public:
+            void focusGained(Event const & /*event*/) override
+            {
+                gainedCalled = true;
+            }
+            void focusLost(Event const & /*event*/) override
+            {
+                lostCalled = true;
+            }
+            bool gainedCalled = false;
+            bool lostCalled   = false;
+    };
 
-class MockKeyListener : public KeyListener
-{
-    public:
-        void keyPressed(KeyEvent& /*keyEvent*/) override
-        {
-            pressedCalled = true;
-        }
-        void keyReleased(KeyEvent& /*keyEvent*/) override
-        {
-            releasedCalled = true;
-        }
-        bool pressedCalled  = false;
-        bool releasedCalled = false;
-};
+    class MockMouseListener : public MouseListener
+    {
+        public:
+            void mouseEntered(MouseEvent& /*mouseEvent*/) override
+            {
+                enteredCalled = true;
+            }
+            void mouseExited(MouseEvent& /*mouseEvent*/) override
+            {
+                exitedCalled = true;
+            }
+            bool enteredCalled = false;
+            bool exitedCalled  = false;
+    };
 
-class MockWidgetListener : public WidgetListener
-{
-    public:
-        void widgetResized(Event const & /*event*/) override
-        {
-            resizedCalled = true;
-        }
-        void widgetMoved(Event const & /*event*/) override
-        {
-            movedCalled = true;
-        }
-        void widgetHidden(Event const & /*event*/) override
-        {
-            hiddenCalled = true;
-        }
-        void widgetShown(Event const & /*event*/) override
-        {
-            shownCalled = true;
-        }
-        void ancestorMoved(Event const & /*event*/) override
-        {
-            ancestorMovedCalled = true;
-        }
-        void ancestorHidden(Event const & /*event*/) override
-        {
-            ancestorHiddenCalled = true;
-        }
-        void ancestorShown(Event const & /*event*/) override
-        {
-            ancestorShownCalled = true;
-        }
-        bool resizedCalled        = false;
-        bool movedCalled          = false;
-        bool hiddenCalled         = false;
-        bool shownCalled          = false;
-        bool ancestorMovedCalled  = false;
-        bool ancestorHiddenCalled = false;
-        bool ancestorShownCalled  = false;
-};
+    class MockKeyListener : public KeyListener
+    {
+        public:
+            void keyPressed(KeyEvent& /*keyEvent*/) override
+            {
+                pressedCalled = true;
+            }
+            void keyReleased(KeyEvent& /*keyEvent*/) override
+            {
+                releasedCalled = true;
+            }
+            bool pressedCalled  = false;
+            bool releasedCalled = false;
+    };
 
-class MockDropTargetListener : public DropTargetListener
-{
-    public:
-        bool dragEntered(DragEvent& /*dragEvent*/) override
-        {
-            enteredCalled = true;
-            return acceptDrag;
-        }
-        void dragExited(DragEvent& /*dragEvent*/) override
-        {
-            exitedCalled = true;
-        }
-        void dragHovered(DragEvent& /*dragEvent*/) override
-        {
-            hoveredCalled = true;
-        }
-        void dragDropped(DragEvent& /*dragEvent*/) override
-        {
-            droppedCalled = true;
-        }
-        bool enteredCalled = false;
-        bool exitedCalled  = false;
-        bool hoveredCalled = false;
-        bool droppedCalled = false;
-        bool acceptDrag    = false;
-};
+    class MockWidgetListener : public WidgetListener
+    {
+        public:
+            void widgetResized(Event const & /*event*/) override
+            {
+                resizedCalled = true;
+            }
+            void widgetMoved(Event const & /*event*/) override
+            {
+                movedCalled = true;
+            }
+            void widgetHidden(Event const & /*event*/) override
+            {
+                hiddenCalled = true;
+            }
+            void widgetShown(Event const & /*event*/) override
+            {
+                shownCalled = true;
+            }
+            void ancestorMoved(Event const & /*event*/) override
+            {
+                ancestorMovedCalled = true;
+            }
+            void ancestorHidden(Event const & /*event*/) override
+            {
+                ancestorHiddenCalled = true;
+            }
+            void ancestorShown(Event const & /*event*/) override
+            {
+                ancestorShownCalled = true;
+            }
+            bool resizedCalled        = false;
+            bool movedCalled          = false;
+            bool hiddenCalled         = false;
+            bool shownCalled          = false;
+            bool ancestorMovedCalled  = false;
+            bool ancestorHiddenCalled = false;
+            bool ancestorShownCalled  = false;
+    };
 
-// Testable widget that exposes protected methods for testing
-class TestableWidget : public Label
-{
-    public:
-        using Label::Label;
-        void draw(Graphics* /*graphics*/) override
-        {
-        }
+    class MockDropTargetListener : public DropTargetListener
+    {
+        public:
+            bool dragEntered(DragEvent& /*dragEvent*/) override
+            {
+                enteredCalled = true;
+                return acceptDrag;
+            }
+            void dragExited(DragEvent& /*dragEvent*/) override
+            {
+                exitedCalled = true;
+            }
+            void dragHovered(DragEvent& /*dragEvent*/) override
+            {
+                hoveredCalled = true;
+            }
+            void dragDropped(DragEvent& /*dragEvent*/) override
+            {
+                droppedCalled = true;
+            }
+            bool enteredCalled = false;
+            bool exitedCalled  = false;
+            bool hoveredCalled = false;
+            bool droppedCalled = false;
+            bool acceptDrag    = false;
+    };
 
-        // Expose protected methods for testing
-        void testDistributeActionEvent()
-        {
-            distributeActionEvent();
-        }
-        bool testDistributeDragEnter(DragEvent& event)
-        {
-            return distributeDragEnter(event);
-        }
-        void testDistributeDragLeave(DragEvent& event)
-        {
-            distributeDragLeave(event);
-        }
-        void testDistributeDragHover(DragEvent& event)
-        {
-            distributeDragHover(event);
-        }
-        void testDistributeDragDrop(DragEvent& event)
-        {
-            distributeDragDrop(event);
-        }
-};
+    // Testable widget that exposes protected methods for testing
+    class TestableWidget : public Label
+    {
+        public:
+            using Label::Label;
+            void draw(Graphics* /*graphics*/) override
+            {
+            }
+
+            // Expose protected methods for testing
+            void testDistributeActionEvent()
+            {
+                distributeActionEvent();
+            }
+            bool testDistributeDragEnter(DragEvent& event)
+            {
+                return distributeDragEnter(event);
+            }
+            void testDistributeDragLeave(DragEvent& event)
+            {
+                distributeDragLeave(event);
+            }
+            void testDistributeDragHover(DragEvent& event)
+            {
+                distributeDragHover(event);
+            }
+            void testDistributeDragDrop(DragEvent& event)
+            {
+                distributeDragDrop(event);
+            }
+    };
+
+} // anonymous namespace
 
 // ============================================================================
 // Widget constructor / destructor
@@ -1558,7 +1562,8 @@ TEST_CASE("Widget getAbsolutePosition without parent", "[unit][widget]")
 {
     Label label;
     label.setPosition(30, 40);
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     label.getAbsolutePosition(x, y);
     REQUIRE(x == 30);
     REQUIRE(y == 40);
@@ -1574,7 +1579,8 @@ TEST_CASE("Widget getAbsolutePosition with parent", "[unit][widget]")
     label.setPosition(30, 40);
     label.setSize(50, 50);
 
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     label.getAbsolutePosition(x, y);
     REQUIRE(x == 10 + 30);
     REQUIRE(y == 20 + 40);
@@ -1622,10 +1628,10 @@ TEST_CASE("Widget widgetExists returns false for destroyed widget", "[unit][widg
     Label* labelPtr = nullptr;
     // Allocate on the heap and delete to simulate destruction without
     // taking the address of a stack-local that goes out of scope.
-    Label* label = new Label();
-    labelPtr     = label;
-    REQUIRE(Widget::widgetExists(label));
-    delete label;
+    auto label = std::make_unique<Label>();
+    labelPtr   = label.get();
+    REQUIRE(Widget::widgetExists(label.get()));
+    label.reset();
     REQUIRE_FALSE(Widget::widgetExists(labelPtr));
 }
 
@@ -1642,7 +1648,8 @@ TEST_CASE("Widget setLastPosition and getLastPosition", "[unit][widget]")
 {
     Label label;
     label.setLastPosition(100, 200);
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     label.getLastPosition(x, y);
     REQUIRE(x == 100);
     REQUIRE(y == 200);
@@ -2273,8 +2280,8 @@ TEST_CASE("Widget _setVisibilityEventHandler and _getVisibilityEventHandler", "[
 {
     Label label;
     // Test setting and getting with nullptr
-    label._setVisibilityEventHandler(nullptr);
-    REQUIRE(label._getVisibilityEventHandler() == nullptr);
+    Widget::_setVisibilityEventHandler(nullptr);
+    REQUIRE(Widget::_getVisibilityEventHandler() == nullptr);
 }
 
 // ============================================================================
@@ -2390,15 +2397,15 @@ TEST_CASE("Widget deep nesting parent chain", "[unit][widget]")
     root.setSize(500, 500);
 
     for (int i = 0; i < 10; ++i) {
-        auto* c = new Container();
+        auto c = std::make_unique<Container>();
         if (prev == nullptr) {
-            root.add(c);
+            root.add(c.get());
         } else {
-            prev->add(c);
+            prev->add(c.get());
         }
         c->setPosition(0, 0);
         c->setSize(400, 400);
-        prev = c;
+        prev = c.release();
     }
 
     Label leaf;
@@ -2427,7 +2434,8 @@ TEST_CASE("Widget getAbsolutePosition with nested containers", "[unit][widget]")
     leaf.setPosition(50, 60);
     leaf.setSize(50, 50);
 
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     leaf.getAbsolutePosition(x, y);
     REQUIRE(x == 10 + 30 + 50);
     REQUIRE(y == 20 + 40 + 60);

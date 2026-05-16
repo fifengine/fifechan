@@ -8,6 +8,7 @@
 // Standard library includes
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 // Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
@@ -39,8 +40,8 @@ namespace fcn
         try {
             // cppcheck-suppress virtualCallInConstructor
             setContent(nullptr);
-        } catch (std::exception&) {
-            // logError("Exception in ScrollArea destructor: " + std::string(e.what()));
+        } catch (std::exception const & e) {
+            std::cerr << "[ScrollArea] Exception in destructor: " << e.what() << "\n";
         }
     }
 

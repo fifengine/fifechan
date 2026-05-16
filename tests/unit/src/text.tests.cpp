@@ -320,7 +320,7 @@ TEST_CASE("Text string constructor edge cases", "[unit][text]")
         fcn::Text text("A\n\nB");
         REQUIRE(text.getNumberOfRows() == 3);
         REQUIRE(text.getRow(0) == "A");
-        REQUIRE(text.getRow(1) == "");
+        REQUIRE(text.getRow(1).empty());
         REQUIRE(text.getRow(2) == "B");
     }
 
@@ -329,8 +329,8 @@ TEST_CASE("Text string constructor edge cases", "[unit][text]")
         fcn::Text text("A\n\n\n");
         REQUIRE(text.getNumberOfRows() == 3);
         REQUIRE(text.getRow(0) == "A");
-        REQUIRE(text.getRow(1) == "");
-        REQUIRE(text.getRow(2) == "");
+        REQUIRE(text.getRow(1).empty());
+        REQUIRE(text.getRow(2).empty());
     }
 }
 
@@ -368,8 +368,8 @@ TEST_CASE("Text setContent edge cases", "[unit][text]")
         fcn::Text text("Old");
         text.setContent("\n\n");
         REQUIRE(text.getNumberOfRows() == 2);
-        REQUIRE(text.getRow(0) == "");
-        REQUIRE(text.getRow(1) == "");
+        REQUIRE(text.getRow(0).empty());
+        REQUIRE(text.getRow(1).empty());
     }
 }
 
@@ -420,8 +420,8 @@ TEST_CASE("Text insert into empty text", "[unit][text]")
         fcn::Text text;
         text.insert('\n');
         REQUIRE(text.getNumberOfRows() == 2);
-        REQUIRE(text.getRow(0) == "");
-        REQUIRE(text.getRow(1) == "");
+        REQUIRE(text.getRow(0).empty());
+        REQUIRE(text.getRow(1).empty());
     }
 
     SECTION("insert multiple characters into empty text")
@@ -800,7 +800,7 @@ TEST_CASE("Text insert at various positions", "[unit][text]")
         text.setCaretPosition(0);
         text.insert('\n');
         REQUIRE(text.getNumberOfRows() == 3);
-        REQUIRE(text.getRow(0) == "");
+        REQUIRE(text.getRow(0).empty());
         REQUIRE(text.getRow(1) == "Line1");
         REQUIRE(text.getRow(2) == "Line2");
     }
@@ -812,7 +812,7 @@ TEST_CASE("Text insert at various positions", "[unit][text]")
         text.insert('\n');
         REQUIRE(text.getNumberOfRows() == 3);
         REQUIRE(text.getRow(0) == "Line1");
-        REQUIRE(text.getRow(1) == "");
+        REQUIRE(text.getRow(1).empty());
         REQUIRE(text.getRow(2) == "Line2");
     }
 
@@ -865,8 +865,8 @@ TEST_CASE("Text special characters and edge cases", "[unit][text]")
         fcn::Text text("A\n\n\nB");
         REQUIRE(text.getNumberOfRows() == 4);
         REQUIRE(text.getRow(0) == "A");
-        REQUIRE(text.getRow(1) == "");
-        REQUIRE(text.getRow(2) == "");
+        REQUIRE(text.getRow(1).empty());
+        REQUIRE(text.getRow(2).empty());
         REQUIRE(text.getRow(3) == "B");
     }
 }

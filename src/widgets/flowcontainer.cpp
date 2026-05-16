@@ -104,7 +104,7 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int columnW       = layoutMax[layout];
+                int columnW       = layoutMax.at(layout);
                 int const layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() +
                                     ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
                 Rectangle dim(
@@ -118,7 +118,7 @@ namespace fcn
                     x += columnW + getHorizontalSpacing();
                     y = 0;
                     ++layout;
-                    columnW = layoutMax[layout];
+                    columnW = layoutMax.at(layout);
                 }
                 dim.y += y;
 
@@ -156,7 +156,7 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int rowH          = layoutMax[layout];
+                int rowH          = layoutMax.at(layout);
                 int const layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() +
                                     ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
                 Rectangle dim(
@@ -170,7 +170,7 @@ namespace fcn
                     x = 0;
                     y += rowH + getVerticalSpacing();
                     ++layout;
-                    rowH = layoutMax[layout];
+                    rowH = layoutMax.at(layout);
                 }
                 dim.x += x;
 

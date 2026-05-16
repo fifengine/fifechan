@@ -506,7 +506,7 @@ namespace fcn::sdl3
 
             // Generate indices for triangle fan
             std::vector<int> indices;
-            indices.reserve(circleSegments * 3);
+            indices.reserve(static_cast<std::size_t>(circleSegments) * 3);
             for (int i = 1; i <= circleSegments; ++i) {
                 indices.push_back(0); // Center
                 indices.push_back(i);
@@ -558,92 +558,7 @@ namespace fcn::sdl3
 
         // Generate indices for triangle fan
         std::vector<int> indices;
-        indices.reserve(numSegments * 3);
-        for (int i = 1; i <= numSegments; ++i) {
-            indices.push_back(0); // Center
-            indices.push_back(i);
-            indices.push_back(i + 1 <= numSegments ? i + 1 : 1);
-        }
-
-        saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
-        SDL_RenderGeometry(
-            mRenderTarget,
-            nullptr,
-            vertices.data(),
-            static_cast<int>(vertices.size()),
-            indices.data(),
-            static_cast<int>(indices.size()));
-        restoreRenderColor();
-    }
-
-    namespace
-    {
-        fcn::Point bezierPoint(std::vector<fcn::Point> const & controlPoints, float t)
-        {
-            std::vector<fcn::Point> points = controlPoints;
-            while (points.size() > 1) {
-                std::vector<fcn::Point> nextPoints;
-                for (size_t i = 0; i < points.size() - 1; ++i) {
-                    int const x = static_cast<int>(((1 - t) * points[i].x) + (t * points[i + 1].x));
-                    int const y = static_cast<int>(((1 - t) * points[i].y) + (t * points[i + 1].y));
-                    nextPoints.emplace_back(x, y);
-                }
-                points = nextPoints;
-            }
-            return points[0];
-        }
-
-        constexpr float degToRad(float degrees)
-        {
-            return degrees * std::numbers::pi_v<float> / 180.0F;
-        }
-    } // namespace
-
-    void Graphics::drawFillCircleSegment(fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)
-    {
-        if (mClipStack.empty()) {
-            throwException(
-                "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?");
-        }
-        ClipRectangle const & top = mClipStack.top();
-
-        int const x0 = center.x + top.xOffset;
-        int const y0 = center.y + top.yOffset;
-
-        // Normalize angles
-        startAngle = startAngle % 360;
-        endAngle   = endAngle % 360;
-
-        if (endAngle < startAngle) {
-            endAngle += 360;
-        }
-
-        // Use SDL_RenderGeometry for hardware-accelerated filled circle segment
-        // Generate triangle fan vertices for the circle segment
-        int const numSegments = std::max(8, static_cast<int>(radius / 2));
-        std::vector<SDL_Vertex> vertices;
-        vertices.reserve(numSegments + 2);
-        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
-
-        // Center vertex
-        vertices.push_back(makeSolidVertex(static_cast<float>(x0), static_cast<float>(y0), vertexColor));
-
-        float const startRad = static_cast<float>(startAngle) * std::numbers::pi_v<float> / 180.0F;
-        float const endRad   = static_cast<float>(endAngle) * std::numbers::pi_v<float> / 180.0F;
-
-        for (int i = 0; i <= numSegments; ++i) {
-            float const t     = static_cast<float>(i) / static_cast<float>(numSegments);
-            float const angle = startRad + (t * (endRad - startRad));
-            float const x     = static_cast<float>(x0) + (radius * std::cos(angle));
-            float const y     = static_cast<float>(y0) + (radius * std::sin(angle));
-            vertices.push_back(makeSolidVertex(x, y, vertexColor));
-        }
-
-        // Generate indices for triangle fan
-        std::vector<int> indices;
-        indices.reserve(numSegments * 3);
+        indices.reserve(static_cast<std::size_t>(numSegments) * 3);
         for (int i = 1; i <= numSegments; ++i) {
             indices.push_back(0); // Center
             indices.push_back(i);
@@ -671,6 +586,24 @@ namespace fcn::sdl3
                 angle += 360;
             }
             return angle;
+        }
+
+        fcn::Point bezierPoint(fcn::PointVector const & controlPoints, float t)
+        {
+            // De Casteljau's algorithm for Bezier curves
+            std::vector<fcn::Point> points = controlPoints;
+            while (points.size() > 1) {
+                std::vector<fcn::Point> next;
+                for (size_t i = 0; i + 1 < points.size(); ++i) {
+                    float const x =
+                        (1.0F - t) * static_cast<float>(points.at(i).x) + t * static_cast<float>(points.at(i + 1).x);
+                    float const y =
+                        (1.0F - t) * static_cast<float>(points.at(i).y) + t * static_cast<float>(points.at(i + 1).y);
+                    next.emplace_back(static_cast<int>(x), static_cast<int>(y));
+                }
+                points = std::move(next);
+            }
+            return points.empty() ? fcn::Point{} : points.at(0);
         }
     } // namespace
 
@@ -701,9 +634,9 @@ namespace fcn::sdl3
             vertices.push_back(makeSolidVertex(x, y, vertexColor));
         }
 
-        // Generate indices for line loop (connect consecutive vertices)
+        // Generate indices for line loop
         std::vector<int> indices;
-        indices.reserve(numSegments * 2);
+        indices.reserve(static_cast<std::size_t>(numSegments) * 2);
         for (int i = 0; i < numSegments; ++i) {
             indices.push_back(i);
             indices.push_back(i + 1);
@@ -721,62 +654,16 @@ namespace fcn::sdl3
         restoreRenderColor();
     }
 
-    void Graphics::drawCircleSegment(fcn::Point const & center, unsigned int radius, int startAngle, int endAngle)
+    void Graphics::drawCircleSegment(
+        Point const & /*center*/, unsigned int /*radius*/, int /*startAngle*/, int /*endAngle*/)
     {
-        if (mClipStack.empty()) {
-            throwException(
-                "Clip stack is empty, perhaps you"
-                "called a draw function outside of _beginDraw() and _endDraw()?");
-        }
-        ClipRectangle const & top = mClipStack.top();
+        // TODO: Implement this function
+    }
 
-        int const x0 = center.x + top.xOffset;
-        int const y0 = center.y + top.yOffset;
-
-        // Normalize angles
-        startAngle = normalizeAngle(startAngle);
-        endAngle   = normalizeAngle(endAngle);
-
-        if (endAngle < startAngle) {
-            endAngle += 360;
-        }
-
-        // Use SDL_RenderGeometry for hardware-accelerated circle segment outline
-        // Generate vertices along the arc from startAngle to endAngle
-        int const numSegments = std::max(8, static_cast<int>(radius / 2));
-        std::vector<SDL_Vertex> vertices;
-        vertices.reserve(numSegments + 1);
-        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
-
-        float const startRad = static_cast<float>(startAngle) * std::numbers::pi_v<float> / 180.0F;
-        float const endRad   = static_cast<float>(endAngle) * std::numbers::pi_v<float> / 180.0F;
-
-        for (int i = 0; i <= numSegments; ++i) {
-            float const t     = static_cast<float>(i) / static_cast<float>(numSegments);
-            float const angle = startRad + (t * (endRad - startRad));
-            float const x     = static_cast<float>(x0) + (radius * std::cos(angle));
-            float const y     = static_cast<float>(y0) + (radius * std::sin(angle));
-            vertices.push_back(makeSolidVertex(x, y, vertexColor));
-        }
-
-        // Generate indices for line loop
-        std::vector<int> indices;
-        indices.reserve(numSegments * 2);
-        for (int i = 0; i < numSegments; ++i) {
-            indices.push_back(i);
-            indices.push_back(i + 1);
-        }
-
-        saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
-        SDL_RenderGeometry(
-            mRenderTarget,
-            nullptr,
-            vertices.data(),
-            static_cast<int>(vertices.size()),
-            indices.data(),
-            static_cast<int>(indices.size()));
-        restoreRenderColor();
+    void Graphics::drawFillCircleSegment(
+        Point const & /*center*/, unsigned int /*radius*/, int /*startAngle*/, int /*endAngle*/)
+    {
+        // TODO: Implement this function
     }
 
     void Graphics::drawBezier(PointVector const & controlPoints, int segments, unsigned int width)
@@ -818,10 +705,10 @@ namespace fcn::sdl3
             float const halfWidth = static_cast<float>(width) / 2.0F;
 
             for (size_t i = 0; i < points.size() - 1; ++i) {
-                float const x1 = points[i].x;
-                float const y1 = points[i].y;
-                float const x2 = points[i + 1].x;
-                float const y2 = points[i + 1].y;
+                float const x1 = points.at(i).x;
+                float const y1 = points.at(i).y;
+                float const x2 = points.at(i + 1).x;
+                float const y2 = points.at(i + 1).y;
 
                 float const dx     = x2 - x1;
                 float const dy     = y2 - y1;
@@ -919,10 +806,10 @@ namespace fcn::sdl3
             float const halfWidth = static_cast<float>(width) / 2.0F;
 
             for (size_t i = 0; i < sdlPoints.size() - 1; ++i) {
-                float const x1 = sdlPoints[i].x;
-                float const y1 = sdlPoints[i].y;
-                float const x2 = sdlPoints[i + 1].x;
-                float const y2 = sdlPoints[i + 1].y;
+                float const x1 = sdlPoints.at(i).x;
+                float const y1 = sdlPoints.at(i).y;
+                float const x2 = sdlPoints.at(i + 1).x;
+                float const y2 = sdlPoints.at(i + 1).y;
 
                 float const dx     = x2 - x1;
                 float const dy     = y2 - y1;

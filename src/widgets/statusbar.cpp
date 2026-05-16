@@ -58,7 +58,7 @@ namespace fcn
 
     void StatusBar::draw(Graphics* graphics)
     {
-        Container::draw(graphics);
+        HorizontalBar::draw(graphics);
 
         // Draw border/top line
         if (isOpaque()) {
