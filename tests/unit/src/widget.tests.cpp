@@ -5,6 +5,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
 
+// Standard library includes
+#include <memory>
+
 // Project headers
 #include "fifechan/color.hpp"
 #include "fifechan/events/actionevent.hpp"
@@ -1625,7 +1628,7 @@ TEST_CASE("Widget widgetExists returns true for live widget", "[unit][widget]")
 
 TEST_CASE("Widget widgetExists returns false for destroyed widget", "[unit][widget]")
 {
-    Label* labelPtr = nullptr;
+    Label const * labelPtr = nullptr;
     // Allocate on the heap and delete to simulate destruction without
     // taking the address of a stack-local that goes out of scope.
     auto label = std::make_unique<Label>();

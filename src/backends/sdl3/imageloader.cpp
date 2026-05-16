@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <filesystem>
+#include <memory>
 #include <string>
 
 // Third-party library includes

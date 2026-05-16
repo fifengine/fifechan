@@ -5,6 +5,7 @@
 #include "fifechan/widgets/menubar.hpp"
 
 // Standard library includes
+#include <memory>
 #include <string>
 #include <utility>
 

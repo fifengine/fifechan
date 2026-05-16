@@ -6,6 +6,7 @@
 #include "ffdemo.hpp"
 
 // Standard library includes
+#include <cstdint>
 #include <cstdlib>
 #include <format>
 #include <iostream>
@@ -32,7 +33,7 @@ namespace
         }
 
         char* end;
-        long const parsed = std::strtol(envValue, &end, 10);
+        std::int64_t const parsed = std::strtoll(envValue, &end, 10);
         if (*end != '\0' || parsed < kMinWindowScale || parsed > kMaxWindowScale) {
             return kDefaultWindowScale;
         }

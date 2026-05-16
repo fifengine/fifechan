@@ -1334,11 +1334,9 @@ namespace fcn
     {
         std::list<Widget*> result;
 
-        for (auto const & widget : mChildren) {
-            if (ignore != widget && widget->getDimension().isIntersecting(area)) {
-                result.push_back(widget);
-            }
-        }
+        std::ranges::copy_if(mChildren, std::back_inserter(result), [&](auto const & widget) {
+            return ignore != widget && widget->getDimension().isIntersecting(area);
+        });
 
         return result;
     }
