@@ -24,42 +24,42 @@ using fcn::Widget;
 
 namespace
 {
-// ============================================================================
-// Helper class for testing container listeners
-// ============================================================================
+    // ============================================================================
+    // Helper class for testing container listeners
+    // ============================================================================
 
-class TestContainerListener : public ContainerListener
-{
-    public:
-        void widgetAdded(ContainerEvent const & containerEvent) override
-        {
-            mWidgetAddedCalled = true;
-            mLastAddedWidget   = containerEvent.getSource();
-            mLastContainer     = containerEvent.getContainer();
-        }
+    class TestContainerListener : public ContainerListener
+    {
+        public:
+            void widgetAdded(ContainerEvent const & containerEvent) override
+            {
+                mWidgetAddedCalled = true;
+                mLastAddedWidget   = containerEvent.getSource();
+                mLastContainer     = containerEvent.getContainer();
+            }
 
-        void widgetRemoved(ContainerEvent const & containerEvent) override
-        {
-            mWidgetRemovedCalled = true;
-            mLastRemovedWidget   = containerEvent.getSource();
-            mLastContainer       = containerEvent.getContainer();
-        }
+            void widgetRemoved(ContainerEvent const & containerEvent) override
+            {
+                mWidgetRemovedCalled = true;
+                mLastRemovedWidget   = containerEvent.getSource();
+                mLastContainer       = containerEvent.getContainer();
+            }
 
-        void clear()
-        {
-            mWidgetAddedCalled   = false;
-            mWidgetRemovedCalled = false;
-            mLastAddedWidget     = nullptr;
-            mLastRemovedWidget   = nullptr;
-            mLastContainer       = nullptr;
-        }
+            void clear()
+            {
+                mWidgetAddedCalled   = false;
+                mWidgetRemovedCalled = false;
+                mLastAddedWidget     = nullptr;
+                mLastRemovedWidget   = nullptr;
+                mLastContainer       = nullptr;
+            }
 
-        bool mWidgetAddedCalled{false};
-        bool mWidgetRemovedCalled{false};
-        Widget* mLastAddedWidget{nullptr};
-        Widget* mLastRemovedWidget{nullptr};
-        Container* mLastContainer{nullptr};
-};
+            bool mWidgetAddedCalled{false};
+            bool mWidgetRemovedCalled{false};
+            Widget* mLastAddedWidget{nullptr};
+            Widget* mLastRemovedWidget{nullptr};
+            Container* mLastContainer{nullptr};
+    };
 
 } // anonymous namespace
 
