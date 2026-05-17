@@ -3,6 +3,7 @@
 
 // Standard library includes
 #include <memory>
+#include <utility>
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
@@ -53,7 +54,7 @@ TEST_CASE("Gui setTop with unique_ptr", "[unit][gui]")
 {
     Gui gui;
     auto container = std::make_unique<Container>();
-    Container* ptr = container.get();
+    auto const ptr = container.get();
     gui.setTop(std::move(container));
     REQUIRE(gui.getTop() == ptr);
 }
@@ -70,7 +71,7 @@ TEST_CASE("Gui setRoot with unique_ptr", "[unit][gui]")
 {
     Gui gui;
     auto container = std::make_unique<Container>();
-    Container* ptr = container.get();
+    auto const ptr = container.get();
     gui.setRoot(std::move(container));
     REQUIRE(gui.getTop() == ptr);
 }
@@ -115,8 +116,12 @@ TEST_CASE("Gui addGlobalKeyListener and removeGlobalKeyListener", "[unit][gui]")
     class TestKeyListener : public KeyListener
     {
         public:
-            void keyPressed(KeyEvent& /*event*/) override {}
-            void keyReleased(KeyEvent& /*event*/) override {}
+            void keyPressed(KeyEvent& /*event*/) override
+            {
+            }
+            void keyReleased(KeyEvent& /*event*/) override
+            {
+            }
     };
     TestKeyListener listener;
 
