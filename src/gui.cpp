@@ -84,6 +84,10 @@ namespace fcn
         mLastMouseDragButton(0),
         mDeathListener(new GuiDeathListener(this))
     {
+        assert("focus handler must be allocated" && mFocusHandler != nullptr);
+        assert("visibility handler must be allocated" && mVisibilityEventHandler != nullptr);
+        assert("death listener must be allocated" && mDeathListener != nullptr);
+
         Widget::_setVisibilityEventHandler(mVisibilityEventHandler);
 
         Widget::_setGuiDeathListener(mDeathListener);

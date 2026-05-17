@@ -14,6 +14,7 @@ set(UNIT_TEST_SOURCES
   src/font.tests.cpp
   src/genericinput.tests.cpp
   src/graphics.tests.cpp
+  src/gui.tests.cpp
   src/image.tests.cpp
   src/rectangle.tests.cpp
   src/size.tests.cpp
@@ -43,14 +44,12 @@ set(UNIT_TEST_SOURCES
   src/widget.tests.cpp
   src/widgets/bargraph.tests.cpp
   src/widgets/barsection.tests.cpp
-  src/widgets/container.tests.cpp
-  src/widgets/focus.tests.cpp
-  src/widgets/primarypanel.tests.cpp
-  src/widgets/secondarypanel.tests.cpp
-  src/widgets/spacer.tests.cpp
   src/widgets/button.tests.cpp
   src/widgets/checkbox.tests.cpp
+  src/widgets/container.tests.cpp
   src/widgets/dropdown.tests.cpp
+  src/widgets/flowcontainer.tests.cpp
+  src/widgets/focus.tests.cpp
   src/widgets/icon.tests.cpp
   src/widgets/imagebutton.tests.cpp
   src/widgets/label.tests.cpp
@@ -58,14 +57,19 @@ set(UNIT_TEST_SOURCES
   src/widgets/modalbackdrop.tests.cpp
   src/widgets/panel.tests.cpp
   src/widgets/passwordfield.tests.cpp
+  src/widgets/primarypanel.tests.cpp
   src/widgets/radiobutton.tests.cpp
   src/widgets/scrollarea.tests.cpp
+  src/widgets/secondarypanel.tests.cpp
   src/widgets/slider.tests.cpp
+  src/widgets/spacer.tests.cpp
+  src/widgets/statusbar.tests.cpp
   src/widgets/tab.tests.cpp
   src/widgets/tabbedarea.tests.cpp
   src/widgets/textbox.tests.cpp
   src/widgets/textfield.tests.cpp
   src/widgets/togglebutton.tests.cpp
+  src/widgets/tooltip.tests.cpp
   src/widgets/window.tests.cpp
 )
 

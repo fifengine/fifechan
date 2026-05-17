@@ -5,6 +5,7 @@
 #include "fifechan/widgets/statusbar.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <cstdio>
 #include <memory>
 #include <string>
