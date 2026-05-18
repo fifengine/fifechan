@@ -9,14 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
+- Things that have been merged into the main branch but not yet released should be listed here.
+
+## [0.3.0] - 2026-05-18
+
 ### Added
 
-- key system refactor (issue #981): auto-generated `key_gen.h` from SDL3 headers, `fcn::Shortcut` class for hotkey bindings, `TextInputEvent` for IME/dead-key text, `InputEvent` bitmask modifier storage
+- key system refactor (fifengine issue [#981](https://github.com/fifengine/fifengine/issues/981)):
+  - this issue affected both fifechan and fifeengine, as the key system is shared between them (in `fcn::Key`).
+  - auto-generated `key_gen.h` from SDL3 headers
+  - `fcn::Shortcut` class for hotkey bindings
+  - `TextInputEvent` for IME/dead-key text
+  - `InputEvent` bitmask modifier storage
+- added more tests (test coverage is at ~35%)
 
 ### Changed
 
-- `Key::X` enum removed in favour of generated `fcn::X` (uint32_t SDLK_* values, 1:1 with SDL3). All widgets migrated. Backward compatibility broken.
-- SDL3 input backend: `convertSDLEventToFifechanKeyValue()` removed, `SDL_EVENT_TEXT_INPUT` routed to dedicated text queue instead of `KeyInput` hack
+- `Key::X` enum removed in favour of generated `fcn::X` (uint32_t SDLK_* values, 1:1 with SDL3).
+  - All widgets migrated.
+  - This breaks backward compatibility!
+- SDL3 input backend
+  - `convertSDLEventToFifechanKeyValue()` removed
+  - `SDL_EVENT_TEXT_INPUT` routed to text queue (instead of `KeyInput` hack)
+- updated devcontainer to `cpp-devbox:trixie-with-vulkansdk-1.0.18`
+- CI (Linux)
+  - dropped building with Clang20
+  - added building with GCC16
 
 ## [0.2.0] - 2026-05-04
 
@@ -177,7 +195,8 @@ There are already some important bug fixes and new features such as:
 
 <!-- Section for Reference Links -->
 
-[Unreleased]: https://github.com/fifengine/fifechan/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/fifengine/fifechan/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/fifengine/fifechan/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/fifengine/fifechan/compare/0.1.5...0.2.0
 [0.1.5]: https://github.com/fifengine/fifechan/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/fifengine/fifechan/compare/0.1.3...0.1.4
