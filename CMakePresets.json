@@ -92,6 +92,43 @@
       }
     },
     {
+      "name": "gcc16-x64-linux-static-rel",
+      "displayName": "GCC16 Static Release",
+      "inherits": "gcc16-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc16-x64-linux-static-dbg",
+      "displayName": "GCC16 Static Debug",
+      "inherits": "gcc16-x64-linux-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "gcc16-x64-linux-rel",
+      "displayName": "GCC16 Release",
+      "inherits": "gcc16-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc16-x64-linux-dbg",
+      "displayName": "GCC16 Debug",
+      "inherits": "gcc16-x64-linux",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "gcc16-x64-linux-dbg-asan",
+      "displayName": "GCC16 Debug ASAN",
+      "inherits": ["gcc16-x64-linux-dbg", "address-sanitizer"]
+    },
+    {
       "name": "gcc14-x64-linux-static-rel",
       "displayName": "GCC14 Static Release",
       "inherits": "gcc14-x64-linux-static",
@@ -276,6 +313,41 @@
     {
       "name": "clang16-x64-linux-rel",
       "configurePreset": "clang16-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc16-x64-linux-static-rel",
+      "configurePreset": "gcc16-x64-linux-static-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc16-x64-linux-static-dbg",
+      "configurePreset": "gcc16-x64-linux-static-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc16-x64-linux-rel",
+      "configurePreset": "gcc16-x64-linux-rel",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc16-x64-linux-dbg",
+      "configurePreset": "gcc16-x64-linux-dbg",
+      "targets": [
+        "fifechan"
+      ]
+    },
+    {
+      "name": "gcc16-x64-linux-dbg-asan",
+      "configurePreset": "gcc16-x64-linux-dbg-asan",
       "targets": [
         "fifechan"
       ]
