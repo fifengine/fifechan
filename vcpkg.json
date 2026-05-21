@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "fifechan",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "FifeGUI is a C++ GUI library designed for games.",
   "homepage": "https://github.com/fifengine/fifechan",
   "license": "LGPL-2.1-or-later",
