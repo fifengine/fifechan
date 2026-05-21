@@ -1,12 +1,17 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
 #include "fifechan/widgets/horizontalbar.hpp"
+
+// Third-party library includes
+#include <catch2/catch_test_macros.hpp>
+
+// Project headers (subdirs before local)
+#include "fifechan/widgets/label.hpp"
 
 #include "fifechan/graphics.hpp"
 #include "fifechan/rectangle.hpp"
-#include "fifechan/widgets/label.hpp"
-#include <catch2/catch_test_macros.hpp>
 
 using fcn::HorizontalBar;
 using fcn::Label;
