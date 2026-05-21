@@ -8,10 +8,9 @@
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers (subdirs before local)
-#include "fifechan/widgets/label.hpp"
-
 #include "fifechan/graphics.hpp"
 #include "fifechan/rectangle.hpp"
+#include "fifechan/widgets/label.hpp"
 
 using fcn::HorizontalBar;
 using fcn::Label;
