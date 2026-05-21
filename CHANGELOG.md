@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Things that have been merged into the main branch but not yet released should be listed here.
 
-## [0.3.0] - 2026-05-18
+## [0.3.0] - 2026-05-21
 
 ### Added
 
