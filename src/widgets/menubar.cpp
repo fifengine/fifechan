@@ -5,6 +5,7 @@
 #include "fifechan/widgets/menubar.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
@@ -221,6 +222,8 @@ namespace fcn
 
     void MenuBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+
         // Draw background and a fine 1px bottom border line
         if (isOpaque()) {
             graphics->setColor(getBackgroundColor());

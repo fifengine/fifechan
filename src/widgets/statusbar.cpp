@@ -59,6 +59,8 @@ namespace fcn
 
     void StatusBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+
         HorizontalBar::draw(graphics);
 
         // Draw border/top line

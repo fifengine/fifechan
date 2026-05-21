@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <memory>
 #include <unordered_map>
@@ -345,6 +346,7 @@ namespace fcn
 
     void MenuPopup::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         int const w = getWidth();
         int const h = getHeight();
 

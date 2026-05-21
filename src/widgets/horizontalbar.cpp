@@ -3,6 +3,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 
 // Project headers
 #include "fifechan/widgets/horizontalbar.hpp"
@@ -69,6 +70,7 @@ namespace fcn
 
     void HorizontalBar::resizeToContent(bool recursion)
     {
+        assert("layout must be horizontal" && getLayout() == LayoutPolicy::Horizontal);
         // Disable all expansion to prevent equal sizing
         bool const savedHExpand = isHorizontalExpand();
         setHorizontalExpand(false);
@@ -105,6 +107,7 @@ namespace fcn
 
     void HorizontalBar::adjustSize()
     {
+        assert("layout must be horizontal" && getLayout() == LayoutPolicy::Horizontal);
         // Disable all expansion to prevent equal sizing
         bool const savedHExpand = isHorizontalExpand();
         setHorizontalExpand(false);
@@ -141,6 +144,7 @@ namespace fcn
 
     void HorizontalBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         // Draw background
         if (isOpaque()) {
             graphics->setColor(getBackgroundColor());

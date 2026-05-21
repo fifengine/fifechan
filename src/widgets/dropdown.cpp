@@ -331,9 +331,11 @@ namespace fcn
             mScrollArea->resizeToContent();
         }
 
-        if (mListBox != nullptr) {
+        // TODO this seems to be a redundant calculation, please check again
+        /*if (mListBox != nullptr) {
             mScrollArea->resizeToContent();
-        }
+        }*/
+
         adjustHeight();
     }
 

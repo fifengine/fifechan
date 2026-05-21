@@ -3,6 +3,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 
 // Project headers
 #include "fifechan/graphics.hpp"
@@ -90,6 +91,8 @@ namespace fcn
 
     void ActivityBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+
         // Draw background
         if (isOpaque()) {
             graphics->setColor(getBackgroundColor());

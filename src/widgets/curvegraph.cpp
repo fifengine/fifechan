@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <utility>
 #include <vector>
 
@@ -75,6 +76,7 @@ namespace fcn
 
     void CurveGraph::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         bool const active = isFocused();
 
         if (isOpaque()) {

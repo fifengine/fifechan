@@ -379,8 +379,6 @@ namespace fcn
 
     void TextBox::setCaretRowUTF8(int row)
     {
-        assert("row is non-negative" && row >= 0);
-
         int const chars = fcn::UTF8StringEditor::countChars(getTextRow(getCaretRow()), getCaretColumn());
         if (row < 0) {
             row = 0;

@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <numeric>
 #include <utility>
 
@@ -22,12 +23,14 @@ namespace fcn
         setHorizontalSpacing(0);
         mColumnWidths.push_back(0);
         mRowHeights.push_back(0);
+        mColumnAlignment.push_back(Alignment::Left);
     }
 
     AdjustingContainer::~AdjustingContainer() = default;
 
     void AdjustingContainer::setNumberOfColumns(unsigned int numberOfColumns)
     {
+        assert("number of columns must be positive" && numberOfColumns > 0);
         mNumberOfColumns = numberOfColumns;
 
         if (mColumnAlignment.size() < numberOfColumns) {
@@ -48,9 +51,8 @@ namespace fcn
 
     void AdjustingContainer::setColumnAlignment(unsigned int column, Alignment alignment)
     {
-        if (column < mColumnAlignment.size()) {
-            mColumnAlignment.at(column) = alignment;
-        }
+        assert("column index out of range" && column < mColumnAlignment.size());
+        mColumnAlignment.at(column) = alignment;
     }
 
     AdjustingContainer::Alignment AdjustingContainer::getColumnAlignment(unsigned int column) const
@@ -106,6 +108,7 @@ namespace fcn
 
     void AdjustingContainer::remove(Widget* widget)
     {
+        assert("widget must not be null" && widget != nullptr);
         Container::remove(widget);
         auto it = std::ranges::find_if(mContainedWidgets, [widget](fcn::Widget const * w) {
             return w == widget;
@@ -117,6 +120,7 @@ namespace fcn
 
     void AdjustingContainer::adjustSize()
     {
+        assert("number of columns must be set" && mNumberOfColumns > 0);
         // TODO(jakoch): is this calc correct?
         mNumberOfRows = (mContainedWidgets.size() / mNumberOfColumns) + (mContainedWidgets.size() % mNumberOfColumns);
 
@@ -168,6 +172,7 @@ namespace fcn
 
     void AdjustingContainer::adjustContent()
     {
+        assert("column alignments must cover all columns" && mColumnAlignment.size() >= mNumberOfColumns);
         adjustSize();
 
         unsigned int columnCount = 0;

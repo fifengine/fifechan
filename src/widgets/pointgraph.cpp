@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <utility>
 
 // Project headers (subdirs before local)
@@ -61,6 +62,7 @@ namespace fcn
 
     void PointGraph::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         bool const active = isFocused();
 
         if (isOpaque()) {

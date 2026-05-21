@@ -6,6 +6,7 @@
 #include <fifechan/widgets/linegraph.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <utility>
 
 // Project headers (subdirs before local)
@@ -60,6 +61,7 @@ namespace fcn
 
     void LineGraph::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         bool const active = isFocused();
 
         if (isOpaque()) {

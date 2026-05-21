@@ -6,6 +6,7 @@
 #include <fifechan/widgets/imageprogressbar.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Project headers (subdirs before local)
@@ -36,6 +37,7 @@ namespace fcn
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
+        assert("max value must be positive" && mMaxValue > 0);
         adjustSizeImpl();
     }
 
@@ -48,6 +50,7 @@ namespace fcn
         mOrientation(Orientation::Horizontal),
         mOpaque(true)
     {
+        assert("max value must be positive" && mMaxValue > 0);
         adjustSizeImpl();
     }
 
@@ -60,6 +63,8 @@ namespace fcn
 
     void ImageProgressBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+        assert("max value must be positive" && mMaxValue > 0);
         bool const active = isFocused();
 
         if (isOpaque()) {
@@ -170,6 +175,7 @@ namespace fcn
 
     void ImageProgressBar::setMaxValue(int value)
     {
+        assert("max value must be positive" && value > 0);
         mMaxValue = value;
     }
 

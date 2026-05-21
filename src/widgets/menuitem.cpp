@@ -6,6 +6,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <string>
 
@@ -119,6 +120,8 @@ namespace fcn
 
     void MenuItem::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
+
         // Skip if separator
         if (mType == Type::Separator) {
             return;

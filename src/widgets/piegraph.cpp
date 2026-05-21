@@ -6,6 +6,7 @@
 #include <fifechan/widgets/piegraph.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <utility>
 #include <vector>
 
@@ -96,6 +97,7 @@ namespace fcn
 
     void PieGraph::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         bool const active = isFocused();
 
         if (isOpaque()) {

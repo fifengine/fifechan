@@ -42,21 +42,34 @@ set(UNIT_TEST_SOURCES
   src/fontloader.tests.cpp
   # Widgets
   src/widget.tests.cpp
+  src/widgets/activitybar.tests.cpp
+  src/widgets/activitybaritem.tests.cpp
+  src/widgets/adjustingcontainer.tests.cpp
   src/widgets/bargraph.tests.cpp
   src/widgets/barsection.tests.cpp
   src/widgets/button.tests.cpp
   src/widgets/checkbox.tests.cpp
   src/widgets/container.tests.cpp
+  src/widgets/curvegraph.tests.cpp
   src/widgets/dropdown.tests.cpp
   src/widgets/flowcontainer.tests.cpp
   src/widgets/focus.tests.cpp
+  src/widgets/horizontalbar.tests.cpp
   src/widgets/icon.tests.cpp
+  src/widgets/iconprogressbar.tests.cpp
   src/widgets/imagebutton.tests.cpp
+  src/widgets/imageprogressbar.tests.cpp
   src/widgets/label.tests.cpp
+  src/widgets/linegraph.tests.cpp
   src/widgets/listbox.tests.cpp
+  src/widgets/menubar.tests.cpp
+  src/widgets/menuitem.tests.cpp
+  src/widgets/menupopup.tests.cpp
   src/widgets/modalbackdrop.tests.cpp
   src/widgets/panel.tests.cpp
   src/widgets/passwordfield.tests.cpp
+  src/widgets/piegraph.tests.cpp
+  src/widgets/pointgraph.tests.cpp
   src/widgets/primarypanel.tests.cpp
   src/widgets/radiobutton.tests.cpp
   src/widgets/scrollarea.tests.cpp

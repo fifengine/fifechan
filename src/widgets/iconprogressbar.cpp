@@ -6,6 +6,7 @@
 #include <fifechan/widgets/iconprogressbar.hpp>
 
 // Standard library includes
+#include <cassert>
 #include <string>
 
 // Project headers (subdirs before local)
@@ -39,6 +40,7 @@ namespace fcn
 
     void IconProgressBar::draw(Graphics* graphics)
     {
+        assert("graphics must not be null" && graphics != nullptr);
         bool const active = isFocused();
 
         if (isOpaque()) {
@@ -111,6 +113,7 @@ namespace fcn
 
     void IconProgressBar::setMaxIcons(int maxIcons)
     {
+        assert("max icons must be non-negative" && maxIcons >= 0);
         mMaxIcons = maxIcons;
         adjustSizeImpl();
     }
@@ -139,6 +142,7 @@ namespace fcn
 
     void IconProgressBar::advance()
     {
+        assert("max icons must be non-negative" && mMaxIcons >= 0);
         mIconCounter = (mIconCounter + 1) % (mMaxIcons + 1);
     }
 

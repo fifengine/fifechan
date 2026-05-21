@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cassert>
 #include <list>
 #include <vector>
 

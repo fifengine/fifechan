@@ -5,6 +5,7 @@
 #include "fifechan/widgets/activitybaritem.hpp"
 
 // Standard library includes
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
@@ -57,6 +58,7 @@ namespace fcn
 
     void ActivityBarItem::setSize(int size)
     {
+        assert("size must be positive" && size > 0);
         mSize = size;
         Widget::setSize(size, size);
     }
