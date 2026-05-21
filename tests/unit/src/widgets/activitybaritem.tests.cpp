@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-#include <catch2/catch_test_macros.hpp>
-
+// Corresponding header include
 #include "fifechan/widgets/activitybaritem.hpp"
+
+// Standard library includes
+#include <string>
+
+// Third-party library includes
+#include <catch2/catch_test_macros.hpp>
 
 using fcn::ActivityBarItem;
 
@@ -88,5 +93,6 @@ TEST_CASE("ActivityBarItem getTooltip returns const reference to internal data",
     ActivityBarItem item("", "persistent");
     std::string const & ref1 = item.getTooltip();
     std::string const & ref2 = item.getTooltip();
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(&ref1 == &ref2);
 }

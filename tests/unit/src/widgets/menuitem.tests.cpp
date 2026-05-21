@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-#include <catch2/catch_test_macros.hpp>
-
+// Corresponding header include
 #include "fifechan/widgets/menuitem.hpp"
+
+// Standard library includes
+#include <string>
+
+// Third-party library includes
+#include <catch2/catch_test_macros.hpp>
 
 using fcn::MenuItem;
 
@@ -113,6 +118,7 @@ TEST_CASE("MenuItem getShortcut returns const reference", "[unit][menuitem]")
     item.setShortcut("Ctrl+Z");
     std::string const & ref1 = item.getShortcut();
     std::string const & ref2 = item.getShortcut();
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(&ref1 == &ref2);
 }
 

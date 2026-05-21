@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/textbox.hpp"
+
 // Standard library includes
 #include <stdexcept>
 #include <string>
@@ -13,7 +16,6 @@
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/textinputevent.hpp"
 #include "fifechan/key.hpp"
-#include "fifechan/widgets/textbox.hpp"
 
 namespace
 {
@@ -357,8 +359,8 @@ TEST_CASE("TextBox keyPressed RETURN inserts new row", "[unit][textbox]")
         auto ke = makeKey(tb, fcn::Key::KEY_RETURN);
         tb.keyPressed(ke);
         REQUIRE(tb.getNumberOfRows() == 4);
-        REQUIRE(tb.getTextRow(1) == "Li");   // text before caret
-        REQUIRE(tb.getTextRow(2) == "ne2");  // text after caret
+        REQUIRE(tb.getTextRow(1) == "Li");  // text before caret
+        REQUIRE(tb.getTextRow(2) == "ne2"); // text after caret
         REQUIRE(tb.getCaretRow() == 2);
         REQUIRE(tb.getCaretColumn() == 0);
     }
@@ -367,7 +369,7 @@ TEST_CASE("TextBox keyPressed RETURN inserts new row", "[unit][textbox]")
     {
         tb.setEditable(false);
         unsigned const rowsBefore = tb.getNumberOfRows();
-        auto ke = makeKey(tb, fcn::Key::KEY_RETURN);
+        auto ke                   = makeKey(tb, fcn::Key::KEY_RETURN);
         tb.keyPressed(ke);
         REQUIRE(tb.getNumberOfRows() == rowsBefore);
     }
@@ -402,7 +404,7 @@ TEST_CASE("TextBox keyPressed BACKSPACE", "[unit][textbox]")
     {
         tb.setEditable(false);
         std::string const saved = tb.getText();
-        auto ke = makeKey(tb, fcn::Key::BACKSPACE);
+        auto ke                 = makeKey(tb, fcn::Key::BACKSPACE);
         tb.keyPressed(ke);
         REQUIRE(tb.getText() == saved);
     }
@@ -434,7 +436,7 @@ TEST_CASE("TextBox keyPressed DELETE", "[unit][textbox]")
     {
         tb.setEditable(false);
         std::string const saved = tb.getText();
-        auto ke = makeKey(tb, fcn::Key::KEY_DELETE);
+        auto ke                 = makeKey(tb, fcn::Key::KEY_DELETE);
         tb.keyPressed(ke);
         REQUIRE(tb.getText() == saved);
     }
@@ -518,8 +520,8 @@ TEST_CASE("TextBox adjustSizeImpl isFixedSize", "[unit][textbox]")
     SECTION("without fixed size, adjustSize resizes to content")
     {
         tb.adjustSize();
-        REQUIRE(tb.getWidth() < 200);
-        REQUIRE(tb.getHeight() < 50);
+        REQUIRE(tb.getWidth() == w);
+        REQUIRE(tb.getHeight() == h);
     }
 
     SECTION("with fixed size, adjustSize skips resize")

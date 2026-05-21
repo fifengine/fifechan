@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/adjustingcontainer.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-#include "fifechan/widgets/adjustingcontainer.hpp"
+// Project headers (subdirs before local)
 #include "fifechan/widgets/label.hpp"
 
 using fcn::AdjustingContainer;
@@ -66,7 +70,10 @@ TEST_CASE("AdjustingContainer add multiple widgets grid layout", "[unit][adjusti
     AdjustingContainer c;
     c.setNumberOfColumns(2);
 
-    Label la, lb, lc, ld;
+    Label la;
+    Label lb;
+    Label lc;
+    Label ld;
     la.setSize(20, 10);
     lb.setSize(30, 15);
     lc.setSize(25, 12);
@@ -112,7 +119,8 @@ TEST_CASE("AdjustingContainer adjustContent center alignment", "[unit][adjusting
     c.setColumnAlignment(0, AdjustingContainer::Alignment::Left);
     c.setColumnAlignment(1, AdjustingContainer::Alignment::Center);
 
-    Label la, lb;
+    Label la;
+    Label lb;
     la.setSize(40, 10);
     lb.setSize(10, 10);
     c.add(&la);
@@ -131,7 +139,8 @@ TEST_CASE("AdjustingContainer adjustContent right alignment", "[unit][adjustingc
     c.setNumberOfColumns(2);
     c.setColumnAlignment(1, AdjustingContainer::Alignment::Right);
 
-    Label la, lb;
+    Label la;
+    Label lb;
     la.setSize(40, 10);
     lb.setSize(10, 10);
     c.add(&la);
@@ -147,7 +156,8 @@ TEST_CASE("AdjustingContainer adjustContent right alignment", "[unit][adjustingc
 TEST_CASE("AdjustingContainer remove widget", "[unit][adjustingcontainer]")
 {
     AdjustingContainer c;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     l1.setSize(10, 10);
     l2.setSize(20, 20);
     c.add(&l1);
@@ -164,7 +174,8 @@ TEST_CASE("AdjustingContainer remove widget", "[unit][adjustingcontainer]")
 TEST_CASE("AdjustingContainer removeAllChildren", "[unit][adjustingcontainer]")
 {
     AdjustingContainer c;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     l1.setSize(10, 10);
     l2.setSize(20, 20);
     c.add(&l1);
@@ -178,7 +189,8 @@ TEST_CASE("AdjustingContainer resizeToContent updates size", "[unit][adjustingco
     AdjustingContainer c;
     c.setNumberOfColumns(2);
 
-    Label la, lb;
+    Label la;
+    Label lb;
     la.setSize(30, 20);
     lb.setSize(50, 10);
     c.add(&la);
@@ -222,7 +234,7 @@ TEST_CASE("AdjustingContainer getChildrenArea with no border", "[unit][adjusting
 {
     AdjustingContainer c;
     c.setSize(200, 100);
-    fcn::Rectangle area = c.getChildrenArea();
+    fcn::Rectangle const area = c.getChildrenArea();
     REQUIRE(area.x == 0);
     REQUIRE(area.y == 0);
     REQUIRE(area.width == 200);
@@ -234,7 +246,7 @@ TEST_CASE("AdjustingContainer getChildrenArea with border", "[unit][adjustingcon
     AdjustingContainer c;
     c.setBorderSize(4);
     c.setSize(200, 100);
-    fcn::Rectangle area = c.getChildrenArea();
+    fcn::Rectangle const area = c.getChildrenArea();
     REQUIRE(area.x == 4);
     REQUIRE(area.y == 4);
     REQUIRE(area.width == 200 - 8);
@@ -258,7 +270,9 @@ TEST_CASE("AdjustingContainer adjustSize with no widgets", "[unit][adjustingcont
 TEST_CASE("AdjustingContainer single widget after multiple add-remove cycles", "[unit][adjustingcontainer]")
 {
     AdjustingContainer c;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     l1.setSize(10, 10);
     l2.setSize(20, 20);
     l3.setSize(30, 30);
@@ -275,7 +289,8 @@ TEST_CASE("AdjustingContainer single widget after multiple add-remove cycles", "
 TEST_CASE("AdjustingContainer one widget per row with 1 column", "[unit][adjustingcontainer]")
 {
     AdjustingContainer c;
-    Label la, lb;
+    Label la;
+    Label lb;
     la.setSize(15, 10);
     lb.setSize(20, 25);
     c.add(&la);
@@ -292,7 +307,8 @@ TEST_CASE("AdjustingContainer widgets narrower than column stay left-aligned", "
 {
     AdjustingContainer c;
     c.setNumberOfColumns(2);
-    Label la, lb;
+    Label la;
+    Label lb;
     la.setSize(50, 10);
     lb.setSize(10, 10);
     c.add(&la);

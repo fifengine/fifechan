@@ -23,13 +23,11 @@
 using fcn::ActionEvent;
 using fcn::ActionListener;
 using fcn::Button;
-using fcn::Color;
 using fcn::DefaultFont;
 using fcn::Graphics;
 using fcn::Key;
 using fcn::KeyEvent;
 using fcn::MouseEvent;
-using fcn::MouseInput;
 
 namespace
 {
@@ -298,7 +296,7 @@ TEST_CASE("Button focusLost resets state", "[unit][button]")
     REQUIRE(pressEvent.isConsumed());
 
     // Focus lost resets the key pressed state
-    fcn::Event focusEvent(&btn);
+    fcn::Event const focusEvent(&btn);
     btn.focusLost(focusEvent);
 
     // Now release should NOT fire action since state was reset
@@ -317,7 +315,7 @@ TEST_CASE("Button ancestorHidden resets state", "[unit][button]")
     KeyEvent pressEvent(&btn, &btn, false, false, false, false, KeyEvent::Type::Pressed, false, spaceKey);
     btn.keyPressed(pressEvent);
 
-    fcn::Event hiddenEvent(&btn);
+    fcn::Event const hiddenEvent(&btn);
     btn.ancestorHidden(hiddenEvent);
 
     MockActionListener listener;

@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/imageprogressbar.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
-#include "fifechan/widgets/imageprogressbar.hpp"
 
 using fcn::ImageProgressBar;
 
@@ -119,7 +123,7 @@ TEST_CASE("ImageProgressBar resizeToContent with no image", "[unit][imageprogres
 {
     ImageProgressBar bar;
     bar.resizeToContent();
-    int const expected = 2 * bar.getBorderSize() + bar.getPaddingLeft() + bar.getPaddingRight();
+    int const expected = (2 * bar.getBorderSize()) + bar.getPaddingLeft() + bar.getPaddingRight();
     REQUIRE(bar.getWidth() == expected);
     REQUIRE(bar.getHeight() == expected);
 }
@@ -128,7 +132,7 @@ TEST_CASE("ImageProgressBar adjustSize with no image", "[unit][imageprogressbar]
 {
     ImageProgressBar bar;
     bar.adjustSize();
-    int const expected = 2 * bar.getBorderSize() + bar.getPaddingLeft() + bar.getPaddingRight();
+    int const expected = (2 * bar.getBorderSize()) + bar.getPaddingLeft() + bar.getPaddingRight();
     REQUIRE(bar.getWidth() == expected);
     REQUIRE(bar.getHeight() == expected);
 }

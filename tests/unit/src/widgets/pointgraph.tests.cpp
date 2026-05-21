@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/pointgraph.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/point.hpp"
-#include "fifechan/widgets/pointgraph.hpp"
 
 using fcn::PointGraph;
 
@@ -43,12 +47,12 @@ TEST_CASE("PointGraph setPointVector and getPointVector", "[unit][pointgraph]")
     g.setPointVector(data);
     fcn::PointVector const & result = g.getPointVector();
     REQUIRE(result.size() == 3);
-    REQUIRE(result[0].x == 10);
-    REQUIRE(result[0].y == 20);
-    REQUIRE(result[1].x == 30);
-    REQUIRE(result[1].y == 40);
-    REQUIRE(result[2].x == 50);
-    REQUIRE(result[2].y == 60);
+    REQUIRE(result.at(0).x == 10);
+    REQUIRE(result.at(0).y == 20);
+    REQUIRE(result.at(1).x == 30);
+    REQUIRE(result.at(1).y == 40);
+    REQUIRE(result.at(2).x == 50);
+    REQUIRE(result.at(2).y == 60);
 }
 
 TEST_CASE("PointGraph setPointVector replaces data", "[unit][pointgraph]")
@@ -88,8 +92,8 @@ TEST_CASE("PointGraph constructor with data", "[unit][pointgraph]")
     REQUIRE_FALSE(g.isOpaque());
     REQUIRE(g.getThickness() == 1);
     REQUIRE(g.getPointVector().size() == 2);
-    REQUIRE(g.getPointVector()[0].x == 5);
-    REQUIRE(g.getPointVector()[1].y == 20);
+    REQUIRE(g.getPointVector().at(0).x == 5);
+    REQUIRE(g.getPointVector().at(1).y == 20);
 }
 
 TEST_CASE("PointGraph setPointVector with empty vector", "[unit][pointgraph]")
@@ -110,6 +114,7 @@ TEST_CASE("PointGraph getPointVector returns const reference to internal data", 
     g.setPointVector(data);
     fcn::PointVector const & ref1 = g.getPointVector();
     fcn::PointVector const & ref2 = g.getPointVector();
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(&ref1 == &ref2);
 }
 

@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-#include <catch2/catch_test_macros.hpp>
-
+// Corresponding header include
 #include "fifechan/widgets/menubar.hpp"
+
+// Third-party library includes
+#include <catch2/catch_test_macros.hpp>
 
 using fcn::MenuBar;
 
@@ -26,7 +28,7 @@ TEST_CASE("MenuBar closeAll when no menu open", "[unit][menubar]")
 TEST_CASE("MenuBar addMenu with text only", "[unit][menubar]")
 {
     MenuBar bar;
-    auto* item = bar.addMenu("File");
+    auto const * item = bar.addMenu("File");
     REQUIRE(item != nullptr);
     REQUIRE(bar.isMenuOpen() == false);
     REQUIRE(bar.getOpenMenu() == nullptr);
@@ -35,7 +37,7 @@ TEST_CASE("MenuBar addMenu with text only", "[unit][menubar]")
 TEST_CASE("MenuBar addMenu with null popup", "[unit][menubar]")
 {
     MenuBar bar;
-    auto* item = bar.addMenu("Edit", nullptr);
+    auto const * item = bar.addMenu("Edit", nullptr);
     REQUIRE(item != nullptr);
 }
 

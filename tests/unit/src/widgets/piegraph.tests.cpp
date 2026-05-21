@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/piegraph.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/color.hpp"
 #include "fifechan/point.hpp"
-#include "fifechan/widgets/piegraph.hpp"
 
 using fcn::PieGraph;
 
@@ -87,6 +91,7 @@ TEST_CASE("PieGraph getCenter returns const reference to internal data", "[unit]
     g.setCenter(fcn::Point(5, 10));
     fcn::Point const & ref1 = g.getCenter();
     fcn::Point const & ref2 = g.getCenter();
+    // cppcheck-suppress knownConditionTrueFalse
     REQUIRE(&ref1 == &ref2);
 }
 

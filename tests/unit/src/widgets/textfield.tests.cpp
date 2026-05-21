@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/textfield.hpp"
+
 // Standard library includes
 #include <string>
 
@@ -11,7 +14,6 @@
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/key.hpp"
-#include "fifechan/widgets/textfield.hpp"
 
 using fcn::DefaultFont;
 using fcn::Key;

@@ -16,8 +16,6 @@
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
 
-using fcn::Container;
-using fcn::DragEvent;
 using fcn::DragHandler;
 using fcn::DragPayload;
 using fcn::DropResult;
@@ -59,7 +57,7 @@ TEST_CASE("DragPayload copy", "[unit][dragdrop]")
 {
     auto data = std::make_shared<int>(99);
     DragPayload payload(data);
-    DragPayload copy(payload);
+    DragPayload const & copy(payload);
     REQUIRE(copy.hasData());
     REQUIRE(*copy.getShared<int>() == 99);
 }

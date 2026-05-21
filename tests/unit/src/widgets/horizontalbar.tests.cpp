@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
-#include <catch2/catch_test_macros.hpp>
+#include "fifechan/widgets/horizontalbar.hpp"
 
 #include "fifechan/graphics.hpp"
 #include "fifechan/rectangle.hpp"
-#include "fifechan/widgets/horizontalbar.hpp"
 #include "fifechan/widgets/label.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 using fcn::HorizontalBar;
 using fcn::Label;
@@ -16,26 +16,61 @@ namespace
     class MockGraphics : public fcn::Graphics
     {
         public:
-            void setColor(fcn::Color const &) override {}
+            void setColor(fcn::Color const & /*color*/) override
+            {
+            }
             fcn::Color const & getColor() const override
             {
-                static fcn::Color c;
+                static fcn::Color const c;
                 return c;
             }
-            void drawPoint(int, int) override {}
-            void drawLine(int, int, int, int) override {}
-            void drawLine(int, int, int, int, unsigned int) override {}
-            void drawPolyLine(fcn::PointVector const &, unsigned int) override {}
-            void drawBezier(fcn::PointVector const &, int, unsigned int) override {}
-            void drawRectangle(fcn::Rectangle const &) override {}
-            void fillRectangle(fcn::Rectangle const &) override {}
-            void drawCircle(fcn::Point const &, unsigned int) override {}
-            void drawFillCircle(fcn::Point const &, unsigned int) override {}
-            void drawCircleSegment(fcn::Point const &, unsigned int, int, int) override {}
-            void drawFillCircleSegment(fcn::Point const &, unsigned int, int, int) override {}
-            void drawImage(fcn::Image const *, int, int, int, int, int, int) override {}
+            void drawPoint(int /*x*/, int /*y*/) override
+            {
+            }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/) override
+            {
+            }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, unsigned int /*width*/) override
+            {
+            }
+            void drawPolyLine(fcn::PointVector const & /*points*/, unsigned int /*width*/) override
+            {
+            }
+            void drawBezier(fcn::PointVector const & /*points*/, int /*steps*/, unsigned int /*width*/) override
+            {
+            }
+            void drawRectangle(fcn::Rectangle const & /*rectangle*/) override
+            {
+            }
+            void fillRectangle(fcn::Rectangle const & /*rectangle*/) override
+            {
+            }
+            void drawCircle(fcn::Point const & /*p*/, unsigned int /*radius*/) override
+            {
+            }
+            void drawFillCircle(fcn::Point const & /*p*/, unsigned int /*radius*/) override
+            {
+            }
+            void drawCircleSegment(
+                fcn::Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+            }
+            void drawFillCircleSegment(
+                fcn::Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+            }
+            void drawImage(
+                fcn::Image const * /*image*/,
+                int /*srcX*/,
+                int /*srcY*/,
+                int /*dstX*/,
+                int /*dstY*/,
+                int /*width*/,
+                int /*height*/) override
+            {
+            }
     };
-}
+} // namespace
 
 TEST_CASE("HorizontalBar default construction", "[unit][horizontalbar]")
 {
@@ -120,7 +155,8 @@ TEST_CASE("HorizontalBar remove child", "[unit][horizontalbar]")
 TEST_CASE("HorizontalBar removeAllChildren", "[unit][horizontalbar]")
 {
     HorizontalBar bar;
-    Label l1, l2;
+    Label l1;
+    Label l2;
     bar.add(&l1);
     bar.add(&l2);
     bar.removeAllChildren();
@@ -251,12 +287,15 @@ TEST_CASE("HorizontalBar expandChildren prevents width shrinkage", "[unit][horiz
     bar.add(&l);
     int const wBefore = bar.getWidth();
     bar.resizeToContent(false);
+    REQUIRE(bar.getWidth() < wBefore);
 }
 
 TEST_CASE("HorizontalBar multiple children", "[unit][horizontalbar]")
 {
     HorizontalBar bar;
-    Label l1, l2, l3;
+    Label l1;
+    Label l2;
+    Label l3;
     l1.setSize(10, 10);
     l2.setSize(20, 10);
     l3.setSize(30, 10);

@@ -53,8 +53,8 @@ TEST_CASE("Gui setTop nullptr clears", "[unit][gui]")
 TEST_CASE("Gui setTop with unique_ptr", "[unit][gui]")
 {
     Gui gui;
-    auto container = std::make_unique<Container>();
-    auto const ptr = container.get();
+    auto container  = std::make_unique<Container>();
+    auto* const ptr = container.get();
     gui.setTop(std::move(container));
     REQUIRE(gui.getTop() == ptr);
 }
@@ -70,8 +70,8 @@ TEST_CASE("Gui setRoot alias", "[unit][gui]")
 TEST_CASE("Gui setRoot with unique_ptr", "[unit][gui]")
 {
     Gui gui;
-    auto container = std::make_unique<Container>();
-    auto const ptr = container.get();
+    auto container  = std::make_unique<Container>();
+    auto* const ptr = container.get();
     gui.setRoot(std::move(container));
     REQUIRE(gui.getTop() == ptr);
 }

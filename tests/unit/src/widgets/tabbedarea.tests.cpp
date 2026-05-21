@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/tabbedarea.hpp"
+
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
@@ -16,7 +19,6 @@
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
 #include "fifechan/widgets/tab.hpp"
-#include "fifechan/widgets/tabbedarea.hpp"
 
 using fcn::ActionEvent;
 using fcn::Container;
@@ -43,7 +45,7 @@ namespace
 
             fcn::Color const & getColor() const override
             {
-                static fcn::Color c;
+                static fcn::Color const c;
                 return c;
             }
 
@@ -121,7 +123,8 @@ namespace
                 (void)eangle;
             }
 
-            void drawImage(fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override
+            void drawImage(
+                fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override
             {
                 (void)image;
                 (void)srcX;
@@ -174,7 +177,7 @@ TEST_CASE("TabbedArea addTab sets first tab selected", "[unit][tabbedarea]")
     Tab myTab;
     Label content;
     area.addTab(&myTab, &content);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
     REQUIRE(area.isTabSelected(&myTab));
 }
 
@@ -192,14 +195,14 @@ TEST_CASE("TabbedArea setSelectedTab by index", "[unit][tabbedarea]")
     area.addTab(&tb, &cb);
     area.addTab(&tc, &cc);
 
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
-    REQUIRE(!area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(1U));
+    REQUIRE(!area.isTabSelected(0U));
 
     area.setSelectedTab(2);
-    REQUIRE(area.isTabSelected(2u));
+    REQUIRE(area.isTabSelected(2U));
 }
 
 TEST_CASE("TabbedArea setSelectedTab by pointer", "[unit][tabbedarea]")
@@ -213,7 +216,7 @@ TEST_CASE("TabbedArea setSelectedTab by pointer", "[unit][tabbedarea]")
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
     area.setSelectedTab(&tb);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
     REQUIRE(area.getSelectedTab() == &tb);
 }
 
@@ -252,30 +255,42 @@ TEST_CASE("TabbedArea removeTab", "[unit][tabbedarea]")
 TEST_CASE("TabbedArea remove last tab from 4 keeps previous selected", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb, tc, td;
-    Label ca, cb, cc, cd;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Tab td;
+    Label ca;
+    Label cb;
+    Label cc;
+    Label cd;
 
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
     area.addTab(&tc, &cc);
     area.addTab(&td, &cd);
     REQUIRE(area.getNumberOfTabs() == 4);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 
     area.setSelectedTab(3);
-    REQUIRE(area.isTabSelected(3u));
+    REQUIRE(area.isTabSelected(3U));
 
     area.removeTab(&td);
     REQUIRE(area.getNumberOfTabs() == 3);
-    REQUIRE(area.isTabSelected(2u));
+    REQUIRE(area.isTabSelected(2U));
     REQUIRE(area.getSelectedTab() == &tc);
 }
 
 TEST_CASE("TabbedArea remove middle tab from 4 keeps same index", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb, tc, td;
-    Label ca, cb, cc, cd;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Tab td;
+    Label ca;
+    Label cb;
+    Label cc;
+    Label cd;
 
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
@@ -284,19 +299,25 @@ TEST_CASE("TabbedArea remove middle tab from 4 keeps same index", "[unit][tabbed
     REQUIRE(area.getNumberOfTabs() == 4);
 
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 
     area.removeTab(&tb);
     REQUIRE(area.getNumberOfTabs() == 3);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
     REQUIRE(area.getSelectedTab() == &tc);
 }
 
 TEST_CASE("TabbedArea remove first tab from 4 keeps same index", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb, tc, td;
-    Label ca, cb, cc, cd;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Tab td;
+    Label ca;
+    Label cb;
+    Label cc;
+    Label cd;
 
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
@@ -304,20 +325,26 @@ TEST_CASE("TabbedArea remove first tab from 4 keeps same index", "[unit][tabbeda
     area.addTab(&td, &cd);
     REQUIRE(area.getNumberOfTabs() == 4);
 
-    area.setSelectedTab(0u);
-    REQUIRE(area.isTabSelected(0u));
+    area.setSelectedTab(0U);
+    REQUIRE(area.isTabSelected(0U));
 
     area.removeTab(&ta);
     REQUIRE(area.getNumberOfTabs() == 3);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
     REQUIRE(area.getSelectedTab() == &tb);
 }
 
 TEST_CASE("TabbedArea remove non-selected tab from 4 leaves selection", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb, tc, td;
-    Label ca, cb, cc, cd;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Tab td;
+    Label ca;
+    Label cb;
+    Label cc;
+    Label cd;
 
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
@@ -326,19 +353,25 @@ TEST_CASE("TabbedArea remove non-selected tab from 4 leaves selection", "[unit][
     REQUIRE(area.getNumberOfTabs() == 4);
 
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 
     area.removeTab(&td);
     REQUIRE(area.getNumberOfTabs() == 3);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
     REQUIRE(area.getSelectedTab() == &tb);
 }
 
 TEST_CASE("TabbedArea remove all tabs progressively from 4", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb, tc, td;
-    Label ca, cb, cc, cd;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Tab td;
+    Label ca;
+    Label cb;
+    Label cc;
+    Label cd;
 
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
@@ -447,8 +480,10 @@ TEST_CASE("TabbedArea setBaseColor", "[unit][tabbedarea]")
 TEST_CASE("TabbedArea setBaseColor with tabs", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
 
@@ -476,26 +511,28 @@ TEST_CASE("TabbedArea removeTabWithIndex out of bounds throws", "[unit][tabbedar
 TEST_CASE("TabbedArea isTabSelected out of bounds throws", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    REQUIRE_THROWS_AS(area.isTabSelected(0u), fcn::Exception);
+    REQUIRE_THROWS_AS(area.isTabSelected(0U), fcn::Exception);
 }
 
 TEST_CASE("TabbedArea setSelectedTab unsigned int out of bounds throws", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    REQUIRE_THROWS_AS(area.setSelectedTab(0u), fcn::Exception);
+    REQUIRE_THROWS_AS(area.setSelectedTab(0U), fcn::Exception);
 }
 
 TEST_CASE("TabbedArea setSelectedTab same tab twice does nothing", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 
     area.setSelectedTab(&ta);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 }
 
 TEST_CASE("TabbedArea draw non-opaque without tabs", "[unit][tabbedarea]")
@@ -521,14 +558,16 @@ TEST_CASE("TabbedArea draw with tabs and selection", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setSize(400, 300);
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     DefaultFont font;
     ta.setFont(&font);
     tb.setFont(&font);
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
-    area.setSelectedTab(0u);
+    area.setSelectedTab(0U);
 
     MockGraphics g;
     area.draw(&g);
@@ -549,8 +588,10 @@ TEST_CASE("TabbedArea setLayout Vertical with tabs adjusts positions", "[unit][t
     TabbedArea area;
     area.setSize(300, 200);
     area.setLayout(Container::LayoutPolicy::Vertical);
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     DefaultFont font;
     ta.setFont(&font);
     tb.setFont(&font);
@@ -588,78 +629,92 @@ TEST_CASE("TabbedArea keyPressed left navigates tabs", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setFocused(true);
-    Tab ta, tb, tc;
-    Label ca, cb, cc;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Label ca;
+    Label cb;
+    Label cc;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
     area.addTab(&tc, &cc);
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 
     Key const leftKey(Key::LEFT);
     KeyEvent leftEvent(&area, &area, false, false, false, false, KeyEvent::Type::Pressed, false, leftKey);
     area.keyPressed(leftEvent);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 }
 
 TEST_CASE("TabbedArea keyPressed right navigates tabs", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setFocused(true);
-    Tab ta, tb, tc;
-    Label ca, cb, cc;
+    Tab ta;
+    Tab tb;
+    Tab tc;
+    Label ca;
+    Label cb;
+    Label cc;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
     area.addTab(&tc, &cc);
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 
     Key const rightKey(Key::RIGHT);
     KeyEvent rightEvent(&area, &area, false, false, false, false, KeyEvent::Type::Pressed, false, rightKey);
     area.keyPressed(rightEvent);
-    REQUIRE(area.isTabSelected(2u));
+    REQUIRE(area.isTabSelected(2U));
 }
 
 TEST_CASE("TabbedArea keyPressed left at first tab does nothing", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setFocused(true);
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
-    area.setSelectedTab(0u);
-    REQUIRE(area.isTabSelected(0u));
+    area.setSelectedTab(0U);
+    REQUIRE(area.isTabSelected(0U));
 
     Key const leftKey(Key::LEFT);
     KeyEvent leftEvent(&area, &area, false, false, false, false, KeyEvent::Type::Pressed, false, leftKey);
     area.keyPressed(leftEvent);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 }
 
 TEST_CASE("TabbedArea keyPressed right at last tab does nothing", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setFocused(true);
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
     area.setSelectedTab(1);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 
     Key const rightKey(Key::RIGHT);
     KeyEvent rightEvent(&area, &area, false, false, false, false, KeyEvent::Type::Pressed, false, rightKey);
     area.keyPressed(rightEvent);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
 }
 
 TEST_CASE("TabbedArea keyPressed consumed does nothing", "[unit][tabbedarea]")
 {
     TabbedArea area;
     area.setFocused(true);
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
 
@@ -667,21 +722,24 @@ TEST_CASE("TabbedArea keyPressed consumed does nothing", "[unit][tabbedarea]")
     KeyEvent rightEvent(&area, &area, false, false, false, false, KeyEvent::Type::Pressed, false, rightKey);
     rightEvent.consume();
     area.keyPressed(rightEvent);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 }
 
 TEST_CASE("TabbedArea mousePressed on tab selects it", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
-    area.setSelectedTab(0u);
+    area.setSelectedTab(0U);
 
     // tb is at x=some offset. With default font, width is font width * tab padding etc.
     // Simulate a click on tb's area
-    MouseEvent pressEvent(&area, &area, false, false, false, false, MouseEvent::Type::Pressed, MouseEvent::Button::Left, 50, 5, 0);
+    MouseEvent pressEvent(
+        &area, &area, false, false, false, false, MouseEvent::Type::Pressed, MouseEvent::Button::Left, 50, 5, 0);
     area.mousePressed(pressEvent);
     // tb is at index 1 at x=0 initially, so click at x=50 may or may not hit tb;
     // just verify no crash
@@ -695,9 +753,10 @@ TEST_CASE("TabbedArea mousePressed non-left button does nothing", "[unit][tabbed
     Label ca;
     area.addTab(&ta, &ca);
 
-    MouseEvent pressEvent(&area, &area, false, false, false, false, MouseEvent::Type::Pressed, MouseEvent::Button::Right, 0, 0, 0);
+    MouseEvent pressEvent(
+        &area, &area, false, false, false, false, MouseEvent::Type::Pressed, MouseEvent::Button::Right, 0, 0, 0);
     area.mousePressed(pressEvent);
-    REQUIRE(area.isTabSelected(0u));
+    REQUIRE(area.isTabSelected(0U));
 }
 
 TEST_CASE("TabbedArea death with tab source removes it", "[unit][tabbedarea]")
@@ -730,16 +789,18 @@ TEST_CASE("TabbedArea death with non-tab source does nothing", "[unit][tabbedare
 TEST_CASE("TabbedArea action from tab selects it", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     area.addTab(&ta, &ca);
     area.addTab(&tb, &cb);
-    area.setSelectedTab(0u);
-    REQUIRE(area.isTabSelected(0u));
+    area.setSelectedTab(0U);
+    REQUIRE(area.isTabSelected(0U));
 
     ActionEvent actionEvent(&tb, "tab");
     area.action(actionEvent);
-    REQUIRE(area.isTabSelected(1u));
+    REQUIRE(area.isTabSelected(1U));
     REQUIRE(area.getSelectedTab() == &tb);
 }
 
@@ -754,7 +815,7 @@ TEST_CASE("TabbedArea action from non-tab throws", "[unit][tabbedarea]")
 TEST_CASE("TabbedArea setDimension adjusts layout", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    fcn::Rectangle dim(0, 0, 500, 300);
+    fcn::Rectangle const dim(0, 0, 500, 300);
     area.setDimension(dim);
     REQUIRE(area.getWidth() == 500);
     REQUIRE(area.getHeight() == 300);
@@ -763,8 +824,10 @@ TEST_CASE("TabbedArea setDimension adjusts layout", "[unit][tabbedarea]")
 TEST_CASE("TabbedArea resizeToContent with tabs forces adjustment", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     DefaultFont font;
     ta.setFont(&font);
     tb.setFont(&font);
@@ -777,8 +840,10 @@ TEST_CASE("TabbedArea resizeToContent with tabs forces adjustment", "[unit][tabb
 TEST_CASE("TabbedArea expandContent with tabs", "[unit][tabbedarea]")
 {
     TabbedArea area;
-    Tab ta, tb;
-    Label ca, cb;
+    Tab ta;
+    Tab tb;
+    Label ca;
+    Label cb;
     DefaultFont font;
     ta.setFont(&font);
     tb.setFont(&font);

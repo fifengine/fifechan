@@ -3,6 +3,7 @@
 
 // Standard library includes
 #include <string>
+#include <utility>
 #include <vector>
 
 // Third-party library includes
@@ -42,8 +43,8 @@ namespace
 
             std::string getElementAt(int i) override
             {
-                if (i >= 0 && i < static_cast<int>(mItems.size())) {
-                    return mItems[i];
+                if (i >= 0 && std::cmp_less(i, mItems.size())) {
+                    return mItems.at(static_cast<std::size_t>(i));
                 }
                 return {};
             }

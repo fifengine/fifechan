@@ -13,8 +13,6 @@
 #include "fifechan/listeners/actionlistener.hpp"
 #include "fifechan/widgets/radiobutton.hpp"
 
-using fcn::ActionEvent;
-using fcn::ActionListener;
 using fcn::RadioButton;
 
 TEST_CASE("RadioButton default constructor", "[unit][radiobutton]")

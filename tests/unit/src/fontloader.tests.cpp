@@ -23,7 +23,7 @@ TEST_CASE("FontLoader getDefaultSearchPaths contains current directory", "[unit]
 {
     auto paths       = FontLoader::getDefaultSearchPaths();
     auto currentPath = std::filesystem::current_path();
-    bool const found = std::any_of(paths.begin(), paths.end(), [&](auto const & p) {
+    bool const found = std::ranges::any_of(paths, [&](auto const & p) {
         return p == currentPath;
     });
     REQUIRE(found);

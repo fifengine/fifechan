@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/iconprogressbar.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+//
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
 #include "fifechan/image.hpp"
-#include "fifechan/widgets/iconprogressbar.hpp"
 
 using fcn::IconProgressBar;
 
@@ -15,41 +19,96 @@ namespace
     class MockGraphics : public fcn::Graphics
     {
         public:
-            void setColor(fcn::Color const &) override {}
+            void setColor(fcn::Color const & /*color*/) override
+            {
+            }
             fcn::Color const & getColor() const override
             {
-                static fcn::Color c;
+                static fcn::Color const c;
                 return c;
             }
-            void drawPoint(int, int) override {}
-            void drawLine(int, int, int, int) override {}
-            void drawLine(int, int, int, int, unsigned int) override {}
-            void drawPolyLine(fcn::PointVector const &, unsigned int) override {}
-            void drawBezier(fcn::PointVector const &, int, unsigned int) override {}
-            void drawRectangle(fcn::Rectangle const &) override {}
-            void fillRectangle(fcn::Rectangle const &) override {}
-            void drawCircle(fcn::Point const &, unsigned int) override {}
-            void drawFillCircle(fcn::Point const &, unsigned int) override {}
-            void drawCircleSegment(fcn::Point const &, unsigned int, int, int) override {}
-            void drawFillCircleSegment(fcn::Point const &, unsigned int, int, int) override {}
-            void drawImage(fcn::Image const *, int, int) override {}
-            void drawImage(fcn::Image const *, int, int, int, int, int, int) override {}
+            void drawPoint(int /*x*/, int /*y*/) override
+            {
+            }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/) override
+            {
+            }
+            void drawLine(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, unsigned int /*width*/) override
+            {
+            }
+            void drawPolyLine(fcn::PointVector const & /*points*/, unsigned int /*width*/) override
+            {
+            }
+            void drawBezier(fcn::PointVector const & /*points*/, int /*steps*/, unsigned int /*width*/) override
+            {
+            }
+            void drawRectangle(fcn::Rectangle const & /*rectangle*/) override
+            {
+            }
+            void fillRectangle(fcn::Rectangle const & /*rectangle*/) override
+            {
+            }
+            void drawCircle(fcn::Point const & /*p*/, unsigned int /*radius*/) override
+            {
+            }
+            void drawFillCircle(fcn::Point const & /*p*/, unsigned int /*radius*/) override
+            {
+            }
+            void drawCircleSegment(
+                fcn::Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+            }
+            void drawFillCircleSegment(
+                fcn::Point const & /*p*/, unsigned int /*radius*/, int /*sangle*/, int /*eangle*/) override
+            {
+            }
+            void drawImage(fcn::Image const * /*image*/, int /*dstX*/, int /*dstY*/) override
+            {
+            }
+            void drawImage(
+                fcn::Image const * /*image*/,
+                int /*srcX*/,
+                int /*srcY*/,
+                int /*dstX*/,
+                int /*dstY*/,
+                int /*width*/,
+                int /*height*/) override
+            {
+            }
     };
 
     class MockImage : public fcn::Image
     {
-        int mWidth;
-        int mHeight;
+            int mWidth;
+            int mHeight;
+
         public:
-            MockImage(int w, int h) : mWidth(w), mHeight(h) {}
-            void free() override {}
-            int getWidth() const override { return mWidth; }
-            int getHeight() const override { return mHeight; }
-            fcn::Color getPixel(int, int) override { return {}; }
-            void putPixel(int, int, fcn::Color const &) override {}
-            void convertToDisplayFormat() override {}
+            MockImage(int w, int h) : mWidth(w), mHeight(h)
+            {
+            }
+            void free() override
+            {
+            }
+            int getWidth() const override
+            {
+                return mWidth;
+            }
+            int getHeight() const override
+            {
+                return mHeight;
+            }
+            fcn::Color getPixel(int /*x*/, int /*y*/) override
+            {
+                return {};
+            }
+            void putPixel(int /*x*/, int /*y*/, fcn::Color const & /*color*/) override
+            {
+            }
+            void convertToDisplayFormat() override
+            {
+            }
     };
-}
+} // namespace
 
 TEST_CASE("IconProgressBar default construction", "[unit][iconprogressbar]")
 {

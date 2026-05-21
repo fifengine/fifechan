@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
+// Corresponding header include
+#include "fifechan/widgets/flowcontainer.hpp"
+
+// Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers (subdirs before local)
 #include "fifechan/exception.hpp"
-#include "fifechan/widgets/flowcontainer.hpp"
 #include "fifechan/widgets/label.hpp"
 
 using fcn::Container;
@@ -293,4 +297,3 @@ TEST_CASE("FlowContainer spacing affects layout", "[unit][flowcontainer]")
     // l2 should be at least 50 + 10 = 60 pixels from left edge
     REQUIRE(l2.getX() >= 60);
 }
-

@@ -18,7 +18,6 @@
 
 using fcn::ActionEvent;
 using fcn::ActionListener;
-using fcn::Color;
 using fcn::Key;
 using fcn::KeyEvent;
 using fcn::MouseEvent;
