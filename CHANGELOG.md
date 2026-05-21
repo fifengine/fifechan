@@ -36,6 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - dropped building with Clang20
   - added building with GCC16
 
+### Fixed
+
+- Fixed TabbedArea::removeTab() crash when removing last of 4+ tabs
+  - Corrected last-tab detection condition
+  - Fixed selection-clearing bug when removing a non-selected tab
+
 ## [0.2.0] - 2026-05-04
 
 ### Added

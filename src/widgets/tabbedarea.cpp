@@ -79,9 +79,9 @@ namespace fcn
         if (tab == mSelectedTab) {
             int const index     = getSelectedTabIndex();
             int const mTabsSize = static_cast<int>(mTabs.size());
-            if (index == static_cast<int>((mTabsSize - 1) != 0 && mTabsSize >= 2)) {
+            if (index == mTabsSize - 1 && mTabsSize > 1) {
                 tabIndexToBeSelected = index - 1;
-            } else if (index == mTabsSize - 1 && mTabsSize == 1) {
+            } else if (mTabsSize == 1) {
                 tabIndexToBeSelected = -1;
             } else {
                 tabIndexToBeSelected = index;
@@ -103,14 +103,15 @@ namespace fcn
             mTabsToDelete.erase(iter2);
         }
 
-        if (tabIndexToBeSelected == -1) {
-            mSelectedTab = nullptr;
+        if (tab == mSelectedTab) {
             mWidgetContainer->removeAllChildren();
-            adaptLayout();
-        } else {
-            mWidgetContainer->removeAllChildren();
-            setSelectedTab(tabIndexToBeSelected);
+            if (tabIndexToBeSelected == -1) {
+                mSelectedTab = nullptr;
+            } else {
+                setSelectedTab(tabIndexToBeSelected);
+            }
         }
+        adaptLayout();
     }
 
     int TabbedArea::getNumberOfTabs() const
