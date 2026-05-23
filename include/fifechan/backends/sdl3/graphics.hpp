@@ -42,10 +42,8 @@ namespace fcn::sdl3
 
             ~Graphics() override;
 
-            Graphics(Graphics const &)            = delete;
-            Graphics& operator=(Graphics const &) = delete;
-            Graphics(Graphics&&)                  = delete;
-            Graphics& operator=(Graphics&&)       = delete;
+            Graphics(Graphics const &) = delete; // copy/move assignment inherited as deleted from fcn::Graphics
+            Graphics(Graphics&&)       = delete; // copy/move assignment inherited as deleted from fcn::Graphics
 
             /**
              *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.

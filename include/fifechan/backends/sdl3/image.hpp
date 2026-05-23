@@ -43,10 +43,8 @@ namespace fcn::sdl3
 
             ~Image() override;
 
-            Image(Image const &)            = delete;
-            Image& operator=(Image const &) = delete;
-            Image(Image&&)                  = delete;
-            Image& operator=(Image&&)       = delete;
+            Image(Image const &) = delete; // copy/move assignment inherited as deleted from fcn::Image
+            Image(Image&&)       = delete; // copy/move assignment inherited as deleted from fcn::Image
 
             /**
              * Gets the SDL surface for the image.

@@ -147,13 +147,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ripgrep
 
-      - name: 🛠️ Check for TODO, FIXME comments (src)
+      - name: 🛠️ Check for TODO, FIXME comments (src, tests)
         run: |
-          rg -n -i '\b(?:TODO|FIXME)\b' src
+          rg -n -i '\b(?:TODO|FIXME)\b' src tests
 
-      - name: 🛠️ Check for MAYBE, PROBABLY, BROKEN, WORKAROUND comments (src)
+      - name: 🛠️ Check for MAYBE, PROBABLY, BROKEN, WORKAROUND comments (src, tests)
         run: |
-          rg -n -i '\b(?:MAYBE|PROBABLY|BROKEN|WORKAROUND)\b' (src)
+          rg -n -i '\b(?:MAYBE|PROBABLY|BROKEN|WORKAROUND)\b' src tests
 
       - name: 🛠️ Check SWIG interface files for comments (src/**/*.i)
         run: |
