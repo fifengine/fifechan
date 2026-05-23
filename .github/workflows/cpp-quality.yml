@@ -156,17 +156,21 @@ jobs:
           rg -n -i '\b(?:MAYBE|PROBABLY|BROKEN|WORKAROUND)\b' src tests
 
       - name: 🛠️ Identify reinterpret_cast usage (src, tests)
+        continue-on-error: true
         run: |
           rg -n -g '*.{cpp,hpp}' '\breinterpret_cast\b' src tests
 
       - name: 🛠️ Identify const_cast usage (src, tests)
+        continue-on-error: true
         run: |
           rg -n -g '*.{cpp,hpp}' '\bconst_cast\b' src tests
 
       - name: 🛠️ Identify static_cast usage (src, tests)
+        continue-on-error: true
         run: |
           rg -n -g '*.{cpp,hpp}' '\bstatic_cast\b' src tests
 
       - name: 🛠️ Identify dynamic_cast usage (src, tests)
+        continue-on-error: true
         run: |
           rg -n -g '*.{cpp,hpp}' '\bdynamic_cast\b' src tests
