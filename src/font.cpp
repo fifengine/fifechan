@@ -20,13 +20,6 @@
 
 namespace fcn
 {
-    void Font::SDL_SurfaceDeleter::operator()(SDL_Surface* s) const noexcept
-    {
-        if (s != nullptr) {
-            SDL_DestroySurface(s);
-        }
-    }
-
     void Font::drawString(Graphics* graphics, std::string_view text, int x, int y) const
     {
         auto surface = renderToSurface(text);

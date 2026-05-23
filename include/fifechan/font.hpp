@@ -12,7 +12,8 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-struct SDL_Surface;
+// Third-party library includes
+#include <SDL3/SDL.h>
 
 namespace fcn
 {
@@ -35,13 +36,17 @@ namespace fcn
             /**
              * Custom deleter for SDL_Surface.
              *
-             * Calls SDL_DestroySurface.  Defined out-of-line in font.cpp
-             * so that the header only needs a forward declaration of
-             * SDL_Surface.
+             * Defined inline so that unique_ptr<..., SDL_SurfaceDeleter>
+             * works across DLL boundaries on MSVC.
              */
             struct SDL_SurfaceDeleter
             {
-                    void operator()(SDL_Surface* s) const noexcept;
+                    void operator()(SDL_Surface* s) const noexcept
+                    {
+                        if (s != nullptr) {
+                            SDL_DestroySurface(s);
+                        }
+                    }
             };
 
             /**
