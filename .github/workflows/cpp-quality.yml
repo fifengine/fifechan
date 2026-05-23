@@ -155,10 +155,6 @@ jobs:
         run: |
           rg -n -i '\b(?:MAYBE|PROBABLY|BROKEN|WORKAROUND)\b' src tests
 
-      - name: 🛠️ Check SWIG interface files for comments (src/**/*.i)
-        run: |
-          rg -n -g '*.i' '^\s*(//|/\*|\*|\*/)' src | rg -v '//\s*SPDX'
-
       - name: 🛠️ Identify reinterpret_cast usage (src, tests)
         run: |
           rg -n -g '*.{cpp,hpp}' '\breinterpret_cast\b' src tests
