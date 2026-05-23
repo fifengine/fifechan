@@ -134,6 +134,10 @@ namespace
                 (void)width;
                 (void)height;
             }
+
+            void drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/) override
+            {
+            }
     };
 } // namespace
 

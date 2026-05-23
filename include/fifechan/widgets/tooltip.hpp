@@ -110,6 +110,11 @@ namespace fcn
              */
             ~Tooltip() override = default;
 
+            Tooltip(Tooltip const &)            = delete;
+            Tooltip& operator=(Tooltip const &) = delete;
+            Tooltip(Tooltip&&)                  = delete;
+            Tooltip& operator=(Tooltip&&)       = delete;
+
             /**
              * Set the tooltip specification describing content and behavior.
              */

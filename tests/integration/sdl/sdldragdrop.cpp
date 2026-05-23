@@ -359,7 +359,7 @@ namespace
                 return SLOT_SIZE;
             }
 
-            void render(SDL_Renderer* renderer, int mouseX, int mouseY)
+            void render(SDL_Renderer* renderer, int mouseX, int mouseY) const
             {
                 // Clear screen
                 SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);

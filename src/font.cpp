@@ -12,17 +12,38 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
+// Third-party library includes
+#include <SDL3/SDL.h>
+
+// Project headers (subdirs before local)
+#include "fifechan/graphics.hpp"
+
 namespace fcn
 {
-    int Font::getStringIndexAt(std::string const & text, int x) const
+    void Font::SDL_SurfaceDeleter::operator()(SDL_Surface* s) const noexcept
+    {
+        if (s != nullptr) {
+            SDL_DestroySurface(s);
+        }
+    }
+
+    void Font::drawString(Graphics* graphics, std::string_view text, int x, int y) const
+    {
+        auto surface = renderToSurface(text);
+        if (surface) {
+            graphics->drawSurface(surface.get(), x, y);
+        }
+    }
+
+    int Font::getStringIndexAt(std::string_view text, int x) const
     {
         assert("x must be non-negative" && x >= 0);
 
-        for (unsigned int i = 0; i < text.size(); ++i) {
+        for (std::size_t i = 0; i < text.size(); ++i) {
             if (getWidth(text.substr(0, i)) > x) {
-                return i;
+                return static_cast<int>(i);
             }
         }
-        return text.size();
+        return static_cast<int>(text.size());
     }
 } // namespace fcn

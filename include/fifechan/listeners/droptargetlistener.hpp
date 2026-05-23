@@ -34,7 +34,7 @@ namespace fcn
              * @param dragEvent The drag event describing the source and payload.
              * @return True to accept the drag, false to indicate rejection.
              */
-            virtual bool dragEntered(DragEvent& dragEvent)
+            virtual bool dragEntered(DragEvent&)
             {
                 return false;
             }

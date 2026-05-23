@@ -6,10 +6,14 @@
 #include "fifechan/defaultfont.hpp"
 
 // Standard library includes
+#include <memory>
 #include <string>
 
 // Project headers (subdirs before local)
-#include "fifechan/graphics.hpp"
+#include "fifechan/exception.hpp"
+
+// Third-party library includes
+#include <SDL3/SDL.h>
 
 namespace fcn
 {
@@ -18,36 +22,40 @@ namespace fcn
         return 8;
     }
 
-    int DefaultFont::getWidth(std::string const & text) const
+    int DefaultFont::getWidth(std::string_view text) const
     {
-        return 8 * text.size();
+        return 8 * static_cast<int>(text.size());
     }
 
-    int DefaultFont::drawGlyph(Graphics* graphics, unsigned char glyph, int x, int y)
-    {
-        (void)glyph; // unused parameter
-
-        graphics->drawRectangle(x, y, 8, 8);
-
-        return 8;
-    }
-
-    void DefaultFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
-    {
-        int const glyphWidth = getWidth(" ");
-        for (char const & ch : text) {
-            drawGlyph(graphics, ch, x, y);
-            x += glyphWidth;
-        }
-    }
-
-    int DefaultFont::getStringIndexAt(std::string const & text, int x) const
+    int DefaultFont::getStringIndexAt(std::string_view text, int x) const
     {
         int const glyphWidth = getWidth(" ");
         if (x > static_cast<int>(text.size()) * glyphWidth) {
-            return text.size();
+            return static_cast<int>(text.size());
         }
 
         return x / glyphWidth;
+    }
+
+    auto DefaultFont::renderToSurface(std::string_view text) const -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>
+    {
+        if (text.empty()) {
+            return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(nullptr, SDL_SurfaceDeleter{});
+        }
+
+        int const totalWidth = getWidth(text);
+        int const height     = getHeight();
+
+        SDL_Surface* surface = SDL_CreateSurface(totalWidth, height, SDL_PIXELFORMAT_RGBA8888);
+        if (surface == nullptr) {
+            throwException(std::string("DefaultFont::renderToSurface – ") + SDL_GetError());
+        }
+
+        // Fill the entire surface with white pixels so that drawSurface
+        // colour-modulation will tint them to the desired colour.
+        SDL_FillSurfaceRect(
+            surface, nullptr, SDL_MapRGBA(SDL_GetPixelFormatDetails(surface->format), nullptr, 255, 255, 255, 255));
+
+        return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(surface, SDL_SurfaceDeleter{});
     }
 } // namespace fcn

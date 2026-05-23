@@ -62,6 +62,8 @@ namespace
 
             SDLTTFEnvironment(SDLTTFEnvironment const &)            = delete;
             SDLTTFEnvironment& operator=(SDLTTFEnvironment const &) = delete;
+            SDLTTFEnvironment(SDLTTFEnvironment&&)                  = delete;
+            SDLTTFEnvironment& operator=(SDLTTFEnvironment&&)       = delete;
 
             SDL_Window* mWindow     = nullptr;
             SDL_Renderer* mRenderer = nullptr;
@@ -80,7 +82,7 @@ TEST_CASE("OpenMoji color font loads successfully", "[unit][truetypefont][emoji]
     }
 
     // Load via SDL_ttf directly to verify the font file is valid
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     TTF_CloseFont(rawFont);
@@ -95,12 +97,13 @@ TEST_CASE("OpenMoji font reports correct glyph sizes for emoji", "[unit][truetyp
         SKIP("OpenMoji-color-colr0_svg.ttf not found");
     }
 
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     // 📁 (U+1F4C1) - folder emoji, 4 bytes in UTF-8
     std::string const folderEmoji = "\xf0\x9f\x93\x81";
-    int w = 0, h = 0;
+    int w = 0;
+    int h = 0;
     bool sizeOk = TTF_GetStringSize(rawFont, folderEmoji.c_str(), 0, &w, &h);
     CHECK(sizeOk);
     CHECK(w > 0);
@@ -108,7 +111,8 @@ TEST_CASE("OpenMoji font reports correct glyph sizes for emoji", "[unit][truetyp
 
     // 🔍 (U+1F50D) - magnifying glass emoji
     std::string const searchEmoji = "\xf0\x9f\x94\x8d";
-    int w2 = 0, h2 = 0;
+    int w2 = 0;
+    int h2 = 0;
     bool sizeOk2 = TTF_GetStringSize(rawFont, searchEmoji.c_str(), 0, &w2, &h2);
     CHECK(sizeOk2);
     CHECK(w2 > 0);
@@ -224,7 +228,7 @@ TEST_CASE("TTF_RenderText_Blended produces valid surface for emoji", "[unit][tru
         SKIP("OpenMoji-color-colr0_svg.ttf not found");
     }
 
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
@@ -255,7 +259,7 @@ TEST_CASE("TTF_RenderText_Blended produces non-empty pixel data for emoji", "[un
         SKIP("OpenMoji-color-colr0_svg.ttf not found");
     }
 
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
@@ -296,7 +300,7 @@ TEST_CASE("TTF_RenderText_Blended creates valid texture from emoji surface", "[u
         SKIP("OpenMoji-color-colr0_svg.ttf not found");
     }
 
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
@@ -308,7 +312,8 @@ TEST_CASE("TTF_RenderText_Blended creates valid texture from emoji surface", "[u
     SDL_Texture* texture = SDL_CreateTextureFromSurface(env.mRenderer, surface);
     REQUIRE(texture != nullptr);
 
-    float texW = 0, texH = 0;
+    float texW = 0;
+    float texH = 0;
     bool queryOk = SDL_GetTextureSize(texture, &texW, &texH);
     CHECK(queryOk);
     CHECK(static_cast<int>(texW) == surface->w);
@@ -330,11 +335,12 @@ TEST_CASE("Regular TTF font loads and renders as baseline", "[unit][truetypefont
         SKIP("ArchitectsDaughter.ttf not found");
     }
 
-    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0f);
+    TTF_Font* rawFont = TTF_OpenFont(fontPath.string().c_str(), 22.0F);
     REQUIRE(rawFont != nullptr);
 
     std::string const text = "Hello World";
-    int w = 0, h = 0;
+    int w = 0;
+    int h = 0;
     bool sizeOk = TTF_GetStringSize(rawFont, text.c_str(), 0, &w, &h);
     CHECK(sizeOk);
     CHECK(w > 0);

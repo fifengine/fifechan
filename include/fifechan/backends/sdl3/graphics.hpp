@@ -42,6 +42,11 @@ namespace fcn::sdl3
 
             ~Graphics() override;
 
+            Graphics(Graphics const &)            = delete;
+            Graphics& operator=(Graphics const &) = delete;
+            Graphics(Graphics&&)                  = delete;
+            Graphics& operator=(Graphics&&)       = delete;
+
             /**
              *  Sets the target SDL_Renderer to use for drawing. Preferably done only once.
              *
@@ -64,6 +69,15 @@ namespace fcn::sdl3
              * @note The clip areas will be taken into account.
              */
             virtual void drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination);
+
+            /**
+             * Draws an SDL_Surface by converting it to a texture and rendering.
+             *
+             * Applies the current Graphics colour as texture colour/alpha
+             * modulation so that fonts rendered in white (e.g. TrueTypeFont)
+             * are tinted to the desired colour.
+             */
+            void drawSurface(SDL_Surface* surface, int dstX, int dstY) override;
 
             // Inherited from Graphics
 

@@ -88,6 +88,11 @@ namespace fcn
         drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
 
+    void Graphics::drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/)
+    {
+        throwException("drawSurface is not supported by this graphics backend");
+    }
+
     void Graphics::setFont(Font* font)
     {
         mFont = font;

@@ -75,6 +75,10 @@ namespace
                 int /*height*/) override
             {
             }
+
+            void drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/) override
+            {
+            }
     };
 
     class MockImage : public fcn::Image

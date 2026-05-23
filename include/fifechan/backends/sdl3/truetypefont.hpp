@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <map>
+#include <memory>
 #include <string>
 
 // Platform config include
@@ -96,11 +97,12 @@ namespace fcn::sdl3
 
             // Inherited from Font
 
-            int getWidth(std::string const & text) const override;
+            int getWidth(std::string_view text) const override;
 
             int getHeight() const override;
 
-            void drawString(fcn::Graphics* graphics, std::string const & text, int x, int y) override;
+            auto renderToSurface(std::string_view text) const
+                -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter> override;
 
         protected:
             /** Underlying TTF_Font pointer from SDL_ttf. */

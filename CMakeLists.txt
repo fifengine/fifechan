@@ -380,12 +380,14 @@ set(FIFECHAN_SRC
 )
 
 #------------------------------------------------------------------------------
-# Dependenciues
+# Dependencies
 #------------------------------------------------------------------------------
 find_package(utf8cpp CONFIG REQUIRED)
 
+# SDL3 is required by the core library's font API (SDL_Surface in return types).
+find_package(SDL3 CONFIG REQUIRED)
+
 if(ENABLE_SDL)
-  find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
   find_package(SDL3_image CONFIG REQUIRED)
   find_package(SDL3_ttf CONFIG REQUIRED)
 
@@ -511,7 +513,7 @@ if(USE_VCPKG)
   )
 endif()
 
-target_link_libraries(${PROJECT_NAME}_lib PUBLIC utf8cpp::utf8cpp)
+target_link_libraries(${PROJECT_NAME}_lib PUBLIC utf8cpp::utf8cpp SDL3::SDL3)
 
 target_compile_definitions(${PROJECT_NAME}_lib PUBLIC
   $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>
@@ -585,7 +587,7 @@ if(USE_VCPKG)
   )
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC utf8cpp::utf8cpp)
+target_link_libraries(${PROJECT_NAME} PUBLIC utf8cpp::utf8cpp SDL3::SDL3)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
   $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:FIFECHAN_STATIC>

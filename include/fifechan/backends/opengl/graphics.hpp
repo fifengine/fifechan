@@ -43,8 +43,13 @@ namespace fcn::opengl
 
             ~Graphics() override;
 
+            Graphics(Graphics const &)            = delete;
+            Graphics& operator=(Graphics const &) = delete;
+            Graphics(Graphics&&)                  = delete;
+            Graphics& operator=(Graphics&&)       = delete;
+
             /**
-             * Sets the target plane on where to draw.
+             *  Sets the target plane on where to draw.
              *
              * @param width the width of the logical drawing surface. Should be the
              *              same as the screen resolution.

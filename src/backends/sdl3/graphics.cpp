@@ -888,6 +888,42 @@ namespace fcn::sdl3
         return std::make_shared<TrueTypeFont>(filename, size);
     }
 
+    void Graphics::drawSurface(SDL_Surface* surface, int dstX, int dstY)
+    {
+        if (surface == nullptr) {
+            return;
+        }
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(mRenderTarget, surface);
+        if (texture == nullptr) {
+            throwException(std::string("Graphics::drawSurface – ") + SDL_GetError());
+        }
+
+        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+        // Apply the current Graphics colour as a modulation so that fonts
+        // rendered in white (e.g. TrueTypeFont renderToSurface) appear in
+        // the correct colour.
+        SDL_SetTextureColorMod(texture, mColor.r, mColor.g, mColor.b);
+        SDL_SetTextureAlphaMod(texture, mColor.a);
+
+        SDL_FRect src;
+        src.x = 0.0F;
+        src.y = 0.0F;
+        src.w = static_cast<float>(surface->w);
+        src.h = static_cast<float>(surface->h);
+
+        SDL_FRect dst;
+        dst.x = static_cast<float>(dstX);
+        dst.y = static_cast<float>(dstY);
+        dst.w = src.w;
+        dst.h = src.h;
+
+        drawSDLTexture(texture, src, dst);
+
+        SDL_DestroyTexture(texture);
+    }
+
     void Graphics::drawSDLTexture(SDL_Texture* texture, SDL_FRect source, SDL_FRect destination)
     {
         if (mClipStack.empty()) {

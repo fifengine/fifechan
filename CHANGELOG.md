@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
-- Things that have been merged into the main branch but not yet released should be listed here.
+### Changed (Breaking)
+
+- **Font API refactored**: `drawString` is no longer pure virtual.
+  - Added pure virtual `renderToSurface(std::string_view) -> unique_ptr<SDL_Surface>`.
+  - `drawString` is now a non-virtual default that calls `renderToSurface` and blits through `Graphics::drawSurface`.
+  - Font implementations only need `renderToSurface`; `Graphics` coupling is removed.
+  - `getWidth`, `getHeight`, `getStringIndexAt` now take `std::string_view`.
+- Added `Graphics::drawSurface(SDL_Surface*, dstX, dstY)` virtual method.
+  - SDL3 backend converts the surface to a texture, applies colour modulation, and renders it.
+  - Other backends throw (override to support).
+- Updated built-in fonts (`ImageFont`, `DefaultFont`, `TrueTypeFont`) to implement `renderToSurface`.
+- Updated mock font and unit tests.
+- Core library now links SDL3::SDL3 (SDL_Surface is part of the public API).
 
 ## [0.3.0] - 2026-05-21
 

@@ -546,14 +546,14 @@ void Application::run()
     SDL_Event event;
 
     while (running) {
-        while (SDL_PollEvent(&event) != 0) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_KEY_DOWN) {
                 if (event.key.key == SDLK_ESCAPE) {
                     running = false;
                 }
                 if (event.key.key == SDLK_F && ((event.key.mod & SDL_KMOD_CTRL) != 0)) {
                     uint32_t const flags = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
-                    SDL_SetWindowFullscreen(window, flags ? 0 : SDL_WINDOW_FULLSCREEN);
+                    SDL_SetWindowFullscreen(window, flags == 0);
                 }
             }
             if (event.type == SDL_EVENT_QUIT) {

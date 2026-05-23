@@ -53,6 +53,11 @@ namespace
                 // Mock implementation - do nothing
             }
 
+            void drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/) override
+            {
+                // Mock implementation - do nothing
+            }
+
             void drawPoint(int /*x*/, int /*y*/) override
             {
                 // Mock implementation - do nothing

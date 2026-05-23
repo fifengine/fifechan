@@ -285,7 +285,7 @@ namespace fcn
             /**
              * Adjusts the positions of the tabs.
              */
-            void adjustTabPositions();
+            void adjustTabPositions() const;
 
             /**
              * Holds the selected tab.

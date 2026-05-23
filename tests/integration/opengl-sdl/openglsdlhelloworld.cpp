@@ -158,7 +158,7 @@ void Application::run()
 {
     while (running) {
         SDL_Event event;
-        while (SDL_PollEvent(&event) != 0) {
+        while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_KEY_DOWN) {
                 if (event.key.key == SDLK_ESCAPE) {
                     running = false;
@@ -166,7 +166,7 @@ void Application::run()
                 if (event.key.key == SDLK_F) {
                     if ((event.key.mod & SDL_KMOD_CTRL) != 0) {
                         uint32_t const fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
-                        SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
+                        SDL_SetWindowFullscreen(window, fullscreen == 0);
                     }
                 }
             } else if (event.type == SDL_EVENT_QUIT) {

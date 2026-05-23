@@ -30,7 +30,7 @@ namespace fcn
              * Center: Center-aligned
              * End: Right-aligned
              */
-            enum class Alignment
+            enum class Alignment : uint8_t
             {
                 Start,
                 Center,

@@ -6,10 +6,13 @@
 #define INCLUDE_FIFECHAN_FONT_HPP_
 
 // Standard library includes
-#include <string>
+#include <memory>
+#include <string_view>
 
 // Platform config include
 #include "fifechan/platform.hpp"
+
+struct SDL_Surface;
 
 namespace fcn
 {
@@ -18,6 +21,10 @@ namespace fcn
     /**
      * Abstract interface for font rendering.
      *
+     * Font implementations render text to an SDL_Surface via
+     * renderToSurface(), and the library handles drawing it through
+     * the Graphics backend.
+     *
      * @see ImageFont
      *
      * @ingroup fonts
@@ -25,6 +32,18 @@ namespace fcn
     class FIFEGUI_API Font
     {
         public:
+            /**
+             * Custom deleter for SDL_Surface.
+             *
+             * Calls SDL_DestroySurface.  Defined out-of-line in font.cpp
+             * so that the header only needs a forward declaration of
+             * SDL_Surface.
+             */
+            struct SDL_SurfaceDeleter
+            {
+                    void operator()(SDL_Surface* s) const noexcept;
+            };
+
             /**
              * Virtual destructor.
              */
@@ -59,7 +78,7 @@ namespace fcn
              * @param text The string to return the width of.
              * @return The width of a string.
              */
-            virtual int getWidth(std::string const & text) const = 0;
+            virtual int getWidth(std::string_view text) const = 0;
 
             /**
              * Gets the height of the glyphs in the font.
@@ -78,20 +97,33 @@ namespace fcn
              *
              * @return A string index in a string providing an x coordinate.
              */
-            virtual int getStringIndexAt(std::string const & text, int x) const;
+            virtual int getStringIndexAt(std::string_view text, int x) const;
 
             /**
-             * Draws a string.
+             * Renders text to an SDL_Surface.
              *
-             * @note You normally won't use this function to draw text since
-             *       Graphics contains better functions for drawing text.
+             * This is the sole pure virtual that font implementations must
+             * provide.  It replaces the old drawString()-coupling to Graphics.
+             *
+             * @param text The text to render.
+             * @return An SDL_Surface containing the rendered text, or nullptr
+             *         if text was empty.
+             */
+            virtual auto renderToSurface(std::string_view text) const
+                -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter> = 0;
+
+            /**
+             * Draws a string via the Graphics backend.
+             *
+             * This is a non-virtual default that calls renderToSurface()
+             * and blits the result through Graphics::drawSurface().
              *
              * @param graphics A Graphics object to use for drawing.
              * @param text The string to draw.
              * @param x The x coordinate where to draw the string.
              * @param y The y coordinate where to draw the string.
              */
-            virtual void drawString(Graphics* graphics, std::string const & text, int x, int y) = 0;
+            void drawString(Graphics* graphics, std::string_view text, int x, int y) const;
 
         protected:
             Font() = default;

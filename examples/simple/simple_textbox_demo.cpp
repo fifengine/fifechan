@@ -102,7 +102,7 @@ int main(int /*argc*/, char** /*argv*/)
         bool running = true;
         SDL_Event evt;
         while (running) {
-            while (SDL_PollEvent(&evt) != 0) {
+            while (SDL_PollEvent(&evt)) {
                 if (evt.type == SDL_EVENT_QUIT) {
                     running = false;
                 }

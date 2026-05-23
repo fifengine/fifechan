@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <array>
+#include <memory>
 #include <string>
 
 // Platform config include
@@ -267,13 +268,14 @@ namespace fcn
 
             // Inherited from Font
 
-            int getWidth(std::string const & text) const override;
-
-            void drawString(Graphics* graphics, std::string const & text, int x, int y) override;
+            int getWidth(std::string_view text) const override;
 
             int getHeight() const override;
 
-            int getStringIndexAt(std::string const & text, int x) const override;
+            int getStringIndexAt(std::string_view text, int x) const override;
+
+            auto renderToSurface(std::string_view text) const
+                -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter> override;
 
         protected:
             /**

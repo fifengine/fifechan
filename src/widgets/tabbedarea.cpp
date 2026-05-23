@@ -308,7 +308,7 @@ namespace fcn
         }
     }
 
-    void TabbedArea::adjustTabPositions()
+    void TabbedArea::adjustTabPositions() const
     {
         int maxTabWidth  = 0;
         int maxTabHeight = 0;

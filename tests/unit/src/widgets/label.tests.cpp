@@ -161,6 +161,10 @@ namespace
                 (void)height;
             }
 
+            void drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/) override
+            {
+            }
+
             // pushClipArea (virtual, returns bool)
             bool pushClipArea(Rectangle area) override
             {

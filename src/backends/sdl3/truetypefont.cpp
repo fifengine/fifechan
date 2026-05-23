@@ -6,16 +6,15 @@
 #include "fifechan/backends/sdl3/truetypefont.hpp"
 
 // Standard library includes
+#include <memory>
 #include <string>
 
 // Third-party library includes
 #include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
-#include "fifechan/backends/sdl3/graphics.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
-#include "fifechan/image.hpp"
 
 namespace fcn::sdl3
 {
@@ -37,12 +36,12 @@ namespace fcn::sdl3
         TTF_CloseFont(mFont);
     }
 
-    int TrueTypeFont::getWidth(std::string const & text) const
+    int TrueTypeFont::getWidth(std::string_view text) const
     {
         int w = 0;
         int h = 0;
         // Use UTF-8 aware measurement to handle multi-byte glyphs (emoji)
-        TTF_GetStringSize(mFont, text.c_str(), text.length(), &w, &h);
+        TTF_GetStringSize(mFont, text.data(), text.size(), &w, &h);
 
         return w;
     }
@@ -52,68 +51,32 @@ namespace fcn::sdl3
         return TTF_GetFontHeight(mFont) + mRowSpacing;
     }
 
-    void TrueTypeFont::drawString(fcn::Graphics* graphics, std::string const & text, int x, int y)
+    auto TrueTypeFont::renderToSurface(std::string_view text) const -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>
     {
         if (text.empty()) {
-            return;
+            return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(nullptr, SDL_SurfaceDeleter{});
         }
 
-        auto* sdlGraphics = dynamic_cast<fcn::sdl3::Graphics*>(graphics);
-
-        if (sdlGraphics == nullptr) {
-            throwException("TrueTypeFont::drawString. Graphics object must be fcn::sdl3::Graphics!");
-            return;
-        }
-
-        int const yoffset = getRowSpacing() / 2;
-
-        Color const col = graphics->getColor();
-
+        // Render in white; drawSurface() will apply colour-modulation
+        // using the Graphics colour, giving the desired tint.
         SDL_Color sdlCol;
-        sdlCol.b = col.b;
-        sdlCol.r = col.r;
-        sdlCol.g = col.g;
-        sdlCol.a = col.a;
+        sdlCol.r = 255;
+        sdlCol.g = 255;
+        sdlCol.b = 255;
+        sdlCol.a = 255;
 
-        SDL_Surface* textSurface = nullptr;
-        // Use UTF-8 aware rendering to avoid mangling multi-byte sequences
+        SDL_Surface* surface = nullptr;
         if (mAntiAlias) {
-            textSurface = TTF_RenderText_Blended(mFont, text.c_str(), text.length(), sdlCol);
+            surface = TTF_RenderText_Blended(mFont, text.data(), text.size(), sdlCol);
         } else {
-            textSurface = TTF_RenderText_Solid(mFont, text.c_str(), text.length(), sdlCol);
+            surface = TTF_RenderText_Solid(mFont, text.data(), text.size(), sdlCol);
         }
 
-        if (textSurface == nullptr) {
-            throwException("TrueTypeFont::drawString. " + std::string(SDL_GetError()));
-            return;
+        if (surface == nullptr) {
+            throwException("TrueTypeFont::renderToSurface. " + std::string(SDL_GetError()));
         }
 
-        SDL_Renderer* renderer = sdlGraphics->getRenderTarget();
-        SDL_Texture* texture   = SDL_CreateTextureFromSurface(renderer, textSurface);
-        if (texture == nullptr) {
-            SDL_DestroySurface(textSurface);
-            throwException("TrueTypeFont::drawString. Failed to create texture: " + std::string(SDL_GetError()));
-            return;
-        }
-
-        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-
-        SDL_FRect dst;
-        SDL_FRect src;
-        dst.x = static_cast<float>(x);
-        dst.y = static_cast<float>(y + yoffset);
-        dst.w = static_cast<float>(textSurface->w);
-        dst.h = static_cast<float>(textSurface->h);
-        src.w = static_cast<float>(textSurface->w);
-        src.h = static_cast<float>(textSurface->h);
-        src.x = 0.0F;
-        src.y = 0.0F;
-
-        sdlGraphics->drawSDLTexture(texture, src, dst);
-
-        SDL_DestroyTexture(texture);
-        SDL_DestroySurface(textSurface);
+        return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(surface, SDL_SurfaceDeleter{});
     }
 
     void TrueTypeFont::setRowSpacing(int spacing)

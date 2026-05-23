@@ -143,9 +143,9 @@ namespace fcn
             /**
              * Set tooltip text for the payload.
              */
-            void setTooltip(std::string tip)
+            void setTooltip(std::string const & tip)
             {
-                m_tooltip = std::move(tip);
+                m_tooltip = tip;
             }
             /**
              * Get the tooltip text.

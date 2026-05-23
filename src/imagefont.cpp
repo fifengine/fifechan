@@ -8,6 +8,7 @@
 // Standard library includes
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <map>
 #include <numeric>
 #include <sstream>
@@ -17,6 +18,9 @@
 
 // Platform config include
 #include "fifechan/platform.hpp"
+
+// Third-party library includes
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include "fifechan/color.hpp"
@@ -491,12 +495,63 @@ namespace fcn
         return mGlyph.at(glyph).width + mGlyphSpacing;
     }
 
-    void ImageFont::drawString(Graphics* graphics, std::string const & text, int x, int y)
+    auto ImageFont::renderToSurface(std::string_view text) const -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>
     {
-        for (char const c : text) {
-            drawGlyph(graphics, c, x, y);
-            x += getWidth(c);
+        if (text.empty()) {
+            return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(nullptr, SDL_SurfaceDeleter{});
         }
+
+        int const totalWidth = getWidth(std::string(text));
+        int const height     = getHeight();
+        int const yoffset    = mRowSpacing / 2;
+
+        SDL_Surface* surface = SDL_CreateSurface(totalWidth, height, SDL_PIXELFORMAT_RGBA8888);
+        if (surface == nullptr) {
+            throwException(std::string("ImageFont::renderToSurface – ") + SDL_GetError());
+        }
+
+        // Clear to fully transparent
+        SDL_FillSurfaceRect(surface, nullptr, 0);
+
+        auto const * fmt = SDL_GetPixelFormatDetails(surface->format);
+
+        int curX = 0;
+
+        for (char const c : text) {
+            auto const glyph    = static_cast<unsigned char>(c);
+            Rectangle const & r = mGlyph.at(glyph);
+
+            if (r.width == 0) {
+                // Space or unknown glyph – advance by space width
+                curX += getWidth(glyph);
+                continue;
+            }
+
+            // Copy glyph pixels from the font image to the surface.
+            // The image has already been converted to display format, so
+            // separator-coloured pixels carry alpha=0 and will be transparent.
+            if (SDL_LockSurface(surface)) {
+                auto* pixels    = static_cast<Uint32*>(surface->pixels);
+                int const pitch = surface->pitch / static_cast<int>(sizeof(Uint32));
+
+                for (int py = 0; py < r.height && (py + yoffset) < height; ++py) {
+                    for (int px = 0; px < r.width && (curX + px) < totalWidth; ++px) {
+                        Color const col = mImage->getPixel(r.x + px, r.y + py);
+                        if (col.a < 128) {
+                            continue; // skip transparent / separator pixel
+                        }
+                        Uint32 pixel = SDL_MapRGBA(fmt, nullptr, col.r, col.g, col.b, col.a);
+                        pixels[((py + yoffset) * pitch) + (curX + px)] = pixel;
+                    }
+                }
+
+                SDL_UnlockSurface(surface);
+            }
+
+            curX += getWidth(glyph);
+        }
+
+        return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(surface, SDL_SurfaceDeleter{});
     }
 
     void ImageFont::setRowSpacing(int spacing)
@@ -571,10 +626,10 @@ namespace fcn
         return {x, y, width, mHeight};
     }
 
-    int ImageFont::getWidth(std::string const & text) const
+    int ImageFont::getWidth(std::string_view text) const
     {
-        unsigned int i = 0;
-        int size       = 0;
+        std::size_t i = 0;
+        int size      = 0;
 
         for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
@@ -583,19 +638,19 @@ namespace fcn
         return size - mGlyphSpacing;
     }
 
-    int ImageFont::getStringIndexAt(std::string const & text, int x) const
+    int ImageFont::getStringIndexAt(std::string_view text, int x) const
     {
-        unsigned int i = 0;
-        int size       = 0;
+        std::size_t i = 0;
+        int size      = 0;
 
         for (i = 0; i < text.size(); ++i) {
             size += getWidth(text.at(i));
 
             if (size > x) {
-                return i;
+                return static_cast<int>(i);
             }
         }
 
-        return text.size();
+        return static_cast<int>(text.size());
     }
 } // namespace fcn

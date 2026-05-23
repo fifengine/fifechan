@@ -76,6 +76,11 @@ namespace
                 SDL_Quit();
             }
 
+            SDLEnvironment(SDLEnvironment const &)            = delete;
+            SDLEnvironment& operator=(SDLEnvironment const &) = delete;
+            SDLEnvironment(SDLEnvironment&&)                  = delete;
+            SDLEnvironment& operator=(SDLEnvironment&&)       = delete;
+
             SDL_Window* mWindow     = nullptr;
             SDL_Renderer* mRenderer = nullptr;
     };
@@ -225,7 +230,8 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
     REQUIRE(texture != nullptr);
 
     // getTexture returns a valid SDL texture for rendering
-    float texWFloat = 0, texHFloat = 0;
+    float texWFloat = 0;
+    float texHFloat = 0;
     SDL_GetTextureSize(texture, &texWFloat, &texHFloat);
     int texW = static_cast<int>(texWFloat);
     int texH = static_cast<int>(texHFloat);

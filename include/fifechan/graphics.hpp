@@ -12,6 +12,8 @@
 #include <stack>
 #include <string>
 
+struct SDL_Surface;
+
 // Project headers (subdirs before local)
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/point.hpp"
@@ -352,6 +354,21 @@ namespace fcn
              * @param eangle The end angle of the segment.
              */
             virtual void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) = 0;
+
+            /**
+             * Draws an SDL_Surface at the given position.
+             *
+             * The default implementation throws Exception to indicate that
+             * the backend does not support drawing surfaces directly.
+             * Backends that do (e.g. SDL3) override this to convert the
+             * surface to a texture and render it, applying the current
+             * Graphics colour as a modulation.
+             *
+             * @param surface The surface to draw (must not be null).
+             * @param dstX    Destination x coordinate.
+             * @param dstY    Destination y coordinate.
+             */
+            virtual void drawSurface(SDL_Surface* surface, int dstX, int dstY);
 
             /**
              * Sets the color to use when drawing.

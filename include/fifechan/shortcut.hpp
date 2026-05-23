@@ -60,7 +60,7 @@ namespace fcn
             /**
              * Modifier flags.
              */
-            enum Modifier : uint16_t
+            enum Modifier : uint8_t
             {
                 None    = 0,
                 Shift   = 1 << 0,

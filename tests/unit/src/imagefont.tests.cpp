@@ -68,6 +68,8 @@ namespace
 
             SDLEnvironment(SDLEnvironment const &)            = delete;
             SDLEnvironment& operator=(SDLEnvironment const &) = delete;
+            SDLEnvironment(SDLEnvironment&&)                  = delete;
+            SDLEnvironment& operator=(SDLEnvironment&&)       = delete;
 
             SDL_Window* mWindow                  = nullptr;
             SDL_Renderer* mRenderer              = nullptr;
