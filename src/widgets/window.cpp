@@ -216,6 +216,17 @@ namespace fcn
         setSize(w, h);
     }
 
+    void Window::resizeToContent(bool recursion)
+    {
+        setSize(10000, 10000);
+        Container::resizeToContent(recursion);
+    }
+
+    void Window::expandContent(bool recursion)
+    {
+        Container::expandContent(recursion);
+    }
+
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;

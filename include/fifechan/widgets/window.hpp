@@ -147,9 +147,9 @@ namespace fcn
 
             // Inherited from Container
 
-            // virtual void resizeToContent();
+            void resizeToContent(bool recursion = true) override;
+            void expandContent(bool recursion) override;
             void adjustSize() override;
-            // virtual void expandContent();
             Rectangle getChildrenArea() override;
 
             // Inherited from Widget
