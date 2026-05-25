@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated mock font and unit tests.
 - Core library now links SDL3::SDL3 (SDL_Surface is part of the public API).
 
+### Fixed
+- offsets child position by children area origin before intersection check in `Widget::_draw`
+  - fixes rendering of children that were outside the content area (e.g. behind the window chrome)
+
 ## [0.3.0] - 2026-05-21
 
 ### Added

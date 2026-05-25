@@ -1567,7 +1567,15 @@ namespace fcn
                 // Only draw a widget:
                 // if it's visible
                 // and inside the children area.
-                if (widget->isVisible() && childrenArea.isIntersecting(widget->getDimension())) {
+
+                // Account for the children area's origin offset
+                // so that a child at (0,0) is rendered at the top-left
+                // of the content area, not behind the window chrome.
+                Rectangle const childDim = widget->getDimension();
+                Rectangle const renderedChild(
+                    childrenArea.x + childDim.x, childrenArea.y + childDim.y, childDim.width, childDim.height);
+
+                if (widget->isVisible() && childrenArea.isIntersecting(renderedChild)) {
                     widget->_draw(graphics);
                 }
             }
