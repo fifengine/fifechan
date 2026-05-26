@@ -82,9 +82,9 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + 0x303030;
+        highlightColor   = faceColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = faceColor - 0x303030;
+        shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         int const x      = getBorderSize() + getPaddingLeft();
@@ -109,9 +109,9 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + 0x303030;
+        highlightColor   = faceColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = faceColor - 0x303030;
+        shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         int const borderSize    = static_cast<int>(getBorderSize());
@@ -219,7 +219,31 @@ namespace fcn
     void Window::resizeToContent(bool recursion)
     {
         setSize(10000, 10000);
-        Container::resizeToContent(recursion);
+        if (getLayout() == Container::LayoutPolicy::Absolute) {
+            if (recursion) {
+                for (auto* child : mChildren) {
+                    if (child->isVisible()) {
+                        child->resizeToContent(true);
+                    }
+                }
+            }
+            int maxX = 0;
+            int maxY = 0;
+            for (auto* child : mChildren) {
+                if (!child->isVisible()) {
+                    continue;
+                }
+                Rectangle const & r = child->getDimension();
+                maxX                = std::max(maxX, r.x + r.width);
+                maxY                = std::max(maxY, r.y + r.height);
+            }
+            int const diffW = getDimension().width - getChildrenArea().width;
+            int const diffH = getDimension().height - getChildrenArea().height;
+            int const capW  = getFont() != nullptr ? getFont()->getWidth(getCaption()) : 0;
+            setSize(std::max({0, maxX + diffW, capW + diffW}), std::max(0, maxY + diffH));
+        } else {
+            Container::resizeToContent(recursion);
+        }
     }
 
     void Window::expandContent(bool recursion)

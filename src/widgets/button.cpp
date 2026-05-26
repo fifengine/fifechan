@@ -116,7 +116,7 @@ namespace fcn
         int const alpha = faceColor.a;
 
         if (isPressed()) {
-            faceColor   = faceColor - 0x303030;
+            faceColor   = faceColor - getShadowOffset();
             faceColor.a = alpha;
         }
         if (!isActive()) {

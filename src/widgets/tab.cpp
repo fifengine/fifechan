@@ -53,9 +53,9 @@ namespace fcn
     {
         Color const & faceColor = getBaseColor();
         int const alpha         = getBaseColor().a;
-        Color highlightColor    = faceColor + 0x303030;
+        Color highlightColor    = faceColor + getHighlightOffset();
         highlightColor.a        = alpha;
-        Color shadowColor       = faceColor - 0x303030;
+        Color shadowColor       = faceColor - getShadowOffset();
         shadowColor.a           = alpha;
 
         Color baseColor;

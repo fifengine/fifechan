@@ -138,9 +138,9 @@ namespace fcn
         int const alpha  = getBaseColor().a;
         int const width  = getWidth() + (getOutlineSize() * 2) - 1;
         int const height = getHeight() + (getOutlineSize() * 2) - 1;
-        highlightColor   = outlineColor + 0x303030;
+        highlightColor   = outlineColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = outlineColor - 0x303030;
+        shadowColor      = outlineColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         for (unsigned int i = 0; i < getOutlineSize(); ++i) {
@@ -166,9 +166,9 @@ namespace fcn
         int const alpha  = getBaseColor().a;
         int const width  = getWidth() - 1;
         int const height = getHeight() - 1;
-        highlightColor   = borderColor + 0x303030;
+        highlightColor   = borderColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = borderColor - 0x303030;
+        shadowColor      = borderColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         unsigned int const style = mBorderStyle;
@@ -792,6 +792,26 @@ namespace fcn
     Color const & Widget::getBorderColor() const
     {
         return mBorderColor;
+    }
+
+    void Widget::setHighlightOffset(Color const & color)
+    {
+        mHighlightOffset = color;
+    }
+
+    Color const & Widget::getHighlightOffset() const
+    {
+        return mHighlightOffset;
+    }
+
+    void Widget::setShadowOffset(Color const & color)
+    {
+        mShadowOffset = color;
+    }
+
+    Color const & Widget::getShadowOffset() const
+    {
+        return mShadowOffset;
     }
 
     void Widget::setSelectionMode(SelectionMode mode)

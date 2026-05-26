@@ -154,9 +154,9 @@ namespace fcn
             // border around the inner box background
             int const alpha      = getBaseColor().a;
             faceColor.a          = alpha;
-            Color highlightColor = faceColor + 0x303030;
+            Color highlightColor = faceColor + getHighlightOffset();
             highlightColor.a     = alpha;
-            Color shadowColor    = faceColor - 0x303030;
+            Color shadowColor    = faceColor - getShadowOffset();
             shadowColor.a        = alpha;
 
             int const recRight  = rec.x + rec.width - 1;
@@ -270,9 +270,9 @@ namespace fcn
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
         faceColor.a          = alpha;
-        Color highlightColor = faceColor + 0x303030;
+        Color highlightColor = faceColor + getHighlightOffset();
         highlightColor.a     = alpha;
-        Color shadowColor    = faceColor - 0x303030;
+        Color shadowColor    = faceColor - getShadowOffset();
         shadowColor.a        = alpha;
 
         graphics->setColor(getBackgroundColor());

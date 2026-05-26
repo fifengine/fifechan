@@ -86,9 +86,9 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + 0x303030;
+        highlightColor   = faceColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = faceColor - 0x303030;
+        shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         // Draw a border.
@@ -149,19 +149,19 @@ namespace fcn
         int const alpha = getBaseColor().a;
 
         if (mPushed) {
-            faceColor        = getBaseColor() - 0x303030;
+            faceColor        = getBaseColor() - getShadowOffset();
             faceColor.a      = alpha;
-            highlightColor   = faceColor - 0x303030;
+            highlightColor   = faceColor - getShadowOffset();
             highlightColor.a = alpha;
-            shadowColor      = faceColor + 0x303030;
+            shadowColor      = faceColor + getHighlightOffset();
             shadowColor.a    = alpha;
             offset           = 1;
         } else {
             faceColor        = getBaseColor();
             faceColor.a      = alpha;
-            highlightColor   = faceColor + 0x303030;
+            highlightColor   = faceColor + getHighlightOffset();
             highlightColor.a = alpha;
-            shadowColor      = faceColor - 0x303030;
+            shadowColor      = faceColor - getShadowOffset();
             shadowColor.a    = alpha;
             offset           = 0;
         }

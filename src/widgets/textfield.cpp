@@ -57,9 +57,9 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + 0x303030;
+        highlightColor   = faceColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = faceColor - 0x303030;
+        shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         // Draw a border.

@@ -83,9 +83,9 @@ namespace fcn
         fcn::Color highlightColor;
         fcn::Color shadowColor;
         int const alpha  = getBaseColor().a;
-        highlightColor   = faceColor + Color(0x303030);
+        highlightColor   = faceColor + getHighlightOffset();
         highlightColor.a = alpha;
-        shadowColor      = faceColor - Color(0x303030);
+        shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = alpha;
 
         graphics->setColor(faceColor);

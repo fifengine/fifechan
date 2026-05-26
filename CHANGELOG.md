@@ -24,8 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Core library now links SDL3::SDL3 (SDL_Surface is part of the public API).
 
 ### Fixed
-- offsets child position by children area origin before intersection check in `Widget::_draw`
+- Widget: offsets child position by children area origin before intersection check in `Widget::_draw`
   - fixes rendering of children that were outside the content area (e.g. behind the window chrome)
+- Widget: fix 0x303030 integer-literal bug producing white borders
+  - add configurable mHighlightOffset/mShadowOffset with setters/getters
+- Window: Fix resizeToContent() ignoring caption width and children bounds under absolute layout.
 
 ## [0.3.0] - 2026-05-21
 

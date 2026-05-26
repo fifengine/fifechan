@@ -867,6 +867,44 @@ namespace fcn
             Color const & getBorderColor() const;
 
             /**
+             * Sets the highlight offset.
+             *
+             * The highlight offset is added to the face/base color to produce
+             * the highlight (lighter) border color. Default is 0x303030 (+48 per channel).
+             *
+             * @param color The highlight offset color.
+             * @see getHighlightOffset, setShadowOffset
+             */
+            void setHighlightOffset(Color const & color);
+
+            /**
+             * Gets the highlight offset.
+             *
+             * @return The highlight offset color.
+             * @see setHighlightOffset
+             */
+            Color const & getHighlightOffset() const;
+
+            /**
+             * Sets the shadow offset.
+             *
+             * The shadow offset is subtracted from the face/base color to produce
+             * the shadow (darker) border color. Default is 0x303030 (-48 per channel).
+             *
+             * @param color The shadow offset color.
+             * @see getShadowOffset, setHighlightOffset
+             */
+            void setShadowOffset(Color const & color);
+
+            /**
+             * Gets the shadow offset.
+             *
+             * @return The shadow offset color.
+             * @see setShadowOffset
+             */
+            Color const & getShadowOffset() const;
+
+            /**
              * Sets the selection mode.
              *
              * @param mode The selection mode that is used when the widget is "active".
@@ -1884,6 +1922,22 @@ namespace fcn
              * Holds the border color of the widget.
              */
             Color mBorderColor{0xd1d5db};
+
+            /**
+             * Holds the highlight offset of the widget.
+             *
+             * Added to the face/base color to produce the highlight border color.
+             * Default is 0x303030 which adds 48 to each RGB channel.
+             */
+            Color mHighlightOffset{0x303030};
+
+            /**
+             * Holds the shadow offset of the widget.
+             *
+             * Subtracted from the face/base color to produce the shadow border color.
+             * Default is 0x303030 which subtracts 48 from each RGB channel.
+             */
+            Color mShadowOffset{0x303030};
 
             /**
              * Holds the focus handler used by the widget.
