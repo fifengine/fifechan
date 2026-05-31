@@ -89,8 +89,25 @@ option(ENABLE_SDL            "Enable the FifeGUI SDL extension"              ON)
 option(FIFEGUI_TESTS         "Build the FifeGUI tests"                       ON)
 option(FIFEGUI_EXAMPLES      "Build the FifeGUI examples"                    ON)
 
+option(USE_CCACHE            "Use ccache to speed up rebuilds"               ON)
+
 # Reminder: The variable USE_VCPKG exist, which controls SetupVcpkg.
 # It is not a build option, because it must be set before project().
+
+#------------------------------------------------------------------------------
+# ccache (compiler cache)
+#------------------------------------------------------------------------------
+
+# Route the compiler through ccache when present to speed up rebuilds.
+# Honoured by the Makefile and Ninja generators; ignored by Visual Studio.
+# To clear the cache manually, run: ccache -C  (and `ccache -s` for stats).
+if(USE_CCACHE)
+  find_program(CCACHE_PROGRAM ccache)
+  if(CCACHE_PROGRAM)
+    set(CMAKE_C_COMPILER_LAUNCHER   "${CCACHE_PROGRAM}")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+  endif()
+endif()
 
 #------------------------------------------------------------------------------
 # Default build type
@@ -122,6 +139,7 @@ message(STATUS "[INFO] Enable OpenGL extension  -> '${ENABLE_OPENGL}'.")
 message(STATUS "[INFO] Enable SDL extension     -> '${ENABLE_SDL}'.")
 message(STATUS "[INFO] Build tests              -> '${FIFEGUI_TESTS}'.")
 message(STATUS "[INFO] Build examples           -> '${FIFEGUI_EXAMPLES}'.")
+message(STATUS "[INFO] ccache                   -> '${CMAKE_CXX_COMPILER_LAUNCHER}'.")
 message(STATUS "")
 message(STATUS "[INFO] Compiler                 -> '${CMAKE_CXX_COMPILER}'")
 message(STATUS "[INFO] Compiler ID              -> '${CMAKE_CXX_COMPILER_ID}'")
