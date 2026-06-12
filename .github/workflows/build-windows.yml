@@ -31,8 +31,7 @@ jobs:
 
     # https://github.com/actions/runner-images#available-environments
     # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md        VC17
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md        VC17
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-VS2026-Readme.md VC18
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md        VC18
     runs-on: ${{ matrix.config.os }}
 
     strategy:
@@ -83,17 +82,6 @@ jobs:
               vcpkg_triplet: "x64-windows",
               shared_libs: "ON"
             }
-          # win-vc16-x64-static-release is disabled, because freetype doesn't build static on VC16.
-          #- {
-          #    job_name: "Windows VC16 x64 static Release",
-          #    cache_key: "win-vc16-x64-static-release",
-          #    os: "windows-2019",
-          #    generator: "Visual Studio 16 2019",
-          #    compiler: "cl",
-          #    platform: "Win32",
-          #    vcpkg_triplet: "x64-windows-static-release",
-          #    shared_libs: "OFF"
-          #  }
 
     env:
       VCPKG_DISABLE_METRICS: 1
@@ -131,13 +119,13 @@ jobs:
           echo "matrix.config.os value is: ${{ matrix.config.os }}"
 
       - name: 🛠️ Setup Visual Studio Developer Command Prompt
-        if: matrix.config.os == 'windows-2025'
+        if: matrix.config.os == 'windows-2022'
         run: |
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           cl.exe
 
       - name: 🛠️ Setup Visual Studio Developer Command Prompt
-        if: matrix.config.os == 'windows-2025-vs2026'
+        if: matrix.config.os == 'windows-2025' || matrix.config.os == 'windows-2025-vs2026'
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           cl.exe
