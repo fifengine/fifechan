@@ -158,7 +158,7 @@ jobs:
 
       - name: 🎯 Setup Package Cache (vcpkg)
         id: cache-vcpkg
-        uses: actions/cache@v5 # https://github.com/actions/cache
+        uses: actions/cache@v6 # https://github.com/actions/cache
         with:
           path: |
             ${{ env.VCPKG_ROOT }}/packages
@@ -337,7 +337,7 @@ jobs:
 
       - name: 🎯 Setup Package Cache (vcpkg)
         id: cache-vcpkg
-        uses: actions/cache@v5 # https://github.com/actions/cache
+        uses: actions/cache@v6 # https://github.com/actions/cache
         with:
           path: |
             ${{ env.VCPKG_ROOT }}/packages
