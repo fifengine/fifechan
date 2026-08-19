@@ -462,13 +462,12 @@ void Application::showPage(int index)
 
         struct OptionDef
         {
-                std::string id;
                 std::string label;
         };
         OptionDef const options[3] = {
-            {"Warrior", "Warrior"},
-            {"Mage", "Mage"},
-            {"Rogue", "Rogue"},
+            {"Warrior"},
+            {"Mage"},
+            {"Rogue"},
         };
 
         for (int i = 0; i < 3; ++i) {
@@ -477,7 +476,7 @@ void Application::showPage(int index)
             optionBox->setBorderSize(1);
             optionBox->setBaseColor(fcn::Color(220, 215, 235, 255));
 
-            fcn::Color iconColors[3] = {
+            fcn::Color const iconColors[3] = {
                 fcn::Color(200, 80, 80, 255),
                 fcn::Color(80, 140, 210, 255),
                 fcn::Color(80, 190, 130, 255),

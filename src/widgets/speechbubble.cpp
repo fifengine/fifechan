@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <vector>
 
 #include "fifechan/graphics.hpp"
@@ -599,15 +600,15 @@ namespace fcn
                 addArc(out, blx, bly, cr2, 0.5f * PI, PI);
                 // Remove consecutive duplicates and trailing first==last
                 if (out.size() >= 2) {
-                    size_t w = 0;
+                    size_t writeIdx = 0;
                     for (size_t i = 1; i < out.size(); ++i) {
-                        if (out[i].x != out[w].x || out[i].y != out[w].y) {
-                            ++w;
-                            if (w != i)
-                                out[w] = out[i];
+                        if (out[i].x != out[writeIdx].x || out[i].y != out[writeIdx].y) {
+                            ++writeIdx;
+                            if (writeIdx != i)
+                                out[writeIdx] = out[i];
                         }
                     }
-                    out.resize(w + 1);
+                    out.resize(writeIdx + 1);
                     if (out.size() >= 2 && out.front().x == out.back().x && out.front().y == out.back().y) {
                         out.pop_back();
                     }
@@ -747,15 +748,15 @@ namespace fcn
 
             // Remove consecutive duplicate points (zero-length edges break ear-clipping)
             if (out.size() >= 2) {
-                size_t w = 0;
+                size_t writeIdx = 0;
                 for (size_t i = 1; i < out.size(); ++i) {
-                    if (out[i].x != out[w].x || out[i].y != out[w].y) {
-                        ++w;
-                        if (w != i)
-                            out[w] = out[i];
+                    if (out[i].x != out[writeIdx].x || out[i].y != out[writeIdx].y) {
+                        ++writeIdx;
+                        if (writeIdx != i)
+                            out[writeIdx] = out[i];
                     }
                 }
-                out.resize(w + 1);
+                out.resize(writeIdx + 1);
                 // Remove last point if it equals first (polygon is implicitly closed)
                 if (out.size() >= 2 && out.front().x == out.back().x && out.front().y == out.back().y) {
                     out.pop_back();
@@ -843,11 +844,6 @@ namespace fcn
         return mTailColor;
     }
 
-    void SpeechBubble::setBorderSize(unsigned int borderSize)
-    {
-        Widget::setBorderSize(borderSize);
-    }
-
     Rectangle SpeechBubble::getChildrenArea()
     {
         int const cr2     = static_cast<int>(mCornerRadius);
@@ -856,15 +852,15 @@ namespace fcn
             dir = TailDirection::Down;
         int const th = static_cast<int>(mTailHeight);
         int ti = cr2, bi = cr2, li = cr2, ri = cr2;
-        if (dir == TailDirection::Down)
+        if (dir == TailDirection::Down) {
             bi += th;
-        else if (dir == TailDirection::Up)
+        } else if (dir == TailDirection::Up) {
             ti += th;
-        else if (dir == TailDirection::Left)
+        } else if (dir == TailDirection::Left) {
             li += th;
-        else if (dir == TailDirection::Right)
+        } else if (dir == TailDirection::Right) {
             ri += th;
-        else if (dir == TailDirection::BottomLeft) {
+        } else if (dir == TailDirection::BottomLeft) {
             li += th;
             bi += th;
         } else if (dir == TailDirection::BottomRight) {
@@ -974,15 +970,15 @@ namespace fcn
 
         // Remove consecutive duplicates (tip cap can generate many identical vertices with r≤1)
         if (outline.size() >= 2) {
-            size_t w = 0;
+            size_t writeIdx = 0;
             for (size_t i = 1; i < outline.size(); ++i) {
-                if (outline[i].x != outline[w].x || outline[i].y != outline[w].y) {
-                    ++w;
-                    if (w != i)
-                        outline[w] = outline[i];
+                if (outline[i].x != outline[writeIdx].x || outline[i].y != outline[writeIdx].y) {
+                    ++writeIdx;
+                    if (writeIdx != i)
+                        outline[writeIdx] = outline[i];
                 }
             }
-            outline.resize(w + 1);
+            outline.resize(writeIdx + 1);
             if (outline.size() >= 2 && outline.front().x == outline.back().x && outline.front().y == outline.back().y) {
                 outline.pop_back();
             }
@@ -1005,18 +1001,18 @@ namespace fcn
             PointV tris;
             tris.reserve((outline.size() - 2) * 3);
 
-            auto crossZ = [](Point const & a, Point const & b, Point const & c) -> long long {
-                return static_cast<long long>(b.x - a.x) * static_cast<long long>(c.y - a.y) -
-                       static_cast<long long>(b.y - a.y) * static_cast<long long>(c.x - a.x);
+            auto crossZ = [](Point const & a, Point const & b, Point const & c) -> int64_t {
+                return static_cast<int64_t>(b.x - a.x) * static_cast<int64_t>(c.y - a.y) -
+                       static_cast<int64_t>(b.y - a.y) * static_cast<int64_t>(c.x - a.x);
             };
 
             auto pointInTriangle = [&crossZ](
                                        Point const & p, Point const & a, Point const & b, Point const & c) -> bool {
-                long long d1 = crossZ(p, a, b);
-                long long d2 = crossZ(p, b, c);
-                long long d3 = crossZ(p, c, a);
-                bool neg     = (d1 < 0) || (d2 < 0) || (d3 < 0);
-                bool pos     = (d1 > 0) || (d2 > 0) || (d3 > 0);
+                int64_t d1 = crossZ(p, a, b);
+                int64_t d2 = crossZ(p, b, c);
+                int64_t d3 = crossZ(p, c, a);
+                bool neg   = (d1 < 0) || (d2 < 0) || (d3 < 0);
+                bool pos   = (d1 > 0) || (d2 > 0) || (d3 > 0);
                 return !(neg && pos);
             };
 
@@ -1027,7 +1023,7 @@ namespace fcn
                     std::size_t prev = (i == 0) ? poly.size() - 1 : i - 1;
                     std::size_t next = (i + 1 == poly.size()) ? 0 : i + 1;
 
-                    long long z = crossZ(poly[prev], poly[i], poly[next]);
+                    int64_t z = crossZ(poly[prev], poly[i], poly[next]);
                     if (z <= 0)
                         continue; // not convex (reflex or colinear)
 

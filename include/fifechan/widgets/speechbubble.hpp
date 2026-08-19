@@ -117,8 +117,6 @@ namespace fcn
             void setTailOffset(float offset);
             float getTailOffset() const;
 
-            void setBorderSize(unsigned int borderSize);
-
             Rectangle getChildrenArea() override;
 
             void adjustSize() override;

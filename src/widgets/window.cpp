@@ -229,7 +229,7 @@ namespace fcn
             }
             int maxX = 0;
             int maxY = 0;
-            for (auto* child : mChildren) {
+            for (auto const * child : mChildren) {
                 if (!child->isVisible()) {
                     continue;
                 }
