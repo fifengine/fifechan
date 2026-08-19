@@ -100,6 +100,8 @@ namespace fcn::opengl
 
             void drawFillCircle(Point const & p, unsigned int radius) override;
 
+            void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) override;
+
             void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;
 
             void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override;

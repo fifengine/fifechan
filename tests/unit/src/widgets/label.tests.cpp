@@ -165,6 +165,16 @@ namespace
             {
             }
 
+            void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) override
+            {
+                (void)x1;
+                (void)y1;
+                (void)x2;
+                (void)y2;
+                (void)x3;
+                (void)y3;
+            }
+
             // pushClipArea (virtual, returns bool)
             bool pushClipArea(Rectangle area) override
             {

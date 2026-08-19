@@ -79,6 +79,10 @@ namespace
             void drawSurface(SDL_Surface* /*surface*/, int /*dstX*/, int /*dstY*/) override
             {
             }
+
+            void fillTriangle(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*x3*/, int /*y3*/) override
+            {
+            }
     };
 
     class MockImage : public fcn::Image

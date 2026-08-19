@@ -242,3 +242,42 @@ copy_resources_folder(sdlmdedit "${RESOURCES_FOLDER}")
 install(TARGETS sdlmdedit
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+#------------------------------------------------------------------------------
+# sdlspeechbubble
+#------------------------------------------------------------------------------
+
+add_executable(sdlspeechbubble sdlspeechbubble.cpp sdlspeechbubble.hpp)
+
+target_link_libraries(sdlspeechbubble PRIVATE
+  $<IF:$<TARGET_EXISTS:SDL3::SDL3>,SDL3::SDL3,SDL3::SDL3-static>
+  $<IF:$<TARGET_EXISTS:SDL3_image::SDL3_image>,SDL3_image::SDL3_image,SDL3_image::SDL3_image-static>
+  $<IF:$<TARGET_EXISTS:SDL3_ttf::SDL3_ttf>,SDL3_ttf::SDL3_ttf,SDL3_ttf::SDL3_ttf-static>
+  fifechan::fifechan
+  fifechan::fifechan_sdl3
+)
+
+set_target_properties(sdlspeechbubble PROPERTIES
+  CXX_STANDARD           20
+  CXX_STANDARD_REQUIRED  ON
+)
+
+if(WIN32)
+  set_target_properties(sdlspeechbubble PROPERTIES
+    WIN32_EXECUTABLE TRUE
+  )
+endif()
+
+if(BUILD_SHARED_LIBS)
+  target_compile_definitions(sdlspeechbubble PRIVATE "FIFEGUI_DLL_IMPORT")
+else()
+  target_compile_definitions(sdlspeechbubble INTERFACE "FIFEGUI_STATIC;FIFEGUI_EXT_STATIC")
+endif()
+
+show_build_target_properties(sdlspeechbubble)
+
+copy_resources_folder(sdlspeechbubble "${RESOURCES_FOLDER}")
+
+install(TARGETS sdlspeechbubble
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)

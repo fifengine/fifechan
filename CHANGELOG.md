@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [vNext] - unreleased
 
+### Added
+
+- Added `SpeechBubble` widget with configurable tail direction, style (classic/round/thought/shout/whisper), and tail profile (sharp/wide/curved).
+
 ### Changed (Breaking)
 
 - **Font API refactored**: `drawString` is no longer pure virtual.

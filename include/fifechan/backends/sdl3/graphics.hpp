@@ -98,6 +98,7 @@ namespace fcn::sdl3
 
             void drawCircle(Point const & center, unsigned int radius) override;
             void drawFillCircle(Point const & center, unsigned int radius) override;
+            void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) override;
             void drawCircleSegment(Point const & center, unsigned int radius, int startAngle, int endAngle) override;
             void drawFillCircleSegment(
                 Point const & center, unsigned int radius, int startAngle, int endAngle) override;

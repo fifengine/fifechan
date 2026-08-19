@@ -9,7 +9,6 @@
 // Standard library includes
 #include <algorithm>
 #include <array>
-#include <cstdio>
 #include <iterator>
 #include <memory>
 #include <numbers>
@@ -564,6 +563,42 @@ namespace fcn::sdl3
             indices.push_back(i);
             indices.push_back(i + 1);
         }
+
+        saveRenderColor();
+        setRenderDrawColor(mRenderTarget, mColor);
+        SDL_RenderGeometry(
+            mRenderTarget,
+            nullptr,
+            vertices.data(),
+            static_cast<int>(vertices.size()),
+            indices.data(),
+            static_cast<int>(indices.size()));
+        restoreRenderColor();
+    }
+
+    void Graphics::fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
+    {
+        if (mClipStack.empty()) {
+            throwException(
+                "Clip stack is empty, perhaps you"
+                "called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+        ClipRectangle const & top = mClipStack.top();
+
+        int const ax = x1 + top.xOffset;
+        int const ay = y1 + top.yOffset;
+        int const bx = x2 + top.xOffset;
+        int const by = y2 + top.yOffset;
+        int const cx = x3 + top.xOffset;
+        int const cy = y3 + top.yOffset;
+
+        std::vector<SDL_Vertex> vertices(3);
+        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
+        vertices[0]                  = makeSolidVertex(static_cast<float>(ax), static_cast<float>(ay), vertexColor);
+        vertices[1]                  = makeSolidVertex(static_cast<float>(bx), static_cast<float>(by), vertexColor);
+        vertices[2]                  = makeSolidVertex(static_cast<float>(cx), static_cast<float>(cy), vertexColor);
+
+        std::vector<int> indices = {0, 1, 2};
 
         saveRenderColor();
         setRenderDrawColor(mRenderTarget, mColor);

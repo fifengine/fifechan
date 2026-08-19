@@ -285,6 +285,22 @@ namespace fcn::opengl
         // TODO(jakoch): Implement this function
     }
 
+    void Graphics::fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
+    {
+        if (mClipStack.empty()) {
+            throwException(
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+
+        ClipRectangle const & top = mClipStack.top();
+
+        glBegin(GL_TRIANGLES);
+        glVertex2i(x1 + top.xOffset, y1 + top.yOffset);
+        glVertex2i(x2 + top.xOffset, y2 + top.yOffset);
+        glVertex2i(x3 + top.xOffset, y3 + top.yOffset);
+        glEnd();
+    }
+
     void Graphics::drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle)
     {
         // TODO(jakoch): Implement this function

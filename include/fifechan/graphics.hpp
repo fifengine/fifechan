@@ -328,6 +328,18 @@ namespace fcn
             virtual void drawFillCircle(Point const & p, unsigned int radius) = 0;
 
             /**
+             * Draws a filled triangle.
+             *
+             * @param x1 The first vertex x coordinate.
+             * @param y1 The first vertex y coordinate.
+             * @param x2 The second vertex x coordinate.
+             * @param y2 The second vertex y coordinate.
+             * @param x3 The third vertex x coordinate.
+             * @param y3 The third vertex y coordinate.
+             */
+            virtual void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) = 0;
+
+            /**
              * Draws a simple, non-filled circle segment with a one pixel width.
              *
              * @note

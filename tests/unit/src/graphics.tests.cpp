@@ -115,6 +115,11 @@ namespace
                 // Mock implementation - do nothing
             }
 
+            void fillTriangle(int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*x3*/, int /*y3*/) override
+            {
+                // Mock implementation - do nothing
+            }
+
             void setColor(Color const & color) override
             {
                 m_color = color;

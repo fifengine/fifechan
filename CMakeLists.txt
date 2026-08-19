@@ -307,6 +307,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/widgets/scrollarea.hpp
     include/fifechan/widgets/secondarypanel.hpp
     include/fifechan/widgets/slider.hpp
+    include/fifechan/widgets/speechbubble.hpp
     include/fifechan/widgets/spacer.hpp
     include/fifechan/widgets/statusbar.hpp
     include/fifechan/widgets/tab.hpp
@@ -386,6 +387,7 @@ set(FIFECHAN_SRC
     src/widgets/scrollarea.cpp
     src/widgets/secondarypanel.cpp
     src/widgets/slider.cpp
+    src/widgets/speechbubble.cpp
     src/widgets/spacer.cpp
     src/widgets/statusbar.cpp
     src/widgets/tab.cpp
