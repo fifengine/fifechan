@@ -35,6 +35,7 @@ set(UNIT_TEST_SOURCES
   # Text Input and UTF-8 tests
   src/text.tests.cpp
   src/utf8stringeditor.tests.cpp
+  src/umbrella_header.tests.cpp
   # Drag & Drop tests
   src/dragdrop.tests.cpp
   # Font related

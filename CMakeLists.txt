@@ -68,6 +68,7 @@ configure_file(
 #-------------------------------------------------------------------
 
 # Project local includes
+include(HeaderDriftGuard)
 include(ShowBuildTargetProperties)
 include(CopyResources)
 include(InstallExample)
@@ -299,6 +300,7 @@ set(FIFECHAN_HEADERS
     include/fifechan/widgets/menuitem.hpp
     include/fifechan/widgets/menupopup.hpp
     include/fifechan/widgets/menubar.hpp
+    include/fifechan/widgets/panel.hpp
     include/fifechan/widgets/passwordfield.hpp
     include/fifechan/widgets/piegraph.hpp
     include/fifechan/widgets/pointgraph.hpp
@@ -318,6 +320,26 @@ set(FIFECHAN_HEADERS
     include/fifechan/widgets/tooltip.hpp
     include/fifechan/widgets/window.hpp
 )
+
+# include/fifechan.hpp is hand-maintained; fail the configure step if it drifts
+# from FIFECHAN_HEADERS in either direction.
+fifechan_check_umbrella_header(
+  "${PROJECT_SOURCE_DIR}/include/fifechan.hpp"
+  ${FIFECHAN_HEADERS}
+)
+
+# A header in include/ that no list installs still compiles in the build tree but
+# is missing from the installed one. Two exclusions, both deliberate:
+# ModalBackdrop is an implementation detail of MenuPopup that nothing public
+# includes, and version.hpp is generated from version.hpp.in into the build dir.
+fifechan_check_header_coverage(
+  "${PROJECT_SOURCE_DIR}/include"
+  LIST FIFECHAN_HEADER FIFECHAN_HEADERS
+  HEADERS ${FIFECHAN_HEADER} ${FIFECHAN_HEADERS}
+  EXCLUDE include/fifechan/version.hpp
+          include/fifechan/widgets/modalbackdrop.hpp
+)
+
 set(FIFECHAN_VERSION_HEADER
     "${CMAKE_CURRENT_BINARY_DIR}/include/fifechan/version.hpp"
 )
