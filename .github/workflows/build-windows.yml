@@ -240,26 +240,22 @@ jobs:
           --output-on-failure
 
       - name: 🔎 Show dependencies (VC17)
-        if: matrix.config.os == 'windows-2025' && !contains(matrix.config.vcpkg_triplet, 'static')
+        if: matrix.config.os == 'windows-2022' && !contains(matrix.config.vcpkg_triplet, 'static')
         run: |
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan.dll"
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_sdl3.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_sdl3.dll"
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_opengl.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_opengl.dll"
+          for /f "delims=" %%F in ('dir /S /B "%INSTALL_DIR%\fifechan*.dll" 2^>nul') do (
+            echo DEPENDENTS: %%F ===
+            dumpbin /dependents "%%F"
+          )
 
       - name: 🔎 Show dependencies (VC18)
-        if: matrix.config.os == 'windows-2025-vs2026' && !contains(matrix.config.vcpkg_triplet, 'static')
+        if: matrix.config.os == 'windows-2025' && !contains(matrix.config.vcpkg_triplet, 'static')
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan.dll"
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_sdl3.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_sdl3.dll"
-          echo DEPENDENTS: %INSTALL_DIR%\\bin\\fifechan_opengl.dll ===
-          dumpbin /dependents "%INSTALL_DIR%\\bin\\fifechan_opengl.dll"
+          for /f "delims=" %%F in ('dir /S /B "%INSTALL_DIR%\fifechan*.dll" 2^>nul') do (
+            echo DEPENDENTS: %%F ===
+            dumpbin /dependents "%%F"
+          )
 
       - name: ❔ CHECK folders, to see if everything is present (after building)
         run: |
