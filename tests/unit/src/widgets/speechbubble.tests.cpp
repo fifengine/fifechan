@@ -87,6 +87,7 @@ TEST_CASE("getTailProfile returns a copy, not a reference to internal state", "[
     TailProfile copy   = bubble.getTailProfile();
     copy.tipWidthRatio = 0.99f;
 
+    REQUIRE(copy.tipWidthRatio == 0.99f);
     REQUIRE(bubble.getTailProfile().tipWidthRatio == 0.5f);
 }
 
