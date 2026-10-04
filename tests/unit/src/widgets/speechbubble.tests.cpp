@@ -73,6 +73,23 @@ TEST_CASE("SpeechBubble setTailProfile and getTailProfile", "[unit][speechbubble
     REQUIRE(got.teeth == 9);
 }
 
+TEST_CASE("getTailProfile returns a copy, not a reference to internal state", "[unit][speechbubble]")
+{
+    SpeechBubble bubble;
+
+    TailProfile p;
+    p.tipWidthRatio = 0.5f;
+    bubble.setTailProfile(p);
+
+    // Mutating the returned profile must not reach into the widget. Returning
+    // const & made this alias the member, which let bindings write to a widget
+    // through what reads as a getter.
+    TailProfile copy   = bubble.getTailProfile();
+    copy.tipWidthRatio = 0.99f;
+
+    REQUIRE(bubble.getTailProfile().tipWidthRatio == 0.5f);
+}
+
 TEST_CASE("SpeechBubble defaults", "[unit][speechbubble]")
 {
     SpeechBubble bubble;

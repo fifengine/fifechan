@@ -279,7 +279,7 @@ namespace fcn
             /**
              * Get the current render config.
              */
-            DragRenderConfig const & getRenderConfig() const;
+            DragRenderConfig getRenderConfig() const;
 
             /**
              * Set a modal widget to ignore hits.

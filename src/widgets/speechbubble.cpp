@@ -820,7 +820,7 @@ namespace fcn
     {
         mTailProfile = profile;
     }
-    SpeechBubble::TailProfile const & SpeechBubble::getTailProfile() const
+    SpeechBubble::TailProfile SpeechBubble::getTailProfile() const
     {
         return mTailProfile;
     }

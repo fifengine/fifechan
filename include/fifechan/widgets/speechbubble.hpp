@@ -115,7 +115,7 @@ namespace fcn
             TailDirection getTailDirection() const;
 
             void setTailProfile(TailProfile const & profile);
-            TailProfile const & getTailProfile() const;
+            TailProfile getTailProfile() const;
 
             void setTailColor(Color color);
             Color getTailColor() const;

@@ -149,7 +149,7 @@ namespace fcn
         m_renderConfig = std::move(config);
     }
 
-    DragRenderConfig const & DragHandler::getRenderConfig() const
+    DragRenderConfig DragHandler::getRenderConfig() const
     {
         return m_renderConfig;
     }
