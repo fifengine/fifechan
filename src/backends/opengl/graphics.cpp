@@ -18,6 +18,10 @@
     #include <GL/gl.h>
 #endif
 
+// Standard library includes
+#include <algorithm>
+#include <cmath>
+
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
 #include <fifechan/exception.hpp>
@@ -282,7 +286,22 @@ namespace fcn::opengl
 
     void Graphics::drawFillCircle(Point const & p, unsigned int radius)
     {
-        // TODO(jakoch): Implement this function
+        if (mClipStack.empty()) {
+            throwException(
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+
+        ClipRectangle const & top = mClipStack.top();
+
+        int const segments = std::max(8, static_cast<int>(radius / 2));
+
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex2i(p.x + top.xOffset, p.y + top.yOffset);
+        for (int i = 0; i <= segments; ++i) {
+            double const angle = 2.0 * M_PI * static_cast<double>(i) / static_cast<double>(segments);
+            glVertex2d(p.x + top.xOffset + radius * std::cos(angle), p.y + top.yOffset + radius * std::sin(angle));
+        }
+        glEnd();
     }
 
     void Graphics::fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3)

@@ -1148,11 +1148,7 @@ namespace fcn
                 float const dist = start + i * 9.0f;
                 Point const c(static_cast<int>(tcX + ux * dist + 0.5f), static_cast<int>(tcY + uy * dist + 0.5f));
                 graphics->setColor(bgColor);
-                graphics->fillRectangle(Rectangle(
-                    c.x - static_cast<int>(dotR[i - 1]),
-                    c.y - static_cast<int>(dotR[i - 1]),
-                    static_cast<int>(dotR[i - 1] * 2.0f),
-                    static_cast<int>(dotR[i - 1] * 2.0f)));
+                graphics->drawFillCircle(c, static_cast<unsigned int>(dotR[i - 1]));
                 if (getBorderSize() > 0) {
                     graphics->setColor(getBorderColor());
                     graphics->drawCircle(c, static_cast<unsigned int>(dotR[i - 1]));
