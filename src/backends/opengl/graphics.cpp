@@ -21,6 +21,7 @@
 // Standard library includes
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
@@ -298,7 +299,7 @@ namespace fcn::opengl
         glBegin(GL_TRIANGLE_FAN);
         glVertex2i(p.x + top.xOffset, p.y + top.yOffset);
         for (int i = 0; i <= segments; ++i) {
-            double const angle = 2.0 * M_PI * static_cast<double>(i) / static_cast<double>(segments);
+            double const angle = 2.0 * std::numbers::pi * static_cast<double>(i) / static_cast<double>(segments);
             glVertex2d(p.x + top.xOffset + radius * std::cos(angle), p.y + top.yOffset + radius * std::sin(angle));
         }
         glEnd();
