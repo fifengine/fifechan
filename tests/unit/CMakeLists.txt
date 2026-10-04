@@ -143,7 +143,7 @@ set_target_properties(all_tests PROPERTIES
 )
 
 function(add_unit_test_with_runtime_path test_name target_name)
-  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${target_name}>)
+  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${target_name}> ${ARGN})
 
   if(WIN32)
     # ENVIRONMENT_MODIFICATION applies at test time and keeps the inherited PATH,
@@ -167,3 +167,8 @@ function(add_unit_test_with_runtime_path test_name target_name)
 endfunction()
 
 add_unit_test_with_runtime_path(all_tests all_tests)
+
+# Proves the executable starts with its runtime dependencies resolvable, which
+# runs through ctest so it gets the same environment as the suite above.
+add_unit_test_with_runtime_path(all_tests_smoke all_tests --list-tests)
+set_tests_properties(all_tests_smoke PROPERTIES TIMEOUT 120)
