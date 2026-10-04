@@ -221,6 +221,39 @@ jobs:
           --prefix ${{ env.INSTALL_DIR }}                               ^
           --verbose
 
+      - name: 🔬 Smoke Check ➔ Test Binary Starts
+        # Proves all_tests.exe loads; a missing DLL fails here instead of hanging CTest.
+        shell: pwsh
+        run: |
+          $exe    = "${{ env.BUILD_DIR }}\tests\unit\${{ matrix.config.build_type }}\all_tests.exe"
+          $outLog = "$env:RUNNER_TEMP\all_tests-list.txt"
+          $errLog = "$env:RUNNER_TEMP\all_tests-list-err.txt"
+
+          if (-not (Test-Path $exe)) {
+            Write-Output "MISSING_EXECUTABLE: $exe"
+            exit 1
+          }
+
+          $process = Start-Process -FilePath $exe -ArgumentList '--list-tests' `
+            -NoNewWindow -PassThru `
+            -RedirectStandardOutput $outLog -RedirectStandardError $errLog
+
+          if (-not $process.WaitForExit(120000)) {
+            $process.Kill()
+            $process.WaitForExit()
+            Write-Output "SMOKE_CHECK_TIMEOUT: all_tests.exe did not exit within 120s."
+            Write-Output "Likely a missing runtime dependency or a blocking error dialog."
+            exit 1
+          }
+
+          Get-Content $outLog | Select-Object -Last 3
+          if ($process.ExitCode -ne 0) {
+            Write-Output "SMOKE_CHECK_FAILED: exit code $($process.ExitCode)"
+            Get-Content $errLog
+            Write-Output "Likely a missing runtime dependency."
+            exit 1
+          }
+
       - name: 🧪 CTest ➔ Run Tests
         run: |
           ctest                                                         ^

@@ -146,8 +146,22 @@ function(add_unit_test_with_runtime_path test_name target_name)
   add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${target_name}>)
 
   if(WIN32)
+    # ENVIRONMENT_MODIFICATION applies at test time and keeps the inherited PATH,
+    # unlike ENVIRONMENT which snapshots $ENV{PATH} at configure time.
+    set(fifechan_test_path_modifications
+      "PATH=path_list_prepend:$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    )
+
+    # SDL3 and its codec dependencies are imported but not copied next to the
+    # test executable, so the loader would fail before main().
+    if(VCPKG_INSTALLED_DIR AND VCPKG_TARGET_TRIPLET)
+      list(APPEND fifechan_test_path_modifications
+        "PATH=path_list_prepend:${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/$<IF:$<CONFIG:Debug>,debug/bin,bin>"
+      )
+    endif()
+
     set_tests_properties(${test_name} PROPERTIES
-      ENVIRONMENT "PATH=$<TARGET_FILE_DIR:${PROJECT_NAME}>;$ENV{PATH}"
+      ENVIRONMENT_MODIFICATION "${fifechan_test_path_modifications}"
     )
   endif()
 endfunction()
