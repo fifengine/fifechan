@@ -226,6 +226,8 @@ jobs:
           ctest                                                         ^
           --test-dir ${{ env.BUILD_DIR }}                               ^
           --build-config ${{ matrix.config.build_type }}                ^
+          --timeout 300                                                 ^
+          --no-tests=error                                              ^
           --output-on-failure
 
       - name: 🔎 Show dependencies (VC17)
