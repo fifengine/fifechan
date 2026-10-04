@@ -19,9 +19,53 @@ namespace fcn
 {
     class Color;
 
+    //! Shape metrics for the tail of a SpeechBubble.
+    // At namespace scope, not nested: SWIG ignores nested structs, which would
+    // leave setTailProfile()/getTailProfile() with an argument type it never emits.
+    struct TailProfile
+    {
+            float tipWidthRatio = 0.0f; // width at tip / width at body (0 = sharp point)
+            float curvature     = 0.0f; // spine bend (0 = straight, <1 = gentle curve)
+            float hook          = 0.0f; // tip hook (0 = none, <1 = moderate hook)
+            float taperExponent =
+                1.0f; // 1 = linear taper, <1 = slow-initial taper (stays wide longer), >1 = fast-initial taper
+            float jaggedness = 0.0f; // tooth amplitude (0 = smooth)
+            int teeth        = 5;    // number of teeth (jagged)
+            float prongDepth = 0.0f; // fork depth (0 = none)
+            int segments     = 6;    // spine subdivision (more = smoother curves, but noisier at 1px)
+
+            static TailProfile sharp()
+            {
+                return {};
+            }
+            static TailProfile rounded()
+            {
+                return {0.3f};
+            }
+            static TailProfile curved()
+            {
+                return {0.0f, 0.3f};
+            }
+            static TailProfile wide()
+            {
+                return {0.55f, 0.0f, 0.0f, 0.8f};
+            }
+            static TailProfile jagged()
+            {
+                return {0.0f, 0.0f, 0.0f, 1.0f, 0.5f};
+            }
+            static TailProfile pronged()
+            {
+                return {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 5, 0.5f};
+            }
+    };
+
     class FIFEGUI_API SpeechBubble : public Container
     {
         public:
+            //! Alias for the namespace-scope TailProfile, so SpeechBubble::TailProfile still compiles.
+            using TailProfile = fcn::TailProfile;
+
             enum class TailDirection : uint8_t
             {
                 None,
@@ -44,44 +88,6 @@ namespace fcn
                 Thought, //!< puffy cloud bubble, tail of trailing dots
                 Shout,   //!< jagged burst bubble, spiky tail
                 Whisper  //!< dashed outline, small pointy tail
-            };
-
-            struct TailProfile
-            {
-                    float tipWidthRatio = 0.0f; // width at tip / width at body (0 = sharp point)
-                    float curvature     = 0.0f; // spine bend (0 = straight, <1 = gentle curve)
-                    float hook          = 0.0f; // tip hook (0 = none, <1 = moderate hook)
-                    float taperExponent =
-                        1.0f; // 1 = linear taper, <1 = slow-initial taper (stays wide longer), >1 = fast-initial taper
-                    float jaggedness = 0.0f; // tooth amplitude (0 = smooth)
-                    int teeth        = 5;    // number of teeth (jagged)
-                    float prongDepth = 0.0f; // fork depth (0 = none)
-                    int segments     = 6;    // spine subdivision (more = smoother curves, but noisier at 1px)
-
-                    static TailProfile sharp()
-                    {
-                        return {};
-                    }
-                    static TailProfile rounded()
-                    {
-                        return {0.3f};
-                    }
-                    static TailProfile curved()
-                    {
-                        return {0.0f, 0.3f};
-                    }
-                    static TailProfile wide()
-                    {
-                        return {0.55f, 0.0f, 0.0f, 0.8f};
-                    }
-                    static TailProfile jagged()
-                    {
-                        return {0.0f, 0.0f, 0.0f, 1.0f, 0.5f};
-                    }
-                    static TailProfile pronged()
-                    {
-                        return {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 5, 0.5f};
-                    }
             };
 
             SpeechBubble();

@@ -77,6 +77,7 @@ set(UNIT_TEST_SOURCES
   src/widgets/secondarypanel.tests.cpp
   src/widgets/slider.tests.cpp
   src/widgets/spacer.tests.cpp
+  src/widgets/speechbubble.tests.cpp
   src/widgets/statusbar.tests.cpp
   src/widgets/tab.tests.cpp
   src/widgets/tabbedarea.tests.cpp

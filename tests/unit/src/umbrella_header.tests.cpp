@@ -46,6 +46,7 @@ TEST_CASE("umbrella header exposes every public widget type", "[unit][fifechan]"
             fcn::SecondaryPanel,
             fcn::SpeechBubble,
             fcn::StatusBar,
+            fcn::TailProfile,
             fcn::Tooltip>);
 
     STATIC_REQUIRE(
