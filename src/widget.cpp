@@ -860,6 +860,7 @@ namespace fcn
         return mFocusHandler;
     }
 
+    // cppcheck-suppress constParameterPointer
     void Widget::_detachFocusHandlerFromAll(FocusHandler* focusHandler)
     {
         for (auto* widget : widgetInstancesRegistry()) {

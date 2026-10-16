@@ -115,6 +115,9 @@ namespace fcn
             TailDirection getTailDirection() const;
 
             void setTailProfile(TailProfile const & profile);
+            // Returning by value is deliberate: a const reference would let a
+            // binding alias internal state and write to it through a getter.
+            // cppcheck-suppress returnByReference
             TailProfile getTailProfile() const;
 
             void setTailColor(Color color);
