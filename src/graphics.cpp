@@ -6,7 +6,6 @@
 #include "fifechan/graphics.hpp"
 
 // Standard library includes
-#include <cassert>
 #include <memory>
 #include <string>
 
@@ -25,10 +24,9 @@ namespace fcn
     bool Graphics::pushClipArea(Rectangle area)
     {
         // Ignore area with a negative width or height by pushing
-        // an empty clip area to the stack.
-        assert("Width must be non-negative" && area.width >= 0);
-        assert("Height must be non-negative" && area.height >= 0);
-
+        // an empty clip area to the stack. Rectangle::isEmpty() already
+        // reports true for width/height <= 0, so the check below handles
+        // those cases; asserting on them first would defeat that handling.
         if (area.isEmpty()) {
             ClipRectangle const clip_rect;
             mClipStack.push(clip_rect);
