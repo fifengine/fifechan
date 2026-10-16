@@ -860,6 +860,15 @@ namespace fcn
         return mFocusHandler;
     }
 
+    void Widget::_detachFocusHandlerFromAll(FocusHandler* focusHandler)
+    {
+        for (auto* widget : widgetInstancesRegistry()) {
+            if (widget != nullptr && widget->mFocusHandler == focusHandler) {
+                widget->mFocusHandler = nullptr;
+            }
+        }
+    }
+
     void Widget::_setVisibilityEventHandler(VisibilityEventHandler* visibilityEventHandler)
     {
         mVisibilityEventHandler = visibilityEventHandler;

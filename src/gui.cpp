@@ -101,6 +101,7 @@ namespace fcn
             }
             mTop = nullptr;
         }
+        Widget::_detachFocusHandlerFromAll(mFocusHandler);
         Widget::_setVisibilityEventHandler(nullptr);
         Widget::_setGuiDeathListener(nullptr);
 

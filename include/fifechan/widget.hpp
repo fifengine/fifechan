@@ -985,6 +985,14 @@ namespace fcn
             virtual FocusHandler* _getFocusHandler();
 
             /**
+             * Detaches the given focus handler from every live widget.
+             *
+             * Call this before destroying a focus handler so widgets that
+             * outlive it never dereference a dangling pointer.
+             */
+            static void _detachFocusHandlerFromAll(FocusHandler* focusHandler);
+
+            /**
              * Adds an action listener to the widget. When an action event
              * is fired by the widget the action listeners of the widget
              * will get notified.
