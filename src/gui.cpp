@@ -1164,6 +1164,12 @@ namespace fcn
         mShownWidgets.clear();
 
         for (auto* shownWidget : pending) {
+            // make sure that the widget wasn't freed after being shown,
+            // e.g. by a callback fired while processing an earlier entry
+            if (!Widget::widgetExists(shownWidget)) {
+                continue;
+            }
+
             // if the shown widget has the mouse cursor inside it
             int shownWidgetX = 0;
             int shownWidgetY = 0;
