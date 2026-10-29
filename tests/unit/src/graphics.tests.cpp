@@ -434,6 +434,21 @@ TEST_CASE("Graphics::setColor and getColor work correctly", "[graphics][color]")
     REQUIRE(g.getColor() == blue);
 }
 
+TEST_CASE("Graphics opacity defaults to one and clamps", "[graphics][opacity]")
+{
+    MockGraphics g;
+    REQUIRE(g.getOpacity() == 1.0F);
+
+    g.setOpacity(0.5F);
+    REQUIRE(g.getOpacity() == 0.5F);
+
+    g.setOpacity(-0.5F);
+    REQUIRE(g.getOpacity() == 0.0F);
+
+    g.setOpacity(1.5F);
+    REQUIRE(g.getOpacity() == 1.0F);
+}
+
 // ============================================
 // Integration tests
 // ============================================

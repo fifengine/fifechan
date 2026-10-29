@@ -399,6 +399,26 @@ namespace fcn
             virtual Color const & getColor() const = 0;
 
             /**
+             * Sets the opacity multiplier applied to all drawing operations.
+             *
+             * The opacity is multiplied into the alpha channel of the current
+             * color and into drawn textures. Values outside the range 0.0 to
+             * 1.0 are clamped.
+             *
+             * @param opacity Opacity from 0.0 (fully transparent) to 1.0 (fully opaque).
+             * @see getOpacity
+             */
+            void setOpacity(float opacity);
+
+            /**
+             * Gets the current opacity multiplier.
+             *
+             * @return The opacity, between 0.0 and 1.0.
+             * @see setOpacity
+             */
+            float getOpacity() const;
+
+            /**
              * Sets the font to use when drawing text.
              *
              * @param font The font to use when drawing.
@@ -453,6 +473,12 @@ namespace fcn
              * Holds the current font.
              */
             Font* mFont{nullptr};
+
+            /**
+             * Opacity multiplier applied to drawing operations, between 0.0
+             * (fully transparent) and 1.0 (fully opaque).
+             */
+            float mOpacity{1.0F};
     };
 } // namespace fcn
 

@@ -31,6 +31,13 @@ namespace fcn
                 Leave,
                 Hover,
                 Drop,
+                /**
+                 * Drag aborted by the application.
+                 *
+                 * `DragHandler` reports cancellation through `dragExited` with
+                 * a `Leave` event; `Cancel` is available to applications that
+                 * drive drag events themselves.
+                 */
                 Cancel
             };
 

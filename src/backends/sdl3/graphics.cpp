@@ -33,23 +33,23 @@ namespace fcn::sdl3
     {
         constexpr float kColorNormalizationFactor = 1.0F / 255.0F;
 
-        void setRenderDrawColor(SDL_Renderer* renderer, fcn::Color const & color)
+        void setRenderDrawColor(SDL_Renderer* renderer, fcn::Color const & color, float opacity)
         {
             SDL_SetRenderDrawColorFloat(
                 renderer,
                 static_cast<float>(color.r) * kColorNormalizationFactor,
                 static_cast<float>(color.g) * kColorNormalizationFactor,
                 static_cast<float>(color.b) * kColorNormalizationFactor,
-                static_cast<float>(color.a) * kColorNormalizationFactor);
+                static_cast<float>(color.a) * kColorNormalizationFactor * opacity);
         }
 
-        SDL_FColor toSDLVertexColor(fcn::Color const & color)
+        SDL_FColor toSDLVertexColor(fcn::Color const & color, float opacity)
         {
             return SDL_FColor{
                 .r = static_cast<float>(color.r) * kColorNormalizationFactor,
                 .g = static_cast<float>(color.g) * kColorNormalizationFactor,
                 .b = static_cast<float>(color.b) * kColorNormalizationFactor,
-                .a = static_cast<float>(color.a) * kColorNormalizationFactor};
+                .a = static_cast<float>(color.a) * kColorNormalizationFactor * opacity};
         }
 
         SDL_Vertex makeSolidVertex(float x, float y, SDL_FColor const & color)
@@ -84,6 +84,12 @@ namespace fcn::sdl3
         mRenderTarget = renderer;
         mWidth        = width;
         mHeight       = height;
+
+        // Opacity is expressed through the alpha channel, so primitives must
+        // blend even when the current color is fully opaque.
+        if (mRenderTarget != nullptr) {
+            SDL_SetRenderDrawBlendMode(mRenderTarget, SDL_BLENDMODE_BLEND);
+        }
     }
 
     bool Graphics::pushClipArea(Rectangle area)
@@ -156,7 +162,25 @@ namespace fcn::sdl3
 
         SDL_Texture* texture = srcImage->getTexture();
         if (texture != nullptr) {
+            float const opacity = getOpacity();
+            if (opacity >= 1.0F) {
+                SDL_RenderTexture(mRenderTarget, texture, &src, &dst);
+                return;
+            }
+
+            // The texture is shared with the Image, so temporarily modulate its
+            // alpha and restore the previous value afterwards. If the previous
+            // value cannot be read, leave the texture untouched rather than
+            // overwriting an alpha modulation we do not know.
+            float previousAlpha    = 1.0F;
+            bool const hasAlphaMod = SDL_GetTextureAlphaModFloat(texture, &previousAlpha);
+            if (hasAlphaMod) {
+                SDL_SetTextureAlphaModFloat(texture, previousAlpha * opacity);
+            }
             SDL_RenderTexture(mRenderTarget, texture, &src, &dst);
+            if (hasAlphaMod) {
+                SDL_SetTextureAlphaModFloat(texture, previousAlpha);
+            }
         }
     }
 
@@ -185,7 +209,7 @@ namespace fcn::sdl3
         rect.h = static_cast<float>(area.height);
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderFillRect(mRenderTarget, &rect);
         restoreRenderColor();
     }
@@ -208,7 +232,7 @@ namespace fcn::sdl3
         }
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderPoint(mRenderTarget, x, y);
         restoreRenderColor();
     }
@@ -251,7 +275,7 @@ namespace fcn::sdl3
         }
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderLine(mRenderTarget, x1, y, x2, y);
         restoreRenderColor();
     }
@@ -294,7 +318,7 @@ namespace fcn::sdl3
         }
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderLine(mRenderTarget, x, y1, x, y2);
         restoreRenderColor();
     }
@@ -329,7 +353,7 @@ namespace fcn::sdl3
         y2 += top.yOffset;
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderLine(mRenderTarget, x1, y1, x2, y2);
         restoreRenderColor();
     }
@@ -361,7 +385,7 @@ namespace fcn::sdl3
 
         // Use SDL_RenderGeometry with quad primitives for thick line
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
 
         auto const dx      = static_cast<float>(x2 - x1);
         auto const dy      = static_cast<float>(y2 - y1);
@@ -386,28 +410,28 @@ namespace fcn::sdl3
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x1) + offsetX, .y = static_cast<float>(y1) - offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) + offsetX, .y = static_cast<float>(y2) - offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) - offsetX, .y = static_cast<float>(y2) + offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F}}};
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
         // clang-format on
 
         // Two triangles forming a quad
@@ -453,7 +477,7 @@ namespace fcn::sdl3
 
         // Draw filled circles along the line path using SDL_RenderGeometry
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
 
         int const dx        = x2 - x1;
         int const dy        = y2 - y1;
@@ -481,7 +505,7 @@ namespace fcn::sdl3
                            .r = static_cast<float>(mColor.r) / 255.0F,
                            .g = static_cast<float>(mColor.g) / 255.0F,
                            .b = static_cast<float>(mColor.b) / 255.0F,
-                           .a = static_cast<float>(mColor.a) / 255.0F}});
+                           .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}});
             // clang-format on
 
             // Circle edge vertices
@@ -499,7 +523,7 @@ namespace fcn::sdl3
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F}});
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}});
                 // clang-format on
             }
 
@@ -541,7 +565,7 @@ namespace fcn::sdl3
         int const numSegments = std::max(8, static_cast<int>(radius / 2));
         std::vector<SDL_Vertex> vertices;
         vertices.reserve(numSegments + 2);
-        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
+        SDL_FColor const vertexColor = toSDLVertexColor(mColor, getOpacity());
 
         // Center vertex
         vertices.push_back(makeSolidVertex(static_cast<float>(x0), static_cast<float>(y0), vertexColor));
@@ -565,7 +589,7 @@ namespace fcn::sdl3
         }
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderGeometry(
             mRenderTarget,
             nullptr,
@@ -593,7 +617,7 @@ namespace fcn::sdl3
         int const cy = y3 + top.yOffset;
 
         std::vector<SDL_Vertex> vertices(3);
-        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
+        SDL_FColor const vertexColor = toSDLVertexColor(mColor, getOpacity());
         vertices[0]                  = makeSolidVertex(static_cast<float>(ax), static_cast<float>(ay), vertexColor);
         vertices[1]                  = makeSolidVertex(static_cast<float>(bx), static_cast<float>(by), vertexColor);
         vertices[2]                  = makeSolidVertex(static_cast<float>(cx), static_cast<float>(cy), vertexColor);
@@ -601,7 +625,7 @@ namespace fcn::sdl3
         std::vector<int> indices = {0, 1, 2};
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderGeometry(
             mRenderTarget,
             nullptr,
@@ -659,7 +683,7 @@ namespace fcn::sdl3
         int const numSegments = std::max(8, static_cast<int>(radius / 2));
         std::vector<SDL_Vertex> vertices;
         vertices.reserve(numSegments + 1);
-        SDL_FColor const vertexColor = toSDLVertexColor(mColor);
+        SDL_FColor const vertexColor = toSDLVertexColor(mColor, getOpacity());
 
         for (int i = 0; i <= numSegments; ++i) {
             float const angle =
@@ -678,7 +702,7 @@ namespace fcn::sdl3
         }
 
         saveRenderColor();
-        setRenderDrawColor(mRenderTarget, mColor);
+        setRenderDrawColor(mRenderTarget, mColor, getOpacity());
         SDL_RenderGeometry(
             mRenderTarget,
             nullptr,
@@ -729,13 +753,13 @@ namespace fcn::sdl3
         if (width <= 1) {
             // Use SDL_RenderLines for thin lines (batched rendering)
             saveRenderColor();
-            setRenderDrawColor(mRenderTarget, mColor);
+            setRenderDrawColor(mRenderTarget, mColor, getOpacity());
             SDL_RenderLines(mRenderTarget, points.data(), static_cast<int>(points.size()));
             restoreRenderColor();
         } else {
             // For thick lines, draw multiple quads along the path using SDL_RenderGeometry
             saveRenderColor();
-            setRenderDrawColor(mRenderTarget, mColor);
+            setRenderDrawColor(mRenderTarget, mColor, getOpacity());
 
             float const halfWidth = static_cast<float>(width) / 2.0F;
 
@@ -767,28 +791,28 @@ namespace fcn::sdl3
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F}}};
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
                 // clang-format on
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
@@ -830,13 +854,13 @@ namespace fcn::sdl3
         if (width <= 1) {
             // Use SDL_RenderLines for batched rendering of thin lines
             saveRenderColor();
-            setRenderDrawColor(mRenderTarget, mColor);
+            setRenderDrawColor(mRenderTarget, mColor, getOpacity());
             SDL_RenderLines(mRenderTarget, sdlPoints.data(), static_cast<int>(sdlPoints.size()));
             restoreRenderColor();
         } else {
             // For thick lines, draw quads between each pair of points
             saveRenderColor();
-            setRenderDrawColor(mRenderTarget, mColor);
+            setRenderDrawColor(mRenderTarget, mColor, getOpacity());
 
             float const halfWidth = static_cast<float>(width) / 2.0F;
 
@@ -868,28 +892,28 @@ namespace fcn::sdl3
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
                     SDL_Vertex{
                         .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F}}};
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
                 // clang-format on
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
@@ -940,7 +964,7 @@ namespace fcn::sdl3
         // rendered in white (e.g. TrueTypeFont renderToSurface) appear in
         // the correct colour.
         SDL_SetTextureColorMod(texture, mColor.r, mColor.g, mColor.b);
-        SDL_SetTextureAlphaMod(texture, mColor.a);
+        SDL_SetTextureAlphaMod(texture, static_cast<Uint8>(static_cast<float>(mColor.a) * getOpacity()));
 
         SDL_FRect src;
         src.x = 0.0F;

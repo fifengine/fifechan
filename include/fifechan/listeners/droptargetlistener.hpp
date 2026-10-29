@@ -58,9 +58,11 @@ namespace fcn
              * Called when a payload is dropped on the target.
              *
              * @param dragEvent The drag event describing the drop action.
+             * @return True if the target accepted the drop, false to reject it.
              */
-            virtual void dragDropped(DragEvent& dragEvent)
+            virtual bool dragDropped(DragEvent&)
             {
+                return false;
             }
 
         protected:

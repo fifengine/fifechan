@@ -360,43 +360,8 @@ TEST_CASE("Container setHorizontalSpacing and getHorizontalSpacing", "[unit][con
 }
 
 // ============================================================================
-// Opacity
+// Opaque flag
 // ============================================================================
-
-TEST_CASE("Container setOpacity with valid values", "[unit][container]")
-{
-    Container container;
-
-    // Default opacity should make it opaque
-    REQUIRE(container.isOpaque() == true);
-
-    // Test 0.0 (fully transparent)
-    container.setOpacity(0.0F);
-    REQUIRE(container.isOpaque() == false);
-
-    // Test 0.5 (semi-transparent)
-    container.setOpacity(0.5F);
-    REQUIRE(container.isOpaque() == false);
-
-    // Test 1.0 (fully opaque)
-    container.setOpacity(1.0F);
-    REQUIRE(container.isOpaque() == true);
-}
-
-TEST_CASE("Container setOpacity clamps values", "[unit][container]")
-{
-    Container container;
-
-    // Test value below 0.0 (should clamp to 0.0)
-    container.setOpacity(-0.5F);
-    // After clamping, opacity is 0.0, so opaque should be false
-    REQUIRE(container.isOpaque() == false);
-
-    // Test value above 1.0 (should clamp to 1.0)
-    container.setOpacity(1.5F);
-    // After clamping, opacity is 1.0, so opaque should be true
-    REQUIRE(container.isOpaque() == true);
-}
 
 TEST_CASE("Container setOpaque and isOpaque", "[unit][container]")
 {
@@ -409,28 +374,6 @@ TEST_CASE("Container setOpaque and isOpaque", "[unit][container]")
     REQUIRE(container.isOpaque() == false);
 
     container.setOpaque(true);
-    REQUIRE(container.isOpaque() == true);
-}
-
-TEST_CASE("Container setOpacity < 1.0 sets opaque false", "[unit][container]")
-{
-    Container container;
-
-    container.setOpaque(true);
-    REQUIRE(container.isOpaque() == true);
-
-    container.setOpacity(0.99F);
-    REQUIRE(container.isOpaque() == false);
-}
-
-TEST_CASE("Container setOpacity >= 1.0 sets opaque true", "[unit][container]")
-{
-    Container container;
-
-    container.setOpaque(false);
-    REQUIRE(container.isOpaque() == false);
-
-    container.setOpacity(1.0F);
     REQUIRE(container.isOpaque() == true);
 }
 
@@ -880,23 +823,6 @@ TEST_CASE("Container add widget with negative position", "[unit][container]")
     REQUIRE(container.getChildrenCount() == 1);
     REQUIRE(label->getX() == -10);
     REQUIRE(label->getY() == -20);
-}
-
-TEST_CASE("Container setOpacity multiple times", "[unit][container]")
-{
-    Container container;
-
-    container.setOpacity(0.0F);
-    REQUIRE(container.isOpaque() == false);
-
-    container.setOpacity(0.5F);
-    REQUIRE(container.isOpaque() == false);
-
-    container.setOpacity(1.0F);
-    REQUIRE(container.isOpaque() == true);
-
-    container.setOpacity(0.0F);
-    REQUIRE(container.isOpaque() == false);
 }
 
 TEST_CASE("Container visibility", "[unit][container]")

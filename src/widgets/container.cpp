@@ -68,18 +68,6 @@ namespace fcn
         // Avoid drawing them here to prevent double-rendering.
     }
 
-    // TODO opacity with 0.0 = fully transparent, 1.0 = fully visible
-    void Container::setOpacity(float opacity)
-    {
-        mOpacity = std::clamp(opacity, 0.0F, 1.0F);
-
-        if (mOpacity < 1.0F) {
-            setOpaque(false);
-        } else {
-            setOpaque(true);
-        }
-    }
-
     void Container::setOpaque(bool opaque)
     {
         mOpaque = opaque;

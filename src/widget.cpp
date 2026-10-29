@@ -40,6 +40,37 @@ namespace fcn
             static std::list<Widget*> instances;
             return instances;
         }
+
+        /**
+         * Applies an opacity to a Graphics object and restores the previous
+         * value when the guard goes out of scope.
+         *
+         * Using a guard keeps the inherited opacity intact even when a widget's
+         * draw function throws.
+         */
+        class ScopedGraphicsOpacity
+        {
+            public:
+                ScopedGraphicsOpacity(Graphics* graphics, float opacity) :
+                    m_graphics(graphics), m_previousOpacity(graphics->getOpacity())
+                {
+                    m_graphics->setOpacity(opacity);
+                }
+
+                ~ScopedGraphicsOpacity()
+                {
+                    m_graphics->setOpacity(m_previousOpacity);
+                }
+
+                ScopedGraphicsOpacity(ScopedGraphicsOpacity const &)            = delete;
+                ScopedGraphicsOpacity& operator=(ScopedGraphicsOpacity const &) = delete;
+                ScopedGraphicsOpacity(ScopedGraphicsOpacity&&)                  = delete;
+                ScopedGraphicsOpacity& operator=(ScopedGraphicsOpacity&&)       = delete;
+
+            private:
+                Graphics* m_graphics;
+                float m_previousOpacity;
+        };
     } // namespace
 
     Font* Widget::mGlobalFont = nullptr;
@@ -734,6 +765,16 @@ namespace fcn
         return mVisible;
     }
 
+    void Widget::setOpacity(float opacity)
+    {
+        mOpacity = std::clamp(opacity, 0.0F, 1.0F);
+    }
+
+    float Widget::getOpacity() const
+    {
+        return mOpacity;
+    }
+
     void Widget::setBaseColor(Color const & color)
     {
         mBaseColor = color;
@@ -985,13 +1026,15 @@ namespace fcn
         }
     }
 
-    void Widget::distributeDragDrop(DragEvent& event)
+    bool Widget::distributeDragDrop(DragEvent& event)
     {
+        bool accepted = false;
         for (auto* listener : mDropTargetListeners) {
-            if (listener != nullptr) {
-                listener->dragDropped(event);
+            if (listener != nullptr && listener->dragDropped(event)) {
+                accepted = true;
             }
         }
+        return accepted;
     }
 
     void Widget::addDropTargetListener(DropTargetListener* listener)
@@ -1575,6 +1618,11 @@ namespace fcn
 
     void Widget::_draw(Graphics* graphics)
     {
+        // Compose this widget's opacity with the opacity inherited from its
+        // ancestors. The guard restores the inherited value once the subtree
+        // has been drawn, including when a draw function throws.
+        ScopedGraphicsOpacity const opacity(graphics, graphics->getOpacity() * mOpacity);
+
         if (mOutlineSize > 0) {
             Rectangle rec = mDimension;
             rec.x -= mOutlineSize;

@@ -242,32 +242,59 @@ namespace fcn
             DragPayload const * getPayload() const;
 
             /**
+             * Get the widget the current drag started from.
+             *
+             * Returns nullptr when no drag is active, or when `beginDrag` was
+             * called without a source widget.
+             */
+            Widget* getSourceWidget() const;
+
+            /**
              * Start a drag with the given payload.
+             *
+             * @param source The widget the drag started from, or nullptr.
+             * @param payload The payload to carry. Must not be null.
+             * @param mouseX Screen X coordinate of the pointer.
+             * @param mouseY Screen Y coordinate of the pointer.
+             * @return True if the drag started, false if one is already active or the payload is null.
              */
             bool beginDrag(Widget* source, std::unique_ptr<DragPayload> payload, int mouseX, int mouseY);
 
             /**
-             * Start a drag from a widget without explicit payload.
-             */
-            bool beginDragFromWidget(Widget* source, int mouseX, int mouseY);
-
-            /**
              * Update drag position.
+             *
+             * Hit tests the pointer position and sends `Enter` to the nearest
+             * accepting widget, `Hover` while over the active target, and
+             * `Leave` when the pointer leaves it. `Enter` is only attempted
+             * when the hovered widget changes, so a rejecting target is not
+             * re-notified on every movement.
              */
             void update(int mouseX, int mouseY);
 
             /**
              * Drop at the given position.
+             *
+             * Re-runs hit testing with the drop coordinates, sends `Drop` to
+             * the active target and then `Leave` (the drag is over either way).
+             *
+             * @return `Accepted` if a target accepted the drop, `Rejected` if
+             * the target declined, or `Cancelled` if there was no target.
              */
             DropResult drop(int mouseX, int mouseY);
 
             /**
              * Cancel the current drag.
+             *
+             * Sends `Leave` to the active target, if any.
              */
             void cancel();
 
             /**
              * Render drag related visuals.
+             *
+             * Draws the ghost at the last mouse position and a highlight over the
+             * active target. Call this after the GUI has drawn its widget tree;
+             * coordinates are screen-space (or GUI-space when the top widget is at 0,0).
              */
             void render(Graphics& graphics);
 
@@ -292,7 +319,19 @@ namespace fcn
             Widget* getModalWidget() const;
 
             /**
-             * Find a widget at the given coordinates.
+             * Find the widget that should receive a drop at the given coordinates.
+             *
+             * Returns the deepest widget containing the point, walking down from
+             * `root`. Invisible children are never returned. When `mustBeEnabled`
+             * is true, disabled widgets are skipped in favour of their nearest
+             * enabled ancestor.
+             *
+             * @param root The widget to search from, in its own coordinate space.
+             * @param x X coordinate relative to `root`.
+             * @param y Y coordinate relative to `root`.
+             * @param mustBeVisible Reject an invisible root.
+             * @param mustBeEnabled Skip disabled widgets and their subtrees.
+             * @return The deepest matching widget, or nullptr.
              */
             static Widget* findWidgetAt(
                 Widget* root, int x, int y, bool mustBeVisible = true, bool mustBeEnabled = true);
@@ -305,13 +344,17 @@ namespace fcn
 
             /**
              * Distribute an enter event to a candidate.
+             *
+             * @return True if the candidate accepted the drag.
              */
-            void distributeDragEnter(Widget* candidate);
+            bool distributeDragEnter(Widget* candidate);
 
             /**
              * Update the active drop target.
+             *
+             * @param hoveredChanged True if the hovered widget changed since the previous update.
              */
-            void updateActiveTarget();
+            void updateActiveTarget(bool hoveredChanged);
 
             /**
              * Associated GUI instance.
@@ -339,6 +382,14 @@ namespace fcn
             Widget* m_hoveredWidget{nullptr};
 
             /**
+             * Widget that was hovered during the previous update.
+             *
+             * Used to send enter events only when the pointer enters a new
+             * widget, instead of on every pointer movement.
+             */
+            Widget* m_lastHoveredWidget{nullptr};
+
+            /**
              * Widget that will receive the drop.
              */
             Widget* m_activeTarget{nullptr};
@@ -347,11 +398,6 @@ namespace fcn
              * Modal widget that blocks events.
              */
             Widget* m_modalWidget{nullptr};
-
-            /**
-             * Drag offset from mouse.
-             */
-            DragPoint m_dragOffset;
 
             /**
              * How drag visuals are rendered.

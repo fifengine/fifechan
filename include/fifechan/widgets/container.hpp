@@ -79,17 +79,6 @@ namespace fcn
             Container& operator=(Container&&)       = delete;
 
             /**
-             * Sets the opacity of the container.
-             *
-             * A container is opaque (setOpaque(true)) when it is fully opaque (opacity = 1.0).
-             * A container is transparent (setOpaque(false)) when it is fully transparent (opacity = 0.0).
-             *
-             * @param opacity Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).
-             * @see isOpaque, setOpaque
-             */
-            virtual void setOpacity(float opacity);
-
-            /**
              * Sets the container to be opaque or not.
              *
              * If the container is opaque its background will be drawn,
@@ -328,11 +317,6 @@ namespace fcn
              * @param source The source widget of the event.
              */
             void distributeWidgetRemovedEvent(Widget* source);
-
-            /**
-             * Opacity of the container, between 0.0 (fully transparent) and 1.0 (fully opaque).
-             */
-            float mOpacity{1.0F};
 
             /**
              * True if the container is opaque, false otherwise.

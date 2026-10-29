@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Fifengine contributors
 
 // Third-party library includes
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
 
@@ -15,6 +16,7 @@
 #include "fifechan/events/event.hpp"
 #include "fifechan/events/mouseevent.hpp"
 #include "fifechan/focushandler.hpp"
+#include "fifechan/graphics.hpp"
 #include "fifechan/gui.hpp"
 #include "fifechan/listeners/actionlistener.hpp"
 #include "fifechan/listeners/deathlistener.hpp"
@@ -42,11 +44,14 @@ using fcn::FocusListener;
 using fcn::Font;
 using fcn::Graphics;
 using fcn::Gui;
+using fcn::Image;
 using fcn::KeyEvent;
 using fcn::KeyListener;
 using fcn::Label;
 using fcn::MouseEvent;
 using fcn::MouseListener;
+using fcn::Point;
+using fcn::PointVector;
 using fcn::Rectangle;
 using fcn::Size;
 using fcn::Widget;
@@ -179,15 +184,17 @@ namespace
             {
                 hoveredCalled = true;
             }
-            void dragDropped(DragEvent& /*dragEvent*/) override
+            bool dragDropped(DragEvent& /*dragEvent*/) override
             {
                 droppedCalled = true;
+                return acceptDrop;
             }
             bool enteredCalled = false;
             bool exitedCalled  = false;
             bool hoveredCalled = false;
             bool droppedCalled = false;
             bool acceptDrag    = false;
+            bool acceptDrop    = true;
     };
 
     // Testable widget that exposes protected methods for testing
@@ -220,6 +227,79 @@ namespace
             {
                 distributeDragDrop(event);
             }
+    };
+
+    /**
+     * Minimal Graphics implementation that records the opacity seen while a
+     * widget draws. Only used to verify opacity composition in the widget tree.
+     */
+    class OpacityProbeGraphics : public Graphics
+    {
+        public:
+            void drawImage(Image const *, int, int, int, int, int, int) override
+            {
+            }
+            void drawPoint(int, int) override
+            {
+            }
+            void drawLine(int, int, int, int) override
+            {
+            }
+            void drawLine(int, int, int, int, unsigned int) override
+            {
+            }
+            void drawPolyLine(PointVector const &, unsigned int) override
+            {
+            }
+            void drawBezier(PointVector const &, int, unsigned int) override
+            {
+            }
+            void drawRectangle(Rectangle const &) override
+            {
+            }
+            void fillRectangle(Rectangle const &) override
+            {
+            }
+            void drawCircle(Point const &, unsigned int) override
+            {
+            }
+            void drawFillCircle(Point const &, unsigned int) override
+            {
+            }
+            void fillTriangle(int, int, int, int, int, int) override
+            {
+            }
+            void drawCircleSegment(Point const &, unsigned int, int, int) override
+            {
+            }
+            void drawFillCircleSegment(Point const &, unsigned int, int, int) override
+            {
+            }
+            void setColor(Color const & color) override
+            {
+                mColor = color;
+            }
+            Color const & getColor() const override
+            {
+                return mColor;
+            }
+
+        private:
+            Color mColor;
+    };
+
+    /**
+     * Widget that records the graphics opacity active during its draw call.
+     */
+    class OpacityProbeWidget : public Widget
+    {
+        public:
+            void draw(Graphics* graphics) override
+            {
+                observedOpacity = graphics->getOpacity();
+            }
+
+            float observedOpacity{-1.0F};
     };
 
 } // anonymous namespace
@@ -2464,4 +2544,75 @@ TEST_CASE("Widget setVisible propagates ancestor events to children", "[unit][wi
     childListener.ancestorHiddenCalled = false;
     container.setVisible(true);
     REQUIRE(childListener.ancestorShownCalled);
+}
+
+// ============================================================================
+// Opacity
+// ============================================================================
+
+TEST_CASE("Widget opacity defaults to fully opaque", "[unit][widget]")
+{
+    Label widget;
+    REQUIRE(widget.getOpacity() == 1.0F);
+}
+
+TEST_CASE("Widget setOpacity clamps values", "[unit][widget]")
+{
+    Label widget;
+
+    widget.setOpacity(0.25F);
+    REQUIRE(widget.getOpacity() == 0.25F);
+
+    widget.setOpacity(-1.0F);
+    REQUIRE(widget.getOpacity() == 0.0F);
+
+    widget.setOpacity(2.0F);
+    REQUIRE(widget.getOpacity() == 1.0F);
+}
+
+TEST_CASE("Container opaque flag is independent of opacity", "[unit][widget]")
+{
+    Container container;
+    REQUIRE(container.isOpaque() == true);
+
+    container.setOpacity(0.5F);
+    REQUIRE(container.getOpacity() == 0.5F);
+    REQUIRE(container.isOpaque() == true);
+
+    container.setOpaque(false);
+    container.setOpacity(1.0F);
+    REQUIRE(container.isOpaque() == false);
+}
+
+TEST_CASE("Widget draw applies its own opacity", "[unit][widget]")
+{
+    OpacityProbeWidget widget;
+    widget.setSize(50, 50);
+    widget.setOpacity(0.5F);
+
+    OpacityProbeGraphics graphics;
+    widget._draw(&graphics);
+
+    REQUIRE(widget.observedOpacity == Catch::Approx(0.5F));
+    REQUIRE(graphics.getOpacity() == Catch::Approx(1.0F));
+}
+
+TEST_CASE("Widget opacity composes with ancestor opacity", "[unit][widget]")
+{
+    Container root;
+    OpacityProbeWidget child;
+
+    root.setSize(200, 200);
+    root.setOpacity(0.5F);
+
+    child.setPosition(10, 10);
+    child.setSize(50, 50);
+    child.setOpacity(0.5F);
+    root.add(&child);
+
+    OpacityProbeGraphics graphics;
+    root._draw(&graphics);
+
+    REQUIRE(child.observedOpacity == Catch::Approx(0.25F));
+    REQUIRE(graphics.getOpacity() == Catch::Approx(1.0F));
 }

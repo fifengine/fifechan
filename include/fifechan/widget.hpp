@@ -773,6 +773,34 @@ namespace fcn
             bool isSetVisible() const;
 
             /**
+             * Sets the opacity of the widget.
+             *
+             * Opacity is applied to the widget and all of its descendants:
+             * a child's effective opacity is its own opacity multiplied by
+             * the opacity of its ancestors. 1.0 is fully opaque and 0.0 is
+             * fully transparent. Values outside that range are clamped.
+             *
+             * Opacity is independent of Container::isOpaque. A container can
+             * fill its background and still be drawn with reduced opacity.
+             *
+             * The composition happens in Widget::_draw. A widget that overrides
+             * _draw without calling the base implementation is responsible for
+             * applying and restoring the opacity itself.
+             *
+             * @param opacity Opacity between 0.0 (fully transparent) and 1.0 (fully opaque).
+             * @see getOpacity
+             */
+            void setOpacity(float opacity);
+
+            /**
+             * Gets the opacity of the widget.
+             *
+             * @return The widget's own opacity, between 0.0 and 1.0.
+             * @see setOpacity
+             */
+            float getOpacity() const;
+
+            /**
              * Sets the base color of the widget.
              *
              * @param color The base color.
@@ -1863,8 +1891,12 @@ namespace fcn
             /** Distribute a drag hover event to listeners. */
             void distributeDragHover(DragEvent& event);
 
-            /** Distribute a drop event to listeners. */
-            void distributeDragDrop(DragEvent& event);
+            /**
+             * Distribute a drop event to listeners.
+             *
+             * @return True if at least one listener accepted the drop.
+             */
+            bool distributeDragDrop(DragEvent& event);
 
             /**
              * Holds the mouse listeners of the widget.
@@ -2165,6 +2197,12 @@ namespace fcn
 
             /** Last stored Y coordinate used for layout and event calculations. */
             int mLastY{0};
+
+            /**
+             * Opacity of the widget, between 0.0 (fully transparent) and
+             * 1.0 (fully opaque).
+             */
+            float mOpacity{1.0F};
     };
 } // namespace fcn
 

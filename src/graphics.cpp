@@ -6,6 +6,7 @@
 #include "fifechan/graphics.hpp"
 
 // Standard library includes
+#include <algorithm>
 #include <memory>
 #include <string>
 
@@ -21,6 +22,16 @@
 
 namespace fcn
 {
+    void Graphics::setOpacity(float opacity)
+    {
+        mOpacity = std::clamp(opacity, 0.0F, 1.0F);
+    }
+
+    float Graphics::getOpacity() const
+    {
+        return mOpacity;
+    }
+
     bool Graphics::pushClipArea(Rectangle area)
     {
         // Ignore area with a negative width or height by pushing

@@ -165,6 +165,18 @@ namespace fcn::opengl
             glEnable(GL_BLEND);
         }
 
+        // Textured quads use GL_REPLACE, which ignores the current colour.
+        // Switch to GL_MODULATE while drawing so the opacity multiplier is
+        // applied to the texture's alpha. The colour in place before the call
+        // is restored afterwards so later primitives do not inherit it.
+        bool const applyOpacity  = getOpacity() < 1.0F;
+        GLfloat previousColor[4] = {1.0F, 1.0F, 1.0F, 1.0F};
+        if (applyOpacity) {
+            glGetFloatv(GL_CURRENT_COLOR, previousColor);
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glColor4f(1.0F, 1.0F, 1.0F, getOpacity());
+        }
+
         // Draw a textured quad -- the image
         glBegin(GL_QUADS);
         glTexCoord2f(texX1, texY1);
@@ -180,6 +192,11 @@ namespace fcn::opengl
         glVertex3i(dstX + width, dstY, 0);
         glEnd();
         glDisable(GL_TEXTURE_2D);
+
+        if (applyOpacity) {
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            glColor4fv(previousColor);
+        }
 
         if (blendWasEnabled == 0U) {
             glDisable(GL_BLEND);
@@ -334,13 +351,11 @@ namespace fcn::opengl
     void Graphics::setColor(Color const & color)
     {
         mColor = color;
-        glColor4ub(
-            static_cast<GLubyte>(color.r),
-            static_cast<GLubyte>(color.g),
-            static_cast<GLubyte>(color.b),
-            static_cast<GLubyte>(color.a));
 
-        mAlpha = color.a != 255;
+        auto const alpha = static_cast<GLubyte>(static_cast<float>(color.a) * getOpacity());
+        glColor4ub(static_cast<GLubyte>(color.r), static_cast<GLubyte>(color.g), static_cast<GLubyte>(color.b), alpha);
+
+        mAlpha = alpha != 255;
 
         if (mAlpha) {
             glEnable(GL_BLEND);

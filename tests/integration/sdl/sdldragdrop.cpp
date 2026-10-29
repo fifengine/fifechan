@@ -8,6 +8,12 @@
  * This is an integration test for a drag-and-drop system.
  * The player has a 3x3 inventory grid and can drag items to a 4x3 stash box.
  *
+ * The slot grid is drawn with raw SDL, but the drag operation itself goes
+ * through fifechan: DragHandler performs hit testing and drives DragEvents,
+ * while a DropTargetListener registered on non-drawing per-slot widgets accepts
+ * or rejects the drop. The ghost and target highlight are rendered by
+ * DragHandler::render inside the GUI draw pass.
+ *
  * It also demonstrates the tooltip widget with:
  *   - a hover delay of 300ms
  *   - an ALT-key modifier for extended stats view
@@ -41,7 +47,9 @@
 
 #include <fifechan/backends/sdl3/sdl.hpp>
 #include <fifechan/dragdrop.hpp>
+#include <fifechan/events/dragevent.hpp>
 #include <fifechan/fontloader.hpp>
+#include <fifechan/listeners/droptargetlistener.hpp>
 
 #include <fifechan.hpp>
 
@@ -131,17 +139,33 @@ namespace
             }
     };
 
-    // Drag state structure
-    struct DragState
+    // Data carried by the DragPayload while an item is dragged.
+    struct DragData
     {
-            bool isDragging{false};
-            InventoryItem item;
-            int startSlotIndex{-1};
-            int offsetX{0};
-            int offsetY{0};
-
-            DragState() = default;
+            int itemId;
+            int sourceSlot;
+            int offsetX; // Grab offset inside the source slot
+            int offsetY;
     };
+
+    // Colour used to draw an item, shared by the slot grid and the drag ghost.
+    fcn::Color getItemColor(int itemId)
+    {
+        auto const * itemData = findItemData(itemId);
+        if (itemData == nullptr) {
+            return fcn::Color(100, 200, 100);
+        }
+        if (itemData->name == "Sword") {
+            return fcn::Color(200, 200, 200);
+        }
+        if (itemData->name == "Shield") {
+            return fcn::Color(150, 150, 255);
+        }
+        if (itemData->name == "Potion") {
+            return fcn::Color(255, 100, 100);
+        }
+        return fcn::Color(100, 200, 100);
+    }
 
     class InventorySystem
     {
@@ -158,7 +182,6 @@ namespace
             static constexpr int STASH_INV_START_Y  = 50;
 
             std::vector<InventorySlot> slots;
-            DragState dragState;
 
         public:
             InventorySystem()
@@ -216,80 +239,56 @@ namespace
                 return slots.at(slotIndex).isPlayerInventory;
             }
 
-            bool startDrag(int slotIndex, SDL_Point const & mousePos)
+            bool tryDrop(int sourceSlotIndex, int targetSlotIndex)
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
-                    return false;
-                }
-
-                InventorySlot& slot = slots.at(slotIndex);
-                if (!slot.item.has_value()) {
-                    return false;
-                }
-
-                dragState.isDragging     = true;
-                dragState.item           = slot.item.value();
-                dragState.startSlotIndex = slotIndex;
-                dragState.offsetX        = mousePos.x - slot.x;
-                dragState.offsetY        = mousePos.y - slot.y;
-
-                return true;
-            }
-
-            void endDrag()
-            {
-                dragState.isDragging     = false;
-                dragState.item           = InventoryItem();
-                dragState.startSlotIndex = -1;
-            }
-
-            bool isDragging() const
-            {
-                return dragState.isDragging;
-            }
-
-            bool tryDrop(int slotIndex)
-            {
-                if (!dragState.isDragging || slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (sourceSlotIndex < 0 || std::cmp_greater_equal(sourceSlotIndex, slots.size()) ||
+                    targetSlotIndex < 0 || std::cmp_greater_equal(targetSlotIndex, slots.size()) ||
+                    sourceSlotIndex == targetSlotIndex) {
                     return false;
                 }
 
                 // Can't drop on player inventory in this demo (stash only)
-                if (isPlayerSlot(slotIndex)) {
+                if (isPlayerSlot(targetSlotIndex)) {
                     return false;
                 }
 
-                InventorySlot& targetSlot = slots.at(slotIndex);
+                InventorySlot& sourceSlot = slots.at(sourceSlotIndex);
+                InventorySlot& targetSlot = slots.at(targetSlotIndex);
 
-                // Can't drop on occupied slot
-                if (targetSlot.item.has_value()) {
+                // The source must still hold the dragged item and the target
+                // must be empty.
+                if (!sourceSlot.item.has_value() || targetSlot.item.has_value()) {
                     return false;
                 }
 
-                // Transfer item
-                targetSlot.item = dragState.item;
-
-                // Clear source slot (player inventory)
-                if (dragState.startSlotIndex >= 0 && std::cmp_less(dragState.startSlotIndex, slots.size())) {
-                    slots.at(dragState.startSlotIndex).item = std::nullopt;
-                }
-
-                endDrag();
+                targetSlot.item = sourceSlot.item;
+                sourceSlot.item.reset();
                 return true;
             }
 
             bool isValidDrop(int slotIndex) const
             {
-                if (!dragState.isDragging || slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
                     return false;
                 }
                 if (isPlayerSlot(slotIndex)) {
                     return false;
                 }
-                if (slots.at(slotIndex).item.has_value()) {
-                    return false;
+                return !slots.at(slotIndex).item.has_value();
+            }
+
+            fcn::Rectangle getSlotRectangle(int slotIndex) const
+            {
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                    return {};
                 }
-                return true;
+                auto const & slot = slots.at(slotIndex);
+                return fcn::Rectangle(slot.x, slot.y, slot.width, slot.height);
+            }
+
+            size_t getSlotCount() const
+            {
+                return slots.size();
             }
 
             std::string getTooltipContent(int slotIndex) const
@@ -359,7 +358,7 @@ namespace
                 return SLOT_SIZE;
             }
 
-            void render(SDL_Renderer* renderer, int mouseX, int mouseY) const
+            void render(SDL_Renderer* renderer) const
             {
                 // Clear screen
                 SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
@@ -420,66 +419,96 @@ namespace
                             .w = static_cast<float>(slot.width - 4),
                             .h = static_cast<float>(slot.height - 4)};
 
-                        // Get item color from database
-                        auto const * itemData = findItemData(slot.item->itemId);
-                        if (itemData != nullptr) {
-                            if (itemData->name == "Sword") {
-                                SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
-                            } else if (itemData->name == "Shield") {
-                                SDL_SetRenderDrawColor(renderer, 150, 150, 255, 255);
-                            } else if (itemData->name == "Potion") {
-                                SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
-                            } else {
-                                SDL_SetRenderDrawColor(renderer, 100, 200, 100, 255);
-                            }
-                        } else {
-                            SDL_SetRenderDrawColor(renderer, 100, 200, 100, 255);
-                        }
-
+                        fcn::Color const color = getItemColor(slot.item->itemId);
+                        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
                         SDL_RenderFillRect(renderer, &itemRect);
                     }
                 }
-
-                // Draw drag ghost and drop target highlight
-                if (dragState.isDragging) {
-                    // Draw drag ghost
-                    SDL_FRect const ghostRect = {
-                        .x = static_cast<float>(mouseX - dragState.offsetX),
-                        .y = static_cast<float>(mouseY - dragState.offsetY),
-                        .w = static_cast<float>(SLOT_SIZE),
-                        .h = static_cast<float>(SLOT_SIZE)};
-
-                    // Enable alpha blending for ghost
-                    SDL_BlendMode oldBlendMode = 0;
-                    SDL_GetRenderDrawBlendMode(renderer, &oldBlendMode);
-                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 180);
-                    SDL_RenderFillRect(renderer, &ghostRect);
-
-                    // Restore blend mode
-                    SDL_SetRenderDrawBlendMode(renderer, oldBlendMode);
-
-                    // Draw drop target highlight
-                    int const hoveredSlot = getSlotIndexAtPosition(mouseX, mouseY);
-                    if (hoveredSlot >= 0) {
-                        bool const valid         = isValidDrop(hoveredSlot);
-                        SDL_FRect const slotRect = {
-                            .x = static_cast<float>(slots.at(hoveredSlot).x),
-                            .y = static_cast<float>(slots.at(hoveredSlot).y),
-                            .w = static_cast<float>(slots.at(hoveredSlot).width),
-                            .h = static_cast<float>(slots.at(hoveredSlot).height)};
-
-                        // Draw highlight border (green for valid, red for invalid)
-                        if (valid) {
-                            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Green
-                        } else {
-                            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
-                        }
-                        SDL_RenderRect(renderer, &slotRect);
-                    }
-                }
             }
+    };
+
+    // Widget placed over each slot so DragHandler can hit test it. It draws
+    // nothing, but must stay visible so findWidgetAt() still considers it.
+    class SlotWidget : public fcn::Widget
+    {
+        public:
+            explicit SlotWidget(int slotIndex) : m_slotIndex(slotIndex)
+            {
+            }
+
+            void draw(fcn::Graphics* /*graphics*/) override
+            {
+            }
+
+            int getSlotIndex() const
+            {
+                return m_slotIndex;
+            }
+
+        private:
+            int m_slotIndex;
+    };
+
+    // Listener shared by all slot widgets. The event source is the slot widget,
+    // so the target slot is derived from the event instead of listener state.
+    class InventoryDropTarget : public fcn::DropTargetListener
+    {
+        public:
+            explicit InventoryDropTarget(InventorySystem& inventory) : m_inventory(inventory)
+            {
+            }
+
+            bool dragEntered(fcn::DragEvent& /*dragEvent*/) override
+            {
+                // Accept every slot so invalid targets can be highlighted red
+                // and then reject the drop itself.
+                return true;
+            }
+
+            void dragExited(fcn::DragEvent& /*dragEvent*/) override
+            {
+            }
+
+            void dragHovered(fcn::DragEvent& /*dragEvent*/) override
+            {
+            }
+
+            bool dragDropped(fcn::DragEvent& dragEvent) override
+            {
+                SlotWidget const * const slotWidget = dynamic_cast<SlotWidget const *>(dragEvent.getSource());
+                fcn::DragPayload const * payload    = dragEvent.getPayload();
+                if (slotWidget == nullptr || payload == nullptr) {
+                    return false;
+                }
+
+                auto data = payload->getShared<DragData>();
+                if (!data) {
+                    return false;
+                }
+
+                return m_inventory.tryDrop(data->sourceSlot, slotWidget->getSlotIndex());
+            }
+
+        private:
+            InventorySystem& m_inventory;
+    };
+
+    // Full-size, otherwise invisible widget that lets the GUI draw pass render
+    // the drag ghost and target highlight through DragHandler::render.
+    class DragOverlay : public fcn::Widget
+    {
+        public:
+            explicit DragOverlay(fcn::DragHandler& handler) : m_handler(handler)
+            {
+            }
+
+            void draw(fcn::Graphics* graphics) override
+            {
+                m_handler.render(*graphics);
+            }
+
+        private:
+            fcn::DragHandler& m_handler;
     };
 
 } // namespace
@@ -588,6 +617,55 @@ try {
 
     fcn::DragHandler dragHandler(gui.get());
 
+    // Every slot gets an invisible widget so DragHandler can hit test it. The
+    // grid itself is still drawn with raw SDL below the GUI.
+    InventoryDropTarget dropTarget(inventory);
+    std::vector<std::unique_ptr<SlotWidget>> slotWidgets;
+    slotWidgets.reserve(inventory.getSlotCount());
+    for (size_t i = 0; i < inventory.getSlotCount(); ++i) {
+        auto slotWidget           = std::make_unique<SlotWidget>(static_cast<int>(i));
+        fcn::Rectangle const rect = inventory.getSlotRectangle(static_cast<int>(i));
+        slotWidget->setPosition(rect.x, rect.y);
+        slotWidget->setSize(rect.width, rect.height);
+        slotWidget->addDropTargetListener(&dropTarget);
+        slotWidgets.push_back(std::move(slotWidget));
+    }
+
+    // Ghost and highlight are drawn by the handler inside the GUI draw pass.
+    fcn::DragRenderConfig renderConfig;
+    renderConfig.ghost = [&inventory](
+                             fcn::Graphics& graphics, fcn::DragPayload const & payload, fcn::DragPoint const & pos) {
+        auto data = payload.getShared<DragData>();
+        if (!data) {
+            return;
+        }
+        fcn::Color const color = getItemColor(data->itemId);
+        graphics.setColor(fcn::Color(color.r, color.g, color.b, static_cast<Uint8>(180)));
+        int const size = inventory.getSlotSize();
+        graphics.fillRectangle(fcn::Rectangle(pos.x - data->offsetX, pos.y - data->offsetY, size, size));
+    };
+    // Signature is fixed by HighlightRenderer; a const pointer would not match.
+    // cppcheck-suppress constParameterPointer
+    renderConfig.highlight = [&inventory](fcn::Graphics& graphics, fcn::Widget* target, bool /*isValid*/) {
+        SlotWidget const * const slotWidget = dynamic_cast<SlotWidget const *>(target);
+        if (slotWidget == nullptr) {
+            return;
+        }
+        bool const valid = inventory.isValidDrop(slotWidget->getSlotIndex());
+        graphics.setColor(valid ? fcn::Color(0, 255, 0, 255) : fcn::Color(255, 0, 0, 255));
+        int x = 0;
+        int y = 0;
+        target->getAbsolutePosition(x, y);
+        graphics.drawRectangle(fcn::Rectangle(x, y, target->getWidth(), target->getHeight()));
+    };
+    dragHandler.setRenderConfig(std::move(renderConfig));
+
+    // Drawn first so the ghost stays below the labels and tooltip, and hit
+    // tested last so it never shadows a slot.
+    auto dragOverlay = std::make_unique<DragOverlay>(dragHandler);
+    dragOverlay->setPosition(0, 0);
+    dragOverlay->setSize(640, 360);
+
     // Create a Tooltip widget and spec to show item info with ALT-extended view
     auto tooltip = std::make_unique<fcn::Tooltip>();
     fcn::TooltipSpec spec;
@@ -646,12 +724,22 @@ try {
     auto topContainer = std::make_unique<fcn::Container>();
     topContainer->setLayout(fcn::Container::LayoutPolicy::Absolute);
     topContainer->setDimension(fcn::Rectangle(0, 0, 640, 360));
+
+    // The overlay is added first so the ghost is drawn below the labels and
+    // tooltip. Slot widgets are added last so hit testing finds them first.
+    topContainer->add(dragOverlay.get(), dragOverlay->getX(), dragOverlay->getY());
     topContainer->add(playerLabel.get(), playerLabel->getX(), playerLabel->getY());
     topContainer->add(stashLabel.get(), stashLabel->getX(), stashLabel->getY());
     topContainer->add(rulesTextBox.get(), rulesTextBox->getX(), rulesTextBox->getY());
 
     // Add tooltip widget to the top container so it's drawn by gui->draw()
     topContainer->add(tooltip.get(), tooltip->getX(), tooltip->getY());
+
+    // Slot widgets draw nothing; they exist only so DragHandler can find the
+    // slot under the pointer and deliver drop events to its listener.
+    for (auto& slotWidget : slotWidgets) {
+        topContainer->add(slotWidget.get(), slotWidget->getX(), slotWidget->getY());
+    }
 
     // Make container non-opaque so it doesn't draw over the inventory
     topContainer->setOpaque(false);
@@ -683,25 +771,23 @@ try {
                 running = false;
             } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
+                    // The grid is drawn with raw SDL, so the pressed slot comes
+                    // from the slot rectangles; the library takes over from
+                    // beginDrag() and resolves the drop target itself.
                     int const slotIdx = inventory.getSlotIndexAtPosition(
                         static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
-                        SDL_Point const pt = {
-                            .x = static_cast<int>(event.button.x), .y = static_cast<int>(event.button.y)};
-                        inventory.startDrag(slotIdx, pt);
-
-                        // Create a simple DragPayload carrying the item id (application data)
                         int const itemId = inventory.getItemIdAtSlot(slotIdx);
                         if (itemId != 0) {
-                            auto data    = std::make_shared<int>(itemId);
-                            auto payload = std::make_unique<fcn::DragPayload>(data);
-                            // Optional: set a minimal ghost renderer (no-op here)
-                            payload->setGhostRenderer([](fcn::Graphics const & g, fcn::DragPoint const & pos) {
-                                (void)g;
-                                (void)pos;
-                            });
+                            auto const slotRect = inventory.getSlotRectangle(slotIdx);
+                            auto data           = std::make_shared<DragData>(DragData{
+                                itemId,
+                                slotIdx,
+                                static_cast<int>(event.button.x) - slotRect.x,
+                                static_cast<int>(event.button.y) - slotRect.y});
+                            auto payload        = std::make_unique<fcn::DragPayload>(data);
                             dragHandler.beginDrag(
-                                nullptr,
+                                slotWidgets.at(slotIdx).get(),
                                 std::move(payload),
                                 static_cast<int>(event.button.x),
                                 static_cast<int>(event.button.y));
@@ -709,16 +795,10 @@ try {
                     }
                 }
             } else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
-                if (event.button.button == SDL_BUTTON_LEFT && inventory.isDragging()) {
-                    int const slotIdx = inventory.getSlotIndexAtPosition(
-                        static_cast<int>(event.button.x), static_cast<int>(event.button.y));
-                    if (slotIdx >= 0) {
-                        inventory.tryDrop(slotIdx);
-                        dragHandler.drop(static_cast<int>(event.button.x), static_cast<int>(event.button.y));
-                    } else {
-                        inventory.endDrag();
-                        dragHandler.cancel();
-                    }
+                if (event.button.button == SDL_BUTTON_LEFT && dragHandler.getState() == fcn::DragState::Dragging) {
+                    // The handler re-runs hit testing at the drop position and
+                    // delivers Drop to the slot listener, which moves the item.
+                    dragHandler.drop(static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                 }
             }
         }
@@ -761,7 +841,7 @@ try {
         prevHoverSlot = hoverSlot;
 
         // Render custom inventory UI
-        inventory.render(renderer, mouseX, mouseY);
+        inventory.render(renderer);
 
         // Tooltip and its label will be drawn by gui->draw() as part of the top container.
         // Update the label caption and resize tooltip to fit content before drawing the GUI.

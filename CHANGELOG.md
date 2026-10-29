@@ -12,6 +12,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added `SpeechBubble` widget with configurable tail direction, style (classic/round/thought/shout/whisper), and tail profile (sharp/wide/curved).
+- Added `Widget::setOpacity(float)` / `Widget::getOpacity()`.
+  - Opacity is inherited by descendants and composed multiplicatively (a child's effective opacity is its own opacity times its ancestors').
+  - `Widget::_draw` applies the composed value through `Graphics::setOpacity` and restores the inherited value afterwards.
+- Added `Graphics::setOpacity(float)` / `Graphics::getOpacity()`.
+  - The SDL3 backend applies opacity to primitives, surfaces and textures.
+  - The OpenGL backend applies opacity to primitives and textures.
+- Completed `DragHandler`:
+  - `beginDrag` now records the source widget; `getSourceWidget` exposes it.
+  - Drag hit testing walks down from the GUI's top widget, honours visibility and enabled state, and falls back to the nearest ancestor that accepts the drag.
+  - Modal widgets confine valid targets to themselves and their descendants.
+  - `update` sends enter/hover events; leaving a target sends `dragExited`.
+  - `drop` re-runs hit testing with the drop coordinates, sends `Drop`, then `Leave`, and reports `DropResult::Rejected` when the target declines.
+  - `render` draws the configured ghost, the payload ghost fallback, and a default target highlight.
+  - `findWidgetAt` now honours its `mustBeVisible`/`mustBeEnabled` parameters; previously they were ignored.
+- The `sdldragdrop` integration demo now drives drag-and-drop through `DragHandler` and a `DropTargetListener` on non-drawing per-slot widgets; the ghost and highlight are rendered by `DragHandler::render`.
+- Added unit coverage for the `DragHandler` lifecycle (enter, hover, leave, drop, rejection, cancellation, modal confinement and rendering) and for `Widget`/`Graphics` opacity clamping and subtree composition.
 
 ### Changed (Breaking)
 
@@ -26,6 +42,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated built-in fonts (`ImageFont`, `DefaultFont`, `TrueTypeFont`) to implement `renderToSurface`.
 - Updated mock font and unit tests.
 - Core library now links SDL3::SDL3 (SDL_Surface is part of the public API).
+- `DropTargetListener::dragDropped` now returns `bool`: `true` accepts the drop, `false` rejects it.
+- `Widget::distributeDragDrop` now returns `bool` (true if any listener accepted).
+- Removed `DragHandler::beginDragFromWidget`; it always returned false. Use `beginDrag` instead.
+- `Container::setOpacity` was removed in favour of the inherited `Widget::setOpacity`.
+  - Opacity no longer changes `Container::isOpaque`; the two are independent.
+  - `Container::setOpaque` still controls whether the background is filled.
+- Widgets that override `Widget::_draw` without calling the base implementation must apply and restore the graphics opacity themselves; the base `_draw` is where the subtree composition happens.
 
 ### Fixed
 - Widget: offsets child position by children area origin before intersection check in `Widget::_draw`
@@ -33,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Widget: fix 0x303030 integer-literal bug producing white borders
   - add configurable mHighlightOffset/mShadowOffset with setters/getters
 - Window: Fix resizeToContent() ignoring caption width and children bounds under absolute layout.
+- Tooltip: documentation no longer refers to a non-existent `TooltipManager`; it now describes the application-owned `startHover`/`endHover`/`update`/`draw` lifecycle.
 
 ## [0.3.0] - 2026-05-21
 

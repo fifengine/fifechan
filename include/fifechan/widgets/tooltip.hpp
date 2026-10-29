@@ -88,7 +88,10 @@ namespace fcn
     /**
      * A tooltip widget.
      *
-     * This widget is not meant to be used directly, but managed by a TooltipManager.
+     * The application owns the tooltip: add it to the GUI, call `startHover()` /
+     * `endHover()` as the pointer enters and leaves the attached widget, call
+     * `update(deltaMs, modifierState)` each frame, and let the GUI draw it.
+     * Tooltip does not install itself on widgets and there is no manager class.
      *
      * It handles:
      * - hover state
