@@ -179,7 +179,7 @@ namespace fcn
      * of the payload and a highlight renderer used to mark candidate
      * drop targets.
      */
-    struct DragRenderConfig
+    struct FIFEGUI_API DragRenderConfig
     {
             /**
              * Renderer used to draw the ghost image.
