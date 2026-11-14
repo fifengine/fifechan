@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added Touch Event support.
 - Added `SpeechBubble` widget with configurable tail direction, style (classic/round/thought/shout/whisper), and tail profile (sharp/wide/curved).
 - Added `Widget::setOpacity(float)` / `Widget::getOpacity()`.
   - Opacity is inherited by descendants and composed multiplicatively (a child's effective opacity is its own opacity times its ancestors').

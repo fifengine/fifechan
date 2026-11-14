@@ -319,6 +319,9 @@ namespace fcn
             case MouseInput::Type::Released:
                 handleMouseReleased(mouseInput);
                 break;
+            case MouseInput::Type::Canceled:
+                handleMouseCanceled(mouseInput);
+                break;
             case MouseInput::Type::Moved:
                 handleMouseMoved(mouseInput);
                 break;
@@ -696,6 +699,36 @@ namespace fcn
         if (mFocusHandler->getDraggedWidget() != nullptr) {
             mFocusHandler->setDraggedWidget(nullptr);
         }
+    }
+
+    void Gui::handleMouseCanceled(MouseInput const & mouseInput)
+    {
+        Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            if (sourceWidget != mFocusHandler->getLastWidgetPressed()) {
+                mFocusHandler->setLastWidgetPressed(nullptr);
+            }
+
+            sourceWidget = mFocusHandler->getDraggedWidget();
+        }
+
+        // Release the widget so it can reset its pressed state, but never
+        // generate a Clicked event for a canceled gesture.
+        distributeMouseEvent(
+            sourceWidget,
+            MouseEvent::Type::Released,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            mFocusHandler->setDraggedWidget(nullptr);
+        }
+
+        mFocusHandler->setLastWidgetPressed(nullptr);
+        mLastMousePressButton = 0;
+        mClickCount           = 0;
     }
 
     Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)

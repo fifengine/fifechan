@@ -36,7 +36,11 @@ namespace fcn
                 WheelMovedDown,
                 WheelMovedUp,
                 WheelMovedRight,
-                WheelMovedLeft
+                WheelMovedLeft,
+                /** Pointer sequence was canceled, for example by a second
+                 *  finger or by the platform. Gui releases the pointer without
+                 *  emitting a Clicked event. */
+                Canceled
             };
 
             /** Mouse button. */

@@ -387,6 +387,16 @@ namespace fcn
             virtual void handleMouseReleased(MouseInput const & mouseInput);
 
             /**
+             * Handles a canceled pointer sequence.
+             *
+             * The pressed widget is released so it can reset its visual state,
+             * but no Clicked event is generated.
+             *
+             * @param mouseInput The mouse input to handle.
+             */
+            virtual void handleMouseCanceled(MouseInput const & mouseInput);
+
+            /**
              * Handles modal focus. Modal focus needs to be checked at
              * each logic iteration as it might be necessary to distribute
              * mouse entered or mouse exited events.

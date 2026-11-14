@@ -94,6 +94,7 @@ set(UNIT_TEST_SOURCES
 if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
   list(APPEND UNIT_TEST_SOURCES
     src/backends/sdl3/image.tests.cpp
+    src/backends/sdl3/input.tests.cpp
     src/imagefont.tests.cpp
     src/truetypefont.tests.cpp
   )
