@@ -615,7 +615,7 @@ void FPSDemo::drawBackground()
     glTranslatef(0.0, 0.0, 1.0);
     glRotatef(80, 0.0, 0.0, 1.0);
     glRotatef(mRotation * 7, 0.0, -1.0, 0.0);
-    glTranslatef(0, 0.0, 2.1);
+    glTranslatef(0.0F, 0.0F, 2.1F);
     glRotatef(mRotation * 50, 1.0, 0.0, 0.0);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mMoonTexture);
@@ -629,7 +629,7 @@ void FPSDemo::drawBackground()
     glTranslatef(0.0, 0.0, 1.0);
     glRotatef(110, 0.0, 1.0, 0.0);
     glRotatef(mRotation * 5, 0.0, 0.0, 1.0);
-    glTranslatef(2.2, 0.0, 0.0);
+    glTranslatef(2.2F, 0.0F, 0.0F);
     glRotatef(mRotation * 30, 1.0, 0.0, 0.0);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mMoonRedTexture);
@@ -915,7 +915,7 @@ void FPSDemo::initOpenGL()
     glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
     glShadeModel(GL_SMOOTH);
-    glClearDepth(1.0F);
+    glClearDepth(1.0);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);

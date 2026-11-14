@@ -198,7 +198,7 @@ namespace fcn
             int length() const
             {
                 double const sq = (static_cast<double>(x) * x) + (static_cast<double>(y) * y);
-                return static_cast<int>(Mathf::Sqrt(sq));
+                return static_cast<int>(Mathd::Sqrt(sq));
             }
 
             /**

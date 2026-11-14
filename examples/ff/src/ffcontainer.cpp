@@ -68,7 +68,7 @@ void FFContainer::draw(fcn::Graphics* graphics)
         fcn::Color const c(0x7070FF);
 
         for (i = 0; i < 16; ++i) {
-            graphics->setColor(c * (1.0 - (i / 18.0)));
+            graphics->setColor(c * static_cast<float>(1.0 - (i / 18.0)));
             graphics->fillRectangle(
                 4,
                 static_cast<int>((i * height) + 4),

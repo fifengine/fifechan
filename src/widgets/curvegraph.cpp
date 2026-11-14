@@ -166,11 +166,11 @@ namespace fcn
 
     Point CurveGraph::getBezierPoint(PointVector const & points, int elements, float t)
     {
-        if (t < 0.0) {
+        if (t < 0.0F) {
             return points.at(0);
         }
 
-        if (t >= static_cast<double>(elements)) {
+        if (t >= static_cast<float>(elements)) {
             return points.back();
         }
 
