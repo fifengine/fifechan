@@ -112,7 +112,8 @@ namespace fcn
             }
         }
 
-        Rectangle const offsetRec(getBorderSize(), getBorderSize(), 2 * getBorderSize(), 2 * getBorderSize());
+        int const borderSize = static_cast<int>(getBorderSize());
+        Rectangle const offsetRec(borderSize, borderSize, 2 * borderSize, 2 * borderSize);
 
         int const contentLeft   = offsetRec.x + getPaddingLeft();
         int const contentRight  = getWidth() - offsetRec.x - getPaddingRight();

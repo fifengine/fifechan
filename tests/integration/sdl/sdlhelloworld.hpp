@@ -39,7 +39,7 @@ namespace tests::integration::sdl::helloworld
             void init_gui(int width, int height);
             void cleanup();
 
-            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
+            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, uint64_t flags);
             static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window);
 
             bool running{true};

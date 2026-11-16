@@ -75,7 +75,7 @@ namespace fcn
              *
              * @param size The size in pixels (width and height).
              */
-            void setSize(int size);
+            void setSize(int width, int height) override;
 
             /**
              * Gets the default size.
@@ -109,6 +109,9 @@ namespace fcn
 
             void mouseEntered(MouseEvent& mouseEvent) override;
             void mouseExited(MouseEvent& mouseEvent) override;
+
+            // Inherited from Button - ActivityBarItem has fixed size, don't adjust to caption
+            void adjustSizeImpl() override;
 
         protected:
             // Inherited from WidgetListener (via ToggleButton/Button)

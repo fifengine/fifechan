@@ -84,7 +84,7 @@ namespace fcn
              *
              * @return The number of rows in the text.
              */
-            unsigned int getNumberOfRows() const;
+            int getNumberOfRows() const;
 
             /**
              * Gets the caret position in the text.
@@ -92,7 +92,7 @@ namespace fcn
              * @return The caret position in the text.
              * @see setCaretPosition
              */
-            unsigned int getCaretPosition() const;
+            int getCaretPosition() const;
 
             /**
              * Sets the position of the caret in the text.
@@ -100,7 +100,7 @@ namespace fcn
              * @param position the position of the caret.
              * @see getCaretPosition
              */
-            void setCaretPosition(unsigned int position);
+            void setCaretPosition(int position);
 
             /**
              * Gets the row number where the caret is currently located.
@@ -108,7 +108,7 @@ namespace fcn
              * @return The row number where the caret is currently located.
              * @see setCaretRow
              */
-            unsigned int getCaretRow() const;
+            int getCaretRow() const;
 
             /**
              * Sets the row where the caret should be currently located.
@@ -124,7 +124,7 @@ namespace fcn
              * @return The column where the caret is currently located.
              * @see setCaretColumn
              */
-            unsigned int getCaretColumn() const;
+            int getCaretColumn() const;
 
             /**
              * Sets the column where the caret should be currently located.

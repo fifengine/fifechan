@@ -59,7 +59,7 @@ TEST_CASE("TextField setCaretPosition and getCaretPosition", "[unit][textfield]"
     REQUIRE(tf.getCaretPosition() == 0);
 
     tf.setCaretPosition(100);
-    REQUIRE(tf.getCaretPosition() <= tf.getText().size());
+    REQUIRE(static_cast<size_t>(tf.getCaretPosition()) <= tf.getText().size());
 }
 
 TEST_CASE("TextField setEditable and isEditable", "[unit][textfield]")
@@ -125,7 +125,7 @@ TEST_CASE("TextField keyPressed home and end", "[unit][textfield]")
     Key const endKey(Key::END);
     KeyEvent endEvent(&tf, &tf, false, false, false, false, KeyEvent::Type::Pressed, false, endKey);
     tf.keyPressed(endEvent);
-    REQUIRE(tf.getCaretPosition() == static_cast<unsigned int>(tf.getText().size()));
+    REQUIRE(static_cast<size_t>(tf.getCaretPosition()) == tf.getText().size());
 }
 
 TEST_CASE("TextField keyPressed delete character", "[unit][textfield]")

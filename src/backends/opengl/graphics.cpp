@@ -151,10 +151,10 @@ namespace fcn::opengl
         dstY += top.yOffset;
 
         // Find OpenGL texture coordinates
-        float const texX1 = srcX / static_cast<float>(srcImage->getTextureWidth());
-        float const texY1 = srcY / static_cast<float>(srcImage->getTextureHeight());
-        float const texX2 = (srcX + width) / static_cast<float>(srcImage->getTextureWidth());
-        float const texY2 = (srcY + height) / static_cast<float>(srcImage->getTextureHeight());
+        float const texX1 = static_cast<float>(srcX) / static_cast<float>(srcImage->getTextureWidth());
+        float const texY1 = static_cast<float>(srcY) / static_cast<float>(srcImage->getTextureHeight());
+        float const texX2 = static_cast<float>(srcX + width) / static_cast<float>(srcImage->getTextureWidth());
+        float const texY2 = static_cast<float>(srcY + height) / static_cast<float>(srcImage->getTextureHeight());
 
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
@@ -235,16 +235,16 @@ namespace fcn::opengl
         y2 += top.yOffset;
 
         glBegin(GL_LINES);
-        glVertex2f(x1 + 0.375F, y1 + 0.375F);
-        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
+        glVertex2f(static_cast<float>(x1) + 0.375F, static_cast<float>(y1) + 0.375F);
+        glVertex2f(static_cast<float>(x2) + 1.0F - 0.375F, static_cast<float>(y2) + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
+        glVertex2f(static_cast<float>(x2) + 1.0F - 0.375F, static_cast<float>(y2) + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x1 + 0.375F, y1 + 0.375F);
+        glVertex2f(static_cast<float>(x1) + 0.375F, static_cast<float>(y1) + 0.375F);
         glEnd();
     }
 
@@ -273,10 +273,20 @@ namespace fcn::opengl
         ClipRectangle const & top = mClipStack.top();
 
         glBegin(GL_LINE_LOOP);
-        glVertex2f(rectangle.x + top.xOffset, rectangle.y + top.yOffset);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + top.yOffset + 0.375F);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + rectangle.height + top.yOffset);
-        glVertex2f(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(top.xOffset),
+            static_cast<float>(rectangle.y) + static_cast<float>(top.yOffset));
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(rectangle.width) + static_cast<float>(top.xOffset) -
+                1.0F,
+            static_cast<float>(rectangle.y) + static_cast<float>(top.yOffset) + 0.375F);
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(rectangle.width) + static_cast<float>(top.xOffset) -
+                1.0F,
+            static_cast<float>(rectangle.y) + static_cast<float>(rectangle.height) + static_cast<float>(top.yOffset));
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(top.xOffset),
+            static_cast<float>(rectangle.y) + static_cast<float>(rectangle.height) + static_cast<float>(top.yOffset));
         glEnd();
     }
 
@@ -317,7 +327,7 @@ namespace fcn::opengl
         glVertex2i(p.x + top.xOffset, p.y + top.yOffset);
         for (int i = 0; i <= segments; ++i) {
             double const angle = 2.0 * std::numbers::pi * static_cast<double>(i) / static_cast<double>(segments);
-            glVertex2d(p.x + top.xOffset + radius * std::cos(angle), p.y + top.yOffset + radius * std::sin(angle));
+            glVertex2d(p.x + top.xOffset + (radius * std::cos(angle)), p.y + top.yOffset + (radius * std::sin(angle)));
         }
         glEnd();
     }

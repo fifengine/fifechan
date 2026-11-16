@@ -298,7 +298,7 @@ namespace fcn
              * @param y Y coordinate to test (local).
              * @return The widget at (x,y) or nullptr if none.
              */
-            virtual Widget* getWidgetAt(int x, int y);
+            virtual Widget* getWidgetAt(int x, int y, Widget* exclude = nullptr) override;
 
             // Inherited from Widget
 

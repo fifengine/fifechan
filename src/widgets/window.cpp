@@ -83,17 +83,18 @@ namespace fcn
         Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = faceColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        int const x      = getBorderSize() + getPaddingLeft();
-        int const y      = getBorderSize() + getPaddingTop() + getTitleBarHeight();
-        int const width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
-        int const height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
+        int const x      = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingLeft());
+        int const y      = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingTop()) +
+                           static_cast<int>(getTitleBarHeight());
+        int const width  = getWidth() - static_cast<int>(getBorderSize()) - static_cast<int>(getPaddingRight()) - 1;
+        int const height = getHeight() - static_cast<int>(getBorderSize()) - static_cast<int>(getPaddingBottom()) - 1;
 
-        unsigned int i = 0;
-        for (i = 0; i < getInnerBorderSize(); ++i) {
+        int i = 0;
+        for (i = 0; i < static_cast<int>(getInnerBorderSize()); ++i) {
             graphics->setColor(shadowColor);
             graphics->drawLine(x + i, y + i, width - i, y + i);
             graphics->drawLine(x + i, y + i + 1, x + i, height - i - 1);
@@ -110,9 +111,9 @@ namespace fcn
         Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = faceColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
         int const borderSize    = static_cast<int>(getBorderSize());
         int const paddingLeft   = static_cast<int>(getPaddingLeft());
@@ -124,7 +125,7 @@ namespace fcn
         if (isOpaque() && contentWidth > 0 && contentHeight > 0) {
             // Fill the background around the content
             graphics->setColor(faceColor);
-            graphics->fillRectangle(getBorderSize(), getBorderSize(), contentWidth, contentHeight);
+            graphics->fillRectangle(borderSize, borderSize, contentWidth, contentHeight);
         }
         if (mBackgroundWidget != nullptr) {
             Rectangle const rec(borderSize, borderSize, contentWidth, contentHeight);
@@ -149,10 +150,10 @@ namespace fcn
             textX = 0;
             break;
         case Graphics::Alignment::Center:
-            textX = (getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight()) / 2;
+            textX = (getWidth() - (2 * borderSize) - paddingLeft - paddingRight) / 2;
             break;
         case Graphics::Alignment::Right:
-            textX = getWidth() - getBorderSize() - getPaddingRight();
+            textX = getWidth() - borderSize - paddingRight;
             break;
         default:
             throwException("Unknown alignment.");
@@ -184,7 +185,8 @@ namespace fcn
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
-        int const height = getBorderSize() + getPaddingTop() + getTitleBarHeight();
+        int const height = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingTop()) +
+                           static_cast<int>(getTitleBarHeight());
         mMoved           = mouseEvent.getY() <= height;
     }
 
@@ -210,9 +212,9 @@ namespace fcn
     {
         resizeToChildren();
         int const w = std::max(getFont()->getWidth(mCaption), getWidth()) + (2 * getBorderSize()) + getPaddingLeft() +
-                      getPaddingRight() + (2 * getInnerBorderSize());
+                      getPaddingRight() + (2 * static_cast<int>(getInnerBorderSize()));
         int const h = getHeight() + (2 * getBorderSize()) + getPaddingTop() + getPaddingBottom() +
-                      (2 * getInnerBorderSize()) + getTitleBarHeight();
+                      (2 * static_cast<int>(getInnerBorderSize())) + static_cast<int>(getTitleBarHeight());
         setSize(w, h);
     }
 

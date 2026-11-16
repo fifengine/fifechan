@@ -122,7 +122,8 @@ namespace fcn
     {
         assert("number of columns must be set" && mNumberOfColumns > 0);
         // TODO(jakoch): is this calc correct?
-        mNumberOfRows = (mContainedWidgets.size() / mNumberOfColumns) + (mContainedWidgets.size() % mNumberOfColumns);
+        mNumberOfRows = static_cast<unsigned int>(
+            (mContainedWidgets.size() / mNumberOfColumns) + (mContainedWidgets.size() % mNumberOfColumns));
 
         mColumnWidths.clear();
 
@@ -142,32 +143,36 @@ namespace fcn
             unsigned int j = 0;
             for (j = 0; j < mNumberOfRows && (mNumberOfColumns * j) + i < mContainedWidgets.size(); j++) {
                 if (std::cmp_greater(
-                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth(), mColumnWidths.at(i))) {
-                    mColumnWidths.at(i) = mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth();
+                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth(),
+                        static_cast<int>(mColumnWidths.at(i)))) {
+                    mColumnWidths.at(i) =
+                        static_cast<unsigned int>(mContainedWidgets.at((mNumberOfColumns * j) + i)->getWidth());
                 }
                 if (std::cmp_greater(
-                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight(), mRowHeights.at(j))) {
-                    mRowHeights.at(j) = mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight();
+                        mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight(),
+                        static_cast<int>(mRowHeights.at(j)))) {
+                    mRowHeights.at(j) =
+                        static_cast<unsigned int>(mContainedWidgets.at((mNumberOfColumns * j) + i)->getHeight());
                 }
             }
         }
 
         // width calculation
-        mWidth = mPaddingLeft;
+        mWidth = static_cast<unsigned int>(mPaddingLeft);
         mWidth += std::accumulate(mColumnWidths.begin(), mColumnWidths.end(), 0U);
         mWidth += mColumnWidths.size() * mHorizontalSpacing;
         mWidth -= mHorizontalSpacing;
-        mWidth += mPaddingRight;
+        mWidth += static_cast<unsigned int>(mPaddingRight);
 
         // height calculation
-        mHeight = mPaddingTop;
+        mHeight = static_cast<unsigned int>(mPaddingTop);
         mHeight += std::accumulate(mRowHeights.begin(), mRowHeights.end(), 0U);
         mHeight += mRowHeights.size() * mVerticalSpacing;
         mHeight -= mVerticalSpacing;
-        mHeight += mPaddingBottom;
+        mHeight += static_cast<unsigned int>(mPaddingBottom);
 
-        setHeight(mHeight + (2 * getBorderSize()));
-        setWidth(mWidth + (2 * getBorderSize()));
+        setHeight(static_cast<int>(mHeight) + (2 * getBorderSize()));
+        setWidth(static_cast<int>(mWidth) + (2 * getBorderSize()));
     }
 
     void AdjustingContainer::adjustContent()
@@ -177,35 +182,42 @@ namespace fcn
 
         unsigned int columnCount = 0;
         unsigned int rowCount    = 0;
-        unsigned int y           = mPaddingTop;
+        unsigned int y           = static_cast<unsigned int>(mPaddingTop);
 
         for (auto& mContainedWidget : mContainedWidgets) {
 
             // calculate the x position of the widget
-            unsigned basex = 0;
+            unsigned int basex = 0;
             if ((columnCount % mNumberOfColumns) != 0U) {
-                basex = mPaddingLeft;
+                basex = static_cast<unsigned int>(mPaddingLeft);
                 basex += std::accumulate(mColumnWidths.begin(), mColumnWidths.begin() + columnCount, 0U);
                 basex += columnCount * mHorizontalSpacing;
             } else {
-                basex = mPaddingLeft;
+                basex = static_cast<unsigned int>(mPaddingLeft);
             }
 
             switch (mColumnAlignment.at(columnCount)) {
             case Alignment::Left:
-                mContainedWidget->setX(basex);
+                mContainedWidget->setX(static_cast<int>(basex));
                 break;
             case Alignment::Center:
-                mContainedWidget->setX(basex + ((mColumnWidths.at(columnCount) - mContainedWidget->getWidth()) / 2));
+                mContainedWidget->setX(
+                    static_cast<int>(
+                        basex +
+                        ((mColumnWidths.at(columnCount) - static_cast<unsigned int>(mContainedWidget->getWidth())) /
+                         2)));
                 break;
             case Alignment::Right:
-                mContainedWidget->setX(basex + mColumnWidths.at(columnCount) - mContainedWidget->getWidth());
+                mContainedWidget->setX(
+                    static_cast<int>(
+                        basex + mColumnWidths.at(columnCount) -
+                        static_cast<unsigned int>(mContainedWidget->getWidth())));
                 break;
             default:
                 throwException("Unknown alignment.");
             }
 
-            mContainedWidget->setY(y);
+            mContainedWidget->setY(static_cast<int>(y));
             columnCount++;
 
             if (columnCount == mNumberOfColumns) {

@@ -176,7 +176,7 @@ namespace fcn::sdl3
             mouseInput.setY(static_cast<int>(event.button.y));
             mouseInput.setButton(convertMouseButton(event.button.button));
             mouseInput.setType(MouseInput::Type::Pressed);
-            mouseInput.setTimeStamp(SDL_GetTicks());
+            mouseInput.setTimeStamp(static_cast<int>(SDL_GetTicks()));
             mMouseInputQueue.push(mouseInput);
             break;
         }
@@ -187,7 +187,7 @@ namespace fcn::sdl3
             mouseInput.setY(static_cast<int>(event.button.y));
             mouseInput.setButton(convertMouseButton(event.button.button));
             mouseInput.setType(MouseInput::Type::Released);
-            mouseInput.setTimeStamp(SDL_GetTicks());
+            mouseInput.setTimeStamp(static_cast<int>(SDL_GetTicks()));
             mMouseInputQueue.push(mouseInput);
             break;
         }
@@ -197,7 +197,7 @@ namespace fcn::sdl3
             mouseInput.setY(static_cast<int>(event.motion.y));
             mouseInput.setButton(MouseInput::Button::Empty);
             mouseInput.setType(MouseInput::Type::Moved);
-            mouseInput.setTimeStamp(SDL_GetTicks());
+            mouseInput.setTimeStamp(static_cast<int>(SDL_GetTicks()));
             mMouseInputQueue.push(mouseInput);
             break;
         }
@@ -219,7 +219,7 @@ namespace fcn::sdl3
             mouseInput.setX(static_cast<int>(event.wheel.mouse_x));
             mouseInput.setY(static_cast<int>(event.wheel.mouse_y));
             mouseInput.setButton(convertMouseButton(SDL_BUTTON_LEFT));
-            mouseInput.setTimeStamp(SDL_GetTicks());
+            mouseInput.setTimeStamp(static_cast<int>(SDL_GetTicks()));
             mMouseInputQueue.push(mouseInput);
             break;
         }
@@ -360,7 +360,7 @@ namespace fcn::sdl3
         mouseInput.setY(y);
         mouseInput.setButton(button);
         mouseInput.setType(type);
-        mouseInput.setTimeStamp(SDL_GetTicks());
+        mouseInput.setTimeStamp(static_cast<int>(SDL_GetTicks()));
         mMouseInputQueue.push(mouseInput);
     }
 

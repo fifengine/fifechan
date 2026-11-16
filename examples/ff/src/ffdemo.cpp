@@ -654,8 +654,8 @@ void FFDemo::run()
     while (mRunning) {
         input();
 
-        int sec       = SDL_GetTicks() / 1000;
-        int const min = sec / 60;
+        uint64_t sec       = SDL_GetTicks() / 1000;
+        uint64_t const min = sec / 60;
         sec           = sec % 60;
         std::string const str;
         std::ostringstream os(str);

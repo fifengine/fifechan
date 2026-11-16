@@ -69,9 +69,9 @@ namespace fcn
         mTop(nullptr),
         mGraphics(nullptr),
         mInput(nullptr),
-        mTabbing(true),
         mFocusHandler(new FocusHandler()),
         mVisibilityEventHandler(new VisibilityEventHandler(this)),
+        mTabbing(true),
         mShiftPressed(false),
         mMetaPressed(false),
         mControlPressed(false),
@@ -572,7 +572,7 @@ namespace fcn
         mFocusHandler->setLastWidgetPressed(sourceWidget);
 
         mFocusHandler->setDraggedWidget(sourceWidget);
-        mLastMouseDragButton = static_cast<unsigned int>(mouseInput.getButton());
+        mLastMouseDragButton = static_cast<int>(mouseInput.getButton());
 
         mLastMousePressButton    = static_cast<unsigned int>(mouseInput.getButton());
         mLastMousePressTimeStamp = mouseInput.getTimeStamp();

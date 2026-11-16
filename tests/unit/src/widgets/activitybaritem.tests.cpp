@@ -40,11 +40,11 @@ TEST_CASE("ActivityBarItem setPanel and getPanel", "[unit][activitybaritem]")
 TEST_CASE("ActivityBarItem setSize and getSize", "[unit][activitybaritem]")
 {
     ActivityBarItem item("");
-    item.setSize(32);
+    item.setSize(32, 32);
     REQUIRE(item.getSize() == 32);
     REQUIRE(item.getWidth() == 32);
     REQUIRE(item.getHeight() == 32);
-    item.setSize(48);
+    item.setSize(48, 48);
     REQUIRE(item.getSize() == 48);
 }
 

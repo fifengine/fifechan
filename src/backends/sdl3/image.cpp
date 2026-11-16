@@ -18,7 +18,7 @@
 
 namespace fcn::sdl3
 {
-    Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mAutoFree(autoFree), mRenderer(renderer)
+    Image::Image(SDL_Surface* surface, bool autoFree, SDL_Renderer* renderer) : mRenderer(renderer), mAutoFree(autoFree)
     {
         if (renderer != nullptr && surface != nullptr) {
 

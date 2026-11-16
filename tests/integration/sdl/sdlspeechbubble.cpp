@@ -17,12 +17,14 @@
 
 // Standard library includes
 #include <algorithm>
+#include <charconv>
 #include <cstdlib>
 #include <cstring>
 #include <format>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -77,7 +79,7 @@ namespace
 } // namespace
 
 Application::Application(std::string const & title, int width, int height) :
-    mWidth(width), mHeight(height), exePath(getExecutableDir().string())
+    exePath(getExecutableDir().string()), mWidth(width), mHeight(height)
 {
     try {
         init_sdl(title, width, height);
@@ -93,7 +95,7 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
 
@@ -210,8 +212,9 @@ void Application::showInstructions()
 void Application::clearPage()
 {
     for (auto& b : mBubbles) {
-        if (b)
+        if (b) {
             top->remove(b.get());
+        }
     }
     for (auto& w : mChildren) {
         if (w) {
@@ -232,8 +235,8 @@ void Application::showPage(int index)
     feedbackLabel->setCaption("");
     feedbackLabel->adjustSize();
 
-    int const bubbleX = mWidth / 2 - 150;
-    int const bubbleY = mHeight / 2 - 80;
+    int const bubbleX = (mWidth / 2) - 150;
+    int const bubbleY = (mHeight / 2) - 80;
 
     auto const makeComicBubble = [&](fcn::SpeechBubble::TailDirection dir,
                                      fcn::SpeechBubble::TailProfile const & profile,
@@ -250,7 +253,7 @@ void Application::showPage(int index)
         bubble->setBorderColor(fcn::Color(0, 0, 0, 255));
         bubble->setTailDirection(dir);
         bubble->setTailProfile(profile);
-        bubble->setCornerRadius(cr);
+        bubble->setCornerRadius(static_cast<unsigned int>(cr));
 
         auto label = std::make_unique<fcn::Label>(std::move(text));
         label->setForegroundColor(fcn::Color(80, 80, 80, 255));
@@ -271,7 +274,7 @@ void Application::showPage(int index)
         int const bw  = 224;
         int const bh  = 232;
         int const gap = 24;
-        int const x0  = (mWidth - bw * 5 - gap * 4) / 2;
+        int const x0  = (mWidth - (bw * 5) - (gap * 4)) / 2;
         int const y0  = (mHeight - bh) / 2;
 
         auto makeStyle = [&](fcn::SpeechBubble::BubbleStyle style,
@@ -286,7 +289,7 @@ void Application::showPage(int index)
             bubble->setBorderColor(fcn::Color(0, 0, 0, 255));
             bubble->setBubbleStyle(style);
             bubble->setTailDirection(dir);
-            bubble->setCornerRadius(cr);
+            bubble->setCornerRadius(static_cast<unsigned int>(cr));
             bubble->setTailWidth(38);
             bubble->setTailHeight(30);
 
@@ -320,25 +323,25 @@ void Application::showPage(int index)
             fcn::SpeechBubble::BubbleStyle::Thought,
             fcn::SpeechBubble::TailDirection::BottomLeft,
             "Thought\nInner voice",
-            x0 + (bw + gap) * 2);
+            x0 + ((bw + gap) * 2));
 
         makeStyle(
             fcn::SpeechBubble::BubbleStyle::Shout,
             fcn::SpeechBubble::TailDirection::None,
             "Shout\nImpact",
-            x0 + (bw + gap) * 3);
+            x0 + ((bw + gap) * 3));
 
         makeStyle(
             fcn::SpeechBubble::BubbleStyle::Whisper,
             fcn::SpeechBubble::TailDirection::BottomLeft,
             "Whisper\nQuiet",
-            x0 + (bw + gap) * 4);
+            x0 + ((bw + gap) * 4));
 
         // Second row: the four corner tail directions on classic bubbles
         int const bw2  = 196;
         int const bh2  = 110;
         int const gap2 = 24;
-        int const x02  = (mWidth - bw2 * 4 - gap2 * 3) / 2;
+        int const x02  = (mWidth - (bw2 * 4) - (gap2 * 3)) / 2;
         int const y02  = y0 + bh + 20;
 
         auto makeCorner = [&](fcn::SpeechBubble::TailDirection dir, std::string text, int x) {
@@ -368,8 +371,8 @@ void Application::showPage(int index)
 
         makeCorner(fcn::SpeechBubble::TailDirection::BottomRight, "Bottom-Right", x02);
         makeCorner(fcn::SpeechBubble::TailDirection::TopRight, "Top-Right", x02 + bw2 + gap2);
-        makeCorner(fcn::SpeechBubble::TailDirection::TopLeft, "Top-Left", x02 + (bw2 + gap2) * 2);
-        makeCorner(fcn::SpeechBubble::TailDirection::BottomLeft, "Bottom-Left", x02 + (bw2 + gap2) * 3);
+        makeCorner(fcn::SpeechBubble::TailDirection::TopLeft, "Top-Left", x02 + ((bw2 + gap2) * 2));
+        makeCorner(fcn::SpeechBubble::TailDirection::BottomLeft, "Bottom-Left", x02 + ((bw2 + gap2) * 3));
 
         feedbackLabel->setCaption("Classic | Round | Thought | Shout | Whisper  +  corner tail directions");
         break;
@@ -472,7 +475,7 @@ void Application::showPage(int index)
 
         for (int i = 0; i < 3; ++i) {
             auto optionBox = std::make_unique<fcn::Container>();
-            optionBox->setDimension(fcn::Rectangle(8, optionY + i * optionH, 330, 40));
+            optionBox->setDimension(fcn::Rectangle(8, optionY + (i * optionH), 330, 40));
             optionBox->setBorderSize(1);
             optionBox->setBaseColor(fcn::Color(220, 215, 235, 255));
 
@@ -553,7 +556,7 @@ void Application::screenshotPage(int page, char const * filename)
     SDL_RenderPresent(renderer.get());
 
     SDL_Surface* surf = SDL_RenderReadPixels(renderer.get(), nullptr);
-    if (surf) {
+    if (surf != nullptr) {
         SDL_SaveBMP(surf, filename);
         SDL_DestroySurface(surf);
     }
@@ -595,8 +598,16 @@ int main(int argc, char** argv)
     char const * screenshotFile = nullptr;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--screenshot") == 0 && i + 2 < argc) {
-            screenshotPage = std::atoi(argv[++i]);
-            screenshotFile = argv[++i];
+            std::string_view const pageArg{argv[i + 1]};
+            int page               = 0;
+            auto const parseResult = std::from_chars(pageArg.begin(), pageArg.end(), page);
+            if (parseResult.ec != std::errc{} || parseResult.ptr != pageArg.end()) {
+                std::cerr << "Invalid --screenshot page: " << pageArg << '\n';
+                return 1;
+            }
+            screenshotPage = page;
+            screenshotFile = argv[i + 2];
+            i += 2;
         }
     }
 
@@ -614,7 +625,7 @@ int main(int argc, char** argv)
             std::format("FifeGUI v{} using SDL {}: SpeechBubble Demo", fifeguiVersion, sdlVersionStr);
 
         Application app(title, 1280, 768);
-        if (screenshotPage > 0 && screenshotFile) {
+        if (screenshotPage > 0 && (screenshotFile != nullptr)) {
             app.screenshotPage(screenshotPage, screenshotFile);
         } else {
             app.run();

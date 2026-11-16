@@ -110,6 +110,26 @@ namespace fcn
              */
             virtual void _pollInput() = 0;
 
+            /**
+             * Starts text input for the backend.
+             *
+             * Called when a text input widget gains focus.
+             * Base implementation does nothing.
+             */
+            virtual void startTextInput()
+            {
+            }
+
+            /**
+             * Stops text input for the backend.
+             *
+             * Called when a text input widget loses focus.
+             * Base implementation does nothing.
+             */
+            virtual void stopTextInput()
+            {
+            }
+
         protected:
             Input() = default;
     };

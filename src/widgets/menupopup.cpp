@@ -139,8 +139,10 @@ namespace fcn
         int const bottomBorder =
             ((getBorderSides() & Widget::BORDER_BOTTOM) != 0U) ? static_cast<int>(getBorderSize()) : 0;
 
-        int const contentPaddingW = leftBorder + rightBorder + getPaddingLeft() + getPaddingRight();
-        int const contentPaddingH = topBorder + bottomBorder + getPaddingTop() + getPaddingBottom();
+        int const contentPaddingW =
+            leftBorder + rightBorder + static_cast<int>(getPaddingLeft()) + static_cast<int>(getPaddingRight());
+        int const contentPaddingH =
+            topBorder + bottomBorder + static_cast<int>(getPaddingTop()) + static_cast<int>(getPaddingBottom());
 
         int const popupWidth  = contentW + contentPaddingW;
         int const popupHeight = contentH + contentPaddingH;
@@ -387,8 +389,8 @@ namespace fcn
             bool clickHitsMenuBar          = false;
             Container const * topContainer = dynamic_cast<Container*>(getTop());
             if (topContainer != nullptr) {
-                for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
-                    Widget* child = topContainer->getChild(i);
+                for (int i = 0; i < topContainer->getChildrenCount(); ++i) {
+                    Widget* child = topContainer->getChild(static_cast<unsigned int>(i));
                     if (child == nullptr || child == this) {
                         continue;
                     }

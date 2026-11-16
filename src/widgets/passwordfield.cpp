@@ -34,36 +34,36 @@ namespace fcn
         if (key.getValue() == fcn::Key::LEFT && getCaretPosition() > 0) {
             mText->setCaretPosition(mText->getCaretPosition() - 1);
             setActualTextCaretPosition(
-                fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getActualTextCaretPosition())));
-        } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < getText().size()) {
+                fcn::UTF8StringEditor::prevChar(getText(), getActualTextCaretPosition()));
+        } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < static_cast<int>(getText().size())) {
             mText->setCaretPosition(mText->getCaretPosition() + 1);
             setActualTextCaretPosition(
-                fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getActualTextCaretPosition())));
+                fcn::UTF8StringEditor::nextChar(getText(), getActualTextCaretPosition()));
         } else if (
-            mEditable && key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < getText().size() &&
+            mEditable && key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < static_cast<int>(getText().size()) &&
             mText->getNumberOfRows() > 0) {
             mText->remove(1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::eraseChar(
-                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                    mActualText->getRow(0), getActualTextCaretPosition()));
         } else if (
             mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 &&
             mText->getNumberOfRows() > 0) {
             mText->remove(-1);
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::prevChar(
-                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                    mActualText->getRow(0), getActualTextCaretPosition()));
             setActualTextCaretPosition(
                 fcn::UTF8StringEditor::eraseChar(
-                    mActualText->getRow(0), static_cast<int>(getActualTextCaretPosition())));
+                    mActualText->getRow(0), getActualTextCaretPosition()));
         } else if (key.getValue() == fcn::Key::KEY_RETURN) {
             distributeActionEvent();
         } else if (key.getValue() == fcn::Key::HOME) {
             mText->setCaretColumn(0);
             setActualTextCaretPosition(0);
         } else if (key.getValue() == fcn::Key::END) {
-            mText->setCaretColumn(mText->getNumberOfCharacters(0));
-            setActualTextCaretPosition(getText().size());
+            mText->setCaretColumn(static_cast<int>(mText->getNumberOfCharacters(0)));
+            setActualTextCaretPosition(static_cast<int>(getText().size()));
         } else if (
             // Add character to text, if key is a ASCII character
             // or is greater than 8bits long and the character is not
@@ -102,12 +102,12 @@ namespace fcn
         return mActualText->getContent();
     }
 
-    void PasswordField::setActualTextCaretPosition(unsigned int position)
+    void PasswordField::setActualTextCaretPosition(int position)
     {
         mActualText->setCaretPosition(position);
     }
 
-    unsigned int PasswordField::getActualTextCaretPosition() const
+    int PasswordField::getActualTextCaretPosition() const
     {
         return mActualText->getCaretPosition();
     }

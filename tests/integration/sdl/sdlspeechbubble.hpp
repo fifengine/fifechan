@@ -69,7 +69,7 @@ namespace tests::integration::sdl::speechbubble
             void showInstructions();
             void clearPage();
 
-            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, int flags);
+            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, uint64_t flags);
             static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window);
 
             bool running{true};
@@ -92,7 +92,7 @@ namespace tests::integration::sdl::speechbubble
 
             int mWidth{1280};
             int mHeight{768};
-            int mCurrentPage{0};
+            [[maybe_unused]] int mCurrentPage{0};
 
             // Page widget ownership
             std::vector<std::unique_ptr<fcn::Container>> mBubbles;

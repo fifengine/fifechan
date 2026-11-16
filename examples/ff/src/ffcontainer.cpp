@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <algorithm>
+#include <cstdint>
 #include <cmath>
 #include <memory>
 
@@ -21,7 +22,7 @@ std::unique_ptr<fcn::Image> FFContainer::mCornerDR   = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mHorizontal = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mVertical   = nullptr;
 
-FFContainer::FFContainer() : mRealWidth(0), mRealHeight(0), mSlideTarget(0), mCurrentSlide(0), mTime(-1), mShow(true)
+FFContainer::FFContainer() : mRealWidth(0), mRealHeight(0), mSlideTarget(0), mCurrentSlide(0), mTime(UINT64_MAX), mShow(true)
 {
     if (mInstances == 0) {
         mCornerUL   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerul.png"));
@@ -111,12 +112,12 @@ void FFContainer::draw(fcn::Graphics* graphics)
 
 void FFContainer::logic()
 {
-    if (mTime < 0) {
+    if (mTime == UINT64_MAX) {
         mTime = SDL_GetTicks();
     }
 
-    int const currentTime = SDL_GetTicks();
-    int const deltaTime   = currentTime - mTime;
+    uint64_t const currentTime = SDL_GetTicks();
+    int const deltaTime   = static_cast<int>(currentTime - mTime);
     mTime                 = currentTime;
 
     if (!mShow) {

@@ -74,7 +74,7 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
 
@@ -110,7 +110,7 @@ void Application::init_SDL(std::string const & title, int width, int height)
     renderer = initRenderer(window);
 
     SDL_SetRenderVSync(renderer.get(), 1);
-    // Enable SDL text input events so widgets receive text characters
+
     SDL_StartTextInput(window.get());
 }
 
@@ -321,7 +321,7 @@ void Application::init_GUI(int width, int height)
                 if (this->activityFont) {
                     item->setFont(this->activityFont.get());
                 }
-                item->setSize(40);
+                item->setSize(40, 40);
                 activityBar->addWidget(std::move(item));
             }
         }
@@ -417,8 +417,8 @@ void Application::init_GUI(int width, int height)
         int maxX         = 0;
         if (mbc != nullptr) {
             int xPos = 0;
-            for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
-                fcn::Widget* item = mbc->getChild(j);
+            for (int j = 0; j < mbc->getChildrenCount(); ++j) {
+                fcn::Widget* item = mbc->getChild(static_cast<unsigned int>(j));
                 if (item == nullptr) {
                     continue;
                 }
@@ -429,8 +429,8 @@ void Application::init_GUI(int width, int height)
             }
 
             // Calculate menu bar width from children positions
-            for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
-                fcn::Widget const * item = mbc->getChild(j);
+            for (int j = 0; j < mbc->getChildrenCount(); ++j) {
+                fcn::Widget const * item = mbc->getChild(static_cast<unsigned int>(j));
                 if (item == nullptr) {
                     continue;
                 }

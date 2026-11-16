@@ -91,5 +91,5 @@ TEST_CASE("PasswordField keyPressed HOME and END", "[unit][passwordfield]")
     Key const endKey(Key::END);
     KeyEvent endEvent(&pf, &pf, false, false, false, false, KeyEvent::Type::Pressed, false, endKey);
     pf.keyPressed(endEvent);
-    REQUIRE(pf.getCaretPosition() == static_cast<unsigned int>(pf.getText().size()));
+    REQUIRE(static_cast<size_t>(pf.getCaretPosition()) == pf.getText().size());
 }

@@ -74,10 +74,10 @@ namespace fcn
                 graphics->setColor(getBackgroundColor());
             }
             graphics->fillRectangle(
-                getBorderSize(),
-                getBorderSize(),
-                getWidth() - (2 * getBorderSize()),
-                getHeight() - (2 * getBorderSize()));
+                static_cast<int>(getBorderSize()),
+                static_cast<int>(getBorderSize()),
+                getWidth() - (2 * static_cast<int>(getBorderSize())),
+                getHeight() - (2 * static_cast<int>(getBorderSize())));
         }
         // draw border or frame
         if (getBorderSize() > 0) {

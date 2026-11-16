@@ -802,9 +802,9 @@ TEST_CASE("Container multiple children verify count and order", "[unit][containe
 
     std::array<std::unique_ptr<Label>, 5> labels;
     for (int i = 0; i < 5; ++i) {
-        labels.at(i) = std::make_unique<Label>("Label" + std::to_string(i));
-        container.add(labels.at(i).get());
-        REQUIRE(container.getChildrenCount() == static_cast<unsigned int>(i + 1));
+        labels.at(static_cast<size_t>(i)) = std::make_unique<Label>("Label" + std::to_string(i));
+        container.add(labels.at(static_cast<size_t>(i)).get());
+        REQUIRE(container.getChildrenCount() == i + 1);
     }
 
     // Verify all children are in correct order

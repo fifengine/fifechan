@@ -232,7 +232,7 @@ TEST_CASE("TTF_RenderText_Blended produces valid surface for emoji", "[unit][tru
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
-    SDL_Color white               = {255, 255, 255, 255};
+    SDL_Color white               = {.r = 255, .g = 255, .b = 255, .a = 255};
 
     SDL_Surface* surface = TTF_RenderText_Blended(rawFont, folderEmoji.c_str(), 0, white);
     REQUIRE(surface != nullptr);
@@ -263,7 +263,7 @@ TEST_CASE("TTF_RenderText_Blended produces non-empty pixel data for emoji", "[un
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
-    SDL_Color white               = {255, 255, 255, 255};
+    SDL_Color white               = {.r = 255, .g = 255, .b = 255, .a = 255};
 
     SDL_Surface* surface = TTF_RenderText_Blended(rawFont, folderEmoji.c_str(), 0, white);
     REQUIRE(surface != nullptr);
@@ -304,7 +304,7 @@ TEST_CASE("TTF_RenderText_Blended creates valid texture from emoji surface", "[u
     REQUIRE(rawFont != nullptr);
 
     std::string const folderEmoji = "\xf0\x9f\x93\x81"; // 📁
-    SDL_Color white               = {255, 255, 255, 255};
+    SDL_Color white               = {.r = 255, .g = 255, .b = 255, .a = 255};
 
     SDL_Surface* surface = TTF_RenderText_Blended(rawFont, folderEmoji.c_str(), 0, white);
     REQUIRE(surface != nullptr);
@@ -346,7 +346,7 @@ TEST_CASE("Regular TTF font loads and renders as baseline", "[unit][truetypefont
     CHECK(w > 0);
     CHECK(h > 0);
 
-    SDL_Color white      = {255, 255, 255, 255};
+    SDL_Color white      = {.r = 255, .g = 255, .b = 255, .a = 255};
     SDL_Surface* surface = TTF_RenderText_Blended(rawFont, text.c_str(), 0, white);
     REQUIRE(surface != nullptr);
     CHECK(surface->w > 0);

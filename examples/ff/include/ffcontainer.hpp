@@ -35,7 +35,7 @@ class FFContainer : public fcn::Container
         int mRealHeight;
         int mSlideTarget;
         int mCurrentSlide;
-        int mTime;
+        uint64_t mTime;
         bool mShow;
 
         static int mInstances;

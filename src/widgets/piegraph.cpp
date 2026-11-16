@@ -130,7 +130,8 @@ namespace fcn
         auto it = m_segments.begin();
         for (; it != m_segments.end(); ++it) {
             graphics->setColor((*it).color);
-            graphics->drawFillCircleSegment(m_center, m_radius, (*it).startAngle, (*it).stopAngle);
+            graphics->drawFillCircleSegment(
+                m_center, static_cast<unsigned int>(m_radius), (*it).startAngle, (*it).stopAngle);
         }
     }
 

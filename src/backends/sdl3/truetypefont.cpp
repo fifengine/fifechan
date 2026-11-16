@@ -19,11 +19,11 @@
 namespace fcn::sdl3
 {
     TrueTypeFont::TrueTypeFont(std::string const & filename, int size) :
-        mRowSpacing(0),
+        mFont(TTF_OpenFont(filename.c_str(), static_cast<float>(size))),
         mGlyphSpacing(0),
-        mAntiAlias(true),
+        mRowSpacing(0),
         mFilename(filename),
-        mFont(TTF_OpenFont(filename.c_str(), static_cast<float>(size)))
+        mAntiAlias(true)
     {
 
         if (mFont == nullptr) {

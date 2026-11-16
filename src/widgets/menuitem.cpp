@@ -201,8 +201,8 @@ namespace fcn
                 graphics->drawText(mIconGlyph, 4, iconY, Graphics::Alignment::Left);
                 textX += iconFont->getWidth(mIconGlyph) + 4;
             } else if (mIcon != nullptr) {
-                graphics->drawImage(mIcon, 4, (getHeight() - mIcon->getHeight()) / 2);
-                textX += mIcon->getWidth() + 4;
+                int const iconY = (getHeight() - mIcon->getHeight()) / 2;
+                graphics->drawImage(mIcon, mColumnLayout->xIcon, iconY);
             }
 
             // Ensure font and color are set for text rendering
@@ -289,7 +289,7 @@ namespace fcn
             contentH            = std::max(contentH, iconFontH);
         }
         // Add vertical padding (top + bottom)
-        int const vpad = getPaddingTop() + getPaddingBottom();
+        int const vpad = static_cast<int>(getPaddingTop()) + static_cast<int>(getPaddingBottom());
         m.height       = contentH + vpad;
 
         return m;

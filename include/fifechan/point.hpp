@@ -33,14 +33,8 @@ namespace fcn
     class Point
     {
         public:
-            union
-            {
-                    std::array<int, 2> val;
-                    struct
-                    {
-                            int x, y;
-                    };
-            };
+            int x, y;
+            std::array<int, 2> val;
 
             /**
              * Constructor
@@ -82,6 +76,8 @@ namespace fcn
             Point& operator=(Point const & rhs)
             {
                 if (this != &rhs) {
+                    x = rhs.x;
+                    y = rhs.y;
                     val = rhs.val;
                 }
                 return *this;
@@ -95,6 +91,8 @@ namespace fcn
             Point& operator=(Point&& rhs) noexcept
             {
                 if (this != &rhs) {
+                    x = rhs.x;
+                    y = rhs.y;
                     val = rhs.val;
                 }
                 return *this;
@@ -206,13 +204,13 @@ namespace fcn
              */
             void normalize()
             {
-                float const len = length();
+                float const len = static_cast<float>(length());
 
                 if (len > Mathf::zeroTolerance()) {
                     float const invLength = 1.0F / len;
 
-                    x = static_cast<int>(x * invLength);
-                    y = static_cast<int>(y * invLength);
+                    x = static_cast<int>(static_cast<float>(x) * invLength);
+                    y = static_cast<int>(static_cast<float>(y) * invLength);
                 } else {
                     x = 0;
                     y = 0;

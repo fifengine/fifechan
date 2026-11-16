@@ -34,8 +34,8 @@ namespace fcn
         std::string::size_type pos     = content.find('\n', lastPos);
 
         for (; pos != std::string::npos; pos = content.find('\n', lastPos)) {
-            int const length      = pos - lastPos;
-            std::string const sub = content.substr(lastPos, length);
+            std::string::size_type length = pos - lastPos;
+            std::string const sub         = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
         }
@@ -66,8 +66,8 @@ namespace fcn
         std::string::size_type pos     = 0;
 
         for (; (pos = content.find('\n', lastPos)) != std::string::npos; lastPos = pos + 1) {
-            int const length      = pos - lastPos;
-            std::string const sub = content.substr(lastPos, length);
+            std::string::size_type length = pos - lastPos;
+            std::string const sub         = content.substr(lastPos, length);
             mRows.push_back(sub);
         }
 
@@ -121,9 +121,9 @@ namespace fcn
         mRows.push_back(row);
     }
 
-    void Text::insertRow(std::string const & row, unsigned int position)
+    void Text::insertRow(std::string const & row, int position)
     {
-        unsigned int const totalRows = mRows.size();
+        int const totalRows = static_cast<int>(mRows.size());
 
         if (position >= totalRows) {
             if (position == totalRows) {
@@ -143,28 +143,28 @@ namespace fcn
         mRows.insert(mRows.begin() + position, row);
     }
 
-    void Text::eraseRow(unsigned int row)
+    void Text::eraseRow(int row)
     {
-        if (row >= mRows.size()) {
+        if (row < 0 || static_cast<std::size_t>(row) >= mRows.size()) {
             throwException("Row to be erased out of bounds!");
         }
 
         mRows.erase(mRows.begin() + row);
     }
 
-    std::string& Text::getRow(unsigned int row)
+    std::string& Text::getRow(int row)
     {
-        if (row >= mRows.size()) {
+        if (row < 0 || static_cast<std::size_t>(row) >= mRows.size()) {
             throwException("Row out of bounds!");
         }
 
-        return mRows.at(row);
+        return mRows.at(static_cast<std::size_t>(row));
     }
 
     void Text::insert(int character)
     {
         assert("character is valid unicode" && character >= 0 && character <= 0x10FFFF);
-        assert("caret row is within bounds" && mCaretRow < mRows.size());
+        assert("caret row is within bounds" && mCaretRow < static_cast<int>(mRows.size()));
 
         char const c = static_cast<char>(character);
 
@@ -177,11 +177,11 @@ namespace fcn
         } else {
             if (c == '\n') {
                 std::string const tail =
-                    mRows.at(mCaretRow).substr(mCaretColumn, mRows.at(mCaretRow).size() - mCaretColumn);
-                mRows.at(mCaretRow).resize(mCaretColumn);
-                mRows.insert(mRows.begin() + mCaretRow + 1, tail);
+                    mRows.at(static_cast<std::size_t>(mCaretRow)).substr(static_cast<std::size_t>(mCaretColumn), mRows.at(static_cast<std::size_t>(mCaretRow)).size() - static_cast<std::size_t>(mCaretColumn));
+                mRows.at(static_cast<std::size_t>(mCaretRow)).resize(static_cast<std::size_t>(mCaretColumn));
+                mRows.insert(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow) + 1), tail);
             } else {
-                mRows.at(mCaretRow).insert(mCaretColumn, std::string(1, c));
+                mRows.at(static_cast<std::size_t>(mCaretRow)).insert(static_cast<std::size_t>(mCaretColumn), std::string(1, c));
             }
         }
 
@@ -210,12 +210,12 @@ namespace fcn
                 // and the row is not the first row we
                 // need to merge two rows.
                 if (mCaretColumn == 0 && mCaretRow != 0) {
-                    mRows.at(mCaretRow - 1) += mRows.at(mCaretRow);
-                    mRows.erase(mRows.begin() + mCaretRow);
+                    mRows.at(static_cast<std::size_t>(mCaretRow - 1)) += mRows.at(static_cast<std::size_t>(mCaretRow));
+                    mRows.erase(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow)));
                     setCaretRow(mCaretRow - 1);
                     setCaretColumn(getNumberOfCharacters(mCaretRow));
                 } else {
-                    mRows.at(mCaretRow).erase(mCaretColumn - 1, 1);
+                    mRows.at(static_cast<std::size_t>(mCaretRow)).erase(static_cast<std::size_t>(mCaretColumn) - 1, 1);
                     setCaretPosition(mCaretPosition - 1);
                 }
 
@@ -226,18 +226,18 @@ namespace fcn
             while (numberOfCharacters != 0) {
                 // If all rows have been removed or
                 // caret is out of bounds there is nothing more to do.
-                if (mRows.empty() || mCaretRow >= mRows.size()) {
+                if (mRows.empty() || mCaretRow >= static_cast<int>(mRows.size())) {
                     break;
                 }
 
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two rows.
-                if (mCaretRow < mRows.size() && mCaretColumn == mRows.at(mCaretRow).size() &&
-                    mCaretRow < (mRows.size() - 1)) {
-                    mRows.at(mCaretRow) += mRows.at(mCaretRow + 1);
-                    mRows.erase(mRows.begin() + mCaretRow + 1);
+                if (mCaretRow < static_cast<int>(mRows.size()) && mCaretColumn == static_cast<int>(mRows.at(static_cast<std::size_t>(mCaretRow)).size()) &&
+                    mCaretRow < (static_cast<int>(mRows.size()) - 1)) {
+                    mRows.at(static_cast<std::size_t>(mCaretRow)) += mRows.at(static_cast<std::size_t>(mCaretRow + 1));
+                    mRows.erase(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow) + 1));
                 } else {
-                    mRows.at(mCaretRow).erase(mCaretColumn, 1);
+                    mRows.at(static_cast<std::size_t>(mCaretRow)).erase(static_cast<std::size_t>(mCaretColumn), 1);
                 }
 
                 numberOfCharacters--;
@@ -261,15 +261,15 @@ namespace fcn
             return;
         }
 
-        unsigned int const pos = static_cast<unsigned int>(position);
-        unsigned int total     = 0;
+        int const pos = position;
+        int total     = 0;
 
-        for (unsigned int i = 0; i < mRows.size(); ++i) {
-            unsigned int const rowLen = static_cast<unsigned int>(mRows.at(i).size());
+        for (std::size_t i = 0; i < mRows.size(); ++i) {
+            int const rowLen = static_cast<int>(mRows.at(i).size());
 
             if (pos < total + rowLen) {
-                mCaretRow      = i;
-                mCaretColumn   = static_cast<int>(pos - total);
+                mCaretRow      = static_cast<int>(i);
+                mCaretColumn   = pos - total;
                 mCaretPosition = position;
                 return;
             }
@@ -277,15 +277,15 @@ namespace fcn
             if (pos == total + rowLen) {
                 // Caret at the boundary between this row and the next row.
                 if (i + 1 < mRows.size()) {
-                    mCaretRow      = i + 1;
+                    mCaretRow      = static_cast<int>(i) + 1;
                     mCaretColumn   = 0;
                     mCaretPosition = position;
                     return;
                 }
 
                 // At end of content (last row), place caret at end of last row.
-                mCaretRow      = i;
-                mCaretColumn   = static_cast<int>(rowLen);
+                mCaretRow      = static_cast<int>(i);
+                mCaretColumn   = rowLen;
                 mCaretPosition = position;
                 return;
             }
@@ -295,7 +295,7 @@ namespace fcn
         }
 
         // Position is beyond the content: clamp to end.
-        unsigned int const contentChars = getNumberOfCharacters();
+        int const contentChars = getNumberOfCharacters();
         if (contentChars == 0) {
             mCaretPosition = 0;
             mCaretRow      = 0;
@@ -303,8 +303,8 @@ namespace fcn
             return;
         }
 
-        mCaretPosition = static_cast<int>(contentChars - 1);
-        mCaretRow      = mRows.size() - 1;
+        mCaretPosition = contentChars - 1;
+        mCaretRow      = static_cast<int>(mRows.size()) - 1;
         mCaretColumn   = static_cast<int>(mRows.back().size());
     }
 
@@ -318,7 +318,7 @@ namespace fcn
         }
 
         setCaretRow(y / font->getHeight());
-        setCaretColumn(font->getStringIndexAt(mRows.at(mCaretRow), x));
+        setCaretColumn(font->getStringIndexAt(mRows.at(static_cast<std::size_t>(mCaretRow)), x));
     }
 
     int Text::getCaretColumn() const
@@ -335,8 +335,8 @@ namespace fcn
     {
         if (mRows.empty() || column < 0) {
             mCaretColumn = 0;
-        } else if (std::cmp_greater(column, mRows.at(mCaretRow).size())) {
-            mCaretColumn = mRows.at(mCaretRow).size();
+        } else if (std::cmp_greater(column, static_cast<int>(mRows.at(static_cast<std::size_t>(mCaretRow)).size()))) {
+            mCaretColumn = static_cast<int>(mRows.at(static_cast<std::size_t>(mCaretRow)).size());
         } else {
             mCaretColumn = column;
         }
@@ -348,8 +348,8 @@ namespace fcn
     {
         if (mRows.empty() || row < 0) {
             mCaretRow = 0;
-        } else if (std::cmp_greater_equal(row, mRows.size())) {
-            mCaretRow = mRows.size() - 1;
+        } else if (std::cmp_greater_equal(row, static_cast<int>(mRows.size()))) {
+            mCaretRow = static_cast<int>(mRows.size()) - 1;
         } else {
             mCaretRow = row;
         }
@@ -365,7 +365,7 @@ namespace fcn
             return 0;
         }
 
-        return font->getWidth(mRows.at(mCaretRow).substr(0, mCaretColumn));
+        return font->getWidth(mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn)));
     }
 
     int Text::getCaretY(Font* font) const
@@ -391,8 +391,8 @@ namespace fcn
             width       = std::max(width, w);
         }
 
-        auto h = static_cast<int>(font->getHeight() * mRows.size());
-        auto w = width + font->getWidth(" ");
+        int const h = font->getHeight() * static_cast<int>(mRows.size());
+        int const w = width + font->getWidth(" ");
 
         return {0, 0, w, h};
     }
@@ -403,7 +403,7 @@ namespace fcn
         assert("font height is positive" && font->getHeight() > 0);
 
         Rectangle dim;
-        dim.x      = !mRows.empty() ? font->getWidth(mRows.at(mCaretRow).substr(0, mCaretColumn)) : 0;
+        dim.x      = !mRows.empty() ? font->getWidth(mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn))) : 0;
         dim.y      = font->getHeight() * mCaretRow;
         dim.width  = font->getWidth(" ");
         dim.height = font->getHeight() + 2;
@@ -415,43 +415,43 @@ namespace fcn
         return 0;
     }
 
-    unsigned int Text::getMaximumCaretRow() const
+    int Text::getMaximumCaretRow() const
     {
         return 0;
     }
 
-    unsigned int Text::getMaximumCaretRow(unsigned int /*row*/) const
+    int Text::getMaximumCaretRow(int /*row*/) const
     {
         return 0;
     }
 
-    unsigned int Text::getNumberOfCharacters() const
+    int Text::getNumberOfCharacters() const
     {
-        return std::accumulate(mRows.begin(), mRows.end(), size_t{0}, [](size_t sum, auto const & row) {
+        return static_cast<int>(std::accumulate(mRows.begin(), mRows.end(), size_t{0}, [](size_t sum, auto const & row) {
             return sum + row.size() + 1;
-        });
+        }));
     }
 
-    unsigned int Text::getNumberOfRows() const
+    int Text::getNumberOfRows() const
     {
-        return mRows.size();
+        return static_cast<int>(mRows.size());
     }
 
-    unsigned int Text::getNumberOfCharacters(unsigned int row) const
+    int Text::getNumberOfCharacters(int row) const
     {
-        if (row >= mRows.size()) {
+        if (row < 0 || static_cast<std::size_t>(row) >= mRows.size()) {
             return 0;
         }
 
-        return mRows.at(row).size();
+        return static_cast<int>(mRows.at(static_cast<std::size_t>(row)).size());
     }
 
     void Text::calculateCaretPositionFromRowAndColumn()
     {
-        unsigned int total = 0;
-        for (auto i = 0; std::cmp_less(i, mCaretRow); i++) {
+        int total = 0;
+        for (int i = 0; i < mCaretRow; ++i) {
             // Add one for the line feed.
-            total += mRows.at(i).size() + 1;
+            total += static_cast<int>(mRows.at(static_cast<std::size_t>(i)).size()) + 1;
         }
 
         mCaretPosition = total + mCaretColumn;

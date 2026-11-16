@@ -52,7 +52,7 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
 

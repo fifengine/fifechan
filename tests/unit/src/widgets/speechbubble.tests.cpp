@@ -16,13 +16,13 @@ using fcn::TailProfile;
 TEST_CASE("TailProfile is an aggregate with documented defaults", "[unit][speechbubble]")
 {
     TailProfile p;
-    REQUIRE(p.tipWidthRatio == 0.0f);
-    REQUIRE(p.curvature == 0.0f);
-    REQUIRE(p.hook == 0.0f);
-    REQUIRE(p.taperExponent == 1.0f);
-    REQUIRE(p.jaggedness == 0.0f);
+    REQUIRE(p.tipWidthRatio == 0.0F);
+    REQUIRE(p.curvature == 0.0F);
+    REQUIRE(p.hook == 0.0F);
+    REQUIRE(p.taperExponent == 1.0F);
+    REQUIRE(p.jaggedness == 0.0F);
     REQUIRE(p.teeth == 5);
-    REQUIRE(p.prongDepth == 0.0f);
+    REQUIRE(p.prongDepth == 0.0F);
     REQUIRE(p.segments == 6);
 
     STATIC_REQUIRE(std::is_aggregate_v<TailProfile>);
@@ -30,23 +30,23 @@ TEST_CASE("TailProfile is an aggregate with documented defaults", "[unit][speech
 
 TEST_CASE("TailProfile static factories", "[unit][speechbubble]")
 {
-    REQUIRE(TailProfile::sharp().tipWidthRatio == 0.0f);
+    REQUIRE(TailProfile::sharp().tipWidthRatio == 0.0F);
 
-    REQUIRE(TailProfile::rounded().tipWidthRatio == 0.3f);
+    REQUIRE(TailProfile::rounded().tipWidthRatio == 0.3F);
 
-    REQUIRE(TailProfile::curved().curvature == 0.3f);
+    REQUIRE(TailProfile::curved().curvature == 0.3F);
 
     TailProfile const wide = TailProfile::wide();
-    REQUIRE(wide.tipWidthRatio == 0.55f);
-    REQUIRE(wide.taperExponent == 0.8f);
+    REQUIRE(wide.tipWidthRatio == 0.55F);
+    REQUIRE(wide.taperExponent == 0.8F);
 
     TailProfile const jagged = TailProfile::jagged();
-    REQUIRE(jagged.jaggedness == 0.5f);
-    REQUIRE(jagged.taperExponent == 1.0f);
+    REQUIRE(jagged.jaggedness == 0.5F);
+    REQUIRE(jagged.taperExponent == 1.0F);
 
     TailProfile const pronged = TailProfile::pronged();
     REQUIRE(pronged.teeth == 5);
-    REQUIRE(pronged.prongDepth == 0.5f);
+    REQUIRE(pronged.prongDepth == 0.5F);
 }
 
 TEST_CASE("TailProfile is reachable as SpeechBubble::TailProfile", "[unit][speechbubble]")
@@ -56,7 +56,7 @@ TEST_CASE("TailProfile is reachable as SpeechBubble::TailProfile", "[unit][speec
     STATIC_REQUIRE(std::is_same_v<SpeechBubble::TailProfile, TailProfile>);
 
     SpeechBubble::TailProfile p = SpeechBubble::TailProfile::rounded();
-    REQUIRE(p.tipWidthRatio == 0.3f);
+    REQUIRE(p.tipWidthRatio == 0.3F);
 }
 
 TEST_CASE("SpeechBubble setTailProfile and getTailProfile", "[unit][speechbubble]")
@@ -64,12 +64,12 @@ TEST_CASE("SpeechBubble setTailProfile and getTailProfile", "[unit][speechbubble
     SpeechBubble bubble;
 
     TailProfile p;
-    p.tipWidthRatio = 0.42f;
+    p.tipWidthRatio = 0.42F;
     p.teeth         = 9;
     bubble.setTailProfile(p);
 
     TailProfile const got = bubble.getTailProfile();
-    REQUIRE(got.tipWidthRatio == 0.42f);
+    REQUIRE(got.tipWidthRatio == 0.42F);
     REQUIRE(got.teeth == 9);
 }
 
@@ -78,17 +78,17 @@ TEST_CASE("getTailProfile returns a copy, not a reference to internal state", "[
     SpeechBubble bubble;
 
     TailProfile p;
-    p.tipWidthRatio = 0.5f;
+    p.tipWidthRatio = 0.5F;
     bubble.setTailProfile(p);
 
     // Mutating the returned profile must not reach into the widget. Returning
     // const & made this alias the member, which let bindings write to a widget
     // through what reads as a getter.
     TailProfile copy   = bubble.getTailProfile();
-    copy.tipWidthRatio = 0.99f;
+    copy.tipWidthRatio = 0.99F;
 
-    REQUIRE(copy.tipWidthRatio == 0.99f);
-    REQUIRE(bubble.getTailProfile().tipWidthRatio == 0.5f);
+    REQUIRE(copy.tipWidthRatio == 0.99F);
+    REQUIRE(bubble.getTailProfile().tipWidthRatio == 0.5F);
 }
 
 TEST_CASE("SpeechBubble defaults", "[unit][speechbubble]")

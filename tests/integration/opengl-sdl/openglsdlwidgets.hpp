@@ -40,7 +40,7 @@ namespace tests::integration::opengl_sdl::widgets
             void init_GUI(int width, int height);
             void cleanup();
 
-            static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
+            static SDL_Window* initWindow(std::string const & title, int width, int height, uint64_t flags);
             static SDL_GLContext initGLContext(SDL_Window* window);
 
             bool running{false};
@@ -80,7 +80,7 @@ namespace tests::integration::opengl_sdl::widgets
             fcn::Image* logoImage{nullptr};
             fcn::Icon* guisanLogoIcon{nullptr};
             fcn::TabbedArea* tabbedArea{nullptr};
-            fcn::Button* tabOneButton{nullptr};
+            [[maybe_unused]] fcn::Button* tabOneButton{nullptr};
             fcn::Slider* nestedSlider{nullptr};
             fcn::ScrollArea* nestedScrollArea{nullptr};
             fcn::Container* nestedContainer{nullptr};
@@ -88,14 +88,14 @@ namespace tests::integration::opengl_sdl::widgets
             fcn::BarGraph* barGraph{nullptr};
             fcn::CurveGraph* curveGraph{nullptr};
             fcn::FlowContainer* flowContainer{nullptr};
-            fcn::IconProgressBar* iconProgressBar{nullptr};
+            [[maybe_unused]] fcn::IconProgressBar* iconProgressBar{nullptr};
             fcn::LineGraph* lineGraph{nullptr};
             fcn::PieGraph* pieGraph{nullptr};
             fcn::PointGraph* pointGraph{nullptr};
             fcn::Spacer* spacer{nullptr};
-            fcn::Tab* tab{nullptr};
-            fcn::TabbedArea* tabbedArea2{nullptr};
-            fcn::CheckBox* tabTwoCheckBox{nullptr};
+            [[maybe_unused]] fcn::Tab* tab{nullptr};
+            [[maybe_unused]] fcn::TabbedArea* tabbedArea2{nullptr};
+            [[maybe_unused]] fcn::CheckBox* tabTwoCheckBox{nullptr};
 
             std::unique_ptr<fcn::ListModel> demoListModel;
             std::unique_ptr<fcn::TextBox> ownedTextBox;

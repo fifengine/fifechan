@@ -41,7 +41,7 @@ namespace fcn::sdl3
             /**
              * Constructor.
              */
-            Input();
+            explicit Input();
 
             /**
              * Pushes an SDL event. It should be called at least once per frame to

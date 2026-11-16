@@ -94,14 +94,6 @@ namespace
         return {};
     }
 
-    // Set up global ImageLoader for Image::load() to work
-    void setupImageLoader(SDL_Renderer* renderer)
-    {
-        fcn::sdl3::ImageLoader* loader = new fcn::sdl3::ImageLoader();
-        loader->setRenderer(renderer);
-        fcn::Image::setImageLoader(loader);
-    }
-
     // Glyph strings for each font type
     std::string const & getGlyphString(std::filesystem::path const & fontPath)
     {
@@ -235,7 +227,9 @@ TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagef
 
     // Test getWidth for string
     int const abcWidth = font.getWidth("ABC");
-    CHECK(abcWidth == (font.getWidth('A') + font.getWidth('B') + font.getWidth('C')));
+    CHECK(
+        abcWidth == (static_cast<int>(font.getWidth('A')) + static_cast<int>(font.getWidth('B')) +
+                     static_cast<int>(font.getWidth('C'))));
 }
 
 TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][height]")
@@ -362,10 +356,10 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
 
     // Draw space character, should use space width
     int const spaceWidth = font->drawGlyph(&graphics, ' ', 10, 10);
-    CHECK(spaceWidth == font->getWidth(' '));
+    CHECK(spaceWidth == static_cast<int>(font->getWidth(' ')));
 
     int const bWidth = font->drawGlyph(&graphics, 'B', 10, 10);
-    CHECK(bWidth == font->getWidth('B'));
+    CHECK(bWidth == static_cast<int>(font->getWidth('B')));
 
     graphics._endDraw();
 
@@ -406,7 +400,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
     int expectedY                = 20;
 
     for (char const c : testString) {
-        int const drawnWidth = font.drawGlyph(&graphics, c, expectedX, expectedY);
+        int const drawnWidth = font.drawGlyph(&graphics, static_cast<unsigned char>(c), expectedX, expectedY);
         expectedX += drawnWidth;
     }
 
@@ -441,7 +435,7 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
     for (char const c : glyphs) {
         std::string infoMsg(1, c);
         INFO("Glyph: " << infoMsg);
-        CHECK(font.getWidth(c) > 0);
+        CHECK(static_cast<int>(font.getWidth(static_cast<unsigned char>(c))) > 0);
     }
 }
 

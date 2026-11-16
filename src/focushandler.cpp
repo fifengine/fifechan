@@ -176,8 +176,8 @@ namespace fcn
         int i             = 0;
         int focusedWidget = -1;
 
-        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets.at(i) == mFocusedWidget) {
+        for (i = 0; std::cmp_less(i, static_cast<int>(mWidgets.size())); ++i) {
+            if (mWidgets.at(static_cast<std::size_t>(i)) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -191,7 +191,7 @@ namespace fcn
         for (; num_widgets > 0; --num_widgets) {
             ++focusedWidget;
 
-            if (std::cmp_greater_equal(focusedWidget, mWidgets.size())) {
+            if (std::cmp_greater_equal(focusedWidget, static_cast<int>(mWidgets.size()))) {
                 focusedWidget = 0;
             }
 
@@ -199,7 +199,7 @@ namespace fcn
                 return;
             }
 
-            if (mWidgets.at(focusedWidget)->isFocusable()) {
+            if (mWidgets.at(static_cast<std::size_t>(focusedWidget))->isFocusable()) {
                 break;
             }
 
@@ -210,13 +210,13 @@ namespace fcn
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(focusedWidget);
+            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
             Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event const focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -230,8 +230,8 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets.at(i) == mFocusedWidget) {
+        for (i = 0; std::cmp_less(i, static_cast<int>(mWidgets.size())); ++i) {
+            if (mWidgets.at(static_cast<std::size_t>(i)) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -251,26 +251,26 @@ namespace fcn
             --i;
 
             if (focusedWidget < 0) {
-                focusedWidget = mWidgets.size() - 1;
+                focusedWidget = static_cast<int>(mWidgets.size()) - 1;
             }
 
             if (focusedWidget == focused) {
                 return;
             }
 
-            if (mWidgets.at(focusedWidget)->isFocusable()) {
+            if (mWidgets.at(static_cast<std::size_t>(focusedWidget))->isFocusable()) {
                 break;
             }
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(focusedWidget);
+            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
             Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event const focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -348,8 +348,8 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets.at(i) == mFocusedWidget) {
+        for (i = 0; std::cmp_less(i, static_cast<int>(mWidgets.size())); ++i) {
+            if (mWidgets.at(static_cast<std::size_t>(i)) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -367,7 +367,7 @@ namespace fcn
 
             --i;
 
-            if (std::cmp_greater_equal(focusedWidget, mWidgets.size())) {
+            if (std::cmp_greater_equal(focusedWidget, static_cast<int>(mWidgets.size()))) {
                 focusedWidget = 0;
             }
 
@@ -375,21 +375,22 @@ namespace fcn
                 return;
             }
 
-            if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                    (getFocusOwner()) == nullptr ||
-                mWidgets.at(focusedWidget)->isModalFocused()) {
+            if (mWidgets.at(static_cast<std::size_t>(focusedWidget))->isFocusable() &&
+                mWidgets.at(static_cast<std::size_t>(focusedWidget))->isTabInEnabled() &&
+                ((getFocusOwner() == nullptr) ||
+                 mWidgets.at(static_cast<std::size_t>(focusedWidget))->isModalFocused())) {
                 break;
             }
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(focusedWidget);
+            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
             Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event const focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
         }
     }
@@ -409,8 +410,8 @@ namespace fcn
 
         int i             = 0;
         int focusedWidget = -1;
-        for (i = 0; std::cmp_less(i, mWidgets.size()); ++i) {
-            if (mWidgets.at(i) == mFocusedWidget) {
+        for (i = 0; std::cmp_less(i, static_cast<int>(mWidgets.size())); ++i) {
+            if (mWidgets.at(static_cast<std::size_t>(i)) == mFocusedWidget) {
                 focusedWidget = i;
             }
         }
@@ -429,27 +430,29 @@ namespace fcn
             --i;
 
             if (focusedWidget <= 0) {
-                focusedWidget = mWidgets.size() - 1;
+                focusedWidget = static_cast<int>(mWidgets.size()) - 1;
             }
 
             if (focusedWidget == focused) {
                 return;
             }
 
-            if (mWidgets.at(focusedWidget)->isFocusable() && mWidgets.at(focusedWidget)->isTabInEnabled() &&
-                (getFocusOwner() == nullptr || mWidgets.at(focusedWidget)->isModalFocused())) {
+            if (mWidgets.at(static_cast<std::size_t>(focusedWidget))->isFocusable() &&
+                mWidgets.at(static_cast<std::size_t>(focusedWidget))->isTabInEnabled() &&
+                (getFocusOwner() == nullptr ||
+                 mWidgets.at(static_cast<std::size_t>(focusedWidget))->isModalFocused())) {
                 break;
             }
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(focusedWidget);
+            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
             Event const focusEvent(mFocusedWidget);
             distributeFocusGainedEvent(focusEvent);
         }
 
         if (focused >= 0) {
-            Event const focusEvent(mWidgets.at(focused));
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
         }
     }

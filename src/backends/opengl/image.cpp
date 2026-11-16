@@ -156,9 +156,9 @@ namespace fcn::opengl
         }
 
 #ifdef __BIG_ENDIAN__
-        unsigned int const c = color.a | color.b << 8 | color.g << 16 | color.r << 24;
+        unsigned int const c = static_cast<unsigned int>(color.a) | static_cast<unsigned int>(color.b) << 8 | static_cast<unsigned int>(color.g) << 16 | static_cast<unsigned int>(color.r) << 24;
 #else
-        unsigned int const c = color.r | color.g << 8 | color.b << 16 | color.a << 24;
+        unsigned int const c = static_cast<unsigned int>(color.r) | static_cast<unsigned int>(color.g) << 8 | static_cast<unsigned int>(color.b) << 16 | static_cast<unsigned int>(color.a) << 24;
 #endif
 
         mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = c;

@@ -368,7 +368,7 @@ TEST_CASE("TextBox keyPressed RETURN inserts new row", "[unit][textbox]")
     SECTION("non-editable ignores RETURN")
     {
         tb.setEditable(false);
-        unsigned const rowsBefore = tb.getNumberOfRows();
+        int const rowsBefore = tb.getNumberOfRows();
         auto ke                   = makeKey(tb, fcn::Key::KEY_RETURN);
         tb.keyPressed(ke);
         REQUIRE(tb.getNumberOfRows() == rowsBefore);

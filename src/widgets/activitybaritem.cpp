@@ -19,8 +19,8 @@ namespace fcn
     ActivityBarItem::ActivityBarItem(std::string const & icon, std::string tooltip, Widget* panel) :
         mPanel(panel), mTooltip(std::move(tooltip))
     {
-        setCaption(icon);
         Widget::setSize(mSize, mSize);
+        setCaption(icon);
 
         // Register as widget listener on the panel if provided
         if (mPanel != nullptr) {
@@ -56,11 +56,11 @@ namespace fcn
         return mPanel;
     }
 
-    void ActivityBarItem::setSize(int size)
+    void ActivityBarItem::setSize(int width, int height)
     {
-        assert("size must be positive" && size > 0);
-        mSize = size;
-        Widget::setSize(size, size);
+        assert("width and height must be positive" && width > 0 && height > 0);
+        mSize = width; // Assuming square, use width as the size
+        Widget::setSize(width, height);
     }
 
     int ActivityBarItem::getSize() const
@@ -178,6 +178,12 @@ namespace fcn
                 ToggleButton::setSelected(true);
             }
         }
+    }
+
+    void ActivityBarItem::adjustSizeImpl()
+    {
+        // ActivityBarItem has a fixed size (mSize), don't adjust to caption
+        Widget::setSize(mSize, mSize);
     }
 
 } // namespace fcn

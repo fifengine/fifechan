@@ -401,7 +401,7 @@ TEST_CASE("ListBox getRowHeight equals font height", "[unit][listbox]")
     ListBox listbox;
     DefaultFont font;
     listbox.setFont(&font);
-    REQUIRE(listbox.getRowHeight() == static_cast<unsigned>(font.getHeight()));
+    REQUIRE(listbox.getRowHeight() == static_cast<int>(font.getHeight()));
 }
 
 TEST_CASE("ListBox logic calls adjustSize", "[unit][listbox]")

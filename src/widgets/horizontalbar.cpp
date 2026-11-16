@@ -101,7 +101,7 @@ namespace fcn
 
         // Apply fixed height if set
         if (mFixedHeight > 0) {
-            setHeight(mFixedHeight);
+            setHeight(static_cast<int>(mFixedHeight));
         }
     }
 
@@ -138,7 +138,7 @@ namespace fcn
 
         // Apply fixed height if set
         if (mFixedHeight > 0) {
-            setHeight(mFixedHeight);
+            setHeight(static_cast<int>(mFixedHeight));
         }
     }
 

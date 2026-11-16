@@ -598,6 +598,12 @@ namespace fcn
             FocusHandler* mFocusHandler;
 
             /**
+             * Holds the previously focused widget to detect focus changes.
+             * Used to start/stop text input when focus changes.
+             */
+            Widget* mLastFocusedWidget{nullptr};
+
+            /**
              * Holds the visibility event handler for the GUI.
              */
             VisibilityEventHandler* mVisibilityEventHandler;

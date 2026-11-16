@@ -60,7 +60,7 @@ std::filesystem::path Application::getExecutableDir()
 #endif
 }
 
-SDL_Window* Application::initWindow(std::string const & title, int width, int height, int flags)
+SDL_Window* Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* rawWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (rawWindow == nullptr) {

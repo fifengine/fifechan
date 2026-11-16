@@ -111,7 +111,7 @@ namespace fcn
                             }
                             charsToShow = static_cast<int>(i) + 1;
                         }
-                        textToDraw = mText.substr(0, charsToShow) + "...";
+                        textToDraw = mText.substr(0, static_cast<std::string::size_type>(charsToShow)) + "...";
                     } else {
                         // Not even ellipsis fits, show just "..."
                         textToDraw = "...";
@@ -127,7 +127,7 @@ namespace fcn
                         }
                         charsToShow = static_cast<int>(i) + 1;
                     }
-                    textToDraw = mText.substr(0, charsToShow);
+                    textToDraw = mText.substr(0, static_cast<std::string::size_type>(charsToShow));
                 }
             }
             // If availableForText <= 0, text won't be drawn (no space left)

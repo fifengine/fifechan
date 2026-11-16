@@ -141,7 +141,7 @@ namespace fcn
              *
              * @return The height of a row.
              */
-            virtual unsigned int getRowHeight() const;
+            virtual int getRowHeight() const;
 
             // Inherited from Widget
 

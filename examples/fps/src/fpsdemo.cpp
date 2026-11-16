@@ -47,17 +47,17 @@ namespace
 } // namespace
 
 FPSDemo::FPSDemo() :
-    mRotation(0),
     mRunning(true),
-    mGlow(0),
-    mWidth(800),
-    mHeight(600),
-    mTime(-1),
-    mDeltaTime(0),
     mInit(true),
     mResolutionChange(false),
     mHaveFullscreen(false),
     mAudioAvailable(false),
+    mWidth(800),
+    mHeight(600),
+    mRotation(0),
+    mGlow(0),
+    mDeltaTime(0),
+    mTime(-1),
     mMixer(nullptr),
     mChooseAudio(nullptr),
     mEscapeAudio(nullptr),
@@ -65,8 +65,42 @@ FPSDemo::FPSDemo() :
     mMusicAudio(nullptr),
     mMusicTrack(nullptr),
     mEffectTrack(nullptr),
-    window(nullptr),
-    glcontext(nullptr)
+    mOpenGLGraphics(nullptr),
+    mSDLInput(nullptr),
+    mOpenGLImageLoader(nullptr),
+    mGui(nullptr),
+    mTop(nullptr),
+    mFont(nullptr),
+    mSmallBlackFont(nullptr),
+    mWhiteFont(nullptr),
+    mHighLightFont(nullptr),
+    mTitleImage(nullptr),
+    mTitle(nullptr),
+    mCloudImage(nullptr),
+    mPlanetImage(nullptr),
+    mStarsImage(nullptr),
+    mMoonImage(nullptr),
+    mMoonRedImage(nullptr),
+    mBoxImage(nullptr),
+    mSingleplayBoxIcon(nullptr),
+    mMultiplayBoxIcon(nullptr),
+    mOptionsBoxIcon(nullptr),
+    mVersionLabel(nullptr),
+    mSingleplayLabel(nullptr),
+    mMultiplayLabel(nullptr),
+    mOptionsLabel(nullptr),
+    mSingleplayText(nullptr),
+    mMultiplayText(nullptr),
+    mMain(nullptr),
+    mSingleplay(nullptr),
+    mMultiplay(nullptr),
+    mOptions(nullptr),
+    mDemoInfo(nullptr),
+    mQuad1(nullptr),
+    mQuad2(nullptr),
+    mClouds2(nullptr),
+    mMoon(nullptr),
+    mMoonRed(nullptr)
 {
     // Init SDL
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -112,13 +146,13 @@ FPSDemo::FPSDemo() :
             mMusicTrack = MIX_CreateTrack(mMixer);
 
             // Set the mixer volume (gain 0.0 - 1.0)
-            MIX_SetMixerGain(mMixer, 0.7f);
+            MIX_SetMixerGain(mMixer, 0.7F);
 
             // Set up FPSButton hover sound
             FPSButton::mHoverAudio = MIX_LoadAudio(mMixer, "sound/sound5.wav", false);
             if (FPSButton::mHoverAudio != nullptr) {
                 FPSButton::mHoverTrack = MIX_CreateTrack(mMixer);
-                MIX_SetTrackGain(FPSButton::mHoverTrack, 0.6f);
+                MIX_SetTrackGain(FPSButton::mHoverTrack, 0.6F);
             }
         }
     }
@@ -735,10 +769,10 @@ void FPSDemo::runIntro()
 {
     while (SDL_GetTicks() < 3000) {
         if (mTime < 0) {
-            mTime = SDL_GetTicks();
+            mTime = static_cast<float>(SDL_GetTicks());
         }
-        mDeltaTime = SDL_GetTicks() - mTime;
-        mTime      = SDL_GetTicks();
+        mDeltaTime = static_cast<float>(SDL_GetTicks()) - mTime;
+        mTime      = static_cast<float>(SDL_GetTicks());
 
         input();
 
@@ -777,11 +811,11 @@ void FPSDemo::runMain()
         }
 
         if (mTime < 0) {
-            mTime = SDL_GetTicks();
+            mTime = static_cast<float>(SDL_GetTicks());
         }
 
-        mDeltaTime = SDL_GetTicks() - mTime;
-        mTime      = SDL_GetTicks();
+        mDeltaTime = static_cast<float>(SDL_GetTicks()) - mTime;
+        mTime      = static_cast<float>(SDL_GetTicks());
 
         input();
         mGui->logic();
@@ -805,7 +839,7 @@ void FPSDemo::runMain()
 
 void FPSDemo::input()
 {
-    while (SDL_PollEvent(&mEvent) != 0) {
+    while (SDL_PollEvent(&mEvent)) {
         // We ignore keyboard input and just sends mouse input to Fifechan
         if (mEvent.type == SDL_EVENT_KEY_DOWN) {
             if (mEvent.key.key == SDLK_ESCAPE) {
