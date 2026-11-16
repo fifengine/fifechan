@@ -19,32 +19,32 @@ namespace fcn
     static float const FLT_STD_EPSILON    = std::numeric_limits<float>::epsilon();
     static float const FLT_STD_MAX        = std::numeric_limits<float>::max();
     static float const FLT_ZERO_TOLERANCE = 1e-06F;
-    static float const FLT_PI             = 4.0F * std::atan(1.0F);
+    static float const FLT_PI             = std::numbers::pi_v<float>;
     static float const FLT_TWO_PI         = 2.0F * FLT_PI;
     static float const FLT_HALF_PI        = 0.5F * FLT_PI;
-    static float const FLT_INVERSE_PI     = 1.0F / FLT_PI;
+    static float const FLT_INVERSE_PI     = std::numbers::inv_pi_v<float>;
     static float const FLT_INVERSE_TWO_PI = 1.0F / FLT_TWO_PI;
     static float const FLT_DEG_TO_RAD     = FLT_PI / 180.0F;
     static float const FLT_RAD_TO_DEG     = 180.0F / FLT_PI;
     static float const FLT_LOG_2          = std::numbers::ln2_v<float>;
     static float const FLT_LOG_10         = std::numbers::ln10_v<float>;
-    static float const FLT_INV_LOG_2      = 1.0F / std::numbers::ln2_v<float>;
-    static float const FLT_INV_LOG_10     = 1.0F / std::numbers::ln10_v<float>;
+    static float const FLT_INV_LOG_2      = std::numbers::log2e_v<float>;
+    static float const FLT_INV_LOG_10     = std::numbers::log10e_v<float>;
 
     static double const DBL_STD_EPSILON    = std::numeric_limits<double>::epsilon();
     static double const DBL_STD_MAX        = std::numeric_limits<double>::max();
     static double const DBL_ZERO_TOLERANCE = 1e-08;
-    static double const DBL_PI             = 4.0 * std::atan(1.0);
+    static double const DBL_PI             = std::numbers::pi;
     static double const DBL_TWO_PI         = 2.0 * DBL_PI;
     static double const DBL_HALF_PI        = 0.5 * DBL_PI;
-    static double const DBL_INVERSE_PI     = 1.0 / DBL_PI;
+    static double const DBL_INVERSE_PI     = std::numbers::inv_pi;
     static double const DBL_INVERSE_TWO_PI = 1.0 / DBL_TWO_PI;
     static double const DBL_DEG_TO_RAD     = DBL_PI / 180.0;
     static double const DBL_RAD_TO_DEG     = 180.0 / DBL_PI;
     static double const DBL_LOG_2          = std::numbers::ln2;
     static double const DBL_LOG_10         = std::numbers::ln10;
-    static double const DBL_INV_LOG_2      = 1.0 / std::numbers::ln2;
-    static double const DBL_INV_LOG_10     = 1.0 / std::numbers::ln10;
+    static double const DBL_INV_LOG_2      = std::numbers::log2e;
+    static double const DBL_INV_LOG_10     = std::numbers::log10e;
 
     /**
      * Generic template for floating-point type traits.
