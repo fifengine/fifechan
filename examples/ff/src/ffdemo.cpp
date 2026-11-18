@@ -270,6 +270,10 @@ void FFDemo::initMain()
     mOlofIcon  = std::make_unique<fcn::Icon>(mOlofImage.get());
     mTomasIcon = std::make_unique<fcn::Icon>(mTomasImage.get());
 
+    mPerIcon->setOpaque(false);
+    mOlofIcon->setOpaque(false);
+    mTomasIcon->setOpaque(false);
+
     mPerInfo1 = std::make_unique<fcn::TextBox>("\n  LV\n  HP\n  MP");
     mPerInfo1->setFont(mFontCyan.get());
     mPerInfo1->setOpaque(false);
