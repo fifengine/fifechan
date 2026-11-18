@@ -214,6 +214,10 @@ jobs:
             --verbose
 
       - name: 🧪 CTest ➔ Run Tests
+        env:
+          # No display/xvfb in this job; SDL3's dummy/offscreen drivers are opt-in.
+          # X11 is used in the devcontainer based runs, see below.
+          SDL_VIDEODRIVER: dummy
         run: |
           ctest \
             --test-dir "${{ matrix.config.build_dir }}" \
