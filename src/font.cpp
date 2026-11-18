@@ -15,7 +15,7 @@
 // Third-party library includes
 #include <SDL3/SDL.h>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/graphics.hpp"
 
 namespace fcn

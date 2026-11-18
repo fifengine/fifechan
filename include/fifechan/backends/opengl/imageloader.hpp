@@ -59,7 +59,8 @@ namespace fcn::opengl
                         size_t const idx =
                             static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(surface->w));
                         packedPixels.at(idx) = static_cast<unsigned int>(r) | (static_cast<unsigned int>(g) << 8) |
-                                               (static_cast<unsigned int>(b) << 16) | (static_cast<unsigned int>(a) << 24);
+                                               (static_cast<unsigned int>(b) << 16) |
+                                               (static_cast<unsigned int>(a) << 24);
                     }
                 }
                 fcn::Image* image =

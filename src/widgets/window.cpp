@@ -87,14 +87,13 @@ namespace fcn
         shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        int const x      = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingLeft());
-        int const y      = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingTop()) +
-                           static_cast<int>(getTitleBarHeight());
-        int const width  = getWidth() - static_cast<int>(getBorderSize()) - static_cast<int>(getPaddingRight()) - 1;
-        int const height = getHeight() - static_cast<int>(getBorderSize()) - static_cast<int>(getPaddingBottom()) - 1;
+        int const x      = getBorderSize() + getPaddingLeft();
+        int const y      = getBorderSize() + getPaddingTop() + static_cast<int>(getTitleBarHeight());
+        int const width  = getWidth() - getBorderSize() - getPaddingRight() - 1;
+        int const height = getHeight() - getBorderSize() - getPaddingBottom() - 1;
 
         int i = 0;
-        for (i = 0; i < static_cast<int>(getInnerBorderSize()); ++i) {
+        for (i = 0; std::cmp_less(i, getInnerBorderSize()); ++i) {
             graphics->setColor(shadowColor);
             graphics->drawLine(x + i, y + i, width - i, y + i);
             graphics->drawLine(x + i, y + i + 1, x + i, height - i - 1);
@@ -115,10 +114,10 @@ namespace fcn
         shadowColor      = faceColor - getShadowOffset();
         shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        int const borderSize    = static_cast<int>(getBorderSize());
-        int const paddingLeft   = static_cast<int>(getPaddingLeft());
-        int const paddingTop    = static_cast<int>(getPaddingTop());
-        int const paddingRight  = static_cast<int>(getPaddingRight());
+        int const borderSize    = getBorderSize();
+        int const paddingLeft   = getPaddingLeft();
+        int const paddingTop    = getPaddingTop();
+        int const paddingRight  = getPaddingRight();
         int const contentWidth  = std::max(0, getWidth() - (2 * borderSize));
         int const contentHeight = std::max(0, getHeight() - (2 * borderSize));
 
@@ -185,8 +184,7 @@ namespace fcn
         mDragOffsetX = mouseEvent.getX();
         mDragOffsetY = mouseEvent.getY();
 
-        int const height = static_cast<int>(getBorderSize()) + static_cast<int>(getPaddingTop()) +
-                           static_cast<int>(getTitleBarHeight());
+        int const height = getBorderSize() + getPaddingTop() + static_cast<int>(getTitleBarHeight());
         mMoved           = mouseEvent.getY() <= height;
     }
 
@@ -256,11 +254,11 @@ namespace fcn
     Rectangle Window::getChildrenArea()
     {
         Rectangle rec;
-        int const borderSize     = static_cast<int>(getBorderSize());
-        int const paddingLeft    = static_cast<int>(getPaddingLeft());
-        int const paddingTop     = static_cast<int>(getPaddingTop());
-        int const paddingRight   = static_cast<int>(getPaddingRight());
-        int const paddingBottom  = static_cast<int>(getPaddingBottom());
+        int const borderSize     = getBorderSize();
+        int const paddingLeft    = getPaddingLeft();
+        int const paddingTop     = getPaddingTop();
+        int const paddingRight   = getPaddingRight();
+        int const paddingBottom  = getPaddingBottom();
         int const innerBorder    = static_cast<int>(getInnerBorderSize());
         int const titleBarHeight = static_cast<int>(getTitleBarHeight());
 

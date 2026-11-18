@@ -150,7 +150,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));
@@ -467,23 +467,23 @@ void Application::showPage(int index)
         {
                 std::string label;
         };
-        OptionDef const options[3] = {
+        std::array<OptionDef const, 3> const options = {{
             {"Warrior"},
             {"Mage"},
             {"Rogue"},
-        };
+        }};
 
-        for (int i = 0; i < 3; ++i) {
+        for (std::size_t i = 0; i < 3; ++i) {
             auto optionBox = std::make_unique<fcn::Container>();
-            optionBox->setDimension(fcn::Rectangle(8, optionY + (i * optionH), 330, 40));
+            optionBox->setDimension(fcn::Rectangle(8, optionY + (static_cast<int>(i) * optionH), 330, 40));
             optionBox->setBorderSize(1);
             optionBox->setBaseColor(fcn::Color(220, 215, 235, 255));
 
-            fcn::Color const iconColors[3] = {
+            std::array<fcn::Color const, 3> const iconColors = {{
                 fcn::Color(200, 80, 80, 255),
                 fcn::Color(80, 140, 210, 255),
                 fcn::Color(80, 190, 130, 255),
-            };
+            }};
 
             auto iconBox = std::make_unique<fcn::Container>();
             iconBox->setDimension(fcn::Rectangle(4, 4, iconSize, iconSize));
@@ -543,7 +543,6 @@ void Application::cleanup()
 
     renderer.reset();
     window.reset();
-    SDL_StopTextInput(window.get());
     TTF_Quit();
     SDL_Quit();
 }

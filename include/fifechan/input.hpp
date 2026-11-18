@@ -113,7 +113,14 @@ namespace fcn
             /**
              * Starts text input for the backend.
              *
-             * Called when a text input widget gains focus.
+             * Called by Gui when a focused widget returns true from
+             * Widget::wantsTextInput(). This is a hint to enable an on-screen
+             * keyboard or IME; a backend may ignore it, and it does not
+             * guarantee that text events arrive.
+             *
+             * Implementations must be idempotent and must not throw, because
+             * this is called from Gui::logic() and Gui's destructor.
+             *
              * Base implementation does nothing.
              */
             virtual void startTextInput()
@@ -123,7 +130,11 @@ namespace fcn
             /**
              * Stops text input for the backend.
              *
-             * Called when a text input widget loses focus.
+             * Called by Gui when no focused widget wants text input, before the
+             * input is replaced or destroyed, and from Gui's destructor.
+             *
+             * Implementations must be idempotent and must not throw.
+             *
              * Base implementation does nothing.
              */
             virtual void stopTextInput()

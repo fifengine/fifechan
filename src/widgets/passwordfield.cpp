@@ -9,7 +9,11 @@
 #include <cassert>
 #include <string>
 
+// Third-party library includes
+#include <utf8cpp/utf8.h>
+
 // Project headers (subdirs before local)
+#include "fifechan/events/textinputevent.hpp"
 #include "fifechan/key.hpp"
 #include "fifechan/text.hpp"
 #include "fifechan/utf8stringeditor.hpp"
@@ -33,48 +37,34 @@ namespace fcn
 
         if (key.getValue() == fcn::Key::LEFT && getCaretPosition() > 0) {
             mText->setCaretPosition(mText->getCaretPosition() - 1);
-            setActualTextCaretPosition(
-                fcn::UTF8StringEditor::prevChar(getText(), getActualTextCaretPosition()));
+            setActualTextCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), getActualTextCaretPosition()));
         } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < static_cast<int>(getText().size())) {
             mText->setCaretPosition(mText->getCaretPosition() + 1);
-            setActualTextCaretPosition(
-                fcn::UTF8StringEditor::nextChar(getText(), getActualTextCaretPosition()));
+            setActualTextCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), getActualTextCaretPosition()));
         } else if (
-            mEditable && key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < static_cast<int>(getText().size()) &&
-            mText->getNumberOfRows() > 0) {
+            mEditable && key.getValue() == fcn::Key::KEY_DELETE &&
+            getCaretPosition() < static_cast<int>(getText().size()) && mText->getNumberOfRows() > 0) {
             mText->remove(1);
             setActualTextCaretPosition(
-                fcn::UTF8StringEditor::eraseChar(
-                    mActualText->getRow(0), getActualTextCaretPosition()));
+                fcn::UTF8StringEditor::eraseChar(mActualText->getRow(0), getActualTextCaretPosition()));
         } else if (
             mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 &&
             mText->getNumberOfRows() > 0) {
             mText->remove(-1);
             setActualTextCaretPosition(
-                fcn::UTF8StringEditor::prevChar(
-                    mActualText->getRow(0), getActualTextCaretPosition()));
+                fcn::UTF8StringEditor::prevChar(mActualText->getRow(0), getActualTextCaretPosition()));
             setActualTextCaretPosition(
-                fcn::UTF8StringEditor::eraseChar(
-                    mActualText->getRow(0), getActualTextCaretPosition()));
+                fcn::UTF8StringEditor::eraseChar(mActualText->getRow(0), getActualTextCaretPosition()));
         } else if (key.getValue() == fcn::Key::KEY_RETURN) {
             distributeActionEvent();
         } else if (key.getValue() == fcn::Key::HOME) {
             mText->setCaretColumn(0);
             setActualTextCaretPosition(0);
         } else if (key.getValue() == fcn::Key::END) {
-            mText->setCaretColumn(static_cast<int>(mText->getNumberOfCharacters(0)));
+            mText->setCaretColumn(mText->getNumberOfCharacters(0));
             setActualTextCaretPosition(static_cast<int>(getText().size()));
-        } else if (
-            // Add character to text, if key is a ASCII character
-            // or is greater than 8bits long and the character is not
-            // the tab key.
-            (key.isCharacter() || (key.getValue() > 255 && mText->getNumberOfRows() > 0)) &&
-            key.getValue() != fcn::Key::TAB) {
-            mText->insert('*');
-            setActualTextCaretPosition(
-                fcn::UTF8StringEditor::insertChar(
-                    mActualText->getRow(0), getActualTextCaretPosition(), key.getValue()));
         }
+        // Printable characters are handled by textInput(TextInputEvent&).
 
         if (key.getValue() != fcn::Key::TAB) {
             // consume all characters except TAB which is needed
@@ -85,13 +75,37 @@ namespace fcn
         fixScroll();
     }
 
+    void PasswordField::textInput(TextInputEvent& event)
+    {
+        std::string const & text = event.getText();
+
+        if (!mEditable || text.empty() || mText->getNumberOfRows() == 0) {
+            return;
+        }
+
+        assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
+
+        int const codePoints = static_cast<int>(utf8::distance(text.begin(), text.end()));
+
+        for (int i = 0; i < codePoints; ++i) {
+            mText->insert('*');
+        }
+
+        int const actualCaret = getActualTextCaretPosition();
+        mActualText->getRow(0).insert(static_cast<std::string::size_type>(actualCaret), text);
+        setActualTextCaretPosition(actualCaret + static_cast<int>(text.size()));
+
+        fixScroll();
+    }
+
     void PasswordField::setText(std::string const & text)
     {
         assert("mText must not be null" && mText != nullptr);
         assert("mActualText must not be null" && mActualText != nullptr);
 
         std::string asterisks;
-        asterisks.assign(text.size(), '*');
+        auto const characters = static_cast<std::string::size_type>(utf8::distance(text.begin(), text.end()));
+        asterisks.assign(characters, '*');
 
         mText->setContent(asterisks);
         mActualText->setContent(text);

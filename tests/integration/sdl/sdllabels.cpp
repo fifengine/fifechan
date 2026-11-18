@@ -119,7 +119,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     // Finally, we create the GUI object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();
@@ -172,7 +172,8 @@ void Application::init_gui(int width, int height)
             cell->setDimension(fcn::Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight));
 
             // Create label with descriptive text
-            auto label = std::make_unique<fcn::Label>(std::format("{} {}", vLabels.at(static_cast<size_t>(row)), hLabels.at(static_cast<size_t>(col))));
+            auto label = std::make_unique<fcn::Label>(
+                std::format("{} {}", vLabels.at(static_cast<size_t>(row)), hLabels.at(static_cast<size_t>(col))));
 
             // Set horizontal alignment
             label->setAlignment(hAlignments.at(static_cast<size_t>(col)));

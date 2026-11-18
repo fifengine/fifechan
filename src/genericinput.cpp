@@ -5,10 +5,14 @@
 // Corresponding header include
 #include "fifechan/genericinput.hpp"
 
+// Standard library includes
+#include <string>
+#include <utility>
+
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
@@ -24,6 +28,15 @@ namespace fcn
         keyInput.setType(KeyInput::Type::Pressed);
 
         mKeyInputQueue.push(keyInput);
+    }
+
+    void GenericInput::pushTextInput(std::string text)
+    {
+        if (text.empty()) {
+            return;
+        }
+
+        mTextInputQueue.push(std::move(text));
     }
 
     void GenericInput::pushKeyReleased(int unicode)
@@ -148,5 +161,21 @@ namespace fcn
     void GenericInput::_pollInput()
     {
         // Does nothing.
+    }
+
+    bool GenericInput::isTextQueueEmpty()
+    {
+        return mTextInputQueue.empty();
+    }
+
+    std::string GenericInput::dequeueTextInput()
+    {
+        if (mTextInputQueue.empty()) {
+            return {};
+        }
+
+        std::string text = std::move(mTextInputQueue.front());
+        mTextInputQueue.pop();
+        return text;
     }
 } // namespace fcn

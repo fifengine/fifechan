@@ -117,6 +117,11 @@ class FPSDemo : public fcn::ActionListener
         int mWidth;
         int mHeight;
 
+        // Requested size when not running fullscreen. Kept separate from
+        // mWidth/mHeight, which reflect the actual drawable size.
+        int mWindowedWidth;
+        int mWindowedHeight;
+
         float mRotation;
         [[maybe_unused]] double mGlow;
         float mDeltaTime;

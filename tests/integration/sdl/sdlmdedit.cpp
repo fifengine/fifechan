@@ -110,8 +110,6 @@ void Application::init_SDL(std::string const & title, int width, int height)
     renderer = initRenderer(window);
 
     SDL_SetRenderVSync(renderer.get(), 1);
-
-    SDL_StartTextInput(window.get());
 }
 
 void Application::cleanup()
@@ -122,11 +120,6 @@ void Application::cleanup()
     graphics.reset();
     input.reset();
     renderer.reset();
-    if (window) {
-        SDL_StopTextInput(window.get());
-    } else {
-        SDL_StopTextInput(nullptr);
-    }
     window.reset();
     // Release any fonts held by the Application before shutting down SDL_ttf
     // to ensure TTF_CloseFont is called while the library is still initialized.
@@ -140,7 +133,7 @@ void Application::init_GUI(int width, int height)
     graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(graphics.get());
@@ -509,8 +502,8 @@ void Application::updateStatusBar()
     }
 
     // Get current cursor position (add 1 for 1-based line/column display)
-    int const currentRow    = static_cast<int>(textBox->getCaretRow()) + 1;
-    int const currentColumn = static_cast<int>(textBox->getCaretColumn()) + 1;
+    int const currentRow    = textBox->getCaretRow() + 1;
+    int const currentColumn = textBox->getCaretColumn() + 1;
 
     // Get current text
     std::string const & currentText = textBox->getText();

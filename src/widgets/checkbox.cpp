@@ -105,7 +105,7 @@ namespace fcn
         bool const active = isFocused();
 
         // draw background
-        int const borderSize = static_cast<int>(getBorderSize());
+        int const borderSize = getBorderSize();
         Rectangle const background(
             borderSize, borderSize, getWidth() - (2 * borderSize), getHeight() - (2 * borderSize));
         if (mBackgroundImage != nullptr) {
@@ -123,8 +123,8 @@ namespace fcn
 
         // rec for inner box
         int const h    = getHeight() - (2 * borderSize) - getPaddingTop() - getPaddingBottom();
-        int const recX = borderSize + static_cast<int>(getPaddingLeft());
-        int const recY = borderSize + static_cast<int>(getPaddingTop());
+        int const recX = borderSize + getPaddingLeft();
+        int const recY = borderSize + getPaddingTop();
         Rectangle const rec(recX, recY, h, h);
         if (mMode == MarkerStyle::Image) {
             // draw marker image

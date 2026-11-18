@@ -27,11 +27,10 @@ namespace fcn
         bool const active = isFocused();
         // Compute per-side border offsets so widgets using side-only borders
         // (e.g., bottom-only) don't get inset on all sides.
-        int const leftBorder  = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const topBorder   = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const rightBorder = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const bottomBorder =
-            (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? getBorderSize() : 0;
+        int const topBorder    = (getBorderSides() & Widget::BORDER_TOP) != 0U ? getBorderSize() : 0;
+        int const rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? getBorderSize() : 0;
+        int const bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? getBorderSize() : 0;
 
         if (isOpaque()) {
             if (active &&
@@ -160,7 +159,7 @@ namespace fcn
 
     Widget* Container::getChild(unsigned int index) const
     {
-        if (index >= static_cast<unsigned int>(getChildrenCount())) {
+        if (std::cmp_greater_equal(index, getChildrenCount())) {
             return nullptr;
         }
 
@@ -707,11 +706,10 @@ namespace fcn
     {
         // Set per-side border offsets.
         // Widgets using side-only borders (e.g. border-bottom only) don't get inset on all sides.
-        int const leftBorder  = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const topBorder   = (getBorderSides() & Widget::BORDER_TOP) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const rightBorder = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? static_cast<int>(getBorderSize()) : 0;
-        int const bottomBorder =
-            (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder   = (getBorderSides() & Widget::BORDER_LEFT) != 0U ? getBorderSize() : 0;
+        int const topBorder    = (getBorderSides() & Widget::BORDER_TOP) != 0U ? getBorderSize() : 0;
+        int const rightBorder  = (getBorderSides() & Widget::BORDER_RIGHT) != 0U ? getBorderSize() : 0;
+        int const bottomBorder = (getBorderSides() & Widget::BORDER_BOTTOM) != 0U ? getBorderSize() : 0;
 
         int const horizontalBorders = leftBorder + rightBorder;
         int const verticalBorders   = topBorder + bottomBorder;

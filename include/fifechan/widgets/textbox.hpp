@@ -215,6 +215,8 @@ namespace fcn
 
             void textInput(TextInputEvent& event) override;
 
+            bool wantsTextInput() const override;
+
             // Inherited from MouseListener
 
             void mousePressed(MouseEvent& mouseEvent) override;

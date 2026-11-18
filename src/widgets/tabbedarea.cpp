@@ -253,13 +253,11 @@ namespace fcn
     Rectangle TabbedArea::getChildrenArea()
     {
         Rectangle rec;
-        int const borderSize = static_cast<int>(getBorderSize());
-        rec.x                = borderSize + static_cast<int>(getPaddingLeft());
-        rec.y                = borderSize + static_cast<int>(getPaddingTop());
-        rec.width =
-            getWidth() - (2 * borderSize) - static_cast<int>(getPaddingLeft()) - static_cast<int>(getPaddingRight());
-        rec.height =
-            getHeight() - (2 * borderSize) - static_cast<int>(getPaddingTop()) - static_cast<int>(getPaddingBottom());
+        int const borderSize = getBorderSize();
+        rec.x                = borderSize + getPaddingLeft();
+        rec.y                = borderSize + getPaddingTop();
+        rec.width            = getWidth() - (2 * borderSize) - getPaddingLeft() - getPaddingRight();
+        rec.height           = getHeight() - (2 * borderSize) - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 

@@ -129,16 +129,18 @@ namespace fcn
         Key const key = keyEvent.getKey();
 
         if (key.getValue() == fcn::Key::LEFT && getCaretPosition() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), getCaretPosition()));
         } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < static_cast<int>(getText().size())) {
-            setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), getCaretPosition()));
         } else if (
-            key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < static_cast<int>(getText().size()) &&
+            mEditable && key.getValue() == fcn::Key::KEY_DELETE &&
+            getCaretPosition() < static_cast<int>(getText().size()) && mText->getNumberOfRows() > 0) {
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), getCaretPosition()));
+        } else if (
+            mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 &&
             mText->getNumberOfRows() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), getCaretPosition()));
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), getCaretPosition()));
         } else if (key.getValue() == fcn::Key::KEY_RETURN) {
             distributeActionEvent();
         } else if (key.getValue() == fcn::Key::HOME) {
@@ -160,7 +162,7 @@ namespace fcn
     void TextField::textInput(TextInputEvent& event)
     {
         std::string const & text = event.getText();
-        if (!text.empty() && mText->getNumberOfRows() > 0) {
+        if (mEditable && !text.empty() && mText->getNumberOfRows() > 0) {
             std::string& row = mText->getRow(0);
             row.insert(static_cast<std::string::size_type>(getCaretPosition()), text);
             setCaretPosition(getCaretPosition() + static_cast<int>(text.size()));
@@ -231,5 +233,10 @@ namespace fcn
     void TextField::setEditable(bool editable)
     {
         mEditable = editable;
+    }
+
+    bool TextField::wantsTextInput() const
+    {
+        return mEditable;
     }
 } // namespace fcn

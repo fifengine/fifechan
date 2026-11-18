@@ -49,7 +49,8 @@ namespace tests::integration::sdl::mdedit
             void cleanup();
             static std::filesystem::path getExecutableDir();
 
-            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, uint64_t flags);
+            static std::shared_ptr<SDL_Window> initWindow(
+                std::string const & title, int width, int height, uint64_t flags);
             static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window);
 
             std::unique_ptr<fcn::Gui> gui;

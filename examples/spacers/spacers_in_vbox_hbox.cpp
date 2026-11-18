@@ -93,7 +93,7 @@ try {
 
         graphics = std::make_unique<fcn::sdl3::Graphics>();
         graphics->setTarget(renderer, 800, 600);
-        input = std::make_unique<fcn::sdl3::Input>();
+        input = std::make_unique<fcn::sdl3::Input>(window);
 
         font = std::make_unique<fcn::ImageFont>(
             "rpgfont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]\"");
@@ -201,6 +201,15 @@ try {
 
     fcn::Widget::resetGlobalFont();
     fcn::Image::resetImageLoader();
+
+    // Tear down the gui and input before the window they refer to is destroyed.
+    gui.reset();
+    top.reset();
+    input.reset();
+    graphics.reset();
+    imageLoader.reset();
+    font.reset();
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

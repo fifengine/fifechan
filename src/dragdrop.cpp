@@ -6,12 +6,13 @@
 
 // Standard library includes
 #include <memory>
+#include <ranges>
 #include <utility>
 
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include <fifechan/color.hpp>
 #include <fifechan/events/dragevent.hpp>
 #include <fifechan/graphics.hpp>
@@ -264,8 +265,7 @@ namespace fcn
         int const childY = y - area.y;
 
         auto const & children = root->getChildren();
-        for (auto iter = children.rbegin(); iter != children.rend(); ++iter) {
-            Widget* const child = *iter;
+        for (Widget* const child : std::ranges::reverse_view(children)) {
             if (child == nullptr) {
                 continue;
             }

@@ -13,7 +13,7 @@
 #include <string>
 #include <utility>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/actionevent.hpp"
 #include "fifechan/events/dragevent.hpp"
@@ -167,14 +167,14 @@ namespace fcn
         Color highlightColor;
         Color shadowColor;
         int const alpha  = getBaseColor().a;
-        int const width  = getWidth() + static_cast<int>(getOutlineSize()) * 2 - 1;
-        int const height = getHeight() + static_cast<int>(getOutlineSize()) * 2 - 1;
+        int const width  = getWidth() + (getOutlineSize() * 2) - 1;
+        int const height = getHeight() + (getOutlineSize() * 2) - 1;
         highlightColor   = outlineColor + getHighlightOffset();
         highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = outlineColor - getShadowOffset();
         shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        for (int i = 0; i < static_cast<int>(getOutlineSize()); ++i) {
+        for (int i = 0; i < getOutlineSize(); ++i) {
             graphics->setColor(shadowColor);
             graphics->drawLine(i, i, width - i, i);
             graphics->drawLine(i, i + 1, i, height - i - 1);
@@ -252,7 +252,7 @@ namespace fcn
         graphics->setColor(getSelectionColor());
 
         // currently border size is used here too, not sure an extra frame size is really needed.
-        for (int i = 0; i < static_cast<int>(getBorderSize()); ++i) {
+        for (int i = 0; i < getBorderSize(); ++i) {
             // would be better but causes problems with OpenGL
             // graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
             graphics->drawLine(i, i, width - i, i);

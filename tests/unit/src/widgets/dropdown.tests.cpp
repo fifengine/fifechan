@@ -13,14 +13,20 @@
 // Project headers
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/keyevent.hpp"
+#include "fifechan/genericinput.hpp"
+#include "fifechan/gui.hpp"
 #include "fifechan/key.hpp"
 #include "fifechan/listmodel.hpp"
+#include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/dropdown.hpp"
 #include "fifechan/widgets/listbox.hpp"
 #include "fifechan/widgets/scrollarea.hpp"
 
+using fcn::Container;
 using fcn::DefaultFont;
 using fcn::DropDown;
+using fcn::GenericInput;
+using fcn::Gui;
 using fcn::Key;
 using fcn::KeyEvent;
 using fcn::ListBox;
@@ -247,4 +253,56 @@ TEST_CASE("DropDown resizeToContent", "[unit][dropdown]")
 
     dropdown.resizeToContent();
     REQUIRE(true);
+}
+
+// ============================================================================
+// Mouse interaction through Gui
+// ============================================================================
+
+TEST_CASE("DropDown selects an item clicked in the opened list", "[unit][dropdown][gui]")
+{
+    TestListModel model;
+    model.mItems = {"zero", "one", "two", "three", "four"};
+
+    DefaultFont font;
+    Container top;
+    top.setDimension(fcn::Rectangle(0, 0, 640, 480));
+
+    ScrollArea scrollArea;
+    ListBox listBox;
+    DropDown dropdown(&model, &scrollArea, &listBox);
+    dropdown.setFont(&font);
+    listBox.setFont(&font);
+    dropdown.setWidth(220);
+    dropdown.adjustSize();
+    top.add(&dropdown, 10, 10);
+
+    Gui gui;
+    gui.setTop(&top);
+    gui.setInput(std::make_unique<GenericInput>());
+    auto* const input = static_cast<GenericInput*>(gui.getInput());
+
+    auto press = [&](int x, int y) {
+        input->pushMouseButtonPressed(x, y, 1);
+        gui.logic();
+    };
+    auto release = [&](int x, int y) {
+        input->pushMouseButtonReleased(x, y, 1);
+        gui.logic();
+    };
+
+    // Open the drop down.
+    press(15, 15);
+    release(15, 15);
+
+    // Click the second row of the opened list.
+    int listBoxX = 0;
+    int listBoxY = 0;
+    listBox.getAbsolutePosition(listBoxX, listBoxY);
+    int const row   = 1;
+    int const itemY = listBoxY + (row * listBox.getRowHeight()) + (listBox.getRowHeight() / 2);
+    press(listBoxX + 5, itemY);
+    release(listBoxX + 5, itemY);
+
+    REQUIRE(dropdown.getSelected() == row);
 }

@@ -16,7 +16,7 @@
 // SDL main entry point (provides WinMain on Windows) - must be in the file with main()
 #include <SDL3/SDL_main.h>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fpsdemo.hpp"
 
 int main(int /*argc*/, char** /*argv*/)

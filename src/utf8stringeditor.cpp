@@ -78,8 +78,9 @@ namespace fcn
         cut = newText.begin() + static_cast<std::ptrdiff_t>(byteOffset);
         utf8::next(cut, newText.end());
         newText.erase(cut, newText.end());
-        int newOffset = static_cast<int>(newText.size());
-        text          = newText + text.substr(static_cast<std::size_t>(byteOffset));
+        int const newOffset = static_cast<int>(newText.size());
+
+        text = newText + text.substr(static_cast<std::size_t>(byteOffset));
 
         assert("result is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 

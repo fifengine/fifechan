@@ -69,7 +69,8 @@ namespace tests::integration::sdl::speechbubble
             void showInstructions();
             void clearPage();
 
-            static std::shared_ptr<SDL_Window> initWindow(std::string const & title, int width, int height, uint64_t flags);
+            static std::shared_ptr<SDL_Window> initWindow(
+                std::string const & title, int width, int height, uint64_t flags);
             static std::shared_ptr<SDL_Renderer> initRenderer(std::shared_ptr<SDL_Window> const & window);
 
             bool running{true};

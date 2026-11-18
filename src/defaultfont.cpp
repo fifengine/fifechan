@@ -9,7 +9,7 @@
 #include <memory>
 #include <string>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 
 // Third-party library includes
@@ -30,6 +30,9 @@ namespace fcn
     int DefaultFont::getStringIndexAt(std::string_view text, int x) const
     {
         int const glyphWidth = getWidth(" ");
+        if (x < 0) {
+            return 0;
+        }
         if (x > static_cast<int>(text.size()) * glyphWidth) {
             return static_cast<int>(text.size());
         }

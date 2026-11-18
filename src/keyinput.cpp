@@ -8,7 +8,7 @@
 // Standard library includes
 #include <cassert>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/key.hpp"
 
 namespace fcn

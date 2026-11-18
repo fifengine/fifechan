@@ -144,7 +144,7 @@ namespace
 
 TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][image][colorkey]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -159,26 +159,26 @@ TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][ima
 
     // Test that magenta pixels have alpha=0 after color key conversion
     // Position (0,0) was magenta, should now be transparent
-    fcn::Color pixel00 = image.getPixel(0, 0);
+    fcn::Color const pixel00 = image.getPixel(0, 0);
     REQUIRE(pixel00.a == 0); // Alpha should be 0 for transparent
 
     // Position (1,0) was red, should remain fully opaque
-    fcn::Color pixel10 = image.getPixel(1, 0);
+    fcn::Color const pixel10 = image.getPixel(1, 0);
     CHECK(pixel10.r == RED_R);
     CHECK(pixel10.g == RED_G);
     CHECK(pixel10.b == RED_B);
     REQUIRE(pixel10.a == 255); // Alpha should remain 255 for non-magenta
 
     // Position (1,1) was magenta, should be transparent
-    fcn::Color pixel11 = image.getPixel(1, 1);
+    fcn::Color const pixel11 = image.getPixel(1, 1);
     REQUIRE(pixel11.a == 0); // Alpha should be 0 for transparent
 
     // Position (2,1) was magenta, should be transparent
-    fcn::Color pixel21 = image.getPixel(2, 1);
+    fcn::Color const pixel21 = image.getPixel(2, 1);
     REQUIRE(pixel21.a == 0); // Alpha should be 0 for transparent
 
     // Position (0,2) was blue, should remain fully opaque
-    fcn::Color pixel02 = image.getPixel(0, 2);
+    fcn::Color const pixel02 = image.getPixel(0, 2);
     CHECK(pixel02.r == BLUE_R);
     CHECK(pixel02.g == BLUE_G);
     CHECK(pixel02.b == BLUE_B);
@@ -187,7 +187,7 @@ TEST_CASE("Image color key conversion: magenta becomes transparent", "[unit][ima
 
 TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][convert]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -200,7 +200,7 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
     REQUIRE(originalTexture != nullptr);
 
     // Verify magenta pixel is transparent before conversion
-    fcn::Color pixelBefore = image.getPixel(0, 0);
+    fcn::Color const pixelBefore = image.getPixel(0, 0);
     REQUIRE(pixelBefore.a == 0); // Should be transparent
 
     // Perform convertToDisplayFormat
@@ -211,13 +211,13 @@ TEST_CASE("Image convertToDisplayFormat() regenerates texture", "[unit][image][c
     REQUIRE(newTexture != nullptr);
 
     // The pixel should still be transparent after conversion
-    fcn::Color pixelAfter = image.getPixel(0, 0);
+    fcn::Color const pixelAfter = image.getPixel(0, 0);
     REQUIRE(pixelAfter.a == 0); // Should still be transparent
 }
 
 TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[unit][image][transient]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     SDL_Surface* surfaceWithColorKey = createTestSurfaceWithColorKey();
     REQUIRE(surfaceWithColorKey != nullptr);
@@ -233,18 +233,18 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
     float texWFloat = 0;
     float texHFloat = 0;
     SDL_GetTextureSize(texture, &texWFloat, &texHFloat);
-    int texW = static_cast<int>(texWFloat);
-    int texH = static_cast<int>(texHFloat);
+    int const texW = static_cast<int>(texWFloat);
+    int const texH = static_cast<int>(texHFloat);
     REQUIRE(texW == TEST_IMAGE_WIDTH);
     REQUIRE(texH == TEST_IMAGE_HEIGHT);
 
     // getPixel reads from transient surface
     // Position (0,0) was magenta in original, should be transparent
-    fcn::Color pixel00 = image.getPixel(0, 0);
+    fcn::Color const pixel00 = image.getPixel(0, 0);
     REQUIRE(pixel00.a == 0); // Converted to transparent
 
     // Position (1,0) was red, should remain opaque
-    fcn::Color pixel10 = image.getPixel(1, 0);
+    fcn::Color const pixel10 = image.getPixel(1, 0);
     CHECK(pixel10.r == RED_R);
     CHECK(pixel10.g == RED_G);
     CHECK(pixel10.b == RED_B);
@@ -253,7 +253,7 @@ TEST_CASE("Image getPixel() reads from transient surface vs getTexture()", "[uni
 
 TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Look for RPG font in common locations
     // The test runs from the build directory, look in tests/resources/
@@ -264,7 +264,7 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
     };
 
     std::filesystem::path fontPath;
-    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+    auto it = std::ranges::find_if(searchPaths, [](std::filesystem::path const & p) {
         return std::filesystem::exists(p);
     });
     if (it != searchPaths.end()) {
@@ -295,7 +295,7 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
     // Scan the image for magenta pixels
     for (int y = 0; y < image->getHeight() && y < 50; ++y) {
         for (int x = 0; x < image->getWidth() && x < 50; ++x) {
-            fcn::Color pixel = image->getPixel(x, y);
+            fcn::Color const pixel = image->getPixel(x, y);
 
             // Check if this is magenta color key
             if (pixel.r == 255 && pixel.g == 0 && pixel.b == 255) {
@@ -315,7 +315,7 @@ TEST_CASE("Image loads font image with magenta color key", "[unit][image][font]"
 
 TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Create a test surface WITHOUT magenta and WITHOUT color key
     // Using only RGB colors (no transparency key)
@@ -363,20 +363,20 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     REQUIRE(image.getHeight() == TEST_IMAGE_HEIGHT);
 
     // Pixel (0,0) was red - verify we can read the RAW color
-    fcn::Color pixel00 = image.getPixel(0, 0);
+    fcn::Color const pixel00 = image.getPixel(0, 0);
     CHECK(pixel00.r == 255);
     CHECK(pixel00.g == 0);
     CHECK(pixel00.b == 0);
     CHECK(pixel00.a == 255);
 
     // Pixel (1,0) was green
-    fcn::Color pixel10 = image.getPixel(1, 0);
+    fcn::Color const pixel10 = image.getPixel(1, 0);
     CHECK(pixel10.r == 0);
     CHECK(pixel10.g == 255);
     CHECK(pixel10.b == 0);
 
     // Pixel (2,0) was blue
-    fcn::Color pixel20 = image.getPixel(2, 0);
+    fcn::Color const pixel20 = image.getPixel(2, 0);
     CHECK(pixel20.r == 0);
     CHECK(pixel20.g == 0);
     CHECK(pixel20.b == 255);
@@ -384,7 +384,7 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
     // Pixel (1,1) was magenta - this is the key test!
     // Without color key, magenta should NOT become transparent
     // it should remain fully opaque
-    fcn::Color pixel11 = image.getPixel(1, 1);
+    fcn::Color const pixel11 = image.getPixel(1, 1);
     CHECK(pixel11.r == 255);
     CHECK(pixel11.g == 0);
     CHECK(pixel11.b == 255);
@@ -393,7 +393,7 @@ TEST_CASE("Image pixel access without magenta color key", "[unit][image][pixel]"
 
 TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][font][bmp]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Look for fixedfont BMP in common locations
     std::vector<std::filesystem::path> searchPaths = {
@@ -403,7 +403,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
     };
 
     std::filesystem::path fontPath;
-    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+    auto it = std::ranges::find_if(searchPaths, [](std::filesystem::path const & p) {
         return std::filesystem::exists(p);
     });
     if (it != searchPaths.end()) {
@@ -428,7 +428,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
 
     // Read the first pixel - this is the separator color for font glyphs
     // It should NOT be transparent (alpha=0)
-    fcn::Color sepPixel = image->getPixel(0, 0);
+    fcn::Color const sepPixel = image->getPixel(0, 0);
     CHECK(sepPixel.a == 255); // Should be fully opaque, not transparent
 
     // Verify we can read at least some pixel values
@@ -436,7 +436,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
     bool canReadPixels = false;
     for (int y = 0; y < image->getHeight() && y < 5; ++y) {
         for (int x = 0; x < image->getWidth() && x < 5; ++x) {
-            fcn::Color pixel = image->getPixel(x, y);
+            fcn::Color const pixel = image->getPixel(x, y);
             // If we can read any pixel without exception, it's working
             canReadPixels = true;
             // All pixels should be readable
@@ -453,7 +453,7 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
 
 TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][font][png]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Look for rpgfont PNG in common locations
     std::vector<std::filesystem::path> searchPaths = {
@@ -464,7 +464,7 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
     };
 
     std::filesystem::path fontPath;
-    auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+    auto it = std::ranges::find_if(searchPaths, [](std::filesystem::path const & p) {
         return std::filesystem::exists(p);
     });
     if (it != searchPaths.end()) {
@@ -489,7 +489,7 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
 
     // Read the first pixel - this is the separator color for font glyphs
     // It should NOT be transparent (alpha=0) when loaded without convertToDisplayFormat
-    fcn::Color sepPixel = image->getPixel(0, 0);
+    fcn::Color const sepPixel = image->getPixel(0, 0);
     CHECK(sepPixel.a == 255); // Should be fully opaque, not transparent
 
     // Verify we can read at least some pixel values
@@ -497,7 +497,7 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
     bool canReadPixels = false;
     for (int y = 0; y < image->getHeight() && y < 5; ++y) {
         for (int x = 0; x < image->getWidth() && x < 5; ++x) {
-            fcn::Color pixel = image->getPixel(x, y);
+            fcn::Color const pixel = image->getPixel(x, y);
             // If we can read any pixel without exception, it's working
             canReadPixels = true;
             // All pixels should be readable

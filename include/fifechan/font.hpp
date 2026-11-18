@@ -128,7 +128,7 @@ namespace fcn
              * @param x The x coordinate where to draw the string.
              * @param y The y coordinate where to draw the string.
              */
-            void drawString(Graphics* graphics, std::string_view text, int x, int y) const;
+            virtual void drawString(Graphics* graphics, std::string_view text, int x, int y) const;
 
         protected:
             Font() = default;

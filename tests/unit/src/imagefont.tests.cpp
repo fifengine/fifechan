@@ -4,7 +4,10 @@
 // Standard library includes
 #include <algorithm>
 #include <filesystem>
+#include <memory>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Third-party library includes
@@ -14,10 +17,12 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/backends/sdl3/graphics.hpp"
 #include "fifechan/backends/sdl3/image.hpp"
 #include "fifechan/backends/sdl3/imageloader.hpp"
+#include "fifechan/color.hpp"
+#include "fifechan/image.hpp"
 #include "fifechan/imagefont.hpp"
 
 namespace
@@ -76,6 +81,61 @@ namespace
             fcn::sdl3::ImageLoader* mImageLoader = nullptr;
     };
 
+    // Emulates backends (such as OpenGL) that discard the CPU pixel buffer
+    // once an image has been converted to display format.
+    class CachelessImage : public fcn::Image
+    {
+        public:
+            CachelessImage(int width, int height, std::vector<fcn::Color> pixels) :
+                mWidth(width), mHeight(height), mPixels(std::move(pixels))
+            {
+            }
+
+            void free() override
+            {
+                mPixels.clear();
+            }
+
+            int getWidth() const override
+            {
+                return mWidth;
+            }
+
+            int getHeight() const override
+            {
+                return mHeight;
+            }
+
+            fcn::Color getPixel(int x, int y) override
+            {
+                if (mPixels.empty()) {
+                    throw std::runtime_error("Image has been converted to display format");
+                }
+                return mPixels.at(
+                    (static_cast<std::size_t>(y) * static_cast<std::size_t>(mWidth)) + static_cast<std::size_t>(x));
+            }
+
+            void putPixel(int x, int y, fcn::Color const & color) override
+            {
+                if (mPixels.empty()) {
+                    throw std::runtime_error("Image has been converted to display format");
+                }
+                mPixels.at(
+                    (static_cast<std::size_t>(y) * static_cast<std::size_t>(mWidth)) + static_cast<std::size_t>(x)) =
+                    color;
+            }
+
+            void convertToDisplayFormat() override
+            {
+                mPixels.clear();
+            }
+
+        private:
+            int mWidth;
+            int mHeight;
+            std::vector<fcn::Color> mPixels;
+    };
+
     // Find font resource in common test locations
     std::filesystem::path findFontResource(std::string const & fontName)
     {
@@ -85,7 +145,7 @@ namespace
             std::filesystem::path("./tests/resources") / fontName,
         };
 
-        auto it = std::find_if(searchPaths.begin(), searchPaths.end(), [](std::filesystem::path const & p) {
+        auto it = std::ranges::find_if(searchPaths, [](std::filesystem::path const & p) {
             return std::filesystem::exists(p);
         });
         if (it != searchPaths.end()) {
@@ -112,7 +172,7 @@ namespace
 
 TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][imagefont][construction]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Find rpgfont.png (typical test font with clear glyphs)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -143,7 +203,7 @@ TEST_CASE("ImageFont construction with valid font image scans glyphs", "[unit][i
 
 TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[unit][imagefont][glyphs]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     // Find rpgfont.png (contains: space + alphanumeric + punctuation)
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
@@ -183,7 +243,7 @@ TEST_CASE("ImageFont constructor loads font and extracts glyph coordinates", "[u
 
 TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagefont][width]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -234,7 +294,7 @@ TEST_CASE("ImageFont getWidth returns correct values for glyphs", "[unit][imagef
 
 TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][height]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -268,7 +328,7 @@ TEST_CASE("ImageFont getHeight returns correct values", "[unit][imagefont][heigh
 
 TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -312,9 +372,106 @@ TEST_CASE("ImageFont glyph spacing can be modified", "[unit][imagefont][spacing]
     CHECK(widthAtTwo - widthAtZero == 2);
 }
 
+TEST_CASE("ImageFont getWidth handles empty string_view", "[unit][imagefont][width][empty]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    // getWidth with empty string should return -mGlyphSpacing (which is 0 by default)
+    int const emptyWidth = font.getWidth(std::string_view{});
+    CHECK(emptyWidth == 0);
+}
+
+TEST_CASE("ImageFont setRowSpacing and getRowSpacing edge cases", "[unit][imagefont][spacing][edge]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    // Set negative row spacing
+    font.setRowSpacing(-5);
+    CHECK(font.getRowSpacing() == -5);
+
+    // Set zero row spacing
+    font.setRowSpacing(0);
+    CHECK(font.getRowSpacing() == 0);
+
+    // Set large row spacing
+    font.setRowSpacing(100);
+    CHECK(font.getRowSpacing() == 100);
+}
+
+TEST_CASE("ImageFont setGlyphSpacing and getGlyphSpacing edge cases", "[unit][imagefont][spacing][edge2]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    // Set negative glyph spacing
+    font.setGlyphSpacing(-3);
+    CHECK(font.getGlyphSpacing() == -3);
+
+    // Set zero glyph spacing
+    font.setGlyphSpacing(0);
+    CHECK(font.getGlyphSpacing() == 0);
+
+    // Set large glyph spacing
+    font.setGlyphSpacing(50);
+    CHECK(font.getGlyphSpacing() == 50);
+}
+
 TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagefont][draw]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -368,7 +525,7 @@ TEST_CASE("ImageFont drawGlyph uses correct texture coordinates", "[unit][imagef
 
 TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][render]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -397,7 +554,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
     // Draw a string, this internally calls drawGlyph for each character
     std::string const testString = "Hello";
     int expectedX                = 10;
-    int expectedY                = 20;
+    int const expectedY          = 20;
 
     for (char const c : testString) {
         int const drawnWidth = font.drawGlyph(&graphics, static_cast<unsigned char>(c), expectedX, expectedY);
@@ -416,7 +573,7 @@ TEST_CASE("ImageFont renders multiple glyphs in sequence", "[unit][imagefont][re
 
 TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][nozero]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -433,7 +590,7 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
     fcn::ImageFont font(fontPath.string(), glyphs);
 
     for (char const c : glyphs) {
-        std::string infoMsg(1, c);
+        std::string const infoMsg(1, c);
         INFO("Glyph: " << infoMsg);
         CHECK(static_cast<int>(font.getWidth(static_cast<unsigned char>(c))) > 0);
     }
@@ -441,7 +598,7 @@ TEST_CASE("ImageFont scanned glyphs have non-zero widths", "[unit][imagefont][no
 
 TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][imageptr]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -460,8 +617,8 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
     REQUIRE(fontImage != nullptr);
 
     // Create ImageFont from Image pointer
-    std::string const glyphs = " ABC";
-    fcn::ImageFont* font     = nullptr;
+    std::string const glyphs    = " ABC";
+    fcn::ImageFont const * font = nullptr;
 
     REQUIRE_NOTHROW(font = new fcn::ImageFont(fontImage, glyphs));
 
@@ -469,13 +626,22 @@ TEST_CASE("ImageFont constructor with Image* loads font", "[unit][imagefont][ima
     CHECK(font->getWidth('A') > 0);
     CHECK(font->getHeight() > 0);
 
+    // The Image* constructor must map glyphs by their actual character codes,
+    // matching the file-based constructor for the same image and glyph string.
+    fcn::ImageFont const fileFont(fontPath.string(), glyphs);
+    for (char const glyph : glyphs) {
+        INFO("Glyph: " << glyph);
+        CHECK(
+            font->getWidth(static_cast<unsigned char>(glyph)) == fileFont.getWidth(static_cast<unsigned char>(glyph)));
+    }
+
     // Clean up, ImageFont takes ownership of the image
     delete font;
 }
 
 TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstring]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -518,9 +684,101 @@ TEST_CASE("ImageFont drawString draws entire string", "[unit][imagefont][drawstr
     graphics._endDraw();
 }
 
+TEST_CASE(
+    "ImageFont drawString preserves atlas colours instead of tinting with the Graphics colour",
+    "[unit][imagefont][drawstring][colour]")
+{
+    SDLEnvironment const env;
+
+    // A one-pixel white glyph in a magenta-separated atlas.
+    constexpr int imageWidth  = 3;
+    constexpr int imageHeight = 1;
+
+    fcn::Color const separator(255, 0, 255, 255);
+    fcn::Color const glyphColor(255, 255, 255, 255);
+
+    std::vector<fcn::Color> pixels(static_cast<std::size_t>(imageWidth) * imageHeight, separator);
+    pixels.at(1) = glyphColor;
+
+    auto* const image = new CachelessImage(imageWidth, imageHeight, std::move(pixels));
+    fcn::ImageFont const font(image, "A");
+    REQUIRE(font.getWidth("A") == 1);
+    REQUIRE(font.getHeight() == 1);
+
+    constexpr int targetSize = 4;
+    SDL_Texture* target =
+        SDL_CreateTexture(env.mRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, targetSize, targetSize);
+    REQUIRE(target != nullptr);
+    REQUIRE(SDL_SetRenderTarget(env.mRenderer, target));
+
+    SDL_SetRenderDrawColor(env.mRenderer, 0, 0, 0, 255);
+    REQUIRE(SDL_RenderClear(env.mRenderer));
+
+    fcn::sdl3::Graphics graphics;
+    graphics.setTarget(env.mRenderer, targetSize, targetSize);
+    graphics._beginDraw();
+
+    // Widget text normally sets the foreground colour before drawing. Image
+    // fonts must ignore that and keep the colours stored in their atlas.
+    graphics.setColor(fcn::Color(0, 0, 0, 255));
+    font.drawString(&graphics, "A", 1, 1);
+
+    // The temporary white modulation colour must be restored afterwards.
+    CHECK(graphics.getColor() == fcn::Color(0, 0, 0, 255));
+
+    graphics._endDraw();
+
+    Uint8 red             = 0;
+    Uint8 green           = 0;
+    Uint8 blue            = 0;
+    Uint8 alpha           = 0;
+    SDL_Surface* readback = SDL_RenderReadPixels(env.mRenderer, nullptr);
+    REQUIRE(readback != nullptr);
+    REQUIRE(SDL_ReadSurfacePixel(readback, 1, 1, &red, &green, &blue, &alpha));
+    SDL_DestroySurface(readback);
+
+    CHECK(red > 200);
+    CHECK(green > 200);
+    CHECK(blue > 200);
+    CHECK(alpha > 0);
+
+    SDL_SetRenderTarget(env.mRenderer, nullptr);
+    SDL_DestroyTexture(target);
+}
+
+TEST_CASE("ImageFont getWidth with string_view containing unknown chars", "[unit][imagefont][width][unknown_chars]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    std::string const glyphs = "ABC";
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    // String with known chars should work
+    int const knownWidth = font.getWidth(std::string_view("ABC"));
+    CHECK(knownWidth > 0);
+
+    // String with unknown chars should still compute width (using space for unknown)
+    int const mixedWidth = font.getWidth(std::string_view("ABX")); // X is unknown
+    CHECK(mixedWidth > 0);
+}
+
 TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unknown]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -561,9 +819,45 @@ TEST_CASE("ImageFont handles unknown glyph gracefully", "[unit][imagefont][unkno
     graphics._endDraw();
 }
 
+TEST_CASE("ImageFont drawGlyph uses space width for zero-width glyph", "[unit][imagefont][draw][zerowidth]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    // Create SDL Graphics for drawing
+    fcn::sdl3::Graphics graphics;
+    graphics.setTarget(env.mRenderer, 256, 256);
+    graphics._beginDraw();
+
+    // Draw a glyph that has zero width (should fall back to space width)
+    // Using character code 1 which is unlikely to be in the font
+    int const drawnWidth = font.drawGlyph(&graphics, static_cast<unsigned char>(1), 10, 10);
+    // Unknown glyphs should use space width
+    CHECK(drawnWidth == font.getWidth(' '));
+
+    graphics._endDraw();
+}
+
 TEST_CASE("ImageFont getStringIndexAt finds correct index", "[unit][imagefont][index]")
 {
-    SDLEnvironment env;
+    SDLEnvironment const env;
 
     std::filesystem::path fontPath = findFontResource("rpgfont.png");
     if (fontPath.empty()) {
@@ -595,4 +889,117 @@ TEST_CASE("ImageFont getStringIndexAt finds correct index", "[unit][imagefont][i
 
     int const totalWidth = font.getWidth(testString);
     CHECK(font.getStringIndexAt(testString, totalWidth) == 3);
+}
+
+TEST_CASE("ImageFont getStringIndexAt handles x beyond total width", "[unit][imagefont][index][beyond]")
+{
+    SDLEnvironment const env;
+
+    std::filesystem::path fontPath = findFontResource("rpgfont.png");
+    if (fontPath.empty()) {
+        fontPath = findFontResource("fixedfont.bmp");
+    }
+
+    if (fontPath.empty()) {
+        SKIP("Font image not found");
+    }
+
+    // Use BorderDominant to automatically detect separator color (white)
+    fcn::ImageFontConfig cfg;
+    cfg.strategy     = fcn::SeparatorStrategy::BorderDominant;
+    cfg.glyphPadding = 0;
+
+    // Use the appropriate glyph string for the font being loaded
+    std::string const glyphs = getGlyphString(fontPath);
+    fcn::ImageFont font(fontPath.string(), glyphs, cfg);
+
+    std::string const testString = "ABC";
+
+    // Requesting index beyond total width should return text.size()
+    int beyondWidth = font.getWidth(testString) + 100;
+    CHECK(font.getStringIndexAt(testString, beyondWidth) == static_cast<int>(testString.size()));
+
+    // Requesting index at negative position should return 0
+    CHECK(font.getStringIndexAt(testString, -1) == 0);
+}
+
+TEST_CASE("ImageFont renderToSurface works after the source pixels are discarded", "[unit][imagefont][render]")
+{
+    constexpr int glyphWidth  = 2;
+    constexpr int glyphHeight = 3;
+    constexpr int gap         = 1;
+    constexpr int glyphCount  = 4;
+    constexpr int imageWidth  = (glyphCount * glyphWidth) + ((glyphCount + 1) * gap);
+
+    fcn::Color const separator(255, 0, 255, 255);
+    fcn::Color const glyphColor(255, 255, 255, 255);
+
+    std::vector<fcn::Color> pixels(
+        static_cast<std::size_t>(imageWidth) * static_cast<std::size_t>(glyphHeight), separator);
+
+    for (int glyph = 0; glyph < glyphCount; ++glyph) {
+        int const startX = gap + (glyph * (glyphWidth + gap));
+        for (int y = 0; y < glyphHeight; ++y) {
+            for (int x = 0; x < glyphWidth; ++x) {
+                pixels.at(
+                    (static_cast<std::size_t>(y) * static_cast<std::size_t>(imageWidth)) +
+                    static_cast<std::size_t>(startX + x)) = glyphColor;
+            }
+        }
+    }
+
+    auto* const image = new CachelessImage(imageWidth, glyphHeight, std::move(pixels));
+    fcn::ImageFont const font(image, " ABC");
+
+    auto surface = font.renderToSurface("ABC");
+    REQUIRE(surface != nullptr);
+    CHECK(surface->w == font.getWidth("ABC"));
+    CHECK(surface->h == font.getHeight());
+
+    REQUIRE(SDL_LockSurface(surface.get()));
+    auto const * const renderedPixels = static_cast<Uint32 const *>(surface->pixels);
+    bool hasVisiblePixel              = false;
+    int const pixelCount              = surface->h * (surface->pitch / static_cast<int>(sizeof(Uint32)));
+    for (int i = 0; i < pixelCount; ++i) {
+        if (renderedPixels[i] != 0) {
+            hasVisiblePixel = true;
+            break;
+        }
+    }
+    SDL_UnlockSurface(surface.get());
+
+    CHECK(hasVisiblePixel);
+}
+
+TEST_CASE("ImageFont renderToSurface returns nullptr for empty string", "[unit][imagefont][render][empty]")
+{
+    constexpr int glyphWidth  = 2;
+    constexpr int glyphHeight = 3;
+    constexpr int gap         = 1;
+    constexpr int glyphCount  = 4;
+    constexpr int imageWidth  = (glyphCount * glyphWidth) + ((glyphCount + 1) * gap);
+
+    fcn::Color const separator(255, 0, 255, 255);
+    fcn::Color const glyphColor(255, 255, 255, 255);
+
+    std::vector<fcn::Color> pixels(
+        static_cast<std::size_t>(imageWidth) * static_cast<std::size_t>(glyphHeight), separator);
+
+    for (int glyph = 0; glyph < glyphCount; ++glyph) {
+        int const startX = gap + (glyph * (glyphWidth + gap));
+        for (int y = 0; y < glyphHeight; ++y) {
+            for (int x = 0; x < glyphWidth; ++x) {
+                pixels.at(
+                    (static_cast<std::size_t>(y) * static_cast<std::size_t>(imageWidth)) +
+                    static_cast<std::size_t>(startX + x)) = glyphColor;
+            }
+        }
+    }
+
+    auto* const image = new CachelessImage(imageWidth, glyphHeight, std::move(pixels));
+    fcn::ImageFont const font(image, " ABC");
+
+    // Rendering empty string should return nullptr
+    auto surface = font.renderToSurface("");
+    REQUIRE(surface == nullptr);
 }

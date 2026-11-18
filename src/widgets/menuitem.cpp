@@ -289,7 +289,7 @@ namespace fcn
             contentH            = std::max(contentH, iconFontH);
         }
         // Add vertical padding (top + bottom)
-        int const vpad = static_cast<int>(getPaddingTop()) + static_cast<int>(getPaddingBottom());
+        int const vpad = getPaddingTop() + getPaddingBottom();
         m.height       = contentH + vpad;
 
         return m;

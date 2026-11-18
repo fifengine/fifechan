@@ -54,6 +54,8 @@ FPSDemo::FPSDemo() :
     mAudioAvailable(false),
     mWidth(800),
     mHeight(600),
+    mWindowedWidth(800),
+    mWindowedHeight(600),
     mRotation(0),
     mGlow(0),
     mDeltaTime(0),
@@ -211,7 +213,7 @@ void FPSDemo::initGui()
     fcn::Image::setImageLoader(mOpenGLImageLoader.get());
     mOpenGLGraphics = std::make_unique<fcn::opengl::Graphics>();
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
-    mSDLInput = std::make_unique<fcn::sdl3::Input>();
+    mSDLInput = std::make_unique<fcn::sdl3::Input>(window);
 
     mTop = std::make_unique<fcn::Container>();
     mTop->setOpaque(false);
@@ -546,13 +548,16 @@ void FPSDemo::initOptions()
     mResolution->setBaseColor(fcn::Color(0x771010));
     mResolution->setSelectionColor(fcn::Color(0x552020));
 
-    if (mWidth == 800) {
+    if (mWindowedWidth == 800 && mWindowedHeight == 600) {
         mResolution->setSelected(1);
     } else {
         mResolution->setSelected(0);
     }
     mResolution->setActionEventId("resolution");
     mResolution->addActionListener(this);
+    // In fullscreen the drawable/desktop size is used, so the windowed
+    // resolution selection only applies while not fullscreen.
+    mResolution->setEnabled(!mHaveFullscreen);
     mOptions->add(mResolution.get());
 
     mVolume = std::make_unique<fcn::Slider>(0.0, 1.0);
@@ -605,7 +610,8 @@ void FPSDemo::cleanOptions()
 
 void FPSDemo::loadTextures()
 {
-    fcn::OpenGLImage* image = nullptr;
+    fcn::OpenGLImage const * image = nullptr;
+
     // Load textures with the OpenGLImageLoader from Guichan
     mCloudImage   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cloudsblackwhite.png"));
     image         = dynamic_cast<fcn::OpenGLImage*>(mCloudImage.get());
@@ -786,7 +792,7 @@ void FPSDemo::runIntro()
 
     if (mAudioAvailable && mMusicAudio != nullptr && mMusicTrack != nullptr) {
         MIX_SetTrackAudio(mMusicTrack, mMusicAudio);
-        SDL_PropertiesID musicProps = SDL_CreateProperties();
+        SDL_PropertiesID const musicProps = SDL_CreateProperties();
         SDL_SetNumberProperty(musicProps, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
         SDL_SetNumberProperty(musicProps, MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER, 2000);
         MIX_PlayTrack(mMusicTrack, musicProps);
@@ -806,6 +812,7 @@ void FPSDemo::runMain()
             SDL_GL_SwapWindow(window);
             cleanGui();
             initGui();
+            initOpenGL();
             resize();
             mResolutionChange = false;
         }
@@ -850,6 +857,18 @@ void FPSDemo::input()
             }
         } else if (mEvent.type == SDL_EVENT_QUIT) {
             mRunning = false;
+        } else if (mEvent.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED || mEvent.type == SDL_EVENT_WINDOW_RESIZED) {
+            // Window systems may apply fullscreen/resize changes
+            // asynchronously, so react to the reported drawable size rather
+            // than assuming the size immediately after the request.
+            int drawableWidth  = 0;
+            int drawableHeight = 0;
+            if (SDL_GetWindowSizeInPixels(window, &drawableWidth, &drawableHeight) && drawableWidth > 0 &&
+                drawableHeight > 0 && (drawableWidth != mWidth || drawableHeight != mHeight)) {
+                mWidth            = drawableWidth;
+                mHeight           = drawableHeight;
+                mResolutionChange = true;
+            }
         } else if (
             mEvent.type == SDL_EVENT_MOUSE_MOTION || mEvent.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
             mEvent.type == SDL_EVENT_MOUSE_BUTTON_UP) {
@@ -921,23 +940,46 @@ void FPSDemo::action(fcn::ActionEvent const & actionEvent)
 void FPSDemo::initVideo()
 {
     if (mResolution->getSelected() == 0) {
-        mWidth            = 1024;
-        mHeight           = 768;
-        mResolutionChange = true;
+        mWindowedWidth  = 1024;
+        mWindowedHeight = 768;
     } else if (mResolution->getSelected() == 1) {
-        mWidth            = 800;
-        mHeight           = 600;
-        mResolutionChange = true;
+        mWindowedWidth  = 800;
+        mWindowedHeight = 600;
     }
+
+    int const requestedWidth  = mWindowedWidth;
+    int const requestedHeight = mWindowedHeight;
+
     if (mFullScreen->isSelected()) {
-        SDL_SetWindowSize(window, mWidth, mHeight);
-        SDL_SetWindowFullscreen(window, true);
         mHaveFullscreen = true;
+        SDL_SetWindowFullscreen(window, true);
     } else {
         mHaveFullscreen = false;
         SDL_SetWindowFullscreen(window, false);
-        SDL_SetWindowSize(window, mWidth, mHeight);
+        SDL_SetWindowSize(window, requestedWidth, requestedHeight);
     }
+
+    // Apply pending window changes before querying the size, otherwise the
+    // drawable can still report the old dimensions.
+    SDL_SyncWindow(window);
+
+    // Fullscreen uses the display resolution, which can differ from the
+    // requested resolution. Always drive the viewport and GUI from the real
+    // drawable size so the content fills the whole window.
+    int drawableWidth  = 0;
+    int drawableHeight = 0;
+    if (!SDL_GetWindowSizeInPixels(window, &drawableWidth, &drawableHeight) || drawableWidth <= 0 ||
+        drawableHeight <= 0) {
+        if (!SDL_GetWindowSize(window, &drawableWidth, &drawableHeight) || drawableWidth <= 0 || drawableHeight <= 0) {
+            drawableWidth  = requestedWidth;
+            drawableHeight = requestedHeight;
+        }
+    }
+
+    mWidth            = drawableWidth;
+    mHeight           = drawableHeight;
+    mResolutionChange = true;
+
     mOpenGLGraphics->setTargetPlane(mWidth, mHeight);
     initOpenGL();
 }

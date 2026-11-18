@@ -15,7 +15,9 @@ set(UNIT_TEST_SOURCES
   src/genericinput.tests.cpp
   src/graphics.tests.cpp
   src/gui.tests.cpp
+  src/gui_textinput.tests.cpp
   src/image.tests.cpp
+  src/point.tests.cpp
   src/rectangle.tests.cpp
   src/size.tests.cpp
   src/visibilityeventhandler.tests.cpp

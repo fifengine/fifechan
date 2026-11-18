@@ -6,6 +6,7 @@
 #include <fifechan/widgets/textbox.hpp>
 
 // Standard library includes
+#include <algorithm>
 #include <cassert>
 #include <string>
 
@@ -195,15 +196,15 @@ namespace fcn
             }
         } else if (key.getValue() == fcn::Key::TAB && mEditable) {
             // Insert spaces to align to next tab stop
-            size_t constexpr tabSize    = 4;
-            size_t const spacesToInsert = tabSize - static_cast<size_t>(getCaretColumn() % static_cast<int>(tabSize));
-            unsigned long insertPos = 0;
-                if (getCaretColumn() > 0) {
-                    insertPos = static_cast<unsigned long>(getCaretColumn());
-                }
-                mText->getRow(getCaretRow())
-                    .insert(insertPos, std::string(spacesToInsert, ' '));
-            setCaretColumn(getCaretColumn() + static_cast<int>(spacesToInsert));
+            size_t constexpr tabSize         = 4;
+            int const currentCol             = getCaretColumn();
+            std::size_t const colAsSize      = static_cast<std::size_t>(currentCol);
+            std::size_t const spacesToInsert = tabSize - (colAsSize % tabSize);
+            std::size_t const insertPos      = (currentCol > 0) ? colAsSize : 0;
+
+            mText->getRow(getCaretRow()).insert(insertPos, std::string(spacesToInsert, ' '));
+
+            setCaretColumn(currentCol + static_cast<int>(spacesToInsert));
         }
         // Printable characters are handled by textInput(TextInputEvent&).
 
@@ -359,6 +360,11 @@ namespace fcn
     }
 
     bool TextBox::isEditable() const
+    {
+        return mEditable;
+    }
+
+    bool TextBox::wantsTextInput() const
     {
         return mEditable;
     }

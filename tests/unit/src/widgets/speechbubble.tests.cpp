@@ -55,7 +55,7 @@ TEST_CASE("TailProfile is reachable as SpeechBubble::TailProfile", "[unit][speec
     // lives at namespace scope, which is what SWIG needs in order to wrap it.
     STATIC_REQUIRE(std::is_same_v<SpeechBubble::TailProfile, TailProfile>);
 
-    SpeechBubble::TailProfile p = SpeechBubble::TailProfile::rounded();
+    SpeechBubble::TailProfile const p = SpeechBubble::TailProfile::rounded();
     REQUIRE(p.tipWidthRatio == 0.3F);
 }
 

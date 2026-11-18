@@ -12,7 +12,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/color.hpp"
 
 using fcn::Color;

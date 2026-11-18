@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <numbers>
 #include <vector>
 
 #include "fifechan/graphics.hpp"
@@ -21,7 +22,8 @@ namespace fcn
 
         using PointV = std::vector<Point>;
 
-        constexpr float PI = 3.14159265F;
+        // TODO: this PI is actually PI_F or from math: FLT_PI
+        constexpr float PI = std::numbers::pi_v<float>;
 
         // ── Arc helper ───────────────────────────────────────────────────
         int arcSegments(int r, float span)
@@ -29,8 +31,8 @@ namespace fcn
             float const absSpan = std::abs(span);
             // chord error < 0.25 px:  n = ceil(span / (2 * acos(1 - 0.25/r)))
             // Approximate formula: sqrt(2 * r * 0.25) per radian
-            int byRadius = std::max(1, static_cast<int>(std::ceil(0.35F * static_cast<float>(r))));
-            int byAngle  = std::max(1, static_cast<int>(std::ceil(absSpan / (PI / 12.0F)))); // 15° per segment
+            int const byRadius = std::max(1, static_cast<int>(std::ceil(0.35F * static_cast<float>(r))));
+            int const byAngle  = std::max(1, static_cast<int>(std::ceil(absSpan / (PI / 12.0F)))); // 15° per segment
             return std::max({4, byRadius, byAngle});
         }
 
@@ -44,9 +46,9 @@ namespace fcn
             for (int i = 1; i <= n; ++i) {
                 float const t = static_cast<float>(i) / static_cast<float>(n);
                 float const a = startRad + (span * t);
-                pts.push_back(Point(
+                pts.emplace_back(
                     cx + static_cast<int>(static_cast<float>(r) * std::cos(a)),
-                    cy + static_cast<int>(static_cast<float>(r) * std::sin(a))));
+                    cy + static_cast<int>(static_cast<float>(r) * std::sin(a)));
             }
         }
 
@@ -58,9 +60,9 @@ namespace fcn
             }
             for (int i = 0; i < n; ++i) {
                 float const t = aStart + ((aEnd - aStart) * static_cast<float>(i) / static_cast<float>(n - 1));
-                pts.push_back(Point(
+                pts.emplace_back(
                     cx + static_cast<int>(static_cast<float>(rx) * std::cos(t)),
-                    cy + static_cast<int>(static_cast<float>(ry) * std::sin(t))));
+                    cy + static_cast<int>(static_cast<float>(ry) * std::sin(t)));
             }
         }
 
@@ -75,7 +77,7 @@ namespace fcn
                 float const inv = ((c * c) / (Rx * Rx)) + ((s * s) / (Ry * Ry));
                 float const rho = 1.0F / std::sqrt(inv);
                 float const r   = rho * (1.0F + (0.14F * std::cos((3.0F * t) + 0.6F)));
-                pts.push_back(Point(cx + static_cast<int>(r * c), cy + static_cast<int>(r * s)));
+                pts.emplace_back(cx + static_cast<int>(r * c), cy + static_cast<int>(r * s));
             }
         }
 
@@ -91,7 +93,7 @@ namespace fcn
                 float const inv = ((c * c) / (Rx * Rx)) + ((s * s) / (Ry * Ry));
                 float const rho = 1.0F / std::sqrt(inv);
                 float const r   = rho * ((i % 2 == 0) ? 1.0F : 0.60F);
-                pts.push_back(Point(cx + static_cast<int>(r * c), cy + static_cast<int>(r * s)));
+                pts.emplace_back(cx + static_cast<int>(r * c), cy + static_cast<int>(r * s));
             }
         }
 
@@ -115,14 +117,14 @@ namespace fcn
 
             // The body reserves `th` on each adjacent side, so the tail tip may
             // reach all the way to the widget's corner: distance = (r+th)/cos(45°).
-            float const tipDist = 1.41421356F * static_cast<float>(r + th);
-            pts.push_back(Point(
-                ccx + static_cast<int>(tipDist * std::cos(bis)), ccy + static_cast<int>(tipDist * std::sin(bis))));
+            float const tipDist = std::numbers::sqrt2_v<float> * static_cast<float>(r + th);
+            pts.emplace_back(
+                ccx + static_cast<int>(tipDist * std::cos(bis)), ccy + static_cast<int>(tipDist * std::sin(bis)));
 
             float const a2 = end - alpha;
-            pts.push_back(Point(
+            pts.emplace_back(
                 ccx + static_cast<int>(static_cast<float>(r) * std::cos(a2)),
-                ccy + static_cast<int>(static_cast<float>(r) * std::sin(a2))));
+                ccy + static_cast<int>(static_cast<float>(r) * std::sin(a2)));
 
             addArc(pts, ccx, ccy, r, a2, end);
         }
@@ -200,17 +202,19 @@ namespace fcn
                 y = -y;
                 break; // Up    (negate Y)       — canonical +y → widget -y
             case 2: {
-                float t = x;
-                x       = -y;
-                y       = t;
+                float const t = x;
+                x             = -y;
+                y             = t;
                 break;
             } // Left  ( 90° CCW)               — canonical +y → widget -x
             case 3: {
-                float t = x;
-                x       = y;
-                y       = -t;
+                float const t = x;
+                x             = y;
+                y             = -t;
                 break;
             } // Right ( 90° CW)                — canonical +y → widget +x
+            default:
+                break;
             }
         }
 
@@ -257,7 +261,7 @@ namespace fcn
                         (u * u * u * p0x) + (3.0F * u * u * t * p0x) + (3.0F * u * t * t * p2x) + (t * t * t * p3x);
                     float fy = t * t * t * p3y;
                     rotatePoint(fx, fy, dir);
-                    pts.push_back(Point(cx + static_cast<int>(fx), cy + static_cast<int>(fy)));
+                    pts.emplace_back(cx + static_cast<int>(fx), cy + static_cast<int>(fy));
                 }
             } else {
                 // ── Right junction fillet (body edge → tail outbound) ──
@@ -271,7 +275,7 @@ namespace fcn
                     float fx       = sx;
                     float fy       = sy;
                     rotatePoint(fx, fy, dir);
-                    pts.push_back(Point(cx + static_cast<int>(fx), cy + static_cast<int>(fy)));
+                    pts.emplace_back(cx + static_cast<int>(fx), cy + static_cast<int>(fy));
                 }
             }
 
@@ -330,7 +334,7 @@ namespace fcn
 
                     rotatePoint(lx, ly, dir);
 
-                    pts.push_back(Point(cx + static_cast<int>(lx), cy + static_cast<int>(ly)));
+                    pts.emplace_back(cx + static_cast<int>(lx), cy + static_cast<int>(ly));
                 }
             }
 
@@ -341,15 +345,15 @@ namespace fcn
                 {
                     float const hw          = tailHalfWidth(1.0F, tw, p);
                     std::size_t const n_idx = static_cast<std::size_t>(n);
-                    float snx               = spine[n_idx].x;
-                    float sny               = spine[n_idx].y;
+                    float const snx         = spine[n_idx].x;
+                    float const sny         = spine[n_idx].y;
                     float lpx               = snx + (spine[n_idx].nx * hw) - (p.prongDepth * static_cast<float>(tw));
                     float lpy = sny + (spine[n_idx].ny * hw) + (p.prongDepth * static_cast<float>(th) * 0.3F);
                     rotatePoint(lpx, lpy, dir);
                     bx2 = lpx;
                     by2 = lpy;
                 }
-                pts.push_back(Point(cx + static_cast<int>(bx2), cy + static_cast<int>(by2)));
+                pts.emplace_back(cx + static_cast<int>(bx2), cy + static_cast<int>(by2));
             }
 
             // ── Tip cap (rounded tip for non-pronged tails) ──
@@ -377,7 +381,7 @@ namespace fcn
                         float px      = capCX + (tipHW * std::cos(a));
                         float py      = capCY + (tipHW * std::sin(a));
                         rotatePoint(px, py, dir);
-                        pts.push_back(Point(cx + static_cast<int>(px), cy + static_cast<int>(py)));
+                        pts.emplace_back(cx + static_cast<int>(px), cy + static_cast<int>(py));
                     }
                 }
             }
@@ -429,7 +433,7 @@ namespace fcn
 
                     rotatePoint(rx, ry, dir);
 
-                    pts.push_back(Point(cx + static_cast<int>(rx), cy + static_cast<int>(ry)));
+                    pts.emplace_back(cx + static_cast<int>(rx), cy + static_cast<int>(ry));
                 }
             }
 
@@ -451,7 +455,7 @@ namespace fcn
                         (u * u * u * p0x) + (3.0F * u * u * t * p0x) + (3.0F * u * t * t * p2x) + (t * t * t * p3x);
                     float fy = u * u * u * p0y;
                     rotatePoint(fx, fy, dir);
-                    pts.push_back(Point(cx + static_cast<int>(fx), cy + static_cast<int>(fy)));
+                    pts.emplace_back(cx + static_cast<int>(fx), cy + static_cast<int>(fy));
                 }
             } else {
                 // ── Left junction fillet (tail inbound → body edge) ──
@@ -466,7 +470,7 @@ namespace fcn
                     float fx       = sx;
                     float fy       = sy;
                     rotatePoint(fx, fy, dir);
-                    pts.push_back(Point(cx + static_cast<int>(fx), cy + static_cast<int>(fy)));
+                    pts.emplace_back(cx + static_cast<int>(fx), cy + static_cast<int>(fy));
                 }
             }
         }
@@ -552,15 +556,15 @@ namespace fcn
                 float const step = ((2.0F * PI) - (2.0F * spread)) / static_cast<float>(N - 1);
                 for (int i = 0; i < N; ++i) {
                     float const a = theta0 + spread + (step * static_cast<float>(i));
-                    out.push_back(Point(
+                    out.emplace_back(
                         ccx + static_cast<int>(static_cast<float>(crx) * std::cos(a)),
-                        ccy + static_cast<int>(static_cast<float>(cry) * std::sin(a))));
+                        ccy + static_cast<int>(static_cast<float>(cry) * std::sin(a)));
                 }
                 float const ax = static_cast<float>(ccx) + (static_cast<float>(crx) * std::cos(theta0));
                 float const ay = static_cast<float>(ccy) + (static_cast<float>(cry) * std::sin(theta0));
-                out.push_back(Point(
+                out.emplace_back(
                     static_cast<int>(ax + (ux * static_cast<float>(th))),
-                    static_cast<int>(ay + (uy * static_cast<float>(th)))));
+                    static_cast<int>(ay + (uy * static_cast<float>(th))));
                 return;
             }
 
@@ -576,7 +580,7 @@ namespace fcn
 
             // ── Rounded rectangle body (Classic / Whisper) ─────────────
 
-            int const cr2 = std::min(cr, std::min(bodyW / 2, bodyH / 2));
+            int const cr2 = std::min({cr, bodyW / 2, bodyH / 2});
 
             int const tlx  = bodyX + cr2;
             int const tly  = bodyY + cr2;
@@ -608,14 +612,14 @@ namespace fcn
             }();
 
             if (dir == SpeechBubble::TailDirection::None) {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 // Remove consecutive duplicates and trailing first==last
                 if (out.size() >= 2) {
@@ -638,12 +642,12 @@ namespace fcn
 
             switch (dir) {
             case SpeechBubble::TailDirection::Down: {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
                 // BR arc ends at (brx, btmEdge) — connect diagonally to tail
 
@@ -654,114 +658,114 @@ namespace fcn
                 break;
             }
             case SpeechBubble::TailDirection::Up: {
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 // BL arc ends at (lftEdge, bly)
-                out.push_back(Point(lftEdge, try_));
+                out.emplace_back(lftEdge, try_);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
 
                 addSpineTail(out, tcX, topEdge, profile, tw, th, dirIdx);
 
-                out.push_back(Point(tlx, topEdge));
+                out.emplace_back(tlx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
                 break;
             }
             case SpeechBubble::TailDirection::Left: {
-                out.push_back(Point(brx, btmEdge));
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(brx, btmEdge);
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 // BL arc ends at (lftEdge, bly) — tail follows
 
                 addSpineTail(out, lftEdge, tcY, profile, tw, th, dirIdx);
 
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
                 // TR arc ends at (rgtEdge, bodyY+cr2)
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
                 break;
             }
             case SpeechBubble::TailDirection::Right: {
-                out.push_back(Point(tlx, topEdge));
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(tlx, topEdge);
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
                 // TR arc ends at (rgtEdge, bodyY+cr2) — tail follows
 
                 addSpineTail(out, rgtEdge, tcY, profile, tw, th, dirIdx);
 
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 // BL arc ends at (lftEdge, bly)
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
                 break;
             }
             case SpeechBubble::TailDirection::BottomLeft: {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addCornerTail(out, blx, bly, cr2, tw, th, 90.0F, 180.0F);
                 break;
             }
             case SpeechBubble::TailDirection::BottomRight: {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addCornerTail(out, brx, bry, cr2, tw, th, 0.0F, 90.0F);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 break;
             }
             case SpeechBubble::TailDirection::TopLeft: {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addCornerTail(out, tlx, tly, cr2, tw, th, 180.0F, 270.0F);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 break;
             }
             case SpeechBubble::TailDirection::TopRight: {
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addCornerTail(out, trx, try_, cr2, tw, th, 270.0F, 360.0F);
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 break;
             }
             case SpeechBubble::TailDirection::Auto:
             case SpeechBubble::TailDirection::None:
             default:
-                out.push_back(Point(lftEdge, bodyY + cr2));
+                out.emplace_back(lftEdge, bodyY + cr2);
                 addArc(out, tlx, tly, cr2, PI, 1.5F * PI);
-                out.push_back(Point(trx, topEdge));
+                out.emplace_back(trx, topEdge);
                 addArc(out, trx, try_, cr2, 1.5F * PI, 2.0F * PI);
-                out.push_back(Point(rgtEdge, bodyY + cr2));
-                out.push_back(Point(rgtEdge, bry));
+                out.emplace_back(rgtEdge, bodyY + cr2);
+                out.emplace_back(rgtEdge, bry);
                 addArc(out, brx, bry, cr2, 0.0F, 0.5F * PI);
-                out.push_back(Point(blx, btmEdge));
+                out.emplace_back(blx, btmEdge);
                 addArc(out, blx, bly, cr2, 0.5F * PI, PI);
                 break;
             }
@@ -1042,11 +1046,11 @@ namespace fcn
 
             auto pointInTriangle = [&crossZ](
                                        Point const & p, Point const & a, Point const & b, Point const & c) -> bool {
-                int64_t d1 = crossZ(p, a, b);
-                int64_t d2 = crossZ(p, b, c);
-                int64_t d3 = crossZ(p, c, a);
-                bool neg   = (d1 < 0) || (d2 < 0) || (d3 < 0);
-                bool pos   = (d1 > 0) || (d2 > 0) || (d3 > 0);
+                int64_t const d1 = crossZ(p, a, b);
+                int64_t const d2 = crossZ(p, b, c);
+                int64_t const d3 = crossZ(p, c, a);
+                bool const neg   = (d1 < 0) || (d2 < 0) || (d3 < 0);
+                bool const pos   = (d1 > 0) || (d2 > 0) || (d3 > 0);
                 return !(neg && pos);
             };
 
@@ -1054,10 +1058,10 @@ namespace fcn
             while (poly.size() > 3) {
                 bool found = false;
                 for (std::size_t i = 0; i < poly.size() && !found; ++i) {
-                    std::size_t prev = (i == 0) ? poly.size() - 1 : i - 1;
-                    std::size_t next = (i + 1 == poly.size()) ? 0 : i + 1;
+                    std::size_t const prev = (i == 0) ? poly.size() - 1 : i - 1;
+                    std::size_t const next = (i + 1 == poly.size()) ? 0 : i + 1;
 
-                    int64_t z = crossZ(poly[prev], poly[i], poly[next]);
+                    int64_t const z = crossZ(poly[prev], poly[i], poly[next]);
                     if (z <= 0) {
                         continue; // not convex (reflex or colinear)
                     }
@@ -1179,16 +1183,18 @@ namespace fcn
             default:
                 break;
             }
-            float const dotR[3] = {4.0F, 4.0F, 3.0F};
-            float const start   = (static_cast<float>(std::min(bodyW, bodyH)) * 0.5F) + 6.0F;
-            for (int i = 1; i <= 3; ++i) {
-                float const dist = start + (static_cast<float>(i) * 9.0F);
-                Point const c(static_cast<int>(static_cast<float>(tcX) + (ux * dist) + 0.5F), static_cast<int>(static_cast<float>(tcY) + (uy * dist) + 0.5F));
+            std::array<float const, 3> const dotR = {4.0F, 4.0F, 3.0F};
+            float const start                     = (static_cast<float>(std::min(bodyW, bodyH)) * 0.5F) + 6.0F;
+            for (std::size_t i = 0; i < 3; ++i) {
+                float const dist = start + (static_cast<float>(i + 1) * 9.0F);
+                Point const c(
+                    static_cast<int>(lroundf(static_cast<float>(tcX) + (ux * dist))),
+                    static_cast<int>(lroundf(static_cast<float>(tcY) + (uy * dist))));
                 graphics->setColor(bgColor);
-                graphics->drawFillCircle(c, static_cast<unsigned int>(dotR[i - 1]));
+                graphics->drawFillCircle(c, static_cast<unsigned int>(dotR[i]));
                 if (getBorderSize() > 0) {
                     graphics->setColor(getBorderColor());
-                    graphics->drawCircle(c, static_cast<unsigned int>(dotR[i - 1]));
+                    graphics->drawCircle(c, static_cast<unsigned int>(dotR[i]));
                 }
             }
         }

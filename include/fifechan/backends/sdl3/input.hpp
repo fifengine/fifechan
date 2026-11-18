@@ -40,8 +40,13 @@ namespace fcn::sdl3
         public:
             /**
              * Constructor.
+             *
+             * @param window The SDL window that receives text input. May be
+             *               nullptr, in which case the text-input hooks are
+             *               no-ops. The window is not owned and must outlive
+             *               this input object.
              */
-            explicit Input();
+            explicit Input(SDL_Window* window = nullptr);
 
             /**
              * Pushes an SDL event. It should be called at least once per frame to
@@ -89,7 +94,24 @@ namespace fcn::sdl3
 
             std::string dequeueTextInput() override;
 
+            /**
+             * Starts text input on the window passed to the constructor.
+             *
+             * Does nothing when no window was passed.
+             */
+            void startTextInput() override;
+
+            /**
+             * Stops text input on the window passed to the constructor.
+             *
+             * Does nothing when no window was passed.
+             */
+            void stopTextInput() override;
+
         protected:
+            /** Non-owning window that receives text input; may be nullptr. */
+            SDL_Window* mWindow{nullptr};
+
             /**
              * Converts a mouse button from SDL to a FifeGUI mouse button.
              *

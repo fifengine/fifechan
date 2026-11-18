@@ -241,8 +241,7 @@ namespace
 
             bool tryDrop(size_t sourceSlotIndex, size_t targetSlotIndex)
             {
-                if (sourceSlotIndex >= slots.size() ||
-                    targetSlotIndex >= slots.size() ||
+                if (sourceSlotIndex >= slots.size() || targetSlotIndex >= slots.size() ||
                     sourceSlotIndex == targetSlotIndex) {
                     return false;
                 }
@@ -486,7 +485,8 @@ namespace
                     return false;
                 }
 
-                return m_inventory.tryDrop(static_cast<size_t>(data->sourceSlot), static_cast<size_t>(slotWidget->getSlotIndex()));
+                return m_inventory.tryDrop(
+                    static_cast<size_t>(data->sourceSlot), static_cast<size_t>(slotWidget->getSlotIndex()));
             }
 
         private:
@@ -571,7 +571,7 @@ try {
     auto graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer, 640, 360);
 
-    auto input = std::make_unique<fcn::sdl3::Input>();
+    auto input = std::make_unique<fcn::sdl3::Input>(window);
 
     // Set up image loader for fifechan
     auto imageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
@@ -774,7 +774,7 @@ try {
                         static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
                         size_t const slotIdxSizeT = static_cast<size_t>(slotIdx);
-                        int const itemId = inventory.getItemIdAtSlot(slotIdx);
+                        int const itemId          = inventory.getItemIdAtSlot(slotIdx);
                         if (itemId != 0) {
                             auto const slotRect = inventory.getSlotRectangle(slotIdxSizeT);
                             auto data           = std::make_shared<DragData>(DragData{

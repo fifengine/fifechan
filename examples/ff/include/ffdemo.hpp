@@ -45,6 +45,7 @@ class FFDemo : public fcn::ActionListener, public fcn::KeyListener
         void cleanMain();
         void initStatus();
         void cleanStatus();
+        void hideStatus();
         void initMagicSkills();
         void cleanMagicSkills();
         void initItems();

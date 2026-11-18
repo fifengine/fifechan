@@ -12,7 +12,7 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 #include "fifechan/imageloader.hpp"
 

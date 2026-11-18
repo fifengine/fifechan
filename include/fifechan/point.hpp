@@ -44,7 +44,7 @@ namespace fcn
              * @param _x The x coordinate of the point.
              * @param _y The y coordinate of the point.
              */
-            explicit Point(int _x = 0, int _y = 0) : x(_x), y(_y)
+            explicit Point(int _x = 0, int _y = 0) : x(_x), y(_y), val{_x, _y}
             {
             }
 
@@ -55,7 +55,7 @@ namespace fcn
              *
              * @param rhs The point to copy from.
              */
-            Point(Point const & rhs) : x(rhs.x), y(rhs.y)
+            Point(Point const & rhs) : x(rhs.x), y(rhs.y), val(rhs.val)
             {
             }
 
@@ -64,7 +64,7 @@ namespace fcn
              *
              * @param rhs The point to move from.
              */
-            Point(Point&& rhs) noexcept : x(rhs.x), y(rhs.y)
+            Point(Point&& rhs) noexcept : x(rhs.x), y(rhs.y), val(rhs.val)
             {
             }
 
@@ -76,8 +76,8 @@ namespace fcn
             Point& operator=(Point const & rhs)
             {
                 if (this != &rhs) {
-                    x = rhs.x;
-                    y = rhs.y;
+                    x   = rhs.x;
+                    y   = rhs.y;
                     val = rhs.val;
                 }
                 return *this;
@@ -91,8 +91,8 @@ namespace fcn
             Point& operator=(Point&& rhs) noexcept
             {
                 if (this != &rhs) {
-                    x = rhs.x;
-                    y = rhs.y;
+                    x   = rhs.x;
+                    y   = rhs.y;
                     val = rhs.val;
                 }
                 return *this;
@@ -130,6 +130,7 @@ namespace fcn
             {
                 x += p.x;
                 y += p.y;
+                val = {x, y};
                 return *this;
             }
 
@@ -143,6 +144,7 @@ namespace fcn
             {
                 x -= p.x;
                 y -= p.y;
+                val = {x, y};
                 return *this;
             }
 
@@ -215,6 +217,8 @@ namespace fcn
                     x = 0;
                     y = 0;
                 }
+
+                val = {x, y};
             }
 
             /**
@@ -249,8 +253,9 @@ namespace fcn
                 double const nx = static_cast<double>(x);
                 double const ny = static_cast<double>(y);
 
-                x = static_cast<int>((costheta * nx) - (sintheta * ny));
-                y = static_cast<int>((sintheta * nx) + (costheta * ny));
+                x   = static_cast<int>((costheta * nx) - (sintheta * ny));
+                y   = static_cast<int>((sintheta * nx) + (costheta * ny));
+                val = {x, y};
             }
 
             /**
@@ -280,8 +285,9 @@ namespace fcn
                 double const ry = (sintheta * nx) + (costheta * ny);
 
                 // 5. Translate back to world coordinates AND cast to int (with rounding)
-                x = static_cast<int>(std::round(origin.x + rx));
-                y = static_cast<int>(std::round(origin.y + ry));
+                x   = static_cast<int>(std::round(origin.x + rx));
+                y   = static_cast<int>(std::round(origin.y + ry));
+                val = {x, y};
             }
 
             /**
@@ -292,8 +298,9 @@ namespace fcn
              */
             void set(int _x, int _y)
             {
-                x = _x;
-                y = _y;
+                x   = _x;
+                y   = _y;
+                val = {_x, _y};
             }
 
             /**
@@ -303,6 +310,18 @@ namespace fcn
              * @return Reference to the requested component.
              */
             int& operator[](int ind)
+            {
+                assert(ind > -1 && ind < 2);
+                return val.at(static_cast<size_t>(ind));
+            }
+
+            /**
+             * Read-only index accessor for the point components.
+             *
+             * @param ind Index 0 for X, 1 for Y. Asserts if out of range.
+             * @return Const reference to the requested component.
+             */
+            int const & operator[](int ind) const
             {
                 assert(ind > -1 && ind < 2);
                 return val.at(static_cast<size_t>(ind));

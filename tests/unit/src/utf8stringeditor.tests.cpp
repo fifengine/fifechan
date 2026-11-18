@@ -7,7 +7,7 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/utf8stringeditor.hpp"
 
 TEST_CASE("UTF8StringEditor nextChar moves to next character", "[unit][utf8stringeditor]")

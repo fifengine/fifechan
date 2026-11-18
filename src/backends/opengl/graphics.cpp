@@ -20,8 +20,14 @@
 
 // Standard library includes
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <memory>
 #include <numbers>
+#include <string>
+
+// Third-party library includes
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
@@ -169,10 +175,10 @@ namespace fcn::opengl
         // Switch to GL_MODULATE while drawing so the opacity multiplier is
         // applied to the texture's alpha. The colour in place before the call
         // is restored afterwards so later primitives do not inherit it.
-        bool const applyOpacity  = getOpacity() < 1.0F;
-        GLfloat previousColor[4] = {1.0F, 1.0F, 1.0F, 1.0F};
+        bool const applyOpacity              = getOpacity() < 1.0F;
+        std::array<GLfloat, 4> previousColor = {1.0F, 1.0F, 1.0F, 1.0F};
         if (applyOpacity) {
-            glGetFloatv(GL_CURRENT_COLOR, previousColor);
+            glGetFloatv(GL_CURRENT_COLOR, previousColor.data());
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
             glColor4f(1.0F, 1.0F, 1.0F, getOpacity());
         }
@@ -195,12 +201,100 @@ namespace fcn::opengl
 
         if (applyOpacity) {
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-            glColor4fv(previousColor);
+            glColor4fv(previousColor.data());
         }
 
         if (blendWasEnabled == 0U) {
             glDisable(GL_BLEND);
         }
+    }
+
+    void Graphics::drawSurface(SDL_Surface* surface, int dstX, int dstY)
+    {
+        if (surface == nullptr) {
+            return;
+        }
+
+        if (mClipStack.empty()) {
+            throwException(
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+
+        std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)> converted(
+            SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32), SDL_DestroySurface);
+        if (converted == nullptr) {
+            throwException(std::string("Graphics::drawSurface - ") + SDL_GetError());
+        }
+
+        bool const mustLock = SDL_MUSTLOCK(converted.get()) != 0;
+        if (mustLock && !SDL_LockSurface(converted.get())) {
+            throwException(std::string("Graphics::drawSurface - ") + SDL_GetError());
+        }
+
+        GLuint texture = 0;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, converted->pitch / static_cast<int>(sizeof(Uint32)));
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, GL_RGBA, converted->w, converted->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, converted->pixels);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+        if (mustLock) {
+            SDL_UnlockSurface(converted.get());
+        }
+
+        ClipRectangle const & top = mClipStack.top();
+        dstX += top.xOffset;
+        dstY += top.yOffset;
+
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glEnable(GL_TEXTURE_2D);
+
+        GLboolean const blendWasEnabled = glIsEnabled(GL_BLEND);
+        if (blendWasEnabled == 0U) {
+            glEnable(GL_BLEND);
+        }
+
+        // Modulate the surface with the current colour and opacity.
+        std::array<GLfloat, 4> previousColor = {1.0F, 1.0F, 1.0F, 1.0F};
+        glGetFloatv(GL_CURRENT_COLOR, previousColor.data());
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glColor4f(
+            static_cast<GLfloat>(mColor.r) / 255.0F,
+            static_cast<GLfloat>(mColor.g) / 255.0F,
+            static_cast<GLfloat>(mColor.b) / 255.0F,
+            (static_cast<GLfloat>(mColor.a) / 255.0F) * getOpacity());
+
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0F, 0.0F);
+        glVertex3i(dstX, dstY, 0);
+
+        glTexCoord2f(0.0F, 1.0F);
+        glVertex3i(dstX, dstY + converted->h, 0);
+
+        glTexCoord2f(1.0F, 1.0F);
+        glVertex3i(dstX + converted->w, dstY + converted->h, 0);
+
+        glTexCoord2f(1.0F, 0.0F);
+        glVertex3i(dstX + converted->w, dstY, 0);
+        glEnd();
+
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glColor4fv(previousColor.data());
+        glDisable(GL_TEXTURE_2D);
+
+        if (blendWasEnabled == 0U) {
+            glDisable(GL_BLEND);
+        }
+
+        glDeleteTextures(1, &texture);
     }
 
     void Graphics::drawPoint(int x, int y)

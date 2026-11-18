@@ -181,7 +181,7 @@ namespace fcn
             }
         }
 
-        int const borderSize = static_cast<int>(getBorderSize());
+        int const borderSize = getBorderSize();
         Rectangle offsetRec(borderSize, borderSize, (2 * borderSize), (2 * borderSize));
         // fetch the image, down, hover or up
         Image const * img = !isActive() && (getInactiveUpImage() != nullptr) ? getInactiveUpImage() : getUpImage();

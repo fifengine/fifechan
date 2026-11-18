@@ -35,16 +35,21 @@ namespace fcn::opengl
         for (int y = 0; y < mTextureHeight; ++y) {
             for (int x = 0; x < mTextureWidth; ++x) {
                 if (x < mWidth && y < mHeight) {
-                    unsigned int c = pixels[static_cast<size_t>(x + (y * mWidth))];
+                    unsigned int c =
+                        pixels[static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(mWidth))];
 
                     // Magic pink to transparent
                     if (c == magicPink) {
                         c = 0x00000000;
                     }
 
-                    mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = c;
+                    mPixels.at(static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(mTextureWidth))) =
+                        c;
                 } else {
-                    mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = 0x00000000;
+                    mPixels.at(
+                        static_cast<size_t>(
+                            static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(mTextureWidth)))) =
+                        0x00000000;
                 }
             }
         }
@@ -156,12 +161,14 @@ namespace fcn::opengl
         }
 
 #ifdef __BIG_ENDIAN__
-        unsigned int const c = static_cast<unsigned int>(color.a) | static_cast<unsigned int>(color.b) << 8 | static_cast<unsigned int>(color.g) << 16 | static_cast<unsigned int>(color.r) << 24;
+        unsigned int const c = static_cast<unsigned int>(color.a) | static_cast<unsigned int>(color.b) << 8 |
+                               static_cast<unsigned int>(color.g) << 16 | static_cast<unsigned int>(color.r) << 24;
 #else
-        unsigned int const c = static_cast<unsigned int>(color.r) | static_cast<unsigned int>(color.g) << 8 | static_cast<unsigned int>(color.b) << 16 | static_cast<unsigned int>(color.a) << 24;
+        unsigned int const c = static_cast<unsigned int>(color.r) | static_cast<unsigned int>(color.g) << 8 |
+                               static_cast<unsigned int>(color.b) << 16 | static_cast<unsigned int>(color.a) << 24;
 #endif
 
-        mPixels.at(static_cast<size_t>(x + (y * mTextureWidth))) = c;
+        mPixels.at(static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(mTextureWidth))) = c;
     }
 
     void Image::convertToDisplayFormat()

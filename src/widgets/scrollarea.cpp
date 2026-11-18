@@ -897,11 +897,28 @@ namespace fcn
 
     Widget* ScrollArea::getWidgetAt(int x, int y, Widget* exclude /*= nullptr*/)
     {
-        if (getChildrenArea().isContaining(x, y)) {
-            return getContent();
+        Widget* content = getContent();
+
+        if (content == nullptr || content == exclude) {
+            return nullptr;
         }
 
-        return nullptr;
+        Rectangle const childrenArea = getChildrenArea();
+        if (!childrenArea.isContaining(x, y)) {
+            return nullptr;
+        }
+
+        // Coordinates are relative to the scroll area; the content widget is
+        // positioned at a negative offset while scrolled.
+        int const contentX = x - childrenArea.x - content->getX();
+        int const contentY = y - childrenArea.y - content->getY();
+
+        if (!content->getDimension().isContaining(contentX, contentY)) {
+            return nullptr;
+        }
+
+        Widget* const child = content->getWidgetAt(contentX, contentY, exclude);
+        return child != nullptr ? child : content;
     }
 
     void ScrollArea::mouseWheelMovedUp(MouseEvent& mouseEvent)

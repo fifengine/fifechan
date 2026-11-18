@@ -19,7 +19,7 @@ TEST_CASE("KeyEvent constructors initialize properly", "[unit][keyevent]")
 
     SECTION("basic constructor")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.getType() == fcn::KeyEvent::Type::Pressed);
@@ -29,7 +29,7 @@ TEST_CASE("KeyEvent constructors initialize properly", "[unit][keyevent]")
 
     SECTION("released type with numpad")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Released, true, fcn::Key(65));
 
         REQUIRE(event.getType() == fcn::KeyEvent::Type::Released);
@@ -38,7 +38,7 @@ TEST_CASE("KeyEvent constructors initialize properly", "[unit][keyevent]")
 
     SECTION("with source and distributor")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, true, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.getSource() == &source);
@@ -47,7 +47,7 @@ TEST_CASE("KeyEvent constructors initialize properly", "[unit][keyevent]")
 
     SECTION("with modifiers pressed")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, true, true, true, true, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.isShiftPressed() == true);
@@ -64,7 +64,7 @@ TEST_CASE("KeyEvent getType returns correct type", "[unit][keyevent]")
 
     SECTION("Pressed type")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.getType() == fcn::KeyEvent::Type::Pressed);
@@ -72,7 +72,7 @@ TEST_CASE("KeyEvent getType returns correct type", "[unit][keyevent]")
 
     SECTION("Released type")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Released, false, fcn::Key(65));
 
         REQUIRE(event.getType() == fcn::KeyEvent::Type::Released);
@@ -86,7 +86,7 @@ TEST_CASE("KeyEvent isNumericPad returns correct value", "[unit][keyevent]")
 
     SECTION("numeric pad false")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.isNumericPad() == false);
@@ -94,7 +94,7 @@ TEST_CASE("KeyEvent isNumericPad returns correct value", "[unit][keyevent]")
 
     SECTION("numeric pad true")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, true, fcn::Key(65));
 
         REQUIRE(event.isNumericPad() == true);
@@ -108,7 +108,7 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
 
     SECTION("letter key")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.getKey().getValue() == 65);
@@ -116,7 +116,7 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
 
     SECTION("number key")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(48));
 
         REQUIRE(event.getKey().getValue() == 48);
@@ -124,7 +124,7 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
 
     SECTION("special key")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source,
             &distributor,
             false,
@@ -140,7 +140,7 @@ TEST_CASE("KeyEvent getKey returns correct key", "[unit][keyevent]")
 
     SECTION("tab key")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source,
             &distributor,
             false,
@@ -162,7 +162,7 @@ TEST_CASE("KeyEvent inherits from InputEvent", "[unit][keyevent]")
 
     SECTION("consume works")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.isConsumed() == false);
@@ -172,7 +172,7 @@ TEST_CASE("KeyEvent inherits from InputEvent", "[unit][keyevent]")
 
     SECTION("modifier keys work")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, true, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.isShiftPressed() == true);
@@ -197,7 +197,7 @@ TEST_CASE("KeyEvent edge cases", "[unit][keyevent]")
 
     SECTION("zero key value")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(0));
 
         REQUIRE(event.getKey().getValue() == 0);
@@ -205,7 +205,7 @@ TEST_CASE("KeyEvent edge cases", "[unit][keyevent]")
 
     SECTION("negative key value")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(-1000));
 
         REQUIRE(event.getKey().getValue() == -1000);
@@ -213,7 +213,7 @@ TEST_CASE("KeyEvent edge cases", "[unit][keyevent]")
 
     SECTION("empty source works")
     {
-        fcn::KeyEvent event(
+        fcn::KeyEvent const event(
             &source, &distributor, false, false, false, false, fcn::KeyEvent::Type::Pressed, false, fcn::Key(65));
 
         REQUIRE(event.getSource() == &source);

@@ -474,10 +474,32 @@ namespace fcn
              * Override this to handle text input in your widget.
              * The default implementation does nothing.
              *
+             * This is the single insertion point for committed text. Widgets that
+             * accept text must not insert printable characters from
+             * keyPressed(KeyEvent&) as well, or text will be inserted twice.
+             *
              * @param event The text input event containing the UTF-8 text.
              */
             virtual void textInput(TextInputEvent& event)
             {
+            }
+
+            /**
+             * Returns true while this widget wants backend text input enabled.
+             *
+             * Gui calls Input::startTextInput() when the focused widget returns
+             * true from this function and is enabled, and Input::stopTextInput()
+             * otherwise. Text widgets return their editability; the default
+             * implementation returns false.
+             *
+             * @return True if the widget wants text input (screen keyboard, IME)
+             *         while focused.
+             *
+             * @see isEnabled
+             */
+            virtual bool wantsTextInput() const
+            {
+                return false;
             }
 
             /**

@@ -111,7 +111,7 @@ namespace
 
 TEST_CASE("SDL3 input translates a finger tap into mouse press and release", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 1, 10, 0.5F, 0.5F, 0.0F, 0.0F, env.mWindowId));
@@ -133,7 +133,7 @@ TEST_CASE("SDL3 input translates a finger tap into mouse press and release", "[u
 
 TEST_CASE("SDL3 input translates one-finger motion into mouse movement", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 1, 10, 0.1F, 0.1F, 0.0F, 0.0F, env.mWindowId));
@@ -152,7 +152,7 @@ TEST_CASE("SDL3 input translates one-finger motion into mouse movement", "[unit]
 
 TEST_CASE("SDL3 input clamps normalized finger coordinates", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 1, 10, 1.5F, -0.5F, 0.0F, 0.0F, env.mWindowId));
@@ -165,7 +165,7 @@ TEST_CASE("SDL3 input clamps normalized finger coordinates", "[unit][input][sdl3
 
 TEST_CASE("SDL3 input turns a second finger into a canceled pointer", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 1, 10, 0.5F, 0.5F, 0.0F, 0.0F, env.mWindowId));
@@ -202,7 +202,7 @@ TEST_CASE("SDL3 input turns a second finger into a canceled pointer", "[unit][in
 
 TEST_CASE("SDL3 input uses the dominant axis for touch panning", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 2, 20, 0.5F, 0.5F, 0.0F, 0.0F, env.mWindowId));
@@ -232,7 +232,7 @@ TEST_CASE("SDL3 input uses the dominant axis for touch panning", "[unit][input][
 
 TEST_CASE("SDL3 input reports a canceled finger without a release", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, 3, 30, 0.2F, 0.4F, 0.0F, 0.0F, env.mWindowId));
@@ -249,7 +249,7 @@ TEST_CASE("SDL3 input reports a canceled finger without a release", "[unit][inpu
 
 TEST_CASE("SDL3 input ignores synthetic finger events from the mouse", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     input.pushInput(makeFinger(SDL_EVENT_FINGER_DOWN, SDL_MOUSE_TOUCHID, 40, 0.5F, 0.5F, 0.0F, 0.0F, env.mWindowId));
@@ -259,7 +259,7 @@ TEST_CASE("SDL3 input ignores synthetic finger events from the mouse", "[unit][i
 
 TEST_CASE("SDL3 input defers to SDL synthesis when the touch hint is enabled", "[unit][input][sdl3][touch]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
@@ -278,7 +278,7 @@ TEST_CASE("SDL3 input defers to SDL synthesis when the touch hint is enabled", "
 
 TEST_CASE("SDL3 input uses wheel event coordinates for the mouse position", "[unit][input][sdl3][wheel]")
 {
-    SDLInputEnvironment env;
+    SDLInputEnvironment const env;
     fcn::sdl3::Input input;
 
     SDL_Event event{};
@@ -297,4 +297,46 @@ TEST_CASE("SDL3 input uses wheel event coordinates for the mouse position", "[un
     CHECK(events.at(0).getType() == fcn::MouseInput::Type::WheelMovedUp);
     CHECK(events.at(0).getX() == 12);
     CHECK(events.at(0).getY() == 34);
+}
+
+// ============================================================================
+// Text input lifecycle (WP4)
+// ============================================================================
+
+TEST_CASE("SDL3 input without a window ignores text input hooks", "[unit][input][sdl3][textinput]")
+{
+    fcn::sdl3::Input input(nullptr);
+
+    input.startTextInput();
+    input.stopTextInput();
+
+    SUCCEED("text input hooks are no-ops without a window");
+}
+
+TEST_CASE("SDL3 input starts and stops text input on its window", "[unit][input][sdl3][textinput]")
+{
+    SDLInputEnvironment const env;
+    fcn::sdl3::Input input(env.mWindow);
+
+    REQUIRE_FALSE(SDL_TextInputActive(env.mWindow));
+
+    input.startTextInput();
+    REQUIRE(SDL_TextInputActive(env.mWindow));
+
+    input.stopTextInput();
+    REQUIRE_FALSE(SDL_TextInputActive(env.mWindow));
+}
+
+TEST_CASE("SDL3 input text input hooks are idempotent", "[unit][input][sdl3][textinput]")
+{
+    SDLInputEnvironment const env;
+    fcn::sdl3::Input input(env.mWindow);
+
+    input.startTextInput();
+    input.startTextInput();
+    REQUIRE(SDL_TextInputActive(env.mWindow));
+
+    input.stopTextInput();
+    input.stopTextInput();
+    REQUIRE_FALSE(SDL_TextInputActive(env.mWindow));
 }

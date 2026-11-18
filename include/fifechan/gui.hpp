@@ -317,6 +317,15 @@ namespace fcn
              */
             void widgetDied(Widget const * widget);
 
+        private:
+            /**
+             * Starts or stops backend text input so it matches the current focus.
+             *
+             * Text input is active exactly when a focused, visible and enabled
+             * widget returns true from Widget::wantsTextInput().
+             */
+            void syncTextInputState();
+
         protected:
             /**
              * Handles all mouse input.
@@ -593,15 +602,15 @@ namespace fcn
             Input* mInput;
 
             /**
+             * True while backend text input is active because a focused,
+             * enabled and visible widget wants text input.
+             */
+            bool mTextInputActive{false};
+
+            /**
              * Holds the focus handler for the GUI.
              */
             FocusHandler* mFocusHandler;
-
-            /**
-             * Holds the previously focused widget to detect focus changes.
-             * Used to start/stop text input when focus changes.
-             */
-            Widget* mLastFocusedWidget{nullptr};
 
             /**
              * Holds the visibility event handler for the GUI.

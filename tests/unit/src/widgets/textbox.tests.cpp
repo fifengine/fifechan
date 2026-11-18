@@ -369,7 +369,7 @@ TEST_CASE("TextBox keyPressed RETURN inserts new row", "[unit][textbox]")
     {
         tb.setEditable(false);
         int const rowsBefore = tb.getNumberOfRows();
-        auto ke                   = makeKey(tb, fcn::Key::KEY_RETURN);
+        auto ke              = makeKey(tb, fcn::Key::KEY_RETURN);
         tb.keyPressed(ke);
         REQUIRE(tb.getNumberOfRows() == rowsBefore);
     }
@@ -625,4 +625,63 @@ TEST_CASE("TextBox getText returns correct content after edits", "[unit][textbox
 
     tb.setText("X\nY\nZ");
     REQUIRE(tb.getText() == "X\nY\nZ");
+}
+
+TEST_CASE("TextBox wantsTextInput follows editability", "[unit][textbox]")
+{
+    fcn::TextBox tb("text");
+    REQUIRE(tb.wantsTextInput() == true);
+
+    tb.setEditable(false);
+    REQUIRE(tb.wantsTextInput() == false);
+
+    tb.setEditable(true);
+    REQUIRE(tb.wantsTextInput() == true);
+}
+
+TEST_CASE("TextBox textInput is ignored when not editable", "[unit][textbox]")
+{
+    fcn::TextBox tb("abc");
+    tb.setCaretRowColumn(0, 3);
+    tb.setEditable(false);
+
+    fcn::TextInputEvent event(&tb, &tb, false, false, false, false, "XYZ");
+    tb.textInput(event);
+
+    REQUIRE(tb.getText() == "abc");
+    REQUIRE(tb.getCaretColumn() == 3);
+}
+
+TEST_CASE("TextBox textInput inserts UTF-8 text at the caret", "[unit][textbox]")
+{
+    fcn::TextBox tb("ab");
+    tb.setCaretRowColumn(0, 1);
+
+    fcn::TextInputEvent event(
+        &tb,
+        &tb,
+        false,
+        false,
+        false,
+        false,
+        "\xC3\xA4"
+        "c");
+    tb.textInput(event);
+
+    REQUIRE(
+        tb.getText() ==
+        "a\xC3\xA4"
+        "cb");
+    REQUIRE(tb.getCaretColumn() == 4);
+}
+
+TEST_CASE("TextBox keyPressed does not insert printable characters", "[unit][textbox]")
+{
+    fcn::TextBox tb("ab");
+    tb.setCaretRowColumn(0, 2);
+
+    auto event = makeKey(tb, 'x');
+    tb.keyPressed(event);
+
+    REQUIRE(tb.getText() == "ab");
 }

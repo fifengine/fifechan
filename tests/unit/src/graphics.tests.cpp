@@ -12,7 +12,7 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

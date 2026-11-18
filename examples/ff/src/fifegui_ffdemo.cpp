@@ -11,7 +11,7 @@
 // Third-party library includes
 #include <fifechan.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "ffdemo.hpp"
 
 int main(int /*argc*/, char** /*argv*/)

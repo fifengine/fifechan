@@ -15,7 +15,7 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/events/event.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/listeners/focuslistener.hpp"
@@ -123,7 +123,7 @@ namespace fcn
         }
 
         Widget* focused = mFocusedWidget;
-        mFocusedWidget  = nullptr;
+        setFocusedWidget(nullptr);
 
         Event const focusEvent(focused);
         distributeFocusLostEvent(focusEvent);
@@ -210,21 +210,25 @@ namespace fcn
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
-            Event const focusEvent(mFocusedWidget);
-            distributeFocusGainedEvent(focusEvent);
+            Widget* const newFocused = mWidgets.at(static_cast<std::size_t>(focusedWidget));
+            setFocusedWidget(newFocused);
         }
 
         if (focused >= 0) {
             Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
         }
+
+        if (focusedWidget >= 0) {
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
+            distributeFocusGainedEvent(focusEvent);
+        }
     }
 
     void FocusHandler::focusPrevious()
     {
         if (mWidgets.empty()) {
-            mFocusedWidget = nullptr;
+            setFocusedWidget(nullptr);
             return;
         }
 
@@ -264,14 +268,17 @@ namespace fcn
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
-            Event const focusEvent(mFocusedWidget);
-            distributeFocusGainedEvent(focusEvent);
+            setFocusedWidget(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
         }
 
         if (focused >= 0) {
             Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
+        }
+
+        if (focusedWidget >= 0) {
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
+            distributeFocusGainedEvent(focusEvent);
         }
     }
 
@@ -288,7 +295,10 @@ namespace fcn
     void FocusHandler::remove(Widget* widget)
     {
         if (isFocused(widget)) {
-            mFocusedWidget = nullptr;
+            // Do not distribute focus events here: remove() is reached from
+            // Widget::~Widget and _setFocusHandler() after releaseFocus(), so the
+            // widget may already be partially destroyed.
+            setFocusedWidget(nullptr);
         }
 
         auto iter = std::ranges::find(mWidgets, widget);
@@ -326,7 +336,7 @@ namespace fcn
     {
         if (mFocusedWidget != nullptr) {
             Widget* focused = mFocusedWidget;
-            mFocusedWidget  = nullptr;
+            setFocusedWidget(nullptr);
 
             Event const focusEvent(focused);
             distributeFocusLostEvent(focusEvent);
@@ -342,7 +352,7 @@ namespace fcn
         }
 
         if (mWidgets.empty()) {
-            mFocusedWidget = nullptr;
+            setFocusedWidget(nullptr);
             return;
         }
 
@@ -384,14 +394,17 @@ namespace fcn
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
-            Event const focusEvent(mFocusedWidget);
-            distributeFocusGainedEvent(focusEvent);
+            setFocusedWidget(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
         }
 
         if (focused >= 0) {
             Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
+        }
+
+        if (focusedWidget >= 0) {
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
+            distributeFocusGainedEvent(focusEvent);
         }
     }
 
@@ -404,7 +417,7 @@ namespace fcn
         }
 
         if (mWidgets.empty()) {
-            mFocusedWidget = nullptr;
+            setFocusedWidget(nullptr);
             return;
         }
 
@@ -446,14 +459,17 @@ namespace fcn
         }
 
         if (focusedWidget >= 0) {
-            mFocusedWidget = mWidgets.at(static_cast<std::size_t>(focusedWidget));
-            Event const focusEvent(mFocusedWidget);
-            distributeFocusGainedEvent(focusEvent);
+            setFocusedWidget(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
         }
 
         if (focused >= 0) {
             Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focused)));
             distributeFocusLostEvent(focusEvent);
+        }
+
+        if (focusedWidget >= 0) {
+            Event const focusEvent(mWidgets.at(static_cast<std::size_t>(focusedWidget)));
+            distributeFocusGainedEvent(focusEvent);
         }
     }
 

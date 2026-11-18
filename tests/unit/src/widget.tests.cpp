@@ -2597,6 +2597,13 @@ TEST_CASE("Widget draw applies its own opacity", "[unit][widget]")
     REQUIRE(graphics.getOpacity() == Catch::Approx(1.0F));
 }
 
+TEST_CASE("Widget wantsTextInput defaults to false", "[unit][widget]")
+{
+    fcn::Label const label("text");
+
+    REQUIRE(label.wantsTextInput() == false);
+}
+
 TEST_CASE("Widget opacity composes with ancestor opacity", "[unit][widget]")
 {
     Container root;

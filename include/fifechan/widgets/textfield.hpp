@@ -133,6 +133,8 @@ namespace fcn
 
             void textInput(TextInputEvent& event) override;
 
+            bool wantsTextInput() const override;
+
         protected:
             /**
              * Adjusts the size of the button to fit the caption.

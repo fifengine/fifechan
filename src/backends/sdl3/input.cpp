@@ -93,7 +93,7 @@ namespace fcn::sdl3
         }
     } // namespace
 
-    Input::Input() : mMouseInWindow(true)
+    Input::Input(SDL_Window* window) : mWindow(window), mMouseInWindow(true)
     {
     }
 
@@ -148,6 +148,26 @@ namespace fcn::sdl3
         std::string text = mTextInputQueue.front();
         mTextInputQueue.pop();
         return text;
+    }
+
+    void Input::startTextInput()
+    {
+        if (mWindow == nullptr || SDL_TextInputActive(mWindow)) {
+            return;
+        }
+
+        // Called from Gui::logic(); never throw on failure.
+        (void)SDL_StartTextInput(mWindow);
+    }
+
+    void Input::stopTextInput()
+    {
+        if (mWindow == nullptr || !SDL_TextInputActive(mWindow)) {
+            return;
+        }
+
+        // Called from Gui::logic() and ~Gui(); never throw on failure.
+        (void)SDL_StopTextInput(mWindow);
     }
 
     void Input::pushInput(SDL_Event event)

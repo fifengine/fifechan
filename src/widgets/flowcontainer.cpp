@@ -123,17 +123,17 @@ namespace fcn
                     ++layout;
                     columnW = layoutMax.at(static_cast<std::size_t>(layout));
                 }
-                dim.y += static_cast<int>(y);
+                dim.y += y;
 
                 switch (getAlignment()) {
                 case Alignment::Left:
-                    dim.x += static_cast<int>(x);
+                    dim.x += x;
                     break;
                 case Alignment::Center:
-                    dim.x += static_cast<int>(x) + ((columnW - layoutW) / 2);
+                    dim.x += x + ((columnW - layoutW) / 2);
                     break;
                 case Alignment::Right:
-                    dim.x += static_cast<int>(x) + (columnW - layoutW);
+                    dim.x += x + (columnW - layoutW);
                     break;
                 default:
                     throwException("Unknown alignment.");
@@ -179,10 +179,10 @@ namespace fcn
 
                 switch (getAlignment()) {
                 case Alignment::Top:
-                    dim.y += static_cast<int>(y);
+                    dim.y += y;
                     break;
                 case Alignment::Center:
-                    dim.y += static_cast<int>(y) + ((rowH - layoutH) / 2);
+                    dim.y += y + ((rowH - layoutH) / 2);
                     break;
                 case Alignment::Bottom:
                     dim.y += y + (rowH - layoutH);

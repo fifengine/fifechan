@@ -11,7 +11,7 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/imagefont.hpp"
 
 using fcn::Font;

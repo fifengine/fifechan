@@ -8,7 +8,7 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 #include "fifechan/focushandler.hpp"
 #include "fifechan/listeners/focuslistener.hpp"
@@ -1463,4 +1463,116 @@ TEST_CASE("FocusHandler multiple widgets focus cycling", "[unit][focushandler]")
     REQUIRE(fh.getFocused() == &lbl1);
     fh.focusPrevious();
     REQUIRE(fh.getFocused() == &lbl4); // wrapped
+}
+
+// ============================================================================
+// Widget::isFocused() must follow every focus path (WP0)
+// ============================================================================
+
+TEST_CASE("FocusHandler focusNext updates Widget::isFocused", "[unit][focushandler]")
+{
+    FocusHandler fh;
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+
+    fh.add(&lbl1);
+    fh.add(&lbl2);
+
+    fh.focusNext();
+    REQUIRE(fh.getFocused() == &lbl1);
+    REQUIRE(lbl1.isFocused());
+
+    fh.focusNext();
+    REQUIRE(fh.getFocused() == &lbl2);
+    REQUIRE_FALSE(lbl1.isFocused());
+    REQUIRE(lbl2.isFocused());
+}
+
+TEST_CASE("FocusHandler focusPrevious updates Widget::isFocused", "[unit][focushandler]")
+{
+    FocusHandler fh;
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+
+    fh.add(&lbl1);
+    fh.add(&lbl2);
+
+    fh.focusPrevious();
+    REQUIRE(fh.getFocused() == &lbl2);
+    REQUIRE(lbl2.isFocused());
+
+    fh.focusPrevious();
+    REQUIRE(fh.getFocused() == &lbl1);
+    REQUIRE_FALSE(lbl2.isFocused());
+    REQUIRE(lbl1.isFocused());
+}
+
+TEST_CASE("FocusHandler tabNext updates Widget::isFocused", "[unit][focushandler]")
+{
+    FocusHandler fh;
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+
+    lbl1._setFocusHandler(&fh);
+    lbl2._setFocusHandler(&fh);
+
+    fh.add(&lbl1);
+    fh.add(&lbl2);
+
+    fh.tabNext();
+    REQUIRE(fh.getFocused() == &lbl1);
+    REQUIRE(lbl1.isFocused());
+
+    fh.tabNext();
+    REQUIRE(fh.getFocused() == &lbl2);
+    REQUIRE_FALSE(lbl1.isFocused());
+    REQUIRE(lbl2.isFocused());
+}
+
+TEST_CASE("FocusHandler tabPrevious updates Widget::isFocused", "[unit][focushandler]")
+{
+    FocusHandler fh;
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+
+    lbl1._setFocusHandler(&fh);
+    lbl2._setFocusHandler(&fh);
+
+    fh.add(&lbl1);
+    fh.add(&lbl2);
+
+    fh.requestFocus(&lbl1);
+    fh.tabPrevious();
+    REQUIRE(fh.getFocused() == &lbl2);
+    REQUIRE_FALSE(lbl1.isFocused());
+    REQUIRE(lbl2.isFocused());
+}
+
+TEST_CASE("FocusHandler tab navigation notifies focus listeners once", "[unit][focushandler]")
+{
+    FocusHandler fh;
+    fcn::FocusableLabel lbl1("first");
+    fcn::FocusableLabel lbl2("second");
+    fcn::TestFocusListener listener1;
+    fcn::TestFocusListener listener2;
+
+    lbl1._setFocusHandler(&fh);
+    lbl2._setFocusHandler(&fh);
+    lbl1.addFocusListener(&listener1);
+    lbl2.addFocusListener(&listener2);
+
+    fh.add(&lbl1);
+    fh.add(&lbl2);
+
+    fh.requestFocus(&lbl1);
+    listener1.reset();
+    listener2.reset();
+
+    fh.tabNext();
+
+    REQUIRE(fh.getFocused() == &lbl2);
+    REQUIRE(listener1.mFocusLostCount == 1);
+    REQUIRE(listener1.mFocusGainedCount == 0);
+    REQUIRE(listener2.mFocusGainedCount == 1);
+    REQUIRE(listener2.mFocusLostCount == 0);
 }

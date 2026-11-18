@@ -377,7 +377,7 @@ TEST_CASE("DragHandler enter, hover and drop reach the target", "[unit][dragdrop
 
     REQUIRE(!listener.types.empty());
     REQUIRE(listener.types.front() == DragEvent::Type::Enter);
-    REQUIRE(std::find(listener.types.begin(), listener.types.end(), DragEvent::Type::Hover) != listener.types.end());
+    REQUIRE(std::ranges::find(listener.types, DragEvent::Type::Hover) != listener.types.end());
     REQUIRE(listener.types[listener.types.size() - 2] == DragEvent::Type::Drop);
     REQUIRE(listener.types.back() == DragEvent::Type::Leave);
 }
@@ -404,7 +404,7 @@ TEST_CASE("DragHandler drop is rejected when the target declines", "[unit][dragd
     DropResult const result = handler.drop(20, 20);
     REQUIRE(result == DropResult::Rejected);
     REQUIRE(handler.getState() == fcn::DragState::Idle);
-    REQUIRE(std::find(listener.types.begin(), listener.types.end(), DragEvent::Type::Drop) != listener.types.end());
+    REQUIRE(std::ranges::find(listener.types, DragEvent::Type::Drop) != listener.types.end());
     REQUIRE(listener.types.back() == DragEvent::Type::Leave);
 }
 

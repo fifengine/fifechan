@@ -127,7 +127,7 @@ namespace fcn
         }
 
         graphics->setColor(faceColor);
-        int const borderSize = static_cast<int>(getBorderSize());
+        int const borderSize = getBorderSize();
         Rectangle const offsetRec(borderSize, borderSize, 2 * borderSize, 2 * borderSize);
         graphics->fillRectangle(offsetRec.x, offsetRec.y, getWidth() - offsetRec.width, getHeight() - offsetRec.height);
 

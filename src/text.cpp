@@ -15,7 +15,7 @@
 // Third-party library includes
 #include <utf8cpp/utf8.h>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"
 #include "fifechan/rectangle.hpp"
@@ -34,8 +34,8 @@ namespace fcn
         std::string::size_type pos     = content.find('\n', lastPos);
 
         for (; pos != std::string::npos; pos = content.find('\n', lastPos)) {
-            std::string::size_type length = pos - lastPos;
-            std::string const sub         = content.substr(lastPos, length);
+            std::string::size_type const length = pos - lastPos;
+            std::string const sub               = content.substr(lastPos, length);
             mRows.push_back(sub);
             lastPos = pos + 1;
         }
@@ -66,8 +66,8 @@ namespace fcn
         std::string::size_type pos     = 0;
 
         for (; (pos = content.find('\n', lastPos)) != std::string::npos; lastPos = pos + 1) {
-            std::string::size_type length = pos - lastPos;
-            std::string const sub         = content.substr(lastPos, length);
+            std::string::size_type const length = pos - lastPos;
+            std::string const sub               = content.substr(lastPos, length);
             mRows.push_back(sub);
         }
 
@@ -164,7 +164,7 @@ namespace fcn
     void Text::insert(int character)
     {
         assert("character is valid unicode" && character >= 0 && character <= 0x10FFFF);
-        assert("caret row is within bounds" && mCaretRow < static_cast<int>(mRows.size()));
+        assert("caret row is within bounds" && static_cast<std::size_t>(mCaretRow) < mRows.size());
 
         char const c = static_cast<char>(character);
 
@@ -176,12 +176,19 @@ namespace fcn
             }
         } else {
             if (c == '\n') {
-                std::string const tail =
-                    mRows.at(static_cast<std::size_t>(mCaretRow)).substr(static_cast<std::size_t>(mCaretColumn), mRows.at(static_cast<std::size_t>(mCaretRow)).size() - static_cast<std::size_t>(mCaretColumn));
+                std::string const tail = mRows.at(static_cast<std::size_t>(mCaretRow))
+                                             .substr(
+                                                 static_cast<std::size_t>(mCaretColumn),
+                                                 mRows.at(static_cast<std::size_t>(mCaretRow)).size() -
+                                                     static_cast<std::size_t>(mCaretColumn));
                 mRows.at(static_cast<std::size_t>(mCaretRow)).resize(static_cast<std::size_t>(mCaretColumn));
-                mRows.insert(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow) + 1), tail);
+                mRows.insert(
+                    mRows.begin() +
+                        static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow) + 1),
+                    tail);
             } else {
-                mRows.at(static_cast<std::size_t>(mCaretRow)).insert(static_cast<std::size_t>(mCaretColumn), std::string(1, c));
+                mRows.at(static_cast<std::size_t>(mCaretRow))
+                    .insert(static_cast<std::size_t>(mCaretColumn), std::string(1, c));
             }
         }
 
@@ -211,7 +218,9 @@ namespace fcn
                 // need to merge two rows.
                 if (mCaretColumn == 0 && mCaretRow != 0) {
                     mRows.at(static_cast<std::size_t>(mCaretRow - 1)) += mRows.at(static_cast<std::size_t>(mCaretRow));
-                    mRows.erase(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow)));
+                    mRows.erase(
+                        mRows.begin() +
+                        static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow)));
                     setCaretRow(mCaretRow - 1);
                     setCaretColumn(getNumberOfCharacters(mCaretRow));
                 } else {
@@ -226,16 +235,19 @@ namespace fcn
             while (numberOfCharacters != 0) {
                 // If all rows have been removed or
                 // caret is out of bounds there is nothing more to do.
-                if (mRows.empty() || mCaretRow >= static_cast<int>(mRows.size())) {
+                if (mRows.empty() || static_cast<std::size_t>(mCaretRow) >= mRows.size()) {
                     break;
                 }
 
                 // If we are at the end of row and the row
                 // is not the last row we need to merge two rows.
-                if (mCaretRow < static_cast<int>(mRows.size()) && mCaretColumn == static_cast<int>(mRows.at(static_cast<std::size_t>(mCaretRow)).size()) &&
-                    mCaretRow < (static_cast<int>(mRows.size()) - 1)) {
-                    mRows.at(static_cast<std::size_t>(mCaretRow)) += mRows.at(static_cast<std::size_t>(mCaretRow + 1));
-                    mRows.erase(mRows.begin() + static_cast<std::vector<std::string>::difference_type>(static_cast<std::size_t>(mCaretRow) + 1));
+                if (static_cast<std::size_t>(mCaretRow) < mRows.size() &&
+                    static_cast<std::size_t>(mCaretColumn) == mRows.at(static_cast<std::size_t>(mCaretRow)).size() &&
+                    static_cast<std::size_t>(mCaretRow) < (mRows.size() - 1)) {
+                    mRows.at(static_cast<std::size_t>(mCaretRow)) += mRows.at(static_cast<std::size_t>(mCaretRow) + 1);
+                    mRows.erase(
+                        mRows.begin() + static_cast<std::vector<std::string>::difference_type>(
+                                            static_cast<std::size_t>(mCaretRow) + 1));
                 } else {
                     mRows.at(static_cast<std::size_t>(mCaretRow)).erase(static_cast<std::size_t>(mCaretColumn), 1);
                 }
@@ -365,7 +377,8 @@ namespace fcn
             return 0;
         }
 
-        return font->getWidth(mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn)));
+        return font->getWidth(
+            mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn)));
     }
 
     int Text::getCaretY(Font* font) const
@@ -403,7 +416,11 @@ namespace fcn
         assert("font height is positive" && font->getHeight() > 0);
 
         Rectangle dim;
-        dim.x      = !mRows.empty() ? font->getWidth(mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn))) : 0;
+        dim.x =
+            !mRows.empty() ?
+                font->getWidth(
+                    mRows.at(static_cast<std::size_t>(mCaretRow)).substr(0, static_cast<std::size_t>(mCaretColumn))) :
+                0;
         dim.y      = font->getHeight() * mCaretRow;
         dim.width  = font->getWidth(" ");
         dim.height = font->getHeight() + 2;
@@ -427,9 +444,10 @@ namespace fcn
 
     int Text::getNumberOfCharacters() const
     {
-        return static_cast<int>(std::accumulate(mRows.begin(), mRows.end(), size_t{0}, [](size_t sum, auto const & row) {
-            return sum + row.size() + 1;
-        }));
+        return static_cast<int>(
+            std::accumulate(mRows.begin(), mRows.end(), size_t{0}, [](size_t sum, auto const & row) {
+                return sum + row.size() + 1;
+            }));
     }
 
     int Text::getNumberOfRows() const

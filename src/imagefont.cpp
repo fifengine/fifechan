@@ -22,7 +22,7 @@
 // Third-party library includes
 #include <SDL3/SDL.h>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
@@ -228,6 +228,7 @@ namespace fcn
             return std::max(maxHeight, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
@@ -275,6 +276,7 @@ namespace fcn
             y = mGlyph.at(k).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -311,15 +313,14 @@ namespace fcn
         int y   = 0;
 
         for (std::size_t i = 0; i < glyphs.size(); ++i) {
-            int glyph_code = static_cast<int>(glyphs.at(i)) - 32;
-            mGlyph.at(static_cast<std::size_t>(glyph_code)) =
-                scanForGlyph(static_cast<unsigned char>(glyph_code), x, y, separator);
+            auto const glyph = static_cast<unsigned char>(glyphs.at(i));
+            mGlyph.at(glyph) = scanForGlyph(glyph, x, y, separator);
             // Update x and y with new coordinates.
-            x = mGlyph.at(static_cast<std::size_t>(glyph_code)).x +
-                mGlyph.at(static_cast<std::size_t>(glyph_code)).width;
-            y = mGlyph.at(static_cast<std::size_t>(glyph_code)).y;
+            x = mGlyph.at(glyph).x + mGlyph.at(glyph).width;
+            y = mGlyph.at(glyph).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -361,6 +362,7 @@ namespace fcn
             return std::max(maxHeight, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
@@ -391,13 +393,14 @@ namespace fcn
         int x   = 0;
         int y   = 0;
 
-        for (int g = glyphsFrom; g <= glyphsTo; ++g) {
+        for (int g = static_cast<int>(glyphsFrom); std::cmp_less_equal(g, glyphsTo); ++g) {
             mGlyph.at(static_cast<size_t>(g)) = scanForGlyph(static_cast<unsigned char>(g), x, y, separator);
             // Update x and y with new coordinates.
             x = mGlyph.at(static_cast<size_t>(g)).x + mGlyph.at(static_cast<size_t>(g)).width;
             y = mGlyph.at(static_cast<size_t>(g)).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -435,15 +438,16 @@ namespace fcn
             throwException(os.str());
         }
 
-        for (std::size_t k = 0; k < static_cast<std::size_t>(expected); ++k) {
-            int const glyph                            = static_cast<int>(glyphsFrom) + static_cast<int>(k);
-            mGlyph.at(static_cast<std::size_t>(glyph)) = found.at(k);
+        for (int k = 0; k < expected; ++k) {
+            int const glyph                            = static_cast<int>(glyphsFrom) + k;
+            mGlyph.at(static_cast<std::size_t>(glyph)) = found.at(static_cast<std::size_t>(k));
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxH, auto const & r) {
             return std::max(maxH, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
@@ -452,6 +456,20 @@ namespace fcn
     ImageFont::~ImageFont()
     {
         delete mImage;
+    }
+
+    void ImageFont::cacheSourcePixels()
+    {
+        mSourceWidth  = mImage->getWidth();
+        mSourceHeight = mImage->getHeight();
+        mSourcePixels.clear();
+        mSourcePixels.reserve(static_cast<std::size_t>(mSourceWidth) * static_cast<std::size_t>(mSourceHeight));
+
+        for (int y = 0; y < mSourceHeight; ++y) {
+            for (int x = 0; x < mSourceWidth; ++x) {
+                mSourcePixels.push_back(mImage->getPixel(x, y));
+            }
+        }
     }
 
     int ImageFont::getWidth(unsigned char glyph) const
@@ -537,11 +555,19 @@ namespace fcn
 
                 for (int py = 0; py < r.height && (py + yoffset) < height; ++py) {
                     for (int px = 0; px < r.width && (curX + px) < totalWidth; ++px) {
-                        Color const col = mImage->getPixel(r.x + px, r.y + py);
+                        int const sourceX = r.x + px;
+                        int const sourceY = r.y + py;
+                        if (sourceX >= mSourceWidth || sourceY >= mSourceHeight) {
+                            continue;
+                        }
+
+                        Color const & col = mSourcePixels.at(
+                            (static_cast<std::size_t>(sourceY) * static_cast<std::size_t>(mSourceWidth)) +
+                            static_cast<std::size_t>(sourceX));
                         if (col.a < 128) {
                             continue; // skip transparent / separator pixel
                         }
-                        Uint32 pixel = SDL_MapRGBA(fmt, nullptr, col.r, col.g, col.b, col.a);
+                        Uint32 const pixel = SDL_MapRGBA(fmt, nullptr, col.r, col.g, col.b, col.a);
                         pixels[((py + yoffset) * pitch) + (curX + px)] = pixel;
                     }
                 }
@@ -555,12 +581,27 @@ namespace fcn
         return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(surface, SDL_SurfaceDeleter{});
     }
 
+    void ImageFont::drawString(Graphics* graphics, std::string_view text, int x, int y) const
+    {
+        if (graphics == nullptr || text.empty()) {
+            return;
+        }
+
+        // Image fonts store their colours in the atlas. Keep those colours by
+        // modulating with white, while still honouring the Graphics opacity
+        // applied by drawSurface().
+        Color const previousColor = graphics->getColor();
+        graphics->setColor(Color(255, 255, 255, 255));
+        Font::drawString(graphics, text, x, y);
+        graphics->setColor(previousColor);
+    }
+
     void ImageFont::setRowSpacing(int spacing)
     {
         mRowSpacing = spacing;
     }
 
-    int ImageFont::getRowSpacing()
+    int ImageFont::getRowSpacing() const
     {
         return mRowSpacing;
     }
@@ -570,7 +611,7 @@ namespace fcn
         mGlyphSpacing = spacing;
     }
 
-    int ImageFont::getGlyphSpacing()
+    int ImageFont::getGlyphSpacing() const
     {
         return mGlyphSpacing;
     }
