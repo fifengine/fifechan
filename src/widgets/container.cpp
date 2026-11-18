@@ -194,7 +194,7 @@ namespace fcn
         int visibleChilds = 0;
 
         std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        std::list<Widget*>::const_iterator const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
             if (!(*currChild)->isVisible()) {
                 continue;
@@ -218,8 +218,7 @@ namespace fcn
         Rectangle dimensions(0, 0, childMaxW, childMaxH);
 
         if (mLayout == LayoutPolicy::AutoSize && visibleChilds > 0) {
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -242,8 +241,7 @@ namespace fcn
              * - Width: uses child's width, but can be expanded if layoutMaxW > child's width (uniform sizing).
              * - Container height = sum of all children's heights + margins + vertical spacing + diffH.
              */
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -272,8 +270,7 @@ namespace fcn
              * - Height: uses child's height, but can be expanded if layoutMaxH > child's height (uniform sizing).
              * - Container width = sum of all children's widths + margins + horizontal spacing + diffW.
              */
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -297,7 +294,6 @@ namespace fcn
             auto const xRadius = static_cast<float>((childMaxW * 2) + static_cast<int>(getHorizontalSpacing()));
             auto const yRadius = static_cast<float>((childMaxH * 2) + static_cast<int>(getVerticalSpacing()));
             currChild          = mChildren.begin();
-            endChildren        = mChildren.end();
             int w              = 0;
             int h              = 0;
             int i              = 0;
@@ -331,8 +327,7 @@ namespace fcn
             int const centerX = w / 2;
             int const centerY = h / 2;
 
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -397,7 +392,7 @@ namespace fcn
         std::list<Widget*> vExpander;
 
         std::list<Widget*>::const_iterator currChild(mChildren.begin());
-        std::list<Widget*>::const_iterator endChildren(mChildren.end());
+        std::list<Widget*>::const_iterator const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
             if (!(*currChild)->isVisible()) {
                 continue;
@@ -505,8 +500,7 @@ namespace fcn
             // adapt position
             if (!hExpander.empty() || !vExpander.empty() || hexpand) {
                 Rectangle rec(0, 0, spaceW, 0);
-                currChild   = mChildren.begin();
-                endChildren = mChildren.end();
+                currChild = mChildren.begin();
                 for (; currChild != endChildren; ++currChild) {
                     if (!(*currChild)->isVisible()) {
                         continue;
@@ -601,8 +595,7 @@ namespace fcn
             // adapt position
             if (!hExpander.empty() || !vExpander.empty() || vexpand) {
                 Rectangle rec(0, 0, 0, spaceH);
-                currChild   = mChildren.begin();
-                endChildren = mChildren.end();
+                currChild = mChildren.begin();
                 for (; currChild != endChildren; ++currChild) {
                     if (!(*currChild)->isVisible()) {
                         continue;
@@ -627,7 +620,6 @@ namespace fcn
             int childMaxW     = 0;
             int childMaxH     = 0;
             currChild         = mChildren.begin();
-            endChildren       = mChildren.end();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -650,9 +642,8 @@ namespace fcn
             // this forces a uniform circle
             // xRadius = std::max(xRadius, yRadius);
             // yRadius = xRadius;
-            int i       = 0;
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            int i     = 0;
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
@@ -671,8 +662,7 @@ namespace fcn
         }
 
         if (recursion) {
-            currChild   = mChildren.begin();
-            endChildren = mChildren.end();
+            currChild = mChildren.begin();
             for (; currChild != endChildren; ++currChild) {
                 if (!(*currChild)->isVisible()) {
                     continue;
