@@ -105,8 +105,9 @@ namespace fcn
         bool const active = isFocused();
 
         // draw background
+        int const borderSize = getBorderSize();
         Rectangle const background(
-            getBorderSize(), getBorderSize(), getWidth() - (2 * getBorderSize()), getHeight() - (2 * getBorderSize()));
+            borderSize, borderSize, getWidth() - (2 * borderSize), getHeight() - (2 * borderSize));
         if (mBackgroundImage != nullptr) {
             graphics->drawImage(
                 mBackgroundImage, 0, 0, background.x, background.y, background.width, background.height);
@@ -121,8 +122,10 @@ namespace fcn
         }
 
         // rec for inner box
-        int const h = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
-        Rectangle const rec(getBorderSize() + getPaddingLeft(), getBorderSize() + getPaddingTop(), h, h);
+        int const h    = getHeight() - (2 * borderSize) - getPaddingTop() - getPaddingBottom();
+        int const recX = borderSize + getPaddingLeft();
+        int const recY = borderSize + getPaddingTop();
+        Rectangle const rec(recX, recY, h, h);
         if (mMode == MarkerStyle::Image) {
             // draw marker image
             drawMarkerImage(graphics, rec);
@@ -153,11 +156,11 @@ namespace fcn
             }
             // border around the inner box background
             int const alpha      = getBaseColor().a;
-            faceColor.a          = alpha;
+            faceColor.a          = static_cast<uint8_t>(alpha);
             Color highlightColor = faceColor + getHighlightOffset();
-            highlightColor.a     = alpha;
+            highlightColor.a     = static_cast<uint8_t>(alpha);
             Color shadowColor    = faceColor - getShadowOffset();
-            shadowColor.a        = alpha;
+            shadowColor.a        = static_cast<uint8_t>(alpha);
 
             int const recRight  = rec.x + rec.width - 1;
             int const recBottom = rec.y + rec.height - 1;
@@ -223,7 +226,7 @@ namespace fcn
 
         int const radius = (rec.width - 3) / 2;
 
-        graphics->drawFillCircle(p, radius);
+        graphics->drawFillCircle(p, static_cast<unsigned int>(radius));
     }
 
     void CheckBox::drawMarkerImage(Graphics* graphics, Rectangle const & rec)
@@ -269,11 +272,11 @@ namespace fcn
 
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
-        faceColor.a          = alpha;
+        faceColor.a          = static_cast<uint8_t>(alpha);
         Color highlightColor = faceColor + getHighlightOffset();
-        highlightColor.a     = alpha;
+        highlightColor.a     = static_cast<uint8_t>(alpha);
         Color shadowColor    = faceColor - getShadowOffset();
-        shadowColor.a        = alpha;
+        shadowColor.a        = static_cast<uint8_t>(alpha);
 
         graphics->setColor(getBackgroundColor());
 

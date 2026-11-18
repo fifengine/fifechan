@@ -13,7 +13,7 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/cliprectangle.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/font.hpp"

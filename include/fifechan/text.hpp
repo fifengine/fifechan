@@ -104,7 +104,7 @@ namespace fcn
              * @param row The row to add.
              * @param position Inserts new row before this row.
              */
-            virtual void insertRow(std::string const & row, unsigned int position);
+            virtual void insertRow(std::string const & row, int position);
 
             /**
              * Erases the given row. Calling this method will not change the current
@@ -112,7 +112,7 @@ namespace fcn
              *
              * @param row Row to be erased.
              */
-            virtual void eraseRow(unsigned int row);
+            virtual void eraseRow(int row);
 
             /**
              * Gets a reference to a row.
@@ -121,7 +121,7 @@ namespace fcn
              * @return The reference to a row.
              * @throws Exception when no such row exists.
              */
-            virtual std::string& getRow(unsigned int row);
+            virtual std::string& getRow(int row);
 
             /**
              * Inserts a character at the current caret position.
@@ -255,7 +255,7 @@ namespace fcn
              *
              * @return The maximum row the caret can be in.
              */
-            virtual unsigned int getMaximumCaretRow() const;
+            virtual int getMaximumCaretRow() const;
 
             /**
              * Gets the maximum column of a row the caret can be in.
@@ -263,21 +263,21 @@ namespace fcn
              * @param row The row of the caret.
              * @return The maximum column of a row the caret can be in.
              */
-            virtual unsigned int getMaximumCaretRow(unsigned int row) const;
+            virtual int getMaximumCaretRow(int row) const;
 
             /**
              * Gets the number of rows in the text.
              *
              * @return The number of rows in the text.
              */
-            virtual unsigned int getNumberOfRows() const;
+            virtual int getNumberOfRows() const;
 
             /**
              * Gets the number of characters in the text.
              *
              * @return The number of characters in the text.
              */
-            virtual unsigned int getNumberOfCharacters() const;
+            virtual int getNumberOfCharacters() const;
 
             /**
              * Gets the number of characters in a certain row in the text.
@@ -287,7 +287,7 @@ namespace fcn
              * @return The number of characters in a certain row, or zero
              *         if the row does not exist.
              */
-            virtual unsigned int getNumberOfCharacters(unsigned int row) const;
+            virtual int getNumberOfCharacters(int row) const;
 
         protected:
             /**
@@ -304,19 +304,19 @@ namespace fcn
              * Holds the position of the caret. This variable should
              * always be valid.
              */
-            unsigned int mCaretPosition{0};
+            int mCaretPosition{0};
 
             /**
              * Holds the row the caret is in. This variable should always
              * be valid.
              */
-            unsigned int mCaretRow{0};
+            int mCaretRow{0};
 
             /**
              * Holds the column the caret is in. This variable should always
              * be valid.
              */
-            unsigned int mCaretColumn{0};
+            int mCaretColumn{0};
     };
 } // namespace fcn
 

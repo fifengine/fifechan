@@ -58,9 +58,9 @@ namespace fcn
         Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = faceColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
         // Draw a border.
         graphics->setColor(shadowColor);
@@ -90,7 +90,6 @@ namespace fcn
         graphics->setColor(getForegroundColor());
         graphics->setFont(getFont());
 
-        Rectangle const & dim = mText->getCaretDimension(getFont());
         if (mText->getNumberOfRows() != 0) {
             graphics->drawText(mText->getRow(0), 1 - mXScroll, 1);
         }
@@ -130,22 +129,24 @@ namespace fcn
         Key const key = keyEvent.getKey();
 
         if (key.getValue() == fcn::Key::LEFT && getCaretPosition() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < getText().size()) {
-            setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(getText(), getCaretPosition()));
+        } else if (key.getValue() == fcn::Key::RIGHT && getCaretPosition() < static_cast<int>(getText().size())) {
+            setCaretPosition(fcn::UTF8StringEditor::nextChar(getText(), getCaretPosition()));
         } else if (
-            key.getValue() == fcn::Key::KEY_DELETE && getCaretPosition() < getText().size() &&
+            mEditable && key.getValue() == fcn::Key::KEY_DELETE &&
+            getCaretPosition() < static_cast<int>(getText().size()) && mText->getNumberOfRows() > 0) {
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), getCaretPosition()));
+        } else if (
+            mEditable && key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 &&
             mText->getNumberOfRows() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-        } else if (key.getValue() == fcn::Key::BACKSPACE && getCaretPosition() > 0 && mText->getNumberOfRows() > 0) {
-            setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
-            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), static_cast<int>(getCaretPosition())));
+            setCaretPosition(fcn::UTF8StringEditor::prevChar(mText->getRow(0), getCaretPosition()));
+            setCaretPosition(fcn::UTF8StringEditor::eraseChar(mText->getRow(0), getCaretPosition()));
         } else if (key.getValue() == fcn::Key::KEY_RETURN) {
             distributeActionEvent();
         } else if (key.getValue() == fcn::Key::HOME) {
             setCaretPosition(0);
         } else if (key.getValue() == fcn::Key::END) {
-            setCaretPosition(getText().size());
+            setCaretPosition(static_cast<int>(getText().size()));
         }
         // Printable characters are handled by textInput(TextInputEvent&).
 
@@ -161,10 +162,10 @@ namespace fcn
     void TextField::textInput(TextInputEvent& event)
     {
         std::string const & text = event.getText();
-        if (!text.empty() && mText->getNumberOfRows() > 0) {
+        if (mEditable && !text.empty() && mText->getNumberOfRows() > 0) {
             std::string& row = mText->getRow(0);
-            row.insert(getCaretPosition(), text);
-            setCaretPosition(getCaretPosition() + text.size());
+            row.insert(static_cast<std::string::size_type>(getCaretPosition()), text);
+            setCaretPosition(getCaretPosition() + static_cast<int>(text.size()));
             fixScroll();
         }
     }
@@ -209,12 +210,12 @@ namespace fcn
         }
     }
 
-    void TextField::setCaretPosition(unsigned int position)
+    void TextField::setCaretPosition(int position)
     {
         mText->setCaretPosition(position);
     }
 
-    unsigned int TextField::getCaretPosition() const
+    int TextField::getCaretPosition() const
     {
         return mText->getCaretPosition();
     }
@@ -232,5 +233,10 @@ namespace fcn
     void TextField::setEditable(bool editable)
     {
         mEditable = editable;
+    }
+
+    bool TextField::wantsTextInput() const
+    {
+        return mEditable;
     }
 } // namespace fcn

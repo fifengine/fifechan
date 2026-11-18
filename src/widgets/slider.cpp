@@ -69,7 +69,7 @@ namespace fcn
     {
         Color trackColor = getBackgroundColor() - Color(0x101010);
         int const alpha  = getBackgroundColor().a;
-        trackColor.a     = alpha;
+        trackColor.a     = static_cast<uint8_t>(alpha);
 
         graphics->setColor(trackColor);
         graphics->fillRectangle(0, 0, getWidth(), getHeight());
@@ -84,9 +84,9 @@ namespace fcn
         fcn::Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = faceColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
         graphics->setColor(faceColor);
 

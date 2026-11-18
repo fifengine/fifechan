@@ -7,6 +7,7 @@
 
 // Standard library includes
 #include <queue>
+#include <string>
 
 // Project headers (subdirs before local)
 #include "fifechan/input.hpp"
@@ -20,12 +21,27 @@ namespace fcn
     /**
      * A generic input implementation usable with various backends.
      *
+     * This input does not derive text from key presses. Integrators must push
+     * printable text explicitly with pushTextInput(); otherwise text widgets
+     * receive no input. This keeps the key/text distinction that IME
+     * composition, dead keys and paste require.
+     *
      * @ingroup input
      */
     class FIFEGUI_API GenericInput : public Input
     {
         public:
             GenericInput();
+
+            /**
+             * Pushes a UTF-8 text input event.
+             *
+             * Call this once per committed text event: printable keys, IME
+             * composition results and pasted text. Empty strings are ignored.
+             *
+             * @param text The UTF-8 text that was input.
+             */
+            void pushTextInput(std::string text);
 
             /**
              * Pushes a key pressed event.
@@ -119,6 +135,10 @@ namespace fcn
 
             MouseInput dequeueMouseInput() override;
 
+            bool isTextQueueEmpty() override;
+
+            std::string dequeueTextInput() override;
+
             void _pollInput() override;
 
         protected:
@@ -131,6 +151,11 @@ namespace fcn
              * Holds the mouse input queue.
              */
             std::queue<MouseInput> mMouseInputQueue;
+
+            /**
+             * Holds the text input queue.
+             */
+            std::queue<std::string> mTextInputQueue;
     };
 } // namespace fcn
 

@@ -58,7 +58,9 @@ namespace fcn::opengl
                         // Pack as R in bits 0-7, G in 8-15, B in 16-23, A in 24-31
                         size_t const idx =
                             static_cast<size_t>(x) + (static_cast<size_t>(y) * static_cast<size_t>(surface->w));
-                        packedPixels.at(idx) = r | (g << 8) | (b << 16) | (a << 24);
+                        packedPixels.at(idx) = static_cast<unsigned int>(r) | (static_cast<unsigned int>(g) << 8) |
+                                               (static_cast<unsigned int>(b) << 16) |
+                                               (static_cast<unsigned int>(a) << 24);
                     }
                 }
                 fcn::Image* image =

@@ -51,9 +51,10 @@ function(copy_resources_folder target folder_path)
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --cyan
             "Copying resources from '${folder_path}' to target directory for '${target}'"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${folder_path}"
-            "$<TARGET_FILE_DIR:${target}>"
+        COMMAND ${CMAKE_COMMAND}
+            "-DSRC=${folder_path}"
+            "-DDST=$<TARGET_FILE_DIR:${target}>"
+            -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CopyResourcesScript.cmake"
         COMMENT "Copying resources for ${target}"
         VERBATIM
     )

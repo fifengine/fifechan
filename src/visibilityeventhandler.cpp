@@ -5,7 +5,7 @@
 // Corresponding header include
 #include "fifechan/listeners/visibilityeventhandler.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/events/event.hpp"
 #include "fifechan/gui.hpp"
 

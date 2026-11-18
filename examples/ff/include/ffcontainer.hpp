@@ -22,6 +22,7 @@ class FFContainer : public fcn::Container
         FFContainer& operator=(FFContainer&&)       = delete;
 
         void logic() override;
+        void _draw(fcn::Graphics* graphics) override;
         void draw(fcn::Graphics* graphics) override;
         void setVisible(bool visible);
         void setWidth(int width) override;
@@ -35,7 +36,7 @@ class FFContainer : public fcn::Container
         int mRealHeight;
         int mSlideTarget;
         int mCurrentSlide;
-        int mTime;
+        uint64_t mTime;
         bool mShow;
 
         static int mInstances;

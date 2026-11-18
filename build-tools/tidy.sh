@@ -36,7 +36,7 @@ if [[ $# -gt 1 ]]; then
   exit 1
 fi
 
-PRESET="clang20-x64-linux-dbg"
+PRESET="clang22-x64-linux-dbg-cov"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${SCRIPT_DIR}/.."
@@ -105,7 +105,9 @@ if [[ $# -eq 1 ]]; then
   fi
   files=("$1")
 else
-  mapfile -t files < <(git ls-files | grep -E '^(src/|include/|examples/|tests/).*(\.(cpp|h|hpp))$' || true)
+  # Only analyze source files. Headers are checked via --header-filter when included.
+  # This ensures headers are analyzed with the correct flags from the compile database.
+  mapfile -t files < <(git ls-files | grep -E '^(src/|examples/|tests/).*(\.(cpp|cc|cxx))$' || true)
 
   if [[ ${#files[@]} -eq 0 ]]; then
     echo "No C/C++ source files found to analyze."
@@ -113,11 +115,18 @@ else
   fi
 fi
 
-# 1. include includes
-# 2. include fifechan
-# 3. include vcpkg dependencies
-# WTF is going on with stderr and stdout redirection here? is this interleaved?
-"$CLANG_TIDY" -p "$BUILD_DIR" "${files[@]}" -- \
-  -I"$REPO_ROOT/include" \
-  -I"$REPO_ROOT/include/fifechan" \
-  -I"$REPO_ROOT/vcpkg_installed/x64-linux/include" > "$REPO_ROOT/tidy_error.log" 2> "$REPO_ROOT/tidy.log" || true
+# 1. include project headers
+# 2. include generated headers (e.g. key_gen.h)
+# 3. include vcpkg dependencies (using -isystem to suppress third-party warnings)
+# Clang-tidy diagnostics (warnings/errors) go to stdout; tool-level messages go to stderr.
+echo "Analyzing ${#files[@]} files..."
+"$CLANG_TIDY" -p "$BUILD_DIR" \
+  --header-filter="^(${REPO_ROOT}/)?(src|include)/" \
+  -extra-arg="-I$REPO_ROOT/include" \
+  -extra-arg="-I$REPO_ROOT/include/fifechan" \
+  -extra-arg="-I${BUILD_DIR}/generated" \
+  -extra-arg="-isystem$REPO_ROOT/vcpkg_installed/x64-linux/include" \
+  "${files[@]}" \
+  > "$REPO_ROOT/tidy_error.log" 2> "$REPO_ROOT/tidy.log" || true
+
+echo "Results saved to tidy.log (processing log) and tidy_error.log (error log, if any)."

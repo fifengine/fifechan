@@ -68,7 +68,8 @@ namespace fcn
                     layoutMax.push_back(tmpSize);
                     tmpSize = 0;
                 }
-                y += rec.height + child->getMarginTop() + child->getMarginBottom() + getVerticalSpacing();
+                y += rec.height + child->getMarginTop() + child->getMarginBottom() +
+                     static_cast<int>(getVerticalSpacing());
                 tmpSize = std::max(
                     tmpSize,
                     rec.width + child->getMarginLeft() + (child->getMarginRight() > 0 ? child->getMarginRight() : 0));
@@ -82,7 +83,8 @@ namespace fcn
                     layoutMax.push_back(tmpSize);
                     tmpSize = 0;
                 }
-                x += rec.width + child->getMarginLeft() + child->getMarginRight() + getHorizontalSpacing();
+                x += rec.width + child->getMarginLeft() + child->getMarginRight() +
+                     static_cast<int>(getHorizontalSpacing());
                 tmpSize = std::max(
                     tmpSize,
                     rec.height + child->getMarginTop() + (child->getMarginBottom() > 0 ? child->getMarginBottom() : 0));
@@ -93,11 +95,11 @@ namespace fcn
         }
 
         // places all widgets
-        x                   = 0;
-        y                   = 0;
-        int totalW          = 0;
-        int totalH          = 0;
-        unsigned int layout = 0;
+        x          = 0;
+        y          = 0;
+        int totalW = 0;
+        int totalH = 0;
+        int layout = 0;
         if (mLayout == LayoutPolicy::Vertical && visibleChilds > 0) {
             currChild   = mChildren.begin();
             endChildren = mChildren.end();
@@ -105,7 +107,7 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int columnW       = layoutMax.at(layout);
+                int columnW       = layoutMax.at(static_cast<std::size_t>(layout));
                 int const layoutW = (*currChild)->getWidth() + (*currChild)->getMarginLeft() +
                                     ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0);
                 Rectangle dim(
@@ -116,10 +118,10 @@ namespace fcn
                 if (y + (*currChild)->getMarginTop() + dim.height +
                         ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0) >
                     containerH) {
-                    x += columnW + getHorizontalSpacing();
+                    x += columnW + static_cast<int>(getHorizontalSpacing());
                     y = 0;
                     ++layout;
-                    columnW = layoutMax.at(layout);
+                    columnW = layoutMax.at(static_cast<std::size_t>(layout));
                 }
                 dim.y += y;
 
@@ -139,7 +141,7 @@ namespace fcn
 
                 (*currChild)->setDimension(dim);
                 y += (*currChild)->getHeight() + (*currChild)->getMarginTop() + (*currChild)->getMarginBottom() +
-                     getVerticalSpacing();
+                     static_cast<int>(getVerticalSpacing());
                 totalW = std::max(totalW, dim.x + dim.width);
                 totalH = std::max(totalH, y);
             }
@@ -157,7 +159,7 @@ namespace fcn
                 if (!(*currChild)->isVisible()) {
                     continue;
                 }
-                int rowH          = layoutMax.at(layout);
+                int rowH          = layoutMax.at(static_cast<std::size_t>(layout));
                 int const layoutH = (*currChild)->getHeight() + (*currChild)->getMarginTop() +
                                     ((*currChild)->getMarginBottom() > 0 ? (*currChild)->getMarginBottom() : 0);
                 Rectangle dim(
@@ -169,9 +171,9 @@ namespace fcn
                         ((*currChild)->getMarginRight() > 0 ? (*currChild)->getMarginRight() : 0) >
                     containerW) {
                     x = 0;
-                    y += rowH + getVerticalSpacing();
+                    y += rowH + static_cast<int>(getVerticalSpacing());
                     ++layout;
-                    rowH = layoutMax.at(layout);
+                    rowH = layoutMax.at(static_cast<std::size_t>(layout));
                 }
                 dim.x += x;
 
@@ -191,12 +193,12 @@ namespace fcn
 
                 (*currChild)->setDimension(dim);
                 x += (*currChild)->getWidth() + (*currChild)->getMarginLeft() + (*currChild)->getMarginRight() +
-                     getHorizontalSpacing();
+                     static_cast<int>(getHorizontalSpacing());
                 totalW = std::max(totalW, x);
                 totalH = std::max(totalH, dim.y + dim.height);
             }
             // remove last spacing
-            totalW -= getHorizontalSpacing();
+            totalW -= static_cast<int>(getHorizontalSpacing());
             // always expand width but height only if vertical expand is enabled
             totalW = std::max(totalW, containerW);
             if (isVerticalExpand()) {

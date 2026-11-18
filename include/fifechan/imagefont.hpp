@@ -9,6 +9,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <vector>
 
 // Platform config include
 #include "fifechan/platform.hpp"
@@ -239,7 +240,7 @@ namespace fcn
              * @return The space between rows in pixels.
              * @see setRowSpacing
              */
-            virtual int getRowSpacing();
+            virtual int getRowSpacing() const;
 
             /**
              * Sets the spacing between glyphs in pixels. Default is 0 pixels.
@@ -256,7 +257,7 @@ namespace fcn
              * @return the spacing.
              * @see setGlyphSpacing
              */
-            virtual int getGlyphSpacing();
+            virtual int getGlyphSpacing() const;
 
             /**
              * Gets a width of a glyph in pixels.
@@ -276,6 +277,21 @@ namespace fcn
 
             auto renderToSurface(std::string_view text) const
                 -> std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter> override;
+
+            /**
+             * Draws a string using the glyph colours stored in the font image.
+             *
+             * Image fonts carry their own colours in the source atlas, so the
+             * current Graphics colour must not tint them. The colour is set to
+             * white for the duration of the draw (preserving the Graphics
+             * opacity) and then restored.
+             *
+             * @param graphics A Graphics object to use for drawing.
+             * @param text The string to draw.
+             * @param x The x coordinate where to draw the string.
+             * @param y The y coordinate where to draw the string.
+             */
+            void drawString(Graphics* graphics, std::string_view text, int x, int y) const override;
 
         protected:
             /**
@@ -321,9 +337,33 @@ namespace fcn
             Image* mImage{nullptr};
 
             /**
+             * Holds a copy of the source image pixels.
+             *
+             * Some backends discard the pixel buffer when the image is
+             * converted to display format. renderToSurface() needs the source
+             * pixels, so they are cached before conversion.
+             */
+            std::vector<Color> mSourcePixels;
+
+            /**
+             * Holds the width of the cached source image.
+             */
+            int mSourceWidth{0};
+
+            /**
+             * Holds the height of the cached source image.
+             */
+            int mSourceHeight{0};
+
+            /**
              * Holds the filename of the image with the font data.
              */
             std::string mFilename;
+
+            /**
+             * Copies the source image pixels into the cache.
+             */
+            void cacheSourcePixels();
     };
 } // namespace fcn
 

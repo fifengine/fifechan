@@ -137,7 +137,7 @@ namespace fcn
         } else {
             newPoints = m_data;
         }
-        int const elements = newPoints.size();
+        int const elements = static_cast<int>(newPoints.size());
 
         auto it   = newPoints.begin();
         Point old = *it;
@@ -150,27 +150,28 @@ namespace fcn
             distance += Mathf::Sqrt((rx * rx) + (ry * ry));
         }
 
-        int lines = static_cast<int>(std::ceil((distance / elements) / m_thickness));
+        int lines =
+            static_cast<int>(std::ceil((distance / static_cast<float>(elements)) / static_cast<float>(m_thickness)));
 
         lines = std::max(lines, 2);
 
         float const step = 1.0F / static_cast<float>(lines - 1);
         float t          = 0.0F;
-        m_curveData.push_back(getBezierPoint(newPoints, static_cast<int>(newPoints.size()), t));
+        m_curveData.push_back(getBezierPoint(newPoints, elements, t));
         for (int i = 0; i <= (elements * lines); ++i) {
             t += step;
-            m_curveData.push_back(getBezierPoint(newPoints, newPoints.size(), t));
+            m_curveData.push_back(getBezierPoint(newPoints, elements, t));
         }
         m_needUpdate = false;
     }
 
     Point CurveGraph::getBezierPoint(PointVector const & points, int elements, float t)
     {
-        if (t < 0.0) {
+        if (t < 0.0F) {
             return points.at(0);
         }
 
-        if (t >= static_cast<double>(elements)) {
+        if (t >= static_cast<float>(elements)) {
             return points.back();
         }
 
@@ -201,8 +202,8 @@ namespace fcn
                     diffn--;
                 }
             }
-            px += static_cast<double>(points.at(i).x) * blend;
-            py += static_cast<double>(points.at(i).y) * blend;
+            px += static_cast<double>(points.at(static_cast<size_t>(i)).x) * blend;
+            py += static_cast<double>(points.at(static_cast<size_t>(i)).y) * blend;
         }
 
         return Point(static_cast<int>(px), static_cast<int>(py));
@@ -214,7 +215,7 @@ namespace fcn
             return;
         }
 
-        int const n = points.size() - 1;
+        int const n = static_cast<int>(points.size()) - 1;
 
         // min 2 points
         if (n < 1) {
@@ -239,15 +240,21 @@ namespace fcn
         std::vector<float> xrhs(static_cast<size_t>(n));
         std::vector<float> yrhs(static_cast<size_t>(n));
         // first
-        xrhs.at(0) = static_cast<float>(points.at(0).x + (2 * points.at(1).x));
-        yrhs.at(0) = static_cast<float>(points.at(0).y + (2 * points.at(1).y));
+        xrhs.at(0) = static_cast<float>(points.at(0).x) + (2.0F * static_cast<float>(points.at(1).x));
+        yrhs.at(0) = static_cast<float>(points.at(0).y) + (2.0F * static_cast<float>(points.at(1).y));
         // last
-        xrhs.at(n - 1) = static_cast<float>(((8 * points.at(n - 1).x) + points.at(n).x) / 2.0F);
-        yrhs.at(n - 1) = static_cast<float>(((8 * points.at(n - 1).y) + points.at(n).y) / 2.0F);
+        xrhs.at(static_cast<size_t>(n) - 1) = ((8.0F * static_cast<float>(points.at(static_cast<size_t>(n) - 1).x)) +
+                                               static_cast<float>(points.at(static_cast<size_t>(n)).x)) /
+                                              2.0F;
+        yrhs.at(static_cast<size_t>(n) - 1) = ((8.0F * static_cast<float>(points.at(static_cast<size_t>(n) - 1).y)) +
+                                               static_cast<float>(points.at(static_cast<size_t>(n)).y)) /
+                                              2.0F;
         // rest
         for (int i = 1; i < n - 1; ++i) {
-            xrhs.at(i) = static_cast<float>((4 * points.at(i).x) + (2 * points.at(i + 1).x));
-            yrhs.at(i) = static_cast<float>((4 * points.at(i).y) + (2 * points.at(i + 1).y));
+            xrhs.at(static_cast<size_t>(i)) = (4.0F * static_cast<float>(points.at(static_cast<size_t>(i)).x)) +
+                                              (2.0F * static_cast<float>(points.at(static_cast<size_t>(i) + 1).x));
+            yrhs.at(static_cast<size_t>(i)) = (4.0F * static_cast<float>(points.at(static_cast<size_t>(i)).y)) +
+                                              (2.0F * static_cast<float>(points.at(static_cast<size_t>(i) + 1).y));
         }
 
         std::vector<float> x(static_cast<size_t>(n));
@@ -260,38 +267,45 @@ namespace fcn
         y.at(0)  = yrhs.at(0) / yb;
         // Decomposition and forward substitution.
         for (int i = 1; i < n; i++) {
-            xtmp.at(i) = 1 / xb;
-            ytmp.at(i) = 1 / yb;
-            xb         = (i < n - 1 ? 4.0F : 3.5F) - xtmp.at(i);
-            yb         = (i < n - 1 ? 4.0F : 3.5F) - ytmp.at(i);
-            x.at(i)    = (xrhs.at(i) - x.at(i - 1)) / xb;
-            y.at(i)    = (yrhs.at(i) - y.at(i - 1)) / yb;
+            size_t const idx = static_cast<size_t>(i);
+            xtmp.at(idx)     = 1 / xb;
+            ytmp.at(idx)     = 1 / yb;
+            xb               = (i < n - 1 ? 4.0F : 3.5F) - xtmp.at(idx);
+            yb               = (i < n - 1 ? 4.0F : 3.5F) - ytmp.at(idx);
+            x.at(idx)        = (xrhs.at(idx) - x.at(idx - 1)) / xb;
+            y.at(idx)        = (yrhs.at(idx) - y.at(idx - 1)) / yb;
         }
         // Backward substitution
         for (int i = 1; i < n; i++) {
-            x.at(n - i - 1) -= xtmp.at(n - i) * x.at(n - i);
-            y.at(n - i - 1) -= ytmp.at(n - i) * y.at(n - i);
+            size_t const idx          = static_cast<size_t>(i);
+            size_t const revIdx       = static_cast<size_t>(n) - idx;
+            size_t const revIdxMinus1 = revIdx - 1;
+            x.at(revIdxMinus1) -= xtmp.at(revIdx) * x.at(revIdx);
+            y.at(revIdxMinus1) -= ytmp.at(revIdx) * y.at(revIdx);
         }
 
         // start point
         newPoints.push_back(points.at(0));
         for (int i = 0; i < n - 1; ++i) {
-            p.x = static_cast<int>(x.at(i));
-            p.y = static_cast<int>(y.at(i));
+            size_t const idx = static_cast<size_t>(i);
+            p.x              = static_cast<int>(x.at(idx));
+            p.y              = static_cast<int>(y.at(idx));
             newPoints.push_back(p);
-            p.x = static_cast<int>((2 * points.at(i + 1).x) - x.at(i + 1));
-            p.y = static_cast<int>((2 * points.at(i + 1).y) - y.at(i + 1));
+            p.x = static_cast<int>(static_cast<float>(2 * points.at(idx + 1).x) - x.at(idx + 1));
+            p.y = static_cast<int>(static_cast<float>(2 * points.at(idx + 1).y) - y.at(idx + 1));
             newPoints.push_back(p);
 
-            newPoints.push_back(points.at(i + 1));
+            newPoints.push_back(points.at(idx + 1));
         }
-        p.x = static_cast<int>(x.at(n - 1));
-        p.y = static_cast<int>(y.at(n - 1));
+        p.x = static_cast<int>(x.at(static_cast<size_t>(n) - 1));
+        p.y = static_cast<int>(y.at(static_cast<size_t>(n) - 1));
         newPoints.push_back(p);
-        p.x = static_cast<int>((points.at(n).x + x.at(n - 1)) / 2);
-        p.y = static_cast<int>((points.at(n).y + y.at(n - 1)) / 2);
+        p.x = static_cast<int>(
+            (static_cast<float>(points.at(static_cast<size_t>(n)).x) + x.at(static_cast<size_t>(n) - 1)) / 2);
+        p.y = static_cast<int>(
+            (static_cast<float>(points.at(static_cast<size_t>(n)).y) + y.at(static_cast<size_t>(n) - 1)) / 2);
         newPoints.push_back(p);
         // end point
-        newPoints.push_back(points.at(n));
+        newPoints.push_back(points.at(static_cast<size_t>(n)));
     }
 }; // namespace fcn

@@ -132,22 +132,22 @@ namespace fcn
         // Convert each component using std::strtol with error handling
         char* end = nullptr;
 
-        int const red = std::strtol(redStr.c_str(), &end, 10);
+        int const red = static_cast<int>(std::strtol(redStr.c_str(), &end, 10));
         if (*end != '\0') {
             throw std::invalid_argument("Invalid red value.");
         }
 
-        int const green = std::strtol(greenStr.c_str(), &end, 10);
+        int const green = static_cast<int>(std::strtol(greenStr.c_str(), &end, 10));
         if (*end != '\0') {
             throw std::invalid_argument("Invalid green value.");
         }
 
-        int const blue = std::strtol(blueStr.c_str(), &end, 10);
+        int const blue = static_cast<int>(std::strtol(blueStr.c_str(), &end, 10));
         if (*end != '\0') {
             throw std::invalid_argument("Invalid blue value.");
         }
 
-        int const alpha = std::strtol(alphaStr.c_str(), &end, 10);
+        int const alpha = static_cast<int>(std::strtol(alphaStr.c_str(), &end, 10));
         if (withAlpha && *end != '\0') {
             throw std::invalid_argument("Invalid alpha value.");
         }
@@ -215,27 +215,27 @@ namespace fcn
 
     Color& Color::operator+=(Color const & color)
     {
-        r = std::clamp(static_cast<int>(r) + static_cast<int>(color.r), 0, 255);
-        g = std::clamp(static_cast<int>(g) + static_cast<int>(color.g), 0, 255);
-        b = std::clamp(static_cast<int>(b) + static_cast<int>(color.b), 0, 255);
+        r = static_cast<uint8_t>(std::clamp(static_cast<int>(r) + static_cast<int>(color.r), 0, 255));
+        g = static_cast<uint8_t>(std::clamp(static_cast<int>(g) + static_cast<int>(color.g), 0, 255));
+        b = static_cast<uint8_t>(std::clamp(static_cast<int>(b) + static_cast<int>(color.b), 0, 255));
         // Alpha remains unchanged
         return *this; // Return the modified object (current instance)
     }
 
     Color& Color::operator-=(Color const & color)
     {
-        r = std::max(0, static_cast<int>(r) - static_cast<int>(color.r));
-        g = std::max(0, static_cast<int>(g) - static_cast<int>(color.g));
-        b = std::max(0, static_cast<int>(b) - static_cast<int>(color.b));
+        r = static_cast<uint8_t>(std::max(0, static_cast<int>(r) - static_cast<int>(color.r)));
+        g = static_cast<uint8_t>(std::max(0, static_cast<int>(g) - static_cast<int>(color.g)));
+        b = static_cast<uint8_t>(std::max(0, static_cast<int>(b) - static_cast<int>(color.b)));
         // Alpha remains unchanged
         return *this; // Return the modified object (current instance)
     }
 
     Color& Color::operator*=(float value)
     {
-        r = std::clamp(static_cast<int>(r * value), 0, 255);
-        g = std::clamp(static_cast<int>(g * value), 0, 255);
-        b = std::clamp(static_cast<int>(b * value), 0, 255);
+        r = static_cast<uint8_t>(std::clamp(static_cast<int>(r * value), 0, 255));
+        g = static_cast<uint8_t>(std::clamp(static_cast<int>(g * value), 0, 255));
+        b = static_cast<uint8_t>(std::clamp(static_cast<int>(b * value), 0, 255));
         // Alpha remains unchanged
         return *this; // Return the modified object (current instance)
     }

@@ -145,7 +145,7 @@ namespace fcn
 
         // Left/Right to navigate between menu items
         if (key.getValue() == fcn::Key::LEFT || key.getValue() == fcn::Key::RIGHT) {
-            unsigned const childCount = getChildrenCount();
+            unsigned const childCount = static_cast<unsigned int>(getChildrenCount());
             if (childCount == 0) {
                 return;
             }
@@ -157,7 +157,7 @@ namespace fcn
             }
 
             // Focus the selected menu item
-            Widget* child = getChild(mSelectedIndex);
+            Widget* child = getChild(static_cast<unsigned int>(mSelectedIndex));
             if (child != nullptr) {
                 child->requestFocus();
                 event.consume();
@@ -168,7 +168,7 @@ namespace fcn
         // Enter or Down to open the selected menu
         if (key.getValue() == fcn::Key::KEY_RETURN || key.getValue() == fcn::Key::DOWN) {
             if (mSelectedIndex >= 0 && std::cmp_less(mSelectedIndex, getChildrenCount())) {
-                Widget* child = getChild(mSelectedIndex);
+                Widget* child = getChild(static_cast<unsigned int>(mSelectedIndex));
                 if (auto const * menuItem = dynamic_cast<MenuItem*>(child)) {
                     if (menuItem->getSubmenu() != nullptr) {
                         action(ActionEvent(this, ""));

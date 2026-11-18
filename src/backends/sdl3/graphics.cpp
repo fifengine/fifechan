@@ -54,7 +54,7 @@ namespace fcn::sdl3
 
         SDL_Vertex makeSolidVertex(float x, float y, SDL_FColor const & color)
         {
-            return SDL_Vertex{.position = {.x = x, .y = y}, .color = color};
+            return SDL_Vertex{.position = {.x = x, .y = y}, .color = color, .tex_coord = {.x = 0.0F, .y = 0.0F}};
         }
     } // namespace
 
@@ -233,7 +233,7 @@ namespace fcn::sdl3
 
         saveRenderColor();
         setRenderDrawColor(mRenderTarget, mColor, getOpacity());
-        SDL_RenderPoint(mRenderTarget, x, y);
+        SDL_RenderPoint(mRenderTarget, static_cast<float>(x), static_cast<float>(y));
         restoreRenderColor();
     }
 
@@ -276,7 +276,12 @@ namespace fcn::sdl3
 
         saveRenderColor();
         setRenderDrawColor(mRenderTarget, mColor, getOpacity());
-        SDL_RenderLine(mRenderTarget, x1, y, x2, y);
+        SDL_RenderLine(
+            mRenderTarget,
+            static_cast<float>(x1),
+            static_cast<float>(y),
+            static_cast<float>(x2),
+            static_cast<float>(y));
         restoreRenderColor();
     }
 
@@ -319,7 +324,12 @@ namespace fcn::sdl3
 
         saveRenderColor();
         setRenderDrawColor(mRenderTarget, mColor, getOpacity());
-        SDL_RenderLine(mRenderTarget, x, y1, x, y2);
+        SDL_RenderLine(
+            mRenderTarget,
+            static_cast<float>(x),
+            static_cast<float>(y1),
+            static_cast<float>(x),
+            static_cast<float>(y2));
         restoreRenderColor();
     }
 
@@ -354,7 +364,12 @@ namespace fcn::sdl3
 
         saveRenderColor();
         setRenderDrawColor(mRenderTarget, mColor, getOpacity());
-        SDL_RenderLine(mRenderTarget, x1, y1, x2, y2);
+        SDL_RenderLine(
+            mRenderTarget,
+            static_cast<float>(x1),
+            static_cast<float>(y1),
+            static_cast<float>(x2),
+            static_cast<float>(y2));
         restoreRenderColor();
     }
 
@@ -410,28 +425,32 @@ namespace fcn::sdl3
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                .tex_coord = {.x = 0.0F, .y = 0.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x1) + offsetX, .y = static_cast<float>(y1) - offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                .tex_coord = {.x = 0.0F, .y = 0.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) + offsetX, .y = static_cast<float>(y2) - offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                .tex_coord = {.x = 0.0F, .y = 0.0F}},
             SDL_Vertex{
                 .position = {.x = static_cast<float>(x2) - offsetX, .y = static_cast<float>(y2) + offsetY},
                 .color    = {
                        .r = static_cast<float>(mColor.r) / 255.0F,
                        .g = static_cast<float>(mColor.g) / 255.0F,
                        .b = static_cast<float>(mColor.b) / 255.0F,
-                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
+                       .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                .tex_coord = {.x = 0.0F, .y = 0.0F}}};
         // clang-format on
 
         // Two triangles forming a quad
@@ -493,7 +512,7 @@ namespace fcn::sdl3
 
             // Generate triangle fan vertices for filled circle
             std::vector<SDL_Vertex> vertices;
-            vertices.reserve(circleSegments + 2);
+            vertices.reserve(static_cast<size_t>(circleSegments) + 2);
 
             // Center vertex
             // TODO: remove format off. this formatting is inconsistent between clang-format versions
@@ -505,15 +524,16 @@ namespace fcn::sdl3
                            .r = static_cast<float>(mColor.r) / 255.0F,
                            .g = static_cast<float>(mColor.g) / 255.0F,
                            .b = static_cast<float>(mColor.b) / 255.0F,
-                           .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}});
+                           .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                    .tex_coord = {.x = 0.0F, .y = 0.0F}});
             // clang-format on
 
             // Circle edge vertices
             for (int i = 0; i <= circleSegments; ++i) {
                 float const angle =
                     2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(circleSegments);
-                float const x = static_cast<float>(centerX) + (radius * std::cos(angle));
-                float const y = static_cast<float>(centerY) + (radius * std::sin(angle));
+                float const x = static_cast<float>(centerX) + (static_cast<float>(radius) * std::cos(angle));
+                float const y = static_cast<float>(centerY) + (static_cast<float>(radius) * std::sin(angle));
                 // TODO: remove format off. this formatting is inconsistent between clang-format versions
                 // clang-format off
                 vertices.push_back(
@@ -523,7 +543,8 @@ namespace fcn::sdl3
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}});
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}});
                 // clang-format on
             }
 
@@ -564,7 +585,7 @@ namespace fcn::sdl3
         // Generate triangle fan vertices for the circle
         int const numSegments = std::max(8, static_cast<int>(radius / 2));
         std::vector<SDL_Vertex> vertices;
-        vertices.reserve(numSegments + 2);
+        vertices.reserve(static_cast<size_t>(numSegments) + 2);
         SDL_FColor const vertexColor = toSDLVertexColor(mColor, getOpacity());
 
         // Center vertex
@@ -574,8 +595,8 @@ namespace fcn::sdl3
         for (int i = 0; i <= numSegments; ++i) {
             float const angle =
                 2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
-            float const x = static_cast<float>(x0) + (radius * std::cos(angle));
-            float const y = static_cast<float>(y0) + (radius * std::sin(angle));
+            float const x = static_cast<float>(x0) + (static_cast<float>(radius) * std::cos(angle));
+            float const y = static_cast<float>(y0) + (static_cast<float>(radius) * std::sin(angle));
             vertices.push_back(makeSolidVertex(x, y, vertexColor));
         }
 
@@ -638,15 +659,6 @@ namespace fcn::sdl3
 
     namespace
     {
-        int normalizeAngle(int angle)
-        {
-            angle %= 360;
-            if (angle < 0) {
-                angle += 360;
-            }
-            return angle;
-        }
-
         fcn::Point bezierPoint(fcn::PointVector const & controlPoints, float t)
         {
             // De Casteljau's algorithm for Bezier curves
@@ -682,14 +694,14 @@ namespace fcn::sdl3
         // Generate vertices along the circle and connect with line segments
         int const numSegments = std::max(8, static_cast<int>(radius / 2));
         std::vector<SDL_Vertex> vertices;
-        vertices.reserve(numSegments + 1);
+        vertices.reserve(static_cast<size_t>(numSegments) + 1);
         SDL_FColor const vertexColor = toSDLVertexColor(mColor, getOpacity());
 
         for (int i = 0; i <= numSegments; ++i) {
             float const angle =
                 2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(numSegments);
-            float const x = static_cast<float>(x0) + (radius * std::cos(angle));
-            float const y = static_cast<float>(y0) + (radius * std::sin(angle));
+            float const x = static_cast<float>(x0) + (static_cast<float>(radius) * std::cos(angle));
+            float const y = static_cast<float>(y0) + (static_cast<float>(radius) * std::sin(angle));
             vertices.push_back(makeSolidVertex(x, y, vertexColor));
         }
 
@@ -740,7 +752,7 @@ namespace fcn::sdl3
 
         // Generate all points along the Bezier curve
         std::vector<SDL_FPoint> points;
-        points.reserve(segments + 1);
+        points.reserve(static_cast<size_t>(segments) + 1);
 
         for (int i = 0; i <= segments; ++i) {
             float const t          = static_cast<float>(i) / static_cast<float>(segments);
@@ -791,28 +803,32 @@ namespace fcn::sdl3
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}}};
                 // clang-format on
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};
@@ -892,28 +908,32 @@ namespace fcn::sdl3
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x1 + offsetX, .y = y1 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x2 + offsetX, .y = y2 - offsetY},
                         .color =
                             {.r = static_cast<float>(mColor.r) / 255.0F,
                              .g = static_cast<float>(mColor.g) / 255.0F,
                              .b = static_cast<float>(mColor.b) / 255.0F,
-                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}},
+                             .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}},
                     SDL_Vertex{
                         .position = {.x = x2 - offsetX, .y = y2 + offsetY},
                         .color    = {
                                .r = static_cast<float>(mColor.r) / 255.0F,
                                .g = static_cast<float>(mColor.g) / 255.0F,
                                .b = static_cast<float>(mColor.b) / 255.0F,
-                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()}}};
+                               .a = static_cast<float>(mColor.a) / 255.0F * getOpacity()},
+                        .tex_coord = {.x = 0.0F, .y = 0.0F}}};
                 // clang-format on
 
                 std::array<int, 6> const indices = {0, 1, 2, 0, 2, 3};

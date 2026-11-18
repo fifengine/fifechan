@@ -68,7 +68,7 @@ int main(int /*argc*/, char** /*argv*/)
         fcn::Image::setImageLoader(imageLoader.get());
 
         graphics = std::make_unique<fcn::opengl::Graphics>(800, 600);
-        input    = std::make_unique<fcn::sdl3::Input>();
+        input    = std::make_unique<fcn::sdl3::Input>(window);
 
         {
             fcn::ImageFontConfig cfg;
@@ -122,9 +122,18 @@ int main(int /*argc*/, char** /*argv*/)
         gui->setTop(nullptr);
     }
 
+    // Tear down input before the window it points at is destroyed.
+    gui.reset();
+    top.reset();
+    input.reset();
+
     fcn::Widget::resetGlobalFont();
 
     fcn::Image::resetImageLoader();
+
+    graphics.reset();
+    imageLoader.reset();
+    font.reset();
 
     SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);

@@ -85,12 +85,12 @@ namespace fcn
             /**
              * Holds the type of the key event.
              */
-            Type mType;
+            Type mType{Type::Released};
 
             /**
              * True if the numeric pad was used, false otherwise.
              */
-            bool mIsNumericPad;
+            bool mIsNumericPad{false};
 
             /**
              * Holds the key of the key event.

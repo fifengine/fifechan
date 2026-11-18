@@ -42,8 +42,8 @@ namespace fcn
         bool clickHitsMenuBar          = false;
         Container const * topContainer = dynamic_cast<Container*>(getTop());
         if (topContainer != nullptr) {
-            for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
-                Widget* child = topContainer->getChild(i);
+            for (int i = 0; i < topContainer->getChildrenCount(); ++i) {
+                Widget* child = topContainer->getChild(static_cast<unsigned int>(i));
                 if (child == nullptr || child == this) {
                     continue;
                 }

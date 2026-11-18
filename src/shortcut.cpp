@@ -8,7 +8,7 @@
 #include <cassert>
 #include <string>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/key.hpp"
 

@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/exception.hpp"
 
 #ifdef _WIN32

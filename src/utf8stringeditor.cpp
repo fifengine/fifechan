@@ -29,7 +29,7 @@ namespace fcn
         e = text.end();
 
         utf8::next(c, e);
-        return std::string(text.begin(), c).size();
+        return static_cast<int>(std::string(text.begin(), c).size());
     }
 
     int UTF8StringEditor::prevChar(std::string const & text, int byteOffset)
@@ -41,11 +41,11 @@ namespace fcn
         std::string::const_iterator c;
         std::string::const_iterator b;
 
-        c = text.begin() + byteOffset;
+        c = text.begin() + static_cast<std::ptrdiff_t>(byteOffset);
         b = text.begin();
 
         utf8::prior(c, b);
-        return std::string(b, c).size();
+        return static_cast<int>(std::string(b, c).size());
     }
 
     int UTF8StringEditor::eraseChar(std::string& text, int byteOffset)
@@ -55,7 +55,7 @@ namespace fcn
 
         std::string::iterator begin;
         std::string::iterator cur;
-        begin = text.begin() + byteOffset;
+        begin = text.begin() + static_cast<std::ptrdiff_t>(byteOffset);
         cur   = begin;
         utf8::next(cur, text.end());
 
@@ -72,15 +72,15 @@ namespace fcn
 
         std::string newText;
         std::string::iterator cut;
-        int newOffset = 0;
 
-        newText = text.substr(0, byteOffset) + "        ";
-        utf8::append(ch, newText.begin() + byteOffset);
-        cut = newText.begin() + byteOffset;
+        newText = text.substr(0, static_cast<std::size_t>(byteOffset)) + "        ";
+        utf8::append(static_cast<utf8::utfchar32_t>(ch), newText.begin() + static_cast<std::ptrdiff_t>(byteOffset));
+        cut = newText.begin() + static_cast<std::ptrdiff_t>(byteOffset);
         utf8::next(cut, newText.end());
         newText.erase(cut, newText.end());
-        newOffset = newText.size();
-        text      = newText + text.substr(byteOffset);
+        int const newOffset = static_cast<int>(newText.size());
+
+        text = newText + text.substr(static_cast<std::size_t>(byteOffset));
 
         assert("result is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
@@ -93,7 +93,7 @@ namespace fcn
         assert("byteOffset is within text bounds" && std::cmp_less_equal(byteOffset, text.size()));
         assert("text is valid utf8" && utf8::is_valid(text.begin(), text.end()));
 
-        return utf8::distance(text.begin(), text.begin() + byteOffset);
+        return static_cast<int>(utf8::distance(text.begin(), text.begin() + byteOffset));
     }
 
     int UTF8StringEditor::getOffset(std::string const & text, int charIndex)
@@ -116,6 +116,6 @@ namespace fcn
             utf8::next(cur, end);
         }
 
-        return std::string(text.begin(), cur).size();
+        return static_cast<int>(std::string(text.begin(), cur).size());
     }
 }; // namespace fcn

@@ -134,12 +134,12 @@ namespace fcn
             /**
              * Holds the type of the mouse event.
              */
-            MouseEvent::Type mType;
+            MouseEvent::Type mType{MouseEvent::Type::Moved};
 
             /**
              * Holds the button of the mouse event.
              */
-            MouseEvent::Button mButton;
+            MouseEvent::Button mButton{MouseEvent::Button::Empty};
 
             /**
              * Holds the x-coordinate of the mouse event.
@@ -155,7 +155,7 @@ namespace fcn
              * The number of clicks generated with the same button.
              * It's set to zero if another button is used.
              */
-            int mClickCount;
+            int mClickCount{0};
 
             /**
              * Grants Gui privileged access to internal state.

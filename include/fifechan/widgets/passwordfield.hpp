@@ -39,6 +39,8 @@ namespace fcn
 
             void keyPressed(KeyEvent& keyEvent) override;
 
+            void textInput(TextInputEvent& event) override;
+
             void setText(std::string const & text) override; // cppcheck-suppress virtualCallInConstructor
 
             std::string getText() const override;
@@ -47,14 +49,14 @@ namespace fcn
             /**
              * @return Caret position of the actual text.
              */
-            unsigned int getActualTextCaretPosition() const;
+            int getActualTextCaretPosition() const;
 
             /**
              * Sets the caret position of the actual text.
              *
              * @param position The new caret position of the actual text.
              */
-            void setActualTextCaretPosition(unsigned int position);
+            void setActualTextCaretPosition(int position);
 
             /**
              * Holds the actual text of the password field. The standard text

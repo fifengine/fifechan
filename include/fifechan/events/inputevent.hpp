@@ -18,6 +18,9 @@ namespace fcn
 {
     /**
      * Base class for all input-related events (keyboard, mouse).
+     * See KeyEvent, MouseEvent, TextInputEvent.
+     *
+     * It holds modifiers, consume() and the distributor.
      *
      * Modifier state is stored as a bitmask. The public query methods
      * (isShiftPressed(), etc.) are retained for backward compatibility.

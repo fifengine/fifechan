@@ -74,7 +74,7 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
 
@@ -110,8 +110,6 @@ void Application::init_SDL(std::string const & title, int width, int height)
     renderer = initRenderer(window);
 
     SDL_SetRenderVSync(renderer.get(), 1);
-    // Enable SDL text input events so widgets receive text characters
-    SDL_StartTextInput(window.get());
 }
 
 void Application::cleanup()
@@ -122,11 +120,6 @@ void Application::cleanup()
     graphics.reset();
     input.reset();
     renderer.reset();
-    if (window) {
-        SDL_StopTextInput(window.get());
-    } else {
-        SDL_StopTextInput(nullptr);
-    }
     window.reset();
     // Release any fonts held by the Application before shutting down SDL_ttf
     // to ensure TTF_CloseFont is called while the library is still initialized.
@@ -140,7 +133,7 @@ void Application::init_GUI(int width, int height)
     graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer.get(), width, height);
 
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(graphics.get());
@@ -321,7 +314,7 @@ void Application::init_GUI(int width, int height)
                 if (this->activityFont) {
                     item->setFont(this->activityFont.get());
                 }
-                item->setSize(40);
+                item->setSize(40, 40);
                 activityBar->addWidget(std::move(item));
             }
         }
@@ -417,8 +410,8 @@ void Application::init_GUI(int width, int height)
         int maxX         = 0;
         if (mbc != nullptr) {
             int xPos = 0;
-            for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
-                fcn::Widget* item = mbc->getChild(j);
+            for (int j = 0; j < mbc->getChildrenCount(); ++j) {
+                fcn::Widget* item = mbc->getChild(static_cast<unsigned int>(j));
                 if (item == nullptr) {
                     continue;
                 }
@@ -429,8 +422,8 @@ void Application::init_GUI(int width, int height)
             }
 
             // Calculate menu bar width from children positions
-            for (unsigned j = 0; j < mbc->getChildrenCount(); ++j) {
-                fcn::Widget const * item = mbc->getChild(j);
+            for (int j = 0; j < mbc->getChildrenCount(); ++j) {
+                fcn::Widget const * item = mbc->getChild(static_cast<unsigned int>(j));
                 if (item == nullptr) {
                     continue;
                 }
@@ -509,8 +502,8 @@ void Application::updateStatusBar()
     }
 
     // Get current cursor position (add 1 for 1-based line/column display)
-    int const currentRow    = static_cast<int>(textBox->getCaretRow()) + 1;
-    int const currentColumn = static_cast<int>(textBox->getCaretColumn()) + 1;
+    int const currentRow    = textBox->getCaretRow() + 1;
+    int const currentColumn = textBox->getCaretColumn() + 1;
 
     // Get current text
     std::string const & currentText = textBox->getText();

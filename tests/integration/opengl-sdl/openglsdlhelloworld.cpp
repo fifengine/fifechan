@@ -60,7 +60,7 @@ std::filesystem::path Application::getExecutableDir()
 #endif
 }
 
-SDL_Window* Application::initWindow(std::string const & title, int width, int height, int flags)
+SDL_Window* Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* rawWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (rawWindow == nullptr) {
@@ -97,15 +97,13 @@ void Application::init_sdl(std::string const & title, int width, int height)
     glViewport(0, 0, width, height);
     glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
 
-    SDL_StartTextInput(window);
-
     imageLoader = std::make_shared<fcn::opengl::ImageLoader>();
     fcn::Image::setImageLoader(imageLoader.get());
 
     graphics = std::make_unique<fcn::opengl::Graphics>();
     graphics->setTargetPlane(width, height);
 
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window);
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));

@@ -183,7 +183,7 @@ namespace fcn
              * @param size The size of the widget's outline.
              * @see getOutlineSize, drawOutline
              */
-            void setOutlineSize(unsigned int size);
+            void setOutlineSize(int size);
 
             /**
              * Gets the size of the widget's outline.
@@ -200,7 +200,7 @@ namespace fcn
              * @return The size of the widget's outline.
              * @see setOutlineSize, drawOutline
              */
-            unsigned int getOutlineSize() const;
+            int getOutlineSize() const;
 
             /**
              * Sets the size of the widget's border.
@@ -213,7 +213,7 @@ namespace fcn
              * @param size The size of the widget's border.
              * @see getBorderSize, drawBorder
              */
-            void setBorderSize(unsigned int size);
+            void setBorderSize(int size);
 
             /**
              * Gets the size of the widget's border.
@@ -226,40 +226,40 @@ namespace fcn
              * @return The size of the widget's border.
              * @see setBorderSize, drawBorder
              */
-            unsigned int getBorderSize() const;
+            int getBorderSize() const;
 
             /**
              * Select which sides the border should be drawn on.
              * Default is `BORDER_ALL`.
              */
-            void setBorderSides(unsigned int sides);
+            void setBorderSides(int sides);
 
             /**
              * Get the currently selected border sides.
              */
-            unsigned int getBorderSides() const;
+            int getBorderSides() const;
 
             /**
              * Set border drawing style (bevel or flat).
              */
-            void setBorderStyle(unsigned int style);
+            void setBorderStyle(int style);
 
             /**
              * Get the current border drawing style.
              */
-            unsigned int getBorderStyle() const;
+            int getBorderStyle() const;
 
             /**
              * Convenience helper: set a top-only border with size and style.
              * This sets the border size, selects the top side and applies style.
              */
-            void setBorderTop(unsigned int size, unsigned int style);
+            void setBorderTop(int size, int style);
 
             /**
              * Convenience helper: set a bottom-only border with size and style.
              * This sets the border size, selects the bottom side and applies style.
              */
-            void setBorderBottom(unsigned int size, unsigned int style);
+            void setBorderBottom(int size, int style);
 
             /**
              * Sets all 4 margins to one value.
@@ -376,7 +376,7 @@ namespace fcn
              * @param padding The top padding of the widget.
              * @see setPaddingTop, setPaddingRight, setPaddingBottom, setPaddingLeft
              */
-            void setPadding(unsigned int padding);
+            void setPadding(int padding);
 
             /**
              * Sets the top padding.
@@ -386,7 +386,7 @@ namespace fcn
              * @param padding The top padding of the widget.
              * @see getPaddingTop
              */
-            void setPaddingTop(unsigned int padding);
+            void setPaddingTop(int padding);
 
             /**
              * Gets the top padding.
@@ -396,7 +396,7 @@ namespace fcn
              * @return The top padding of the widget.
              * @see setPaddingTop
              */
-            unsigned int getPaddingTop() const;
+            int getPaddingTop() const;
 
             /**
              * Sets the right padding.
@@ -406,7 +406,7 @@ namespace fcn
              * @param padding The right padding of the widget.
              * @see getPaddingRight
              */
-            void setPaddingRight(unsigned int padding);
+            void setPaddingRight(int padding);
 
             /**
              * Gets the right padding.
@@ -416,7 +416,7 @@ namespace fcn
              * @return The right padding of the widget.
              * @see setPaddingRight
              */
-            unsigned int getPaddingRight() const;
+            int getPaddingRight() const;
 
             /**
              * Sets the bottom padding.
@@ -426,7 +426,7 @@ namespace fcn
              * @param padding The bottom padding of the widget.
              * @see getPaddingBottom
              */
-            void setPaddingBottom(unsigned int padding);
+            void setPaddingBottom(int padding);
 
             /**
              * Gets the bottom padding.
@@ -436,7 +436,7 @@ namespace fcn
              * @return The bottom padding of the widget.
              * @see setPaddingBottom
              */
-            unsigned int getPaddingBottom() const;
+            int getPaddingBottom() const;
 
             /**
              * Sets the left padding.
@@ -446,7 +446,7 @@ namespace fcn
              * @param padding The left padding of the widget.
              * @see getPaddingLeft
              */
-            void setPaddingLeft(unsigned int padding);
+            void setPaddingLeft(int padding);
 
             /**
              * Gets the left padding.
@@ -456,7 +456,7 @@ namespace fcn
              * @return The left padding of the widget.
              * @see setPaddingLeft
              */
-            unsigned int getPaddingLeft() const;
+            int getPaddingLeft() const;
 
             /**
              * Called for all widgets in the GUI each time Gui::logic is called.
@@ -474,10 +474,32 @@ namespace fcn
              * Override this to handle text input in your widget.
              * The default implementation does nothing.
              *
+             * This is the single insertion point for committed text. Widgets that
+             * accept text must not insert printable characters from
+             * keyPressed(KeyEvent&) as well, or text will be inserted twice.
+             *
              * @param event The text input event containing the UTF-8 text.
              */
             virtual void textInput(TextInputEvent& event)
             {
+            }
+
+            /**
+             * Returns true while this widget wants backend text input enabled.
+             *
+             * Gui calls Input::startTextInput() when the focused widget returns
+             * true from this function and is enabled, and Input::stopTextInput()
+             * otherwise. Text widgets return their editability; the default
+             * implementation returns false.
+             *
+             * @return True if the widget wants text input (screen keyboard, IME)
+             *         while focused.
+             *
+             * @see isEnabled
+             */
+            virtual bool wantsTextInput() const
+            {
+                return false;
             }
 
             /**
@@ -628,14 +650,14 @@ namespace fcn
              *
              * @return The children count of the widget.
              */
-            unsigned int getChildrenCount() const;
+            int getChildrenCount() const;
 
             /**
              * Gets how many visible childs the widget have.
              *
              * @return The visible children count of the widget.
              */
-            unsigned int getVisibleChildrenCount() const;
+            int getVisibleChildrenCount() const;
 
             /**
              * Sets the minimal dimension of the widget.
@@ -2009,26 +2031,26 @@ namespace fcn
             /**
              * Holds the outline size of the widget.
              */
-            unsigned int mOutlineSize{0};
+            int mOutlineSize{0};
 
             /**
              * Holds the border size of the widget.
              */
-            unsigned int mBorderSize{0};
+            int mBorderSize{0};
 
             /**
              * Which sides to draw the border on (bitmask of BorderSide).
              *
              * @see BorderSide enum
              */
-            unsigned int mBorderSides{BORDER_ALL};
+            int mBorderSides{BORDER_ALL};
 
             /**
              * Border drawing style (see BorderStyle).
              *
              * @see BorderStyle enum
              */
-            unsigned int mBorderStyle{BORDER_STYLE_FLAT};
+            int mBorderStyle{BORDER_STYLE_FLAT};
 
             /**
              * Holds the selection mode.
@@ -2058,22 +2080,22 @@ namespace fcn
             /**
              * Holds the top padding of the widget.
              */
-            unsigned int mPaddingTop{0};
+            int mPaddingTop{0};
 
             /**
              * Holds the right padding of the widget.
              */
-            unsigned int mPaddingRight{0};
+            int mPaddingRight{0};
 
             /**
              * Holds the bottom padding of the widget.
              */
-            unsigned int mPaddingBottom{0};
+            int mPaddingBottom{0};
 
             /**
              * Holds the left padding of the widget.
              */
-            unsigned int mPaddingLeft{0};
+            int mPaddingLeft{0};
 
             /**
              * Holds the action event of the widget.

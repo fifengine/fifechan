@@ -117,8 +117,13 @@ class FPSDemo : public fcn::ActionListener
         int mWidth;
         int mHeight;
 
+        // Requested size when not running fullscreen. Kept separate from
+        // mWidth/mHeight, which reflect the actual drawable size.
+        int mWindowedWidth;
+        int mWindowedHeight;
+
         float mRotation;
-        double mGlow;
+        [[maybe_unused]] double mGlow;
         float mDeltaTime;
         float mTime;
 
@@ -181,14 +186,14 @@ class FPSDemo : public fcn::ActionListener
         GLUquadricObj* mClouds2;
         GLUquadricObj* mMoon;
         GLUquadricObj* mMoonRed;
-        std::array<GLfloat, 4> LightAmbient{};
-        std::array<GLfloat, 4> Light2Ambient{};
-        std::array<GLfloat, 4> LightDiffuse{};
-        std::array<GLfloat, 4> Light2Diffuse{};
-        std::array<GLfloat, 4> LightPosition{};
-        std::array<GLfloat, 4> Light2Position{};
-        std::array<GLfloat, 3> LightSpotDirection{};
-        std::array<GLfloat, 3> Light2SpotDirection{};
+        [[maybe_unused]] std::array<GLfloat, 4> LightAmbient{};
+        [[maybe_unused]] std::array<GLfloat, 4> Light2Ambient{};
+        [[maybe_unused]] std::array<GLfloat, 4> LightDiffuse{};
+        [[maybe_unused]] std::array<GLfloat, 4> Light2Diffuse{};
+        [[maybe_unused]] std::array<GLfloat, 4> LightPosition{};
+        [[maybe_unused]] std::array<GLfloat, 4> Light2Position{};
+        [[maybe_unused]] std::array<GLfloat, 3> LightSpotDirection{};
+        [[maybe_unused]] std::array<GLfloat, 3> Light2SpotDirection{};
 
         std::unique_ptr<FPSButton> mSingleplayButton;
         std::unique_ptr<FPSButton> mMultiplayButton;

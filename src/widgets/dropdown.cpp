@@ -87,9 +87,9 @@ namespace fcn
         Color shadowColor;
         int const alpha  = getBaseColor().a;
         highlightColor   = faceColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = faceColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
         // Draw a border.
         graphics->setColor(shadowColor);
@@ -150,19 +150,19 @@ namespace fcn
 
         if (mPushed) {
             faceColor        = getBaseColor() - getShadowOffset();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor - getShadowOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor + getHighlightOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
             offset           = 1;
         } else {
             faceColor        = getBaseColor();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor + getHighlightOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor - getShadowOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
             offset           = 0;
         }
 

@@ -16,7 +16,8 @@ namespace fcn
         assert(
             "Type must be valid" &&
             (type == Type::Pressed || type == Type::Released || type == Type::Moved || type == Type::WheelMovedUp ||
-             type == Type::WheelMovedDown || type == Type::WheelMovedRight || type == Type::WheelMovedLeft));
+             type == Type::WheelMovedDown || type == Type::WheelMovedRight || type == Type::WheelMovedLeft ||
+             type == Type::Canceled));
         assert(
             "Button must be valid" && (button == Button::Empty || button == Button::Left || button == Button::Right ||
                                        button == Button::Middle || button == Button::X1 || button == Button::X2));
@@ -28,7 +29,8 @@ namespace fcn
         assert(
             "Type must be valid" &&
             (type == Type::Pressed || type == Type::Released || type == Type::Moved || type == Type::WheelMovedUp ||
-             type == Type::WheelMovedDown || type == Type::WheelMovedRight || type == Type::WheelMovedLeft));
+             type == Type::WheelMovedDown || type == Type::WheelMovedRight || type == Type::WheelMovedLeft ||
+             type == Type::Canceled));
         mType = type;
     }
 

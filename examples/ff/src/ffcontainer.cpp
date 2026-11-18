@@ -8,6 +8,7 @@
 // Standard library includes
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <memory>
 
 // Third-party library includes
@@ -21,7 +22,8 @@ std::unique_ptr<fcn::Image> FFContainer::mCornerDR   = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mHorizontal = nullptr;
 std::unique_ptr<fcn::Image> FFContainer::mVertical   = nullptr;
 
-FFContainer::FFContainer() : mRealWidth(0), mRealHeight(0), mSlideTarget(0), mCurrentSlide(0), mTime(-1), mShow(true)
+FFContainer::FFContainer() :
+    mRealWidth(0), mRealHeight(0), mSlideTarget(0), mCurrentSlide(0), mTime(UINT64_MAX), mShow(true)
 {
     if (mInstances == 0) {
         mCornerUL   = std::unique_ptr<fcn::Image>(fcn::Image::load("images/cornerul.png"));
@@ -53,6 +55,23 @@ FFContainer::~FFContainer()
     }
 }
 
+void FFContainer::_draw(fcn::Graphics* graphics)
+{
+    // draw() renders the background, the children and the frame in that order.
+    // Widget::_draw would render the children a second time after draw()
+    // returns, which duplicates them (and makes the slide offset visible as
+    // two copies). Draw once here instead and only keep the opacity handling
+    // from Widget::_draw.
+    float const previousOpacity = graphics->getOpacity();
+    graphics->setOpacity(previousOpacity * getOpacity());
+
+    graphics->pushClipArea(getDimension());
+    draw(graphics);
+    graphics->popClipArea();
+
+    graphics->setOpacity(previousOpacity);
+}
+
 void FFContainer::draw(fcn::Graphics* graphics)
 {
     int i       = 0;
@@ -68,7 +87,7 @@ void FFContainer::draw(fcn::Graphics* graphics)
         fcn::Color const c(0x7070FF);
 
         for (i = 0; i < 16; ++i) {
-            graphics->setColor(c * (1.0 - (i / 18.0)));
+            graphics->setColor(c * static_cast<float>(1.0 - (i / 18.0)));
             graphics->fillRectangle(
                 4,
                 static_cast<int>((i * height) + 4),
@@ -79,7 +98,9 @@ void FFContainer::draw(fcn::Graphics* graphics)
 
     graphics->pushClipArea(fcn::Rectangle(0, mCurrentSlide, w, h));
     for (auto* child : getChildren()) {
-        child->_draw(graphics);
+        if (child->isVisible()) {
+            child->_draw(graphics);
+        }
     }
     graphics->popClipArea();
 
@@ -111,13 +132,13 @@ void FFContainer::draw(fcn::Graphics* graphics)
 
 void FFContainer::logic()
 {
-    if (mTime < 0) {
+    if (mTime == UINT64_MAX) {
         mTime = SDL_GetTicks();
     }
 
-    int const currentTime = SDL_GetTicks();
-    int const deltaTime   = currentTime - mTime;
-    mTime                 = currentTime;
+    uint64_t const currentTime = SDL_GetTicks();
+    int const deltaTime        = static_cast<int>(currentTime - mTime);
+    mTime                      = currentTime;
 
     if (!mShow) {
         // Update the *current* animated size via base setDimension to avoid

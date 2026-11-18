@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later OR BSD-3-Clause
 // SPDX-FileCopyrightText: 2004 - 2008 Olof Naessén and Per Larsson
-// SPDX-FileCopyrightText: 2013 - 2026 Fifengine contributors
+// SPDX-FileCopyrightText: 2013 - 2026 Fifenjne contributors
 
 // Corresponding header include
 #include "fifechan/imagefont.hpp"
@@ -22,7 +22,7 @@
 // Third-party library includes
 #include <SDL3/SDL.h>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/color.hpp"
 #include "fifechan/exception.hpp"
 #include "fifechan/graphics.hpp"
@@ -182,7 +182,7 @@ namespace fcn
     } // anonymous namespace
 
     ImageFont::ImageFont(std::string const & filename, std::string const & glyphs, ImageFontConfig const & config) :
-        mFilename(filename), mImage(Image::load(filename, false))
+        mImage(Image::load(filename, false)), mFilename(filename)
     {
         if (mImage == nullptr) {
             throwException(std::string("Failed to load image: ") + filename);
@@ -208,8 +208,8 @@ namespace fcn
             throwException(os.str());
         }
 
-        for (size_t i = 0; i < glyphs.size(); ++i) {
-            mGlyph.at(static_cast<unsigned char>(glyphs.at(i))) = found.at(i);
+        for (size_t k = 0; k < glyphs.size(); ++k) {
+            mGlyph.at(static_cast<unsigned char>(glyphs.at(k))) = found.at(k);
         }
 
         if (config.verbose) {
@@ -228,13 +228,14 @@ namespace fcn
             return std::max(maxHeight, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
     ImageFont::ImageFont(std::string const & filename, std::string const & glyphs) :
-        mFilename(filename), mImage(Image::load(filename, false))
+        mImage(Image::load(filename, false)), mFilename(filename)
     {
 
         Color const separator = mImage->getPixel(0, 0);
@@ -254,8 +255,8 @@ namespace fcn
 
         // Find the height of glyphs
         int height = 0;
-        for (int j = 0; j < mImage->getHeight(); ++j) {
-            if (separator == mImage->getPixel(startColumn, j)) {
+        for (int k = 0; k < mImage->getHeight(); ++k) {
+            if (separator == mImage->getPixel(startColumn, k)) {
                 break;
             }
             ++height;
@@ -275,6 +276,7 @@ namespace fcn
             y = mGlyph.at(k).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -291,34 +293,34 @@ namespace fcn
 
         Color const separator = mImage->getPixel(0, 0);
 
-        int i = 0;
-        for (i = 0; i < mImage->getWidth() && separator == mImage->getPixel(i, 0); ++i) {
+        int k = 0;
+        for (; k < mImage->getWidth() && separator == mImage->getPixel(k, 0); ++k) {
         }
 
-        if (i >= mImage->getWidth()) {
+        if (k >= mImage->getWidth()) {
             throwException("Corrupt image.");
         }
 
-        int j = 0;
-        for (j = 0; j < mImage->getHeight(); ++j) {
-            if (separator == mImage->getPixel(i, j)) {
+        int m = 0;
+        for (; m < mImage->getHeight(); ++m) {
+            if (separator == mImage->getPixel(k, m)) {
                 break;
             }
         }
 
-        mHeight = j;
+        mHeight = m;
         int x   = 0;
         int y   = 0;
 
-        for (i = 0; std::cmp_less(i, glyphs.size()); ++i) {
-            unsigned char const glyph = glyphs.at(i);
-
+        for (std::size_t i = 0; i < glyphs.size(); ++i) {
+            auto const glyph = static_cast<unsigned char>(glyphs.at(i));
             mGlyph.at(glyph) = scanForGlyph(glyph, x, y, separator);
             // Update x and y with new coordinates.
             x = mGlyph.at(glyph).x + mGlyph.at(glyph).width;
             y = mGlyph.at(glyph).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -352,51 +354,53 @@ namespace fcn
             throwException(os.str());
         }
 
-        for (size_t i = 0; i < glyphs.size(); ++i) {
-            mGlyph.at(static_cast<unsigned char>(glyphs.at(i))) = found.at(i);
+        for (size_t k = 0; k < glyphs.size(); ++k) {
+            mGlyph.at(static_cast<unsigned char>(glyphs.at(k))) = found.at(k);
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxHeight, auto const & r) {
             return std::max(maxHeight, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
     }
 
     ImageFont::ImageFont(std::string const & filename, unsigned char glyphsFrom, unsigned char glyphsTo) :
-        mFilename(filename), mImage(Image::load(filename, false))
+        mImage(Image::load(filename, false)), mFilename(filename)
     {
 
         Color const separator = mImage->getPixel(0, 0);
 
-        int i = 0;
-        for (i = 0; separator == mImage->getPixel(i, 0) && i < mImage->getWidth(); ++i) {
+        int k = 0;
+        for (; separator == mImage->getPixel(k, 0) && k < mImage->getWidth(); ++k) {
         }
 
-        if (i >= mImage->getWidth()) {
+        if (k >= mImage->getWidth()) {
             throwException("Corrupt image.");
         }
 
-        int j = 0;
-        for (j = 0; j < mImage->getHeight(); ++j) {
-            if (separator == mImage->getPixel(i, j)) {
+        int m = 0;
+        for (; m < mImage->getHeight(); ++m) {
+            if (separator == mImage->getPixel(k, m)) {
                 break;
             }
         }
 
-        mHeight = j;
+        mHeight = m;
         int x   = 0;
         int y   = 0;
 
-        for (i = glyphsFrom; i < glyphsTo + 1; i++) {
-            mGlyph.at(i) = scanForGlyph(i, x, y, separator);
-            // Update x och y with new coordinates.
-            x = mGlyph.at(i).x + mGlyph.at(i).width;
-            y = mGlyph.at(i).y;
+        for (int g = static_cast<int>(glyphsFrom); std::cmp_less_equal(g, glyphsTo); ++g) {
+            mGlyph.at(static_cast<size_t>(g)) = scanForGlyph(static_cast<unsigned char>(g), x, y, separator);
+            // Update x and y with new coordinates.
+            x = mGlyph.at(static_cast<size_t>(g)).x + mGlyph.at(static_cast<size_t>(g)).width;
+            y = mGlyph.at(static_cast<size_t>(g)).y;
         }
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
 
         mRowSpacing   = 0;
@@ -408,7 +412,7 @@ namespace fcn
         unsigned char glyphsFrom,
         unsigned char glyphsTo,
         ImageFontConfig const & config) :
-        mFilename(filename), mImage(Image::load(filename, false))
+        mImage(Image::load(filename, false)), mFilename(filename)
     {
         if (mImage == nullptr) {
             throwException(std::string("Failed to load image: ") + filename);
@@ -434,15 +438,16 @@ namespace fcn
             throwException(os.str());
         }
 
-        for (int i = 0; i < expected; ++i) {
-            unsigned char const glyph = static_cast<unsigned char>(static_cast<int>(glyphsFrom) + i);
-            mGlyph.at(glyph)          = found.at(i);
+        for (int k = 0; k < expected; ++k) {
+            int const glyph                            = static_cast<int>(glyphsFrom) + k;
+            mGlyph.at(static_cast<std::size_t>(glyph)) = found.at(static_cast<std::size_t>(k));
         }
 
         mHeight = std::accumulate(found.begin(), found.end(), 0, [](int maxH, auto const & r) {
             return std::max(maxH, r.height);
         });
 
+        cacheSourcePixels();
         mImage->convertToDisplayFormat();
         mRowSpacing   = 0;
         mGlyphSpacing = 0;
@@ -451,6 +456,20 @@ namespace fcn
     ImageFont::~ImageFont()
     {
         delete mImage;
+    }
+
+    void ImageFont::cacheSourcePixels()
+    {
+        mSourceWidth  = mImage->getWidth();
+        mSourceHeight = mImage->getHeight();
+        mSourcePixels.clear();
+        mSourcePixels.reserve(static_cast<std::size_t>(mSourceWidth) * static_cast<std::size_t>(mSourceHeight));
+
+        for (int y = 0; y < mSourceHeight; ++y) {
+            for (int x = 0; x < mSourceWidth; ++x) {
+                mSourcePixels.push_back(mImage->getPixel(x, y));
+            }
+        }
     }
 
     int ImageFont::getWidth(unsigned char glyph) const
@@ -536,11 +555,19 @@ namespace fcn
 
                 for (int py = 0; py < r.height && (py + yoffset) < height; ++py) {
                     for (int px = 0; px < r.width && (curX + px) < totalWidth; ++px) {
-                        Color const col = mImage->getPixel(r.x + px, r.y + py);
+                        int const sourceX = r.x + px;
+                        int const sourceY = r.y + py;
+                        if (sourceX >= mSourceWidth || sourceY >= mSourceHeight) {
+                            continue;
+                        }
+
+                        Color const & col = mSourcePixels.at(
+                            (static_cast<std::size_t>(sourceY) * static_cast<std::size_t>(mSourceWidth)) +
+                            static_cast<std::size_t>(sourceX));
                         if (col.a < 128) {
                             continue; // skip transparent / separator pixel
                         }
-                        Uint32 pixel = SDL_MapRGBA(fmt, nullptr, col.r, col.g, col.b, col.a);
+                        Uint32 const pixel = SDL_MapRGBA(fmt, nullptr, col.r, col.g, col.b, col.a);
                         pixels[((py + yoffset) * pitch) + (curX + px)] = pixel;
                     }
                 }
@@ -554,12 +581,27 @@ namespace fcn
         return std::unique_ptr<SDL_Surface, SDL_SurfaceDeleter>(surface, SDL_SurfaceDeleter{});
     }
 
+    void ImageFont::drawString(Graphics* graphics, std::string_view text, int x, int y) const
+    {
+        if (graphics == nullptr || text.empty()) {
+            return;
+        }
+
+        // Image fonts store their colours in the atlas. Keep those colours by
+        // modulating with white, while still honouring the Graphics opacity
+        // applied by drawSurface().
+        Color const previousColor = graphics->getColor();
+        graphics->setColor(Color(255, 255, 255, 255));
+        Font::drawString(graphics, text, x, y);
+        graphics->setColor(previousColor);
+    }
+
     void ImageFont::setRowSpacing(int spacing)
     {
         mRowSpacing = spacing;
     }
 
-    int ImageFont::getRowSpacing()
+    int ImageFont::getRowSpacing() const
     {
         return mRowSpacing;
     }
@@ -569,7 +611,7 @@ namespace fcn
         mGlyphSpacing = spacing;
     }
 
-    int ImageFont::getGlyphSpacing()
+    int ImageFont::getGlyphSpacing() const
     {
         return mGlyphSpacing;
     }
@@ -628,11 +670,11 @@ namespace fcn
 
     int ImageFont::getWidth(std::string_view text) const
     {
-        std::size_t i = 0;
+        std::size_t k = 0;
         int size      = 0;
 
-        for (i = 0; i < text.size(); ++i) {
-            size += getWidth(text.at(i));
+        for (k = 0; k < text.size(); ++k) {
+            size += getWidth(static_cast<unsigned char>(text.at(k)));
         }
 
         return size - mGlyphSpacing;
@@ -640,14 +682,14 @@ namespace fcn
 
     int ImageFont::getStringIndexAt(std::string_view text, int x) const
     {
-        std::size_t i = 0;
+        std::size_t k = 0;
         int size      = 0;
 
-        for (i = 0; i < text.size(); ++i) {
-            size += getWidth(text.at(i));
+        for (k = 0; k < text.size(); ++k) {
+            size += getWidth(static_cast<unsigned char>(text.at(k)));
 
             if (size > x) {
-                return static_cast<int>(i);
+                return static_cast<int>(k);
             }
         }
 

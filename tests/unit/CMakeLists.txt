@@ -15,7 +15,9 @@ set(UNIT_TEST_SOURCES
   src/genericinput.tests.cpp
   src/graphics.tests.cpp
   src/gui.tests.cpp
+  src/gui_textinput.tests.cpp
   src/image.tests.cpp
+  src/point.tests.cpp
   src/rectangle.tests.cpp
   src/size.tests.cpp
   src/visibilityeventhandler.tests.cpp
@@ -94,6 +96,7 @@ set(UNIT_TEST_SOURCES
 if(NOT (DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}))
   list(APPEND UNIT_TEST_SOURCES
     src/backends/sdl3/image.tests.cpp
+    src/backends/sdl3/input.tests.cpp
     src/imagefont.tests.cpp
     src/truetypefont.tests.cpp
   )

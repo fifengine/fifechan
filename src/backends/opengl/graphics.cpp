@@ -18,10 +18,22 @@
     #include <GL/gl.h>
 #endif
 
+// GL_CLAMP_TO_EDGE is not defined in GL/gl.h on Windows with MSVC.
+// It's an OpenGL 1.2 constant (value 0x812F) typically found in glext.h.
+#ifndef GL_CLAMP_TO_EDGE
+    #define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
 // Standard library includes
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <memory>
 #include <numbers>
+#include <string>
+
+// Third-party library includes
+#include <SDL3/SDL.h>
 
 // Project headers (subdirs before local)
 #include <fifechan/backends/opengl/image.hpp>
@@ -151,10 +163,10 @@ namespace fcn::opengl
         dstY += top.yOffset;
 
         // Find OpenGL texture coordinates
-        float const texX1 = srcX / static_cast<float>(srcImage->getTextureWidth());
-        float const texY1 = srcY / static_cast<float>(srcImage->getTextureHeight());
-        float const texX2 = (srcX + width) / static_cast<float>(srcImage->getTextureWidth());
-        float const texY2 = (srcY + height) / static_cast<float>(srcImage->getTextureHeight());
+        float const texX1 = static_cast<float>(srcX) / static_cast<float>(srcImage->getTextureWidth());
+        float const texY1 = static_cast<float>(srcY) / static_cast<float>(srcImage->getTextureHeight());
+        float const texX2 = static_cast<float>(srcX + width) / static_cast<float>(srcImage->getTextureWidth());
+        float const texY2 = static_cast<float>(srcY + height) / static_cast<float>(srcImage->getTextureHeight());
 
         glBindTexture(GL_TEXTURE_2D, srcImage->getTextureHandle());
 
@@ -169,10 +181,10 @@ namespace fcn::opengl
         // Switch to GL_MODULATE while drawing so the opacity multiplier is
         // applied to the texture's alpha. The colour in place before the call
         // is restored afterwards so later primitives do not inherit it.
-        bool const applyOpacity  = getOpacity() < 1.0F;
-        GLfloat previousColor[4] = {1.0F, 1.0F, 1.0F, 1.0F};
+        bool const applyOpacity              = getOpacity() < 1.0F;
+        std::array<GLfloat, 4> previousColor = {1.0F, 1.0F, 1.0F, 1.0F};
         if (applyOpacity) {
-            glGetFloatv(GL_CURRENT_COLOR, previousColor);
+            glGetFloatv(GL_CURRENT_COLOR, previousColor.data());
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
             glColor4f(1.0F, 1.0F, 1.0F, getOpacity());
         }
@@ -195,12 +207,100 @@ namespace fcn::opengl
 
         if (applyOpacity) {
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-            glColor4fv(previousColor);
+            glColor4fv(previousColor.data());
         }
 
         if (blendWasEnabled == 0U) {
             glDisable(GL_BLEND);
         }
+    }
+
+    void Graphics::drawSurface(SDL_Surface* surface, int dstX, int dstY)
+    {
+        if (surface == nullptr) {
+            return;
+        }
+
+        if (mClipStack.empty()) {
+            throwException(
+                "The clip stack is empty, perhaps you called a draw function outside of _beginDraw() and _endDraw()?");
+        }
+
+        std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)> converted(
+            SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32), SDL_DestroySurface);
+        if (converted == nullptr) {
+            throwException(std::string("Graphics::drawSurface - ") + SDL_GetError());
+        }
+
+        bool const mustLock = SDL_MUSTLOCK(converted.get()) != 0;
+        if (mustLock && !SDL_LockSurface(converted.get())) {
+            throwException(std::string("Graphics::drawSurface - ") + SDL_GetError());
+        }
+
+        GLuint texture = 0;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, converted->pitch / static_cast<int>(sizeof(Uint32)));
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, GL_RGBA, converted->w, converted->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, converted->pixels);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+        if (mustLock) {
+            SDL_UnlockSurface(converted.get());
+        }
+
+        ClipRectangle const & top = mClipStack.top();
+        dstX += top.xOffset;
+        dstY += top.yOffset;
+
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glEnable(GL_TEXTURE_2D);
+
+        GLboolean const blendWasEnabled = glIsEnabled(GL_BLEND);
+        if (blendWasEnabled == 0U) {
+            glEnable(GL_BLEND);
+        }
+
+        // Modulate the surface with the current colour and opacity.
+        std::array<GLfloat, 4> previousColor = {1.0F, 1.0F, 1.0F, 1.0F};
+        glGetFloatv(GL_CURRENT_COLOR, previousColor.data());
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glColor4f(
+            static_cast<GLfloat>(mColor.r) / 255.0F,
+            static_cast<GLfloat>(mColor.g) / 255.0F,
+            static_cast<GLfloat>(mColor.b) / 255.0F,
+            (static_cast<GLfloat>(mColor.a) / 255.0F) * getOpacity());
+
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0F, 0.0F);
+        glVertex3i(dstX, dstY, 0);
+
+        glTexCoord2f(0.0F, 1.0F);
+        glVertex3i(dstX, dstY + converted->h, 0);
+
+        glTexCoord2f(1.0F, 1.0F);
+        glVertex3i(dstX + converted->w, dstY + converted->h, 0);
+
+        glTexCoord2f(1.0F, 0.0F);
+        glVertex3i(dstX + converted->w, dstY, 0);
+        glEnd();
+
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glColor4fv(previousColor.data());
+        glDisable(GL_TEXTURE_2D);
+
+        if (blendWasEnabled == 0U) {
+            glDisable(GL_BLEND);
+        }
+
+        glDeleteTextures(1, &texture);
     }
 
     void Graphics::drawPoint(int x, int y)
@@ -235,16 +335,16 @@ namespace fcn::opengl
         y2 += top.yOffset;
 
         glBegin(GL_LINES);
-        glVertex2f(x1 + 0.375F, y1 + 0.375F);
-        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
+        glVertex2f(static_cast<float>(x1) + 0.375F, static_cast<float>(y1) + 0.375F);
+        glVertex2f(static_cast<float>(x2) + 1.0F - 0.375F, static_cast<float>(y2) + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x2 + 1.0F - 0.375F, y2 + 1.0F - 0.375F);
+        glVertex2f(static_cast<float>(x2) + 1.0F - 0.375F, static_cast<float>(y2) + 1.0F - 0.375F);
         glEnd();
 
         glBegin(GL_POINTS);
-        glVertex2f(x1 + 0.375F, y1 + 0.375F);
+        glVertex2f(static_cast<float>(x1) + 0.375F, static_cast<float>(y1) + 0.375F);
         glEnd();
     }
 
@@ -273,10 +373,20 @@ namespace fcn::opengl
         ClipRectangle const & top = mClipStack.top();
 
         glBegin(GL_LINE_LOOP);
-        glVertex2f(rectangle.x + top.xOffset, rectangle.y + top.yOffset);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + top.yOffset + 0.375F);
-        glVertex2f(rectangle.x + rectangle.width + top.xOffset - 1.0F, rectangle.y + rectangle.height + top.yOffset);
-        glVertex2f(rectangle.x + top.xOffset, rectangle.y + rectangle.height + top.yOffset);
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(top.xOffset),
+            static_cast<float>(rectangle.y) + static_cast<float>(top.yOffset));
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(rectangle.width) + static_cast<float>(top.xOffset) -
+                1.0F,
+            static_cast<float>(rectangle.y) + static_cast<float>(top.yOffset) + 0.375F);
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(rectangle.width) + static_cast<float>(top.xOffset) -
+                1.0F,
+            static_cast<float>(rectangle.y) + static_cast<float>(rectangle.height) + static_cast<float>(top.yOffset));
+        glVertex2f(
+            static_cast<float>(rectangle.x) + static_cast<float>(top.xOffset),
+            static_cast<float>(rectangle.y) + static_cast<float>(rectangle.height) + static_cast<float>(top.yOffset));
         glEnd();
     }
 
@@ -317,7 +427,7 @@ namespace fcn::opengl
         glVertex2i(p.x + top.xOffset, p.y + top.yOffset);
         for (int i = 0; i <= segments; ++i) {
             double const angle = 2.0 * std::numbers::pi * static_cast<double>(i) / static_cast<double>(segments);
-            glVertex2d(p.x + top.xOffset + radius * std::cos(angle), p.y + top.yOffset + radius * std::sin(angle));
+            glVertex2d(p.x + top.xOffset + (radius * std::cos(angle)), p.y + top.yOffset + (radius * std::sin(angle)));
         }
         glEnd();
     }

@@ -279,7 +279,7 @@ namespace fcn
         }
     }
 
-    unsigned int ListBox::getRowHeight() const
+    int ListBox::getRowHeight() const
     {
         return getFont()->getHeight();
     }

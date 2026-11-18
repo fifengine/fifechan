@@ -6,19 +6,56 @@
 
 // Standard library includes
 #include <string>
+#include <utility>
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
 // Project headers
 #include "fifechan/defaultfont.hpp"
+#include "fifechan/events/actionevent.hpp"
 #include "fifechan/events/keyevent.hpp"
+#include "fifechan/events/textinputevent.hpp"
 #include "fifechan/key.hpp"
+#include "fifechan/listeners/actionlistener.hpp"
 
 using fcn::DefaultFont;
 using fcn::Key;
 using fcn::KeyEvent;
 using fcn::TextField;
+using fcn::TextInputEvent;
+
+namespace
+{
+    class CountingActionListener : public fcn::ActionListener
+    {
+        public:
+            void action(fcn::ActionEvent const & /*actionEvent*/) override
+            {
+                ++mCount;
+            }
+
+            int count() const
+            {
+                return mCount;
+            }
+
+        private:
+            int mCount{0};
+    };
+
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
+    KeyEvent makeKeyEvent(TextField& field, int keyValue)
+    {
+        return {&field, &field, false, false, false, false, KeyEvent::Type::Pressed, false, Key(keyValue)};
+    }
+
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
+    TextInputEvent makeTextInput(TextField& field, std::string text)
+    {
+        return {&field, &field, false, false, false, false, std::move(text)};
+    }
+} // namespace
 
 TEST_CASE("TextField default constructor", "[unit][textfield]")
 {
@@ -59,7 +96,7 @@ TEST_CASE("TextField setCaretPosition and getCaretPosition", "[unit][textfield]"
     REQUIRE(tf.getCaretPosition() == 0);
 
     tf.setCaretPosition(100);
-    REQUIRE(tf.getCaretPosition() <= tf.getText().size());
+    REQUIRE(static_cast<size_t>(tf.getCaretPosition()) <= tf.getText().size());
 }
 
 TEST_CASE("TextField setEditable and isEditable", "[unit][textfield]")
@@ -125,7 +162,7 @@ TEST_CASE("TextField keyPressed home and end", "[unit][textfield]")
     Key const endKey(Key::END);
     KeyEvent endEvent(&tf, &tf, false, false, false, false, KeyEvent::Type::Pressed, false, endKey);
     tf.keyPressed(endEvent);
-    REQUIRE(tf.getCaretPosition() == static_cast<unsigned int>(tf.getText().size()));
+    REQUIRE(static_cast<size_t>(tf.getCaretPosition()) == tf.getText().size());
 }
 
 TEST_CASE("TextField keyPressed delete character", "[unit][textfield]")
@@ -156,4 +193,107 @@ TEST_CASE("TextField setText triggers adjustSize", "[unit][textfield]")
 
     tf.setText("A longer text to adjust size");
     REQUIRE(tf.getHeight() >= heightBefore);
+}
+
+TEST_CASE("TextField wantsTextInput follows editability", "[unit][textfield]")
+{
+    TextField tf;
+    REQUIRE(tf.wantsTextInput() == true);
+
+    tf.setEditable(false);
+    REQUIRE(tf.wantsTextInput() == false);
+
+    tf.setEditable(true);
+    REQUIRE(tf.wantsTextInput() == true);
+}
+
+TEST_CASE("TextField textInput inserts UTF-8 text at the caret", "[unit][textfield]")
+{
+    TextField tf("ab");
+    tf.setCaretPosition(1);
+
+    auto event = makeTextInput(
+        tf,
+        "\xC3\xA4"
+        "c"); // 'ä' (2 bytes) + 'c'
+    tf.textInput(event);
+
+    REQUIRE(
+        tf.getText() ==
+        "a\xC3\xA4"
+        "cb");
+    REQUIRE(tf.getCaretPosition() == 4); // byte offset after 2-byte 'ä' and 'c'
+}
+
+TEST_CASE("TextField textInput is ignored when not editable", "[unit][textfield]")
+{
+    TextField tf("abc");
+    tf.setCaretPosition(3);
+    tf.setEditable(false);
+
+    auto event = makeTextInput(tf, "XYZ");
+    tf.textInput(event);
+
+    REQUIRE(tf.getText() == "abc");
+    REQUIRE(tf.getCaretPosition() == 3);
+}
+
+TEST_CASE("TextField keyPressed does not insert printable characters", "[unit][textfield]")
+{
+    TextField tf("ab");
+    tf.setCaretPosition(2);
+
+    auto event = makeKeyEvent(tf, 'x');
+    tf.keyPressed(event);
+
+    REQUIRE(tf.getText() == "ab");
+    REQUIRE(tf.getCaretPosition() == 2);
+}
+
+TEST_CASE("TextField keyPressed edits are ignored when not editable", "[unit][textfield]")
+{
+    TextField tf("abc");
+    tf.setCaretPosition(3);
+    tf.setEditable(false);
+
+    auto backspace = makeKeyEvent(tf, Key::BACKSPACE);
+    tf.keyPressed(backspace);
+    REQUIRE(tf.getText() == "abc");
+
+    tf.setCaretPosition(0);
+    auto del = makeKeyEvent(tf, Key::KEY_DELETE);
+    tf.keyPressed(del);
+    REQUIRE(tf.getText() == "abc");
+
+    auto printable = makeKeyEvent(tf, 'z');
+    tf.keyPressed(printable);
+    REQUIRE(tf.getText() == "abc");
+}
+
+TEST_CASE("TextField keyPressed navigation works when not editable", "[unit][textfield]")
+{
+    TextField tf("abc");
+    tf.setEditable(false);
+
+    auto end = makeKeyEvent(tf, Key::END);
+    tf.keyPressed(end);
+    REQUIRE(tf.getCaretPosition() == 3);
+
+    auto home = makeKeyEvent(tf, Key::HOME);
+    tf.keyPressed(home);
+    REQUIRE(tf.getCaretPosition() == 0);
+}
+
+TEST_CASE("TextField keyPressed RETURN distributes action when not editable", "[unit][textfield]")
+{
+    TextField tf("abc");
+    tf.setEditable(false);
+
+    CountingActionListener listener;
+    tf.addActionListener(&listener);
+
+    auto enter = makeKeyEvent(tf, Key::KEY_RETURN);
+    tf.keyPressed(enter);
+
+    REQUIRE(listener.count() == 1);
 }

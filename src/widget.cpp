@@ -13,7 +13,7 @@
 #include <string>
 #include <utility>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/defaultfont.hpp"
 #include "fifechan/events/actionevent.hpp"
 #include "fifechan/events/dragevent.hpp"
@@ -170,11 +170,11 @@ namespace fcn
         int const width  = getWidth() + (getOutlineSize() * 2) - 1;
         int const height = getHeight() + (getOutlineSize() * 2) - 1;
         highlightColor   = outlineColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = outlineColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        for (unsigned int i = 0; i < getOutlineSize(); ++i) {
+        for (int i = 0; i < getOutlineSize(); ++i) {
             graphics->setColor(shadowColor);
             graphics->drawLine(i, i, width - i, i);
             graphics->drawLine(i, i + 1, i, height - i - 1);
@@ -186,7 +186,7 @@ namespace fcn
 
     void Widget::drawBorder(Graphics* graphics)
     {
-        drawBorder(graphics, mBorderSides);
+        drawBorder(graphics, static_cast<unsigned int>(mBorderSides));
     }
 
     void Widget::drawBorder(Graphics* graphics, unsigned int sides) const
@@ -198,11 +198,11 @@ namespace fcn
         int const width  = getWidth() - 1;
         int const height = getHeight() - 1;
         highlightColor   = borderColor + getHighlightOffset();
-        highlightColor.a = alpha;
+        highlightColor.a = static_cast<uint8_t>(alpha);
         shadowColor      = borderColor - getShadowOffset();
-        shadowColor.a    = alpha;
+        shadowColor.a    = static_cast<uint8_t>(alpha);
 
-        unsigned int const style = mBorderStyle;
+        unsigned int const style = static_cast<unsigned int>(mBorderStyle);
 
         for (int i = 0; std::cmp_less(i, getBorderSize()); ++i) {
             if (style == BORDER_STYLE_FLAT) {
@@ -252,7 +252,7 @@ namespace fcn
         graphics->setColor(getSelectionColor());
 
         // currently border size is used here too, not sure an extra frame size is really needed.
-        for (unsigned int i = 0; i < getBorderSize(); ++i) {
+        for (int i = 0; i < getBorderSize(); ++i) {
             // would be better but causes problems with OpenGL
             // graphics->drawRectangle(i, i, width - 2 * i, height - 2 * i);
             graphics->drawLine(i, i, width - i, i);
@@ -367,9 +367,9 @@ namespace fcn
         }
     }
 
-    unsigned int Widget::getChildrenCount() const
+    int Widget::getChildrenCount() const
     {
-        unsigned int childs = 0;
+        int childs = 0;
         auto currChild(mChildren.begin());
         auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
@@ -378,9 +378,9 @@ namespace fcn
         return childs;
     }
 
-    unsigned int Widget::getVisibleChildrenCount() const
+    int Widget::getVisibleChildrenCount() const
     {
-        unsigned int childs = 0;
+        int childs = 0;
         auto currChild(mChildren.begin());
         auto const endChildren(mChildren.end());
         for (; currChild != endChildren; ++currChild) {
@@ -487,54 +487,54 @@ namespace fcn
         widget->expandContent();
     }
 
-    void Widget::setOutlineSize(unsigned int size)
+    void Widget::setOutlineSize(int size)
     {
         mOutlineSize = size;
     }
 
-    unsigned int Widget::getOutlineSize() const
+    int Widget::getOutlineSize() const
     {
         return mOutlineSize;
     }
 
-    void Widget::setBorderSize(unsigned int size)
+    void Widget::setBorderSize(int size)
     {
         mBorderSize = size;
     }
 
-    unsigned int Widget::getBorderSize() const
+    int Widget::getBorderSize() const
     {
         return mBorderSize;
     }
 
-    void Widget::setBorderSides(unsigned int sides)
+    void Widget::setBorderSides(int sides)
     {
         mBorderSides = sides;
     }
 
-    unsigned int Widget::getBorderSides() const
+    int Widget::getBorderSides() const
     {
         return mBorderSides;
     }
 
-    void Widget::setBorderStyle(unsigned int style)
+    void Widget::setBorderStyle(int style)
     {
         mBorderStyle = style;
     }
 
-    unsigned int Widget::getBorderStyle() const
+    int Widget::getBorderStyle() const
     {
         return mBorderStyle;
     }
 
-    void Widget::setBorderTop(unsigned int size, unsigned int style)
+    void Widget::setBorderTop(int size, int style)
     {
         setBorderSize(size);
         setBorderSides(BORDER_TOP);
         setBorderStyle(style);
     }
 
-    void Widget::setBorderBottom(unsigned int size, unsigned int style)
+    void Widget::setBorderBottom(int size, int style)
     {
         setBorderSize(size);
         setBorderSides(BORDER_BOTTOM);
@@ -589,7 +589,7 @@ namespace fcn
         return mMarginLeft;
     }
 
-    void Widget::setPadding(unsigned int padding)
+    void Widget::setPadding(int padding)
     {
         mPaddingTop    = padding;
         mPaddingRight  = padding;
@@ -597,42 +597,42 @@ namespace fcn
         mPaddingLeft   = padding;
     }
 
-    void Widget::setPaddingTop(unsigned int padding)
+    void Widget::setPaddingTop(int padding)
     {
         mPaddingTop = padding;
     }
 
-    unsigned int Widget::getPaddingTop() const
+    int Widget::getPaddingTop() const
     {
         return mPaddingTop;
     }
 
-    void Widget::setPaddingRight(unsigned int padding)
+    void Widget::setPaddingRight(int padding)
     {
         mPaddingRight = padding;
     }
 
-    unsigned int Widget::getPaddingRight() const
+    int Widget::getPaddingRight() const
     {
         return mPaddingRight;
     }
 
-    void Widget::setPaddingBottom(unsigned int padding)
+    void Widget::setPaddingBottom(int padding)
     {
         mPaddingBottom = padding;
     }
 
-    unsigned int Widget::getPaddingBottom() const
+    int Widget::getPaddingBottom() const
     {
         return mPaddingBottom;
     }
 
-    void Widget::setPaddingLeft(unsigned int padding)
+    void Widget::setPaddingLeft(int padding)
     {
         mPaddingLeft = padding;
     }
 
-    unsigned int Widget::getPaddingLeft() const
+    int Widget::getPaddingLeft() const
     {
         return mPaddingLeft;
     }

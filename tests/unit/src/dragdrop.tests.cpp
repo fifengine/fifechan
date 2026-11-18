@@ -75,22 +75,22 @@ namespace
     class RecordingGraphics : public Graphics
     {
         public:
-            void drawImage(Image const *, int, int, int, int, int, int) override
+            void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override
             {
             }
-            void drawPoint(int, int) override
+            void drawPoint(int x, int y) override
             {
             }
-            void drawLine(int, int, int, int) override
+            void drawLine(int x1, int y1, int x2, int y2) override
             {
             }
-            void drawLine(int, int, int, int, unsigned int) override
+            void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override
             {
             }
-            void drawPolyLine(PointVector const &, unsigned int) override
+            void drawPolyLine(PointVector const & points, unsigned int width) override
             {
             }
-            void drawBezier(PointVector const &, int, unsigned int) override
+            void drawBezier(PointVector const & points, int steps, unsigned int width) override
             {
             }
             void drawRectangle(Rectangle const & rectangle) override
@@ -98,23 +98,23 @@ namespace
                 ++drawRectangleCalls;
                 lastRectangle = rectangle;
             }
-            void fillRectangle(Rectangle const &) override
+            void fillRectangle([[maybe_unused]] Rectangle const & rectangle) override
             {
                 ++fillRectangleCalls;
             }
-            void drawCircle(Point const &, unsigned int) override
+            void drawCircle(Point const & p, unsigned int radius) override
             {
             }
-            void drawFillCircle(Point const &, unsigned int) override
+            void drawFillCircle(Point const & p, unsigned int radius) override
             {
             }
-            void fillTriangle(int, int, int, int, int, int) override
+            void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) override
             {
             }
-            void drawCircleSegment(Point const &, unsigned int, int, int) override
+            void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override
             {
             }
-            void drawFillCircleSegment(Point const &, unsigned int, int, int) override
+            void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override
             {
             }
             void setColor(Color const & color) override
@@ -377,7 +377,7 @@ TEST_CASE("DragHandler enter, hover and drop reach the target", "[unit][dragdrop
 
     REQUIRE(!listener.types.empty());
     REQUIRE(listener.types.front() == DragEvent::Type::Enter);
-    REQUIRE(std::find(listener.types.begin(), listener.types.end(), DragEvent::Type::Hover) != listener.types.end());
+    REQUIRE(std::ranges::find(listener.types, DragEvent::Type::Hover) != listener.types.end());
     REQUIRE(listener.types[listener.types.size() - 2] == DragEvent::Type::Drop);
     REQUIRE(listener.types.back() == DragEvent::Type::Leave);
 }
@@ -404,7 +404,7 @@ TEST_CASE("DragHandler drop is rejected when the target declines", "[unit][dragd
     DropResult const result = handler.drop(20, 20);
     REQUIRE(result == DropResult::Rejected);
     REQUIRE(handler.getState() == fcn::DragState::Idle);
-    REQUIRE(std::find(listener.types.begin(), listener.types.end(), DragEvent::Type::Drop) != listener.types.end());
+    REQUIRE(std::ranges::find(listener.types, DragEvent::Type::Drop) != listener.types.end());
     REQUIRE(listener.types.back() == DragEvent::Type::Leave);
 }
 

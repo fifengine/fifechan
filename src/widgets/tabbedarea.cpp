@@ -108,7 +108,7 @@ namespace fcn
             if (tabIndexToBeSelected == -1) {
                 mSelectedTab = nullptr;
             } else {
-                setSelectedTab(tabIndexToBeSelected);
+                setSelectedTab(static_cast<unsigned int>(tabIndexToBeSelected));
             }
         }
         adaptLayout();
@@ -116,7 +116,7 @@ namespace fcn
 
     int TabbedArea::getNumberOfTabs() const
     {
-        return mTabs.size();
+        return static_cast<int>(mTabs.size());
     }
 
     bool TabbedArea::isTabSelected(unsigned int index) const
@@ -139,7 +139,7 @@ namespace fcn
             throwException("No such tab index.");
         }
 
-        setSelectedTab(mTabs.at(index).first);
+        TabbedArea::setSelectedTab(mTabs.at(static_cast<std::size_t>(index)).first);
     }
 
     void TabbedArea::setSelectedTab(Tab* tab)
@@ -216,9 +216,9 @@ namespace fcn
         Color const & faceColor = getBaseColor();
         int const alpha         = getBaseColor().a;
         Color highlightColor    = faceColor + getHighlightOffset();
-        highlightColor.a        = alpha;
+        highlightColor.a        = static_cast<uint8_t>(alpha);
         Color shadowColor       = faceColor - getShadowOffset();
-        shadowColor.a           = alpha;
+        shadowColor.a           = static_cast<uint8_t>(alpha);
 
         // Draw a border.
         graphics->setColor(highlightColor);
@@ -253,10 +253,11 @@ namespace fcn
     Rectangle TabbedArea::getChildrenArea()
     {
         Rectangle rec;
-        rec.x      = getBorderSize() + getPaddingLeft();
-        rec.y      = getBorderSize() + getPaddingTop();
-        rec.width  = getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+        int const borderSize = getBorderSize();
+        rec.x                = borderSize + getPaddingLeft();
+        rec.y                = borderSize + getPaddingTop();
+        rec.width            = getWidth() - (2 * borderSize) - getPaddingLeft() - getPaddingRight();
+        rec.height           = getHeight() - (2 * borderSize) - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 
@@ -398,7 +399,7 @@ namespace fcn
                 return;
             }
 
-            setSelectedTab(mTabs.at(index).first);
+            TabbedArea::setSelectedTab(mTabs.at(static_cast<std::size_t>(index)).first);
 
             keyEvent.consume();
         } else if (keyEvent.getKey().getValue() == fcn::Key::RIGHT) {
@@ -409,7 +410,7 @@ namespace fcn
                 return;
             }
 
-            setSelectedTab(mTabs.at(index).first);
+            TabbedArea::setSelectedTab(mTabs.at(static_cast<std::size_t>(index)).first);
 
             keyEvent.consume();
         }

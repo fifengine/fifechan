@@ -42,10 +42,11 @@ namespace fcn
     Rectangle Tab::getChildrenArea()
     {
         Rectangle rec;
-        rec.x      = getBorderSize() + getPaddingLeft();
-        rec.y      = getBorderSize() + getPaddingTop();
-        rec.width  = getWidth() - (2 * getBorderSize()) - getPaddingLeft() - getPaddingRight();
-        rec.height = getHeight() - (2 * getBorderSize()) - getPaddingTop() - getPaddingBottom();
+        int const borderSize = getBorderSize();
+        rec.x                = borderSize + getPaddingLeft();
+        rec.y                = borderSize + getPaddingTop();
+        rec.width            = getWidth() - (2 * borderSize) - getPaddingLeft() - getPaddingRight();
+        rec.height           = getHeight() - (2 * borderSize) - getPaddingTop() - getPaddingBottom();
         return rec;
     }
 
@@ -54,9 +55,9 @@ namespace fcn
         Color const & faceColor = getBaseColor();
         int const alpha         = getBaseColor().a;
         Color highlightColor    = faceColor + getHighlightOffset();
-        highlightColor.a        = alpha;
+        highlightColor.a        = static_cast<uint8_t>(alpha);
         Color shadowColor       = faceColor - getShadowOffset();
-        shadowColor.a           = alpha;
+        shadowColor.a           = static_cast<uint8_t>(alpha);
 
         Color baseColor;
 
@@ -77,7 +78,7 @@ namespace fcn
             graphics->drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 1);
 
             baseColor   = getBaseColor();
-            baseColor.a = alpha;
+            baseColor.a = static_cast<uint8_t>(alpha);
         }
 
         // Push a clip area so the other drawings don't need to worry

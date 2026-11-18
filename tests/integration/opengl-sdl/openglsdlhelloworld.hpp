@@ -41,7 +41,7 @@ namespace tests::integration::opengl_sdl::helloworld
             void init_gui(int width, int height);
             void cleanup();
 
-            static SDL_Window* initWindow(std::string const & title, int width, int height, int flags);
+            static SDL_Window* initWindow(std::string const & title, int width, int height, uint64_t flags);
             static SDL_GLContext initGLContext(SDL_Window* window);
 
             bool running{true};

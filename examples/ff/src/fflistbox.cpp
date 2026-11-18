@@ -53,7 +53,7 @@ void FFListBox::draw(fcn::Graphics* graphics)
      * @todo Check cliprects so we do not have to iterate over elements in the list model
      */
     for (i = 0; i < mListModel->getNumberOfElements(); ++i) {
-        graphics->drawText(mListModel->getElementAt(i), 16, y);
+        graphics->drawText(mListModel->getElementAt(i), kHandIconOffset, y);
 
         bool const shouldDrawSelection = isFocused() || (((SDL_GetTicks() / 100U) & 1U) != 0U);
         if (i == mSelected && shouldDrawSelection) {
@@ -61,6 +61,20 @@ void FFListBox::draw(fcn::Graphics* graphics)
         }
 
         y += fontHeight;
+    }
+}
+
+void FFListBox::logic()
+{
+    ListBox::logic();
+
+    // ListBox::logic() sizes the box to the widest label, but this class
+    // draws its labels after the hand icon. Add that offset so the labels
+    // are not clipped by the widget bounds. ListBox::logic() recomputes the
+    // width from scratch on every call, so adding the offset here stays
+    // stable even when the box is laid out more than once per frame.
+    if (getListModel() != nullptr) {
+        setWidth(getWidth() + kHandIconOffset);
     }
 }
 

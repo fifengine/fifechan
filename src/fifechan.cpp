@@ -8,7 +8,7 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/version.hpp"
 
 namespace fcn

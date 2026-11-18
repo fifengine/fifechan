@@ -37,6 +37,7 @@ Events represent signals fired by widgets.
 
 # Visual Hierarchy of Widgets
 
+```text
 Widget (abstract base)
 ├── Label
 ├── Icon
@@ -81,6 +82,7 @@ Widget (abstract base)
     ├── BarSection
     ├── ActivityBar (also: ActionListener)
     └── MenuPopup (also: MouseListener, KeyListener, FocusListener, ActionListener)
+```
 
 ## Container Widgets
 

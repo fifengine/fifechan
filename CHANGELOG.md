@@ -11,6 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added `Widget::wantsTextInput()` and a focus-driven text-input lifecycle in `Gui`.
+  - `Gui` starts backend text input only while a focused, visible, enabled widget
+    returns true from `wantsTextInput()`; it stops it otherwise, on `focusNone()`,
+    on `setTop()` replacement, on input replacement and in its destructor.
+  - `TextField`, `TextBox` and `PasswordField` report their editability.
+- Added `fcn::sdl3::Input(SDL_Window* window = nullptr)`. The window is non-owning;
+  the backend starts and stops SDL text input on it. A null window makes the hooks
+  no-ops.
+- Added `GenericInput::pushTextInput(std::string)` so non-SDL integrations can
+  deliver committed UTF-8 text.
+- Added Touch Event support.
 - Added `SpeechBubble` widget with configurable tail direction, style (classic/round/thought/shout/whisper), and tail profile (sharp/wide/curved).
 - Added `Widget::setOpacity(float)` / `Widget::getOpacity()`.
   - Opacity is inherited by descendants and composed multiplicatively (a child's effective opacity is its own opacity times its ancestors').
@@ -31,9 +42,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed (Breaking)
 
+- Text input is now owned by `Gui` instead of the application.
+  - Applications must pass their `SDL_Window*` to `fcn::sdl3::Input` and must not
+    call `SDL_StartTextInput` / `SDL_StopTextInput` themselves.
+  - The `fcn::sdl3::Input` constructor signature changed from `Input()` to
+    `Input(SDL_Window* window = nullptr)`; the pointer is not owned.
+  - An externally owned `fcn::Input` must outlive the `Gui` that uses it, because
+    `~Gui` stops text input through it.
+- `GenericInput` no longer relies on key presses for text. Call
+  `pushTextInput()` for printable text, IME results and pasted text; empty strings
+  are ignored.
+- `TextField`, `TextBox` and `PasswordField` insert printable text only from
+  `textInput(TextInputEvent&)`, not from `keyPressed(KeyEvent&)`. Backends must
+  deliver committed text events; a printable key event alone inserts nothing.
+- `Widget` gained the virtual `wantsTextInput()`, so the vtable layout changed.
 - **Font API refactored**: `drawString` is no longer pure virtual.
   - Added pure virtual `renderToSurface(std::string_view) -> unique_ptr<SDL_Surface>`.
-  - `drawString` is now a non-virtual default that calls `renderToSurface` and blits through `Graphics::drawSurface`.
+  - `drawString` is now a virtual default that calls `renderToSurface` and blits through `Graphics::drawSurface`.
   - Font implementations only need `renderToSurface`; `Graphics` coupling is removed.
   - `getWidth`, `getHeight`, `getStringIndexAt` now take `std::string_view`.
 - Added `Graphics::drawSurface(SDL_Surface*, dstX, dstY)` virtual method.
@@ -51,11 +76,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Widgets that override `Widget::_draw` without calling the base implementation must apply and restore the graphics opacity themselves; the base `_draw` is where the subtree composition happens.
 
 ### Fixed
+- Input text handling:
+  - `Widget::isFocused()` is now reliable after `focusNext`, `focusPrevious`,
+    `tabNext`, `tabPrevious` and focus removal; `FocusHandler` routes every focus
+    change through `setFocusedWidget()`.
+  - `TextField`, `PasswordField` and `TextBox` receive and insert committed text
+    again; SDL text input is enabled while an editable field is focused.
+  - `PasswordField` stores the real text, masks one character per Unicode code
+    point, and no longer inserts a character twice when a backend sends both a key
+    and a text event.
+  - Fixed `sdlwidgets` calling `SDL_StopTextInput` after its window was destroyed;
+    demos now tear down the GUI and input before the window.
 - Widget: offsets child position by children area origin before intersection check in `Widget::_draw`
   - fixes rendering of children that were outside the content area (e.g. behind the window chrome)
 - Widget: fix 0x303030 integer-literal bug producing white borders
   - add configurable mHighlightOffset/mShadowOffset with setters/getters
 - Window: Fix resizeToContent() ignoring caption width and children bounds under absolute layout.
+- ScrollArea: hit testing now uses the scroll area's own coordinate space, so nested widgets (such as a `DropDown` list or a `Slider`) receive mouse presses and drags again.
+- ImageFont: the `Image*` constructor now stores glyphs under their actual character codes. It previously subtracted 32 from each code, so lookups such as `getWidth('A')` returned zero.
+- ImageFont: source pixels are cached before conversion to display format, so `renderToSurface()` keeps working with backends that discard the CPU pixel buffer (OpenGL).
+- ImageFont: `drawString()` now keeps the colours stored in the font atlas instead of tinting them with the widget foreground colour. This restores the legacy bitmap-font behaviour and makes the white `fps_demo` menu font render white.
+- OpenGL: implemented `Graphics::drawSurface()`, so text rendered through `Font::renderToSurface()` is drawn by the OpenGL backend instead of throwing. This fixes the `fps_demo` crash.
+- `fps_demo`: fullscreen mode now configures the viewport and GUI from the actual drawable size and reacts to `SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED`/`SDL_EVENT_WINDOW_RESIZED`, so asynchronous window-manager changes are handled too. Previously the logical window size was kept, so the scene rendered in a small area in the bottom-left corner. The resolution selector is disabled while fullscreen because it only applies to windowed mode.
+- `ff_demo`:
+ - `FFListBox` now reserves the 16 px hand-icon inset when sizing itself, so menu entries such as `Status` and `Skills` are no longer clipped by the widget bounds.
+ - the Status screen no longer shows several characters' stats on top of each other.
+ - The demo hides the previously selected character's labels when switching characters
+ - `FFContainer` draws its children once (skipping invisible children) instead of twice.
 - Tooltip: documentation no longer refers to a non-existent `TooltipManager`; it now describes the application-owned `startHover`/`endHover`/`update`/`draw` lifecycle.
 
 ## [0.3.0] - 2026-05-21

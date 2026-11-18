@@ -24,7 +24,7 @@ class StringListModel : public fcn::ListModel
 
         std::string getElementAt(int i) override
         {
-            return mStrings.at(i);
+            return mStrings.at(static_cast<std::vector<std::string>::size_type>(i));
         }
 
         void add(std::string const & str)

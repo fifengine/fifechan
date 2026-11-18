@@ -132,12 +132,10 @@ namespace fcn
 
         // === Compute Final Popup Size ===
         // Get border and padding
-        int const leftBorder = ((getBorderSides() & Widget::BORDER_LEFT) != 0U) ? static_cast<int>(getBorderSize()) : 0;
-        int const rightBorder =
-            ((getBorderSides() & Widget::BORDER_RIGHT) != 0U) ? static_cast<int>(getBorderSize()) : 0;
-        int const topBorder = ((getBorderSides() & Widget::BORDER_TOP) != 0U) ? static_cast<int>(getBorderSize()) : 0;
-        int const bottomBorder =
-            ((getBorderSides() & Widget::BORDER_BOTTOM) != 0U) ? static_cast<int>(getBorderSize()) : 0;
+        int const leftBorder   = ((getBorderSides() & Widget::BORDER_LEFT) != 0U) ? getBorderSize() : 0;
+        int const rightBorder  = ((getBorderSides() & Widget::BORDER_RIGHT) != 0U) ? getBorderSize() : 0;
+        int const topBorder    = ((getBorderSides() & Widget::BORDER_TOP) != 0U) ? getBorderSize() : 0;
+        int const bottomBorder = ((getBorderSides() & Widget::BORDER_BOTTOM) != 0U) ? getBorderSize() : 0;
 
         int const contentPaddingW = leftBorder + rightBorder + getPaddingLeft() + getPaddingRight();
         int const contentPaddingH = topBorder + bottomBorder + getPaddingTop() + getPaddingBottom();
@@ -171,7 +169,7 @@ namespace fcn
         addMouseListener(this);
 
         // Initial size: content area 150x10 plus border on both sides
-        setSize(150 + (static_cast<int>(getBorderSize()) * 2), 10 + (static_cast<int>(getBorderSize()) * 2));
+        setSize(150 + (getBorderSize() * 2), 10 + (getBorderSize() * 2));
     }
 
     void MenuPopup::show(int x, int y)
@@ -387,8 +385,8 @@ namespace fcn
             bool clickHitsMenuBar          = false;
             Container const * topContainer = dynamic_cast<Container*>(getTop());
             if (topContainer != nullptr) {
-                for (unsigned i = 0; i < topContainer->getChildrenCount(); ++i) {
-                    Widget* child = topContainer->getChild(i);
+                for (int i = 0; i < topContainer->getChildrenCount(); ++i) {
+                    Widget* child = topContainer->getChild(static_cast<unsigned int>(i));
                     if (child == nullptr || child == this) {
                         continue;
                     }

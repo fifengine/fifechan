@@ -201,8 +201,8 @@ namespace fcn
                 graphics->drawText(mIconGlyph, 4, iconY, Graphics::Alignment::Left);
                 textX += iconFont->getWidth(mIconGlyph) + 4;
             } else if (mIcon != nullptr) {
-                graphics->drawImage(mIcon, 4, (getHeight() - mIcon->getHeight()) / 2);
-                textX += mIcon->getWidth() + 4;
+                int const iconY = (getHeight() - mIcon->getHeight()) / 2;
+                graphics->drawImage(mIcon, 4, iconY);
             }
 
             // Ensure font and color are set for text rendering

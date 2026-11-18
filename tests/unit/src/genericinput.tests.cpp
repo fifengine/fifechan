@@ -7,7 +7,7 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/genericinput.hpp"
 #include "fifechan/keyinput.hpp"
 #include "fifechan/mouseinput.hpp"
@@ -233,4 +233,63 @@ TEST_CASE("GenericInput pollInput does nothing", "[unit][genericinput]")
     input._pollInput();
     REQUIRE(input.isKeyQueueEmpty() == true);
     REQUIRE(input.isMouseQueueEmpty() == true);
+}
+
+// ============================================================================
+// Text input queue
+// ============================================================================
+
+TEST_CASE("GenericInput text queue starts empty", "[unit][genericinput]")
+{
+    GenericInput input;
+    REQUIRE(input.isTextQueueEmpty() == true);
+}
+
+TEST_CASE("GenericInput pushTextInput adds UTF-8 text", "[unit][genericinput]")
+{
+    GenericInput input;
+
+    input.pushTextInput("abc");
+
+    REQUIRE(input.isTextQueueEmpty() == false);
+    REQUIRE(input.dequeueTextInput() == "abc");
+    REQUIRE(input.isTextQueueEmpty() == true);
+}
+
+TEST_CASE("GenericInput text queue preserves order", "[unit][genericinput]")
+{
+    GenericInput input;
+
+    input.pushTextInput("first");
+    input.pushTextInput("second");
+    input.pushTextInput("\xC3\xA4");
+
+    REQUIRE(input.dequeueTextInput() == "first");
+    REQUIRE(input.dequeueTextInput() == "second");
+    REQUIRE(input.dequeueTextInput() == "\xC3\xA4");
+}
+
+TEST_CASE("GenericInput ignores empty text", "[unit][genericinput]")
+{
+    GenericInput input;
+
+    input.pushTextInput("");
+
+    REQUIRE(input.isTextQueueEmpty() == true);
+}
+
+TEST_CASE("GenericInput dequeueTextInput returns empty string on empty queue", "[unit][genericinput]")
+{
+    GenericInput input;
+    REQUIRE(input.dequeueTextInput().empty());
+}
+
+TEST_CASE("GenericInput key presses do not generate text", "[unit][genericinput]")
+{
+    GenericInput input;
+
+    input.pushKeyPressed('A');
+
+    REQUIRE(input.isKeyQueueEmpty() == false);
+    REQUIRE(input.isTextQueueEmpty() == true);
 }

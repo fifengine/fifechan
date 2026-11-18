@@ -91,7 +91,7 @@ Application::~Application()
     cleanup();
 }
 
-SDL_Window* Application::initWindow(std::string const & title, int width, int height, int flags)
+SDL_Window* Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
     if (createdWindow == nullptr) {
@@ -128,8 +128,6 @@ void Application::init_SDL(std::string const & title, int width, int height)
 
     glViewport(0, 0, width, height);
     glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-
-    SDL_StartTextInput(window);
 }
 
 void Application::cleanup()
@@ -159,7 +157,7 @@ void Application::init_GUI(int width, int height)
     graphics = std::make_unique<fcn::opengl::Graphics>();
     graphics->setTargetPlane(width, height);
 
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window);
 
     gui = std::make_unique<fcn::Gui>();
     gui->setGraphics(std::move(graphics));
@@ -213,7 +211,7 @@ void Application::init_GUI(int width, int height)
     int const pieGraphX           = graphRow2StartX + graphWidth + graphGap;
 
     auto showLastWidget = [this]() {
-        top->getChild(top->getChildrenCount() - 1)->setVisible(true);
+        top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1))->setVisible(true);
     };
 
     auto addCaption = [&](std::string const & caption, int x, int y) {
@@ -231,28 +229,29 @@ void Application::init_GUI(int width, int height)
     iconPtr->adjustSize();
     top->addWidget(std::move(iconPtr), col1X, topMarginY + labelGap);
     showLastWidget();
-    icon = dynamic_cast<fcn::Icon*>(top->getChild(top->getChildrenCount() - 1));
+    icon = dynamic_cast<fcn::Icon*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Label", leftDetailX, topMarginY);
     auto labelPtr = std::make_unique<fcn::Label>("Label");
     labelPtr->adjustSize();
     top->addWidget(std::move(labelPtr), leftDetailX, topMarginY + labelGap);
     showLastWidget();
-    label = dynamic_cast<fcn::Label*>(top->getChild(top->getChildrenCount() - 1));
+    label = dynamic_cast<fcn::Label*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Button", leftDetailX, 96);
     auto buttonPtr = std::make_unique<fcn::Button>("Button");
     buttonPtr->adjustSize();
     top->addWidget(std::move(buttonPtr), leftDetailX, 96 + labelGap);
     showLastWidget();
-    button = dynamic_cast<fcn::Button*>(top->getChild(top->getChildrenCount() - 1));
+    button = dynamic_cast<fcn::Button*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("ImageButton", col1X, imageButtonTopY);
     auto imageButtonPtr = std::make_unique<fcn::ImageButton>("gui-chan.bmp");
     imageButtonPtr->setSize(260, 96);
     top->addWidget(std::move(imageButtonPtr), col1X, imageButtonTopY + labelGap);
     showLastWidget();
-    imageButton = dynamic_cast<fcn::ImageButton*>(top->getChild(top->getChildrenCount() - 1));
+    imageButton =
+        dynamic_cast<fcn::ImageButton*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Window", col1X, windowTopY);
     auto windowPtr = std::make_unique<fcn::Window>("I am a window  Drag me");
@@ -263,7 +262,7 @@ void Application::init_GUI(int width, int height)
     windowPtr->resizeToContent();
     top->addWidget(std::move(windowPtr), col1X, windowTopY + labelGap);
     showLastWidget();
-    fcnWindow      = dynamic_cast<fcn::Window*>(top->getChild(top->getChildrenCount() - 1));
+    fcnWindow      = dynamic_cast<fcn::Window*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
     guisanLogoIcon = dynamic_cast<fcn::Icon*>(fcnWindow->getChild(0));
 
     addCaption("TextField", col2X, topMarginY);
@@ -272,7 +271,7 @@ void Application::init_GUI(int width, int height)
     textFieldPtr->setWidth(240);
     top->addWidget(std::move(textFieldPtr), col2X, topMarginY + labelGap);
     showLastWidget();
-    textField = dynamic_cast<fcn::TextField*>(top->getChild(top->getChildrenCount() - 1));
+    textField = dynamic_cast<fcn::TextField*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
     gui->getFocusHandler()->requestFocus(textField);
 
     addCaption("PasswordField", col2X, 110);
@@ -280,28 +279,30 @@ void Application::init_GUI(int width, int height)
     passwordFieldPtr->setWidth(240);
     top->addWidget(std::move(passwordFieldPtr), col2X, 110 + labelGap);
     showLastWidget();
-    passwordField = dynamic_cast<fcn::PasswordField*>(top->getChild(top->getChildrenCount() - 1));
+    passwordField =
+        dynamic_cast<fcn::PasswordField*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("ToggleButton", col2X, 200);
     auto toggleButtonPtr = std::make_unique<fcn::ToggleButton>("Toggle font", "toggle_group", false);
     toggleButtonPtr->adjustSize();
     top->addWidget(std::move(toggleButtonPtr), col2X, 200 + labelGap);
     showLastWidget();
-    toggleButton = dynamic_cast<fcn::ToggleButton*>(top->getChild(top->getChildrenCount() - 1));
+    toggleButton =
+        dynamic_cast<fcn::ToggleButton*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Slider", col2X, 290);
     auto sliderPtr = std::make_unique<fcn::Slider>(0, 10);
     sliderPtr->setSize(180, 18);
     top->addWidget(std::move(sliderPtr), col2X, 290 + labelGap);
     showLastWidget();
-    slider = dynamic_cast<fcn::Slider*>(top->getChild(top->getChildrenCount() - 1));
+    slider = dynamic_cast<fcn::Slider*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Spacer", col2X, 380);
     auto spacerPtr = std::make_unique<fcn::Spacer>();
     spacerPtr->setSize(72, 20);
     top->addWidget(std::move(spacerPtr), col2X, 380 + labelGap);
     showLastWidget();
-    spacer = dynamic_cast<fcn::Spacer*>(top->getChild(top->getChildrenCount() - 1));
+    spacer = dynamic_cast<fcn::Spacer*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("AdjustingContainer", col2X, 446);
     auto adjustingContainerPtr = std::make_unique<fcn::AdjustingContainer>();
@@ -311,7 +312,8 @@ void Application::init_GUI(int width, int height)
     adjustingContainerPtr->adjustSize();
     top->addWidget(std::move(adjustingContainerPtr), col2X, 446 + labelGap);
     showLastWidget();
-    adjustingContainer = dynamic_cast<fcn::AdjustingContainer*>(top->getChild(top->getChildrenCount() - 1));
+    adjustingContainer =
+        dynamic_cast<fcn::AdjustingContainer*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("FlowContainer", col2X, 526);
     auto flowContainerPtr = std::make_unique<fcn::FlowContainer>();
@@ -324,7 +326,8 @@ void Application::init_GUI(int width, int height)
     flowContainerPtr->addWidget(std::move(flowButton2Ptr));
     top->addWidget(std::move(flowContainerPtr), col2X, 526 + labelGap);
     showLastWidget();
-    flowContainer = dynamic_cast<fcn::FlowContainer*>(top->getChild(top->getChildrenCount() - 1));
+    flowContainer =
+        dynamic_cast<fcn::FlowContainer*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("TextBox", col3X, topMarginY);
     ownedTextBox = std::make_unique<fcn::TextBox>(
@@ -347,7 +350,7 @@ void Application::init_GUI(int width, int height)
     listBoxPtr->setSize(200, 120);
     top->addWidget(std::move(listBoxPtr), col3X, 248 + labelGap);
     showLastWidget();
-    listBox = dynamic_cast<fcn::ListBox*>(top->getChild(top->getChildrenCount() - 1));
+    listBox = dynamic_cast<fcn::ListBox*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("ScrollArea", col3X, 444);
     auto nestedLabelPtr = std::make_unique<fcn::Label>("Scrollable content");
@@ -382,48 +385,52 @@ void Application::init_GUI(int width, int height)
     nestedScrollAreaPtr->setVerticalScrollPolicy(fcn::ScrollArea::ScrollPolicy::ShowAlways);
     top->addWidget(std::move(nestedScrollAreaPtr), col3X, 444 + labelGap);
     showLastWidget();
-    nestedScrollArea = dynamic_cast<fcn::ScrollArea*>(top->getChild(top->getChildrenCount() - 1));
-    nestedContainer  = ownedNestedContainer.get();
-    nestedSlider     = dynamic_cast<fcn::Slider*>(ownedNestedContainer->getChild(1));
+    nestedScrollArea =
+        dynamic_cast<fcn::ScrollArea*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
+    nestedContainer = ownedNestedContainer.get();
+    nestedSlider    = dynamic_cast<fcn::Slider*>(ownedNestedContainer->getChild(1));
 
     addCaption("DropDown", col4X, topMarginY);
     auto dropDownPtr = std::make_unique<fcn::DropDown>(static_cast<fcn::ListModel*>(demoListModel.get()));
     dropDownPtr->setWidth(220);
     top->addWidget(std::move(dropDownPtr), col4X, topMarginY + labelGap);
     showLastWidget();
-    dropDown = dynamic_cast<fcn::DropDown*>(top->getChild(top->getChildrenCount() - 1));
+    dropDown = dynamic_cast<fcn::DropDown*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("Checkbox", col4X, 110);
     auto checkBox1Ptr = std::make_unique<fcn::CheckBox>("Checkbox 1");
     checkBox1Ptr->adjustSize();
     top->addWidget(std::move(checkBox1Ptr), col4X, 110 + labelGap);
     showLastWidget();
-    checkBox1 = dynamic_cast<fcn::CheckBox*>(top->getChild(top->getChildrenCount() - 1));
+    checkBox1 = dynamic_cast<fcn::CheckBox*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     auto checkBox2Ptr = std::make_unique<fcn::CheckBox>("Checkbox 2");
     checkBox2Ptr->adjustSize();
     top->addWidget(std::move(checkBox2Ptr), col4X, 110 + labelGap + 34);
     showLastWidget();
-    checkBox2 = dynamic_cast<fcn::CheckBox*>(top->getChild(top->getChildrenCount() - 1));
+    checkBox2 = dynamic_cast<fcn::CheckBox*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("RadioButton", col4X, 246);
     auto radioButton1Ptr = std::make_unique<fcn::RadioButton>("Radio Button 1", "radiogroup", true);
     radioButton1Ptr->adjustSize();
     top->addWidget(std::move(radioButton1Ptr), col4X, 246 + labelGap);
     showLastWidget();
-    radioButton1 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
+    radioButton1 =
+        dynamic_cast<fcn::RadioButton*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     auto radioButton2Ptr = std::make_unique<fcn::RadioButton>("Radio Button 2", "radiogroup");
     radioButton2Ptr->adjustSize();
     top->addWidget(std::move(radioButton2Ptr), col4X, 246 + labelGap + 34);
     showLastWidget();
-    radioButton2 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
+    radioButton2 =
+        dynamic_cast<fcn::RadioButton*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     auto radioButton3Ptr = std::make_unique<fcn::RadioButton>("Radio Button 3", "radiogroup");
     radioButton3Ptr->adjustSize();
     top->addWidget(std::move(radioButton3Ptr), col4X, 246 + labelGap + 68);
     showLastWidget();
-    radioButton3 = dynamic_cast<fcn::RadioButton*>(top->getChild(top->getChildrenCount() - 1));
+    radioButton3 =
+        dynamic_cast<fcn::RadioButton*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("TabbedArea", col4X, 468);
     auto tabbedAreaPtr = std::make_unique<fcn::TabbedArea>();
@@ -446,7 +453,7 @@ void Application::init_GUI(int width, int height)
     tabbedAreaPtr->addTab(ownedTabTwo.get(), ownedTabTwoContent.get());
     top->addWidget(std::move(tabbedAreaPtr), col4X, 468 + labelGap);
     showLastWidget();
-    tabbedArea = dynamic_cast<fcn::TabbedArea*>(top->getChild(top->getChildrenCount() - 1));
+    tabbedArea = dynamic_cast<fcn::TabbedArea*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("BarGraph", graphRow1StartX, graphRow1TopY);
     auto barGraphPtr = std::make_unique<fcn::BarGraph>();
@@ -459,7 +466,7 @@ void Application::init_GUI(int width, int height)
     barGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(barGraphPtr), graphRow1StartX, graphRow1Y);
     showLastWidget();
-    barGraph = dynamic_cast<fcn::BarGraph*>(top->getChild(top->getChildrenCount() - 1));
+    barGraph = dynamic_cast<fcn::BarGraph*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("LineGraph", graphRow1Col2X, graphRow1TopY);
     auto lineGraphPtr                      = std::make_unique<fcn::LineGraph>();
@@ -479,7 +486,7 @@ void Application::init_GUI(int width, int height)
     lineGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(lineGraphPtr), graphRow1Col2X, graphRow1Y);
     showLastWidget();
-    lineGraph = dynamic_cast<fcn::LineGraph*>(top->getChild(top->getChildrenCount() - 1));
+    lineGraph = dynamic_cast<fcn::LineGraph*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("PointGraph", graphRow1Col3X, graphRow1TopY);
     auto pointGraphPtr                      = std::make_unique<fcn::PointGraph>();
@@ -501,7 +508,7 @@ void Application::init_GUI(int width, int height)
     pointGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(pointGraphPtr), graphRow1Col3X, graphRow1Y);
     showLastWidget();
-    pointGraph = dynamic_cast<fcn::PointGraph*>(top->getChild(top->getChildrenCount() - 1));
+    pointGraph = dynamic_cast<fcn::PointGraph*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("CurveGraph", graphRow2StartX, graphRow2TopY);
     auto curveGraphPtr                      = std::make_unique<fcn::CurveGraph>();
@@ -522,7 +529,7 @@ void Application::init_GUI(int width, int height)
     curveGraphPtr->setSize(graphWidth, graphHeight);
     top->addWidget(std::move(curveGraphPtr), graphRow2StartX, graphRow2Y);
     showLastWidget();
-    curveGraph = dynamic_cast<fcn::CurveGraph*>(top->getChild(top->getChildrenCount() - 1));
+    curveGraph = dynamic_cast<fcn::CurveGraph*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 
     addCaption("PieGraph", pieGraphX, graphRow2TopY);
     auto pieGraphPtr = std::make_unique<fcn::PieGraph>();
@@ -537,7 +544,7 @@ void Application::init_GUI(int width, int height)
     pieGraphPtr->setRadius((std::min(pieGraphWidth, pieGraphHeight) / 2) - 8);
     top->addWidget(std::move(pieGraphPtr), pieGraphX, graphRow2Y);
     showLastWidget();
-    pieGraph = dynamic_cast<fcn::PieGraph*>(top->getChild(top->getChildrenCount() - 1));
+    pieGraph = dynamic_cast<fcn::PieGraph*>(top->getChild(static_cast<unsigned int>(top->getChildrenCount() - 1)));
 }
 
 void Application::run()

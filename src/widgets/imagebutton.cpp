@@ -181,7 +181,8 @@ namespace fcn
             }
         }
 
-        Rectangle offsetRec(getBorderSize(), getBorderSize(), (2 * getBorderSize()), (2 * getBorderSize()));
+        int const borderSize = getBorderSize();
+        Rectangle offsetRec(borderSize, borderSize, (2 * borderSize), (2 * borderSize));
         // fetch the image, down, hover or up
         Image const * img = !isActive() && (getInactiveUpImage() != nullptr) ? getInactiveUpImage() : getUpImage();
         if (isPressed()) {
@@ -217,13 +218,13 @@ namespace fcn
 
             if (isPressed()) {
                 faceColor   = faceColor - getShadowOffset();
-                faceColor.a = alpha;
+                faceColor.a = static_cast<uint8_t>(alpha);
             }
             if (!isActive()) {
                 int const color = static_cast<int>((faceColor.r * 0.3) + (faceColor.g * 0.59) + (faceColor.b * 0.11));
-                faceColor.r     = color;
-                faceColor.g     = color;
-                faceColor.b     = color;
+                faceColor.r     = static_cast<uint8_t>(color);
+                faceColor.g     = static_cast<uint8_t>(color);
+                faceColor.b     = static_cast<uint8_t>(color);
             }
 
             graphics->setColor(faceColor);

@@ -311,9 +311,9 @@ namespace fcn
 
         int const alpha   = getBackgroundColor().a;
         Color trackColor  = getBackgroundColor() - Color(0x101010);
-        trackColor.a      = alpha;
+        trackColor.a      = static_cast<uint8_t>(alpha);
         Color shadowColor = getBackgroundColor() - getShadowOffset();
-        shadowColor.a     = alpha;
+        shadowColor.a     = static_cast<uint8_t>(alpha);
 
         graphics->setColor(trackColor);
         graphics->fillRectangle(0, 0, dim.width, dim.height);
@@ -332,9 +332,9 @@ namespace fcn
 
         int const alpha   = getBackgroundColor().a;
         Color trackColor  = getBackgroundColor() - Color(0x101010);
-        trackColor.a      = alpha;
+        trackColor.a      = static_cast<uint8_t>(alpha);
         Color shadowColor = getBackgroundColor() - getShadowOffset();
-        shadowColor.a     = alpha;
+        shadowColor.a     = static_cast<uint8_t>(alpha);
 
         graphics->setColor(trackColor);
         graphics->fillRectangle(0, 0, dim.width, dim.height);
@@ -367,20 +367,20 @@ namespace fcn
 
         if (mUpButtonPressed) {
             faceColor        = getBaseColor() - getShadowOffset();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor - getShadowOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = getBaseColor();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 1;
         } else {
             faceColor        = getBaseColor();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor + getHighlightOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor - getShadowOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 0;
         }
@@ -422,20 +422,20 @@ namespace fcn
 
         if (mDownButtonPressed) {
             faceColor        = getBaseColor() - getShadowOffset();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor - getShadowOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = getBaseColor();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 1;
         } else {
             faceColor        = getBaseColor();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor + getHighlightOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor - getShadowOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 0;
         }
@@ -476,20 +476,20 @@ namespace fcn
 
         if (mLeftButtonPressed) {
             faceColor        = getBaseColor() - getShadowOffset();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor - getShadowOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = getBaseColor();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 1;
         } else {
             faceColor        = getBaseColor();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor + getHighlightOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor - getShadowOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 0;
         }
@@ -531,20 +531,20 @@ namespace fcn
 
         if (mRightButtonPressed) {
             faceColor        = getBaseColor() - getShadowOffset();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor - getShadowOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = getBaseColor();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 1;
         } else {
             faceColor        = getBaseColor();
-            faceColor.a      = alpha;
+            faceColor.a      = static_cast<uint8_t>(alpha);
             highlightColor   = faceColor + getHighlightOffset();
-            highlightColor.a = alpha;
+            highlightColor.a = static_cast<uint8_t>(alpha);
             shadowColor      = faceColor - getShadowOffset();
-            shadowColor.a    = alpha;
+            shadowColor.a    = static_cast<uint8_t>(alpha);
 
             offset = 0;
         }
@@ -579,11 +579,11 @@ namespace fcn
 
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
-        faceColor.a          = alpha;
+        faceColor.a          = static_cast<uint8_t>(alpha);
         Color highlightColor = faceColor + getHighlightOffset();
-        highlightColor.a     = alpha;
+        highlightColor.a     = static_cast<uint8_t>(alpha);
         Color shadowColor    = faceColor - getShadowOffset();
-        shadowColor.a        = alpha;
+        shadowColor.a        = static_cast<uint8_t>(alpha);
 
         graphics->setColor(faceColor);
         graphics->fillRectangle(1, 1, dim.width - 1, dim.height - 1);
@@ -606,11 +606,11 @@ namespace fcn
 
         int const alpha      = getBaseColor().a;
         Color faceColor      = getBaseColor();
-        faceColor.a          = alpha;
+        faceColor.a          = static_cast<uint8_t>(alpha);
         Color highlightColor = faceColor + getHighlightOffset();
-        highlightColor.a     = alpha;
+        highlightColor.a     = static_cast<uint8_t>(alpha);
         Color shadowColor    = faceColor - getShadowOffset();
-        shadowColor.a        = alpha;
+        shadowColor.a        = static_cast<uint8_t>(alpha);
 
         graphics->setColor(faceColor);
         graphics->fillRectangle(1, 1, dim.width - 1, dim.height - 1);
@@ -634,8 +634,8 @@ namespace fcn
         setHorizontalScrollAmount(getHorizontalScrollAmount());
 
         if (getContent() != nullptr) {
-            getContent()->setPosition(
-                -mHScroll + getContent()->getBorderSize(), -mVScroll + getContent()->getBorderSize());
+            int const contentBorderSize = getContent()->getBorderSize();
+            getContent()->setPosition(-mHScroll + contentBorderSize, -mVScroll + contentBorderSize);
             getContent()->logic();
         }
     }
@@ -895,13 +895,30 @@ namespace fcn
         setVerticalScrollAmount(getContent()->getBorderSize() - getContent()->getY());
     }
 
-    Widget* ScrollArea::getWidgetAt(int x, int y)
+    Widget* ScrollArea::getWidgetAt(int x, int y, Widget* exclude /*= nullptr*/)
     {
-        if (getChildrenArea().isContaining(x, y)) {
-            return getContent();
+        Widget* content = getContent();
+
+        if (content == nullptr || content == exclude) {
+            return nullptr;
         }
 
-        return nullptr;
+        Rectangle const childrenArea = getChildrenArea();
+        if (!childrenArea.isContaining(x, y)) {
+            return nullptr;
+        }
+
+        // Coordinates are relative to the scroll area; the content widget is
+        // positioned at a negative offset while scrolled.
+        int const contentX = x - childrenArea.x - content->getX();
+        int const contentY = y - childrenArea.y - content->getY();
+
+        if (!content->getDimension().isContaining(contentX, contentY)) {
+            return nullptr;
+        }
+
+        Widget* const child = content->getWidgetAt(contentX, contentY, exclude);
+        return child != nullptr ? child : content;
     }
 
     void ScrollArea::mouseWheelMovedUp(MouseEvent& mouseEvent)

@@ -153,18 +153,18 @@ namespace
     {
         auto const * itemData = findItemData(itemId);
         if (itemData == nullptr) {
-            return fcn::Color(100, 200, 100);
+            return {100, 200, 100};
         }
         if (itemData->name == "Sword") {
-            return fcn::Color(200, 200, 200);
+            return {200, 200, 200};
         }
         if (itemData->name == "Shield") {
-            return fcn::Color(150, 150, 255);
+            return {150, 150, 255};
         }
         if (itemData->name == "Potion") {
-            return fcn::Color(255, 100, 100);
+            return {255, 100, 100};
         }
-        return fcn::Color(100, 200, 100);
+        return {100, 200, 100};
     }
 
     class InventorySystem
@@ -231,18 +231,17 @@ namespace
                 return -1;
             }
 
-            bool isPlayerSlot(int slotIndex) const
+            bool isPlayerSlot(size_t slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex >= slots.size()) {
                     return false;
                 }
                 return slots.at(slotIndex).isPlayerInventory;
             }
 
-            bool tryDrop(int sourceSlotIndex, int targetSlotIndex)
+            bool tryDrop(size_t sourceSlotIndex, size_t targetSlotIndex)
             {
-                if (sourceSlotIndex < 0 || std::cmp_greater_equal(sourceSlotIndex, slots.size()) ||
-                    targetSlotIndex < 0 || std::cmp_greater_equal(targetSlotIndex, slots.size()) ||
+                if (sourceSlotIndex >= slots.size() || targetSlotIndex >= slots.size() ||
                     sourceSlotIndex == targetSlotIndex) {
                     return false;
                 }
@@ -266,9 +265,9 @@ namespace
                 return true;
             }
 
-            bool isValidDrop(int slotIndex) const
+            bool isValidDrop(size_t slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex >= slots.size()) {
                     return false;
                 }
                 if (isPlayerSlot(slotIndex)) {
@@ -277,13 +276,13 @@ namespace
                 return !slots.at(slotIndex).item.has_value();
             }
 
-            fcn::Rectangle getSlotRectangle(int slotIndex) const
+            fcn::Rectangle getSlotRectangle(size_t slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex >= slots.size()) {
                     return {};
                 }
                 auto const & slot = slots.at(slotIndex);
-                return fcn::Rectangle(slot.x, slot.y, slot.width, slot.height);
+                return {slot.x, slot.y, slot.width, slot.height};
             }
 
             size_t getSlotCount() const
@@ -291,9 +290,9 @@ namespace
                 return slots.size();
             }
 
-            std::string getTooltipContent(int slotIndex) const
+            std::string getTooltipContent(size_t slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex >= slots.size()) {
                     return "";
                 }
                 auto const & slot = slots.at(slotIndex);
@@ -313,9 +312,9 @@ namespace
                 return content;
             }
 
-            std::string getExtendedTooltipContent(int slotIndex) const
+            std::string getExtendedTooltipContent(size_t slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex >= slots.size()) {
                     return "";
                 }
                 auto const & slot = slots.at(slotIndex);
@@ -335,25 +334,25 @@ namespace
 
             int getItemIdAtSlot(int slotIndex) const
             {
-                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, slots.size())) {
+                if (slotIndex < 0 || std::cmp_greater_equal(slotIndex, static_cast<int>(slots.size()))) {
                     return 0;
                 }
-                auto const & slot = slots.at(slotIndex);
+                auto const & slot = slots.at(static_cast<size_t>(slotIndex));
                 if (!slot.item.has_value()) {
                     return 0;
                 }
                 return slot.item->itemId;
             }
 
-            int getPlayerInvStartX() const
+            static int getPlayerInvStartX()
             {
                 return PLAYER_INV_START_X;
             }
-            int getStashInvStartX() const
+            static int getStashInvStartX()
             {
                 return STASH_INV_START_X;
             }
-            int getSlotSize() const
+            static int getSlotSize()
             {
                 return SLOT_SIZE;
             }
@@ -401,7 +400,7 @@ namespace
                 SDL_RenderFillRect(renderer, &stashLabelBg);
 
                 // Draw slots and items
-                for (auto& slot : slots) {
+                for (auto const & slot : slots) {
                     // Draw slot border
                     SDL_FRect const rect = {
                         .x = static_cast<float>(slot.x),
@@ -486,7 +485,8 @@ namespace
                     return false;
                 }
 
-                return m_inventory.tryDrop(data->sourceSlot, slotWidget->getSlotIndex());
+                return m_inventory.tryDrop(
+                    static_cast<size_t>(data->sourceSlot), static_cast<size_t>(slotWidget->getSlotIndex()));
             }
 
         private:
@@ -571,7 +571,7 @@ try {
     auto graphics = std::make_unique<fcn::sdl3::Graphics>();
     graphics->setTarget(renderer, 640, 360);
 
-    auto input = std::make_unique<fcn::sdl3::Input>();
+    auto input = std::make_unique<fcn::sdl3::Input>(window);
 
     // Set up image loader for fifechan
     auto imageLoader = std::make_unique<fcn::sdl3::ImageLoader>();
@@ -624,7 +624,7 @@ try {
     slotWidgets.reserve(inventory.getSlotCount());
     for (size_t i = 0; i < inventory.getSlotCount(); ++i) {
         auto slotWidget           = std::make_unique<SlotWidget>(static_cast<int>(i));
-        fcn::Rectangle const rect = inventory.getSlotRectangle(static_cast<int>(i));
+        fcn::Rectangle const rect = inventory.getSlotRectangle(i);
         slotWidget->setPosition(rect.x, rect.y);
         slotWidget->setSize(rect.width, rect.height);
         slotWidget->addDropTargetListener(&dropTarget);
@@ -651,7 +651,7 @@ try {
         if (slotWidget == nullptr) {
             return;
         }
-        bool const valid = inventory.isValidDrop(slotWidget->getSlotIndex());
+        bool const valid = inventory.isValidDrop(static_cast<size_t>(slotWidget->getSlotIndex()));
         graphics.setColor(valid ? fcn::Color(0, 255, 0, 255) : fcn::Color(255, 0, 0, 255));
         int x = 0;
         int y = 0;
@@ -672,12 +672,12 @@ try {
     spec.delayMs   = 300;
     spec.placement = fcn::TooltipPlacement::Cursor;
     spec.content   = [&inventory](int widgetId) {
-        return inventory.getTooltipContent(widgetId);
+        return inventory.getTooltipContent(static_cast<size_t>(widgetId));
     };
     spec.modifierBehavior.enabled         = true;
     spec.modifierBehavior.modifier        = SDL_KMOD_ALT;
     spec.modifierBehavior.modifiedContent = [&inventory](int widgetId) {
-        return inventory.getExtendedTooltipContent(widgetId);
+        return inventory.getExtendedTooltipContent(static_cast<size_t>(widgetId));
     };
     tooltip->setSpec(spec);
     tooltip->setPosition(0, 0);
@@ -751,14 +751,10 @@ try {
     bool running = true;
     SDL_Event event;
     int const frameDelay = 16; // ~60 FPS
-    Uint32 lastTime      = SDL_GetTicks();
 
     while (running) {
         // Track ALT key state (scope reduced to main loop)
         // ALT state will be sampled each frame via SDL_GetModState()
-
-        Uint32 const currentTime = SDL_GetTicks();
-        lastTime                 = currentTime;
 
         float mouseXf = NAN;
         float mouseYf = NAN;
@@ -777,17 +773,18 @@ try {
                     int const slotIdx = inventory.getSlotIndexAtPosition(
                         static_cast<int>(event.button.x), static_cast<int>(event.button.y));
                     if (slotIdx >= 0) {
-                        int const itemId = inventory.getItemIdAtSlot(slotIdx);
+                        size_t const slotIdxSizeT = static_cast<size_t>(slotIdx);
+                        int const itemId          = inventory.getItemIdAtSlot(slotIdx);
                         if (itemId != 0) {
-                            auto const slotRect = inventory.getSlotRectangle(slotIdx);
+                            auto const slotRect = inventory.getSlotRectangle(slotIdxSizeT);
                             auto data           = std::make_shared<DragData>(DragData{
-                                itemId,
-                                slotIdx,
-                                static_cast<int>(event.button.x) - slotRect.x,
-                                static_cast<int>(event.button.y) - slotRect.y});
+                                .itemId     = itemId,
+                                .sourceSlot = static_cast<int>(slotIdxSizeT),
+                                .offsetX    = static_cast<int>(event.button.x) - slotRect.x,
+                                .offsetY    = static_cast<int>(event.button.y) - slotRect.y});
                             auto payload        = std::make_unique<fcn::DragPayload>(data);
                             dragHandler.beginDrag(
-                                slotWidgets.at(slotIdx).get(),
+                                slotWidgets.at(slotIdxSizeT).get(),
                                 std::move(payload),
                                 static_cast<int>(event.button.x),
                                 static_cast<int>(event.button.y));

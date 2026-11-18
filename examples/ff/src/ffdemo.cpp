@@ -130,7 +130,7 @@ FFDemo::FFDemo() : mRunning(true)
     fcn::Image::setImageLoader(mSDLImageLoader.get());
     mSDLGraphics = std::make_unique<fcn::sdl3::Graphics>();
     mSDLGraphics->setTarget(mRenderer, kUiWidth, kUiHeight);
-    mSDLInput = std::make_unique<fcn::sdl3::Input>();
+    mSDLInput = std::make_unique<fcn::sdl3::Input>(mWindow);
 
     mSplashImage = std::unique_ptr<fcn::Image>(fcn::Image::load("images/splash.png"));
 
@@ -245,6 +245,10 @@ FFDemo::~FFDemo()
     MIX_DestroyAudio(mEscapeAudio);
     MIX_DestroyMixer(mMixer);
     MIX_Quit();
+
+    // Tear down the gui and input before the window they refer to is destroyed.
+    mGui.reset();
+    mSDLInput.reset();
 
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
@@ -525,6 +529,16 @@ void FFDemo::cleanStatus()
     mStatus.reset();
 }
 
+void FFDemo::hideStatus()
+{
+    mPerStatus1->setVisible(false);
+    mPerStatus2->setVisible(false);
+    mOlofStatus1->setVisible(false);
+    mOlofStatus2->setVisible(false);
+    mTomasStatus1->setVisible(false);
+    mTomasStatus2->setVisible(false);
+}
+
 void FFDemo::initItems()
 {
     mItemsListModel     = std::make_unique<StringListModel>();
@@ -654,9 +668,9 @@ void FFDemo::run()
     while (mRunning) {
         input();
 
-        int sec       = SDL_GetTicks() / 1000;
-        int const min = sec / 60;
-        sec           = sec % 60;
+        uint64_t sec       = SDL_GetTicks() / 1000;
+        uint64_t const min = sec / 60;
+        sec                = sec % 60;
         std::string const str;
         std::ostringstream os(str);
 
@@ -739,12 +753,7 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
         mMenuList->requestFocus();
         mMain->slideContentTo(0);
         mStatus->setVisible(false);
-        mPerStatus1->setVisible(false);
-        mPerStatus2->setVisible(false);
-        mOlofStatus1->setVisible(false);
-        mOlofStatus2->setVisible(false);
-        mTomasStatus1->setVisible(false);
-        mTomasStatus2->setVisible(false);
+        hideStatus();
         mMagicSkills->setVisible(false);
         mNavigationLabel->setVisible(false);
     }
@@ -763,6 +772,9 @@ void FFDemo::action(fcn::ActionEvent const & actionEvent)
         switch (mMenuList->getSelected()) {
         case 1:
             mNavigationLabel->setCaption("STATUS");
+
+            // Only one character's status may be visible at a time.
+            hideStatus();
 
             if (mCharacterChooser->getSelected() == 0) {
                 mPerStatus1->setVisible(true);

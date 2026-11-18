@@ -220,6 +220,23 @@ else()
   elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
       message(STATUS "Using GCC ${CMAKE_CXX_COMPILER_VERSION} with libstdc++")
   endif()
+
+  # GCC and Clang compiler options
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8")
+  if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wno-error")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g2 -Wall -Wextra -Wpedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-variable -Wunused-function -Wunused-but-set-parameter -Wno-unused-parameter")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wconversion -Wsign-conversion")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wold-style-cast -Wdeprecated -Wdeprecated-declarations")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough")
+    #set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+  endif()
+endif()
+
 endif()
 
 #------------------------------------------------------------------------------

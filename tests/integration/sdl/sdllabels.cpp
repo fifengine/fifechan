@@ -53,15 +53,15 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
-    SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
+    SDL_Window* createdWindow = SDL_CreateWindow(title.c_str(), width, height, flags);
 
-    if (window == nullptr) {
+    if (createdWindow == nullptr) {
         throw std::runtime_error(std::string("Failed to create SDL_Window: ") + SDL_GetError());
     }
 
-    return fcn::sdl3::makeSDLSharedPtr(window);
+    return fcn::sdl3::makeSDLSharedPtr(createdWindow);
 }
 
 std::shared_ptr<SDL_Renderer> Application::initRenderer(std::shared_ptr<SDL_Window> const & window)
@@ -119,7 +119,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     // Finally, we create the GUI object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();
@@ -172,13 +172,14 @@ void Application::init_gui(int width, int height)
             cell->setDimension(fcn::Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight));
 
             // Create label with descriptive text
-            auto label = std::make_unique<fcn::Label>(std::format("{} {}", vLabels.at(row), hLabels.at(col)));
+            auto label = std::make_unique<fcn::Label>(
+                std::format("{} {}", vLabels.at(static_cast<size_t>(row)), hLabels.at(static_cast<size_t>(col))));
 
             // Set horizontal alignment
-            label->setAlignment(hAlignments.at(col));
+            label->setAlignment(hAlignments.at(static_cast<size_t>(col)));
 
             // Set vertical alignment
-            label->setVerticalAlignment(vAlignments.at(row));
+            label->setVerticalAlignment(vAlignments.at(static_cast<size_t>(row)));
 
             // Make label fill the entire cell to demonstrate alignment
             label->setBorderSize(1);

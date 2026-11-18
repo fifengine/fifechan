@@ -236,43 +236,43 @@ namespace
     class OpacityProbeGraphics : public Graphics
     {
         public:
-            void drawImage(Image const *, int, int, int, int, int, int) override
+            void drawImage(Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override
             {
             }
-            void drawPoint(int, int) override
+            void drawPoint(int x, int y) override
             {
             }
-            void drawLine(int, int, int, int) override
+            void drawLine(int x1, int y1, int x2, int y2) override
             {
             }
-            void drawLine(int, int, int, int, unsigned int) override
+            void drawLine(int x1, int y1, int x2, int y2, unsigned int width) override
             {
             }
-            void drawPolyLine(PointVector const &, unsigned int) override
+            void drawPolyLine(PointVector const & points, unsigned int width) override
             {
             }
-            void drawBezier(PointVector const &, int, unsigned int) override
+            void drawBezier(PointVector const & points, int steps, unsigned int width) override
             {
             }
-            void drawRectangle(Rectangle const &) override
+            void drawRectangle(Rectangle const & rectangle) override
             {
             }
-            void fillRectangle(Rectangle const &) override
+            void fillRectangle(Rectangle const & rectangle) override
             {
             }
-            void drawCircle(Point const &, unsigned int) override
+            void drawCircle(Point const & p, unsigned int radius) override
             {
             }
-            void drawFillCircle(Point const &, unsigned int) override
+            void drawFillCircle(Point const & p, unsigned int radius) override
             {
             }
-            void fillTriangle(int, int, int, int, int, int) override
+            void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) override
             {
             }
-            void drawCircleSegment(Point const &, unsigned int, int, int) override
+            void drawCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override
             {
             }
-            void drawFillCircleSegment(Point const &, unsigned int, int, int) override
+            void drawFillCircleSegment(Point const & p, unsigned int radius, int sangle, int eangle) override
             {
             }
             void setColor(Color const & color) override
@@ -2595,6 +2595,13 @@ TEST_CASE("Widget draw applies its own opacity", "[unit][widget]")
 
     REQUIRE(widget.observedOpacity == Catch::Approx(0.5F));
     REQUIRE(graphics.getOpacity() == Catch::Approx(1.0F));
+}
+
+TEST_CASE("Widget wantsTextInput defaults to false", "[unit][widget]")
+{
+    fcn::Label const label("text");
+
+    REQUIRE(label.wantsTextInput() == false);
 }
 
 TEST_CASE("Widget opacity composes with ancestor opacity", "[unit][widget]")

@@ -3,6 +3,7 @@
 
 // Standard library includes
 #include <cmath>
+#include <memory>
 
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
@@ -12,15 +13,23 @@
 #include "fifechan/events/actionevent.hpp"
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/mouseevent.hpp"
+#include "fifechan/genericinput.hpp"
+#include "fifechan/gui.hpp"
 #include "fifechan/key.hpp"
 #include "fifechan/listeners/actionlistener.hpp"
+#include "fifechan/widgets/container.hpp"
+#include "fifechan/widgets/scrollarea.hpp"
 #include "fifechan/widgets/slider.hpp"
 
 using fcn::ActionEvent;
 using fcn::ActionListener;
+using fcn::Container;
+using fcn::GenericInput;
+using fcn::Gui;
 using fcn::Key;
 using fcn::KeyEvent;
 using fcn::MouseEvent;
+using fcn::ScrollArea;
 using fcn::Slider;
 
 namespace
@@ -415,4 +424,47 @@ TEST_CASE("Slider clamping at scale boundaries", "[unit][slider]")
     slider.setScaleStart(3.0);
     slider.setScaleEnd(7.0);
     REQUIRE(slider.getValue() == 7.0);
+}
+
+TEST_CASE("Slider can be dragged inside a ScrollArea", "[unit][slider][gui]")
+{
+    Container top;
+    top.setDimension(fcn::Rectangle(0, 0, 640, 480));
+
+    Container content;
+    content.setSize(420, 220);
+
+    Slider slider(0.0, 10.0);
+    slider.setSize(160, 18);
+    slider.setValue(6.0);
+    content.add(&slider, 24, 54);
+
+    ScrollArea scrollArea(&content);
+    scrollArea.setSize(250, 110);
+    scrollArea.setHorizontalScrollPolicy(ScrollArea::ScrollPolicy::ShowAlways);
+    scrollArea.setVerticalScrollPolicy(ScrollArea::ScrollPolicy::ShowAlways);
+    top.add(&scrollArea, 120, 100);
+
+    Gui gui;
+    gui.setTop(&top);
+    gui.setInput(std::make_unique<GenericInput>());
+    auto* const input = static_cast<GenericInput*>(gui.getInput());
+
+    int sliderX = 0;
+    int sliderY = 0;
+    slider.getAbsolutePosition(sliderX, sliderY);
+    int const dragY = sliderY + (slider.getHeight() / 2);
+
+    // Pressing near the left end moves the marker there.
+    input->pushMouseButtonPressed(sliderX + 10, dragY, 1);
+    gui.logic();
+    REQUIRE(slider.getValue() < 6.0);
+
+    // Dragging to the right end moves the marker there.
+    input->pushMouseMoved(sliderX + 150, dragY);
+    gui.logic();
+    REQUIRE(slider.getValue() > 9.0);
+
+    input->pushMouseButtonReleased(sliderX + 150, dragY, 1);
+    gui.logic();
 }

@@ -52,7 +52,7 @@ Application::~Application()
     cleanup();
 }
 
-std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, int flags)
+std::shared_ptr<SDL_Window> Application::initWindow(std::string const & title, int width, int height, uint64_t flags)
 {
     SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, flags);
 
@@ -118,7 +118,7 @@ void Application::init_sdl(std::string const & title, int width, int height)
     graphics->setTarget(renderer.get(), width, height);
 
     // The SDLInput object is used to get input from the user.
-    input = std::make_unique<fcn::sdl3::Input>();
+    input = std::make_unique<fcn::sdl3::Input>(window.get());
 
     // Finally, we create the GUI object and pass graphics and input to it.
     gui = std::make_unique<fcn::Gui>();

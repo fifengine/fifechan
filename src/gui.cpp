@@ -19,7 +19,7 @@
 // Platform config include
 #include "fifechan/platform.hpp"
 
-// Project headers (subdirs before local)
+// Project headers
 #include "fifechan/events/keyevent.hpp"
 #include "fifechan/events/mouseevent.hpp"
 #include "fifechan/events/textinputevent.hpp"
@@ -69,9 +69,9 @@ namespace fcn
         mTop(nullptr),
         mGraphics(nullptr),
         mInput(nullptr),
-        mTabbing(true),
         mFocusHandler(new FocusHandler()),
         mVisibilityEventHandler(new VisibilityEventHandler(this)),
+        mTabbing(true),
         mShiftPressed(false),
         mMetaPressed(false),
         mControlPressed(false),
@@ -95,6 +95,11 @@ namespace fcn
 
     Gui::~Gui()
     {
+        if (mTextInputActive && mInput != nullptr) {
+            mInput->stopTextInput();
+            mTextInputActive = false;
+        }
+
         if (Widget::widgetExists(mTop)) {
             if (mTop != nullptr) {
                 mTop->_setFocusHandler(nullptr);
@@ -126,6 +131,8 @@ namespace fcn
         }
 
         mTop = top;
+
+        syncTextInputState();
     }
 
     void Gui::setTop(std::unique_ptr<Widget> top)
@@ -174,6 +181,15 @@ namespace fcn
     {
         // `input` may be nullptr to clear the current input; no assertion needed.
 
+        if (input == mInput) {
+            return;
+        }
+
+        if (mTextInputActive && mInput != nullptr) {
+            mInput->stopTextInput();
+            mTextInputActive = false;
+        }
+
         if (input != mOwnedInput.get()) {
             mOwnedInput.reset();
         }
@@ -182,6 +198,14 @@ namespace fcn
 
     void Gui::setInput(std::unique_ptr<Input> input)
     {
+        // Stop text input before the old owned input is destroyed. Doing this in
+        // the raw-pointer overload would dereference a freed object, because the
+        // unique_ptr assignment below destroys the previous input first.
+        if (mTextInputActive && mInput != nullptr) {
+            mInput->stopTextInput();
+            mTextInputActive = false;
+        }
+
         mOwnedInput = std::move(input);
         setInput(mOwnedInput.get());
     }
@@ -227,6 +251,8 @@ namespace fcn
             throwException("No top widget set");
         }
 
+        syncTextInputState();
+
         handleModalFocus();
         handleModalMouseInputFocus();
 
@@ -242,6 +268,8 @@ namespace fcn
 
         handleHiddenWidgets();
         handleShownWidgets();
+
+        syncTextInputState();
     }
 
     void Gui::draw()
@@ -269,6 +297,26 @@ namespace fcn
     void Gui::focusNone()
     {
         mFocusHandler->focusNone();
+        syncTextInputState();
+    }
+
+    void Gui::syncTextInputState()
+    {
+        Widget const * focused    = mFocusHandler->getFocused();
+        bool const shouldActivate = mInput != nullptr && focused != nullptr && focused->isVisible() &&
+                                    focused->isEnabled() && focused->wantsTextInput();
+
+        if (shouldActivate == mTextInputActive) {
+            return;
+        }
+
+        mTextInputActive = shouldActivate;
+
+        if (shouldActivate) {
+            mInput->startTextInput();
+        } else if (mInput != nullptr) {
+            mInput->stopTextInput();
+        }
     }
 
     void Gui::setTabbingEnabled(bool tabbing)
@@ -318,6 +366,9 @@ namespace fcn
                 break;
             case MouseInput::Type::Released:
                 handleMouseReleased(mouseInput);
+                break;
+            case MouseInput::Type::Canceled:
+                handleMouseCanceled(mouseInput);
                 break;
             case MouseInput::Type::Moved:
                 handleMouseMoved(mouseInput);
@@ -569,7 +620,7 @@ namespace fcn
         mFocusHandler->setLastWidgetPressed(sourceWidget);
 
         mFocusHandler->setDraggedWidget(sourceWidget);
-        mLastMouseDragButton = static_cast<unsigned int>(mouseInput.getButton());
+        mLastMouseDragButton = static_cast<int>(mouseInput.getButton());
 
         mLastMousePressButton    = static_cast<unsigned int>(mouseInput.getButton());
         mLastMousePressTimeStamp = mouseInput.getTimeStamp();
@@ -696,6 +747,36 @@ namespace fcn
         if (mFocusHandler->getDraggedWidget() != nullptr) {
             mFocusHandler->setDraggedWidget(nullptr);
         }
+    }
+
+    void Gui::handleMouseCanceled(MouseInput const & mouseInput)
+    {
+        Widget* sourceWidget = getMouseEventSource(mouseInput.getX(), mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            if (sourceWidget != mFocusHandler->getLastWidgetPressed()) {
+                mFocusHandler->setLastWidgetPressed(nullptr);
+            }
+
+            sourceWidget = mFocusHandler->getDraggedWidget();
+        }
+
+        // Release the widget so it can reset its pressed state, but never
+        // generate a Clicked event for a canceled gesture.
+        distributeMouseEvent(
+            sourceWidget,
+            MouseEvent::Type::Released,
+            static_cast<MouseEvent::Button>(mouseInput.getButton()),
+            mouseInput.getX(),
+            mouseInput.getY());
+
+        if (mFocusHandler->getDraggedWidget() != nullptr) {
+            mFocusHandler->setDraggedWidget(nullptr);
+        }
+
+        mFocusHandler->setLastWidgetPressed(nullptr);
+        mLastMousePressButton = 0;
+        mClickCount           = 0;
     }
 
     Widget* Gui::getWidgetAt(int x, int y, Widget* exclude)

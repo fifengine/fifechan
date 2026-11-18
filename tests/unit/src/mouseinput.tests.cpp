@@ -39,6 +39,9 @@ TEST_CASE("MouseInput setType and getType work correctly", "[mouseinput]")
     input.setType(fcn::MouseInput::Type::Released);
     REQUIRE(input.getType() == fcn::MouseInput::Type::Released);
 
+    input.setType(fcn::MouseInput::Type::Canceled);
+    REQUIRE(input.getType() == fcn::MouseInput::Type::Canceled);
+
     input.setType(fcn::MouseInput::Type::Moved);
     REQUIRE(input.getType() == fcn::MouseInput::Type::Moved);
 

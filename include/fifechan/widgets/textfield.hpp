@@ -95,7 +95,7 @@ namespace fcn
              * @param position The caret position.
              * @see getCaretPosition
              */
-            void setCaretPosition(unsigned int position);
+            void setCaretPosition(int position);
 
             /**
              * Gets the caret position.
@@ -106,7 +106,7 @@ namespace fcn
              * @return The caret position.
              * @see setCaretPosition
              */
-            unsigned int getCaretPosition() const;
+            int getCaretPosition() const;
 
             // Inherited from Widget
 
@@ -132,6 +132,8 @@ namespace fcn
             void keyPressed(KeyEvent& keyEvent) override;
 
             void textInput(TextInputEvent& event) override;
+
+            bool wantsTextInput() const override;
 
         protected:
             /**

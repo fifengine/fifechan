@@ -129,7 +129,7 @@ namespace fcn
         return mOpaque;
     }
 
-    void ImageProgressBar::setBarImage(Image* image)
+    void ImageProgressBar::setBarImage(Image const * image)
     {
         if (mInternalImage) {
             delete mBarImage;
@@ -146,7 +146,7 @@ namespace fcn
         return mBarImage;
     }
 
-    void ImageProgressBar::setForegroundImage(Image* image)
+    void ImageProgressBar::setForegroundImage(Image const * image)
     {
         mForegroundImage = image;
         adjustSizeImpl();

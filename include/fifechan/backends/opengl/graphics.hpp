@@ -69,6 +69,18 @@ namespace fcn::opengl
                 fcn::Image const * image, int srcX, int srcY, int dstX, int dstY, int width, int height) override;
 
             /**
+             * Draws an SDL_Surface at the given position.
+             *
+             * The surface is converted to an RGBA texture for the duration of
+             * the draw and modulated by the current colour and opacity.
+             *
+             * @param surface The surface to draw (must not be null).
+             * @param dstX    Destination x coordinate.
+             * @param dstY    Destination y coordinate.
+             */
+            void drawSurface(SDL_Surface* surface, int dstX, int dstY) override;
+
+            /**
              * Draws an OpenGL-specific image.
              *
              * @param image Pointer to the OpenGL image to draw.
