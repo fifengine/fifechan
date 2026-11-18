@@ -82,7 +82,7 @@ namespace fcn
              *
              * @param image Image used by the progress bar.
              */
-            void setBarImage(Image* image);
+            void setBarImage(Image const * image);
 
             /**
              * @return The image used by this Bar.
@@ -96,7 +96,7 @@ namespace fcn
              *
              * @param image Image used as overlay by the progress bar.
              */
-            void setForegroundImage(Image* image);
+            void setForegroundImage(Image const * image);
 
             /**
              * @return The image used as overlay by this Bar.
@@ -165,39 +165,39 @@ namespace fcn
             /**
              * Bar image.
              */
-            Image const * mBarImage;
+            Image const * mBarImage{nullptr};
 
             /**
              * Foreground image.
              */
-            Image const * mForegroundImage;
+            Image const * mForegroundImage{nullptr};
 
             /**
              * True if the image has been loaded internally, false otherwise.
              * An image not loaded internally should not be deleted in the
              * destructor.
              */
-            bool mInternalImage;
+            bool mInternalImage{false};
 
             /**
              * Value when progress bar is full.
              */
-            int mMaxValue;
+            int mMaxValue{100};
 
             /**
              * Holds the current progress bar value.
              */
-            int mValue;
+            int mValue{0};
 
             /**
              * ImageProgressBar's orientation.
              */
-            Orientation mOrientation;
+            Orientation mOrientation{Orientation::Horizontal};
 
             /**
              * True if the widget is opaque, false otherwise.
              */
-            bool mOpaque;
+            bool mOpaque{true};
     };
 }; // namespace fcn
 

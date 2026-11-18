@@ -44,11 +44,13 @@ namespace
             int mCount{0};
     };
 
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
     KeyEvent makeKeyEvent(TextField& field, int keyValue)
     {
         return {&field, &field, false, false, false, false, KeyEvent::Type::Pressed, false, Key(keyValue)};
     }
 
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
     TextInputEvent makeTextInput(TextField& field, std::string text)
     {
         return {&field, &field, false, false, false, false, std::move(text)};

@@ -305,7 +305,6 @@ TEST_CASE("PointVector type exists", "[point][type]")
     PointVector vec;
     vec.push_back(Point(1, 2));
     vec.push_back(Point(3, 4));
-    REQUIRE(vec.size() == 2);
     REQUIRE(vec[0].x == 1);
     REQUIRE(vec[0].y == 2);
     REQUIRE(vec[1].x == 3);

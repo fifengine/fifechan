@@ -202,7 +202,7 @@ namespace fcn
                 textX += iconFont->getWidth(mIconGlyph) + 4;
             } else if (mIcon != nullptr) {
                 int const iconY = (getHeight() - mIcon->getHeight()) / 2;
-                graphics->drawImage(mIcon, mColumnLayout->xIcon, iconY);
+                graphics->drawImage(mIcon, 4, iconY);
             }
 
             // Ensure font and color are set for text rendering

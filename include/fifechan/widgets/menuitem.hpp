@@ -86,22 +86,22 @@ namespace fcn
             /**
              * X position of icon column.
              */
-            int xIcon;
+            int xIcon{0};
 
             /**
              * X position of caption column.
              */
-            int xCaption;
+            int xCaption{0};
 
             /**
              * X position of shortcut column.
              */
-            int xShortcut;
+            int xShortcut{0};
 
             /**
              * X position of arrow column.
              */
-            int xArrow;
+            int xArrow{0};
 
             /**
              * Column widths aggregated across items.

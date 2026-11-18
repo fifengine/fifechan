@@ -599,8 +599,8 @@ int main(int argc, char** argv)
         if (std::strcmp(argv[i], "--screenshot") == 0 && i + 2 < argc) {
             std::string_view const pageArg{argv[i + 1]};
             int page               = 0;
-            auto const parseResult = std::from_chars(pageArg.begin(), pageArg.end(), page);
-            if (parseResult.ec != std::errc{} || parseResult.ptr != pageArg.end()) {
+            auto const parseResult = std::from_chars(pageArg.data(), pageArg.data() + pageArg.size(), page);
+            if (parseResult.ec != std::errc{} || parseResult.ptr != pageArg.data() + pageArg.size()) {
                 std::cerr << "Invalid --screenshot page: " << pageArg << '\n';
                 return 1;
             }

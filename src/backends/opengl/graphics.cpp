@@ -18,6 +18,12 @@
     #include <GL/gl.h>
 #endif
 
+// GL_CLAMP_TO_EDGE is not defined in GL/gl.h on Windows with MSVC.
+// It's an OpenGL 1.2 constant (value 0x812F) typically found in glext.h.
+#ifndef GL_CLAMP_TO_EDGE
+    #define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
 // Standard library includes
 #include <algorithm>
 #include <array>

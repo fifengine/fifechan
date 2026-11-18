@@ -420,34 +420,34 @@ namespace fcn
             /**
              * Holds the focused widget. Nullptr if no widget has focus.
              */
-            Widget* mFocusedWidget;
+            Widget* mFocusedWidget{nullptr};
 
             /**
              * Holds the dragged widget.
              *
              * Nullptr if no widget is being dragged.
              */
-            Widget* mDraggedWidget;
+            Widget* mDraggedWidget{nullptr};
 
             /**
              * Holds the last widget with the mouse.
              */
-            Widget* mLastWidgetWithMouse;
+            Widget* mLastWidgetWithMouse{nullptr};
 
             /**
              * Holds the last widget with modal focus.
              */
-            Widget* mLastWidgetWithModalFocus;
+            Widget* mLastWidgetWithModalFocus{nullptr};
 
             /**
              * Holds the last widget with modal mouse input focus.
              */
-            Widget* mLastWidgetWithModalMouseInputFocus;
+            Widget* mLastWidgetWithModalMouseInputFocus{nullptr};
 
             /**
              * Holds the last widget pressed.
              */
-            Widget* mLastWidgetPressed;
+            Widget* mLastWidgetPressed{nullptr};
     };
 } // namespace fcn
 

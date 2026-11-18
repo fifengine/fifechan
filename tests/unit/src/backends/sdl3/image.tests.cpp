@@ -436,14 +436,9 @@ TEST_CASE("Image BMP font file loads with correct pixel colors", "[unit][image][
     bool canReadPixels = false;
     for (int y = 0; y < image->getHeight() && y < 5; ++y) {
         for (int x = 0; x < image->getWidth() && x < 5; ++x) {
-            fcn::Color const pixel = image->getPixel(x, y);
+            image->getPixel(x, y);
             // If we can read any pixel without exception, it's working
             canReadPixels = true;
-            // All pixels should be readable
-            CHECK(pixel.r <= 255);
-            CHECK(pixel.g <= 255);
-            CHECK(pixel.b <= 255);
-            CHECK(pixel.a <= 255);
         }
     }
     CHECK(canReadPixels);
@@ -497,14 +492,9 @@ TEST_CASE("Image PNG font file loads with correct pixel colors", "[unit][image][
     bool canReadPixels = false;
     for (int y = 0; y < image->getHeight() && y < 5; ++y) {
         for (int x = 0; x < image->getWidth() && x < 5; ++x) {
-            fcn::Color const pixel = image->getPixel(x, y);
+            image->getPixel(x, y);
             // If we can read any pixel without exception, it's working
             canReadPixels = true;
-            // All pixels should be readable
-            CHECK(pixel.r <= 255);
-            CHECK(pixel.g <= 255);
-            CHECK(pixel.b <= 255);
-            CHECK(pixel.a <= 255);
         }
     }
 

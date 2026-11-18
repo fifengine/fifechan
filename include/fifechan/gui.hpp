@@ -551,14 +551,14 @@ namespace fcn
              *
              * @param widget The widget to capture mouse to, or nullptr to release.
              */
-            void captureMouse(Widget* widget);
+            static void captureMouse(Widget* widget);
 
             /**
              * Releases explicit mouse capture from a widget.
              *
              * @param widget The widget to release capture from.
              */
-            void releaseMouse(Widget* widget);
+            static void releaseMouse(Widget* widget);
 
             /**
              * Gets the source of the key event.
@@ -579,7 +579,7 @@ namespace fcn
             /**
              * Holds the top widget.
              */
-            Widget* mTop;
+            Widget* mTop{nullptr};
 
             /**
              * Holds hidden widgets.
@@ -594,12 +594,12 @@ namespace fcn
             /**
              * Holds the graphics implementation used.
              */
-            Graphics* mGraphics;
+            Graphics* mGraphics{nullptr};
 
             /**
              * Holds the input implementation used.
              */
-            Input* mInput;
+            Input* mInput{nullptr};
 
             /**
              * True while backend text input is active because a focused,
@@ -610,17 +610,17 @@ namespace fcn
             /**
              * Holds the focus handler for the GUI.
              */
-            FocusHandler* mFocusHandler;
+            FocusHandler* mFocusHandler{nullptr};
 
             /**
              * Holds the visibility event handler for the GUI.
              */
-            VisibilityEventHandler* mVisibilityEventHandler;
+            VisibilityEventHandler* mVisibilityEventHandler{nullptr};
 
             /**
              * True if tabbing is enabled, false otherwise.
              */
-            bool mTabbing;
+            bool mTabbing{true};
 
             /** List of KeyListener. */
             using KeyListenerList = std::list<KeyListener*>;
@@ -636,58 +636,58 @@ namespace fcn
             /**
              * True if shift is pressed, false otherwise.
              */
-            bool mShiftPressed;
+            bool mShiftPressed{false};
 
             /**
              * True if meta is pressed, false otherwise.
              */
-            bool mMetaPressed;
+            bool mMetaPressed{false};
 
             /**
              * True if control is pressed, false otherwise.
              */
-            bool mControlPressed;
+            bool mControlPressed{false};
 
             /**
              * True if alt is pressed, false otherwise.
              */
-            bool mAltPressed;
+            bool mAltPressed{false};
 
             /**
              * Holds the last mouse button pressed.
              */
-            unsigned int mLastMousePressButton;
+            unsigned int mLastMousePressButton{0};
 
             /**
              * Holds the last mouse press time stamp.
              */
-            int mLastMousePressTimeStamp;
+            int mLastMousePressTimeStamp{0};
 
             /**
              * Holds the last mouse x coordinate.
              */
-            int mLastMouseX;
+            int mLastMouseX{0};
 
             /**
              * Holds the last mouse y coordinate.
              */
-            int mLastMouseY;
+            int mLastMouseY{0};
 
             /**
              * Holds the current click count. Used to keep track
              * of clicks for a the last pressed button.
              */
-            int mClickCount;
+            int mClickCount{1};
 
             /**
              * Holds the last button used when a drag of a widget
              * was initiated. Used to be able to release a drag
              * when the same button is released.
              */
-            int mLastMouseDragButton;
+            int mLastMouseDragButton{0};
 
             /** Listener notified when the GUI or top widget is destroyed. */
-            GuiDeathListener* mDeathListener;
+            GuiDeathListener* mDeathListener{nullptr};
 
             /** Optional owned top widget (when Gui takes ownership). */
             std::unique_ptr<Widget> mOwnedTop;

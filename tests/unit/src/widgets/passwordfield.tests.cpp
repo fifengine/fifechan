@@ -23,11 +23,13 @@ using fcn::TextInputEvent;
 
 namespace
 {
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
     KeyEvent makeKeyEvent(PasswordField& field, int keyValue)
     {
         return {&field, &field, false, false, false, false, KeyEvent::Type::Pressed, false, Key(keyValue)};
     }
 
+    // cppcheck-suppress constParameterReference -- event constructors require non-const Widget*
     TextInputEvent makeTextInput(PasswordField& field, std::string text)
     {
         return {&field, &field, false, false, false, false, std::move(text)};

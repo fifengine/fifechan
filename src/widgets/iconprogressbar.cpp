@@ -94,7 +94,7 @@ namespace fcn
         return mOpaque;
     }
 
-    void IconProgressBar::setImage(Image* image)
+    void IconProgressBar::setImage(Image const * image)
     {
         if (mInternalImage) {
             delete mImage;

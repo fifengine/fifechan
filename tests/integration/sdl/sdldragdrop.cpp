@@ -344,15 +344,15 @@ namespace
                 return slot.item->itemId;
             }
 
-            int getPlayerInvStartX() const
+            static int getPlayerInvStartX()
             {
                 return PLAYER_INV_START_X;
             }
-            int getStashInvStartX() const
+            static int getStashInvStartX()
             {
                 return STASH_INV_START_X;
             }
-            int getSlotSize() const
+            static int getSlotSize()
             {
                 return SLOT_SIZE;
             }

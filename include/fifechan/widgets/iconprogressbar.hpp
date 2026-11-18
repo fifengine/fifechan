@@ -92,7 +92,7 @@ namespace fcn
              * @param image Image used by the progress bar's icons.
              * @see setMaxIcons
              */
-            void setImage(Image* image);
+            void setImage(Image const * image);
 
             /**
              * @return The image used by this IconProgressBar.
@@ -170,7 +170,7 @@ namespace fcn
             /**
              * Image used by the progress bar.
              */
-            Image const * mImage;
+            Image const * mImage{nullptr};
 
             /**
              * True if the image has been loaded internally, false otherwise.
