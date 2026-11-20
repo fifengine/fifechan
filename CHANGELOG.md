@@ -76,6 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Widgets that override `Widget::_draw` without calling the base implementation must apply and restore the graphics opacity themselves; the base `_draw` is where the subtree composition happens.
 
 ### Fixed
+
+- `MouseInput::Button` now uses the same order as `MouseEvent::Button`.
 - Input text handling:
   - `Widget::isFocused()` is now reliable after `focusNext`, `focusPrevious`,
     `tabNext`, `tabPrevious` and focus removal; `FocusHandler` routes every focus

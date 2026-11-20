@@ -43,13 +43,20 @@ namespace fcn
                 Canceled
             };
 
-            /** Mouse button. */
+            /**
+             * Mouse button.
+             *
+             * The order matches MouseEvent::Button and the SDL button
+             * numbering (Left=1, Middle=2, Right=3).
+             * We keep the two enums in sync using static_assert checks
+             * in gui.cpp, so a static_cast between them stays valid.
+             */
             enum class Button : std::uint8_t
             {
                 Empty = 0,
                 Left,
-                Right,
                 Middle,
+                Right,
                 X1,
                 X2
             };

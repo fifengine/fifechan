@@ -38,6 +38,21 @@
 
 namespace fcn
 {
+    // Raw input buttons are converted to event buttons with a static_cast in
+    // this translation unit, so the two enums must keep identical values.
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::Empty) == static_cast<std::uint8_t>(MouseEvent::Button::Empty));
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::Left) == static_cast<std::uint8_t>(MouseEvent::Button::Left));
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::Middle) == static_cast<std::uint8_t>(MouseEvent::Button::Middle));
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::Right) == static_cast<std::uint8_t>(MouseEvent::Button::Right));
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::X1) == static_cast<std::uint8_t>(MouseEvent::Button::X1));
+    static_assert(
+        static_cast<std::uint8_t>(MouseInput::Button::X2) == static_cast<std::uint8_t>(MouseEvent::Button::X2));
+
     /**
      * Internal listener that forwards death notifications from widgets
      * to the owning Gui so it can clean up references.

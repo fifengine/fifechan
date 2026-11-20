@@ -7,6 +7,9 @@
 // Third-party library includes
 #include <catch2/catch_test_macros.hpp>
 
+// Project headers
+#include "fifechan/events/mouseevent.hpp"
+
 TEST_CASE("MouseInput can be constructed with parameters", "[mouseinput]")
 {
     fcn::MouseInput const input(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, 100, 200, 12345);
@@ -148,6 +151,24 @@ TEST_CASE("MouseInput can be constructed with all button types", "[mouseinput]")
 
     fcn::MouseInput const input6(fcn::MouseInput::Button::Empty, fcn::MouseInput::Type::Pressed, 0, 0, 0);
     REQUIRE(input6.getButton() == fcn::MouseInput::Button::Empty);
+}
+
+TEST_CASE("MouseInput and MouseEvent button values stay in sync", "[mouseinput][mouseevent]")
+{
+    using fcn::MouseEvent;
+    using fcn::MouseInput;
+
+    // cppcheck-suppress-begin knownConditionTrueFalse
+    REQUIRE(
+        static_cast<std::uint8_t>(MouseInput::Button::Empty) == static_cast<std::uint8_t>(MouseEvent::Button::Empty));
+    REQUIRE(static_cast<std::uint8_t>(MouseInput::Button::Left) == static_cast<std::uint8_t>(MouseEvent::Button::Left));
+    REQUIRE(
+        static_cast<std::uint8_t>(MouseInput::Button::Middle) == static_cast<std::uint8_t>(MouseEvent::Button::Middle));
+    REQUIRE(
+        static_cast<std::uint8_t>(MouseInput::Button::Right) == static_cast<std::uint8_t>(MouseEvent::Button::Right));
+    REQUIRE(static_cast<std::uint8_t>(MouseInput::Button::X1) == static_cast<std::uint8_t>(MouseEvent::Button::X1));
+    REQUIRE(static_cast<std::uint8_t>(MouseInput::Button::X2) == static_cast<std::uint8_t>(MouseEvent::Button::X2));
+    // cppcheck-suppress-end knownConditionTrueFalse
 }
 
 TEST_CASE("MouseInput can be constructed with all type types", "[mouseinput]")
