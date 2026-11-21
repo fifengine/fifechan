@@ -568,10 +568,11 @@ namespace fcn
                 mLastMousePressTimeStamp = 0;
             }
             for (auto const & widget : mWidgetsWithMouseEntered) {
-                // If a widget has modal mouse input focus we
-                // only want to send entered events to that widget
-                // and the widget's parents.
-                if (!mFocusHandler->hasModalFocus() || widget->isUnderMouseModal()) {
+                // Honour both kinds of modal focus:
+                // keyboard modal focus is checked with isModalFocused(),
+                // mouse modal focus with isUnderMouseModal().
+                if ((mFocusHandler->getFocusOwner() == nullptr || widget->isModalFocused()) &&
+                    (mFocusHandler->getMouseCaptureOwner() == nullptr || widget->isUnderMouseModal())) {
                     distributeMouseEvent(
                         widget,
                         MouseEvent::Type::Entered,

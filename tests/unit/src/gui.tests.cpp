@@ -10,10 +10,17 @@
 
 // Project headers
 #include "fifechan/events/keyevent.hpp"
+#include "fifechan/events/mouseevent.hpp"
+#include "fifechan/focushandler.hpp"
 #include "fifechan/gui.hpp"
+#include "fifechan/listeners/actionlistener.hpp"
 #include "fifechan/listeners/keylistener.hpp"
+#include "fifechan/listeners/mouselistener.hpp"
+#include "fifechan/mouseinput.hpp"
+#include "fifechan/widgets/button.hpp"
 #include "fifechan/widgets/container.hpp"
 #include "fifechan/widgets/label.hpp"
+#include "fifechan/widgets/window.hpp"
 
 using fcn::Container;
 using fcn::Gui;
@@ -160,4 +167,93 @@ TEST_CASE("Gui widgetDied with registered widgets", "[unit][gui]")
     // label1 removed from hidden list, no crash
     gui.widgetDied(&label2);
     REQUIRE(true);
+}
+
+namespace
+{
+    class TestGui : public Gui
+    {
+        public:
+            using Gui::handleMouseMoved;
+            using Gui::handleMousePressed;
+            using Gui::handleMouseReleased;
+    };
+
+    class RecordingMouseListener : public fcn::MouseListener
+    {
+        public:
+            int entered = 0;
+
+            void mouseEntered(fcn::MouseEvent&) override
+            {
+                ++entered;
+            }
+    };
+
+    class RecordingActionListener : public fcn::ActionListener
+    {
+        public:
+            int actions = 0;
+
+            void action(fcn::ActionEvent const &) override
+            {
+                ++actions;
+            }
+    };
+} // namespace
+
+TEST_CASE("Keyboard modal focus still delivers Entered events and clicks", "[unit][gui]")
+{
+    TestGui gui;
+    Container root;
+    root.setSize(400, 300);
+    fcn::Window window;
+    window.setPosition(20, 20);
+    window.setSize(300, 200);
+
+    fcn::Button button("Ok");
+    button.setPosition(10, 10);
+    button.setSize(100, 30);
+    button.setActionEventId("ok");
+    RecordingMouseListener mouseListener;
+    RecordingActionListener actionListener;
+    button.addMouseListener(&mouseListener);
+    button.addActionListener(&actionListener);
+    window.add(&button);
+    root.add(&window);
+    gui.setTop(&root);
+
+    int x = 0;
+    int y = 0;
+    button.getAbsolutePosition(x, y);
+    int const cx = x + 50;
+    int const cy = y + 15;
+
+    auto const moveToButton = [&]() {
+        gui.handleMouseMoved(fcn::MouseInput(fcn::MouseInput::Button::Empty, fcn::MouseInput::Type::Moved, cx, cy, 0));
+    };
+    auto const clickButton = [&]() {
+        moveToButton();
+        gui.handleMousePressed(
+            fcn::MouseInput(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Pressed, cx, cy, 1));
+        gui.handleMouseReleased(
+            fcn::MouseInput(fcn::MouseInput::Button::Left, fcn::MouseInput::Type::Released, cx, cy, 2));
+    };
+
+    moveToButton();
+    REQUIRE(mouseListener.entered >= 1);
+
+    gui.getFocusHandler()->pushModal(&window, nullptr);
+    REQUIRE(button.isModalFocused());
+    REQUIRE_FALSE(button.isUnderMouseModal());
+
+    // Leave and re-enter the button while keyboard modal focus is active.
+    gui.handleMouseMoved(fcn::MouseInput(fcn::MouseInput::Button::Empty, fcn::MouseInput::Type::Moved, 0, 0, 0));
+    int const enteredBefore = mouseListener.entered;
+    moveToButton();
+    REQUIRE(mouseListener.entered > enteredBefore);
+
+    int const actionsBefore = actionListener.actions;
+    clickButton();
+    REQUIRE(actionListener.actions > actionsBefore);
 }
